@@ -1,151 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B582B38A9DF;
-	Tue, 20 Jan 2026 08:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC65E3D413D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 08:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768896414; cv=none; b=izmGBKIFOJJiF4Zi7H95RlQd9sdkUG6f+gB6eRPOm6oMCkX6hq+s0qO0uUrhgRx455QbYfSGlOXk4GK/b20A4Sz7W+TP6MAOERYiK3vuCW9WQ/pF/HEQBSErLSp5eEeUWJEoNea3zHDuRGBNFrwuonuRrtfIzc2yHctKnRmAgAc=
+	t=1768897071; cv=none; b=gvLLkhDAa2EwzNekn37Tiw4HIChZz+3f+MisxU8tt1cT0IK/PC7Hb1OJ+C995mol5r9T8Ec13bBjm1tNYaBApGgO8+wdd3k5mjmjlEOuBjJsFSIW7gSJiH2+MOKP1gkJnvnZZzJE7OZXmuiRXRYkY3r9xssKq7Zu1Cqgz166LIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768896414; c=relaxed/simple;
-	bh=Z3G82xCby4bZzS2x7NMyDD/j2z/bAzs6NbPILeSwbAA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VqKDwXHG6NhBEY6c5GN29pW/v09+qCh5gEPcnZV5P89VFtHL1F4miS0p7k4lZWTCnLXhxI0aa/vmfWsw49tYD/LYQLBS97mluTWdUAHwiLRnzn9g4/OwqHbo1wJuXA6qGEiH4OpYcqTgWZabK4IE7fSnA9WFENaL/JEVLHVQ/rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mF92j4M8; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1768897071; c=relaxed/simple;
+	bh=Xfijze/X4OkStQQaLtiCDwYKY/ckpnZZcmbaC0E09Ks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mO7UKi3q9Ay/NUWHIN7AENYkj/3tfW+71wRvgzULczPHCa+YgS7QZDMOLgz22WVXpN7zQxhIU165rGZXmPUbaTL/FJZHKy1n6xTEbdguiyG+5SBVVIMzyWgK9ieKDOoAcoXl5+AUE+TZFPQGNZrxQ4OtiGt7UDLv9OMsTD4m42s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UiFjWcNa; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mF92j4M8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UiFjWcNa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768896412; x=1800432412;
-  h=date:from:to:cc:subject:message-id;
-  bh=Z3G82xCby4bZzS2x7NMyDD/j2z/bAzs6NbPILeSwbAA=;
-  b=mF92j4M8YMeC/dYBupxd18soDFkv37GHm9pe1XqN8HncDgMEEyFSOfs6
-   t10lAq7HlUmCOmyY54EJOT4ifpJfKI/CsAE/FAkxkjObMeGg+eNn03/0P
-   e17aqaqmzR0FTgQm73N6TVSsvnrQoKD4+nyg1sc+zouoxDT/00nmIGupt
-   r9qrCt3YP5SWZTqWoN+8g/6GF4mkcCIw85nHX+qSULSnI0gS5i1T0+/d2
-   SK46J76HsNQ/4Xf6LjqVm5rXthwPTBpBKb0S4bd2ev+DN3YUc5Q+3ybPp
-   k8kPnD+1wWaQjklTrD3Hfbm+266URI+zPLpdfTJ9kIALhw45wUS0+l7GH
+  t=1768897070; x=1800433070;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Xfijze/X4OkStQQaLtiCDwYKY/ckpnZZcmbaC0E09Ks=;
+  b=UiFjWcNajLRbWt6BBQNRxA/y9+H0L5L5l+re7msI4I+OaZcSSKJXe0pf
+   VUQ+HAJ5LDg+lR+ODvxK2AvaEESHuHXervQ6nNYQ9gk6fIdZEYMaTR+sw
+   B2mZ+g7h9jb9H0U8DyjGQGjK2nAp1BYtqKenSWmlodRGaMSdSr1KIIjYv
+   EKtoEIFpcHZuf5ccMkoFTxPrpkDhWevlNC12VSWgTMPRIn3/Rvo61FQ4a
+   7oxlubMKGsY/c7Uol9gI6xqKFE7DfAPkCFFZNIlqr8NosHFmlPByj5c0y
+   DoIpYjp9KshTyYuOX16553nj3bI40gRqqvSFwO76ROvj4HEWbLoNcwWe6
    A==;
-X-CSE-ConnectionGUID: vPBRMzUWTb+B8RYaTTD3cg==
-X-CSE-MsgGUID: a7kooxGLSN6PqpQEji3JEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="80400157"
+X-CSE-ConnectionGUID: pyQ36i+nQXusm4taEP2vkw==
+X-CSE-MsgGUID: FBZRwAbQT9SHc7yV8v39kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="80732086"
 X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="80400157"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 00:06:52 -0800
-X-CSE-ConnectionGUID: CyRl13YDSgiPoc0MB8UNwg==
-X-CSE-MsgGUID: cI1qX4udTyWxrTnXojuElQ==
+   d="scan'208";a="80732086"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 00:17:49 -0800
+X-CSE-ConnectionGUID: b67ww9DYRQ+U7Lww9Na7Gg==
+X-CSE-MsgGUID: keYR13a4SjSIRYKWOqq3jQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="236740113"
+   d="scan'208";a="205965634"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Jan 2026 00:06:49 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 20 Jan 2026 00:17:47 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vi6lA-00000000OiL-3qdD;
-	Tue, 20 Jan 2026 08:06:44 +0000
-Date: Tue, 20 Jan 2026 16:06:38 +0800
+	id 1vi6vp-00000000Oih-11Zb;
+	Tue, 20 Jan 2026 08:17:45 +0000
+Date: Tue, 20 Jan 2026 16:17:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 95/113]
- drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1026:3: error: call to
- undeclared function 'close_streaming_firmware'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202601201651.C9Hhgyud-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] tracing: Make the backup instance non-reusable
+Message-ID: <202601201531.ng4kqZhn-lkp@intel.com>
+References: <176887137556.578403.17994205756247311821.stgit@mhiramat.tok.corp.google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <176887137556.578403.17994205756247311821.stgit@mhiramat.tok.corp.google.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   55ba38aaeb6e07cbbbe550578fa4737b05de1d00
-commit: 2085a6131710b0e5e886b3d14118d986c34b2087 [95/113] media: ipu6: Move streaming control to CSI-2 receiver driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260120/202601201651.C9Hhgyud-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601201651.C9Hhgyud-lkp@intel.com/reproduce)
+Hi Masami,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v6.19-rc6 next-20260119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Reset-last_boot_info-if-ring-buffer-is-reset/20260120-091429
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/176887137556.578403.17994205756247311821.stgit%40mhiramat.tok.corp.google.com
+patch subject: [PATCH v4 2/4] tracing: Make the backup instance non-reusable
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20260120/202601201531.ng4kqZhn-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601201531.ng4kqZhn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601201651.C9Hhgyud-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601201531.ng4kqZhn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1026:3: error: call to undeclared function 'close_streaming_firmware'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1026 |                 close_streaming_firmware(av);
-         |                 ^
-   1 error generated.
+   kernel/trace/trace.c: In function 'tracing_init_tracefs_percpu':
+>> kernel/trace/trace.c:9398:17: warning: variable 'writable_mode' set but not used [-Wunused-but-set-variable]
+    9398 |         umode_t writable_mode = TRACE_MODE_WRITE;
+         |                 ^~~~~~~~~~~~~
 
 
-vim +/close_streaming_firmware +1026 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+vim +/writable_mode +9398 kernel/trace/trace.c
 
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   986  
-2085a6131710b0 Sakari Ailus 2025-11-10   987  int ipu6_isys_video_set_streaming(struct ipu6_isys_video *av, int state)
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   988  {
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   989  	struct v4l2_subdev_krouting *routing;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   990  	struct ipu6_isys_stream *stream = av->stream;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   991  	struct v4l2_subdev_state *subdev_state;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   992  	struct device *dev = &av->isys->adev->auxdev.dev;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   993  	struct v4l2_subdev *sd;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   994  	struct media_pad *r_pad;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   995  	u32 sink_pad, sink_stream;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   996  	u64 r_stream;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   997  	u64 stream_mask = 0;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   998  	int ret = 0;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31   999  
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1000  	dev_dbg(dev, "set stream: %d\n", state);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1001  
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1002  	sd = &stream->asd->sd;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1003  	r_pad = media_pad_remote_pad_first(&av->pad);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1004  	r_stream = ipu6_isys_get_src_stream_by_src_pad(sd, r_pad->index);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1005  
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1006  	subdev_state = v4l2_subdev_lock_and_get_active_state(sd);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1007  	routing = &subdev_state->routing;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1008  	ret = v4l2_subdev_routing_find_opposite_end(routing, r_pad->index,
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1009  						    r_stream, &sink_pad,
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1010  						    &sink_stream);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1011  	v4l2_subdev_unlock_state(subdev_state);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1012  	if (ret)
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1013  		return ret;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1014  
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1015  	stream_mask = get_stream_mask_by_pipeline(av);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1016  	if (!state) {
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1017  		/* stop sub-device which connects with video */
-3a5c59ad926b89 Sakari Ailus 2024-05-30  1018  		dev_dbg(dev, "stream off entity %s pad:%d mask:0x%llx\n",
-3a5c59ad926b89 Sakari Ailus 2024-05-30  1019  			sd->name, r_pad->index, stream_mask);
-3a5c59ad926b89 Sakari Ailus 2024-05-30  1020  		ret = v4l2_subdev_disable_streams(sd, r_pad->index,
-3a5c59ad926b89 Sakari Ailus 2024-05-30  1021  						  stream_mask);
-2b08b7007e55bd Sakari Ailus 2026-01-07  1022  		if (ret)
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1023  			dev_err(dev, "stream off %s failed with %d\n", sd->name,
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1024  				ret);
-2b08b7007e55bd Sakari Ailus 2026-01-07  1025  
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31 @1026  		close_streaming_firmware(av);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1027  	} else {
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1028  		/* start sub-device which connects with video */
-3a5c59ad926b89 Sakari Ailus 2024-05-30  1029  		dev_dbg(dev, "stream on %s pad %d mask 0x%llx\n", sd->name,
-3a5c59ad926b89 Sakari Ailus 2024-05-30  1030  			r_pad->index, stream_mask);
-3a5c59ad926b89 Sakari Ailus 2024-05-30  1031  		ret = v4l2_subdev_enable_streams(sd, r_pad->index, stream_mask);
-2085a6131710b0 Sakari Ailus 2025-11-10  1032  		if (ret)
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1033  			dev_err(dev, "stream on %s failed with %d\n", sd->name,
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1034  				ret);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1035  	}
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1036  
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1037  	av->streaming = state;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1038  
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1039  	return ret;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1040  }
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1041  
-
-:::::: The code at line 1026 was first introduced by commit
-:::::: 3c1dfb5a69cf836f513a2a49113ee946a4b9d95d media: intel/ipu6: input system video nodes and buffer queues
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+  9393	
+  9394	static void
+  9395	tracing_init_tracefs_percpu(struct trace_array *tr, long cpu)
+  9396	{
+  9397		struct dentry *d_percpu = tracing_dentry_percpu(tr, cpu);
+> 9398		umode_t writable_mode = TRACE_MODE_WRITE;
+  9399		struct dentry *d_cpu;
+  9400		char cpu_dir[30]; /* 30 characters should be more than enough */
+  9401	
+  9402		if (!d_percpu)
+  9403			return;
+  9404	
+  9405		if (trace_array_is_readonly(tr))
+  9406			writable_mode = TRACE_MODE_READ;
+  9407	
+  9408		snprintf(cpu_dir, 30, "cpu%ld", cpu);
+  9409		d_cpu = tracefs_create_dir(cpu_dir, d_percpu);
+  9410		if (!d_cpu) {
+  9411			pr_warn("Could not create tracefs '%s' entry\n", cpu_dir);
+  9412			return;
+  9413		}
+  9414	
+  9415		/* per cpu trace_pipe */
+  9416		trace_create_cpu_file("trace_pipe", TRACE_MODE_READ, d_cpu,
+  9417					tr, cpu, &tracing_pipe_fops);
+  9418	
+  9419		/* per cpu trace */
+  9420		trace_create_cpu_file("trace", TRACE_MODE_WRITE, d_cpu,
+  9421					tr, cpu, &tracing_fops);
+  9422	
+  9423		trace_create_cpu_file("trace_pipe_raw", TRACE_MODE_READ, d_cpu,
+  9424					tr, cpu, &tracing_buffers_fops);
+  9425	
+  9426		trace_create_cpu_file("stats", TRACE_MODE_READ, d_cpu,
+  9427					tr, cpu, &tracing_stats_fops);
+  9428	
+  9429		trace_create_cpu_file("buffer_size_kb", TRACE_MODE_READ, d_cpu,
+  9430					tr, cpu, &tracing_entries_fops);
+  9431	
+  9432		if (tr->range_addr_start)
+  9433			trace_create_cpu_file("buffer_meta", TRACE_MODE_READ, d_cpu,
+  9434					      tr, cpu, &tracing_buffer_meta_fops);
+  9435	#ifdef CONFIG_TRACER_SNAPSHOT
+  9436		if (!tr->range_addr_start) {
+  9437			trace_create_cpu_file("snapshot", TRACE_MODE_WRITE, d_cpu,
+  9438					      tr, cpu, &snapshot_fops);
+  9439	
+  9440			trace_create_cpu_file("snapshot_raw", TRACE_MODE_READ, d_cpu,
+  9441					      tr, cpu, &snapshot_raw_fops);
+  9442		}
+  9443	#endif
+  9444	}
+  9445	
 
 -- 
 0-DAY CI Kernel Test Service
