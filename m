@@ -1,188 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B547E54B;
-	Tue, 20 Jan 2026 21:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C273B52F9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 21:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768943403; cv=none; b=aSPhGBe0f8vmoz5J2V3ESrTrNZ51ziLIsXbZMRsRqqdP+rNS0rL9zzivj/LX3+5LJWuxmYmnLUYaP/h8q0x820eR2LiLgM5o2u2TZEp468yBUxTkWuPfEgZIwnz0iYaWGhxm4S5ZpmEfA46zavFergmkocw7ccQ+EPAA+ZtKfbc=
+	t=1768945129; cv=none; b=gi0A/+8p+VQ73EeKipOVGY+wsu3q2SRWneQLR80SXkjJbK7RaGL5Y24wrSltvJ6bpRq5em1alzsSnqWSMpJ9ghhbcOYvelC+qhUw5xvzxsGTCJEF5NYZwZEo6CBsIDQn+jdHyrf9Thqy9jwWIlG/Ms4/CU48mMcIhwAYl1fzSKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768943403; c=relaxed/simple;
-	bh=ivHtQ6gh6IXT2hO8yZKcCr+q7hqDkcejJS3fvf52Ppo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uS5dK+miGUoB3jD7if5gvNBp80cY36+5lj/BlysIF/i6/Ox0yKqeWQIjBVdyGdpaIJLNo699sv3dbna8Ju39/50bwBe5s32CRtOjrXvZESeHYR3PG3tU/slvaQN8fPoSKinT98QC4Xex8Nhc5kLyFTM6MvUHHY/qTyrVdSIwkcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LqvMKgdZ; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LqvMKgdZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768943401; x=1800479401;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ivHtQ6gh6IXT2hO8yZKcCr+q7hqDkcejJS3fvf52Ppo=;
-  b=LqvMKgdZt9RlDsYTyHkfj5qQGrPU+WYcbClrNY4eJ4ye56c+l/aBO1gS
-   6LEq7eXHBqCRzspP+lWFpG5ACOVIddbV1JOznqodKXsLhck+Z/l/FcamZ
-   CEFlUfvnx+kjkE1LDSvtcnlnZ9q4mrwKF/kfqXicrj6NN5VykyT1e0Kb3
-   D9T5PLgnuGOrFdTxfg+XtwZyb0VOpHn2p7v8dRbsxNcyuK0e2wg/rkyy9
-   NPSeVpQXeDCnVrEt6I64BKj9BaIILMuK4DlYT0vahEG3a5kDKVc86GEKj
-   OY24H1K00luS81JDCbh4MW8P8OwxD7VRQeya+hxTpvbJ2e6Wu3DChnjvK
-   g==;
-X-CSE-ConnectionGUID: K8ydZUtYTNu+PFF4mLBVsQ==
-X-CSE-MsgGUID: LuBAnHsZRIyulYRstUDL+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="80791590"
-X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="80791590"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 13:10:01 -0800
-X-CSE-ConnectionGUID: AXjcRiQeSHCcT9bTnSKtZg==
-X-CSE-MsgGUID: g2PZWbUQQhiY3dv6ggSIEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="237482957"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Jan 2026 13:09:54 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1viIz1-00000000PXR-2Z9s;
-	Tue, 20 Jan 2026 21:09:51 +0000
-Date: Wed, 21 Jan 2026 05:09:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mukesh R <mrathor@linux.microsoft.com>, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	longli@microsoft.com, catalin.marinas@arm.com, will@kernel.org,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, joro@8bytes.org,
-	lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
-	robh@kernel.org, bhelgaas@google.com, arnd@arndb.de,
-	nunodasneves@linux.microsoft.com, mhklinux@outlook.com,
-	romank@linux.microsoft.com
-Subject: Re: [PATCH v0 01/15] iommu/hyperv: rename hyperv-iommu.c to
- hyperv-irq.c
-Message-ID: <202601210423.wwOrf2K8-lkp@intel.com>
-References: <20260120064230.3602565-2-mrathor@linux.microsoft.com>
+	s=arc-20240116; t=1768945129; c=relaxed/simple;
+	bh=VVuZPbICVIH8RHKuItopCF3VeQZ+lOfmZNEvc9PuhrQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SfntAi0V7LbCT8K9zjtDtNiwWtaW0iauVwKjKkHH8MI7ngj1lzyBSsXca0I06TLInw2lAG5n9vO9leuCSHHw97Iw82xrMkH73Wm9mStT0u7sh6+AcFaPob0TSQm2UVbWcNo+qTzKPBGCoe35l3T1+sJNZP3o5OIXcp+Pyoaq8lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hadess.net
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A37AA43EED;
+	Tue, 20 Jan 2026 21:38:38 +0000 (UTC)
+Message-ID: <5498532ab2e09b4e0d6ccea09f0856b3df615331.camel@hadess.net>
+Subject: Re: [PATCH 2/3] Bluetooth: btnxpuart: Remove unneeded CONFIG_PM
+ ifdef
+From: Bastien Nocera <hadess@hadess.net>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>, kernel test robot
+	 <lkp@intel.com>, "linux-bluetooth@vger.kernel.org"
+	 <linux-bluetooth@vger.kernel.org>, "oe-kbuild-all@lists.linux.dev"
+	 <oe-kbuild-all@lists.linux.dev>
+Date: Tue, 20 Jan 2026 22:38:38 +0100
+In-Reply-To: <CABBYNZKP3ahsqi1XVPmD24RWkXnBbOAZ9NJpo3yg-6xBY22N4A@mail.gmail.com>
+References: <20260116125803.598552-3-hadess@hadess.net>
+	 <202601170322.MZrwlt6M-lkp@intel.com>
+	 <AS4PR04MB969210BA5934C14282B8F104E788A@AS4PR04MB9692.eurprd04.prod.outlook.com>
+	 <7a5b73b4c56d0bfb8742045a3f530cd3d2d25b53.camel@hadess.net>
+	 <CABBYNZL6hAxsnBt=HStvhnZmoTfagzGuJ0sGeqiqhXdpm0DZOA@mail.gmail.com>
+	 <c4be5c93c1d83ab8fa3ff0dafe8efc3a827e0ebb.camel@hadess.net>
+	 <CABBYNZKP3ahsqi1XVPmD24RWkXnBbOAZ9NJpo3yg-6xBY22N4A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120064230.3602565-2-mrathor@linux.microsoft.com>
+X-GND-Sasl: hadess@hadess.net
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeduheduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkuffhvfevffgjfhgtgfgfggesthhqredttderjeenucfhrhhomhepuegrshhtihgvnhcupfhotggvrhgruceohhgruggvshhssehhrgguvghsshdrnhgvtheqnecuggftrfgrthhtvghrnhepffeiueduvedutdffieehudetlefggfefgeeufeehudeujefhtdduvdekhfdvkefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefpdhhvghloheplgfkrfhvieemvdgrtddumegvfeegmegvtgejfeemtghfvddtmegsrgegfeemrgeijeeimegtvdgufeemjegrheefngdpmhgrihhlfhhrohhmpehhrgguvghssheshhgruggvshhsrdhnvghtpdhqihgupeetfeejteetgeefgffgffdpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeehpdhrtghpthhtoheplhhuihiiuggvnhhtiiesghhmrghilhdrtghomhdprhgtphhtt
+ hhopehnvggvrhgrjhdrshgrnhhjrgihkhgrlhgvsehngihprdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdgslhhuvghtohhothhhsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvh
+X-GND-State: clean
 
-Hi Mukesh,
+On Tue, 2026-01-20 at 13:05 -0500, Luiz Augusto von Dentz wrote:
+> Hi Bastien,
+>=20
+> On Tue, Jan 20, 2026 at 12:17=E2=80=AFPM Bastien Nocera <hadess@hadess.ne=
+t>
+> wrote:
+> >=20
+> > On Tue, 2026-01-20 at 11:42 -0500, Luiz Augusto von Dentz wrote:
+> > > Hi Bastien,
+> > >=20
+> > > On Mon, Jan 19, 2026 at 4:13=E2=80=AFAM Bastien Nocera
+> > > <hadess@hadess.net>
+> > > wrote:
+> > > >=20
+> > > > On Mon, 2026-01-19 at 07:53 +0000, Neeraj Sanjay Kale wrote:
+> > > > > Hi Bastien,
+> > > > >=20
+> > > > > Thank you for your patch.
+> > > > >=20
+> > > > > Just an FYI, the " #ifdef CONFIG_PM_SLEEP" was added on
+> > > > > purpose
+> > > > > to
+> > > > > resolve such build warning reported by kernel test bot:
+> > > > > https://lore.kernel.org/all/20240710123426.935122-1-neeraj.sanjay=
+kale@nxp.com/
+> > > >=20
+> > > > I didn't see those warnings locally. They should be fixed by
+> > > > using
+> > > > __maybe_unused instead otherwise the "it extends the code
+> > > > coverage"
+> > > > justification wouldn't really apply anymore.
+> > >=20
+> > > Yes, I think we should mark the functions that are conditional
+> > > with
+> > > __maybe_unused, actually this might be the case with
+> > > btusb_resume/btusb_suspend as well, right?
+> >=20
+> > I believe that's what I've done that in v3. Let me know if there
+> > are
+> > any problems with that version still.
+>=20
+> You mean
+> https://patchwork.kernel.org/project/bluetooth/list/?series=3D1044140?
+> That doesn't contain any changes to btusb though, anyway I can fixup
+> the existing change just in case.
 
-kernel test robot noticed the following build warnings:
+Sorry, I read that a bit quickly, you're right.
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on pci/next pci/for-linus arm64/for-next/core clk/clk-next soc/for-next linus/master arnd-asm-generic/master v6.19-rc6 next-20260120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I made a bit of a mess of this patchset because I had real trouble
+trying to first disabling CONFIG_PM altogether (had success with this
+yesterday), and then trying to make the current btusb code throw a
+warning, but couldn't.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-R/iommu-hyperv-rename-hyperv-iommu-c-to-hyperv-irq-c/20260120-145832
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20260120064230.3602565-2-mrathor%40linux.microsoft.com
-patch subject: [PATCH v0 01/15] iommu/hyperv: rename hyperv-iommu.c to hyperv-irq.c
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260121/202601210423.wwOrf2K8-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210423.wwOrf2K8-lkp@intel.com/reproduce)
+And that's the case because pm_ptr() is based on PTR_IF() and its docs
+explain why __maybe_unused isn't necessary when using pm_ptr():
+https://kernel.org/doc/html//next/driver-api/basics.html#c.PTR_IF
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601210423.wwOrf2K8-lkp@intel.com/
+The other patches I sent used SET_SYSTEM_SLEEP_PM_OPS() and
+SET_RUNTIME_PM_OPS() which use #ifdef's.
 
-All warnings (new ones prefixed by >>):
+In short, the code in btusb.c was correct, no need for fixups.
 
-   In file included from drivers/iommu/intel/irq_remapping.c:6:
-   include/linux/dmar.h:269:17: error: unknown type name '__u128'; did you mean '__u32'?
-     269 |                 __u128 irte;
-         |                 ^~~~~~
-         |                 __u32
-   drivers/iommu/intel/irq_remapping.c: In function 'modify_irte':
-   drivers/iommu/intel/irq_remapping.c:181:17: error: unknown type name 'u128'
-     181 |                 u128 old = irte->irte;
-         |                 ^~~~
-   In file included from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/asm-generic/bitops/generic-non-atomic.h:7,
-                    from include/linux/bitops.h:28,
-                    from include/linux/kernel.h:23,
-                    from include/linux/interrupt.h:6,
-                    from drivers/iommu/intel/irq_remapping.c:5:
-   include/linux/atomic/atomic-arch-fallback.h:326:14: error: void value not ignored as it ought to be
-     326 |         ___r = raw_cmpxchg128((_ptr), ___o, (_new)); \
-         |              ^
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON'
-     110 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4956:9: note: in expansion of macro 'raw_try_cmpxchg128'
-    4956 |         raw_try_cmpxchg128(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/irq_remapping.c:182:26: note: in expansion of macro 'try_cmpxchg128'
-     182 |                 WARN_ON(!try_cmpxchg128(&irte->irte, &old, irte_modified->irte));
-         |                          ^~~~~~~~~~~~~~
-   drivers/iommu/intel/irq_remapping.c: In function 'intel_ir_set_vcpu_affinity':
->> drivers/iommu/intel/irq_remapping.c:1270:40: warning: left shift count >= width of type [-Wshift-count-overflow]
-    1270 |                                 ~(-1UL << PDA_HIGH_BIT);
-         |                                        ^~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IRQ_REMAP
-   Depends on [n]: IOMMU_SUPPORT [=y] && X86_64 [=n] && X86_IO_APIC [=y] && PCI_MSI [=y] && ACPI [=y]
-   Selected by [y]:
-   - HYPERV_IOMMU [=y] && IOMMU_SUPPORT [=y] && HYPERV [=y] && X86 [=y]
-
-
-vim +1270 drivers/iommu/intel/irq_remapping.c
-
-b106ee63abccbba drivers/iommu/intel_irq_remapping.c Jiang Liu           2015-04-13  1241  
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1242  static int intel_ir_set_vcpu_affinity(struct irq_data *data, void *info)
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1243  {
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1244  	struct intel_ir_data *ir_data = data->chip_data;
-53527ea1b70224d drivers/iommu/intel/irq_remapping.c Sean Christopherson 2025-06-11  1245  	struct intel_iommu_pi_data *pi_data = info;
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1246  
-ed1e48ea4370300 drivers/iommu/intel/irq_remapping.c Jacob Pan           2024-04-23  1247  	/* stop posting interrupts, back to the default mode */
-53527ea1b70224d drivers/iommu/intel/irq_remapping.c Sean Christopherson 2025-06-11  1248  	if (!pi_data) {
-2454823e97a63d8 drivers/iommu/intel/irq_remapping.c Sean Christopherson 2025-03-19  1249  		__intel_ir_reconfigure_irte(data, true);
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1250  	} else {
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1251  		struct irte irte_pi;
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1252  
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1253  		/*
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1254  		 * We are not caching the posted interrupt entry. We
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1255  		 * copy the data from the remapped entry and modify
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1256  		 * the fields which are relevant for posted mode. The
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1257  		 * cached remapped entry is used for switching back to
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1258  		 * remapped mode.
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1259  		 */
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1260  		memset(&irte_pi, 0, sizeof(irte_pi));
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1261  		dmar_copy_shared_irte(&irte_pi, &ir_data->irte_entry);
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1262  
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1263  		/* Update the posted mode fields */
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1264  		irte_pi.p_pst = 1;
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1265  		irte_pi.p_urgent = 0;
-53527ea1b70224d drivers/iommu/intel/irq_remapping.c Sean Christopherson 2025-06-11  1266  		irte_pi.p_vector = pi_data->vector;
-53527ea1b70224d drivers/iommu/intel/irq_remapping.c Sean Christopherson 2025-06-11  1267  		irte_pi.pda_l = (pi_data->pi_desc_addr >>
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1268  				(32 - PDA_LOW_BIT)) & ~(-1UL << PDA_LOW_BIT);
-53527ea1b70224d drivers/iommu/intel/irq_remapping.c Sean Christopherson 2025-06-11  1269  		irte_pi.pda_h = (pi_data->pi_desc_addr >> 32) &
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09 @1270  				~(-1UL << PDA_HIGH_BIT);
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1271  
-688124cc541f60d drivers/iommu/intel/irq_remapping.c Sean Christopherson 2025-03-19  1272  		ir_data->irq_2_iommu.posted_vcpu = true;
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1273  		modify_irte(&ir_data->irq_2_iommu, &irte_pi);
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1274  	}
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1275  
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1276  	return 0;
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1277  }
-8541186faf3b596 drivers/iommu/intel_irq_remapping.c Feng Wu             2015-06-09  1278  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers
