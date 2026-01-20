@@ -1,82 +1,113 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB28341ACB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 09:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBAC31D366
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 10:06:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768902896; cv=none; b=E0f50wuY2psTrtiuzzM7awM77vW9mUuj0Uanj5Zgke9vHGFtLUJ5lxxhDp3SEut9Yqu1dO068xFEaA9e0im1PxVncTlSdHwMOW6BNIA3/JtelC0O2sVfNIvb6cu2RnQ1YGqNqqTEcRDCcLz6pvvlrIDBq3Kapwi7ERJOnQilpSA=
+	t=1768903619; cv=none; b=fge2XOBzu7/Lug/q0wICWIvFDZIsSlkPCKW3vNQt3Jac7iNWDiD9yLbEzbePJJokwQEQlsfnmgF2XUoiHK2VePXyArTPBXFqPtTmoUgmCXhlhZJ9HR/0pZzKaTV9jsX4G8E7wVVPMT5Iy+s1t6O5H/yQ6/YKArtUOMoV9ozrFV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768902896; c=relaxed/simple;
-	bh=8o+zQy6ei534piTW63QI+s95pFWqgNWcaD6mGfKWrKI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qmcicLynQHas78bxrxHML8YWKFwenqV81ToG+h/JeF3K/cCzE/Vvo5R1dnCRHFCvV8lHh6urekOJ+ZzmyQw63UmJHMpDCaMFRU4ZdoW5d8CVoe6/OZ/3g0wIFouVneas7RaHJUGb42jbBFaip+XOSkXrw5IqSf7Gy0wGGuAKabs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=foPcdmve; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1768903619; c=relaxed/simple;
+	bh=ZfdRKUyvjJmkNQcuOAo2pc0ij0ysYxYiaEvuZ7NxhUw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aQkXxrhzp2NK7AvMpTc6raS7tCzYWCu2H+V7owJyEK6f4M26HRzh1Q8lwNANBdPZTK8WRWo98pyBl6dQqVSiAyOZpP04GHsg412wFDk08G0yfntCWV3cSkRqrHYlQokUPeZlNOTRDr3ZItuHMJ/1or6ngZa2NJjz4y026tNEBN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMeACIUe; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="foPcdmve"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMeACIUe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768902895; x=1800438895;
-  h=date:from:to:cc:subject:message-id;
-  bh=8o+zQy6ei534piTW63QI+s95pFWqgNWcaD6mGfKWrKI=;
-  b=foPcdmveHvgiBaUwsEFBoWJP6uFeozbMAdznMsPD299lg62DnEHMZqls
-   ZFZrdR4dyYbSfeRtCH8fuWpxRWuY9rkBRIVgX4TLZKRLaD/kXn2IF8IVl
-   O6AIc9iADISFjcIBN2my+00KCVNyUZgIjzNtLJbjkzZRVXW3XySi+vlM8
-   WUPXrN2D24v+qwx3bu8bK4AiWTFdKoNUgPCQsGRm7SNW51B3uzM18m5mZ
-   GfskO+S8CuEea3YA3Upav4AcdXHQzYJtsCHIwjc9r4cKc11wQEd/jnJ6x
-   6dYYKMe3K2aHYG/7EUMh7VQmwOmn812oumW2ETjmAYS4lWfs75YRE2CLg
-   w==;
-X-CSE-ConnectionGUID: EYsPg5LETA2WTlIygU3p5A==
-X-CSE-MsgGUID: oqK9ox1pQIq7eg0ARzwB9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="72694329"
+  t=1768903618; x=1800439618;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZfdRKUyvjJmkNQcuOAo2pc0ij0ysYxYiaEvuZ7NxhUw=;
+  b=VMeACIUemL52X/jDJruvCv3v0PXZf/lyYqrtM6gum9yh6SctEbfirKPQ
+   JBzmsr5Gf3kSqLBqsgnW2kf4i+uMGmA0NGPpslAgPgrEW+MpOUjok8paj
+   rrkCpLIpjQ6QWxFwCFAwxh0Um6FZEJtaS7rmXu2BA51oZdDooKDgNzbJZ
+   CrjnD+Bn6Z8tUNiVr9DrugWgR0lfyhtvDVWUynZa0vP5Fk+KBWLC6DBv/
+   mzhqkKZBPODKiYT5zx7rajONz7o5sbOPk9fMtCZXB9fOgZJjxRg7aEbns
+   AebgLZxEIQ+iweK1of+PT7rMI3ALs3SoKyZngYkSJGIOf7ApGNoUYq+JY
+   g==;
+X-CSE-ConnectionGUID: XbGfP3C8SAeGDaxrlhMhqA==
+X-CSE-MsgGUID: bSO567WaQeu5GHPeyBnsPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="72695360"
 X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="72694329"
+   d="scan'208";a="72695360"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 01:54:54 -0800
-X-CSE-ConnectionGUID: 4LRj4DALS/eANtlDfCbA1g==
-X-CSE-MsgGUID: tGkD5SvaQsSQsqEaROHE+g==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 02:06:57 -0800
+X-CSE-ConnectionGUID: RH0OGAKKTNejgBxJv3hV+g==
+X-CSE-MsgGUID: pWlNfn/SRimB3tdTXOy5rA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="210222198"
+   d="scan'208";a="210225300"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Jan 2026 01:54:53 -0800
+  by orviesa003.jf.intel.com with ESMTP; 20 Jan 2026 02:06:53 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vi8Rm-00000000OnJ-0fgj;
-	Tue, 20 Jan 2026 09:54:50 +0000
-Date: Tue, 20 Jan 2026 17:54:26 +0800
+	id 1vi8dO-00000000Ont-39kq;
+	Tue, 20 Jan 2026 10:06:50 +0000
+Date: Tue, 20 Jan 2026 18:06:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-debug 231/231]
- core.c:(.sched.text+0x7c4): relocation truncated to fit: R_OR1K_INSN_REL_26
- against undefined symbol `bch2_account_sched_blocked'
-Message-ID: <202601201719.OGrHUlUP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Petr Hodina via B4 Relay <devnull+petr.hodina.protonmail.com@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	David Heidelberg <david@ixit.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Petr Hodina <petr.hodina@protonmail.com>
+Subject: Re: [PATCH 2/3] iio: light: add AMS TCS3400 RGB and RGB-IR color
+ sensor driver
+Message-ID: <202601201721.SsgdtZmN-lkp@intel.com>
+References: <20260119-tsc3400-v1-2-82a65c5417aa@protonmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260119-tsc3400-v1-2-82a65c5417aa@protonmail.com>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-debug
-head:   7cd4e8f9f8f13d9c5a2bbc98b80ca164430d6062
-commit: 7cd4e8f9f8f13d9c5a2bbc98b80ca164430d6062 [231/231] BCH_SB_COUNTER_blocked_with_btree_locks_held
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20260120/202601201719.OGrHUlUP-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601201719.OGrHUlUP-lkp@intel.com/reproduce)
+Hi Petr,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Petr-Hodina-via-B4-Relay/doc-add-Device-Tree-binding-for-AMS-TCS3400-light-sensor/20260120-012240
+base:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
+patch link:    https://lore.kernel.org/r/20260119-tsc3400-v1-2-82a65c5417aa%40protonmail.com
+patch subject: [PATCH 2/3] iio: light: add AMS TCS3400 RGB and RGB-IR color sensor driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260120/202601201721.SsgdtZmN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601201721.SsgdtZmN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601201719.OGrHUlUP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601201721.SsgdtZmN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   or1k-linux-ld: kernel/sched/core.o: in function `schedule':
-   core.c:(.sched.text+0x7c4): undefined reference to `bch2_account_sched_blocked'
->> core.c:(.sched.text+0x7c4): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `bch2_account_sched_blocked'
+>> drivers/iio/light/tcs3400.c:82:18: warning: 'tcs3400_gains' defined but not used [-Wunused-const-variable=]
+      82 | static const int tcs3400_gains[] = {1, 4, 16, 64};
+         |                  ^~~~~~~~~~~~~
+
+
+vim +/tcs3400_gains +82 drivers/iio/light/tcs3400.c
+
+    81	
+  > 82	static const int tcs3400_gains[] = {1, 4, 16, 64};
+    83	
 
 -- 
 0-DAY CI Kernel Test Service
