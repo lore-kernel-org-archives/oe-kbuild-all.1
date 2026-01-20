@@ -1,308 +1,202 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337AD3DA7F8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 12:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768911133; cv=fail; b=qdq8wDeQdKh1+3Nm/7BR23iOj+yXHFYA3VDv/YahCYODYy5UwQHRfuQLImzV242usdEVwgxvou3gQNxuYOMTBV+nMvh50xjQyeKPT+AyGd/CUgDTpk2spkeoD0m8YdnSWtWo7JgtAYWKs1isdQz9rUjNwvTjtyqS5GQ9s5+wQOk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768911133; c=relaxed/simple;
-	bh=YCufep5i3fOCTs9SVy5xh5qbjEVEKAx9W/QcTKtRsUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=caNqIbyNXfQUAPwaI1B2qjL6x5jjaOdmDzNNQQqQLIsh+85NAYPQfzpG9YFkYSyp2lcjDQCsa/XV6AzGMhOjxkuEg7rxenEf0AqwTnoVlidn5UAUCYrq3pSljbusaYjH0IpQUHKN/m0wzREXjKKyOHNle25s+SMS5aF2j8hUPGI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=LXL36nsE; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=WzLfNyt9; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B587427A13;
+	Tue, 20 Jan 2026 13:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768915635; cv=none; b=HPQdikkPyda0/4i4M8OB6yGFwYYdSlzEpCYJILywblGoVNazFkrnZdh86GWNL8mN5JQEOyzpux+OEIV9pzqyNIlXICYca/fQgtsWhBJ2LurYGgUik9HZQ27Hl76hmz1gEMbIa9SH2dcRAmahnT7DWNyTjdTr+QE0jBHkzCdk6w8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768915635; c=relaxed/simple;
+	bh=zliMfnqN7+4qWXkakteLMnL1rqDZXpRuUMDYk9dV31A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6XzmbP6Rw6BTWvquPnAIVNZNFcKj5NsclD4CFbakdTKVoqYMY8nJ/MvvPgO/9QKxW64ffNJ8kWV9sLh8vOt1E8qLdaiUiczLqUArdLuUmfE8oPbVpMCqd3m1alpOe8Ajfh+Tx4I7v87HQIuzxO7Vzn1ka9AZFaYVrLvezOY6UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFZYvcnc; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="LXL36nsE";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="WzLfNyt9"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60K7v1gQ3523773;
-	Tue, 20 Jan 2026 12:12:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=2h+P88m/YAiCpNnzdi
-	D7s8KRFXehlXnZ6v2GGtwiw0Q=; b=LXL36nsEFsAwSNymcCaU69e/G2R+DUtfkc
-	iBp26y8scg8RdX6ePxCsMLZkoMDdqa+sNeFnbw3vOCYT7K8KIj71q1MTEtuOpvbz
-	x4xOLbJbVNfQOvcjW3ne2LFy05jjaoI/0wv2HfUdniejWPCGOpkWuqA3GYPgJRAI
-	2524A3+ZWYxPMdcXeNjSAlnpDZ8uhPkTbydbnFPjJZLe1nzRDR5OICpIiW3tVONZ
-	kf5ocI8IIunP5bNZ9OFmKqWCB5yg9RDgVOlt3JuNhL/uraq9MnoavV5TQAGq95K9
-	T+YP/IA5BjvUwx9BpamsvPtQ5V9sd0nUAaySwKR3LL9T2A2C2Klw==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4br21qbj99-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Jan 2026 12:12:01 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60KC2usJ008410;
-	Tue, 20 Jan 2026 12:12:00 GMT
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012032.outbound.protection.outlook.com [52.101.53.32])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4br0v9k4s5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Jan 2026 12:12:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CBaqGvP4FlGsLX6Kfnz9H/fFqjbZjGyFLCnOtCEzg7XFKGjXZ5ka3DHr8+gbsg2/r47dmjyh9lNnWa23++fEFWzyQYCFR+jiZrakRaTaWAziTpMjzZjBCTM9gdo0ZC7raQRPYZVt/YWmUhhnQLsBrxPqjzm9/tVc5J74KTQvNmtrGOoh/RaPHIf88hrevXPjPX1N6uopqx1nn3juOnDCTIYdrgpUqMQkuf0ss7QWfXkJYvDbiJNnkq9ddSK4moKehEPt8w6I3KRbzGp93RyPH5vrEajOzr6Kdn1C6Qm7d28AL5C0s80dxEDqCggxRyPNz69fhIQ8RaU6sY6RCz9uew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2h+P88m/YAiCpNnzdiD7s8KRFXehlXnZ6v2GGtwiw0Q=;
- b=WdBrN+y0hti0JwLMb6erm19IOf6uw2PKi/tvU9CBvk1vdKDVSPFe688bwS305Uya6S+64ozHESZL4WqYiHBtQ53hW5bQn9f3OTuGDIR3gJ3D4P8YnL8RAV5L0Vjb8Gk7Xmufh+scuGK6iaPWkLeKVb9pXSLStznfF4ChbAbqccrJEnRZVYNXzLrzJ3j8UImt66GV2//I3Bul320KC2ASSGFO/K5+iXEnEpSHOgOY9tS3pKZUx+yYMIzEb7CNffSh59+vdYHlwMx8pAt31OJ8g+TrnFvWm6t0kk6MNSqCxEbI2zSY0PYrptxWzbQ6gtYNuLJ3sQSylrjJDgXzZ1H25w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2h+P88m/YAiCpNnzdiD7s8KRFXehlXnZ6v2GGtwiw0Q=;
- b=WzLfNyt93yC4yyNKatOVnN8jRDqKYKSn2ofynsUDTvy4wqF5fYKlM6a61g3sBJiteUJO6SyOuLu1/ivJnF2FHf9MhBHHDvHvxi4iF/NtGSvYgnE32xOT9SlpiW6jq0xuX8mx3GPJHqlhPXwvXM/EXEJny68rG4Qt5IfEneAOrds=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by PH0PR10MB5872.namprd10.prod.outlook.com (2603:10b6:510:146::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
- 2026 12:11:56 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Tue, 20 Jan 2026
- 12:11:56 +0000
-Date: Tue, 20 Jan 2026 12:11:58 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-new 418/422] fs/orangefs/file.c:414:9: sparse:
- sparse: dereference of noderef expression
-Message-ID: <bd3e8a3a-4507-446d-a0b0-d58590d8b30f@lucifer.local>
-References: <202601201701.IhxeGffs-lkp@intel.com>
- <09bb7453-a2d7-45f4-a69a-ceddcf6fe809@lucifer.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <09bb7453-a2d7-45f4-a69a-ceddcf6fe809@lucifer.local>
-X-ClientProxiedBy: LO4P123CA0103.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:191::18) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFZYvcnc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768915632; x=1800451632;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zliMfnqN7+4qWXkakteLMnL1rqDZXpRuUMDYk9dV31A=;
+  b=RFZYvcncd4tQ24uOoRFKKMoEZgTn7Z1L8DFAypWkOadhEgAU4BZMeO4R
+   mcdYIaHMwqBsF4n7eW48IAYULs2/5zvqPlOjmq4Lx2VdRV/YWWaCj+RVE
+   EIJtW048BB/g28S1ZkaLVptDzKZIYiq52oA+RXa/0nJnBAnblACurqJwU
+   zi9Ro4mfYs9jlCvO8dj7Y9U4aq5vqowMIR2mEXenYHuqGbMCm9MOl4ixr
+   5sZk2B0klI5Q60igLEHMRkfjthEUgTfzmUK7rMst/i9kj8FDu2EdUBilg
+   zsT4U7ScCN3fTRQ20WnAodZX1TaXSKBeW5MtUqSLf3EfRCLvLdO57aK0G
+   g==;
+X-CSE-ConnectionGUID: XdamqUNJQEGzG197hwrl0g==
+X-CSE-MsgGUID: rNqBwjcGTsCrMeFFsO147w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="81232154"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="81232154"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 05:27:12 -0800
+X-CSE-ConnectionGUID: qs6DvTcrSlGaTFKGlwR8NQ==
+X-CSE-MsgGUID: dy0vDc1tSN2LQyhVI9nNbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="205362466"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 20 Jan 2026 05:27:09 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viBlB-00000000P1B-45b7;
+	Tue, 20 Jan 2026 13:27:05 +0000
+Date: Tue, 20 Jan 2026 21:26:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zac <zac@zacbowling.com>, sean.wang@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	deren.wu@mediatek.com, kvalo@kernel.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-wireless@vger.kernel.org, lorenzo@kernel.org, nbd@nbd.name,
+	ryder.lee@mediatek.com, sean.wang@mediatek.com,
+	stable@vger.kernel.org, linux@frame.work, zbowling@gmail.com,
+	Zac Bowling <zac@zacbowling.com>
+Subject: Re: [PATCH 11/11] wifi: mt76: mt7925: fix ROC deadlocks and race
+ conditions
+Message-ID: <202601202144.ee4DM9Pz-lkp@intel.com>
+References: <20260120062854.126501-12-zac@zacbowling.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|PH0PR10MB5872:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d09ac59-9233-4ed6-9312-08de581d1ae6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?8jcavajcqrPCKXi58jsjCaX+FovTqVusyhjHHKrOAG2kfGwT91P+1svq08Rv?=
- =?us-ascii?Q?DgcIUOxabk4ZMOrN/EA8qiDkknhcCKYtuBfdhlU2baI7h9xWjTvNsuD8H1Ks?=
- =?us-ascii?Q?Nm0PjhI5UqixYDV5YOBgEbkvUxDCaobKc5f33kR0Pf0A+rRmCDU5G5WaIKLf?=
- =?us-ascii?Q?Ps0z3LD07YQXtWPXYgVvef6XudlLjfY7ZPMRwPD/H6vANxbRqspLWkW11C/3?=
- =?us-ascii?Q?4/UntHuQKiipp5mjtIEFN1nkWL8ONcgzV9Vd0mDUNDP7RPxUmwcw8GgvCvVd?=
- =?us-ascii?Q?5kLIHxdcBzUTaFpHnUxKBAOWiFtxJI5htdl2PFc9HZjqwHaX5IR0biZb0/X3?=
- =?us-ascii?Q?FDJ8oOtk7HhUS5bu5j/zHJAGyY4NfVbJ2NcZx7nEmG5p2HAUiwjVo5W18wpO?=
- =?us-ascii?Q?g8/UJile2pVmBZES/e9XPbwtBeS8Rx3sx/9bPd9yYKp6/Hm99+iAB42Z4bO7?=
- =?us-ascii?Q?i9HolH6ECcNl9ZH2bIezEZZTBP02HKJLPVr0Z77pVrc/Oma0umRss0EyLmzv?=
- =?us-ascii?Q?tk2HWmOUx/gBz1ZbJEjCAEiLThRmKsZGLL+S1kbwUVsYDdHq4NMQlvXp1A0M?=
- =?us-ascii?Q?wIEGBYl93/cjGeeMK9r/5RcCk0jXtWI/xnaP49KWVo5Q8NvrW3zLUmmIXwTJ?=
- =?us-ascii?Q?vHrYGlXcJKCZKl+tzD1UDOox4p76w36oKjW88IgV5YbNLVKy6stoKQvDvBUQ?=
- =?us-ascii?Q?y74566ZTUGHUPS39RObXdksxAErzODxp1/xT9iOjzxMWFrjZoWsqSt0soqe8?=
- =?us-ascii?Q?EfBlgAX5axNClyYtpG8peJ8mve+QzAG06l2g4e4OyiNCTXdl04tFpm8c2zB5?=
- =?us-ascii?Q?oxddVsvlkfOfZm6D9U2C71w0qR9uK5kfPrDWmXYBzYrbkdgopPBE6N+wbvak?=
- =?us-ascii?Q?yToXSNZ8uuenUp7WZmuDtYizQX/+9WGzID8lp1h2a4jHkbPZCZYDB//zvykK?=
- =?us-ascii?Q?5wBU4O16d4u92DpkWzM6978fmGYQPidsValRquK2Od97h/75J1DKBkIDYc43?=
- =?us-ascii?Q?NC9fHBP+NJaJBibKLTl/23NQfO/oiIgp48l63POVN4gAF/yF0HVnRLYeNUCI?=
- =?us-ascii?Q?zsLT4gnxxtoKIzekpik1Szb3IscgL85tQ8ntskWgbjF8/oSA3KmAnaLMKyrc?=
- =?us-ascii?Q?dVtR7xcFTbNe02P0R/QQ3JWoeOBC1BgvF/VKQSR2/bKMoFzW2Bf2v/8Nj/yR?=
- =?us-ascii?Q?1+Hun5Ck1Mj0wdFSjSiWd2VYrayY2O2rTmQezsknSvg3PjZqII/bstC3K2h7?=
- =?us-ascii?Q?wmjrGE5KDpVjMVmOOgqtj1ebghydO2qSrlyzQaAlaEqiJEeM4yO6Vso1Bbr2?=
- =?us-ascii?Q?FaorZHHZ0BaSP7qaSYL0HXLFRKZyepZLTkBNkQT2a+ZVm5ROxh8gAYprBJYQ?=
- =?us-ascii?Q?OENXjiprVAjy0aHIHnIV43eodB9mjIK/jedU2uzdXVaO5wvZKROcrmULZIQb?=
- =?us-ascii?Q?Z1ayBNLJLA0yQuVhLr/SZuyzOZ/1kGFl6hvEZOt09OQC8CtDRmtshC6a+4Vr?=
- =?us-ascii?Q?IRSlbT/FcH5ORQTy/msYyeRDu78+Q8e7lAjCW07uWRT4r6nCEdp5DFGRDQL+?=
- =?us-ascii?Q?cqO/yFNjcgY1mhS1yai901DowLpvep8pD8FX+N3W?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bNgDQjeQF/OvB0aeEEZCBKNVRiWqKVAPkLb2G8axAYagQ4P6w+PbNFJ7JUaN?=
- =?us-ascii?Q?QOwfLqQyieqyBlZwqKW/+MrC9lTzpjobrMU20DMS3ncr2pYcactLuVQ41iWG?=
- =?us-ascii?Q?qy7q/t5s2R5OUVG4FxmjvUIFCIa5JPYxlgIg4d3/mqt3TtfQJ8DvkrAfGFvt?=
- =?us-ascii?Q?br0PrsD3MlsmPO6fnf414mtDUY873uTdDXJVuWW5Gc/X7gWJmWXiGSW1QFGQ?=
- =?us-ascii?Q?xoO+5wsPghbEzH1T7deDn8JwT3qr7nxb0Rg6pv1zI5CYl9JWBKmeYpK+vtvl?=
- =?us-ascii?Q?DYPOdr0Q6oX8xCsdVOuSylgInrLRbKdYkqnL0iAd/jQrbWa5FBVu5GsEj6mB?=
- =?us-ascii?Q?dQrs90GrGs4av2mbOwHyROHq/eL/Gqzy3NiDrRK5Ha5PkKWaa0GgcHHYiGzI?=
- =?us-ascii?Q?CZ+08iydt+qczOVTMm0i1r6uz53yC8VG8MYgUgfoUEbboR4Mh2CYsxBhmgcR?=
- =?us-ascii?Q?sqDmi73Tv1UJxiS3NrLWbrHVn4wGpt7uWQpGSyzntU8wMyI1iMw0NYsVac/W?=
- =?us-ascii?Q?eathJImN/OCa0UJ+9DNaM3WRgqAZOstuGz1f15HwTtnCf0P0Ke1Wfvwazxic?=
- =?us-ascii?Q?PcuoH9pJO0Ao/RIu9C4UdLTmoK4YjGYPLbvjm2pmeUbvpr+pYfWeWGZelr15?=
- =?us-ascii?Q?cHQgNyPtZmPd+bwCFuSWcyXBT/cjzeGFzYir/UHsSxNebA3XrqNT5FX6Qn26?=
- =?us-ascii?Q?yqo6oxG0VEopiOvwJ+QIcxQ7asE46d+yFzlO4boPpGGC7YpHmorNQGpNzv8V?=
- =?us-ascii?Q?/weNgJm4Ndoj6X6lUd8Tl1NyMmlIlm1RWlb5gzjbLlKCFiQXIAZEEZFfGoup?=
- =?us-ascii?Q?O30trfVPHsm8awI+ctVBVeDCBz8LEN9dGUKRdni/lUIE/Zsqlcfq7pBQr1xb?=
- =?us-ascii?Q?VmDN6fkAg23uU/ZNelSLvVcPJxTxbulRCgIDyWI/Ot0jaJ4Lzxgl98KeYB1O?=
- =?us-ascii?Q?GtpCmStLx/jS6DwnFmhwLl4pxPeTjcG1mNvR9vP5JIHuo39JvHcYkN0dp96Z?=
- =?us-ascii?Q?9k+iIdV7Kdm+3ukX/7gnqkj0e+L2SK3Ti/hzqClOtCibPf40o4D60hpwlxMa?=
- =?us-ascii?Q?6c6LFXsXfGQeHh7ae5M2F2+F4WozdOdeq03vA5OnoaZjWcMr5q1kz/EAHzLH?=
- =?us-ascii?Q?uTkidqErBipnSME54sxIHiIPRymwdvmJSE+2OzLw1CK4QoY6NWk1YamZORra?=
- =?us-ascii?Q?02OQDnCZ2edcVQ18+BRDGapm6oiWBE75wSfZucoq8/bI2PcMejgrTzITpwZc?=
- =?us-ascii?Q?T49o7EyQgPFDRqKJHQIvUuU5OAqviuJ700a4CuF+N921+RZFG59XUoiydF8n?=
- =?us-ascii?Q?HvsWG1tLW8ZMagWJ9G97pd5pKg5X7CgXVurCqYIc+7JoWkESmlp+MPrK8bf9?=
- =?us-ascii?Q?wmCPAYAFjjgre9ZX3pM77Sw3S/zqYoT7Dvpe3dHPfyBRuBy0v/U8sS5knB7q?=
- =?us-ascii?Q?/pZENvH/cPMw/y6qGJTfGMXL6xjXzVie/FE/owuCs/MVneeMyF2/X8+K7U+L?=
- =?us-ascii?Q?6Iooos6xahYVjX2wwOjBnMpV6Fiw/d99Lw6S9SL0J/anri9hWHIemK5pKumu?=
- =?us-ascii?Q?OpNneUTAvcek+2Es0Zk5ygekewu2CSgvHlpgdpbBJ5mlzsWlbQqmdr/ElGg/?=
- =?us-ascii?Q?TG//flUitve/dG1lDmBKEpGmGEAPmhp5eQIMP7YUo1GFiQfanRmbtoHebJFL?=
- =?us-ascii?Q?YeeP+3gWGdVfboHCJi0gCg5lrc0v8l9lDytKQqqezPvTM38OrM2S3Z/LjGBc?=
- =?us-ascii?Q?Ccz5NFNnIs/2YI6oWZOf5LefMqdioP8=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	+qDePndtRGHxBJ8CXjxMRj+0kIMV1YDmIiJaaUdUVhqK7bIgq6hL19leamDZ8wjUJrjGkyJBR4mLoXZGfrUf8Epexf5xgtkxA8PZ/pYdWvgBItto53fNYs0UgdevdF13bzamKJ6cwOyWrCYb8ag2kklY0FQ14RSifZM/75F7Zc4MnWAlqBFwyCu/JErXvGRtAOXsyIvcKUngtAL+qe2uN29m9yXs/Qz9edQ/g4mEk9sYuFU/C2od7aBAsZg+/CeXmRrgrhhNl+SxiBkZNDUBnZ7s3nT3ewKyFVFrxo/Ae0QMGrzAlcuLluYGg9Cz50BwPnc0oBwDkrcpNPuSg9bDNSZg9OTOYFngcF9FBdW5lzM+DOQuzhfWuADK0bgEOWEvw8SUbEH7BsqLXNAtsCQLuvZSIxI62TNg+175rCVl0jns2C04FXpRbDWSaMFLY4mlcIk7IvKz6dyextSiIbXsZBC0ba5KCvnpT3QpEYkFGDiyFcGpKHzsO6lzVSnTk2VyCfsjgBMmVamqLZtlWvc/3IlMJjJE/cAPF/4Zh0NLhyj4t9nWFvrnH18XYvuHHMTSuPd/01yP3U9nrhxbPPIaQHUF0tNzpCSV3lWXEMYw7q8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d09ac59-9233-4ed6-9312-08de581d1ae6
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 12:11:56.3473
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jr471za9A0ob3J+5zf3jEn8PnrxV9En/GBrLjLld4YBtz9rQFgjD22IBdBCkkagvyLXql1RVMfqsH1Maun319Vxocw9YwgqohLBQBXqwMsU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5872
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-20_03,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 spamscore=0
- malwarescore=0 bulkscore=0 adultscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
- definitions=main-2601200101
-X-Proofpoint-GUID: cT2s7lgcL2a5SqkCABWcsW9IjMxIK0NG
-X-Proofpoint-ORIG-GUID: cT2s7lgcL2a5SqkCABWcsW9IjMxIK0NG
-X-Authority-Analysis: v=2.4 cv=QdJrf8bv c=1 sm=1 tr=0 ts=696f7111 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8
- a=L2Ig8cwMpYkon8CDR8EA:9 a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDEwMSBTYWx0ZWRfX8AP8x5LEuTe2
- MEsQRSxEmFJOEAkQHxFKNxoG6EaVWdB5J0bkVfcrvjq3XF+VcS+OH+eJUp4am9XCjZUvYHkiCxn
- 0lqju8pX4s+i/brZP+Nxpj+WpPqckJ/uspQpxv3QXL4gUBqR+kuCc9bQvivTIHDH9SNhwOV3c3K
- HQM6Zf2D1imuRB67PrMpQjTfxFffCnES4LLu6oJGZ02mdsyY+dpvFmyxXEWHg01PbNBylm8F9Ty
- 1TDJVRpLq5XnOy4uMyiy6FsVmQdlF4F76Ua0DyiKumOC0BphlbHA2U3GiCHpG/NKma8uLYJqlTZ
- HFcjfePlAhUgmlIGeebZXuSifZSjHX56qWJ3p/hJHita7bT/ndfnme5okO3xfte1qS8X/p7xat7
- tK8jhj9j2AU0fqK1PshGgtES+n713+AjPAyII3qXzCgxaWRctBFXJQLZXHWHt4ovN5r6gLj4fe9
- HRr8t7ZWxM4t4ABHusA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260120062854.126501-12-zac@zacbowling.com>
 
-On Tue, Jan 20, 2026 at 10:56:04AM +0000, Lorenzo Stoakes wrote:
-> On Tue, Jan 20, 2026 at 05:10:47PM +0800, kernel test robot wrote:
-> > Hi Lorenzo,
-> >
-> > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> > head:   e4348a62bb1acacafcdeb149c9363291fae08c0c
-> > commit: ccbdd8044f13617fe9f2bce61aed556314544664 [418/422] mm: update all remaining mmap_prepare users to use vma_flags_t
-> > config: arm-randconfig-r131-20260120 (https://download.01.org/0day-ci/archive/20260120/202601201701.IhxeGffs-lkp@intel.com/config)
-> > compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601201701.IhxeGffs-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601201701.IhxeGffs-lkp@intel.com/
-> >
-> > sparse warnings: (new ones prefixed by >>)
-> > >> fs/orangefs/file.c:414:9: sparse: sparse: dereference of noderef expression
-> >    fs/orangefs/file.c: note: in included file (through arch/arm/include/asm/cacheflush.h, include/linux/cacheflush.h, include/linux/highmem.h, ...):
-> >    include/linux/mm.h:1048:16: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1048:16: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1199:46: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1199:46: sparse: sparse: dereference of noderef expression
-> >    fs/orangefs/file.c:415:9: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1048:16: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1048:16: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1216:48: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1216:48: sparse: sparse: dereference of noderef expression
-> > --
-> > >> fs/ramfs/file-nommu.c:267:40: sparse: sparse: dereference of noderef expression
-> > >> fs/ramfs/file-nommu.c:267:40: sparse: sparse: dereference of noderef expression
-> >    fs/ramfs/file-nommu.c: note: in included file:
-> >    include/linux/mm.h:1954:16: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1954:16: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1048:16: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1954:16: sparse: sparse: dereference of noderef expression
-> >    include/linux/mm.h:1048:16: sparse: sparse: dereference of noderef expression
-> >
-> > vim +414 fs/orangefs/file.c
-> >
-> >    397
-> >    398	/*
-> >    399	 * Memory map a region of a file.
-> >    400	 */
-> >    401	static int orangefs_file_mmap_prepare(struct vm_area_desc *desc)
-> >    402	{
-> >    403		struct file *file = desc->file;
-> >    404		int ret;
-> >    405
-> >    406		ret = orangefs_revalidate_mapping(file_inode(file));
-> >    407		if (ret)
-> >    408			return ret;
-> >    409
-> >    410		gossip_debug(GOSSIP_FILE_DEBUG,
-> >    411			     "orangefs_file_mmap: called on %pD\n", file);
-> >    412
-> >    413		/* set the sequential readahead hint */
-> >  > 414		vma_desc_set_flags(desc, VMA_SEQ_READ_BIT);
->
-> This is totally valid? vma_flags_set_mask() (which is ultimately invoked) uses
-> ACCESS_PRIVATE() consistently.
->
-> I wonder if mk_vma_flags() is an issue as it ultimately does (const vma_flag_t
-> []){ VMA_SEQ_READ_BIT } here that then gets 'dereferenced' by array access in
-> __mk_vma_flags().
->
-> Nothing is accessing __vma_flags in vma_flags_t directly however, it's all via
-> ACCESS_PRIVATE() as far as I can tell?
+Hi Zac,
 
-I mean this makes sparse so damn cumbersome to use.
+kernel test robot noticed the following build warnings:
 
-I do NOT want people doing flags->__vma_flags blah, and force ACCESS_PRIVATE()
-for this field.
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.19-rc6 next-20260119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-But I _do_ want to be able to pass around pointers to it, but sparse
-unconditionally makes the type no de-ref and these warnings trigger if you ever
-take a pointer, and there's no helper to help in that case AFAICT.
+url:    https://github.com/intel-lab-lkp/linux/commits/Zac/wifi-mt76-fix-list-corruption-in-mt76_wcid_cleanup/20260120-143842
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260120062854.126501-12-zac%40zacbowling.com
+patch subject: [PATCH 11/11] wifi: mt76: mt7925: fix ROC deadlocks and race conditions
+config: i386-randconfig-015-20260120 (https://download.01.org/0day-ci/archive/20260120/202601202144.ee4DM9Pz-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601202144.ee4DM9Pz-lkp@intel.com/reproduce)
 
-If I mark __vma_flags __private this does nothing, I can even do:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601202144.ee4DM9Pz-lkp@intel.com/
 
-unsigned long *foo = flags.__vma_flags;
+All warnings (new ones prefixed by >>):
 
-without any new sparse warnings
+>> drivers/net/wireless/mediatek/mt76/mt7925/main.c:611:5: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
+     610 |                                 "mt7925: ROC throttled, %lu ms remaining\n",
+         |                                                         ~~~
+         |                                                         %u
+     611 |                                 jiffies_to_msecs(throttle));
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:285:19: note: expanded from macro 'dynamic_dev_dbg'
+     285 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
+     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7925/main.c:662:5: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
+     661 |                                 "mt7925: MLO ROC throttled, %lu ms remaining\n",
+         |                                                             ~~~
+         |                                                             %u
+     662 |                                 jiffies_to_msecs(throttle));
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:285:19: note: expanded from macro 'dynamic_dev_dbg'
+     285 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
+     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   2 warnings generated.
 
-Which seems bizarre to me.
 
-Touching headers generates endless (currently ignored) sparse warnings in
-general so it's very hard to figure out if things break.
+vim +611 drivers/net/wireless/mediatek/mt76/mt7925/main.c
 
-OK I think the best approach here is to drop __private, the __vma_flags
-value should make it clear that access directly is a no-no, and we can
-avoid all this :)
+   592	
+   593	static int mt7925_set_roc(struct mt792x_phy *phy,
+   594				  struct mt792x_bss_conf *mconf,
+   595				  struct ieee80211_channel *chan,
+   596				  int duration,
+   597				  enum mt7925_roc_req type)
+   598	{
+   599		unsigned long throttle;
+   600		int err;
+   601	
+   602		/* Check rate limiting - if in backoff period, wait or return busy */
+   603		throttle = mt7925_roc_throttle_check(phy);
+   604		if (throttle) {
+   605			/* For short backoffs, wait; for longer ones, return busy */
+   606			if (throttle < msecs_to_jiffies(200)) {
+   607				msleep(jiffies_to_msecs(throttle));
+   608			} else {
+   609				dev_dbg(phy->dev->mt76.dev,
+   610					"mt7925: ROC throttled, %lu ms remaining\n",
+ > 611					jiffies_to_msecs(throttle));
+   612				return -EBUSY;
+   613			}
+   614		}
+   615	
+   616		/* Clear stale abort flag from previous ROC */
+   617		clear_bit(MT76_STATE_ROC_ABORT, &phy->mt76->state);
+   618	
+   619		if (test_and_set_bit(MT76_STATE_ROC, &phy->mt76->state))
+   620			return -EBUSY;
+   621	
+   622		phy->roc_grant = false;
+   623	
+   624		err = mt7925_mcu_set_roc(phy, mconf, chan, duration, type,
+   625					 ++phy->roc_token_id);
+   626		if (err < 0) {
+   627			clear_bit(MT76_STATE_ROC, &phy->mt76->state);
+   628			goto out;
+   629		}
+   630	
+   631		if (!wait_event_timeout(phy->roc_wait, phy->roc_grant, 4 * HZ)) {
+   632			mt7925_mcu_abort_roc(phy, mconf, phy->roc_token_id);
+   633			clear_bit(MT76_STATE_ROC, &phy->mt76->state);
+   634			mt7925_roc_record_timeout(phy);
+   635			err = -ETIMEDOUT;
+   636		} else {
+   637			/* Successful ROC - reset timeout tracking */
+   638			mt7925_roc_clear_timeout(phy);
+   639		}
+   640	
+   641	out:
+   642		return err;
+   643	}
+   644	
 
->
-> >    415		vma_desc_clear_flags(desc, VMA_RAND_READ_BIT);
-> >    416
-> >    417		file_accessed(file);
-> >    418		desc->vm_ops = &orangefs_file_vm_ops;
-> >    419		return 0;
-> >    420	}
-> >    421
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
->
-> Thanks, Lorenzo
->
-
-Cheers, Lorenzo
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
