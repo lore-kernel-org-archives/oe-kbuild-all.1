@@ -1,135 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827FA3ED11A;
-	Tue, 20 Jan 2026 11:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768906802; cv=none; b=cbPAqZBhiOZq6jD8u5ew0YtPgp/KEKFCv1zS44bER4zyWybqoWiqaKfbRMs9ACN5VCWvkQbm8gPBxSYqDeNPYy5UB12EZLY7fRWuCxyzIKILEPKq5/oIoWWiQbCqNuR7XhaI4oSP0yneUmVmDR39lqZKKXLuxeMjyiQVF8k5lu8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768906802; c=relaxed/simple;
-	bh=lY4JeADarjlp9LvVA1IUcRgL0c8f7WJjiZIQ38czuho=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MRBj0g00ZpP4ydmOjpu7jSs8mPg/K0xZPxZ2Y96KZFbY3rnVr4kNitjTo06SFflSQ2ZUC+h5c2v/8YHhSuK6mzAI+vSzir7Zfp5XxsSwd/gYJ8Q7jL+eapRH81WQnsFPTd5y0fEkBlyT0AZZR1fusLpSz9RD/2zzbQ/y5zToftI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ks7sFK1N; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FCF40F8F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 11:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768906845; cv=fail; b=t0I2td2lDjSU33jKSJ1PW+A7e+L8mUhUuETww1LodpxERaytf1gOfrCT7MRG4f87PSIhgErMmW3Ch4+sw2bvcSO/MfGHtA+SoCfQOXd0RyFZn44/VPURWXjWGlm2s16x8NoJ5719VUVgUMJptJQa7YvXZ7k3T12SPikBESvu5Mw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768906845; c=relaxed/simple;
+	bh=KGEAL2cM/t43piDYY1CPy3wlXXIXMH5QvObyzqHiAOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=d2k+3bpYu2Hr0kUqlsncek/1fseTrlBJRVCPQcGMJL8ekl7I/hpMzuxzK1rwQ36pDKI/xxhgfeI8RCPexW1PcVfhAFBruigQqUnY4lIbva4lp0lKjwhLn8tsdVK1X/PGXRdDp1S7klobMWcH42NTMBwgW/Vnhsdam0t77/fSHbs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=lr/+G+Qi; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=zyvEnosO; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ks7sFK1N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768906801; x=1800442801;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lY4JeADarjlp9LvVA1IUcRgL0c8f7WJjiZIQ38czuho=;
-  b=Ks7sFK1Nur4LM+OjDzdEQg+TQDNjH9/Kp1v0lYkO5C7DywZ5+lZdBAwy
-   /GN03Apdd3TReksTaId9eGSeskbFlYjhd2WV/oyFIZxilBcQNoui32cea
-   Q0a26OKVPR1+wxe1YAXW0a2wMUS/rPVs5uZg+7pOX8H77mPi/dwZnujcs
-   Cb0DIa/8Sun+sD0n5eKuOktEUWSNa/SxUDmKjiCWCCv8VP8FsPUFOtN4K
-   U+ZcwZyMDmDURLGpIw5ZGCSSSTdxZF21Hy5APRkrjOGV+iR8x9u9u6WIN
-   NVhfXu1wI4pIvVgOdMCzHHbnbR8KAxbvVWl+2UhB0/GclEsr5VvsbPVei
-   Q==;
-X-CSE-ConnectionGUID: cWi0FG4YSi2a2m532pFx3g==
-X-CSE-MsgGUID: nZG2z/f+QcStZxUK30IerQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="80744710"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="80744710"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 03:00:00 -0800
-X-CSE-ConnectionGUID: apOSSKeMRDOj8vy3BB7/jg==
-X-CSE-MsgGUID: IiFLw6HiRDOMkap+J+T3bQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="205892918"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 20 Jan 2026 02:59:57 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vi9Sj-00000000OrV-3JHz;
-	Tue, 20 Jan 2026 10:59:53 +0000
-Date: Tue, 20 Jan 2026 18:59:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-coco@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
-	robin.murphy@arm.com, suzuki.poulose@arm.com, jgg@ziepe.ca,
-	steven.price@arm.com, Marek Szyprowski <m.szyprowski@samsung.com>,
-	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>
-Subject: Re: [PATCH 1/2] dma-direct: Validate DMA mask against canonical DMA
- addresses
-Message-ID: <202601201822.0I4WAqVW-lkp@intel.com>
-References: <20260120064255.179425-1-aneesh.kumar@kernel.org>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lr/+G+Qi";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zyvEnosO"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60K7v5EC3523836;
+	Tue, 20 Jan 2026 11:00:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=+1ptC+Z2gypzN4UX7H
+	qN9T2zJydM5XNUgxbEjkHBF4E=; b=lr/+G+Qis1RBQQL6bnO7BzJw53V+2e7uWT
+	27NH1CXwuvK+rAsySkB7S17kUv+JWKGErNiYuOXbTAwbK5UkA+fVultY8Oun0TNj
+	fnRxDM+M2wv+QkHJXDSo8qNqcJ9ZjQ2vfQ9XMQIs7lrglDU6PnA3dq+bJAuzQhg6
+	Ugu+GLW9cMgE2G96N4yZgX8FpUHFhBQdtRt/gHG98VgxOPEMvoLxoN+XKZh2kej/
+	iEk9a5EVSQ29GQivjABWp3zWCM9jz1fNCcWCFKDkvjjp+mKQiyY3cm56Tt3XVh8d
+	V7fOADiOStaGK8tqLAd5qv5kk+96K+0N8vdF864CAEw5pO7rXRdQ==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4br21qbfd1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 20 Jan 2026 11:00:21 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60K95H8l018933;
+	Tue, 20 Jan 2026 11:00:20 GMT
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012055.outbound.protection.outlook.com [40.107.209.55])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bsyrq9x8b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 20 Jan 2026 11:00:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uJvQFN06D1eI9HzFKDRDAgbMbuo88kyNC4y9Dkvw2XJzTi4922LpUVIapf3Wv0UCshQvC5UgkynU3FFLwMK8DEyLMwsztXAqnUDI875eXk+R79BHvd6oyAjTLGhsPfOZyiZsN8yIMCHhlbYpxZ14BAop8umjGI9heq096fJB32j4FB58ouoG9hVzbhqtLDtKIU9KsSlB1KS5iqIXNyJPvzpe4wBKIYXoYUaB9ATXkyD0p04Abd/sZE1IGQbnzWDshIy++AjYCah3dgzV/yDAmEsVeMBJndWA2tJPbyfdSAjG5BPu3JngmLp+9/dMBpxfoPrCYWcGfk+MxPZS+6m1WA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+1ptC+Z2gypzN4UX7HqN9T2zJydM5XNUgxbEjkHBF4E=;
+ b=mi700mGrsE0kfQfEGaYNIE2AU8P/cFMuy5YVVvJLDixXaZkCiO8cOrlWmwWTzR4BGVnyuoCgXAO6rgqR19VQn78ebk/rapxoKY87euT5gZUJ5R/TtGIweDIJbBM2W5TGoVAoe91JCm78SaSryOR5lkhMMaFC35OjwiOBeASo9DC3q3ZtdOUZbu3aUq9ljqnMu5ksayoU9PNdoNnUBeYkCwmEssHQrFmZiwYXhnVAo8RNg8VK40SQ5U+yGwccQhveDD8vasxGq94ckPqaGIw5fM48az6UiXBgbzzEh3P/rPC3oN4rHU6jj8gU32kNISNzH2zctnc7Nn0L2D10N9UJNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+1ptC+Z2gypzN4UX7HqN9T2zJydM5XNUgxbEjkHBF4E=;
+ b=zyvEnosOVzlouO9R37wJkNIdKYjD5/uIGPEUjJy6hf4vS2pW02kHkMuKlg1Tqw6NI6otUt45xjGsK+KHsL6XuBlPVSpld7T8KKYcbtyMGWtcHFCcf31UM0xvkOgBplMu0fcAmgRj9QLnPpi//xp3oW5N2xeQFS1iw8IguqcO534=
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
+ by BY5PR10MB4210.namprd10.prod.outlook.com (2603:10b6:a03:201::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Tue, 20 Jan
+ 2026 11:00:17 +0000
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Tue, 20 Jan 2026
+ 11:00:16 +0000
+Date: Tue, 20 Jan 2026 11:00:18 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-new 417/421] fs/ext4/file.c:825:36: error:
+ incompatible type for argument 1 of 'daxdev_mapping_supported'
+Message-ID: <534796d5-0b8d-449e-b32d-22a20d7991b7@lucifer.local>
+References: <202601201215.7iVpmWIM-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202601201215.7iVpmWIM-lkp@intel.com>
+X-ClientProxiedBy: LO4P123CA0405.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:189::14) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120064255.179425-1-aneesh.kumar@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|BY5PR10MB4210:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed6ce6c2-c791-4dd6-6dba-08de58131813
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?sackQAy1yuf3M5tWhpRY1Srd3ZPVIFHqhLE33JjB3HsvGCLgQOg8YOvTLIP1?=
+ =?us-ascii?Q?E2TJXHr5MOk8JA2YVDvHPKqdn8qT82yIoWAzNyDz658LnAIt8Apyfqw00zV2?=
+ =?us-ascii?Q?bl3k6olRkrM8mIpdguaIWaCEe2bB+18TgNAy5FqbEBKJ7BLPACFxMmCB3KYL?=
+ =?us-ascii?Q?v93PWmXlTUqbLsoTHhNQmdfQedEipQj/vfl5uCQdIDnI/Svf1uGbBPRXcnHo?=
+ =?us-ascii?Q?t7KRvI1VId7WWFHcgkqCjWchDGIVdeoVFJ6qgwyagS2iCvwX2NYKZqo2vSco?=
+ =?us-ascii?Q?ds585h8OyURaB8Oc+lBVX/03P9zsRhmwt95D0no9d+JScOiNeW63IHnWNs4s?=
+ =?us-ascii?Q?sW7IZMP6vtlQqS03PlA5IBn/jEdTvXTLWiuyCsWaNQIPaBPCVqCOr6WYzi01?=
+ =?us-ascii?Q?3wZBO7ly0IZ+kf9PxwAa5vMPMAW2iC9mae2DnHiGhPbNLdftRGlwzqNdNvTV?=
+ =?us-ascii?Q?5WqRyY0pr4z6KZblYSn0YA1iNgyWkAeoHr18jMCXQ4E/GgDx7MsgVHO4PebX?=
+ =?us-ascii?Q?8mvx4u41zTP8ljImQpgFdoFfi8Vl9KV5AjrjDvZXWP62NJL8zA4rvwyXm02W?=
+ =?us-ascii?Q?j2d0twNOmJvjbqB9fpGqsiHCSb1akNrWyMetXYQeczP+PxBPec7M5FTWHbUM?=
+ =?us-ascii?Q?Y5BT9rZ6Hk5Zs5Hyp8v5NA8ahZSHPUeerzkEONwdXAKxzTQYT2CJbJri6MQq?=
+ =?us-ascii?Q?XAcnrP+uCi4v29NUC3/0xcsfBn0TLucPgwkGsoiY4HdQEDxpVRNWQe+0rivo?=
+ =?us-ascii?Q?pMIZl6CzK/A4564fQINF+KYAl8VMpPEaLTKgFXNkd+35u+ntOWt5ojQlQzhR?=
+ =?us-ascii?Q?PZexEQqrgp914yr2eki5Dbzco7JP3qUwiCY5lfaOmloxsACGmX3w3Xngo2WG?=
+ =?us-ascii?Q?QdVLQGthOovAPZOYjaRvS/7rfFWiBL9GXpMlUoNfzbqr58wrqEq556kyGq33?=
+ =?us-ascii?Q?FR3TuyA8wpDLtunrcDZ888UINOPUOVWKkWtMLDmOlskOKHqE8xNusa0thDRx?=
+ =?us-ascii?Q?fE3wUEhBB05xe/iLCfraRtRsKpZ7Ok2c9Y7iufCtAd9Vjxd8C5e+bkyTMsHw?=
+ =?us-ascii?Q?7/+9HdoAnbkEvLoJ6x9aAc+fwcltW6/O9FexUN288cA/ubjUldefXGUik9jg?=
+ =?us-ascii?Q?f3molfm4mUiglTbwLA7GTeJFA/Swv0KCYvQyrHD1jGRBfaIyKkBnmeRIAELo?=
+ =?us-ascii?Q?K9vOdUdtJBn8vATbWHzWpL/NxzT2z/V0WjxZ1C6N03gNjuV3cyMMo4OTmw1e?=
+ =?us-ascii?Q?Dm6JUgYfqpwm4o+z2KgabnpFztqXJM1jS+LTyvMDCxYZXYqYfVdyVqyiPPuw?=
+ =?us-ascii?Q?MSNLqRcgSpBWFCAadxILwHFiV0dvD1SM3/1NiNY/GucR5xhbvCuJs5eGG3Yp?=
+ =?us-ascii?Q?FGIMPzl4G6tXi5+da/QX/MlatRU4gnGIDFJcED/7w8jHqHQONJ1Cj2B7ydAN?=
+ =?us-ascii?Q?i7/pk4pwqg3yF6q75KDrjPecKDmqI3YrKIlXtpVdZ4Cub9poakRtipv+avYR?=
+ =?us-ascii?Q?3RVT8L6KyPs7TIYJtTkUy1QYzzWylkD5JLKq9MiJgG+8qi/Y3gUpN0sfqwkS?=
+ =?us-ascii?Q?Ri81BIBAEKDnlXE8vFzZzU24SbEvMCuekrRdY3LD?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?edc7ymY3sRpQP+FM3Ovc+X6rYDRSpJM3i1+aauN68XF3f7o0WO4mPa+O87rx?=
+ =?us-ascii?Q?QQcEYVyeY3jGOwRo0/76SYNNFjwb0GZLOvGxczg7hZYUwCJvw6EO3MT3yT8Q?=
+ =?us-ascii?Q?7MUF5W6XKKxxMJtZHyESMv9QXaTg3NB3OZfcwvU7U6JUwf00MsRZze+XUtYP?=
+ =?us-ascii?Q?Mnz3ls6qbB/FPQ5ZqnzeuAWmdMGfYgrQq67BvfFWKEl7IbWw/aK11eBp7NXx?=
+ =?us-ascii?Q?xt02oywd+xXjP7GtRzmin2RYhTUsBCLAoIjOauZmt+HErB3uKofaRTx/zZsz?=
+ =?us-ascii?Q?ba4JLdeEVMvB66sdlJbQnMYEQBg6RUbyszTBaE3m8QbX0pcspClkk3RBtJ1n?=
+ =?us-ascii?Q?LxdMAbVnb/ZdSt2AdGLE7aUoSnvHEylLoDFCgtXG+CtLMZfDRPgGmO8O3iLP?=
+ =?us-ascii?Q?CZwcsyLbkpG+EOjsKwZsgH1M8FU8WpwuqgqYCcdo2JMOg/aGGjRcn5wE5PnW?=
+ =?us-ascii?Q?KRsYM6VqRCU6q0N/iBSqLusZIrIzVbzBjaLK+jGnjGUC4I0nscLQjTcdJWpb?=
+ =?us-ascii?Q?tzv19PojB5ETGObQAX8U2Jl3vJmSqqnNH6VOFP+DMcV1vM292GBLzVGbn3Iu?=
+ =?us-ascii?Q?2SV3bVbvbcNqxxlPtiBFylHS8TryR0GrfsZK4qtNCm+Z36sfYtOiLCUFQ/SQ?=
+ =?us-ascii?Q?0GPp+3ZbKRL3rdijzKmhlK1Pl8y5W0pRmtI0WTCwo+Z1TGYcZAJD4U7BQHwU?=
+ =?us-ascii?Q?boRoKvFPCPbguIS9Uv1haeCRy4qbPb6HN1owtIdhqjhK5dLJFcudwEoaU0z7?=
+ =?us-ascii?Q?vqy3JV/WiCZIjYNxJg7f+p/HVBbVJbgqHUXTg8vLFzjF/t2VM3uqelNRopvr?=
+ =?us-ascii?Q?noA6wUQG4W8UpIz9FmFeNS46W9vyn4YgeuMZ1bKBFpBNmLvEKh6eirBRp851?=
+ =?us-ascii?Q?5pT8ptCYKTwbC0ls272Kr1vB82VmO7f9kTRPKbEHq0IQs+0uVkxSbFD2zk5d?=
+ =?us-ascii?Q?7gMyu4C5yUJumCcfO/SxcXHsu67sbl3GMJXPIG3w64lrMPGuhG+IlDJRT1YV?=
+ =?us-ascii?Q?wWIJc/Ziw4YOxbKBrzTYwdae94whjiCLYl3fgWdA65Jk2RtYZYrP/RIHwwvY?=
+ =?us-ascii?Q?zRIBPaIhg1vNLQS8UBK1NDCUVqRzXALIiKD2rfHEg20nmpgXM7mwPTg6B3zU?=
+ =?us-ascii?Q?fECmESwe/UkZb9H2d8pjBuLX8JtkxjlRBrL7H2zW3q8W33ihQ9gw/v21+Ur8?=
+ =?us-ascii?Q?xi2epeqOyFPJ48NY8qqjow2zzuHi5JaoWEU7GRbk6n+6v2QPgzE99kQ9kRBg?=
+ =?us-ascii?Q?UB78B0cRFTlu7Kt4nr7Pa5Fi1sQIrBJ8u6Wic+5alhBAZhMNF24vOpLyj8UK?=
+ =?us-ascii?Q?t4SfcLMAoYTfqSe+5nlZ19CZSZ+Rymq4Ld/nes3xDyhOXlCrUKG30UyJmO1p?=
+ =?us-ascii?Q?PvlfUk8gXCy5lKqJZg9ffBbDbcBbcrHrQbZ64T+15oWpmSXrZEaeGQIH1sm5?=
+ =?us-ascii?Q?f3fBPUaFhzQPugFqByaaZx1yVb2/O0uZPK9PuLxvhtS9FaXFTYJTYsZLvK34?=
+ =?us-ascii?Q?eZ2PC7Bdb1kzay8Xu35ONIqqX0GrjKVmBjYuOhzFXAULToG4SxcGuYRsSuUO?=
+ =?us-ascii?Q?frFF9a1rc/0LDJgs65c4LPkDFvqFKaTQ5EqPc4CK4aDyIDHZ6t043fmDw6xH?=
+ =?us-ascii?Q?y8qoBSDktxKbTHFcJcbUfqHAcyI5qSYVoKDidJUl7HKrfwNiUswr70iSWQTS?=
+ =?us-ascii?Q?JT9yo41OGlbHs/IX/WOP7roiyZf0tw3lsM2d8vI5Eu3BxsVgbkmPbjZaCatj?=
+ =?us-ascii?Q?QSPBFTplS2SwfcT3IzvYFOEvcj8S34k=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	TZ7xDASDTLPCfy+fVcEOaO+HvS3Ji4PeHgKMnVWBcG8MxloDbMmggXn3cFC5drKq+6gtrOccuITFmDCZX3O5u4YSoioD4edWjmiM75gXEq/lrFkxAbSsX5vSKgSvopAhyQVsefOAtJfDEnhPxxLXjp1hVvRiU2atwILhFuqTfWLIYR/3Eldh6DlbReEhFkH/s9pPAKCOSn9bCce6JssVJ4v9Hk6Zd8DSU78YuJwSBgDqt8e1MJNshZHgik/arprlmINZfvt5cc5uqRjUkl8rIdAFYxw+s4vcznzg0aS4UnDTgIrCe5aKjSJpAlTUpo0cro0jwfiCrv7/R3Z3PSmuFaBXshHDmAfLusVv8n4CxnyYk7MODJ3dm6bFOv+3V5rX6G+ffVOnLSUqxtXmFgiX4XEmouXpkwLFfclJXuHzZTkkDxjMaXCPaKbVZxVN/AjMyFr9DD6xXcQJnQVHvv033IUN/GZLlXTUIVgEWmc9jiRxNldsZXyKdkiagmTHXIp6fV3H7L1zIQjPBWc3a89Jbpz3+jSYm8SNAcOpCE/PThaVf4bW86pIh3zVgs87Nh4CPlMLOovHDV8uP8c1SUiW9ab8YzZdTtPaAfBs912+W+g=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed6ce6c2-c791-4dd6-6dba-08de58131813
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 11:00:16.5867
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DnuGxYnWjQEGKDbrUyYvp95bQH+p/vKobXz0A7QpOB7Sou8NiNUEGuJDZ8ENju7oKP9SJWE30YBZJc8vVgXhxCBEMBYob25TwbTNlYoV0oQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4210
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-20_02,2026-01-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2601200091
+X-Proofpoint-GUID: NNLGYXWwSDClJ-cOcRa2WYmZS4_M60Pb
+X-Proofpoint-ORIG-GUID: NNLGYXWwSDClJ-cOcRa2WYmZS4_M60Pb
+X-Authority-Analysis: v=2.4 cv=QdJrf8bv c=1 sm=1 tr=0 ts=696f6045 b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8
+ a=qKGKbIWm5fsQ63df97AA:9 a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22 cc=ntf
+ awl=host:12110
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDA5MSBTYWx0ZWRfX9nyLx/3KsIWW
+ ugHQoWgOqIo3xXfc/OQUDhjOh6ZmsdKdPPcAJxVyElCWkm7WSr95v5gLqQ1/xAQVoMjrxjDAnTY
+ 7nYpG4EgLNb+nf5n+UoDB1ipoJn9qeoNZPcCVY3KeZcTBDlVf48JzIHVGsMcNVis3rMw84/gUy1
+ H8CGeSNS0u1L4lALnI+u3y78Ebi81T2bVd8rj/z7UbuLj5JQL3PCvP2ZOt45nbCQZBWCAeD83Kp
+ dY+PfjAlk7uOX0IDTqFvKOedpDhyfSJxDKA8ik4PITHwk+HRR+ZfIVXPtmRyVslD2CanuoL5gjk
+ nx22zoySIoYBfreWoOoBT1MsknVROsbdKcZQULlH2/Yzr/Nbna5EOAMB31bbPM5a5O5WJvv1UgA
+ oMaABrgeFFYzCZB7tZM7bRw1nd6NkkT2vUQdwUMDPM2IP1y678cLpu5ulLe5cN+200b9JLWZ0xD
+ EOZdJc3ky9hQJ/XoxrY9G/E1epFCuV9lNnvL77ro=
 
-Hi Aneesh,
+On Tue, Jan 20, 2026 at 12:30:12PM +0800, kernel test robot wrote:
+> Hi Lorenzo,
+>
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> head:   e4348a62bb1acacafcdeb149c9363291fae08c0c
+> commit: e3900da1b37f861133669d26ae02415f18fa71b9 [417/421] mm: update all remaining mmap_prepare users to use vma_flags_t
+> config: sparc-randconfig-002-20260120 (https://download.01.org/0day-ci/archive/20260120/202601201215.7iVpmWIM-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601201215.7iVpmWIM-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601201215.7iVpmWIM-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    fs/ext4/file.c: In function 'ext4_file_mmap_prepare':
+> >> fs/ext4/file.c:825:36: error: incompatible type for argument 1 of 'daxdev_mapping_supported'
+>      if (!daxdev_mapping_supported(desc->vma_flags, file_inode(file), dax_dev))
+>                                    ~~~~^~~~~~~~~~~
+>    In file included from fs/ext4/file.c:27:
+>    include/linux/dax.h:114:56: note: expected 'vm_flags_t' {aka 'long unsigned int'} but argument is of type 'vma_flags_t' {aka 'struct <anonymous>'}
+>     static inline bool daxdev_mapping_supported(vm_flags_t vm_flags,
+>                                                 ~~~~~~~~~~~^~~~~~~~
+>
+>
+> vim +/daxdev_mapping_supported +825 fs/ext4/file.c
+>
+>    806
+>    807	static int ext4_file_mmap_prepare(struct vm_area_desc *desc)
+>    808	{
+>    809		int ret;
+>    810		struct file *file = desc->file;
+>    811		struct inode *inode = file->f_mapping->host;
+>    812		struct dax_device *dax_dev = EXT4_SB(inode->i_sb)->s_daxdev;
+>    813
+>    814		if (file->f_mode & FMODE_WRITE)
+>    815			ret = ext4_emergency_state(inode->i_sb);
+>    816		else
+>    817			ret = ext4_forced_shutdown(inode->i_sb) ? -EIO : 0;
+>    818		if (unlikely(ret))
+>    819			return ret;
+>    820
+>    821		/*
+>    822		 * We don't support synchronous mappings for non-DAX files and
+>    823		 * for DAX files if underneath dax_device is not synchronous.
+>    824		 */
+>  > 825		if (!daxdev_mapping_supported(desc->vma_flags, file_inode(file), dax_dev))
+>    826			return -EOPNOTSUPP;
 
-kernel test robot noticed the following build errors:
+Yup I missed one case here as pointed out by Zi, will fix.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc6 next-20260119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aneesh-Kumar-K-V-Arm/dma-direct-Make-phys_to_dma-pick-encrypted-vs-unencrypted-per-device/20260120-145025
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260120064255.179425-1-aneesh.kumar%40kernel.org
-patch subject: [PATCH 1/2] dma-direct: Validate DMA mask against canonical DMA addresses
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20260120/202601201822.0I4WAqVW-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601201822.0I4WAqVW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601201822.0I4WAqVW-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/dma/direct.c: In function 'dma_direct_supported':
->> kernel/dma/direct.c:564:24: error: implicit declaration of function '__phys_to_dma'; did you mean 'phys_to_dma'? [-Wimplicit-function-declaration]
-     564 |         return mask >= __phys_to_dma(dev, min_mask);
-         |                        ^~~~~~~~~~~~~
-         |                        phys_to_dma
-
-
-vim +564 kernel/dma/direct.c
-
-   543	
-   544	int dma_direct_supported(struct device *dev, u64 mask)
-   545	{
-   546		u64 min_mask = (max_pfn - 1) << PAGE_SHIFT;
-   547	
-   548		/*
-   549		 * Because 32-bit DMA masks are so common we expect every architecture
-   550		 * to be able to satisfy them - either by not supporting more physical
-   551		 * memory, or by providing a ZONE_DMA32.  If neither is the case, the
-   552		 * architecture needs to use an IOMMU instead of the direct mapping.
-   553		 */
-   554		if (mask >= DMA_BIT_MASK(32))
-   555			return 1;
-   556	
-   557		/*
-   558		 * This check needs to be against the actual bit mask value, so use
-   559		 * __phys_to_dma() here so that the arch specific encryption mask isn't
-   560		 * part of the check.
-   561		 */
-   562		if (IS_ENABLED(CONFIG_ZONE_DMA))
-   563			min_mask = min_t(u64, min_mask, zone_dma_limit);
- > 564		return mask >= __phys_to_dma(dev, min_mask);
-   565	}
-   566	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    827
+>    828		file_accessed(file);
+>    829		if (IS_DAX(file_inode(file))) {
+>    830			desc->vm_ops = &ext4_dax_vm_ops;
+>    831			vma_desc_set_flags(desc, VMA_HUGEPAGE_BIT);
+>    832		} else {
+>    833			desc->vm_ops = &ext4_file_vm_ops;
+>    834		}
+>    835		return 0;
+>    836	}
+>    837
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
