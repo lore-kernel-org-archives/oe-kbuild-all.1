@@ -1,135 +1,200 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EF6428498
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 12:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D7A3ACA6B;
+	Wed, 21 Jan 2026 12:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768997642; cv=none; b=PJyaTCGoWRW12sso7rfbgxm8ddLl3t/CKidyX9fATgq78qAf+SpB5J/CUrk/wydBiaBVPiDaH4jRcBCq6tcsMZW7pkqlHzZSAE9kptbkb9YU07cHtmIisAtrZZ74WakUczIuzPDb0Dz46fQ9rOX9aB6MBIZonQ0wOp1tHBC7Qck=
+	t=1768998163; cv=none; b=cPrAX57tnHMhc9M79yBbac3lj7MKlO73OwnuCTYsvWii+lWvFf0cGk2Jpmr34Tsg8aabs9nG1t1Tf1PN6nULJNJzJKc7l82b4kbyzg7bX9Fd8caPl6wNPQVo/makGlphgFBws10ObfU6haqnUQAF6ZrYhGo5wWft5IH3uKxMRbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768997642; c=relaxed/simple;
-	bh=5BvH3tNtf3yGwclgsloqehSCFnzEUkv3zWGQ5+wTvn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nJvDYEtyplY+icx6DMrUX9mlaPVQxLcw9qVZs3VszPYHOhkC1ZpSWiwN326a+I+OtJV/zRlrDksB9xlMCZ7rN71LjjT1jfgUCZ9OymkQCYcciMJiYN0Jg5+pS9B2V86x8i5UPjzl8t60iFrXoUbNzeSdp/jNgHzt8J7jUhxkDUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V1oPFF6b; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768998163; c=relaxed/simple;
+	bh=tW81FPKkcatXF7kK/DoJm00cBAYV1HjEPXiuEniIR8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c5rHnOetDm71ujYFkrmiJex0vAPQFVF5bOba1ZEC6exZvfHR50sm131+yXKYJIC2hnQWfuppFVvAz6p3INvvnapUNnzkZczF4v/irA/QwbBwaHWX6IBHuB1cshltS0AspKGWzjX3GmrOY1zcAznVDsPkJUdW9J6/O3wuHZ93lTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/UzJ3Ad; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V1oPFF6b"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59dd263bf42so630726e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 04:13:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768997637; x=1769602437; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2DGCZ8EIP3Ii+3jUlQj/U+neLJaf8YM5JLMcsfoSkko=;
-        b=V1oPFF6bU1vePfwjaLcH+Zc+hgO/3x0e2xDXuLD/x2rFD6T3N8Z1UoHXspTqtR6sCD
-         4CaEZ5e+DWQoNCkJXj1q51Z57YtGrjGM5zhX0rsanAermJdVdjEhi2n/VXFr3HYJV3iX
-         7YIrKtRm9EQxgt1B18Z4eC1VsUl6HbMtt3N4T4IvZi0su4tujoEGzuLtNf6HjUcXpZX4
-         lgTAZZtYow1nzrpk4tP2ElasM5ENYwwb7yT61ewnKUtThHAQG2MIFnsHeEqtFaSuCJdD
-         IKKK+mEevq64xzXO+tc83yypa8WoHVsSzY59mPQGhcabjIdGMdsEoUV3gdDGJv8ou3R1
-         HxtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768997637; x=1769602437;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2DGCZ8EIP3Ii+3jUlQj/U+neLJaf8YM5JLMcsfoSkko=;
-        b=bCZjzwfwck6zErix/vdKjUlYqf1xdArtinOh+re+SY1Z2QotyvdlgIWFj14ubpG15a
-         YyCPGk0GCuxnfzFXM3KmXJEVF1cG71WAcCy/hF7kzOTc2ChgNG5H4adXTNIhSp55lpDW
-         H1CPHcy3ow1i7Z+S3NVYbEuMPra25V6NPPuZo1mRsmojvh9n58gH7wyX6WawXbSMiH+u
-         RoaUQO6Y3NR1lK2GxsoIvGbpGZO3Fr7+mFSeW9K6MRj5pV8gW45WcnrC3hZDQ/cK3yF7
-         BWhTWRfS9ozzgdI+mpFjuyIkGG676URrschlEg3XnWrOOlzhczK28ZjWSZJjtZdpUQFu
-         Cmtw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFtcujds7tiaJ7zJf2NZoi+68alpOdCP//ifNrxuBg8AXllP0vQ5VHXMLvyNvknpwsUWHyGdL23KwkTvtw@lists.linux.dev
-X-Gm-Message-State: AOJu0YynpfgvHt5YddKPRNJPW9cohUEqcVo5qKQQ3qCpsUu/w67+Xc6J
-	Am2P1nk/qNnCsXqjjvGFeyoOxPexzLboEkIMaUs3g/hB6eJzg87D+Xg7DUctag==
-X-Gm-Gg: AZuq6aLXEMHa1PuDOF1l0Y6kFbiFiIDCmYnRbhGH5ygCvVIyIr9qoRlpHpCgQuxcacM
-	3NVAEHBsSfQxft69hjhig1QZ2PzNZcGAkSKfC1dSfJ39i3BQXhTJbJRovmSlfCOE5pyt7u5r39r
-	NUdtumht4Niq+b2GalHQhdsIu71R7TJ76ZUbDDoK5h5Vg15zZAeTMx92wcqA3qj8bJB2dCJEEV1
-	MPDcCQQ3OWIytEujNNjCGPhNL5/qp5phw/HsZPfF/xOLBe/7ma/oMnxOXeyQu0/RHJenz2vmjfY
-	w7hFbyeHlHWGXtBT2KG2CXgeuBADoyOtjFOlnvHRaFXHjSnzg4vGVz9Yl2UtKLCkW+PXTBBuQ95
-	bOA+eU74u2pZyR2FS101HlJdctaH6AI0sS+vBWLO3mnFwsFPjZoH5gC7b8famBsUcBHDoIPMeQ+
-	o/OLLaiN1gG0cIac8lwcciaY5zWLjyTPxIbpdBlxhF/ZDQZ5gUXnAYWBzaobRLWmY=
-X-Received: by 2002:a05:600c:8b55:b0:477:9f34:17b8 with SMTP id 5b1f17b1804b1-4801e2fbd61mr238692885e9.1.1768990819461;
-        Wed, 21 Jan 2026 02:20:19 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e8d77besm306630785e9.14.2026.01.21.02.20.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 02:20:19 -0800 (PST)
-Date: Wed, 21 Jan 2026 10:20:17 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Ryan Roberts <ryan.roberts@arm.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Huacai Chen
- <chenhuacai@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Paul Walmsley <pjw@kernel.org>, Palmer
- Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Mark Rutland
- <mark.rutland@arm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Ard
- Biesheuvel <ardb@kernel.org>, Jeremy Linton <jeremy.linton@arm.com>,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] randomize_kstack: Unify random source across
- arches
-Message-ID: <20260121102017.539b5531@pumpkin>
-In-Reply-To: <202601210752.6Nsv9et9-lkp@intel.com>
-References: <20260119130122.1283821-4-ryan.roberts@arm.com>
-	<202601210752.6Nsv9et9-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/UzJ3Ad"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768998159; x=1800534159;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tW81FPKkcatXF7kK/DoJm00cBAYV1HjEPXiuEniIR8o=;
+  b=U/UzJ3AddEyPE69FYk5KWamBcODdq/1REdlZhHAMdT6nZJV8c1T/73X4
+   F96UBJ5YZTcwoQ35ihsc43Kv1CzmMW/UPmgBn9g0YoCATgO5FLldtayFa
+   4IgqMyh8zAhk1X4gxkMhF1kIfnr19MkpL5o68H4YQz9UroPYstp+bSjgG
+   gPIl7GGc7GCQMeJY/RsBXYiG0FFVHOhIpkjmRxUnwDs1yLEYcdKDh3OYP
+   m3SQGfRsL+ya+yJt9TIVBlnh3MsYQpAHgwz/p2CCI0vMFXUWEP8Ir65Wu
+   J7FM1Sevb/Yi4cKZ0sLIQixqY3CmwRF0dQMopjPw0+w6R7d2TaSRalgff
+   A==;
+X-CSE-ConnectionGUID: MivMoa8sTd2R1wLFul9a1Q==
+X-CSE-MsgGUID: xAh/yQ4ZRwaRF1+UoVMJXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="69948481"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="69948481"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 04:22:39 -0800
+X-CSE-ConnectionGUID: mOOiMACLSrWDcU0vqO1eVg==
+X-CSE-MsgGUID: lPZ2qKhfQI6NJ3r1xjRF0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="244005788"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 21 Jan 2026 04:22:36 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viXEH-00000000RE9-0P0x;
+	Wed, 21 Jan 2026 12:22:33 +0000
+Date: Wed, 21 Jan 2026 20:21:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pragnesh Patel <pragneshp@marvell.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gcherian@marvell.com, Suneel Garapati <sgarapati@marvell.com>,
+	Pragnesh Patel <pragneshp@marvell.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] PCI: octeon: Add link down handler support for PCIe MAC
+ controller
+Message-ID: <202601211935.bHNggPkG-lkp@intel.com>
+References: <20260121051439.1882086-1-pragneshp@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121051439.1882086-1-pragneshp@marvell.com>
 
-On Wed, 21 Jan 2026 07:50:16 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Pragnesh,
 
-> Hi Ryan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> [also build test WARNING on linus/master v6.19-rc6 next-20260119]
-> [cannot apply to tip/sched/core kees/for-next/hardening kees/for-next/execve]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/randomize_kstack-Maintain-kstack_offset-per-task/20260119-210329
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20260119130122.1283821-4-ryan.roberts%40arm.com
-> patch subject: [PATCH v4 3/3] randomize_kstack: Unify random source across arches
-> config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260121/202601210752.6Nsv9et9-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210752.6Nsv9et9-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601210752.6Nsv9et9-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> vmlinux.o: warning: objtool: do_syscall_64+0x2c: call to preempt_count_add() leaves .noinstr.text section
-> >> vmlinux.o: warning: objtool: __do_fast_syscall_32+0x3d: call to preempt_count_add() leaves .noinstr.text section  
-> 
+kernel test robot noticed the following build errors:
 
-When CONFIG_DEBUG_PREEMPT or CONFIG_TRACE_PREEMP_TOGGLE is set
-the preempt_count_[en|dis]able() calls inside [put|get]_cpu_var()
-become real functions.
+[auto build test ERROR on pci/for-linus]
+[also build test ERROR on linus/master v6.19-rc6 next-20260120]
+[cannot apply to pci/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Maybe __preempt_count_[inc|dec]() can be called (with this_cpu_ptr()).
+url:    https://github.com/intel-lab-lkp/linux/commits/Pragnesh-Patel/PCI-octeon-Add-link-down-handler-support-for-PCIe-MAC-controller/20260121-131806
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+patch link:    https://lore.kernel.org/r/20260121051439.1882086-1-pragneshp%40marvell.com
+patch subject: [PATCH] PCI: octeon: Add link down handler support for PCIe MAC controller
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260121/202601211935.bHNggPkG-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601211935.bHNggPkG-lkp@intel.com/reproduce)
 
-	David
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601211935.bHNggPkG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/pci/controller/pci-octeon-pem.c:130:12: error: no member named 'domain_nr' in 'struct pci_bus'
+     130 |                 if (bus->domain_nr == rc_domain)
+         |                     ~~~  ^
+   1 error generated.
+
+
+vim +130 drivers/pci/controller/pci-octeon-pem.c
+
+    53	
+    54	static void pem_recover_rc_link(struct work_struct *ws)
+    55	{
+    56		struct pem_ctlr *pem = container_of(ws, struct pem_ctlr,
+    57						    recover_rc_work);
+    58		struct pci_dev *pem_dev = pem->pdev;
+    59		struct pci_dev *root_port;
+    60		struct pci_bus *bus;
+    61		struct pcie_device *pcie;
+    62		struct controller *ctrl;
+    63		int rc_domain, timeout = 100;
+    64		u64 pem_reg;
+    65	
+    66		rc_domain = pem->index + DOMAIN_OFFSET;
+    67	
+    68		root_port = pci_get_domain_bus_and_slot(rc_domain, 0, 0);
+    69		if (!root_port) {
+    70			dev_err(&pem_dev->dev, "failed to get root port\n");
+    71			return;
+    72		}
+    73	
+    74		dev_dbg(&pem_dev->dev, "PEM%d rcvr work\n", pem->index);
+    75	
+    76		/* Check if HP interrupt thread is in progress
+    77		 * and wait for it to complete
+    78		 */
+    79		pcie = to_pciehp_dev(root_port);
+    80		if (!pcie)
+    81			return;
+    82		ctrl = get_service_data(pcie);
+    83		wait_event(ctrl->requester,
+    84			   !atomic_read(&ctrl->pending_events) &&
+    85			   !ctrl->ist_running);
+    86		dev_dbg(&pem_dev->dev, "PEM%d HP ist done\n", pem->index);
+    87	
+    88		/* Disable hot-plug interrupt
+    89		 * Removal and rescan below would setup again.
+    90		 */
+    91		pcie_disable_interrupt(ctrl);
+    92		dev_dbg(&pem_dev->dev, "PEM%d Disable interrupt\n", pem->index);
+    93	
+    94		pci_lock_rescan_remove();
+    95	
+    96		pci_walk_bus(root_port->subordinate, pci_dev_set_disconnected, NULL);
+    97	
+    98		/* Clean-up device and RC bridge */
+    99		pci_stop_and_remove_bus_device(root_port);
+   100	
+   101		pci_unlock_rescan_remove();
+   102	
+   103		usleep_range(100, 200);
+   104	
+   105		writeq(0x0, pem->base + RST_SOFT_PERST_OFFSET);
+   106	
+   107		while (timeout--) {
+   108			/* Check for PEM_OOR to be set */
+   109			pem_reg = readq(pem->base + ON_OFFSET);
+   110			if (pem_reg & BIT(1))
+   111				break;
+   112			usleep_range(1000, 2000);
+   113		}
+   114		if (!timeout) {
+   115			dev_warn(&pem_dev->dev,
+   116				 "PEM failed to get out of reset\n");
+   117			return;
+   118		}
+   119	
+   120		pci_lock_rescan_remove();
+   121	
+   122		/*
+   123		 * Hardware resets and initializes config space of RC bridge
+   124		 * on every link down event with auto-mode in use.
+   125		 * Re-scan will setup RC bridge cleanly in kernel
+   126		 * after removal and to be ready for next link-up event.
+   127		 */
+   128		bus = NULL;
+   129		while ((bus = pci_find_next_bus(bus)) != NULL)
+ > 130			if (bus->domain_nr == rc_domain)
+   131				pci_rescan_bus(bus);
+   132		pci_unlock_rescan_remove();
+   133		pci_dev_put(root_port);
+   134	
+   135		/* Ack interrupt */
+   136		writeq(RST_INT_LINKDOWN, pem->base + RST_INT_OFFSET);
+   137		/* Enable RST_INT[LINKDOWN] interrupt */
+   138		writeq(RST_INT_LINKDOWN, pem->base + RST_INT_ENA_W1S_OFFSET);
+   139	}
+   140	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
