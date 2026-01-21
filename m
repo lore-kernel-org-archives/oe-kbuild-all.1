@@ -1,86 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB98D3806AB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 20:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6256834D4C9;
+	Wed, 21 Jan 2026 20:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769026151; cv=none; b=OXVCQYjpclVa+Boji7btMDsaXuuNfOjyJm/xzWFHS0EHC9YF9l0DXzscFQLOPmoGdbBkd3BA9erVWZ3vykGnY1GE7YgqzT1l84kzhpIgM3ud3kryy2nxDY2EZ0MwxrKf6FuylklZXGg/BD48HBinPYleKdTBP0+vjrxSQo5MxlE=
+	t=1769027964; cv=none; b=KES65ipoVl8PtoBtPVmn5NY/L1FTxFzSIeWu+qL8tf1qb/I1TEMHF002YRlj9CUNs+s+B8rSstSXVnFrKucBc0rUOrFbCoOUM8jF/eTmwqRjNpx26FUh6Yx6+PgROaLPb37dOB6NPPaMKRU1Oih6ik0aaCNGVpXZZRTsbxh19mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769026151; c=relaxed/simple;
-	bh=8SJNJV9ibReMM+sNm8aw7yEqddDQ0XShs9kO6fySuv0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sMCOxsag9b8umsWZsxOV0nfL9AwARVQeFeNTfltOTKCSdnMtysgGDWrPSH7RnsdYYfF8KeQm74RhtPXZN6Y1ElIa0eHgGqbU1Sp4ixfwoh/eDAyW0iG+RfwH4uplVYMsAqFnq5j1PC+Ut5hZCFotYC8naf9EByc8UaOgQV16pKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PS772rz/; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769027964; c=relaxed/simple;
+	bh=xOpMNsFQylVOsBcRH+cu2isRcoydT0zQtcqEonA+bic=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=gqIWomoGn9IfdMU3sYa6lC6iaLBx4qtvgAToIFG2tPYl+0L0BIEbfVoPMJYnkrSjLW+GdW3vTudptt31RwRGROUZSiUHUR+qVk53O2DCFptWbg6esvrxohmswZyK2DOJR/4TjQoOSfdfn93HTnHRVZAge9XL5Go3fbdx7M119cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=1+fDaFjV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PS772rz/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769026150; x=1800562150;
-  h=date:from:to:cc:subject:message-id;
-  bh=8SJNJV9ibReMM+sNm8aw7yEqddDQ0XShs9kO6fySuv0=;
-  b=PS772rz/9VdimdmZZs93xfXB5LgCCez81JlOmJLey5vwDXbv37KYg1eY
-   PybCPZMTZb+OHBrdJU+4gKsFRXEX9c7ctwFvswMYxQKO/Ad2J1pQJ49MP
-   PhabfZ/AffLaKtUfWUJwenlYp5p1Zd4X+0yW4S2qUDAaKHo9b5r2HybM5
-   cs9xYOFT0BnGnh7CL0VboYIJ8m26pEgptptMh2pLp152A7Rs3eRTixbdc
-   VJmmwMA2zwC69bNx8u+CnVZQnq/Suf3fasXSk02/X6shuSIVejisgrZSR
-   DtF9RSW2px8jBTGR2WpM10t1gUuXlElWKMmPGFkb5mW6TJ9EggbQu057u
-   w==;
-X-CSE-ConnectionGUID: V5ib9BsfRkuhzSLvxmT+Hg==
-X-CSE-MsgGUID: wQ60qo3pS5SRFHUiTizQKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80981805"
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="80981805"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 12:09:09 -0800
-X-CSE-ConnectionGUID: NiKFvGYCQqa6yBIpLgtTWw==
-X-CSE-MsgGUID: 3kz7PFz4TEySCm9hteuFkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="205793202"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 21 Jan 2026 12:09:07 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vieVl-00000000RsX-0ZZ8;
-	Wed, 21 Jan 2026 20:09:05 +0000
-Date: Thu, 22 Jan 2026 04:08:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:iomap-fuse-prep 19/34] hppa-linux-ld:
- fs/xfs/xfs_trace.o(.text+0x3ffac): cannot reach
- 0000ba9e_trace_raw_output_prep+0, recompile with -ffunction-sections
-Message-ID: <202601220345.3R9TSP8V-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="1+fDaFjV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C86DC16AAE;
+	Wed, 21 Jan 2026 20:39:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1769027963;
+	bh=xOpMNsFQylVOsBcRH+cu2isRcoydT0zQtcqEonA+bic=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=1+fDaFjVmCDf8Us6F7ZtT9ywVlq3AXV0+LbTQeRi1xe8kg0UeUHPjCFJuYtEOVSQe
+	 HZqjoQ+1tfkNQwheSesWJs99D4SGDDkJX+hI27trVBTT31w8FQEzYEkhmx4LyWguZB
+	 KnCoOgxZFHLRXhe+FezYcfI3a9HBm29nZR8KHX7s=
+Date: Wed, 21 Jan 2026 12:39:22 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>, Jason Gunthorpe
+ <jgg@nvidia.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Subject: Re: kernel/liveupdate/kexec_handover.c:994 kho_preserve_vmalloc()
+ warn: missing error code 'err'
+Message-Id: <20260121123922.c0bb0ef8505c70b99998c324@linux-foundation.org>
+In-Reply-To: <202601211636.IRaejjdw-lkp@intel.com>
+References: <202601211636.IRaejjdw-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git iomap-fuse-prep
-head:   517a3a901c85c7f5ede7f82520ddb11cb66c2ef8
-commit: 9ac2411669f1d80d2e3d4f2d5de46f53ea831aa2 [19/34] xfs: add media verification ioctl
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260122/202601220345.3R9TSP8V-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220345.3R9TSP8V-lkp@intel.com/reproduce)
+On Wed, 21 Jan 2026 11:58:20 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601220345.3R9TSP8V-lkp@intel.com/
+> Hi Pasha,
+> 
+> First bad commit (maybe != root cause):
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   6c790212c588fddeb0d852f2790840753bb604b1
+> commit: 48a1b2321d763b5edeaf20bd4576d8c4b5df772b liveupdate: kho: move to kernel/liveupdate
+> config: x86_64-randconfig-r071-20260121 (https://download.01.org/0day-ci/archive/20260121/202601211636.IRaejjdw-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> smatch version: v0.5.0-8985-g2614ff1a
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202601211636.IRaejjdw-lkp@intel.com/
+> 
+> smatch warnings:
+> kernel/liveupdate/kexec_handover.c:994 kho_preserve_vmalloc() warn: missing error code 'err'
 
-Note: the djwong-xfs/iomap-fuse-prep HEAD 517a3a901c85c7f5ede7f82520ddb11cb66c2ef8 builds fine.
-      It only hurts bisectability.
+Indeed, thanks.
 
-All errors (new ones prefixed by >>):
 
->> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x3ffac): cannot reach 0000ba9e_trace_raw_output_prep+0, recompile with -ffunction-sections
->> hppa-linux-ld: fs/xfs/xfs_trace.o(.text+0x3ffac): cannot handle R_PARISC_PCREL17F for trace_raw_output_prep
-   hppa-linux-ld: final link failed: bad value
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: kho: kho_preserve_vmalloc(): don't return 0 when ENOMEM
+Date: Wed Jan 21 12:36:17 PM PST 2026
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+kho_preserve_vmalloc() should return -ENOMEM when new_vmalloc_chunk()
+fails.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202601211636.IRaejjdw-lkp@intel.com/
+Cc: Alexander Graf <graf@amazon.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ kernel/liveupdate/kexec_handover.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+--- a/kernel/liveupdate/kexec_handover.c~a
++++ a/kernel/liveupdate/kexec_handover.c
+@@ -1011,8 +1011,10 @@ int kho_preserve_vmalloc(void *ptr, stru
+ 		chunk->phys[idx++] = phys;
+ 		if (idx == ARRAY_SIZE(chunk->phys)) {
+ 			chunk = new_vmalloc_chunk(chunk);
+-			if (!chunk)
++			if (!chunk) {
++				err = -ENOMEM;
+ 				goto err_free;
++			}
+ 			idx = 0;
+ 		}
+ 	}
+_
+
