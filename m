@@ -1,87 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CD53E8C71
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 22:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5558A33EAF5;
+	Wed, 21 Jan 2026 23:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769036022; cv=none; b=uBHlXMAOUa9hN7pfZjF8+BrfpbpR0qmriRydVHp1+2nNBeqMSR0B7qyzr1SlpmH+z3MdcUnTG9Po60usaAlHEcaW4RVBv6Y0BYDO7VOknw/gx6FhZcvs5/bYIrfSDhJYM43UnZDjy2f9DtxbharykhLJCnTqchZHIQ35TtUmH5E=
+	t=1769036654; cv=none; b=hX+yaDq/ZWHeHADVHda8IJqTC+KFW9DsohFLBJ+IW9zVteBIcHM/DFTXRXk88PuwzH7XkJDPwyDQB9w7iIPKkicxdeoNs2r5xRXckHJTcnOxCWM44LdqdkHyeeCCm42BjQcUVWbRFBBAm6mOvnwo2VQ+0xKzfo55Q5AsPCcd0L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769036022; c=relaxed/simple;
-	bh=4RAzTNnNgT5BXxYLVJxXZPKB0L52gncvEBcR+buYx18=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ilXCafMXoLrqD9Eyp3pJMlBaD2d+MFAJtaA2VqwWdbgDzCKKB7KyNjtTAyj5d4MtJzPwkK43DAlUkp4Zf79hdHVstVlBEAWGWF2BOhpTqrR9dcs0nf+EvDed+DZtKz4BdbBgRklqSGvaUs2MK3kxf81XSJDdjJwmioZgR8SrTyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJhFw1vm; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769036654; c=relaxed/simple;
+	bh=bicMi5K8e0B0bp9gSrJTYl5RYIvmgDkMATFB4TZCQLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hVfSIUbW2Jg+8oUsCc8w1Fbk29eUti4Lul9R+xia+O9E/6EkUK1uUswlnvHWs4cFt6GRGgNF6YvjA9BgeUjrQWRMmojr5LYiweDhCKszw+vnpHvaMCH0b66Eb07R6GlFy20zi2QgFzxmgRS9d5XsaSsimW09/bLbrapjcPRl0c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FHfQJHdd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJhFw1vm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769036017; x=1800572017;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4RAzTNnNgT5BXxYLVJxXZPKB0L52gncvEBcR+buYx18=;
-  b=aJhFw1vmAPUYNcyzpQKvkX7N6bt4kY91ZDKpJRpH48sbnx5FssRm3Gr9
-   vxbISJsMx540uivm3Hgd25XwJbURQGyeilbc+AUYuXJSA/BRKV3RURayM
-   6KqDn0w5PxxK9WAV400NXpit+ci4pGgUvngSIp4CyTbF8G5SqlP89NsJS
-   N8IcphgCDH2+UD7HsGtrx5QsJu8CRWfNisnXhkHBjstd4JjngoxHlgRhg
-   sIxITuZ8LQlIGCrtHQ4BOo5O+sVdxBylxwtrtAEJNIiFqSMwlxvPWfGFw
-   N6ygygQRv0I6Suv+b3mXKhrMaAsuuuu1SVEyFO6YCTS+yfEk4wnomw9zO
-   g==;
-X-CSE-ConnectionGUID: CHlve9+pSaONuAKEID0/uw==
-X-CSE-MsgGUID: AkEiMSXhT8i10XQE06zPPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70187352"
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="70187352"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 14:53:32 -0800
-X-CSE-ConnectionGUID: d5F3pEi1SpOQjUjiY6LiNA==
-X-CSE-MsgGUID: Pde3EDDPQqiz75bPH4SQ6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="207001815"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Jan 2026 14:53:30 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vih4q-000000000OB-0TTf;
-	Wed, 21 Jan 2026 22:53:28 +0000
-Date: Wed, 21 Jan 2026 23:53:21 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 1/28] kismet:
- WARNING: unmet direct dependencies detected for DEBUG_MUTEXES when selected
- by DEBUG_TIMERS
-Message-ID: <202601212353.pXDLyTi6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FHfQJHdd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A4FEC4CEF1;
+	Wed, 21 Jan 2026 23:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769036653;
+	bh=bicMi5K8e0B0bp9gSrJTYl5RYIvmgDkMATFB4TZCQLA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FHfQJHddac0k4J6Tc/1P7oFnqeTw3s9eyMEiKLF6XhkkXbmW3Am0ReKC9DLA6UVwb
+	 z/QZjN54GV79pn6NpBuVcSJRqUq6whka+8q9xpqyJeerFnATA6lA5PcrLhEZegM178
+	 53+7d2yvbafoYE7uwLRwI/hKY+NH7aRYe5OvPHyO5d476sXqwdnBagVGa3v1ztCm4y
+	 HAN5SBcNDpFac+VWxA7Rmkk04B8dqLxs2pzZWIfvRB1Y+y6dnwshyyFkPoPC899qkC
+	 iDUSaK4MHkOhqsMacAdTfcNURN6kJiKS//ev5JXi4zNkFkLF8BCUNTr6bQAoxBZtiv
+	 yWBzc8CgzpeAw==
+Date: Wed, 21 Jan 2026 16:04:06 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@google.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Pavan Bobba <opensource206@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	James Cowgill <james.cowgill@blaize.com>,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Diederik de Haas <didi.debian@cknow.org>
+Subject: Re: [PATCH v9 15/17] media: rkvdec: Add H264 support for the VDPU383
+ variant
+Message-ID: <20260121230406.GA2625738@ax162>
+References: <20260120222018.404741-16-detlev.casanova@collabora.com>
+ <202601211924.rqKS2Ihm-lkp@intel.com>
+ <69fda4f0136285e4d2f86e7e93d5bdd812c1d47a.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <69fda4f0136285e4d2f86e7e93d5bdd812c1d47a.camel@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   90614b63ef6a2f10b6e486e486ca8d5bfd2b7a81
-commit: 3d3535e426c8e15bef8f2b193de5a970bbc84a20 [1/28] debugging
-config: arm64-kismet-CONFIG_DEBUG_MUTEXES-CONFIG_DEBUG_TIMERS-0-0 (https://download.01.org/0day-ci/archive/20260121/202601212353.pXDLyTi6-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260121/202601212353.pXDLyTi6-lkp@intel.com/reproduce)
+On Wed, Jan 21, 2026 at 09:46:48AM -0500, Nicolas Dufresne wrote:
+> Le mercredi 21 janvier 2026 à 22:27 +0800, kernel test robot a écrit :
+> > Hi Detlev,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on rockchip/for-next]
+> > [also build test WARNING on linuxtv-media-pending/master media-tree/master linus/master v6.19-rc6 next-20260120]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-uapi-HEVC-Add-v4l2_ctrl_hevc_ext_sps_-ls-t_rps-controls/20260121-071026
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+> > patch link:    https://lore.kernel.org/r/20260120222018.404741-16-detlev.casanova%40collabora.com
+> > patch subject: [PATCH v9 15/17] media: rkvdec: Add H264 support for the VDPU383 variant
+> > config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260121/202601211924.rqKS2Ihm-lkp@intel.com/config)
+> > compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> 
+> Modification has been done to reduce the stack utilization on clang, though we
+> believe we are hitting limitations/bugs on older clang. We went ahead with these
+> patch by updating our CI to clang 21, which allocate a lot less stack with KASAN
+> enabled and this code. Our general advise is to use a newer clang, or GCC for
+> testing with KASAN.
+> 
+> The stack utilization is caused by the combination of loop unrolling, agressive
+> inlining, and write operations to bitfield (which requires the compiler to
+> generate more code for memory checks, since the writes are not aligned).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601212353.pXDLyTi6-lkp@intel.com/
+Yes, this is an area that has known pain points, even in current
+versions (but it is certainly better in most cases):
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DEBUG_MUTEXES when selected by DEBUG_TIMERS
-   WARNING: unmet direct dependencies detected for DEBUG_MUTEXES
-     Depends on [n]: DEBUG_KERNEL [=y] && !PREEMPT_RT [=y]
-     Selected by [y]:
-     - DEBUG_TIMERS [=y]
+https://github.com/llvm/llvm-project/issues/143908
+https://github.com/llvm/llvm-project/issues/115862
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you for working around this.
+
+Cheers,
+Nathan
