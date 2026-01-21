@@ -1,50 +1,62 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1634C77D7;
-	Wed, 21 Jan 2026 15:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1A53ED13B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 15:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769008747; cv=none; b=D1fYYb/RgRfYRQiSEmoAikJnbwk8X8PUpGfnTzogBp49yUbdtD1CtBhW2hcllbBZY6momB9T2FunokPsOwZY5u73fACW+/JQhn0eO6zLNeaiFMUJA8R17h3+ld6LIsflH4BqUcjYW98RGShziYTYnnccFk3UBRjeBkiaBON+CHE=
+	t=1769008968; cv=none; b=BXi+geFSQ7kGkpGs5O+ZnZ6wdpstKEh3QwwUFDttxRvZ0hqmmhEHQDUTu4/jPHTg4iTjF0dYBzjW9eKKU4Dn2MnesSFNkjiINVokmPcrB79qaqQyRxMSRqMbKjcIoxClts228vPEvjp9eQEi9qCuMbQD7oe3V2jltDghbhHioKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769008747; c=relaxed/simple;
-	bh=Q8OIlFojfFeRC7/t6+aslxY9unT1FVnXdwdcx9u9f5Y=;
+	s=arc-20240116; t=1769008968; c=relaxed/simple;
+	bh=+m3wJD/632zFUoo0MClqfuzJLlQ31KltH6EMrtCC5EE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iQNiM1QPgDCN2zNy/KSY1l8gPFAqLMdjvEzYx5jcqcvdmuRZW2jovnNbXZOOou9eAuncJmESz2Ignijy6NNpT3fJg3vBCOds7snNMZx02WjkYgtR8ROVYtPwHpTp94ZJXNx/VW8Htoo7hdDyUZrOdp4gN94DOWkHGcuipR48WvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Q0BmxUh8; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ugtEUFp0QqnOxlFo/oh/sSmRL2fWEX/AwNkmzpFXyrQEo+y2bNTzhGxpSdna0cGROmda1iKmN+iKdW7aKGN6ic+UYcm5lYzB8tg0gTTvPWpQYShcPvbuZQ2Y/PCrOEWFiGbOGlzRRjCuQy2YT/11QV04C/xru4J6xmLPKlZoZ1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+SSvW6y; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Q0BmxUh8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=U8iG7uCC98OcehrzMmcFuGQMuH8ZHnkKGw4MU6ErNmo=; b=Q0BmxUh8ddW+4Ng5xpTHrPzbu4
-	yhGKxCa1XSO+OHYGHt8FkFoGjcM4IST1lYgAehVvpEdfYQH+zn/GgwVIXrOTUq8/X6n+PpDiELb5X
-	uI6xaogjCUmN+M16ibPJVV72dk+75iXiOmyyhp5LQkQiD4nz90xpr9ytT4d1phs8PzyC6BrZORyKG
-	JJMklkHaEbsfAQ3q1VQLBIXNY721NzqSb246UQl0abk0oeEk8r+Zn5yrpNJ5VFu7i4FAo0vGCi3pN
-	FthuZlZz6DSGHH9qQM0GceBcysC3/XShz+LMqT1GwUqIeh2kmVOUSnzlnxNrmgK7bB+BaxZKVdYj6
-	/ykzHu5Q==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viZz0-0000000GWWm-2cfj;
-	Wed, 21 Jan 2026 15:18:58 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 80FDD300329; Wed, 21 Jan 2026 16:18:57 +0100 (CET)
-Date: Wed, 21 Jan 2026 16:18:57 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Marco Elver <elver@google.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [tip:locking/core 24/43] mm/huge_memory.c:4055:8: warning:
- spinlock 'xas.xa->xa_lock' is not held on every path through here
-Message-ID: <20260121151857.GF166857@noisy.programming.kicks-ass.net>
-References: <202601212251.RuHvsKd5-lkp@intel.com>
- <20260121143100.GC166857@noisy.programming.kicks-ass.net>
- <aXDuAoDeFOhHvHAP@rli9-mobl>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+SSvW6y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769008965; x=1800544965;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+m3wJD/632zFUoo0MClqfuzJLlQ31KltH6EMrtCC5EE=;
+  b=l+SSvW6yX7cdzXBnnzT59xbfZ0iVGpDhBeu8oMIixkUIMx4BtCkz6uNT
+   8wpJya7RPefmFvv1u6BpFTajgBl4owDhz7DdPpeHzKcB/v9TrJdwOn44R
+   LvvRx5blfnuUR3uytlnbjnkRBcU+CrSrba3KsZsV5yr5SsVMReft4zT5d
+   n/nOQ/C0YC8+9C/Sl2NTLPppza2k4KF9fPrnK4rddoR5Xp2rSabvF1ZxE
+   7LoFim7nnR7uOF74E4sWMsVw+tBEk5j1JDeBO0MfIsMv29pWB+kdZCSk5
+   d8jQtJ3kcArEJY2zmrdyKYsgeW0QATzxNOH3t+uquCtWAN4g33bqmjhC9
+   g==;
+X-CSE-ConnectionGUID: 9EhNtTdjSDmZKSnGDghBew==
+X-CSE-MsgGUID: +mthq/ZhTKedCdcpVeHpZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80957215"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="80957215"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 07:22:45 -0800
+X-CSE-ConnectionGUID: y1xVM4ATTvmsGSiLVxYH0w==
+X-CSE-MsgGUID: /MuELCEmT7imYbyiFg3BXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="210976893"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 21 Jan 2026 07:22:42 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1via2a-00000000RLB-0J0h;
+	Wed, 21 Jan 2026 15:22:40 +0000
+Date: Wed, 21 Jan 2026 23:22:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
+Cc: oe-kbuild-all@lists.linux.dev, jefflexu@linux.alibaba.com,
+	luochunsheng@ustc.edu, djwong@kernel.org, horst@birthelmer.de,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] fuse: simplify logic in fuse_notify_store() and
+ fuse_retrieve()
+Message-ID: <202601212244.rmkLqQQc-lkp@intel.com>
+References: <20260120224449.1847176-3-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,23 +65,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aXDuAoDeFOhHvHAP@rli9-mobl>
+In-Reply-To: <20260120224449.1847176-3-joannelkoong@gmail.com>
 
-On Wed, Jan 21, 2026 at 11:17:22PM +0800, Philip Li wrote:
-> On Wed, Jan 21, 2026 at 03:31:00PM +0100, Peter Zijlstra wrote:
-> > On Wed, Jan 21, 2026 at 10:27:16PM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
-> > > head:   ccf9e070116a81d29aae30db501d562c8efd1ed8
-> > > commit: 6e530e2e31191d88f692e6c8d3bd245e43416e4f [24/43] debugfs: Make debugfs_cancellation a context lock struct
-> > > config: s390-randconfig-002-20260121 (https://download.01.org/0day-ci/archive/20260121/202601212251.RuHvsKd5-lkp@intel.com/config)
-> > 
-> > Again, that is:
-> > 
-> >  CONFIG_WARN_CONTEXT_ANALYSIS_ALL=y
-> > 
-> > Robot folks, could you filter out those configs from the randconfig set?
-> > At this time, it has no value reporting these.
-> 
-> Sorry for the meaningless report, i will update the bot to disable this config.
+Hi Joanne,
 
-No problem. Thanks for removing it!
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on mszeredi-fuse/for-next]
+[also build test ERROR on linus/master v6.19-rc6]
+[cannot apply to next-20260120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-validate-outarg-offset-and-size-in-notify-store-retrieve/20260121-074942
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/20260120224449.1847176-3-joannelkoong%40gmail.com
+patch subject: [PATCH v2 2/4] fuse: simplify logic in fuse_notify_store() and fuse_retrieve()
+config: powerpc-randconfig-r073-20260121 (https://download.01.org/0day-ci/archive/20260121/202601212244.rmkLqQQc-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601212244.rmkLqQQc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601212244.rmkLqQQc-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   In function 'fuse_notify_store',
+       inlined from 'fuse_notify' at fs/fuse/dev.c:2107:10:
+>> include/linux/compiler_types.h:631:38: error: call to '__compiletime_assert_495' declared with attribute error: min(outarg.size, ((loff_t)(~0UL) << 12) - pos) signedness error
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                                         ^
+   include/linux/compiler_types.h:612:4: note: in definition of macro '__compiletime_assert'
+       prefix ## suffix();    \
+       ^~~~~~
+   include/linux/compiler_types.h:631:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+     ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
+     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+    #define min(x, y) __careful_cmp(min, x, y)
+                      ^~~~~~~~~~~~~
+   fs/fuse/dev.c:1788:8: note: in expansion of macro 'min'
+     num = min(outarg.size, MAX_LFS_FILESIZE - pos);
+           ^~~
+
+
+vim +/__compiletime_assert_495 +631 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  621  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  629   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  630  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @631  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  632  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
