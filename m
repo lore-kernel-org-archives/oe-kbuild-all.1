@@ -1,130 +1,554 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B6526B756
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 02:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8040340274;
+	Wed, 21 Jan 2026 03:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768963884; cv=none; b=fSUoXyFqCoI6kph7zLzqZkMhrqyWRPV+N6I48K55Jfg3ANE23M5E6we7B98qwj0Nmlg+O+y/IXaY6J7TSS869V4wxZIdhT1RccsPLCGbKXnqwu8RbnfXAUp+q5t5ro7m3uOamUiFdodABw813V2tHT6i+KqHECMOF2SD7SwCawY=
+	t=1768965809; cv=none; b=c5wyORcX+/2PwDH31JlQl6VOZgVbGe3jcgynFRM4D5ji6/0ed5Cz3zqOkwA8YRuazoh8vzOHw7/XA5fg0Ir/xH9kl4uokdHA0ClAuzphvl63+5obLa+7Zjg/TI0NDPqWs9a9PpP1YAxMNEYn+p1B1qjSvhRP+z9re6L+hrvM3r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768963884; c=relaxed/simple;
-	bh=L+2X9koJcm5j1wMX7NF0a4zA22N2x3BbiTtZJsQTATI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=m9524HJDlg9Bz1UFA+QUfRIku78NGfp/CPnOI7MYRJ5kswZnYP4vIvC9YvWwmVyKTtH2cMZSQr4MvWgqCAnnTfC6eP5WE83Yz5N8QBvOHlbXzcjwtu3xLgMnqcMdLf3RC/z8b28qEUum7g/WEaWvhmStJzYln9nt6EfCPAT53a4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDnkaQgd; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1768965809; c=relaxed/simple;
+	bh=QMiYmjv5N7rpU5x0Xdn4caqS9huZ/8nldNkkaBlohWg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YYU5BOrjl0/rhaQhvbZF3SH+IPxBlcwLI+cXkjz5o8DkzjSnaNVCtdID8EgGKQw2lEzTPKiJkTjDx38argnQXMMXff3FYH439NHeo7dwwsyE8s0cQjxM71CQNH2SoGX6vrpJn7VW2hxFFtwbOpeVAqi9XFoEt+UkkalVE1YhaqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FyoZXtO5; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDnkaQgd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FyoZXtO5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768963882; x=1800499882;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L+2X9koJcm5j1wMX7NF0a4zA22N2x3BbiTtZJsQTATI=;
-  b=lDnkaQgd+djWmP9qQtmXD4Gy3Bu8UQ0EZHd3x35RUlfmq7OFT75L6vbN
-   gHki6Muo4ajSb+C8wcDXduAkAUokpzM5DJvwqAoUwv+hpunF8G5b1Yjii
-   UG9QskqX+22ZvDvMlaR7e6txKzzwb311+db4C45On6yvLlQbOPEAqN6hj
-   Dwm1GPF3HAjck1GhZDYqa5WAmHniHisL5bes+924ruUrn4aznPTd5USF6
-   QPFuPXdLxi1WgeFlddL0kzVwScbt18dwJhUQr33s37R9G1tCYM4nKfbho
-   +puCBo26Rv8HrUcp/xKsnJcCdhC2vCIEpIDGyehH8MmGBnS1hizviMASc
-   Q==;
-X-CSE-ConnectionGUID: UmklwvGGSNWU91vmDw+g1Q==
-X-CSE-MsgGUID: 96DsS9dvQeqyLG3VL1AFBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="72777404"
+  t=1768965806; x=1800501806;
+  h=date:from:to:cc:subject:message-id;
+  bh=QMiYmjv5N7rpU5x0Xdn4caqS9huZ/8nldNkkaBlohWg=;
+  b=FyoZXtO506QwvQyMkB9bT+UdGEpi0Nm/Oia6p8DOQ7KFqv9mrIbGXG3i
+   vi+rxbqd+KAxIs2rQdR4eQoQshrw4F1FAWh+H/t+AlSYSnLjr3ryAZNEu
+   zmJJ9UOsx5tnc9BgD4w85qMHNmQo9i582diQrPxkaLOOx/g0KoeubTofF
+   LPKvZrDzx9lB+eAWo8gm+tgqC3XEMmhISlc7D5G2uFOQXsK3BGeWCejbR
+   TgfjzqIamIvYkrFxNkJ203cchsIjTBpHIj40Bhj6angYLtns/VNT39duD
+   fFMTZvtGtUaWQKCVSFzgmeQfKJMxuD5tlR9PsA9MAcpoujYKCqaDVDHIb
+   w==;
+X-CSE-ConnectionGUID: azcEcSYLT1+ZyEh2NGeZOw==
+X-CSE-MsgGUID: vHcUoHDlR9K/3SdrSPJ/5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="69204233"
 X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="72777404"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 18:51:21 -0800
-X-CSE-ConnectionGUID: rgfacspnS9OLGn7IAQKuDg==
-X-CSE-MsgGUID: BCDjk9bbQqSsvSU2WTGnIA==
+   d="scan'208";a="69204233"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 19:23:25 -0800
+X-CSE-ConnectionGUID: ECNv+WtjRNugoxZnBolybQ==
+X-CSE-MsgGUID: a2/xywbuSCWjUMJdMMxY7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="211164171"
+   d="scan'208";a="210758537"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Jan 2026 18:51:20 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 20 Jan 2026 19:23:23 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viOJS-00000000Psp-1aFU;
-	Wed, 21 Jan 2026 02:51:18 +0000
-Date: Wed, 21 Jan 2026 10:50:40 +0800
+	id 1viOoS-00000000Pur-23V3;
+	Wed, 21 Jan 2026 03:23:20 +0000
+Date: Wed, 21 Jan 2026 11:23:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 1/28]
- kernel/fork.c:549:undefined reference to `rt_mutex_debug_task_free'
-Message-ID: <202601211003.aAKWT2re-lkp@intel.com>
+To: Marco Elver <elver@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: [tip:locking/core 20/43] include/linux/rmap.h:123:1:
+ warning: rw_semaphore 'anon_vma->root->rwsem' is still held at the end of
+ function
+Message-ID: <202601211136.rAqSN4rF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   90614b63ef6a2f10b6e486e486ca8d5bfd2b7a81
-commit: 3d3535e426c8e15bef8f2b193de5a970bbc84a20 [1/28] debugging
-config: powerpc-adder875_defconfig (https://download.01.org/0day-ci/archive/20260121/202601211003.aAKWT2re-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601211003.aAKWT2re-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
+head:   ccf9e070116a81d29aae30db501d562c8efd1ed8
+commit: e4fd3be884cf33a42c5bcde087b0722a5b8f25ca [20/43] locking/rwsem: Support Clang's context analysis
+config: s390-randconfig-002-20260121 (https://download.01.org/0day-ci/archive/20260121/202601211136.rAqSN4rF-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601211136.rAqSN4rF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601211003.aAKWT2re-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601211136.rAqSN4rF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc-linux-ld: kernel/fork.o: in function `free_task':
->> kernel/fork.c:549:(.text+0x1f28): undefined reference to `rt_mutex_debug_task_free'
+   include/linux/fs.h:1083:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1083 | }
+         | ^
+   include/linux/fs.h:1082:2: note: rw_semaphore acquired here
+    1082 |         down_write(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:1087:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+    1087 |         up_write(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:1093:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1093 | }
+         | ^
+   include/linux/fs.h:1092:2: note: rw_semaphore acquired here
+    1092 |         down_read(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:1104:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+    1104 |         up_read(&mapping->invalidate_lock);
+         |         ^
+   In file included from mm/pagewalk.c:2:
+   In file included from include/linux/pagewalk.h:5:
+   include/linux/mm.h:3436:1: warning: spinlock 'pmd_lockptr(mm, pmd)' is still held at the end of function [-Wthread-safety-analysis]
+    3436 | }
+         | ^
+   include/linux/mm.h:3434:2: note: spinlock acquired here
+    3434 |         spin_lock(ptl);
+         |         ^
+   include/linux/mm.h:3465:1: warning: spinlock 'pud_lockptr(mm, pud)' is still held at the end of function [-Wthread-safety-analysis]
+    3465 | }
+         | ^
+   include/linux/mm.h:3463:2: note: spinlock acquired here
+    3463 |         spin_lock(ptl);
+         |         ^
+   In file included from mm/pagewalk.c:5:
+   include/linux/hugetlb.h:1316:1: warning: spinlock 'huge_pte_lockptr(h, mm, pte)' is still held at the end of function [-Wthread-safety-analysis]
+    1316 | }
+         | ^
+   include/linux/hugetlb.h:1314:2: note: spinlock acquired here
+    1314 |         spin_lock(ptl);
+         |         ^
+   In file included from mm/pagewalk.c:7:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:23:
+   In file included from include/linux/writeback.h:13:
+   In file included from include/linux/blk_types.h:11:
+   include/linux/device.h:896:1: warning: mutex 'dev->mutex' is still held at the end of function [-Wthread-safety-analysis]
+     896 | }
+         | ^
+   include/linux/device.h:895:2: note: mutex acquired here
+     895 |         mutex_lock(&dev->mutex);
+         |         ^
+   include/linux/mutex.h:194:26: note: expanded from macro 'mutex_lock'
+     194 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                          ^
+   In file included from mm/pagewalk.c:7:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:23:
+   In file included from include/linux/writeback.h:13:
+   In file included from include/linux/blk_types.h:11:
+   include/linux/device.h:910:2: warning: releasing mutex 'dev->mutex' that was not held [-Wthread-safety-analysis]
+     910 |         mutex_unlock(&dev->mutex);
+         |         ^
+   In file included from mm/pagewalk.c:7:
+   In file included from include/linux/swap.h:9:
+   include/linux/memcontrol.h:1243:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1243 | }
+         | ^
+   include/linux/memcontrol.h:1241:2: note: spinlock acquired here
+    1241 |         spin_lock(&pgdat->__lruvec.lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1251:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1251 | }
+         | ^
+   include/linux/memcontrol.h:1249:2: note: spinlock acquired here
+    1249 |         spin_lock_irq(&pgdat->__lruvec.lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1260:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1260 | }
+         | ^
+   include/linux/memcontrol.h:1258:2: note: spinlock acquired here
+    1258 |         spin_lock_irqsave(&pgdat->__lruvec.lru_lock, *flagsp);
+         |         ^
+   include/linux/spinlock.h:391:35: note: expanded from macro 'spin_lock_irqsave'
+     391 |         __release(spinlock_check(lock)); __acquire(lock);       \
+         |                                          ^
+   include/linux/compiler-context-analysis.h:360:24: note: expanded from macro '__acquire'
+     360 | # define __acquire(x)           __acquire_ctx_lock(x)
+         |                                 ^
+   In file included from mm/pagewalk.c:7:
+   In file included from include/linux/swap.h:9:
+   include/linux/memcontrol.h:1470:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1470 |         spin_unlock(&lruvec->lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1475:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1475 |         spin_unlock_irq(&lruvec->lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1481:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1481 |         spin_unlock_irqrestore(&lruvec->lru_lock, flags);
+         |         ^
+   In file included from mm/pagewalk.c:12:
+   In file included from mm/internal.h:16:
+>> include/linux/rmap.h:123:1: warning: rw_semaphore 'anon_vma->root->rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     123 | }
+         | ^
+   include/linux/rmap.h:122:2: note: rw_semaphore acquired here
+     122 |         down_write(&anon_vma->root->rwsem);
+         |         ^
+>> include/linux/rmap.h:132:2: warning: releasing rw_semaphore 'anon_vma->root->rwsem' that was not held [-Wthread-safety-analysis]
+     132 |         up_write(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:138:1: warning: rw_semaphore 'anon_vma->root->rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     138 | }
+         | ^
+   include/linux/rmap.h:137:2: note: rw_semaphore acquired here
+     137 |         down_read(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:147:2: warning: releasing rw_semaphore 'anon_vma->root->rwsem' that was not held [-Wthread-safety-analysis]
+     147 |         up_read(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:181:1: warning: __context_bitlock '((#undefined * 8) - 1) + folio->....._mm_ids' is still held at the end of function [-Wthread-safety-analysis]
+     181 | }
+         | ^
+   include/linux/rmap.h:180:2: note: __context_bitlock acquired here
+     180 |         bit_spin_lock(FOLIO_MM_IDS_LOCK_BITNUM, &folio->_mm_ids);
+         |         ^
+   include/linux/rmap.h:185:2: warning: releasing __context_bitlock '((#undefined * 8) - 1) + folio->....._mm_ids' that was not held [-Wthread-safety-analysis]
+     185 |         __bit_spin_unlock(FOLIO_MM_IDS_LOCK_BITNUM, &folio->_mm_ids);
+         |         ^
+   include/linux/rmap.h:958:3: warning: releasing spinlock 'pvmw->ptl' that was not held [-Wthread-safety-analysis]
+     958 |                 spin_unlock(pvmw->ptl);
+         |                 ^
+   include/linux/rmap.h:976:3: warning: releasing spinlock 'pvmw->ptl' that was not held [-Wthread-safety-analysis]
+     976 |                 spin_unlock(pvmw->ptl);
+         |                 ^
+   mm/pagewalk.c:89:4: warning: releasing spinlock 'ptl' that was not held [-Wthread-safety-analysis]
+      89 |                         pte_unmap_unlock(pte, ptl);
+         |                         ^
+   include/linux/mm.h:3373:2: note: expanded from macro 'pte_unmap_unlock'
+    3373 |         spin_unlock(ptl);                               \
+         |         ^
+   mm/pagewalk.c:925:4: warning: releasing spinlock 'pud_lock(vma->vm_mm, pud_offset(p4d_offset(pgd_offset_raw(vma->vm_mm->.pgd, addr), addr), addr))' that was not held [-Wthread-safety-analysis]
+     925 |                         spin_unlock(ptl);
+         |                         ^
+   mm/pagewalk.c:928:4: warning: releasing spinlock 'pud_lock(vma->vm_mm, pud_offset(p4d_offset(pgd_offset_raw(vma->vm_mm->.pgd, addr), addr), addr))' that was not held [-Wthread-safety-analysis]
+     928 |                         spin_unlock(ptl);
+         |                         ^
+   mm/pagewalk.c:939:3: warning: releasing spinlock 'pud_lock(vma->vm_mm, pud_offset(p4d_offset(pgd_offset_raw(vma->vm_mm->.pgd, addr), addr), addr))' that was not held [-Wthread-safety-analysis]
+     939 |                 spin_unlock(ptl);
+         |                 ^
+   mm/pagewalk.c:960:4: warning: releasing spinlock 'pmd_lock(vma->vm_mm, pmd_offset(pud_offset(p4d_offset(pgd_offset_raw(vma->vm_mm->.pgd, addr), addr), addr), addr))' that was not held [-Wthread-safety-analysis]
+     960 |                         spin_unlock(ptl);
+         |                         ^
+   mm/pagewalk.c:963:4: warning: releasing spinlock 'pmd_lock(vma->vm_mm, pmd_offset(pud_offset(p4d_offset(pgd_offset_raw(vma->vm_mm->.pgd, addr), addr), addr), addr))' that was not held [-Wthread-safety-analysis]
+     963 |                         spin_unlock(ptl);
+         |                         ^
+   mm/pagewalk.c:983:3: warning: releasing spinlock 'pmd_lock(vma->vm_mm, pmd_offset(pud_offset(p4d_offset(pgd_offset_raw(vma->vm_mm->.pgd, addr), addr), addr), addr))' that was not held [-Wthread-safety-analysis]
+     983 |                 spin_unlock(ptl);
+         |                 ^
+   mm/pagewalk.c:1018:2: warning: releasing spinlock 'ptl' that was not held [-Wthread-safety-analysis]
+    1018 |         pte_unmap_unlock(ptep, ptl);
+         |         ^
+   include/linux/mm.h:3373:2: note: expanded from macro 'pte_unmap_unlock'
+    3373 |         spin_unlock(ptl);                               \
+         |         ^
+   56 warnings generated.
+--
+         |         ^
+   include/linux/fs.h:1093:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1093 | }
+         | ^
+   include/linux/fs.h:1092:2: note: rw_semaphore acquired here
+    1092 |         down_read(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:1104:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+    1104 |         up_read(&mapping->invalidate_lock);
+         |         ^
+   In file included from mm/sparse-vmemmap.c:21:
+   include/linux/mm.h:3436:1: warning: spinlock 'pmd_lockptr(mm, pmd)' is still held at the end of function [-Wthread-safety-analysis]
+    3436 | }
+         | ^
+   include/linux/mm.h:3434:2: note: spinlock acquired here
+    3434 |         spin_lock(ptl);
+         |         ^
+   include/linux/mm.h:3465:1: warning: spinlock 'pud_lockptr(mm, pud)' is still held at the end of function [-Wthread-safety-analysis]
+    3465 | }
+         | ^
+   include/linux/mm.h:3463:2: note: spinlock acquired here
+    3463 |         spin_lock(ptl);
+         |         ^
+   In file included from mm/sparse-vmemmap.c:35:
+   In file included from mm/hugetlb_vmemmap.h:11:
+   include/linux/hugetlb.h:1316:1: warning: spinlock 'huge_pte_lockptr(h, mm, pte)' is still held at the end of function [-Wthread-safety-analysis]
+    1316 | }
+         | ^
+   include/linux/hugetlb.h:1314:2: note: spinlock acquired here
+    1314 |         spin_lock(ptl);
+         |         ^
+   In file included from mm/sparse-vmemmap.c:43:
+   In file included from mm/internal.h:13:
+   In file included from include/linux/mm_inline.h:8:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:23:
+   In file included from include/linux/writeback.h:13:
+   In file included from include/linux/blk_types.h:11:
+   include/linux/device.h:896:1: warning: mutex 'dev->mutex' is still held at the end of function [-Wthread-safety-analysis]
+     896 | }
+         | ^
+   include/linux/device.h:895:2: note: mutex acquired here
+     895 |         mutex_lock(&dev->mutex);
+         |         ^
+   include/linux/mutex.h:194:26: note: expanded from macro 'mutex_lock'
+     194 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                          ^
+   In file included from mm/sparse-vmemmap.c:43:
+   In file included from mm/internal.h:13:
+   In file included from include/linux/mm_inline.h:8:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:23:
+   In file included from include/linux/writeback.h:13:
+   In file included from include/linux/blk_types.h:11:
+   include/linux/device.h:910:2: warning: releasing mutex 'dev->mutex' that was not held [-Wthread-safety-analysis]
+     910 |         mutex_unlock(&dev->mutex);
+         |         ^
+   In file included from mm/sparse-vmemmap.c:43:
+   In file included from mm/internal.h:13:
+   In file included from include/linux/mm_inline.h:8:
+   In file included from include/linux/swap.h:9:
+   include/linux/memcontrol.h:1243:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1243 | }
+         | ^
+   include/linux/memcontrol.h:1241:2: note: spinlock acquired here
+    1241 |         spin_lock(&pgdat->__lruvec.lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1251:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1251 | }
+         | ^
+   include/linux/memcontrol.h:1249:2: note: spinlock acquired here
+    1249 |         spin_lock_irq(&pgdat->__lruvec.lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1260:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1260 | }
+         | ^
+   include/linux/memcontrol.h:1258:2: note: spinlock acquired here
+    1258 |         spin_lock_irqsave(&pgdat->__lruvec.lru_lock, *flagsp);
+         |         ^
+   include/linux/spinlock.h:391:35: note: expanded from macro 'spin_lock_irqsave'
+     391 |         __release(spinlock_check(lock)); __acquire(lock);       \
+         |                                          ^
+   include/linux/compiler-context-analysis.h:360:24: note: expanded from macro '__acquire'
+     360 | # define __acquire(x)           __acquire_ctx_lock(x)
+         |                                 ^
+   In file included from mm/sparse-vmemmap.c:43:
+   In file included from mm/internal.h:13:
+   In file included from include/linux/mm_inline.h:8:
+   In file included from include/linux/swap.h:9:
+   include/linux/memcontrol.h:1470:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1470 |         spin_unlock(&lruvec->lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1475:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1475 |         spin_unlock_irq(&lruvec->lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1481:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1481 |         spin_unlock_irqrestore(&lruvec->lru_lock, flags);
+         |         ^
+   In file included from mm/sparse-vmemmap.c:43:
+   In file included from mm/internal.h:16:
+>> include/linux/rmap.h:123:1: warning: rw_semaphore 'anon_vma->root->rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     123 | }
+         | ^
+   include/linux/rmap.h:122:2: note: rw_semaphore acquired here
+     122 |         down_write(&anon_vma->root->rwsem);
+         |         ^
+>> include/linux/rmap.h:132:2: warning: releasing rw_semaphore 'anon_vma->root->rwsem' that was not held [-Wthread-safety-analysis]
+     132 |         up_write(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:138:1: warning: rw_semaphore 'anon_vma->root->rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     138 | }
+         | ^
+   include/linux/rmap.h:137:2: note: rw_semaphore acquired here
+     137 |         down_read(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:147:2: warning: releasing rw_semaphore 'anon_vma->root->rwsem' that was not held [-Wthread-safety-analysis]
+     147 |         up_read(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:181:1: warning: __context_bitlock '((#undefined * 8) - 1) + folio->....._mm_ids' is still held at the end of function [-Wthread-safety-analysis]
+     181 | }
+         | ^
+   include/linux/rmap.h:180:2: note: __context_bitlock acquired here
+     180 |         bit_spin_lock(FOLIO_MM_IDS_LOCK_BITNUM, &folio->_mm_ids);
+         |         ^
+   include/linux/rmap.h:185:2: warning: releasing __context_bitlock '((#undefined * 8) - 1) + folio->....._mm_ids' that was not held [-Wthread-safety-analysis]
+     185 |         __bit_spin_unlock(FOLIO_MM_IDS_LOCK_BITNUM, &folio->_mm_ids);
+         |         ^
+   include/linux/rmap.h:958:3: warning: releasing spinlock 'pvmw->ptl' that was not held [-Wthread-safety-analysis]
+     958 |                 spin_unlock(pvmw->ptl);
+         |                 ^
+   include/linux/rmap.h:976:3: warning: releasing spinlock 'pvmw->ptl' that was not held [-Wthread-safety-analysis]
+     976 |                 spin_unlock(pvmw->ptl);
+         |                 ^
+   48 warnings generated.
+--
+         |         ^
+   include/linux/fs.h:1078:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+    1078 | }
+         | ^
+   include/linux/fs.h:1077:2: note: rw_semaphore acquired here
+    1077 |         down_read_nested(&inode->i_rwsem, subclass);
+         |         ^
+   include/linux/fs.h:1083:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1083 | }
+         | ^
+   include/linux/fs.h:1082:2: note: rw_semaphore acquired here
+    1082 |         down_write(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:1087:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+    1087 |         up_write(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:1093:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1093 | }
+         | ^
+   include/linux/fs.h:1092:2: note: rw_semaphore acquired here
+    1092 |         down_read(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:1104:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+    1104 |         up_read(&mapping->invalidate_lock);
+         |         ^
+   In file included from mm/list_lru.c:9:
+   In file included from include/linux/module.h:20:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   include/linux/mm.h:3436:1: warning: spinlock 'pmd_lockptr(mm, pmd)' is still held at the end of function [-Wthread-safety-analysis]
+    3436 | }
+         | ^
+   include/linux/mm.h:3434:2: note: spinlock acquired here
+    3434 |         spin_lock(ptl);
+         |         ^
+   include/linux/mm.h:3465:1: warning: spinlock 'pud_lockptr(mm, pud)' is still held at the end of function [-Wthread-safety-analysis]
+    3465 | }
+         | ^
+   include/linux/mm.h:3463:2: note: spinlock acquired here
+    3463 |         spin_lock(ptl);
+         |         ^
+   In file included from mm/list_lru.c:14:
+   In file included from include/linux/memcontrol.h:23:
+   In file included from include/linux/writeback.h:13:
+   In file included from include/linux/blk_types.h:11:
+   include/linux/device.h:896:1: warning: mutex 'dev->mutex' is still held at the end of function [-Wthread-safety-analysis]
+     896 | }
+         | ^
+   include/linux/device.h:895:2: note: mutex acquired here
+     895 |         mutex_lock(&dev->mutex);
+         |         ^
+   include/linux/mutex.h:194:26: note: expanded from macro 'mutex_lock'
+     194 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                          ^
+   In file included from mm/list_lru.c:14:
+   In file included from include/linux/memcontrol.h:23:
+   In file included from include/linux/writeback.h:13:
+   In file included from include/linux/blk_types.h:11:
+   include/linux/device.h:910:2: warning: releasing mutex 'dev->mutex' that was not held [-Wthread-safety-analysis]
+     910 |         mutex_unlock(&dev->mutex);
+         |         ^
+   In file included from mm/list_lru.c:14:
+   include/linux/memcontrol.h:1243:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1243 | }
+         | ^
+   include/linux/memcontrol.h:1241:2: note: spinlock acquired here
+    1241 |         spin_lock(&pgdat->__lruvec.lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1251:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1251 | }
+         | ^
+   include/linux/memcontrol.h:1249:2: note: spinlock acquired here
+    1249 |         spin_lock_irq(&pgdat->__lruvec.lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1260:1: warning: spinlock 'folio_pgdat(folio).__lruvec.lru_lock' is still held at the end of function [-Wthread-safety-analysis]
+    1260 | }
+         | ^
+   include/linux/memcontrol.h:1258:2: note: spinlock acquired here
+    1258 |         spin_lock_irqsave(&pgdat->__lruvec.lru_lock, *flagsp);
+         |         ^
+   include/linux/spinlock.h:391:35: note: expanded from macro 'spin_lock_irqsave'
+     391 |         __release(spinlock_check(lock)); __acquire(lock);       \
+         |                                          ^
+   include/linux/compiler-context-analysis.h:360:24: note: expanded from macro '__acquire'
+     360 | # define __acquire(x)           __acquire_ctx_lock(x)
+         |                                 ^
+   In file included from mm/list_lru.c:14:
+   include/linux/memcontrol.h:1470:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1470 |         spin_unlock(&lruvec->lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1475:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1475 |         spin_unlock_irq(&lruvec->lru_lock);
+         |         ^
+   include/linux/memcontrol.h:1481:2: warning: releasing spinlock 'lruvec->lru_lock' that was not held [-Wthread-safety-analysis]
+    1481 |         spin_unlock_irqrestore(&lruvec->lru_lock, flags);
+         |         ^
+   In file included from mm/list_lru.c:16:
+   In file included from mm/internal.h:16:
+>> include/linux/rmap.h:123:1: warning: rw_semaphore 'anon_vma->root->rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     123 | }
+         | ^
+   include/linux/rmap.h:122:2: note: rw_semaphore acquired here
+     122 |         down_write(&anon_vma->root->rwsem);
+         |         ^
+>> include/linux/rmap.h:132:2: warning: releasing rw_semaphore 'anon_vma->root->rwsem' that was not held [-Wthread-safety-analysis]
+     132 |         up_write(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:138:1: warning: rw_semaphore 'anon_vma->root->rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     138 | }
+         | ^
+   include/linux/rmap.h:137:2: note: rw_semaphore acquired here
+     137 |         down_read(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:147:2: warning: releasing rw_semaphore 'anon_vma->root->rwsem' that was not held [-Wthread-safety-analysis]
+     147 |         up_read(&anon_vma->root->rwsem);
+         |         ^
+   include/linux/rmap.h:181:1: warning: __context_bitlock '((#undefined * 8) - 1) + folio->....._mm_ids' is still held at the end of function [-Wthread-safety-analysis]
+     181 | }
+         | ^
+   include/linux/rmap.h:180:2: note: __context_bitlock acquired here
+     180 |         bit_spin_lock(FOLIO_MM_IDS_LOCK_BITNUM, &folio->_mm_ids);
+         |         ^
+   include/linux/rmap.h:185:2: warning: releasing __context_bitlock '((#undefined * 8) - 1) + folio->....._mm_ids' that was not held [-Wthread-safety-analysis]
+     185 |         __bit_spin_unlock(FOLIO_MM_IDS_LOCK_BITNUM, &folio->_mm_ids);
+         |         ^
+   include/linux/rmap.h:958:3: warning: releasing spinlock 'pvmw->ptl' that was not held [-Wthread-safety-analysis]
+     958 |                 spin_unlock(pvmw->ptl);
+         |                 ^
+   include/linux/rmap.h:976:3: warning: releasing spinlock 'pvmw->ptl' that was not held [-Wthread-safety-analysis]
+     976 |                 spin_unlock(pvmw->ptl);
+         |                 ^
+   mm/list_lru.c:149:1: warning: spinlock 'lru->node[nid].lru.lock' is still held at the end of function [-Wthread-safety-analysis]
+     149 | }
+         | ^
+   mm/list_lru.c:146:3: note: spinlock acquired here
+     146 |                 spin_lock(&l->lock);
+         |                 ^
+   mm/list_lru.c:154:3: warning: releasing spinlock 'l->lock' that was not held [-Wthread-safety-analysis]
+     154 |                 spin_unlock_irq(&l->lock);
+         |                 ^
+   mm/list_lru.c:156:3: warning: releasing spinlock 'l->lock' that was not held [-Wthread-safety-analysis]
+     156 |                 spin_unlock(&l->lock);
+         |                 ^
+   50 warnings generated.
+..
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DEBUG_RT_MUTEXES
-   Depends on [n]: DEBUG_KERNEL [=y] && RT_MUTEXES [=n]
-   Selected by [y]:
-   - DEBUG_TIMERS [=y]
 
+vim +123 include/linux/rmap.h
 
-vim +549 kernel/fork.c
+^1da177e4c3f41 Linus Torvalds        2005-04-16  119  
+4fc3f1d66b1ef0 Ingo Molnar           2012-12-02  120  static inline void anon_vma_lock_write(struct anon_vma *anon_vma)
+cba48b98f2348c Rik van Riel          2010-08-09  121  {
+5a505085f043e8 Ingo Molnar           2012-12-02  122  	down_write(&anon_vma->root->rwsem);
+cba48b98f2348c Rik van Riel          2010-08-09 @123  }
+cba48b98f2348c Rik van Riel          2010-08-09  124  
+adef440691bab8 Andrea Arcangeli      2023-12-06  125  static inline int anon_vma_trylock_write(struct anon_vma *anon_vma)
+adef440691bab8 Andrea Arcangeli      2023-12-06  126  {
+adef440691bab8 Andrea Arcangeli      2023-12-06  127  	return down_write_trylock(&anon_vma->root->rwsem);
+adef440691bab8 Andrea Arcangeli      2023-12-06  128  }
+adef440691bab8 Andrea Arcangeli      2023-12-06  129  
+08b52706d50565 Konstantin Khlebnikov 2013-02-22  130  static inline void anon_vma_unlock_write(struct anon_vma *anon_vma)
+cba48b98f2348c Rik van Riel          2010-08-09  131  {
+5a505085f043e8 Ingo Molnar           2012-12-02 @132  	up_write(&anon_vma->root->rwsem);
+cba48b98f2348c Rik van Riel          2010-08-09  133  }
+cba48b98f2348c Rik van Riel          2010-08-09  134  
 
-68f24b08ee892d Andy Lutomirski     2016-09-15  527  
-68f24b08ee892d Andy Lutomirski     2016-09-15  528  void free_task(struct task_struct *tsk)
-68f24b08ee892d Andy Lutomirski     2016-09-15  529  {
-a1140cb215fa13 Kuniyuki Iwashima   2022-08-23  530  #ifdef CONFIG_SECCOMP
-a1140cb215fa13 Kuniyuki Iwashima   2022-08-23  531  	WARN_ON_ONCE(tsk->seccomp.filter);
-a1140cb215fa13 Kuniyuki Iwashima   2022-08-23  532  #endif
-b90ca8badbd114 Will Deacon         2021-07-30  533  	release_user_cpus_ptr(tsk);
-d08b9f0ca6605e Sami Tolvanen       2020-04-27  534  	scs_release(tsk);
-d08b9f0ca6605e Sami Tolvanen       2020-04-27  535  
-68f24b08ee892d Andy Lutomirski     2016-09-15  536  #ifndef CONFIG_THREAD_INFO_IN_TASK
-68f24b08ee892d Andy Lutomirski     2016-09-15  537  	/*
-68f24b08ee892d Andy Lutomirski     2016-09-15  538  	 * The task is finally done with both the stack and thread_info,
-68f24b08ee892d Andy Lutomirski     2016-09-15  539  	 * so free both.
-68f24b08ee892d Andy Lutomirski     2016-09-15  540  	 */
-68f24b08ee892d Andy Lutomirski     2016-09-15  541  	release_task_stack(tsk);
-68f24b08ee892d Andy Lutomirski     2016-09-15  542  #else
-68f24b08ee892d Andy Lutomirski     2016-09-15  543  	/*
-68f24b08ee892d Andy Lutomirski     2016-09-15  544  	 * If the task had a separate stack allocation, it should be gone
-68f24b08ee892d Andy Lutomirski     2016-09-15  545  	 * by now.
-68f24b08ee892d Andy Lutomirski     2016-09-15  546  	 */
-f0b89d3958d73c Elena Reshetova     2019-01-18  547  	WARN_ON_ONCE(refcount_read(&tsk->stack_refcount) != 0);
-68f24b08ee892d Andy Lutomirski     2016-09-15  548  #endif
-23f78d4a03c53c Ingo Molnar         2006-06-27 @549  	rt_mutex_debug_task_free(tsk);
-fb52607afcd062 Frederic Weisbecker 2008-11-25  550  	ftrace_graph_exit_task(tsk);
-f19b9f74b7ea3b Akinobu Mita        2012-07-30  551  	arch_release_task_struct(tsk);
-1da5c46fa965ff Oleg Nesterov       2016-11-29  552  	if (tsk->flags & PF_KTHREAD)
-1da5c46fa965ff Oleg Nesterov       2016-11-29  553  		free_kthread_struct(tsk);
-b0fd1852bcc21a KP Singh            2023-06-02  554  	bpf_task_storage_free(tsk);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  555  	free_task_struct(tsk);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  556  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  557  EXPORT_SYMBOL(free_task);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  558  
+:::::: The code at line 123 was first introduced by commit
+:::::: cba48b98f2348c814316c4b4f411a07a0e4a2bf9 mm: change direct call of spin_lock(anon_vma->lock) to inline function
 
-:::::: The code at line 549 was first introduced by commit
-:::::: 23f78d4a03c53cbd75d87a795378ea540aa08c86 [PATCH] pi-futex: rt mutex core
-
-:::::: TO: Ingo Molnar <mingo@elte.hu>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+:::::: TO: Rik van Riel <riel@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
