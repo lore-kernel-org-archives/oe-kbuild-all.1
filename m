@@ -1,59 +1,90 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1890136CDE2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 04:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553D335B152;
+	Wed, 21 Jan 2026 04:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768969629; cv=none; b=V6A39R6NreYIiR80GWONEKiq2Kru4r1TXffPRLyeQMv0zm1LcJlt6UU9G8icelZOVK9x0f4546wL7/o0+KuwQexvS7RmuuKiZNqJcFbBlKMuwdsCp5QlapHU4xfHk39dRPyL6Un+uOZfOet+gDTwYqHW9Rf5rYa2LbHNHE37THA=
+	t=1768970253; cv=none; b=uftTjUQ1l+Xb4oD29Beuz+nhacev16fcFbg4walSBWQLCRv7rIkozUFWXXFfQmTlqHu9ZJ7nTpT7jeJS3eN3nyy4WKkUdK8aJtElG5u9dg2ZIrUGTmjn9CBscJAdesG74mzLOxgufV1+x01JF5brnjh09UOFqq/E8GsMnMdeUvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768969629; c=relaxed/simple;
-	bh=elyKDgijRETIP2ugi6a2CluMK8wS0bgTluoNaL7ZRbo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lj8QcGc/LiJxu76dgd0RU3ZTmAphpohTh4U+Yd43a/zqRf+hzn/EFYs5H9+6N0V+tAxJhCzN2nwHA1ZaGSxCtFWkPp//O39qulXJ6uGyy0pGA78xFCpsbXtFZZ5kEd/0SRCf1scNGibmhrioZGKYcjWsO4uccLalaz34pw2klxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WOjkKMb5; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768970253; c=relaxed/simple;
+	bh=G5dShjbFsE5k9+rZ7aymHy3jbkiq3aAgKGfeZvaF4a0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H+lukuQ+FXumjghhTcLR9oq8uxleXefrYUEVc2JBYUVcdySMdwn9bySh83rAfaBIV5wUMsvI+7PrVyyWHEtOA4hgvScFguhZfq39SqDDQwHqGSV48kjP6qkl3UJOUDzfSoly/g+eHTD4SwWjBX4VuRRBkA7cavShR4omT+qCybE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hR1dOocj; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WOjkKMb5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=JagUjXaOINlQfMgaWAUJGllGtfm8R7LVzSvPWDfk+q8=; b=WOjkKMb5PyQMKXDLuLt0sIFgYi
-	KbBQLnNsN9DY172pJKlwT6rZafrxGzn7vV7Vo7QFDaaIZDPw2BAjye+KweZu40hwlALFQvmagWBrs
-	B78b/GpfJTZw9hhjq3FoTcJ9ry4ZhF5rEoH4DpdIXO1yXQZmCiaRkPYfIyQARYMHA7FCNITA6eSgY
-	QW40MxqSMnS9+ac2F4w7VN0MD9QyjtJJJqvvjdMa03nwE2LfOgrAWFbBfnolXfjEVU+WIUOFruwpk
-	7ed9r3MbTtc27J6QLH5PNqQ4SFSJvlWH0pvvEp4E1a0bXWg3DSM3W7xoOxwGn//V248dyS/pvctmW
-	vGS9WDJQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viPo1-0000000FsKx-0KVs;
-	Wed, 21 Jan 2026 04:26:57 +0000
-Date: Wed, 21 Jan 2026 04:26:56 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 1093/7987] lib/xarray.c:2473:25: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <aXBVkLtSCxat0X5F@casper.infradead.org>
-References: <202601202102.uotE2V9e-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hR1dOocj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768970251; x=1800506251;
+  h=date:from:to:cc:subject:message-id;
+  bh=G5dShjbFsE5k9+rZ7aymHy3jbkiq3aAgKGfeZvaF4a0=;
+  b=hR1dOocj4FvBpqM1blD8jqwkyl0QkoWaGod5sdh8G1uG/D8G32nTwJTo
+   Ob5ZFRe7ZElMzqAJOQi2/CAUMJ7cr3NVyekCQUWA0yLgqMVrNjseilFsU
+   VQ7X7OhR2sGIN5WzNvYPbQi0eBuOedsSnX68vrKYTnPIVsgU/e5nMCiM5
+   gm4sxFoKC9rXE0r5TOMFq5hZztMFNnGCQuwoLyKSij60i1pr2ZdJ7Amy9
+   aEn5p0rPpuaPs1geR8utZMEmfb5FBuY2MpvWdXEvOtrHbVutuUx9e436Y
+   PT+8QENegBo3tY4KNV58BWZBj0mEi+n9TAipnjsw61ZNiXgci1K/cqVy1
+   A==;
+X-CSE-ConnectionGUID: CuUHgqaAQMmD0WVo7ZNTAQ==
+X-CSE-MsgGUID: oUojV7qITJCyhxuZlDwTbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="81570335"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="81570335"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 20:37:30 -0800
+X-CSE-ConnectionGUID: 8Abx/x+rQLe3NK0LG/G0Yg==
+X-CSE-MsgGUID: 7cMG1qlSTIylsImI3+LCyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="206656783"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Jan 2026 20:37:29 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viPyB-00000000Pxh-0D4h;
+	Wed, 21 Jan 2026 04:37:27 +0000
+Date: Wed, 21 Jan 2026 12:36:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/virt-to-phys-riscv-v6.19-rc1 2/2] ERROR:
+ modpost: "virt_to_pfn" [fs/xfs/xfs.ko] undefined!
+Message-ID: <202601211213.2FjE6tv3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202601202102.uotE2V9e-lkp@intel.com>
 
-On Tue, Jan 20, 2026 at 09:37:12PM +0800, kernel test robot wrote:
-> sparse warnings: (new ones prefixed by >>)
->    lib/xarray.c:2453:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *entry @@     got void [noderef] __rcu * @@
->    lib/xarray.c:2453:58: sparse:     expected void const *entry
->    lib/xarray.c:2453:58: sparse:     got void [noderef] __rcu *
-> >> lib/xarray.c:2473:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *entry @@     got void [noderef] __rcu *const xa_head @@
->    lib/xarray.c:2473:25: sparse:     expected void *entry
->    lib/xarray.c:2473:25: sparse:     got void [noderef] __rcu *const xa_head
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-phys-riscv-v6.19-rc1
+head:   877fcd0044b0a64fc875e01ea3c462f0fdeadd29
+commit: 877fcd0044b0a64fc875e01ea3c462f0fdeadd29 [2/2] riscv: Make virt_to_pfn() a real function
+config: riscv-randconfig-001-20260121 (https://download.01.org/0day-ci/archive/20260121/202601211213.2FjE6tv3-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601211213.2FjE6tv3-lkp@intel.com/reproduce)
 
-fixed locally; will push out soon.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601211213.2FjE6tv3-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "virt_to_pfn" [fs/xfs/xfs.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [fs/btrfs/btrfs.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [security/keys/encrypted-keys/encrypted-keys.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [crypto/gcm.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [crypto/tcrypt.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [lib/raid6/raid6_pq.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [drivers/tty/serial/amba-pl011.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [drivers/tty/serial/sprd_serial.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [drivers/gpu/drm/drm_dma_helper.ko] undefined!
+>> ERROR: modpost: "virt_to_pfn" [drivers/mtd/nand/raw/nand.ko] undefined!
+WARNING: modpost: suppressed 21 unresolved symbol warnings because there were too many)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
