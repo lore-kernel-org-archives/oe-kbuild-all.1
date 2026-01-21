@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1FF238C1A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 00:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4472D0622
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 00:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768955475; cv=none; b=Uj2/TCxfslFbagzuzJT8qOY7xjyejUIYf3GRZ9EcsEZS03p0MqdW9YUjsVfPClJAbyEy2Wd2GnFTi2IOlB5+5WanYaxoSZnivSJpYp4T49FxhIFIwokT8gKFCGHCMppjq81LM0bXXTyIugVHP0hn0Unwk5qvyeamCtk4q6d9tH0=
+	t=1768956858; cv=none; b=je5EPmpt/KdBMerBm2mjDp5VU45MTB6rN1vsnNDQ/gB1crpVeGFfbwNKfub6WOjyM8r813PVYpBFiPjYOq7tOl8jkvfcW6dlMv+INWgtg6dd+JvDMyep2bGJMCi16VeIxUwFOwhMQTzzZGNRJgSWx/ekf1JaFXcyOq2bOigh0PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768955475; c=relaxed/simple;
-	bh=2O+USvvqiKU6K0PDQIxuz1UpYEDL/FcrzX60/qxuBnQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Tl5/nSrxwn4ehzufHaumUtxMAgu5RkNkdjHVV6fANZnGaKo+c9cPZqCo/BT5D3QumR7J2sN85iGn8puxdDJdEAAEfU7RuWMZZspuO2G5F8RnzEXT/tGfIWC9n7OcIZOho4akyhcWYzj+Ky2hvwx9wIn4ooz3fT71fteVxaeuMjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MHrK53Cj; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768956858; c=relaxed/simple;
+	bh=KPG/dS8KFcF8NI29VJ53nZJ4CLHR7WQZZuX8zpUwjyY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iyWkfgsLzZJd5fSVarDvXF4vCChZGtmBpsbvJrXVoTeu4EQvHgrtkvj9u+4suVwFCztKm0Ls0Zzbkb4GmsGxy7OnUnrO1vY6DbLgtogVulAYD/j+YSfz+WILqPtN2sZTAgj+t147gEqZ4ZSdCg+LLcEH8L3bOHVh1T7PzXsMhKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Em5xphqp; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MHrK53Cj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Em5xphqp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768955474; x=1800491474;
+  t=1768956856; x=1800492856;
   h=date:from:to:cc:subject:message-id;
-  bh=2O+USvvqiKU6K0PDQIxuz1UpYEDL/FcrzX60/qxuBnQ=;
-  b=MHrK53Cj3DURmEW+Ywl6WeB0tPAu10TmkXuM768gAXNU2Hj5t7eCB7Jt
-   0X4dbB9VYtXEs0J/FE1Kh3s+YjKgQWIsCZ7foCbOi8C/hHGonmGLfNsRe
-   +eWggzrbQPAlEQkoQ7V6Am4WAMX9Llpw8Db4UEHz5ICNdZlfQFYlHKjDy
-   68Y+PGZ3vjkZqsas+lm+P/PTGRe3mK6eHzZNFVbeV/ML1Jf5QWSxPmcpN
-   AJ+LaZdkGoOB2FTuCvwW+U8IcHq/1Xd2K7VNhVGB8DBz5r7Kw85CaC3Xa
-   Lqf3p18SL9mtUNw7pLskQsmL3xj173sawQWnONqU+UzPcMXXbFGimGiGB
-   w==;
-X-CSE-ConnectionGUID: wWawJ7DiTa6zn1lAXkXg6w==
-X-CSE-MsgGUID: WxBiubARSeGXoiaLsxQUXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="92844551"
+  bh=KPG/dS8KFcF8NI29VJ53nZJ4CLHR7WQZZuX8zpUwjyY=;
+  b=Em5xphqpegYI65heGcXPUvldDCn7873IVcIBX4wXTn620ic+Q7SS4lf1
+   0kbwONFjyS6X1nh0DEfN1E3n4/aa7/0pnFzlKSYic9iVXkwuLae9uBW9M
+   yFGwOIVHiPY7yYFpC0Pm5KGDfzYr+bW6bDmeOPmP0Ivi9oMugJwtGLelk
+   z5M9QnK4puB4K9KCBipQIoYNuS9jirP2O8wekZN/dy3BgTnkkO3QjB97R
+   1F9eNo+zhR8UM5qtQhs0pOANA0b0BlPkvpRsF3P598OIhbPGvw/ijQEi4
+   0kGp7BKBAMKMRsp1U3EWMGrHLeznT/gykCfn3C5Oz55sYnX0qjeqldd3T
+   A==;
+X-CSE-ConnectionGUID: MiSJsSVVQkWbLq9/Rk10FA==
+X-CSE-MsgGUID: UMYc2M6ESkefIUqG0rUCTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70232461"
 X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="92844551"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 16:31:14 -0800
-X-CSE-ConnectionGUID: eQ/6cqEESIGdSl+HvAEROg==
-X-CSE-MsgGUID: FRqJ+NnIQBy9Lhl3gKHidQ==
+   d="scan'208";a="70232461"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 16:54:16 -0800
+X-CSE-ConnectionGUID: wPDjY6SJSIWm1t5nXfrPkQ==
+X-CSE-MsgGUID: W5YmjicCSjOUFcX+azQmdA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="210772068"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Jan 2026 16:31:13 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 20 Jan 2026 16:54:14 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viM7p-00000000PkB-1rYz;
-	Wed, 21 Jan 2026 00:31:09 +0000
-Date: Wed, 21 Jan 2026 08:30:56 +0800
+	id 1viMU7-00000000Pmz-2R3E;
+	Wed, 21 Jan 2026 00:54:11 +0000
+Date: Wed, 21 Jan 2026 08:53:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ido Schimmel <idosch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 10/10]
- sound/usb/qcom/qc_audio_offload.c:950:27: sparse: sparse: incorrect type in
- argument 2 (different base types)
-Message-ID: <202601210855.1XJ0XJFl-lkp@intel.com>
+To: Roy Luo <royluo@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+ Joy Chakraborty <joychakr@google.com>,
+ Naveen Kumar <mnkumar@google.com>
+Subject: [linux-next:master 5777/8302]
+ drivers/phy/phy-google-usb.c:273:undefined reference to
+ `typec_switch_unregister'
+Message-ID: <202601210825.ELrpQeED-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,119 +60,230 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   406593924bc6e46a9b9f27a31a90d141f9d71f21
-commit: 5ca8b64d16a77fedf6e4659f9affe8d1178933ff [10/10] TMP: Revert "module: Add compile-time check for embedded NUL characters"
-config: mips-randconfig-r132-20260121 (https://download.01.org/0day-ci/archive/20260121/202601210855.1XJ0XJFl-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210855.1XJ0XJFl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   053966c344dbd346e71305f530e91ea77916189f
+commit: cbce66669c82ee9ae0e26523c0fcd3c721fcfe85 [5777/8302] phy: Add Google Tensor SoC USB PHY driver
+config: um-randconfig-001-20260121 (https://download.01.org/0day-ci/archive/20260121/202601210825.ELrpQeED-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210825.ELrpQeED-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601210855.1XJ0XJFl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601210825.ELrpQeED-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/usb/qcom/qc_audio_offload.c:950:27: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int val @@     got restricted snd_pcm_format_t [usertype] pcm_format @@
-   sound/usb/qcom/qc_audio_offload.c:950:27: sparse:     expected unsigned int val
-   sound/usb/qcom/qc_audio_offload.c:950:27: sparse:     got restricted snd_pcm_format_t [usertype] pcm_format
+All errors (new ones prefixed by >>):
 
-vim +950 sound/usb/qcom/qc_audio_offload.c
+   /usr/bin/ld: drivers/phy/phy-google-usb.o: in function `google_usb_phy_remove':
+>> drivers/phy/phy-google-usb.c:273:(.text+0x11): undefined reference to `typec_switch_unregister'
+   /usr/bin/ld: drivers/phy/phy-google-usb.o: in function `google_usb_set_orientation':
+>> drivers/phy/phy-google-usb.c:82:(.text+0x102): undefined reference to `typec_switch_get_drvdata'
+   /usr/bin/ld: drivers/phy/phy-google-usb.o: in function `google_usb_phy_probe':
+>> drivers/phy/phy-google-usb.c:261:(.text+0x6b2): undefined reference to `typec_switch_register'
+   collect2: error: ld returned 1 exit status
 
-326bbc348298ab Wesley Cheng 2025-04-09   919  
-326bbc348298ab Wesley Cheng 2025-04-09   920  /**
-326bbc348298ab Wesley Cheng 2025-04-09   921   * enable_audio_stream() - enable usb snd endpoints
-326bbc348298ab Wesley Cheng 2025-04-09   922   * @subs: usb substream
-326bbc348298ab Wesley Cheng 2025-04-09   923   * @pcm_format: pcm format requested
-326bbc348298ab Wesley Cheng 2025-04-09   924   * @channels: number of channels
-326bbc348298ab Wesley Cheng 2025-04-09   925   * @cur_rate: sample rate
-326bbc348298ab Wesley Cheng 2025-04-09   926   * @datainterval: interval
-326bbc348298ab Wesley Cheng 2025-04-09   927   *
-326bbc348298ab Wesley Cheng 2025-04-09   928   * Opens all USB SND endpoints used for the data interface.  This will increment
-326bbc348298ab Wesley Cheng 2025-04-09   929   * the USB SND endpoint's opened count.  Requests to keep the interface resumed
-326bbc348298ab Wesley Cheng 2025-04-09   930   * until the audio stream is stopped.  Will issue the USB set interface control
-326bbc348298ab Wesley Cheng 2025-04-09   931   * message to enable the data interface.
-326bbc348298ab Wesley Cheng 2025-04-09   932   *
-326bbc348298ab Wesley Cheng 2025-04-09   933   */
-326bbc348298ab Wesley Cheng 2025-04-09   934  static int enable_audio_stream(struct snd_usb_substream *subs,
-326bbc348298ab Wesley Cheng 2025-04-09   935  			       snd_pcm_format_t pcm_format,
-326bbc348298ab Wesley Cheng 2025-04-09   936  			       unsigned int channels, unsigned int cur_rate,
-326bbc348298ab Wesley Cheng 2025-04-09   937  			       int datainterval)
-326bbc348298ab Wesley Cheng 2025-04-09   938  {
-326bbc348298ab Wesley Cheng 2025-04-09   939  	struct snd_pcm_hw_params params;
-326bbc348298ab Wesley Cheng 2025-04-09   940  	struct snd_usb_audio *chip;
-326bbc348298ab Wesley Cheng 2025-04-09   941  	struct snd_interval *i;
-326bbc348298ab Wesley Cheng 2025-04-09   942  	struct snd_mask *m;
-326bbc348298ab Wesley Cheng 2025-04-09   943  	int ret;
-326bbc348298ab Wesley Cheng 2025-04-09   944  
-326bbc348298ab Wesley Cheng 2025-04-09   945  	chip = subs->stream->chip;
-326bbc348298ab Wesley Cheng 2025-04-09   946  
-326bbc348298ab Wesley Cheng 2025-04-09   947  	_snd_pcm_hw_params_any(&params);
-326bbc348298ab Wesley Cheng 2025-04-09   948  
-326bbc348298ab Wesley Cheng 2025-04-09   949  	m = hw_param_mask(&params, SNDRV_PCM_HW_PARAM_FORMAT);
-326bbc348298ab Wesley Cheng 2025-04-09  @950  	snd_mask_leave(m, pcm_format);
-326bbc348298ab Wesley Cheng 2025-04-09   951  
-326bbc348298ab Wesley Cheng 2025-04-09   952  	i = hw_param_interval(&params, SNDRV_PCM_HW_PARAM_CHANNELS);
-326bbc348298ab Wesley Cheng 2025-04-09   953  	snd_interval_setinteger(i);
-326bbc348298ab Wesley Cheng 2025-04-09   954  	i->min = channels;
-326bbc348298ab Wesley Cheng 2025-04-09   955  	i->max = channels;
-326bbc348298ab Wesley Cheng 2025-04-09   956  
-326bbc348298ab Wesley Cheng 2025-04-09   957  	i = hw_param_interval(&params, SNDRV_PCM_HW_PARAM_RATE);
-326bbc348298ab Wesley Cheng 2025-04-09   958  	snd_interval_setinteger(i);
-326bbc348298ab Wesley Cheng 2025-04-09   959  	i->min = cur_rate;
-326bbc348298ab Wesley Cheng 2025-04-09   960  	i->max = cur_rate;
-326bbc348298ab Wesley Cheng 2025-04-09   961  
-326bbc348298ab Wesley Cheng 2025-04-09   962  	pm_runtime_barrier(&chip->intf[0]->dev);
-326bbc348298ab Wesley Cheng 2025-04-09   963  	snd_usb_autoresume(chip);
-326bbc348298ab Wesley Cheng 2025-04-09   964  
-326bbc348298ab Wesley Cheng 2025-04-09   965  	ret = snd_usb_hw_params(subs, &params);
-326bbc348298ab Wesley Cheng 2025-04-09   966  	if (ret < 0)
-326bbc348298ab Wesley Cheng 2025-04-09   967  		goto put_suspend;
-326bbc348298ab Wesley Cheng 2025-04-09   968  
-326bbc348298ab Wesley Cheng 2025-04-09   969  	if (!atomic_read(&chip->shutdown)) {
-aff8436ed97b99 Takashi Iwai 2025-08-11   970  		CLASS(snd_usb_lock, pm)(chip);
-aff8436ed97b99 Takashi Iwai 2025-08-11   971  		if (pm.err < 0) {
-aff8436ed97b99 Takashi Iwai 2025-08-11   972  			ret = pm.err;
-326bbc348298ab Wesley Cheng 2025-04-09   973  			goto detach_ep;
-aff8436ed97b99 Takashi Iwai 2025-08-11   974  		}
-326bbc348298ab Wesley Cheng 2025-04-09   975  
-326bbc348298ab Wesley Cheng 2025-04-09   976  		if (subs->sync_endpoint) {
-326bbc348298ab Wesley Cheng 2025-04-09   977  			ret = snd_usb_endpoint_prepare(chip, subs->sync_endpoint);
-326bbc348298ab Wesley Cheng 2025-04-09   978  			if (ret < 0)
-aff8436ed97b99 Takashi Iwai 2025-08-11   979  				goto detach_ep;
-326bbc348298ab Wesley Cheng 2025-04-09   980  		}
-326bbc348298ab Wesley Cheng 2025-04-09   981  
-326bbc348298ab Wesley Cheng 2025-04-09   982  		ret = snd_usb_endpoint_prepare(chip, subs->data_endpoint);
-326bbc348298ab Wesley Cheng 2025-04-09   983  		if (ret < 0)
-aff8436ed97b99 Takashi Iwai 2025-08-11   984  			goto detach_ep;
-326bbc348298ab Wesley Cheng 2025-04-09   985  
-326bbc348298ab Wesley Cheng 2025-04-09   986  		dev_dbg(uaudio_qdev->data->dev,
-326bbc348298ab Wesley Cheng 2025-04-09   987  			"selected %s iface:%d altsetting:%d datainterval:%dus\n",
-326bbc348298ab Wesley Cheng 2025-04-09   988  			subs->direction ? "capture" : "playback",
-326bbc348298ab Wesley Cheng 2025-04-09   989  			subs->cur_audiofmt->iface, subs->cur_audiofmt->altsetting,
-326bbc348298ab Wesley Cheng 2025-04-09   990  			(1 << subs->cur_audiofmt->datainterval) *
-326bbc348298ab Wesley Cheng 2025-04-09   991  			(subs->dev->speed >= USB_SPEED_HIGH ?
-326bbc348298ab Wesley Cheng 2025-04-09   992  			BUS_INTERVAL_HIGHSPEED_AND_ABOVE :
-326bbc348298ab Wesley Cheng 2025-04-09   993  			BUS_INTERVAL_FULL_SPEED));
-326bbc348298ab Wesley Cheng 2025-04-09   994  	}
-326bbc348298ab Wesley Cheng 2025-04-09   995  
-326bbc348298ab Wesley Cheng 2025-04-09   996  	return 0;
-326bbc348298ab Wesley Cheng 2025-04-09   997  
-326bbc348298ab Wesley Cheng 2025-04-09   998  detach_ep:
-326bbc348298ab Wesley Cheng 2025-04-09   999  	snd_usb_hw_free(subs);
-326bbc348298ab Wesley Cheng 2025-04-09  1000  
-326bbc348298ab Wesley Cheng 2025-04-09  1001  put_suspend:
-326bbc348298ab Wesley Cheng 2025-04-09  1002  	snd_usb_autosuspend(chip);
-326bbc348298ab Wesley Cheng 2025-04-09  1003  
-326bbc348298ab Wesley Cheng 2025-04-09  1004  	return ret;
-326bbc348298ab Wesley Cheng 2025-04-09  1005  }
-326bbc348298ab Wesley Cheng 2025-04-09  1006  
 
-:::::: The code at line 950 was first introduced by commit
-:::::: 326bbc348298ab0946c5560defe024a5f6ef28bb ALSA: usb-audio: qcom: Introduce QC USB SND offloading support
+vim +273 drivers/phy/phy-google-usb.c
 
-:::::: TO: Wesley Cheng <quic_wcheng@quicinc.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    78	
+    79	static int google_usb_set_orientation(struct typec_switch_dev *sw,
+    80					      enum typec_orientation orientation)
+    81	{
+  > 82		struct google_usb_phy *gphy = typec_switch_get_drvdata(sw);
+    83	
+    84		dev_dbg(gphy->dev, "set orientation %d\n", orientation);
+    85	
+    86		gphy->orientation = orientation;
+    87	
+    88		if (pm_runtime_suspended(gphy->dev))
+    89			return 0;
+    90	
+    91		guard(mutex)(&gphy->phy_mutex);
+    92	
+    93		set_vbus_valid(gphy);
+    94	
+    95		return 0;
+    96	}
+    97	
+    98	static int google_usb2_phy_init(struct phy *_phy)
+    99	{
+   100		struct google_usb_phy_instance *inst = phy_get_drvdata(_phy);
+   101		struct google_usb_phy *gphy = inst->parent;
+   102		u32 reg;
+   103		int ret;
+   104	
+   105		dev_dbg(gphy->dev, "initializing usb2 phy\n");
+   106	
+   107		guard(mutex)(&gphy->phy_mutex);
+   108	
+   109		regmap_read(gphy->usb_cfg_regmap, gphy->usb2_cfg_offset + USBCS_USB2PHY_CFG21_OFFSET, &reg);
+   110		reg &= ~USBCS_USB2PHY_CFG21_PHY_TX_DIG_BYPASS_SEL;
+   111		reg &= ~USBCS_USB2PHY_CFG21_REF_FREQ_SEL;
+   112		reg |= FIELD_PREP(USBCS_USB2PHY_CFG21_REF_FREQ_SEL, 0);
+   113		regmap_write(gphy->usb_cfg_regmap, gphy->usb2_cfg_offset + USBCS_USB2PHY_CFG21_OFFSET, reg);
+   114	
+   115		regmap_read(gphy->usb_cfg_regmap, gphy->usb2_cfg_offset + USBCS_USB2PHY_CFG19_OFFSET, &reg);
+   116		reg &= ~USBCS_USB2PHY_CFG19_PHY_CFG_PLL_FB_DIV;
+   117		reg |= FIELD_PREP(USBCS_USB2PHY_CFG19_PHY_CFG_PLL_FB_DIV, 368);
+   118		regmap_write(gphy->usb_cfg_regmap, gphy->usb2_cfg_offset + USBCS_USB2PHY_CFG19_OFFSET, reg);
+   119	
+   120		set_vbus_valid(gphy);
+   121	
+   122		ret = clk_bulk_prepare_enable(inst->num_clks, inst->clks);
+   123		if (ret)
+   124			return ret;
+   125	
+   126		ret = reset_control_bulk_deassert(inst->num_rsts, inst->rsts);
+   127		if (ret) {
+   128			clk_bulk_disable_unprepare(inst->num_clks, inst->clks);
+   129			return ret;
+   130		}
+   131	
+   132		regmap_read(gphy->usb_cfg_regmap, gphy->usb2_cfg_offset + USBCS_USB2PHY_CFG21_OFFSET, &reg);
+   133		reg |= USBCS_USB2PHY_CFG21_PHY_ENABLE;
+   134		regmap_write(gphy->usb_cfg_regmap, gphy->usb2_cfg_offset + USBCS_USB2PHY_CFG21_OFFSET, reg);
+   135	
+   136		return 0;
+   137	}
+   138	
+   139	static int google_usb2_phy_exit(struct phy *_phy)
+   140	{
+   141		struct google_usb_phy_instance *inst = phy_get_drvdata(_phy);
+   142		struct google_usb_phy *gphy = inst->parent;
+   143		u32 reg;
+   144	
+   145		dev_dbg(gphy->dev, "exiting usb2 phy\n");
+   146	
+   147		guard(mutex)(&gphy->phy_mutex);
+   148	
+   149		regmap_read(gphy->usb_cfg_regmap, gphy->usb2_cfg_offset + USBCS_USB2PHY_CFG21_OFFSET, &reg);
+   150		reg &= ~USBCS_USB2PHY_CFG21_PHY_ENABLE;
+   151		regmap_write(gphy->usb_cfg_regmap, gphy->usb2_cfg_offset + USBCS_USB2PHY_CFG21_OFFSET, reg);
+   152	
+   153		reset_control_bulk_assert(inst->num_rsts, inst->rsts);
+   154		clk_bulk_disable_unprepare(inst->num_clks, inst->clks);
+   155	
+   156		return 0;
+   157	}
+   158	
+   159	static const struct phy_ops google_usb2_phy_ops = {
+   160		.init		= google_usb2_phy_init,
+   161		.exit		= google_usb2_phy_exit,
+   162	};
+   163	
+   164	static struct phy *google_usb_phy_xlate(struct device *dev,
+   165						const struct of_phandle_args *args)
+   166	{
+   167		struct google_usb_phy *gphy = dev_get_drvdata(dev);
+   168	
+   169		if (args->args[0] >= GOOGLE_USB_PHY_NUM) {
+   170			dev_err(dev, "invalid PHY index requested from DT\n");
+   171			return ERR_PTR(-ENODEV);
+   172		}
+   173		return gphy->insts[args->args[0]].phy;
+   174	}
+   175	
+   176	static int google_usb_phy_probe(struct platform_device *pdev)
+   177	{
+   178		struct typec_switch_desc sw_desc = { };
+   179		struct google_usb_phy_instance *inst;
+   180		struct phy_provider *phy_provider;
+   181		struct device *dev = &pdev->dev;
+   182		struct google_usb_phy *gphy;
+   183		struct phy *phy;
+   184		u32 args[1];
+   185		int ret;
+   186	
+   187		gphy = devm_kzalloc(dev, sizeof(*gphy), GFP_KERNEL);
+   188		if (!gphy)
+   189			return -ENOMEM;
+   190	
+   191		dev_set_drvdata(dev, gphy);
+   192		gphy->dev = dev;
+   193	
+   194		ret = devm_mutex_init(dev, &gphy->phy_mutex);
+   195		if (ret)
+   196			return ret;
+   197	
+   198		gphy->usb_cfg_regmap =
+   199			syscon_regmap_lookup_by_phandle_args(dev->of_node,
+   200							     "google,usb-cfg-csr",
+   201							     ARRAY_SIZE(args), args);
+   202		if (IS_ERR(gphy->usb_cfg_regmap)) {
+   203			return dev_err_probe(dev, PTR_ERR(gphy->usb_cfg_regmap),
+   204					     "invalid usb cfg csr\n");
+   205		}
+   206	
+   207		gphy->usb2_cfg_offset = args[0];
+   208	
+   209		gphy->usbdp_top_base = devm_platform_ioremap_resource_byname(pdev,
+   210									     "usbdp_top");
+   211		if (IS_ERR(gphy->usbdp_top_base))
+   212			return dev_err_probe(dev, PTR_ERR(gphy->usbdp_top_base),
+   213					    "invalid usbdp top\n");
+   214	
+   215		gphy->insts = devm_kcalloc(dev, GOOGLE_USB_PHY_NUM, sizeof(*gphy->insts), GFP_KERNEL);
+   216		if (!gphy->insts)
+   217			return -ENOMEM;
+   218	
+   219		inst = &gphy->insts[GOOGLE_USB2_PHY];
+   220		inst->parent = gphy;
+   221		inst->index = GOOGLE_USB2_PHY;
+   222		phy = devm_phy_create(dev, NULL, &google_usb2_phy_ops);
+   223		if (IS_ERR(phy))
+   224			return dev_err_probe(dev, PTR_ERR(phy),
+   225					     "failed to create usb2 phy instance\n");
+   226		inst->phy = phy;
+   227		phy_set_drvdata(phy, inst);
+   228	
+   229		inst->num_clks = 2;
+   230		inst->clks = devm_kcalloc(dev, inst->num_clks, sizeof(*inst->clks), GFP_KERNEL);
+   231		if (!inst->clks)
+   232			return -ENOMEM;
+   233		inst->clks[0].id = "usb2";
+   234		inst->clks[1].id = "usb2_apb";
+   235		ret = devm_clk_bulk_get(dev, inst->num_clks, inst->clks);
+   236		if (ret)
+   237			return dev_err_probe(dev, ret, "failed to get u2 phy clks\n");
+   238	
+   239		inst->num_rsts = 2;
+   240		inst->rsts = devm_kcalloc(dev, inst->num_rsts, sizeof(*inst->rsts), GFP_KERNEL);
+   241		if (!inst->rsts)
+   242			return -ENOMEM;
+   243		inst->rsts[0].id = "usb2";
+   244		inst->rsts[1].id = "usb2_apb";
+   245		ret = devm_reset_control_bulk_get_exclusive(dev, inst->num_rsts, inst->rsts);
+   246		if (ret)
+   247			return dev_err_probe(dev, ret, "failed to get u2 phy resets\n");
+   248	
+   249		phy_provider = devm_of_phy_provider_register(dev, google_usb_phy_xlate);
+   250		if (IS_ERR(phy_provider))
+   251			return dev_err_probe(dev, PTR_ERR(phy_provider),
+   252					     "failed to register phy provider\n");
+   253	
+   254		pm_runtime_enable(dev);
+   255	
+   256		sw_desc.fwnode = dev_fwnode(dev);
+   257		sw_desc.drvdata = gphy;
+   258		sw_desc.name = fwnode_get_name(dev_fwnode(dev));
+   259		sw_desc.set = google_usb_set_orientation;
+   260	
+ > 261		gphy->sw = typec_switch_register(dev, &sw_desc);
+   262		if (IS_ERR(gphy->sw))
+   263			return dev_err_probe(dev, PTR_ERR(gphy->sw),
+   264					     "failed to register typec switch\n");
+   265	
+   266		return 0;
+   267	}
+   268	
+   269	static void google_usb_phy_remove(struct platform_device *pdev)
+   270	{
+   271		struct google_usb_phy *gphy = dev_get_drvdata(&pdev->dev);
+   272	
+ > 273		typec_switch_unregister(gphy->sw);
+   274		pm_runtime_disable(&pdev->dev);
+   275	}
+   276	
 
 -- 
 0-DAY CI Kernel Test Service
