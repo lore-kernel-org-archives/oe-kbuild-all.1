@@ -1,94 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E00520E025
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 15:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7652DE6FA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 16:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769011111; cv=none; b=N6E9Kom5UV6D2fkanySZY+1ZNYsB8P7TWIvGe0Xk3VTe2iynpOyJUAXMfUNpsUCwWpP+iOta2pLCciyjzPyH2N2fXTmBYuIszIRIfXbu/nUvx6GBhzlWuxq+yqAIl3nn4/VvwEMOO8JUYTywyH2gFcsaPJDE88e3wVReuoSrKVQ=
+	t=1769011640; cv=none; b=RIzDpAgWAeMeMh3aErO4CoV2ZKt3snl4FfTkatSNBKJpyWsXX8hS2GNufmLdqrAenIrk60eaoaDKWYNyr5cjAZpczA5L4KAe0LZHxNWYQJDWV/QNiNmjiZjq0YMx2+MpDCTvYq3NDJjWuuPMIN60sGf8Ib+WZLMy7x3mwsubn3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769011111; c=relaxed/simple;
-	bh=cWs3c8l3iqmsUP88qW2RRdmlvmaGTwI0s+78r7tGfT0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=g+Mt4rvgnpcJcZPTfwRM27JQCYg6Xs5VtJBOfpBsJWRmm26932joFMHXarICJq2e/TRUkJI7rCOGdv+x4cfiEqOeTwUD1LYZh96J/gyNTDW9gxGyOfPgo1qI2Ervz++QglhRTwjAUe/Vo33xgUWo/SnsgxNMJ0DsmbnhaO7HfFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H1utTs0n; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769011640; c=relaxed/simple;
+	bh=R8j2uJWCuPQF4jnyFmqkM+Jyum5uRWUwD37pUrqBtog=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YplSRpom7IkoLoZM7KpSnGM//cJysyakA5WObWAUfV427XKqtAsZIEZcT8c+cl78BIhuYdIx9Gig+tL6swMx3izReOvJ6gjEWe6viLqccXVtRTVgtGs8/kS+kXTEicE8iRoGlEWGBJT8dUyzBMCQdUZzKQDrNJf1bG6PoKTMDHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cZ61vySY; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H1utTs0n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769011109; x=1800547109;
-  h=date:from:to:cc:subject:message-id;
-  bh=cWs3c8l3iqmsUP88qW2RRdmlvmaGTwI0s+78r7tGfT0=;
-  b=H1utTs0nCb6BjlHPpiBILnf/zN8dFX/TPY3w9XV8kiHXzaqGK4LH7HIN
-   FxVKZiLHq/qtrZkE/oCw942qbpddFWTtfzEcWnkruvrb5JdZp641HzF29
-   9fGWM3+QX/CjyhVYm9ogWmbf67rZ240pBMrGNhERZ8yOP0mecQPqCV8zW
-   r9+LxcfvATcKrUk+KxDMFUsAWFtpoNJgG7nSiDroqT4T7a9K6+4OF/KNv
-   yfB9GyR53IaZASngcePyOPSI+0nSh/1bYQ4YwYHGR6iPMIeJ5pHqyXO2c
-   Ov5DfIi9m/C0cuH1lg0D+9fw93TiOd62mlQX5BaccywC8IurPJVUaWtLw
-   g==;
-X-CSE-ConnectionGUID: ysUioUfmTIyEH/7iC+boAg==
-X-CSE-MsgGUID: ecwjdhT4QsiGO/PT2FudYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70292122"
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="70292122"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 07:58:28 -0800
-X-CSE-ConnectionGUID: 6YCElHjgRFKMYEy2kka1PA==
-X-CSE-MsgGUID: v/9cxsImTFyvBU5KYYS+fA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="206086270"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Jan 2026 07:58:27 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1viabB-000000000KP-1McD;
-	Wed, 21 Jan 2026 15:58:25 +0000
-Date: Wed, 21 Jan 2026 16:58:15 +0100
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 224/235] versioncheck:
- ./fs/bcachefs/util/util.c: 1030: need linux/version.h
-Message-ID: <202601211646.ZEUTfvoe-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cZ61vySY"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-480142406b3so110135e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 08:07:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1769011636; x=1769616436; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=wg40ewCl+D/97ANr1h+YLqT6oKOLJb+xdwWdPiyglqQ=;
+        b=cZ61vySYiZmYU2PQuFdpg2zx1XyWEiM2RE4jBJj/niG+Z7VGUKeA6pvfEbKQ/OWW3P
+         q4RyM3+TfmrxKA/KKBxMVSIwJVkLfeTCfNevKHt5R5BRNT2PEf0L7e+eE8X26DfWUAs7
+         Ffk2tzpz//1LrjiV6510tpJm/0aAkiSS8gV4r8NZwI3sBFXykYcKpCReGhRE99hybKtz
+         ddPx3S4+31JElaMWLr+ksCIgkogJjGaknyxDRw6uGNCzZNybdPnb8+jVVgswnZbgHgYM
+         ln4wH7ZmDAlqj5AQEiecHP0vlmW4s6HalMhhxGfdYr65URE0XND9jBmTXjOHgwBiPVCH
+         VCXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769011636; x=1769616436;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wg40ewCl+D/97ANr1h+YLqT6oKOLJb+xdwWdPiyglqQ=;
+        b=B16Wt/mV8ZdYfqtO9Ediss0ch9bxIo15J2MBWt6Eb2vnR710i9kOVtK2DD1dOXj/5J
+         u5JoQkRc+zccb3kauD6Kv9qmPuwlmd/CTcU3DhBIBqtmabGFxvT0iIK8hWbiOHvZu+1o
+         EugUYooOAxQCpH0WmfUyQ/btO4/pbQ0GYtzhzEJ5AGS4rkzvJkhYdw/lixlqK60ZBr9S
+         ObmzNfkBJ/kHZ2kLJ9iR7pNy4qGmZFAmukuGyRaL7sgeXHd34T3WT4esOwpYJ+rGmfPI
+         ZHjak0lVD/EQCC6s/CL84Sy81CKUTcg5o9aEJTf2anq38feHd9wpAMLNmC69zBxR5Eav
+         DgEA==
+X-Forwarded-Encrypted: i=1; AJvYcCVVqsLS5QpSys6j/PK0tdnkiSnB/j8xxqTG461vUGHUY5Y9JmZY4SA3pPQod/WSQRjV4nUTxLEXcuUMXzEA@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5KubH4QoSuPFhbSryQcQKhWqgT0kz82o+0dT94Zz5mq1aN0Bv
+	8eOpHha7AX6FwFo0PLwKsKfWiT72Uv0casv3sf7/SgzzNk0SZYHP1HajIUGTZlRGLRU=
+X-Gm-Gg: AZuq6aK2DojBSzgF+b4ri+A5hvtTxyWEdfZ4LC1I2pLvK5N3uDggcgvenGtaYK9txaG
+	LLmqS98K3lwjKon5DCG+Yyg5CEf+XK2/STQUcgPZnws55uJBRe1ZSRGMVGepZKodRhF5bSJh8he
+	/TZ7IaTDW8wc8uRZFgNHjNY626vJSmARzQNir5QMbdfqvASClNbOcFSysT3hQe9iOHlelx3WEq+
+	mqE3JMeUxfnTvjcCi0IK5gWLd71GJW3nn1iUJNUT4x/82OT8K7pizPVVyLkmlMNqAfQ/rKVEOBL
+	9LXyb4A1p3qNFymLEc2nmTuSvussYfPxkQoIXkIrEerLZ9qUQ1pJQXZu+nMCK5Ld/ZOiOzPVm1a
+	FDQX84EUCu7vZwP4bScIeDqqyOPmILsxkMTCvJ6I+GhGse3HGd/UkgoidOXTRoO83duGUM0CwO8
+	1CQMY=
+X-Received: by 2002:a5d:5f94:0:b0:431:1d4:3a8a with SMTP id ffacd0b85a97d-43569972d22mr24018615f8f.7.1769011635930;
+        Wed, 21 Jan 2026 08:07:15 -0800 (PST)
+Received: from pathway ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356992201csm38511033f8f.2.2026.01.21.08.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 08:07:15 -0800 (PST)
+Date: Wed, 21 Jan 2026 17:07:12 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Tamir Duberstein <tamird@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	llvm@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2] printf: convert test_hashed into macro
+Message-ID: <aXD5sNXwhnU5ycam@pathway>
+References: <20260116-printf-kunit-printf-attr-v2-1-3dd7fefc3207@kernel.org>
+ <aW3pgf4FQHFCC9Bm@smile.fi.intel.com>
+ <CAJ-ks9kOpAVq=-b2AXp02F2gJEAmJZxKE=UAGa5ypsVE_an3pQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ-ks9kOpAVq=-b2AXp02F2gJEAmJZxKE=UAGa5ypsVE_an3pQ@mail.gmail.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   3932211175372ebff36de9443ed7c7f1e913b80c
-commit: e9546cca4f20b493a0f5131d5b50121f9a28dd8f [224/235] bcachefs: Update for v6.19
-reproduce: (https://download.01.org/0day-ci/archive/20260121/202601211646.ZEUTfvoe-lkp@intel.com/reproduce)
+On Tue 2026-01-20 10:50:09, Tamir Duberstein wrote:
+> On Mon, Jan 19, 2026 at 3:21 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > On Fri, Jan 16, 2026 at 11:27:03AM -0500, Tamir Duberstein wrote:
+> > > This allows the compiler to check the arguments against the __printf
+> >
+> > __printf() since it takes parameters, OTOH it's an attribute at the end,
+> > so I have no strong opinion on how to spell it.
+> >
+> > > attribute on __test. This produces better diagnostics when incorrect
+> >
+> > __test()
+> >
+> > *This is reference to a function.
+> >
+> > > inputs are passed.
+> >
+> > ...
+> >
+> > > +/*
+> > > + * This is a macro so that the compiler can compare its arguments to the
+> > > + * __printf attribute on __test. This cannot be a function with a __printf
+> > > + * attribute because GCC requires __printf functions to be variadic.
+> >
+> > As per commit message remarks.
+> >
+> > > + */
+> > > +#define test_hashed(kunittest, fmt, p)                                   \
+> > > +     do {                                                             \
+> > > +             char buf[PLAIN_BUF_SIZE];                                \
+> > > +             plain_hash_to_buffer(kunittest, p, buf, PLAIN_BUF_SIZE); \
+> > > +             test(buf, fmt, p);                                       \
+> > > +     } while (0)
+> >
+> > Make sure you used tabs to indent the \:s.
+> >
+> > ...
+> >
+> > The downside of a macro is a killing of compile-time type checks.
+> 
+> This macro still bottoms out in __test() which is a function, so I
+> believe it preserves (and enhances, per the commit message)
+> compile-time checks.
+> 
+> I'll send v3 with the changes you requested above.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601211646.ZEUTfvoe-lkp@intel.com/
+JFYI, I am fine with this approach.
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/media/i2c/ov02c10.c: 12 linux/version.h not needed.
-   ./drivers/staging/media/ipu7/ipu7.c: 24 linux/version.h not needed.
->> ./fs/bcachefs/util/util.c: 1030: need linux/version.h
-   ./fs/bcachefs/vfs/buffered.c: 1169: need linux/version.h
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 449: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+Petr
