@@ -1,178 +1,143 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B367413239
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 15:44:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B33C41B361;
+	Wed, 21 Jan 2026 15:44:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769010288; cv=none; b=uKI7W9AQL5WETot1gyNiMIe6A9JT9GmOTd46nryJjSPnTzncPCoc9k/4ZEZzDql1VrTWOKSONWobY6mZ51rGbIEu/3akrVhY+YHsfBx3fi+vuLcOyDTJ0GYkhKjhhPFqDHnBrOeWm7r0RxyYSDyfHzv4gb1180TPIAD2J+IgdKY=
+	t=1769010290; cv=none; b=K/auGiYFE1joHZAZ9efbcrG1+W+nR37vGMGtYHzgtHyfMU7R4VXtbHA/NsEuaH7njSYgnnUOuiURhTyH5rvNvXujW8twA3r32nYGGQ2Rd9jKFCkNgr5R+aEwzVUBM+eIU18ze/LUC/DwE69XsgYC14pzHiq4WuSivUIHGP9cbzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769010288; c=relaxed/simple;
-	bh=pDy4BfSLAn84EDfUvOkKtsrCnZKTANceUixnr6zv7DY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=I/h28HSVfXHWIOeT0Jn4vXZRBD5NYb/LjPEO1WFRoTY9vmXYSDXhrmIf1WUz/TURBL8f04nLebqpqNW8KEGIWZ//IoCp2wuHWmaoNydb7CidKbld1U6rFCZ4vZHPsqTEYZACSflAmuZ+D4exyBipF+fY0FNAoMdazb3PgiXEW4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c1mjwzRA; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1769010290; c=relaxed/simple;
+	bh=tTM9MIYJDpxfY9o4TuJ5KZ6iY8deAz2hvjUrP6wh8qA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXBWFrW4oHZ1Lq91ciJyJ4vs3SwGEw/h1YU/FiqGr3lR8RD5gJMNohalZVffg4m6O85h0hF6c7PdCGGeLLRLsugXc895Fe+d7/vtFo4NB5EpxvSWpsrwhZy1xYUl79A7g83/UM6lYYZd3wIUIUumUYpJWg7EcyWB/ckwiP2+ews=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IInIRaOG; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1mjwzRA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IInIRaOG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769010286; x=1800546286;
-  h=date:from:to:cc:subject:message-id;
-  bh=pDy4BfSLAn84EDfUvOkKtsrCnZKTANceUixnr6zv7DY=;
-  b=c1mjwzRAD7OOIulLkX5oobvnDg61CRxAIh06b/v4MSlqvPno+M84N9YA
-   JLlW9iifyonUl+LnM80XUZJv4X7hlV9wrD2ZiffvohvetYJAFeK6SHWYD
-   K+hHDYz+ll21PmJ2snhwIn0NLdKeNfWNf27GTaFBPRimD9cpCXieRU81E
-   ZUKW6TA7jlpw/vzVI89gWgU4/i3BKtelSrz0dSbAEYiPrGJTui4cVsrCF
-   cQtEWY/mllrBW97T/O90GpKm9GZjgKk53G3h2nIthKseUJnuvBR2N7us5
-   CW6ssZvFYt/30jWDe2jtgyNMzv57jF11ecO+oq/JyBrC+qAWUD/BjeA26
-   g==;
-X-CSE-ConnectionGUID: xdK5F0DyQFCDQ8NK8b+WGQ==
-X-CSE-MsgGUID: cFmS+SG8RDSP4Zi7BohCZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="69435060"
+  t=1769010288; x=1800546288;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tTM9MIYJDpxfY9o4TuJ5KZ6iY8deAz2hvjUrP6wh8qA=;
+  b=IInIRaOG+619NDq8p2o5KkES8ovRyzMHkQ5Ntrea3P6FP8FRXb/KiTK5
+   GU2EipoFOVdsYvtSBSXc0jvqJ3rQpi8CGDltX2PZ9b12UNPnk3ojx/ztK
+   kIouT3Y88pX7yZOzssiIBrhou5Q4uWmroE0gx6i1CYRwBVNV7yEIUmIFP
+   WErikY2xd38g0EF+k79KiIC0vMFMu66oK68EDEOB8LoWUhoH7bzuzXwfL
+   KtWrarZnI4qKTYlst3EgXKXhKctoufrX7v0R/dFhlucPw5mkN9fJMPNYW
+   g/BmA3cJZoddoFyLqxFdsfKS5h82UHMKD8oDFI/8qHtq48DpgsIOoMcBP
+   Q==;
+X-CSE-ConnectionGUID: QcsOocQoQNydr72ELb1MyA==
+X-CSE-MsgGUID: OZ4x06/pSSeibf8WLQRruA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="69435062"
 X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="69435060"
+   d="scan'208";a="69435062"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 07:44:45 -0800
-X-CSE-ConnectionGUID: TmcEmGjHQLWEAqixi+tXEw==
-X-CSE-MsgGUID: 1QFVINlsT6iu7VK6AvHGrg==
+X-CSE-ConnectionGUID: ejY6aeK9Qz29d06IowdvZQ==
+X-CSE-MsgGUID: Wane3y14QECFNzlkc3A3WA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="244055679"
+   d="scan'208";a="244055669"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 21 Jan 2026 07:44:44 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viaNs-00000000RMV-460G;
+	id 1viaNs-00000000RMT-3xoh;
 	Wed, 21 Jan 2026 15:44:40 +0000
-Date: Wed, 21 Jan 2026 23:44:07 +0800
+Date: Wed, 21 Jan 2026 23:44:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 414/422]
- include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef
- expression
-Message-ID: <202601212341.LQmq1CzY-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Jean Delvare <jdelvare@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>
+Subject: Re: [PATCH v4 6/6] x86/CPU/AMD: Print AGESA string from DMI
+ additional information entry
+Message-ID: <202601212323.7qxI0awN-lkp@intel.com>
+References: <20260121060431.432350-7-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121060431.432350-7-superm1@kernel.org>
 
-Hi Lorenzo,
+Hi Mario,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   74daaa378c853e693bf1822327648b98c7d491ec
-commit: b9a7362d7bfd71c7db3c40aa82816ed3209c3967 [414/422] mm: update hugetlbfs to use VMA flags on mmap_prepare
-config: x86_64-randconfig-122-20260121 (https://download.01.org/0day-ci/archive/20260121/202601212341.LQmq1CzY-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601212341.LQmq1CzY-lkp@intel.com/reproduce)
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on tip/master linus/master v6.19-rc6 next-20260120]
+[cannot apply to bp/for-next tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello-AMD/firmware-dmi-Correct-an-indexing-error-in-dmi-h/20260121-140800
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20260121060431.432350-7-superm1%40kernel.org
+patch subject: [PATCH v4 6/6] x86/CPU/AMD: Print AGESA string from DMI additional information entry
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260121/202601212323.7qxI0awN-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601212323.7qxI0awN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601212341.LQmq1CzY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601212323.7qxI0awN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/hugetlb.c:658:12: sparse: sparse: context imbalance in 'allocate_file_region_entries' - wrong count at exit
-   mm/hugetlb.c:729:13: sparse: sparse: context imbalance in 'region_add' - wrong count at exit
-   mm/hugetlb.c:796:13: sparse: sparse: context imbalance in 'region_chg' - wrong count at exit
-   mm/hugetlb.c:1196:9: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:1196:9: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file (through include/linux/pagemap.h):
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file:
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file (through include/linux/pagemap.h):
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file:
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:1197:9: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:1204:9: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:1204:9: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file (through include/linux/pagemap.h):
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file:
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file (through include/linux/pagemap.h):
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file:
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:1205:9: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:1219:9: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:1219:9: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file (through include/linux/pagemap.h):
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file:
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file (through include/linux/pagemap.h):
->> include/linux/hugetlb_inline.h:16:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c: note: in included file:
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:5098:20: sparse: sparse: context imbalance in 'move_huge_pte' - different lock contexts for basic block
-   include/linux/mm.h:1772:22: sparse: sparse: context imbalance in 'hugetlb_wp' - unexpected unlock
-   mm/hugetlb.c:6588:13: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:6588:13: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:6588:13: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:6597:22: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:6631:22: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:6668:22: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   mm/hugetlb.c:6732:22: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1047:16: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:36: sparse: sparse: dereference of noderef expression
-   include/linux/mm.h:1181:53: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +16 include/linux/hugetlb_inline.h
+   In file included from arch/loongarch/kernel/setup.c:16:
+>> include/linux/dmi.h:173:64: error: use of undeclared identifier 'dmi_empty_string'
+     173 |         dmi_string_nosave(const struct dmi_header *dm, u8 s) { return dmi_empty_string; }
+         |                                                                       ^~~~~~~~~~~~~~~~
+   1 error generated.
 
-    13	
-    14	static inline bool is_vma_hugetlb_flags(vma_flags_t flags)
-    15	{
-  > 16		return vma_flags_test(flags, VMA_HUGETLB_BIT);
-    17	}
-    18	
+
+vim +/dmi_empty_string +173 include/linux/dmi.h
+
+   141	
+   142	static inline int dmi_check_system(const struct dmi_system_id *list) { return 0; }
+   143	static inline const char * dmi_get_system_info(int field) { return NULL; }
+   144	static inline const struct dmi_device * dmi_find_device(int type, const char *name,
+   145		const struct dmi_device *from) { return NULL; }
+   146	static inline void dmi_setup(void) { }
+   147	static inline bool dmi_get_date(int field, int *yearp, int *monthp, int *dayp)
+   148	{
+   149		if (yearp)
+   150			*yearp = 0;
+   151		if (monthp)
+   152			*monthp = 0;
+   153		if (dayp)
+   154			*dayp = 0;
+   155		return false;
+   156	}
+   157	static inline int dmi_get_bios_year(void) { return -ENXIO; }
+   158	static inline int dmi_name_in_vendors(const char *s) { return 0; }
+   159	static inline int dmi_name_in_serial(const char *s) { return 0; }
+   160	#define dmi_available 0
+   161	static inline int dmi_walk(void (*decode)(const struct dmi_header *, void *),
+   162		void *private_data) { return -ENXIO; }
+   163	static inline bool dmi_match(enum dmi_field f, const char *str)
+   164		{ return false; }
+   165	static inline void dmi_memdev_name(u16 handle, const char **bank,
+   166			const char **device) { }
+   167	static inline u64 dmi_memdev_size(u16 handle) { return ~0ul; }
+   168	static inline u8 dmi_memdev_type(u16 handle) { return 0x0; }
+   169	static inline u16 dmi_memdev_handle(int slot) { return 0xffff; }
+   170	static inline const struct dmi_system_id *
+   171		dmi_first_match(const struct dmi_system_id *list) { return NULL; }
+   172	static inline const char *
+ > 173		dmi_string_nosave(const struct dmi_header *dm, u8 s) { return dmi_empty_string; }
+   174	
 
 -- 
 0-DAY CI Kernel Test Service
