@@ -1,126 +1,223 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6827D3EDADA;
-	Wed, 21 Jan 2026 16:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CF6324B1C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 16:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769011814; cv=none; b=SPXnnDr78dEeJ7mylCMj6nObaFZ8+oyrBKNd7e1tvS0B3ezxck9kYkPg0eRWbUcWj2XOa78C7LbRKELAv6OnRgYN1+oZOWdrCtoC1wr+5bFddoNN3wZqX1L1xd9necISCFzAyhh08dULEBt3/v3uF9xeTs3zTcXpssFyTuye4KA=
+	t=1769012212; cv=none; b=F7Kp45CrLjd27Vf77zGcQidOykiuVqP/Nl6jndYniAZN99KDTGJwl1OmyAeJ225nDsUzRxPIazwkB4Y3GtrQq7mPKIrmqOr6LwxoXTDEZluPTS7jE1nzKqzkgDWyniKrmFvyWZm5Z5xvZwFdKlCMa9PYblksOvd5zLFUf2fBWsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769011814; c=relaxed/simple;
-	bh=BZ7ocKcu4BhNRqGDxy2G2f+cqwyxisbsmhpDL/toFZQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=q2ECJwoUJBfdm4svTkMZp8z7FmqnHjjJmoA1UOiSXZjM2XzHFn2poPGXKA0xJdpOWyjmIDvkFaUnAZgUTBSGjRCrJ9Vh3LJXNuA0XXwxOgvSwAHHNtA9C3MhCol44L2/3VsOo1lRy0v65qbXvW9uqV4/D/G8pi4/12x5KzL0FyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tqzKyLMz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769012212; c=relaxed/simple;
+	bh=xyXHTidgZWY/g2PxPkFTtT3NCs4dp0/0mZfJqy8CZXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gOYGu6Q+Uti+FxeEfXGy3eEp1FAQtiDLA0NteFJCJn4DHIYqso5KqViFgR6XXh2tTTYaacENMQzWCfiP+8a8k820mh9mDONUFrW7vtOs6vKMv10bRghacwptWK7mGJKPPmcfWnpBMvj7kVvf81kNvkkhcjOtEmJv+69vL0n/2dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ds83+RQS; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tqzKyLMz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62ADFC4CEF1;
-	Wed, 21 Jan 2026 16:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769011813;
-	bh=BZ7ocKcu4BhNRqGDxy2G2f+cqwyxisbsmhpDL/toFZQ=;
-	h=From:Date:Subject:To:Cc:From;
-	b=tqzKyLMzq2YFvhJxlgk7dN3lfqFbOd6YyYEmh5NDL9M385QiKTN0ZEm4+a//6QPgO
-	 D54IpjfAOS7BSTRqW9o8acFD8KoOvS+DKKYVMqCGlvYPfmYEasz41s/b8qcQZHwact
-	 DdXY4rcUzqhmqa+pfKgHnRtkdwzaFb6/Vw+ep31zMvP3lgH+Crozt3qNOvdUw0hdYT
-	 zL8kAcPW7CORZ3Y2Ds8mcpUXoZ4/pEh23gLWBwEQ4X6FQYTv2Kq3cBR7AnwcU5p8U+
-	 IMMuZWU6OpdE9zUUhKxRzSoTg+ro00Rz9STbPkL65Gn7jXANZSa7PhqFDZ8qPpoQ4Q
-	 fphRkz8VzhAkA==
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Wed, 21 Jan 2026 11:10:08 -0500
-Subject: [PATCH v3] printf: convert test_hashed into macro
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ds83+RQS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769012209; x=1800548209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xyXHTidgZWY/g2PxPkFTtT3NCs4dp0/0mZfJqy8CZXU=;
+  b=ds83+RQS0wYpsd/RKF/A5dTwsOTqj0DCYBCgdeY8e0Yh3nPiFtysmV86
+   l162rgH86zUNQxsb5Jv+Tz0HudsyNUzCEBeWsdf0x+ICUcKpq33IeODgs
+   slz/6qwqXiwKo920n5DkUHU9YpOlsw7NBegCl0qv4H+dJcYPJLKU/YlCa
+   Eri3ZezPxPOFUgKEHJWYZosVLRl2/t6dGYNrT+92ZR11YDZ2HFRzb3HN3
+   K7juJplLtPyoeD85FuXAyx1vIDNkY5usi4BpS28dZE2rJtDOv9q90xTR+
+   0sT8944Q4AXo6J9629UDOR8q/dnJKBh048qSN/+vQYEckDz7/2k0wzpoj
+   A==;
+X-CSE-ConnectionGUID: PWVt3/AxRQyUnBzpYTKrnQ==
+X-CSE-MsgGUID: yT2KQs8MRti7gdUGb3vQNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80545744"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="80545744"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 08:16:49 -0800
+X-CSE-ConnectionGUID: 2E2KTzYeRSyQpmMLQSXLGQ==
+X-CSE-MsgGUID: FvI0bei0Tq+AU5xO1BxfNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="211495702"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 21 Jan 2026 08:16:46 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viast-00000000ROz-3i0x;
+	Wed, 21 Jan 2026 16:16:43 +0000
+Date: Thu, 22 Jan 2026 00:15:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prashanth K <prashanth.k@oss.qualcomm.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prashanth K <prashanth.k@oss.qualcomm.com>
+Subject: Re: [PATCH v5] usb: dwc3: Log dwc3 address in traces
+Message-ID: <202601220002.cJKQOY2h-lkp@intel.com>
+References: <20260121084550.3112162-1-prashanth.k@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-printf-kunit-printf-attr-v3-1-4144f337ec8b@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NzQqDMBAGX0VybiSJ+NeT71E8aNzoVo2SRGkR3
- 73R4rWUPQ18O7MRCwbBknuwEQMrWpy0h+gWENlVugWKjWcimIi5YAmdDWqnaL9odBdUzhnK8yj
- JlYzTWjHi32cDCl+n+lF+2S71E6Q7fMeiQ+sm8z7bKz92f2RWTv0lmchYVse8YUU7VjiEchrJk
- VnFJUoY579EwouipkkVKBkJlhY9GA1DOJmWlPu+fwAkp3nGHAEAAA==
-X-Change-ID: 20251206-printf-kunit-printf-attr-19369fc57bf0
-To: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
- oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev, 
- kernel test robot <lkp@intel.com>, Tamir Duberstein <tamird@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1769011811; l=2103;
- i=tamird@kernel.org; h=from:subject:message-id;
- bh=BZ7ocKcu4BhNRqGDxy2G2f+cqwyxisbsmhpDL/toFZQ=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
- MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QG9HKrWrYFUXnemgk5gkmCkO9XcpEJpv/BqIl8jtXIliYTDl2mMcF+oyKdLmRcFXaZce9AvHO6i
- 8LQvFZITgpAU=
-X-Developer-Key: i=tamird@kernel.org; a=openssh;
- fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121084550.3112162-1-prashanth.k@oss.qualcomm.com>
 
-This allows the compiler to check the arguments against the __printf()
-attribute on __test(). This produces better diagnostics when incorrect
-inputs are passed.
+Hi Prashanth,
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512061600.89CKQ3ag-lkp@intel.com/
-Signed-off-by: Tamir Duberstein <tamird@kernel.org>
----
-Changes in v3:
-- Added parentheses to function references.
-- Changed escaped newline indentation to tabs.
-- Link to v2: https://patch.msgid.link/20260116-printf-kunit-printf-attr-v2-1-3dd7fefc3207@kernel.org
+kernel test robot noticed the following build warnings:
 
-Changes in v2:
-- Convert test_hashed to macro rather than try to annotate it in a way
-  that is compatible with both clang and gcc.
-- Link to v1: https://patch.msgid.link/20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com
----
- lib/tests/printf_kunit.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.19-rc6 next-20260120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
-index 7617e5b8b02c..f6f21b445ece 100644
---- a/lib/tests/printf_kunit.c
-+++ b/lib/tests/printf_kunit.c
-@@ -266,15 +266,17 @@ hash_pointer(struct kunit *kunittest)
- 	KUNIT_EXPECT_MEMNEQ(kunittest, buf, PTR_STR, PTR_WIDTH);
- }
- 
--static void
--test_hashed(struct kunit *kunittest, const char *fmt, const void *p)
--{
--	char buf[PLAIN_BUF_SIZE];
--
--	plain_hash_to_buffer(kunittest, p, buf, PLAIN_BUF_SIZE);
--
--	test(buf, fmt, p);
--}
-+/*
-+ * This is a macro so that the compiler can compare its arguments to the
-+ * __printf() attribute on __test(). This cannot be a function with a __printf()
-+ * attribute because GCC requires __printf() functions to be variadic.
-+ */
-+#define test_hashed(kunittest, fmt, p)						\
-+	do {									\
-+		char buf[PLAIN_BUF_SIZE];					\
-+		plain_hash_to_buffer(kunittest, p, buf, PLAIN_BUF_SIZE);	\
-+		test(buf, fmt, p);						\
-+	} while (0)
- 
- /*
-  * NULL pointers aren't hashed.
+url:    https://github.com/intel-lab-lkp/linux/commits/Prashanth-K/usb-dwc3-Log-dwc3-address-in-traces/20260121-165130
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20260121084550.3112162-1-prashanth.k%40oss.qualcomm.com
+patch subject: [PATCH v5] usb: dwc3: Log dwc3 address in traces
+config: sparc64-randconfig-001-20260121 (https://download.01.org/0day-ci/archive/20260122/202601220002.cJKQOY2h-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220002.cJKQOY2h-lkp@intel.com/reproduce)
 
----
-base-commit: 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-change-id: 20251206-printf-kunit-printf-attr-19369fc57bf0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601220002.cJKQOY2h-lkp@intel.com/
 
-Best regards,
---  
-Tamir Duberstein <tamird@kernel.org>
+All warnings (new ones prefixed by >>):
 
+   In file included from include/trace/define_trace.h:132,
+                    from drivers/usb/dwc3/trace.h:387,
+                    from drivers/usb/dwc3/trace.c:11:
+   drivers/usb/dwc3/./trace.h: In function 'trace_raw_output_dwc3_log_set_prtcap':
+>> drivers/usb/dwc3/./trace.h:33:19: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+      33 |         TP_printk("%pa: mode %s", __entry->base_address, dwc3_mode_string(__entry->mode))
+         |                   ^~~~~~~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   drivers/usb/dwc3/./trace.h:33:9: note: in expansion of macro 'TP_printk'
+      33 |         TP_printk("%pa: mode %s", __entry->base_address, dwc3_mode_string(__entry->mode))
+         |         ^~~~~~~~~
+   In file included from include/trace/trace_events.h:256:
+   drivers/usb/dwc3/./trace.h:33:21: note: format string is defined here
+      33 |         TP_printk("%pa: mode %s", __entry->base_address, dwc3_mode_string(__entry->mode))
+         |                    ~^
+         |                     |
+         |                     void *
+         |                    %lld
+   drivers/usb/dwc3/./trace.h: In function 'trace_raw_output_dwc3_log_io':
+   drivers/usb/dwc3/./trace.h:56:19: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+      56 |         TP_printk("%pa: addr %p offset %04x value %08x",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   drivers/usb/dwc3/./trace.h:56:9: note: in expansion of macro 'TP_printk'
+      56 |         TP_printk("%pa: addr %p offset %04x value %08x",
+         |         ^~~~~~~~~
+   drivers/usb/dwc3/./trace.h:56:21: note: format string is defined here
+      56 |         TP_printk("%pa: addr %p offset %04x value %08x",
+         |                    ~^
+         |                     |
+         |                     void *
+         |                    %lld
+   drivers/usb/dwc3/./trace.h: In function 'trace_raw_output_dwc3_log_event':
+   drivers/usb/dwc3/./trace.h:86:19: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+      86 |         TP_printk("%pa: event (%08x): %s", __entry->base_address, __entry->event,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   drivers/usb/dwc3/./trace.h:86:9: note: in expansion of macro 'TP_printk'
+      86 |         TP_printk("%pa: event (%08x): %s", __entry->base_address, __entry->event,
+         |         ^~~~~~~~~
+   drivers/usb/dwc3/./trace.h:86:21: note: format string is defined here
+      86 |         TP_printk("%pa: event (%08x): %s", __entry->base_address, __entry->event,
+         |                    ~^
+         |                     |
+         |                     void *
+         |                    %lld
+   drivers/usb/dwc3/./trace.h: In function 'trace_raw_output_dwc3_log_ctrl':
+   drivers/usb/dwc3/./trace.h:115:19: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+     115 |         TP_printk("%pa: %s", __entry->base_address, usb_decode_ctrl(__get_buf(DWC3_MSG_MAX),
+         |                   ^~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   drivers/usb/dwc3/./trace.h:115:9: note: in expansion of macro 'TP_printk'
+     115 |         TP_printk("%pa: %s", __entry->base_address, usb_decode_ctrl(__get_buf(DWC3_MSG_MAX),
+         |         ^~~~~~~~~
+   drivers/usb/dwc3/./trace.h:115:21: note: format string is defined here
+     115 |         TP_printk("%pa: %s", __entry->base_address, usb_decode_ctrl(__get_buf(DWC3_MSG_MAX),
+         |                    ~^
+         |                     |
+         |                     void *
+         |                    %lld
+   drivers/usb/dwc3/./trace.h: In function 'trace_raw_output_dwc3_log_request':
+   drivers/usb/dwc3/./trace.h:152:19: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+     152 |         TP_printk("%pa: %s: req %p length %u/%u %s%s%s ==> %d",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   drivers/usb/dwc3/./trace.h:152:9: note: in expansion of macro 'TP_printk'
+     152 |         TP_printk("%pa: %s: req %p length %u/%u %s%s%s ==> %d",
+         |         ^~~~~~~~~
+   drivers/usb/dwc3/./trace.h:152:21: note: format string is defined here
+     152 |         TP_printk("%pa: %s: req %p length %u/%u %s%s%s ==> %d",
+         |                    ~^
+         |                     |
+         |                     void *
+         |                    %lld
+   drivers/usb/dwc3/./trace.h: In function 'trace_raw_output_dwc3_log_generic_cmd':
+   drivers/usb/dwc3/./trace.h:203:19: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+     203 |         TP_printk("%pa: cmd '%s' [%x] param %08x --> status: %s",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   drivers/usb/dwc3/./trace.h:203:9: note: in expansion of macro 'TP_printk'
+     203 |         TP_printk("%pa: cmd '%s' [%x] param %08x --> status: %s",
+         |         ^~~~~~~~~
+   drivers/usb/dwc3/./trace.h:203:21: note: format string is defined here
+     203 |         TP_printk("%pa: cmd '%s' [%x] param %08x --> status: %s",
+         |                    ~^
+         |                     |
+         |                     void *
+         |                    %lld
+   drivers/usb/dwc3/./trace.h: In function 'trace_raw_output_dwc3_log_gadget_ep_cmd':
+   drivers/usb/dwc3/./trace.h:237:19: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+     237 |         TP_printk("%pa: %s: cmd '%s' [%x] params %08x %08x %08x --> status: %s",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+
+
+vim +33 drivers/usb/dwc3/./trace.h
+
+    21	
+    22	DECLARE_EVENT_CLASS(dwc3_log_set_prtcap,
+    23		TP_PROTO(struct dwc3 *dwc, u32 mode),
+    24		TP_ARGS(dwc, mode),
+    25		TP_STRUCT__entry(
+    26			__field(phys_addr_t, base_address)
+    27			__field(u32, mode)
+    28		),
+    29		TP_fast_assign(
+    30			__entry->base_address = dwc->xhci_resources[0].start;
+    31			__entry->mode = mode;
+    32		),
+  > 33		TP_printk("%pa: mode %s", __entry->base_address, dwc3_mode_string(__entry->mode))
+    34	);
+    35	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
