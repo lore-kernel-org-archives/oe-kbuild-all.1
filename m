@@ -1,92 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BBF30F7F8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 20:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE93425CFF;
+	Wed, 21 Jan 2026 21:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769029114; cv=none; b=XIibxI+sQg6xMzW1Q6fg2TmNp3iB2G8P3snxB8O2UVZ0Alc89aVsqBusNTxsU7gRvVZ2ZwFCHodoqCnVc4FJwoDvNasgfubQeSQcR+jPtULOV87IxR/OCGaXf36+TpRmq5kI2lpdSIu9Yc3boWP8fxn32hToymT8MuIfrJ+Cl/w=
+	t=1769029477; cv=none; b=jUq/nI9lo7MYEv+lIGGd8nZ70Zcd498PE+mcDWpgJhA55enq8Hl0lpNag4oDzgJ4bDK09anHiKZ7mE+vaz5/aBPAhGsbzAdftP+RWVQhRsNAZ0s4IVLa+WtPU9xHcD7c/AT2Q+WZD2JFwbB4xX0ynUbqjumNn2pCF4tBOPuYQK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769029114; c=relaxed/simple;
-	bh=8LxhSpE7+gclKEPRCqxEhyLPtSwVpMp8U4xtsLgBphI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=X/5C0KUWq8GrvQI1+0eddP7dsi2KHwvUjZm46+Fe5grpRhwJJJE3e96gyxFIaUd83pNilp3nrmdS1LUCVV9mnTFUMwy6pHHQmDzXSroT1AL0dvCAEMA4LbBCG3T1GccYJqGCabuO0OsC9fbMqIx3jFtuJpgJTeBdcGatmtieR4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jg+F6FX1; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769029477; c=relaxed/simple;
+	bh=XqPSo2qYJf+IM8qIZYWHCUSgyZyv4XBXXJSAz69WzIY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=TyVdjP6C8BoTjwCL63Y68QXvzUSENhpTnigN/1xnQwvKrb4s3dU/lPFjOxIZG50Dvp4hYXiL78Ss0U8wsqGNCOtpGsA2OjZV+/wzuemSfmNCUad9jhzNSYfQ7y/elHAnK+Buy98yxKtcy9Vnqa5UtG0nrmxugR0lvLfYlcbiRhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=I5bRxiWn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jg+F6FX1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769029112; x=1800565112;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8LxhSpE7+gclKEPRCqxEhyLPtSwVpMp8U4xtsLgBphI=;
-  b=jg+F6FX1Lna0F5K1gY0goeMMbrU031P7p/YlI+35pWSxPKdksIrVAxDC
-   2WOIQyJ1hcxnp+VHBr34OCsfZGHGJE5X+BbPyDlTT087oxbKoQp3p8PTh
-   X0TY/cnIkT5yOiiRQMmTCtb1XFgzCR7bBvDvYjSrKG+U/xV3W5Yt/srtg
-   913F1CGc25xstEI2oG+esuw6KyiHeXr4y5c41AN1fZ1IEwFqar7UlJA4q
-   z5pqHt8Osdy8OZx72azXJ43um0hwdKZf3fUx9MWJFs7htAq+s3MUTj4qw
-   qVUbP0U+7PUUPfaSiRRGyiKJPbSu0sPk1tqfE8V8SxRS6cZNpSPN2/VhU
-   Q==;
-X-CSE-ConnectionGUID: NxAP8goVQCmyJgV3BE17hw==
-X-CSE-MsgGUID: aYkeXD7TRe6fMEnWgk/LoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="74129316"
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="74129316"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 12:58:31 -0800
-X-CSE-ConnectionGUID: oHZXXnlCSBKlrOxZm9XLSw==
-X-CSE-MsgGUID: g2W6iIvQQKiTyzfy5VfaNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="206603619"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 21 Jan 2026 12:58:29 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vifHX-000000000NN-2C68;
-	Wed, 21 Jan 2026 20:58:27 +0000
-Date: Wed, 21 Jan 2026 21:58:26 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 1/28] kismet:
- WARNING: unmet direct dependencies detected for POSIX_AUX_CLOCKS when
- selected by DEBUG_TIMERS
-Message-ID: <202601212156.bLcG84jz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="I5bRxiWn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 121E7C4CEF1;
+	Wed, 21 Jan 2026 21:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1769029475;
+	bh=XqPSo2qYJf+IM8qIZYWHCUSgyZyv4XBXXJSAz69WzIY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=I5bRxiWnPPbDS5UooeiebkHj2C9Wr0HfuLqxuj6LdfoYJvX+CylLeqozD04rrsY6X
+	 ypWlsq35EnQN0dBjTTnh7hdi7DNMfpTdVAeZbghrQG6fhjdgD0dWmji/XQJnH8qR4y
+	 Jtsuud/8lBn6YgFsccic5dGF6y09gN3NhWrjYXx8=
+Date: Wed, 21 Jan 2026 13:04:34 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Andrey Konovalov <andreyknvl@gmail.com>
+Subject: Re: [linux-next:master 7687/8302] ERROR: modpost:
+ "vrealloc_node_align_noprof" [mm/kasan/kasan_test.ko] undefined!
+Message-Id: <20260121130434.1ab5355bb6ef31feabf4c4f3@linux-foundation.org>
+In-Reply-To: <8d5cea70-0e1d-4442-b761-e6589346d654@gmail.com>
+References: <202601211250.6uQzZrQp-lkp@intel.com>
+	<8d5cea70-0e1d-4442-b761-e6589346d654@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   90614b63ef6a2f10b6e486e486ca8d5bfd2b7a81
-commit: 3d3535e426c8e15bef8f2b193de5a970bbc84a20 [1/28] debugging
-config: alpha-kismet-CONFIG_POSIX_AUX_CLOCKS-CONFIG_DEBUG_TIMERS-0-0 (https://download.01.org/0day-ci/archive/20260121/202601212156.bLcG84jz-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260121/202601212156.bLcG84jz-lkp@intel.com/reproduce)
+On Wed, 21 Jan 2026 18:04:36 +0100 Andrey Ryabinin <ryabinin.a.a@gmail.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601212156.bLcG84jz-lkp@intel.com/
+> 
+> On 1/21/26 5:57 AM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   053966c344dbd346e71305f530e91ea77916189f
+> > commit: 22228c860d2633a22656cc506022c657fec15194 [7687/8302] mm/kasan/kunit: extend vmalloc OOB tests to cover vrealloc()
+> > config: x86_64-randconfig-121-20260120 (https://download.01.org/0day-ci/archive/20260121/202601211250.6uQzZrQp-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601211250.6uQzZrQp-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601211250.6uQzZrQp-lkp@intel.com/
+> > 
+> > Note: the linux-next/master HEAD 053966c344dbd346e71305f530e91ea77916189f builds fine.
+> >       It may have been fixed somewhere.
+> > 
+> 
+> Yep, this has been fixed independently by https://lkml.kernel.org/r/20260107-export-vrealloc_node_align_noprof-v1-1-a581bec13054@google.com
+> It would be nice to reorder the patches so that the fix is applied before the kunit patch.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for POSIX_AUX_CLOCKS when selected by DEBUG_TIMERS
-   WARNING: unmet direct dependencies detected for PROVE_LOCKING
-     Depends on [n]: DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=n]
-     Selected by [y]:
-     - DEBUG_TIMERS [=y]
-   
-   WARNING: unmet direct dependencies detected for POSIX_AUX_CLOCKS
-     Depends on [n]: POSIX_TIMERS [=n]
-     Selected by [y]:
-     - DEBUG_TIMERS [=y]
+No probs, I reordered the application order:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+: vmalloc-export-vrealloc_node_align_noprof.patch
+: #
+: mm-kasan-kunit-extend-vmalloc-oob-tests-to-cover-vrealloc.patch
+: mm-kasan-kunit-extend-vmalloc-oob-tests-to-cover-vrealloc-fix.patch
+
+(from https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/pc/devel-series)
+(not pushed out yet)
