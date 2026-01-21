@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FF61FE46D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 21:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E8D3BF30A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 21:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769032054; cv=none; b=V9TINd/S9iw1DhxKakn9XTIW561NWzmIXdtKY+yxhzDk7Kkxh4ZOKp2EkkG2GMIaDHEal4Sdtx0YWdcNWunGSR5FAVKj7wMGyg2bLdFnLZcufjV1025YWfdVAZAtATEloN8WCjwI8vVx9E5EJ4/py1hDxsINTf33jL8Z2UFzLig=
+	t=1769032401; cv=none; b=gFbE0EtbGCTfRE82el634zq4nUo7bfWJCaid6CXCVeM2mPnqm1CvtVsF6EcSFlb82+1lyYtCaehtX85egrUj7kE4bDmcBc0SgTMDXQbeQUVoTht60gTr1V7/fBddorO+k61nNOw8wPcPIPlmfQwiFL6JhdZSd/R+hQjbrzfjHAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769032054; c=relaxed/simple;
-	bh=prHRUbhqQKJCMUebhyuOtlaPths+nbbNppXIXVgxu6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Nw4I/PegI4omIqzqAS88EF3R7ncybhCbDPpc2EuMb4l8nlQ5sCsh1ZilvWHO08f/1nTQWu4yGRqX6/kn3NlBzDa7F0aN9J4tuXTNR9f+CxZ+7GeoYWtInfYfgEaHfllcVx2H1yX023/1FyR9S+6UNuz0TL9YBSxrTIIG9ee3xqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej5hkJfG; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1769032401; c=relaxed/simple;
+	bh=sJciIfgI9AJ9r3GlB7MYX8yMUOqY3mV/7q5wOURip+0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mgkx7febEsqATZd1md368gGXPsC7HASh7UA4iKlwES0f88CLywknITl7NxO59P+fyBKGZtZOZyKkkhNcad48xvP5q3G5wFht8ZNtZ9a0jp9oyzcjygZ62lX3MTQINGN5zMK1S7KwQTGCCy9jcWSWvVu/CyngeWlL8s6WaXff98Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SSZJesAI; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej5hkJfG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SSZJesAI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769032052; x=1800568052;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=prHRUbhqQKJCMUebhyuOtlaPths+nbbNppXIXVgxu6k=;
-  b=ej5hkJfG0m8cHW6ssy6nz6YPCa+MJNe13mWXdtYW1KjCLVygV2OgoZAI
-   /4CgCsmdye1x7pSCJfrxf5OnPA+WGocVX+pPRsP/4uj31uelWwaPZ0sH1
-   RpUdIXCPwLQLGPWJI0VBlTWbFhiPNJFVpNZ/I2e+gHVqjL2bfN50pHKrO
-   Tn/1JLX0Hm0kBBl7ib85H5LtGTDKLdoXildTVQ5QoLXQIsDypSpL54K2w
-   b6hsOR0SxAWpnd5mPPU7vjVYi88Zw7h6KZ24/yil0/1k+yS5RIdsXX7FC
-   jrE2X4aQv1qiuxC4MzeSyJhWIQbPaTT6DnPXboJDbYWIcZRazYXeXAFVJ
+  t=1769032399; x=1800568399;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sJciIfgI9AJ9r3GlB7MYX8yMUOqY3mV/7q5wOURip+0=;
+  b=SSZJesAImYtD+QzMfp/zVauyMMQZvTaralOy+GOnCp/Iuy5ri+naziL7
+   rBQROAPJaS3L8mfSQJTBaE6lHNXTRra2kK5kXo4kkx7/GSWIJH8E7ArrW
+   9KgF3rgNjAxf6SyC3fzk+akLjfJEL+OIyXJkl0LtI114EztTefjZyIgzI
+   0MWgHPu4Glns5F5QDgS7qbcip++udN5BYKWhzPcDb7+4sZGYWV0dQHLcl
+   L9kr3ev24nMSjvCLVi2fqi/tjz1w6vx5zeIaR3tfafVvvFMf2TMjyPfJc
+   HAn1CakFMaBRcF4CgFXys/9sg1sDzc4gxBYmRFcgngr6Jdp53CmWhjmli
    A==;
-X-CSE-ConnectionGUID: x9PhwQJfR9KsBh+B0cTagw==
-X-CSE-MsgGUID: fq2FB8ypSsaFJIEcX5MYHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70321984"
+X-CSE-ConnectionGUID: 8gcS1e0LTJC0FVUSgX20xg==
+X-CSE-MsgGUID: O2/Jw8scSAGOKTQ6aRZCaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="87682883"
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="70321984"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 13:47:31 -0800
-X-CSE-ConnectionGUID: xataWh1BT3m7K3Tl07VWKg==
-X-CSE-MsgGUID: apAUjfZVRWCz8GPYQXu3Cw==
+   d="scan'208";a="87682883"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 13:53:19 -0800
+X-CSE-ConnectionGUID: W8WmCJgSQKC8kyFpBsG+nA==
+X-CSE-MsgGUID: P1P94qleTmCbyi8u8PMkeQ==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Jan 2026 13:47:30 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
+   d="scan'208";a="210718602"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 21 Jan 2026 13:53:15 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vig2x-000000000Np-3RkV;
-	Wed, 21 Jan 2026 21:47:27 +0000
-Date: Wed, 21 Jan 2026 22:47:23 +0100
+	id 1vig8W-00000000S2r-1TXE;
+	Wed, 21 Jan 2026 21:53:12 +0000
+Date: Thu, 22 Jan 2026 05:52:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 1/28] kismet:
- WARNING: unmet direct dependencies detected for PROVE_LOCKING when selected
- by DEBUG_TIMERS
-Message-ID: <202601212253.dykLtr5x-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Felix Maurer <fmaurer@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	jkarrenpalo@gmail.com, tglx@linutronix.de, mingo@kernel.org,
+	allison.henderson@oracle.com, petrm@nvidia.com, antonio@openvpn.net,
+	bigeasy@linutronix.de, Yoann Congal <yoann.congal@smile.fr>
+Subject: Re: [PATCH net-next 6/9] hsr: Implement more robust duplicate
+ discard for HSR
+Message-ID: <202601220557.VfSPsAdo-lkp@intel.com>
+References: <a58f3b542fd8564c5d9576a10a9d6c9a7f318931.1769001553.git.fmaurer@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +66,73 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a58f3b542fd8564c5d9576a10a9d6c9a7f318931.1769001553.git.fmaurer@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   90614b63ef6a2f10b6e486e486ca8d5bfd2b7a81
-commit: 3d3535e426c8e15bef8f2b193de5a970bbc84a20 [1/28] debugging
-config: alpha-kismet-CONFIG_PROVE_LOCKING-CONFIG_DEBUG_TIMERS-0-0 (https://download.01.org/0day-ci/archive/20260121/202601212253.dykLtr5x-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260121/202601212253.dykLtr5x-lkp@intel.com/reproduce)
+Hi Felix,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Maurer/selftests-hsr-Add-ping-test-for-PRP/20260121-221431
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/a58f3b542fd8564c5d9576a10a9d6c9a7f318931.1769001553.git.fmaurer%40redhat.com
+patch subject: [PATCH net-next 6/9] hsr: Implement more robust duplicate discard for HSR
+config: alpha-randconfig-r073-20260122 (https://download.01.org/0day-ci/archive/20260122/202601220557.VfSPsAdo-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.5.0
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220557.VfSPsAdo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601212253.dykLtr5x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601220557.VfSPsAdo-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PROVE_LOCKING when selected by DEBUG_TIMERS
-   WARNING: unmet direct dependencies detected for PROVE_LOCKING
-     Depends on [n]: DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=n]
-     Selected by [y]:
-     - DEBUG_TIMERS [=y]
+All warnings (new ones prefixed by >>):
+
+   net/hsr/hsr_framereg.c: In function 'fill_last_seq_nrs':
+>> net/hsr/hsr_framereg.c:781:22: warning: variable 'block_off' set but not used [-Wunused-but-set-variable]
+     781 |         unsigned int block_off;
+         |                      ^~~~~~~~~
+
+
+vim +/block_off +781 net/hsr/hsr_framereg.c
+
+   773	
+   774	/* Fill the last sequence number that has been received from node on if1 by
+   775	 * finding the last sequence number sent on port B; accordingly get the last
+   776	 * received sequence number for if2 using sent sequence numbers on port A.
+   777	 */
+   778	static void fill_last_seq_nrs(struct hsr_node *node, u16 *if1_seq, u16 *if2_seq)
+   779	{
+   780		struct hsr_seq_block *block;
+ > 781		unsigned int block_off;
+   782		size_t block_sz;
+   783		u16 seq_bit;
+   784	
+   785		spin_lock_bh(&node->seq_out_lock);
+   786	
+   787		// Get last inserted block
+   788		block_off = (node->next_block - 1) & (HSR_MAX_SEQ_BLOCKS - 1);
+   789		block_sz = hsr_seq_block_size(node);
+   790		block = node->block_buf + node->next_block * block_sz;
+   791	
+   792		if (!bitmap_empty(block->seq_nrs[HSR_PT_SLAVE_B - 1],
+   793				  HSR_SEQ_BLOCK_SIZE)) {
+   794			seq_bit = find_last_bit(block->seq_nrs[HSR_PT_SLAVE_B - 1],
+   795						HSR_SEQ_BLOCK_SIZE);
+   796			*if1_seq = (block->block_idx << HSR_SEQ_BLOCK_SHIFT) | seq_bit;
+   797		}
+   798		if (!bitmap_empty(block->seq_nrs[HSR_PT_SLAVE_A - 1],
+   799				  HSR_SEQ_BLOCK_SIZE)) {
+   800			seq_bit = find_last_bit(block->seq_nrs[HSR_PT_SLAVE_A - 1],
+   801						HSR_SEQ_BLOCK_SIZE);
+   802			*if2_seq = (block->block_idx << HSR_SEQ_BLOCK_SHIFT) | seq_bit;
+   803		}
+   804		spin_unlock_bh(&node->seq_out_lock);
+   805	}
+   806	
 
 -- 
 0-DAY CI Kernel Test Service
