@@ -1,108 +1,85 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E985395708
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 16:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90E0346760
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 17:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769099740; cv=none; b=KsK2dwXr7Yikfuz8swT7da6kUT1qiZLC2WWQau/CQtSFi1mMrTYjnHvmr4U+CIUmRruR6W5eWAW9sr1XmT+hj/IkYY6As4Nvm2F2TP7481vZIBj1rH9wAnwg3iyrv6/XpH8HMFOOcnL16m1fOsxOe9oge8sJ420duVUvX7g70V4=
+	t=1769102216; cv=none; b=nwuRGWsZzMzObMPO++x956e393Jxy+9HUjN5Q4PNTIa5yseNCLmDNAfIhU9pCeqLEOWm3uJaTNWe/DhAyb1/kBDZT/FzCxbYpp/lsXaN8JglGAP//c/zNUPtJvLgizlPFWxlU2NZNprSyZWHKHQcYHWI1g2uQ5636nx+bByTuhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769099740; c=relaxed/simple;
-	bh=ZeRwDa8Rb46d2rBpoH6/CC/k21Uf9fAOTivadwrpHY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QQ1hx59WYBM48mcxPdO/x6MizmEoWefmota8hzb1t0fZTndROzW9MnsdcdZxw59H7z93/qfcNvc9XW1xUPWWT/j7Fjg/Ue/vtgCYJD21Eqg5FIRDdn4+CjMnFHROWk+ejqHYO9uWrfLDTXZl6MudW2A01bYgRcnZyOOia25cRY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQVCDplN; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769102216; c=relaxed/simple;
+	bh=9wnjGySfvySBlsuv54BeIMSTGCw4oKcQuxe2XTzSKS8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ptJjRqSD2qiv1LImdpkddQ1x0N0Job3ZR+bGm5hX/G8C7CVvFHKLxf/RN7/Ru5yG/kTUI0LOIUc7jlSz6jihZqCdiPuHfl6LKsmxsdDl4uEHxsutUhSPxfVs91Eo+GHtCFFLxWSiYC42dc4DwXa+JRIUtH72YTlbh/IFU6+vksM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R7hZn+wt; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQVCDplN"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-64bea6c5819so1715418a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 08:35:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769099727; x=1769704527; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f0kz4ZiUZYReaaffs5Nzc33lR02WRzRUUmPU/gSlaqg=;
-        b=FQVCDplNQZJq7ddLJ1fyTmCDXQQAl62xi7pwoFXjqv87fC869NSwztyFrIEJlYwM1H
-         KRA/tXvCzBxFnyc8S5yr/0Ee9NKgOjPZkPmyELWknkj/gS+IkSgn1kTrNhC3UD/RW3RX
-         9lpA1zn/vIQ5j4d2fDofm0SGdQJSL/sN4EbgcKDtKYhTp1ldTZoyBDmWIc1l+TwHQTP4
-         Zm/bttibzr4DkUvMX4sH86h707uOOoBCKA85toUgSqVC9yZgD8aa57vbYiT/Asj8sGJG
-         4rbtFh1PqE4ulMOtpZXTecOSzUDyUo8V7C9mYUKjuwoUeObTY6IJNn5pdOJ26NtQMcSj
-         zcOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769099727; x=1769704527;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=f0kz4ZiUZYReaaffs5Nzc33lR02WRzRUUmPU/gSlaqg=;
-        b=Hf8FCoLTnTNd0bELlFHX0qLbrPjd3wAyZsyl6KStbyHMHTsdF20c4hTZU4WTOud1U+
-         cwlYTczS2ShXr/YuDKbR1+Fc53a/Pk3mBSgtC6cyftTJ0QIhkWpuMxcs0ucbfFCpANK2
-         m3VrihmXjEpHd98unrWIsPzNHv4oqCxOzmqeU5YmY3MtPu15EXbbCKZmHw8fwLzhrEz9
-         oBZcjAppREWB4JTr0lKL7pqNyrP6jkT6K1rc/V4xTnCZTOKANpavpF7C0eH9Iu6QzhM7
-         w7WN9wUTa4ytu0TT7Awn7EhDtE960GYJkCQ+B1uT6py2NfG6fmaapu0RFcvWV7ZLv0SY
-         ixVw==
-X-Gm-Message-State: AOJu0YxMh+TBcKfMSi7eBuUWvpe+Xel+fk152qsXS2ioGOWIeOI+JxRO
-	KBKKjiEW+9sUuRRQzxv7Yd78ZFrnN/znDjC1Wj1N1Z9hJp1u65kZLioQNfO4+Q==
-X-Gm-Gg: AZuq6aKeybU5K2OX7O32rC66ObQNGG6GeZyJo81iyAmYOqwWubqv4WPJymGMPjKiGiU
-	VJAe7tOrK+3a1aogzzojjZEW/FDbamPC+kD5nCfOeMcaXXe5+U0Wzd70/r1g7MKAJIIt1Emf4Gz
-	4DwZiAz0seM7Im9Iazyv2t6IbqHweP8Ief+ud+1+hVbJIMRtXlt/aMqXchevC9B06PcBc5rLGis
-	6nAaDV8xQyXiyiPUqtm7wvD7fpOc7UZKn4/zrdcZJlBwe2qDqEUwwBq2PdFvBCIvQeJrjG6F2pQ
-	y1nd5MdnfjEpcK7r5VZRR0MwZG5sF76d4hOhwWq8yDAzFC2VAjnxfUedLs7JNDlqIENxnlNxsDK
-	INS/dWJ0eCegYeTxTZdXk6qM9vh5fvhZ+utLp/XhjnM/FXDnJzmKyzOdIzIXFlECKrpI5629phr
-	yJEX10pNF36TL/+s2GCy55hwRSiYN8SqNXnUVI47H6YNujb3X8GbUS1vFJBv9mWeg=
-X-Received: by 2002:a05:600c:1550:b0:480:4a4f:c366 with SMTP id 5b1f17b1804b1-4804a4fc5d8mr32785425e9.20.1769093874088;
-        Thu, 22 Jan 2026 06:57:54 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996dad0sm46479226f8f.27.2026.01.22.06.57.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 06:57:53 -0800 (PST)
-Date: Thu, 22 Jan 2026 14:57:52 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Andrew
- Morton <akpm@linux-foundation.org>, Linux Memory Management List
- <linux-mm@kvack.org>, Nicolas Pitre <npitre@baylibre.com>
-Subject: Re: mips64-linux-ld: lib/math/div64.c:undefined reference to
- `__multi3'
-Message-ID: <20260122145752.1e4c4202@pumpkin>
-In-Reply-To: <202601222217.uzed54La-lkp@intel.com>
-References: <202601222217.uzed54La-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R7hZn+wt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769102209; x=1800638209;
+  h=date:from:to:cc:subject:message-id;
+  bh=9wnjGySfvySBlsuv54BeIMSTGCw4oKcQuxe2XTzSKS8=;
+  b=R7hZn+wtE3BUuglswFuWtrUEweoSXHtr2/utT8+NhWSK7gGQVvnyAwUQ
+   BUndB+Rjw2x9CEiVUhzqUUEvNRqqtISCXMT4hPX4HnHzN5Vtea0i76vE5
+   aBKFfM3DJHasj9TfIVhX0wu0+tceK0m9whtosbA21UUeC+2moBsQzoPtD
+   V01PohVN7LbSrtIx1Y8c59rOCRAgCYGVZyGnNbrodumrY3GHheoZeth+D
+   ofhr/j+/mV+NsKvRYw6Cp2700f1zThliq83XMvyjaBy3eRbyfe1yAsxfL
+   j/F7OK8yxd3fGl5ASuLYeg4CsnrdtxCAYKbfubT7B3z3NPDHrXl5eGiBX
+   g==;
+X-CSE-ConnectionGUID: 8ty3p3/XQpKbfo6l7XkkEg==
+X-CSE-MsgGUID: M1dWZFY3RkKGRkpj+7gZZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="69368036"
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="69368036"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 09:16:38 -0800
+X-CSE-ConnectionGUID: lrIl32OoT56KQ6s7MOOKMQ==
+X-CSE-MsgGUID: TPeTFK4XTUy8HlJSV7i9WA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="207209413"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 22 Jan 2026 09:16:36 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viyIM-000000000WP-06Gr;
+	Thu, 22 Jan 2026 17:16:34 +0000
+Date: Thu, 22 Jan 2026 18:15:50 +0100
+From: kernel test robot <lkp@intel.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ OF_DYNAMIC when selected by NET_DSA_SJA1105
+Message-ID: <202601221820.b6a5wqXl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Thu, 22 Jan 2026 22:43:28 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/intel-lab-lkp/linux/commits/Vladimir-Oltean/net-mdio-regmap-permit-working-with-non-MMIO-regmaps/20260122-192934
+head:   845f2f26d455c4220ec37bcdad7523f3aa087919
+commit: d32b5cbfec0000f0d4c6e6c2297108fe41908b93 net: dsa: sja1105: fill device tree with ethernet-pcs sub-devices under "regs" node
+date:   6 hours ago
+config: parisc-kismet-CONFIG_OF_DYNAMIC-CONFIG_NET_DSA_SJA1105-0-0 (https://download.01.org/0day-ci/archive/20260122/202601221820.b6a5wqXl-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260122/202601221820.b6a5wqXl-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   a66191c590b3b58eaff05d2277971f854772bd5b
-> commit: d10bb374c41e4c4dced04ae7d2fe2d782a5858a0 lib: mul_u64_u64_div_u64(): optimise the divide code
-> date:   9 weeks ago
-> config: mips-randconfig-r062-20260122 (https://download.01.org/0day-ci/archive/20260122/202601222217.uzed54La-lkp@intel.com/config)
-> compiler: mips64-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601222217.uzed54La-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601222217.uzed54La-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    mips64-linux-ld: mips64-linux-ld: lib/math/div64.o: unable to get decompressed section .debug_info
->    lib/math/div64.o: in function `mul_u64_add_u64_div_u64':
->    lib/math/div64.c:(.text+0x60): undefined reference to `__multi3'
-> >> mips64-linux-ld: lib/math/div64.c:(.text+0x188): undefined reference to `__multi3'  
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601221820.b6a5wqXl-lkp@intel.com/
 
-Known error, duplicate of a different build.
-Really a bug in gcc, fixable by changing the compiler version in a test.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for OF_DYNAMIC when selected by NET_DSA_SJA1105
+   WARNING: unmet direct dependencies detected for OF_DYNAMIC
+     Depends on [n]: OF [=n]
+     Selected by [y]:
+     - NET_DSA_SJA1105 [=y] && NETDEVICES [=y] && NET_DSA [=y] && SPI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
 
-	David
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
