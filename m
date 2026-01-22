@@ -1,112 +1,317 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBB9265629
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 12:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047173806AF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 12:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769085081; cv=none; b=HwM4Wf5EmtR99OqeTgeLGh5RNalnJJvNi+NcNM0TdWSlmy3w33fPv+1RJRcDi5LlNMtCEW8kssINZKo8Zju3+8R0zXRRKFw5fqFvP/PLRMFVPzLo6mbDu+FSrhD7sj2l7oynTNzrYrSMgk8T4Vb8A+3ZRHHXZwEp3aaOWVR10A0=
+	t=1769085844; cv=none; b=jBxaAQsfiy/ijsSCwCwCU4k9ZtZ9BGT64Hi3AKzPXs6HB/f3bRvGRw1F0qciKl8VWv3Tq0vOyvB2U4ZabQVv6OcU8YDu6iJIHvEQcXtukeUyi3+g8FvrpjrmqxLl9QIy/6ZDBHgjL1GnGVHgSnpSDyHxMd/vi8bLG9A3nU0BYsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769085081; c=relaxed/simple;
-	bh=nntplBT+20swkCLKitUr7M5dmp5xeZLydXiNjXxRNHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=SmSkjtthuVZ/O3Q3C1Cc6ELtVYyomjbkveCZJ05eNhu/zFePLSwLQt3o1vJ09damSYQbgQRyC/esI3iZIgjmzmzaGhxu0P2RIJ0YGOwajKy9/FkYXAJOaggwOaWlUgVTyMv44Z/XodudiWNMkivhA7Rg6MxP6uToJ9L8rhi3xBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MgY5b4my; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1769085844; c=relaxed/simple;
+	bh=Qgu0sOA6pOGyn3/gH8SK9K5B/NQB7XysPcFRBTRzba0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ye1i2Z833Cap0vHGoSvoTRkgb8IK1KipnHvYDBFm5dfxQrpmwl5FAJlQ6pVcv6Hs9Xdz7FTsB5OvYGo0w+reZ/uEG3DdJCWmTmpK+DWQzKywoGtC1oaYzoHtZPYb07xqH/s5m5ksYUyLEdmiAlmZooJcpqh/w2RsIdrICjxKz0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oq2wLh9O; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MgY5b4my"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769085078;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LFSzJTNlbxqlWkI9uL9dnXcKklos1kYbBGtwLTdTQ1I=;
-	b=MgY5b4myyRW/v52rcew/OcxPRULfgW80meLY0QdYU/x1+u7lHRiYv2CR9VU3TKPX1nTgUZ
-	vy/gC3cAl+t0YmqNWaFxs/FF/xfErrEYZekBcAIN+jesHa1pUtYXkuNDF89twReT/wjUaN
-	Ol6hFH0+awaRkOqKQOARsBkbIPDqZpY=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-1E-xitMXNQu3YQlQCg4YDA-1; Thu, 22 Jan 2026 07:31:17 -0500
-X-MC-Unique: 1E-xitMXNQu3YQlQCg4YDA-1
-X-Mimecast-MFC-AGG-ID: 1E-xitMXNQu3YQlQCg4YDA_1769085076
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-89482366332so20702826d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 04:31:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769085076; x=1769689876;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LFSzJTNlbxqlWkI9uL9dnXcKklos1kYbBGtwLTdTQ1I=;
-        b=ANU8H2BMGN7vq2Kqs/WTxYcmKiodS9BSm7YtFUJq3N2ajMWYaftxRpf4GCEK2H4caM
-         UHHaFkc04nxS08mMRPkyCO9c0N0Awh7KMyXoPRI/TNe0306qwueuxjBoVk7SOdpZbT4F
-         gH99j3XH7pkRAAOm6DXVS4uxjXP3WStU2Bljeox/qKeyeURKkIFDpUUfHTJxZQY/JmtU
-         tuEW3l4sbQMOCxknSQrutEEVHWbu20NKrLGHaJZuUa28z8FoYf/zppar4NPSjNqHurCO
-         AKX1+dP4QJBKz29lbt5R7NvrNitEGOZW0RuHxfEopk3lvH4NPt8GIaMKB5TwLWGXbiBd
-         B6jw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpqUW8YGnDR+4XQim9iRn8n0P+3wy/AePTQ2YEJwDmuS9isu4ug7C7Swk45SL7Q9rUlSbmbIxKaqAhTTkL@lists.linux.dev
-X-Gm-Message-State: AOJu0YyzFHTF61XuUNJLqnbOo2VFIs7+w+9Ha/f8BAZF/nqW6aDYNVQk
-	AVWKkrKp6suBwpzQOw5zgd3Xdrudr03nw+tpO8INkq4yxkByh59mMREH99j8kw5bE+qhzqn1kbK
-	W2KGrbPK20RASEzXiMnGTREu9FaKmtwAS2SJqbMKK4FHOqNGSB10pj78xp+EjCslVhX4=
-X-Gm-Gg: AZuq6aLgh2Pn0W9qi8xH5AiPzIs31gFc7usC7icDiWSOCzubqaz5Tt1btALLVT5+9it
-	CnsrKuVD7cqNnbl1uH/rrOnls2fJu1Bc0Gobn9JkdZWPRK2an6KlPfwt68JMYEcu3WYREOfwMk9
-	8F5UlJSCANz11ZHJgpwMHQsfhxZ8UERwJImXkD3OeqpqPZqMDUGZN55UTa1+coeaNMLe/jJQ8MF
-	juEk3bbhyTU2y5nC8uKIilKp7lJw9L7V+fWsRti+oaEsnuZ9rMSpZ8WXKsCOfRfUZaVEHrX1YPL
-	j/I6lMKeI8EuDZSXjsV8Kj1efjnQ8lv9Zn93qQMFIixdlI46QAh3OcfXtDvzBqX8JGtCcuwubat
-	8+lRGFTB80mJMVQwAJ9MZtk4fmP0C3RxGxkxVmsz5hlrk
-X-Received: by 2002:a05:6214:27cc:b0:880:5867:45b4 with SMTP id 6a1803df08f44-89463837a4amr142852726d6.13.1769085076625;
-        Thu, 22 Jan 2026 04:31:16 -0800 (PST)
-X-Received: by 2002:a05:6214:27cc:b0:880:5867:45b4 with SMTP id 6a1803df08f44-89463837a4amr142852286d6.13.1769085076236;
-        Thu, 22 Jan 2026 04:31:16 -0800 (PST)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6ad74esm143654486d6.26.2026.01.22.04.31.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 04:31:15 -0800 (PST)
-Date: Thu, 22 Jan 2026 07:31:14 -0500
-From: Brian Masney <bmasney@redhat.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 13/13] clk: microchip: core: allow driver to be compiled
- with COMPILE_TEST
-Message-ID: <aXIYklgDnskI1HXe@redhat.com>
-References: <20260109-mips-pic32-header-move-v1-13-99859c55783d@redhat.com>
- <202601162110.K1eWGORM-lkp@intel.com>
- <aW-_eIjcRp7VM0bt@redhat.com>
- <20260121231321.GB2625738@ax162>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oq2wLh9O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769085842; x=1800621842;
+  h=date:from:to:cc:subject:message-id;
+  bh=Qgu0sOA6pOGyn3/gH8SK9K5B/NQB7XysPcFRBTRzba0=;
+  b=Oq2wLh9OskxecqTe5/mnuau3c1I14CCBhc0a3A3AENRrMuXdEW+H5aiv
+   5BCdemSPoKPVt34YFLYroT2sJCWOBLpu9sjxWLiY23nCKNi0sLYUtq8MH
+   tp4XwocIDsvB/BJ7mgK3Ms8qkiE1ukVQi1nslV8E40ibgRbhfOZ9OVq2w
+   iaWm1qm5UIAJwbNUVzFryWzwlxmbTqrUxh2lY1CtV6cRgEof/MUgcRKts
+   iS5JXHD/sv+ySnKmgW/QkM0gAtpHvS3+RKC0mLz3Jd7P2Mp13r0KeYPc8
+   +G9FVVW2pOtRp9jP358qJ0P9i2AwsgIMdKaL8SF4w0Gkse6tdVYsatr4B
+   Q==;
+X-CSE-ConnectionGUID: cqeIBnzwTLycrg0ZnNiq6A==
+X-CSE-MsgGUID: GERA1RHVRkO9jj1FuqCSuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70046510"
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="70046510"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 04:44:02 -0800
+X-CSE-ConnectionGUID: gCRIStJeTKS0BRHDiPu9YQ==
+X-CSE-MsgGUID: qOuA8ku5R/iKvm0i+fkAcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="205975517"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 22 Jan 2026 04:44:00 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viu2X-00000000SpV-3Zqm;
+	Thu, 22 Jan 2026 12:43:57 +0000
+Date: Thu, 22 Jan 2026 20:43:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rppt:zero-page/v0.1 1/1]
+ include/asm-generic/memory_model.h:65:37: error: implicit declaration of
+ function '__pfn_to_section'
+Message-ID: <202601222058.Tc3CJKLp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <20260121231321.GB2625738@ax162>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: W4XAA8ooAvJzToCyc4VH2qozuCmp6D-GsKoRA-31oC4_1769085076
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Wed, Jan 21, 2026 at 04:13:21PM -0700, Nathan Chancellor wrote:
-> On Tue, Jan 20, 2026 at 12:46:32PM -0500, Brian Masney wrote:
-> > None of the errors in this report appear to be due to the changes that
-> > I made that allow drivers/clk/microchip/clk-core.c to be compiled on all
-> > architectures instead of just MIPS.
-> 
-> Well, it is just the fact that this code is now compiled on all
-> architectures via CONFIG_COMPILE_TEST, right? asm/traps.h is an
-> architecture specific header, which might not work when used outside of
-> arch/${SRCARCH}. In this case, x86's traps.h is used for arch/um but
-> arch/um has never used this header before because all generic uses are
-> gated on specific architectures like in this case.
-> 
-> Is this header needed when compile testing or could it be gated on
-> CONFIG_MIPS?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git zero-page/v0.1
+head:   874cd89abfe244f25de9694abe17c68fd93c0f91
+commit: 874cd89abfe244f25de9694abe17c68fd93c0f91 [1/1] dev: arch, mm: consolidate empty_zero_page
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260122/202601222058.Tc3CJKLp-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601222058.Tc3CJKLp-lkp@intel.com/reproduce)
 
-I changed it so that it's gated on CONFIG_MIPS and it's working on
-several arches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601222058.Tc3CJKLp-lkp@intel.com/
 
-Brian
+All errors (new ones prefixed by >>):
 
+   In file included from arch/sh/include/asm/page.h:160,
+                    from arch/sh/include/asm/io.h:20,
+                    from arch/sh/kernel/machvec.c:16:
+   include/linux/pgtable.h: In function '__zero_page':
+>> include/asm-generic/memory_model.h:65:37: error: implicit declaration of function '__pfn_to_section' [-Wimplicit-function-declaration]
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |                                     ^~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:65:37: error: initialization of 'struct mem_section *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |                                     ^~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:66:9: error: implicit declaration of function '__section_mem_map_addr' [-Wimplicit-function-declaration]
+      66 |         __section_mem_map_addr(__sec) + __pfn;          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:64:2: error: returning 'long unsigned int' from a function with return type 'struct page *' makes pointer from integer without a cast [-Wint-conversion]
+      64 | ({      unsigned long __pfn = (pfn);                    \
+         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      66 |         __section_mem_map_addr(__sec) + __pfn;          \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      67 | })
+         | ~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+   arch/sh/kernel/machvec.c: In function 'early_parse_mv':
+   arch/sh/kernel/machvec.c:44:15: warning: variable 'mv_comma' set but not used [-Wunused-but-set-variable]
+      44 |         char *mv_comma;
+         |               ^~~~~~~~
+--
+   In file included from arch/sh/include/asm/page.h:160,
+                    from arch/sh/include/asm/io.h:20,
+                    from include/linux/io.h:12,
+                    from arch/sh/kernel/traps.c:3:
+   include/linux/pgtable.h: In function '__zero_page':
+>> include/asm-generic/memory_model.h:65:37: error: implicit declaration of function '__pfn_to_section' [-Wimplicit-function-declaration]
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |                                     ^~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:65:37: error: initialization of 'struct mem_section *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |                                     ^~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:66:9: error: implicit declaration of function '__section_mem_map_addr' [-Wimplicit-function-declaration]
+      66 |         __section_mem_map_addr(__sec) + __pfn;          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:64:2: error: returning 'long unsigned int' from a function with return type 'struct page *' makes pointer from integer without a cast [-Wint-conversion]
+      64 | ({      unsigned long __pfn = (pfn);                    \
+         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      66 |         __section_mem_map_addr(__sec) + __pfn;          \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      67 | })
+         | ~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+   In file included from include/linux/topology.h:34,
+                    from include/linux/irq.h:19,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/sh/include/asm/hardirq.h:9,
+                    from include/linux/hardirq.h:11,
+                    from arch/sh/kernel/traps.c:11:
+   include/linux/mmzone.h: At top level:
+>> include/linux/mmzone.h:2019:28: error: conflicting types for '__section_mem_map_addr'; have 'struct page *(struct mem_section *)'
+    2019 | static inline struct page *__section_mem_map_addr(struct mem_section *section)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:66:9: note: previous implicit declaration of '__section_mem_map_addr' with type 'int()'
+      66 |         __section_mem_map_addr(__sec) + __pfn;          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/linux/mmzone.h:2104:35: error: conflicting types for '__pfn_to_section'; have 'struct mem_section *(long unsigned int)'
+    2104 | static inline struct mem_section *__pfn_to_section(unsigned long pfn)
+         |                                   ^~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:65:37: note: previous implicit declaration of '__pfn_to_section' with type 'int()'
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |                                     ^~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+--
+   In file included from arch/sh/include/asm/page.h:160,
+                    from arch/sh/include/asm/io.h:20,
+                    from include/linux/io.h:12,
+                    from arch/sh/kernel/cpu/sh2/probe.c:12:
+   include/linux/pgtable.h: In function '__zero_page':
+>> include/asm-generic/memory_model.h:65:37: error: implicit declaration of function '__pfn_to_section' [-Wimplicit-function-declaration]
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |                                     ^~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:65:37: error: initialization of 'struct mem_section *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |                                     ^~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:66:9: error: implicit declaration of function '__section_mem_map_addr' [-Wimplicit-function-declaration]
+      66 |         __section_mem_map_addr(__sec) + __pfn;          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+>> include/asm-generic/memory_model.h:64:2: error: returning 'long unsigned int' from a function with return type 'struct page *' makes pointer from integer without a cast [-Wint-conversion]
+      64 | ({      unsigned long __pfn = (pfn);                    \
+         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      65 |         struct mem_section *__sec = __pfn_to_section(__pfn);    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      66 |         __section_mem_map_addr(__sec) + __pfn;          \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      67 | })
+         | ~~
+   include/asm-generic/memory_model.h:77:21: note: in expansion of macro '__pfn_to_page'
+      77 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/sh/include/asm/page.h:157:33: note: in expansion of macro 'pfn_to_page'
+     157 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   include/linux/pgtable.h:2198:16: note: in expansion of macro 'virt_to_page'
+    2198 |         return virt_to_page(empty_zero_page);
+         |                ^~~~~~~~~~~~
+
+
+vim +/__pfn_to_section +65 include/asm-generic/memory_model.h
+
+a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  62  
+67de648211fa04 Andy Whitcroft    2006-06-23  63  #define __pfn_to_page(pfn)				\
+a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27 @64  ({	unsigned long __pfn = (pfn);			\
+a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27 @65  	struct mem_section *__sec = __pfn_to_section(__pfn);	\
+a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27 @66  	__section_mem_map_addr(__sec) + __pfn;		\
+a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  67  })
+bb1c50d3967f69 Mike Rapoport     2021-06-28  68  #endif /* CONFIG_FLATMEM/SPARSEMEM */
+67de648211fa04 Andy Whitcroft    2006-06-23  69  
+
+:::::: The code at line 65 was first introduced by commit
+:::::: a117e66ed45ac0569c039ea60bd7a9a61e031858 [PATCH] unify pfn_to_page: generic functions
+
+:::::: TO: KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
