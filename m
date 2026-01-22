@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323282D7DFE;
-	Thu, 22 Jan 2026 01:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E0623A9AE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 01:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769043747; cv=none; b=DcC2PWki3GBLdflW6G+gd5JVroTQtRhmFm9u9yooqD0slsMjB3xCojh/0+3sPbNkTIVEcTsqCXaRBdgsTJho+nNnsJjrORsL8HyGH93niWsFHUFQy4GylmCCdfxesTSSCxQP91VYW6hgQmWjp37kxGZP5vufCy7jl2VeEJhUvOo=
+	t=1769044348; cv=none; b=WnMx9lUlq+W8UEvfXkqeZ+yVm4wzeyK9OTZd54A+jYnZxsrHayXV00m/EAg1Wf0Kmles2WpQhV6kVnB9UUSqpkUFxdEzjsVC5e7vejVwZTBqKwRjNw03pLHzsuVtcIcW66CYhUzkCnZPN6yZxA3Mpmvjhk5Ke4Mpe+2KWiGoj54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769043747; c=relaxed/simple;
-	bh=irmdqQqaeW9eWMg4tslEgtnUl7Z17EL7bWFi6oiAXwE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i67BNXvPZc1M0FNcRl7IqCC9lpwm70fkOeDmOzD65vfxqaiRvDh5ukrCRMzaqcBYXkwpj+/hWcPSeP6Q1wpZFW/dobJDOuMgVCPrWf8lXSe2HIcTgEryNs0tqxR83U9XUan5GgHaiunmTHor3YjsAHwWeB5hEqCepCMW4EKy1Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EA1JTIHw; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1769044348; c=relaxed/simple;
+	bh=A47f1sTrig/VCRzNz8tV9VBkMtMFQl4pfjDDbcylV6E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LZ7pjDTOINeNGc23r+zEVJivdaXaPd3qvk3KQa+nKYI6ZJXn6w0dvdvhMjXHP+fj76mE9T5pQ2UpZbnL6DwcFxKVwLSVly5pqCECkh0QVW314ySe8hzvE0ZTdT/PCnK7KQ20abqnY1PPX1Zox3fJLaTvBqc+F0xCbDazgIdB9KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GbcuLwtT; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EA1JTIHw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GbcuLwtT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769043745; x=1800579745;
+  t=1769044346; x=1800580346;
   h=date:from:to:cc:subject:message-id;
-  bh=irmdqQqaeW9eWMg4tslEgtnUl7Z17EL7bWFi6oiAXwE=;
-  b=EA1JTIHwNZk1Gy+gCLRQmPd2xuiFo/u2BBA5CoAEw+7y7heNte4RNW1r
-   PBYXJsvf2pb0S/oEsF3Uj1XKvsioRYCpjQ5T52rs77VfoPhzKq8sYTgQu
-   n9qxeunspXypDb4tvhSL67q46uuWJZe9Td6Y0jPcwITLmSMKw+eteW9wF
-   8m1g5tSbc8akaOvkgj82z/mFYkHlEVeRi+WafDr95/6SN91+Xq79xbXXt
-   0qpVMQqiquw85zF3fy2SsGmkf810AP4UVE/8Mhu3lCY4xpOll6+4jMS6o
-   kvDMbk25+8h6xw7zRGFBLwbkla/CkmsVfxKLz0zvYegCtcijwcvM9WJ5B
-   Q==;
-X-CSE-ConnectionGUID: tAoxgQk5QOCj9BVdPG0KwA==
-X-CSE-MsgGUID: yEG7YSC5TKWjTU5UwmzvZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80904049"
+  bh=A47f1sTrig/VCRzNz8tV9VBkMtMFQl4pfjDDbcylV6E=;
+  b=GbcuLwtTPeNZDEpYnYoPsBUeP8pQgCbK+HvWXw55AckjTLeiBIL0gf+U
+   555pN/V1pfUBUA+7kkWirH9TPAZjSeWrLh++Oqjz2zmRb8fjyqNTpIkNX
+   MwayesEQEsWvzHHAnpq/ZW9nTRFA32xY5JmxGegl2Y8HO8OtcI41KIPOM
+   9cw0qKEXaiZ4WzWX0+ApGa76ECjRzaoAtI1VHffqCi0VVul3A/wHu/6BU
+   xI1O80jYzI27vlZrET/k8U6z9OBmk65an+f09yG71/XjMt/Y06aE+RtPs
+   9Sq8xqOIwV0m0vL36bBO6+zAjfTszBpGj5x3yRVJC9BDyOA5BgLZ5q5Yk
+   w==;
+X-CSE-ConnectionGUID: s75weL47TmG5NKoC87TK1A==
+X-CSE-MsgGUID: 9xFrj28bSpeG3kn70OkAew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80904721"
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="80904049"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 17:02:24 -0800
-X-CSE-ConnectionGUID: BZzBE2RZSx2nj3zCaoDsjQ==
-X-CSE-MsgGUID: 2XSrve9/QxKxB5PWXsltMg==
+   d="scan'208";a="80904721"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 17:12:25 -0800
+X-CSE-ConnectionGUID: FJ7DWDRVRt6cx9yYgjsLPw==
+X-CSE-MsgGUID: fp8INFbfQ9uq3SyNip7VnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="206646354"
+   d="scan'208";a="211106961"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 21 Jan 2026 17:02:22 -0800
+  by orviesa004.jf.intel.com with ESMTP; 21 Jan 2026 17:12:23 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vij5Y-00000000SEF-0rqn;
-	Thu, 22 Jan 2026 01:02:20 +0000
-Date: Thu, 22 Jan 2026 09:01:28 +0800
+	id 1vijFE-00000000SEV-1Qxp;
+	Thu, 22 Jan 2026 01:12:20 +0000
+Date: Thu, 22 Jan 2026 09:12:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mark:arm64/alternatives/info 1/1]
- arch/arm64/kernel/alternative.c:147:13: warning: stack frame size (2096)
- exceeds limit (2048) in 'summarize_alternatives'
-Message-ID: <202601220850.IkhfN9qs-lkp@intel.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: oe-kbuild-all@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
+ Nuno Das Neves <nunodasneves@linux.microsoft.com>
+Subject: [linux-next:master 5987/8780]
+ drivers/hv/mshv_eventfd.c:509:13: sparse: sparse: restricted __poll_t
+ degrades to integer
+Message-ID: <202601220948.MUTO60W4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,89 +61,178 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/alternatives/info
-head:   ee8dd3d5de66e92a98896d6f316a71ec815cd51e
-commit: ee8dd3d5de66e92a98896d6f316a71ec815cd51e [1/1] HACK: arm64: alternatives: dump summary of alternatives
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260122/202601220850.IkhfN9qs-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220850.IkhfN9qs-lkp@intel.com/reproduce)
+Hi Michael,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e3b32dcb9f23e3c3927ef3eec6a5842a988fb574
+commit: e020f604abaa6da9b7d579d9d73ffaf37072f520 [5987/8780] mshv: Store the result of vfs_poll in a variable of type __poll_t
+config: x86_64-randconfig-123-20260122 (https://download.01.org/0day-ci/archive/20260122/202601220948.MUTO60W4-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220948.MUTO60W4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601220850.IkhfN9qs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601220948.MUTO60W4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hv/mshv_eventfd.c:509:13: sparse: sparse: restricted __poll_t degrades to integer
 
->> arch/arm64/kernel/alternative.c:147:13: warning: stack frame size (2096) exceeds limit (2048) in 'summarize_alternatives' [-Wframe-larger-than]
-     147 | static void summarize_alternatives(const struct alt_region *region)
-         |             ^
-   1 warning generated.
+vim +509 drivers/hv/mshv_eventfd.c
 
+621191d709b148 Nuno Das Neves 2025-03-14  385  
+621191d709b148 Nuno Das Neves 2025-03-14  386  static int mshv_irqfd_assign(struct mshv_partition *pt,
+621191d709b148 Nuno Das Neves 2025-03-14  387  			     struct mshv_user_irqfd *args)
+621191d709b148 Nuno Das Neves 2025-03-14  388  {
+621191d709b148 Nuno Das Neves 2025-03-14  389  	struct eventfd_ctx *eventfd = NULL, *resamplefd = NULL;
+621191d709b148 Nuno Das Neves 2025-03-14  390  	struct mshv_irqfd *irqfd, *tmp;
+e020f604abaa6d Michael Kelley 2026-01-14  391  	__poll_t events;
+621191d709b148 Nuno Das Neves 2025-03-14  392  	int ret;
+621191d709b148 Nuno Das Neves 2025-03-14  393  	int idx;
+621191d709b148 Nuno Das Neves 2025-03-14  394  
+ce23f29e7dfb53 Al Viro        2025-07-12  395  	CLASS(fd, f)(args->fd);
+ce23f29e7dfb53 Al Viro        2025-07-12  396  
+621191d709b148 Nuno Das Neves 2025-03-14  397  	irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL);
+621191d709b148 Nuno Das Neves 2025-03-14  398  	if (!irqfd)
+621191d709b148 Nuno Das Neves 2025-03-14  399  		return -ENOMEM;
+621191d709b148 Nuno Das Neves 2025-03-14  400  
+621191d709b148 Nuno Das Neves 2025-03-14  401  	irqfd->irqfd_partn = pt;
+621191d709b148 Nuno Das Neves 2025-03-14  402  	irqfd->irqfd_irqnum = args->gsi;
+621191d709b148 Nuno Das Neves 2025-03-14  403  	INIT_WORK(&irqfd->irqfd_shutdown, mshv_irqfd_shutdown);
+621191d709b148 Nuno Das Neves 2025-03-14  404  	seqcount_spinlock_init(&irqfd->irqfd_irqe_sc, &pt->pt_irqfds_lock);
+621191d709b148 Nuno Das Neves 2025-03-14  405  
+ce23f29e7dfb53 Al Viro        2025-07-12  406  	if (fd_empty(f)) {
+621191d709b148 Nuno Das Neves 2025-03-14  407  		ret = -EBADF;
+621191d709b148 Nuno Das Neves 2025-03-14  408  		goto out;
+621191d709b148 Nuno Das Neves 2025-03-14  409  	}
+621191d709b148 Nuno Das Neves 2025-03-14  410  
+621191d709b148 Nuno Das Neves 2025-03-14  411  	eventfd = eventfd_ctx_fileget(fd_file(f));
+621191d709b148 Nuno Das Neves 2025-03-14  412  	if (IS_ERR(eventfd)) {
+621191d709b148 Nuno Das Neves 2025-03-14  413  		ret = PTR_ERR(eventfd);
+621191d709b148 Nuno Das Neves 2025-03-14  414  		goto fail;
+621191d709b148 Nuno Das Neves 2025-03-14  415  	}
+621191d709b148 Nuno Das Neves 2025-03-14  416  
+621191d709b148 Nuno Das Neves 2025-03-14  417  	irqfd->irqfd_eventfd_ctx = eventfd;
+621191d709b148 Nuno Das Neves 2025-03-14  418  
+621191d709b148 Nuno Das Neves 2025-03-14  419  	if (args->flags & BIT(MSHV_IRQFD_BIT_RESAMPLE)) {
+621191d709b148 Nuno Das Neves 2025-03-14  420  		struct mshv_irqfd_resampler *rp;
+621191d709b148 Nuno Das Neves 2025-03-14  421  
+621191d709b148 Nuno Das Neves 2025-03-14  422  		resamplefd = eventfd_ctx_fdget(args->resamplefd);
+621191d709b148 Nuno Das Neves 2025-03-14  423  		if (IS_ERR(resamplefd)) {
+621191d709b148 Nuno Das Neves 2025-03-14  424  			ret = PTR_ERR(resamplefd);
+621191d709b148 Nuno Das Neves 2025-03-14  425  			goto fail;
+621191d709b148 Nuno Das Neves 2025-03-14  426  		}
+621191d709b148 Nuno Das Neves 2025-03-14  427  
+621191d709b148 Nuno Das Neves 2025-03-14  428  		irqfd->irqfd_resamplefd = resamplefd;
+621191d709b148 Nuno Das Neves 2025-03-14  429  
+621191d709b148 Nuno Das Neves 2025-03-14  430  		mutex_lock(&pt->irqfds_resampler_lock);
+621191d709b148 Nuno Das Neves 2025-03-14  431  
+621191d709b148 Nuno Das Neves 2025-03-14  432  		hlist_for_each_entry(rp, &pt->irqfds_resampler_list,
+621191d709b148 Nuno Das Neves 2025-03-14  433  				     rsmplr_hnode) {
+621191d709b148 Nuno Das Neves 2025-03-14  434  			if (rp->rsmplr_notifier.irq_ack_gsi ==
+621191d709b148 Nuno Das Neves 2025-03-14  435  							 irqfd->irqfd_irqnum) {
+621191d709b148 Nuno Das Neves 2025-03-14  436  				irqfd->irqfd_resampler = rp;
+621191d709b148 Nuno Das Neves 2025-03-14  437  				break;
+621191d709b148 Nuno Das Neves 2025-03-14  438  			}
+621191d709b148 Nuno Das Neves 2025-03-14  439  		}
+621191d709b148 Nuno Das Neves 2025-03-14  440  
+621191d709b148 Nuno Das Neves 2025-03-14  441  		if (!irqfd->irqfd_resampler) {
+621191d709b148 Nuno Das Neves 2025-03-14  442  			rp = kzalloc(sizeof(*rp), GFP_KERNEL_ACCOUNT);
+621191d709b148 Nuno Das Neves 2025-03-14  443  			if (!rp) {
+621191d709b148 Nuno Das Neves 2025-03-14  444  				ret = -ENOMEM;
+621191d709b148 Nuno Das Neves 2025-03-14  445  				mutex_unlock(&pt->irqfds_resampler_lock);
+621191d709b148 Nuno Das Neves 2025-03-14  446  				goto fail;
+621191d709b148 Nuno Das Neves 2025-03-14  447  			}
+621191d709b148 Nuno Das Neves 2025-03-14  448  
+621191d709b148 Nuno Das Neves 2025-03-14  449  			rp->rsmplr_partn = pt;
+621191d709b148 Nuno Das Neves 2025-03-14  450  			INIT_HLIST_HEAD(&rp->rsmplr_irqfd_list);
+621191d709b148 Nuno Das Neves 2025-03-14  451  			rp->rsmplr_notifier.irq_ack_gsi = irqfd->irqfd_irqnum;
+621191d709b148 Nuno Das Neves 2025-03-14  452  			rp->rsmplr_notifier.irq_acked =
+621191d709b148 Nuno Das Neves 2025-03-14  453  						      mshv_irqfd_resampler_ack;
+621191d709b148 Nuno Das Neves 2025-03-14  454  
+621191d709b148 Nuno Das Neves 2025-03-14  455  			hlist_add_head(&rp->rsmplr_hnode,
+621191d709b148 Nuno Das Neves 2025-03-14  456  				       &pt->irqfds_resampler_list);
+621191d709b148 Nuno Das Neves 2025-03-14  457  			mshv_register_irq_ack_notifier(pt,
+621191d709b148 Nuno Das Neves 2025-03-14  458  						       &rp->rsmplr_notifier);
+621191d709b148 Nuno Das Neves 2025-03-14  459  			irqfd->irqfd_resampler = rp;
+621191d709b148 Nuno Das Neves 2025-03-14  460  		}
+621191d709b148 Nuno Das Neves 2025-03-14  461  
+621191d709b148 Nuno Das Neves 2025-03-14  462  		hlist_add_head_rcu(&irqfd->irqfd_resampler_hnode,
+621191d709b148 Nuno Das Neves 2025-03-14  463  				   &irqfd->irqfd_resampler->rsmplr_irqfd_list);
+621191d709b148 Nuno Das Neves 2025-03-14  464  
+621191d709b148 Nuno Das Neves 2025-03-14  465  		mutex_unlock(&pt->irqfds_resampler_lock);
+621191d709b148 Nuno Das Neves 2025-03-14  466  	}
+621191d709b148 Nuno Das Neves 2025-03-14  467  
+621191d709b148 Nuno Das Neves 2025-03-14  468  	/*
+621191d709b148 Nuno Das Neves 2025-03-14  469  	 * Install our own custom wake-up handling so we are notified via
+621191d709b148 Nuno Das Neves 2025-03-14  470  	 * a callback whenever someone signals the underlying eventfd
+621191d709b148 Nuno Das Neves 2025-03-14  471  	 */
+621191d709b148 Nuno Das Neves 2025-03-14  472  	init_waitqueue_func_entry(&irqfd->irqfd_wait, mshv_irqfd_wakeup);
+621191d709b148 Nuno Das Neves 2025-03-14  473  	init_poll_funcptr(&irqfd->irqfd_polltbl, mshv_irqfd_queue_proc);
+621191d709b148 Nuno Das Neves 2025-03-14  474  
+621191d709b148 Nuno Das Neves 2025-03-14  475  	spin_lock_irq(&pt->pt_irqfds_lock);
+9d70ef7a18e0ec Jinank Jain    2025-11-24  476  #if IS_ENABLED(CONFIG_X86)
+621191d709b148 Nuno Das Neves 2025-03-14  477  	if (args->flags & BIT(MSHV_IRQFD_BIT_RESAMPLE) &&
+621191d709b148 Nuno Das Neves 2025-03-14  478  	    !irqfd->irqfd_lapic_irq.lapic_control.level_triggered) {
+621191d709b148 Nuno Das Neves 2025-03-14  479  		/*
+621191d709b148 Nuno Das Neves 2025-03-14  480  		 * Resample Fd must be for level triggered interrupt
+621191d709b148 Nuno Das Neves 2025-03-14  481  		 * Otherwise return with failure
+621191d709b148 Nuno Das Neves 2025-03-14  482  		 */
+621191d709b148 Nuno Das Neves 2025-03-14  483  		spin_unlock_irq(&pt->pt_irqfds_lock);
+621191d709b148 Nuno Das Neves 2025-03-14  484  		ret = -EINVAL;
+621191d709b148 Nuno Das Neves 2025-03-14  485  		goto fail;
+621191d709b148 Nuno Das Neves 2025-03-14  486  	}
+9d70ef7a18e0ec Jinank Jain    2025-11-24  487  #endif
+621191d709b148 Nuno Das Neves 2025-03-14  488  	ret = 0;
+621191d709b148 Nuno Das Neves 2025-03-14  489  	hlist_for_each_entry(tmp, &pt->pt_irqfds_list, irqfd_hnode) {
+621191d709b148 Nuno Das Neves 2025-03-14  490  		if (irqfd->irqfd_eventfd_ctx != tmp->irqfd_eventfd_ctx)
+621191d709b148 Nuno Das Neves 2025-03-14  491  			continue;
+621191d709b148 Nuno Das Neves 2025-03-14  492  		/* This fd is used for another irq already. */
+621191d709b148 Nuno Das Neves 2025-03-14  493  		ret = -EBUSY;
+621191d709b148 Nuno Das Neves 2025-03-14  494  		spin_unlock_irq(&pt->pt_irqfds_lock);
+621191d709b148 Nuno Das Neves 2025-03-14  495  		goto fail;
+621191d709b148 Nuno Das Neves 2025-03-14  496  	}
+621191d709b148 Nuno Das Neves 2025-03-14  497  
+621191d709b148 Nuno Das Neves 2025-03-14  498  	idx = srcu_read_lock(&pt->pt_irq_srcu);
+621191d709b148 Nuno Das Neves 2025-03-14  499  	mshv_irqfd_update(pt, irqfd);
+621191d709b148 Nuno Das Neves 2025-03-14  500  	hlist_add_head(&irqfd->irqfd_hnode, &pt->pt_irqfds_list);
+621191d709b148 Nuno Das Neves 2025-03-14  501  	spin_unlock_irq(&pt->pt_irqfds_lock);
+621191d709b148 Nuno Das Neves 2025-03-14  502  
+621191d709b148 Nuno Das Neves 2025-03-14  503  	/*
+621191d709b148 Nuno Das Neves 2025-03-14  504  	 * Check if there was an event already pending on the eventfd
+621191d709b148 Nuno Das Neves 2025-03-14  505  	 * before we registered, and trigger it as if we didn't miss it.
+621191d709b148 Nuno Das Neves 2025-03-14  506  	 */
+621191d709b148 Nuno Das Neves 2025-03-14  507  	events = vfs_poll(fd_file(f), &irqfd->irqfd_polltbl);
+621191d709b148 Nuno Das Neves 2025-03-14  508  
+621191d709b148 Nuno Das Neves 2025-03-14 @509  	if (events & POLLIN)
+621191d709b148 Nuno Das Neves 2025-03-14  510  		mshv_assert_irq_slow(irqfd);
+621191d709b148 Nuno Das Neves 2025-03-14  511  
+621191d709b148 Nuno Das Neves 2025-03-14  512  	srcu_read_unlock(&pt->pt_irq_srcu, idx);
+621191d709b148 Nuno Das Neves 2025-03-14  513  	return 0;
+621191d709b148 Nuno Das Neves 2025-03-14  514  
+621191d709b148 Nuno Das Neves 2025-03-14  515  fail:
+621191d709b148 Nuno Das Neves 2025-03-14  516  	if (irqfd->irqfd_resampler)
+621191d709b148 Nuno Das Neves 2025-03-14  517  		mshv_irqfd_resampler_shutdown(irqfd);
+621191d709b148 Nuno Das Neves 2025-03-14  518  
+621191d709b148 Nuno Das Neves 2025-03-14  519  	if (resamplefd && !IS_ERR(resamplefd))
+621191d709b148 Nuno Das Neves 2025-03-14  520  		eventfd_ctx_put(resamplefd);
+621191d709b148 Nuno Das Neves 2025-03-14  521  
+621191d709b148 Nuno Das Neves 2025-03-14  522  	if (eventfd && !IS_ERR(eventfd))
+621191d709b148 Nuno Das Neves 2025-03-14  523  		eventfd_ctx_put(eventfd);
+621191d709b148 Nuno Das Neves 2025-03-14  524  
+621191d709b148 Nuno Das Neves 2025-03-14  525  out:
+621191d709b148 Nuno Das Neves 2025-03-14  526  	kfree(irqfd);
+621191d709b148 Nuno Das Neves 2025-03-14  527  	return ret;
+621191d709b148 Nuno Das Neves 2025-03-14  528  }
+621191d709b148 Nuno Das Neves 2025-03-14  529  
 
-vim +/summarize_alternatives +147 arch/arm64/kernel/alternative.c
+:::::: The code at line 509 was first introduced by commit
+:::::: 621191d709b14882270dfd8ea5d7d6cdfebe2c35 Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs
 
-   141	
-   142	#define for_each_region_alt(region, alt)		\
-   143		for (struct alt_instr *alt = (region)->begin;	\
-   144		     (alt) < (region)->end;			\
-   145		     (alt)++)
-   146	
- > 147	static void summarize_alternatives(const struct alt_region *region)
-   148	{
-   149		unsigned int entries[ARM64_NCAPS] = { 0 };
-   150		unsigned int orig_len[ARM64_NCAPS] = { 0 };
-   151		unsigned int repl_len[ARM64_NCAPS] = { 0 };
-   152		unsigned int callbacks[ARM64_NCAPS] = { 0 };
-   153	
-   154		unsigned int total_entries = 0;
-   155		unsigned int total_orig = 0;
-   156		unsigned int total_repl = 0;
-   157		unsigned int total_callbacks = 0;
-   158	
-   159		for_each_region_alt(region, alt) {
-   160			int cap = ALT_CAP(alt);
-   161	
-   162			entries[cap]++;
-   163			total_entries++;
-   164	
-   165			orig_len[cap] += alt->orig_len;
-   166			total_orig += alt->orig_len;
-   167	
-   168			repl_len[cap] += alt->alt_len;
-   169			total_repl += alt->alt_len;
-   170	
-   171			if (ALT_HAS_CB(alt)) {
-   172				callbacks[cap]++;
-   173				total_callbacks++;
-   174			}
-   175		}
-   176	
-   177		pr_info("Alternatives summary:\n"
-   178			"    entries:      %6u (%6zu bytes)\n"
-   179			"      standard:   %6d\n"
-   180			"      callback:   %6d\n"
-   181			"    instructions: %6u (%6u bytes)\n"
-   182			"    replacements: %6u (%6u bytes)\n",
-   183			total_entries,	total_entries * sizeof (struct alt_instr),
-   184			total_entries - total_callbacks,
-   185			total_callbacks,
-   186			total_orig / AARCH64_INSN_SIZE, total_orig,
-   187			total_repl / AARCH64_INSN_SIZE, total_repl);
-   188	
-   189		for (int i = 0; i < ARM64_NCAPS; i++) {
-   190			if (!entries[i])
-   191				continue;
-   192	
-   193			pr_info("cpucap %3d => entries: %6d, orig: %6d, repl: %6d, cb: %6d\n",
-   194				i,
-   195				entries[i],
-   196				orig_len[i] / AARCH64_INSN_SIZE,
-   197				repl_len[i] / AARCH64_INSN_SIZE,
-   198				callbacks[i]);
-   199		}
-   200	}
-   201	
+:::::: TO: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+:::::: CC: Wei Liu <wei.liu@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
