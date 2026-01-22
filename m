@@ -1,136 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E11F318B88
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 17:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769103637; cv=none; b=pKxrqA6AMQmbfw+RO6LcHOanKXvjFFEOfwhx/WexK8DQLB/up/pbNFAkgpxfcfN85tFGnwrsCOIQp/7FrFuZ7q9T7WFAYOHBIIWxLuz71W1FmQ2ddMX1i6fjag+RIVa1Dnzqd0A7O40VXIotg3slecqp39eJu8kULaxyGboqdAg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769103637; c=relaxed/simple;
-	bh=Z+R84j5D0y+EGcYGZf77szrmdtLgDIsT1NFnIIZmzIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TKeBflcs+u1pcVyT7oxMyk/gwhcbgxa1SEZgysq3qJkiwJzI0+rMfWQkEGrAGQAbQj9wfMCLm+jjg6tmZpTDAShVMa3xnDemFVd0KElqk105zbtZrrbYpQN2NrX+1YDZ2uOwpH77500k6jHRwvPdVcpO6etxonFDdr9BM3kAwNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JSAaAaCi; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEEF32F764
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 18:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769105737; cv=pass; b=RFKdTjQYbSUeDHTieKMljbc2B8xvX8e7hlzO+mBEhqTFBfgFtc3BV+WAAHRicNC+sEClBRqaw6Ed7ipWuEqCcdz400vLNBG9LdvTJqmxHVd2aRNct/eyZxdvJhOckls6J3GRf5j0tFpTHep8usWSa+or+33v2KZ3QBOPHGjRAtg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769105737; c=relaxed/simple;
+	bh=PmHPMv+0IVVZWQVR8YcLFHLTKICYt5ZaBTe7s/+0FW8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bsV+eyi6jzq2vaHoHB9EtTB+N3Im1qYEcNaUE20DpsxGerwKVPsA1CZrNZvAizeTVYmi3pHPGTmA5b7kNT0Nfn5Qa6Pob0WK5g3k+pPFP5xNxqHwQkap7kH8o2FLN04AZSqieyU4td2FR3Ky9xpi7s8t9l+hwINUM3l56UgQdkk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=DqH2yg53; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JSAaAaCi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769103622; x=1800639622;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z+R84j5D0y+EGcYGZf77szrmdtLgDIsT1NFnIIZmzIk=;
-  b=JSAaAaCiON2t+iIoC+R9SByVwxIWxLE5PmNemY/VskP/rVdKB8/4xTfW
-   fxnphoGOcewF5iDaA+U5g32Vl3Eppa5cNh2C9n+6i5FiPonQI4P/npzmO
-   g+c0MTxVAW7WWpXyBLMMTFxjOJmwmFUwwZHiNoTTJDJyxtFQ6DelyXNgv
-   IYt6BVAK0mj5ciwFisfrjtWi9/69TBD/+Gc2pdF6/d4hgRE4ddZ/cgrnB
-   4i/CtMwZcdGaOXcz09I7nnIJLE9ieusDZ0MYv4j+dVdStouZ9eEG2RnpV
-   sec6B8zj7H9sK6JnHgUaiWsQHtls7PGoA6SCpm19akpLVFGcGp5hKhNGU
-   A==;
-X-CSE-ConnectionGUID: z2yRQb7pSAWKVeIFPwYITA==
-X-CSE-MsgGUID: FmxIGM34SQKwtf2I2cCSoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="81795422"
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="81795422"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 09:40:17 -0800
-X-CSE-ConnectionGUID: OcKZGVQ8R6KLb5B7eBNb+w==
-X-CSE-MsgGUID: n/S0XiraTpyy+caYGaHM1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="211245816"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Jan 2026 09:40:14 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1viyfE-00000000T7O-1EOb;
-	Thu, 22 Jan 2026 17:40:12 +0000
-Date: Fri, 23 Jan 2026 01:39:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Damien Dejean <dam.dejean@gmail.com>, andrew@lunn.ch,
-	krzk+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, hkallweit1@gmail.com,
-	Damien Dejean <dam.dejean@gmail.com>
-Subject: Re: [PATCH v2 2/4] net: phy: realtek: add RTL8224 pair order support
-Message-ID: <202601230140.M3peApO0-lkp@intel.com>
-References: <20260121151506.813783-2-dam.dejean@gmail.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="DqH2yg53"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-65813e3bdaaso1456017a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 10:15:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769105726; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SAZ1XQz9eFEBOi8OoHFvS2Obuy/rCY9TBBP1NBRWWHc5Wg1A0N2eHy7moR33VpqFos
+         AkXSXEKhWHe1OHajNrwxgIUvYEbtdvza8R3QjZhqLp8rrXWCbGtde/X045vvXG9WRzHz
+         wYrgcUdfXr/2XqEzreVxXKSTX+fqRLEjHw8rfva7xx/Yy6LM1DbnlLQmkDrYWcuspcCV
+         +b/9jDFPyJWMmr+HbEGLvocfk3qxJcAoTHjsvj5PxT1jDFyg4yt4S631ZdZjV7/5eSTZ
+         vDtVuyeKSKh3UbSFWfFbIcoCZH/zGAL1hLBA2FhnsctxrdDSJI4CwgqkSfIRyeXRBMvg
+         eT4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=azOk63yV7A5TybPiH/Lg4nzY0I8Pa0E2B+WL4X7922E=;
+        fh=sRrIqPeaKy8DVG0lOFhpke4hOTxIzX/4WBxNSJlf1Q0=;
+        b=dGB2bZkifbTGMA0RhZYqkSD5pIzYo3UBC7v/HGunp1oS13htjttYlmSWeVN5jdIVmf
+         zNjk1hUV74CWWWggOt9ji1+VY5WzjUqCjw42iseYbDcKe6wK/wTMxMi5dGCKoPZaDGF2
+         xuAojaFcoc0Leu+Ur2qh2njLBlNJpBfSnc7POOGiBjs8TNwQx5w/Lfb0U5wnlyzoyWAt
+         4haXfBH91jm3ts2TUmp0NZdZWvS2J676lJCDlS64erudYzkZ742JIbQgU6WajjK9e07y
+         afsImCs5HQpHn+kjQqTuqbkTZmQSoxNZApzhUT3pxx9flVRxJ7Raq5GONX3+siSHihT0
+         hbBg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1769105726; x=1769710526; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=azOk63yV7A5TybPiH/Lg4nzY0I8Pa0E2B+WL4X7922E=;
+        b=DqH2yg53WCqWwIf3Rz+kGtgrquFFztfom0WtzBZQWxEGwAL/gGD+49n93AhBHveGmL
+         UZ/XIlVM4urLyxeXemAKnMxerLZtnkKiXszSOfwVjTzbE2EYNkRrtB+Kf/yITvkNOprB
+         OKZPtn4HysdmD/rup2NyyvSkBjvMW8UIXNwuSMT5hHn3XpxrmKKq1IoIXDhXFXG0LqOG
+         0albPvIJwVkQiSRGJqHMsSGUSp2EnH7s82GfBnyBxGcVWdbH/iWn2GVWfzdZ60C3ur0r
+         sVxEtmhh8e4Y76fxzZQ08g+gzKm2sp8APHopJXF5BcOovofSw4CfxVMkaqd2U+WWoCZ4
+         9rSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769105726; x=1769710526;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=azOk63yV7A5TybPiH/Lg4nzY0I8Pa0E2B+WL4X7922E=;
+        b=xIkd+WwMa+F87g6Y8aPOBM1PFksU62q93MDD08oaCeVj/o5gurG1TzpODYm1pk+fsL
+         3CUcMeI57+DIBwMpZKqiai2DZGo5otG123vKbYi25PVJHK4jS+DLDTjvlaiZ4+SNzs1c
+         kmJMTkdIdRvZK1KK/jIhgmwY2mVf7BMRfL/PsMq/irZ2XibTxkLxazWmw3o+3BLvPgCw
+         6YEykavoX7+kv9weTL6oJ3WE/cT6iPRQdbRiP/H6LZSAhAhg157SiVVj9lF1Lre9SlSi
+         UxVEOCvwRKjd/WivrPRbzy/vtOxqwNPbiqg5cVQRZ736nHAftzSxSCVY1eLTaaMH2M68
+         8WXg==
+X-Forwarded-Encrypted: i=1; AJvYcCXHuYh6Y2+AqB+wU/rIQdk+G1SlGqqjbq69VXNJmY/Db4v8HQ+/b9d5xdBUFUi6jY16XdP5DURizvZLb7hp@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfvX4904F3oljroRG0biPrWSpnc/6gr18sQ/IrApspggc1ymt4
+	iYV0P006vKMgsdkIoxFRCpMB6fOSt1JTU1qI6j5u0KFTAR/pwhRgZPY1A8XX90K6ak3wIhy7bAO
+	aAH3HZa0HruY0TToHXBY39Liq8GdOTg59xN03FIYDCw==
+X-Gm-Gg: AZuq6aLPfliKRlD65KG6j/ECd9ksU/tEY3E/O449wnPP16pW1tKt7ZadNDbzsX77Oom
+	Z8ejVlXreQR6ftNwLH8jfmhrZMo5mHQAx03HqpuZbT5re7HSGp2yNb4/7bUbbyRdkDWBk9JxIr3
+	VmHWmYcALBy/U7zgOOxZnz/r4nmmFt4ZnKci+ehIz3jWbWio0zD9iSnzBwKTDCx14RwCLBMphy+
+	6/juENX/arNYOTRlr3umgR+DC2T/qvqNuVSC+THbronO1LHCjqJZLZKhfLD8GofxxwsEPKRNxHr
+	TGleKLY+LzhiAsyBDZ33yXBQWQ==
+X-Received: by 2002:aa7:db50:0:b0:658:1350:1fd2 with SMTP id
+ 4fb4d7f45d1cf-65832eb76a5mr1835496a12.13.1769105726405; Thu, 22 Jan 2026
+ 10:15:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260121151506.813783-2-dam.dejean@gmail.com>
+References: <202601211636.IRaejjdw-lkp@intel.com> <20260121123922.c0bb0ef8505c70b99998c324@linux-foundation.org>
+In-Reply-To: <20260121123922.c0bb0ef8505c70b99998c324@linux-foundation.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 22 Jan 2026 13:14:49 -0500
+X-Gm-Features: AZwV_QjkOt8rryPZqYSqx98LQ60wO70s9K8cucBSZwSM5UYoS1ViJ13uHLsVIOo
+Message-ID: <CA+CK2bAyHHoUaT_4dTNK6AH2oyMMhs2sNhuW97hV4yRw7ie9Tg@mail.gmail.com>
+Subject: Re: kernel/liveupdate/kexec_handover.c:994 kho_preserve_vmalloc()
+ warn: missing error code 'err'
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Linux Memory Management List <linux-mm@kvack.org>, Jason Gunthorpe <jgg@nvidia.com>, 
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Damien,
+> --- a/kernel/liveupdate/kexec_handover.c~a
+> +++ a/kernel/liveupdate/kexec_handover.c
+> @@ -1011,8 +1011,10 @@ int kho_preserve_vmalloc(void *ptr, stru
+>                 chunk->phys[idx++] = phys;
+>                 if (idx == ARRAY_SIZE(chunk->phys)) {
+>                         chunk = new_vmalloc_chunk(chunk);
+> -                       if (!chunk)
+> +                       if (!chunk) {
+> +                               err = -ENOMEM;
+>                                 goto err_free;
+> +                       }
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-[auto build test WARNING on 983d014aafb14ee5e4915465bf8948e8f3a723b5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Dejean/net-phy-realtek-add-RTL8224-pair-order-support/20260122-000009
-base:   983d014aafb14ee5e4915465bf8948e8f3a723b5
-patch link:    https://lore.kernel.org/r/20260121151506.813783-2-dam.dejean%40gmail.com
-patch subject: [PATCH v2 2/4] net: phy: realtek: add RTL8224 pair order support
-config: i386-randconfig-141-20260122 (https://download.01.org/0day-ci/archive/20260123/202601230140.M3peApO0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601230140.M3peApO0-lkp@intel.com/
-
-New smatch warnings:
-drivers/net/phy/realtek/realtek_main.c:1710 rtl8224_mdi_config_order() warn: unsigned 'val' is never less than zero.
-
-Old smatch warnings:
-drivers/net/phy/realtek/realtek_main.c:805 rtl821x_resume() warn: 'priv->clk' from clk_prepare_enable() not released on lines: 801.
-
-vim +/val +1710 drivers/net/phy/realtek/realtek_main.c
-
-  1688	
-  1689	static int rtl8224_mdi_config_order(struct phy_device *phydev)
-  1690	{
-  1691		struct device_node *np = phydev->mdio.dev.of_node;
-  1692		u8 port_offset = phydev->mdio.addr & 3;
-  1693		u32 mdi_conf, val;
-  1694		int ret;
-  1695	
-  1696		ret = of_property_read_u32(np, "realtek,mdi-cfg-order", &mdi_conf);
-  1697	
-  1698		/* Do nothing in case the property is not present */
-  1699		if (ret == -EINVAL)
-  1700			return 0;
-  1701	
-  1702		if (ret)
-  1703			return ret;
-  1704	
-  1705		if (mdi_conf & ~1)
-  1706			return -EINVAL;
-  1707	
-  1708		val = __phy_package_read_mmd(phydev, 0, MDIO_MMD_VEND1,
-  1709					     RTL8224_VND1_MDI_PAIR_SWAP);
-> 1710		if (val < 0)
-  1711			return val;
-  1712	
-  1713		if (mdi_conf)
-  1714			val |= (1 << port_offset);
-  1715		else
-  1716			val &= ~(1 << port_offset);
-  1717	
-  1718		return __phy_package_write_mmd(phydev, 0, MDIO_MMD_VEND1,
-  1719					       RTL8224_VND1_MDI_PAIR_SWAP, val);
-  1720	}
-  1721	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you,
+Pasha
