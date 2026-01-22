@@ -1,81 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D073590B7;
-	Thu, 22 Jan 2026 03:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5783D6688
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 03:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769052999; cv=none; b=cw8M31IhUQEKmubaEYUPsaCll7A37wmsXkJ9niJ3WwGebmN+AbvAEwZ+OQ3En5rg/H5A6OkUhlIj7CeBKXRYSOnux+dPtiEcGGsraIZQEb4ostYgUJmq7lyDA9/kR8asqe5Woq9ZDRb4MMY2IjFEaSzWCL530Ey0uFpPRyMslFE=
+	t=1769054381; cv=none; b=Ge4azfasLejAp6vbulK1HOxI0WiRq67MZ1Mv8xm470aKkoLp48zPZgBD1eN6lo0apCIkXwYZrIYvkbZ4idRXg/eBMDYBqbpbzxtYX+Oz6ipNzp2wtMhsXSZnGzSUhdiAB+Amf9py8P9PQeMPsHqfYSD1ilAZ62gmY2ECnwCBnwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769052999; c=relaxed/simple;
-	bh=gRukf7U5maY9YwR2RtcB+GWVSFPwW5Nu3+pY8basyPc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QO663G0DzJtI3XN/GkqT116StPLvkJrQ4ZICfelUOtxGMOIf8qkSmJDwG6moFzXrSitz3MOEJCPxFbk1I5Pk+EHLyiCx0ITkB4QMnQrohRFAJPqo9lwN+yoqF/v3EPtrnzKMDuu5C9gYOG/F/MVsBIDTVDTAWQPb9NCAgK/UqNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hi/vb5PY; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1769054381; c=relaxed/simple;
+	bh=ZrKaM4w+RnW6vXbe3nP8Jqgd1KOR07macYV9pIm7AlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gYNSwMpbGr0WacRpnqzlD6i0J6jKPH5lairrl+UUOladdccjjfLDEpEMIIJbus1tuLipKrqlm+amSH5izC5tnKqesTdk+1un3MOc47aWl+08CjjxgUVGxhne8fqpyxyob0UrdUyGy1EPnuXfv22pP7wSNJkHIT7BTwhkCOpqK7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gUw8QNWl; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hi/vb5PY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUw8QNWl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769052998; x=1800588998;
-  h=date:from:to:cc:subject:message-id;
-  bh=gRukf7U5maY9YwR2RtcB+GWVSFPwW5Nu3+pY8basyPc=;
-  b=Hi/vb5PYyiQMLqvQhzg78dMp7rSc7mvkLkHQM62qtXhYizpM1QClq344
-   QyLICpnFN65igbhE3nKdeUJtAEcu/HhhUQNLwuU5MntV2yZPkBASKkF8J
-   xmqaNZjbS9qCirE7j2sWMSxfLMxutANlqrDyPIE1L9hggP6rfxzp9L823
-   T/pP9YaccXxKvLPEu2A4VRh5x66fBEm3kab+DRtRJRrFxfbsEeX0gPiOo
-   NMOU71bfBwiaXnVd4eAr+BXk2VwPZXyfbSsVOCQqQf1eOelquFQiWSM09
-   nR4q7ALNA5R5Wm8KRYd+Xicj7CozOodr3BmW2YMJvTSRKGy+70lyTTzdQ
-   w==;
-X-CSE-ConnectionGUID: nz/Hg3DwSO+yCbj3NhcYUA==
-X-CSE-MsgGUID: qgn80eSWTTWe4xbYhjDq5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="81007742"
+  t=1769054378; x=1800590378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZrKaM4w+RnW6vXbe3nP8Jqgd1KOR07macYV9pIm7AlA=;
+  b=gUw8QNWloH4B1TJfHy8vV51mx2zXPDlMWJTnJFOA2ouEySPYDaQ1+cGX
+   FT4d7P2SUg+xQ9B1gOeGEi4gKCDE+zdsXMUA4NVkM0Vm8gh/9YBDYnC96
+   6prr+NaVwWI9dBZ2UgtAxb3JahqTPR4GVGGi0aajwhc35R4Ih0IH+O1W/
+   a1zz5JV8J1CKDF7IE7kbPh6jnUEW3qUslThcsiUs6jgATeBPHhSlhu53M
+   tq88/RpJfUY2JUK79JMceZAMVpJUTfEE4VQ0SF1cNbn6jUfi7cNfCNPPs
+   vf3tOm7eamIQvuY5AfBqxrtiOeC9xMbqXkNLI1hcqkZCky/xJyJtXru45
+   g==;
+X-CSE-ConnectionGUID: wgmvqTUaRa2YZs3cp/78Og==
+X-CSE-MsgGUID: 5nOKwiBoRQSZWZ+85f+o9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80914635"
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="81007742"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 19:36:33 -0800
-X-CSE-ConnectionGUID: Kk/IRuH5TIS16jtyHza/XQ==
-X-CSE-MsgGUID: BZfX0SsiQDO/P0BcE0+7hw==
+   d="scan'208";a="80914635"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 19:59:36 -0800
+X-CSE-ConnectionGUID: utggy15IQAOMjNM4+petNw==
+X-CSE-MsgGUID: 8p8arBDTRvCdeTW3J+GgsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="237294439"
+   d="scan'208";a="206227433"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Jan 2026 19:36:31 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 21 Jan 2026 19:59:34 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vilUj-00000000SNz-15aT;
-	Thu, 22 Jan 2026 03:36:29 +0000
-Date: Thu, 22 Jan 2026 11:36:20 +0800
+	id 1vilr1-00000000SPF-23bZ;
+	Thu, 22 Jan 2026 03:59:31 +0000
+Date: Thu, 22 Jan 2026 11:58:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/tdx_huge_sept 51/79] Warning:
- arch/x86/kvm/mmu/tdp_mmu.c:543 function parameter 'sptep' not described in
- 'handle_changed_spte'
-Message-ID: <202601221114.ft78UoiN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Eric Dumazet <edumazet@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org, eric.dumazet@gmail.com,
+	Eric Dumazet <edumazet@google.com>,
+	Mahesh Bandewar <maheshb@google.com>
+Subject: Re: [PATCH net-next] ipvlan: remove ipvlan_ht_addr_lookup()
+Message-ID: <202601221121.jJSK4gxB-lkp@intel.com>
+References: <20260121215728.560645-1-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121215728.560645-1-edumazet@google.com>
 
-tree:   https://github.com/sean-jc/linux x86/tdx_huge_sept
-head:   491d01f5d2ac33f4da9d302ff18cdcb57c0d967b
-commit: af111245b7f1b0948e7677d96ff459953fdfc7ac [51/79] KVM: x86/mmu: Plumb the SPTE _pointer_ into the TDP MMU's handle_changed_spte()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260122/202601221114.ft78UoiN-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221114.ft78UoiN-lkp@intel.com/reproduce)
+Hi Eric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/ipvlan-remove-ipvlan_ht_addr_lookup/20260122-060038
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260121215728.560645-1-edumazet%40google.com
+patch subject: [PATCH net-next] ipvlan: remove ipvlan_ht_addr_lookup()
+config: i386-randconfig-054-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221121.jJSK4gxB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221121.jJSK4gxB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601221114.ft78UoiN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601221121.jJSK4gxB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: arch/x86/kvm/mmu/tdp_mmu.c:543 function parameter 'sptep' not described in 'handle_changed_spte'
->> Warning: arch/x86/kvm/mmu/tdp_mmu.c:543 function parameter 'sptep' not described in 'handle_changed_spte'
+>> drivers/net/ipvlan/ipvlan_core.c:74:26: warning: 'ipvlan_ht_addr_lookup6' defined but not used [-Wunused-function]
+      74 | static struct ipvl_addr *ipvlan_ht_addr_lookup6(const struct ipvl_port *port,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ipvlan_ht_addr_lookup6 +74 drivers/net/ipvlan/ipvlan_core.c
+
+    73	
+  > 74	static struct ipvl_addr *ipvlan_ht_addr_lookup6(const struct ipvl_port *port,
+    75							const void *iaddr)
+    76	{
+    77		struct ipvl_addr *addr;
+    78		u8 hash;
+    79	
+    80		hash = ipvlan_get_v6_hash(iaddr);
+    81		hlist_for_each_entry_rcu(addr, &port->hlhead[hash], hlnode)
+    82			if (addr_equal(true, addr, iaddr))
+    83				return addr;
+    84		return NULL;
+    85	}
+    86	
 
 -- 
 0-DAY CI Kernel Test Service
