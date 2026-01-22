@@ -1,74 +1,91 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0B546AED7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 06:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D83447B40E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 06:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769062076; cv=none; b=R9dzy4Ez0sa7O/OdsB8v1OJ6I0Yc6HzNgIdeyUWesyDiHCCyEwTxZH/44migdPLEM89eEbkUYpfEUKZDMVWujCHS2itablOQM/VRcSVanmihWR3crgLkBg23wRioBT4jSFTmn0Lz4/8kLFNx3y9eHMAIjbi1AbsTOQnOCYZBRWc=
+	t=1769062655; cv=none; b=oSdvXlAgYX/HprzWA04BDPZTC2U1BhoEbi7sw5Qbv/nYGsbqceDVuOe39NNVln2tgiH8a+zIXTSaWdWLz07VqMXYQ1yqrQz+1x9ZCryotpcA+jM3RMbXtEMHnDCco8aeaInyVBazaEENRWIAsz87JVp6d0wGIV8i2A9e/pb7NBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769062076; c=relaxed/simple;
-	bh=1o5NqahfDQ5VNbcqleS+o4wBaycfjfXYCwkC1X8D/Yw=;
+	s=arc-20240116; t=1769062655; c=relaxed/simple;
+	bh=HwQQ/e13d2XeVp13BFe2FpMedQM5DZhp8KcD4K71ego=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=s1XsBpPhJ66x9L2xQU+NjUNSlsg6qTisZ88yj9Q3tZQiahLausy3eCiW7anfdqqJpOCnYLLmgscZFAd5jl30ZiiygXCyeXtCGIiZkMqMhJ050gGiJlG4EMfKjI5vaDmNpUHlWURC5pxeiqdMOlM/4pOgbO6cfmTySznor5Xmgwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TCmtl1qn; arc=none smtp.client-ip=209.85.221.68
+	 Content-Disposition:In-Reply-To; b=MG2apFHUhFnHGlKfeaoS30Qi7MDPy3VWo4eqpTII7VHfJzWdvErdCXzNtdYhhSlNONG3OAFF0k7AntVNWpzwprK60EGgNgxaetRX1U8g2I4YJRrIrpSTmBkYPtFz94OtrBET4CB86EVSDZC0Is8QZ/wvdhsoujbabVJHvX2TFR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eyQ+niyJ; arc=none smtp.client-ip=209.85.128.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TCmtl1qn"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-43246af170aso368542f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 22:07:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eyQ+niyJ"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4801eb2c0a5so5706515e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jan 2026 22:17:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769062073; x=1769666873; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1769062644; x=1769667444; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WNY/LXM5CUd8SovQrwoI4Q/jBB7ob8o4qFKazdU5gjs=;
-        b=TCmtl1qn1mWaybOJeqLIrTWE/+e6Aqk5lkTvvApRDe74k4BBa2cEocCQc9nG6U0LHw
-         s6GkmI3tPeet5QmkEY6RAxXo9Nmc/VFAA6mH/jJ4ju6lZTb3FSZZsPxAefJT7VNYMXG1
-         Byv2Vr9vPCSKIS0GegFSjLrGSw+bkfBnueKYDwyHXOENgY8M0Q84U/WLNS9GWTJ49PbU
-         dkygCGz5kkwi3erSkuZo0Nt6Fk1iG0ERH8FIg5ymFIf9L7tYngncCSB9IQ+6q2bNvCgo
-         vCc3sTygziO4gso4LZhAVaQYv1FD59+p+UymEYTfLdZS+odckcC7EY2f7hm1TKe7pU2x
-         jskQ==
+        bh=XFWxi+AFltNFDVpcrpAcnDmVTxmCRVFES1AkiIw22SY=;
+        b=eyQ+niyJiaEA+TK48YkRPYEMCzuRLIIQNomVlaIcNWejtO737zUo6rlkb6cAVDEiQb
+         8t4joZkp4PrhZchH0aFlsVezqGh71ejVpvkGZSJaKaebKA5mMKxwHVwZn4ZbH5KxBPhx
+         bsd1CL7uQQoet6p1dfY4n+w8sXGoD4b8Ob4/D9kRLjx0igdLH8ROWCbxjpvGUcB5+qps
+         9cTlrGOY1cs67q3Pl1gh9W9JyZNCc2pYWOcT4wRSkKyd7d1q9RDlvOihwyUucIrZ89oA
+         8x/PjC91eMu7Xohxh+xyuMMIdJ996NrLYq6KM+Oe28MWo0ljrcN+VTldnbIZwufStzDg
+         ZYNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769062073; x=1769666873;
+        d=1e100.net; s=20230601; t=1769062644; x=1769667444;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WNY/LXM5CUd8SovQrwoI4Q/jBB7ob8o4qFKazdU5gjs=;
-        b=lNz4polFa63BN4QCKYtHjY0OGd4hOjubad+/IlfAts85hxcXxFKCUuNqTKpfx1QH3J
-         1MI1X/vbdCotZkM55Q9oou4bcFOyT16vjAcqDzX+iVh67gxdcEfcaDSIP/janDY+zZpe
-         Hq50Vq92xms1+kxEBsK3+as867oi8o0wFeHOcL76vCOU8KREHqPcPPEHKS0YONWY2AkX
-         q9FcjnrvVuWnC6PA3qAF2Z56uxOyNZu/fyydeBcYZQJBZs+g/bFney/PrQssqRYzt08p
-         NShHEKhqgmr1DIMnIkUONDMvDgPiuiWEMCjd8SAO/4LCjNsMc2iLS60r4CZlvT26PGHd
-         4daA==
-X-Forwarded-Encrypted: i=1; AJvYcCUSybtiB120EI0FSyortPhHw3YGOko+9G7A3faQXmjHKFZsxugf8JFhYepASBvvrxhekKDCr71/ZBG/zYQC@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7NWtc++CXo3LFiqY30FM/D6L5yAKZeW4/mk81DY7PXMZqoBs+
-	YPVxGDnY0X4aypcxLZDIy8HKRDDYcHtP3MJhfA17yC96yrd3ClZHxL1BQu67jW0Rdi8=
-X-Gm-Gg: AZuq6aIosZ+0KJ9O8rgVy5OaD6ELaCdvniR879ql6s+T+tD/EqxiNQtOj/jG4QBBjL2
-	nWcSE2p0fMMWq2WhrYMCg4BLORdjjiokewd6Aaklpkh6Ly8i7Wc8mIQvPgBaRGVRRr/VVX2paG6
-	uUFKAA1EVA3AzZJAEHcMBFqudGbAxUmPEnAQDKhUSSsNH2sPMsHlVsHIIIhui22DkdIHXNH1Cn8
-	Ls2kfRboJ+uSzZJD0Fv7fcD48cXMnqk0gxmi10stNZZBtfE7t4Cvq5OQsziZmKkrXMHk/ZB5FkY
-	3Mvyw2nu9EHWmYdEVKakAqXTnRhUeaVQ8D/WhyiypnCAc/3fX11aSfrNwyl+f2XzSNKjgaEAgJW
-	VQfN2b/nSUk9qYjCTZvRdfC+vgLWEHg9ODmQIIi/qRuYSwFsIMrN4W9r65a42ZdRzXzWccBtW7y
-	Bzed9Cgua7v7G3BUJ9
-X-Received: by 2002:adf:e88b:0:b0:435:9635:2943 with SMTP id ffacd0b85a97d-435a5f757a6mr2857800f8f.17.1769062072600;
-        Wed, 21 Jan 2026 22:07:52 -0800 (PST)
+        bh=XFWxi+AFltNFDVpcrpAcnDmVTxmCRVFES1AkiIw22SY=;
+        b=XAe8PWYwuzMQpjkYcINojqKt+DKKkeSgUVo82e5bSCnqWw2cHKz7CjK0nj1dzI6Hya
+         qjl/MxqUo9fqNWqXQZazDTW+ksEewiTm2U8e4Ob4RreomOUNhoK5sq7qg/RNtXqH26T0
+         PUBubLfJ1yQcuJh+hJ5PjaYKm3JmRtsKtzL4Qc0hPrJOfmXlOJtSGztc6UTxE1ImJ2rP
+         OjjmJourNKAKcnvOencnFaDBr0ptkJ7josjUB58avSnxylxibu3fBFbmfJjo+6Zlt641
+         TawFoRnSV7tZ0sEqwQu37nl+W8VamwzeI8VklysaaeKkkJDFmOJrEzEAmo79RIQdeqE8
+         b8GA==
+X-Forwarded-Encrypted: i=1; AJvYcCW6/MYEerrtjRps54Hy5FU4+Vo+5mNBkbSAprf6d73QwAfBaMEc52Yp27k81+hUmvk9mL/4o9cjcyMumDGW@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywt4AQslR4msON6px6v3TQtblCKt87+XRQkHI81pvgpVJJCAL7u
+	FMEGd1ATWkjEb+l2o1/OwCU17mu+5pGsmHxo2uIGWsmhmunsJ/nrfkWey+O7DqrnGcs=
+X-Gm-Gg: AZuq6aIV30RbgOx+gLKQIbOdHLeyAIzNnI6tExgdUCNtT87/QX2LW+zLRxit8PUj3a9
+	9RJTU2jrIpV0Z6GSpFDlSX772yhf4rROjutrjbzBaayJ+0HWehy0FnOwxbr6yYTEkFRWWJRyFWC
+	61PDZfBjxUtGXf6Y0MbAITyMZ0p0UCoZxxstzigApG2unh/auaJlKeDu4x5LJQMqQlE6xJXvX0i
+	+spxQ5QdCQK4cnC01cVBFGDTsc80Jx0oXFVrDihq7OK0qTrZCijoICXdI4hqTZt91U+rE/inXWf
+	+/q2Sm3Czq5mfpCVA1/7+qomyFJGk/SCCMax/M5SZdXo8zBpR/WXJosvkmR8KenawWUNcyhNPkg
+	udo9E/jfkAJYRywAWVfdkAPdiRCYcS9ZdNTfyS2rKegAMceaKnzENJRgT4yK6Sa+/859XG46YDb
+	fSi3/n7mRy6lAl6qlt
+X-Received: by 2002:a05:600c:83c8:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-48028360726mr235733975e9.7.1769062643924;
+        Wed, 21 Jan 2026 22:17:23 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356992201csm43165202f8f.2.2026.01.21.22.07.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804704b89bsm40122255e9.9.2026.01.21.22.17.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 22:07:52 -0800 (PST)
-Date: Thu, 22 Jan 2026 09:07:49 +0300
+        Wed, 21 Jan 2026 22:17:23 -0800 (PST)
+Date: Thu, 22 Jan 2026 09:17:20 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	"Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] thunderbolt: Fix PCIe device enumeration with delayed
- rescan
-Message-ID: <202601220733.dS3GMZRD-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Josua Mayer <josua@solid-run.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Peter Rosin <peda@axentia.se>, Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Vignesh R <vigneshr@ti.com>, Andi Shyti <andi.shyti@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Yazan Shhady <yazan.shhady@solid-run.com>,
+	Jon Nettleton <jon@solid-run.com>,
+	Mikhail Anikin <mikhail.anikin@solid-run.com>,
+	linux-can@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 2/7] mux: Add helper functions for getting optional
+ and selected mux-state
+Message-ID: <202601221036.J0kR78Uw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,19 +94,17 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260121060857.237777-1-acelan.kao@canonical.com>
+In-Reply-To: <20260121-rz-sdio-mux-v6-2-38aa39527928@solid-run.com>
 
-Hi Chia-Lin,
+Hi Josua,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chia-Lin-Kao-AceLan/thunderbolt-Fix-PCIe-device-enumeration-with-delayed-rescan/20260121-141206
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-patch link:    https://lore.kernel.org/r/20260121060857.237777-1-acelan.kao%40canonical.com
-patch subject: [PATCH v2] thunderbolt: Fix PCIe device enumeration with delayed rescan
-config: arm64-randconfig-r073-20260121 (https://download.01.org/0day-ci/archive/20260122/202601220733.dS3GMZRD-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Josua-Mayer/phy-can-transceiver-rename-temporary-helper-function-to-avoid-conflict/20260121-173607
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20260121-rz-sdio-mux-v6-2-38aa39527928%40solid-run.com
+patch subject: [PATCH v6 2/7] mux: Add helper functions for getting optional and selected mux-state
+config: arm64-randconfig-r073-20260121 (https://download.01.org/0day-ci/archive/20260122/202601221036.J0kR78Uw-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 8.5.0
 smatch version: v0.5.0-8985-g2614ff1a
 
@@ -97,72 +112,61 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601220733.dS3GMZRD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601221036.J0kR78Uw-lkp@intel.com/
 
-smatch warnings:
-drivers/thunderbolt/tb.c:128 tb_pci_rescan_work_fn() error: uninitialized symbol 'dev'.
-drivers/thunderbolt/tb.c:2392 tb_tunnel_pci() error: uninitialized symbol 'dev'.
+New smatch warnings:
+drivers/mux/core.c:776 __devm_mux_state_get() warn: passing zero to 'PTR_ERR'
+drivers/mux/core.c:796 __devm_mux_state_get() warn: passing zero to 'ERR_PTR'
 
-vim +/dev +128 drivers/thunderbolt/tb.c
+Old smatch warnings:
+drivers/mux/core.c:722 mux_state_get() warn: passing zero to 'ERR_CAST'
 
-d6d458d42e1e15 Mika Westerberg       2024-08-20  102  static void tb_queue_dp_bandwidth_request(struct tb *tb, u64 route, u8 port,
-d6d458d42e1e15 Mika Westerberg       2024-08-20  103  					  int retry, unsigned long delay);
-4f807e47ee9a75 Mika Westerberg       2018-09-17  104  
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  105) static void tb_pci_rescan_work_fn(struct work_struct *work)
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  106) {
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  107) 	struct tb_pci_rescan_work *rescan_work =
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  108) 		container_of(work, typeof(*rescan_work), work.work);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  109) 	struct tb *tb = rescan_work->tb;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  110) 	struct pci_bus *bus = rescan_work->bus;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  111) 	int devices_after = 0;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  112) 	struct pci_dev *dev;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  113) 	struct tb_switch *sw;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  114) 	struct tb_port *port;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  115) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  116) 	mutex_lock(&tb->lock);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  117) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  118) 	sw = tb_switch_find_by_route(tb, rescan_work->route);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  119) 	if (!sw) {
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  120) 		tb_dbg(tb, "Switch at route %llx disappeared, skipping rescan\n",
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  121) 		       rescan_work->route);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  122) 		goto out_unlock;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  123) 	}
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  124) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  125) 	port = &sw->ports[rescan_work->port];
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  126) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  127) 	pci_lock_rescan_remove();
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21 @128) 	for_each_pci_dev(dev)
-                                                                         ^^^
+vim +/PTR_ERR +776 drivers/mux/core.c
 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  129) 		devices_after++;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  130) 	pci_unlock_rescan_remove();
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  131) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  132) 	if (devices_after > rescan_work->devices_before) {
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  133) 		tb_port_dbg(port, "pciehp enumerated %d new device(s)\n",
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  134) 			    devices_after - rescan_work->devices_before);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  135) 	} else {
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  136) 		tb_port_info(port, "pciehp failed to enumerate devices, triggering rescan\n");
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  137) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  138) 		pci_lock_rescan_remove();
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  139) 		pci_rescan_bus(bus);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  140) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  141) 		devices_after = 0;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  142) 		for_each_pci_dev(dev)
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  143) 			devices_after++;
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  144) 		pci_unlock_rescan_remove();
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  145) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  146) 		if (devices_after > rescan_work->devices_before)
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  147) 			tb_port_info(port, "rescan found %d new device(s)\n",
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  148) 				     devices_after - rescan_work->devices_before);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  149) 		else
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  150) 			tb_port_warn(port, "no devices found even after rescan\n");
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  151) 	}
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  152) 
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  153) 	tb_switch_put(sw);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  154) out_unlock:
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  155) 	mutex_unlock(&tb->lock);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  156) 	kfree(rescan_work);
-eb51ddfd22dbc5 Chia-Lin Kao (AceLan  2026-01-21  157) }
+0610cc3159b786 Josua Mayer       2026-01-21  761  static struct mux_state *__devm_mux_state_get(struct device *dev, const char *mux_name,
+0610cc3159b786 Josua Mayer       2026-01-21  762  					      bool optional,
+0610cc3159b786 Josua Mayer       2026-01-21  763  					      int (*init)(struct mux_state *mstate),
+0610cc3159b786 Josua Mayer       2026-01-21  764  					      int (*exit)(struct mux_state *mstate))
+0610cc3159b786 Josua Mayer       2026-01-21  765  {
+0610cc3159b786 Josua Mayer       2026-01-21  766  	struct devm_mux_state_state *devm_state;
+0610cc3159b786 Josua Mayer       2026-01-21  767  	struct mux_state *mstate;
+0610cc3159b786 Josua Mayer       2026-01-21  768  	int ret;
+84564481bc4520 Aswath Govindraju 2022-01-07  769  
+0610cc3159b786 Josua Mayer       2026-01-21  770  	devm_state = devres_alloc(devm_mux_state_release, sizeof(*devm_state), GFP_KERNEL);
+0610cc3159b786 Josua Mayer       2026-01-21  771  	if (!devm_state)
+0610cc3159b786 Josua Mayer       2026-01-21  772  		return ERR_PTR(-ENOMEM);
+0610cc3159b786 Josua Mayer       2026-01-21  773  
+0610cc3159b786 Josua Mayer       2026-01-21  774  	mstate = mux_state_get(dev, mux_name, optional);
+0610cc3159b786 Josua Mayer       2026-01-21  775  	if (IS_ERR_OR_NULL(mstate)) {
+
+Please, change this to if (IS_ERR(mstate)) {.  The mux_state_get() never
+returns NULL.  I have written a blog about functions which return both
+error pointers and NULL.
+
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+0610cc3159b786 Josua Mayer       2026-01-21 @776  		ret = PTR_ERR(mstate);
+0610cc3159b786 Josua Mayer       2026-01-21  777  		goto err_mux_state_get;
+0610cc3159b786 Josua Mayer       2026-01-21  778  	}
+0610cc3159b786 Josua Mayer       2026-01-21  779  
+0610cc3159b786 Josua Mayer       2026-01-21  780  	if (init) {
+0610cc3159b786 Josua Mayer       2026-01-21  781  		ret = init(mstate);
+0610cc3159b786 Josua Mayer       2026-01-21  782  		if (ret)
+0610cc3159b786 Josua Mayer       2026-01-21  783  			goto err_mux_state_init;
+0610cc3159b786 Josua Mayer       2026-01-21  784  	}
+0610cc3159b786 Josua Mayer       2026-01-21  785  
+0610cc3159b786 Josua Mayer       2026-01-21  786  	devm_state->mstate = mstate;
+0610cc3159b786 Josua Mayer       2026-01-21  787  	devm_state->exit = exit;
+0610cc3159b786 Josua Mayer       2026-01-21  788  	devres_add(dev, devm_state);
+0610cc3159b786 Josua Mayer       2026-01-21  789  
+0610cc3159b786 Josua Mayer       2026-01-21  790  	return mstate;
+0610cc3159b786 Josua Mayer       2026-01-21  791  
+0610cc3159b786 Josua Mayer       2026-01-21  792  err_mux_state_init:
+84564481bc4520 Aswath Govindraju 2022-01-07  793  	mux_state_put(mstate);
+0610cc3159b786 Josua Mayer       2026-01-21  794  err_mux_state_get:
+0610cc3159b786 Josua Mayer       2026-01-21  795  	devres_free(devm_state);
+0610cc3159b786 Josua Mayer       2026-01-21 @796  	return ERR_PTR(ret);
+84564481bc4520 Aswath Govindraju 2022-01-07  797  }
 
 -- 
 0-DAY CI Kernel Test Service
