@@ -1,113 +1,210 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEEF32F764
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 18:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769105737; cv=pass; b=RFKdTjQYbSUeDHTieKMljbc2B8xvX8e7hlzO+mBEhqTFBfgFtc3BV+WAAHRicNC+sEClBRqaw6Ed7ipWuEqCcdz400vLNBG9LdvTJqmxHVd2aRNct/eyZxdvJhOckls6J3GRf5j0tFpTHep8usWSa+or+33v2KZ3QBOPHGjRAtg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769105737; c=relaxed/simple;
-	bh=PmHPMv+0IVVZWQVR8YcLFHLTKICYt5ZaBTe7s/+0FW8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bsV+eyi6jzq2vaHoHB9EtTB+N3Im1qYEcNaUE20DpsxGerwKVPsA1CZrNZvAizeTVYmi3pHPGTmA5b7kNT0Nfn5Qa6Pob0WK5g3k+pPFP5xNxqHwQkap7kH8o2FLN04AZSqieyU4td2FR3Ky9xpi7s8t9l+hwINUM3l56UgQdkk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=DqH2yg53; arc=pass smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713B633A9E5;
+	Thu, 22 Jan 2026 18:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769106205; cv=none; b=it8ZKsuF4j71yWLGsA4obevJge8hB+At+B0aZbH1D3C9d3Hq05BZeZoj8Jcia2CocmtyVBR4PbDCChQSpVIWhbXxc2slohX2MRGWCaSIUCwXxq1vCOFfXTKU7WFv4sSiwTrJ/nYJ6ZSOkLG6tg0ckBbLdscazD31YfT4J+RPa0g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769106205; c=relaxed/simple;
+	bh=AaCuSNVNlbpISdbj3qDUNtACWdDwCFarITt3mYC8sBg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aEOGB/3Z66rdF/VfI5PKm9MxsdEFAb+ULD6+DYUdVhoCgLS7DiLFa3Y/QWcbOln3I/lC2Iom4WlI5/AO/3tHhJkaVw3/vZJDVr2G9/b8ex9pq0OyTW67AmrkUPq69Z53mt75gMYIco8DYza3G+BOVvuDgPKllkMV69QxASlf4bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=XZsmLjqL; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="DqH2yg53"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-65813e3bdaaso1456017a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 10:15:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769105726; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SAZ1XQz9eFEBOi8OoHFvS2Obuy/rCY9TBBP1NBRWWHc5Wg1A0N2eHy7moR33VpqFos
-         AkXSXEKhWHe1OHajNrwxgIUvYEbtdvza8R3QjZhqLp8rrXWCbGtde/X045vvXG9WRzHz
-         wYrgcUdfXr/2XqEzreVxXKSTX+fqRLEjHw8rfva7xx/Yy6LM1DbnlLQmkDrYWcuspcCV
-         +b/9jDFPyJWMmr+HbEGLvocfk3qxJcAoTHjsvj5PxT1jDFyg4yt4S631ZdZjV7/5eSTZ
-         vDtVuyeKSKh3UbSFWfFbIcoCZH/zGAL1hLBA2FhnsctxrdDSJI4CwgqkSfIRyeXRBMvg
-         eT4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=azOk63yV7A5TybPiH/Lg4nzY0I8Pa0E2B+WL4X7922E=;
-        fh=sRrIqPeaKy8DVG0lOFhpke4hOTxIzX/4WBxNSJlf1Q0=;
-        b=dGB2bZkifbTGMA0RhZYqkSD5pIzYo3UBC7v/HGunp1oS13htjttYlmSWeVN5jdIVmf
-         zNjk1hUV74CWWWggOt9ji1+VY5WzjUqCjw42iseYbDcKe6wK/wTMxMi5dGCKoPZaDGF2
-         xuAojaFcoc0Leu+Ur2qh2njLBlNJpBfSnc7POOGiBjs8TNwQx5w/Lfb0U5wnlyzoyWAt
-         4haXfBH91jm3ts2TUmp0NZdZWvS2J676lJCDlS64erudYzkZ742JIbQgU6WajjK9e07y
-         afsImCs5HQpHn+kjQqTuqbkTZmQSoxNZApzhUT3pxx9flVRxJ7Raq5GONX3+siSHihT0
-         hbBg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1769105726; x=1769710526; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=azOk63yV7A5TybPiH/Lg4nzY0I8Pa0E2B+WL4X7922E=;
-        b=DqH2yg53WCqWwIf3Rz+kGtgrquFFztfom0WtzBZQWxEGwAL/gGD+49n93AhBHveGmL
-         UZ/XIlVM4urLyxeXemAKnMxerLZtnkKiXszSOfwVjTzbE2EYNkRrtB+Kf/yITvkNOprB
-         OKZPtn4HysdmD/rup2NyyvSkBjvMW8UIXNwuSMT5hHn3XpxrmKKq1IoIXDhXFXG0LqOG
-         0albPvIJwVkQiSRGJqHMsSGUSp2EnH7s82GfBnyBxGcVWdbH/iWn2GVWfzdZ60C3ur0r
-         sVxEtmhh8e4Y76fxzZQ08g+gzKm2sp8APHopJXF5BcOovofSw4CfxVMkaqd2U+WWoCZ4
-         9rSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769105726; x=1769710526;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=azOk63yV7A5TybPiH/Lg4nzY0I8Pa0E2B+WL4X7922E=;
-        b=xIkd+WwMa+F87g6Y8aPOBM1PFksU62q93MDD08oaCeVj/o5gurG1TzpODYm1pk+fsL
-         3CUcMeI57+DIBwMpZKqiai2DZGo5otG123vKbYi25PVJHK4jS+DLDTjvlaiZ4+SNzs1c
-         kmJMTkdIdRvZK1KK/jIhgmwY2mVf7BMRfL/PsMq/irZ2XibTxkLxazWmw3o+3BLvPgCw
-         6YEykavoX7+kv9weTL6oJ3WE/cT6iPRQdbRiP/H6LZSAhAhg157SiVVj9lF1Lre9SlSi
-         UxVEOCvwRKjd/WivrPRbzy/vtOxqwNPbiqg5cVQRZ736nHAftzSxSCVY1eLTaaMH2M68
-         8WXg==
-X-Forwarded-Encrypted: i=1; AJvYcCXHuYh6Y2+AqB+wU/rIQdk+G1SlGqqjbq69VXNJmY/Db4v8HQ+/b9d5xdBUFUi6jY16XdP5DURizvZLb7hp@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfvX4904F3oljroRG0biPrWSpnc/6gr18sQ/IrApspggc1ymt4
-	iYV0P006vKMgsdkIoxFRCpMB6fOSt1JTU1qI6j5u0KFTAR/pwhRgZPY1A8XX90K6ak3wIhy7bAO
-	aAH3HZa0HruY0TToHXBY39Liq8GdOTg59xN03FIYDCw==
-X-Gm-Gg: AZuq6aLPfliKRlD65KG6j/ECd9ksU/tEY3E/O449wnPP16pW1tKt7ZadNDbzsX77Oom
-	Z8ejVlXreQR6ftNwLH8jfmhrZMo5mHQAx03HqpuZbT5re7HSGp2yNb4/7bUbbyRdkDWBk9JxIr3
-	VmHWmYcALBy/U7zgOOxZnz/r4nmmFt4ZnKci+ehIz3jWbWio0zD9iSnzBwKTDCx14RwCLBMphy+
-	6/juENX/arNYOTRlr3umgR+DC2T/qvqNuVSC+THbronO1LHCjqJZLZKhfLD8GofxxwsEPKRNxHr
-	TGleKLY+LzhiAsyBDZ33yXBQWQ==
-X-Received: by 2002:aa7:db50:0:b0:658:1350:1fd2 with SMTP id
- 4fb4d7f45d1cf-65832eb76a5mr1835496a12.13.1769105726405; Thu, 22 Jan 2026
- 10:15:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="XZsmLjqL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=J+NkPw1KHEz8buXVjem4ZBD0ZcWTYPCfmLMyt2OiDsU=; b=XZsmLjqL4DJALgZfAVC+BwVELt
+	ZZIjYPrqWQcsizXgwm7KoqhqAy707t3XU+geNYMaKEHPOuRvjFrMp6DtyI/sQiByzui+rvFulJaKe
+	Bp1C3u3AECZkTFiBuZYOllQn5uWxl1g/6wXpUDiU6cPhF3Q8cpLZ7DmqS0xbsWExzKjwkIoWu4JzB
+	FQjtqn9YrbrjMlRBxwqzRaA3FG5CzUCIm2ZvDmc/LAEWemZbL82n2OeKTe8kUaCQdtWLoQCHsw5TS
+	BVcO2OftmBH77rZb6xQKdFUGC1lWObUCQoy2LiimGfhCaboSwIqPdjgLLJpMEAjO/wLgzVqUxv00J
+	ddYdbk2g==;
+Received: from [192.76.154.238] (helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1vizKf-003r7u-Ch; Thu, 22 Jan 2026 19:23:01 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: oe-kbuild@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@linaro.org>, sebastian.reichel@collabora.com,
+ Caleb Connolly <kc@postmarketos.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+ Linus Walleij <linusw@kernel.org>
+Subject:
+ Re: [linusw-pinctrl:devel 30/31] drivers/pinctrl/pinctrl-rockchip.c:3683
+ rockchip_pinconf_set() error: we previously assumed 'gpio->direction_output'
+ could be null (see line 3644)
+Date: Thu, 22 Jan 2026 19:23:01 +0100
+Message-ID: <4087738.KRxA6XjA2N@phil>
+In-Reply-To: <202601200057.P0Lr7NDg-lkp@intel.com>
+References: <202601200057.P0Lr7NDg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202601211636.IRaejjdw-lkp@intel.com> <20260121123922.c0bb0ef8505c70b99998c324@linux-foundation.org>
-In-Reply-To: <20260121123922.c0bb0ef8505c70b99998c324@linux-foundation.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 22 Jan 2026 13:14:49 -0500
-X-Gm-Features: AZwV_QjkOt8rryPZqYSqx98LQ60wO70s9K8cucBSZwSM5UYoS1ViJ13uHLsVIOo
-Message-ID: <CA+CK2bAyHHoUaT_4dTNK6AH2oyMMhs2sNhuW97hV4yRw7ie9Tg@mail.gmail.com>
-Subject: Re: kernel/liveupdate/kexec_handover.c:994 kho_preserve_vmalloc()
- warn: missing error code 'err'
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Linux Memory Management List <linux-mm@kvack.org>, Jason Gunthorpe <jgg@nvidia.com>, 
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-> --- a/kernel/liveupdate/kexec_handover.c~a
-> +++ a/kernel/liveupdate/kexec_handover.c
-> @@ -1011,8 +1011,10 @@ int kho_preserve_vmalloc(void *ptr, stru
->                 chunk->phys[idx++] = phys;
->                 if (idx == ARRAY_SIZE(chunk->phys)) {
->                         chunk = new_vmalloc_chunk(chunk);
-> -                       if (!chunk)
-> +                       if (!chunk) {
-> +                               err = -ENOMEM;
->                                 goto err_free;
-> +                       }
+Am Dienstag, 20. Januar 2026, 07:25:00 Mitteleurop=C3=A4ische Normalzeit sc=
+hrieb Dan Carpenter:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinc=
+trl.git devel
+> head:   76d415763bae9488dd2b923b1348ce6f26c1f0ae
+> commit: e2c58cbe3aff49fe201e81ee5f651294e313ec74 [30/31] pinctrl: rockchi=
+p: Simplify locking with scoped_guard()
+> config: sh-randconfig-r073-20260119 (https://download.01.org/0day-ci/arch=
+ive/20260120/202601200057.P0Lr7NDg-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 15.2.0
+> smatch version: v0.5.0-8985-g2614ff1a
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202601200057.P0Lr7NDg-lkp@intel.com/
+>=20
+> smatch warnings:
+> drivers/pinctrl/pinctrl-rockchip.c:3683 rockchip_pinconf_set() error: we =
+previously assumed 'gpio->direction_output' could be null (see line 3644)
+>=20
+> vim +3683 drivers/pinctrl/pinctrl-rockchip.c
+>=20
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3622  static int roc=
+kchip_pinconf_set(struct pinctrl_dev *pctldev, unsigned int pin,
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3623  				unsigned long *=
+configs, unsigned num_configs)
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3624  {
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3625  	struct rockch=
+ip_pinctrl *info =3D pinctrl_dev_get_drvdata(pctldev);
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3626  	struct rockch=
+ip_pin_bank *bank =3D pin_to_bank(info, pin);
+> 9ce9a02039de72e Jianqun Xu          2021-08-16  3627  	struct gpio_chip *=
+gpio =3D &bank->gpio_chip;
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3628  	enum pin_config_pa=
+ram param;
+> 58957d2edfa19e9 Mika Westerberg     2017-01-23  3629  	u32 arg;
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3630  	int i;
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3631  	int rc;
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3632 =20
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3633  	for (i =3D 0; i < =
+num_configs; i++) {
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3634  		param =3D pinconf=
+_to_config_param(configs[i]);
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3635  		arg =3D pinconf_t=
+o_config_argument(configs[i]);
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3636 =20
+> 203a83112e097a5 Linus Walleij       2025-09-05  3637  		if (param =3D=3D =
+PIN_CONFIG_LEVEL || param =3D=3D PIN_CONFIG_INPUT_ENABLE) {
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3638  			/*
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3639  			 * Check for gpi=
+o driver not being probed yet.
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3640  			 * The lock make=
+s sure that either gpio-probe has completed
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3641  			 * or the gpio d=
+river hasn't probed yet.
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3642  			 */
+> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3643  			scoped_guard(mut=
+ex, &bank->deferred_lock) {
+> 8ce5ef645468502 Caleb Connolly      2022-03-28 @3644  				if (!gpio || !g=
+pio->direction_output) {
+>                                                                          =
+                     ^^^^^^^^^^^^^^^^^^^^^^
+> Is this check necessary?
 
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+I think the culprit is=20
+commit 8ce5ef645468 ("pinctrl/rockchip: support deferring other gpio params=
+")
 
-Thank you,
-Pasha
+Which moved the original check up here for more generalization, but moved
+it out of its original switch block where the break in line 3650 would end
+the block, up here where actually a contnue would be necessary?
+
+In its original place, the "break" would exit the switch block and thus
+continue to the next entry in the for loop.
+
+
+> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3645  					rc =3D rockchi=
+p_pinconf_defer_pin(bank,
+> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3646  									pin - bank=
+=2D>pin_base,
+> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3647  									param, arg=
+);
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3648  					if (rc)
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3649  						return rc;
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3650  					break;
+
+now it looks like this break should be a continue, I think.
+Because right now it exits the whole loop, if I'm not blind.
+
+
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3651  				}
+> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3652  			}
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3653  		}
+> 8ce5ef645468502 Caleb Connolly      2022-03-28  3654 =20
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3655  		switch (para=
+m) {
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3656  		case PIN_CON=
+=46IG_BIAS_DISABLE:
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3657  			rc =3D  rockchip=
+_set_pull(bank, pin - bank->pin_base,
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3658  				param);
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3659  			if (rc)
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3660  				return rc;
+> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3661  			break;
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3662  		case PIN_CON=
+=46IG_BIAS_PULL_UP:
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3663  		case PIN_CON=
+=46IG_BIAS_PULL_DOWN:
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3664  		case PIN_CON=
+=46IG_BIAS_PULL_PIN_DEFAULT:
+> 6ca5274d1d1258b Heiko St=C3=BCbner       2013-10-16  3665  		case PIN_CON=
+=46IG_BIAS_BUS_HOLD:
+> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3666  			if (!rockch=
+ip_pinconf_pull_valid(info->ctrl, param))
+> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3667  				return -EN=
+OTSUPP;
+> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3668 =20
+> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3669  			if (!arg)
+> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3670  				return -EI=
+NVAL;
+> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3671 =20
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3672  			rc =3D rockchip_=
+set_pull(bank, pin - bank->pin_base,
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3673  				param);
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3674  			if (rc)
+> 03b054e9696c3cb Sherman Yin         2013-08-27  3675  				return rc;
+> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3676  			break;
+> 203a83112e097a5 Linus Walleij       2025-09-05  3677  		case PIN_CONFIG_L=
+EVEL:
+> 9ce9a02039de72e Jianqun Xu          2021-08-16  3678  			rc =3D rockchip_=
+set_mux(bank, pin - bank->pin_base,
+> 9ce9a02039de72e Jianqun Xu          2021-08-16  3679  					      RK_FUNC_=
+GPIO);
+> 9ce9a02039de72e Jianqun Xu          2021-08-16  3680  			if (rc !=3D RK_F=
+UNC_GPIO)
+> 9ce9a02039de72e Jianqun Xu          2021-08-16  3681  				return -EINVAL;
+> 9ce9a02039de72e Jianqun Xu          2021-08-16  3682 =20
+> 9ce9a02039de72e Jianqun Xu          2021-08-16 @3683  			rc =3D gpio->dir=
+ection_output(gpio, pin - bank->pin_base,
+>                                                                          =
+    ^^^^^^^^^^^^^^^^^^^^^^
+> Unchecked dereference.  This is old code so it's presumably okay.  I
+> think this warning is triggering now because of changes in Smatch.
+
+The block from above should already make sure that this is only accessed
+if the gpio pointer is valid, so this should okay.
+
+
+Heiko
+
+
+
