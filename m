@@ -1,45 +1,44 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B8F27CCEE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 09:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FF8352933;
+	Thu, 22 Jan 2026 09:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769074220; cv=none; b=WkpDq1Gy4B+1GPgcMTtPZZ4kVqFcMGP49g4uAN+v2zoRifLybt49E67uNK2l6rIlgmzWlH5qZoGuL3l2DU0ahbAG3q2Ts6iwT6XaQHLuxv79IoIvscsJ5LHCGbohjV8Rfo2TAFmiCiac90pdwT2/xqYH4vWRKjSrko4n3dOf+jU=
+	t=1769075361; cv=none; b=AjRZ00eb/+HSt5bSX5Orkp50lNNY7yrHdxCAhRae4wQVTGJkrwLCI+RDRmQO1njZ34hlOzA0lqC2pg6jGPcHdyuDhOxr3mzHF5f5JL1SRXgImKQC80p3q6M8dGKUNRtU3YatunSUW0vPwjLDE38ABxgkpGnsOxDrLUAVnvIhexc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769074220; c=relaxed/simple;
-	bh=Xx2iacOwQ7foigWGkPLT07YqY2OPMfczyW8HGK3+TOo=;
+	s=arc-20240116; t=1769075361; c=relaxed/simple;
+	bh=dRV9tsm3tF8BwNf3UZE4OCSsbX34H1Ma1dmXtxPs/4U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZjCW0oNPi+8dXJRKt1XYzB4Yz2PxacHATjYCs9O/1fgGARF5BL0+IKzKzTixcxR8yhfxL5WGpotnQ3TamgmoOP3gdk1AlrhakI4tUOBP17KHcmDiKI1VSbR3sL6PnGAuHkfbEs8gQ+S8XuVC3PrWvFim6vZpg5kvSKbmF96qDp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SPuOQvAb; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=jyASWkDPplCkyFpBhQyfuI0h+hLuUbGDHvZT0RpiJrbLVC+QeTEkG/c32YkcFAqUcb/s/iwtqc72ARf1vQtFjNCnC4EIYgBdv2ZE0j5yEm9IjyzwnI3URr9hB77GSUsPtFeVRQ0TQZkASP33tWUVvkSXm1tJZTYNJRjXqDEvbXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=adpgN6sN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SPuOQvAb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=f4ox3+IfajuSWuo0dm+GeY2RanlSEuedySU7XstSWeo=; b=SPuOQvAbf+NMaTDA97J47o06eN
-	pWGzX0ha0D0FQGpXl5bN6o7d0sL7zIPW6XLVpDmO2bxYxXI7ZxhN3VL8R5U3cWY1J+R+LaFXKmRvH
-	wdX3hfko/biibiXH9AOFOJYEJHj45XlEkMuLWiYNVq+BQWi2N++21egidIaCZrdMxxgUnWVPwk5aF
-	v3ZYcrrFnVPp66Vz/3BHmjBi6ErlyenShuY6HbJBDnUWkiSFcdQZA3REV2C0zHMkVLILZqFw/lDYG
-	TYED2ZlRDRG/bNfPu8DHvacArS1hEKZ8gyU4jnqpp1zUi/IcosDLlDweODnmR5TFSuxbMgtwfYtQt
-	1wZMK2KQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vir15-0000000034h-2jNE;
-	Thu, 22 Jan 2026 09:30:16 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 22EFB300754; Thu, 22 Jan 2026 10:30:15 +0100 (CET)
-Date: Thu, 22 Jan 2026 10:30:15 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [peterz-queue:sched/core 28/31] kernel/rseq.c:779:24: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <20260122093015.GR166857@noisy.programming.kicks-ass.net>
-References: <202601221057.fyl6X39T-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="adpgN6sN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B51AAC116C6;
+	Thu, 22 Jan 2026 09:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769075360;
+	bh=dRV9tsm3tF8BwNf3UZE4OCSsbX34H1Ma1dmXtxPs/4U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=adpgN6sNFvKPNN7MVXkTYjmvS7P8vMtwXhlHIVBZdGwJBKaAEnuGI8nZa9gurLgYV
+	 +/N/KStwJKlul9n+sqTe2xlS4mIlhArYBVVXWBWk+C58cOzBMjgqJ3C85gwMAGvkeF
+	 nHh0xE5eQqR0prbEAN1ChRBp0PAyeZfzAt4dV71ixCsihLoCiW2fqbW7eXb6Koq4t5
+	 k3lBsl3+7qrsKwXXbFIxOoImDdSA8+lrbgh7ZhgSGS8Nx2GW+mHpkTPsb/Zn98TtYy
+	 VnfMZbm515Lu9PpnuCGkS8+QzYU0FV+pomcfSist6Vl7zNsQ+smELTTlrnIB/Rt1UI
+	 LvqlwwZVDYFBQ==
+Date: Thu, 22 Jan 2026 11:49:13 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: kernel/liveupdate/kexec_handover.c:994 kho_preserve_vmalloc()
+ warn: missing error code 'err'
+Message-ID: <aXHymXWEXY4Bia9C@kernel.org>
+References: <202601211636.IRaejjdw-lkp@intel.com>
+ <20260121123922.c0bb0ef8505c70b99998c324@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,52 +47,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202601221057.fyl6X39T-lkp@intel.com>
+In-Reply-To: <20260121123922.c0bb0ef8505c70b99998c324@linux-foundation.org>
 
-On Thu, Jan 22, 2026 at 10:17:25AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
-> head:   81b74125144d2db6f40a345b875f085addbcd230
-> commit: a21cfe63bfa6e2ce8db20196438f85d97f00cd93 [28/31] rseq: Move slice_ext_nsec to debugfs
-> config: x86_64-randconfig-r113-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221057.fyl6X39T-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221057.fyl6X39T-lkp@intel.com/reproduce)
+On Wed, Jan 21, 2026 at 12:39:22PM -0800, Andrew Morton wrote:
+> On Wed, 21 Jan 2026 11:58:20 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601221057.fyl6X39T-lkp@intel.com/
+> > Hi Pasha,
+> > 
+> > First bad commit (maybe != root cause):
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   6c790212c588fddeb0d852f2790840753bb604b1
+> > commit: 48a1b2321d763b5edeaf20bd4576d8c4b5df772b liveupdate: kho: move to kernel/liveupdate
+> > config: x86_64-randconfig-r071-20260121 (https://download.01.org/0day-ci/archive/20260121/202601211636.IRaejjdw-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> > smatch version: v0.5.0-8985-g2614ff1a
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202601211636.IRaejjdw-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > kernel/liveupdate/kexec_handover.c:994 kho_preserve_vmalloc() warn: missing error code 'err'
 > 
-> sparse warnings: (new ones prefixed by >>)
-> >> kernel/rseq.c:779:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *s @@     got char const [noderef] __user *ubuf @@
->    kernel/rseq.c:779:24: sparse:     expected char const *s
->    kernel/rseq.c:779:24: sparse:     got char const [noderef] __user *ubuf
+> Indeed, thanks.
 > 
-> vim +779 kernel/rseq.c
 > 
->    773	
->    774	static ssize_t rseq_slice_ext_write(struct file *file, const char __user *ubuf,
->    775					    size_t count, loff_t *ppos)
->    776	{
->    777		unsigned int nsecs;
->    778	
->  > 779		if (kstrtouint(ubuf, count, &nsecs))
+> From: Andrew Morton <akpm@linux-foundation.org>
+> Subject: kho: kho_preserve_vmalloc(): don't return 0 when ENOMEM
+> Date: Wed Jan 21 12:36:17 PM PST 2026
+> 
+> kho_preserve_vmalloc() should return -ENOMEM when new_vmalloc_chunk()
+> fails.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202601211636.IRaejjdw-lkp@intel.com/
+> Cc: Alexander Graf <graf@amazon.com>
+> Cc: Jason Gunthorpe <jgg@nvidia.com>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Cc: Pratyush Yadav <pratyush@kernel.org>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 
-That very much wanted a _from_user on, I wonder where that went :/
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
->    780			return -EINVAL;
->    781	
->    782		if (nsecs < rseq_slice_ext_nsecs_min)
->    783			return -ERANGE;
->    784	
->    785		if (nsecs > rseq_slice_ext_nsecs_max)
->    786			return -ERANGE;
->    787	
->    788		rseq_slice_ext_nsecs = nsecs;
->    789	
->    790		return count;
->    791	}
->    792	
+Thanks!
+
+> ---
 > 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>  kernel/liveupdate/kexec_handover.c |    4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> --- a/kernel/liveupdate/kexec_handover.c~a
+> +++ a/kernel/liveupdate/kexec_handover.c
+> @@ -1011,8 +1011,10 @@ int kho_preserve_vmalloc(void *ptr, stru
+>  		chunk->phys[idx++] = phys;
+>  		if (idx == ARRAY_SIZE(chunk->phys)) {
+>  			chunk = new_vmalloc_chunk(chunk);
+> -			if (!chunk)
+> +			if (!chunk) {
+> +				err = -ENOMEM;
+>  				goto err_free;
+> +			}
+>  			idx = 0;
+>  		}
+>  	}
+> _
+> 
+
+-- 
+Sincerely yours,
+Mike.
