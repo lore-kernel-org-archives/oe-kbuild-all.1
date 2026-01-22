@@ -1,238 +1,323 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E0623A9AE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 01:12:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447A633DEC2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 01:12:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769044348; cv=none; b=WnMx9lUlq+W8UEvfXkqeZ+yVm4wzeyK9OTZd54A+jYnZxsrHayXV00m/EAg1Wf0Kmles2WpQhV6kVnB9UUSqpkUFxdEzjsVC5e7vejVwZTBqKwRjNw03pLHzsuVtcIcW66CYhUzkCnZPN6yZxA3Mpmvjhk5Ke4Mpe+2KWiGoj54=
+	t=1769044350; cv=none; b=G6LBpXhOOV5yWRgUXlWl7NHCgsv2jAZqBnYZXozOo3yJQIO8CywpCT4PatZYxaBNHsy8JEVkD4GbOaiaqYMMapeux7L2gTuT67Qxco/wWpTD83DNc82uzBjr/yiP1ELBA20dqU6uYXV2uVMeIUInED4QfBcU+y9wuLWxx4Wu40E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769044348; c=relaxed/simple;
-	bh=A47f1sTrig/VCRzNz8tV9VBkMtMFQl4pfjDDbcylV6E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LZ7pjDTOINeNGc23r+zEVJivdaXaPd3qvk3KQa+nKYI6ZJXn6w0dvdvhMjXHP+fj76mE9T5pQ2UpZbnL6DwcFxKVwLSVly5pqCECkh0QVW314ySe8hzvE0ZTdT/PCnK7KQ20abqnY1PPX1Zox3fJLaTvBqc+F0xCbDazgIdB9KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GbcuLwtT; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1769044350; c=relaxed/simple;
+	bh=QVMUWucKVUo5Jl2bgmDp5wlChrNcG2VDFMqtEXavpPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ddCsXj+IzBIx4UARfM8xjM9VDBxd1cQjP76cbdCQZ1p6jDSKhmoiExKxkIjInTdsoy/F/FaOawrKs+/H0DIgKsbRNzoXksvA0B6F0SRaUa+1tsarFc8Iiq0CgDdYIc5FzkXguyOIs9WtPSOVmRp15DAilY7gZwwVH+gY+e25Oh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aFEdFedN; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GbcuLwtT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFEdFedN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769044346; x=1800580346;
-  h=date:from:to:cc:subject:message-id;
-  bh=A47f1sTrig/VCRzNz8tV9VBkMtMFQl4pfjDDbcylV6E=;
-  b=GbcuLwtTPeNZDEpYnYoPsBUeP8pQgCbK+HvWXw55AckjTLeiBIL0gf+U
-   555pN/V1pfUBUA+7kkWirH9TPAZjSeWrLh++Oqjz2zmRb8fjyqNTpIkNX
-   MwayesEQEsWvzHHAnpq/ZW9nTRFA32xY5JmxGegl2Y8HO8OtcI41KIPOM
-   9cw0qKEXaiZ4WzWX0+ApGa76ECjRzaoAtI1VHffqCi0VVul3A/wHu/6BU
-   xI1O80jYzI27vlZrET/k8U6z9OBmk65an+f09yG71/XjMt/Y06aE+RtPs
-   9Sq8xqOIwV0m0vL36bBO6+zAjfTszBpGj5x3yRVJC9BDyOA5BgLZ5q5Yk
-   w==;
-X-CSE-ConnectionGUID: s75weL47TmG5NKoC87TK1A==
-X-CSE-MsgGUID: 9xFrj28bSpeG3kn70OkAew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80904721"
+  t=1769044348; x=1800580348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QVMUWucKVUo5Jl2bgmDp5wlChrNcG2VDFMqtEXavpPo=;
+  b=aFEdFedNIlT7kAl77+rom4y3nlOOhHVkEbftZ4+SKce+AwUATJx7uz6/
+   +YOKR+xi2L7OkfzK/xFSGIII9YxOpashqp6nUOPPXqQMDUGfuG4zoNlfR
+   sVY0OsG6xzof4DKv7b5Gdvel93gDAvbiAGApVfVRrU719s+HeXv3TRXlw
+   juQji0YgL2965elDNS6bqnDXt3qzUIKVtW42GEientz01irhVaEkKDwW7
+   /VhE1lJoT2f/bhD0/ZgbQmTkUZ1mQ5PTQuaFkiykGlJQuXWQCzZqqAPXJ
+   J5ydf+CbVE3dqH4R6B8k51N2kdS2ScbGKCnmYKyxIY2Lz8ojXurlyjGdg
+   Q==;
+X-CSE-ConnectionGUID: bcFgrQuJSeetVS80/ZVPDA==
+X-CSE-MsgGUID: IsoVtpySQNuTx12adUEBEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80904723"
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="80904721"
+   d="scan'208";a="80904723"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 17:12:25 -0800
-X-CSE-ConnectionGUID: FJ7DWDRVRt6cx9yYgjsLPw==
-X-CSE-MsgGUID: fp8INFbfQ9uq3SyNip7VnA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 17:12:27 -0800
+X-CSE-ConnectionGUID: TQFW317MQY2Hv0HZmg/W7A==
+X-CSE-MsgGUID: L9x4vIJVRNaJJpOZZj8zOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="211106961"
+   d="scan'208";a="211106979"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 21 Jan 2026 17:12:23 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vijFE-00000000SEV-1Qxp;
+	id 1vijFE-00000000SET-1IMD;
 	Thu, 22 Jan 2026 01:12:20 +0000
-Date: Thu, 22 Jan 2026 09:12:00 +0800
+Date: Thu, 22 Jan 2026 09:11:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: oe-kbuild-all@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
- Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Subject: [linux-next:master 5987/8780]
- drivers/hv/mshv_eventfd.c:509:13: sparse: sparse: restricted __poll_t
- degrades to integer
-Message-ID: <202601220948.MUTO60W4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: david.laight.linux@gmail.com, Nathan Chancellor <nathan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Kees Cook <keescook@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Laight <david.laight.linux@gmail.com>
+Subject: Re: [PATCH next 11/14] bit: Strengthen compile-time tests in
+ GENMASK() and BIT()
+Message-ID: <202601220829.MgTMeqqN-lkp@intel.com>
+References: <20260121145731.3623-12-david.laight.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121145731.3623-12-david.laight.linux@gmail.com>
 
-Hi Michael,
+Hi,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e3b32dcb9f23e3c3927ef3eec6a5842a988fb574
-commit: e020f604abaa6da9b7d579d9d73ffaf37072f520 [5987/8780] mshv: Store the result of vfs_poll in a variable of type __poll_t
-config: x86_64-randconfig-123-20260122 (https://download.01.org/0day-ci/archive/20260122/202601220948.MUTO60W4-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220948.MUTO60W4-lkp@intel.com/reproduce)
+[auto build test ERROR on next-20260120]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/overflow-Reduce-expansion-of-__type_max/20260122-013456
+base:   next-20260120
+patch link:    https://lore.kernel.org/r/20260121145731.3623-12-david.laight.linux%40gmail.com
+patch subject: [PATCH next 11/14] bit: Strengthen compile-time tests in GENMASK() and BIT()
+config: s390-randconfig-001-20260122 (https://download.01.org/0day-ci/archive/20260122/202601220829.MgTMeqqN-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220829.MgTMeqqN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601220948.MUTO60W4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601220829.MgTMeqqN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hv/mshv_eventfd.c:509:13: sparse: sparse: restricted __poll_t degrades to integer
+All errors (new ones prefixed by >>):
 
-vim +509 drivers/hv/mshv_eventfd.c
+   In file included from arch/s390/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from arch/s390/include/asm/cmpxchg.h:11,
+                    from arch/s390/include/asm/atomic.h:16,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/s390/include/asm/bitops.h:75,
+                    from include/linux/bitops.h:67,
+                    from include/linux/kernel.h:23,
+                    from net/core/page_pool.c:10:
+   In function 'netmem_clear_pp_magic',
+       inlined from 'page_pool_clear_pp_info' at net/core/page_pool.c:721:2:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:120:25: note: in definition of macro 'WARN_ON_ONCE'
+     int __ret_warn_on = !!(condition);    \
+                            ^~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   net/core/netmem_priv.h:18:52: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+     WARN_ON_ONCE(netmem_to_nmdesc(netmem)->pp_magic & PP_DMA_INDEX_MASK);
+                                                       ^~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/bitops.h:6,
+                    from arch/s390/include/asm/machine.h:25,
+                    from arch/s390/include/asm/lowcore.h:13,
+                    from arch/s390/include/asm/current.h:13,
+                    from arch/s390/include/asm/preempt.h:5,
+                    from include/linux/preempt.h:79,
+                    from arch/s390/include/asm/timex.h:13,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from net/core/skbuff.c:37:
+   In function 'netmem_get_pp_magic',
+       inlined from 'netmem_is_pp' at net/core/netmem_priv.h:25:10,
+       inlined from 'napi_pp_put_page' at net/core/skbuff.c:1027:6:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   net/core/netmem_priv.h:8:47: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+     return netmem_to_nmdesc(netmem)->pp_magic & ~PP_DMA_INDEX_MASK;
+                                                  ^~~~~~~~~~~~~~~~~
+   In function 'netmem_is_pp',
+       inlined from 'napi_pp_put_page' at net/core/skbuff.c:1027:6:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   include/linux/mm.h:4650:25: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+    #define PP_MAGIC_MASK ~(PP_DMA_INDEX_MASK | 0x3UL)
+                            ^~~~~~~~~~~~~~~~~
+   net/core/netmem_priv.h:25:40: note: in expansion of macro 'PP_MAGIC_MASK'
+     return (netmem_get_pp_magic(netmem) & PP_MAGIC_MASK) == PP_SIGNATURE;
+                                           ^~~~~~~~~~~~~
+   In function 'netmem_get_pp_magic',
+       inlined from 'netmem_is_pp' at net/core/netmem_priv.h:25:10,
+       inlined from 'napi_pp_put_page' at net/core/skbuff.c:1027:6:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   net/core/netmem_priv.h:8:47: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+     return netmem_to_nmdesc(netmem)->pp_magic & ~PP_DMA_INDEX_MASK;
+                                                  ^~~~~~~~~~~~~~~~~
+   In function 'netmem_is_pp',
+       inlined from 'napi_pp_put_page' at net/core/skbuff.c:1027:6:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   include/linux/mm.h:4650:25: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+    #define PP_MAGIC_MASK ~(PP_DMA_INDEX_MASK | 0x3UL)
+                            ^~~~~~~~~~~~~~~~~
+   net/core/netmem_priv.h:25:40: note: in expansion of macro 'PP_MAGIC_MASK'
+     return (netmem_get_pp_magic(netmem) & PP_MAGIC_MASK) == PP_SIGNATURE;
+                                           ^~~~~~~~~~~~~
+   In function 'netmem_get_pp_magic',
+       inlined from 'netmem_is_pp' at net/core/netmem_priv.h:25:10,
+       inlined from 'skb_pp_frag_ref' at net/core/skbuff.c:1067:7,
+       inlined from 'skb_try_coalesce' at net/core/skbuff.c:6203:6:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   net/core/netmem_priv.h:8:47: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+     return netmem_to_nmdesc(netmem)->pp_magic & ~PP_DMA_INDEX_MASK;
+                                                  ^~~~~~~~~~~~~~~~~
+   In function 'netmem_is_pp',
+       inlined from 'skb_pp_frag_ref' at net/core/skbuff.c:1067:7,
+       inlined from 'skb_try_coalesce' at net/core/skbuff.c:6203:6:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   include/linux/mm.h:4650:25: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+    #define PP_MAGIC_MASK ~(PP_DMA_INDEX_MASK | 0x3UL)
+                            ^~~~~~~~~~~~~~~~~
+   net/core/netmem_priv.h:25:40: note: in expansion of macro 'PP_MAGIC_MASK'
+     return (netmem_get_pp_magic(netmem) & PP_MAGIC_MASK) == PP_SIGNATURE;
+                                           ^~~~~~~~~~~~~
+   In function 'netmem_get_pp_magic',
+       inlined from 'netmem_is_pp' at net/core/netmem_priv.h:25:10,
+       inlined from 'skb_pp_frag_ref' at net/core/skbuff.c:1067:7,
+       inlined from 'skb_try_coalesce' at net/core/skbuff.c:6203:6:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   net/core/netmem_priv.h:8:47: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+     return netmem_to_nmdesc(netmem)->pp_magic & ~PP_DMA_INDEX_MASK;
+                                                  ^~~~~~~~~~~~~~~~~
+   In function 'netmem_is_pp',
+       inlined from 'skb_pp_frag_ref' at net/core/skbuff.c:1067:7,
+       inlined from 'skb_try_coalesce' at net/core/skbuff.c:6203:6:
+>> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers
+       GENMASK_INPUT_CHECK_FAIL()))
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:54:17: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+     ((unsigned int)GENMASK_INPUT_CHECK(h, l, BITS_PER_TYPE(t)) + \
+                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:58:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
+    #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+                              ^~~~~~~
+   include/linux/mm.h:4650:25: note: in expansion of macro 'PP_DMA_INDEX_MASK'
+    #define PP_MAGIC_MASK ~(PP_DMA_INDEX_MASK | 0x3UL)
+                            ^~~~~~~~~~~~~~~~~
+   net/core/netmem_priv.h:25:40: note: in expansion of macro 'PP_MAGIC_MASK'
+     return (netmem_get_pp_magic(netmem) & PP_MAGIC_MASK) == PP_SIGNATURE;
+                                           ^~~~~~~~~~~~~
 
-621191d709b148 Nuno Das Neves 2025-03-14  385  
-621191d709b148 Nuno Das Neves 2025-03-14  386  static int mshv_irqfd_assign(struct mshv_partition *pt,
-621191d709b148 Nuno Das Neves 2025-03-14  387  			     struct mshv_user_irqfd *args)
-621191d709b148 Nuno Das Neves 2025-03-14  388  {
-621191d709b148 Nuno Das Neves 2025-03-14  389  	struct eventfd_ctx *eventfd = NULL, *resamplefd = NULL;
-621191d709b148 Nuno Das Neves 2025-03-14  390  	struct mshv_irqfd *irqfd, *tmp;
-e020f604abaa6d Michael Kelley 2026-01-14  391  	__poll_t events;
-621191d709b148 Nuno Das Neves 2025-03-14  392  	int ret;
-621191d709b148 Nuno Das Neves 2025-03-14  393  	int idx;
-621191d709b148 Nuno Das Neves 2025-03-14  394  
-ce23f29e7dfb53 Al Viro        2025-07-12  395  	CLASS(fd, f)(args->fd);
-ce23f29e7dfb53 Al Viro        2025-07-12  396  
-621191d709b148 Nuno Das Neves 2025-03-14  397  	irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL);
-621191d709b148 Nuno Das Neves 2025-03-14  398  	if (!irqfd)
-621191d709b148 Nuno Das Neves 2025-03-14  399  		return -ENOMEM;
-621191d709b148 Nuno Das Neves 2025-03-14  400  
-621191d709b148 Nuno Das Neves 2025-03-14  401  	irqfd->irqfd_partn = pt;
-621191d709b148 Nuno Das Neves 2025-03-14  402  	irqfd->irqfd_irqnum = args->gsi;
-621191d709b148 Nuno Das Neves 2025-03-14  403  	INIT_WORK(&irqfd->irqfd_shutdown, mshv_irqfd_shutdown);
-621191d709b148 Nuno Das Neves 2025-03-14  404  	seqcount_spinlock_init(&irqfd->irqfd_irqe_sc, &pt->pt_irqfds_lock);
-621191d709b148 Nuno Das Neves 2025-03-14  405  
-ce23f29e7dfb53 Al Viro        2025-07-12  406  	if (fd_empty(f)) {
-621191d709b148 Nuno Das Neves 2025-03-14  407  		ret = -EBADF;
-621191d709b148 Nuno Das Neves 2025-03-14  408  		goto out;
-621191d709b148 Nuno Das Neves 2025-03-14  409  	}
-621191d709b148 Nuno Das Neves 2025-03-14  410  
-621191d709b148 Nuno Das Neves 2025-03-14  411  	eventfd = eventfd_ctx_fileget(fd_file(f));
-621191d709b148 Nuno Das Neves 2025-03-14  412  	if (IS_ERR(eventfd)) {
-621191d709b148 Nuno Das Neves 2025-03-14  413  		ret = PTR_ERR(eventfd);
-621191d709b148 Nuno Das Neves 2025-03-14  414  		goto fail;
-621191d709b148 Nuno Das Neves 2025-03-14  415  	}
-621191d709b148 Nuno Das Neves 2025-03-14  416  
-621191d709b148 Nuno Das Neves 2025-03-14  417  	irqfd->irqfd_eventfd_ctx = eventfd;
-621191d709b148 Nuno Das Neves 2025-03-14  418  
-621191d709b148 Nuno Das Neves 2025-03-14  419  	if (args->flags & BIT(MSHV_IRQFD_BIT_RESAMPLE)) {
-621191d709b148 Nuno Das Neves 2025-03-14  420  		struct mshv_irqfd_resampler *rp;
-621191d709b148 Nuno Das Neves 2025-03-14  421  
-621191d709b148 Nuno Das Neves 2025-03-14  422  		resamplefd = eventfd_ctx_fdget(args->resamplefd);
-621191d709b148 Nuno Das Neves 2025-03-14  423  		if (IS_ERR(resamplefd)) {
-621191d709b148 Nuno Das Neves 2025-03-14  424  			ret = PTR_ERR(resamplefd);
-621191d709b148 Nuno Das Neves 2025-03-14  425  			goto fail;
-621191d709b148 Nuno Das Neves 2025-03-14  426  		}
-621191d709b148 Nuno Das Neves 2025-03-14  427  
-621191d709b148 Nuno Das Neves 2025-03-14  428  		irqfd->irqfd_resamplefd = resamplefd;
-621191d709b148 Nuno Das Neves 2025-03-14  429  
-621191d709b148 Nuno Das Neves 2025-03-14  430  		mutex_lock(&pt->irqfds_resampler_lock);
-621191d709b148 Nuno Das Neves 2025-03-14  431  
-621191d709b148 Nuno Das Neves 2025-03-14  432  		hlist_for_each_entry(rp, &pt->irqfds_resampler_list,
-621191d709b148 Nuno Das Neves 2025-03-14  433  				     rsmplr_hnode) {
-621191d709b148 Nuno Das Neves 2025-03-14  434  			if (rp->rsmplr_notifier.irq_ack_gsi ==
-621191d709b148 Nuno Das Neves 2025-03-14  435  							 irqfd->irqfd_irqnum) {
-621191d709b148 Nuno Das Neves 2025-03-14  436  				irqfd->irqfd_resampler = rp;
-621191d709b148 Nuno Das Neves 2025-03-14  437  				break;
-621191d709b148 Nuno Das Neves 2025-03-14  438  			}
-621191d709b148 Nuno Das Neves 2025-03-14  439  		}
-621191d709b148 Nuno Das Neves 2025-03-14  440  
-621191d709b148 Nuno Das Neves 2025-03-14  441  		if (!irqfd->irqfd_resampler) {
-621191d709b148 Nuno Das Neves 2025-03-14  442  			rp = kzalloc(sizeof(*rp), GFP_KERNEL_ACCOUNT);
-621191d709b148 Nuno Das Neves 2025-03-14  443  			if (!rp) {
-621191d709b148 Nuno Das Neves 2025-03-14  444  				ret = -ENOMEM;
-621191d709b148 Nuno Das Neves 2025-03-14  445  				mutex_unlock(&pt->irqfds_resampler_lock);
-621191d709b148 Nuno Das Neves 2025-03-14  446  				goto fail;
-621191d709b148 Nuno Das Neves 2025-03-14  447  			}
-621191d709b148 Nuno Das Neves 2025-03-14  448  
-621191d709b148 Nuno Das Neves 2025-03-14  449  			rp->rsmplr_partn = pt;
-621191d709b148 Nuno Das Neves 2025-03-14  450  			INIT_HLIST_HEAD(&rp->rsmplr_irqfd_list);
-621191d709b148 Nuno Das Neves 2025-03-14  451  			rp->rsmplr_notifier.irq_ack_gsi = irqfd->irqfd_irqnum;
-621191d709b148 Nuno Das Neves 2025-03-14  452  			rp->rsmplr_notifier.irq_acked =
-621191d709b148 Nuno Das Neves 2025-03-14  453  						      mshv_irqfd_resampler_ack;
-621191d709b148 Nuno Das Neves 2025-03-14  454  
-621191d709b148 Nuno Das Neves 2025-03-14  455  			hlist_add_head(&rp->rsmplr_hnode,
-621191d709b148 Nuno Das Neves 2025-03-14  456  				       &pt->irqfds_resampler_list);
-621191d709b148 Nuno Das Neves 2025-03-14  457  			mshv_register_irq_ack_notifier(pt,
-621191d709b148 Nuno Das Neves 2025-03-14  458  						       &rp->rsmplr_notifier);
-621191d709b148 Nuno Das Neves 2025-03-14  459  			irqfd->irqfd_resampler = rp;
-621191d709b148 Nuno Das Neves 2025-03-14  460  		}
-621191d709b148 Nuno Das Neves 2025-03-14  461  
-621191d709b148 Nuno Das Neves 2025-03-14  462  		hlist_add_head_rcu(&irqfd->irqfd_resampler_hnode,
-621191d709b148 Nuno Das Neves 2025-03-14  463  				   &irqfd->irqfd_resampler->rsmplr_irqfd_list);
-621191d709b148 Nuno Das Neves 2025-03-14  464  
-621191d709b148 Nuno Das Neves 2025-03-14  465  		mutex_unlock(&pt->irqfds_resampler_lock);
-621191d709b148 Nuno Das Neves 2025-03-14  466  	}
-621191d709b148 Nuno Das Neves 2025-03-14  467  
-621191d709b148 Nuno Das Neves 2025-03-14  468  	/*
-621191d709b148 Nuno Das Neves 2025-03-14  469  	 * Install our own custom wake-up handling so we are notified via
-621191d709b148 Nuno Das Neves 2025-03-14  470  	 * a callback whenever someone signals the underlying eventfd
-621191d709b148 Nuno Das Neves 2025-03-14  471  	 */
-621191d709b148 Nuno Das Neves 2025-03-14  472  	init_waitqueue_func_entry(&irqfd->irqfd_wait, mshv_irqfd_wakeup);
-621191d709b148 Nuno Das Neves 2025-03-14  473  	init_poll_funcptr(&irqfd->irqfd_polltbl, mshv_irqfd_queue_proc);
-621191d709b148 Nuno Das Neves 2025-03-14  474  
-621191d709b148 Nuno Das Neves 2025-03-14  475  	spin_lock_irq(&pt->pt_irqfds_lock);
-9d70ef7a18e0ec Jinank Jain    2025-11-24  476  #if IS_ENABLED(CONFIG_X86)
-621191d709b148 Nuno Das Neves 2025-03-14  477  	if (args->flags & BIT(MSHV_IRQFD_BIT_RESAMPLE) &&
-621191d709b148 Nuno Das Neves 2025-03-14  478  	    !irqfd->irqfd_lapic_irq.lapic_control.level_triggered) {
-621191d709b148 Nuno Das Neves 2025-03-14  479  		/*
-621191d709b148 Nuno Das Neves 2025-03-14  480  		 * Resample Fd must be for level triggered interrupt
-621191d709b148 Nuno Das Neves 2025-03-14  481  		 * Otherwise return with failure
-621191d709b148 Nuno Das Neves 2025-03-14  482  		 */
-621191d709b148 Nuno Das Neves 2025-03-14  483  		spin_unlock_irq(&pt->pt_irqfds_lock);
-621191d709b148 Nuno Das Neves 2025-03-14  484  		ret = -EINVAL;
-621191d709b148 Nuno Das Neves 2025-03-14  485  		goto fail;
-621191d709b148 Nuno Das Neves 2025-03-14  486  	}
-9d70ef7a18e0ec Jinank Jain    2025-11-24  487  #endif
-621191d709b148 Nuno Das Neves 2025-03-14  488  	ret = 0;
-621191d709b148 Nuno Das Neves 2025-03-14  489  	hlist_for_each_entry(tmp, &pt->pt_irqfds_list, irqfd_hnode) {
-621191d709b148 Nuno Das Neves 2025-03-14  490  		if (irqfd->irqfd_eventfd_ctx != tmp->irqfd_eventfd_ctx)
-621191d709b148 Nuno Das Neves 2025-03-14  491  			continue;
-621191d709b148 Nuno Das Neves 2025-03-14  492  		/* This fd is used for another irq already. */
-621191d709b148 Nuno Das Neves 2025-03-14  493  		ret = -EBUSY;
-621191d709b148 Nuno Das Neves 2025-03-14  494  		spin_unlock_irq(&pt->pt_irqfds_lock);
-621191d709b148 Nuno Das Neves 2025-03-14  495  		goto fail;
-621191d709b148 Nuno Das Neves 2025-03-14  496  	}
-621191d709b148 Nuno Das Neves 2025-03-14  497  
-621191d709b148 Nuno Das Neves 2025-03-14  498  	idx = srcu_read_lock(&pt->pt_irq_srcu);
-621191d709b148 Nuno Das Neves 2025-03-14  499  	mshv_irqfd_update(pt, irqfd);
-621191d709b148 Nuno Das Neves 2025-03-14  500  	hlist_add_head(&irqfd->irqfd_hnode, &pt->pt_irqfds_list);
-621191d709b148 Nuno Das Neves 2025-03-14  501  	spin_unlock_irq(&pt->pt_irqfds_lock);
-621191d709b148 Nuno Das Neves 2025-03-14  502  
-621191d709b148 Nuno Das Neves 2025-03-14  503  	/*
-621191d709b148 Nuno Das Neves 2025-03-14  504  	 * Check if there was an event already pending on the eventfd
-621191d709b148 Nuno Das Neves 2025-03-14  505  	 * before we registered, and trigger it as if we didn't miss it.
-621191d709b148 Nuno Das Neves 2025-03-14  506  	 */
-621191d709b148 Nuno Das Neves 2025-03-14  507  	events = vfs_poll(fd_file(f), &irqfd->irqfd_polltbl);
-621191d709b148 Nuno Das Neves 2025-03-14  508  
-621191d709b148 Nuno Das Neves 2025-03-14 @509  	if (events & POLLIN)
-621191d709b148 Nuno Das Neves 2025-03-14  510  		mshv_assert_irq_slow(irqfd);
-621191d709b148 Nuno Das Neves 2025-03-14  511  
-621191d709b148 Nuno Das Neves 2025-03-14  512  	srcu_read_unlock(&pt->pt_irq_srcu, idx);
-621191d709b148 Nuno Das Neves 2025-03-14  513  	return 0;
-621191d709b148 Nuno Das Neves 2025-03-14  514  
-621191d709b148 Nuno Das Neves 2025-03-14  515  fail:
-621191d709b148 Nuno Das Neves 2025-03-14  516  	if (irqfd->irqfd_resampler)
-621191d709b148 Nuno Das Neves 2025-03-14  517  		mshv_irqfd_resampler_shutdown(irqfd);
-621191d709b148 Nuno Das Neves 2025-03-14  518  
-621191d709b148 Nuno Das Neves 2025-03-14  519  	if (resamplefd && !IS_ERR(resamplefd))
-621191d709b148 Nuno Das Neves 2025-03-14  520  		eventfd_ctx_put(resamplefd);
-621191d709b148 Nuno Das Neves 2025-03-14  521  
-621191d709b148 Nuno Das Neves 2025-03-14  522  	if (eventfd && !IS_ERR(eventfd))
-621191d709b148 Nuno Das Neves 2025-03-14  523  		eventfd_ctx_put(eventfd);
-621191d709b148 Nuno Das Neves 2025-03-14  524  
-621191d709b148 Nuno Das Neves 2025-03-14  525  out:
-621191d709b148 Nuno Das Neves 2025-03-14  526  	kfree(irqfd);
-621191d709b148 Nuno Das Neves 2025-03-14  527  	return ret;
-621191d709b148 Nuno Das Neves 2025-03-14  528  }
-621191d709b148 Nuno Das Neves 2025-03-14  529  
 
-:::::: The code at line 509 was first introduced by commit
-:::::: 621191d709b14882270dfd8ea5d7d6cdfebe2c35 Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs
+vim +/GENMASK_INPUT_CHECK_FAIL +35 include/linux/bits.h
 
-:::::: TO: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-:::::: CC: Wei Liu <wei.liu@kernel.org>
+    25	
+    26	#ifndef KBUILD_EXTRA_WARNc
+    27	#define GENMASK_INPUT_CHECK(h, l, width) 0
+    28	#else
+    29	int GENMASK_INPUT_CHECK_FAIL(void) __compiletime_error("Invalid bit numbers");
+    30	#define GENMASK_INPUT_CHECK(h, l, width)				\
+    31		(__builtin_choose_expr(__is_constexpr((l) > (h)),		\
+    32			sizeof(struct { char low_bit_greater_than_high[-((l) > (h))];}), \
+    33			__builtin_constant_p((l) | (h)) &&			\
+    34				((l) < 0 || (l) > (h) || (h) >= width) &&	\
+  > 35				GENMASK_INPUT_CHECK_FAIL()))
+    36	#endif
+    37	
 
 -- 
 0-DAY CI Kernel Test Service
