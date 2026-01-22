@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE153A4F2A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 03:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6815A378D8B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 03:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769051681; cv=none; b=DO2/59WF03u0alQLe2ZP1bJvKmDRvwPK0QYyM5Xd1ixHhPrLdwq/GHvG26cDdTL42ek3vVgcBTTa0NKP1xrNp2kY7Cfnae0v7j8X0bhf0Z4pknAeasfkVr7OCyfEfyytincCgGR64inV0ki2KZUJVTK9pgqAIqHD7hrxZNaWzk4=
+	t=1769052997; cv=none; b=eZNNx1QJ+558LqV7TPTvl99I8XaxVTyHZuJoD2aylesKQb/5vcoP1PaDEMun5ELKBs1gcQq/03r6CiOlZDk6lRj6SldEyrV3ytBnipp0E5Gt/nNypwdS2ZeOeNt7cn4j0nuGTtbSHHEtTomzj6TgJLe+UoqEF1y0HUG3nVG8AqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769051681; c=relaxed/simple;
-	bh=qiKQrEB4W91ejU/+SSkOMO2A0QB9bc34P9x/PoRv/MQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EsWQmmNIiY9hmkE9CzcBjQnaeYiCG7chgdxfCjzRcaFLRRJMTNeUVc11Ohkf6kJ+zQXuMa+4adKIOxm1At8/D5vups5T48qHMdC5sk3l69h5vcl1FzS8KA/tomix4w+UCIDRNxdhabaHviS1LvgnWGFcHLORzhzGhqmDr3CSoMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Meyo+TO0; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769052997; c=relaxed/simple;
+	bh=3Ju08XejZiQQ9aVQoKoxy4RZ8WJPe4rcLcf/9m4WTI4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uB+bmlrUSdEEx5zCk3fp6CIVUFR61+pa/5jEcz0ty23HrudNX9WMe0ETU0BFK9i0nzmW4a50iVzBYH73y7B21X04ECpiW9kqMJTyXxaNMyhKz57REgLSD75Oihd6iV1vLRbZA8BFySBBgmGiwjXrT5StjIroTZGeDPbiizP2Pcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHZEuy15; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Meyo+TO0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHZEuy15"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769051676; x=1800587676;
+  t=1769052994; x=1800588994;
   h=date:from:to:cc:subject:message-id;
-  bh=qiKQrEB4W91ejU/+SSkOMO2A0QB9bc34P9x/PoRv/MQ=;
-  b=Meyo+TO0QCzRM9A77/8pwsZJGhlw9EFpBJsNitoGhJRS1uPtzC81LHFC
-   HcqG3DRTLt2wqgp37HMRwkMBvIbyd+/4aGmL47u/mQZplTASPsYj5mNwt
-   i59HFYXRPfawJg+r+NmhjafQ9BOxurk70AuD/kPenhRsSzqHaUNrtruH4
-   OQAh03S/N2KBTKG05/R12pzpaAOToSGAKFe+lFJ8MlBIQqCkkgXaGss8+
-   MJXhpDTHkX8PvoYqcWNYIDmHtn7pnE3bteLO9CTb5XDXIZLgTHYms62Ij
-   KVUrsbG+4+/TRj+axijBtRq5Wr6lNhFat1NYwmJJvIfGaVElHfV7l753a
-   Q==;
-X-CSE-ConnectionGUID: mTFpuWmTT2aPaTxhCwHfCA==
-X-CSE-MsgGUID: tUc0JS5pRRWS53eoSk2UeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70189899"
+  bh=3Ju08XejZiQQ9aVQoKoxy4RZ8WJPe4rcLcf/9m4WTI4=;
+  b=CHZEuy15VSWIcyck2258TeOxGN7FfYvLD0CgPVHwAIhMGK1RMpDBbk7Q
+   euxqa/HVTrwPjyUo12Nd7KKw6U7P9jJj8L+ALEVpGoUeqSOJRpP/2v2SF
+   i4Nix1K3cVz9frtCN3KtWLbw7H9kq73omYfkUbAGPasdSXohN1yJoRkYV
+   IXGxcVhegnRlPyFEt3zTd0mxhZLcCWoJMdKowXHzis7/pXpJlzKLvueMo
+   jttxcqxzl25rh1X1aTiTSBqHuDCzF7PSLCp4JCbzy3s1sw7k4J6QWroCU
+   oKV46UPdRjGDWtsJTeD4gSNdGE0fPrSWBHqqxaskoA5nZUHK2Kx4+0p4n
+   g==;
+X-CSE-ConnectionGUID: QZCwooIWSSSeDl+wXFrXrQ==
+X-CSE-MsgGUID: 7rjqAOTYQsSp9b/hWAkYJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="81007741"
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="70189899"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 19:14:33 -0800
-X-CSE-ConnectionGUID: L22U34h6QJaSSvaW9oqiSw==
-X-CSE-MsgGUID: eRAtPLOLTzWzy3LiXuSAfw==
+   d="scan'208";a="81007741"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 19:36:33 -0800
+X-CSE-ConnectionGUID: 6l7HUFSRQU+RDvD0a/U4bQ==
+X-CSE-MsgGUID: mbhpsXZqQoexHlZl7WCgHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="244209911"
+   d="scan'208";a="237294437"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 Jan 2026 19:14:31 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Jan 2026 19:36:31 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vil9Q-00000000SMl-1E4h;
-	Thu, 22 Jan 2026 03:14:28 +0000
-Date: Thu, 22 Jan 2026 11:14:06 +0800
+	id 1vilUj-00000000SNx-0zWW;
+	Thu, 22 Jan 2026 03:36:29 +0000
+Date: Thu, 22 Jan 2026 11:36:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jyri Sarha <jyri.sarha@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [jsarha:new_memory_domain_logic 7/7]
- sound/soc/sof/ipc4-topology.c:3123:12: error: no member named 'interim_bytes'
- in 'struct sof_ipc4_glb_pipe_ext_obj_memory_data'
-Message-ID: <202601221116.H0v8QTWZ-lkp@intel.com>
+ sound/soc/sof/ipc4-topology.c:3123:19: error: 'struct
+ sof_ipc4_glb_pipe_ext_obj_memory_data' has no member named 'interim_bytes';
+ did you mean 'interim_heap_bytes'?
+Message-ID: <202601221126.3B1HNHx7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,30 +64,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/jsarha/linux new_memory_domain_logic
 head:   a3430c5513049eb3e42bbdb9197762df44aed221
 commit: a3430c5513049eb3e42bbdb9197762df44aed221 [7/7] ASoC: SOF: ipc4-topology: Change struct sof_ipc4_mod_init_ext_dp_memory_data
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260122/202601221116.H0v8QTWZ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221116.H0v8QTWZ-lkp@intel.com/reproduce)
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260122/202601221126.3B1HNHx7-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221126.3B1HNHx7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601221116.H0v8QTWZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601221126.3B1HNHx7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> sound/soc/sof/ipc4-topology.c:3123:12: error: no member named 'interim_bytes' in 'struct sof_ipc4_glb_pipe_ext_obj_memory_data'
+   sound/soc/sof/ipc4-topology.c: In function 'sof_ipc4_widget_pipe_create_msg_payload':
+>> sound/soc/sof/ipc4-topology.c:3123:19: error: 'struct sof_ipc4_glb_pipe_ext_obj_memory_data' has no member named 'interim_bytes'; did you mean 'interim_heap_bytes'?
     3123 |         mem_data->interim_bytes = swidget->interim_bytes;
-         |         ~~~~~~~~  ^
->> sound/soc/sof/ipc4-topology.c:3124:12: error: no member named 'lifetime_bytes' in 'struct sof_ipc4_glb_pipe_ext_obj_memory_data'
+         |                   ^~~~~~~~~~~~~
+         |                   interim_heap_bytes
+>> sound/soc/sof/ipc4-topology.c:3124:19: error: 'struct sof_ipc4_glb_pipe_ext_obj_memory_data' has no member named 'lifetime_bytes'; did you mean 'lifetime_heap_bytes'?
     3124 |         mem_data->lifetime_bytes = swidget->lifetime_bytes;
-         |         ~~~~~~~~  ^
-   sound/soc/sof/ipc4-topology.c:3140:13: error: no member named 'interim_bytes' in 'struct sof_ipc4_glb_pipe_ext_obj_memory_data'
+         |                   ^~~~~~~~~~~~~~
+         |                   lifetime_heap_bytes
+   In file included from include/linux/printk.h:621,
+                    from include/linux/kernel.h:31,
+                    from arch/parisc/include/asm/bug.h:5,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/sound/pcm.h:14,
+                    from include/sound/pcm_params.h:10,
+                    from sound/soc/sof/ipc4-topology.c:12:
+   sound/soc/sof/ipc4-topology.c:3140:27: error: 'struct sof_ipc4_glb_pipe_ext_obj_memory_data' has no member named 'interim_bytes'; did you mean 'interim_heap_bytes'?
     3140 |                 mem_data->interim_bytes, mem_data->lifetime_bytes, mem_data->shared_bytes);
-         |                 ~~~~~~~~  ^
-   sound/soc/sof/ipc4-topology.c:3140:38: error: no member named 'lifetime_bytes' in 'struct sof_ipc4_glb_pipe_ext_obj_memory_data'
+         |                           ^~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/sof/ipc4-topology.c:3137:9: note: in expansion of macro 'dev_dbg'
+    3137 |         dev_dbg(sdev->dev,
+         |         ^~~~~~~
+   sound/soc/sof/ipc4-topology.c:3140:52: error: 'struct sof_ipc4_glb_pipe_ext_obj_memory_data' has no member named 'lifetime_bytes'; did you mean 'lifetime_heap_bytes'?
     3140 |                 mem_data->interim_bytes, mem_data->lifetime_bytes, mem_data->shared_bytes);
-         |                                          ~~~~~~~~  ^
-   4 errors generated.
+         |                                                    ^~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/sof/ipc4-topology.c:3137:9: note: in expansion of macro 'dev_dbg'
+    3137 |         dev_dbg(sdev->dev,
+         |         ^~~~~~~
 
 
 vim +3123 sound/soc/sof/ipc4-topology.c
