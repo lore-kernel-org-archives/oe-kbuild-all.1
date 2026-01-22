@@ -1,74 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021433659E7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 04:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3C041B377
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 04:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769056905; cv=none; b=O0VmJIG2DOGPcmdxg+Ivq8jiugV8D4lrb3M86b4gHkDjvNDSWJ2+c/jKt3VsVX8G/xyOh+uEHudiL8mGUnQtY02pKxgmZ9j5q4hx+Q/RaL0C5RC+V8kaR6prTe8qNf2DMJvYcRNH96KvSsIEAHs58KyHZOXJGn/s1tWEBgeXUKU=
+	t=1769057621; cv=none; b=Wuj7OqLMVFdFeSoSMz0nguPBWBDq9tUwL3I5mAM4FuyRsHflxgAY6stqr9V3zWzaYlB8DY3jiWRRj5OgcPGrSlMR1kWeinA8/4fQfrNAOT4bMNBND2SacxRB8exYBjxGfAojX9/RbeCtAEJfEawhMBrDi4q+SB3XM8ezbiZFG0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769056905; c=relaxed/simple;
-	bh=XDjJ+i/6OhmiyMhnzKwblycjAoTYUTnYXm/k+YWRXrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EKtByfo81uoT7KFG3Fx3oHJrGep370Aj2dujjNM1sVpaF18q8iE/6GzRUyVJA0UYGrDOXbHLZcpM8QXXzDBltZboX3W6S2n8Y1VsHoYUWrEaUNDzuPoA9jVeBtmE3bkOmj7L/qBqWLnZKuWrY5PO5NPQnwKeKZXQvvYrnP5k250=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UfFShOfR; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1769057621; c=relaxed/simple;
+	bh=jWI4jWRLxi3kNJU4MPRjKyUvUT4lMwTXIsI19neC4t8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ie/16ELmXs527eNjvgoq78WS6cCnqadQg8MOiQ9ATfkARI+sfbuDA+eTCw0YHdElyS6WM07lIN5l/WUhgQ+1rY7waF0Krp0r2y0AiQGBlW+E+vx8VWCRnBUC3/wOMisH02CaqWSgTyxhQo0o6XlRRHbXn3THQHcierlo2SImxU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TR9taWqR; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UfFShOfR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TR9taWqR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769056903; x=1800592903;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XDjJ+i/6OhmiyMhnzKwblycjAoTYUTnYXm/k+YWRXrY=;
-  b=UfFShOfRMUHFYNpHlA0+EgIx+SM1gtkj1gy5e7XHMZKBUS21+xHqOQka
-   +n+4Wm5oaEerKN7mJm8fi40+ZgazlWQC3vTVm1NXk5uBqBSwzxp84BRqX
-   9QvFHa1b4QkUUjCgnEgyWJzVioPjNdlUdDpmAcoEVk8cYycjD3vqG/XNY
-   fEiEAurCFu+pQNGLxg4O3pMT/IaHN/gWzLPX0oDdqXrUXvPol4wBCp1ru
-   4PY741xiyVrMJXf6EUEjLxOG6pJnjh9tYgs/c1NBdgkslEzobms4TUEjd
-   OXLeWY+mMphIlePVgBjteopNCrdzVsaw+ljH7rkdPtZtQvqEYkovX/bap
+  t=1769057619; x=1800593619;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jWI4jWRLxi3kNJU4MPRjKyUvUT4lMwTXIsI19neC4t8=;
+  b=TR9taWqRepFLRSv9QXoy4MLR3LDm+28rd5hCjQQWnLWIr3rusTIemBLP
+   8Z1fYVBCiMZiUO5DdZnzUuj6Ero8euEhZoVWnCQRnPQFwiwcqENciXEvy
+   pmL2Oc7VgT7gouSKK3jcw7rAFajhYW++V1mLwWqmzBzHk0cerEtutVB0n
+   fPZdufJji0rqtNA0JIs1P0yGfNbhgYBS6sSEkgS4bL86aTXvsHrPBvs7D
+   KDCdJyIbaSapJ13fgTjm9N3Rlv0W+wydji3UNpiQxVxoLmTKnVu3H3cHH
+   IKsy0ORS362rFcZXO7E9QCUXKbN1yV4OvsASGxpayqt1Zex1pYXFDy7vc
    g==;
-X-CSE-ConnectionGUID: Cf7LJUIQRyiHMaEyik/9Xw==
-X-CSE-MsgGUID: Hbj9TQoQSnetBNHTY2yBvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="92958129"
+X-CSE-ConnectionGUID: Sl7ospikQLa24hPiAJU/qg==
+X-CSE-MsgGUID: jOZruZFvTYG/PPRqtuVBkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80596700"
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="92958129"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 20:41:42 -0800
-X-CSE-ConnectionGUID: 2tBuXIbfTgm/f3DnnFvNtg==
-X-CSE-MsgGUID: ktYzPGfESaG7x2rmUBIAhw==
+   d="scan'208";a="80596700"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 20:53:38 -0800
+X-CSE-ConnectionGUID: DrDt8fGNQ2egjQEUwIjWKQ==
+X-CSE-MsgGUID: ts8JFmmfT2ugWBuNFsgX1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="206692855"
+   d="scan'208";a="237897970"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Jan 2026 20:41:36 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 21 Jan 2026 20:53:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vimVh-00000000SR9-2RdG;
-	Thu, 22 Jan 2026 04:41:33 +0000
-Date: Thu, 22 Jan 2026 12:41:22 +0800
+	id 1vimhJ-00000000SRZ-3UBu;
+	Thu, 22 Jan 2026 04:53:33 +0000
+Date: Thu, 22 Jan 2026 12:52:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: david.laight.linux@gmail.com, Nathan Chancellor <nathan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Kees Cook <keescook@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH next 11/14] bit: Strengthen compile-time tests in
- GENMASK() and BIT()
-Message-ID: <202601221237.soiAkwkN-lkp@intel.com>
-References: <20260121145731.3623-12-david.laight.linux@gmail.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-drm-fix 73/74] drivers/accel/ivpu/ivpu_gem.c:290:3:
+ error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean
+ 'IVPU_DBG_IPC'?
+Message-ID: <202601221207.aOcdctmt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,604 +62,397 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260121145731.3623-12-david.laight.linux@gmail.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20260120]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/overflow-Reduce-expansion-of-__type_max/20260122-013456
-base:   next-20260120
-patch link:    https://lore.kernel.org/r/20260121145731.3623-12-david.laight.linux%40gmail.com
-patch subject: [PATCH next 11/14] bit: Strengthen compile-time tests in GENMASK() and BIT()
-config: mips-randconfig-r132-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221237.soiAkwkN-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221237.soiAkwkN-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-drm-fix
+head:   a0210189eae9fa2042083c4136cca1f6d80e93fa
+commit: 052e80bfefb1f41d87a573f70f4ccffc5e4e3f39 [73/74] accel/ivpu: implement IVPU_DBG_* as a dyndbg classmap
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260122/202601221207.aOcdctmt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221207.aOcdctmt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601221237.soiAkwkN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601221207.aOcdctmt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/kthread.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   kernel/reboot.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   lib/idr.c: note: in included file (through include/linux/bitmap.h):
-   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
-   include/linux/find.h:388:46: sparse: sparse: Variable length array is used.
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   lib/xarray.c: note: in included file (through include/linux/bitmap.h):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
-   lib/xarray.c: note: in included file:
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
-   lib/xarray.c: note: in included file (through include/linux/bitmap.h):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   lib/find_bit.c: note: in included file (through include/linux/bitmap.h):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   include/linux/find.h:238:46: sparse: sparse: Variable length array is used.
---
-   lib/bitmap-str.c: note: in included file:
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
-   lib/bitmap-str.c: note: in included file (through include/linux/bitmap.h):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
---
-   lib/genalloc.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
---
-   mm/oom_kill.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   mm/vmscan.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   mm/shmem.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, arch/mips/include/asm/cpu-type.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
-   mm/percpu.c: note: in included file (through include/linux/bitmap.h):
-   include/linux/find.h:409:45: sparse: sparse: Variable length array is used.
-   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
-   mm/percpu.c: note: in included file:
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
-   mm/vmalloc.c: note: in included file (through arch/mips/include/asm/page.h, include/linux/shm.h, include/linux/sched.h, ...):
-   include/asm-generic/memory_model.h:30:23: sparse: sparse: unsigned value that used to be signed checked against zero?
-   mm/vmalloc.c:554:21: sparse: signed value source
-   mm/vmalloc.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
-   mm/vmalloc.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
-   mm/vmalloc.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
---
-   mm/slub.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   mm/hugetlb.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   mm/huge_memory.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
->> arch/mips/kernel/cmpxchg.c:20:16: sparse: sparse: Variable length array is used.
-   arch/mips/kernel/cmpxchg.c:61:16: sparse: sparse: Variable length array is used.
---
->> arch/mips/kernel/cpu-probe.c:709:41: sparse: sparse: Variable length array is used.
-   arch/mips/kernel/cpu-probe.c:712:45: sparse: sparse: Variable length array is used.
-   arch/mips/kernel/cpu-probe.c:214:9: sparse: sparse: cast truncates bits from constant value (3fffffffffffe000 becomes ffffe000)
-   arch/mips/kernel/cpu-probe.c:214:9: sparse: sparse: cast truncates bits from constant value (3fffffffffffe000 becomes ffffe000)
---
->> arch/mips/mm/tlb-r4k.c:536:20: sparse: sparse: Variable length array is used.
---
-   net/ethtool/ioctl.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, include/linux/smp.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   net/ethtool/bitset.c: note: in included file (through include/linux/ethtool.h, include/uapi/linux/ethtool_netlink.h, include/linux/ethtool_netlink.h):
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
-   net/ethtool/linkmodes.c: note: in included file (through include/linux/bitmap.h, include/linux/ethtool.h, include/uapi/linux/ethtool_netlink.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   net/ethtool/fec.c: note: in included file (through include/linux/bitmap.h, include/linux/ethtool.h, include/uapi/linux/ethtool_netlink.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
->> drivers/clk/clk-multiplier.c:48:16: sparse: sparse: Variable length array is used.
-   drivers/clk/clk-multiplier.c:141:17: sparse: sparse: Variable length array is used.
---
->> drivers/clk/clk-fractional-divider.c:89:17: sparse: sparse: Variable length array is used.
-   drivers/clk/clk-fractional-divider.c:90:17: sparse: sparse: Variable length array is used.
-   drivers/clk/clk-fractional-divider.c:146:25: sparse: sparse: Variable length array is used.
-   drivers/clk/clk-fractional-divider.c:147:25: sparse: sparse: Variable length array is used.
-   drivers/clk/clk-fractional-divider.c:195:25: sparse: sparse: Variable length array is used.
-   drivers/clk/clk-fractional-divider.c:196:25: sparse: sparse: Variable length array is used.
-   drivers/clk/clk-fractional-divider.c:205:17: sparse: sparse: Variable length array is used.
-   drivers/clk/clk-fractional-divider.c:206:17: sparse: sparse: Variable length array is used.
---
->> drivers/clocksource/mmio.c:66:27: sparse: sparse: Variable length array is used.
---
->> drivers/clocksource/timer-cadence-ttc.c:364:26: sparse: sparse: Variable length array is used.
---
->> drivers/clocksource/ingenic-timer.c:298:34: sparse: sparse: Variable length array is used.
-   drivers/clocksource/ingenic-timer.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
-   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
---
->> drivers/base/regmap/regmap.c:1221:26: sparse: sparse: Variable length array is used.
---
-   drivers/base/regmap/regcache-rbtree.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, arch/mips/include/asm/cpu-type.h, ...):
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
-   drivers/base/regmap/regcache-flat.c: note: in included file:
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
-   drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
-   drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
-   drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
->> drivers/clk/actions/owl-mux.c:42:17: sparse: sparse: Variable length array is used.
---
->> drivers/clk/actions/owl-divider.c:76:17: sparse: sparse: Variable length array is used.
---
-   drivers/gpio/gpiolib.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
-   drivers/gpio/gpiolib.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   include/linux/find.h:388:46: sparse: sparse: Variable length array is used.
-   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
-   drivers/gpio/gpiolib.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
---
->> drivers/gpio/gpio-nomadik.c:285:30: sparse: sparse: Variable length array is used.
-   drivers/gpio/gpio-nomadik.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
---
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/debug.c:624:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/debug.c:624:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/debug.c:624:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/debug.c:952:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/debug.c:952:9: sparse:     expected struct task_struct *tsk
-   kernel/sched/debug.c:952:9: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/debug.c:952:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/debug.c:952:9: sparse:     expected struct task_struct *tsk
-   kernel/sched/debug.c:952:9: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/topology.c:115:56: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:115:56: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:115:56: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:134:60: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:134:60: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:134:60: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:157:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:157:20: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:157:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:468:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct perf_domain *pd @@     got struct perf_domain [noderef] __rcu *pd @@
-   kernel/sched/topology.c:468:19: sparse:     expected struct perf_domain *pd
-   kernel/sched/topology.c:468:19: sparse:     got struct perf_domain [noderef] __rcu *pd
-   kernel/sched/topology.c:638:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:638:49: sparse:     expected struct sched_domain *parent
-   kernel/sched/topology.c:638:49: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:723:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:723:50: sparse:     expected struct sched_domain *parent
-   kernel/sched/topology.c:723:50: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:731:55: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child @@     got struct sched_domain *[assigned] tmp @@
-   kernel/sched/topology.c:731:55: sparse:     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child
-   kernel/sched/topology.c:731:55: sparse:     got struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:744:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:744:29: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:744:29: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:749:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:749:20: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:749:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:770:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *sd @@
-   kernel/sched/topology.c:770:13: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:770:13: sparse:     got struct sched_domain [noderef] __rcu *sd
-   kernel/sched/topology.c:932:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:932:70: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:932:70: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:961:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:961:59: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:961:59: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1007:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1007:57: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1007:57: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1009:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1009:25: sparse:     expected struct sched_domain *sibling
-   kernel/sched/topology.c:1009:25: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1017:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1017:55: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1017:55: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1019:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1019:25: sparse:     expected struct sched_domain *sibling
-   kernel/sched/topology.c:1019:25: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1089:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1089:62: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1089:62: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1193:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1193:40: sparse:     expected struct sched_domain *child
-   kernel/sched/topology.c:1193:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1331:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:1331:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:1331:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:1680:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain [noderef] __rcu *child @@     got struct sched_domain *child @@
-   kernel/sched/topology.c:1680:43: sparse:     expected struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1680:43: sparse:     got struct sched_domain *child
-   kernel/sched/topology.c:2470:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *parent @@     got struct sched_domain *sd @@
-   kernel/sched/topology.c:2470:31: sparse:     expected struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2470:31: sparse:     got struct sched_domain *sd
-   kernel/sched/topology.c:2591:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2591:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2591:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2612:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:2612:56: sparse:     expected struct sched_domain *child
-   kernel/sched/topology.c:2612:56: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:2611:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2611:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2611:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2666:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2666:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2666:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/build_utility.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, include/linux/smp.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/sched.h:2360:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2360:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2360:25: sparse:    struct task_struct *
---
->> drivers/clk/ingenic/cgu.c:95:42: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:97:42: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:102:27: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:224:18: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:227:18: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:231:26: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:345:26: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:389:24: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:423:31: sparse: sparse: Variable length array is used.
-   drivers/clk/ingenic/cgu.c:553:24: sparse: sparse: Variable length array is used.
---
-   kernel/irq/chip.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
-   kernel/irq/irq_sim.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
---
-   drivers/input/rmi4/rmi_driver.c: note: in included file (through include/linux/bitmap.h):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
-   drivers/input/rmi4/rmi_driver.c: note: in included file:
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
-   drivers/input/rmi4/rmi_driver.c: note: in included file (through include/linux/bitmap.h):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
---
->> drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:338:31: sparse: sparse: Variable length array is used.
---
->> drivers/mfd/atmel-smc.c:56:32: sparse: sparse: Variable length array is used.
-   drivers/mfd/atmel-smc.c:57:32: sparse: sparse: Variable length array is used.
-   drivers/mfd/atmel-smc.c:120:27: sparse: sparse: Variable length array is used.
-   drivers/mfd/atmel-smc.c:159:25: sparse: sparse: Variable length array is used.
-   drivers/mfd/atmel-smc.c:198:25: sparse: sparse: Variable length array is used.
-   drivers/mfd/atmel-smc.c:236:25: sparse: sparse: Variable length array is used.
---
->> kernel/time/sched_clock.c:194:20: sparse: sparse: Variable length array is used.
---
->> drivers/mtd/nand/bbt.c:87:25: sparse: sparse: Variable length array is used.
-   drivers/mtd/nand/bbt.c:111:38: sparse: sparse: Variable length array is used.
-   drivers/mtd/nand/bbt.c:116:20: sparse: sparse: Variable length array is used.
-   drivers/mtd/nand/bbt.c:122:28: sparse: sparse: Variable length array is used.
---
-   drivers/opp/cpu.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
---
-   drivers/pci/pci.c:1157:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
-   drivers/pci/pci.c:1157:36: sparse:     expected restricted pci_power_t [usertype] current_state
-   drivers/pci/pci.c:1157:36: sparse:     got int
-   drivers/pci/pci.c:1336:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [assigned] [usertype] state @@     got int @@
-   drivers/pci/pci.c:1336:15: sparse:     expected restricted pci_power_t [assigned] [usertype] state
-   drivers/pci/pci.c:1336:15: sparse:     got int
-   drivers/pci/pci.c:1338:50: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1338:69: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1391:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
-   drivers/pci/pci.c:1391:28: sparse:     expected restricted pci_power_t [usertype] current_state
-   drivers/pci/pci.c:1391:28: sparse:     got int
-   drivers/pci/pci.c:1481:16: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1481:35: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1481:52: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1481:70: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1506:15: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:1506:15: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:1506:15: sparse:    right side has type restricted pci_power_t
-   drivers/pci/pci.c:1518:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
-   drivers/pci/pci.c:1518:28: sparse:     expected restricted pci_power_t [usertype] current_state
-   drivers/pci/pci.c:1518:28: sparse:     got int
-   drivers/pci/pci.c:1535:13: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1535:21: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1537:18: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1537:26: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1560:13: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1560:22: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1865:38: sparse: sparse: array of flexible structures
-   drivers/pci/pci.c:2343:44: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2662:60: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2663:30: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2834:20: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2834:38: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2857:49: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2857:67: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:4486:13: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:4486:13: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:4486:13: sparse:    right side has type restricted pci_power_t
-   drivers/pci/pci.c:4491:13: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:4491:13: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:4491:13: sparse:    right side has type restricted pci_power_t
->> drivers/pci/pci.c:5983:19: sparse: sparse: Variable length array is used.
-   drivers/pci/pci.c:1112:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted pci_power_t [usertype] @@
-   drivers/pci/pci.c:1112:24: sparse:     expected int
-   drivers/pci/pci.c:1112:24: sparse:     got restricted pci_power_t [usertype]
-   drivers/pci/pci.c:1112:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted pci_power_t [usertype] @@
-   drivers/pci/pci.c:1112:24: sparse:     expected int
-   drivers/pci/pci.c:1112:24: sparse:     got restricted pci_power_t [usertype]
-   drivers/pci/pci.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
---
-   drivers/perf/xgene_pmu.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
-   include/linux/find.h:388:46: sparse: sparse: Variable length array is used.
->> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
---
->> drivers/clk/renesas/rcar-gen3-cpg.c:287:22: sparse: sparse: Variable length array is used.
---
->> drivers/clk/renesas/rcar-gen4-cpg.c:400:22: sparse: sparse: Variable length array is used.
---
-   drivers/mtd/nand/raw/nand_macronix.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
->> drivers/clk/spacemit/ccu_mix.c:168:16: sparse: sparse: Variable length array is used.
-   drivers/clk/spacemit/ccu_mix.c:193:16: sparse: sparse: Variable length array is used.
---
->> drivers/clk/sprd/mux.c:56:17: sparse: sparse: Variable length array is used.
---
->> drivers/clk/sprd/div.c:60:17: sparse: sparse: Variable length array is used.
---
->> drivers/clk/sprd/pll.c:77:24: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:116:13: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:120:34: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:121:31: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:124:14: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:125:32: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:127:24: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:128:21: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:129:32: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:131:24: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:164:16: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:170:16: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:181:16: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:186:16: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:192:16: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:198:16: sparse: sparse: Variable length array is used.
-   drivers/clk/sprd/pll.c:210:16: sparse: sparse: Variable length array is used.
---
->> drivers/pci/pcie/bwctrl.c:94:26: sparse: sparse: Variable length array is used.
---
->> drivers/pinctrl/renesas/core.c:884:26: sparse: sparse: Variable length array is used.
-   drivers/pinctrl/renesas/core.c:942:34: sparse: sparse: Variable length array is used.
-   drivers/pinctrl/renesas/core.c:1241:34: sparse: sparse: Variable length array is used.
---
->> drivers/pinctrl/renesas/pinctrl.c:492:51: sparse: sparse: Variable length array is used.
-   drivers/pinctrl/renesas/pinctrl.c:527:17: sparse: sparse: Variable length array is used.
---
-   drivers/pci/controller/pcie-xilinx-dma-pl.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
-   drivers/pci/controller/pcie-xilinx-dma-pl.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
---
-   drivers/pci/controller/dwc/pcie-designware-host.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, include/linux/smp.h, ...):
-   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
-   drivers/pci/controller/dwc/pcie-designware-host.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, arch/mips/include/asm/cpu-type.h, ...):
-   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
->> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+All errors (new ones prefixed by >>):
 
-vim +209 include/linux/find.h
+>> drivers/accel/ivpu/ivpu_gem.c:290:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     290 |                 ivpu_dbg(vdev, IOCTL, "Can't add BO %pe to ctx %u: already in ctx %u\n",
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:153:1: note: expanded from here
+     153 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+>> drivers/accel/ivpu/ivpu_gem.c:290:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     290 |                 ivpu_dbg(vdev, IOCTL, "Can't add BO %pe to ctx %u: already in ctx %u\n",
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:153:1: note: expanded from here
+     153 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem.c:371:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     371 |                 ivpu_dbg(vdev, IOCTL, "Invalid BO flags 0x%x\n", args->flags);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:92:1: note: expanded from here
+      92 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem.c:371:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     371 |                 ivpu_dbg(vdev, IOCTL, "Invalid BO flags 0x%x\n", args->flags);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:92:1: note: expanded from here
+      92 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem.c:376:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     376 |                 ivpu_dbg(vdev, IOCTL, "Invalid BO size %llu\n", args->size);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:104:1: note: expanded from here
+     104 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem.c:376:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     376 |                 ivpu_dbg(vdev, IOCTL, "Invalid BO size %llu\n", args->size);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:104:1: note: expanded from here
+     104 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem.c:382:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     382 |                 ivpu_dbg(vdev, IOCTL, "Failed to allocate BO: %pe ctx %u size %llu flags 0x%x\n",
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:116:1: note: expanded from here
+     116 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem.c:382:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     382 |                 ivpu_dbg(vdev, IOCTL, "Failed to allocate BO: %pe ctx %u size %llu flags 0x%x\n",
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:116:1: note: expanded from here
+     116 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem.c:391:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     391 |                 ivpu_dbg(vdev, IOCTL, "Failed to create handle for BO: %pe ctx %u size %llu flags 0x%x\n",
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:139:1: note: expanded from here
+     139 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem.c:391:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     391 |                 ivpu_dbg(vdev, IOCTL, "Failed to create handle for BO: %pe ctx %u size %llu flags 0x%x\n",
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+--
+>> drivers/accel/ivpu/ivpu_gem_userptr.c:87:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+      87 |                 ivpu_dbg(vdev, IOCTL, "Failed to pin user pages: %d\n", ret);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:29:1: note: expanded from here
+      29 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+>> drivers/accel/ivpu/ivpu_gem_userptr.c:87:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+      87 |                 ivpu_dbg(vdev, IOCTL, "Failed to pin user pages: %d\n", ret);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:29:1: note: expanded from here
+      29 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem_userptr.c:92:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+      92 |                 ivpu_dbg(vdev, IOCTL, "Pinned %d pages, expected %lu\n", pinned, nr_pages);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:41:1: note: expanded from here
+      41 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem_userptr.c:92:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+      92 |                 ivpu_dbg(vdev, IOCTL, "Pinned %d pages, expected %lu\n", pinned, nr_pages);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:41:1: note: expanded from here
+      41 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem_userptr.c:105:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     105 |                 ivpu_dbg(vdev, IOCTL, "Failed to create sg table: %d\n", ret);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:61:1: note: expanded from here
+      61 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem_userptr.c:105:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     105 |                 ivpu_dbg(vdev, IOCTL, "Failed to create sg table: %d\n", ret);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:61:1: note: expanded from here
+      61 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem_userptr.c:119:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     119 |                 ivpu_dbg(vdev, IOCTL, "Failed to export userptr dma-buf: %d\n", ret);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:73:1: note: expanded from here
+      73 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem_userptr.c:119:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     119 |                 ivpu_dbg(vdev, IOCTL, "Failed to export userptr dma-buf: %d\n", ret);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:73:1: note: expanded from here
+      73 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem_userptr.c:174:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     174 |                 ivpu_dbg(vdev, IOCTL, "Invalid BO flags: 0x%x\n", args->flags);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:85:1: note: expanded from here
+      85 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_gem_userptr.c:174:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     174 |                 ivpu_dbg(vdev, IOCTL, "Invalid BO flags: 0x%x\n", args->flags);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+--
+>> drivers/accel/ivpu/ivpu_job.c:351:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     351 |                 ivpu_dbg(vdev, IOCTL, "Failed to find command queue with ID: %u\n", cmdq_id);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:131:1: note: expanded from here
+     131 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+>> drivers/accel/ivpu/ivpu_job.c:351:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     351 |                 ivpu_dbg(vdev, IOCTL, "Failed to find command queue with ID: %u\n", cmdq_id);
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:131:1: note: expanded from here
+     131 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_job.c:774:4: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     774 |                         ivpu_dbg(vdev, IOCTL, "Failed to lookup GEM object with handle %u\n",
+         |                         ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:25:1: note: expanded from here
+      25 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_job.c:774:4: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     774 |                         ivpu_dbg(vdev, IOCTL, "Failed to lookup GEM object with handle %u\n",
+         |                         ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:25:1: note: expanded from here
+      25 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_job.c:788:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     788 |                 ivpu_dbg(vdev, IOCTL, "Buffer is already in use by another job\n");
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:37:1: note: expanded from here
+      37 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_job.c:788:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     788 |                 ivpu_dbg(vdev, IOCTL, "Buffer is already in use by another job\n");
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:37:1: note: expanded from here
+      37 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_job.c:793:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     793 |                 ivpu_dbg(vdev, IOCTL, "Invalid commands offset %u for buffer size %zu\n",
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:49:1: note: expanded from here
+      49 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_job.c:793:3: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     793 |                 ivpu_dbg(vdev, IOCTL, "Invalid commands offset %u for buffer size %zu\n",
+         |                 ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:49:1: note: expanded from here
+      49 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_job.c:804:4: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     804 |                         ivpu_dbg(vdev, IOCTL, "Preemption buffer is too small\n");
+         |                         ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+         |                                ^
+   <scratch space>:61:1: note: expanded from here
+      61 | IVPU_DBG_IOCTL
+         | ^
+   drivers/accel/ivpu/ivpu_drv.h:107:2: note: 'IVPU_DBG_IPC' declared here
+     107 |         IVPU_DBG_IPC,
+         |         ^
+   drivers/accel/ivpu/ivpu_job.c:804:4: error: use of undeclared identifier 'IVPU_DBG_IOCTL'; did you mean 'IVPU_DBG_IPC'?
+     804 |                         ivpu_dbg(vdev, IOCTL, "Preemption buffer is too small\n");
+         |                         ^
+   drivers/accel/ivpu/ivpu_drv.h:117:25: note: expanded from macro 'ivpu_dbg'
+     117 |         _dynamic_func_call_cls(IVPU_DBG_##type, fmt, __dynamic_dev_dbg, \
+..
 
-c56f97c5c71f17 include/linux/find.h              Yury Norov [NVIDIA] 2025-06-19   48  
-19de85ef574c3a include/asm-generic/bitops/find.h Akinobu Mita        2011-05-26   49  #ifndef find_next_bit
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   50  /**
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   51   * find_next_bit - find the next set bit in a memory region
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   52   * @addr: The address to base the search on
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   53   * @size: The bitmap size in bits
-6d7131bd52b3e0 include/linux/find.h              Anna-Maria Behnsen  2022-04-11   54   * @offset: The bitnumber to start searching at
-ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12   55   *
-ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12   56   * Returns the bit number for the next set bit
-ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12   57   * If no bits are set, returns @size.
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   58   */
-fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18   59  static __always_inline
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   60  unsigned long find_next_bit(const unsigned long *addr, unsigned long size,
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   61  			    unsigned long offset)
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   62  {
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   63  	if (small_const_nbits(size)) {
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   64  		unsigned long val;
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   65  
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   66  		if (unlikely(offset >= size))
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   67  			return size;
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   68  
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  @69  		val = *addr & GENMASK(size - 1, offset);
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   70  		return val ? __ffs(val) : size;
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   71  	}
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   72  
-e79864f3164c57 include/linux/find.h              Yury Norov          2022-09-14   73  	return _find_next_bit(addr, size, offset);
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   74  }
-19de85ef574c3a include/asm-generic/bitops/find.h Akinobu Mita        2011-05-26   75  #endif
-c7f612cdf091de include/asm-generic/bitops/find.h Akinobu Mita        2006-03-26   76  
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   77  #ifndef find_next_and_bit
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   78  /**
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   79   * find_next_and_bit - find the next set bit in both memory regions
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   80   * @addr1: The first address to base the search on
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   81   * @addr2: The second address to base the search on
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   82   * @size: The bitmap size in bits
-6d7131bd52b3e0 include/linux/find.h              Anna-Maria Behnsen  2022-04-11   83   * @offset: The bitnumber to start searching at
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   84   *
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   85   * Returns the bit number for the next set bit
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   86   * If no bits are set, returns @size.
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   87   */
-fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18   88  static __always_inline
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   89  unsigned long find_next_and_bit(const unsigned long *addr1,
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   90  		const unsigned long *addr2, unsigned long size,
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   91  		unsigned long offset)
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   92  {
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   93  	if (small_const_nbits(size)) {
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   94  		unsigned long val;
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   95  
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   96  		if (unlikely(offset >= size))
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   97  			return size;
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   98  
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   99  		val = *addr1 & *addr2 & GENMASK(size - 1, offset);
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  100  		return val ? __ffs(val) : size;
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  101  	}
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  102  
-e79864f3164c57 include/linux/find.h              Yury Norov          2022-09-14  103  	return _find_next_and_bit(addr1, addr2, size, offset);
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  104  }
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06  105  #endif
-0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06  106  
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  107  #ifndef find_next_andnot_bit
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  108  /**
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  109   * find_next_andnot_bit - find the next set bit in *addr1 excluding all the bits
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  110   *                        in *addr2
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  111   * @addr1: The first address to base the search on
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  112   * @addr2: The second address to base the search on
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  113   * @size: The bitmap size in bits
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  114   * @offset: The bitnumber to start searching at
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  115   *
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  116   * Returns the bit number for the next set bit
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  117   * If no bits are set, returns @size.
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  118   */
-fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18  119  static __always_inline
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  120  unsigned long find_next_andnot_bit(const unsigned long *addr1,
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  121  		const unsigned long *addr2, unsigned long size,
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  122  		unsigned long offset)
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  123  {
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  124  	if (small_const_nbits(size)) {
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  125  		unsigned long val;
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  126  
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  127  		if (unlikely(offset >= size))
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  128  			return size;
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  129  
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  130  		val = *addr1 & ~*addr2 & GENMASK(size - 1, offset);
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  131  		return val ? __ffs(val) : size;
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  132  	}
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  133  
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  134  	return _find_next_andnot_bit(addr1, addr2, size, offset);
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  135  }
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  136  #endif
-90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  137  
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  138  #ifndef find_next_or_bit
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  139  /**
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  140   * find_next_or_bit - find the next set bit in either memory regions
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  141   * @addr1: The first address to base the search on
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  142   * @addr2: The second address to base the search on
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  143   * @size: The bitmap size in bits
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  144   * @offset: The bitnumber to start searching at
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  145   *
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  146   * Returns the bit number for the next set bit
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  147   * If no bits are set, returns @size.
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  148   */
-fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18  149  static __always_inline
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  150  unsigned long find_next_or_bit(const unsigned long *addr1,
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  151  		const unsigned long *addr2, unsigned long size,
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  152  		unsigned long offset)
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  153  {
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  154  	if (small_const_nbits(size)) {
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  155  		unsigned long val;
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  156  
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  157  		if (unlikely(offset >= size))
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  158  			return size;
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  159  
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  160  		val = (*addr1 | *addr2) & GENMASK(size - 1, offset);
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  161  		return val ? __ffs(val) : size;
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  162  	}
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  163  
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  164  	return _find_next_or_bit(addr1, addr2, size, offset);
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  165  }
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  166  #endif
-1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  167  
-19de85ef574c3a include/asm-generic/bitops/find.h Akinobu Mita        2011-05-26  168  #ifndef find_next_zero_bit
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  169  /**
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  170   * find_next_zero_bit - find the next cleared bit in a memory region
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  171   * @addr: The address to base the search on
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  172   * @size: The bitmap size in bits
-6d7131bd52b3e0 include/linux/find.h              Anna-Maria Behnsen  2022-04-11  173   * @offset: The bitnumber to start searching at
-ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  174   *
-ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  175   * Returns the bit number of the next zero bit
-ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  176   * If no bits are zero, returns @size.
-d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  177   */
-fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18  178  static __always_inline
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  179  unsigned long find_next_zero_bit(const unsigned long *addr, unsigned long size,
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  180  				 unsigned long offset)
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  181  {
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  182  	if (small_const_nbits(size)) {
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  183  		unsigned long val;
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  184  
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  185  		if (unlikely(offset >= size))
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  186  			return size;
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  187  
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  188  		val = *addr | ~GENMASK(size - 1, offset);
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  189  		return val == ~0UL ? size : ffz(val);
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  190  	}
-277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  191  
-e79864f3164c57 include/linux/find.h              Yury Norov          2022-09-14  192  	return _find_next_zero_bit(addr, size, offset);
-5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  193  }
-19de85ef574c3a include/asm-generic/bitops/find.h Akinobu Mita        2011-05-26  194  #endif
-c7f612cdf091de include/asm-generic/bitops/find.h Akinobu Mita        2006-03-26  195  
-b7ec62d7ee0f0b include/asm-generic/bitops/find.h Yury Norov          2021-08-14  196  #ifndef find_first_bit
-708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  197  /**
-708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  198   * find_first_bit - find the first set bit in a memory region
-708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  199   * @addr: The address to start the search at
-ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  200   * @size: The maximum number of bits to search
-708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  201   *
-708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  202   * Returns the bit number of the first set bit.
-ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  203   * If no bits are set, returns @size.
-708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  204   */
-fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18  205  static __always_inline
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  206  unsigned long find_first_bit(const unsigned long *addr, unsigned long size)
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  207  {
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  208  	if (small_const_nbits(size)) {
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06 @209  		unsigned long val = *addr & GENMASK(size - 1, 0);
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  210  
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  211  		return val ? __ffs(val) : size;
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  212  	}
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  213  
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  214  	return _find_first_bit(addr, size);
-2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  215  }
-b7ec62d7ee0f0b include/asm-generic/bitops/find.h Yury Norov          2021-08-14  216  #endif
-708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  217  
+
+vim +290 drivers/accel/ivpu/ivpu_gem.c
+
+647371a6609ddf Jacek Lawrynowicz 2023-01-17  281  
+42328003ecb6a5 Wachowski, Karol  2024-02-14  282  static int ivpu_gem_bo_open(struct drm_gem_object *obj, struct drm_file *file)
+b035224134626f Jacek Lawrynowicz 2023-10-31  283  {
+b035224134626f Jacek Lawrynowicz 2023-10-31  284  	struct ivpu_file_priv *file_priv = file->driver_priv;
+b035224134626f Jacek Lawrynowicz 2023-10-31  285  	struct ivpu_device *vdev = file_priv->vdev;
+b035224134626f Jacek Lawrynowicz 2023-10-31  286  	struct ivpu_bo *bo = to_ivpu_bo(obj);
+b035224134626f Jacek Lawrynowicz 2023-10-31  287  	struct ivpu_addr_range *range;
+b035224134626f Jacek Lawrynowicz 2023-10-31  288  
+b7a0e75632eb65 Jacek Lawrynowicz 2024-01-15  289  	if (bo->ctx) {
+db892a9f7a8415 Karol Wachowski   2025-11-04 @290  		ivpu_dbg(vdev, IOCTL, "Can't add BO %pe to ctx %u: already in ctx %u\n",
+db892a9f7a8415 Karol Wachowski   2025-11-04  291  			 bo, file_priv->ctx.id, bo->ctx->id);
+b7a0e75632eb65 Jacek Lawrynowicz 2024-01-15  292  		return -EALREADY;
+b7a0e75632eb65 Jacek Lawrynowicz 2024-01-15  293  	}
+b7a0e75632eb65 Jacek Lawrynowicz 2024-01-15  294  
+b035224134626f Jacek Lawrynowicz 2023-10-31  295  	if (bo->flags & DRM_IVPU_BO_SHAVE_MEM)
+b035224134626f Jacek Lawrynowicz 2023-10-31  296  		range = &vdev->hw->ranges.shave;
+b035224134626f Jacek Lawrynowicz 2023-10-31  297  	else if (bo->flags & DRM_IVPU_BO_DMA_MEM)
+b035224134626f Jacek Lawrynowicz 2023-10-31  298  		range = &vdev->hw->ranges.dma;
+b035224134626f Jacek Lawrynowicz 2023-10-31  299  	else
+b035224134626f Jacek Lawrynowicz 2023-10-31  300  		range = &vdev->hw->ranges.user;
+b035224134626f Jacek Lawrynowicz 2023-10-31  301  
+b035224134626f Jacek Lawrynowicz 2023-10-31  302  	return ivpu_bo_alloc_vpu_addr(bo, &file_priv->ctx, range);
+b035224134626f Jacek Lawrynowicz 2023-10-31  303  }
+b035224134626f Jacek Lawrynowicz 2023-10-31  304  
+
+:::::: The code at line 290 was first introduced by commit
+:::::: db892a9f7a841575868756017a47921c7dc93042 accel/ivpu: Improve debug and warning messages
+
+:::::: TO: Karol Wachowski <karol.wachowski@linux.intel.com>
+:::::: CC: Karol Wachowski <karol.wachowski@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
