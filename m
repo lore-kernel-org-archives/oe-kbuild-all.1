@@ -1,77 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8097E353EE4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 18:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ED036F42A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 19:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769108227; cv=none; b=aHSPGC34IGNak/7ZKdrgaqJimp9+U97QcYT53FNsJrzuCXGQvB9SZI+0HbeevFCcicZ+UncsAwe0S/+vHTavFYZQ6LwSRPeDiZ7SlBZMzDptUT/ABmyaUpob8fkl0jxbM3SMpvElA0rlFt92CsPLQr3vl5WfwbG3FzemnqGhgz4=
+	t=1769108666; cv=none; b=PheyTRZChL/ccl0DfACH43entGDGOEdw5M9t7hTIe6W6OFIYuMp/BGA45vy7xNG/th6ISl6XaCnruPgB3owXPbWjKYVgGRpfIy6uMjj46Eyp48JOcf677osxB8JLBYOMSS8kCahfFVhSHZMO/B742swYPsFzGJSiaOchtDQrHXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769108227; c=relaxed/simple;
-	bh=s9DV0fxK8SmxbYf4WTMRxmUXLu7ztaxzdtZ5Zd3tsO8=;
+	s=arc-20240116; t=1769108666; c=relaxed/simple;
+	bh=n86ZAtXaF72aEqg062RbmaPe/1zPSj1IQxbCNxuRtMQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5kn9Kn++qneNkSAEPo3Gr5Rv/ztdV/kgT273S6uI87rQKdbHpe9caXD5ZBBvUodSVSYUSNJbwNLgb6B6eW0AC1BynAOn9WJmnWqvFyGREGQcqY9I+b3s9JIlTJyeCCkLUXbu8+7myoC+h5NkIm60iL3B7oHQOSXgLqmTtbjJtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZMlO2tX; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=UaMpXsdlItCpf/khQkoHDrAKtoTZTa5ZQ23x++Fs5CtdqwbFPG9jGeU15pFebkyodjGIJIlWuEpIdFnR1yBZpSbAL5qNrb54zhyQ7L9EhZBnxI5u4x8pkmfZcgKh9Tt1S4M0I4qTbTXDihkPB2OF3R/AGjbvvTxOl+c+9bYWLFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iGF+FdFj; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZMlO2tX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iGF+FdFj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769108207; x=1800644207;
+  t=1769108664; x=1800644664;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=s9DV0fxK8SmxbYf4WTMRxmUXLu7ztaxzdtZ5Zd3tsO8=;
-  b=BZMlO2tXf0GfJX0kVdclD11AIHuN9WBvuM02kbmxWxmJi/MCybtXLCV/
-   eEiv71O6vwL0HTnOHSD2gZi4jJvs2KZbjuahG9YZUpFTlhxzo+Db2E56K
-   Gzh82jrjF8hHrrv1ha7fLn7fAnTFOHtQPgisbbCpll5hLri0ZMcM3n6eb
-   84lSflqBd4liYIEJz16xYcg/VaEPFlTsfrGLOrXxyCbnTTLOVBnEYmJx9
-   FX/PnmOnLlrV/6YplKpt2tUZ+GXNgbv7HWtI5xPmgKCUFg/DFt/5s8Gmy
-   vHQMK1BIIM5eE51al7M2ld3ZOUubmBsTp1LSt6JW3CzsMPiENbZpyJSK7
-   Q==;
-X-CSE-ConnectionGUID: NSDzxRMjQrinDPaxDLx8pQ==
-X-CSE-MsgGUID: qWB01qdLQOGnVDk6RqiHOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="69378369"
+  bh=n86ZAtXaF72aEqg062RbmaPe/1zPSj1IQxbCNxuRtMQ=;
+  b=iGF+FdFjMpx+wgtTTRhwJ//xOr3CovnOnq4CrqMBiBiTOiAzkEowp8k7
+   KgZZTmO2zuscolHEJLZjK/45C+BGr9Izywzg+gDRs9nKGTBz6IekQpkT0
+   ynJuJyzZy8OPUv0+y9CFE4uXGImkWyZLo72i6AtO/Eg979rlJ4FPFEyC6
+   Ms7L1WZ+ijQU3HqpjJzX3Pt6V6yW1JYUMzq5gl3qpfrETqe3m38Nc4/Ai
+   YrIghlDfwNDHDG3hQDl3sLNTJDB/dCwYiuPDOPFu3666S7u4P0wTTFb1y
+   yAAkYINA2NNn8FalaZbilhAK+idgrcrPpMsxBkTpVq9Zb9h+RIbdUTeLe
+   w==;
+X-CSE-ConnectionGUID: 4+luxfuBR6yzasni3fPhYA==
+X-CSE-MsgGUID: XsSU32IpRgqAtJMhPjDGVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="81474260"
 X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="69378369"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 10:56:42 -0800
-X-CSE-ConnectionGUID: 3KI3GOT8Q2yCPMC5jIMy/g==
-X-CSE-MsgGUID: IWxaT4EqRZSpavITKQlmgQ==
+   d="scan'208";a="81474260"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 11:04:21 -0800
+X-CSE-ConnectionGUID: JxUzm3YiTc2EDIiyh2KMBA==
+X-CSE-MsgGUID: /6MxOfPjSbWqj6sGU8RiGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="206860158"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 22 Jan 2026 10:56:37 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="211317816"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 22 Jan 2026 11:04:18 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vizr8-000000000Xl-43w1;
-	Thu, 22 Jan 2026 18:56:34 +0000
-Date: Thu, 22 Jan 2026 19:56:21 +0100
+	id 1vizyZ-00000000TCE-2cpy;
+	Thu, 22 Jan 2026 19:04:15 +0000
+Date: Fri, 23 Jan 2026 03:03:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Mattson <jmattson@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jim Mattson <jmattson@google.com>
-Subject: Re: [PATCH 6/6] KVM: selftests: x86: Add svm_pmu_hg_test for HG_ONLY
- bits
-Message-ID: <202601221906.D038BKHz-lkp@intel.com>
-References: <20260121225438.3908422-7-jmattson@google.com>
+To: AThomas63 <andrew.thomas@touchnetix.com>, dmitry.torokhov@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mark.satterthwaite@touchnetix.com,
+	andrew.thomas@touchnetix.com, m.felsch@pengutronix.de,
+	kamel.bouhara@bootlin.com
+Subject: Re: [PATCH 1/1] Adding support for aXiom touchscreen controller
+Message-ID: <202601230252.ZlyhNYe2-lkp@intel.com>
+References: <20260122124819.273188-2-andrew.thomas@touchnetix.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,48 +65,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260121225438.3908422-7-jmattson@google.com>
+In-Reply-To: <20260122124819.273188-2-andrew.thomas@touchnetix.com>
 
-Hi Jim,
+Hi AThomas63,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20260121]
-[cannot apply to kvm/queue kvm/next perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools kvm/linux-next acme/perf/core v6.19-rc6 v6.19-rc5 v6.19-rc4 linus/master v6.19-rc6]
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on dtor-input/for-linus hid/for-next linus/master v6.19-rc6 next-20260122]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Mattson/KVM-x86-pmu-Introduce-amd_pmu_set_eventsel_hw/20260122-070031
-base:   next-20260121
-patch link:    https://lore.kernel.org/r/20260121225438.3908422-7-jmattson%40google.com
-patch subject: [PATCH 6/6] KVM: selftests: x86: Add svm_pmu_hg_test for HG_ONLY bits
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260122/202601221906.D038BKHz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221906.D038BKHz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/AThomas63/Adding-support-for-aXiom-touchscreen-controller/20260122-212452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20260122124819.273188-2-andrew.thomas%40touchnetix.com
+patch subject: [PATCH 1/1] Adding support for aXiom touchscreen controller
+config: sh-randconfig-r072-20260123 (https://download.01.org/0day-ci/archive/20260123/202601230252.ZlyhNYe2-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.3.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601230252.ZlyhNYe2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601221906.D038BKHz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601230252.ZlyhNYe2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> x86/svm_pmu_hg_test.c:37:9: warning: "MSR_F15H_PERF_CTL0" redefined
-      37 | #define MSR_F15H_PERF_CTL0      0xc0010200
-         |         ^~~~~~~~~~~~~~~~~~
-   In file included from include/x86/processor.h:13,
-                    from x86/svm_pmu_hg_test.c:31:
-   tools/testing/selftests/../../../tools/arch/x86/include/asm/msr-index.h:815:9: note: this is the location of the previous definition
-     815 | #define MSR_F15H_PERF_CTL0              MSR_F15H_PERF_CTL
-         |         ^~~~~~~~~~~~~~~~~~
->> x86/svm_pmu_hg_test.c:38:9: warning: "MSR_F15H_PERF_CTR0" redefined
-      38 | #define MSR_F15H_PERF_CTR0      0xc0010201
-         |         ^~~~~~~~~~~~~~~~~~
-   tools/testing/selftests/../../../tools/arch/x86/include/asm/msr-index.h:823:9: note: this is the location of the previous definition
-     823 | #define MSR_F15H_PERF_CTR0              MSR_F15H_PERF_CTR
-         |         ^~~~~~~~~~~~~~~~~~
-   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+   drivers/input/touchscreen/axiom_core.c: In function 'axiom_unpack_device_info':
+>> drivers/input/touchscreen/axiom_core.c:110:27: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     110 |         info->device_id = FIELD_GET(AX_DEV_ID_MASK, w);
+         |                           ^~~~~~~~~
+
+
+vim +/FIELD_GET +110 drivers/input/touchscreen/axiom_core.c
+
+   103	
+   104	static void axiom_unpack_device_info(const u8 *buf,
+   105					     struct axiom_device_info *info)
+   106	{
+   107		u16 w;
+   108	
+   109		w = get_unaligned_le16(buf);
+ > 110		info->device_id = FIELD_GET(AX_DEV_ID_MASK, w);
+   111		info->mode = !!(w & AX_MODE);
+   112	
+   113		w = get_unaligned_le16(buf + 2);
+   114		info->runtime_fw_rev_minor = FIELD_GET(AX_FW_REV_MINOR_MASK, w);
+   115		info->runtime_fw_rev_major = FIELD_GET(AX_FW_REV_MAJOR_MASK, w);
+   116	
+   117		w = get_unaligned_le16(buf + 4);
+   118		info->device_build_variant = FIELD_GET(AX_VARIANT_MASK, w);
+   119		info->runtime_fw_status = !!(w & AX_FW_STATUS);
+   120		info->tcp_revision = FIELD_GET(AX_TCP_REV_MASK, w);
+   121	
+   122		w = get_unaligned_le16(buf + 6);
+   123		info->bootloader_fw_rev_minor = FIELD_GET(AX_BOOT_REV_MINOR_MASK, w);
+   124		info->bootloader_fw_rev_major = FIELD_GET(AX_BOOT_REV_MAJOR_MASK, w);
+   125	
+   126		info->jedec_id = get_unaligned_le16(buf + 8);
+   127	
+   128		w = get_unaligned_le16(buf + 10);
+   129		info->num_usages = FIELD_GET(AX_NUM_USAGES_MASK, w);
+   130		info->silicon_revision = FIELD_GET(AX_SILICON_REV_MASK, w);
+   131		info->runtime_fw_rev_patch = FIELD_GET(AX_RUNTIME_FW_PATCH_MASK, w);
+   132	}
+   133	
 
 -- 
 0-DAY CI Kernel Test Service
