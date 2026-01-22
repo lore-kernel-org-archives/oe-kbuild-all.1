@@ -1,108 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CDB330640
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 05:05:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC63C46AEC2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 05:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769058340; cv=none; b=IzAJesvR+YJZubLRljKQU4H04XtW/F8l2nAlKrkOqAB4gb7JpWfbyzIfwOt93C+BnZuTypB0DAlQAOIGmpKStHXtGAopCL4wj+7qw7Vb9G80e9lmONqo4p/x6/Nh2ieBRWTV4UjXl0J6YFFcniBVqYUw1uU0ZrOjVylg8MVyshw=
+	t=1769058946; cv=none; b=kV5ZYEZvAR+CDgUOfJktWk85KLR54SqMbuGYSXuftouUeqA5XrtnCehjPTxoz7lFuyvH7BgGe1IFJf0q7t1TwDaLnaabE/G+wsWKlNic4FxnVkg+bRhU/IZYRIKNVyt5fXew8P0CNTku1gZSz6ZIhIa3VXy67+OsfFDYWhkzRIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769058340; c=relaxed/simple;
-	bh=FkCnrkU+R4ExF1g792DCFBpq2YYmCwvWfVvcZPdphJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cqINecQ/BPWa8E0LvVrneZDW4Kqw/w+D/sEYsbkgckUtkCd+F9vq2OpnzKKlzv6pnOce4CJsEn4pHbyMwe7Axda+5TWM2Mud8u3IPDViZP6iDsV694YS2sM7+FbzxB+F+Iqa56HY4YuVLPltnuSb+f0uYT8Rk5Zy57+fJlLTSb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6Xl398+; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1769058946; c=relaxed/simple;
+	bh=hP8q1GcQAGHznfJlly/EuvMei2lZrgd9YlR+qVlMSqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WJWECsaKO3O1wwi2+R1plhZWEN65GkxSo/bSCCmjGdub/PIx3sVI+eHBEQRH14TNyM56viEBnUmIBhEWXeaRZRQRtNW0Qv3/Lh41LJ4X2szYH4FKrN4zRe6qT23if0XnkOfoMRVSqjln7FLicNiHHDigdYNOcL4KHuqbSA+/Vfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdLG88x0; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6Xl398+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdLG88x0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769058339; x=1800594339;
-  h=date:from:to:cc:subject:message-id;
-  bh=FkCnrkU+R4ExF1g792DCFBpq2YYmCwvWfVvcZPdphJQ=;
-  b=b6Xl398+GPgVYDA/ni/RtyxUu5rLR+jhvnaamxSOkWvJvyAaNpqtjtl5
-   g5yrlAd4KJPQQztKdmrP3q7M4oUk0F6SOv8TZYUffKyLavy0Dd+KiVp9W
-   bs4przCJmLUupCLn/dFz/tWgpi4E1Rq0mWOEvoirANG3W7kY/zyiSmsHS
-   Sk+8a9/6n8+hmXgzd9+uRqb5wMH+OMC2TyJPomiuy+WvcNCQbBEc7lNaD
-   WI1l9THQ4xwfMbtYQQNsq7KqVXTDUTNT8krv8YnJE84/ru2s7//dArhVe
-   VX02/9AZ9TkN1GBHPw2xPtMyNiEhz9Jc5Tg1GZVSA7vJVr38Zkhbx7DBA
-   g==;
-X-CSE-ConnectionGUID: gGhwqdY/T0qFlo8vh6JIXQ==
-X-CSE-MsgGUID: ucRb3gllQMiOf9NgzUX4Yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="57856729"
+  t=1769058943; x=1800594943;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hP8q1GcQAGHznfJlly/EuvMei2lZrgd9YlR+qVlMSqg=;
+  b=WdLG88x0131VhzHN0fdtrmZ68KRVxWa91wUij9J1mNnSuX9799XZgY7I
+   pryNMPHbaX9uPnGQbsCHEA70W9pGVQIqF14H1MGSGPZLvzoQ4mPF5t/UF
+   nObOW1DaS7IfKWl1tQc4uHj8nBQeE0IztU2uCsh42VOusbE5FzSzahg6W
+   bWh0Xx7Cs5ogi9a7+YzjLsNc/TK4JYqfbEvDurRQbd/ETTNjlqh0lSabm
+   06+kCH6WJ0ELPkNFqOc5qoe848iXB9LgEzRVaVf+wGHr+tZN438BgOVj2
+   eY6puIXhgche059K62lB7Qg75WK3DkN52fBjc2dq1rUOOZE06E3tHGWLK
+   Q==;
+X-CSE-ConnectionGUID: 7Z8bOpj4QGaqEt780sfRkw==
+X-CSE-MsgGUID: md4G506CTQOjOTWJYeKn6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="81014344"
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="57856729"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 21:05:38 -0800
-X-CSE-ConnectionGUID: ufnMYAIBQHWacd4tm5eS/g==
-X-CSE-MsgGUID: JStUsUdsQJmTQBeZ8NCuOQ==
+   d="scan'208";a="81014344"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 21:15:41 -0800
+X-CSE-ConnectionGUID: dmtn0ckBQJy4dj+7K1ZqLw==
+X-CSE-MsgGUID: Dt4uNYphQyiuB2yZQyaRHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="211494205"
+   d="scan'208";a="206700158"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Jan 2026 21:05:37 -0800
+  by orviesa008.jf.intel.com with ESMTP; 21 Jan 2026 21:15:37 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vimsw-00000000SSf-28RL;
-	Thu, 22 Jan 2026 05:05:34 +0000
-Date: Thu, 22 Jan 2026 13:04:43 +0800
+	id 1vin2c-00000000STB-3Lx0;
+	Thu, 22 Jan 2026 05:15:34 +0000
+Date: Thu, 22 Jan 2026 13:15:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rppt:zero-page/v0 1/1] arch/sh/include/asm/setup.h:10:35:
- error: 'boot_params_page' undeclared
-Message-ID: <202601221305.irA7Lvrb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Rishikesh Jethwani <rjethwani@purestorage.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, saeedm@nvidia.com, tariqt@nvidia.com,
+	mbloch@nvidia.com, borisp@nvidia.com, john.fastabend@gmail.com,
+	kuba@kernel.org, sd@queasysnail.net, davem@davemloft.net,
+	pabeni@redhat.com, edumazet@google.com, leon@kernel.org,
+	Rishikesh Jethwani <rjethwani@purestorage.com>
+Subject: Re: [PATCH v4 2/3] tls: add hardware offload key update support
+Message-ID: <202601221215.VSoxPBxE-lkp@intel.com>
+References: <20260121215727.3994324-3-rjethwani@purestorage.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121215727.3994324-3-rjethwani@purestorage.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git zero-page/v0
-head:   53d07913878ea27d6fe4224e8581729185291278
-commit: 53d07913878ea27d6fe4224e8581729185291278 [1/1] dev: arch, mm: consolidate empty_zero_page
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260122/202601221305.irA7Lvrb-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221305.irA7Lvrb-lkp@intel.com/reproduce)
+Hi Rishikesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.19-rc6 next-20260121]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rishikesh-Jethwani/tls-add-TLS-1-3-hardware-offload-support/20260122-060724
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260121215727.3994324-3-rjethwani%40purestorage.com
+patch subject: [PATCH v4 2/3] tls: add hardware offload key update support
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260122/202601221215.VSoxPBxE-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221215.VSoxPBxE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601221305.irA7Lvrb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601221215.VSoxPBxE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/sh/kernel/setup.c:40:
-   arch/sh/kernel/setup.c: In function 'setup_arch':
->> arch/sh/include/asm/setup.h:10:35: error: 'boot_params_page' undeclared (first use in this function)
-      10 | #define PARAM   ((unsigned char *)boot_params_page)
-         |                                   ^~~~~~~~~~~~~~~~
-   arch/sh/include/asm/setup.h:14:44: note: in expansion of macro 'PARAM'
-      14 | #define ORIG_ROOT_DEV (*(unsigned long *) (PARAM+0x008))
-         |                                            ^~~~~
-   arch/sh/kernel/setup.c:274:35: note: in expansion of macro 'ORIG_ROOT_DEV'
-     274 |         ROOT_DEV = old_decode_dev(ORIG_ROOT_DEV);
-         |                                   ^~~~~~~~~~~~~
-   arch/sh/include/asm/setup.h:10:35: note: each undeclared identifier is reported only once for each function it appears in
-      10 | #define PARAM   ((unsigned char *)boot_params_page)
-         |                                   ^~~~~~~~~~~~~~~~
-   arch/sh/include/asm/setup.h:14:44: note: in expansion of macro 'PARAM'
-      14 | #define ORIG_ROOT_DEV (*(unsigned long *) (PARAM+0x008))
-         |                                            ^~~~~
-   arch/sh/kernel/setup.c:274:35: note: in expansion of macro 'ORIG_ROOT_DEV'
-     274 |         ROOT_DEV = old_decode_dev(ORIG_ROOT_DEV);
-         |                                   ^~~~~~~~~~~~~
+   In file included from arch/parisc/include/asm/atomic.h:11,
+                    from include/linux/atomic.h:7,
+                    from include/crypto/aead.h:11,
+                    from net/tls/tls_device.c:32:
+   net/tls/tls_device.c: In function 'tls_set_device_offload':
+>> arch/parisc/include/asm/barrier.h:36:28: error: field '__val' declared as a function
+      36 |         union { typeof(*p) __val; char __c[1]; } __u =                  \
+         |                            ^~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   net/tls/tls_device.c:1249:25: note: in expansion of macro 'smp_store_release'
+    1249 |                         smp_store_release(sk->sk_validate_xmit_skb,
+         |                         ^~~~~~~~~~~~~~~~~
+>> arch/parisc/include/asm/barrier.h:37:28: error: cast specifies function type
+      37 |                 { .__val = (__force typeof(*p)) (v) };                  \
+         |                            ^
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   net/tls/tls_device.c:1249:25: note: in expansion of macro 'smp_store_release'
+    1249 |                         smp_store_release(sk->sk_validate_xmit_skb,
+         |                         ^~~~~~~~~~~~~~~~~
+--
+   In file included from arch/parisc/include/asm/atomic.h:11,
+                    from include/linux/atomic.h:7,
+                    from include/crypto/aead.h:11,
+                    from tls_device.c:32:
+   tls_device.c: In function 'tls_set_device_offload':
+>> arch/parisc/include/asm/barrier.h:36:28: error: field '__val' declared as a function
+      36 |         union { typeof(*p) __val; char __c[1]; } __u =                  \
+         |                            ^~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   tls_device.c:1249:25: note: in expansion of macro 'smp_store_release'
+    1249 |                         smp_store_release(sk->sk_validate_xmit_skb,
+         |                         ^~~~~~~~~~~~~~~~~
+>> arch/parisc/include/asm/barrier.h:37:28: error: cast specifies function type
+      37 |                 { .__val = (__force typeof(*p)) (v) };                  \
+         |                            ^
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   tls_device.c:1249:25: note: in expansion of macro 'smp_store_release'
+    1249 |                         smp_store_release(sk->sk_validate_xmit_skb,
+         |                         ^~~~~~~~~~~~~~~~~
 
 
-vim +/boot_params_page +10 arch/sh/include/asm/setup.h
+vim +/__val +36 arch/parisc/include/asm/barrier.h
 
-     6	
-     7	/*
-     8	 * This is set up by the setup-routine at boot-time
-     9	 */
-  > 10	#define PARAM	((unsigned char *)boot_params_page)
-    11	
+fedb8da96355f5f John David Anglin 2018-08-05  32  
+e96ebd589debd9a John David Anglin 2020-07-30  33  #define __smp_store_release(p, v)					\
+e96ebd589debd9a John David Anglin 2020-07-30  34  do {									\
+e96ebd589debd9a John David Anglin 2020-07-30  35  	typeof(p) __p = (p);						\
+e96ebd589debd9a John David Anglin 2020-07-30 @36          union { typeof(*p) __val; char __c[1]; } __u =			\
+e96ebd589debd9a John David Anglin 2020-07-30 @37                  { .__val = (__force typeof(*p)) (v) };			\
+e96ebd589debd9a John David Anglin 2020-07-30  38  	compiletime_assert_atomic_type(*p);				\
+e96ebd589debd9a John David Anglin 2020-07-30  39  	switch (sizeof(*p)) {						\
+e96ebd589debd9a John David Anglin 2020-07-30  40  	case 1:								\
+e96ebd589debd9a John David Anglin 2020-07-30  41  		asm volatile("stb,ma %0,0(%1)"				\
+e96ebd589debd9a John David Anglin 2020-07-30  42  				: : "r"(*(__u8 *)__u.__c), "r"(__p)	\
+e96ebd589debd9a John David Anglin 2020-07-30  43  				: "memory");				\
+e96ebd589debd9a John David Anglin 2020-07-30  44  		break;							\
+e96ebd589debd9a John David Anglin 2020-07-30  45  	case 2:								\
+e96ebd589debd9a John David Anglin 2020-07-30  46  		asm volatile("sth,ma %0,0(%1)"				\
+e96ebd589debd9a John David Anglin 2020-07-30  47  				: : "r"(*(__u16 *)__u.__c), "r"(__p)	\
+e96ebd589debd9a John David Anglin 2020-07-30  48  				: "memory");				\
+e96ebd589debd9a John David Anglin 2020-07-30  49  		break;							\
+e96ebd589debd9a John David Anglin 2020-07-30  50  	case 4:								\
+e96ebd589debd9a John David Anglin 2020-07-30  51  		asm volatile("stw,ma %0,0(%1)"				\
+e96ebd589debd9a John David Anglin 2020-07-30  52  				: : "r"(*(__u32 *)__u.__c), "r"(__p)	\
+e96ebd589debd9a John David Anglin 2020-07-30  53  				: "memory");				\
+e96ebd589debd9a John David Anglin 2020-07-30  54  		break;							\
+e96ebd589debd9a John David Anglin 2020-07-30  55  	case 8:								\
+e96ebd589debd9a John David Anglin 2020-07-30  56  		if (IS_ENABLED(CONFIG_64BIT))				\
+e96ebd589debd9a John David Anglin 2020-07-30  57  			asm volatile("std,ma %0,0(%1)"			\
+e96ebd589debd9a John David Anglin 2020-07-30  58  				: : "r"(*(__u64 *)__u.__c), "r"(__p)	\
+e96ebd589debd9a John David Anglin 2020-07-30  59  				: "memory");				\
+e96ebd589debd9a John David Anglin 2020-07-30  60  		break;							\
+e96ebd589debd9a John David Anglin 2020-07-30  61  	}								\
+e96ebd589debd9a John David Anglin 2020-07-30  62  } while (0)
+e96ebd589debd9a John David Anglin 2020-07-30  63  
 
 -- 
 0-DAY CI Kernel Test Service
