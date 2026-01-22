@@ -1,41 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78622223DC6;
-	Thu, 22 Jan 2026 09:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201653A0E9A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 09:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769073430; cv=none; b=BUbjecXPVP+ltEYRKGtts4uDB465Mv4O/VSYtcoMW6Wxju1GsUaGz8EUlSYrsTeKAq6BwcsSGnDf5RI/0VaMOZ9QM6+c5jsDSGKB1aSejQ864L0f+ZBDFIf4WU5s9ge7rc3edvcwAaVFJap5nkILWnTShADIhh4RQ4PM6hrWflc=
+	t=1769074131; cv=none; b=j1haZ2O7EIDS44FhQyrs67PmwMkBRUVAjn2HROngFirnEdEuOay3Dzk4T+Ox5oXY+4UMUiANCXYV1ElDMcrAP4QdN8PuLPK6xlLEsfMM0t0O8zcJLm5sYZ/euhPyL7aEMMJxX9ALIygJF1BfR5q4q3JA0ffcX5NykC5Xn54ZpMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769073430; c=relaxed/simple;
-	bh=q2esC2zJX3g7e6ZMhgi/ddREdTJyIkx9wRyA+rvR/0c=;
+	s=arc-20240116; t=1769074131; c=relaxed/simple;
+	bh=e3J5I3JidBEe20xMq3LDqy2ycsvs3FRycSCidlMcqk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H72ta55e9aftqY2lXQcCasE4KPS0e+7HWsy/NBTLt8H7n6XsejHqH6lsUGVyZRU85meP2lYV8wjCnWM+2cE3entDn3aUkeZIEjWKX2B8+l1Mz5E56WbdNX4jLHF9OgdEBH5T0tpJSeG06+mwN1RasFzMSfK+U74pOFLYdu5ehSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wxyb+X9a; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBlJkllOYqLKyfffgqHBx0sL0cEwHH8AAv8GzFGmqnndkMVfGceSAQ5Dq+q2DT50ofaXqkkN6uqXI/dKZWzw+QoxSvziRsHbdO+Idg6t572lOGGRNSPYNx6McPJDZgULNn7eXkg9Zveg2OpFMYC6VZV2T1nImfBcUm5MxlaFidg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HvWkcE2m; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wxyb+X9a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4463DC16AAE;
-	Thu, 22 Jan 2026 09:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769073427;
-	bh=q2esC2zJX3g7e6ZMhgi/ddREdTJyIkx9wRyA+rvR/0c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wxyb+X9a6SwDrQ00TSl3QEYtmzje5bQ/rb5gr53KVZyRwYscc8Od7sYDuECCyba5y
-	 PGPITHKtj6D0C1Tx/Qc8AMJrzyrMFN3/Wwypia2ZIznxFIm/4LQzhwSuXKHinjQbkQ
-	 DbUyUiwMyF5q/rfng0TZmo2c5EWgCnIM4DKCl0UHhAwzsmCvd7e+lsZoeHhZHiYwo3
-	 yJJBa4NXPA9XVdNtIRuxA09RuS7H8p6CYjdIWQD6UNiuvUT7+l+spEOaNwTIP12/hP
-	 OSg1KQvV7IJSwLhEqS+72Wtu3HeOR/HeO6RPuDeLI8VTleiqKcvSn3eQnocE/RJs16
-	 uEwY5iOVzjtZw==
-Date: Thu, 22 Jan 2026 11:17:02 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [rppt:zero-page/v0 1/1] ERROR: modpost: vmlinux:
- 'empty_zero_page' exported twice. Previous export was in vmlinux
-Message-ID: <aXHrDsAjeoT_8-vr@kernel.org>
-References: <202601221150.JsPp145b-lkp@intel.com>
- <20260122051722.GC3770486@ax162>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HvWkcE2m"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=P8Rc5KHb05lQg9gsJPJwqDZF6vBRDcHLLd4eldmljDw=; b=HvWkcE2muZsnyI4x6dXLso7vEJ
+	G9obR5mb4ocQpT3jzdSz1WnQfNjZYTHCjw0iBeCDWM/wiUbr9b/9lggEVgIwM0FdW7SxxUowbrsiG
+	m3zXPgwlIPamXpWg7P+fS33J6K55L9CR0xSNidNhrio9XrNyEYUWTsgML0+FZ6Bq1DrWu6x/XLYBH
+	a1rgehz/8i6iBQ5uXeVHLK4rd1jHA2O8zadFB1h8y0VOXd1Ni8P5VlUpRqEw4FbOnBAXW21OOxYvJ
+	FUbzgZ3TJDKZ6T5KxPpwS8XGZRC1S+1+1mmmtIJmscv3QvtShLJuZswOyfLEfdLW3kvLUKWttdoFJ
+	OzCuEOUQ==;
+Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1viqze-000000006qu-1NZY;
+	Thu, 22 Jan 2026 09:28:46 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 411723007E1; Thu, 22 Jan 2026 10:28:45 +0100 (CET)
+Date: Thu, 22 Jan 2026 10:28:45 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [peterz-queue:sched/core 26/31] slice_test.c:70:20: warning:
+ overflow in expression; result is 705'032'704 with type 'long'
+Message-ID: <20260122092845.GQ166857@noisy.programming.kicks-ass.net>
+References: <202601220246.iRqmV1p7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,43 +48,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260122051722.GC3770486@ax162>
+In-Reply-To: <202601220246.iRqmV1p7-lkp@intel.com>
 
-On Wed, Jan 21, 2026 at 10:17:22PM -0700, Nathan Chancellor wrote:
-> On Thu, Jan 22, 2026 at 11:14:04AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git zero-page/v0
-> > head:   53d07913878ea27d6fe4224e8581729185291278
-> > commit: 53d07913878ea27d6fe4224e8581729185291278 [1/1] dev: arch, mm: consolidate empty_zero_page
-> > config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260122/202601221150.JsPp145b-lkp@intel.com/config)
-> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221150.JsPp145b-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601221150.JsPp145b-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > 
-> > >> ERROR: modpost: vmlinux: 'empty_zero_page' exported twice. Previous export was in vmlinux
+On Thu, Jan 22, 2026 at 02:41:11AM +0100, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+> head:   81b74125144d2db6f40a345b875f085addbcd230
+> commit: 50ec9f1ddac81e9b447b98db2da519728735aa79 [26/31] selftests/rseq: Implement time slice extension test
+> config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260122/202601220246.iRqmV1p7-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220246.iRqmV1p7-lkp@intel.com/reproduce)
 > 
-> Seems like the following should fix that?
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601220246.iRqmV1p7-lkp@intel.com/
 > 
-> diff --git a/arch/hexagon/kernel/hexagon_ksyms.c b/arch/hexagon/kernel/hexagon_ksyms.c
-> index 36a80e31d187..81bc6f81e200 100644
-> --- a/arch/hexagon/kernel/hexagon_ksyms.c
-> +++ b/arch/hexagon/kernel/hexagon_ksyms.c
-> @@ -17,7 +17,6 @@ EXPORT_SYMBOL(raw_copy_to_user);
->  EXPORT_SYMBOL(__vmgetie);
->  EXPORT_SYMBOL(__vmsetie);
->  EXPORT_SYMBOL(__vmyield);
-> -EXPORT_SYMBOL(empty_zero_page);
->  EXPORT_SYMBOL(memcpy);
->  EXPORT_SYMBOL(memset);
+> All warnings (new ones prefixed by >>):
+> 
+> >> slice_test.c:70:20: warning: overflow in expression; result is 705'032'704 with type 'long' [-Winteger-overflow]
+>       70 |         .total_nsecs    =  5 * NSEC_PER_SEC,
+>          |                            ~~^~~~~~~~~~~~~~
+>    slice_test.c:78:20: warning: overflow in expression; result is 705'032'704 with type 'long' [-Winteger-overflow]
+>       78 |         .total_nsecs    =  5 * NSEC_PER_SEC,
+>          |                            ~~^~~~~~~~~~~~~~
+>    slice_test.c:86:20: warning: overflow in expression; result is 705'032'704 with type 'long' [-Winteger-overflow]
+>       86 |         .total_nsecs    =  5 * NSEC_PER_SEC,
+>          |                            ~~^~~~~~~~~~~~~~
+>    3 warnings generated.
 
-Yes, it should :)  
-Thanks!
-
--- 
-Sincerely yours,
-Mike.
+Stupid thing.. I'll just slap some LL on or something.
