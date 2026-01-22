@@ -1,151 +1,143 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B348825F7B9;
-	Thu, 22 Jan 2026 13:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43F07262F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 13:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769087167; cv=none; b=mhdjHJcPbNYgwUAoQR6+meNAcHBlCNoQcLJLbJ3YnHoxnRobbRFSmwR+IgfzAoSMeFFkrSBEuAKpuVfLaWJqjGH4zytltw/CutoYOdWqqFsLyThskrz39Wd2Ul1eTvZGM8lXuYJpCJ32Pf3L/GlKZ3AYzaT86+OskkMTEx6+Jik=
+	t=1769087739; cv=none; b=VQoHwqZIWYQPbDKaexCpSir8L/Nad4pZuSmNb+jT9/CjfmiPufxJ/4/VjmiCqDPXfyaUKuDoTA5cQndm4EzkKbnqBdnqXcR1MzeGfgucXoLPlnB3daKjUN62S6wqzN4WxtgXFd+D6Or23s1yR936FkuV+v3Ahu5rXAZvjkQav0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769087167; c=relaxed/simple;
-	bh=rC6T3O4H3sHc69QHplsUYFl5tJd5RhVrogcigqQQ2PQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=haCooWHbXnKsZ0/Nv+BaaM4oSiTQSfAGm6YWg3Er4cboQPcgRt8Zq7d8eR/UlldXbh4iazzfVQ2jullGyFhvad45aLdxONQQ8TxX7305iGmmKcGmJzmMW490AfzaYTZrE7eOeASQex1rp6SIK7sXi3o+xJK6J4eHFmfrclynS6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKylzkSa; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1769087739; c=relaxed/simple;
+	bh=6Btj7PggeVezsw0MY7/5W4QF1fvuP3yDU4Wv5hR8jhA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=vA9pBAAxIffkAsqKjPZ1hylSDvORfSkP8DCzIepPKvZMZ4Enr9EUifYYo0ipiuUDaEsUTVw01JZcqfnEPVjnKdN9T/DV654hXXwV8VmLzdFSdk+2ZoBXS2VhipGVsqF+yos2Ziz5l9wF+QK9vGJV3ESuM3gSH6hMbkAA07ct2Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FBbkAn00; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKylzkSa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FBbkAn00"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769087166; x=1800623166;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rC6T3O4H3sHc69QHplsUYFl5tJd5RhVrogcigqQQ2PQ=;
-  b=TKylzkSa5oQmt1SjptZeVCf2iahOvFlr15w1NO07qN8kub3uGtvhRQnn
-   cFWBSmsQRzZtHbi6n2R24qSsHdNOUhJ6zLcVkAfiFByjYD3l6C7TVXjjk
-   fBtKM8PNtx5Jnj1bzQ4Z1uSAhAOzEgH3Jsx/yklnoS0GiWg50hlqWywEn
-   g6ml7b9v1KmQdrbOjqa6kqVdJ8op0vZyhzaBw8j7VBZrCezF2EI+Fgvy2
-   hdPqXyuJX9dBFpPpVl6My4AiFQxdys3vGpy1zJfUJkldrRqy8YtM+++8l
-   SPBEBR++XijeUq7JTpMldbKyFJMu+taq/Ys9QeAu7FNDlBzPYDlc9Fsif
-   Q==;
-X-CSE-ConnectionGUID: GAQvoTtnQyaCd956POksnw==
-X-CSE-MsgGUID: jtgarDLdTE2I11s8TWDwbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="57892414"
+  t=1769087738; x=1800623738;
+  h=date:from:to:cc:subject:message-id;
+  bh=6Btj7PggeVezsw0MY7/5W4QF1fvuP3yDU4Wv5hR8jhA=;
+  b=FBbkAn00FBPJv0qRtaCI/zp75N4U9YKBA8Ks9aas4KIMY6IEDPWZ64xH
+   vIwn113rNkcPYdbH/s2uxpOX3E4Yrg+tiDY9Yg7UluXImmR4l97O4G552
+   EDCmJ9G8WJJs09rr3Z0p6AABuPwXvCwXbp5v61VlVbOgouZ+Lr95NQmwI
+   IgITeVAcfO2nNkto8aGl24fb/r9ul9a1IKllPg9r7LsMOHX7j5a3DYxKU
+   l+Dd7ABu/AnYIYiss4rq2iI6Ydcp9wphW6kZ1iSr9VdqMGfPFC9cUDPk8
+   stSs+IIV1KRXe5Zm5ZaLBeP67iH+v9Ryodtmh9xeRWholhOQ3Jer39PWA
+   A==;
+X-CSE-ConnectionGUID: Kajx5uYFRdOzsbNPUueifQ==
+X-CSE-MsgGUID: e93U1d50T6yBKdJLJNM8fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="57893498"
 X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="57892414"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 05:06:05 -0800
-X-CSE-ConnectionGUID: 079ECkJBSHqbNlHT4t7v0w==
-X-CSE-MsgGUID: Wl0Myg7PSjGDi9QeczkPvA==
+   d="scan'208";a="57893498"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 05:15:37 -0800
+X-CSE-ConnectionGUID: DsJaE4VFQ3C+/hwlHkkaoQ==
+X-CSE-MsgGUID: PdtHqFkgRwaRP0hC42EJBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="206991199"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Jan 2026 05:06:01 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="205983827"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 22 Jan 2026 05:15:36 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viuNr-00000000Sqn-1c5V;
-	Thu, 22 Jan 2026 13:05:59 +0000
-Date: Thu, 22 Jan 2026 21:05:10 +0800
+	id 1viuX7-000000000V7-09wv;
+	Thu, 22 Jan 2026 13:15:33 +0000
+Date: Thu, 22 Jan 2026 14:14:53 +0100
 From: kernel test robot <lkp@intel.com>
-To: Carlos Song <carlos.song@nxp.com>, andi.shyti@kernel.org,
-	aisheng.dong@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, vz@mleia.com,
-	pandy.gao@nxp.com, B38611@freescale.com, wsa@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Carlos Song <carlos.song@nxp.com>,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [Patch V3] i2c: imx-lpi2c: fix SMBus block read NACK after byte
- count
-Message-ID: <202601222033.Qhu55YA4-lkp@intel.com>
-References: <20260121094837.2651035-1-carlos.song@nxp.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Sean Christopherson <seanjc@google.com>
+Subject: [sean-jc:x86/tdx_huge_sept 79/79]
+ arch/x86/kvm/../../../virt/kvm/kvm_main.c:2551:20: warning: comparison of
+ constant '0' with boolean expression is always false
+Message-ID: <202601221423.5e12zVZ8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260121094837.2651035-1-carlos.song@nxp.com>
 
-Hi Carlos,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc6 next-20260121]
-[cannot apply to andi-shyti/i2c/i2c-host]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Song/i2c-imx-lpi2c-fix-SMBus-block-read-NACK-after-byte-count/20260121-175629
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260121094837.2651035-1-carlos.song%40nxp.com
-patch subject: [Patch V3] i2c: imx-lpi2c: fix SMBus block read NACK after byte count
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260122/202601222033.Qhu55YA4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601222033.Qhu55YA4-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/tdx_huge_sept
+head:   491d01f5d2ac33f4da9d302ff18cdcb57c0d967b
+commit: 491d01f5d2ac33f4da9d302ff18cdcb57c0d967b [79/79] KVM: x86: Split cross-boundary mirror leafs for KVM_SET_MEMORY_ATTRIBUTES
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260122/202601221423.5e12zVZ8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221423.5e12zVZ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601222033.Qhu55YA4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601221423.5e12zVZ8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/i2c/busses/i2c-imx-lpi2c.c:19:
-   drivers/i2c/busses/i2c-imx-lpi2c.c: In function 'lpi2c_imx_read_init':
->> drivers/i2c/busses/i2c-imx-lpi2c.c:93:29: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-      93 | #define MSR_RDF_ASSERTED(x) FIELD_GET(MSR_RDF, (x))
-         |                             ^~~~~~~~~
-   include/linux/iopoll.h:49:21: note: in definition of macro 'poll_timeout_us'
-      49 |                 if (cond) { \
-         |                     ^~~~
-   include/linux/iopoll.h:193:9: note: in expansion of macro 'read_poll_timeout'
-     193 |         read_poll_timeout(op, val, cond, sleep_us, timeout_us, false, addr)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/iopoll.h:228:9: note: in expansion of macro 'readx_poll_timeout'
-     228 |         readx_poll_timeout(readl, addr, val, cond, delay_us, timeout_us)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-imx-lpi2c.c:569:23: note: in expansion of macro 'readl_poll_timeout'
-     569 |                 ret = readl_poll_timeout(lpi2c_imx->base + LPI2C_MSR, val,
-         |                       ^~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-imx-lpi2c.c:570:42: note: in expansion of macro 'MSR_RDF_ASSERTED'
-     570 |                                          MSR_RDF_ASSERTED(val), 1, 1000);
-         |                                          ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_handle_gfn_range':
+>> arch/x86/kvm/../../../virt/kvm/kvm_main.c:2551:20: warning: comparison of constant '0' with boolean expression is always false [-Wbool-compare]
+    2551 |         return ret < 0 ? ret : 0;
+         |                    ^
 
 
-vim +/FIELD_GET +93 drivers/i2c/busses/i2c-imx-lpi2c.c
+vim +/0 +2551 arch/x86/kvm/../../../virt/kvm/kvm_main.c
 
-    70	
-    71	#define MCR_MEN		BIT(0)
-    72	#define MCR_RST		BIT(1)
-    73	#define MCR_DOZEN	BIT(2)
-    74	#define MCR_DBGEN	BIT(3)
-    75	#define MCR_RTF		BIT(8)
-    76	#define MCR_RRF		BIT(9)
-    77	#define MSR_TDF		BIT(0)
-    78	#define MSR_RDF		BIT(1)
-    79	#define MSR_SDF		BIT(9)
-    80	#define MSR_NDF		BIT(10)
-    81	#define MSR_ALF		BIT(11)
-    82	#define MSR_MBF		BIT(24)
-    83	#define MSR_BBF		BIT(25)
-    84	#define MIER_TDIE	BIT(0)
-    85	#define MIER_RDIE	BIT(1)
-    86	#define MIER_SDIE	BIT(9)
-    87	#define MIER_NDIE	BIT(10)
-    88	#define MCFGR1_AUTOSTOP	BIT(8)
-    89	#define MCFGR1_IGNACK	BIT(9)
-    90	#define MRDR_RXEMPTY	BIT(14)
-    91	#define MDER_TDDE	BIT(0)
-    92	#define MDER_RDDE	BIT(1)
-  > 93	#define MSR_RDF_ASSERTED(x) FIELD_GET(MSR_RDF, (x))
-    94	
+  2499	
+  2500	static __always_inline int kvm_handle_gfn_range(struct kvm *kvm,
+  2501							struct kvm_mmu_notifier_range *range)
+  2502	{
+  2503		struct kvm_gfn_range gfn_range;
+  2504		struct kvm_memory_slot *slot;
+  2505		struct kvm_memslots *slots;
+  2506		struct kvm_memslot_iter iter;
+  2507		bool found_memslot = false;
+  2508		bool ret = false;
+  2509		int i;
+  2510	
+  2511		gfn_range.arg = range->arg;
+  2512		gfn_range.may_block = range->may_block;
+  2513	
+  2514		/*
+  2515		 * If/when KVM supports more attributes beyond private .vs shared, this
+  2516		 * _could_ set KVM_FILTER_{SHARED,PRIVATE} appropriately if the entire target
+  2517		 * range already has the desired private vs. shared state (it's unclear
+  2518		 * if that is a net win).  For now, KVM reaches this point if and only
+  2519		 * if the private flag is being toggled, i.e. all mappings are in play.
+  2520		 */
+  2521	
+  2522		for (i = 0; i < kvm_arch_nr_memslot_as_ids(kvm); i++) {
+  2523			slots = __kvm_memslots(kvm, i);
+  2524	
+  2525			kvm_for_each_memslot_in_gfn_range(&iter, slots, range->start, range->end) {
+  2526				slot = iter.slot;
+  2527				gfn_range.slot = slot;
+  2528	
+  2529				gfn_range.start = max(range->start, slot->base_gfn);
+  2530				gfn_range.end = min(range->end, slot->base_gfn + slot->npages);
+  2531				if (gfn_range.start >= gfn_range.end)
+  2532					continue;
+  2533	
+  2534				if (!found_memslot) {
+  2535					found_memslot = true;
+  2536					KVM_MMU_LOCK(kvm);
+  2537					if (!IS_KVM_NULL_FN(range->on_lock))
+  2538						range->on_lock(kvm);
+  2539				}
+  2540	
+  2541				ret |= range->handler(kvm, &gfn_range);
+  2542			}
+  2543		}
+  2544	
+  2545		if (range->flush_on_ret && ret)
+  2546			kvm_flush_remote_tlbs(kvm);
+  2547	
+  2548		if (found_memslot)
+  2549			KVM_MMU_UNLOCK(kvm);
+  2550	
+> 2551		return ret < 0 ? ret : 0;
+  2552	}
+  2553	
 
 -- 
 0-DAY CI Kernel Test Service
