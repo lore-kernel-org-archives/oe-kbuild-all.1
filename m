@@ -1,75 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE160316190
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 17:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E11F318B88
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 17:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769103162; cv=none; b=Kowle4nRZy6+m8LRn5g9f4pWIpILL8nlR9dLO0hK7F+uYA69AV/+uQZOZZdQ8kMeM89M3kjBBm6AXu7piS7yST0SJV/EHA1c4yqfu62dP2Q+TpSg2K+amm7iUXmPdqo3raPNVVwgsVkXN+bFA3muWGOiNDBd9S+A9ikzfycgmMY=
+	t=1769103637; cv=none; b=pKxrqA6AMQmbfw+RO6LcHOanKXvjFFEOfwhx/WexK8DQLB/up/pbNFAkgpxfcfN85tFGnwrsCOIQp/7FrFuZ7q9T7WFAYOHBIIWxLuz71W1FmQ2ddMX1i6fjag+RIVa1Dnzqd0A7O40VXIotg3slecqp39eJu8kULaxyGboqdAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769103162; c=relaxed/simple;
-	bh=T51xee8w+q4wOs994zMPrpOU5VE4HghA2NdWC1B5WOw=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=OgefZFXFmo9AReAAZlfrJyVXUD3fOt6H3emv9icoh+ZtVFQaROxYdvlS+4uzin5WfJ1/qaoWVwAEipkyMMuF5J2zL+58KUGqSgexb5wu6gNouWf4r7XyPHEnRC9nzZz3MZfBGWMhk8wOzbETLuJPPk0ll1WrRvsjQMh9p2eSYcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=AJ5b+VU7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769103637; c=relaxed/simple;
+	bh=Z+R84j5D0y+EGcYGZf77szrmdtLgDIsT1NFnIIZmzIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TKeBflcs+u1pcVyT7oxMyk/gwhcbgxa1SEZgysq3qJkiwJzI0+rMfWQkEGrAGQAbQj9wfMCLm+jjg6tmZpTDAShVMa3xnDemFVd0KElqk105zbtZrrbYpQN2NrX+1YDZ2uOwpH77500k6jHRwvPdVcpO6etxonFDdr9BM3kAwNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JSAaAaCi; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="AJ5b+VU7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C0BAC116C6;
-	Thu, 22 Jan 2026 17:32:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1769103161;
-	bh=T51xee8w+q4wOs994zMPrpOU5VE4HghA2NdWC1B5WOw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AJ5b+VU71V+YVuXCL+/s2IIrCquyiH9XVNXLJR+hLQ7dV6vpzsPbop2aH5WoMNnrO
-	 DIU05IfK5crWnQI5+TL9byn9gRtfEdaTa4TS+eGy51sPheUdhofNjIZsraB+Hk7Mai
-	 lYuu0tdzu92OU+IWJkpUnl5Ce5HU5OcjcagkdF7w=
-Date: Thu, 22 Jan 2026 09:32:40 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, oe-kbuild-all@lists.linux.dev, David
- Hildenbrand <david@kernel.org>, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-new 279/310] memory-failure.c:275:49: warning:
- format specifies type 'unsigned long' but the argument has type
- '__fsword_t' (aka 'int')
-Message-Id: <20260122093240.ef007fed49c166ae5ff256c1@linux-foundation.org>
-In-Reply-To: <202601221142.mDWA1ucw-lkp@intel.com>
-References: <202601221142.mDWA1ucw-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JSAaAaCi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769103622; x=1800639622;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z+R84j5D0y+EGcYGZf77szrmdtLgDIsT1NFnIIZmzIk=;
+  b=JSAaAaCiON2t+iIoC+R9SByVwxIWxLE5PmNemY/VskP/rVdKB8/4xTfW
+   fxnphoGOcewF5iDaA+U5g32Vl3Eppa5cNh2C9n+6i5FiPonQI4P/npzmO
+   g+c0MTxVAW7WWpXyBLMMTFxjOJmwmFUwwZHiNoTTJDJyxtFQ6DelyXNgv
+   IYt6BVAK0mj5ciwFisfrjtWi9/69TBD/+Gc2pdF6/d4hgRE4ddZ/cgrnB
+   4i/CtMwZcdGaOXcz09I7nnIJLE9ieusDZ0MYv4j+dVdStouZ9eEG2RnpV
+   sec6B8zj7H9sK6JnHgUaiWsQHtls7PGoA6SCpm19akpLVFGcGp5hKhNGU
+   A==;
+X-CSE-ConnectionGUID: z2yRQb7pSAWKVeIFPwYITA==
+X-CSE-MsgGUID: FmxIGM34SQKwtf2I2cCSoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="81795422"
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="81795422"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 09:40:17 -0800
+X-CSE-ConnectionGUID: OcKZGVQ8R6KLb5B7eBNb+w==
+X-CSE-MsgGUID: n/S0XiraTpyy+caYGaHM1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="211245816"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 22 Jan 2026 09:40:14 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viyfE-00000000T7O-1EOb;
+	Thu, 22 Jan 2026 17:40:12 +0000
+Date: Fri, 23 Jan 2026 01:39:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Damien Dejean <dam.dejean@gmail.com>, andrew@lunn.ch,
+	krzk+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+	pabeni@redhat.com, hkallweit1@gmail.com,
+	Damien Dejean <dam.dejean@gmail.com>
+Subject: Re: [PATCH v2 2/4] net: phy: realtek: add RTL8224 pair order support
+Message-ID: <202601230140.M3peApO0-lkp@intel.com>
+References: <20260121151506.813783-2-dam.dejean@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121151506.813783-2-dam.dejean@gmail.com>
 
-On Thu, 22 Jan 2026 12:00:08 +0100 kernel test robot <lkp@intel.com> wrote:
+Hi Damien,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> head:   dc4fe40a11269aead253fa0beb098b00417b8694
-> commit: ce9b369feafe8c65aa134b0c8791bf7f19e463e2 [279/310] selftests/mm: add memory failure clean pagecache test
-> config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260122/202601221142.mDWA1ucw-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221142.mDWA1ucw-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601221142.mDWA1ucw-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> memory-failure.c:275:49: warning: format specifies type 'unsigned long' but the argument has type '__fsword_t' (aka 'int') [-Wformat]
->      275 |                 SKIP(return, "unsupported filesystem :%lx\n", fs_type);
->          |                                                       ~~~     ^~~~~~~
->          |                                                       %x
+kernel test robot noticed the following build warnings:
 
-Thanks.
+[auto build test WARNING on 983d014aafb14ee5e4915465bf8948e8f3a723b5]
 
-I don't think we can rely upon libc's __fsword_t being `int' in all
-situations for all time?
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Dejean/net-phy-realtek-add-RTL8224-pair-order-support/20260122-000009
+base:   983d014aafb14ee5e4915465bf8948e8f3a723b5
+patch link:    https://lore.kernel.org/r/20260121151506.813783-2-dam.dejean%40gmail.com
+patch subject: [PATCH v2 2/4] net: phy: realtek: add RTL8224 pair order support
+config: i386-randconfig-141-20260122 (https://download.01.org/0day-ci/archive/20260123/202601230140.M3peApO0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
-We could add the typecast but perhaps it's better to change
-get_fs_type() to return int?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601230140.M3peApO0-lkp@intel.com/
+
+New smatch warnings:
+drivers/net/phy/realtek/realtek_main.c:1710 rtl8224_mdi_config_order() warn: unsigned 'val' is never less than zero.
+
+Old smatch warnings:
+drivers/net/phy/realtek/realtek_main.c:805 rtl821x_resume() warn: 'priv->clk' from clk_prepare_enable() not released on lines: 801.
+
+vim +/val +1710 drivers/net/phy/realtek/realtek_main.c
+
+  1688	
+  1689	static int rtl8224_mdi_config_order(struct phy_device *phydev)
+  1690	{
+  1691		struct device_node *np = phydev->mdio.dev.of_node;
+  1692		u8 port_offset = phydev->mdio.addr & 3;
+  1693		u32 mdi_conf, val;
+  1694		int ret;
+  1695	
+  1696		ret = of_property_read_u32(np, "realtek,mdi-cfg-order", &mdi_conf);
+  1697	
+  1698		/* Do nothing in case the property is not present */
+  1699		if (ret == -EINVAL)
+  1700			return 0;
+  1701	
+  1702		if (ret)
+  1703			return ret;
+  1704	
+  1705		if (mdi_conf & ~1)
+  1706			return -EINVAL;
+  1707	
+  1708		val = __phy_package_read_mmd(phydev, 0, MDIO_MMD_VEND1,
+  1709					     RTL8224_VND1_MDI_PAIR_SWAP);
+> 1710		if (val < 0)
+  1711			return val;
+  1712	
+  1713		if (mdi_conf)
+  1714			val |= (1 << port_offset);
+  1715		else
+  1716			val &= ~(1 << port_offset);
+  1717	
+  1718		return __phy_package_write_mmd(phydev, 0, MDIO_MMD_VEND1,
+  1719					       RTL8224_VND1_MDI_PAIR_SWAP, val);
+  1720	}
+  1721	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
