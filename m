@@ -1,210 +1,176 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713B633A9E5;
-	Thu, 22 Jan 2026 18:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC8037D112
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 18:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769106205; cv=none; b=it8ZKsuF4j71yWLGsA4obevJge8hB+At+B0aZbH1D3C9d3Hq05BZeZoj8Jcia2CocmtyVBR4PbDCChQSpVIWhbXxc2slohX2MRGWCaSIUCwXxq1vCOFfXTKU7WFv4sSiwTrJ/nYJ6ZSOkLG6tg0ckBbLdscazD31YfT4J+RPa0g=
+	t=1769106692; cv=none; b=d2Q8SQIBEf3B/8D+8GAxwSVbM7BxIO4cWBIQuS5crrhHgJ3zw5y5PMmPbUBJb6zq6LbW6axLRhOWiQSYl/5y60qMrMQQPwdudhyIAVmDgz5ABNz6l+G9cg1LJl9sJQy89ECXfn8Cb/n0C/QbqAfRz0V4cpPgKGKFD4ObMRSfbsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769106205; c=relaxed/simple;
-	bh=AaCuSNVNlbpISdbj3qDUNtACWdDwCFarITt3mYC8sBg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aEOGB/3Z66rdF/VfI5PKm9MxsdEFAb+ULD6+DYUdVhoCgLS7DiLFa3Y/QWcbOln3I/lC2Iom4WlI5/AO/3tHhJkaVw3/vZJDVr2G9/b8ex9pq0OyTW67AmrkUPq69Z53mt75gMYIco8DYza3G+BOVvuDgPKllkMV69QxASlf4bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=XZsmLjqL; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1769106692; c=relaxed/simple;
+	bh=V/YWVCkksI3r+GuGClBoLZVL9TzMOkDP/a4rG8gzipY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MXkEeLhv+BQan7EZXANFzdEFXcAr4NiSydU207YTeeOS0FrlFKZkn5atqEMp0LfqdX89iE2b187K4viZl4mvwQzZ4Lpm9yjOQhOMhLULGk0oaQpIIF1Hcq8zkvJHkXmPzJZhH1NGjDFHNuLDjOA4xu280WPWxvysvjdapcRP/yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RFvikP3l; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="XZsmLjqL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=J+NkPw1KHEz8buXVjem4ZBD0ZcWTYPCfmLMyt2OiDsU=; b=XZsmLjqL4DJALgZfAVC+BwVELt
-	ZZIjYPrqWQcsizXgwm7KoqhqAy707t3XU+geNYMaKEHPOuRvjFrMp6DtyI/sQiByzui+rvFulJaKe
-	Bp1C3u3AECZkTFiBuZYOllQn5uWxl1g/6wXpUDiU6cPhF3Q8cpLZ7DmqS0xbsWExzKjwkIoWu4JzB
-	FQjtqn9YrbrjMlRBxwqzRaA3FG5CzUCIm2ZvDmc/LAEWemZbL82n2OeKTe8kUaCQdtWLoQCHsw5TS
-	BVcO2OftmBH77rZb6xQKdFUGC1lWObUCQoy2LiimGfhCaboSwIqPdjgLLJpMEAjO/wLgzVqUxv00J
-	ddYdbk2g==;
-Received: from [192.76.154.238] (helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1vizKf-003r7u-Ch; Thu, 22 Jan 2026 19:23:01 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: oe-kbuild@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>, sebastian.reichel@collabora.com,
- Caleb Connolly <kc@postmarketos.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
- Linus Walleij <linusw@kernel.org>
-Subject:
- Re: [linusw-pinctrl:devel 30/31] drivers/pinctrl/pinctrl-rockchip.c:3683
- rockchip_pinconf_set() error: we previously assumed 'gpio->direction_output'
- could be null (see line 3644)
-Date: Thu, 22 Jan 2026 19:23:01 +0100
-Message-ID: <4087738.KRxA6XjA2N@phil>
-In-Reply-To: <202601200057.P0Lr7NDg-lkp@intel.com>
-References: <202601200057.P0Lr7NDg-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RFvikP3l"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47edd6111b4so14688815e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 10:31:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769106675; x=1769711475; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sHcGMjkyTHznibSHVyswUIfEQEbbN74bslm02im2fbg=;
+        b=RFvikP3lVsPRrcRFaRAjVm6qhkluuyvoDD+/8fWKsWITJZzR08zzGiDq81aaP1f2sB
+         ja3C1yWy0z+j5fz+kGZ0/6wUnMD9N57+KQIVhA5pC1N9XZ2aPZvKr2bGjLDWMJrly6N3
+         1JSm8xzng0dRnmAGN3bhkhut6odh7Yhry/Y8jPwTqZfZ5YlSgdKuc/WRd8oj/DjiB8tp
+         +6Ct/bSa0LSxIUslmemEs8gGPC9NoklEhjEx3R7MjHGlk8C/t1sGaDeo8ssp1r3nAp1T
+         PQ0mQBtfn/3UMosdQYczZWIsVjynYU3KoQfr6Ln6qrMkbndlBwAloHyY2RU0MYTwTyXk
+         notw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769106675; x=1769711475;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sHcGMjkyTHznibSHVyswUIfEQEbbN74bslm02im2fbg=;
+        b=SxvjYDzQPsWkLpq6SanyYmmaaKyGb1bJb3FL8qmsy92Vz+7ljx88omr2yJuw81IPYk
+         v0B8knE69S+mjjGkJryh7iCb5vXgO5TUfs482UYcN9VUMdYhfOtRBu4xEVBfSXg+Nkzt
+         pAqaAuvHfWBmEC0bOen2DqaYIdIs2ibz+81hkvjKyWsv57lGCbRVy5MMn8pP6r6q064C
+         mAV5g1SOoqXZWTa10CdGO9V3cT8R44A8jfx6lhKu6IvLV20kLIaPqfnAZgaSPBcvGI10
+         /BV9G3P35TxwqdKYN0KvHRMmaR3RBQ82ju4hr4h/XFlxc0ZQLIzBo6mDpk2ZyEl1Dj6W
+         haxw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlr4TGuKXUYPiWYjyRYARIjQ1L2DkEzPttuEjib0C5wq8IIuzPhhXp2cDd/i4+BaoslJy+2hHXkMUFyCxH@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtT4Wu8z73//ru0qZi1X2wAdiJkv7VjNbgZaQ6W5Ourfr6Zy2d
+	5wc1wfVzrQNjfR5QqK9dDy88hRrlPk0vuR7U5YqlPrGblzDT88seXKawuw7NxqbE/A==
+X-Gm-Gg: AZuq6aLDj17MkxhQYMPnVm+cT0mc2b+vysCc2+2lq+NwMy6OdjRSMJWqi8XEenzz8WW
+	mQ9KfYuFxTmD14/nQnCwxJAxR0w2hz/QB4BKgNewLQfWA09j4mCaySkl3nkAi6kEHcUPUrk4IYM
+	Rs94/QxhYaGcGnq+Cs33iqWsXj1kqtEIgBgBATNVNi7iZxL6aJjoO8yJB5XTh2rZOwPPXI/ymkk
+	qDrwrOjby1YyuqsLJZIKyI0zy2fjvboFczjQirZ2PiIRhGgJ1CVMgoi+8oLHrAUJrSOKGJdJXy9
+	onia8uZQDZOoiwjtiEjGrTFx8XEfSRZSE9oDAOrNgWe3GsqqAHVkVADBqlre3MT1RL2fjwDfudX
+	J6/paANmR4n4LqXaCydeecsLxpjcHo+xb3CYZFLrSA6GupP0GhWD3l5tQIs+P+kFJODQBCJIhME
+	/xFDjyWopZtCSOnU58qjQg3RF5EHr2CRKECenmsIvEC26u6fDkUaQF0YG1
+X-Received: by 2002:a05:600c:83c5:b0:477:7bca:8b2b with SMTP id 5b1f17b1804b1-4804c95e234mr9651355e9.15.1769106674888;
+        Thu, 22 Jan 2026 10:31:14 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:bb08:c2:8cd9:1733])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48047028928sm130174555e9.2.2026.01.22.10.31.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jan 2026 10:31:14 -0800 (PST)
+Date: Thu, 22 Jan 2026 19:31:08 +0100
+From: Marco Elver <elver@google.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>
+Subject: Re: [peterz-queue:locking/core 10/10] kernel/futex/core.c:982:1:
+ warning: spinlock 'atomic ? __u.__val : q->lock_ptr' is still held at the
+ end of function
+Message-ID: <aXJs7Hi90iOIoeMM@elver.google.com>
+References: <202601221040.TeM0ihff-lkp@intel.com>
+ <20260122091600.GE171111@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260122091600.GE171111@noisy.programming.kicks-ass.net>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-Am Dienstag, 20. Januar 2026, 07:25:00 Mitteleurop=C3=A4ische Normalzeit sc=
-hrieb Dan Carpenter:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinc=
-trl.git devel
-> head:   76d415763bae9488dd2b923b1348ce6f26c1f0ae
-> commit: e2c58cbe3aff49fe201e81ee5f651294e313ec74 [30/31] pinctrl: rockchi=
-p: Simplify locking with scoped_guard()
-> config: sh-randconfig-r073-20260119 (https://download.01.org/0day-ci/arch=
-ive/20260120/202601200057.P0Lr7NDg-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 15.2.0
-> smatch version: v0.5.0-8985-g2614ff1a
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202601200057.P0Lr7NDg-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/pinctrl/pinctrl-rockchip.c:3683 rockchip_pinconf_set() error: we =
-previously assumed 'gpio->direction_output' could be null (see line 3644)
->=20
-> vim +3683 drivers/pinctrl/pinctrl-rockchip.c
->=20
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3622  static int roc=
-kchip_pinconf_set(struct pinctrl_dev *pctldev, unsigned int pin,
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3623  				unsigned long *=
-configs, unsigned num_configs)
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3624  {
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3625  	struct rockch=
-ip_pinctrl *info =3D pinctrl_dev_get_drvdata(pctldev);
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3626  	struct rockch=
-ip_pin_bank *bank =3D pin_to_bank(info, pin);
-> 9ce9a02039de72e Jianqun Xu          2021-08-16  3627  	struct gpio_chip *=
-gpio =3D &bank->gpio_chip;
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3628  	enum pin_config_pa=
-ram param;
-> 58957d2edfa19e9 Mika Westerberg     2017-01-23  3629  	u32 arg;
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3630  	int i;
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3631  	int rc;
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3632 =20
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3633  	for (i =3D 0; i < =
-num_configs; i++) {
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3634  		param =3D pinconf=
-_to_config_param(configs[i]);
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3635  		arg =3D pinconf_t=
-o_config_argument(configs[i]);
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3636 =20
-> 203a83112e097a5 Linus Walleij       2025-09-05  3637  		if (param =3D=3D =
-PIN_CONFIG_LEVEL || param =3D=3D PIN_CONFIG_INPUT_ENABLE) {
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3638  			/*
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3639  			 * Check for gpi=
-o driver not being probed yet.
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3640  			 * The lock make=
-s sure that either gpio-probe has completed
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3641  			 * or the gpio d=
-river hasn't probed yet.
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3642  			 */
-> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3643  			scoped_guard(mut=
-ex, &bank->deferred_lock) {
-> 8ce5ef645468502 Caleb Connolly      2022-03-28 @3644  				if (!gpio || !g=
-pio->direction_output) {
->                                                                          =
-                     ^^^^^^^^^^^^^^^^^^^^^^
-> Is this check necessary?
++Cc Will
 
-I think the culprit is=20
-commit 8ce5ef645468 ("pinctrl/rockchip: support deferring other gpio params=
-")
+On Thu, Jan 22, 2026 at 10:16AM +0100, Peter Zijlstra wrote:
+> On Thu, Jan 22, 2026 at 10:30:28AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/core
+> > head:   33d9e7fdf9c17417347d1f06ddebaf25f21ab62a
+> > commit: 33d9e7fdf9c17417347d1f06ddebaf25f21ab62a [10/10] futex: Convert to compiler context analysis
+> > config: arm64-randconfig-001-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221040.TeM0ihff-lkp@intel.com/config)
+> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221040.TeM0ihff-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601221040.TeM0ihff-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> kernel/futex/core.c:982:1: warning: spinlock 'atomic ? __u.__val : q->lock_ptr' is still held at the end of function [-Wthread-safety-analysis]
+> >      982 | }
+> >          | ^
+> >    kernel/futex/core.c:976:2: note: spinlock acquired here
+> >      976 |         spin_lock(lock_ptr);
+> >          |         ^
+> > >> kernel/futex/core.c:982:1: warning: expecting spinlock 'q->lock_ptr' to be held at the end of function [-Wthread-safety-analysis]
+> >      982 | }
+> >          | ^
+> >    kernel/futex/core.c:966:6: note: spinlock acquired here
+> >      966 | void futex_q_lockptr_lock(struct futex_q *q)
+> >          |      ^
+> >    2 warnings generated.
+> 
+> Urgh, this is the arm64 READ_ONCE() confusing the thing. It can't see
+> through that mess and realize: lockptr == q->lock_ptr.
+> 
+> Marco, any suggestion how to best fix that?
 
-Which moved the original check up here for more generalization, but moved
-it out of its original switch block where the break in line 3650 would end
-the block, up here where actually a contnue would be necessary?
+I have a tentative solution:
 
-In its original place, the "break" would exit the switch block and thus
-continue to the next entry in the for loop.
+diff --git a/arch/arm64/include/asm/rwonce.h b/arch/arm64/include/asm/rwonce.h
+index 78beceec10cd..75265012ff2d 100644
+--- a/arch/arm64/include/asm/rwonce.h
++++ b/arch/arm64/include/asm/rwonce.h
+@@ -31,9 +31,8 @@
+  */
+ #define __READ_ONCE(x)							\
+ ({									\
+-	typeof(&(x)) __x = &(x);					\
+-	int atomic = 1;							\
+-	union { __unqual_scalar_typeof(*__x) __val; char __c[1]; } __u;	\
++	typeof(&(x)) __x = &(x), *__xp = &__x;				\
++	union { TYPEOF_UNQUAL(*__x) __val; char __c[1]; } __u;		\
+ 	switch (sizeof(x)) {						\
+ 	case 1:								\
+ 		asm volatile(__LOAD_RCPC(b, %w0, %1)			\
+@@ -56,9 +55,10 @@
+ 			: "Q" (*__x) : "memory");			\
+ 		break;							\
+ 	default:							\
+-		atomic = 0;						\
++		__u.__val = (*(volatile typeof(__x))__x);		\
+ 	}								\
+-	atomic ? (typeof(*__x))__u.__val : (*(volatile typeof(__x))__x);\
++	*__xp = &__u.__val;						\
++	*__x;								\
+ })
+ 
+ #endif	/* !BUILD_VDSO */
 
+This works because the compiler doesn't analyze alias reassignment
+through pointer-to-alias within the same function. An alternative is to
+do the alias reassignment via an __always_inline function that takes the
+alias as a const pointer, and then cast the const away and do the
+assignment. But I think the above is cleaner. Only compile-tested.
 
-> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3645  					rc =3D rockchi=
-p_pinconf_defer_pin(bank,
-> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3646  									pin - bank=
-=2D>pin_base,
-> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3647  									param, arg=
-);
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3648  					if (rc)
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3649  						return rc;
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3650  					break;
+It also gets rid of the "atomic" flag, and switches to TYPEOF_UNQUAL
+which fixes a latent bug where __unqual_scalar_typeof was applied to a
+const non-integer variable that is less than 8 bytes, resulting in __val
+being "const" itself (likely benign).
 
-now it looks like this break should be a continue, I think.
-Because right now it exits the whole loop, if I'm not blind.
+Before:
 
+  File: vmlinux
+  Size: 59628672  	Blocks: 116472     IO Block: 4096   regular file
 
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3651  				}
-> e2c58cbe3aff49f Krzysztof Kozlowski 2026-01-18  3652  			}
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3653  		}
-> 8ce5ef645468502 Caleb Connolly      2022-03-28  3654 =20
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3655  		switch (para=
-m) {
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3656  		case PIN_CON=
-=46IG_BIAS_DISABLE:
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3657  			rc =3D  rockchip=
-_set_pull(bank, pin - bank->pin_base,
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3658  				param);
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3659  			if (rc)
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3660  				return rc;
-> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3661  			break;
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3662  		case PIN_CON=
-=46IG_BIAS_PULL_UP:
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3663  		case PIN_CON=
-=46IG_BIAS_PULL_DOWN:
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3664  		case PIN_CON=
-=46IG_BIAS_PULL_PIN_DEFAULT:
-> 6ca5274d1d1258b Heiko St=C3=BCbner       2013-10-16  3665  		case PIN_CON=
-=46IG_BIAS_BUS_HOLD:
-> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3666  			if (!rockch=
-ip_pinconf_pull_valid(info->ctrl, param))
-> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3667  				return -EN=
-OTSUPP;
-> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3668 =20
-> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3669  			if (!arg)
-> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3670  				return -EI=
-NVAL;
-> 44b6d93043ab677 Heiko St=C3=BCbner       2013-06-16  3671 =20
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3672  			rc =3D rockchip_=
-set_pull(bank, pin - bank->pin_base,
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3673  				param);
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3674  			if (rc)
-> 03b054e9696c3cb Sherman Yin         2013-08-27  3675  				return rc;
-> d3e5116119bd02e Heiko St=C3=BCbner       2013-06-10  3676  			break;
-> 203a83112e097a5 Linus Walleij       2025-09-05  3677  		case PIN_CONFIG_L=
-EVEL:
-> 9ce9a02039de72e Jianqun Xu          2021-08-16  3678  			rc =3D rockchip_=
-set_mux(bank, pin - bank->pin_base,
-> 9ce9a02039de72e Jianqun Xu          2021-08-16  3679  					      RK_FUNC_=
-GPIO);
-> 9ce9a02039de72e Jianqun Xu          2021-08-16  3680  			if (rc !=3D RK_F=
-UNC_GPIO)
-> 9ce9a02039de72e Jianqun Xu          2021-08-16  3681  				return -EINVAL;
-> 9ce9a02039de72e Jianqun Xu          2021-08-16  3682 =20
-> 9ce9a02039de72e Jianqun Xu          2021-08-16 @3683  			rc =3D gpio->dir=
-ection_output(gpio, pin - bank->pin_base,
->                                                                          =
-    ^^^^^^^^^^^^^^^^^^^^^^
-> Unchecked dereference.  This is old code so it's presumably okay.  I
-> think this warning is triggering now because of changes in Smatch.
+After:
 
-The block from above should already make sure that this is only accessed
-if the gpio pointer is valid, so this should okay.
+  File: vmlinux
+  Size: 59563056  	Blocks: 116336     IO Block: 4096   regular file
 
-
-Heiko
-
-
-
+So this claims we're saving space. But the couple functions I inspected
+that use READ_ONCE were identical. I need to double-check the asm, see
+where the differences are and if we're actually producing better code,
+and write a commit message that makes sense.
