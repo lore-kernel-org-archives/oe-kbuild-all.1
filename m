@@ -1,204 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3895436B063
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 02:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769047298; cv=fail; b=ix7R1Z974KtWt14XzcEstZmlysMC4vrF1MXdnyViYmx6YbwSkJ5LaBSUpb7Uw2RBOSG6qMgMepIjNMzpmki7If/7t6DrAw8P+vDIEafiVLbaS2Hwigrs1RX4zU7zAyptCU6fq1oeN5+elZchnDHenDCUhNyfkMFBz4D+jARHMUg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769047298; c=relaxed/simple;
-	bh=891Y3GLQpF+FbFuOi8pGYvVQff3N6tlOVX0+UOT9KO0=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=VTnN8BNjumduxYubzTHBkWM45qwzZ3494WwFDfWKwKuLygX2kv2NIiI7Wz7z+KPrkd1ZajVCGydb03hENbHNN4bZZOCTds6eK68+67BsbdU2zPdFXeiBk/qbFjniUOHjUVtTBlsqVSvojunUCej49GaihkR95f1S3VVzUQJrnvs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFhaESSa; arc=fail smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72D521C175
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 02:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769047536; cv=none; b=pitwAa4uAXpDn219lTLFoSIX75/cWUe/MEbFJ9kVZep/2W9w+espKd7Kgk1Uz0c/RBERGxZHj4RM79F+x9kfsZI7Anj8iZl0FudBCRn4YjrrAIbNGnGg3RbFzsG1PEMTu3EDjBBxJsOb1VETDRte97gBKf88qPCpmXTQ+a0DwSs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769047536; c=relaxed/simple;
+	bh=UuA1mNpipfI97xGjwqRLOujFl4wFZRkE5kED3GSx+vY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PPVliQqxXjAy2Z3j0c6jAgPfA8MtxxtQxUS40Q9QB+72Gs9WbzC/SRhN7jHPUKf5pCGm8m/s9QpvaA5ExFhY1iwj5f64El1uxCmZ/SMTG0DaqWjyjcPOytRAPZ12iXtbluyUFK8pBC6xNKb13Q/9zs/5of3UpMJhZPSfFpjp0Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PGZAdcy+; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFhaESSa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PGZAdcy+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769047298; x=1800583298;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=891Y3GLQpF+FbFuOi8pGYvVQff3N6tlOVX0+UOT9KO0=;
-  b=mFhaESSaMd2Qaml5tfRgftQS10qkELuPvPnzkkyu/cPAGwOKyNgZEpwJ
-   cnIQG1O6FjtGkvq3YQj8NRHe2CfsGf/r7xx9UzSUczjp3FwW7buczYfWX
-   HulpDsVoeKVxt16F8Ty+gi+hYH72qy6YILgqxX0QCduKnmwIxzWA4c74e
-   wU3ERGE76YmwSCYj82mO/Bd5Uy1KfSd8e3VBc2K1ilUR1mcl/Twv5PDXn
-   AfpfdIg6s/v8/wAu7u/u5fzOxbQQJOyAv/lr9Wr2zP5fLUJEog72BEe29
-   HgbOE20U8swGNVbAuq9tdKPBstPGtHP4JPDXWC0zvZZaTlH1IwOw30lZ3
+  t=1769047533; x=1800583533;
+  h=date:from:to:cc:subject:message-id;
+  bh=UuA1mNpipfI97xGjwqRLOujFl4wFZRkE5kED3GSx+vY=;
+  b=PGZAdcy+lPx6M7Y3YFTa3/JOcO5K9xhqF0JDflnX+ddtq/OYiYL0rkh2
+   PaVfjSotn5nuQXhNZ9kCLn9FwTCC2t0mhzAlie6STFB8FEKHfYfGbm73x
+   wgzrlAA+r0EywilxCqZGLqLuJ/PMQpOCz8AqTaewgX2niB0pGcyj6dMVx
+   8/pOWN9cbKCp9ZvRE8UycZ8RuLd1RkHzQTeBKmBJZ9AiV9SFxVSy+fOV5
+   4YdvtQpcSEfkRZ+Y6sjaIE8zwtlgVJTz2a1xaovTwOYq0kHOxtQKen6T9
+   5mxie0E7HN5rdGYWjnRyQefm9Rf2dFdp9iOdldk9mL6xKrNbEOoAUHXgN
    Q==;
-X-CSE-ConnectionGUID: rsAsPEiJR52s1+1Fe8VWEQ==
-X-CSE-MsgGUID: ohw1pX5qRmueZUJB4d7dmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70199449"
+X-CSE-ConnectionGUID: TcDvPPPoR/mrUGwuYK5FKQ==
+X-CSE-MsgGUID: R2w2jcvCQfyCzZDhGfGuZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70376574"
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="70199449"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 18:01:37 -0800
-X-CSE-ConnectionGUID: Nec2m/GNT2elLDgmM0fqIg==
-X-CSE-MsgGUID: CuzvnuCtQIC6Wx9oUouLMg==
+   d="scan'208";a="70376574"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 18:05:33 -0800
+X-CSE-ConnectionGUID: K/3oqa6ERieu6A/nqrAnRg==
+X-CSE-MsgGUID: 7LfYkCy8TB6XJyrEm4Q3uA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="206417616"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 18:01:37 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Wed, 21 Jan 2026 18:01:36 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Wed, 21 Jan 2026 18:01:36 -0800
-Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.48) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Wed, 21 Jan 2026 18:01:28 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FCaRzHb+7KL/oxyG1kgCdLSY5XWKAkcP4mnhKvFC4GbEebV+SjDLO3oVg75QeW232ejbHqqXbrc07ykT19MuNujtnVUV+nzjf0HOe44jp3p6gN69ciRQSOkAyDR7W85axHuZAi0s4RR6k7WezgmwhRbrrY0qMCJzpk8a2XK4IrjY983qzXHiCzLGF4h/CAjvTiWp4tmaHzCaPdAPIurN/FrYHQx7X5bn7zSVXMMGdtnfjhq2W9/80xurW5DgSw1DNJvRlVsI6LKZM/ljtT6FyGwWooCk8NbJI8TIs/46yUyaya6SShF9bJ8nPgkg/01YUQfJb85nQbah1uXdKiHVBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m2um0IgcZX9ygmEhNuDxGWRkSQz2kqN+qU7EMActToU=;
- b=dBodAPOr93FJCvYuQcMA/8f8lj1XoF90Hfa9K90IH4wk1DCyVx2P/BIr5dFT6RVOfJXHK6Sq7+ZXY3jjjCuTJOnFhoRpzuHv/PYn5DBSHeV/UNzpB2CNyb3JC0VlOs/Um+S/ba1dPhP3Khvsf+gbtgUAM0SaJP/cvXxj+oJa1n5db5FLrCZfIDZLRNNAcMD76H5QpPhMGqV27OExh5vc40nKf4wtbn7F7Do3F5kXnqpxG3eyWsqu3hB0htrAdvrdy73vsXFu9V/cvy7hJAzju04wScxSe6f49hvwHaRK/K8tXQVUzyXsQRt6ko5j/FrzQxDQbRct2bLFao+tZfg0bQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
- by DM3PPF6C1A2BDF1.namprd11.prod.outlook.com (2603:10b6:f:fc00::f2b) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Thu, 22 Jan
- 2026 02:01:25 +0000
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394]) by CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394%5]) with mapi id 15.20.9542.008; Thu, 22 Jan 2026
- 02:01:25 +0000
-Date: Thu, 22 Jan 2026 10:01:17 +0800
+   d="scan'208";a="205736073"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 21 Jan 2026 18:05:32 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vik4f-000000000Q1-1ABh;
+	Thu, 22 Jan 2026 02:05:29 +0000
+Date: Thu, 22 Jan 2026 03:05:09 +0100
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header
- inclusions after libc ones
-Message-ID: <aXGE7TVGpPAzs+gr@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260120-uapi-sockaddr-v2-1-63c319111cf6@linutronix.de>
-X-ClientProxiedBy: SG2PR04CA0170.apcprd04.prod.outlook.com (2603:1096:4::32)
- To CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [linux-next:master 5634/6771]
+ Documentation/devicetree/bindings/sound/realtek,rt5640.yaml: ignoring, error
+ parsing file
+Message-ID: <202601220315.9v8ujQtp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8468:EE_|DM3PPF6C1A2BDF1:EE_
-X-MS-Office365-Filtering-Correlation-Id: a806e1ee-b637-4c87-d649-08de595a25d3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?WABrnDXbhT7EI3QIXMXQY9lP+SoNOJ6LSSPeVI5ck33htCwKrlvlwvsckeZG?=
- =?us-ascii?Q?xZYSdRnQDi+FkS0Sdb6UxSOFp0KonK541M4KKX2fz5HfDsSWaxBXcyKvLHsS?=
- =?us-ascii?Q?+sbwUWBEs2N/edqcBDPdvlVvyC/0ekxuindTnLo+HMiZKA9Nm4EwA6prs3qS?=
- =?us-ascii?Q?MHJ2PIrbP+VpOJKGKe/RMMfHccvwQK+XGMJ2MXea+Tn7JhI7vaAwd4XDcKuS?=
- =?us-ascii?Q?Q3TPMdSbQn68DcMoAFV6gk7d6Zc2i7QJDpvKJf7lz4ODrdBsXMqo2/2eo0IF?=
- =?us-ascii?Q?oo7ttHoFpNmGbuhBB1IgpEZev9b0oslG1PjJY6iuTpgV9WwDVuqWT50DCiL4?=
- =?us-ascii?Q?drmB33J4/Zcs/BkwCXuXjVUKOirAitgqadoAADgtCnZ8UlS60T5r1tYQMI1j?=
- =?us-ascii?Q?hpUccusLdKyKWMOmAmLXKJIOrm8OXDTmmkS8h17UpLTvFP+a7lM0NyFe5UV3?=
- =?us-ascii?Q?aaBliXt9GnMQDTc6Sjms4BqvWT3xpFvmqHkDu6A6DyWVacn6XxWW75BJCVys?=
- =?us-ascii?Q?4z/tkz7fxllN2nPlXDP/F+NLOBsMMYQufKDG1E8Fu47bctaMLoKD9z1ObXDQ?=
- =?us-ascii?Q?fdSJxhAHbkOtHxOoeOybpIgv5FriAYs3tGhRADq0Bh/UW0XF6/3K+6S9IwVc?=
- =?us-ascii?Q?AYxUnW9J1tV53sKq4aLUC6B49zZPfEVT3uLrqc3MlQuT0gUP7WVpLnIOR3ed?=
- =?us-ascii?Q?X8JUkhCmN98UxvK0zbJdFnBJxpOSOz7xItkhKaHq6njzJGyCnGqBJ1ux/uNh?=
- =?us-ascii?Q?TUWe2/oLCv6ITyYXj8GZd5mprWKDVGao9ZoAD//HEEZ9hz+m8p+t2OBsXOE0?=
- =?us-ascii?Q?GICb2RFlGmWpq/MZAawkWs4HosrlX+n/T6LJ9bYjkCaERdtrogoYvu2GkYwA?=
- =?us-ascii?Q?Z1JrNOmbrZw8R/9J0949RbtNSj2wthJrBZdFySz+vIsbXnYIMhU04sL+I+mU?=
- =?us-ascii?Q?tJbJsPjbrPbYaueuzhxXhsEIkySjv5CGcKZJci45RzUH735FgWHcvPjTDmv/?=
- =?us-ascii?Q?psJGXEHy9monSDJPmXBWptebUD4pWYJJ1j++UQ+Tj5gMQ7JCmktESlw+fEjW?=
- =?us-ascii?Q?QH58fOh4xR30UaPWir9hiZr8WSg7DC5vqCCz0WiUvfGW3Z3Odr/Ozlm06tjN?=
- =?us-ascii?Q?dMWFdRdUYlf5ackurD2/vQO9p93QMHrtuGOFEXxWx6QnpFfPj8LofcuTE1Lk?=
- =?us-ascii?Q?bRsaw7VkoGnCJ1AdGDzNnlxuuW6dR07/tg+qrHCJUfb/yiwOMwN58sarEAXq?=
- =?us-ascii?Q?6NEHXtsl+gmbEsr/SpR/0DxIxXP0HvYkDSnNGkxNSYY7Hq4FHZZlZ39tINRa?=
- =?us-ascii?Q?aRMd/IDjJbuqxf1oTG9yqL0kpl8wJDNYbSuB3OL5AFpTmaaU5dMi2oqfpZ82?=
- =?us-ascii?Q?dGoV3MbLBPfH6TxsBov+wPcxxqSDzUlYResExL6S5LSn/IytgZgyP/38E3+F?=
- =?us-ascii?Q?7WkbSum+KJ7EMHHEIbY/3Ss9W+QZqosY5nLIuBMTdfugzdggiNoUyqMSx5Zt?=
- =?us-ascii?Q?yt9tEVWEMV1OGS5zFPcPqrRUJgOdOxQKjZ5zd/VUw8iS4nUPW1gFCfqIuoty?=
- =?us-ascii?Q?aKIqgjg16RXydqhpAboBkszA0wCCmAFGWF3FDw+6?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8468.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cyExhqFAtjn8AzASRKxDat9SsaG6U0fGHuNmJBBcszzrJncwbq9jrO3zXz2U?=
- =?us-ascii?Q?p4O9RL3dHOHCiBKgg32uhT/jlzjB3g2Wj5gZRVlk9jCwH8sweSQs56F5umar?=
- =?us-ascii?Q?nu1gLTEeucUNzPK4Ee336jxI+xfMygDz7et/aypbqVyREJYrkCqX0XkM7OuL?=
- =?us-ascii?Q?4kGhwUpZ5h694UqY7kwlnzWGXXDD6A3FutWKzHZOaJnjLuxHIOJdZvVVer+K?=
- =?us-ascii?Q?IKkx2nZY2Z1jsld7B0vKwnK5kBE8R2xko22soESKUc3mMeXbS2Bbk1F1RYTl?=
- =?us-ascii?Q?8lw6QP7HLZNGT+55+XQc/oFUoZ2DpvJnt18g4WVi2wOP0NmYmTKqCHZb/wq1?=
- =?us-ascii?Q?iziaCahuTCJWcfLdxi6ZJawezsuHpNh/QrrBdfV5uqIM5KbHujxlx0TyDP9p?=
- =?us-ascii?Q?U1XKw1mdWU1J/8rLcsvw2V3LVgtFcZEbgoSol5nNCsgAM1+e5XQ3thw0wYgV?=
- =?us-ascii?Q?mRNqcbd2JEnErhPh1k3jTkcNiHp67VLLAmwfIUqMmL7Y7eTHRVOENJFPLL62?=
- =?us-ascii?Q?NKvWUuym1uk82tjLk7MxYu0AwnH/GSNErRFcG8fs5JTyAUjK8t/h141MgBgI?=
- =?us-ascii?Q?FtDWp0DmEVMkB+GnqZGeVNUzvjyYYQLPxDCaMUobgvlrpyCOlmLxrFpUq4Qx?=
- =?us-ascii?Q?k/Zac2tu+/7fXxWnbDUDV2ZDS5AaqbeAzE6TN4L9kzsZVGvDNjWivowWvI+D?=
- =?us-ascii?Q?H29t9W9Ei1zxRPFN+G9BoFZJvRmOXDZMOVClvWEWwfWDj0hDjWSe9KDsqeBI?=
- =?us-ascii?Q?VW+UPIsQ5PKGGge6VOuERIBFeyKyI2pgigMljgkm1nue4dinoR/ncyytDXGE?=
- =?us-ascii?Q?53NFLq6b1E3zuWRqDRk/0151Z9nl/FH2hRZjB5bFSaFo9186WrH5ZgS8pFUa?=
- =?us-ascii?Q?55LylAPSgK0R4Mw82MgOYnkG16ZtuZUcKGcI59AgkFAdmSmDbtlYkwBn6Ckz?=
- =?us-ascii?Q?3KJ6uT+7Ox/8q/DHWlVhGjpgqkQL3LiXd+J5Pd3U2SR8C4ExLb3ht9h2o6XG?=
- =?us-ascii?Q?F6VDKqVIDcuxH6uhP3nkZylqrajUCmAdXyAmQJvf4166hpXJL69Zr6cL3rAe?=
- =?us-ascii?Q?heP+GnDOVdTSwt4I1frinz73ay50nw/bPRVMTMi+nsdtPKzTSHwJLW6WKX9C?=
- =?us-ascii?Q?ZssRy0KZtd5JpFwhHP/8sm9luQN/X+pG8NWSmknm0X3XzlUQwh/YEWfy5Xsf?=
- =?us-ascii?Q?KbRm4qXguFMhYlFRY/vWICgAoaMDpiXtk5Ui0sXi43995TLETQA1pjaE6fpr?=
- =?us-ascii?Q?62pb9MWp3ZZaQM5b6/bRsgTHKyCm4egi94LdP/MvlOg/JxuHez813EzXJ5nx?=
- =?us-ascii?Q?TVuar1+KZ/B+mM/YHFAl2NPU9cvrEZVVmlFtnrpqjaUyAayLLr9HDmzr2to1?=
- =?us-ascii?Q?M8/laulXV53gPrzX5KfNJSHWSN49zEq5FcFNCqaR7rDOdouLxY9KSn43OeLA?=
- =?us-ascii?Q?9FiSk7heNK4yQDB6uch6HYVidE4cPII/EjBcfWL//Bzquq0T4SOeEN7POrZt?=
- =?us-ascii?Q?IvaRA3ce0mc5+qzgEpQBOfIwiTSuC/gorAXxNueUdPYeLJfBh5Z0LtxVdNq6?=
- =?us-ascii?Q?F9wFwogQ45p8VhFFcjQLYSV3SeuzvZ5Qu2zjk3iFcGp7iFsj5tWbPLuv7vR3?=
- =?us-ascii?Q?BjaikBZzTcbRfYZYf15ErjqwIMoVjjsuRo5ES3KmBPU9V/Lf5g0oeYnhUCV8?=
- =?us-ascii?Q?5brwBwomnWYP57bwhPuYvDt8tNJS8xezS1BCstyoIqw7bmM3t9SwlPlg5MVf?=
- =?us-ascii?Q?dg6pz015rA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a806e1ee-b637-4c87-d649-08de595a25d3
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8468.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 02:01:25.3041
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2QXOVkLHfAI2M2J4v63/e71if7LM5kHejnq1T5+1iYLLQuOSfXCC7Tdyw8pgc+khgVqIhHTGeswpoIR4Ramm6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF6C1A2BDF1
-X-OriginatorOrg: intel.com
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/selftests-net-Move-some-UAPI-header-inclusions-after-libc-ones/20260121-032048
-base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-patch link:    https://lore.kernel.org/r/20260120-uapi-sockaddr-v2-1-63c319111cf6%40linutronix.de
-patch subject: [PATCH net-next v2 1/4] selftests: net: Move some UAPI header inclusions after libc ones
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260122/202601220222.UHz1JhtH-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220222.UHz1JhtH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9b7977f9e39b7768c70c2aa497f04e7569fd3e00
+commit: bc5a847a80d45b1f77c60c738e05521f0dee453c [5634/6771] ASoC: dt-bindings: realtek,rt5640: Various fixes
+config: arm-randconfig-2053-20260114 (https://download.01.org/0day-ci/archive/20260122/202601220315.9v8ujQtp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220315.9v8ujQtp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202601220222.UHz1JhtH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601220315.9v8ujQtp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/netlink.c:3:10: fatal error: net/if.h: No such file or directory
-       3 | #include <net/if.h>
-         |          ^~~~~~~~~~
-   compilation terminated.
+>> make[3]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/sound/realtek,rt5640.example.dts] Error 1
+   make[3]: *** Deleting file 'Documentation/devicetree/bindings/sound/realtek,rt5640.example.dts'
+   make[3]: Target 'dt_binding_check' not remade because of errors.
+
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/sound/realtek,rt5640.yaml: ignoring, error parsing file
+--
+>> Documentation/devicetree/bindings/sound/realtek,rt5640.yaml:58:3: found duplicate key "clocks" with value "{}" (original value: "{}")
+--
+>> Documentation/devicetree/bindings/sound/realtek,rt5640.yaml:58:3: [error] duplication of key "clocks" in mapping (key-duplicates)
+>> Documentation/devicetree/bindings/sound/realtek,rt5640.yaml:61:3: [error] duplication of key "clock-names" in mapping (key-duplicates)
+--
+>> arch/arm/boot/dts/amlogic/meson8b-ec100.dtb: /soc/bus@c1100000/i2c@8500/codec@1c: failed to match any schema with compatible: ['realtek,rt5640']
+--
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: pinmux: pbb7-gpio: {'nvidia,pins': ['pbb7'], 'nvidia,function': ['rsvd2'], 'nvidia,pull': 0, 'nvidia,tristate': 0, 'nvidia,enable-input': 0} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: serial@70006200 (nvidia,tegra114-hsuart): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra114-hsuart', 'nvidia,tegra30-hsuart'] is too long
+   	'nvidia,tegra114-hsuart' is not one of ['nvidia,tegra20-hsuart', 'nvidia,tegra30-hsuart', 'nvidia,tegra186-hsuart', 'nvidia,tegra194-hsuart']
+   	'nvidia,tegra124-hsuart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/nvidia,tegra20-hsuart.yaml
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /serial@70006200: failed to match any schema with compatible: ['nvidia,tegra114-hsuart', 'nvidia,tegra30-hsuart']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: bluetooth (brcm,bcm4334-bt): False schema does not allow [[20, 134, 1]]
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/brcm,bluetooth.yaml
+>> arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000c000/audio-codec@1c: failed to match any schema with compatible: ['realtek,rt5639']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/extcon: failed to match any schema with compatible: ['ti,palmas-usb-vid']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/palmas_clk32kg@0: failed to match any schema with compatible: ['ti,palmas-clk32kg']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/pinmux: failed to match any schema with compatible: ['ti,tps65913-pinctrl']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/rtc: failed to match any schema with compatible: ['ti,palmas-rtc']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra114-kbc']
+   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra114-mc']
+--
+   arch/arm/boot/dts/nvidia/tegra114.dtsi:828.15-838.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra114.dtsi:868.15-878.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: dma@6000a000 (nvidia,tegra114-apbdma): $nodename:0: 'dma@6000a000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml
+>> arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000c000/rt5640@1c: failed to match any schema with compatible: ['realtek,rt5640']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps51632@43: failed to match any schema with compatible: ['ti,tps51632']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65090@48: failed to match any schema with compatible: ['ti,tps65090']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58/pinmux: failed to match any schema with compatible: ['ti,tps65913-pinctrl']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58/rtc: failed to match any schema with compatible: ['ti,palmas-rtc']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra114-kbc']
+   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /memory-controller@70019000: failed to match any schema with compatible: ['nvidia,tegra114-mc']
+--
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1172.15-1182.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1212.15-1222.4: Warning (unique_unit_address_if_enabled): /usb@7d004000: duplicate unit-address (also used in node /usb-phy@7d004000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:1251.15-1261.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
+   arch/arm/boot/dts/nvidia/tegra124.dtsi:37.3-41: Warning (interrupt_map): /pcie@1003000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra124-pcie']
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: dma@60020000 (nvidia,tegra124-apbdma): $nodename:0: 'dma@60020000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra20-apbdma.yaml
+>> arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: /i2c@7000c000/audio-codec@1c: failed to match any schema with compatible: ['realtek,rt5639']
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: /i2c@7000d000/pmic@40: failed to match any schema with compatible: ['ams,as3722']
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra124-dfll']
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: /ahub@70300000: failed to match any schema with compatible: ['nvidia,tegra124-ahub']
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: cpu@0 (arm,cortex-a15): 'operating-points' is a dependency of 'clock-latency'
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
+   arch/arm/boot/dts/nvidia/tegra124-jetson-tk1.dtb: cpu@0 (arm,cortex-a15): Unevaluated properties are not allowed ('clock-latency', 'vdd-cpu-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
+--
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi:49.22-55.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1130.15-1143.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-PM269.dtb: pmic@2d (ti,tps65911): 'wakeup-source' does not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-PM269.dtb: pmic@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-PM269.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-PM269.dtb: /i2c@7000d000/audio-codec@1c: failed to match any schema with compatible: ['realtek,rt5640']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-PM269.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-PM269.dtb: vi@54080000 (nvidia,tegra30-vi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra30-vi', 'nvidia,tegra20-vi'] is too long
+   	'nvidia,tegra20-vi' was expected
+   	'nvidia,tegra114-vi' was expected
+   	'nvidia,tegra124-vi' was expected
+   	'nvidia,tegra132-vi' was expected
+   	'nvidia,tegra210-vi' was expected
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
+--
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi:49.22-55.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1130.15-1143.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /i2c@7000d000/pmic@3c: failed to match any schema with compatible: ['maxim,max77663']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /i2c@7000d000/audio-codec@1c: failed to match any schema with compatible: ['realtek,rt5640']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-E1565.dtb: vi@54080000 (nvidia,tegra30-vi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra30-vi', 'nvidia,tegra20-vi'] is too long
+   	'nvidia,tegra20-vi' was expected
+   	'nvidia,tegra114-vi' was expected
+   	'nvidia,tegra124-vi' was expected
+   	'nvidia,tegra132-vi' was expected
+   	'nvidia,tegra210-vi' was expected
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
+--
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi:49.22-55.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:1130.15-1143.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
+   arch/arm/boot/dts/nvidia/tegra30.dtsi:36.3-42: Warning (interrupt_map): /pcie@3000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@50041000, using 0 as fallback
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: /i2c@7000d000/pmic@3c: failed to match any schema with compatible: ['maxim,max77663']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: /i2c@7000d000/audio-codec@1c: failed to match any schema with compatible: ['realtek,rt5640']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
+   arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-tilapia-E1565.dtb: vi@54080000 (nvidia,tegra30-vi): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra30-vi', 'nvidia,tegra20-vi'] is too long
+   	'nvidia,tegra20-vi' was expected
+   	'nvidia,tegra114-vi' was expected
+   	'nvidia,tegra124-vi' was expected
+   	'nvidia,tegra132-vi' was expected
+   	'nvidia,tegra210-vi' was expected
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
+--
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: hdmi@54280000 (nvidia,tegra30-hdmi): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-hdmi.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: hdmi@54280000 (nvidia,tegra30-hdmi): 'nvidia,ddc-i2c-bus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-hdmi.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: hdmi@54280000 (nvidia,tegra30-hdmi): 'nvidia,hpd-gpio' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-hdmi.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /i2c@7000d000/audio-codec@1c: failed to match any schema with compatible: ['realtek,rt5640']
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: pmic@2d (ti,tps65911): 'pmic-sleep-hog', 'wakeup-source' do not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: pmic@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /bridge: failed to match any schema with compatible: ['mstar,tsumu88adt3-lf-1']
+--
+   	'nvidia,tegra20-vi' was expected
+   	'nvidia,tegra114-vi' was expected
+   	'nvidia,tegra124-vi' was expected
+   	'nvidia,tegra132-vi' was expected
+   	'nvidia,tegra210-vi' was expected
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
+   arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /i2c@7000c500/flash-led@33: failed to match any schema with compatible: ['ti,tps61052']
+>> arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /i2c@7000d000/audio-codec@1c: failed to match any schema with compatible: ['realtek,rt5640']
+   arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: pmic@2d (ti,tps65911): 'pmic-sleep-hog' does not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: pmic@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: light-sensor@48 (capella,cm32181): 'vdd-supply' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml
+   arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-asus-tf600t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+--
+   	['nvidia,tegra30-vi', 'nvidia,tegra20-vi'] is too long
+   	'nvidia,tegra20-vi' was expected
+   	'nvidia,tegra114-vi' was expected
+   	'nvidia,tegra124-vi' was expected
+   	'nvidia,tegra132-vi' was expected
+   	'nvidia,tegra210-vi' was expected
+   	'nvidia,tegra186-vi' was expected
+   	'nvidia,tegra194-vi' was expected
+   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml
+   arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
+>> arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: /i2c@7000d000/rt5640@1c: failed to match any schema with compatible: ['realtek,rt5640']
+   arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: tps65911@2d (ti,tps65911): 'wakeup-source' does not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: tps65911@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: tps62361@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml
+   arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
+   arch/arm/boot/dts/nvidia/tegra30-beaver.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
