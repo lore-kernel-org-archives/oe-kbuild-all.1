@@ -1,63 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE9A30171C;
-	Thu, 22 Jan 2026 04:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021433659E7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 04:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769054983; cv=none; b=sGelgIuK+ZD9gk5IeUlGjWyDOHJE9cOahe7F5QD82g+aCTf4m8f/w7jh1gnKq7WuetIKPhQa7UDnk/h/uxBeeu0+MRafcmSgWstDdKDP6ZcqrrR3XNX+F7O05JsITiX1zW/R380dhTtpJHRcr5XGNdZWsISp1iG+wwc0geFrsUA=
+	t=1769056905; cv=none; b=O0VmJIG2DOGPcmdxg+Ivq8jiugV8D4lrb3M86b4gHkDjvNDSWJ2+c/jKt3VsVX8G/xyOh+uEHudiL8mGUnQtY02pKxgmZ9j5q4hx+Q/RaL0C5RC+V8kaR6prTe8qNf2DMJvYcRNH96KvSsIEAHs58KyHZOXJGn/s1tWEBgeXUKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769054983; c=relaxed/simple;
-	bh=E6A7waxtv4nyUz6etjrJs9TWvNCeLOqKAc46+P9xZ1Y=;
+	s=arc-20240116; t=1769056905; c=relaxed/simple;
+	bh=XDjJ+i/6OhmiyMhnzKwblycjAoTYUTnYXm/k+YWRXrY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LuyvTizkSgeoaLveMjTUKJLZkDV56Rj/DjW51AdJ0eo7urhhG6ugubLu3paNGFiq1c0sts7bec4JsBeI5Kwt+u7A9s42RyntH1Wi7uY4LlwgekK+3bBBP+u142H3OiaDEYyUKPlDUphqSQPBj4EjBQ4x0nZ4dI5UmiYTzl/olAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OYiPKm2L; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=EKtByfo81uoT7KFG3Fx3oHJrGep370Aj2dujjNM1sVpaF18q8iE/6GzRUyVJA0UYGrDOXbHLZcpM8QXXzDBltZboX3W6S2n8Y1VsHoYUWrEaUNDzuPoA9jVeBtmE3bkOmj7L/qBqWLnZKuWrY5PO5NPQnwKeKZXQvvYrnP5k250=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UfFShOfR; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OYiPKm2L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UfFShOfR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769054980; x=1800590980;
+  t=1769056903; x=1800592903;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=E6A7waxtv4nyUz6etjrJs9TWvNCeLOqKAc46+P9xZ1Y=;
-  b=OYiPKm2LCQzcPwP5VChPro2DyRqYsembAzU+NU8uaaoZiSBJrRtZrYWs
-   1wq8yHEgY517oxybs5ntJWC3dD1JiqYurz+VSgCMWQUZtZ41aL+5VGZt2
-   /Bt3cf34yX/vC551AHawDVFz91rIbgInYIYCSnJK2y9F1KHbcHtZp9/61
-   OfWRCQTZQSQerQ0GCAaP9iIyRMCNhckLKehZ6MosAEn7Ahs5TwvHbA1m6
-   mSViGzvad/YGeb7DQ6BO7EpOihIKX47dgfsKikPgloktFV3pUa5X4yFPU
-   dib9gX3Ui8HFm+10RoZeYobu/eTl/MtCc26G5v8X+rzOCCMnx5mMWgDOz
-   Q==;
-X-CSE-ConnectionGUID: 92TxKtAETp2BJn9B27Irrg==
-X-CSE-MsgGUID: nnFIHLomTom9q86mH8jo7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="87705793"
+  bh=XDjJ+i/6OhmiyMhnzKwblycjAoTYUTnYXm/k+YWRXrY=;
+  b=UfFShOfRMUHFYNpHlA0+EgIx+SM1gtkj1gy5e7XHMZKBUS21+xHqOQka
+   +n+4Wm5oaEerKN7mJm8fi40+ZgazlWQC3vTVm1NXk5uBqBSwzxp84BRqX
+   9QvFHa1b4QkUUjCgnEgyWJzVioPjNdlUdDpmAcoEVk8cYycjD3vqG/XNY
+   fEiEAurCFu+pQNGLxg4O3pMT/IaHN/gWzLPX0oDdqXrUXvPol4wBCp1ru
+   4PY741xiyVrMJXf6EUEjLxOG6pJnjh9tYgs/c1NBdgkslEzobms4TUEjd
+   OXLeWY+mMphIlePVgBjteopNCrdzVsaw+ljH7rkdPtZtQvqEYkovX/bap
+   g==;
+X-CSE-ConnectionGUID: Cf7LJUIQRyiHMaEyik/9Xw==
+X-CSE-MsgGUID: Hbj9TQoQSnetBNHTY2yBvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="92958129"
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="87705793"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 20:09:39 -0800
-X-CSE-ConnectionGUID: AmJ5cedoQXWEoYTElo9LKw==
-X-CSE-MsgGUID: 73Zj1HYITwe4l5esoKC1sQ==
+   d="scan'208";a="92958129"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 20:41:42 -0800
+X-CSE-ConnectionGUID: 2tBuXIbfTgm/f3DnnFvNtg==
+X-CSE-MsgGUID: ktYzPGfESaG7x2rmUBIAhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; 
-   d="scan'208";a="205755842"
+   d="scan'208";a="206692855"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 Jan 2026 20:09:35 -0800
+  by orviesa008.jf.intel.com with ESMTP; 21 Jan 2026 20:41:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vim0i-00000000SPd-1BrZ;
-	Thu, 22 Jan 2026 04:09:32 +0000
-Date: Thu, 22 Jan 2026 12:09:17 +0800
+	id 1vimVh-00000000SR9-2RdG;
+	Thu, 22 Jan 2026 04:41:33 +0000
+Date: Thu, 22 Jan 2026 12:41:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rishikesh Jethwani <rjethwani@purestorage.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, saeedm@nvidia.com,
-	tariqt@nvidia.com, mbloch@nvidia.com, borisp@nvidia.com,
-	john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
-	davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
-	leon@kernel.org, Rishikesh Jethwani <rjethwani@purestorage.com>
-Subject: Re: [PATCH v4 2/3] tls: add hardware offload key update support
-Message-ID: <202601221106.NuxFLP3L-lkp@intel.com>
-References: <20260121215727.3994324-3-rjethwani@purestorage.com>
+To: david.laight.linux@gmail.com, Nathan Chancellor <nathan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Kees Cook <keescook@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Laight <david.laight.linux@gmail.com>
+Subject: Re: [PATCH next 11/14] bit: Strengthen compile-time tests in
+ GENMASK() and BIT()
+Message-ID: <202601221237.soiAkwkN-lkp@intel.com>
+References: <20260121145731.3623-12-david.laight.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,274 +77,603 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260121215727.3994324-3-rjethwani@purestorage.com>
+In-Reply-To: <20260121145731.3623-12-david.laight.linux@gmail.com>
 
-Hi Rishikesh,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.19-rc6 next-20260121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on next-20260120]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rishikesh-Jethwani/tls-add-TLS-1-3-hardware-offload-support/20260122-060724
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260121215727.3994324-3-rjethwani%40purestorage.com
-patch subject: [PATCH v4 2/3] tls: add hardware offload key update support
-config: x86_64-randconfig-071-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221106.NuxFLP3L-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221106.NuxFLP3L-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/overflow-Reduce-expansion-of-__type_max/20260122-013456
+base:   next-20260120
+patch link:    https://lore.kernel.org/r/20260121145731.3623-12-david.laight.linux%40gmail.com
+patch subject: [PATCH next 11/14] bit: Strengthen compile-time tests in GENMASK() and BIT()
+config: mips-randconfig-r132-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221237.soiAkwkN-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221237.soiAkwkN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601221106.NuxFLP3L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601221237.soiAkwkN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/kthread.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   kernel/reboot.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   lib/idr.c: note: in included file (through include/linux/bitmap.h):
+   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
+   include/linux/find.h:388:46: sparse: sparse: Variable length array is used.
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   lib/xarray.c: note: in included file (through include/linux/bitmap.h):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+   lib/xarray.c: note: in included file:
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+   lib/xarray.c: note: in included file (through include/linux/bitmap.h):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   lib/find_bit.c: note: in included file (through include/linux/bitmap.h):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   include/linux/find.h:238:46: sparse: sparse: Variable length array is used.
+--
+   lib/bitmap-str.c: note: in included file:
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+   lib/bitmap-str.c: note: in included file (through include/linux/bitmap.h):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+--
+   lib/genalloc.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+--
+   mm/oom_kill.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   mm/vmscan.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   mm/shmem.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, arch/mips/include/asm/cpu-type.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+   mm/percpu.c: note: in included file (through include/linux/bitmap.h):
+   include/linux/find.h:409:45: sparse: sparse: Variable length array is used.
+   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+   mm/percpu.c: note: in included file:
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+   mm/vmalloc.c: note: in included file (through arch/mips/include/asm/page.h, include/linux/shm.h, include/linux/sched.h, ...):
+   include/asm-generic/memory_model.h:30:23: sparse: sparse: unsigned value that used to be signed checked against zero?
+   mm/vmalloc.c:554:21: sparse: signed value source
+   mm/vmalloc.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+   mm/vmalloc.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+   mm/vmalloc.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
+--
+   mm/slub.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   mm/hugetlb.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   mm/huge_memory.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+>> arch/mips/kernel/cmpxchg.c:20:16: sparse: sparse: Variable length array is used.
+   arch/mips/kernel/cmpxchg.c:61:16: sparse: sparse: Variable length array is used.
+--
+>> arch/mips/kernel/cpu-probe.c:709:41: sparse: sparse: Variable length array is used.
+   arch/mips/kernel/cpu-probe.c:712:45: sparse: sparse: Variable length array is used.
+   arch/mips/kernel/cpu-probe.c:214:9: sparse: sparse: cast truncates bits from constant value (3fffffffffffe000 becomes ffffe000)
+   arch/mips/kernel/cpu-probe.c:214:9: sparse: sparse: cast truncates bits from constant value (3fffffffffffe000 becomes ffffe000)
+--
+>> arch/mips/mm/tlb-r4k.c:536:20: sparse: sparse: Variable length array is used.
+--
+   net/ethtool/ioctl.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, include/linux/smp.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   net/ethtool/bitset.c: note: in included file (through include/linux/ethtool.h, include/uapi/linux/ethtool_netlink.h, include/linux/ethtool_netlink.h):
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+   net/ethtool/linkmodes.c: note: in included file (through include/linux/bitmap.h, include/linux/ethtool.h, include/uapi/linux/ethtool_netlink.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   net/ethtool/fec.c: note: in included file (through include/linux/bitmap.h, include/linux/ethtool.h, include/uapi/linux/ethtool_netlink.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/clk-multiplier.c:48:16: sparse: sparse: Variable length array is used.
+   drivers/clk/clk-multiplier.c:141:17: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/clk-fractional-divider.c:89:17: sparse: sparse: Variable length array is used.
+   drivers/clk/clk-fractional-divider.c:90:17: sparse: sparse: Variable length array is used.
+   drivers/clk/clk-fractional-divider.c:146:25: sparse: sparse: Variable length array is used.
+   drivers/clk/clk-fractional-divider.c:147:25: sparse: sparse: Variable length array is used.
+   drivers/clk/clk-fractional-divider.c:195:25: sparse: sparse: Variable length array is used.
+   drivers/clk/clk-fractional-divider.c:196:25: sparse: sparse: Variable length array is used.
+   drivers/clk/clk-fractional-divider.c:205:17: sparse: sparse: Variable length array is used.
+   drivers/clk/clk-fractional-divider.c:206:17: sparse: sparse: Variable length array is used.
+--
+>> drivers/clocksource/mmio.c:66:27: sparse: sparse: Variable length array is used.
+--
+>> drivers/clocksource/timer-cadence-ttc.c:364:26: sparse: sparse: Variable length array is used.
+--
+>> drivers/clocksource/ingenic-timer.c:298:34: sparse: sparse: Variable length array is used.
+   drivers/clocksource/ingenic-timer.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
+--
+>> drivers/base/regmap/regmap.c:1221:26: sparse: sparse: Variable length array is used.
+--
+   drivers/base/regmap/regcache-rbtree.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, arch/mips/include/asm/cpu-type.h, ...):
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+   drivers/base/regmap/regcache-flat.c: note: in included file:
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+   drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+   drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+   drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/actions/owl-mux.c:42:17: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/actions/owl-divider.c:76:17: sparse: sparse: Variable length array is used.
+--
+   drivers/gpio/gpiolib.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+   drivers/gpio/gpiolib.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   include/linux/find.h:388:46: sparse: sparse: Variable length array is used.
+   include/linux/find.h:188:32: sparse: sparse: Variable length array is used.
+   drivers/gpio/gpiolib.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+--
+>> drivers/gpio/gpio-nomadik.c:285:30: sparse: sparse: Variable length array is used.
+   drivers/gpio/gpio-nomadik.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+--
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/debug.c:624:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/debug.c:624:17: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/debug.c:624:17: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/debug.c:952:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/debug.c:952:9: sparse:     expected struct task_struct *tsk
+   kernel/sched/debug.c:952:9: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/debug.c:952:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/debug.c:952:9: sparse:     expected struct task_struct *tsk
+   kernel/sched/debug.c:952:9: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/topology.c:115:56: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:115:56: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:115:56: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:134:60: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:134:60: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:134:60: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:157:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:157:20: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:157:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:468:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct perf_domain *pd @@     got struct perf_domain [noderef] __rcu *pd @@
+   kernel/sched/topology.c:468:19: sparse:     expected struct perf_domain *pd
+   kernel/sched/topology.c:468:19: sparse:     got struct perf_domain [noderef] __rcu *pd
+   kernel/sched/topology.c:638:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:638:49: sparse:     expected struct sched_domain *parent
+   kernel/sched/topology.c:638:49: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:723:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:723:50: sparse:     expected struct sched_domain *parent
+   kernel/sched/topology.c:723:50: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:731:55: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child @@     got struct sched_domain *[assigned] tmp @@
+   kernel/sched/topology.c:731:55: sparse:     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child
+   kernel/sched/topology.c:731:55: sparse:     got struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:744:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:744:29: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:744:29: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:749:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:749:20: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:749:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:770:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *sd @@
+   kernel/sched/topology.c:770:13: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:770:13: sparse:     got struct sched_domain [noderef] __rcu *sd
+   kernel/sched/topology.c:932:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:932:70: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:932:70: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:961:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:961:59: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:961:59: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1007:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1007:57: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1007:57: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1009:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1009:25: sparse:     expected struct sched_domain *sibling
+   kernel/sched/topology.c:1009:25: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1017:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1017:55: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1017:55: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1019:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1019:25: sparse:     expected struct sched_domain *sibling
+   kernel/sched/topology.c:1019:25: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1089:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1089:62: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1089:62: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1193:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1193:40: sparse:     expected struct sched_domain *child
+   kernel/sched/topology.c:1193:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1331:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:1331:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:1331:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:1680:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain [noderef] __rcu *child @@     got struct sched_domain *child @@
+   kernel/sched/topology.c:1680:43: sparse:     expected struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1680:43: sparse:     got struct sched_domain *child
+   kernel/sched/topology.c:2470:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *parent @@     got struct sched_domain *sd @@
+   kernel/sched/topology.c:2470:31: sparse:     expected struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2470:31: sparse:     got struct sched_domain *sd
+   kernel/sched/topology.c:2591:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2591:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2591:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2612:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:2612:56: sparse:     expected struct sched_domain *child
+   kernel/sched/topology.c:2612:56: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:2611:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2611:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2611:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2666:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2666:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2666:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/build_utility.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, include/linux/smp.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/sched.h:2360:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2360:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2360:25: sparse:    struct task_struct *
+--
+>> drivers/clk/ingenic/cgu.c:95:42: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:97:42: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:102:27: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:224:18: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:227:18: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:231:26: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:345:26: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:389:24: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:423:31: sparse: sparse: Variable length array is used.
+   drivers/clk/ingenic/cgu.c:553:24: sparse: sparse: Variable length array is used.
+--
+   kernel/irq/chip.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+   kernel/irq/irq_sim.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+--
+   drivers/input/rmi4/rmi_driver.c: note: in included file (through include/linux/bitmap.h):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+   drivers/input/rmi4/rmi_driver.c: note: in included file:
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+   drivers/input/rmi4/rmi_driver.c: note: in included file (through include/linux/bitmap.h):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+--
+>> drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:338:31: sparse: sparse: Variable length array is used.
+--
+>> drivers/mfd/atmel-smc.c:56:32: sparse: sparse: Variable length array is used.
+   drivers/mfd/atmel-smc.c:57:32: sparse: sparse: Variable length array is used.
+   drivers/mfd/atmel-smc.c:120:27: sparse: sparse: Variable length array is used.
+   drivers/mfd/atmel-smc.c:159:25: sparse: sparse: Variable length array is used.
+   drivers/mfd/atmel-smc.c:198:25: sparse: sparse: Variable length array is used.
+   drivers/mfd/atmel-smc.c:236:25: sparse: sparse: Variable length array is used.
+--
+>> kernel/time/sched_clock.c:194:20: sparse: sparse: Variable length array is used.
+--
+>> drivers/mtd/nand/bbt.c:87:25: sparse: sparse: Variable length array is used.
+   drivers/mtd/nand/bbt.c:111:38: sparse: sparse: Variable length array is used.
+   drivers/mtd/nand/bbt.c:116:20: sparse: sparse: Variable length array is used.
+   drivers/mtd/nand/bbt.c:122:28: sparse: sparse: Variable length array is used.
+--
+   drivers/opp/cpu.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+--
+   drivers/pci/pci.c:1157:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
+   drivers/pci/pci.c:1157:36: sparse:     expected restricted pci_power_t [usertype] current_state
+   drivers/pci/pci.c:1157:36: sparse:     got int
+   drivers/pci/pci.c:1336:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [assigned] [usertype] state @@     got int @@
+   drivers/pci/pci.c:1336:15: sparse:     expected restricted pci_power_t [assigned] [usertype] state
+   drivers/pci/pci.c:1336:15: sparse:     got int
+   drivers/pci/pci.c:1338:50: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1338:69: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1391:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
+   drivers/pci/pci.c:1391:28: sparse:     expected restricted pci_power_t [usertype] current_state
+   drivers/pci/pci.c:1391:28: sparse:     got int
+   drivers/pci/pci.c:1481:16: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1481:35: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1481:52: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1481:70: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1506:15: sparse: sparse: invalid assignment: |=
+   drivers/pci/pci.c:1506:15: sparse:    left side has type unsigned short
+   drivers/pci/pci.c:1506:15: sparse:    right side has type restricted pci_power_t
+   drivers/pci/pci.c:1518:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
+   drivers/pci/pci.c:1518:28: sparse:     expected restricted pci_power_t [usertype] current_state
+   drivers/pci/pci.c:1518:28: sparse:     got int
+   drivers/pci/pci.c:1535:13: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1535:21: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1537:18: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1537:26: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1560:13: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1560:22: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:1865:38: sparse: sparse: array of flexible structures
+   drivers/pci/pci.c:2343:44: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:2662:60: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:2663:30: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:2834:20: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:2834:38: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:2857:49: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:2857:67: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci.c:4486:13: sparse: sparse: invalid assignment: |=
+   drivers/pci/pci.c:4486:13: sparse:    left side has type unsigned short
+   drivers/pci/pci.c:4486:13: sparse:    right side has type restricted pci_power_t
+   drivers/pci/pci.c:4491:13: sparse: sparse: invalid assignment: |=
+   drivers/pci/pci.c:4491:13: sparse:    left side has type unsigned short
+   drivers/pci/pci.c:4491:13: sparse:    right side has type restricted pci_power_t
+>> drivers/pci/pci.c:5983:19: sparse: sparse: Variable length array is used.
+   drivers/pci/pci.c:1112:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted pci_power_t [usertype] @@
+   drivers/pci/pci.c:1112:24: sparse:     expected int
+   drivers/pci/pci.c:1112:24: sparse:     got restricted pci_power_t [usertype]
+   drivers/pci/pci.c:1112:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted pci_power_t [usertype] @@
+   drivers/pci/pci.c:1112:24: sparse:     expected int
+   drivers/pci/pci.c:1112:24: sparse:     got restricted pci_power_t [usertype]
+   drivers/pci/pci.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+--
+   drivers/perf/xgene_pmu.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+   include/linux/find.h:388:46: sparse: sparse: Variable length array is used.
+>> include/linux/find.h:209:45: sparse: sparse: Variable length array is used.
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/renesas/rcar-gen3-cpg.c:287:22: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/renesas/rcar-gen4-cpg.c:400:22: sparse: sparse: Variable length array is used.
+--
+   drivers/mtd/nand/raw/nand_macronix.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/spacemit/ccu_mix.c:168:16: sparse: sparse: Variable length array is used.
+   drivers/clk/spacemit/ccu_mix.c:193:16: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/sprd/mux.c:56:17: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/sprd/div.c:60:17: sparse: sparse: Variable length array is used.
+--
+>> drivers/clk/sprd/pll.c:77:24: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:116:13: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:120:34: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:121:31: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:124:14: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:125:32: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:127:24: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:128:21: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:129:32: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:131:24: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:164:16: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:170:16: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:181:16: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:186:16: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:192:16: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:198:16: sparse: sparse: Variable length array is used.
+   drivers/clk/sprd/pll.c:210:16: sparse: sparse: Variable length array is used.
+--
+>> drivers/pci/pcie/bwctrl.c:94:26: sparse: sparse: Variable length array is used.
+--
+>> drivers/pinctrl/renesas/core.c:884:26: sparse: sparse: Variable length array is used.
+   drivers/pinctrl/renesas/core.c:942:34: sparse: sparse: Variable length array is used.
+   drivers/pinctrl/renesas/core.c:1241:34: sparse: sparse: Variable length array is used.
+--
+>> drivers/pinctrl/renesas/pinctrl.c:492:51: sparse: sparse: Variable length array is used.
+   drivers/pinctrl/renesas/pinctrl.c:527:17: sparse: sparse: Variable length array is used.
+--
+   drivers/pci/controller/pcie-xilinx-dma-pl.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, arch/mips/include/asm/processor.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+   drivers/pci/controller/pcie-xilinx-dma-pl.c: note: in included file (through include/linux/cpumask.h, arch/mips/include/asm/processor.h, arch/mips/include/asm/thread_info.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
+--
+   drivers/pci/controller/dwc/pcie-designware-host.c: note: in included file (through include/linux/bitmap.h, include/linux/cpumask.h, include/linux/smp.h, ...):
+   include/linux/find.h:69:31: sparse: sparse: Variable length array is used.
+   drivers/pci/controller/dwc/pcie-designware-host.c: note: in included file (through include/linux/cpumask.h, include/linux/smp.h, arch/mips/include/asm/cpu-type.h, ...):
+   include/linux/bitmap.h:488:25: sparse: sparse: Variable length array is used.
+>> include/linux/bitmap.h:504:26: sparse: sparse: Variable length array is used.
 
->> net/tls/tls_device.c:1249:4: warning: 'volatile' qualifier on function type 'typeof (*sk->sk_validate_xmit_skb)' (aka 'struct sk_buff *(struct sock *, struct net_device *, struct sk_buff *)') has no effect and is a Clang extension [-Wignored-qualifiers]
-    1249 |                         smp_store_release(sk->sk_validate_xmit_skb,
-         |                         ^
-   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^
-   arch/x86/include/asm/barrier.h:63:2: note: expanded from macro '__smp_store_release'
-      63 |         WRITE_ONCE(*p, v);                                              \
-         |         ^
-   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |         ^
-   include/asm-generic/rwonce.h:55:4: note: expanded from macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |           ^
-   net/tls/tls_device.c:1249:4: error: non-object type 'typeof (*sk->sk_validate_xmit_skb)' (aka 'struct sk_buff *(struct sock *, struct net_device *, struct sk_buff *)') is not assignable
-    1249 |                         smp_store_release(sk->sk_validate_xmit_skb,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1250 |                                    tls_validate_xmit_skb_sw);
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:63:2: note: expanded from macro '__smp_store_release'
-      63 |         WRITE_ONCE(*p, v);                                              \
-         |         ^~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   1 warning and 1 error generated.
+vim +209 include/linux/find.h
 
-
-vim +1249 net/tls/tls_device.c
-
-  1086	
-  1087	int tls_set_device_offload(struct sock *sk,
-  1088				   struct tls_crypto_info *new_crypto_info)
-  1089	{
-  1090		struct tls_crypto_info *crypto_info, *src_crypto_info;
-  1091		struct tls_record_info *start_marker_record;
-  1092		struct tls_offload_context_tx *offload_ctx;
-  1093		const struct tls_cipher_desc *cipher_desc;
-  1094		struct tls_prot_info *prot;
-  1095		struct net_device *netdev;
-  1096		struct tls_context *ctx;
-  1097		char *iv, *rec_seq;
-  1098		int rc;
-  1099	
-  1100		ctx = tls_get_ctx(sk);
-  1101		prot = &ctx->prot_info;
-  1102	
-  1103		/* Rekey is only supported for connections that are already
-  1104		 * using HW offload. For SW offload connections, the caller
-  1105		 * should fall back to tls_set_sw_offload() for rekey.
-  1106		 */
-  1107		if (new_crypto_info && ctx->tx_conf != TLS_HW)
-  1108			return -EINVAL;
-  1109	
-  1110		netdev = get_netdev_for_sock(sk);
-  1111		if (!netdev) {
-  1112			pr_err_ratelimited("%s: netdev not found\n", __func__);
-  1113			return -EINVAL;
-  1114		}
-  1115	
-  1116		if (!(netdev->features & NETIF_F_HW_TLS_TX)) {
-  1117			rc = -EOPNOTSUPP;
-  1118			goto release_netdev;
-  1119		}
-  1120	
-  1121		crypto_info = &ctx->crypto_send.info;
-  1122		src_crypto_info = new_crypto_info ?: crypto_info;
-  1123		if (src_crypto_info->version != TLS_1_2_VERSION &&
-  1124		    src_crypto_info->version != TLS_1_3_VERSION) {
-  1125			rc = -EOPNOTSUPP;
-  1126			goto release_netdev;
-  1127		}
-  1128	
-  1129		cipher_desc = get_cipher_desc(src_crypto_info->cipher_type);
-  1130		if (!cipher_desc || !cipher_desc->offloadable) {
-  1131			rc = -EINVAL;
-  1132			goto release_netdev;
-  1133		}
-  1134	
-  1135		iv = crypto_info_iv(src_crypto_info, cipher_desc);
-  1136		rec_seq = crypto_info_rec_seq(src_crypto_info, cipher_desc);
-  1137	
-  1138		if (!new_crypto_info) {
-  1139			rc = init_prot_info(prot, src_crypto_info, cipher_desc);
-  1140			if (rc)
-  1141				goto release_netdev;
-  1142	
-  1143			memcpy(ctx->tx.iv + cipher_desc->salt, iv, cipher_desc->iv);
-  1144			memcpy(ctx->tx.rec_seq, rec_seq, cipher_desc->rec_seq);
-  1145	
-  1146			start_marker_record = kmalloc(sizeof(*start_marker_record),
-  1147						      GFP_KERNEL);
-  1148			if (!start_marker_record) {
-  1149				rc = -ENOMEM;
-  1150				goto release_netdev;
-  1151			}
-  1152	
-  1153			offload_ctx = alloc_offload_ctx_tx(ctx);
-  1154			if (!offload_ctx) {
-  1155				rc = -ENOMEM;
-  1156				goto free_marker_record;
-  1157			}
-  1158	
-  1159			rc = tls_sw_fallback_init(sk, offload_ctx, src_crypto_info);
-  1160			if (rc)
-  1161				goto free_offload_ctx;
-  1162	
-  1163			start_marker_record->end_seq = tcp_sk(sk)->write_seq;
-  1164			start_marker_record->len = 0;
-  1165			start_marker_record->num_frags = 0;
-  1166			list_add_tail(&start_marker_record->list,
-  1167				      &offload_ctx->records_list);
-  1168	
-  1169			clean_acked_data_enable(tcp_sk(sk), &tls_tcp_clean_acked);
-  1170			ctx->push_pending_record = tls_device_push_pending_record;
-  1171	
-  1172			/* TLS offload is greatly simplified if we don't send
-  1173			 * SKBs where only part of the payload needs to be encrypted.
-  1174			 * So mark the last skb in the write queue as end of record.
-  1175			 */
-  1176			tcp_write_collapse_fence(sk);
-  1177		}
-  1178	
-  1179		/* Avoid offloading if the device is down
-  1180		 * We don't want to offload new flows after
-  1181		 * the NETDEV_DOWN event
-  1182		 *
-  1183		 * device_offload_lock is taken in tls_devices's NETDEV_DOWN
-  1184		 * handler thus protecting from the device going down before
-  1185		 * ctx was added to tls_device_list.
-  1186		 */
-  1187		down_read(&device_offload_lock);
-  1188		if (!(netdev->flags & IFF_UP)) {
-  1189			rc = -EINVAL;
-  1190			goto release_lock;
-  1191		}
-  1192	
-  1193		if (!new_crypto_info) {
-  1194			ctx->priv_ctx_tx = offload_ctx;
-  1195		} else {
-  1196			char *key = crypto_info_key(src_crypto_info, cipher_desc);
-  1197	
-  1198			offload_ctx = tls_offload_ctx_tx(ctx);
-  1199	
-  1200			rc = crypto_aead_setkey(offload_ctx->aead_send, key,
-  1201						cipher_desc->key);
-  1202			if (rc)
-  1203				goto release_lock;
-  1204	
-  1205			/* For rekey, delete old HW context before adding new one. */
-  1206			if (!test_bit(TLS_TX_DEV_CLOSED, &ctx->flags))
-  1207				netdev->tlsdev_ops->tls_dev_del(netdev, ctx,
-  1208								TLS_OFFLOAD_CTX_DIR_TX);
-  1209		}
-  1210	
-  1211		rc = netdev->tlsdev_ops->tls_dev_add(netdev, sk, TLS_OFFLOAD_CTX_DIR_TX,
-  1212						     src_crypto_info,
-  1213						     tcp_sk(sk)->write_seq);
-  1214		trace_tls_device_offload_set(sk, TLS_OFFLOAD_CTX_DIR_TX,
-  1215					     tcp_sk(sk)->write_seq, rec_seq, rc);
-  1216	
-  1217		if (new_crypto_info) {
-  1218			unsigned long flags;
-  1219			__be64 rcd_sn;
-  1220	
-  1221			memcpy(ctx->tx.iv + cipher_desc->salt, iv, cipher_desc->iv);
-  1222			memcpy(ctx->tx.rec_seq, rec_seq, cipher_desc->rec_seq);
-  1223	
-  1224			spin_lock_irqsave(&offload_ctx->lock, flags);
-  1225			/* Delete old records, can't be retransmitted with new key */
-  1226			delete_all_records(offload_ctx);
-  1227	
-  1228			/* Update unacked_record_sn for the new key's rec_seq.
-  1229			 * This is critical for SW fallback encryption to use
-  1230			 * the correct record sequence number after rekey.
-  1231			 */
-  1232			memcpy(&rcd_sn, rec_seq, sizeof(rcd_sn));
-  1233			offload_ctx->unacked_record_sn = be64_to_cpu(rcd_sn);
-  1234			spin_unlock_irqrestore(&offload_ctx->lock, flags);
-  1235	
-  1236			unsafe_memcpy(crypto_info, new_crypto_info,
-  1237				      cipher_desc->crypto_info,
-  1238				      /* size was checked in do_tls_setsockopt_conf */);
-  1239			memzero_explicit(new_crypto_info, cipher_desc->crypto_info);
-  1240		}
-  1241	
-  1242		if (rc) {
-  1243			if (new_crypto_info) {
-  1244				/* HW rekey failed, gracefully degrade to SW encryption.
-  1245				 * SW fallback already has new key, IV, and rec_seq.
-  1246				 * Old HW ctx was deleted, continue with SW encryption.
-  1247				 */
-  1248				set_bit(TLS_TX_DEV_CLOSED, &ctx->flags);
-> 1249				smp_store_release(sk->sk_validate_xmit_skb,
-  1250					   tls_validate_xmit_skb_sw);
-  1251			} else {
-  1252				goto release_lock;
-  1253			}
-  1254		} else {
-  1255			if (new_crypto_info)
-  1256				clear_bit(TLS_TX_DEV_CLOSED, &ctx->flags);
-  1257	
-  1258			tls_device_attach(ctx, sk, netdev);
-  1259	
-  1260			/* following this assignment tls_is_skb_tx_device_offloaded
-  1261			 * will return true and the context might be accessed
-  1262			 * by the netdev's xmit function.
-  1263			*/
-  1264			smp_store_release(&sk->sk_validate_xmit_skb,
-  1265					  tls_validate_xmit_skb);
-  1266		}
-  1267	
-  1268		up_read(&device_offload_lock);
-  1269	
-  1270		dev_put(netdev);
-  1271	
-  1272		return 0;
-  1273	
-  1274	release_lock:
-  1275		up_read(&device_offload_lock);
-  1276		if (new_crypto_info)
-  1277			goto release_netdev;
-  1278		clean_acked_data_disable(tcp_sk(sk));
-  1279		crypto_free_aead(offload_ctx->aead_send);
-  1280	free_offload_ctx:
-  1281		kfree(offload_ctx);
-  1282		ctx->priv_ctx_tx = NULL;
-  1283	free_marker_record:
-  1284		kfree(start_marker_record);
-  1285	release_netdev:
-  1286		dev_put(netdev);
-  1287		return rc;
-  1288	}
-  1289	
+c56f97c5c71f17 include/linux/find.h              Yury Norov [NVIDIA] 2025-06-19   48  
+19de85ef574c3a include/asm-generic/bitops/find.h Akinobu Mita        2011-05-26   49  #ifndef find_next_bit
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   50  /**
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   51   * find_next_bit - find the next set bit in a memory region
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   52   * @addr: The address to base the search on
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   53   * @size: The bitmap size in bits
+6d7131bd52b3e0 include/linux/find.h              Anna-Maria Behnsen  2022-04-11   54   * @offset: The bitnumber to start searching at
+ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12   55   *
+ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12   56   * Returns the bit number for the next set bit
+ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12   57   * If no bits are set, returns @size.
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29   58   */
+fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18   59  static __always_inline
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   60  unsigned long find_next_bit(const unsigned long *addr, unsigned long size,
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   61  			    unsigned long offset)
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   62  {
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   63  	if (small_const_nbits(size)) {
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   64  		unsigned long val;
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   65  
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   66  		if (unlikely(offset >= size))
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   67  			return size;
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   68  
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  @69  		val = *addr & GENMASK(size - 1, offset);
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   70  		return val ? __ffs(val) : size;
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   71  	}
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   72  
+e79864f3164c57 include/linux/find.h              Yury Norov          2022-09-14   73  	return _find_next_bit(addr, size, offset);
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   74  }
+19de85ef574c3a include/asm-generic/bitops/find.h Akinobu Mita        2011-05-26   75  #endif
+c7f612cdf091de include/asm-generic/bitops/find.h Akinobu Mita        2006-03-26   76  
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   77  #ifndef find_next_and_bit
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   78  /**
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   79   * find_next_and_bit - find the next set bit in both memory regions
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   80   * @addr1: The first address to base the search on
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   81   * @addr2: The second address to base the search on
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   82   * @size: The bitmap size in bits
+6d7131bd52b3e0 include/linux/find.h              Anna-Maria Behnsen  2022-04-11   83   * @offset: The bitnumber to start searching at
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   84   *
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   85   * Returns the bit number for the next set bit
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   86   * If no bits are set, returns @size.
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   87   */
+fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18   88  static __always_inline
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   89  unsigned long find_next_and_bit(const unsigned long *addr1,
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06   90  		const unsigned long *addr2, unsigned long size,
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   91  		unsigned long offset)
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   92  {
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   93  	if (small_const_nbits(size)) {
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   94  		unsigned long val;
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   95  
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   96  		if (unlikely(offset >= size))
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   97  			return size;
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   98  
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06   99  		val = *addr1 & *addr2 & GENMASK(size - 1, offset);
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  100  		return val ? __ffs(val) : size;
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  101  	}
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  102  
+e79864f3164c57 include/linux/find.h              Yury Norov          2022-09-14  103  	return _find_next_and_bit(addr1, addr2, size, offset);
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  104  }
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06  105  #endif
+0ade34c37012ea include/asm-generic/bitops/find.h Clement Courbet     2018-02-06  106  
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  107  #ifndef find_next_andnot_bit
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  108  /**
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  109   * find_next_andnot_bit - find the next set bit in *addr1 excluding all the bits
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  110   *                        in *addr2
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  111   * @addr1: The first address to base the search on
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  112   * @addr2: The second address to base the search on
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  113   * @size: The bitmap size in bits
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  114   * @offset: The bitnumber to start searching at
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  115   *
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  116   * Returns the bit number for the next set bit
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  117   * If no bits are set, returns @size.
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  118   */
+fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18  119  static __always_inline
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  120  unsigned long find_next_andnot_bit(const unsigned long *addr1,
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  121  		const unsigned long *addr2, unsigned long size,
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  122  		unsigned long offset)
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  123  {
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  124  	if (small_const_nbits(size)) {
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  125  		unsigned long val;
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  126  
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  127  		if (unlikely(offset >= size))
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  128  			return size;
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  129  
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  130  		val = *addr1 & ~*addr2 & GENMASK(size - 1, offset);
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  131  		return val ? __ffs(val) : size;
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  132  	}
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  133  
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  134  	return _find_next_andnot_bit(addr1, addr2, size, offset);
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  135  }
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  136  #endif
+90d482908eedd5 include/linux/find.h              Valentin Schneider  2022-10-03  137  
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  138  #ifndef find_next_or_bit
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  139  /**
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  140   * find_next_or_bit - find the next set bit in either memory regions
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  141   * @addr1: The first address to base the search on
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  142   * @addr2: The second address to base the search on
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  143   * @size: The bitmap size in bits
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  144   * @offset: The bitnumber to start searching at
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  145   *
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  146   * Returns the bit number for the next set bit
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  147   * If no bits are set, returns @size.
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  148   */
+fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18  149  static __always_inline
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  150  unsigned long find_next_or_bit(const unsigned long *addr1,
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  151  		const unsigned long *addr2, unsigned long size,
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  152  		unsigned long offset)
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  153  {
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  154  	if (small_const_nbits(size)) {
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  155  		unsigned long val;
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  156  
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  157  		if (unlikely(offset >= size))
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  158  			return size;
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  159  
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  160  		val = (*addr1 | *addr2) & GENMASK(size - 1, offset);
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  161  		return val ? __ffs(val) : size;
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  162  	}
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  163  
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  164  	return _find_next_or_bit(addr1, addr2, size, offset);
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  165  }
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  166  #endif
+1470afefc3c42d include/linux/find.h              Dave Chinner        2023-03-15  167  
+19de85ef574c3a include/asm-generic/bitops/find.h Akinobu Mita        2011-05-26  168  #ifndef find_next_zero_bit
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  169  /**
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  170   * find_next_zero_bit - find the next cleared bit in a memory region
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  171   * @addr: The address to base the search on
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  172   * @size: The bitmap size in bits
+6d7131bd52b3e0 include/linux/find.h              Anna-Maria Behnsen  2022-04-11  173   * @offset: The bitnumber to start searching at
+ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  174   *
+ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  175   * Returns the bit number of the next zero bit
+ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  176   * If no bits are zero, returns @size.
+d852a6afd91fc9 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  177   */
+fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18  178  static __always_inline
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  179  unsigned long find_next_zero_bit(const unsigned long *addr, unsigned long size,
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  180  				 unsigned long offset)
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  181  {
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  182  	if (small_const_nbits(size)) {
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  183  		unsigned long val;
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  184  
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  185  		if (unlikely(offset >= size))
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  186  			return size;
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  187  
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  188  		val = *addr | ~GENMASK(size - 1, offset);
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  189  		return val == ~0UL ? size : ffz(val);
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  190  	}
+277a20a498d307 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  191  
+e79864f3164c57 include/linux/find.h              Yury Norov          2022-09-14  192  	return _find_next_zero_bit(addr, size, offset);
+5c88af59f9abc2 include/asm-generic/bitops/find.h Yury Norov          2021-05-06  193  }
+19de85ef574c3a include/asm-generic/bitops/find.h Akinobu Mita        2011-05-26  194  #endif
+c7f612cdf091de include/asm-generic/bitops/find.h Akinobu Mita        2006-03-26  195  
+b7ec62d7ee0f0b include/asm-generic/bitops/find.h Yury Norov          2021-08-14  196  #ifndef find_first_bit
+708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  197  /**
+708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  198   * find_first_bit - find the first set bit in a memory region
+708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  199   * @addr: The address to start the search at
+ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  200   * @size: The maximum number of bits to search
+708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  201   *
+708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  202   * Returns the bit number of the first set bit.
+ec778edf97dcaa include/asm-generic/bitops/find.h Cody P Schafer      2013-11-12  203   * If no bits are set, returns @size.
+708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  204   */
+fda1dd3c54ef3c include/linux/find.h              Yury Norov          2024-07-18  205  static __always_inline
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  206  unsigned long find_first_bit(const unsigned long *addr, unsigned long size)
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  207  {
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  208  	if (small_const_nbits(size)) {
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06 @209  		unsigned long val = *addr & GENMASK(size - 1, 0);
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  210  
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  211  		return val ? __ffs(val) : size;
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  212  	}
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  213  
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  214  	return _find_first_bit(addr, size);
+2cc7b6a44ac21d include/asm-generic/bitops/find.h Yury Norov          2021-05-06  215  }
+b7ec62d7ee0f0b include/asm-generic/bitops/find.h Yury Norov          2021-08-14  216  #endif
+708ff2a0097b02 include/asm-generic/bitops/find.h Akinobu Mita        2010-09-29  217  
 
 -- 
 0-DAY CI Kernel Test Service
