@@ -1,64 +1,64 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB9D366DA5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 12:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE162EFD9C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 12:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769084554; cv=none; b=YVgnkmGC25F9uCfhFWNGV+kN8LW732qiJgWWKuQ8t+N7ApQNS/sEjvmlSqKVK+rr7hWTGbSYmugnbft9YgXitLuup0Stso4rP/6AsXjX9nzBf97FepYaXiT4LnrycLkn70vi/vUyx59RNAmFuFIk7yA0NyHljL5C5DnuCnPIWHk=
+	t=1769084969; cv=none; b=GvlDRhp8VeOw/Dj1KoI2ekpwvOnHMLZ50dr7uSfYvvVzraQHs3nmEyh5ZyufjGV69HH83/YggOjA56rWTUfXeJakKdqiKkfxOfqsr4l27DzJOWs78lV6t9WKJqfPvGx73+Ktaj0Rro0MfnpysEuSA61BnoKvcoUwCB9UD5r5yBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769084554; c=relaxed/simple;
-	bh=Luz8B2TwJRarH7eRwBAhfKkOBXwfgblGcy0Dgye670E=;
+	s=arc-20240116; t=1769084969; c=relaxed/simple;
+	bh=7hrihdavUKSRBk1sLsO+Hg6KhwRPOnr3OMEgf2c2K3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FmfiqYNkwbKGTg2P+gaFhHnuTvRT+B503NTR9f+eUpKjwNAXVftBEqMRjlqfBu3s/pXx2mmrDXni29MXmq4I3q2RjvKWZV2Zk04+qWAXA1tFopGsJhXLUsXwjnRTKTorCPCFYN6Cr6CfIvoT4bm01O4jZgwsVovrCNKb7iGpHuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cVkgHtdz; arc=none smtp.client-ip=209.85.208.43
+	 MIME-Version:Content-Type; b=dzgCmWT+qTjI1q6oqMz7KjyNxqDm7jw+pC0l3CN5dFGwBJIJXdSCzfCBfcS/CC0bMKkd0uohnO8Z26zduumLx+WnKXdalxAXeWYMt+JLV7KQR4Y0+GUxscwAKeDRY87fTd7EQWCbd2dH6nLMX7CA37ykMhu+4K4RSaKFsT0Q7Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IG66Nq7Z; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cVkgHtdz"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6582e8831aeso1457168a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 04:22:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IG66Nq7Z"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8838339fc6so124419966b.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 04:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769084551; x=1769689351; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769084966; x=1769689766; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=30EptBzNKREQjciAE94dkKi4CBlW2pcTBovWP9se6eo=;
-        b=cVkgHtdzoy7Jz6Fq/xGUTEOKvLjJxqi6htzsJuaYVPkUwDm+xfsdyDtMUlATXYrHiB
-         WY2+vge6cg6KOrqY+spBR+Owmrh5JBp9jLuL8wOYwQKurBCIZKmxbwlsFn1ssgJF9CU6
-         YUle45Ija6nfiIhnNag4dieJXpjiw3p41d1bFI35xCz/DRXZPGNYIlZkuQYjZjTe8IFg
-         ftI/ORjDid4cTrzGp4bjKB9dj0fNMSfft1m73xk0mOYYeel/5h6nzjwiGulBEEMmL0Nq
-         nHjIK43Fn/qwcxcjBLPkk5WMR5BLLYty2CUciEELD9C1oFYxygWPKbdKvQXR+Yc2aHed
-         t9jA==
+        bh=0WniyRiiurCuuasCidSwYbmBfTajQvRsR2qN3REFSig=;
+        b=IG66Nq7Zn9FTRqinW6BJpn3p7IDm5yZXGnLJv7aUAI4wGW9ic0QXX3kUhbRvlksxK9
+         wSOEXyx1aBU1cCZO3SQxRVlo8fY3Uy42d/1i4jRv2nt59Ns2q3mZJAb2OQC6Px74MvuA
+         6inw8NzgSBcZ5Y6XuTdEMhtVupkDSuLDDr+Gydukt5L+l6NThedlvDmIdsn11vXVH/6e
+         S4800/tUGjFaEf2SaCC+mFtqxjuvhNuDylOiVFfonrlNeMx6RUW4HidHkw/HVjBbF4jH
+         izRC7Y1yps6ixOsoQSxV7n7F3XY3s9an8AmGxI8ZQu/Z7IIiIoe01PiMQMLf1pesI7r0
+         5lwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769084551; x=1769689351;
+        d=1e100.net; s=20230601; t=1769084966; x=1769689766;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=30EptBzNKREQjciAE94dkKi4CBlW2pcTBovWP9se6eo=;
-        b=ikpeze7u//VM12cD/H6+HY+K4apyLI1G3KXHgvIFd1SXqWFycj4xtxKxRk7nswYikr
-         BBd54BZiVJgQ2lCo1nsugI0iCvoWPY8RvUGJcYz+VsmwSb//dLYQ+Ew7VDxIavrLt7P6
-         UMMDdq4epBB0qnuGvUVI5QteXgwxz+9pcEELXAFGogB0fC7886wZFnS4pCrgkz5tZsY7
-         RgCs3qNhJRTllZiseL3B1MqxrQV3WB/DQ77/WbNvnYKC+EfFFGmcuaplYenUW6TG9/cQ
-         /CXqpguIBaC0ANeSJ4JoAvNuUkWnFI6ETM5qbqSx8Uhz3CYgpDnyxhE2tTKZamao56mF
-         4oKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUUeubLy1LIQHIiBrQBZrxcLYoD07UMe+ytUuFxYRtB3uECqqCNam4spwpo3hYFQS2olvk/+CizJveasFXb@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw7ZR2WE+uardt5FlFID2tORMt/LSG46hEzR4D3SrcqMCYhHRGy
-	tbGKsVQ4JafxBHKbMUIlUNpJiz0xtQmFiNpePPwCAE+OIpFdGlCci54kriq0gw==
-X-Gm-Gg: AZuq6aKqxyEO6lxVVzs9KLyJEy40yNjH/nZ4eTQqHuD0PIbcFON7Ublc60Udd6TC8sq
-	nh/73d4X+C2C2dS68GYTDENBU4JEmfipBeBTf0kleCZi7s+GQcSZwbvq0JsNzxkPeWAULmpjmO7
-	R2xNpFbD9u+/bSLOmkKZGyMCreT3SQuMPsSEfHEcB+i7PyZrA8hJFVNHF7fzQ7XCPACIweCqaDA
-	oVHPLKkH66uD0dfNfql66+EuWqZpojzojVrNs7qRDhshcKJZcRv8TasoW/Zz0+OW0/v5Gx3HmRi
-	+uUmct/ISZQQn8xoo8lalE8tcPdr6O5mEOQc9uqNBkbP/+kBO3zYVHCGsK+EFlHrbQ6l9pm9Oet
-	FLWwwyc8EPzRL4cxKYatCp6XEWAJYHq0kxq0kX6yWLWBtHbtA6n0z65G+rIjr3NuuJXZUAaGzOf
-	E4ZOZN2Mpxdu2AkqYoLYOElFVXhvAEOfWmZMSX69dG2FbNDLJsbd9n
-X-Received: by 2002:a05:600c:5299:b0:477:a9e:859a with SMTP id 5b1f17b1804b1-4803e7e859dmr122557745e9.22.1769077556776;
-        Thu, 22 Jan 2026 02:25:56 -0800 (PST)
+        bh=0WniyRiiurCuuasCidSwYbmBfTajQvRsR2qN3REFSig=;
+        b=Gqq+uT6n0c2U2k+MuyNc8NioRektsMDt0s6cwmodJFCpvsKylDGBumF5T8Kq5eSGU/
+         vbRj2VQogg9JQRfukHT9gRLsym6xogj89MCgyA4yLeyBH8Ma260oRrNx7yC3RIGjXErv
+         xHuqId6VbspumClnQAsj3AwxzqOBIQGGwPUC+VQy5kbT2/jCCXarhpfqjIQW1JLOdBmz
+         QLa1bzGXin2YV6diSy+il6zGcR/+pdICBczT5qZeXoRialIQp5Lc6BfbM3h3s0YXn9Ui
+         jN4Ck367TMJbStnQntvoLHO2qz78oVT3mX7Zu4P0iXwX/mM5cOPwpTljyUqiCF5wDdR2
+         zGBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVGlT3kbl7PcSreiPkd11iwQhTowDiPb9PCT8UFlydHkLItDp8zFDKAEPf22+yhd1MJrBklSbgJTW3a1fW9@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAON07ZUjKrR8VGBc9YSvfg3aRwYXxom3gl0Pv008+GkQAIl2e
+	kKPWTSleZFoCSYbZDRK9kH7P72V8jbmsX4dW9A1dgx07BB3xdUZ+lSKdlhqO6A==
+X-Gm-Gg: AZuq6aIRTIy+iI7AwOCHuzUPalvnGSaqHUY1TmihwZGTk2bs4EgJlUaRxqXNPsUT4Bv
+	LiEN675q5zITwGAa1g6Xq2UGhliC95N0wr7VuxzUAKqWaU3wlPI7rXPX4s0rhdqYXu6k4pQF4Ty
+	oe+uNE0Ye4z3JEAUls0BVQGuOw2VyGji/ql41WUkzdzl9ZyybcbjycZz/DEWLA7VndqRtC7cipY
+	rHG39Hxlg7JSIxwTUeSCvPOQQ/aib6CuA37arA3bxASwqtnhKy7Q2OzPMHmcnbaKHhEUL8cpiLX
+	jf4YOh2ab5tphp8jpasXNMIH81jiG+fJo7NQyuhVFTWhWU9FnUnpKWRAZCpvH8QTPaYSZSnhZ2S
+	duPnM1W3dd46uvyNYEbVfewCd33idzGUjuJqpUWDEGzKMp+hOIl5DzskXUnpSeAjhtJUaOxcfVW
+	75TSV3fssvPUHzpK0qbd6gR5fEyv/932Jo7UggmkvZUqbPT3w89SdNEgOS3HNmz5E=
+X-Received: by 2002:a05:600c:2d92:b0:47d:87ac:73ef with SMTP id 5b1f17b1804b1-480470c7513mr21530765e9.13.1769077831210;
+        Thu, 22 Jan 2026 02:30:31 -0800 (PST)
 Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804706ef6csm51088835e9.15.2026.01.22.02.25.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48048b49880sm44067865e9.11.2026.01.22.02.30.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 02:25:56 -0800 (PST)
-Date: Thu, 22 Jan 2026 10:25:54 +0000
+        Thu, 22 Jan 2026 02:30:30 -0800 (PST)
+Date: Thu, 22 Jan 2026 10:30:29 +0000
 From: David Laight <david.laight.linux@gmail.com>
 To: kernel test robot <lkp@intel.com>
 Cc: Nathan Chancellor <nathan@kernel.org>, Greg Kroah-Hartman
@@ -69,14 +69,15 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Greg Kroah-Hartman
  <yury.norov@gmail.com>, Jani Nikula <jani.nikula@intel.com>, Vincent
  Mailhol <mailhol.vincent@wanadoo.fr>, Andy Shevchenko
  <andriy.shevchenko@linux.intel.com>, Kees Cook <keescook@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>, oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH next 11/14] bit: Strengthen compile-time tests in
- GENMASK() and BIT()
-Message-ID: <20260122102554.1cc7a2a3@pumpkin>
-In-Reply-To: <202601220829.MgTMeqqN-lkp@intel.com>
-References: <20260121145731.3623-12-david.laight.linux@gmail.com>
-	<202601220829.MgTMeqqN-lkp@intel.com>
+ Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: [PATCH next 12/14] bits: move the defitions of BIT() and
+ BIT_ULL() back to linux/bits.h
+Message-ID: <20260122103029.255b3dd3@pumpkin>
+In-Reply-To: <202601220951.7C4YG7hB-lkp@intel.com>
+References: <20260121145731.3623-13-david.laight.linux@gmail.com>
+	<202601220951.7C4YG7hB-lkp@intel.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -87,7 +88,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 22 Jan 2026 09:11:53 +0800
+On Thu, 22 Jan 2026 09:23:16 +0800
 kernel test robot <lkp@intel.com> wrote:
 
 > Hi,
@@ -98,65 +99,35 @@ kernel test robot <lkp@intel.com> wrote:
 > 
 > url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/overflow-Reduce-expansion-of-__type_max/20260122-013456
 > base:   next-20260120
-> patch link:    https://lore.kernel.org/r/20260121145731.3623-12-david.laight.linux%40gmail.com
-> patch subject: [PATCH next 11/14] bit: Strengthen compile-time tests in GENMASK() and BIT()
-> config: s390-randconfig-001-20260122 (https://download.01.org/0day-ci/archive/20260122/202601220829.MgTMeqqN-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220829.MgTMeqqN-lkp@intel.com/reproduce)
+> patch link:    https://lore.kernel.org/r/20260121145731.3623-13-david.laight.linux%40gmail.com
+> patch subject: [PATCH next 12/14] bits: move the defitions of BIT() and BIT_ULL() back to linux/bits.h
+> config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260122/202601220951.7C4YG7hB-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220951.7C4YG7hB-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601220829.MgTMeqqN-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601220951.7C4YG7hB-lkp@intel.com/
 > 
-> All errors (new ones prefixed by >>):
+> All error/warnings (new ones prefixed by >>):
 > 
->    In file included from arch/s390/include/asm/bug.h:60,
->                     from include/linux/bug.h:5,
->                     from include/linux/mmdebug.h:5,
->                     from arch/s390/include/asm/cmpxchg.h:11,
->                     from arch/s390/include/asm/atomic.h:16,
->                     from include/linux/atomic.h:7,
->                     from include/asm-generic/bitops/atomic.h:5,
->                     from arch/s390/include/asm/bitops.h:75,
->                     from include/linux/bitops.h:67,
->                     from include/linux/kernel.h:23,
->                     from net/core/page_pool.c:10:
->    In function 'netmem_clear_pp_magic',
->        inlined from 'page_pool_clear_pp_info' at net/core/page_pool.c:721:2:
-> >> include/linux/bits.h:35:4: error: call to 'GENMASK_INPUT_CHECK_FAIL' declared with attribute error: Invalid bit numbers  
+>    In file included from kernel/bounds.c:14:
+>    In file included from include/linux/log2.h:12:
+>    In file included from include/linux/bitops.h:28:
+>    In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
+>    In file included from arch/arm64/include/asm/barrier.h:14:
+> >> arch/arm64/include/asm/alternative-macros.h:18:20: warning: 'unsigned' is not defined, evaluates to 0 [-Wundef]  
+>       18 | #if ARM64_NCAPS >= ARM64_CB_BIT
 ...
->    include/linux/mm.h:4641:27: note: in expansion of macro 'GENMASK'
->     #define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
+> 
+> 4c0bd995d73ed8 Mark Rutland 2022-09-12  17  
+> 4c0bd995d73ed8 Mark Rutland 2022-09-12 @18  #if ARM64_NCAPS >= ARM64_CB_BIT
+> 4c0bd995d73ed8 Mark Rutland 2022-09-12  19  #error "cpucaps have overflown ARM64_CB_BIT"
+> 4c0bd995d73ed8 Mark Rutland 2022-09-12  20  #endif
+> 7cda23da52ad79 Will Deacon  2020-06-30  21  
 
-This might be a real bug.
-
-The bit of mm.h is:
-
-#define PP_DMA_INDEX_SHIFT (1 + __fls(PP_SIGNATURE - POISON_POINTER_DELTA))
-#if POISON_POINTER_DELTA > 0
-/* PP_SIGNATURE includes POISON_POINTER_DELTA, so limit the size of the DMA
- * index to not overlap with that if set
- */
-#define PP_DMA_INDEX_BITS MIN(32, __ffs(POISON_POINTER_DELTA) - PP_DMA_INDEX_SHIFT)
-#else
-/* Use the lowest bit of PAGE_OFFSET if there's at least 8 bits available; see above */
-#define PP_DMA_INDEX_MIN_OFFSET (1 << (PP_DMA_INDEX_SHIFT + 8))
-#define PP_DMA_INDEX_BITS ((__builtin_constant_p(PAGE_OFFSET) && \
-			    PAGE_OFFSET >= PP_DMA_INDEX_MIN_OFFSET && \
-			    !(PAGE_OFFSET & (PP_DMA_INDEX_MIN_OFFSET - 1))) ? \
-			      MIN(32, __ffs(PAGE_OFFSET) - PP_DMA_INDEX_SHIFT) : 0)
-
-#endif
-
-#define PP_DMA_INDEX_MASK GENMASK(PP_DMA_INDEX_BITS + PP_DMA_INDEX_SHIFT - 1, \
-				  PP_DMA_INDEX_SHIFT)
-
-I've no idea what the values are, but the 'hi' bit number must exceed that
-of 'long'.
-The __ffs() probably stop it being an 'integer constant expression'
-making it just a 'compile time constant' - which I added a test for.
+Unless I change BIT() back I'll change that to a static_assert().
 
 	David
-
 
