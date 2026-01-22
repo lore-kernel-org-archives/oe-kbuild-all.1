@@ -1,133 +1,112 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE162EFD9C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 12:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBB9265629
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 12:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769084969; cv=none; b=GvlDRhp8VeOw/Dj1KoI2ekpwvOnHMLZ50dr7uSfYvvVzraQHs3nmEyh5ZyufjGV69HH83/YggOjA56rWTUfXeJakKdqiKkfxOfqsr4l27DzJOWs78lV6t9WKJqfPvGx73+Ktaj0Rro0MfnpysEuSA61BnoKvcoUwCB9UD5r5yBI=
+	t=1769085081; cv=none; b=HwM4Wf5EmtR99OqeTgeLGh5RNalnJJvNi+NcNM0TdWSlmy3w33fPv+1RJRcDi5LlNMtCEW8kssINZKo8Zju3+8R0zXRRKFw5fqFvP/PLRMFVPzLo6mbDu+FSrhD7sj2l7oynTNzrYrSMgk8T4Vb8A+3ZRHHXZwEp3aaOWVR10A0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769084969; c=relaxed/simple;
-	bh=7hrihdavUKSRBk1sLsO+Hg6KhwRPOnr3OMEgf2c2K3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dzgCmWT+qTjI1q6oqMz7KjyNxqDm7jw+pC0l3CN5dFGwBJIJXdSCzfCBfcS/CC0bMKkd0uohnO8Z26zduumLx+WnKXdalxAXeWYMt+JLV7KQR4Y0+GUxscwAKeDRY87fTd7EQWCbd2dH6nLMX7CA37ykMhu+4K4RSaKFsT0Q7Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IG66Nq7Z; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769085081; c=relaxed/simple;
+	bh=nntplBT+20swkCLKitUr7M5dmp5xeZLydXiNjXxRNHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=SmSkjtthuVZ/O3Q3C1Cc6ELtVYyomjbkveCZJ05eNhu/zFePLSwLQt3o1vJ09damSYQbgQRyC/esI3iZIgjmzmzaGhxu0P2RIJ0YGOwajKy9/FkYXAJOaggwOaWlUgVTyMv44Z/XodudiWNMkivhA7Rg6MxP6uToJ9L8rhi3xBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MgY5b4my; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IG66Nq7Z"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8838339fc6so124419966b.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 04:29:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769084966; x=1769689766; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0WniyRiiurCuuasCidSwYbmBfTajQvRsR2qN3REFSig=;
-        b=IG66Nq7Zn9FTRqinW6BJpn3p7IDm5yZXGnLJv7aUAI4wGW9ic0QXX3kUhbRvlksxK9
-         wSOEXyx1aBU1cCZO3SQxRVlo8fY3Uy42d/1i4jRv2nt59Ns2q3mZJAb2OQC6Px74MvuA
-         6inw8NzgSBcZ5Y6XuTdEMhtVupkDSuLDDr+Gydukt5L+l6NThedlvDmIdsn11vXVH/6e
-         S4800/tUGjFaEf2SaCC+mFtqxjuvhNuDylOiVFfonrlNeMx6RUW4HidHkw/HVjBbF4jH
-         izRC7Y1yps6ixOsoQSxV7n7F3XY3s9an8AmGxI8ZQu/Z7IIiIoe01PiMQMLf1pesI7r0
-         5lwA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MgY5b4my"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769085078;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LFSzJTNlbxqlWkI9uL9dnXcKklos1kYbBGtwLTdTQ1I=;
+	b=MgY5b4myyRW/v52rcew/OcxPRULfgW80meLY0QdYU/x1+u7lHRiYv2CR9VU3TKPX1nTgUZ
+	vy/gC3cAl+t0YmqNWaFxs/FF/xfErrEYZekBcAIN+jesHa1pUtYXkuNDF89twReT/wjUaN
+	Ol6hFH0+awaRkOqKQOARsBkbIPDqZpY=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-606-1E-xitMXNQu3YQlQCg4YDA-1; Thu, 22 Jan 2026 07:31:17 -0500
+X-MC-Unique: 1E-xitMXNQu3YQlQCg4YDA-1
+X-Mimecast-MFC-AGG-ID: 1E-xitMXNQu3YQlQCg4YDA_1769085076
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-89482366332so20702826d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jan 2026 04:31:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769084966; x=1769689766;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
+        d=1e100.net; s=20230601; t=1769085076; x=1769689876;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0WniyRiiurCuuasCidSwYbmBfTajQvRsR2qN3REFSig=;
-        b=Gqq+uT6n0c2U2k+MuyNc8NioRektsMDt0s6cwmodJFCpvsKylDGBumF5T8Kq5eSGU/
-         vbRj2VQogg9JQRfukHT9gRLsym6xogj89MCgyA4yLeyBH8Ma260oRrNx7yC3RIGjXErv
-         xHuqId6VbspumClnQAsj3AwxzqOBIQGGwPUC+VQy5kbT2/jCCXarhpfqjIQW1JLOdBmz
-         QLa1bzGXin2YV6diSy+il6zGcR/+pdICBczT5qZeXoRialIQp5Lc6BfbM3h3s0YXn9Ui
-         jN4Ck367TMJbStnQntvoLHO2qz78oVT3mX7Zu4P0iXwX/mM5cOPwpTljyUqiCF5wDdR2
-         zGBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGlT3kbl7PcSreiPkd11iwQhTowDiPb9PCT8UFlydHkLItDp8zFDKAEPf22+yhd1MJrBklSbgJTW3a1fW9@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAON07ZUjKrR8VGBc9YSvfg3aRwYXxom3gl0Pv008+GkQAIl2e
-	kKPWTSleZFoCSYbZDRK9kH7P72V8jbmsX4dW9A1dgx07BB3xdUZ+lSKdlhqO6A==
-X-Gm-Gg: AZuq6aIRTIy+iI7AwOCHuzUPalvnGSaqHUY1TmihwZGTk2bs4EgJlUaRxqXNPsUT4Bv
-	LiEN675q5zITwGAa1g6Xq2UGhliC95N0wr7VuxzUAKqWaU3wlPI7rXPX4s0rhdqYXu6k4pQF4Ty
-	oe+uNE0Ye4z3JEAUls0BVQGuOw2VyGji/ql41WUkzdzl9ZyybcbjycZz/DEWLA7VndqRtC7cipY
-	rHG39Hxlg7JSIxwTUeSCvPOQQ/aib6CuA37arA3bxASwqtnhKy7Q2OzPMHmcnbaKHhEUL8cpiLX
-	jf4YOh2ab5tphp8jpasXNMIH81jiG+fJo7NQyuhVFTWhWU9FnUnpKWRAZCpvH8QTPaYSZSnhZ2S
-	duPnM1W3dd46uvyNYEbVfewCd33idzGUjuJqpUWDEGzKMp+hOIl5DzskXUnpSeAjhtJUaOxcfVW
-	75TSV3fssvPUHzpK0qbd6gR5fEyv/932Jo7UggmkvZUqbPT3w89SdNEgOS3HNmz5E=
-X-Received: by 2002:a05:600c:2d92:b0:47d:87ac:73ef with SMTP id 5b1f17b1804b1-480470c7513mr21530765e9.13.1769077831210;
-        Thu, 22 Jan 2026 02:30:31 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48048b49880sm44067865e9.11.2026.01.22.02.30.30
+        bh=LFSzJTNlbxqlWkI9uL9dnXcKklos1kYbBGtwLTdTQ1I=;
+        b=ANU8H2BMGN7vq2Kqs/WTxYcmKiodS9BSm7YtFUJq3N2ajMWYaftxRpf4GCEK2H4caM
+         UHHaFkc04nxS08mMRPkyCO9c0N0Awh7KMyXoPRI/TNe0306qwueuxjBoVk7SOdpZbT4F
+         gH99j3XH7pkRAAOm6DXVS4uxjXP3WStU2Bljeox/qKeyeURKkIFDpUUfHTJxZQY/JmtU
+         tuEW3l4sbQMOCxknSQrutEEVHWbu20NKrLGHaJZuUa28z8FoYf/zppar4NPSjNqHurCO
+         AKX1+dP4QJBKz29lbt5R7NvrNitEGOZW0RuHxfEopk3lvH4NPt8GIaMKB5TwLWGXbiBd
+         B6jw==
+X-Forwarded-Encrypted: i=1; AJvYcCWpqUW8YGnDR+4XQim9iRn8n0P+3wy/AePTQ2YEJwDmuS9isu4ug7C7Swk45SL7Q9rUlSbmbIxKaqAhTTkL@lists.linux.dev
+X-Gm-Message-State: AOJu0YyzFHTF61XuUNJLqnbOo2VFIs7+w+9Ha/f8BAZF/nqW6aDYNVQk
+	AVWKkrKp6suBwpzQOw5zgd3Xdrudr03nw+tpO8INkq4yxkByh59mMREH99j8kw5bE+qhzqn1kbK
+	W2KGrbPK20RASEzXiMnGTREu9FaKmtwAS2SJqbMKK4FHOqNGSB10pj78xp+EjCslVhX4=
+X-Gm-Gg: AZuq6aLgh2Pn0W9qi8xH5AiPzIs31gFc7usC7icDiWSOCzubqaz5Tt1btALLVT5+9it
+	CnsrKuVD7cqNnbl1uH/rrOnls2fJu1Bc0Gobn9JkdZWPRK2an6KlPfwt68JMYEcu3WYREOfwMk9
+	8F5UlJSCANz11ZHJgpwMHQsfhxZ8UERwJImXkD3OeqpqPZqMDUGZN55UTa1+coeaNMLe/jJQ8MF
+	juEk3bbhyTU2y5nC8uKIilKp7lJw9L7V+fWsRti+oaEsnuZ9rMSpZ8WXKsCOfRfUZaVEHrX1YPL
+	j/I6lMKeI8EuDZSXjsV8Kj1efjnQ8lv9Zn93qQMFIixdlI46QAh3OcfXtDvzBqX8JGtCcuwubat
+	8+lRGFTB80mJMVQwAJ9MZtk4fmP0C3RxGxkxVmsz5hlrk
+X-Received: by 2002:a05:6214:27cc:b0:880:5867:45b4 with SMTP id 6a1803df08f44-89463837a4amr142852726d6.13.1769085076625;
+        Thu, 22 Jan 2026 04:31:16 -0800 (PST)
+X-Received: by 2002:a05:6214:27cc:b0:880:5867:45b4 with SMTP id 6a1803df08f44-89463837a4amr142852286d6.13.1769085076236;
+        Thu, 22 Jan 2026 04:31:16 -0800 (PST)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6ad74esm143654486d6.26.2026.01.22.04.31.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 02:30:30 -0800 (PST)
-Date: Thu, 22 Jan 2026 10:30:29 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>, Peter
- Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, Yury Norov
- <yury.norov@gmail.com>, Jani Nikula <jani.nikula@intel.com>, Vincent
- Mailhol <mailhol.vincent@wanadoo.fr>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Kees Cook <keescook@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [PATCH next 12/14] bits: move the defitions of BIT() and
- BIT_ULL() back to linux/bits.h
-Message-ID: <20260122103029.255b3dd3@pumpkin>
-In-Reply-To: <202601220951.7C4YG7hB-lkp@intel.com>
-References: <20260121145731.3623-13-david.laight.linux@gmail.com>
-	<202601220951.7C4YG7hB-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Thu, 22 Jan 2026 04:31:15 -0800 (PST)
+Date: Thu, 22 Jan 2026 07:31:14 -0500
+From: Brian Masney <bmasney@redhat.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 13/13] clk: microchip: core: allow driver to be compiled
+ with COMPILE_TEST
+Message-ID: <aXIYklgDnskI1HXe@redhat.com>
+References: <20260109-mips-pic32-header-move-v1-13-99859c55783d@redhat.com>
+ <202601162110.K1eWGORM-lkp@intel.com>
+ <aW-_eIjcRp7VM0bt@redhat.com>
+ <20260121231321.GB2625738@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20260121231321.GB2625738@ax162>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: W4XAA8ooAvJzToCyc4VH2qozuCmp6D-GsKoRA-31oC4_1769085076
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 22 Jan 2026 09:23:16 +0800
-kernel test robot <lkp@intel.com> wrote:
+On Wed, Jan 21, 2026 at 04:13:21PM -0700, Nathan Chancellor wrote:
+> On Tue, Jan 20, 2026 at 12:46:32PM -0500, Brian Masney wrote:
+> > None of the errors in this report appear to be due to the changes that
+> > I made that allow drivers/clk/microchip/clk-core.c to be compiled on all
+> > architectures instead of just MIPS.
+> 
+> Well, it is just the fact that this code is now compiled on all
+> architectures via CONFIG_COMPILE_TEST, right? asm/traps.h is an
+> architecture specific header, which might not work when used outside of
+> arch/${SRCARCH}. In this case, x86's traps.h is used for arch/um but
+> arch/um has never used this header before because all generic uses are
+> gated on specific architectures like in this case.
+> 
+> Is this header needed when compile testing or could it be gated on
+> CONFIG_MIPS?
 
-> Hi,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on next-20260120]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/overflow-Reduce-expansion-of-__type_max/20260122-013456
-> base:   next-20260120
-> patch link:    https://lore.kernel.org/r/20260121145731.3623-13-david.laight.linux%40gmail.com
-> patch subject: [PATCH next 12/14] bits: move the defitions of BIT() and BIT_ULL() back to linux/bits.h
-> config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260122/202601220951.7C4YG7hB-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220951.7C4YG7hB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601220951.7C4YG7hB-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
->    In file included from kernel/bounds.c:14:
->    In file included from include/linux/log2.h:12:
->    In file included from include/linux/bitops.h:28:
->    In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
->    In file included from arch/arm64/include/asm/barrier.h:14:
-> >> arch/arm64/include/asm/alternative-macros.h:18:20: warning: 'unsigned' is not defined, evaluates to 0 [-Wundef]  
->       18 | #if ARM64_NCAPS >= ARM64_CB_BIT
-...
-> 
-> 4c0bd995d73ed8 Mark Rutland 2022-09-12  17  
-> 4c0bd995d73ed8 Mark Rutland 2022-09-12 @18  #if ARM64_NCAPS >= ARM64_CB_BIT
-> 4c0bd995d73ed8 Mark Rutland 2022-09-12  19  #error "cpucaps have overflown ARM64_CB_BIT"
-> 4c0bd995d73ed8 Mark Rutland 2022-09-12  20  #endif
-> 7cda23da52ad79 Will Deacon  2020-06-30  21  
+I changed it so that it's gated on CONFIG_MIPS and it's working on
+several arches.
 
-Unless I change BIT() back I'll change that to a static_assert().
-
-	David
+Brian
 
