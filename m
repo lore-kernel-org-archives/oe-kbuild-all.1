@@ -1,126 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744851448D5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 13:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E39A1CAA68;
+	Fri, 23 Jan 2026 13:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769176504; cv=none; b=IVEugafJ2jFHrwO8MW1s2bExfxMw+73wdUv8F/0baYhAXC+3L5y5fYG2Eu5mfg+GrA5RLWrme6dA79Y2+0dzcQkmbgLYnYiOJMZ9YLv2h15ZfkgNzevVmsrmaN25U0+J3U3i4aETwrouknYyBB8mBYObdGPeM7SMbMLLIzl9jxU=
+	t=1769176571; cv=none; b=gxSakSY74LI3UCMp9IaUb+VLw51RlPXJVPYVaLyEe+UGvKSIjzBS1TrUCi2TjAEQasV3+vAaWsLoZ2yHwPoE5nTDpD9Ot+h4f+FU/S/UaWmUIS+ZlRoHPAnqL89y2EGmHR2odeXgGy97IUIPZkV0swUdCKTinK87ZJrGOn1Wong=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769176504; c=relaxed/simple;
-	bh=0pgF0pbLibHfPkijHatzQ2gp7eE59gKjVslQpkFcBf4=;
+	s=arc-20240116; t=1769176571; c=relaxed/simple;
+	bh=QSOx2eE67HzDrrswbsxCRfzJN1fJujSWWNEDMVmEFjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fcf3zlx5htF08sebMJY90XsBnM490SzND4exCDYbEO1g+3D3t6HTy+2TKfLnsexY5BEjFGhqfTmtAOmBhHaxBtP6pw9aBsSBICs8DHSlvBBYA15shj0Lf/2tOP5Cj3v34W9GA6z2lFPWZrLST1zHu7UZFx0WbIU+X1QFw0gmt/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6kyuXo9; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ON5iWbUjeYz9q+39+R9Y67uPK2rNN9zwiwzfTeD5ySOFMlerO6QjB61a93P+BXEaBg9bQyIboivV/IYOGe+4KWt5HLBvjMZCqwamPUBMoLcf1BVUEFIJFHnzT9I5vu39nJsnn8LNS4TlGEYnJcCCcSV1NzLItHPcbME7+AevPKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=heSDTkc5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6kyuXo9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769176503; x=1800712503;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0pgF0pbLibHfPkijHatzQ2gp7eE59gKjVslQpkFcBf4=;
-  b=U6kyuXo9/m0kQZGVUSS5hb1auupVPXs0NriGaSz6chXqvMI+a9MfUfey
-   dG3jePiBK3FiMmYh4MDZo/c2jFgQFWxgvflXYlAWmZTRbE1FUP80Eql5I
-   crBm1fLafm/eoazjLq91cGuAL6p3ruoyIPHOYtXc+1pTWOmLVLlu5BQXV
-   BHEM1pT3l59ztSmMLu3srPVVUvBE3u3vYEF45oGbvUpwa8X7iw5KcIhp2
-   ZahMYiHNZwqHgLES1r+HqwFUYYXArgDMm3A3IzQARC66Pg4wAUgOX6Bnw
-   O8cMHWq8KuB3BkftSHPLciWrAJS84iKsV7lSFv4Z/BmU2pM/R4Qi58htg
-   w==;
-X-CSE-ConnectionGUID: 7XXP6oCmR6+8R1P1FwsJNg==
-X-CSE-MsgGUID: c3qoBx2mSK+1VPWZ6lFO+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="81146422"
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="81146422"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 05:55:03 -0800
-X-CSE-ConnectionGUID: Emh/K4QUTkeV6CigTQXAOg==
-X-CSE-MsgGUID: HCITQHeMQieupCXSbQeVOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="237683224"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Jan 2026 05:54:57 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vjHck-00000000Tza-3qjZ;
-	Fri, 23 Jan 2026 13:54:54 +0000
-Date: Fri, 23 Jan 2026 21:54:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: smadhavan@nvidia.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com, bhelgaas@google.com, ming.li@zohomail.com,
-	rrichter@amd.com, Smita.KoralahalliChannabasappa@amd.com,
-	linux-cxl@vger.kernel.org, linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, smadhavan@nvidia.com, vaslot@nvidia.com,
-	vsethi@nvidia.com, sdonthineni@nvidia.com, vidyas@nvidia.com,
-	mochs@nvidia.com, jsequeira@nvidia.com,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 04/10] PCI: add CXL reset method
-Message-ID: <202601232148.jndyojSY-lkp@intel.com>
-References: <20260120222610.2227109-5-smadhavan@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="heSDTkc5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7AA1C4CEF1;
+	Fri, 23 Jan 2026 13:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769176571;
+	bh=QSOx2eE67HzDrrswbsxCRfzJN1fJujSWWNEDMVmEFjE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=heSDTkc5XrJ7Na+T8tlMn5nwZKCULjgQ645sRwxTS1pd6Q3cakd6pU1aUFZndI6/V
+	 Umdg53G84uMgHYOkOVEmgl/qESMYRxOn0g3VtxBdW1amQWxYC/TAPwXb/QNzYu8Jn2
+	 kf7kb/rK8R0yzkc30d+XkNgkki9UVx4iycoNHDRlHXbdrgauT0N0JYIfBm6515znwC
+	 qpVkQDhT+PsVkzPXmB54HdmQX2gd4l06HC2VnqOPA7ze6sHECqVcZPWJxFOErq+Wga
+	 /rdjfQBKTMPQZfCdlgKYK5gXHVGHUsbaZXT43C3EUki5WTqiGxImhXtLAqBCqEViTa
+	 DJoqEKhoZNZfA==
+Date: Fri, 23 Jan 2026 14:56:08 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: Re: [rafael-pm:bleeding-edge 175/176] ERROR: modpost:
+ "tick_nohz_enabled" [drivers/cpufreq/cpufreq_ondemand.ko] undefined!
+Message-ID: <aXN9-KrR0YyC7YDV@localhost.localdomain>
+References: <202601231505.4Q8tb33s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260120222610.2227109-5-smadhavan@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202601231505.4Q8tb33s-lkp@intel.com>
 
-Hi,
+Le Fri, Jan 23, 2026 at 03:37:07PM +0800, kernel test robot a écrit :
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+> head:   8a22b02a1427ff0eab01a1b7cd62355238ba3d5b
+> commit: cc85c350babcb86c65da5393532f1cb255c750bc [175/176] cpufreq: ondemand: Simplify idle cputime granularity test
+> config: i386-buildonly-randconfig-002-20260123 (https://download.01.org/0day-ci/archive/20260123/202601231505.4Q8tb33s-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601231505.4Q8tb33s-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601231505.4Q8tb33s-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> ERROR: modpost: "tick_nohz_enabled" [drivers/cpufreq/cpufreq_ondemand.ko] undefined!
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-kernel test robot noticed the following build errors:
+Right...
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.19-rc6]
-[cannot apply to next-20260122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Is it better with this replacement?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/smadhavan-nvidia-com/cxl-move-DVSEC-defines-to-cxl-pci-header/20260121-071852
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260120222610.2227109-5-smadhavan%40nvidia.com
-patch subject: [PATCH v4 04/10] PCI: add CXL reset method
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260123/202601232148.jndyojSY-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601232148.jndyojSY-lkp@intel.com/reproduce)
+---
+From: Frederic Weisbecker <frederic@kernel.org>
+Date: Wed, 7 Jan 2026 17:25:09 +0100
+Subject: [PATCH] cpufreq: ondemand: Simplify idle cputime granularity test
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601232148.jndyojSY-lkp@intel.com/
+cpufreq calls get_cpu_idle_time_us() just to know if idle cputime
+accounting has a nanoseconds granularity.
 
-All errors (new ones prefixed by >>):
+Use the appropriate indicator instead to make that deduction.
 
->> drivers/cxl/pci.c:1085:6: error: redefinition of 'cxl_is_type2_device'
-    1085 | bool cxl_is_type2_device(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/cxl/pci.c:11:
-   include/linux/pci.h:1474:20: note: previous definition of 'cxl_is_type2_device' with type 'bool(struct pci_dev *)' {aka '_Bool(struct pci_dev *)'}
-    1474 | static inline bool cxl_is_type2_device(struct pci_dev *dev)
-         |                    ^~~~~~~~~~~~~~~~~~~
+Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-pm@vger.kernel.org
+---
+ drivers/cpufreq/cpufreq_ondemand.c | 7 +------
+ include/linux/tick.h               | 1 +
+ kernel/time/hrtimer.c              | 2 +-
+ kernel/time/tick-internal.h        | 2 --
+ kernel/time/tick-sched.c           | 8 +++++++-
+ kernel/time/timer.c                | 2 +-
+ 6 files changed, 11 insertions(+), 11 deletions(-)
 
-
-vim +/cxl_is_type2_device +1085 drivers/cxl/pci.c
-
-2905cb5236cba6 Dan Williams       2022-11-29  1084  
-b345d117d51557 Srirangan Madhavan 2026-01-20 @1085  bool cxl_is_type2_device(struct pci_dev *pdev)
-b345d117d51557 Srirangan Madhavan 2026-01-20  1086  {
-b345d117d51557 Srirangan Madhavan 2026-01-20  1087  	struct cxl_dev_state *cxlds = pci_get_drvdata(pdev);
-b345d117d51557 Srirangan Madhavan 2026-01-20  1088  
-b345d117d51557 Srirangan Madhavan 2026-01-20  1089  	if (!cxlds)
-b345d117d51557 Srirangan Madhavan 2026-01-20  1090  		return false;
-b345d117d51557 Srirangan Madhavan 2026-01-20  1091  
-b345d117d51557 Srirangan Madhavan 2026-01-20  1092  	return cxlds->type == CXL_DEVTYPE_DEVMEM;
-b345d117d51557 Srirangan Madhavan 2026-01-20  1093  }
-b345d117d51557 Srirangan Madhavan 2026-01-20  1094  
-
+diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufreq_ondemand.c
+index a6ecc203f7b7..bb7db82930e4 100644
+--- a/drivers/cpufreq/cpufreq_ondemand.c
++++ b/drivers/cpufreq/cpufreq_ondemand.c
+@@ -334,17 +334,12 @@ static void od_free(struct policy_dbs_info *policy_dbs)
+ static int od_init(struct dbs_data *dbs_data)
+ {
+ 	struct od_dbs_tuners *tuners;
+-	u64 idle_time;
+-	int cpu;
+ 
+ 	tuners = kzalloc(sizeof(*tuners), GFP_KERNEL);
+ 	if (!tuners)
+ 		return -ENOMEM;
+ 
+-	cpu = get_cpu();
+-	idle_time = get_cpu_idle_time_us(cpu, NULL);
+-	put_cpu();
+-	if (idle_time != -1ULL) {
++	if (tick_nohz_is_active()) {
+ 		/* Idle micro accounting is supported. Use finer thresholds */
+ 		dbs_data->up_threshold = MICRO_FREQUENCY_UP_THRESHOLD;
+ 	} else {
+diff --git a/include/linux/tick.h b/include/linux/tick.h
+index ac76ae9fa36d..fe7f51451ba1 100644
+--- a/include/linux/tick.h
++++ b/include/linux/tick.h
+@@ -126,6 +126,7 @@ enum tick_dep_bits {
+ 
+ #ifdef CONFIG_NO_HZ_COMMON
+ extern bool tick_nohz_enabled;
++extern bool tick_nohz_is_active(void);
+ extern bool tick_nohz_tick_stopped(void);
+ extern bool tick_nohz_tick_stopped_cpu(int cpu);
+ extern void tick_nohz_idle_stop_tick(void);
+diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
+index f8ea8c8fc895..e1bbf883dfa8 100644
+--- a/kernel/time/hrtimer.c
++++ b/kernel/time/hrtimer.c
+@@ -943,7 +943,7 @@ void clock_was_set(unsigned int bases)
+ 	cpumask_var_t mask;
+ 	int cpu;
+ 
+-	if (!hrtimer_hres_active(cpu_base) && !tick_nohz_active)
++	if (!hrtimer_hres_active(cpu_base) && !tick_nohz_is_active())
+ 		goto out_timerfd;
+ 
+ 	if (!zalloc_cpumask_var(&mask, GFP_KERNEL)) {
+diff --git a/kernel/time/tick-internal.h b/kernel/time/tick-internal.h
+index 4e4f7bbe2a64..597d816d22e8 100644
+--- a/kernel/time/tick-internal.h
++++ b/kernel/time/tick-internal.h
+@@ -156,7 +156,6 @@ static inline void tick_nohz_init(void) { }
+ #endif
+ 
+ #ifdef CONFIG_NO_HZ_COMMON
+-extern unsigned long tick_nohz_active;
+ extern void timers_update_nohz(void);
+ extern u64 get_jiffies_update(unsigned long *basej);
+ # ifdef CONFIG_SMP
+@@ -171,7 +170,6 @@ extern void timer_expire_remote(unsigned int cpu);
+ # endif
+ #else /* CONFIG_NO_HZ_COMMON */
+ static inline void timers_update_nohz(void) { }
+-#define tick_nohz_active (0)
+ #endif
+ 
+ DECLARE_PER_CPU(struct hrtimer_cpu_base, hrtimer_bases);
+diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
+index 21ac561a8545..81c619bf662c 100644
+--- a/kernel/time/tick-sched.c
++++ b/kernel/time/tick-sched.c
+@@ -691,7 +691,7 @@ void __init tick_nohz_init(void)
+  * NO HZ enabled ?
+  */
+ bool tick_nohz_enabled __read_mostly  = true;
+-unsigned long tick_nohz_active  __read_mostly;
++static unsigned long tick_nohz_active  __read_mostly;
+ /*
+  * Enable / Disable tickless mode
+  */
+@@ -702,6 +702,12 @@ static int __init setup_tick_nohz(char *str)
+ 
+ __setup("nohz=", setup_tick_nohz);
+ 
++bool tick_nohz_is_active(void)
++{
++	return tick_nohz_active;
++}
++EXPORT_SYMBOL_GPL(tick_nohz_is_active);
++
+ bool tick_nohz_tick_stopped(void)
+ {
+ 	struct tick_sched *ts = this_cpu_ptr(&tick_cpu_sched);
+diff --git a/kernel/time/timer.c b/kernel/time/timer.c
+index 1f2364126894..7e1e3bde6b8b 100644
+--- a/kernel/time/timer.c
++++ b/kernel/time/timer.c
+@@ -281,7 +281,7 @@ DEFINE_STATIC_KEY_FALSE(timers_migration_enabled);
+ 
+ static void timers_update_migration(void)
+ {
+-	if (sysctl_timer_migration && tick_nohz_active)
++	if (sysctl_timer_migration && tick_nohz_is_active())
+ 		static_branch_enable(&timers_migration_enabled);
+ 	else
+ 		static_branch_disable(&timers_migration_enabled);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.1
+
+
