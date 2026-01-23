@@ -1,60 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFB02D29C2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 19:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA27D2C15B5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 19:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769197553; cv=none; b=SZUMN/MO3rIGD/Pth5HYiaZkT+awgx5n2BEoUcJiY79y9ISj9pCxAEZeX7yq/NpjHX/mEwgkUOy/MOnapCC1rujWOVN56p+aa4Dh97MQa8D+E3UWd/Pz1X8/4CdVMNa60T68Jqvkyt0HID8prjl35FYdmaEaaXvqOp3iYuKbaC8=
+	t=1769197587; cv=none; b=qpIO94uTlF48UmBbaMN2CBVMWXHfF7dvbnR0oWJOxFP7el3M8tKe5nHrqPKRz2tM3vrhqxOrqBj+DcWX71vhHLdDNDg4ctZavTNWYYYkO9iiuv8/Yr8yraTEGxySzkgPLE39+Soeg8EqbD6n5vAjYgnPNpc6ej7EP/o9YindiNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769197553; c=relaxed/simple;
-	bh=JRlAl/Bfk4qmJuJ/EjK7xavGt4FNDKAnxLg8+uvxerg=;
+	s=arc-20240116; t=1769197587; c=relaxed/simple;
+	bh=d3m3qkp7Crw1fXc7BZpUNEFl9fOZsoenMG9dlCWiOV4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOTz+I7QDMg8HdtwGUOIFz5MhS0iRgyWJ4USLt6anlpeorhhwWOyvTJHo4eCpob76uGXNv+dwiP3Mpv7vva4+ivg+I2Dcn8IRuLXOj0oo5npqh3Jxrsw6mPZxP5ecrwouvLS+jWVcFhkpUd7ekEoJ7Ev0GtpxymAoe6GNKnbQgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kv1HPG55; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=aIgm5NMIpmxDQvBICGwBMos5f4b7omT4IgHMvr/S0CnrpWkc6VTw5JdRvzlDfWpJy11pG4Q208d9dye8aZRsuxZb0QNFtKgfHSadOlqKmJBMH29lmZEv7o9htUchELe5zaazld5wlbhfdjlQnUrq0wOW+BcUZYLrqadhS5AO8u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O9mJbk7b; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kv1HPG55"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9mJbk7b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769197550; x=1800733550;
+  t=1769197586; x=1800733586;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JRlAl/Bfk4qmJuJ/EjK7xavGt4FNDKAnxLg8+uvxerg=;
-  b=Kv1HPG55nckSuLrO23vKtaG2jd23huy+J5wm9IUNTaSA8prcPHOJtbTY
-   l9uiyeJeAc5JR16Dlad4+tRgV/t2nUhQ0CwXEOtMQMhp/Z0u+afJ+GWaL
-   Ue+Y1UNljvyoux2nKbDNRDTeOcdb2gycFbvqTzUgoNbN6EO3q78KMoIMi
-   HuDJ02ClK+FKGBN52s9+rrcMgGsj/aYk8OHdB+DgIA5FhRVqELo6cY870
-   eSqzyx/6hR+y5akVF+kxmOfI3LUgI4IggEQ8MVA2hCyw03h8d2fw/+ocv
-   ii9ZNb7YCTu9rRcpgAMwDaMM7Xy8HJZZyVgqaauS8jgs55z4ddZG7j2fL
-   A==;
-X-CSE-ConnectionGUID: mLcHSKL8Sb+ZYu3uONW27A==
-X-CSE-MsgGUID: GP7LiA9tSSmRtrjowf4xAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70505817"
+  bh=d3m3qkp7Crw1fXc7BZpUNEFl9fOZsoenMG9dlCWiOV4=;
+  b=O9mJbk7bgNXGM7053mm3H+8MuCcufIzh5h3Nu/Y4DxtxU0H8B7pajjEm
+   wQDsu3DIW6/4U5ziR0kbcqQB90xjezZx5paKrbDkSvmDhkZZQP2y2zdDn
+   NUiInOwt8xoTeByr6N/AZhJdlqGfQCSfVtrGMLg2v7ZgVgBgTFQI4ryrc
+   8ajm9Ei/RVW9JZ7jjPyUxkgUUMorim+67sI7FxgXQr1Uv1XQgaHl6truW
+   HPBQWVM1vq7mE5AT1fA/YHiZyViobJJKsGWnh9+9CVKq9EOG30RK1bDmM
+   qNV+63tbE67hrOpqNf6b9n+Dl4rhr98Cgl3cnivrIxbi4JjIja6efBeFM
+   g==;
+X-CSE-ConnectionGUID: 0r2iIQR8QDmSe7FyUQfh6A==
+X-CSE-MsgGUID: f8oQO72pQJCr8pjeSGiQGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="74087691"
 X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="70505817"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 11:45:49 -0800
-X-CSE-ConnectionGUID: gma40dXwRZaMjbnHH7NtgA==
-X-CSE-MsgGUID: wFWNG/NOQ42ln5G8p59GkA==
+   d="scan'208";a="74087691"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 11:46:26 -0800
+X-CSE-ConnectionGUID: aWY7Lm4UTaWGiZHolVkAmw==
+X-CSE-MsgGUID: KNKQHEf3TmG4l9dMqAdT7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="211564224"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Jan 2026 11:45:48 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207161750"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 23 Jan 2026 11:46:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjN6H-000000000o5-40B8;
-	Fri, 23 Jan 2026 19:45:45 +0000
-Date: Fri, 23 Jan 2026 20:45:31 +0100
+	id 1vjN6o-00000000UOM-0BQg;
+	Fri, 23 Jan 2026 19:46:18 +0000
+Date: Sat, 24 Jan 2026 03:45:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hui Zhu <hui.zhu@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH bpf-next v3 05/12] libbpf: introduce
- bpf_map__attach_struct_ops_opts()
-Message-ID: <202601232002.VLM6oC5G-lkp@intel.com>
-References: <03bf6aafe30def690c63e454d76e733f27dff4b3.1769157382.git.zhuhui@kylinos.cn>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Mark Brown <broonie@kernel.org>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Choong Yong Liang <yong.liang.choong@linux.intel.com>,
+	Jiawen Wu <jiawenwu@trustnetic.com>
+Subject: Re: [PATCH v2 net-next 11/15] net: dsa: sja1105: fill device tree
+ with ethernet-pcs sub-devices under "regs" node
+Message-ID: <202601240325.L4Ejl6qH-lkp@intel.com>
+References: <20260122105654.105600-12-vladimir.oltean@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,37 +78,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <03bf6aafe30def690c63e454d76e733f27dff4b3.1769157382.git.zhuhui@kylinos.cn>
+In-Reply-To: <20260122105654.105600-12-vladimir.oltean@nxp.com>
 
-Hi Hui,
+Hi Vladimir,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/master]
-[cannot apply to akpm-mm/mm-everything bpf-next/net bpf/master linus/master v6.19-rc6 next-20260122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hui-Zhu/bpf-move-bpf_struct_ops_link-into-bpf-h/20260123-170445
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/03bf6aafe30def690c63e454d76e733f27dff4b3.1769157382.git.zhuhui%40kylinos.cn
-patch subject: [RFC PATCH bpf-next v3 05/12] libbpf: introduce bpf_map__attach_struct_ops_opts()
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260123/202601232002.VLM6oC5G-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601232002.VLM6oC5G-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Oltean/net-mdio-regmap-permit-working-with-non-MMIO-regmaps/20260122-192934
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260122105654.105600-12-vladimir.oltean%40nxp.com
+patch subject: [PATCH v2 net-next 11/15] net: dsa: sja1105: fill device tree with ethernet-pcs sub-devices under "regs" node
+config: mips-randconfig-r112-20260123 (https://download.01.org/0day-ci/archive/20260124/202601240325.L4Ejl6qH-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240325.L4Ejl6qH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601232002.VLM6oC5G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601240325.L4Ejl6qH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: Num of global symbols in tools/testing/selftests/hid/tools/build/host/libbpf/sharedobjs/libbpf-in.o (357) does NOT match with num of versioned symbols in tools/testing/selftests/hid/tools/build/host/libbpf/libbpf.so libbpf.map (356). Please make sure all LIBBPF_API symbols are versioned in libbpf.map.
-   make[3]: *** [Makefile:179: check_abi] Error 1
-   make[3]: Target 'all_cmd' not remade because of errors.
+   In file included from arch/mips/kernel/asm-offsets.c:26:
+   In file included from include/linux/kvm_host.h:5:
+   In file included from include/linux/entry-virt.h:10:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:19:
+>> include/linux/of.h:1645:34: error: use of undeclared identifier 'OF_RECONFIG_ATTACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
+    1645 |         return of_changeset_action(ocs, OF_RECONFIG_ATTACH_NODE, np, NULL);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                         OF_RECONFIG_NO_CHANGE
+   include/linux/of.h:1620:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
+    1620 |         OF_RECONFIG_NO_CHANGE = 0,
+         |         ^
+>> include/linux/of.h:1651:34: error: use of undeclared identifier 'OF_RECONFIG_DETACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
+    1651 |         return of_changeset_action(ocs, OF_RECONFIG_DETACH_NODE, np, NULL);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                         OF_RECONFIG_NO_CHANGE
+   include/linux/of.h:1620:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
+    1620 |         OF_RECONFIG_NO_CHANGE = 0,
+         |         ^
+>> include/linux/of.h:1657:34: error: use of undeclared identifier 'OF_RECONFIG_ADD_PROPERTY'
+    1657 |         return of_changeset_action(ocs, OF_RECONFIG_ADD_PROPERTY, np, prop);
+         |                                         ^
+>> include/linux/of.h:1663:34: error: use of undeclared identifier 'OF_RECONFIG_REMOVE_PROPERTY'
+    1663 |         return of_changeset_action(ocs, OF_RECONFIG_REMOVE_PROPERTY, np, prop);
+         |                                         ^
+>> include/linux/of.h:1669:34: error: use of undeclared identifier 'OF_RECONFIG_UPDATE_PROPERTY'
+    1669 |         return of_changeset_action(ocs, OF_RECONFIG_UPDATE_PROPERTY, np, prop);
+         |                                         ^
+   5 errors generated.
+   make[3]: *** [scripts/Makefile.build:182: arch/mips/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1314: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_DYNAMIC
+   Depends on [n]: OF [=n]
+   Selected by [m]:
+   - NET_DSA_SJA1105 [=m] && NETDEVICES [=y] && NET_DSA [=m] && SPI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
+
+
+vim +1645 include/linux/of.h
+
+201c910bd6898d Pantelis Antoniou 2014-07-04  1618  
+b53a2340d0d304 Pantelis Antoniou 2014-10-28  1619  enum of_reconfig_change {
+b53a2340d0d304 Pantelis Antoniou 2014-10-28 @1620  	OF_RECONFIG_NO_CHANGE = 0,
+b53a2340d0d304 Pantelis Antoniou 2014-10-28  1621  	OF_RECONFIG_CHANGE_ADD,
+b53a2340d0d304 Pantelis Antoniou 2014-10-28  1622  	OF_RECONFIG_CHANGE_REMOVE,
+b53a2340d0d304 Pantelis Antoniou 2014-10-28  1623  };
+b53a2340d0d304 Pantelis Antoniou 2014-10-28  1624  
+2e8fff668dc14e Rob Herring       2023-03-29  1625  struct notifier_block;
+2e8fff668dc14e Rob Herring       2023-03-29  1626  
+201c910bd6898d Pantelis Antoniou 2014-07-04  1627  #ifdef CONFIG_OF_DYNAMIC
+f6892d193fb9d6 Grant Likely      2014-11-21  1628  extern int of_reconfig_notifier_register(struct notifier_block *);
+f6892d193fb9d6 Grant Likely      2014-11-21  1629  extern int of_reconfig_notifier_unregister(struct notifier_block *);
+f5242e5a883bf1 Grant Likely      2014-11-24  1630  extern int of_reconfig_notify(unsigned long, struct of_reconfig_data *rd);
+f5242e5a883bf1 Grant Likely      2014-11-24  1631  extern int of_reconfig_get_state_change(unsigned long action,
+f5242e5a883bf1 Grant Likely      2014-11-24  1632  					struct of_reconfig_data *arg);
+f6892d193fb9d6 Grant Likely      2014-11-21  1633  
+201c910bd6898d Pantelis Antoniou 2014-07-04  1634  extern void of_changeset_init(struct of_changeset *ocs);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1635  extern void of_changeset_destroy(struct of_changeset *ocs);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1636  extern int of_changeset_apply(struct of_changeset *ocs);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1637  extern int of_changeset_revert(struct of_changeset *ocs);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1638  extern int of_changeset_action(struct of_changeset *ocs,
+201c910bd6898d Pantelis Antoniou 2014-07-04  1639  		unsigned long action, struct device_node *np,
+201c910bd6898d Pantelis Antoniou 2014-07-04  1640  		struct property *prop);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1641  
+201c910bd6898d Pantelis Antoniou 2014-07-04  1642  static inline int of_changeset_attach_node(struct of_changeset *ocs,
+201c910bd6898d Pantelis Antoniou 2014-07-04  1643  		struct device_node *np)
+201c910bd6898d Pantelis Antoniou 2014-07-04  1644  {
+201c910bd6898d Pantelis Antoniou 2014-07-04 @1645  	return of_changeset_action(ocs, OF_RECONFIG_ATTACH_NODE, np, NULL);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1646  }
+201c910bd6898d Pantelis Antoniou 2014-07-04  1647  
+201c910bd6898d Pantelis Antoniou 2014-07-04  1648  static inline int of_changeset_detach_node(struct of_changeset *ocs,
+201c910bd6898d Pantelis Antoniou 2014-07-04  1649  		struct device_node *np)
+201c910bd6898d Pantelis Antoniou 2014-07-04  1650  {
+201c910bd6898d Pantelis Antoniou 2014-07-04 @1651  	return of_changeset_action(ocs, OF_RECONFIG_DETACH_NODE, np, NULL);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1652  }
+201c910bd6898d Pantelis Antoniou 2014-07-04  1653  
+201c910bd6898d Pantelis Antoniou 2014-07-04  1654  static inline int of_changeset_add_property(struct of_changeset *ocs,
+201c910bd6898d Pantelis Antoniou 2014-07-04  1655  		struct device_node *np, struct property *prop)
+201c910bd6898d Pantelis Antoniou 2014-07-04  1656  {
+201c910bd6898d Pantelis Antoniou 2014-07-04 @1657  	return of_changeset_action(ocs, OF_RECONFIG_ADD_PROPERTY, np, prop);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1658  }
+201c910bd6898d Pantelis Antoniou 2014-07-04  1659  
+201c910bd6898d Pantelis Antoniou 2014-07-04  1660  static inline int of_changeset_remove_property(struct of_changeset *ocs,
+201c910bd6898d Pantelis Antoniou 2014-07-04  1661  		struct device_node *np, struct property *prop)
+201c910bd6898d Pantelis Antoniou 2014-07-04  1662  {
+201c910bd6898d Pantelis Antoniou 2014-07-04 @1663  	return of_changeset_action(ocs, OF_RECONFIG_REMOVE_PROPERTY, np, prop);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1664  }
+201c910bd6898d Pantelis Antoniou 2014-07-04  1665  
+201c910bd6898d Pantelis Antoniou 2014-07-04  1666  static inline int of_changeset_update_property(struct of_changeset *ocs,
+201c910bd6898d Pantelis Antoniou 2014-07-04  1667  		struct device_node *np, struct property *prop)
+201c910bd6898d Pantelis Antoniou 2014-07-04  1668  {
+201c910bd6898d Pantelis Antoniou 2014-07-04 @1669  	return of_changeset_action(ocs, OF_RECONFIG_UPDATE_PROPERTY, np, prop);
+201c910bd6898d Pantelis Antoniou 2014-07-04  1670  }
+b544fc2b8606d7 Lizhi Hou         2023-08-15  1671  
 
 -- 
 0-DAY CI Kernel Test Service
