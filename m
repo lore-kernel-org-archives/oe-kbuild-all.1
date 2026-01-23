@@ -1,209 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4B034A76D;
-	Fri, 23 Jan 2026 06:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D525394492
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 06:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769149259; cv=none; b=W+ifHI1jq2TZZJAwPv/4se3ektN8omR86ayuTfCqs+iyXzEX8XP1q2sQYuyeneKY7TuyaztFYo/94QqrkOdCC5wISkLmU0qHah1A/JYkfxBeQGxu+3zW+uFMbrHtqNw5hQg/i44ixMQmPtfst0xe/TyPH/Vr1H1yRb/40BUUNtM=
+	t=1769149410; cv=none; b=QP4OhGTTPsKU/2F8CshFT8sMDCvyrI6TnSPCjtlB8TAatx2EThENr8qHygG/ZZnKXy8Zf572JYa4iLjySztKNcCSB/7x7c0A7NQo9ZSlLhgTTn+zhjv4u22+OX4vdICZ3nNCoWZrKVC7qjxWEjcCrGVsUjY9eqD5z25dHwDpaJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769149259; c=relaxed/simple;
-	bh=iG/N/ZNQA0Kc2l1lMStQOMjs7VKHOG7llLouDwJBAKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hA9fS+jr/deHZKTCIEvasSeg/ffLSkzUffLi6J6jO3+m5sxixU6Bo1PX1LkW5txIcpy/gsonKDeBzOpZ5J+8+ZdyIysIMKqq421SxPrJUeM/Qw0PCHx5xP4gIhdY9IN9DCps+FvVvc/LOa666qP7XzqZkXRzugZF+kjjwp2sZxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SasmE0H6; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769149410; c=relaxed/simple;
+	bh=vncd6SV3JneYJo0GfT9zJ7wBNb51LADCHNXwgFgfEWg=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=go4eaN3oe0NW+NCgAwUgMbqu3iV6NwUOYuXKCM/Kua74IdlDq+IJQAj1Yqk3K80l6mW1wkzLB3AhAMjX11MXIR4kCy1FUaB1mEYomu+dm14p3JZoKLz/lV8BifVZHHVy+aeDn/wLYwNoV2VrXPda7gXMDdxNlqDDeoaSzhVA3Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=1DVL4SOT; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SasmE0H6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769149250; x=1800685250;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iG/N/ZNQA0Kc2l1lMStQOMjs7VKHOG7llLouDwJBAKU=;
-  b=SasmE0H6c4eAAorjs6um95iZjwN52gC2vDQHzHfWNuXOCKY8DcH1120k
-   DMz211BE/0aIhR77WExwF37D7koggmbbT+JNKBtjFeXqm++uS5SdSMY2W
-   cvGnYnysLEPFKH6lAJ0tWtXzWYnjv+1xKyA5gwL0C1KE9vbyJK1RKMzAO
-   khsZB5G99ri9UmqfDxattqkL9x3q3ei7HqkVh7EnYeoO9ZowsTGE0SEcN
-   CB3HnP3OxzWvJYzsscZn62MnPvYPlUA8h1VCuShph5KoAtW2eSVO1465W
-   naXZK910TdilN9MCt4m3gcFMWKB4Dpl+N/2CMjvsYdg+GvjUSPfeNrP7D
-   A==;
-X-CSE-ConnectionGUID: rTziorp2SPyJkeXcL73cRw==
-X-CSE-MsgGUID: 8uNLT9rqRdCPIcRlSKlv0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="74261098"
-X-IronPort-AV: E=Sophos;i="6.21,247,1763452800"; 
-   d="scan'208";a="74261098"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 22:20:46 -0800
-X-CSE-ConnectionGUID: ry4NvkB0RiCnhLLb0KLooA==
-X-CSE-MsgGUID: +c0E7gX0TIqktXlje5SZKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,247,1763452800"; 
-   d="scan'208";a="206060250"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 22 Jan 2026 22:20:44 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vjAXA-000000000ft-14WC;
-	Fri, 23 Jan 2026 06:20:40 +0000
-Date: Fri, 23 Jan 2026 07:20:05 +0100
-From: kernel test robot <lkp@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>, rafael@kernel.org, dakr@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, pavel@kernel.org,
-	lenb@kernel.org, neelx@suse.com, atomlin@atomlin.com, sean@ashe.io,
-	mproche@gmail.com, chjohnst@gmail.com, nick.lange@gmail.com,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH] PM: QoS: Introduce boot parameter
- pm_qos_resume_latency_us
-Message-ID: <202601230729.fH9djzc0-lkp@intel.com>
-References: <20260123010024.3301276-1-atomlin@atomlin.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="1DVL4SOT"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=GdDjpMtJaMtxsfKMwwQ9MmZp9yI8mEkOk82DglbID1k=;
+	b=1DVL4SOTZysZoiqqOd2j1fbIMeAQFMQp7rfaipuCtqClyp2raTuipRBVMgyzg9f2x7/TdcgOa
+	6yy8SAQ89dQ5Leju/sCP8gcZCgZ+BYw+YF/cp7WHFUz+TlVpHXwcgEPVnofmXf8gX/GzJZKybL2
+	7H8ZdHgzqlQy+6xWhrDCdKE=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4dy7752rs5zcb1V;
+	Fri, 23 Jan 2026 14:19:13 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 08B662016A;
+	Fri, 23 Jan 2026 14:23:14 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 23 Jan 2026 14:23:13 +0800
+Received: from [10.173.125.37] (10.173.125.37) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 23 Jan 2026 14:23:13 +0800
+Subject: Re: [akpm-mm:mm-new 279/310] memory-failure.c:275:49: warning: format
+ specifies type 'unsigned long' but the argument has type '__fsword_t' (aka
+ 'int')
+To: Andrew Morton <akpm@linux-foundation.org>, kernel test robot
+	<lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, David Hildenbrand <david@kernel.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+References: <202601221142.mDWA1ucw-lkp@intel.com>
+ <20260122093240.ef007fed49c166ae5ff256c1@linux-foundation.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <3116e4e5-c1cd-27e2-69b4-6bf0fc0347c6@huawei.com>
+Date: Fri, 23 Jan 2026 14:23:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123010024.3301276-1-atomlin@atomlin.com>
+In-Reply-To: <20260122093240.ef007fed49c166ae5ff256c1@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-Hi Aaron,
+On 2026/1/23 1:32, Andrew Morton wrote:
+> On Thu, 22 Jan 2026 12:00:08 +0100 kernel test robot <lkp@intel.com> wrote:
+> 
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+>> head:   dc4fe40a11269aead253fa0beb098b00417b8694
+>> commit: ce9b369feafe8c65aa134b0c8791bf7f19e463e2 [279/310] selftests/mm: add memory failure clean pagecache test
+>> config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260122/202601221142.mDWA1ucw-lkp@intel.com/config)
+>> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221142.mDWA1ucw-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202601221142.mDWA1ucw-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>>> memory-failure.c:275:49: warning: format specifies type 'unsigned long' but the argument has type '__fsword_t' (aka 'int') [-Wformat]
+>>      275 |                 SKIP(return, "unsupported filesystem :%lx\n", fs_type);
+>>          |                                                       ~~~     ^~~~~~~
+>>          |                                                       %x
+> 
+> Thanks.
+> 
+> I don't think we can rely upon libc's __fsword_t being `int' in all
+> situations for all time?
+> 
+> We could add the typecast but perhaps it's better to change
+> get_fs_type() to return int?
 
-kernel test robot noticed the following build warnings:
+Yes, changing get_fs_type() to return int looks good to me. Will do it in v3.
 
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master amd-pstate/linux-next amd-pstate/bleeding-edge v6.16-rc1 next-20260122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/PM-QoS-Introduce-boot-parameter-pm_qos_resume_latency_us/20260123-090409
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20260123010024.3301276-1-atomlin%40atomlin.com
-patch subject: [PATCH] PM: QoS: Introduce boot parameter pm_qos_resume_latency_us
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260123/202601230729.fH9djzc0-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601230729.fH9djzc0-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601230729.fH9djzc0-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/power/qos.c:339:9: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     339 |         return ret;
-         |                ^~~
-   kernel/power/qos.c:266:9: note: initialize the variable 'ret' to silence this warning
-     266 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +/ret +339 kernel/power/qos.c
-
-   245	
-   246	/* init_pm_qos_latency_us_setup - Parse the pm_qos_latency_us boot parameter.
-   247	 *
-   248	 * Parses the kernel command line option "pm_qos_resume_latency_us=" to establish
-   249	 * per-CPU resume latency constraints. These constraints are applied
-   250	 * immediately when a CPU is registered.
-   251	 *
-   252	 * Syntax: pm_qos_resume_latency_us=<cpu-list>:<value>[,<cpu-list>:<value>...]
-   253	 * Example: pm_qos_resume_latency_us=0-3:0,4-7:20
-   254	 *
-   255	 * The parsing logic enforces a "First Match Wins" policy. If a CPU is
-   256	 * covered by multiple entries in the list, only the first valid entry
-   257	 * applies. Any subsequent overlapping ranges for that CPU are ignored.
-   258	 *
-   259	 * Return: 0 on success, or a negative error code on failure.
-   260	 */
-   261	static int __init init_pm_qos_latency_us_setup(void)
-   262	{
-   263		char *token, *cmd = pm_qos_resume_latency_cmdline;
-   264		struct pm_qos_boot_entry *entry, *tentry;
-   265		cpumask_var_t covered;
-   266		int ret;
-   267	
-   268		if (boot_option_idle_override == IDLE_POLL) {
-   269			pr_warn("pm_qos: Cannot be used with idle=poll\n");
-   270			return -EINVAL;
-   271		}
-   272	
-   273		if (!zalloc_cpumask_var(&covered, GFP_KERNEL)) {
-   274			pr_warn("pm_qos: Failed to allocate memory for parsing boot parameter\n");
-   275			return -ENOMEM;
-   276		}
-   277	
-   278		while ((token = strsep(&cmd, ",")) != NULL) {
-   279			char *str_range, *str_val;
-   280	
-   281			str_range = strsep(&token, ":");
-   282			str_val = token;
-   283	
-   284			if (!str_val) {
-   285				pr_warn("pm_qos: Missing value range %s\n",
-   286					str_range);
-   287				continue;
-   288			}
-   289	
-   290			entry = kzalloc(sizeof(*entry), GFP_KERNEL);
-   291			if (!entry) {
-   292				pr_warn("pm_qos: Failed to allocate memory for boot entry\n");
-   293				goto cleanup;
-   294			}
-   295	
-   296			if (cpulist_parse(str_range, &entry->mask)) {
-   297				pr_warn("pm_qos: Failed to parse cpulist range %s\n",
-   298					str_range);
-   299				kfree(entry);
-   300				continue;
-   301			}
-   302	
-   303			cpumask_andnot(&entry->mask, &entry->mask, covered);
-   304			if (cpumask_empty(&entry->mask)) {
-   305				pr_warn("pm_qos: Entry %s already covered, ignoring\n",
-   306					str_range);
-   307				kfree(entry);
-   308				continue;
-   309			}
-   310			cpumask_or(covered, covered, &entry->mask);
-   311	
-   312			if (kstrtos32(str_val, 0, &entry->latency)) {
-   313				pr_warn("pm_qos: Invalid latency requirement value %s\n",
-   314					str_val);
-   315				kfree(entry);
-   316				continue;
-   317			}
-   318	
-   319			if (entry->latency < 0) {
-   320				pr_warn("pm_qos: Latency requirement cannot be negative: %d\n",
-   321					entry->latency);
-   322				kfree(entry);
-   323				continue;
-   324			}
-   325	
-   326			list_add_tail(&entry->node, &pm_qos_boot_list);
-   327		}
-   328	
-   329		free_cpumask_var(covered);
-   330		return 0;
-   331	
-   332	cleanup:
-   333		list_for_each_entry_safe(entry, tentry, &pm_qos_boot_list, node) {
-   334			list_del(&entry->node);
-   335			kfree(entry);
-   336		}
-   337	
-   338		free_cpumask_var(covered);
- > 339		return ret;
-   340	}
-   341	early_initcall(init_pm_qos_latency_us_setup);
-   342	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks.
+.
