@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3F72441A6;
-	Fri, 23 Jan 2026 12:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A452D8795
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 13:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769172542; cv=none; b=cYfa20svLZwdAIQCeW1v/3/Dxa15er9uBoV7YG2lS53l/5o54XsjWts8s25lpTxZegeYl3/lWj4100FthLClv2w8f3epcrlHr56Ga2gv0qNrZ4Bg+YX5TRDgYaU2EPDN0pACmm49uIfcUmonxTaYEmEFXFZVwlngo6fIli+zpXM=
+	t=1769174585; cv=none; b=UeNi8aYGyTp0h8v4g+HBvZGjt7e29eBhXxY24XS6Max0PL1JGN5dyrOAmIWm1uHwFJyC9iEPu4eB3VvJo11J1+BW7oGawWXDEzXr/0WX5/uVEOCRMcKGm3E6gNzQa8iR1l+WrzelkEz2Fn4o+MQ0zi4QOT+Vnj6VVhwn9XWiSn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769172542; c=relaxed/simple;
-	bh=c/Tyh7KTdNA0+IEkETwGY3ZSXSp+5HE4oKexBxdgdkc=;
+	s=arc-20240116; t=1769174585; c=relaxed/simple;
+	bh=R30KX4+8mtSuQxUCOYXGRi/E2OHWVlkbi4zsYYYbcLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D1uVDyAoLy8ABkULL+Du5Nw2+MiCdxeZezbIkOzRhpsGyHSySOoiGDMOuHB5ets/zuH3OOUHnt1sivFRWHY4H4EbLx7mAWKpyS6o4ZZk9Mn4rGTX27dG4C5+AeV5KMV8MZ6etMSFgM8Wje3fsNNS8KV9vzREH9T9mGu1j1lWATs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtNqjFXN; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=fVmvyuMvHbEiW7l2AtC3xGn8i82EdjGmE+tG62B9ZIKxc9rWDD+SSn49eYjIEk9VQAxvMBCXoMumMrF20YFB7Or5zgnxG1XpFeWYjKZuT80eRW7uKMnqnLOE87SzfdD9xH2VozR2har4RMvg0yqMZgZhhuvx21rtTwZ3U2HttXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LpM1733F; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtNqjFXN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LpM1733F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769172541; x=1800708541;
+  t=1769174580; x=1800710580;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=c/Tyh7KTdNA0+IEkETwGY3ZSXSp+5HE4oKexBxdgdkc=;
-  b=JtNqjFXNrFLRZ5KNIWXDJQnLMnoUtHLZYTzcB7aHOilm7Tq7uqyyxNYq
-   QwNqtxF+GrsdFaWfb4gNlk8Cl7GaOtQBXKRzQ8pLq8JEQekqD/QIfCdaF
-   zvkGFiwUBW1FFj9pQ2RAhhTxU364huZzylr1I6z20LegZaGoA3zgyGZl8
-   eqpkQCDfamgv2KqfJUMuiMEY98ShixnIXuTwTgqQASxnV8rp4qJAcuDGG
-   ulm6PdMbR0hjqMTDjyrG2FAD06I1Voqd/P7wwBYjS0LHch7jd/KYlqhvX
-   enIIqVOeQ43WYHOX55/7CBHvQbQwUIKdqqkY+MsS+0FpmElrKzvICgCbY
-   Q==;
-X-CSE-ConnectionGUID: 4fU22rbmTO+ixciDXlR9YQ==
-X-CSE-MsgGUID: gXwtLHABRtWDGrD+mnIFIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="70338798"
+  bh=R30KX4+8mtSuQxUCOYXGRi/E2OHWVlkbi4zsYYYbcLY=;
+  b=LpM1733FsRYg0xXVSb2Md7sEP0yWTVAHeiZ+3cv6Ww+8rlQX0918vG2C
+   U1lhR+ya9MEuLzulfHA81b+W4ipGYb3nVbQvuzT+1FavZtekqeS12rIYO
+   hUyR/0bYxoZeQ8mjDmJWHuqlkIfZc1+jjQG8FbQIG51F3INpWpsqgd2b5
+   KblLLGFUAzmb3GHOFHhERCZs497XCLr6WVbZX1v6e28HxKstH5CrVrHho
+   oqN2UoGRo0y158QoC/qIb4bNIru0uSyLbEaj76JeggQCpaHrjV8Rdgo7C
+   kXBl86Q1F2M5Lg1QuS14D3ZHVl63McgKwAap8Kl2dVOmKrByYq0ZNgg36
+   w==;
+X-CSE-ConnectionGUID: XjI0ZJDHQP2Ha5Biiv98jg==
+X-CSE-MsgGUID: zURi6MI1TMSDIM7GScbPVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70146800"
 X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="70338798"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 04:49:00 -0800
-X-CSE-ConnectionGUID: FA01p0Q9Sku6t9JO7atQSA==
-X-CSE-MsgGUID: tP44//wPRNS0Zw1DkgKJoA==
+   d="scan'208";a="70146800"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 05:22:59 -0800
+X-CSE-ConnectionGUID: yBgXnFLASAKzAaMJ4vgRhQ==
+X-CSE-MsgGUID: v4rCm2mbRpKWnuOe/rZsNg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="212021230"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 23 Jan 2026 04:48:56 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 23 Jan 2026 05:22:56 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjGar-00000000TxS-1WhJ;
-	Fri, 23 Jan 2026 12:48:53 +0000
-Date: Fri, 23 Jan 2026 20:48:15 +0800
+	id 1vjH7m-00000000Tyg-0ip6;
+	Fri, 23 Jan 2026 13:22:54 +0000
+Date: Fri, 23 Jan 2026 21:22:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ratheesh Kannoth <rkannoth@marvell.com>, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	sgoutham@marvell.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch,
+Cc: oe-kbuild-all@lists.linux.dev, sgoutham@marvell.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, andrew+netdev@lunn.ch,
 	Saeed Mahameed <saeedm@nvidia.com>,
 	Ratheesh Kannoth <rkannoth@marvell.com>
 Subject: Re: [PATCH net-next] devlink: Implement devlink param multi
  attribute nested data values
-Message-ID: <202601232029.nwwE5gfM-lkp@intel.com>
+Message-ID: <202601232124.fqzsosEi-lkp@intel.com>
 References: <20260123065257.2993735-1-rkannoth@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,27 +78,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ratheesh-Kannoth/devlink-
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20260123065257.2993735-1-rkannoth%40marvell.com
 patch subject: [PATCH net-next] devlink: Implement devlink param multi attribute nested data values
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260123/202601232029.nwwE5gfM-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601232029.nwwE5gfM-lkp@intel.com/reproduce)
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260123/202601232124.fqzsosEi-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601232124.fqzsosEi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601232029.nwwE5gfM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601232124.fqzsosEi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/devlink/param.c:305:12: warning: stack frame size (1464) exceeds limit (1280) in 'devlink_nl_param_fill' [-Wframe-larger-than]
-     305 | static int devlink_nl_param_fill(struct sk_buff *msg, struct devlink *devlink,
-         |            ^
-   1 warning generated.
+   net/devlink/param.c: In function 'devlink_nl_param_fill.constprop':
+>> net/devlink/param.c:410:1: warning: the frame size of 1300 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     410 | }
+         | ^
 
 
-vim +/devlink_nl_param_fill +305 net/devlink/param.c
+vim +410 net/devlink/param.c
 
 830c41e1e987d9 Jiri Pirko   2023-08-28  304  
-830c41e1e987d9 Jiri Pirko   2023-08-28 @305  static int devlink_nl_param_fill(struct sk_buff *msg, struct devlink *devlink,
+830c41e1e987d9 Jiri Pirko   2023-08-28  305  static int devlink_nl_param_fill(struct sk_buff *msg, struct devlink *devlink,
 830c41e1e987d9 Jiri Pirko   2023-08-28  306  				 unsigned int port_index,
 830c41e1e987d9 Jiri Pirko   2023-08-28  307  				 struct devlink_param_item *param_item,
 830c41e1e987d9 Jiri Pirko   2023-08-28  308  				 enum devlink_command cmd,
@@ -205,7 +203,7 @@ f9e78932eac650 Jiri Pirko   2025-05-05  379  	if (nla_put_u8(msg, DEVLINK_ATTR_P
 830c41e1e987d9 Jiri Pirko   2023-08-28  407  genlmsg_cancel:
 830c41e1e987d9 Jiri Pirko   2023-08-28  408  	genlmsg_cancel(msg, hdr);
 830c41e1e987d9 Jiri Pirko   2023-08-28  409  	return -EMSGSIZE;
-830c41e1e987d9 Jiri Pirko   2023-08-28  410  }
+830c41e1e987d9 Jiri Pirko   2023-08-28 @410  }
 830c41e1e987d9 Jiri Pirko   2023-08-28  411  
 
 -- 
