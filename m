@@ -1,207 +1,232 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E39A1CAA68;
-	Fri, 23 Jan 2026 13:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDCA2EE5F5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 14:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769176571; cv=none; b=gxSakSY74LI3UCMp9IaUb+VLw51RlPXJVPYVaLyEe+UGvKSIjzBS1TrUCi2TjAEQasV3+vAaWsLoZ2yHwPoE5nTDpD9Ot+h4f+FU/S/UaWmUIS+ZlRoHPAnqL89y2EGmHR2odeXgGy97IUIPZkV0swUdCKTinK87ZJrGOn1Wong=
+	t=1769179067; cv=none; b=RQ4+gIKHeKxTn0zM1ooBPtVTJwrYedXTB+TGvWeQnc4Mdm/Fhl3e+/mmg9YbDoRLOBV1gcVaRCSDKwkVlhPQrSjkrjClRpvDZRWXxrM242u+Y8z1Rn5j9DCFCXMpNZuJamJY7+NHchj/Us9suoKqIoefSfGUxS8pkZvw5afAgGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769176571; c=relaxed/simple;
-	bh=QSOx2eE67HzDrrswbsxCRfzJN1fJujSWWNEDMVmEFjE=;
+	s=arc-20240116; t=1769179067; c=relaxed/simple;
+	bh=o1vMmLZ66fIssfyBDLNRcJQTuxvG1xbC0Drk2o05BEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ON5iWbUjeYz9q+39+R9Y67uPK2rNN9zwiwzfTeD5ySOFMlerO6QjB61a93P+BXEaBg9bQyIboivV/IYOGe+4KWt5HLBvjMZCqwamPUBMoLcf1BVUEFIJFHnzT9I5vu39nJsnn8LNS4TlGEYnJcCCcSV1NzLItHPcbME7+AevPKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=heSDTkc5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EPE7nVqlOD4nvc1Deu46rXocU72g+ySqbT+mtJDfeK89cb/CaqGBDYiSAWpsTtYEV9za8YxPDuseifss7zJScqg+qsoefrReanjTA/GrcWPZgf0OU4LYVzNAQS00ahqOSLmDjRlbz6wZvvRDDP5PZCjAOoRMES70FmNn9QsdUG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1/kkjyhH; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="heSDTkc5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7AA1C4CEF1;
-	Fri, 23 Jan 2026 13:56:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769176571;
-	bh=QSOx2eE67HzDrrswbsxCRfzJN1fJujSWWNEDMVmEFjE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=heSDTkc5XrJ7Na+T8tlMn5nwZKCULjgQ645sRwxTS1pd6Q3cakd6pU1aUFZndI6/V
-	 Umdg53G84uMgHYOkOVEmgl/qESMYRxOn0g3VtxBdW1amQWxYC/TAPwXb/QNzYu8Jn2
-	 kf7kb/rK8R0yzkc30d+XkNgkki9UVx4iycoNHDRlHXbdrgauT0N0JYIfBm6515znwC
-	 qpVkQDhT+PsVkzPXmB54HdmQX2gd4l06HC2VnqOPA7ze6sHECqVcZPWJxFOErq+Wga
-	 /rdjfQBKTMPQZfCdlgKYK5gXHVGHUsbaZXT43C3EUki5WTqiGxImhXtLAqBCqEViTa
-	 DJoqEKhoZNZfA==
-Date: Fri, 23 Jan 2026 14:56:08 +0100
-From: Frederic Weisbecker <frederic@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: Re: [rafael-pm:bleeding-edge 175/176] ERROR: modpost:
- "tick_nohz_enabled" [drivers/cpufreq/cpufreq_ondemand.ko] undefined!
-Message-ID: <aXN9-KrR0YyC7YDV@localhost.localdomain>
-References: <202601231505.4Q8tb33s-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1/kkjyhH"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4359108fd24so1409764f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 06:37:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769179064; x=1769783864; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xKI6kmYleBCyvsuGizqBVIqQyhxDcyw49CGspR/o9ZI=;
+        b=1/kkjyhHp1zekz6BUfcQnBy4OAi6oz1dpE9EvppOesFJE8IYp4W3xSYKT7Oi6G6geq
+         OA3PfuA0YIrmijgm4Ol4Iis7F1j5t4zMyQjn4JgZAxBkRjdUCeuT9n8d5LjQKAr5pVVm
+         a9WSsgTNNEqL7z+VI4ghCkX3JN5vM6ZXcaQnBKyHhtcnfoJv3npIzQoZ86tr1kX2fOkG
+         Mb2p/N/ONJ9ycptmYoppnbLCe3lDGyMabucCFhUTT6Rh6FqJNWb+jAdbOlz9i/PKRGgA
+         UgBvuvAbnfmTYsYWFabpnPWbwxZQe5+bKCXRyGnmnVOW6db4vEHPxQOhcml23eJS87AW
+         VXCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769179064; x=1769783864;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xKI6kmYleBCyvsuGizqBVIqQyhxDcyw49CGspR/o9ZI=;
+        b=gQ7Zz4YtRpTz4xFFVQzfGj2VzkrI1P9izJ2h1EfVVhEceZty6qRWZa42KUjP28RUxz
+         qmUFh0hlRqG1cAjJ5gKk+hdT5dHGZ2EnNjdqT0A8xze96GyEADDRz8rv0bUpqxM5KMdd
+         i+A3k94A0uSUxPlXSc+ue3/BFpjzjJGkSUQgjaxf3ucQSO0+pCPjlc/X8KSntJucKxfT
+         VOVC8b3YHTXXyOIIJwxRPQafQ9cy4lKV2YusGOgvc+ZdmuuXXGIvafLjKTlo6MlWustL
+         bdnn+7Yxhw6q+nXogWy4S1daERsh+y3h7Z0TsHSYwh+BzySZ16BvDQF25V0QWNDF7r1+
+         4Xgw==
+X-Forwarded-Encrypted: i=1; AJvYcCWU5pt5bz7GwByzhm2ZhVEP+o8urfwkkq+wNmTRRN2DSnznioEa0TBOMfMyD/cXE3aXzXXqSDfQ9TyOLzI9@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9Ws7GrbedFuIW0AKWiinZgbaQAlV9Zm7KDS29Yj5Exgz/J7lK
+	anS5wwFXV2cnb/JimeXdYHtuaArIloslkn0UMw6vrUKN0dXYyBHKl/cOUHfVlH+DCA==
+X-Gm-Gg: AZuq6aLvOIPkjZsQTWQk7JvEKK8NFg+ipXdFE28H8pFUL+ILLgWyLOL3TXAfpeph/CM
+	VaAQtvmxUfoN8in/JXdsiHUfPCKlAl2LSmYPqLvKCodWJ7drNWVbWDj4bPScWmk/0DfUDAKx2cS
+	gci1IV/xTThmSdiD0YKTvnNeaBSei/OVu/C9xeQ+0MedVQcEDY90hd2Rw1V+lWCLUa84tLVnC9s
+	KHzLKFPP0jnaRV49lDbUwtcEHFoxehGYJkZmwudxwK0/nSQBJXoavN5Sz+dqBIP/DKqbsAKMG5g
+	PCzI/eEFRrqPuONWjBxPttQ5TFk1mPQUndk0ik7e7jkCiAT8qge+1G7kRtIuPdVSCJJvoJ2jOp1
+	qMkKETJvW1Hs5CPn8P4EareV3l0L5ywYWyMMDrnqWrIgsk3de3EJWt2DOSRWo1b1g2ELG33LgQc
+	WKKyRMYHPpXhWw6ExbjI8XV+Qck7OKpXqNXip0rCeAPAPOwDr+
+X-Received: by 2002:a5d:64c8:0:b0:430:f3ab:56a1 with SMTP id ffacd0b85a97d-435b9668bf7mr2998149f8f.42.1769179063785;
+        Fri, 23 Jan 2026 06:37:43 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:f5e4:d97b:d6a2:97ac])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1f7474csm7323514f8f.37.2026.01.23.06.37.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jan 2026 06:37:43 -0800 (PST)
+Date: Fri, 23 Jan 2026 15:37:37 +0100
+From: Marco Elver <elver@google.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>
+Subject: Re: [peterz-queue:locking/core 10/10] kernel/futex/core.c:982:1:
+ warning: spinlock 'atomic ? __u.__val : q->lock_ptr' is still held at the
+ end of function
+Message-ID: <aXOHsWg8xd2qAwyr@elver.google.com>
+References: <202601221040.TeM0ihff-lkp@intel.com>
+ <20260122091600.GE171111@noisy.programming.kicks-ass.net>
+ <aXJs7Hi90iOIoeMM@elver.google.com>
+ <20260123085555.GG171111@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202601231505.4Q8tb33s-lkp@intel.com>
+In-Reply-To: <20260123085555.GG171111@noisy.programming.kicks-ass.net>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-Le Fri, Jan 23, 2026 at 03:37:07PM +0800, kernel test robot a écrit :
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-> head:   8a22b02a1427ff0eab01a1b7cd62355238ba3d5b
-> commit: cc85c350babcb86c65da5393532f1cb255c750bc [175/176] cpufreq: ondemand: Simplify idle cputime granularity test
-> config: i386-buildonly-randconfig-002-20260123 (https://download.01.org/0day-ci/archive/20260123/202601231505.4Q8tb33s-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601231505.4Q8tb33s-lkp@intel.com/reproduce)
+On Fri, Jan 23, 2026 at 09:55AM +0100, Peter Zijlstra wrote:
+> On Thu, Jan 22, 2026 at 07:31:08PM +0100, Marco Elver wrote:
+> > +Cc Will
+> > 
+> > On Thu, Jan 22, 2026 at 10:16AM +0100, Peter Zijlstra wrote:
+> > > On Thu, Jan 22, 2026 at 10:30:28AM +0800, kernel test robot wrote:
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/core
+> > > > head:   33d9e7fdf9c17417347d1f06ddebaf25f21ab62a
+> > > > commit: 33d9e7fdf9c17417347d1f06ddebaf25f21ab62a [10/10] futex: Convert to compiler context analysis
+> > > > config: arm64-randconfig-001-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221040.TeM0ihff-lkp@intel.com/config)
+> > > > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221040.TeM0ihff-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202601221040.TeM0ihff-lkp@intel.com/
+> > > > 
+> > > > All warnings (new ones prefixed by >>):
+> > > > 
+> > > > >> kernel/futex/core.c:982:1: warning: spinlock 'atomic ? __u.__val : q->lock_ptr' is still held at the end of function [-Wthread-safety-analysis]
+> > > >      982 | }
+> > > >          | ^
+> > > >    kernel/futex/core.c:976:2: note: spinlock acquired here
+> > > >      976 |         spin_lock(lock_ptr);
+> > > >          |         ^
+> > > > >> kernel/futex/core.c:982:1: warning: expecting spinlock 'q->lock_ptr' to be held at the end of function [-Wthread-safety-analysis]
+> > > >      982 | }
+> > > >          | ^
+> > > >    kernel/futex/core.c:966:6: note: spinlock acquired here
+> > > >      966 | void futex_q_lockptr_lock(struct futex_q *q)
+> > > >          |      ^
+> > > >    2 warnings generated.
+> > > 
+> > > Urgh, this is the arm64 READ_ONCE() confusing the thing. It can't see
+> > > through that mess and realize: lockptr == q->lock_ptr.
+> > > 
+> > > Marco, any suggestion how to best fix that?
+> > 
+> > I have a tentative solution:
+> > 
+> > diff --git a/arch/arm64/include/asm/rwonce.h b/arch/arm64/include/asm/rwonce.h
+> > index 78beceec10cd..75265012ff2d 100644
+> > --- a/arch/arm64/include/asm/rwonce.h
+> > +++ b/arch/arm64/include/asm/rwonce.h
+> > @@ -31,9 +31,8 @@
+> >   */
+> >  #define __READ_ONCE(x)							\
+> >  ({									\
+> > -	typeof(&(x)) __x = &(x);					\
+> > -	int atomic = 1;							\
+> > -	union { __unqual_scalar_typeof(*__x) __val; char __c[1]; } __u;	\
+> > +	typeof(&(x)) __x = &(x), *__xp = &__x;				\
+> > +	union { TYPEOF_UNQUAL(*__x) __val; char __c[1]; } __u;		\
+> >  	switch (sizeof(x)) {						\
+> >  	case 1:								\
+> >  		asm volatile(__LOAD_RCPC(b, %w0, %1)			\
+> > @@ -56,9 +55,10 @@
+> >  			: "Q" (*__x) : "memory");			\
+> >  		break;							\
+> >  	default:							\
+> > -		atomic = 0;						\
+> > +		__u.__val = (*(volatile typeof(__x))__x);		\
+> >  	}								\
+> > -	atomic ? (typeof(*__x))__u.__val : (*(volatile typeof(__x))__x);\
+> > +	*__xp = &__u.__val;						\
+> > +	*__x;								\
+> >  })
+> >  
+> >  #endif	/* !BUILD_VDSO */
+> > 
+> > This works because the compiler doesn't analyze alias reassignment
+> > through pointer-to-alias within the same function. An alternative is to
+> > do the alias reassignment via an __always_inline function that takes the
+> > alias as a const pointer, and then cast the const away and do the
+> > assignment. But I think the above is cleaner. Only compile-tested.
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601231505.4Q8tb33s-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> >> ERROR: modpost: "tick_nohz_enabled" [drivers/cpufreq/cpufreq_ondemand.ko] undefined!
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> Oh clever! I suppose it does help if you know how the compiler works :-)
 
-Right...
+Latest version:
 
-Is it better with this replacement?
 
----
-From: Frederic Weisbecker <frederic@kernel.org>
-Date: Wed, 7 Jan 2026 17:25:09 +0100
-Subject: [PATCH] cpufreq: ondemand: Simplify idle cputime granularity test
-
-cpufreq calls get_cpu_idle_time_us() just to know if idle cputime
-accounting has a nanoseconds granularity.
-
-Use the appropriate indicator instead to make that deduction.
-
-Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-pm@vger.kernel.org
----
- drivers/cpufreq/cpufreq_ondemand.c | 7 +------
- include/linux/tick.h               | 1 +
- kernel/time/hrtimer.c              | 2 +-
- kernel/time/tick-internal.h        | 2 --
- kernel/time/tick-sched.c           | 8 +++++++-
- kernel/time/timer.c                | 2 +-
- 6 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufreq_ondemand.c
-index a6ecc203f7b7..bb7db82930e4 100644
---- a/drivers/cpufreq/cpufreq_ondemand.c
-+++ b/drivers/cpufreq/cpufreq_ondemand.c
-@@ -334,17 +334,12 @@ static void od_free(struct policy_dbs_info *policy_dbs)
- static int od_init(struct dbs_data *dbs_data)
- {
- 	struct od_dbs_tuners *tuners;
--	u64 idle_time;
--	int cpu;
- 
- 	tuners = kzalloc(sizeof(*tuners), GFP_KERNEL);
- 	if (!tuners)
- 		return -ENOMEM;
- 
--	cpu = get_cpu();
--	idle_time = get_cpu_idle_time_us(cpu, NULL);
--	put_cpu();
--	if (idle_time != -1ULL) {
-+	if (tick_nohz_is_active()) {
- 		/* Idle micro accounting is supported. Use finer thresholds */
- 		dbs_data->up_threshold = MICRO_FREQUENCY_UP_THRESHOLD;
- 	} else {
-diff --git a/include/linux/tick.h b/include/linux/tick.h
-index ac76ae9fa36d..fe7f51451ba1 100644
---- a/include/linux/tick.h
-+++ b/include/linux/tick.h
-@@ -126,6 +126,7 @@ enum tick_dep_bits {
- 
- #ifdef CONFIG_NO_HZ_COMMON
- extern bool tick_nohz_enabled;
-+extern bool tick_nohz_is_active(void);
- extern bool tick_nohz_tick_stopped(void);
- extern bool tick_nohz_tick_stopped_cpu(int cpu);
- extern void tick_nohz_idle_stop_tick(void);
-diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-index f8ea8c8fc895..e1bbf883dfa8 100644
---- a/kernel/time/hrtimer.c
-+++ b/kernel/time/hrtimer.c
-@@ -943,7 +943,7 @@ void clock_was_set(unsigned int bases)
- 	cpumask_var_t mask;
- 	int cpu;
- 
--	if (!hrtimer_hres_active(cpu_base) && !tick_nohz_active)
-+	if (!hrtimer_hres_active(cpu_base) && !tick_nohz_is_active())
- 		goto out_timerfd;
- 
- 	if (!zalloc_cpumask_var(&mask, GFP_KERNEL)) {
-diff --git a/kernel/time/tick-internal.h b/kernel/time/tick-internal.h
-index 4e4f7bbe2a64..597d816d22e8 100644
---- a/kernel/time/tick-internal.h
-+++ b/kernel/time/tick-internal.h
-@@ -156,7 +156,6 @@ static inline void tick_nohz_init(void) { }
- #endif
- 
- #ifdef CONFIG_NO_HZ_COMMON
--extern unsigned long tick_nohz_active;
- extern void timers_update_nohz(void);
- extern u64 get_jiffies_update(unsigned long *basej);
- # ifdef CONFIG_SMP
-@@ -171,7 +170,6 @@ extern void timer_expire_remote(unsigned int cpu);
- # endif
- #else /* CONFIG_NO_HZ_COMMON */
- static inline void timers_update_nohz(void) { }
--#define tick_nohz_active (0)
- #endif
- 
- DECLARE_PER_CPU(struct hrtimer_cpu_base, hrtimer_bases);
-diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
-index 21ac561a8545..81c619bf662c 100644
---- a/kernel/time/tick-sched.c
-+++ b/kernel/time/tick-sched.c
-@@ -691,7 +691,7 @@ void __init tick_nohz_init(void)
-  * NO HZ enabled ?
+diff --git a/arch/arm64/include/asm/rwonce.h b/arch/arm64/include/asm/rwonce.h
+index 78beceec10cd..1927bfe87695 100644
+--- a/arch/arm64/include/asm/rwonce.h
++++ b/arch/arm64/include/asm/rwonce.h
+@@ -31,9 +31,8 @@
   */
- bool tick_nohz_enabled __read_mostly  = true;
--unsigned long tick_nohz_active  __read_mostly;
-+static unsigned long tick_nohz_active  __read_mostly;
- /*
-  * Enable / Disable tickless mode
-  */
-@@ -702,6 +702,12 @@ static int __init setup_tick_nohz(char *str)
+ #define __READ_ONCE(x)							\
+ ({									\
+-	typeof(&(x)) __x = &(x);					\
+-	int atomic = 1;							\
+-	union { __unqual_scalar_typeof(*__x) __val; char __c[1]; } __u;	\
++	TYPEOF_UNQUAL(x) *__x = (typeof(__x))&(x), **__xp = &__x;	\
++	union { typeof(*__x) __val; char __c[1]; } __u;			\
+ 	switch (sizeof(x)) {						\
+ 	case 1:								\
+ 		asm volatile(__LOAD_RCPC(b, %w0, %1)			\
+@@ -56,9 +55,10 @@
+ 			: "Q" (*__x) : "memory");			\
+ 		break;							\
+ 	default:							\
+-		atomic = 0;						\
++		__u.__val = (*(volatile typeof(x) *)__x);		\
+ 	}								\
+-	atomic ? (typeof(*__x))__u.__val : (*(volatile typeof(__x))__x);\
++	*__xp = &__u.__val;						\
++	(typeof(x))*__x;						\
+ })
  
- __setup("nohz=", setup_tick_nohz);
- 
-+bool tick_nohz_is_active(void)
-+{
-+	return tick_nohz_active;
-+}
-+EXPORT_SYMBOL_GPL(tick_nohz_is_active);
-+
- bool tick_nohz_tick_stopped(void)
- {
- 	struct tick_sched *ts = this_cpu_ptr(&tick_cpu_sched);
-diff --git a/kernel/time/timer.c b/kernel/time/timer.c
-index 1f2364126894..7e1e3bde6b8b 100644
---- a/kernel/time/timer.c
-+++ b/kernel/time/timer.c
-@@ -281,7 +281,7 @@ DEFINE_STATIC_KEY_FALSE(timers_migration_enabled);
- 
- static void timers_update_migration(void)
- {
--	if (sysctl_timer_migration && tick_nohz_active)
-+	if (sysctl_timer_migration && tick_nohz_is_active())
- 		static_branch_enable(&timers_migration_enabled);
- 	else
- 		static_branch_disable(&timers_migration_enabled);
--- 
-2.51.1
+ #endif	/* !BUILD_VDSO */
 
 
+Because the previous one was not stripping volatile and we'd end up
+reading things twice. This is more annoying than I thought, maybe I'll
+go back to a version that produces equivalent binaries. This version
+seems to be strictly reducing instructions (across ~100 functions or
+so), but not sure why or if that's correct.
+
+> I was thinking that perhaps it makes sense to invest in a 'directive'
+> where we can explicitly hand alias information to the compiler.
+> 
+> Consider:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/tree/kernel/locking/rtmutex.c?h=locking/core&id=a31a1351e9ec9df7a72ea4877a8e53a9c02e8641#n1259
+> 
+> 		rtm = container_of(lock, struct rt_mutex, rtmutex);
+> 		__assume_ctx_lock(&rtm->rtmutex.wait_lock);
+> 		res = __ww_mutex_add_waiter(waiter, rtm, ww_ctx, wake_q);
+> 
+> Here there is a similar issue, where container_of() wrecks things. It
+> cannot tell that rtm->rtmutex == lock and hence its idea of
+> lock->wait_lock gets 'confused'.
+> 
+> I hack around it with that __assume_ctx_lock() and I suppose that works,
+> but perhaps it makes sense to be able to tell the compiler that yes,
+> these things are the actual same thing. Perhaps it will even improve
+> code-gen, like in your example.
+
+There is __builtin_assume, but I'd refrain from using that to tell the
+compiler things that may not be true anymore in future. But
+ThreadSafetyAnalysis's alias analysis ignores all that anyway because
+its alias analysis is detached from the rest of the compiler.
+
+Unclear how feasible it is to add a TSA-only builtin to do that. I think
+in many cases we can actually use __returns_ctx_lock to create aliases,
+but in the container_of cases I haven't yet figured out a way to do
+that.
