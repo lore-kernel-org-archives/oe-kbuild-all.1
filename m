@@ -1,154 +1,143 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB01264617
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 20:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769198566; cv=pass; b=KMkI5uvhEo3eGsxeo/bNMJlY0Oe7JYd9xxCfYYUe2L2tP+c+E5RhpsrDOX5kwuwDCXPupNNt9/FsZ9UH02B6DELd3dYBkLkG7x16O0nnq8VcAzZjmjZ9V2S5NKDwWlBH8u4HylbfJPlxY4IJTcwgmwYgEVm3AHnrs/dobmD63jA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769198566; c=relaxed/simple;
-	bh=N1WNpGhp0sNZGbNcGRXlb7uViIb7gYmd7lExA5LKlZ4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R78p+Y9f7m65+DM/b2oiz7raYFuorQdgqIDof8e7ZFVD/dndGsJgzgsXMzcis0pf9qhM3ovL5DAffGJt1dZv2B5Me7wv3hB3ZS7Uv99A4GcbKxU69728VXKckylhYeJbAZ9wLnkCbB1h19A1Z4ULtYhSlrHqbw0MsJIz6RrXY3c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z95udger; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9832D739B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 20:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769200166; cv=none; b=LisPXjYYQaXD8JUvLckkU9gVm0Lc8gEsO00xHAf0/oX4coffnCA0hAgY44CJIqfDuk+fv879npHe9TtEEgRY3LJ4U7GX8piCVmfJZcZjr3wMhcr2Yack9cFxvWWBR4rNuyPPxkGfIaOnig9y/Yud48c4Rxp26IXkUr1PuNRaghA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769200166; c=relaxed/simple;
+	bh=vOc/Zoka9Ymz7tzO3k14Ksu5+9P410R1+UPLRvofQVM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ng5TtQE7pM+zTlI73hznX1Zmj93x3eA4oe8E0SYqBYTKF8oFdVKlLVjLJ+d/ejd+L32cyHgq6bQ8HzFZtcbIn6CH6R4LsE3olawQPLcLaD2pWbvjCxsrZteuEwAt5HgPjBHQk9ikYxbPjILUe9/CU9j0ZGV73k7/rZXHgnYMMNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWzC4Ymj; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z95udger"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6495d592c10so1282121d50.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 12:02:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769198563; cv=none;
-        d=google.com; s=arc-20240605;
-        b=F75K4ZLEOCCLFCTMq5pcSIHotnQjim74IjvINR44ZVAlZZMV5/0wqa9GzCPtl6n/PQ
-         nImExW4dW0g7tbPYT5hPzb84Upo+yB9blUvev6Pd8XgrLAFDAPzWv6gBZ2EurSLNLVQd
-         Dw/XmdWD0h9EG6gxSYFfW8WT+TszCA1rGYS1iqCVdp5QHw2T8KLCFz61AhKcF7uqbZHM
-         WsG8fTee22U3Rzsjaqsdbds7FOWtcm90+ZweONJJAt++cZ3U27SneiE/nWQZjRTViCxi
-         6HXJ4KQTvmximTIgtj1B0DIeoHRwmgSCiFHl+5eJzWFLWs3ysthiUUy/dfNybp4h9e6u
-         oO/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EkhChGP0ZbklSidP8dLmcPOAubIdgw7SaaHGflOOdLg=;
-        fh=QhlxYfmfh+SOEHEqrqcESGaUiJFayzTwrR97FcYBYyc=;
-        b=h+50c3Fe6LrguOBN/2r0+oL9fwdRpP725ZEkniVM03oZc9D/jb2JVLKlwGquavPzlF
-         7WNrNPeACG10D4N45YwXgYfO63ATgkwyKCFsj7eSXoCYm+RxReuF3k9ryPpkYREEAIKn
-         rl0mZ2jpVmEbkm2EKU3uR8fvLzsTddx+5iYuGcn8dYH3oUCAeEpAEcOEKPkISbDm+1um
-         /HPlb9AvrFGlX5/abgJhEABySBV1uKaIEksKfBNDRDajz1uTnorIBM4lQp/5XT+LXH1K
-         HTjY7hMa69Rto4C0C8fHvaM4O6JqflGq+QIKDZZkaKqJ1c+EbIjqwoHFJ0XRBAILx94c
-         VxvQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769198563; x=1769803363; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EkhChGP0ZbklSidP8dLmcPOAubIdgw7SaaHGflOOdLg=;
-        b=Z95udgerkRIO4l54EYbPjx4SxpWDcl2bhA/h8NcwToWraNREa/exRUHDjl/n7NSyWK
-         KXrUIn0by9YDemNdU/OcY0vNmHpzLVDljMqZNr6BnKnefzSWUT2bwwkmMtIGw4Aa92Q3
-         wMl08F6orRgZ7XvhJOeIiFlCVsu2Xs/6aFhqxN/6y22kkT+ArHl/AB+XMscEsRYHvUkj
-         C9RjMHoH17OyqcblDGuWJEvdBdVXUC5kwqyAs7Lzhf/rB46SN48qDxWfxavyqy7v0qRX
-         HjnLT3sYPyXlcXqGD57TNFh1CLIAxg/f4tcDeSrqve34sXFkm0CkRgFVQ/PE3bliL7AH
-         MRsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769198563; x=1769803363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EkhChGP0ZbklSidP8dLmcPOAubIdgw7SaaHGflOOdLg=;
-        b=wPTr3PMs95TPOcCARGgdJ4V/7muwkR/w3kX/3QmrKONbr9gs9mc8rQvrey832OHHXf
-         OF1EZ96/lt7MfUCO2DtVEhxv5ypLJ5tanpJGBSv40KzkOcyBGo3uHOm8M0KpynLOUoPl
-         RVLpKP2hTxaf4iJ6E4tsN4P0291ZHmzaCYyshgaQw1xR2PC+J90ozP8d0UTSOegh9t3d
-         dlMpX4i7dP7Pd35aHloBnnr/fcSojz/2kdDGvD8WEiHO734QlfDeF9kQGlEN7+qnBCyW
-         DR76vxpuu2Gj5pxL60VB27ymWv9snvLo6fPa+elSGbQ+5A8AWmRA2pImUh3BPaIn0/oQ
-         OypA==
-X-Forwarded-Encrypted: i=1; AJvYcCVdrryMGRR1N2t5fB+2V3TxHFc+s3LBLV5abSbxuQ1dFi6te20QyJKnCR8zkPl0bMX5F6v1KT3pMu89K6Ok@lists.linux.dev
-X-Gm-Message-State: AOJu0YwYie/kIkTz2qMK8a4nq5a/1eWPJSKbfUTICB/sn2HUeOgctRBr
-	DatUTb+1aW/fsuoHdF/mjhxSsFdudWFfoSe4PMFm/WtyXOFI8X60u7qWjI5//vA0IfFFWrFYZAX
-	Hyv6lbut3a+LX6frivvykxAzfhE0OYh8=
-X-Gm-Gg: AZuq6aIbNVTK8sDbaKLCQWOOWPtmDeO//FFT9eqvjNxedPKumB1gyyz1CKumPSsLEJs
-	5/prMY+sIUiCPL/p2+yQSQW5zDdyADACNGdo9j8HP2BdLR49DAgCeNhVfCbDITKzE3RZOIe+Dj5
-	g1MQVTtXmWfH8sBZfFKAArSGqQSsCsJuEWmaTAXPs5XsjRW9L1jEN38f8SY90SN2wvd+uRRc1CE
-	HLVsphKJQXqomH2a0p6nU24qho3kQosQ32929oTu+7xLkIDCMDXwLP+/UneKOohDPkyRlr3EOru
-	u5Q=
-X-Received: by 2002:a05:690e:4186:b0:649:6658:ea91 with SMTP id
- 956f58d0204a3-6496658ec17mr650331d50.0.1769198563454; Fri, 23 Jan 2026
- 12:02:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWzC4Ymj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769200165; x=1800736165;
+  h=date:from:to:cc:subject:message-id;
+  bh=vOc/Zoka9Ymz7tzO3k14Ksu5+9P410R1+UPLRvofQVM=;
+  b=YWzC4Ymja4jlPzgmjbGkZhU8CI3P9ZMEkQplLJoXw5CsETJ748/6suay
+   154PMGqJ7OP5NkzmuSlsFP2evwtJqNIXTGRTP+pB8voN9ugJ4ZL045abg
+   lOd2hj4/lvNoG3akaJvoSFgloPbKs5hXsHDqA5pAmRXcE1E0qSnAz1611
+   WSp9YrM16LjoYWTMeRRE8E3XTMumXnJ+umHPFwAQDxba6oMiMRQsgKGyj
+   MOTIqEJKMcVUvqYpbIqWm6BY2IzPZTCu5n4TGC2G9ZQYscCsgbdN82jNe
+   SWGNBmHGt5WLIuQLSmwNMWP2f2KIr9hIvhR4k94khNVpT8cjerEI33Q+N
+   w==;
+X-CSE-ConnectionGUID: Upu0qh64Qlu76l2b5+xZiA==
+X-CSE-MsgGUID: P0MR6f8FSYGIbU8F+jZR5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="73046313"
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="73046313"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 12:29:25 -0800
+X-CSE-ConnectionGUID: +D2YCxtHRCe2RlGYvzE8jg==
+X-CSE-MsgGUID: h/HOYLbEQFKwnWrbGB7juQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="237768859"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 23 Jan 2026 12:29:23 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vjNmR-00000000UQy-2WpR;
+	Fri, 23 Jan 2026 20:29:19 +0000
+Date: Sat, 24 Jan 2026 04:29:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ankur Arora <ankur.a.arora@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Raghavendra K T <raghavendra.kt@amd.com>
+Subject: [linux-next:master 7919/9290]
+ include/linux/compiler_types.h:631:38: error: call to
+ '__compiletime_assert_639' declared with attribute error: clamp() low limit
+ pg.start greater than high limit pg.end
+Message-ID: <202601240453.QCjgGdJa-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202601222139.VGTZ3L94-lkp@intel.com>
-In-Reply-To: <202601222139.VGTZ3L94-lkp@intel.com>
-From: jim.cromie@gmail.com
-Date: Fri, 23 Jan 2026 13:02:17 -0700
-X-Gm-Features: AZwV_Qj-bAHPt6tT84B11EMQjzpJT4i2sjpSnGjweT0wpJIk5iaoOOr7vENW8Z8
-Message-ID: <CAJfuBxyv4kXHv_YbddhwYxSA_mk-BTH=FFK7qTg2JcgZVL24xQ@mail.gmail.com>
-Subject: Re: [jimc:dd-drm-fix 45/75] lib/dynamic_debug.c:1844
- ddebug_drop_cached_prefix() warn: passing freed memory 'prefix' (line 1843)
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 22, 2026 at 8:27=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> tree:   https://github.com/jimc/linux.git dd-drm-fix
-> head:   354f9423ffa1fb2a31f8410ddeea96a7a8471ec1
-> commit: 37e1c3e5c714f09a36daac2b5c3c55b3b7f9fae4 [45/75] dyndbg: cache th=
-e dynamic prefixes per callsite.
-> config: arc-randconfig-r072-20260122 (https://download.01.org/0day-ci/arc=
-hive/20260122/202601222139.VGTZ3L94-lkp@intel.com/config)
-> compiler: arc-linux-gcc (GCC) 12.5.0
-> smatch version: v0.5.0-8985-g2614ff1a
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202601222139.VGTZ3L94-lkp@intel.com/
->
-> smatch warnings:
-> lib/dynamic_debug.c:1844 ddebug_drop_cached_prefix() warn: passing freed =
-memory 'prefix' (line 1843)
->
-> vim +/prefix +1844 lib/dynamic_debug.c
->
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1833  static void ddebug_drop_cache=
-d_prefix(const struct _ddebug *dp)
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1834  {
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1835      char *prefix;
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1836      unsigned long key =3D dde=
-bug_prefix_key(dp);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1837      unsigned long lock_flags;
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1838
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1839      spin_lock_irqsave(&pr_pre=
-fixes_lock, lock_flags);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1840      prefix =3D mtree_erase(&p=
-r_prefixes, key);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1841      spin_unlock_irqrestore(&p=
-r_prefixes_lock, lock_flags);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1842      if (prefix) {
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02 @1843              kfree(prefix);
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02 @1844              v3pr_info("drop c=
-ached prefix: %s\n", prefix);
->
-> print the string first, then free it.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a0c666c25aeefd16f4b088c6549a6fb6b65a8a1d
+commit: 93552c9a3350fff06543da18e4c80d3e804191ca [7919/9290] mm: folio_zero_user: cache neighbouring pages
+config: riscv-randconfig-002-20260124 (https://download.01.org/0day-ci/archive/20260124/202601240453.QCjgGdJa-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240453.QCjgGdJa-lkp@intel.com/reproduce)
 
-oh yes.  thank you.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601240453.QCjgGdJa-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/mm.h:18,
+                    from arch/riscv/include/asm/sections.h:9,
+                    from include/linux/interrupt.h:22,
+                    from include/linux/kernel_stat.h:8,
+                    from mm/memory.c:42:
+   mm/memory.c: In function 'folio_zero_user':
+>> include/linux/compiler_types.h:631:38: error: call to '__compiletime_assert_639' declared with attribute error: clamp() low limit pg.start greater than high limit pg.end
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                                         ^
+   include/linux/range.h:46:11: note: in definition of macro 'DEFINE_RANGE'
+      .end = (_end),   \
+              ^~~~
+   include/linux/compiler_types.h:619:2: note: in expansion of macro '__compiletime_assert'
+     __compiletime_assert(condition, msg, prefix, suffix)
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:631:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:188:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(statically_true(ulo > uhi),    \
+     ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:195:2: note: in expansion of macro '__clamp_once'
+     __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
+     ^~~~~~~~~~~~
+   include/linux/minmax.h:218:36: note: in expansion of macro '__careful_clamp'
+    #define clamp_t(type, val, lo, hi) __careful_clamp(type, val, lo, hi)
+                                       ^~~~~~~~~~~~~~~
+   mm/memory.c:7296:8: note: in expansion of macro 'clamp_t'
+           clamp_t(s64, fault_idx + radius, pg.start, pg.end));
+           ^~~~~~~
 
 
->
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1845      }
-> 37e1c3e5c714f0 Jim Cromie 2023-10-02  1846  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+vim +/__compiletime_assert_639 +631 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  621  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  629   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  630  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @631  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  632  
+
+:::::: The code at line 631 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
