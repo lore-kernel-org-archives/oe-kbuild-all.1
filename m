@@ -1,71 +1,63 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0312D8DCF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 09:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B97C353ED7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 09:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769159007; cv=none; b=mt1kDnZ7J6kATpO3BGeWb+QZy4R5Y5IwdKZDunZhZylchMDgsYJEf41zH6XC+2FUyLDYkW25ROgta/CwFvssraY79KfA8lbfNJM4BoHLdFeUA9ibmJar1mIm5/rnPeFGsvfp9rmhp+WijL15Sv8n2EARSFrDL9lW5530IQO63yA=
+	t=1769160353; cv=none; b=N2YSmPM5oVEdCNdQZNgxbb+HKfDG2m8WoLuni8zv4egx6vv3VGvkkjgMdTL1AVqajfDmUPW4IbY+vvxRuHxfVtoTarywOYG6m2ACoqP7SQ14JuTvJA3Y2ECSGc5lpVvV3ZyND590ZypWYY+8Xu0zbohRU3Pm7FfEdzIkqtyP2nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769159007; c=relaxed/simple;
-	bh=bbqxYhYGxkC5JL0V89QuLxDMBP/f3awNsdweWU5aayc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cayO1mAsA1yfMT6/DFNVX+gL/affjAVtNa9ZZ1QQTYmfU5OKHLSuVcaoHQWfIA2ytRFDT7mY7cfTgoByGrDfkQaB2T/sEs4IL0iSfps86NYsNjEQCxNAdfBYnK0wN9WZWjcZZNXofT8+1WlY4JpQCzftZ1ZWXnZaV17zq41vBdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ce2yN1uN; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769160353; c=relaxed/simple;
+	bh=nZMmrQF506mmGcgbTW6IBw6ESdd4aYCgv8ylm7pg2HU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SxwRZy3SsA4JJ8UDzfloW25YIKlh9iO9xOazjETsf3iwW9327G6OZdIcnYWGby61kVW8MvRj2diybH3kNnnnWT7+PRBNdJDaZ9KWXHvF5xadWoMk7SGHBbjBQ2TGuti0GXbpfFT3i5xLsoItvTMbHCtuAi/9n35Ri/12SIUFZcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJMmfuC1; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ce2yN1uN"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42fbbc3df8fso1232566f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 01:03:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769159004; x=1769763804; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Knn5SBgkpZ52KCcD1YUV1VO9W7IJFnPx6sGNM5G1rnc=;
-        b=ce2yN1uN5hZTC51DQOufSyqKcA7F5nMBoA3tz3nL/rLYSxkS8QXSHGdISSog6ZpaAJ
-         fDKN0zU7Laneh+qpwre942hsWdonEyswiujhIeyb5ThwALKS21Zrou21WCcRitFE2rQd
-         GT8wnA5wSuOyEpfI5KC0IPLu56avHUYElGGEVCmvWVzQ0BwJuPKObzIZFrU1jeQdVzXT
-         7PP5oMnrfR5PK6fhTsei4ZRQJ0bt8NMZbSEbwjkXPSDnq1Qydrb+J9BYTRhESaPJREgZ
-         CYDXjJPGhQeS5ReioO2Dgvrn2Afuq1LlP93Tx5xtnZisp6oWsj7KW7PCGcDznjpcQm7z
-         NzlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769159004; x=1769763804;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Knn5SBgkpZ52KCcD1YUV1VO9W7IJFnPx6sGNM5G1rnc=;
-        b=EfHDu7p0Vl9FoYoOjMi/fbzas59c+05yfOcX/pnQsZJEeNNl+6lE0hz6KsIqJ6z+L4
-         IaRrZI7fCfy7Ce+tbxeYiYk8Ui1qMTA/P71aPfI2V0da3jqrbpk0nx2gsjkZ1Tq79D1q
-         ZeX7WWeCeSLQWd/QfbJhi121t7duV/grshvnltqIZhXXd9+BpTbIgu5c0ACLhO7L6E0v
-         c+kEHVP/tm7/pOTTSGAHuQlk0OjLQXQlZKEJTAbnYde6XbCKOWqp6PgYUCFAJF3Fggu+
-         l5cnQYer/hqfT8M0Nge128ZaDKVVijmc24wLNtF5hJpwLpx/yPBia3lt1YPBc0rmmw+g
-         F2NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUDSVx9mAOBA6iLgLuPF0Wgf/hw4dZL/CXcaUZIXerQd3yX9wewB77Vi3O41Ke4qgyGR1y5242uPfWCIuw+@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxu6AYxztXmUDl4v1mE+gac18LRY2Cs5KW1oUphwmvx1Y0IPjEb
-	RZMuGXxa4rqx9GWNkOcHt7yoKUZkQcr+UFQH4N7fndEjnwTACpGaXrXQXlVf1q8gD0jCjjTrho/
-	hVFcZwQKX0A==
-X-Gm-Gg: AZuq6aKdIEtgKctz5ndsddIMZjWsNl6cSJPn6Hp+KJwjA+J9abTXogSF6lWc/3dlvaB
-	KEsc3JivEXwOc0r/xTk/Q/XZu7UjxkTzjTsJ00enfdLJWrdtVhrWe2luHzIkQoRW+mk+z6Ekeb0
-	HCQsJVL2jo6yCFyJCorXICSJabMKHYLr4xM++nAuFHhYIceN1cJjGz7aEJ86cHofQuCxdZkWnNq
-	VBxOQIZUQs2A/UkIPR+E3dFW9ZWKReDLgbYTfegUnt74Z7unKNGASSFK6eUzEcX8X5Y4AIgE5W7
-	/iscakRfo0HyzSjwVgwwjgvTz22I7Ud6PbvYUcR7D7v5Pp89pOHdTFpg3ubQd8PaCX/ULSOv60C
-	jnqmQFRtoqdMAsa0XlwFH/qj/j3TGNQlTcsoRDe8nY3G2BuxIlVxGIMhFQ2Nk6El+k0lmZXkV9T
-	nHX/MiN962nXzfwBS0
-X-Received: by 2002:a05:6000:400b:b0:432:84ee:186f with SMTP id ffacd0b85a97d-435b162cdaamr4175501f8f.33.1769159004032;
-        Fri, 23 Jan 2026 01:03:24 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1f745e6sm5061787f8f.33.2026.01.23.01.03.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jan 2026 01:03:23 -0800 (PST)
-Date: Fri, 23 Jan 2026 12:03:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [axboe:for-7.0/io_uring 20/21] io_uring/io_uring.c:2741
- io_uring_sanitise_params() warn: if statement not indented
-Message-ID: <202601231651.HeTmPS8C-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJMmfuC1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769160349; x=1800696349;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nZMmrQF506mmGcgbTW6IBw6ESdd4aYCgv8ylm7pg2HU=;
+  b=OJMmfuC1XZ6d9tQGQyNn2CRIwfYFJTqPus8YIpXM3kjAHW1XiRcfeJQZ
+   P6b4U+dPCee0lcLnME0IUsRPb0RgEwxusWEIjOBjXCE18BAvUgES5DyGq
+   8rgmLpHC9IaUgYnyfT+YVTqqmGTEpRkEe4kwL8vdWWAY6FxM8mfnBFjPk
+   xRvhJMEw809N7M+ygbWdXWSRlIEvmoIyXhmNHl2dhum+frwVSK3mQeabB
+   9N7AK5GcIg8YjSurKs4hPk456WAFDNgYiFEVRIT5daXolorAAo6qrKcT2
+   MQ9K/+4Qw2VHXf13v//JdkFXpGLwhkJDjuukyzZhXRZCV+k4p8rDG+tet
+   A==;
+X-CSE-ConnectionGUID: b5rVRsSgRzqLQZyHSYnhKw==
+X-CSE-MsgGUID: A11131u3SkCp3LKDrnwLpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="74044352"
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="74044352"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 01:25:47 -0800
+X-CSE-ConnectionGUID: g2gvRI1FQymwQm4FEa2gxA==
+X-CSE-MsgGUID: ip+6azuIQMKg3JxxxVjyfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="244595213"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 23 Jan 2026 01:25:44 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vjDQD-00000000Tks-0bbX;
+	Fri, 23 Jan 2026 09:25:41 +0000
+Date: Fri, 23 Jan 2026 17:25:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aaron Tomlin <atomlin@atomlin.com>, rafael@kernel.org, dakr@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pavel@kernel.org, lenb@kernel.org,
+	neelx@suse.com, atomlin@atomlin.com, sean@ashe.io,
+	mproche@gmail.com, chjohnst@gmail.com, nick.lange@gmail.com,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH] PM: QoS: Introduce boot parameter
+ pm_qos_resume_latency_us
+Message-ID: <202601231700.admSdObE-lkp@intel.com>
+References: <20260123010024.3301276-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,49 +66,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260123010024.3301276-1-atomlin@atomlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-7.0/io_uring
-head:   82dadc8a494758093e775336390cb31033c6f9a3
-commit: 5247c034a67f5a93cc1faa15e9867eec5b22f38a [20/21] io_uring: introduce non-circular SQ
-config: alpha-randconfig-r071-20260123 (https://download.01.org/0day-ci/archive/20260123/202601231651.HeTmPS8C-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+Hi Aaron,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master amd-pstate/linux-next amd-pstate/bleeding-edge v6.19-rc6 next-20260122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/PM-QoS-Introduce-boot-parameter-pm_qos_resume_latency_us/20260123-090409
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20260123010024.3301276-1-atomlin%40atomlin.com
+patch subject: [PATCH] PM: QoS: Introduce boot parameter pm_qos_resume_latency_us
+config: arm64-randconfig-r072-20260123 (https://download.01.org/0day-ci/archive/20260123/202601231700.admSdObE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601231700.admSdObE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601231651.HeTmPS8C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601231700.admSdObE-lkp@intel.com/
 
-smatch warnings:
-io_uring/io_uring.c:2741 io_uring_sanitise_params() warn: if statement not indented
+All errors (new ones prefixed by >>):
 
-vim +2741 io_uring/io_uring.c
+   kernel/power/qos.c: In function 'init_pm_qos_latency_us_setup':
+>> kernel/power/qos.c:268:6: error: 'boot_option_idle_override' undeclared (first use in this function)
+     if (boot_option_idle_override == IDLE_POLL) {
+         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/power/qos.c:268:6: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/power/qos.c:268:35: error: 'IDLE_POLL' undeclared (first use in this function); did you mean 'SIL_POLL'?
+     if (boot_option_idle_override == IDLE_POLL) {
+                                      ^~~~~~~~~
+                                      SIL_POLL
 
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2733  static int io_uring_sanitise_params(struct io_uring_params *p)
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2734  {
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2735  	unsigned flags = p->flags;
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2736  
-712fbe97c3322c io_uring/io_uring.c Pavel Begunkov 2025-11-10  2737  	if (flags & ~IORING_SETUP_FLAGS)
-712fbe97c3322c io_uring/io_uring.c Pavel Begunkov 2025-11-10  2738  		return -EINVAL;
-712fbe97c3322c io_uring/io_uring.c Pavel Begunkov 2025-11-10  2739  
-5247c034a67f5a io_uring/io_uring.c Pavel Begunkov 2026-01-20  2740  	if (flags & IORING_SETUP_SQ_REWIND) {
-5247c034a67f5a io_uring/io_uring.c Pavel Begunkov 2026-01-20 @2741  		if ((flags & IORING_SETUP_SQPOLL) ||
-5247c034a67f5a io_uring/io_uring.c Pavel Begunkov 2026-01-20  2742  		    !(flags & IORING_SETUP_NO_SQARRAY))
-5247c034a67f5a io_uring/io_uring.c Pavel Begunkov 2026-01-20  2743  		return -EINVAL;
 
-Something missing here?
+vim +/boot_option_idle_override +268 kernel/power/qos.c
 
-5247c034a67f5a io_uring/io_uring.c Pavel Begunkov 2026-01-20  2744  	}
-5247c034a67f5a io_uring/io_uring.c Pavel Begunkov 2026-01-20  2745  
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2746  	/* There is no way to mmap rings without a real fd */
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2747  	if ((flags & IORING_SETUP_REGISTERED_FD_ONLY) &&
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2748  	    !(flags & IORING_SETUP_NO_MMAP))
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2749  		return -EINVAL;
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2750  
-92a3bac9a57c39 io_uring/io_uring.c Pavel Begunkov 2025-01-31  2751  	if (flags & IORING_SETUP_SQPOLL) {
+   245	
+   246	/* init_pm_qos_latency_us_setup - Parse the pm_qos_latency_us boot parameter.
+   247	 *
+   248	 * Parses the kernel command line option "pm_qos_resume_latency_us=" to establish
+   249	 * per-CPU resume latency constraints. These constraints are applied
+   250	 * immediately when a CPU is registered.
+   251	 *
+   252	 * Syntax: pm_qos_resume_latency_us=<cpu-list>:<value>[,<cpu-list>:<value>...]
+   253	 * Example: pm_qos_resume_latency_us=0-3:0,4-7:20
+   254	 *
+   255	 * The parsing logic enforces a "First Match Wins" policy. If a CPU is
+   256	 * covered by multiple entries in the list, only the first valid entry
+   257	 * applies. Any subsequent overlapping ranges for that CPU are ignored.
+   258	 *
+   259	 * Return: 0 on success, or a negative error code on failure.
+   260	 */
+   261	static int __init init_pm_qos_latency_us_setup(void)
+   262	{
+   263		char *token, *cmd = pm_qos_resume_latency_cmdline;
+   264		struct pm_qos_boot_entry *entry, *tentry;
+   265		cpumask_var_t covered;
+   266		int ret;
+   267	
+ > 268		if (boot_option_idle_override == IDLE_POLL) {
+   269			pr_warn("pm_qos: Cannot be used with idle=poll\n");
+   270			return -EINVAL;
+   271		}
+   272	
+   273		if (!zalloc_cpumask_var(&covered, GFP_KERNEL)) {
+   274			pr_warn("pm_qos: Failed to allocate memory for parsing boot parameter\n");
+   275			return -ENOMEM;
+   276		}
+   277	
+   278		while ((token = strsep(&cmd, ",")) != NULL) {
+   279			char *str_range, *str_val;
+   280	
+   281			str_range = strsep(&token, ":");
+   282			str_val = token;
+   283	
+   284			if (!str_val) {
+   285				pr_warn("pm_qos: Missing value range %s\n",
+   286					str_range);
+   287				continue;
+   288			}
+   289	
+   290			entry = kzalloc(sizeof(*entry), GFP_KERNEL);
+   291			if (!entry) {
+   292				pr_warn("pm_qos: Failed to allocate memory for boot entry\n");
+   293				goto cleanup;
+   294			}
+   295	
+   296			if (cpulist_parse(str_range, &entry->mask)) {
+   297				pr_warn("pm_qos: Failed to parse cpulist range %s\n",
+   298					str_range);
+   299				kfree(entry);
+   300				continue;
+   301			}
+   302	
+   303			cpumask_andnot(&entry->mask, &entry->mask, covered);
+   304			if (cpumask_empty(&entry->mask)) {
+   305				pr_warn("pm_qos: Entry %s already covered, ignoring\n",
+   306					str_range);
+   307				kfree(entry);
+   308				continue;
+   309			}
+   310			cpumask_or(covered, covered, &entry->mask);
+   311	
+   312			if (kstrtos32(str_val, 0, &entry->latency)) {
+   313				pr_warn("pm_qos: Invalid latency requirement value %s\n",
+   314					str_val);
+   315				kfree(entry);
+   316				continue;
+   317			}
+   318	
+   319			if (entry->latency < 0) {
+   320				pr_warn("pm_qos: Latency requirement cannot be negative: %d\n",
+   321					entry->latency);
+   322				kfree(entry);
+   323				continue;
+   324			}
+   325	
+   326			list_add_tail(&entry->node, &pm_qos_boot_list);
+   327		}
+   328	
+   329		free_cpumask_var(covered);
+   330		return 0;
+   331	
+   332	cleanup:
+   333		list_for_each_entry_safe(entry, tentry, &pm_qos_boot_list, node) {
+   334			list_del(&entry->node);
+   335			kfree(entry);
+   336		}
+   337	
+   338		free_cpumask_var(covered);
+   339		return ret;
+   340	}
+   341	early_initcall(init_pm_qos_latency_us_setup);
+   342	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
