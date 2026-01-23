@@ -1,168 +1,261 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C8330EF81;
-	Fri, 23 Jan 2026 12:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769171222; cv=none; b=Qz3qo0SzVoIt6Iro7QpxarVSZhCV2YmUhCjN53OasSrOsXMdHn1doySNBYXuUM65floMlc692Lj4331x1gXTm7/rH5NsRM5ddj+94EYpgyAJpwlXW+7nSZINMmxygEf1zvDwP6K2a1ix5HPbC73ucS0u2x1rwfpPYqz2c0Dc2So=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769171222; c=relaxed/simple;
-	bh=XA1SjaS2/7tkFIIRzJGUee57bJy4LE6ja09RafCZp9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PC40huaQDGrUcJgCuVpFyIC3FKYkk12Bke8YA/uMU749Lir06dPf7ELsbx9mWKpfRMoZsLvaEEary+qXp/reygM+cwdlFxYvNKYl8z3E2rAdKD8oUeFM3JG43l1B8I97kBlU4hQYFghu6XuwPLmbcxaSbpmEBR6GCU2qpJZux4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUvLUFUl; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F5B277C88
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jan 2026 12:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769171809; cv=fail; b=DOQdwqWVhjLpCaFLm1XekIGaOrgHnvErB4XDnrH+WjAkXXftH0sY1nikf7d8oco0wI6NY/SMB7rMPVdli5+aPe4RCg1JcUbWsaRhw/Fxf3LQXvQvEa1a9T1ZhXZdxpR97ulbD4aHvuCo1+p0nYL39WB1+C2ivN+LmsrBLYSHZu0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769171809; c=relaxed/simple;
+	bh=TmiP5oasHSRFNDBTEo+bKU3tAY2qAtak97Vq1P6DqBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=CqF+U+V5TtNwtKZtvvf6Iv7scGGZuPUA2Er02+QzzbUTSFEV8pg4vHuncTdPlbtzRQ9TNaydZ0/IB/rju+gFjOLnnNm3iLcyzqVCxfEtfRc4f8JmqZ/1HQUSlTgY4Ga1iMbBEFrd+rndP54GBe1VfsVX6B22mgnCxoF110wIVdA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=AXX84X0b; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=L7B593u5; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUvLUFUl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769171222; x=1800707222;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XA1SjaS2/7tkFIIRzJGUee57bJy4LE6ja09RafCZp9g=;
-  b=lUvLUFUlAZBCEeji6JUCP4bk59HalqL+Or4vLPGS4a+tpgbpAC5JWEHO
-   0ukw/r9MSsl0a6b2bTGiAORJjwrev4RPQYp/jBZvoBUuxwl3EYGLsuZZ6
-   /FIFTFExLe5aYhEhIedQtGSzfUH8MillninPPMW61PVVP5r31fUpj6xFF
-   RqrwNprbfCmKTfT2zI9YVPzZHDxSNecrPfuv6Q8G1Oym2fLDBmjZzZTpM
-   mV2gRyfYuPVOnzcyer1J9ap059pOCnS2nHafX0Zxh+5d3cOi7/dhl/VvD
-   yc8sHwVunBLvnHxjxK2p6FR6gB51ZX+47uz41P3LCIorB5NwMArbLPnWS
-   A==;
-X-CSE-ConnectionGUID: aBA7D6MnRpGb2Nd5TJCsuA==
-X-CSE-MsgGUID: bu//7i8LSWK1sHqKE5z6hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="87841454"
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="87841454"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 04:27:02 -0800
-X-CSE-ConnectionGUID: QzrIgEsERtSX4zO+kS9/Uw==
-X-CSE-MsgGUID: W4E3+5+NR4iRaLuDbBSLGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="206274996"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 23 Jan 2026 04:26:55 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vjGFY-00000000TwY-3vMe;
-	Fri, 23 Jan 2026 12:26:52 +0000
-Date: Fri, 23 Jan 2026 20:26:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hamza Mahfooz <someguy@effective-light.com>,
-	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hamza Mahfooz <someguy@effective-light.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sunil Khatri <sunil.khatri@amd.com>,
-	Lijo Lazar <lijo.lazar@amd.com>, Ce Sun <cesun102@amd.com>,
-	Ivan Lipski <ivan.lipski@amd.com>,
-	Kenneth Feng <kenneth.feng@amd.com>, Alex Hung <alex.hung@amd.com>,
-	Tom Chung <chiahsuan.chung@amd.com>, Melissa Wen <mwen@igalia.com>,
-	Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
-	Fangzhi Zuo <Jerry.Zuo@amd.com>,
-	Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>,
-	amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/amdgpu: implement page_flip_timeout() support
-Message-ID: <202601232007.NAxTeBna-lkp@intel.com>
-References: <20260123000537.2450496-2-someguy@effective-light.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="AXX84X0b";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="L7B593u5"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60N3EDom2973115;
+	Fri, 23 Jan 2026 12:36:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=KW6jXNBkZvLUvAisel
+	y0rbp1de4BcdMp2dCtjPs+/Ms=; b=AXX84X0blI8mMCU4FbUJJXQtpD6AMfeylx
+	fJ6CioDIIgOw4FMx5aQTpBDpGB4zvfYrng9s9m11VDFD7jJSHC6K1a2rnl1/3RvK
+	YMywcgsO+w1GsPUZZeW4H9cXB+pqnshqlODHOGzqWkd1a79UBhMdSZPbQB1l2NYE
+	ZYycmmC1K/nlBUpoy4iy0xovWhXWG+tzf1hFl4rEq/ooS6r0PNYdkAcJdwpMHp68
+	DPQIfdaH4W4jAM+BGAESOTKJijvn1oJq6D4H/VE7Z3yRLEU/dGpY2CW7b3eVuP2u
+	zg/VsjGWKEKXZYRRoE6TLbhNrrP7KZEygLTRzfLlPyMJM+KQW9ug==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4btagcxwd8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 23 Jan 2026 12:36:38 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60NA2Lgm022548;
+	Fri, 23 Jan 2026 12:36:38 GMT
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013064.outbound.protection.outlook.com [40.93.201.64])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4br0vj2t8j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 23 Jan 2026 12:36:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SpETu29AePOxReS59e17KgJX5KqEp4XUtVIsXY1zaRiwQGaPO8BZu0Dp7hwrw6vAqNDu3wNaNZz8dF0oNPBG0sPCDzMNgHMMeupirS0W+VLGZkuNMELADQpx9NZeiTNsKzuvoD1T9ngZguhfW/3NpyvloszA9cDVqprGTff4wOFhx3ZEEU+uO8E9C6CH1FB5AJuUpVFsgk3SwwbNXahGcKV0Qx9p/r9w2L1U5p5EwxieS8xNp9idiJsb6uXHyR+GD59g942itG7pu9slBHjVdn7fcLpJOpEfyolGjiLKDIjyr1p17Yu7y6tn6eqdp4EAyaBwfpLyQD9QozGVCWfVnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KW6jXNBkZvLUvAisely0rbp1de4BcdMp2dCtjPs+/Ms=;
+ b=yYFO31noyMNgkXe01HMdjHM+GJo35HScMOVOIfR4KxujXvdTq6JcDZdBf7o+LdgR3bxl6k8sVtmgc3yBMGS5NCZTcXCYdLtBuPzbsSsB+OC4WqmZ/0dz8brc86gKbxN9VtSDgIGniJhUXwUSyo5AiDNE7H+C2stb+gksFEseuE/+K4XiPo7N9b0ae3OwWVK//qYbRpDOZSy2YUvM9FhlohwblbfjzVYGSDgZF1SUtps4uTUT7U59TExAP7gBzlW6wCr0Z+4VwZDnmsD1oLV+BzWyxuJ3/wVUd9PVHicDZRnOV2rlfm0ctECzmynaWQWJkApjhurugTL9e9Nog3cVlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KW6jXNBkZvLUvAisely0rbp1de4BcdMp2dCtjPs+/Ms=;
+ b=L7B593u58DlvGCfwK4Mh6BMkyklsA7/y00OESUJ1CvqCP3MKz2n0iqIhpqPAhx1WN6aRopaURwnCKshSJEbODzLRwI9E4x9z6+eDyKS5VAOQbUkHUJCtyZmBrYiG+EV/7F9nZpsiRJQN/BnALSeIQpI1YfY3qixCsEXXOo1sBX4=
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
+ by SJ0PR10MB4766.namprd10.prod.outlook.com (2603:10b6:a03:2ac::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Fri, 23 Jan
+ 2026 12:36:35 +0000
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Fri, 23 Jan 2026
+ 12:36:35 +0000
+Date: Fri, 23 Jan 2026 12:36:37 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>,
+        oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-new 420/429] fs/romfs/mmap-nommu.c:66:42: sparse:
+ sparse: dereference of noderef expression
+Message-ID: <73c208af-2843-413c-8801-bb8f35dcfb34@lucifer.local>
+References: <202601221505.RxftadLx-lkp@intel.com>
+ <20260122132335.5f3160dd20dfdb68c57ede35@linux-foundation.org>
+ <aXL27/BZ/xIwNfT3@rli9-mobl>
+ <20260122214830.50c0bfbf2142a61d370be2e1@linux-foundation.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260122214830.50c0bfbf2142a61d370be2e1@linux-foundation.org>
+X-ClientProxiedBy: LO4P265CA0080.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bd::10) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123000537.2450496-2-someguy@effective-light.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|SJ0PR10MB4766:EE_
+X-MS-Office365-Filtering-Correlation-Id: 00d35a1e-d126-431a-e65a-08de5a7c0bc9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?QcQlOyhhHSwNq79lFPP5j9/V4KqFE/jSKUXreYVlCI0kTGTEUY0bVAcLFFBC?=
+ =?us-ascii?Q?QjOGerMKaqlG1DPz8zg9MKvUlnk/Zh9cyL9+01NCug6JNyD/1DpR+Z5x0jXd?=
+ =?us-ascii?Q?bQZKyHT2YVDg3ZtnAr5anzk7JHlc0SMs70tghdGUYSYpG14kmY7yDz8bZ+eN?=
+ =?us-ascii?Q?BEzFOTP2ZYnT98WHPVI/iXlQE/jkrs8n9SutxrnuHq2iaFhl9t5nUSG6MlHb?=
+ =?us-ascii?Q?fUo3lVV1l4in/uBvwDiZ18PadfpMRHtf8Bkhgx+ksprIZ4rMCP5P2D4uZ26M?=
+ =?us-ascii?Q?FU72kXRokqHu0XK1odW/Q3WRupHjyc7zG6ZsVVtKOut+ipHUwOWZ8eNehqYT?=
+ =?us-ascii?Q?yw3x/4ObqzcR+o8q/CkeumaCFiMBozZKx7NY11RdenERmE+LK8v8gCehx2/U?=
+ =?us-ascii?Q?Qj/gyWwz7fRdjNyQXs3Rbv3pDkzqw/r96Pa2wMMdtJjI670QsBR2cWYZ7chN?=
+ =?us-ascii?Q?w3Jx6VRPj1crY/SrdXWsU3oV8ZC6J9PF/IwW4Cgd5H3+Cu9TAxi4js8Zl4kk?=
+ =?us-ascii?Q?65n4qlsIpkb/5mUmlb6jbqLnrDI1khoiAwU0XLvlsCp8apXNQZoDOW7aaPq7?=
+ =?us-ascii?Q?iD9O7SAiBSoN9A2LmXZAmxnqIAIErLP9FQbhc2QBkNhs3vXLlnmLKsW+kHp8?=
+ =?us-ascii?Q?RS3Gph7OR1X0+vkesMFozuG9qubvH3p1Ter8J1kAO8u4LbCyUmyrGkisVJ5a?=
+ =?us-ascii?Q?oTXTEyxe0cCtBzzuwHGYkXksn4CxfjiTxVG2Q7lsGyu7F25rDk4Pc5y1Uwqj?=
+ =?us-ascii?Q?HJFeHCPkmbsWq87z40k3FT2Jb70Z7mIniHvFK9b92yDd9oOHm99qHgZVR0SP?=
+ =?us-ascii?Q?DqHrzpOmJiE1Vkq2OFPr89g7FpR9ZAkmIMndGfP2qcKvYSA03jUrT/l7le0o?=
+ =?us-ascii?Q?PPWam6wco2kWqnXq/i4KRmSLDY1GMyot5Qha2Tim+kI6lBiM+EYVHrj284Iv?=
+ =?us-ascii?Q?aL2KBVs6Rn7mtnQDp+Zw+2ZN1c3Hq8+/I4UQImzigDRRhX8jzdGa4UnRYaQq?=
+ =?us-ascii?Q?ybQtu34eEOMI50JJ7+aWU3MKwKfLAWakOU/bPg6KQgFkgPIngV929eC3MbP6?=
+ =?us-ascii?Q?x7m6Eie1LUoJ0S8H9AyCoFUh0B44zSrn1z7PV1hdO8alqDdKTq7gCbRo0Kng?=
+ =?us-ascii?Q?NUpAg3KOKqWfVA/8sYB3KrnwLAColXgQQO18fA+Nl0lE/Nn1PN2IYrSChvvj?=
+ =?us-ascii?Q?Rm3QvRnp/HFBLtJKKKmTeKMr8En0V5StBYkcfo58Wa/FSCFfnTI8RKa16RN4?=
+ =?us-ascii?Q?XYncO+xTCxjABVWQnHNvgIJwtO0F97qmt2reOGmdCYpO4f0BFLqE1p23RC4i?=
+ =?us-ascii?Q?Vl9zlJT5BYa4z5GXktAKBtScsiVUkxdN4s3bsHBADmCNC32bIZ08R9cm/LAN?=
+ =?us-ascii?Q?zpATRK0/JXG/zALJFA8kG0wdUGro1/mNXhVLbtGI+ugA3pZB+zdpDdj1IhfZ?=
+ =?us-ascii?Q?GaUnHBfzzTYtBn1PXbPcb3S/9Li5GeISOW2Xn4DjfcQjCSpsbvDksWjqYv9s?=
+ =?us-ascii?Q?rKhkOauyXGzIabiqXmabNlwGp+EGV61oV0/7vXtVaumg5JF2wMnladpO8p5u?=
+ =?us-ascii?Q?3yyaziuLpCIf5wWbtqW9YsVEF2hHWI0fVEuElAvs?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2yQii5Uy8+3g2W9miK2ERY9ERskQHdxL/nMZHocMOwGkZdQZ0ZVRiFShHGjL?=
+ =?us-ascii?Q?UcfnLDub0N5hPfd8QSIebt9qiWDtF+wVSbmAocI5HP0hnzQBQAZqk0cs7DkK?=
+ =?us-ascii?Q?V8vWc2Egj9t4keocKRzm74l6tNNiYXJfPhWpTe1YdWrDoXYEHEc6An3sxQ76?=
+ =?us-ascii?Q?VxPgD/oIk/+5k06hbGSXRaM2KTjGJhgRADFXOVSoCca+FeEc47OO2+XoiOmD?=
+ =?us-ascii?Q?J0wmm0eb1gsYDu31TZVzbg4gv2G3FIeA+s70a9NMwZyroWZ/ZVrMk7BIhgSx?=
+ =?us-ascii?Q?OV7dlw5rHNoDgZFjEjMX/TKh56bTe14yl25BzWVHZhOgdhXdRKt0BKbTelaH?=
+ =?us-ascii?Q?ce7nB6lAwVGQjR8T2N7jp5JNxUDnNLsVWigPjbryj6GKEa1bgL5SESX19QwI?=
+ =?us-ascii?Q?a/AiSPZIMSKvyEclh08jEqqlm+SZ2vHdj3v4fP9QV4m2H4u2ZRFx/pEA6L7X?=
+ =?us-ascii?Q?kAyazX2r3/AWqxgVuAkEEd5Ga/BEa+Vwpf/2g72/Safhg6mJv3waAAy/GTsX?=
+ =?us-ascii?Q?A3QVCYLLfqSfZJuageND1s3ucpBgp8zJC6iRGT5tHv1wGOJScosXeU7oea+n?=
+ =?us-ascii?Q?m4cOIiMHcVz/oJXMhd6nVVY5lXrq4kje4Fd93b+HekJ4Hb/LGOydewdUaysq?=
+ =?us-ascii?Q?O380KvEiA4F36v6uszG4tymP0jnAGPydac+3vgJolWb/9yVCaYFUpQuzAEK8?=
+ =?us-ascii?Q?M/vHBJ5DfhbLfkmFSZrmmOfr4muVMtHAGmAPk64EaJXbVc8wYipIchFOmkJ7?=
+ =?us-ascii?Q?h6xl1erUMlRahw5wemBu87NiMl+3uXKqiccLt5RI6FpW9VqLlSOCH+naF0To?=
+ =?us-ascii?Q?i38opameSnEWt41wcccZdcMgEjKHgObwLC9Mg4zmUnk43yXNbyBFCzKkiNyX?=
+ =?us-ascii?Q?GBcUN9GH49auczt9FBIZUXgnIl60nkE6zqyQwJwXtJGZWGDeupamvzZooyzx?=
+ =?us-ascii?Q?aXfuUqa5+4Qm9/rFXhKdx68W7EZJ2cYKb4hInUXbUnIcdhL21XRHHENula/s?=
+ =?us-ascii?Q?zmCV3hr/MCR7th9cFcpi8edzcU5S9ySosEdUnwfl3Lh+lAE2AyeRn2qaxvSJ?=
+ =?us-ascii?Q?PdJZSTpOfZpZRDcobmxardEAkoWXd+7pHFlqYZvYJiOIJlRJv4pGXrdQs+As?=
+ =?us-ascii?Q?YJj3/VxMPFh8feq/olUzWuHNcshhLAKZO9+G08ZlOfe7vMxmXoDlEJ+U6vwU?=
+ =?us-ascii?Q?5td9zTGUDASGXNrtwFk2pTXut/hO67xXbrWTOK2/RUDO0flYltJyOiD+hU6U?=
+ =?us-ascii?Q?GC83MHCwIzA21BxhzFzQ2KoIh9cXGcT7KFXqYl1Y1Tl3EEgg0MNpojcF8aMu?=
+ =?us-ascii?Q?URxhNGnyFwlJWqUDsihb3znjcmP60auL3DznO2Bre5pPHSb9VdydYYEHrFS8?=
+ =?us-ascii?Q?6sxdk+kjtsaJrCmC4XkY3F9bcavEkrPNPBLUm/mHA+suen+aVLBPOwpJw9mz?=
+ =?us-ascii?Q?hjbISwwUjYus98p6mbjD3EcuG155vBzYTTfaRFt67zAqmwdbB4/pTxXNdb+R?=
+ =?us-ascii?Q?ojJeJGHrCOFuPegBFbWn8yR6i1YITkwxslT5goSu1qgbjv+L/1gNR09fDvtF?=
+ =?us-ascii?Q?8ITfOH9dU8BgASBVKwvN2+/e+o6/QXTUwASgIPk8ok2ihuFTlyFUllNO5+vb?=
+ =?us-ascii?Q?qXZFqnVfYwtBmiGqwnOSBQ2fRguCugiQ4joQi407WRt0L4diIzgDclqfeHqm?=
+ =?us-ascii?Q?WJ9c1R9i2gkM0SJkc672Dou7AaP3QhCohA+tLmEkh6vhXi+zSLOExo9qrc0c?=
+ =?us-ascii?Q?P1br1HiZ+6HwwXSVVXF9BKzjHMdscC4=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	n5C6593MMDn+hUNZczAxRFbbzjVQTUCmNaxCvw/VoWe5FcVKk1tSUYw+dPc1pm6vm5ly4kWo0lZ+9Veit0q9fUN/veDHfTLM642zTc2VHVNydp3QdZPi11d0ggOVYFKLiqsqoQew5nySZzqByYaTY2vo3PCwuau0osla5C4lbtS7D4jHo4gPXQKbktLfE2D7UZG84RJhO6yJk5yF33PFq5XWTSCYcmy4FucNEKC/qU0/DYyW1fv1KwPLHeXB1kUKY5Z9ZhyqOrFLPu69U3puJQf01861/CVi0U40oV8vP7eJwPJpW38e+/q7YNNEtTO/RSKrLKzjd/PNGqtzq8TD8uQvnsl5jf9V+GGZ/0mMuMDsWqwjDNMti4uInZAIb3I6cGeRqmyUcuqsxEoQ7AFF7fw/l1S29LnBgGb+buPxiFeIXkONB7sdB/JrXjQ2drLGAHZcwvws7L0zFTcqDI5v2lZuOtrWh6jxu1E/jXPY6bxdt5PELcv3PyFmE4n7MTGYisULKLJOcpB+Hw0QaYm/Ea62brNlVc0Icp05vtmO2SlG3Dv5kgSAf/35tXIUTkenzWiMZhh4ROskPc7T+lzm6SuIPOj7/wq8KgkPJfZ0moY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00d35a1e-d126-431a-e65a-08de5a7c0bc9
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 12:36:35.4468
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XXTuq8bkxEYgEooLfWfUixfXjmCrxHF43XlBelwe7puLUaX8sXnO3QIbzWQ0XznYIeFaZ3fYoiUoQzHeJaTHpEjoG23nbR4vtFg74Lu0BUo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4766
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-23_02,2026-01-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
+ definitions=main-2601230103
+X-Proofpoint-ORIG-GUID: O5CuxzGuT5sALCSo3PIvYgleUJjnNpPC
+X-Authority-Analysis: v=2.4 cv=IsYTsb/g c=1 sm=1 tr=0 ts=69736b56 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=JI-sKcTr1yi_tn1bgV8A:9
+ a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22 cc=ntf awl=host:12103
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDEwMyBTYWx0ZWRfXyP3yN+gS2ol4
+ 92glp81Zp5JHYqpn5Bqk0VgNBslKgLI7l4DMgiMSqgakRiNjQLVIShjYRcwBLZESxTQ2w6ZiGh4
+ FiTS4bFfHzDgiLUJbgXgO1Cda+dWwU8fR9sjZDNvgPTf1DSOZeBwbCcKQDncJfvWV2QHU2B8TKj
+ LpFEknqDrQ1KSPd3HoETBlKiP3+HjaYQDKbB4wM8fRZMMymal8EcrOMzWpEkwlVzPMZEN0z+YPM
+ 313iUIrbFdWVKQWv4pEZiiFdXHDpiTHtdHel5LRlHmPQWydS1eOpxcaQ2/ni2C1aSaBlWzDv6Nv
+ 09zpotf54hz/P9VfpmqphZLiOCVQXGWtqdacyEU6+0vGR/rLt7eEYul9VaKyZTgIWAxCpmEHBfr
+ XgQRYTCn76Pc6k/KOOJBlZKcDC+scZlBdEbyGMU6v6rTg0sqly3FsAO0Q+yGebkV+dRGRGmKs3t
+ DQS4jueBSl1ZuF6GWIGDsWowbRLyjbk+BtmRX9n8=
+X-Proofpoint-GUID: O5CuxzGuT5sALCSo3PIvYgleUJjnNpPC
 
-Hi Hamza,
+On Thu, Jan 22, 2026 at 09:48:30PM -0800, Andrew Morton wrote:
+> On Fri, 23 Jan 2026 12:19:59 +0800 Philip Li <philip.li@intel.com> wrote:
+>
+> > On Thu, Jan 22, 2026 at 01:23:35PM -0800, Andrew Morton wrote:
+> > > On Thu, 22 Jan 2026 16:04:37 +0800 kernel test robot <lkp@intel.com> wrote:
+> > >
+> > > > Hi Lorenzo,
+> > > >
+> > > > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> > > >
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> > > > head:   dc4fe40a11269aead253fa0beb098b00417b8694
+> > > > commit: 57a654376d4bb67119d436edc8c3c4c0ecb3c369 [420/429] mm: update all remaining mmap_prepare users to use vma_flags_t
+> > > > config: sh-randconfig-r122-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221505.RxftadLx-lkp@intel.com/config)
+> > >
+> > > Has CONFIG_NOMMU=y
+> > >
+> > > > compiler: sh4-linux-gcc (GCC) 13.4.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221505.RxftadLx-lkp@intel.com/reproduce)
+> > > >
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202601221505.RxftadLx-lkp@intel.com/
+> > > >
+> > > > sparse warnings: (new ones prefixed by >>)
+> > > > >> fs/romfs/mmap-nommu.c:66:42: sparse: sparse: dereference of noderef expression
+> > >
+> > > fs/romfs/Makefile has
+> > >
+> > > ifneq ($(CONFIG_MMU),y)
+> > > romfs-$(CONFIG_ROMFS_ON_MTD) += mmap-nommu.o
+> > > endif
+> > >
+> > > so why is mmap-nommu.o being compiled in this testing??
+> >
+> > Hi Andrew, the related configs are set as below, and this is guarded
+> > with CONFIG_MMU, thus the build is triggered for mmap-nommu.o.
+> >
+> > # CONFIG_MMU is not set
+> > CONFIG_NOMMU=y
+>
+> Oh, OK, thanks, sorry, my brain ran out of multiple negation capacity.
+>
+> The code which this report quoted had
+>
+>  > 66		return is_nommu_shared_vma_flags(desc->vma_flags) ? 0 : -ENOSYS;
+>
+> whereas Lorenzo's v2 patchset has
+>
+>         return is_nommu_shared_vma_flags(&desc->vma_flags) ? 0 : -ENOSYS;
+>
+> so I expect that the new `&' fixed this issue.
 
-kernel test robot noticed the following build warnings:
+Well more so with the sparse stuff my removing the __private sparse decoration :)
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v6.19-rc6 next-20260122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+It actually ended up being counterproductive in practice, and the obvious
+'wrong' thing of vma->flags.__vma_flags |= ... or whatever already signals to
+any reviewers that the kernel developer doing something like that is being
+'naughty' so no need to enforce ACCESS_PRIVATE() etc., which in any case cannot
+work with the semantics we need for vma_flags_t.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hamza-Mahfooz/drm-amdgpu-implement-page_flip_timeout-support/20260123-085944
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260123000537.2450496-2-someguy%40effective-light.com
-patch subject: [PATCH 2/2] drm/amdgpu: implement page_flip_timeout() support
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260123/202601232007.NAxTeBna-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260123/202601232007.NAxTeBna-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601232007.NAxTeBna-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c:348:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     348 |         default:
-         |         ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c:348:2: note: insert '__attribute__((fallthrough));' to silence this warning
-     348 |         default:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c:348:2: note: insert 'break;' to avoid fall-through
-     348 |         default:
-         |         ^
-         |         break; 
-   1 warning generated.
-
-
-vim +348 drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-
-2656e1ce783a90 Eric Huang    2024-06-03  315  
-2656e1ce783a90 Eric Huang    2024-06-03  316  void amdgpu_reset_get_desc(struct amdgpu_reset_context *rst_ctxt, char *buf,
-2656e1ce783a90 Eric Huang    2024-06-03  317  			   size_t len)
-2656e1ce783a90 Eric Huang    2024-06-03  318  {
-2656e1ce783a90 Eric Huang    2024-06-03  319  	if (!buf || !len)
-2656e1ce783a90 Eric Huang    2024-06-03  320  		return;
-2656e1ce783a90 Eric Huang    2024-06-03  321  
-2656e1ce783a90 Eric Huang    2024-06-03  322  	switch (rst_ctxt->src) {
-2656e1ce783a90 Eric Huang    2024-06-03  323  	case AMDGPU_RESET_SRC_JOB:
-2656e1ce783a90 Eric Huang    2024-06-03  324  		if (rst_ctxt->job) {
-7bed1df814cd61 Eric Huang    2024-06-06  325  			snprintf(buf, len, "job hang on ring:%s",
-7bed1df814cd61 Eric Huang    2024-06-06  326  				 rst_ctxt->job->base.sched->name);
-2656e1ce783a90 Eric Huang    2024-06-03  327  		} else {
-2656e1ce783a90 Eric Huang    2024-06-03  328  			strscpy(buf, "job hang", len);
-2656e1ce783a90 Eric Huang    2024-06-03  329  		}
-2656e1ce783a90 Eric Huang    2024-06-03  330  		break;
-2656e1ce783a90 Eric Huang    2024-06-03  331  	case AMDGPU_RESET_SRC_RAS:
-2656e1ce783a90 Eric Huang    2024-06-03  332  		strscpy(buf, "RAS error", len);
-2656e1ce783a90 Eric Huang    2024-06-03  333  		break;
-2656e1ce783a90 Eric Huang    2024-06-03  334  	case AMDGPU_RESET_SRC_MES:
-2656e1ce783a90 Eric Huang    2024-06-03  335  		strscpy(buf, "MES hang", len);
-2656e1ce783a90 Eric Huang    2024-06-03  336  		break;
-2656e1ce783a90 Eric Huang    2024-06-03  337  	case AMDGPU_RESET_SRC_HWS:
-2656e1ce783a90 Eric Huang    2024-06-03  338  		strscpy(buf, "HWS hang", len);
-2656e1ce783a90 Eric Huang    2024-06-03  339  		break;
-2656e1ce783a90 Eric Huang    2024-06-03  340  	case AMDGPU_RESET_SRC_USER:
-2656e1ce783a90 Eric Huang    2024-06-03  341  		strscpy(buf, "user trigger", len);
-2656e1ce783a90 Eric Huang    2024-06-03  342  		break;
-c5da9e9c023893 Alex Deucher  2025-04-16  343  	case AMDGPU_RESET_SRC_USERQ:
-c5da9e9c023893 Alex Deucher  2025-04-16  344  		strscpy(buf, "user queue trigger", len);
-c5da9e9c023893 Alex Deucher  2025-04-16  345  		break;
-7136aabf196b0a Hamza Mahfooz 2026-01-22  346  	case AMDGPU_RESET_SRC_DISPLAY:
-7136aabf196b0a Hamza Mahfooz 2026-01-22  347  		strscpy(buf, "display hang", len);
-2656e1ce783a90 Eric Huang    2024-06-03 @348  	default:
-2656e1ce783a90 Eric Huang    2024-06-03  349  		strscpy(buf, "unknown", len);
-2656e1ce783a90 Eric Huang    2024-06-03  350  	}
-2656e1ce783a90 Eric Huang    2024-06-03  351  }
-a86e0c0e94373a Lijo Lazar    2024-11-15  352  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers, Lorenzo
