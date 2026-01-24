@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7989D229B36
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 12:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E5E2DCC08;
+	Sat, 24 Jan 2026 12:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769256434; cv=none; b=Qqk/tt1BnvM/qyvatPqQy0mKuoeKJ08E4cSqLNbxYJjJgvmnm3ty7rGr/9LYFB6QqkUOKJyo8f42i3TbrYBbkp7mE3+5uBmNt+6o0MYK1PqdyzcuZCdwiaG3NmaS+0Uu/DkW4SUdNhTdrFaIsHO9UEGFcGP9E3V1l0SIaq9KVrY=
+	t=1769259558; cv=none; b=IeWa9Uq/vNiym5VbUHTyMrr0hrmPsiHTqYKxzwWyX4XX7ghafekkI949JLcHMQ2k4mPobpZrkBJLFtzCBiM75zWavxzZA0vLSqeGnzwJ3O0xYV3QaZvAyCv59effPv2c7rRbnP2HcRVbCCOK1M0YFSA1/qn1xSXh/swO5i0J2u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769256434; c=relaxed/simple;
-	bh=hEMWM1BnnC4BQFmSyu8jaIkXzKOfr7Cc8RJE39zuZ3U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=G2ewKUM2tx3HOsRXM/oOEq8W3q2ZOvWFtVjDzVLlMJFSTvpkmIUZQnlD0iJl6XFwJ68WgPP1Ct7ZhP1xhIlKq5xMwSIstvMD6nTaq8JTEkf6uRXZZxSlzw/4/vg1NuMIHuQ//iw0cDzTvbaYGgijiUbavdQle291P56qA7YXAgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ld+PLRRS; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1769259558; c=relaxed/simple;
+	bh=6VWELgiXnV8xByG7aIJEZB/pmilfWBd9gDammhpke/U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kgW7bgwDjuciSe7v2sVICygi1G737gAYiqPLzagvy5CHydWx5mrclsTgxbolLftZ2TLc14UJTXeVxY7yQKF+6DuKWRLjyP6KpxFqaD8borXjdjjgjXBU6zJ2oI4TkegVSptjRQU4FzCLh8EUw6Oyjt/h7W2RCrZfaSdbIysiksg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aWPy6xL5; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ld+PLRRS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aWPy6xL5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769256432; x=1800792432;
+  t=1769259556; x=1800795556;
   h=date:from:to:cc:subject:message-id;
-  bh=hEMWM1BnnC4BQFmSyu8jaIkXzKOfr7Cc8RJE39zuZ3U=;
-  b=ld+PLRRSP9834asfknq+DGxxLqSB3HXvgdFc+7HkiU2scQrRoFUn57Tt
-   BKd0j9mDZEC9HF+Vs0pf5mkndEMYFpsxRnwrJwJ4nVseChkTjlecIg8Uc
-   HY42Uv/60fuWX+qp1a7yM6cByToUGPCPnGjv3N3D9rRmI1Zx749IXybxS
-   T6tvIH7U5ES7oq7JX1YyNZxVlzwU7geSsgRKnkb/F0hol81sYtARm/wfG
-   2HOpUxkDe7TFMycdRIit1pKqvsxSkCN1cqbifXN39QsqZwkjxKalLkUAi
-   c7vq3fkySfLNGm4hMZmlMRZVSX9NEd+igzGWJsHDcSmsrxdjN/9m1i7+H
+  bh=6VWELgiXnV8xByG7aIJEZB/pmilfWBd9gDammhpke/U=;
+  b=aWPy6xL5U+En52JKwJDbGL322LXPYMUykKtZKSzXqw/Ba50T4MpMGViz
+   ZuNpsB9Ow7ifpVUSZeXRB0CxPexE0WViwRQ4Ty/97TL3Gd+8mOJh/sgEa
+   fyGQx6PWSW/ZDXAhHJQs6bVigoRcoN46ovw5k5374j1ZdW7r36wzxaWfn
+   XsIanUzpZ7C8/H2Ipx3Jo3UK6OURRmn9Yh0jIAj3rtOINcxg957/Vx8LT
+   /qBDfMJlFkTxeKc8czSQn2TLD723aNX+tCYQxf0YGo7DtPbHVeIsMj+DW
+   fEQu6Y3jZ879S8DVk5tCm5wxR1s5t7y88n+Sqo5F8BXw6BrhojTttrUD8
    Q==;
-X-CSE-ConnectionGUID: vLFomoH7SGCmDX6WjRrlHQ==
-X-CSE-MsgGUID: 79uQ2UW/QAaghMq1sOShOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70402742"
+X-CSE-ConnectionGUID: cR8UwAbNQz+Ve8Y++hyF2Q==
+X-CSE-MsgGUID: feHovB0jR1eJ1Rx8Q4AhDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="74122115"
 X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="70402742"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 04:07:12 -0800
-X-CSE-ConnectionGUID: csW8qnLdTfagUkdZUj3cJQ==
-X-CSE-MsgGUID: jN41aiBuSSifTEi1TF0iOg==
+   d="scan'208";a="74122115"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 04:59:14 -0800
+X-CSE-ConnectionGUID: dmQraaB9SXm4g2l0nBmOVQ==
+X-CSE-MsgGUID: fBftZ3KLQfm13Gj1r500lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="211715808"
+   d="scan'208";a="207505316"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Jan 2026 04:07:10 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 24 Jan 2026 04:59:12 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjcQ0-00000000VA8-1KBM;
-	Sat, 24 Jan 2026 12:07:08 +0000
-Date: Sat, 24 Jan 2026 20:06:40 +0800
+	id 1vjdEL-00000000VBo-3IhH;
+	Sat, 24 Jan 2026 12:59:09 +0000
+Date: Sat, 24 Jan 2026 20:58:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/finalize_cpu_caps 12/12]
- arch/x86/kvm/vmx/vmx.c:2979:5: warning: format specifies type 'unsigned long'
- but the argument has type 'unsigned int'
-Message-ID: <202601241925.Qzl00UWs-lkp@intel.com>
+To: Bahubali B Gumaji <bahubali.bg@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
+Subject: [samba-ksmbd:ksmbd-for-next-next 2/2]
+ fs/smb/server/vfs.c:34:10: fatal error: 'stats.h' file not found
+Message-ID: <202601242353.Ymm0oTBe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,77 +60,74 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/sean-jc/linux x86/finalize_cpu_caps
-head:   69c68b30b26eaa72b38bd9150f5cecf45fe2ab8b
-commit: 69c68b30b26eaa72b38bd9150f5cecf45fe2ab8b [12/12] KVM: VMX: Print out "bad" offsets+value on VMCS config mismatch
-config: i386-randconfig-054-20260124 (https://download.01.org/0day-ci/archive/20260124/202601241925.Qzl00UWs-lkp@intel.com/config)
+tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
+head:   165b1c2775ace8540bc0869e3fa92aed566fc193
+commit: 165b1c2775ace8540bc0869e3fa92aed566fc193 [2/2] ksmbd: add procfs interface for runtime monitoring and statistics
+config: x86_64-buildonly-randconfig-003-20260124 (https://download.01.org/0day-ci/archive/20260124/202601242353.Ymm0oTBe-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601241925.Qzl00UWs-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601242353.Ymm0oTBe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601241925.Qzl00UWs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601242353.Ymm0oTBe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/vmx/vmx.c:2979:5: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-    2978 |                         pr_cont("  Offset %lu REF = 0x%08x, CPU%u = 0x%08x, mismatch = 0x%08x\n",
-         |                                           ~~~
-         |                                           %u
-    2979 |                                 i * sizeof(u32), gold[i], cpu, mine[i], gold[i] ^ mine[i]);
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/printk.h:597:26: note: expanded from macro 'pr_cont'
-     597 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |                          ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+>> fs/smb/server/vfs.c:34:10: fatal error: 'stats.h' file not found
+      34 | #include "stats.h"
+         |          ^~~~~~~~~
+   1 error generated.
+--
+>> fs/smb/server/mgmt/tree_connect.c:12:10: fatal error: '../stats.h' file not found
+      12 | #include "../stats.h"
+         |          ^~~~~~~~~~~~
+   1 error generated.
+--
+>> fs/smb/server/smb2ops.c:14:10: fatal error: 'stats.h' file not found
+      14 | #include "stats.h"
+         |          ^~~~~~~~~
+   1 error generated.
+--
+>> fs/smb/server/mgmt/user_session.c:20:10: fatal error: '../stats.h' file not found
+      20 | #include "../stats.h"
+         |          ^~~~~~~~~~~~
+   1 error generated.
+--
+>> fs/smb/server/connection.c:47:37: error: no member named 'inet6_addr' in 'struct ksmbd_conn'; did you mean 'inet_addr'?
+      47 |                         seq_printf(m, "%-20pI6c", &conn->inet6_addr);
+         |                                                          ^~~~~~~~~~
+         |                                                          inet_addr
+   fs/smb/server/connection.h:53:12: note: 'inet_addr' declared here
+      53 |                 __be32                  inet_addr;
+         |                                         ^
+   1 error generated.
+--
+>> fs/smb/server/server.c:25:10: fatal error: 'stats.h' file not found
+      25 | #include "stats.h"
+         |          ^~~~~~~~~
+   1 error generated.
+--
+>> fs/smb/server/smb2pdu.c:42:10: fatal error: 'stats.h' file not found
+      42 | #include "stats.h"
+         |          ^~~~~~~~~
+   1 error generated.
 
 
-vim +2979 arch/x86/kvm/vmx/vmx.c
+vim +34 fs/smb/server/vfs.c
 
-  2949	
-  2950	int vmx_check_processor_compat(void)
-  2951	{
-  2952		int cpu = raw_smp_processor_id();
-  2953		struct vmcs_config vmcs_conf;
-  2954		struct vmx_capability vmx_cap;
-  2955	
-  2956		if (!__kvm_is_vmx_supported())
-  2957			return -EIO;
-  2958	
-  2959		if (setup_vmcs_config(&vmcs_conf, &vmx_cap) < 0) {
-  2960			pr_err("Failed to setup VMCS config on CPU %d\n", cpu);
-  2961			return -EIO;
-  2962		}
-  2963		if (nested)
-  2964			nested_vmx_setup_ctls_msrs(&vmcs_conf, vmx_cap.ept);
-  2965	
-  2966		if (memcmp(&vmcs_config, &vmcs_conf, sizeof(struct vmcs_config))) {
-  2967			u32 *gold = (void *)&vmcs_config;
-  2968			u32 *mine = (void *)&vmcs_conf;
-  2969			int i;
-  2970	
-  2971			BUILD_BUG_ON(sizeof(struct vmcs_config) % sizeof(u32));
-  2972	
-  2973			pr_err("VMCS config on CPU %d doesn't match reference config:\n", cpu);
-  2974			for (i = 0; i < sizeof(struct vmcs_config) / sizeof(u32); i++) {
-  2975				if (gold[i] == mine[i])
-  2976					continue;
-  2977	
-  2978				pr_cont("  Offset %lu REF = 0x%08x, CPU%u = 0x%08x, mismatch = 0x%08x\n",
-> 2979					i * sizeof(u32), gold[i], cpu, mine[i], gold[i] ^ mine[i]);
-  2980			}
-  2981			return -EIO;
-  2982		}
-  2983		return 0;
-  2984	}
-  2985	
+    24	
+    25	#include "glob.h"
+    26	#include "oplock.h"
+    27	#include "connection.h"
+    28	#include "vfs.h"
+    29	#include "vfs_cache.h"
+    30	#include "smbacl.h"
+    31	#include "ndr.h"
+    32	#include "auth.h"
+    33	#include "misc.h"
+  > 34	#include "stats.h"
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
