@@ -1,104 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757B199920
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 01:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE031CD1E4;
+	Sat, 24 Jan 2026 01:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769219321; cv=none; b=FJBVARxkM5ZhbA+siasja87HO0zmVJ+eQtiOaDSc66ExvzYq9MAGYaT4lnocnQpEKuWJxVaF9yi/aRj60k2bW9JAo1YgYJaMfUuaxvz1LVTH2h/DudOEa59W2CyR6UDXEf3lq4TddSWsomnnITNjlJDe1MKcJ39dCgf0kS/TZYY=
+	t=1769219936; cv=none; b=LUqp4+YIEpmhkJWFmhiUNnJdJmUpsGLAER7Doar3bbridJBACzhPBeAc6vdzgPUNINWaq7XuK+eXMOlch96B4pf5RNfBjb4npfpkIx4N07NBxTcUcDsLouc8ZhPAh5qub1yC0X04V9pMrXtFlrzjsTz0s/gAz6TVsdgXUXMnsR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769219321; c=relaxed/simple;
-	bh=V3nyLtphVfg3N5nwJVecZUSLXvGyG9wxZ+ReIMY5twE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=TAjRXK1UyH04uW2VhGdOjdsKWWTg/YzSmTBNuUlZe7Ot4S61WMHUvzxJ3FHU8gXzues2dS+CS0vsKEm1QRr4CUej0B4NCdXt/BvuAfijy148ccEj+/CYcERGGnMQx/v+VfTFcZeQAMpJlpS8d5A9minHRkrqlq7+cRByw+y+wpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Y0t3pJmW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769219936; c=relaxed/simple;
+	bh=W4KpLvlCDKKiNZ3A7t0u+ak8r2FD3BRHbUWCEIAGDQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hdVuPAi0IxRwmQb1Wikqj9u+JPD6xl6NGQr9AJghZyj4vQxk9cMdS8Y6b25dGKaQ6W5xiS1ycPuYxOcWl0qjli7NaZf6FAJE5mB4+2QisD8wEFf+Oa1YrKGY0x8Bn7HWMGUsWFFxUuZHoAXupkQ8h7cva7jTL3etGL8LKgJB9j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kftpZoc+; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Y0t3pJmW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533D3C4CEF1;
-	Sat, 24 Jan 2026 01:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1769219320;
-	bh=V3nyLtphVfg3N5nwJVecZUSLXvGyG9wxZ+ReIMY5twE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Y0t3pJmWFIHF7VLWFwRLcrt6lGQL3U+GzNT51l0sQBkCP90h23udunLzMez0AdOi0
-	 KOri+eIZc5MnXYXT0cPvLVqtLSfQpglJBXJk6dZjz6N08fotkc5XHJF6VWB+rma2eW
-	 mCVoCxgEGYgKE4MDXBfHo9LGq1C7Lfvo8qdILMq8=
-Date: Fri, 23 Jan 2026 17:48:39 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Ankur Arora <ankur.a.arora@oracle.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
- Memory Management List <linux-mm@kvack.org>, Raghavendra K T
- <raghavendra.kt@amd.com>
-Subject: Re: [linux-next:master 7919/9290]
- include/linux/compiler_types.h:631:38: error: call to
- '__compiletime_assert_639' declared with attribute error: clamp() low limit
- pg.start greater than high limit pg.end
-Message-Id: <20260123174839.334fa31ce9ee6633d471aecb@linux-foundation.org>
-In-Reply-To: <87y0lnewjn.fsf@oracle.com>
-References: <202601240453.QCjgGdJa-lkp@intel.com>
-	<87y0lnewjn.fsf@oracle.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kftpZoc+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769219933; x=1800755933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W4KpLvlCDKKiNZ3A7t0u+ak8r2FD3BRHbUWCEIAGDQQ=;
+  b=kftpZoc+5nu62GKa7F1iLUrI8UgQol6MKLUWl4sJnn+VR2Gc+UQNnljC
+   xFphxH6RbKyZaWob79nXwG6SGIrgVOahzcBE7YMmVSE+HWlmug9NufXNa
+   9l41ETKVGQiqBUl4DLPmQ0NSlhfxJWA89AFF4aTGhlM01EWNn/YhB3Tcg
+   z/emSL7/rq9PCVI3KLeaNbdjVx02ui6fm8IZxcn8VOZnAu5u4tOuAa2Hg
+   1fE1CYqbv0PqbvZ1u2j+pRKUYzYrPgXWCNDo3pzqi6bxiXaPhB0eEycEm
+   3YanpXCHFllHGNzVfqvYvNB9wFANQDxthWsbuSMDeCFCs/ZqaAIWxNxO4
+   A==;
+X-CSE-ConnectionGUID: 7s9uGw9QS0G49EPcHZHFwg==
+X-CSE-MsgGUID: 4WPXgpj7RTix/c+xTaqprA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="81191728"
+X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
+   d="scan'208";a="81191728"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 17:58:52 -0800
+X-CSE-ConnectionGUID: PEbsSgEsR5ye0co4CbngPw==
+X-CSE-MsgGUID: aXwhd8SvTYO2ZBfAUi7BIg==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 23 Jan 2026 17:58:50 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vjSvI-000000000rV-1KHr;
+	Sat, 24 Jan 2026 01:58:48 +0000
+Date: Sat, 24 Jan 2026 02:58:23 +0100
+From: kernel test robot <lkp@intel.com>
+To: Naohiro Aota <naohiro.aota@wdc.com>, linux-btrfs@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Naohiro Aota <naohiro.aota@wdc.com>
+Subject: Re: [PATCH 4/4] btrfs: tests: zoned: add selftest for zoned code
+Message-ID: <202601240254.ewdvMi5U-lkp@intel.com>
+References: <20260123125920.4129581-5-naohiro.aota@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123125920.4129581-5-naohiro.aota@wdc.com>
 
-On Fri, 23 Jan 2026 15:31:08 -0800 Ankur Arora <ankur.a.arora@oracle.com> wrote:
+Hi Naohiro,
 
-> 
-> kernel test robot <lkp@intel.com> writes:
-> 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   a0c666c25aeefd16f4b088c6549a6fb6b65a8a1d
-> > commit: 93552c9a3350fff06543da18e4c80d3e804191ca [7919/9290] mm: folio_zero_user: cache neighbouring pages
-> > config: riscv-randconfig-002-20260124 (https://download.01.org/0day-ci/archive/20260124/202601240453.QCjgGdJa-lkp@intel.com/config)
-> > compiler: riscv64-linux-gcc (GCC) 8.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240453.QCjgGdJa-lkp@intel.com/reproduce)
-> 
-> Oddly enough I'm unable to reproduce this with:
->    ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- make O=build_dir/ W=1 mm/
+kernel test robot noticed the following build errors:
 
-I couldn't.  gcc-15.2.0.
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on next-20260123]
+[cannot apply to linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601240453.QCjgGdJa-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    In file included from include/linux/mm.h:18,
-> >                     from arch/riscv/include/asm/sections.h:9,
-> >                     from include/linux/interrupt.h:22,
-> >                     from include/linux/kernel_stat.h:8,
-> >                     from mm/memory.c:42:
-> >    mm/memory.c: In function 'folio_zero_user':
-> >>> include/linux/compiler_types.h:631:38: error: call to '__compiletime_assert_639' declared with attribute error: clamp() low limit pg.start greater than high limit pg.end
-> 
-> I'm a bit puzzled by this assert.
-> 
-> folio_zero_user():
->    {
-> 	const unsigned long base_addr = ALIGN_DOWN(addr_hint, folio_size(folio));
-> 	const long fault_idx = (addr_hint - base_addr) / PAGE_SIZE;
-> 	const struct range pg = DEFINE_RANGE(0, folio_nr_pages(folio) - 1);
-> 	const int radius = FOLIO_ZERO_LOCALITY_RADIUS;
-> 	struct range r[3];
-> 	int i;
-> 
-> 	/*
-> 	 * Faulting page and its immediate neighbourhood. Will be cleared at the
-> 	 * end to keep its cachelines hot.
-> 	 */
-> 	r[2] = DEFINE_RANGE(clamp_t(s64, fault_idx - radius, pg.start, pg.end),
-> 			    clamp_t(s64, fault_idx + radius, pg.start, pg.end));
+url:    https://github.com/intel-lab-lkp/linux/commits/Naohiro-Aota/btrfs-tests-add-cleanup-functions-for-test-specific-functions/20260123-210300
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260123125920.4129581-5-naohiro.aota%40wdc.com
+patch subject: [PATCH 4/4] btrfs: tests: zoned: add selftest for zoned code
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260124/202601240254.ewdvMi5U-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240254.ewdvMi5U-lkp@intel.com/reproduce)
 
-This line expands to 2846 bytes of C.  The clamp()y functions are asking a lot
-of the compiler - their development was drama-filled.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601240254.ewdvMi5U-lkp@intel.com/
 
-If we want to work around this (and I guess we should) then simply
-open-coding these operations would be a good approach?
+All errors (new ones prefixed by >>):
+
+>> fs/btrfs/tests/zoned-tests.c:89:8: error: call to undeclared function 'btrfs_load_block_group_by_raid_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      89 |         ret = btrfs_load_block_group_by_raid_type(bg, map, zone_info, active,
+         |               ^
+   fs/btrfs/tests/zoned-tests.c:89:8: note: did you mean 'btrfs_load_block_group_zone_info'?
+   fs/btrfs/tests/../zoned.h:195:19: note: 'btrfs_load_block_group_zone_info' declared here
+     195 | static inline int btrfs_load_block_group_zone_info(
+         |                   ^
+   1 error generated.
+
+
+vim +/btrfs_load_block_group_by_raid_type +89 fs/btrfs/tests/zoned-tests.c
+
+    39	
+    40	static int test_load_zone_info(struct btrfs_fs_info *fs_info,
+    41				       struct load_zone_info_test_vector *test)
+    42	{
+    43		struct btrfs_block_group *bg __free(btrfs_free_dummy_block_group) = NULL;
+    44		struct btrfs_chunk_map *map __free(btrfs_free_chunk_map) = NULL;
+    45		struct zone_info AUTO_KFREE(zone_info);
+    46		unsigned long AUTO_KFREE(active);
+    47		int i, ret;
+    48	
+    49		bg = btrfs_alloc_dummy_block_group(fs_info, test->bg_length);
+    50		if (!bg) {
+    51			test_std_err(TEST_ALLOC_BLOCK_GROUP);
+    52			return -ENOMEM;
+    53		}
+    54	
+    55		map = btrfs_alloc_chunk_map(test->num_stripes, GFP_KERNEL);
+    56		if (!map) {
+    57			test_std_err(TEST_ALLOC_EXTENT_MAP);
+    58			return -ENOMEM;
+    59		}
+    60	
+    61		zone_info = kcalloc(test->num_stripes, sizeof(*zone_info), GFP_KERNEL);
+    62		if (!zone_info) {
+    63			test_err("cannot allocate zone info");
+    64			return -ENOMEM;
+    65		}
+    66	
+    67		active = bitmap_zalloc(test->num_stripes, GFP_KERNEL);
+    68		if (!zone_info) {
+    69			test_err("cannot allocate active bitmap");
+    70			return -ENOMEM;
+    71		}
+    72	
+    73		map->type = test->raid_type;
+    74		map->num_stripes = test->num_stripes;
+    75		if (test->raid_type == BTRFS_BLOCK_GROUP_RAID10)
+    76			map->sub_stripes = 2;
+    77		for (i = 0; i < test->num_stripes; i++) {
+    78			zone_info[i].physical = 0;
+    79			zone_info[i].alloc_offset = test->alloc_offsets[i];
+    80			zone_info[i].capacity = ZONE_SIZE;
+    81			if (zone_info[i].alloc_offset && zone_info[i].alloc_offset < ZONE_SIZE)
+    82				__set_bit(i, active);
+    83		}
+    84		if (test->degraded)
+    85			btrfs_set_opt(fs_info->mount_opt, DEGRADED);
+    86		else
+    87			btrfs_clear_opt(fs_info->mount_opt, DEGRADED);
+    88	
+  > 89		ret = btrfs_load_block_group_by_raid_type(bg, map, zone_info, active,
+    90							  test->last_alloc);
+    91	
+    92		if (ret != test->expected_result) {
+    93			test_err("unexpected return value: ret %d expected %d", ret,
+    94				 test->expected_result);
+    95			return -EINVAL;
+    96		}
+    97	
+    98		if (!ret && bg->alloc_offset != test->expected_alloc_offset) {
+    99			test_err("unexpected alloc_offset: alloc_offset %llu expected %llu",
+   100				 bg->alloc_offset, test->expected_alloc_offset);
+   101			return -EINVAL;
+   102		}
+   103	
+   104		return 0;
+   105	}
+   106	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
