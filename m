@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FAEAD4B;
-	Sat, 24 Jan 2026 01:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE427263B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 01:08:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769216441; cv=none; b=rZ2ZTMo5yUCuy5CWMhZl3xHlM5j0QLrHhmCwCe/L59juDnFbDCgZLSLGr2HmhORkeR3G9CwPRZmycka/Vfmv1GMdiSckjM5KB7dQDtEfmHBPDat/jKIsJv7q/+v4xDsdzOKhedatjm/CI1Kfa5xVvSm9eiZ59O5782I85eOcSII=
+	t=1769216933; cv=none; b=jI+rWJOHhGSFurxRbZ5BLtnN477J/wGBRY/KLjpZQ1cKb/u+zW7vekNupaf0X+PurP1cQMyUfNviZ24Q4sETyjVvVfwjGyFeOlNtJwYrvrWtKpLjYVCsZacUKPSv61cBjhsmJ9ea2yRWuupHdE0ZAjevE5p3z8Ro2wVTXZpR0FE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769216441; c=relaxed/simple;
-	bh=iM7MBs56o6F3YvsbPeuU9AgkOpJspq9VfVQmvM6iRW8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YxGrRzcoZWMOnim81CeLPCyvEFdHVxERMO77EJzAF0NEwgv9rXqwYS2sWYHx6vkNrUclOogmo8CAgym2A5bWdCKms0gUFlMsa4ogNQxIjCVMfG+cLtR7s4bG14BBvw4skpv63IwGlD80l9Q+wMABK4640gasDvFtW39a4MKduho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jN4wiI/I; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769216933; c=relaxed/simple;
+	bh=zdqjakMNIZa6q0OUcHU2OQ8u0NM5LTxwtrllGyrqeIE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=npCMYii+FPmzTOWwYeGRDV7cJLm9Tsz4PKiYOxW8WoJzX4VyIQ8gVzj+FiS2tiWUYTmmIrct2bXx26MEEy49mi29fir1gfeSOLPqdfwkGMk8ojOEpE3coWLoDlugRtv5VK8TD4+C5cd68PW7os8RoFLKCuOupH3j/wTS7eo1B9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WLiY4Apu; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jN4wiI/I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WLiY4Apu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769216440; x=1800752440;
+  t=1769216932; x=1800752932;
   h=date:from:to:cc:subject:message-id;
-  bh=iM7MBs56o6F3YvsbPeuU9AgkOpJspq9VfVQmvM6iRW8=;
-  b=jN4wiI/I8VIbluwV1EUktnw6UhU6HMQI8o+/JGMHOeWpyeLl9P5VXuSb
-   g23UW1xnXYc2WNXuod5aUpL4WL4Nf22T2ZsBcg452XcQ9OU/jjplHyxKa
-   vf7JRjldHqhO1RRF88gCwkCgtviJxsaHOtC6XnWNjQmopXuGftlfS5L+1
-   tvpsHkqaKmuW8KNf2ssjFe1CUWAAVkdo1Qd/xEA7FBDuH4LuWZ0Ag0eSq
-   bJEGcBLhRTIgny6KylzuPUcWC7kJuDXNrFAIz/GZ0wTJeGPz09xXEW/+L
-   Lrnk/v4mj9rWamJi8rmDm3TG5QAfXgRhuT3i8DeDcuaJ6erjA4w+9QkUg
-   Q==;
-X-CSE-ConnectionGUID: XxbMwfC/SFWJKaCqjD3rvQ==
-X-CSE-MsgGUID: UvqUQFkLSbyRFH/LB2DA0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70369235"
+  bh=zdqjakMNIZa6q0OUcHU2OQ8u0NM5LTxwtrllGyrqeIE=;
+  b=WLiY4ApuA4NRyyo4+k3LkayIxCJttZ0P92EaQbbbVv4E+7uJ2Su6bRcW
+   /IivgFweCVZE3LEtwyxbLTLjXyqLUvfchnib4a454iow2fPYIVt5aM4V9
+   8euYVf6H9GKPtFg2Xahuvma8GTZ+EfRr1Kd1ZYu19PYlEn1/44+Z6o96N
+   Gp5FFpiWuQn7H112Q2Jc23A7JudzhSqx89ozbb+II7OdpiZrYrgi+Kwrq
+   G3NY/xs+lI994acgK+sfsNI+L1k03s+8ASDuX2o2Ga8mMwslPjQwZO4B6
+   e3c0XrBUGsGqdC/s8BI7qJjZBV7LCawZK9CaIBVaAMWRBnKgzoKR1GQ+c
+   g==;
+X-CSE-ConnectionGUID: FHV+OIjXQdqldSOGgqz+iQ==
+X-CSE-MsgGUID: +qZk4jIJQX2/JCk56459YA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="74103872"
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="70369235"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 17:00:37 -0800
-X-CSE-ConnectionGUID: 3/dmkxGlSO+fLnJMFpBHbg==
-X-CSE-MsgGUID: ixZSgdvoS1a46Qm+M0PQBQ==
+   d="scan'208";a="74103872"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 17:08:51 -0800
+X-CSE-ConnectionGUID: jI2abWNwRW6jHjbFoH6WQA==
+X-CSE-MsgGUID: rPJZQPSqSIyjzAsVE9yCKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="206277544"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Jan 2026 17:00:33 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="211662203"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 23 Jan 2026 17:08:51 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjS0t-00000000UdS-1WLK;
-	Sat, 24 Jan 2026 01:00:31 +0000
-Date: Sat, 24 Jan 2026 08:59:56 +0800
+	id 1vjS8t-000000000qj-3O2g;
+	Sat, 24 Jan 2026 01:08:47 +0000
+Date: Sat, 24 Jan 2026 02:07:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [rafael-pm:bleeding-edge 172/186]
- kernel/time/hrtimer.c:946:41: error: call to undeclared function
- 'tick_nohz_is_active'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202601240833.jYdOreP4-lkp@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/mm 5/30] warning: public documentation for
+ `clist_create` links to private item `CList`
+Message-ID: <202601240227.FAEy1RoR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,81 +59,53 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   7e9b0371ed5b9bf9a80c59487f47fca0ba638f61
-commit: b0d640cf14148cbce9f1651fe6028c7586291cf5 [172/186] cpufreq: ondemand: Simplify idle cputime granularity test
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260124/202601240833.jYdOreP4-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
+head:   89462eb192ebd620dca084ef612b250231bc7aa1
+commit: 39d0c149fcf8f63632522435df53e3648999d824 [5/30] rust: clist: Add support to interface with C linked lists
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260124/202601240227.FAEy1RoR-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240833.jYdOreP4-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240227.FAEy1RoR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601240833.jYdOreP4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601240227.FAEy1RoR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/time/hrtimer.c:946:41: error: call to undeclared function 'tick_nohz_is_active'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     946 |         if (!hrtimer_hres_active(cpu_base) && !tick_nohz_is_active())
-         |                                                ^
-   1 error generated.
-
-
-vim +/tick_nohz_is_active +946 kernel/time/hrtimer.c
-
-   925	
-   926	/*
-   927	 * Clock was set. This might affect CLOCK_REALTIME, CLOCK_TAI and
-   928	 * CLOCK_BOOTTIME (for late sleep time injection).
-   929	 *
-   930	 * This requires to update the offsets for these clocks
-   931	 * vs. CLOCK_MONOTONIC. When high resolution timers are enabled, then this
-   932	 * also requires to eventually reprogram the per CPU clock event devices
-   933	 * when the change moves an affected timer ahead of the first expiring
-   934	 * timer on that CPU. Obviously remote per CPU clock event devices cannot
-   935	 * be reprogrammed. The other reason why an IPI has to be sent is when the
-   936	 * system is in !HIGH_RES and NOHZ mode. The NOHZ mode updates the offsets
-   937	 * in the tick, which obviously might be stopped, so this has to bring out
-   938	 * the remote CPU which might sleep in idle to get this sorted.
-   939	 */
-   940	void clock_was_set(unsigned int bases)
-   941	{
-   942		struct hrtimer_cpu_base *cpu_base = raw_cpu_ptr(&hrtimer_bases);
-   943		cpumask_var_t mask;
-   944		int cpu;
-   945	
- > 946		if (!hrtimer_hres_active(cpu_base) && !tick_nohz_is_active())
-   947			goto out_timerfd;
-   948	
-   949		if (!zalloc_cpumask_var(&mask, GFP_KERNEL)) {
-   950			on_each_cpu(retrigger_next_event, NULL, 1);
-   951			goto out_timerfd;
-   952		}
-   953	
-   954		/* Avoid interrupting CPUs if possible */
-   955		cpus_read_lock();
-   956		for_each_online_cpu(cpu) {
-   957			unsigned long flags;
-   958	
-   959			cpu_base = &per_cpu(hrtimer_bases, cpu);
-   960			raw_spin_lock_irqsave(&cpu_base->lock, flags);
-   961	
-   962			if (update_needs_ipi(cpu_base, bases))
-   963				cpumask_set_cpu(cpu, mask);
-   964	
-   965			raw_spin_unlock_irqrestore(&cpu_base->lock, flags);
-   966		}
-   967	
-   968		preempt_disable();
-   969		smp_call_function_many(mask, retrigger_next_event, NULL, 1);
-   970		preempt_enable();
-   971		cpus_read_unlock();
-   972		free_cpumask_var(mask);
-   973	
-   974	out_timerfd:
-   975		timerfd_clock_was_set();
-   976	}
-   977	
+>> warning: public documentation for `clist_create` links to private item `CList`
+   --> rust/kernel/clist.rs:280:56
+   |
+   280 | /// Create a C doubly-circular linked list interface [`CList`] from a raw `list_head` pointer.
+   |                                                        ^^^^^ this item is private
+   |
+   = note: this link will resolve properly if you pass `--document-private-items`
+   = note: `#[warn(rustdoc::private_intra_doc_links)]` on by default
+--
+>> warning: public documentation for `clist_create` links to private item `CList`
+   --> rust/kernel/clist.rs:282:28
+   |
+   282 | /// This macro creates a [`CList<T, OFFSET>`] that can iterate over items of type `$rust_type`
+   |                            ^^^^^^^^^^^^^^^^ this item is private
+   |
+   = note: this link will resolve properly if you pass `--document-private-items`
+--
+>> warning: public documentation for `clist_create` links to private item `CList`
+   --> rust/kernel/clist.rs:297:49
+   |
+   297 | ///   unmodified for the lifetime of the rust [`CList`].
+   |                                                 ^^^^^ this item is private
+   |
+   = note: this link will resolve properly if you pass `--document-private-items`
+--
+>> warning: public documentation for `clist_create` links to private item `crate::clist`
+   --> rust/kernel/clist.rs:304:36
+   |
+   304 | /// Refer to the examples in the [`crate::clist`] module documentation.
+   |                                    ^^^^^^^^^^^^ this item is private
+   |
+   = note: this link will resolve properly if you pass `--document-private-items`
 
 -- 
 0-DAY CI Kernel Test Service
