@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9C6194AD7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 07:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA3984039
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 08:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769241307; cv=none; b=JIkZ01wHHtNN6kRoGRmOMeIuC6VVyUxhX1lpiU5x5EswVYluYzZHE/naoIxVi5DNQr1eurOpd1PT2/g6TyEsLhWHhxMxTFEQ9kF65GX6srs3N2fiJVixmr5CY5QWxhu9j3wqkEJba4zjAMHUsNxrS7AwMxb3yDZVjO8aSKwaPro=
+	t=1769241903; cv=none; b=fLqOd+5HxWsBLclDegJ8b7HdSkiYE7hKm+gUuXzSq35JVoIP5Gah2Fvbj6aLTp3ELLt4Ohp4fM1GbgJfpSP5GzAm1sSdrVZGQckgJDru+A4Teywl8yAjYw7GDHgND6adj0hUc7Ose3nq3Je4b+DAXA/tXMDSJ8kwoVzdKv6g88Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769241307; c=relaxed/simple;
-	bh=i00HUhnpqmvttoUnCMJLQeaRIUE23H11RrAAHakMQrE=;
+	s=arc-20240116; t=1769241903; c=relaxed/simple;
+	bh=R359DpXYoyMvTii6KEJN6/5YQZW9rP/IJhRHTS7nDbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gymfBk/kbOV1NJNEjwgXoG0OFIFqlYEqwNuxEWDszjquToqG3SxYZYRVJZ9Vz2pGIBP4BY06dCWASExtGUS/x3SJiDUQfHTbtuud3ulYlsyWLkXtfCp6YTg+NwRK8W1KMeVnJ5/VLZ6HKGf7ezxuO/ZZgKIh3uuoJAf92QlJK0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XWxZibw8; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=URRiYX80Ri3WGgm4RohVBXpKGVTV7tQ9tTmaxqqD1T23yPRdUfeoGbomVU7yPsM66FTfpQD6F1Vg4Ij7JEGo/FrwEtfj4ygcNPgy613EXBgMr7fIzUTdMwPR/Xiz0z4Mq5+T63qP/oqT0nr8dKFcSeYA4sORxgU+4/jyi9Oq5vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OfrLkark; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XWxZibw8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OfrLkark"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769241305; x=1800777305;
+  t=1769241902; x=1800777902;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i00HUhnpqmvttoUnCMJLQeaRIUE23H11RrAAHakMQrE=;
-  b=XWxZibw8E9QTN3le2add5fVc1+vcj96bpoFfavno+UlAiM4JNPQvuj02
-   nd05hdsLYHervaRp+iU/Flm5JeBlJLkT1Y8SeRMDti5AEROY+TXvo6fXA
-   rm6LwDro1vNxai1gSRuDvkHi+olUUgtO4bJ345fT3bq2nfcSFBb4kaYDx
-   nogl7fcxERBQ6eahxtuxP99jt1pykt6wTdfExCfp2JL6ZulUq75Y/2viz
-   GNzJhBAPzG+QuSF4qF5Gm9e8Mcy3fTQx71pHa7t1/PGZSvR4f6mXsQvjR
-   2t1JYl3Bk2qGOriZTeoTtYyxlbF5ZewOd7rZ8tYqAmQC6Ds0+Xe/59ZoU
-   A==;
-X-CSE-ConnectionGUID: C7CtrBkpS6Gm++to60RI2g==
-X-CSE-MsgGUID: xK3ABBrrTVSTwAVKt6/MnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="74344618"
+  bh=R359DpXYoyMvTii6KEJN6/5YQZW9rP/IJhRHTS7nDbI=;
+  b=OfrLkarkiXLoTd1obBY3/iFa3aye/xt35GN2oEis2T9/M4k3iVnCQPpd
+   uWh4EMoTC7emAkl953x5ff5iSP0ViixTZgB5P6xuvMLeInztxBQ0xGNKb
+   4wWfS5QHdSkaI+aDLT/Y0Bo58cCmxs/fN3x/+ArH27gmj0jBJ/+hgVBen
+   57479DlUzLH8R0FV51fo5My8PrFEBEr+WJVyhfmhhRad0Ip0PKvKHagLo
+   CVFkHPmQDIAQvvZsuL+jvXfsaczlYg0mLimIrQ9Nbca7903FQNgl2HEdD
+   DqFJ5rdzi0z7ZG7leCNOR/2oN6r7M5QgDdOJL+TSf3NTCGk7QXuDFJEgC
+   g==;
+X-CSE-ConnectionGUID: +2V3dmNyRFiXwYzR1i9Zug==
+X-CSE-MsgGUID: mvF5fIevTNS1jsObIS48jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="81923445"
 X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="74344618"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 23:55:04 -0800
-X-CSE-ConnectionGUID: dkDbYmeLR1ia1hhA1QjupQ==
-X-CSE-MsgGUID: AAwrW7wySqScv/htBuVDsA==
+   d="scan'208";a="81923445"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 00:05:01 -0800
+X-CSE-ConnectionGUID: PCN4Ve2ATOuhjPR4gosf2g==
+X-CSE-MsgGUID: 8bNDAMGfSxOGBSuODn3PcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="238475022"
+   d="scan'208";a="212083265"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Jan 2026 23:55:00 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 24 Jan 2026 00:04:59 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjYTx-00000000V0U-0oPe;
-	Sat, 24 Jan 2026 07:54:57 +0000
-Date: Sat, 24 Jan 2026 15:54:10 +0800
+	id 1vjYdd-00000000V0o-1YVf;
+	Sat, 24 Jan 2026 08:04:57 +0000
+Date: Sat, 24 Jan 2026 16:04:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: smadhavan@nvidia.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com, bhelgaas@google.com, ming.li@zohomail.com,
-	rrichter@amd.com, Smita.KoralahalliChannabasappa@amd.com,
-	linux-cxl@vger.kernel.org, linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, smadhavan@nvidia.com, vaslot@nvidia.com,
-	vsethi@nvidia.com, sdonthineni@nvidia.com, vidyas@nvidia.com,
-	mochs@nvidia.com, jsequeira@nvidia.com
-Subject: Re: [PATCH v4 06/10] PCI: wire CXL reset prepare/cleanup
-Message-ID: <202601241505.gxL2m9pU-lkp@intel.com>
-References: <20260120222610.2227109-7-smadhavan@nvidia.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 1/3] drm/pagemap: Add helper to access
+ zone_device_data
+Message-ID: <202601241548.382sIe72-lkp@intel.com>
+References: <20260123215907.1643088-2-matthew.brost@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,143 +63,266 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260120222610.2227109-7-smadhavan@nvidia.com>
+In-Reply-To: <20260123215907.1643088-2-matthew.brost@intel.com>
 
-Hi,
+Hi Matthew,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.19-rc6]
-[cannot apply to next-20260123]
+[auto build test ERROR on drm-tip/drm-tip]
+[cannot apply to drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc6 next-20260123]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/smadhavan-nvidia-com/cxl-move-DVSEC-defines-to-cxl-pci-header/20260121-071852
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260120222610.2227109-7-smadhavan%40nvidia.com
-patch subject: [PATCH v4 06/10] PCI: wire CXL reset prepare/cleanup
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260124/202601241505.gxL2m9pU-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601241505.gxL2m9pU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-pagemap-Add-helper-to-access-zone_device_data/20260124-060207
+base:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
+patch link:    https://lore.kernel.org/r/20260123215907.1643088-2-matthew.brost%40intel.com
+patch subject: [RFC PATCH v2 1/3] drm/pagemap: Add helper to access zone_device_data
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260124/202601241548.382sIe72-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601241548.382sIe72-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601241505.gxL2m9pU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601241548.382sIe72-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/cxl/pci.c:1085:6: error: redefinition of 'cxl_is_type2_device'
-    1085 | bool cxl_is_type2_device(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/cxl/pci.c:11:
-   include/linux/pci.h:1476:20: note: previous definition of 'cxl_is_type2_device' with type 'bool(struct pci_dev *)' {aka '_Bool(struct pci_dev *)'}
-    1476 | static inline bool cxl_is_type2_device(struct pci_dev *dev)
-         |                    ^~~~~~~~~~~~~~~~~~~
-   drivers/cxl/pci.c: In function 'cxl_check_region_driver_bound':
-   drivers/cxl/pci.c:1102:28: error: 'cxl_region_rwsem' undeclared (first use in this function); did you mean 'cxl_region_ref'?
-    1102 |         guard(rwsem_read)(&cxl_region_rwsem);
-         |                            ^~~~~~~~~~~~~~~~
-         |                            cxl_region_ref
-   drivers/cxl/pci.c:1102:28: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/cxl/pci.c:1103:41: error: 'struct cxl_region' has no member named 'driver'
-    1103 |         if (cxld->region && cxld->region->driver)
-         |                                         ^~
-   drivers/cxl/pci.c: In function 'cxl_decoder_kill_region_iter':
-   drivers/cxl/pci.c:1120:9: error: implicit declaration of function 'cxl_decoder_kill_region_locked'; did you mean 'cxl_decoder_kill_region_iter'? [-Wimplicit-function-declaration]
-    1120 |         cxl_decoder_kill_region_locked(cxled);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         cxl_decoder_kill_region_iter
-   drivers/cxl/pci.c: In function 'cxl_region_flush_device_caches':
-   drivers/cxl/pci.c:1187:53: error: 'struct cxl_dev_state' has no member named 'pdev'; did you mean 'dev'?
-    1187 |                 if (!target_cxlds || !target_cxlds->pdev)
-         |                                                     ^~~~
-         |                                                     dev
-   drivers/cxl/pci.c:1190:35: error: 'struct cxl_dev_state' has no member named 'pdev'; did you mean 'dev'?
-    1190 |                 if (target_cxlds->pdev != target_pdev)
-         |                                   ^~~~
-         |                                   dev
-   drivers/cxl/pci.c: In function 'cxl_reset_prepare_memdev':
-   drivers/cxl/pci.c:1231:21: error: 'cxl_region_rwsem' undeclared (first use in this function); did you mean 'cxl_region_ref'?
-    1231 |         down_write(&cxl_region_rwsem);
-         |                     ^~~~~~~~~~~~~~~~
-         |                     cxl_region_ref
-   In file included from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/openrisc/include/asm/pgalloc.h:20,
-                    from arch/openrisc/include/asm/io.h:18,
-                    from include/linux/io.h:12,
-                    from include/linux/io-64-nonatomic-lo-hi.h:5,
-                    from drivers/cxl/pci.c:4:
-   drivers/cxl/pci.c: In function 'cxl_reset_cleanup_memdev':
-   drivers/cxl/pci.c:1265:35: error: 'cxl_region_rwsem' undeclared (first use in this function); did you mean 'cxl_region_ref'?
-    1265 |         if (lockdep_is_held_type(&cxl_region_rwsem, -1))
-         |                                   ^~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:253:61: note: in definition of macro 'lockdep_is_held_type'
-     253 | #define lockdep_is_held_type(lock, r)   lock_is_held_type(&(lock)->dep_map, (r))
-         |                                                             ^~~~
-   drivers/cxl/pci.c: At top level:
->> drivers/cxl/pci.c:1278:5: error: redefinition of 'cxl_reset_prepare_device'
-    1278 | int cxl_reset_prepare_device(struct pci_dev *pdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:1481:19: note: previous definition of 'cxl_reset_prepare_device' with type 'int(struct pci_dev *)'
-    1481 | static inline int cxl_reset_prepare_device(struct pci_dev *pdev)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cxl/pci.c:1303:6: error: redefinition of 'cxl_reset_cleanup_device'
-    1303 | void cxl_reset_cleanup_device(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:1486:20: note: previous definition of 'cxl_reset_cleanup_device' with type 'void(struct pci_dev *)'
-    1486 | static inline void cxl_reset_cleanup_device(struct pci_dev *pdev)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_gpusvm.c: In function 'drm_gpusvm_get_pages':
+>> drivers/gpu/drm/drm_gpusvm.c:1492:33: error: implicit declaration of function 'drm_pagemap_page_zone_device_data'; did you mean 'drm_pagemap_page_to_dpagemap'? [-Wimplicit-function-declaration]
+    1492 |                                 drm_pagemap_page_zone_device_data(page);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 drm_pagemap_page_to_dpagemap
+>> drivers/gpu/drm/drm_gpusvm.c:1492:33: error: initialization of 'struct drm_pagemap_zdd *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
 
 
-vim +/cxl_reset_prepare_device +1278 drivers/cxl/pci.c
+vim +1492 drivers/gpu/drm/drm_gpusvm.c
 
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1268  
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1269  /**
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1270   * cxl_reset_prepare_device - Prepare CXL device for reset
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1271   * @pdev: PCI device being reset
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1272   *
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1273   * CXL-reset-specific preparation. Validates memory is offline, flushes
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1274   * device caches, and tears down regions.
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1275   *
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1276   * Returns: 0 on success, -EBUSY if memory online, negative on error
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1277   */
-76e9ed09acad72 Srirangan Madhavan 2026-01-20 @1278  int cxl_reset_prepare_device(struct pci_dev *pdev)
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1279  {
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1280  	int rc;
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1281  
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1282  	rc = cxl_reset_prepare_memdev(pdev);
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1283  	if (rc) {
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1284  		if (rc == -EBUSY)
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1285  			dev_err(&pdev->dev,
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1286  				"Cannot reset: device has online memory or active regions\n");
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1287  		else
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1288  			dev_err(&pdev->dev,
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1289  				"Failed to prepare device for reset: %d\n", rc);
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1290  		return rc;
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1291  	}
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1292  
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1293  	return 0;
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1294  }
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1295  EXPORT_SYMBOL_NS_GPL(cxl_reset_prepare_device, "CXL");
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1296  
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1297  /**
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1298   * cxl_reset_cleanup_device - Cleanup after CXL reset
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1299   * @pdev: PCI device that was reset
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1300   *
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1301   * Releases region locks held during reset.
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1302   */
-76e9ed09acad72 Srirangan Madhavan 2026-01-20 @1303  void cxl_reset_cleanup_device(struct pci_dev *pdev)
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1304  {
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1305  	cxl_reset_cleanup_memdev(pdev);
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1306  }
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1307  EXPORT_SYMBOL_NS_GPL(cxl_reset_cleanup_device, "CXL");
-76e9ed09acad72 Srirangan Madhavan 2026-01-20  1308  
+  1366	
+  1367	/**
+  1368	 * drm_gpusvm_get_pages() - Get pages and populate GPU SVM pages struct
+  1369	 * @gpusvm: Pointer to the GPU SVM structure
+  1370	 * @svm_pages: The SVM pages to populate. This will contain the dma-addresses
+  1371	 * @mm: The mm corresponding to the CPU range
+  1372	 * @notifier: The corresponding notifier for the given CPU range
+  1373	 * @pages_start: Start CPU address for the pages
+  1374	 * @pages_end: End CPU address for the pages (exclusive)
+  1375	 * @ctx: GPU SVM context
+  1376	 *
+  1377	 * This function gets and maps pages for CPU range and ensures they are
+  1378	 * mapped for DMA access.
+  1379	 *
+  1380	 * Return: 0 on success, negative error code on failure.
+  1381	 */
+  1382	int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+  1383				 struct drm_gpusvm_pages *svm_pages,
+  1384				 struct mm_struct *mm,
+  1385				 struct mmu_interval_notifier *notifier,
+  1386				 unsigned long pages_start, unsigned long pages_end,
+  1387				 const struct drm_gpusvm_ctx *ctx)
+  1388	{
+  1389		struct hmm_range hmm_range = {
+  1390			.default_flags = HMM_PFN_REQ_FAULT | (ctx->read_only ? 0 :
+  1391				HMM_PFN_REQ_WRITE),
+  1392			.notifier = notifier,
+  1393			.start = pages_start,
+  1394			.end = pages_end,
+  1395			.dev_private_owner = ctx->device_private_page_owner,
+  1396		};
+  1397		void *zdd;
+  1398		unsigned long timeout =
+  1399			jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+  1400		unsigned long i, j;
+  1401		unsigned long npages = npages_in_range(pages_start, pages_end);
+  1402		unsigned long num_dma_mapped;
+  1403		unsigned int order = 0;
+  1404		unsigned long *pfns;
+  1405		int err = 0;
+  1406		struct dev_pagemap *pagemap;
+  1407		struct drm_pagemap *dpagemap;
+  1408		struct drm_gpusvm_pages_flags flags;
+  1409		enum dma_data_direction dma_dir = ctx->read_only ? DMA_TO_DEVICE :
+  1410								   DMA_BIDIRECTIONAL;
+  1411	
+  1412	retry:
+  1413		if (time_after(jiffies, timeout))
+  1414			return -EBUSY;
+  1415	
+  1416		hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+  1417		if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
+  1418			goto set_seqno;
+  1419	
+  1420		pfns = kvmalloc_array(npages, sizeof(*pfns), GFP_KERNEL);
+  1421		if (!pfns)
+  1422			return -ENOMEM;
+  1423	
+  1424		if (!mmget_not_zero(mm)) {
+  1425			err = -EFAULT;
+  1426			goto err_free;
+  1427		}
+  1428	
+  1429		hmm_range.hmm_pfns = pfns;
+  1430		while (true) {
+  1431			mmap_read_lock(mm);
+  1432			err = hmm_range_fault(&hmm_range);
+  1433			mmap_read_unlock(mm);
+  1434	
+  1435			if (err == -EBUSY) {
+  1436				if (time_after(jiffies, timeout))
+  1437					break;
+  1438	
+  1439				hmm_range.notifier_seq =
+  1440					mmu_interval_read_begin(notifier);
+  1441				continue;
+  1442			}
+  1443			break;
+  1444		}
+  1445		mmput(mm);
+  1446		if (err)
+  1447			goto err_free;
+  1448	
+  1449	map_pages:
+  1450		/*
+  1451		 * Perform all dma mappings under the notifier lock to not
+  1452		 * access freed pages. A notifier will either block on
+  1453		 * the notifier lock or unmap dma.
+  1454		 */
+  1455		drm_gpusvm_notifier_lock(gpusvm);
+  1456	
+  1457		flags.__flags = svm_pages->flags.__flags;
+  1458		if (flags.unmapped) {
+  1459			drm_gpusvm_notifier_unlock(gpusvm);
+  1460			err = -EFAULT;
+  1461			goto err_free;
+  1462		}
+  1463	
+  1464		if (mmu_interval_read_retry(notifier, hmm_range.notifier_seq)) {
+  1465			drm_gpusvm_notifier_unlock(gpusvm);
+  1466			kvfree(pfns);
+  1467			goto retry;
+  1468		}
+  1469	
+  1470		if (!svm_pages->dma_addr) {
+  1471			/* Unlock and restart mapping to allocate memory. */
+  1472			drm_gpusvm_notifier_unlock(gpusvm);
+  1473			svm_pages->dma_addr =
+  1474				kvmalloc_array(npages, sizeof(*svm_pages->dma_addr), GFP_KERNEL);
+  1475			if (!svm_pages->dma_addr) {
+  1476				err = -ENOMEM;
+  1477				goto err_free;
+  1478			}
+  1479			goto map_pages;
+  1480		}
+  1481	
+  1482		zdd = NULL;
+  1483		pagemap = NULL;
+  1484		num_dma_mapped = 0;
+  1485		for (i = 0, j = 0; i < npages; ++j) {
+  1486			struct page *page = hmm_pfn_to_page(pfns[i]);
+  1487	
+  1488			order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i, npages);
+  1489			if (is_device_private_page(page) ||
+  1490			    is_device_coherent_page(page)) {
+  1491				struct drm_pagemap_zdd *__zdd =
+> 1492					drm_pagemap_page_zone_device_data(page);
+  1493	
+  1494				if (!ctx->allow_mixed &&
+  1495				    zdd != __zdd && i > 0) {
+  1496					err = -EOPNOTSUPP;
+  1497					goto err_unmap;
+  1498				}
+  1499				zdd = __zdd;
+  1500				if (pagemap != page_pgmap(page)) {
+  1501					if (i > 0) {
+  1502						err = -EOPNOTSUPP;
+  1503						goto err_unmap;
+  1504					}
+  1505	
+  1506					pagemap = page_pgmap(page);
+  1507					dpagemap = drm_pagemap_page_to_dpagemap(page);
+  1508					if (drm_WARN_ON(gpusvm->drm, !dpagemap)) {
+  1509						/*
+  1510						 * Raced. This is not supposed to happen
+  1511						 * since hmm_range_fault() should've migrated
+  1512						 * this page to system.
+  1513						 */
+  1514						err = -EAGAIN;
+  1515						goto err_unmap;
+  1516					}
+  1517				}
+  1518				svm_pages->dma_addr[j] =
+  1519					dpagemap->ops->device_map(dpagemap,
+  1520								  gpusvm->drm->dev,
+  1521								  page, order,
+  1522								  dma_dir);
+  1523				if (dma_mapping_error(gpusvm->drm->dev,
+  1524						      svm_pages->dma_addr[j].addr)) {
+  1525					err = -EFAULT;
+  1526					goto err_unmap;
+  1527				}
+  1528			} else {
+  1529				dma_addr_t addr;
+  1530	
+  1531				if (is_zone_device_page(page) ||
+  1532				    (pagemap && !ctx->allow_mixed)) {
+  1533					err = -EOPNOTSUPP;
+  1534					goto err_unmap;
+  1535				}
+  1536	
+  1537				if (ctx->devmem_only) {
+  1538					err = -EFAULT;
+  1539					goto err_unmap;
+  1540				}
+  1541	
+  1542				addr = dma_map_page(gpusvm->drm->dev,
+  1543						    page, 0,
+  1544						    PAGE_SIZE << order,
+  1545						    dma_dir);
+  1546				if (dma_mapping_error(gpusvm->drm->dev, addr)) {
+  1547					err = -EFAULT;
+  1548					goto err_unmap;
+  1549				}
+  1550	
+  1551				svm_pages->dma_addr[j] = drm_pagemap_addr_encode
+  1552					(addr, DRM_INTERCONNECT_SYSTEM, order,
+  1553					 dma_dir);
+  1554			}
+  1555			i += 1 << order;
+  1556			num_dma_mapped = i;
+  1557			flags.has_dma_mapping = true;
+  1558		}
+  1559	
+  1560		if (pagemap) {
+  1561			flags.has_devmem_pages = true;
+  1562			drm_pagemap_get(dpagemap);
+  1563			drm_pagemap_put(svm_pages->dpagemap);
+  1564			svm_pages->dpagemap = dpagemap;
+  1565		}
+  1566	
+  1567		/* WRITE_ONCE pairs with READ_ONCE for opportunistic checks */
+  1568		WRITE_ONCE(svm_pages->flags.__flags, flags.__flags);
+  1569	
+  1570		drm_gpusvm_notifier_unlock(gpusvm);
+  1571		kvfree(pfns);
+  1572	set_seqno:
+  1573		svm_pages->notifier_seq = hmm_range.notifier_seq;
+  1574	
+  1575		return 0;
+  1576	
+  1577	err_unmap:
+  1578		__drm_gpusvm_unmap_pages(gpusvm, svm_pages, num_dma_mapped);
+  1579		drm_gpusvm_notifier_unlock(gpusvm);
+  1580	err_free:
+  1581		kvfree(pfns);
+  1582		if (err == -EAGAIN)
+  1583			goto retry;
+  1584		return err;
+  1585	}
+  1586	EXPORT_SYMBOL_GPL(drm_gpusvm_get_pages);
+  1587	
 
 -- 
 0-DAY CI Kernel Test Service
