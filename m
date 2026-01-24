@@ -1,174 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE031CD1E4;
-	Sat, 24 Jan 2026 01:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FD017A2FA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 02:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769219936; cv=none; b=LUqp4+YIEpmhkJWFmhiUNnJdJmUpsGLAER7Doar3bbridJBACzhPBeAc6vdzgPUNINWaq7XuK+eXMOlch96B4pf5RNfBjb4npfpkIx4N07NBxTcUcDsLouc8ZhPAh5qub1yC0X04V9pMrXtFlrzjsTz0s/gAz6TVsdgXUXMnsR8=
+	t=1769220233; cv=none; b=kX4kO//gXmnX1zx0RH/AoDTrw5S/mBg5MJSmw16caXl6leR9TWT8i37noU/aAeBC43XeadE7Q6Vs0h1EcE9U4L1gtAYoVBU1k88JO1xFKkqrT12LLcr7HrtHxOq50myD7gC+XGpQOVGzobS9kLwaUmfOKbSegQp/ovw8/jhdTI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769219936; c=relaxed/simple;
-	bh=W4KpLvlCDKKiNZ3A7t0u+ak8r2FD3BRHbUWCEIAGDQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hdVuPAi0IxRwmQb1Wikqj9u+JPD6xl6NGQr9AJghZyj4vQxk9cMdS8Y6b25dGKaQ6W5xiS1ycPuYxOcWl0qjli7NaZf6FAJE5mB4+2QisD8wEFf+Oa1YrKGY0x8Bn7HWMGUsWFFxUuZHoAXupkQ8h7cva7jTL3etGL8LKgJB9j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kftpZoc+; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1769220233; c=relaxed/simple;
+	bh=P2A3XC1qmApx1cbptINt8Aj81OJzg/txQjOBWJn8PZE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NiP4o+MJMnK+lrH3AqasZRKHLourHo9LRgrWaO78Fp+UyorepvkIxo/yVCcdKmvYp826IWHIrxeIKmZa+8AKBC8NOda9mOoCE24XGEcWe4B/0AS1C9H9ZDZU/u/mHVYamtU/7DS2c4FZihmn1FAPlDR7Z2QOybIIL6Chb7wyWz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0XGYRWo; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kftpZoc+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0XGYRWo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769219933; x=1800755933;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W4KpLvlCDKKiNZ3A7t0u+ak8r2FD3BRHbUWCEIAGDQQ=;
-  b=kftpZoc+5nu62GKa7F1iLUrI8UgQol6MKLUWl4sJnn+VR2Gc+UQNnljC
-   xFphxH6RbKyZaWob79nXwG6SGIrgVOahzcBE7YMmVSE+HWlmug9NufXNa
-   9l41ETKVGQiqBUl4DLPmQ0NSlhfxJWA89AFF4aTGhlM01EWNn/YhB3Tcg
-   z/emSL7/rq9PCVI3KLeaNbdjVx02ui6fm8IZxcn8VOZnAu5u4tOuAa2Hg
-   1fE1CYqbv0PqbvZ1u2j+pRKUYzYrPgXWCNDo3pzqi6bxiXaPhB0eEycEm
-   3YanpXCHFllHGNzVfqvYvNB9wFANQDxthWsbuSMDeCFCs/ZqaAIWxNxO4
-   A==;
-X-CSE-ConnectionGUID: 7s9uGw9QS0G49EPcHZHFwg==
-X-CSE-MsgGUID: 4WPXgpj7RTix/c+xTaqprA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="81191728"
+  t=1769220232; x=1800756232;
+  h=date:from:to:cc:subject:message-id;
+  bh=P2A3XC1qmApx1cbptINt8Aj81OJzg/txQjOBWJn8PZE=;
+  b=I0XGYRWoQDx0Jdf/bSceOeY9w7j4z/w4OKQN89tSmttGKcc1KTXRZsQl
+   smuUgX+pje0l42CP9dSBiQPPxqR9HzvhF8uaQT3zeeI1aPZlBa3KAuPsQ
+   LVkFYBi5ahOVjECrojlnrtc1FEP8FDBkwKytNlylryAMhezMU3mDeLzd6
+   9hCempTqIh7Yj/BKZ4q4zEGHaPZEM51F6FSSyxxAHUU5PqtociHOyULHH
+   SWDrN9yRWShoSL0mix2SVIE20yrvEtSsju4E+z/UIr4KOyrkz+PJZl7+X
+   mN7twB6W9QXpaLurLU5Bx0KHGYZaTYOy4T6HMGGKqs402/OJ0wFRDA1gx
+   Q==;
+X-CSE-ConnectionGUID: Qycj5ZO0R2iExKZ9eHCY/g==
+X-CSE-MsgGUID: uz8BqplDT4C5X18JliTaBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="69669988"
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="81191728"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 17:58:52 -0800
-X-CSE-ConnectionGUID: PEbsSgEsR5ye0co4CbngPw==
-X-CSE-MsgGUID: aXwhd8SvTYO2ZBfAUi7BIg==
+   d="scan'208";a="69669988"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 18:03:52 -0800
+X-CSE-ConnectionGUID: wEQI0ZJHT3eq5H9bgmq67Q==
+X-CSE-MsgGUID: mGc9xlADT/aR99CZdx2DhQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
+   d="scan'208";a="212033254"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Jan 2026 17:58:50 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 23 Jan 2026 18:03:50 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjSvI-000000000rV-1KHr;
-	Sat, 24 Jan 2026 01:58:48 +0000
-Date: Sat, 24 Jan 2026 02:58:23 +0100
+	id 1vjT08-000000000rt-2HOM;
+	Sat, 24 Jan 2026 02:03:48 +0000
+Date: Sat, 24 Jan 2026 03:03:07 +0100
 From: kernel test robot <lkp@intel.com>
-To: Naohiro Aota <naohiro.aota@wdc.com>, linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Naohiro Aota <naohiro.aota@wdc.com>
-Subject: Re: [PATCH 4/4] btrfs: tests: zoned: add selftest for zoned code
-Message-ID: <202601240254.ewdvMi5U-lkp@intel.com>
-References: <20260123125920.4129581-5-naohiro.aota@wdc.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/mm 25/30] Diff in
+ drivers/gpu/nova-core/mm/bar_user.rs:249:
+Message-ID: <202601240350.oNoK6ozr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123125920.4129581-5-naohiro.aota@wdc.com>
 
-Hi Naohiro,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on next-20260123]
-[cannot apply to linus/master v6.16-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Naohiro-Aota/btrfs-tests-add-cleanup-functions-for-test-specific-functions/20260123-210300
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260123125920.4129581-5-naohiro.aota%40wdc.com
-patch subject: [PATCH 4/4] btrfs: tests: zoned: add selftest for zoned code
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260124/202601240254.ewdvMi5U-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
+head:   89462eb192ebd620dca084ef612b250231bc7aa1
+commit: 31279138cb6b12d16394d8bd217bbc2d16ac9f1a [25/30] nova-core: mm: Add memory management self-tests
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260124/202601240350.oNoK6ozr-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240254.ewdvMi5U-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240350.oNoK6ozr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601240254.ewdvMi5U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601240350.oNoK6ozr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/btrfs/tests/zoned-tests.c:89:8: error: call to undeclared function 'btrfs_load_block_group_by_raid_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      89 |         ret = btrfs_load_block_group_by_raid_type(bg, map, zone_info, active,
-         |               ^
-   fs/btrfs/tests/zoned-tests.c:89:8: note: did you mean 'btrfs_load_block_group_zone_info'?
-   fs/btrfs/tests/../zoned.h:195:19: note: 'btrfs_load_block_group_zone_info' declared here
-     195 | static inline int btrfs_load_block_group_zone_info(
-         |                   ^
-   1 error generated.
-
-
-vim +/btrfs_load_block_group_by_raid_type +89 fs/btrfs/tests/zoned-tests.c
-
-    39	
-    40	static int test_load_zone_info(struct btrfs_fs_info *fs_info,
-    41				       struct load_zone_info_test_vector *test)
-    42	{
-    43		struct btrfs_block_group *bg __free(btrfs_free_dummy_block_group) = NULL;
-    44		struct btrfs_chunk_map *map __free(btrfs_free_chunk_map) = NULL;
-    45		struct zone_info AUTO_KFREE(zone_info);
-    46		unsigned long AUTO_KFREE(active);
-    47		int i, ret;
-    48	
-    49		bg = btrfs_alloc_dummy_block_group(fs_info, test->bg_length);
-    50		if (!bg) {
-    51			test_std_err(TEST_ALLOC_BLOCK_GROUP);
-    52			return -ENOMEM;
-    53		}
-    54	
-    55		map = btrfs_alloc_chunk_map(test->num_stripes, GFP_KERNEL);
-    56		if (!map) {
-    57			test_std_err(TEST_ALLOC_EXTENT_MAP);
-    58			return -ENOMEM;
-    59		}
-    60	
-    61		zone_info = kcalloc(test->num_stripes, sizeof(*zone_info), GFP_KERNEL);
-    62		if (!zone_info) {
-    63			test_err("cannot allocate zone info");
-    64			return -ENOMEM;
-    65		}
-    66	
-    67		active = bitmap_zalloc(test->num_stripes, GFP_KERNEL);
-    68		if (!zone_info) {
-    69			test_err("cannot allocate active bitmap");
-    70			return -ENOMEM;
-    71		}
-    72	
-    73		map->type = test->raid_type;
-    74		map->num_stripes = test->num_stripes;
-    75		if (test->raid_type == BTRFS_BLOCK_GROUP_RAID10)
-    76			map->sub_stripes = 2;
-    77		for (i = 0; i < test->num_stripes; i++) {
-    78			zone_info[i].physical = 0;
-    79			zone_info[i].alloc_offset = test->alloc_offsets[i];
-    80			zone_info[i].capacity = ZONE_SIZE;
-    81			if (zone_info[i].alloc_offset && zone_info[i].alloc_offset < ZONE_SIZE)
-    82				__set_bit(i, active);
-    83		}
-    84		if (test->degraded)
-    85			btrfs_set_opt(fs_info->mount_opt, DEGRADED);
-    86		else
-    87			btrfs_clear_opt(fs_info->mount_opt, DEGRADED);
-    88	
-  > 89		ret = btrfs_load_block_group_by_raid_type(bg, map, zone_info, active,
-    90							  test->last_alloc);
-    91	
-    92		if (ret != test->expected_result) {
-    93			test_err("unexpected return value: ret %d expected %d", ret,
-    94				 test->expected_result);
-    95			return -EINVAL;
-    96		}
-    97	
-    98		if (!ret && bg->alloc_offset != test->expected_alloc_offset) {
-    99			test_err("unexpected alloc_offset: alloc_offset %llu expected %llu",
-   100				 bg->alloc_offset, test->expected_alloc_offset);
-   101			return -EINVAL;
-   102		}
-   103	
-   104		return 0;
-   105	}
-   106	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/mm/bar_user.rs:249:
+            }
+    
+            if pdb_entry.aperture() != AperturePde::VideoMemory {
+   -            dev_info!(dev, "MM: Self-test SKIPPED - requires VRAM-based page tables\n");
+   +            dev_info!(
+   +                dev,
+   +                "MM: Self-test SKIPPED - requires VRAM-based page tables\n"
+   +            );
+                return Ok(());
+            }
+        }
+>> Diff in drivers/gpu/nova-core/mm/bar_user.rs:249:
+            }
+    
+            if pdb_entry.aperture() != AperturePde::VideoMemory {
+   -            dev_info!(dev, "MM: Self-test SKIPPED - requires VRAM-based page tables\n");
+   +            dev_info!(
+   +                dev,
+   +                "MM: Self-test SKIPPED - requires VRAM-based page tables\n"
+   +            );
+                return Ok(());
+            }
+        }
+>> Diff in drivers/gpu/nova-core/mm/bar_user.rs:249:
+            }
+    
+            if pdb_entry.aperture() != AperturePde::VideoMemory {
+   -            dev_info!(dev, "MM: Self-test SKIPPED - requires VRAM-based page tables\n");
+   +            dev_info!(
+   +                dev,
+   +                "MM: Self-test SKIPPED - requires VRAM-based page tables\n"
+   +            );
+                return Ok(());
+            }
+        }
+   make[2]: *** [Makefile:1871: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
