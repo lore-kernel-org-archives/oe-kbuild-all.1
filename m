@@ -1,335 +1,292 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F92F321421;
-	Sat, 24 Jan 2026 14:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960E423C506
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 15:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769264603; cv=none; b=NSBZYIhEuOZM4qkY6+JH+kmRPi1AMowCWZbaP5n8z3RDizESGx1KSa5kd7pcWnnB60AJPKAp+IQml36H6hGim8pU+l8rzJ2d07Czefm8jiy5kn6a4thyD1PbMnrlO5r5ZzXVFAGdkHQg8B1O30LOdo/TOefsmG5No2Zj7sXHy4w=
+	t=1769269585; cv=none; b=gCgaKzQ8qGYwJBcFf+vHiR2MsVBkm2cpSL3/koW5Rcoi7cKvKB+JjEIo6KlJsJcNzFnGrF0/EMifQkPR06DT2mqaMi08osULUfEbj6wQxdonHxnHAMqie3bGCSo5Yt/QxHgHs7pXY23460P+k+hY+X2OCMyenh4+Wg2YvFsP6dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769264603; c=relaxed/simple;
-	bh=9Ss6wR1OPlAbCdqA0e3A63ScSNbIoK2x2Kd2dLi8vAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dQhuhzaoq0pCtWkBIYgFsPaivbPqi9wpjZm7LHbyfwuH+N9uWjqWPhrPgjXvA9hiSdsH2ZOshsJRURgydKjy4lMSNBv4VOtSiSA8WO+k6U79TiS5RZYlvJsr8NTOk7ORNXY//zY27urlwF+zv+0oRTjQQpk/ESxkeHJRNAtmNHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RW2YYmr6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1769269585; c=relaxed/simple;
+	bh=OjDBUuQaNsKfnZ91iW9uGLOexwiIQioI2HJNQOf9uy4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EhVqBfJT0YBTby5+Y67tbpBNLFWqJw7yaIsZnyTTbFD/PMUqnIjLlteWaDBJP8hFksJsFeEDxNzVBVe8oNK8lwmYgbwIzDb81BQo2C8N4y2E0wJv+gAjvmUjIrI2Hhtu6xww7C/RfGRUOllMqSzpoqJl64zALyc34goz5oynFAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VES/ehsR; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RW2YYmr6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VES/ehsR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769264601; x=1800800601;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9Ss6wR1OPlAbCdqA0e3A63ScSNbIoK2x2Kd2dLi8vAg=;
-  b=RW2YYmr6dKEIxoLnHslcSU4BzwUs2uMkkoDl663+hfypCamQS82iK96J
-   /uI24hO2iFqE4lwwh5kmbQEAVjpyQFJatYQdHwaqGm+Zz09T6McCrraNO
-   XUSSitcK0m4+vlHEj87RySb3YN6i7USizBY9mp8x+bLF6a2OjOHsY3b3p
-   9U1VhGEXr0/zi2+eElTZQqB3v0M5Z0yIoQctlnwxfYB2ARiEnALOuT7Dj
-   gNXaVHmtMYbjQNClv6VapciPV28yybzoqcRrjMZtZ0Be+XHRuyF7bqQsE
-   Cg5jFFqJGzyCNBVOxAytd6PuM813nZr7VP+bgfpAz6lxFT4oUyPSwbMaS
-   A==;
-X-CSE-ConnectionGUID: 51+lXDGrTo+o9o+d9X5QqA==
-X-CSE-MsgGUID: 9sreESqDSKm3M4wJgn4N8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="81860911"
+  t=1769269581; x=1800805581;
+  h=date:from:to:cc:subject:message-id;
+  bh=OjDBUuQaNsKfnZ91iW9uGLOexwiIQioI2HJNQOf9uy4=;
+  b=VES/ehsR/GOo2QYrO28fTc6OsNjop/Jpohd8i4HgRpDEiCdRHvuFYMSw
+   HpEWMlod/5jyR21lQq1VGEWSHttSchvjBbb90MSN6eDOZU/k3EYB1IbkV
+   Qzo7bMEXfrBp/qy9VL6RkZSAY6tI6GJezWXZA0CEwqTQBJa5GBWUafI1z
+   k3eF7abz46JHjalpy9Nvw1xdL+D3+XK8lCTKdX2blx8/XVQSAgg34WNm3
+   cxLr9awUlzVhX1elwXuObofKcY5Q5DUMNSsK30ZX2W5btr3TahyvtEfHr
+   4IgMOLnDN/UYycD0enzLQMq2E8rWP8J3GGR882cF5kdpz+oHNN6Unr6Xt
+   Q==;
+X-CSE-ConnectionGUID: 1ALX+tA5Q6SKX0QoxVw0ww==
+X-CSE-MsgGUID: TpwBah+gT7e1vsChuA3g2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="80801637"
 X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="81860911"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 06:23:18 -0800
-X-CSE-ConnectionGUID: V7Y5pzkiRyCDFXPrzH92jg==
-X-CSE-MsgGUID: EPHWjhy7QPCaPKF7FS4PBw==
+   d="scan'208";a="80801637"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 07:46:21 -0800
+X-CSE-ConnectionGUID: VAxQ6lEkQ2mrwgFrTbaDmQ==
+X-CSE-MsgGUID: 4g7U4SRkTKiXyaKWi6D1MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="237925289"
+   d="scan'208";a="211391621"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 24 Jan 2026 06:23:17 -0800
+  by orviesa003.jf.intel.com with ESMTP; 24 Jan 2026 07:46:19 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjeXi-00000000VFA-0eGR;
-	Sat, 24 Jan 2026 14:23:14 +0000
-Date: Sat, 24 Jan 2026 22:22:44 +0800
+	id 1vjfq4-00000000VHq-3pCk;
+	Sat, 24 Jan 2026 15:46:16 +0000
+Date: Sat, 24 Jan 2026 23:45:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 1/3] drm/pagemap: Add helper to access
- zone_device_data
-Message-ID: <202601242245.rgQdhaTK-lkp@intel.com>
-References: <20260123215907.1643088-2-matthew.brost@intel.com>
+To: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/flat 38/38] kernel/sched/fair.c:1295:38:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202601242324.p2giVoPt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123215907.1643088-2-matthew.brost@intel.com>
 
-Hi Matthew,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-tip/drm-tip]
-[cannot apply to drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc6 next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-pagemap-Add-helper-to-access-zone_device_data/20260124-060207
-base:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
-patch link:    https://lore.kernel.org/r/20260123215907.1643088-2-matthew.brost%40intel.com
-patch subject: [RFC PATCH v2 1/3] drm/pagemap: Add helper to access zone_device_data
-config: x86_64-randconfig-004-20260124 (https://download.01.org/0day-ci/archive/20260124/202601242245.rgQdhaTK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601242245.rgQdhaTK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat
+head:   8be5679c6e850b7d501a6cf9edf1aa8305e6da28
+commit: 8be5679c6e850b7d501a6cf9edf1aa8305e6da28 [38/38] sched/eevdf: Move to a single runqueue
+config: um-randconfig-r133-20260124 (https://download.01.org/0day-ci/archive/20260124/202601242324.p2giVoPt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601242324.p2giVoPt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601242245.rgQdhaTK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601242324.p2giVoPt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/fair.c:1202:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *running @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:1202:49: sparse:     expected struct task_struct *running
+   kernel/sched/fair.c:1202:49: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:1236:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1236:33: sparse:     expected struct sched_entity *se
+   kernel/sched/fair.c:1236:33: sparse:     got struct sched_entity [noderef] __rcu *
+>> kernel/sched/fair.c:1295:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1295:38: sparse:     expected struct sched_entity *se
+   kernel/sched/fair.c:1295:38: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:12813:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12813:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12813:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:5977:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:5977:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:5977:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:8319:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:8319:20: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:8319:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8521:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:8521:9: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/fair.c:8521:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8696:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/fair.c:8696:39: sparse:     expected struct task_struct *donor
+   kernel/sched/fair.c:8696:39: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/fair.c:8729:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8729:37: sparse:     expected struct task_struct *tsk
+   kernel/sched/fair.c:8729:37: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:8927:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/fair.c:8927:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8927:38: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/fair.c:9962:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:9962:40: sparse:     expected struct sched_domain *child
+   kernel/sched/fair.c:9962:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/fair.c:10590:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:10590:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:10590:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:12061:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12061:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12061:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:11699:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11699:44: sparse:     expected struct sched_domain *sd_parent
+   kernel/sched/fair.c:11699:44: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:12174:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12174:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12174:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2371:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1392:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1392:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2371:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2360:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2360:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2360:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2371:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2371:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2371:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2371:26: sparse:    struct task_struct *
 
->> drivers/gpu/drm/drm_gpusvm.c:1492:5: error: call to undeclared function 'drm_pagemap_page_zone_device_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1492 |                                 drm_pagemap_page_zone_device_data(page);
-         |                                 ^
-   drivers/gpu/drm/drm_gpusvm.c:1492:5: note: did you mean 'drm_pagemap_page_to_dpagemap'?
-   include/drm/drm_pagemap.h:264:35: note: 'drm_pagemap_page_to_dpagemap' declared here
-     264 | static inline struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page)
-         |                                   ^
->> drivers/gpu/drm/drm_gpusvm.c:1491:28: error: incompatible integer to pointer conversion initializing 'struct drm_pagemap_zdd *' with an expression of type 'int' [-Wint-conversion]
-    1491 |                         struct drm_pagemap_zdd *__zdd =
-         |                                                 ^
-    1492 |                                 drm_pagemap_page_zone_device_data(page);
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+vim +1295 kernel/sched/fair.c
 
-
-vim +/drm_pagemap_page_zone_device_data +1492 drivers/gpu/drm/drm_gpusvm.c
-
-  1366	
-  1367	/**
-  1368	 * drm_gpusvm_get_pages() - Get pages and populate GPU SVM pages struct
-  1369	 * @gpusvm: Pointer to the GPU SVM structure
-  1370	 * @svm_pages: The SVM pages to populate. This will contain the dma-addresses
-  1371	 * @mm: The mm corresponding to the CPU range
-  1372	 * @notifier: The corresponding notifier for the given CPU range
-  1373	 * @pages_start: Start CPU address for the pages
-  1374	 * @pages_end: End CPU address for the pages (exclusive)
-  1375	 * @ctx: GPU SVM context
-  1376	 *
-  1377	 * This function gets and maps pages for CPU range and ensures they are
-  1378	 * mapped for DMA access.
-  1379	 *
-  1380	 * Return: 0 on success, negative error code on failure.
-  1381	 */
-  1382	int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
-  1383				 struct drm_gpusvm_pages *svm_pages,
-  1384				 struct mm_struct *mm,
-  1385				 struct mmu_interval_notifier *notifier,
-  1386				 unsigned long pages_start, unsigned long pages_end,
-  1387				 const struct drm_gpusvm_ctx *ctx)
-  1388	{
-  1389		struct hmm_range hmm_range = {
-  1390			.default_flags = HMM_PFN_REQ_FAULT | (ctx->read_only ? 0 :
-  1391				HMM_PFN_REQ_WRITE),
-  1392			.notifier = notifier,
-  1393			.start = pages_start,
-  1394			.end = pages_end,
-  1395			.dev_private_owner = ctx->device_private_page_owner,
-  1396		};
-  1397		void *zdd;
-  1398		unsigned long timeout =
-  1399			jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-  1400		unsigned long i, j;
-  1401		unsigned long npages = npages_in_range(pages_start, pages_end);
-  1402		unsigned long num_dma_mapped;
-  1403		unsigned int order = 0;
-  1404		unsigned long *pfns;
-  1405		int err = 0;
-  1406		struct dev_pagemap *pagemap;
-  1407		struct drm_pagemap *dpagemap;
-  1408		struct drm_gpusvm_pages_flags flags;
-  1409		enum dma_data_direction dma_dir = ctx->read_only ? DMA_TO_DEVICE :
-  1410								   DMA_BIDIRECTIONAL;
-  1411	
-  1412	retry:
-  1413		if (time_after(jiffies, timeout))
-  1414			return -EBUSY;
-  1415	
-  1416		hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
-  1417		if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
-  1418			goto set_seqno;
-  1419	
-  1420		pfns = kvmalloc_array(npages, sizeof(*pfns), GFP_KERNEL);
-  1421		if (!pfns)
-  1422			return -ENOMEM;
-  1423	
-  1424		if (!mmget_not_zero(mm)) {
-  1425			err = -EFAULT;
-  1426			goto err_free;
-  1427		}
-  1428	
-  1429		hmm_range.hmm_pfns = pfns;
-  1430		while (true) {
-  1431			mmap_read_lock(mm);
-  1432			err = hmm_range_fault(&hmm_range);
-  1433			mmap_read_unlock(mm);
-  1434	
-  1435			if (err == -EBUSY) {
-  1436				if (time_after(jiffies, timeout))
-  1437					break;
-  1438	
-  1439				hmm_range.notifier_seq =
-  1440					mmu_interval_read_begin(notifier);
-  1441				continue;
-  1442			}
-  1443			break;
-  1444		}
-  1445		mmput(mm);
-  1446		if (err)
-  1447			goto err_free;
-  1448	
-  1449	map_pages:
-  1450		/*
-  1451		 * Perform all dma mappings under the notifier lock to not
-  1452		 * access freed pages. A notifier will either block on
-  1453		 * the notifier lock or unmap dma.
-  1454		 */
-  1455		drm_gpusvm_notifier_lock(gpusvm);
-  1456	
-  1457		flags.__flags = svm_pages->flags.__flags;
-  1458		if (flags.unmapped) {
-  1459			drm_gpusvm_notifier_unlock(gpusvm);
-  1460			err = -EFAULT;
-  1461			goto err_free;
-  1462		}
-  1463	
-  1464		if (mmu_interval_read_retry(notifier, hmm_range.notifier_seq)) {
-  1465			drm_gpusvm_notifier_unlock(gpusvm);
-  1466			kvfree(pfns);
-  1467			goto retry;
-  1468		}
-  1469	
-  1470		if (!svm_pages->dma_addr) {
-  1471			/* Unlock and restart mapping to allocate memory. */
-  1472			drm_gpusvm_notifier_unlock(gpusvm);
-  1473			svm_pages->dma_addr =
-  1474				kvmalloc_array(npages, sizeof(*svm_pages->dma_addr), GFP_KERNEL);
-  1475			if (!svm_pages->dma_addr) {
-  1476				err = -ENOMEM;
-  1477				goto err_free;
-  1478			}
-  1479			goto map_pages;
-  1480		}
-  1481	
-  1482		zdd = NULL;
-  1483		pagemap = NULL;
-  1484		num_dma_mapped = 0;
-  1485		for (i = 0, j = 0; i < npages; ++j) {
-  1486			struct page *page = hmm_pfn_to_page(pfns[i]);
-  1487	
-  1488			order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i, npages);
-  1489			if (is_device_private_page(page) ||
-  1490			    is_device_coherent_page(page)) {
-> 1491				struct drm_pagemap_zdd *__zdd =
-> 1492					drm_pagemap_page_zone_device_data(page);
-  1493	
-  1494				if (!ctx->allow_mixed &&
-  1495				    zdd != __zdd && i > 0) {
-  1496					err = -EOPNOTSUPP;
-  1497					goto err_unmap;
-  1498				}
-  1499				zdd = __zdd;
-  1500				if (pagemap != page_pgmap(page)) {
-  1501					if (i > 0) {
-  1502						err = -EOPNOTSUPP;
-  1503						goto err_unmap;
-  1504					}
-  1505	
-  1506					pagemap = page_pgmap(page);
-  1507					dpagemap = drm_pagemap_page_to_dpagemap(page);
-  1508					if (drm_WARN_ON(gpusvm->drm, !dpagemap)) {
-  1509						/*
-  1510						 * Raced. This is not supposed to happen
-  1511						 * since hmm_range_fault() should've migrated
-  1512						 * this page to system.
-  1513						 */
-  1514						err = -EAGAIN;
-  1515						goto err_unmap;
-  1516					}
-  1517				}
-  1518				svm_pages->dma_addr[j] =
-  1519					dpagemap->ops->device_map(dpagemap,
-  1520								  gpusvm->drm->dev,
-  1521								  page, order,
-  1522								  dma_dir);
-  1523				if (dma_mapping_error(gpusvm->drm->dev,
-  1524						      svm_pages->dma_addr[j].addr)) {
-  1525					err = -EFAULT;
-  1526					goto err_unmap;
-  1527				}
-  1528			} else {
-  1529				dma_addr_t addr;
-  1530	
-  1531				if (is_zone_device_page(page) ||
-  1532				    (pagemap && !ctx->allow_mixed)) {
-  1533					err = -EOPNOTSUPP;
-  1534					goto err_unmap;
-  1535				}
-  1536	
-  1537				if (ctx->devmem_only) {
-  1538					err = -EFAULT;
-  1539					goto err_unmap;
-  1540				}
-  1541	
-  1542				addr = dma_map_page(gpusvm->drm->dev,
-  1543						    page, 0,
-  1544						    PAGE_SIZE << order,
-  1545						    dma_dir);
-  1546				if (dma_mapping_error(gpusvm->drm->dev, addr)) {
-  1547					err = -EFAULT;
-  1548					goto err_unmap;
-  1549				}
-  1550	
-  1551				svm_pages->dma_addr[j] = drm_pagemap_addr_encode
-  1552					(addr, DRM_INTERCONNECT_SYSTEM, order,
-  1553					 dma_dir);
-  1554			}
-  1555			i += 1 << order;
-  1556			num_dma_mapped = i;
-  1557			flags.has_dma_mapping = true;
-  1558		}
-  1559	
-  1560		if (pagemap) {
-  1561			flags.has_devmem_pages = true;
-  1562			drm_pagemap_get(dpagemap);
-  1563			drm_pagemap_put(svm_pages->dpagemap);
-  1564			svm_pages->dpagemap = dpagemap;
-  1565		}
-  1566	
-  1567		/* WRITE_ONCE pairs with READ_ONCE for opportunistic checks */
-  1568		WRITE_ONCE(svm_pages->flags.__flags, flags.__flags);
-  1569	
-  1570		drm_gpusvm_notifier_unlock(gpusvm);
-  1571		kvfree(pfns);
-  1572	set_seqno:
-  1573		svm_pages->notifier_seq = hmm_range.notifier_seq;
-  1574	
-  1575		return 0;
-  1576	
-  1577	err_unmap:
-  1578		__drm_gpusvm_unmap_pages(gpusvm, svm_pages, num_dma_mapped);
-  1579		drm_gpusvm_notifier_unlock(gpusvm);
-  1580	err_free:
-  1581		kvfree(pfns);
-  1582		if (err == -EAGAIN)
-  1583			goto retry;
-  1584		return err;
-  1585	}
-  1586	EXPORT_SYMBOL_GPL(drm_gpusvm_get_pages);
-  1587	
+  1189	
+  1190	static s64 update_se(struct rq *rq, struct sched_entity *se)
+  1191	{
+  1192		u64 now = rq_clock_task(rq);
+  1193		s64 delta_exec;
+  1194	
+  1195		delta_exec = now - se->exec_start;
+  1196		if (unlikely(delta_exec <= 0))
+  1197			return delta_exec;
+  1198	
+  1199		se->exec_start = now;
+  1200		if (entity_is_task(se)) {
+  1201			struct task_struct *donor = task_of(se);
+> 1202			struct task_struct *running = rq->curr;
+  1203			/*
+  1204			 * If se is a task, we account the time against the running
+  1205			 * task, as w/ proxy-exec they may not be the same.
+  1206			 */
+  1207			running->se.exec_start = now;
+  1208			running->se.sum_exec_runtime += delta_exec;
+  1209	
+  1210			trace_sched_stat_runtime(running, delta_exec);
+  1211			account_group_exec_runtime(running, delta_exec);
+  1212	
+  1213			/* cgroup time is always accounted against the donor */
+  1214			cgroup_account_cputime(donor, delta_exec);
+  1215		} else {
+  1216			/* If not task, account the time against donor se  */
+  1217			se->sum_exec_runtime += delta_exec;
+  1218		}
+  1219	
+  1220		if (schedstat_enabled()) {
+  1221			struct sched_statistics *stats;
+  1222	
+  1223			stats = __schedstats_from_se(se);
+  1224			__schedstat_set(stats->exec_max,
+  1225					max(delta_exec, stats->exec_max));
+  1226		}
+  1227	
+  1228		return delta_exec;
+  1229	}
+  1230	
+  1231	/*
+  1232	 * Used by other classes to account runtime.
+  1233	 */
+  1234	s64 update_curr_common(struct rq *rq)
+  1235	{
+  1236		return update_se(rq, &rq->donor->se);
+  1237	}
+  1238	
+  1239	/*
+  1240	 * Update the current task's runtime statistics.
+  1241	 */
+  1242	static void update_curr(struct cfs_rq *cfs_rq)
+  1243	{
+  1244		/*
+  1245		 * Note: cfs_rq->curr corresponds to the task picked to
+  1246		 * run (ie: rq->donor.se) which due to proxy-exec may
+  1247		 * not necessarily be the actual task running
+  1248		 * (rq->curr.se). This is easy to confuse!
+  1249		 */
+  1250		struct sched_entity *curr = cfs_rq->h_curr;
+  1251		struct rq *rq = rq_of(cfs_rq);
+  1252		s64 delta_exec;
+  1253		bool resched;
+  1254	
+  1255		if (unlikely(!curr))
+  1256			return;
+  1257	
+  1258		delta_exec = update_se(rq, curr);
+  1259		if (unlikely(delta_exec <= 0))
+  1260			return;
+  1261	
+  1262		account_cfs_rq_runtime(cfs_rq, delta_exec);
+  1263	
+  1264		if (!entity_is_task(curr))
+  1265			return;
+  1266	
+  1267		cfs_rq = &rq->cfs;
+  1268	
+  1269		curr->vruntime += calc_delta_fair(delta_exec, curr);
+  1270		resched = update_deadline(cfs_rq, curr);
+  1271	
+  1272		/*
+  1273		 * If the fair_server is active, we need to account for the
+  1274		 * fair_server time whether or not the task is running on
+  1275		 * behalf of fair_server or not:
+  1276		 *  - If the task is running on behalf of fair_server, we need
+  1277		 *    to limit its time based on the assigned runtime.
+  1278		 *  - Fair task that runs outside of fair_server should account
+  1279		 *    against fair_server such that it can account for this time
+  1280		 *    and possibly avoid running this period.
+  1281		 */
+  1282		dl_server_update(&rq->fair_server, delta_exec);
+  1283	
+  1284		if (cfs_rq->h_nr_queued == 1)
+  1285			return;
+  1286	
+  1287		if (resched || !protect_slice(curr)) {
+  1288			resched_curr_lazy(rq);
+  1289			clear_buddies(cfs_rq, curr);
+  1290		}
+  1291	}
+  1292	
+  1293	static void update_curr_fair(struct rq *rq)
+  1294	{
+> 1295		struct sched_entity *se = &rq->donor->se;
+  1296	
+  1297		for_each_sched_entity(se)
+  1298			update_curr(cfs_rq_of(se));
+  1299	}
+  1300	
 
 -- 
 0-DAY CI Kernel Test Service
