@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F0813AD05
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 04:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF021FDA61;
+	Sat, 24 Jan 2026 05:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769229295; cv=none; b=V8DtrUa2kT/mWd1wN9IyFc4mNBwwFsHlUQuCCfmNCBl7Iy0/iRjEWDLdOYHJjlwOw8jEcXrPs0S0X0wJRJg4WAB6ySMtTSsyldkhDjoisyR6C5WCCnRjWf1jAjg8cKR4mQhH803IKUGcCDjNQGzs9dLZ9DmWiJWPKlSGJAAn4wo=
+	t=1769232360; cv=none; b=YPpwswLDc10MIY2PC0ux4yWIkDTD+44ZoZlOqq7mMAjBXcbbTf+UUTdK5tPLgW+yF4jICdqpPlrXD9EBvQzcgQF8QD1z7t2qD3qmZAXjlpwK0ErUsG+3Q8xnicO64l8H8iNsgM2V40EB43BGu+SdurlQqz6BJivFYwTZxGgPbEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769229295; c=relaxed/simple;
-	bh=zEH9nFD+ZslDWNBDZd6gyALBtjdnZClrhiwBs1/ZoLk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fjLfMJDC8RKsuLL/g/28G04nvZXETBYzh2BYeFM5nm4zAQr6f53tHCGCfnYOK1kxu42x6xhTFnJpa83kcEDTtqFXxPPuNb3zps76b7WlPnZEX6LBoKpajsH9SQfsWirkcipTGMxd3butK6Ms6q5sK4gLmj3XZFjymUpK809qnfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O9GKkk8N; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1769232360; c=relaxed/simple;
+	bh=uxqnrkgeKptqSoi+C2fKqng5uVAdCSjsrVKuOkNmMEA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Qp3V35NFk8IZEfUMtZVmX+20f4mbOWlljS46Ih9ysFt95jTSYptUAam3x7usXYxmoc0EPhLNUYCGxMYi9lijZNuLY9Njw+Eo3ripvrvEVMM6VdW6K8zFbPE1lG5RVdTKp1zWaSlgafHreo+Sa7LZernRDsKhbZDm3nLfR2j+kCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvFByWuR; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9GKkk8N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvFByWuR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769229294; x=1800765294;
+  t=1769232358; x=1800768358;
   h=date:from:to:cc:subject:message-id;
-  bh=zEH9nFD+ZslDWNBDZd6gyALBtjdnZClrhiwBs1/ZoLk=;
-  b=O9GKkk8NMiw+/lt1FR7hy8249R5nAdSq04v8RB1dy+zKNbpDZaraycQY
-   X01C3ZC6RVI6Rs3+fPR3S0XlZlwCHadqPhnEzNBKltUjTfozVyEbvcsPs
-   Zo8wkQet6+xXzeUP2hsnTaIrpLCykx4Qvw+JExQIdJNM2FmlD6vgcRS9Y
-   9ErQKNzyPHpdSq4w/kLnqGSzyeFKxCjsxW0Tof4mZmdglnWSFd4FLTE5x
-   ufsTz23oxQYllhPsr5713tTa8pTmd5cNTH/XSihaaGC3efo3IQbSyRo7C
-   xS/TyAF2YrrLFG+p/HU+JbPXOfU4xAkixAp41FbpreKgZIfHOo7sdTZau
-   g==;
-X-CSE-ConnectionGUID: WXRKMA+XSmWNDFm1/JqhzA==
-X-CSE-MsgGUID: a1z4PzMUSqOIGt97HNH8kQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="93145226"
+  bh=uxqnrkgeKptqSoi+C2fKqng5uVAdCSjsrVKuOkNmMEA=;
+  b=JvFByWuR8iyBAFufrL+HOL5/zGUyLifQlmDVZ/7mKyFFwqdE74fk3UCo
+   WPXlW1qqOoqCtH1xSNygda1alCckeCoTT0lAqvAQ0pbUy+fvR6OdBmtdx
+   jvGjj0pNbPSK9rRLFXi+f1cH72nLKkl98te55QWBUvQUz+SUvEFECsaKd
+   +VP/Bj0Zfv/caGjRsis4Ehk/rbQ8WuyGOdYBFev6Oum1OENdR6p5sBYP1
+   LjjP4Nsz/AlgfabP7eXLps8gEulkux8QrJHvmpKEDutT/Vlzc/HUozqYl
+   eF6QwSMxdNf4YeE3h+q9LNLfj5j4+Smss2Ne0pcFeIyC4zg9ycrBUaCfz
+   w==;
+X-CSE-ConnectionGUID: zGa7T4ZYTX2vrWS+iyakzg==
+X-CSE-MsgGUID: Agd3drqJSxWD109BXrIkVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="69499593"
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="93145226"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 20:34:53 -0800
-X-CSE-ConnectionGUID: gDt5ry7NTmiaf/kJhmKtfw==
-X-CSE-MsgGUID: uui14ItPQWCB7GmaQF16Ag==
+   d="scan'208";a="69499593"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 21:25:57 -0800
+X-CSE-ConnectionGUID: DRlve81xTTODaxV49Y+KrA==
+X-CSE-MsgGUID: SYKgPpx/T0yubXwn8K6ZeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="207438743"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Jan 2026 20:34:51 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207545852"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Jan 2026 21:25:55 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjVMG-000000000sP-42AY;
-	Sat, 24 Jan 2026 04:34:48 +0000
-Date: Sat, 24 Jan 2026 05:34:23 +0100
+	id 1vjW9h-00000000UwA-1ntU;
+	Sat, 24 Jan 2026 05:25:53 +0000
+Date: Sat, 24 Jan 2026 13:25:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
- Danilo Krummrich <dakr@kernel.org>
-Subject: [driver-core:driver-core-testing 12/12] Diff in
- samples/rust/rust_dma.rs:105:
-Message-ID: <202601240553.wieP0mKV-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:master 245/248]
+ fs/bcachefs/debug/sysfs.c:696:3: error: cannot jump from this goto statement
+ to its label
+Message-ID: <202601241354.PGwCvo94-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,48 +60,130 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git driver-core-testing
-head:   c991f93288cac176e6361617f91c17c63c23a86f
-commit: c991f93288cac176e6361617f91c17c63c23a86f [12/12] rust: samples: dma: remove redundant `.as_ref()` for `dev_*` print
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260124/202601240553.wieP0mKV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240553.wieP0mKV-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs master
+head:   1310ef4f3109a9e87aab48a8d8a1c15bccd9ece2
+commit: 4fe5b6e8ec3efb6a0d112d2cb86f2b22734c8824 [245/248] bcachefs: opt_change_lock
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260124/202601241354.PGwCvo94-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601241354.PGwCvo94-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601240553.wieP0mKV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601241354.PGwCvo94-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in samples/rust/rust_dma.rs:105:
-            }
-    
-            for (i, entry) in self.sgt.iter().enumerate() {
-   -            dev_info!(self.pdev, "Entry[{}]: DMA address: {:#x}", i, entry.dma_address());
-   +            dev_info!(
-   +                self.pdev,
-   +                "Entry[{}]: DMA address: {:#x}",
-   +                i,
-   +                entry.dma_address()
-   +            );
-            }
-        }
-    }
-   make[2]: *** [Makefile:1871: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+>> fs/bcachefs/debug/sysfs.c:696:3: error: cannot jump from this goto statement to its label
+     696 |                 goto err;
+         |                 ^
+   fs/bcachefs/debug/sysfs.c:700:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     700 |         guard(opt_change_lock)(c);
+         |         ^
+   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:88:1: note: expanded from here
+      88 | __UNIQUE_ID_guard749
+         | ^
+   fs/bcachefs/debug/sysfs.c:699:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     699 |         guard(memalloc_flags)(PF_MEMALLOC_NOFS);
+         |         ^
+   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:79:1: note: expanded from here
+      79 | __UNIQUE_ID_guard748
+         | ^
+   1 error generated.
+
+
+vim +696 fs/bcachefs/debug/sysfs.c
+
+1c6fdbd8f2465d fs/bcachefs/sysfs.c       Kent Overstreet 2017-03-16  677  
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  678  static ssize_t sysfs_opt_store(struct bch_fs *c,
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  679  			       struct bch_dev *ca,
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  680  			       enum bch_opt_id id,
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  681  			       const char *buf, size_t size)
+1c6fdbd8f2465d fs/bcachefs/sysfs.c       Kent Overstreet 2017-03-16  682  {
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  683  	const struct bch_option *opt = bch2_opt_table + id;
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  684  	int ret = 0;
+1c6fdbd8f2465d fs/bcachefs/sysfs.c       Kent Overstreet 2017-03-16  685  
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  686  	/*
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  687  	 * We don't need to take c->writes for correctness, but it eliminates an
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  688  	 * unsightly error message in the dmesg log when we're RO:
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  689  	 */
+c9b1d94a2196fc fs/bcachefs/sysfs.c       Kent Overstreet 2025-04-18  690  	if (unlikely(!enumerated_ref_tryget(&c->writes, BCH_WRITE_REF_sysfs)))
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  691  		return -EROFS;
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  692  
+a5f5d2cde0ab3c fs/bcachefs/debug/sysfs.c Kent Overstreet 2025-10-08  693  	char *tmp __free(kfree) = kstrdup(buf, GFP_KERNEL);
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  694  	if (!tmp) {
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  695  		ret = -ENOMEM;
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06 @696  		goto err;
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  697  	}
+1c6fdbd8f2465d fs/bcachefs/sysfs.c       Kent Overstreet 2017-03-16  698  
+4fe5b6e8ec3efb fs/bcachefs/debug/sysfs.c Kent Overstreet 2026-01-23  699  	guard(memalloc_flags)(PF_MEMALLOC_NOFS);
+4fe5b6e8ec3efb fs/bcachefs/debug/sysfs.c Kent Overstreet 2026-01-23  700  	guard(opt_change_lock)(c);
+4fe5b6e8ec3efb fs/bcachefs/debug/sysfs.c Kent Overstreet 2026-01-23  701  
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  702  	u64 v;
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  703  	ret =   bch2_opt_parse(c, opt, strim(tmp), &v, NULL) ?:
+39c74fd00b95fb fs/bcachefs/sysfs.c       Kent Overstreet 2025-08-27  704  		bch2_opt_hook_pre_set(c, ca, 0, id, v, true);
+1c6fdbd8f2465d fs/bcachefs/sysfs.c       Kent Overstreet 2017-03-16  705  
+1c6fdbd8f2465d fs/bcachefs/sysfs.c       Kent Overstreet 2017-03-16  706  	if (ret < 0)
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  707  		goto err;
+1c6fdbd8f2465d fs/bcachefs/sysfs.c       Kent Overstreet 2017-03-16  708  
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  709  	bool is_sb = opt->get_sb || opt->get_member;
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  710  	bool changed = false;
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  711  
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  712  	if (is_sb) {
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  713  		changed = bch2_opt_set_sb(c, ca, opt, v);
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  714  	} else if (!ca) {
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  715  		changed = bch2_opt_get_by_id(&c->opts, id) != v;
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  716  	} else {
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  717  		/* device options that aren't superblock options aren't
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  718  		 * supported */
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  719  		BUG();
+e882906929c55a fs/bcachefs/sysfs.c       Kent Overstreet 2025-05-14  720  	}
+c2250847043901 fs/bcachefs/sysfs.c       Kent Overstreet 2024-10-24  721  
+a5f237d69e8a72 fs/bcachefs/debug/sysfs.c Kent Overstreet 2025-11-12  722  	if (changed) {
+a5f237d69e8a72 fs/bcachefs/debug/sysfs.c Kent Overstreet 2025-11-12  723  		if (!ca) {
+c79eb06da4c34f fs/bcachefs/sysfs.c       Kent Overstreet 2025-04-15  724  			bch2_opt_set_by_id(&c->opts, id, v);
+a5f237d69e8a72 fs/bcachefs/debug/sysfs.c Kent Overstreet 2025-11-12  725  			clear_bit(id, c->mount_opts.d);
+a5f237d69e8a72 fs/bcachefs/debug/sysfs.c Kent Overstreet 2025-11-12  726  		}
+80be08cdb5a822 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-13  727  
+783eae0fb55bd7 fs/bcachefs/sysfs.c       Kent Overstreet 2025-08-27  728  		bch2_opt_hook_post_set(c, ca, 0, id, v);
+a5f237d69e8a72 fs/bcachefs/debug/sysfs.c Kent Overstreet 2025-11-12  729  	}
+80be08cdb5a822 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-13  730  
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  731  	ret = size;
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  732  err:
+c9b1d94a2196fc fs/bcachefs/sysfs.c       Kent Overstreet 2025-04-18  733  	enumerated_ref_put(&c->writes, BCH_WRITE_REF_sysfs);
+f0cc5d2931378b fs/bcachefs/sysfs.c       Kent Overstreet 2022-03-06  734  	return ret;
+1c6fdbd8f2465d fs/bcachefs/sysfs.c       Kent Overstreet 2017-03-16  735  }
+8b294a9b5c1447 fs/bcachefs/sysfs.c       Kent Overstreet 2025-03-11  736  
+
+:::::: The code at line 696 was first introduced by commit
+:::::: f0cc5d2931378b7a2a7e797c726a2ab760d4a84d bcachefs: Check for rw before setting opts via sysfs
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
