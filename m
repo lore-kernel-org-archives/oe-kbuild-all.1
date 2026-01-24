@@ -1,213 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C8527FB26;
-	Sat, 24 Jan 2026 22:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B615A3EBF09
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 23:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769294507; cv=none; b=T9pkxRfMT+7zJZhPJVVYoAN0OKnr0J/2Zdd8d6WNU+0KYYnM6bU3yM/py98RT94EWCd48M2vM0M3uz6F+jQ9Mrx/Wgpmco7B7Uum79OvrqVIRhj4Gl+lqj39DHBDFFsVWnSvD5B8ifjUB6XkSsbjl1OSwPPnNdSwrZ5j/hOiFAo=
+	t=1769296422; cv=none; b=PtcD4vOtam4WQOvg/1tSFfXedYzfPdmJSEwJr1XaURTOqDB34FIKy8SSnNRtK6X/9VREaOq9VDURrZOL3iUvjStZ0kjsv5UIN7mJUIWKQcGklx++zPjr51szXS/LMhX9aa3xveF+A5dci93ElJ608EfJaZgITK/MX0PoSMssSU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769294507; c=relaxed/simple;
-	bh=WXKAC/fyF/NXplXJWNiQwBzi6DaoJqGNLNtWfgdhnOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZBciZi/uvCA24gLIGrxvcrsjY+AjIgga2XCvX60iFBWu5e8+Y5eWMFt7jR2z0PAqTHQUgTdH2q8vycnRpJgYBJb5souD6YaN7reuDbsRec88OfHDfrlyQ3X29LyeoiYAZnnaJB6WjZt97XQR2kJd1iH7Nz7bFr6f+jJ4JuOdqk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=laaX7ZAz; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1769296422; c=relaxed/simple;
+	bh=SW72zuBAAMaiw8Nrs7Xl+R4rTuKwVKSMd/AOP51e7OI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=co1HSmcCj+RBWBmeIvZzIdqGq0eDTATOpr5LxPnhlov++5jpxp8JzfwEZt9MnTI1y2OX4cnFWmA2RQ7Tn4xQR2FUMNX8Z7Wz+neima5vs0pYtqW5yAMEQ0rtOAoSTz8+h3s0Vs9nDwp7ErAqCp2nQyt6oClgEozRQsS2F+MW7Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NTlC9kcK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="laaX7ZAz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NTlC9kcK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769294505; x=1800830505;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WXKAC/fyF/NXplXJWNiQwBzi6DaoJqGNLNtWfgdhnOw=;
-  b=laaX7ZAz9wBnBhzQRD16+BgWBaXmPp3PfOySzQ/UMaS8QjYE55br2f4J
-   V8zcdf6ACFRob9OycyWO0PCkYCrhmp40qLnlVJMXXID9U5ZvwlCeNDG3+
-   H7eLTCUxMJRkXT5OWOJMMciDIEA+FFtgbuiqKZCXemCM6iYkg4tlfnSUW
-   IueVENnKYfjv8a8ubwc+CcddGOaJBQz/sTgEJh25vrezWtMwzsNDuCXe4
-   cyViw2JZ6wNDh9w3jytILGnfIpzQCuKRWoADRu7W47Q/NHqoQpdP5mdYa
-   SIGPxb+kK6ZaxoO58xKRBPq5zDxnrDsQjg2weZrjvQPfCWTEjaEtPLjHV
-   Q==;
-X-CSE-ConnectionGUID: 58G45trYSxGrL5GOJ556fg==
-X-CSE-MsgGUID: a2GN4TQJQ3mFgVOMMxhsQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="93174516"
+  t=1769296421; x=1800832421;
+  h=date:from:to:cc:subject:message-id;
+  bh=SW72zuBAAMaiw8Nrs7Xl+R4rTuKwVKSMd/AOP51e7OI=;
+  b=NTlC9kcKcrtwD5tRbeyzSL4xzVPsyg9eMfducegGrLhWYXaywS/7vW5V
+   n+Iul9ACf9G9y0wFvnUI8go1tUd99uGbcCzkscTQpAisfCOJwL4vNAkWj
+   m9CoykIirWvKuZoSmcru4f+N6fqnLPFemHMijWTeINHBm1HCVYMaNpX1M
+   2mP+3NnOwAHREGs6X+FGmi3Wjmq04vQwEJkuHFbEUlQmcmwKFQHndKSen
+   d7VcnTawZMSqRcM9x24RYGQv+XGTbZxaC/Kdoeh1uppca6pj+z4US/5wj
+   2ajDPztJZfNp247KuBvY1iW98XWoO6Y91cQ1rPxERLoYdshksNeeoBf66
+   w==;
+X-CSE-ConnectionGUID: VmRZD2OHRYyrY5mhvXLypg==
+X-CSE-MsgGUID: e+pEq6QySLydoe3mI8VRYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70418122"
 X-IronPort-AV: E=Sophos;i="6.21,251,1763452800"; 
-   d="scan'208";a="93174516"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 14:41:45 -0800
-X-CSE-ConnectionGUID: rlROHsk0RwapfHGlgyqhJw==
-X-CSE-MsgGUID: nrGQiIp0QWqPtPE6cH7Zmw==
+   d="scan'208";a="70418122"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 15:13:41 -0800
+X-CSE-ConnectionGUID: nrAY2BZyTri+ZzD7IgHtHA==
+X-CSE-MsgGUID: iNYFTaowRRibdf4LKGAUGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,251,1763452800"; 
-   d="scan'208";a="230293682"
+   d="scan'208";a="211804190"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Jan 2026 14:41:38 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jan 2026 15:13:38 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjmJz-00000000Vau-3yq4;
-	Sat, 24 Jan 2026 22:41:35 +0000
-Date: Sun, 25 Jan 2026 06:41:04 +0800
+	id 1vjmoy-00000000VbO-1iIv;
+	Sat, 24 Jan 2026 23:13:36 +0000
+Date: Sun, 25 Jan 2026 07:13:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Peter Wang <peter.wang@mediatek.com>,
-	Stanley Jhu <chu.stanley@gmail.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Chaotian Jing <Chaotian.Jing@mediatek.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
-	kernel@collabora.com, linux-scsi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v6 14/24] scsi: ufs: mediatek: Switch to newer PM ops
- helpers
-Message-ID: <202601250638.kCl6evPM-lkp@intel.com>
-References: <20260124-mt8196-ufs-v6-14-e7c005b60028@collabora.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 0/1]
+ arch/x86/kernel/kvm.c:237:2-7: WARNING: NULL check before some freeing
+ functions is not needed.
+Message-ID: <202601250701.LavuXjGV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260124-mt8196-ufs-v6-14-e7c005b60028@collabora.com>
 
-Hi Nicolas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 4af4e95edc37ae54f64cbd75b46f16ce15f3a6b8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Frattaroli/dt-bindings-phy-Add-mediatek-mt8196-ufsphy-variant/20260124-201226
-base:   4af4e95edc37ae54f64cbd75b46f16ce15f3a6b8
-patch link:    https://lore.kernel.org/r/20260124-mt8196-ufs-v6-14-e7c005b60028%40collabora.com
-patch subject: [PATCH v6 14/24] scsi: ufs: mediatek: Switch to newer PM ops helpers
-config: arm64-randconfig-004-20260125 (https://download.01.org/0day-ci/archive/20260125/202601250638.kCl6evPM-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   9798fda6e4488a9762669b40f98c27d3036fbe71
+commit: 7b54eb6319342eccd2c95a3e479e10282a5946c8 [0/1] x86/kvm: Alloc dummy async #PF token outside of raw spinlock
+config: i386-randconfig-051-20260125 (https://download.01.org/0day-ci/archive/20260125/202601250701.LavuXjGV-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601250638.kCl6evPM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601250638.kCl6evPM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601250701.LavuXjGV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/kvm.c:237:2-7: WARNING: NULL check before some freeing functions is not needed.
 
->> drivers/ufs/host/ufs-mediatek.c:2339:8: error: call to undeclared function 'ufshcd_system_suspend'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2339 |         ret = ufshcd_system_suspend(dev);
-         |               ^
-   drivers/ufs/host/ufs-mediatek.c:2339:8: note: did you mean 'ufs_mtk_system_suspend'?
-   drivers/ufs/host/ufs-mediatek.c:2328:12: note: 'ufs_mtk_system_suspend' declared here
-    2328 | static int ufs_mtk_system_suspend(struct device *dev)
-         |            ^
-    2329 | {
-    2330 |         struct ufs_hba *hba = dev_get_drvdata(dev);
-    2331 |         struct arm_smccc_res res;
-    2332 |         int ret;
-    2333 | 
-    2334 |         if (hba->shutting_down) {
-    2335 |                 ret = -EBUSY;
-    2336 |                 goto out;
-    2337 |         }
-    2338 | 
-    2339 |         ret = ufshcd_system_suspend(dev);
-         |               ~~~~~~~~~~~~~~~~~~~~~
-         |               ufs_mtk_system_suspend
->> drivers/ufs/host/ufs-mediatek.c:2370:8: error: call to undeclared function 'ufshcd_system_resume'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2370 |         ret = ufshcd_system_resume(dev);
-         |               ^
-   drivers/ufs/host/ufs-mediatek.c:2370:8: note: did you mean 'ufs_mtk_system_resume'?
-   drivers/ufs/host/ufs-mediatek.c:2355:12: note: 'ufs_mtk_system_resume' declared here
-    2355 | static int ufs_mtk_system_resume(struct device *dev)
-         |            ^
-    2356 | {
-    2357 |         int ret = 0;
-    2358 |         struct ufs_hba *hba = dev_get_drvdata(dev);
-    2359 |         struct arm_smccc_res res;
-    2360 | 
-    2361 |         if (pm_runtime_suspended(hba->dev))
-    2362 |                 goto out;
-    2363 | 
-    2364 |         if (ufs_mtk_is_rtff_mtcmos(hba))
-    2365 |                 ufs_mtk_mtcmos_ctrl(true, res);
-    2366 | 
-    2367 |         ufs_mtk_dev_vreg_set_lpm(hba, false);
-    2368 | 
-    2369 | out:
-    2370 |         ret = ufshcd_system_resume(dev);
-         |               ~~~~~~~~~~~~~~~~~~~~
-         |               ufs_mtk_system_resume
-   2 errors generated.
+vim +237 arch/x86/kernel/kvm.c
 
-
-vim +/ufshcd_system_suspend +2339 drivers/ufs/host/ufs-mediatek.c
-
-ddd90623ce26ea drivers/scsi/ufs/ufs-mediatek.c Stanley Chu 2019-03-16  2327  
-e7bf1d50063ce0 drivers/ufs/host/ufs-mediatek.c Stanley Chu 2022-06-23  2328  static int ufs_mtk_system_suspend(struct device *dev)
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2329  {
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2330  	struct ufs_hba *hba = dev_get_drvdata(dev);
-a6888d623eae6d drivers/ufs/host/ufs-mediatek.c Alice Chao  2024-03-15  2331  	struct arm_smccc_res res;
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2332  	int ret;
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2333  
-014de20bb36ba0 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-24  2334  	if (hba->shutting_down) {
-014de20bb36ba0 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-24  2335  		ret = -EBUSY;
-014de20bb36ba0 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-24  2336  		goto out;
-014de20bb36ba0 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-24  2337  	}
-014de20bb36ba0 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-24  2338  
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16 @2339  	ret = ufshcd_system_suspend(dev);
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2340  	if (ret)
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2341  		goto out;
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2342  
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2343  	if (pm_runtime_suspended(hba->dev))
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2344  		goto out;
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2345  
-42b1928360a32e drivers/ufs/host/ufs-mediatek.c Stanley Chu 2022-06-16  2346  	ufs_mtk_dev_vreg_set_lpm(hba, true);
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2347  
-a6888d623eae6d drivers/ufs/host/ufs-mediatek.c Alice Chao  2024-03-15  2348  	if (ufs_mtk_is_rtff_mtcmos(hba))
-a6888d623eae6d drivers/ufs/host/ufs-mediatek.c Alice Chao  2024-03-15  2349  		ufs_mtk_mtcmos_ctrl(false, res);
-a6888d623eae6d drivers/ufs/host/ufs-mediatek.c Alice Chao  2024-03-15  2350  
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2351  out:
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2352  	return ret;
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2353  }
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2354  
-e7bf1d50063ce0 drivers/ufs/host/ufs-mediatek.c Stanley Chu 2022-06-23  2355  static int ufs_mtk_system_resume(struct device *dev)
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2356  {
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2357  	int ret = 0;
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2358  	struct ufs_hba *hba = dev_get_drvdata(dev);
-a6888d623eae6d drivers/ufs/host/ufs-mediatek.c Alice Chao  2024-03-15  2359  	struct arm_smccc_res res;
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2360  
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2361  	if (pm_runtime_suspended(hba->dev))
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2362  		goto out;
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2363  
-a6888d623eae6d drivers/ufs/host/ufs-mediatek.c Alice Chao  2024-03-15  2364  	if (ufs_mtk_is_rtff_mtcmos(hba))
-a6888d623eae6d drivers/ufs/host/ufs-mediatek.c Alice Chao  2024-03-15  2365  		ufs_mtk_mtcmos_ctrl(true, res);
-a6888d623eae6d drivers/ufs/host/ufs-mediatek.c Alice Chao  2024-03-15  2366  
-b2f8abadabea32 drivers/ufs/host/ufs-mediatek.c Alice Chao  2025-09-03  2367  	ufs_mtk_dev_vreg_set_lpm(hba, false);
-b2f8abadabea32 drivers/ufs/host/ufs-mediatek.c Alice Chao  2025-09-03  2368  
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2369  out:
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03 @2370  	ret = ufshcd_system_resume(dev);
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2371  
-77b96ef70b6ba4 drivers/ufs/host/ufs-mediatek.c Peter Wang  2025-09-03  2372  	return ret;
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2373  }
-3fd23b8dfb54d9 drivers/ufs/host/ufs-mediatek.c Po-Wen Kao  2022-06-16  2374  
+   186	
+   187	void kvm_async_pf_task_wake(u32 token)
+   188	{
+   189		u32 key = hash_32(token, KVM_TASK_SLEEP_HASHBITS);
+   190		struct kvm_task_sleep_head *b = &async_pf_sleepers[key];
+   191		struct kvm_task_sleep_node *n, *dummy = NULL;
+   192	
+   193		if (token == ~0) {
+   194			apf_task_wake_all();
+   195			return;
+   196		}
+   197	
+   198	again:
+   199		raw_spin_lock(&b->lock);
+   200		n = _find_apf_task(b, token);
+   201		if (!n) {
+   202			/*
+   203			 * Async #PF not yet handled, add a dummy entry for the token.
+   204			 * Allocating the token must be down outside of the raw lock
+   205			 * as the allocator is preemptible on PREEMPT_RT kernels.
+   206			 */
+   207			if (!dummy) {
+   208				raw_spin_unlock(&b->lock);
+   209				dummy = kzalloc(sizeof(*dummy), GFP_KERNEL);
+   210	
+   211				/*
+   212				 * Continue looping on allocation failure, eventually
+   213				 * the async #PF will be handled and allocating a new
+   214				 * node will be unnecessary.
+   215				 */
+   216				if (!dummy)
+   217					cpu_relax();
+   218	
+   219				/*
+   220				 * Recheck for async #PF completion before enqueueing
+   221				 * the dummy token to avoid duplicate list entries.
+   222				 */
+   223				goto again;
+   224			}
+   225			dummy->token = token;
+   226			dummy->cpu = smp_processor_id();
+   227			init_swait_queue_head(&dummy->wq);
+   228			hlist_add_head(&dummy->link, &b->list);
+   229			dummy = NULL;
+   230		} else {
+   231			apf_task_wake_one(n);
+   232		}
+   233		raw_spin_unlock(&b->lock);
+   234	
+   235		/* A dummy token might be allocated and ultimately not used.  */
+   236		if (dummy)
+ > 237			kfree(dummy);
+   238	}
+   239	EXPORT_SYMBOL_GPL(kvm_async_pf_task_wake);
+   240	
 
 -- 
 0-DAY CI Kernel Test Service
