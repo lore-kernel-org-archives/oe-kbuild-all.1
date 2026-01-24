@@ -1,111 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE427263B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 01:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D131C84DE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 01:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769216933; cv=none; b=jI+rWJOHhGSFurxRbZ5BLtnN477J/wGBRY/KLjpZQ1cKb/u+zW7vekNupaf0X+PurP1cQMyUfNviZ24Q4sETyjVvVfwjGyFeOlNtJwYrvrWtKpLjYVCsZacUKPSv61cBjhsmJ9ea2yRWuupHdE0ZAjevE5p3z8Ro2wVTXZpR0FE=
+	t=1769217698; cv=none; b=Pjm459qtZAXrITIDrCLZhwO+GoZplI6KAz6CiQyN1xSN36nHa0jcRrJ7bTnoH/umYqOq/pWNIuo2r7rIF5TiUTy/bXjo7HCiTbnA2fvUVIflRenANe3RDKu9tmLWEbsCM40Zz8hnXEnNJ4ThhRdv2YJn7plfwCb3x6GVJn7vNOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769216933; c=relaxed/simple;
-	bh=zdqjakMNIZa6q0OUcHU2OQ8u0NM5LTxwtrllGyrqeIE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=npCMYii+FPmzTOWwYeGRDV7cJLm9Tsz4PKiYOxW8WoJzX4VyIQ8gVzj+FiS2tiWUYTmmIrct2bXx26MEEy49mi29fir1gfeSOLPqdfwkGMk8ojOEpE3coWLoDlugRtv5VK8TD4+C5cd68PW7os8RoFLKCuOupH3j/wTS7eo1B9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WLiY4Apu; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1769217698; c=relaxed/simple;
+	bh=9hCnPB1byaSJVZuVJrwFJb3t89Ll+joRWxi/NP/F/Nc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oUOHewbpDd/i4xs8X3T5WzIqChD0KxMIGfDs2vsqRzLtkrTE+ym4TwGFvhgs8A4oOENZL1+k01kuje81GXIIHz+w0mysdQulhebQuZrOPD6zHjWs7Fx8KZ8f3NaLmIGm055Z+yea6XThCEHhH7CCFj3xf/6+3Sr096MFdQ+Lndc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ehYBC/Nk; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WLiY4Apu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ehYBC/Nk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769216932; x=1800752932;
-  h=date:from:to:cc:subject:message-id;
-  bh=zdqjakMNIZa6q0OUcHU2OQ8u0NM5LTxwtrllGyrqeIE=;
-  b=WLiY4ApuA4NRyyo4+k3LkayIxCJttZ0P92EaQbbbVv4E+7uJ2Su6bRcW
-   /IivgFweCVZE3LEtwyxbLTLjXyqLUvfchnib4a454iow2fPYIVt5aM4V9
-   8euYVf6H9GKPtFg2Xahuvma8GTZ+EfRr1Kd1ZYu19PYlEn1/44+Z6o96N
-   Gp5FFpiWuQn7H112Q2Jc23A7JudzhSqx89ozbb+II7OdpiZrYrgi+Kwrq
-   G3NY/xs+lI994acgK+sfsNI+L1k03s+8ASDuX2o2Ga8mMwslPjQwZO4B6
-   e3c0XrBUGsGqdC/s8BI7qJjZBV7LCawZK9CaIBVaAMWRBnKgzoKR1GQ+c
-   g==;
-X-CSE-ConnectionGUID: FHV+OIjXQdqldSOGgqz+iQ==
-X-CSE-MsgGUID: +qZk4jIJQX2/JCk56459YA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="74103872"
+  t=1769217697; x=1800753697;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9hCnPB1byaSJVZuVJrwFJb3t89Ll+joRWxi/NP/F/Nc=;
+  b=ehYBC/Nk3puHtCuh0W1nthAToN7o62Z+evNLz84zldFC01jGXuAzP8tE
+   JlsU3+j0E4sMLmKWUntkfEYQk61fazABckewpuV8jdTvDvnzGNXx2ZG2M
+   8l1TECMJqtaMsMjkqyd+zUXTcJZ7jWRnrtJG6rDJNWvKG7QPFnIymHM2r
+   FA2U6erz+Nr5vw4E9MMwEhoiioP14WMaF41RU2UlvKd1K+4fhD10eNmq8
+   het/T7ORgdNDKRe2hCvUMGY43Jue1JmUPA/6Zo2XyvwVQdIUOVg2HK2B0
+   6m9cPeKgwFbWjondXTS4nLdLjWpQLbBI+7GRyIsVqB7T8w+ZsJtkjPqpm
+   w==;
+X-CSE-ConnectionGUID: hfTTdRu0S3KSkf8iEiZKLg==
+X-CSE-MsgGUID: ZwhcvKvRQwK5P+0Fnw5Tug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70194165"
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="74103872"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 17:08:51 -0800
-X-CSE-ConnectionGUID: jI2abWNwRW6jHjbFoH6WQA==
-X-CSE-MsgGUID: rPJZQPSqSIyjzAsVE9yCKQ==
+   d="scan'208";a="70194165"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 17:21:37 -0800
+X-CSE-ConnectionGUID: 1sWLGvYLR7+EotbRxVlMjw==
+X-CSE-MsgGUID: QnKOVIQPSmeKSxpALwJB8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="211662203"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jan 2026 17:08:51 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="244781261"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 23 Jan 2026 17:21:35 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjS8t-000000000qj-3O2g;
-	Sat, 24 Jan 2026 01:08:47 +0000
-Date: Sat, 24 Jan 2026 02:07:57 +0100
+	id 1vjSLE-00000000UeA-0v3S;
+	Sat, 24 Jan 2026 01:21:32 +0000
+Date: Sat, 24 Jan 2026 09:20:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova/mm 5/30] warning: public documentation for
- `clist_create` links to private item `CList`
-Message-ID: <202601240227.FAEy1RoR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Chuck Lever <cel@kernel.org>, NeilBrown <neilb@ownmail.net>,
+	Jeff Layton <jlayton@kernel.org>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <dai.ngo@oracle.com>, Tom Talpey <tom@talpey.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v2 10/42] lockd: Move xdr.h from include/linux/lockd/ to
+ fs/lockd/
+Message-ID: <202601240901.DyDjt2Ka-lkp@intel.com>
+References: <20260123185259.1215767-11-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123185259.1215767-11-cel@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
-head:   89462eb192ebd620dca084ef612b250231bc7aa1
-commit: 39d0c149fcf8f63632522435df53e3648999d824 [5/30] rust: clist: Add support to interface with C linked lists
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260124/202601240227.FAEy1RoR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240227.FAEy1RoR-lkp@intel.com/reproduce)
+Hi Chuck,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v6.19-rc6 next-20260122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/lockd-Simplify-cast_status-in-svcproc-c/20260124-025646
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20260123185259.1215767-11-cel%40kernel.org
+patch subject: [PATCH v2 10/42] lockd: Move xdr.h from include/linux/lockd/ to fs/lockd/
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20260124/202601240901.DyDjt2Ka-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240901.DyDjt2Ka-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601240227.FAEy1RoR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601240901.DyDjt2Ka-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: public documentation for `clist_create` links to private item `CList`
-   --> rust/kernel/clist.rs:280:56
-   |
-   280 | /// Create a C doubly-circular linked list interface [`CList`] from a raw `list_head` pointer.
-   |                                                        ^^^^^ this item is private
-   |
-   = note: this link will resolve properly if you pass `--document-private-items`
-   = note: `#[warn(rustdoc::private_intra_doc_links)]` on by default
---
->> warning: public documentation for `clist_create` links to private item `CList`
-   --> rust/kernel/clist.rs:282:28
-   |
-   282 | /// This macro creates a [`CList<T, OFFSET>`] that can iterate over items of type `$rust_type`
-   |                            ^^^^^^^^^^^^^^^^ this item is private
-   |
-   = note: this link will resolve properly if you pass `--document-private-items`
---
->> warning: public documentation for `clist_create` links to private item `CList`
-   --> rust/kernel/clist.rs:297:49
-   |
-   297 | ///   unmodified for the lifetime of the rust [`CList`].
-   |                                                 ^^^^^ this item is private
-   |
-   = note: this link will resolve properly if you pass `--document-private-items`
---
->> warning: public documentation for `clist_create` links to private item `crate::clist`
-   --> rust/kernel/clist.rs:304:36
-   |
-   304 | /// Refer to the examples in the [`crate::clist`] module documentation.
-   |                                    ^^^^^^^^^^^^ this item is private
-   |
-   = note: this link will resolve properly if you pass `--document-private-items`
+   fs/nfs/nfs3proc.c: In function 'nfs3_proc_lock':
+>> fs/nfs/nfs3proc.c:1009:15: error: invalid use of undefined type 'struct file_lock'
+    1009 |         if (fl->c.flc_flags & FL_CLOSE) {
+         |               ^~
+>> fs/nfs/nfs3proc.c:1009:31: error: 'FL_CLOSE' undeclared (first use in this function); did you mean 'OP_CLOSE'?
+    1009 |         if (fl->c.flc_flags & FL_CLOSE) {
+         |                               ^~~~~~~~
+         |                               OP_CLOSE
+   fs/nfs/nfs3proc.c:1009:31: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +1009 fs/nfs/nfs3proc.c
+
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1000  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1001  static int
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1002  nfs3_proc_lock(struct file *filp, int cmd, struct file_lock *fl)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1003  {
+496ad9aa8ef448 Al Viro             2013-01-23  1004  	struct inode *inode = file_inode(filp);
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1005  	struct nfs_lock_context *l_ctx = NULL;
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1006  	struct nfs_open_context *ctx = nfs_file_open_context(filp);
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1007  	int status;
+1093a60ef34bb1 Chuck Lever         2008-01-11  1008  
+dd1fac6ae648ca Jeff Layton         2024-01-31 @1009  	if (fl->c.flc_flags & FL_CLOSE) {
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1010  		l_ctx = nfs_get_lock_context(ctx);
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1011  		if (IS_ERR(l_ctx))
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1012  			l_ctx = NULL;
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1013  		else
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1014  			set_bit(NFS_CONTEXT_UNLOCK, &ctx->flags);
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1015  	}
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1016  
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1017  	status = nlmclnt_proc(NFS_SERVER(inode)->nlm_host, cmd, fl, l_ctx);
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1018  
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1019  	if (l_ctx)
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1020  		nfs_put_lock_context(l_ctx);
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1021  
+f30cb757f680f9 Benjamin Coddington 2017-04-11  1022  	return status;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1023  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1024  
 
 -- 
 0-DAY CI Kernel Test Service
