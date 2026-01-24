@@ -1,83 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462711D130E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 01:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757B199920
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jan 2026 01:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769219021; cv=none; b=bpUwhQlvc15HQU3CtjRIDEhFLe2m54kspH1NqhFj0KC0gjoDBY2d45qa4mb9D653HggNPw428eohyuW9WE/Hc+NRf7+74wYNG6P18fh2Gx3BVVRGIfZF3iQw/OEKmvv0Hr5FC2JBs/lZ+SfVOD8hW35C2QJbF/wPAqYBDOaXU2c=
+	t=1769219321; cv=none; b=FJBVARxkM5ZhbA+siasja87HO0zmVJ+eQtiOaDSc66ExvzYq9MAGYaT4lnocnQpEKuWJxVaF9yi/aRj60k2bW9JAo1YgYJaMfUuaxvz1LVTH2h/DudOEa59W2CyR6UDXEf3lq4TddSWsomnnITNjlJDe1MKcJ39dCgf0kS/TZYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769219021; c=relaxed/simple;
-	bh=LE6g77oRUZ9oVJnkVP8SkICAETx2jr/NrSUc0D0yVfY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GHSyeyvzz/fr7zEqqbBcD9q7nMilut+ZgF/noWJpYmd0OHTuyHDzo7Ye/ozWNDzgqnMYxnd8lWTj4XkhyI3eo1E8FWmu2wE8jPb09jS9JmMdMw1r8z2qVcG52H3F9q11aXCaDxaVZYrm0HeeFiehJGKN+/ZlmkNfcBqnASPOYWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fq9rpgKt; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769219321; c=relaxed/simple;
+	bh=V3nyLtphVfg3N5nwJVecZUSLXvGyG9wxZ+ReIMY5twE=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=TAjRXK1UyH04uW2VhGdOjdsKWWTg/YzSmTBNuUlZe7Ot4S61WMHUvzxJ3FHU8gXzues2dS+CS0vsKEm1QRr4CUej0B4NCdXt/BvuAfijy148ccEj+/CYcERGGnMQx/v+VfTFcZeQAMpJlpS8d5A9minHRkrqlq7+cRByw+y+wpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Y0t3pJmW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fq9rpgKt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769219020; x=1800755020;
-  h=date:from:to:cc:subject:message-id;
-  bh=LE6g77oRUZ9oVJnkVP8SkICAETx2jr/NrSUc0D0yVfY=;
-  b=fq9rpgKtx6ODTY4YayvvF5GZ6sMsV6KiviwyWr5YHCJfhjC7sNPw1pep
-   +wvHnuhXXbUDB+/sk8LQRE4Tg+f5xIL2tHgVzmWN/MN4Ma2kFfA3r8IfT
-   gcX4h4+Q6dyu95znDV1OUrmDddb9v1OQABwdR83tEVHyRpwQ5ipJ97dfg
-   4gRgmv3EzUwQbLlZGi/cL4v5OnL6Xp4KhQm170Lo4ICFhfliiBBi/6FN8
-   5ew/7O7N8kcQpyR5OG/G3A/eDNxYg+HjZyjgSnX1hCpqXYULJ6qGwzrcT
-   wJ2ob6U0P+u8JuZNfvf8ASzL5hpNFuaa0phsWguyVKkh4O/emFyJaNUNq
-   Q==;
-X-CSE-ConnectionGUID: 9wT0DGJwQoOxOdBudJvbjQ==
-X-CSE-MsgGUID: Ha1RW0IZRie2ZYsiQ5KkWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="88049322"
-X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="88049322"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 17:43:37 -0800
-X-CSE-ConnectionGUID: hyXoKFZ8Qgq+lCzUqNcLKw==
-X-CSE-MsgGUID: AFgH0Xo0Tv2adIjik0bI6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="237822581"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Jan 2026 17:43:36 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vjSgX-00000000Ufi-27eK;
-	Sat, 24 Jan 2026 01:43:33 +0000
-Date: Sat, 24 Jan 2026 09:42:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [linux-next:master 5078/9539] ERROR: modpost:
- "drm_dsc_pps_payload_pack" [drivers/gpu/drm/panel/panel-ilitek-ili9882t.ko]
- undefined!
-Message-ID: <202601240937.0L01qHxn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Y0t3pJmW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533D3C4CEF1;
+	Sat, 24 Jan 2026 01:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1769219320;
+	bh=V3nyLtphVfg3N5nwJVecZUSLXvGyG9wxZ+ReIMY5twE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Y0t3pJmWFIHF7VLWFwRLcrt6lGQL3U+GzNT51l0sQBkCP90h23udunLzMez0AdOi0
+	 KOri+eIZc5MnXYXT0cPvLVqtLSfQpglJBXJk6dZjz6N08fotkc5XHJF6VWB+rma2eW
+	 mCVoCxgEGYgKE4MDXBfHo9LGq1C7Lfvo8qdILMq8=
+Date: Fri, 23 Jan 2026 17:48:39 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Ankur Arora <ankur.a.arora@oracle.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
+ Memory Management List <linux-mm@kvack.org>, Raghavendra K T
+ <raghavendra.kt@amd.com>
+Subject: Re: [linux-next:master 7919/9290]
+ include/linux/compiler_types.h:631:38: error: call to
+ '__compiletime_assert_639' declared with attribute error: clamp() low limit
+ pg.start greater than high limit pg.end
+Message-Id: <20260123174839.334fa31ce9ee6633d471aecb@linux-foundation.org>
+In-Reply-To: <87y0lnewjn.fsf@oracle.com>
+References: <202601240453.QCjgGdJa-lkp@intel.com>
+	<87y0lnewjn.fsf@oracle.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
-commit: 65ce1f5834e9598e5120048010b4fe220e70473c [5078/9539] drm/panel: ilitek-ili9882t: Switch Tianma TL121BVMS07 to DSC 120Hz mode
-config: x86_64-randconfig-r072-20260124 (https://download.01.org/0day-ci/archive/20260124/202601240937.0L01qHxn-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240937.0L01qHxn-lkp@intel.com/reproduce)
+On Fri, 23 Jan 2026 15:31:08 -0800 Ankur Arora <ankur.a.arora@oracle.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601240937.0L01qHxn-lkp@intel.com/
+> 
+> kernel test robot <lkp@intel.com> writes:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   a0c666c25aeefd16f4b088c6549a6fb6b65a8a1d
+> > commit: 93552c9a3350fff06543da18e4c80d3e804191ca [7919/9290] mm: folio_zero_user: cache neighbouring pages
+> > config: riscv-randconfig-002-20260124 (https://download.01.org/0day-ci/archive/20260124/202601240453.QCjgGdJa-lkp@intel.com/config)
+> > compiler: riscv64-linux-gcc (GCC) 8.5.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240453.QCjgGdJa-lkp@intel.com/reproduce)
+> 
+> Oddly enough I'm unable to reproduce this with:
+>    ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- make O=build_dir/ W=1 mm/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+I couldn't.  gcc-15.2.0.
 
->> ERROR: modpost: "drm_dsc_pps_payload_pack" [drivers/gpu/drm/panel/panel-ilitek-ili9882t.ko] undefined!
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601240453.QCjgGdJa-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    In file included from include/linux/mm.h:18,
+> >                     from arch/riscv/include/asm/sections.h:9,
+> >                     from include/linux/interrupt.h:22,
+> >                     from include/linux/kernel_stat.h:8,
+> >                     from mm/memory.c:42:
+> >    mm/memory.c: In function 'folio_zero_user':
+> >>> include/linux/compiler_types.h:631:38: error: call to '__compiletime_assert_639' declared with attribute error: clamp() low limit pg.start greater than high limit pg.end
+> 
+> I'm a bit puzzled by this assert.
+> 
+> folio_zero_user():
+>    {
+> 	const unsigned long base_addr = ALIGN_DOWN(addr_hint, folio_size(folio));
+> 	const long fault_idx = (addr_hint - base_addr) / PAGE_SIZE;
+> 	const struct range pg = DEFINE_RANGE(0, folio_nr_pages(folio) - 1);
+> 	const int radius = FOLIO_ZERO_LOCALITY_RADIUS;
+> 	struct range r[3];
+> 	int i;
+> 
+> 	/*
+> 	 * Faulting page and its immediate neighbourhood. Will be cleared at the
+> 	 * end to keep its cachelines hot.
+> 	 */
+> 	r[2] = DEFINE_RANGE(clamp_t(s64, fault_idx - radius, pg.start, pg.end),
+> 			    clamp_t(s64, fault_idx + radius, pg.start, pg.end));
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This line expands to 2846 bytes of C.  The clamp()y functions are asking a lot
+of the compiler - their development was drama-filled.
+
+If we want to work around this (and I guess we should) then simply
+open-coding these operations would be a good approach?
