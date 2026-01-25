@@ -1,142 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339B923B612
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 04:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EF52D739B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 04:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769315345; cv=none; b=E4XZY49nDtv4uguI/yj2MxAuNSbkm3kSSrZFqrHXLPB5moARYV8eZXw/9cUawoIPm5AHYX+j5SqEBJTy+u4knISZe2mKyVAODEfGbDy0q/Rmoth10q8HB3vcCtTyaATz42tDIiNYkeLNLo523TMqHCHdw/cdLcDMUe8znFapfDg=
+	t=1769315992; cv=none; b=tLFl3yRgRE1QXwvHWYBXj+5YzqsPf0+P+/V/Wuk4Kq7kZSMLLUNOuKMVu1zPcmc4SJ0bw3SmqKuTPbPE5a1VIzMpm/6tQLsIUQW4913L8tO2NLzlQgxLDkg2wU7vMllIwvH/VXWztr/yFAuVcwb/S98DhquZ3VRqSOSw3xqPkvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769315345; c=relaxed/simple;
-	bh=ACEvMzxgmCiyrX1EbLRtzOn+u7Q6stC20FG2semqdV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PrvSjFcoBz6Kxd5ZZ46qrFV3Y2g/SUEA7G4IwbwV/xCd3jIMMr6gAlczDPVabaKOALcU8BmEuY6W1BJr/EgVgyG4BBN8nRdNNLQEGz1HqH8J/7lxqOGRZHTMkJpX30HdN2Faq1GzVqU2t/tB7Fmz9aQUELfkhkiKN+czdk1nJxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWzCxyOL; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1769315992; c=relaxed/simple;
+	bh=hHOUqiUNZPz88x5kDHDV6cazO/gwa+Su8WuYMs1jw7g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iIw3pIOs5mil9faUw1SEtqqoMGegaExt1b2YMeTXeKHLXqqRAyiqwXckgqnSZNQiNB3aG644dNGkLJrsfd+6ep04ip//nv5Rg2v1YYBHwlhBMWf4pdgnXQTl4QUkGXokgn2vPAm53YZl1WZWuA77rN03GC921EegyFgfV74nnyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KIF0o/O4; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWzCxyOL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIF0o/O4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769315334; x=1800851334;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ACEvMzxgmCiyrX1EbLRtzOn+u7Q6stC20FG2semqdV0=;
-  b=fWzCxyOLwc2WyCIwoAo1kKc8PaVCFEdMNcaf9rmmaUGw1/Q6yI9S9vFj
-   He36QjEScbLYEUuAK6j2NIXlCew5TQje76jVt4od5Hlkn0NJ3gjlXtZwp
-   FxvE92WxymnvySfvnwJkBk5zlJIcDbzrB5wbg1IlvjHPX/NaQ3TtQE4X3
-   ZCRePH+7u1+psDtZRf7ldLa/SQ/NGtpvH5OoIZpwQbOsQg/nAcCLM/cn1
-   z0gZnGSzjzafjsyQKeEZMJNs58SFJKxoTLdjqTtPX9/fyUnf+G/zAE1LF
-   AGFD0rB1AiG/JWMttM7bNWIMJ6BaMMSF9TIBvjXmpMRTWQI9sXErrlEdG
+  t=1769315991; x=1800851991;
+  h=date:from:to:cc:subject:message-id;
+  bh=hHOUqiUNZPz88x5kDHDV6cazO/gwa+Su8WuYMs1jw7g=;
+  b=KIF0o/O4GuRds6EfKFVUUo67j0rpVYCoVbftnC07rx41E7wD2PAZ7JXr
+   VFfxXevSU3gMOvc8nid29MK+dk89JYhsS0py1mtinzDURM6eGQ34WtCPj
+   JoSt7+8tQEQiOKC2GSCRuzOgw+CqXO6f3m2uLNieYv1ZbQfUUwvGuQg4a
+   SQooQHqE2RK5N5PTRCgD/X1mLFY+iQpnqqjNJmarTJNPfbxo2Y6oXqYeI
+   Y6Bi5gIw3FkUmwPvRYjxBHJv4iPWdajv7GYW8RAiw91xtSCObAyBj0aUP
+   RgxDWwWZs8lA06XPZRd9xThVBdWYSRcOinyPkrShd9lC5CMhk7bwMVvSX
    w==;
-X-CSE-ConnectionGUID: GvkHF+3lQwK1yLpQfKBXuQ==
-X-CSE-MsgGUID: EZYgCsjlQ8yjNDbJCiSmbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="69540381"
+X-CSE-ConnectionGUID: rcvQGXXDSlO05xN4BBmFBA==
+X-CSE-MsgGUID: pYAuHxTgQimiyN+GSn5Fyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="95984204"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="69540381"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 20:28:49 -0800
-X-CSE-ConnectionGUID: sa+XzBB1RkqXSOOgxhGRYA==
-X-CSE-MsgGUID: Y64EPLR+SE6E1jpzSSckWw==
+   d="scan'208";a="95984204"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 20:39:50 -0800
+X-CSE-ConnectionGUID: q1/t9l0eTn6/AUTCdu52ag==
+X-CSE-MsgGUID: LwSVQ7dxTYSNgA7U2UxTKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="206498225"
+   d="scan'208";a="244994784"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 24 Jan 2026 20:28:48 -0800
+  by orviesa001.jf.intel.com with ESMTP; 24 Jan 2026 20:39:49 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjrjx-00000000Vm2-1VIV;
-	Sun, 25 Jan 2026 04:28:45 +0000
-Date: Sun, 25 Jan 2026 12:28:23 +0800
+	id 1vjrub-00000000Vmg-3id0;
+	Sun, 25 Jan 2026 04:39:45 +0000
+Date: Sun, 25 Jan 2026 12:38:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hui Zhu <hui.zhu@linux.dev>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH bpf-next v3 08/12] mm: memcontrol: Add BPF struct_ops
- for memory controller
-Message-ID: <202601251214.y5hDAoUJ-lkp@intel.com>
-References: <863b91cb85097f137bc741e7cb686ff78d9bb95e.1769157382.git.zhuhui@kylinos.cn>
+Subject: [axboe:for-next 10347/10348] io_uring.c:undefined reference
+ to `io_uring_dump_reqs'
+Message-ID: <202601251239.mVAxL0IK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <863b91cb85097f137bc741e7cb686ff78d9bb95e.1769157382.git.zhuhui@kylinos.cn>
 
-Hi Hui,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-[cannot apply to akpm-mm/mm-everything bpf-next/net bpf/master linus/master v6.19-rc6 next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hui-Zhu/bpf-move-bpf_struct_ops_link-into-bpf-h/20260123-170445
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/863b91cb85097f137bc741e7cb686ff78d9bb95e.1769157382.git.zhuhui%40kylinos.cn
-patch subject: [RFC PATCH bpf-next v3 08/12] mm: memcontrol: Add BPF struct_ops for memory controller
-config: loongarch-randconfig-002-20260125 (https://download.01.org/0day-ci/archive/20260125/202601251214.y5hDAoUJ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251214.y5hDAoUJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+head:   eb5f0ef856d5eb3b92207f9b5ebcf604524d2532
+commit: 52ebc4deb79dfb889e7ee3bacbc0a1276d1f8439 [10347/10348] io_uring: add debug dumping for when the ring can't exit
+config: arm-randconfig-001-20260125 (https://download.01.org/0day-ci/archive/20260125/202601251239.mVAxL0IK-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251239.mVAxL0IK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601251214.y5hDAoUJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601251239.mVAxL0IK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/loongarch/kernel/asm-offsets.c:13:
-   include/linux/memcontrol.h: In function 'bpf_memcg_get_high_delay':
->> include/linux/memcontrol.h:644:62: error: expected ';' before '}' token
-     644 | bpf_memcg_get_high_delay(struct mem_cgroup *memcg) { return 0 }
-         |                                                              ^~
-         |                                                              ;
-   include/linux/memcontrol.h: At top level:
->> include/linux/memcontrol.h:645:15: error: return type defaults to 'int' [-Wimplicit-int]
-     645 | static inline bpf_memcg_below_low(struct mem_cgroup *memcg) { return false }
-         |               ^~~~~~~~~~~~~~~~~~~
-   include/linux/memcontrol.h: In function 'bpf_memcg_below_low':
-   include/linux/memcontrol.h:645:75: error: expected ';' before '}' token
-     645 | static inline bpf_memcg_below_low(struct mem_cgroup *memcg) { return false }
-         |                                                                           ^~
-         |                                                                           ;
-   include/linux/memcontrol.h: At top level:
-   include/linux/memcontrol.h:646:15: error: return type defaults to 'int' [-Wimplicit-int]
-     646 | static inline bpf_memcg_below_min(struct mem_cgroup *memcg) { return false }
-         |               ^~~~~~~~~~~~~~~~~~~
-   include/linux/memcontrol.h: In function 'bpf_memcg_below_min':
-   include/linux/memcontrol.h:646:75: error: expected ';' before '}' token
-     646 | static inline bpf_memcg_below_min(struct mem_cgroup *memcg) { return false }
-         |                                                                           ^~
-         |                                                                           ;
-   make[3]: *** [scripts/Makefile.build:182: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=1717507361
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1315: prepare0] Error 2 shuffle=1717507361
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1717507361
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1717507361
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +644 include/linux/memcontrol.h
-
-   642	
-   643	static inline unsigned long
- > 644	bpf_memcg_get_high_delay(struct mem_cgroup *memcg) { return 0 }
- > 645	static inline bpf_memcg_below_low(struct mem_cgroup *memcg) { return false }
-   646	static inline bpf_memcg_below_min(struct mem_cgroup *memcg) { return false }
-   647	static inline void memcontrol_bpf_online(struct mem_cgroup *memcg) { }
-   648	static inline void memcontrol_bpf_offline(struct mem_cgroup *memcg) { }
-   649	
+   arm-linux-gnueabi-ld: io_uring/io_uring.o: in function `io_ring_exit_work':
+>> io_uring.c:(.text.unlikely+0xdec): undefined reference to `io_uring_dump_reqs'
+   arm-linux-gnueabi-ld: (io_uring_dump_reqs): Unknown destination type (ARM/Thumb) in io_uring/io_uring.o
+>> io_uring.c:(.text.unlikely+0xdec): dangerous relocation: unsupported relocation
 
 -- 
 0-DAY CI Kernel Test Service
