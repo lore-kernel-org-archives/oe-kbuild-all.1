@@ -1,203 +1,264 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2463EBF33
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 17:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5612BE621
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 17:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769361332; cv=none; b=Pp+hyHg7t1t8CH9nwgemMuH5WEqhUpmVAoF66nYF9UBVTlQ3BztKivG5+tcgf6agF6KJfT2F0V2O78FPawczplEja0AC0XCfwhHcDB1S/XRyxbr1NovXoHGM/vOEIeQGmfrN38ZMpdzdw0qHGrkKydUgnrmBFtWovvPcBbzhG30=
+	t=1769361916; cv=none; b=gH0ewV9F9qtX/94Bge3t8JmG9lsXMHWGHFpA2pT+j+LLZ1KlPyenh1EAkbdAwY4Zp2gLzby/hTrLWDxbm2KXZiSSUWHEh/0WQz3YP5GAxpJJKV3nUzPbHVqvTwn87Q+nHbiqMLBhqHVC0a+OsW1FVwxM/eQlfM6CNkFywxUzSsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769361332; c=relaxed/simple;
-	bh=jGdDSaS7ExvEX/pLGf1xYmEMSBqkEIKLe0/pJun81cM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R2WLk6nHkeoY7SnnfixnI6h1YJyESHyzgQ6Ty5jIkDmWf/isxk6yfqqtfRX/Jg8TQu2O1WYzn5PEf9ToMs3CSnBlR1lHxT+ZCjiesGRdhxI50iqzw6r2NVCVOgN0fhuKEJhRKTgnq/jOfGqhLH50+kemImTYATUXIKFhl9qNVaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYz4YRS7; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1769361916; c=relaxed/simple;
+	bh=mQLKLsUiOyFHAMnjSDCUNZY9d4dt0wRNbRAcLk9OIug=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=P1bxqNOZHV1g6xW3TOqj4y0qKOoZhowpxDP+NIBhhMo/NYAjuatFyMA1Jgy6DgEz+JmsKeetx0hZiQuFbmVBUsYE12dkZJY2q3jBUVsXqLrMlIExbRmnw8tk7wLh69SjQ3jisgLIJf/nWhkySxFEHvMMXJtmvMe/FTTfYAdsEOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpF5IHWd; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYz4YRS7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpF5IHWd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769361330; x=1800897330;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jGdDSaS7ExvEX/pLGf1xYmEMSBqkEIKLe0/pJun81cM=;
-  b=FYz4YRS73zG18udbUgj1rwRVMOfXClOl7gunsTbdXvgPNxtvZnC6ooxw
-   dz1de39rvx/rrPJgvFwQqBk3Nd55uzOzEhxaSUYucye5IROVqJ+2krGK4
-   JIqC8lF08bEF+tCZUr/6KYRJt9QGTKtintF+7/Gx+fVEGWeAoeXFCi7YM
-   W8RhrhheialuBtLxCnmcaznjSxyKzPvrA6fa3JKPjnPnJxCGTIVnx0BQj
-   qf3t+ZGt6Eym+macDZu2ZvqZcB90Gilh+wKt7HNn0S5+y5D5+NvgxsjDx
-   SEgUeBBOzBvM3SRhRiMfuKDFmSCrLtG4k086mKePfR9BJfr3QvAzRe06o
-   Q==;
-X-CSE-ConnectionGUID: BPeGmq0sT8+1r4OoqYHhGQ==
-X-CSE-MsgGUID: C98yULJcTUyOhET3OnWKDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="96015911"
+  t=1769361914; x=1800897914;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mQLKLsUiOyFHAMnjSDCUNZY9d4dt0wRNbRAcLk9OIug=;
+  b=hpF5IHWdCR+aOp1vcyZHfdA1y2pN46yEPx1SZZP21kSzPd9IxwDyiFQ2
+   PG+A/6D9LcyBN/imbJ9YMhqSNgGAT0MGydxuL7JR3wBksukBTfQeJCmAb
+   fbpDbXKRuWN0IMZGIard145WaeH/n8on8TZhme+eMOiZC9yRBGEbiIko7
+   jY2XUvkHdZmVEzc6qju/eGMxUu2zefb0MzYHJAuH+LBkxVi2wiTMgc76y
+   tjsekwNQKC39LF1+222qzRIfWjhc07GOeVYj6QDiiT6B8YUHFF5uAhzDR
+   w9vaZIQkv4IucbO9WGxnHRiXDsHovG4U8X8VCqLeXP/yH3xrSFUB3JAU4
+   g==;
+X-CSE-ConnectionGUID: ndV5abc6T3yp3/NXPMtd+w==
+X-CSE-MsgGUID: ZQ/1vWZURI6PXTN/FQxIWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="74414286"
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="96015911"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 09:15:29 -0800
-X-CSE-ConnectionGUID: Ka6eOLGuQ8G9FfO7k7wmYQ==
-X-CSE-MsgGUID: s57Pl8iHSE2wC9et/w4XUA==
+   d="scan'208";a="74414286"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 09:25:14 -0800
+X-CSE-ConnectionGUID: s+PBlRgOT8G3RP/K5B8gOA==
+X-CSE-MsgGUID: n3sb4uHmSvOncqOCoys+bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="207387497"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 25 Jan 2026 09:15:28 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="245106873"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 25 Jan 2026 09:25:12 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk3hu-00000000WHy-00wf;
-	Sun, 25 Jan 2026 17:15:26 +0000
-Date: Mon, 26 Jan 2026 01:14:33 +0800
+	id 1vk3rJ-000000001Jl-16gu;
+	Sun, 25 Jan 2026 17:25:09 +0000
+Date: Sun, 25 Jan 2026 18:24:35 +0100
 From: kernel test robot <lkp@intel.com>
-To: Markus Probst <markus.probst@posteo.de>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 3/4] leds: add delay_on, delay_off and invert
- attributes to disk trigger
-Message-ID: <202601260156.pfrTEEer-lkp@intel.com>
-References: <20260123-ledtrig_disk_-v1-3-07004756467b@posteo.de>
+Subject: [thomas-weissschuh:b4/sysfs-const-driver-attribute 15/17]
+ drivers/s390/cio/ccwgroup.c:385:34: warning: assignment discards 'const'
+ qualifier from pointer target type
+Message-ID: <202601251802.AecPao1f-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123-ledtrig_disk_-v1-3-07004756467b@posteo.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Markus,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
+inux.git b4/sysfs-const-driver-attribute
+head:   92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d
+commit: 28a546377e7351001aec8530b9b5c171928dd1a5 [15/17] s390 prep
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260=
+125/202601251802.AecPao1f-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260125/202601251802.AecPao1f-lkp@intel.com/reproduce)
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Probst/leds-dt-bindings-add-disk-trigger-led-pattern/20260124-030650
-base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-patch link:    https://lore.kernel.org/r/20260123-ledtrig_disk_-v1-3-07004756467b%40posteo.de
-patch subject: [PATCH RFC 3/4] leds: add delay_on, delay_off and invert attributes to disk trigger
-config: x86_64-buildonly-randconfig-002-20260125 (https://download.01.org/0day-ci/archive/20260126/202601260156.pfrTEEer-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260156.pfrTEEer-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601260156.pfrTEEer-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601251802.AecPao1f-lkp@i=
+ntel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/leds/trigger/ledtrig-disk.c: In function 'pattern_init':
->> drivers/leds/trigger/ledtrig-disk.c:119:9: error: cleanup argument not a function
-     119 |         u32 *pattern __free(kfree) = led_get_default_pattern(led_cdev, &size);
-         |         ^~~
-   drivers/leds/trigger/ledtrig-disk.c: In function 'ledtrig_disk_activate':
->> drivers/leds/trigger/ledtrig-disk.c:139:21: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-     139 |         disk_data = kzalloc(sizeof(*disk_data), GFP_KERNEL);
-         |                     ^~~~~~~
->> drivers/leds/trigger/ledtrig-disk.c:139:19: error: assignment to 'struct ledtrig_disk_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     139 |         disk_data = kzalloc(sizeof(*disk_data), GFP_KERNEL);
-         |                   ^
-   drivers/leds/trigger/ledtrig-disk.c: In function 'ledtrig_disk_blink_oneshot':
->> drivers/leds/trigger/ledtrig-disk.c:184:9: error: implicit declaration of function 'list_for_each_entry_rcu'; did you mean 'list_for_each_entry_from'? [-Wimplicit-function-declaration]
-     184 |         list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         list_for_each_entry_from
->> drivers/leds/trigger/ledtrig-disk.c:184:61: error: 'trig_list' undeclared (first use in this function); did you mean 'lru_list'?
-     184 |         list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
-         |                                                             ^~~~~~~~~
-         |                                                             lru_list
-   drivers/leds/trigger/ledtrig-disk.c:184:61: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/leds/trigger/ledtrig-disk.c:184:71: error: expected ';' before '{' token
-     184 |         list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
-         |                                                                       ^~
-         |                                                                       ;
->> drivers/leds/trigger/ledtrig-disk.c:181:35: warning: unused variable 'disk_data' [-Wunused-variable]
-     181 |         struct ledtrig_disk_data *disk_data;
-         |                                   ^~~~~~~~~
+   drivers/s390/cio/ccwgroup.c: In function 'ccwgroup_create_dev':
+>> drivers/s390/cio/ccwgroup.c:385:34: warning: assignment discards 'const'=
+ qualifier from pointer target type [-Wdiscarded-qualifiers]
+     385 |                 gdev->dev.driver =3D &gdrv->driver;
+         |                                  ^
 
 
-vim +119 drivers/leds/trigger/ledtrig-disk.c
+vim +/const +385 drivers/s390/cio/ccwgroup.c
 
-   114	
-   115	static void pattern_init(struct led_classdev *led_cdev, struct ledtrig_disk_data *disk_data)
-   116	{
-   117		unsigned int size = 0;
-   118	
- > 119		u32 *pattern __free(kfree) = led_get_default_pattern(led_cdev, &size);
-   120		if (!pattern)
-   121			return;
-   122	
-   123		if (size != 3) {
-   124			dev_warn(led_cdev->dev,
-   125				 "Expected 3 but got %u values for delays + invert pattern\n",
-   126				 size);
-   127			return;
-   128		}
-   129	
-   130		disk_data->delay_on = pattern[0];
-   131		disk_data->delay_off = pattern[1];
-   132		disk_data->invert = !!pattern[2];
-   133	}
-   134	
-   135	static int ledtrig_disk_activate(struct led_classdev *led_cdev)
-   136	{
-   137		struct ledtrig_disk_data *disk_data;
-   138	
- > 139		disk_data = kzalloc(sizeof(*disk_data), GFP_KERNEL);
-   140		if (!disk_data)
-   141			return -ENOMEM;
-   142	
-   143		disk_data->delay_on = DEFAULT_BLINK_DELAY;
-   144		disk_data->delay_off = DEFAULT_BLINK_DELAY;
-   145	
-   146		led_set_trigger_data(led_cdev, disk_data);
-   147	
-   148		if (led_cdev->flags & LED_INIT_DEFAULT_TRIGGER) {
-   149			pattern_init(led_cdev, disk_data);
-   150			/*
-   151			 * Mark as initialized even on pattern_init() error because
-   152			 * any consecutive call to it would produce the same error.
-   153			 */
-   154			led_cdev->flags &= ~LED_INIT_DEFAULT_TRIGGER;
-   155		}
-   156	
-   157		led_set_brightness_nosleep(led_cdev, disk_data->invert ? LED_FULL : LED_OFF);
-   158	
-   159		return 0;
-   160	}
-   161	
-   162	static struct led_trigger ledtrig_disk = {
-   163		.name = "disk-activity",
-   164		.activate = ledtrig_disk_activate,
-   165		.groups = ledtrig_disk_groups,
-   166	};
-   167	static struct led_trigger ledtrig_disk_read = {
-   168		.name = "disk-read",
-   169		.activate = ledtrig_disk_activate,
-   170		.groups = ledtrig_disk_groups,
-   171	};
-   172	static struct led_trigger ledtrig_disk_write = {
-   173		.name = "disk-write",
-   174		.activate = ledtrig_disk_activate,
-   175		.groups = ledtrig_disk_groups,
-   176	};
-   177	
-   178	static void ledtrig_disk_blink_oneshot(struct led_trigger *trig)
-   179	{
-   180		struct led_classdev *led_cdev;
- > 181		struct ledtrig_disk_data *disk_data;
-   182	
-   183		rcu_read_lock();
- > 184		list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
-   185			disk_data = led_get_trigger_data(led_cdev);
-   186			led_blink_set_oneshot(led_cdev, &disk_data->delay_on, &disk_data->delay_off,
-   187					      disk_data->invert);
-   188		}
-   189		rcu_read_unlock();
-   190	}
-   191	
+022b660ae5d075 Ursula Braun        2008-04-24  300 =20
+b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  301  /**
+f2962dae0efd81 Sebastian Ott       2012-05-15  302   * ccwgroup_create_dev(=
+) - create and register a ccw group device
+f2962dae0efd81 Sebastian Ott       2012-05-15  303   * @parent: parent devi=
+ce for the new device
+f2962dae0efd81 Sebastian Ott       2012-05-15  304   * @gdrv: driver for th=
+e new group device
+022b660ae5d075 Ursula Braun        2008-04-24  305   * @num_devices: number=
+ of slave devices
+022b660ae5d075 Ursula Braun        2008-04-24  306   * @buf: buffer contain=
+ing comma separated bus ids of slave devices
+b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  307   *
+f2962dae0efd81 Sebastian Ott       2012-05-15  308   * Create and register =
+a new ccw group device as a child of @parent. Slave
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  309   * devices are obtained=
+ from the list of bus ids given in @buf.
+b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  310   * Returns:
+b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  311   *  %0 on success and a=
+n error code on failure.
+b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  312   * Context:
+b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  313   *  non-atomic
+^1da177e4c3f41 Linus Torvalds      2005-04-16  314   */
+28a546377e7351 Thomas Wei=C3=9Fschuh    2026-01-25  315  int ccwgroup_creat=
+e_dev(struct device *parent, const struct ccwgroup_driver *gdrv,
+9814fdfbecbb03 Sebastian Ott       2012-05-15  316  			int num_devices, con=
+st char *buf)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  317  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  318  	struct ccwgroup_device=
+ *gdev;
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  319  	struct ccw_dev_id dev_=
+id;
+022b660ae5d075 Ursula Braun        2008-04-24  320  	int rc, i;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  321 =20
+ab7efda477f976 Julian Wiedmann     2018-01-30  322  	if (num_devices < 1)
+ab7efda477f976 Julian Wiedmann     2018-01-30  323  		return -EINVAL;
+ab7efda477f976 Julian Wiedmann     2018-01-30  324 =20
+acafe7e3021616 Kees Cook           2018-05-08  325  	gdev =3D kzalloc(struc=
+t_size(gdev, cdev, num_devices), GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  326  	if (!gdev)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  327  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  328 =20
+^1da177e4c3f41 Linus Torvalds      2005-04-16  329  	atomic_set(&gdev->onof=
+f, 0);
+d76123eb357a4b Cornelia Huck       2007-04-27  330  	mutex_init(&gdev->reg_=
+mutex);
+d76123eb357a4b Cornelia Huck       2007-04-27  331  	mutex_lock(&gdev->reg_=
+mutex);
+0b60f9ead5d481 Tejun Heo           2014-02-03  332  	INIT_WORK(&gdev->ungro=
+up_work, ccwgroup_ungroup_workfn);
+16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  333  	gdev->count =3D num_de=
+vices;
+16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  334  	gdev->dev.bus =3D &ccw=
+group_bus_type;
+f2962dae0efd81 Sebastian Ott       2012-05-15  335  	gdev->dev.parent =3D p=
+arent;
+16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  336  	gdev->dev.release =3D =
+ccwgroup_release;
+16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  337  	device_initialize(&gde=
+v->dev);
+16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  338 =20
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  339  	for (i =3D 0; i < num_=
+devices && buf; i++) {
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  340  		rc =3D __get_next_id(=
+&buf, &dev_id);
+022b660ae5d075 Ursula Braun        2008-04-24  341  		if (rc !=3D 0)
+022b660ae5d075 Ursula Braun        2008-04-24  342  			goto error;
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  343  		gdev->cdev[i] =3D get=
+_ccwdev_by_dev_id(&dev_id);
+022b660ae5d075 Ursula Braun        2008-04-24  344  		/*
+022b660ae5d075 Ursula Braun        2008-04-24  345  		 * All devices have t=
+o be of the same type in
+022b660ae5d075 Ursula Braun        2008-04-24  346  		 * order to be groupe=
+d.
+022b660ae5d075 Ursula Braun        2008-04-24  347  		 */
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  348  		if (!gdev->cdev[i] ||=
+ !gdev->cdev[i]->drv ||
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  349  		    gdev->cdev[i]->dr=
+v !=3D gdev->cdev[0]->drv ||
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  350  		    gdev->cdev[i]->id=
+.driver_info !=3D
+^1da177e4c3f41 Linus Torvalds      2005-04-16  351  		    gdev->cdev[0]->id=
+.driver_info) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  352  			rc =3D -EINVAL;
+d76123eb357a4b Cornelia Huck       2007-04-27  353  			goto error;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  354  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  355  		/* Don't allow a devi=
+ce to belong to more than one group. */
+c560d105a19746 Sebastian Ott       2010-05-26  356  		spin_lock_irq(gdev->c=
+dev[i]->ccwlock);
+db6a64238a9277 Cornelia Huck       2008-01-26  357  		if (dev_get_drvdata(&=
+gdev->cdev[i]->dev)) {
+c560d105a19746 Sebastian Ott       2010-05-26  358  			spin_unlock_irq(gdev=
+->cdev[i]->ccwlock);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  359  			rc =3D -EINVAL;
+d76123eb357a4b Cornelia Huck       2007-04-27  360  			goto error;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  361  		}
+db6a64238a9277 Cornelia Huck       2008-01-26  362  		dev_set_drvdata(&gdev=
+->cdev[i]->dev, gdev);
+c560d105a19746 Sebastian Ott       2010-05-26  363  		spin_unlock_irq(gdev-=
+>cdev[i]->ccwlock);
+17088229846c07 Cornelia Huck       2006-07-27  364  	}
+022b660ae5d075 Ursula Braun        2008-04-24  365  	/* Check for sufficien=
+t number of bus ids. */
+b7a610f7b4cb95 Sebastian Ott       2012-05-15  366  	if (i < num_devices) {
+022b660ae5d075 Ursula Braun        2008-04-24  367  		rc =3D -EINVAL;
+022b660ae5d075 Ursula Braun        2008-04-24  368  		goto error;
+022b660ae5d075 Ursula Braun        2008-04-24  369  	}
+022b660ae5d075 Ursula Braun        2008-04-24  370  	/* Check for trailing =
+stuff. */
+ea298e6ee8b34b Vasily Gorbik       2019-09-17  371  	if (i =3D=3D num_devic=
+es && buf && strlen(buf) > 0) {
+022b660ae5d075 Ursula Braun        2008-04-24  372  		rc =3D -EINVAL;
+022b660ae5d075 Ursula Braun        2008-04-24  373  		goto error;
+022b660ae5d075 Ursula Braun        2008-04-24  374  	}
+f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  375  	/* Check if the device=
+s are bound to the required ccw driver. */
+ab7efda477f976 Julian Wiedmann     2018-01-30  376  	if (gdrv && gdrv->ccw_=
+driver &&
+f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  377  	    gdev->cdev[0]->drv=
+ !=3D gdrv->ccw_driver) {
+f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  378  		rc =3D -EINVAL;
+f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  379  		goto error;
+f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  380  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  381 =20
+1bf5b2853925cf Cornelia Huck       2008-10-10  382  	dev_set_name(&gdev->de=
+v, "%s", dev_name(&gdev->cdev[0]->dev));
+f2962dae0efd81 Sebastian Ott       2012-05-15  383 =20
+f2962dae0efd81 Sebastian Ott       2012-05-15  384  	if (gdrv) {
+f2962dae0efd81 Sebastian Ott       2012-05-15 @385  		gdev->dev.driver =3D =
+&gdrv->driver;
+f2962dae0efd81 Sebastian Ott       2012-05-15  386  		rc =3D gdrv->setup ? =
+gdrv->setup(gdev) : 0;
+f2962dae0efd81 Sebastian Ott       2012-05-15  387  		if (rc)
+f2962dae0efd81 Sebastian Ott       2012-05-15  388  			goto error;
+f2962dae0efd81 Sebastian Ott       2012-05-15  389  	}
+16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  390  	rc =3D device_add(&gde=
+v->dev);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  391  	if (rc)
+d76123eb357a4b Cornelia Huck       2007-04-27  392  		goto error;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  393  	rc =3D __ccwgroup_crea=
+te_symlinks(gdev);
+dad572e3701385 Sebastian Ott       2011-10-30  394  	if (rc) {
+dad572e3701385 Sebastian Ott       2011-10-30  395  		device_del(&gdev->dev=
+);
+dad572e3701385 Sebastian Ott       2011-10-30  396  		goto error;
+dad572e3701385 Sebastian Ott       2011-10-30  397  	}
+d76123eb357a4b Cornelia Huck       2007-04-27  398  	mutex_unlock(&gdev->re=
+g_mutex);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  399  	return 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  400  error:
+d76123eb357a4b Cornelia Huck       2007-04-27  401  	mutex_unlock(&gdev->re=
+g_mutex);
+d76123eb357a4b Cornelia Huck       2007-04-27  402  	put_device(&gdev->dev);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  403  	return rc;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  404  }
+f2962dae0efd81 Sebastian Ott       2012-05-15  405  EXPORT_SYMBOL(ccwgroup_=
+create_dev);
+f2962dae0efd81 Sebastian Ott       2012-05-15  406 =20
 
--- 
+:::::: The code at line 385 was first introduced by commit
+:::::: f2962dae0efd81fed06d0687f300725ab063587a s390/ccwgroup: introduce cc=
+wgroup_create_dev
+
+:::::: TO: Sebastian Ott <sebott@linux.vnet.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
