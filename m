@@ -1,146 +1,227 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585412EFD9E;
-	Sun, 25 Jan 2026 19:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F041224240
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 19:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769369034; cv=none; b=s+Bi0P01DBoyG7G58AYY54QQo1O+r7lb8EsjTsBBpRUa3m/YEgRNelCi8WhbgLVzDypnksCDnCJMMPwZ7X9WcJdZ2oQ2jatosOKNfTqCPihODuEVDeC8bmqsU0K8oX5Pq6x6PKnaV5mbB2oWI+qs12b80cf/2oOPu0UvH2ehVsc=
+	t=1769370359; cv=none; b=Ja6oLsJS33X4rxaxC8bxi7VS88xW/8orwg+UEmjWnYZYM334+j1bvqSsJ0Tedr9z0n6R1kBA0FkL9iOHs2pm5aFJINNahOxLayh0w7sfF265K5rbtyapq+LKnTowuZLreFONQRapyzc9unCOdgb7I7VeSw0hYiPyGDVcBCUCOdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769369034; c=relaxed/simple;
-	bh=ZvY+/dIefD4oYxaWRxIw+XqWndXIEC0UHyn4rMcgJM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=kSKFWIjc7qR4816onsljmJRRGCAQhSr9e0yH7MWjLwfN5zZYaZtfYYJsrL+kwUy2Byk8aoekdc//VIJ+4JBNbcZfTN+/jU2KjtUktDxjnQu/VC1bmAlaR1O+HAqUIRVWX8PumfKcRQB34iP2Fa9lveYyHXnoR4xR9PzcQoCLJZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ow7aAeCc; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1769370359; c=relaxed/simple;
+	bh=sXl+YuDPHex4M7hu8iymNe5b91SisDp15yGeNaOx6nI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cOxzfT5hCM+p+poHdCXN69DmW8Ydn3V0HzF4Tx4XDyo+MFgXoeHYmfYJGMYjB4c4dbJkcw50jRMgxwRkNNNEtGrn7pB6QNNLf4PFVigQf+awBGNzeS46qmbBOVCFO5q8NtKQiMdpZVuceqBuPy4UTM/KSMBg3EWLC4hbDB50/bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsvBLSJ8; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ow7aAeCc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsvBLSJ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769369032; x=1800905032;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZvY+/dIefD4oYxaWRxIw+XqWndXIEC0UHyn4rMcgJM8=;
-  b=Ow7aAeCc4LW5ZyUJSmqv+qWHP9BhrqWpEsIlH121t89TdlyJGKzYDG0i
-   URsMLwqb+WHjAuRt1lbxIoTEjFqnO57wSaRINZeX/XLFTm4z91AovabWn
-   ZUj80g6BfvG0bAVPmWrnzS05uuV/EyMxNXjVTXttMjOliyP9AgDmSEVAx
-   k1c2CeY1St/LYTqO1YtTHcwvYuuWD/JvQ15zos8ApFQ/OzjIJo6kkJOYm
-   mmc+jIVNf3PZi8UNCl8DztCJZfd+JHky+VcvHKjTagSJglYBTZsD7GmwY
-   Ekkj9kqpD+mtQWl7lApUKDWr55GU+uAp36gZ6o3xcmZlguX4GSN8eJnHi
-   Q==;
-X-CSE-ConnectionGUID: FyBQ2p5lR3iunWKp15myPg==
-X-CSE-MsgGUID: tfA7xHyzRc+uMXEh92JGFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70647721"
+  t=1769370355; x=1800906355;
+  h=date:from:to:cc:subject:message-id;
+  bh=sXl+YuDPHex4M7hu8iymNe5b91SisDp15yGeNaOx6nI=;
+  b=UsvBLSJ8UE/4Aem/1tdTsoaJwsW64NROKYhAWhY0zlZrmm0GkEUIhPju
+   01q4+Id+8HLRFQFZ8IWCkYbx2U9rAoqvB5l+zSFfz4yWBKZstOteSrn80
+   Ns62EH5DMCDDtHNbpyXVt5Pln1bc/NGjR3mvhNCAgVBXCnZmco7jmdJGM
+   DZ2xDnWZQjq7Fs+688V7oAl3gFpDMPEoaWLvN87e2ENndolf1Eu5sUokC
+   dXa44n1nmZLFjwgjYb6iJq5OEr3VgAJBhsX6n/DyUCEhh0soznJE9XaeU
+   B8rPi9Tnwu1h/F9WOkImsutF3/TSET+bpklS0JOmzjo9w7mpQoL4DMzFh
+   g==;
+X-CSE-ConnectionGUID: qjFZdIWeSHiE3BNt38fwrQ==
+X-CSE-MsgGUID: XY12G+QbTWSH2hcuYxEk8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70463358"
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="70647721"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 11:23:51 -0800
-X-CSE-ConnectionGUID: k36dFk4GQLSZBmGKtJjH1Q==
-X-CSE-MsgGUID: ok/yCGfgQ62KKbKJ8OqBcg==
+   d="scan'208";a="70463358"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 11:45:54 -0800
+X-CSE-ConnectionGUID: E78h6b4KQ92qt6ImBD3Wvg==
+X-CSE-MsgGUID: cmx3o/tBS1+bVt+9rNY7og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="211970758"
+   d="scan'208";a="207322744"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Jan 2026 11:23:50 -0800
+  by orviesa009.jf.intel.com with ESMTP; 25 Jan 2026 11:45:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk5i7-00000000WYz-2q5I;
-	Sun, 25 Jan 2026 19:23:47 +0000
-Date: Mon, 26 Jan 2026 03:23:13 +0800
+	id 1vk63R-00000000WbM-0rfr;
+	Sun, 25 Jan 2026 19:45:49 +0000
+Date: Mon, 26 Jan 2026 03:45:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/sysfs-const-driver-attribute 17/17]
- drivers/s390/crypto/ap_bus.c:1507:20: error: initializing 'struct ap_driver
- *' with an expression of type 'const struct ap_driver *' discards qualifiers
-Message-ID: <202601260335.bRgOolw4-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>,
+ Michael Chan <michael.chan@broadcom.com>
+Subject: drivers/net/ethernet/broadcom/bnxt/bnxt.c:10113:22: warning:
+ variable 'max_tmo_secs' set but not used
+Message-ID: <202601260305.FSibL0Ve-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/sysfs-const-driver-attribute
-head:   92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d
-commit: 92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d [17/17] bus_for_each_drv
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260126=
-/202601260335.bRgOolw4-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c=
-1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260126/202601260335.bRgOolw4-lkp@intel.com/reproduce)
+Hi Arnd,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0a6dce0a5c66ab2cb3e9f01902e5b188ada8a89d
+commit: 8ff6175139967cd17b2a62bca4b2de2559942b7e bnxt_en: hide CONFIG_DETECT_HUNG_TASK specific code
+date:   9 months ago
+config: sparc-randconfig-002-20260125 (https://download.01.org/0day-ci/archive/20260126/202601260305.FSibL0Ve-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260305.FSibL0Ve-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601260335.bRgOolw4-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601260305.FSibL0Ve-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/s390/crypto/ap_bus.c:1507:20: error: initializing 'struct ap_dri=
-ver *' with an expression of type 'const struct ap_driver *' discards quali=
-fiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    1507 |         struct ap_driver *ap_drv =3D to_ap_drv(drv);
-         |                           ^        ~~~~~~~~~~~~~~
-   1 error generated.
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_hwrm_ver_get':
+>> drivers/net/ethernet/broadcom/bnxt/bnxt.c:10113:22: warning: variable 'max_tmo_secs' set but not used [-Wunused-but-set-variable]
+   10113 |         int rc, len, max_tmo_secs;
+         |                      ^~~~~~~~~~~~
 
 
-vim +1507 drivers/s390/crypto/ap_bus.c
+vim +/max_tmo_secs +10113 drivers/net/ethernet/broadcom/bnxt/bnxt.c
 
-7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1503 =20
-92cff81ee317b9 Thomas Wei=C3=9Fschuh     2026-01-25  1504  static int __ver=
-ify_card_reservations(const struct device_driver *drv, void *data)
-4f8206b882868b Tony Krowiak         2019-02-01  1505  {
-4f8206b882868b Tony Krowiak         2019-02-01  1506  	int rc =3D 0;
-4f8206b882868b Tony Krowiak         2019-02-01 @1507  	struct ap_driver *ap=
-_drv =3D to_ap_drv(drv);
-4f8206b882868b Tony Krowiak         2019-02-01  1508  	unsigned long *newap=
-m =3D (unsigned long *)data;
-6917f434fda346 Harald Freudenberger 2025-11-19  1509  	unsigned long aqm_an=
-y[BITS_TO_LONGS(AP_DOMAINS)];
-4f8206b882868b Tony Krowiak         2019-02-01  1510 =20
-4f8206b882868b Tony Krowiak         2019-02-01  1511  	/*
-4f8206b882868b Tony Krowiak         2019-02-01  1512  	 * increase the driv=
-er's module refcounter to be sure it is not
-4f8206b882868b Tony Krowiak         2019-02-01  1513  	 * going away when w=
-e invoke the callback function.
-4f8206b882868b Tony Krowiak         2019-02-01  1514  	 */
-4f8206b882868b Tony Krowiak         2019-02-01  1515  	if (!try_module_get(=
-drv->owner))
-4f8206b882868b Tony Krowiak         2019-02-01  1516  		return 0;
-4f8206b882868b Tony Krowiak         2019-02-01  1517 =20
-4f8206b882868b Tony Krowiak         2019-02-01  1518  	if (ap_drv->in_use) {
-6917f434fda346 Harald Freudenberger 2025-11-19  1519  		bitmap_fill(aqm_any=
-, AP_DOMAINS);
-6917f434fda346 Harald Freudenberger 2025-11-19  1520  		rc =3D ap_drv->in_u=
-se(newapm, aqm_any);
-4f8206b882868b Tony Krowiak         2019-02-01  1521  		if (rc)
-4f8206b882868b Tony Krowiak         2019-02-01  1522  			rc =3D -EBUSY;
-4f8206b882868b Tony Krowiak         2019-02-01  1523  	}
-4f8206b882868b Tony Krowiak         2019-02-01  1524 =20
-4f8206b882868b Tony Krowiak         2019-02-01  1525  	/* release the drive=
-r's module */
-4f8206b882868b Tony Krowiak         2019-02-01  1526  	module_put(drv->owne=
-r);
-4f8206b882868b Tony Krowiak         2019-02-01  1527 =20
-4f8206b882868b Tony Krowiak         2019-02-01  1528  	return rc;
-4f8206b882868b Tony Krowiak         2019-02-01  1529  }
-4f8206b882868b Tony Krowiak         2019-02-01  1530 =20
+ba642ab773db97 Michael Chan        2019-08-29  10106  
+ba642ab773db97 Michael Chan        2019-08-29  10107  static int bnxt_hwrm_ver_get(struct bnxt *bp)
+ba642ab773db97 Michael Chan        2019-08-29  10108  {
+bbf33d1d9805fc Edwin Peer          2021-08-29  10109  	struct hwrm_ver_get_output *resp;
+bbf33d1d9805fc Edwin Peer          2021-08-29  10110  	struct hwrm_ver_get_input *req;
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10111  	u16 fw_maj, fw_min, fw_bld, fw_rsv;
+b7a444f0785929 Vasundhara Volam    2020-03-27  10112  	u32 dev_caps_cfg, hwrm_ver;
+0fcad44a86bdc2 Michael Chan        2025-04-17 @10113  	int rc, len, max_tmo_secs;
+ba642ab773db97 Michael Chan        2019-08-29  10114  
+bbf33d1d9805fc Edwin Peer          2021-08-29  10115  	rc = hwrm_req_init(bp, req, HWRM_VER_GET);
+bbf33d1d9805fc Edwin Peer          2021-08-29  10116  	if (rc)
+bbf33d1d9805fc Edwin Peer          2021-08-29  10117  		return rc;
+bbf33d1d9805fc Edwin Peer          2021-08-29  10118  
+bbf33d1d9805fc Edwin Peer          2021-08-29  10119  	hwrm_req_flags(bp, req, BNXT_HWRM_FULL_WAIT);
+ba642ab773db97 Michael Chan        2019-08-29  10120  	bp->hwrm_max_req_len = HWRM_MAX_REQ_LEN;
+bbf33d1d9805fc Edwin Peer          2021-08-29  10121  	req->hwrm_intf_maj = HWRM_VERSION_MAJOR;
+bbf33d1d9805fc Edwin Peer          2021-08-29  10122  	req->hwrm_intf_min = HWRM_VERSION_MINOR;
+bbf33d1d9805fc Edwin Peer          2021-08-29  10123  	req->hwrm_intf_upd = HWRM_VERSION_UPDATE;
+7b370ad7739245 Edwin Peer          2021-08-29  10124  
+bbf33d1d9805fc Edwin Peer          2021-08-29  10125  	resp = hwrm_req_hold(bp, req);
+bbf33d1d9805fc Edwin Peer          2021-08-29  10126  	rc = hwrm_req_send(bp, req);
+c0c050c58d8409 Michael Chan        2015-10-22  10127  	if (rc)
+c0c050c58d8409 Michael Chan        2015-10-22  10128  		goto hwrm_ver_get_exit;
+c0c050c58d8409 Michael Chan        2015-10-22  10129  
+c0c050c58d8409 Michael Chan        2015-10-22  10130  	memcpy(&bp->ver_resp, resp, sizeof(struct hwrm_ver_get_output));
+c0c050c58d8409 Michael Chan        2015-10-22  10131  
+894aa69a909329 Michael Chan        2018-01-17  10132  	bp->hwrm_spec_code = resp->hwrm_intf_maj_8b << 16 |
+894aa69a909329 Michael Chan        2018-01-17  10133  			     resp->hwrm_intf_min_8b << 8 |
+894aa69a909329 Michael Chan        2018-01-17  10134  			     resp->hwrm_intf_upd_8b;
+894aa69a909329 Michael Chan        2018-01-17  10135  	if (resp->hwrm_intf_maj_8b < 1) {
+c193554ecd050e Michael Chan        2015-12-27  10136  		netdev_warn(bp->dev, "HWRM interface %d.%d.%d is older than 1.0.0.\n",
+894aa69a909329 Michael Chan        2018-01-17  10137  			    resp->hwrm_intf_maj_8b, resp->hwrm_intf_min_8b,
+894aa69a909329 Michael Chan        2018-01-17  10138  			    resp->hwrm_intf_upd_8b);
+c193554ecd050e Michael Chan        2015-12-27  10139  		netdev_warn(bp->dev, "Please update firmware with HWRM interface 1.0.0 or newer.\n");
+c0c050c58d8409 Michael Chan        2015-10-22  10140  	}
+b7a444f0785929 Vasundhara Volam    2020-03-27  10141  
+b7a444f0785929 Vasundhara Volam    2020-03-27  10142  	hwrm_ver = HWRM_VERSION_MAJOR << 16 | HWRM_VERSION_MINOR << 8 |
+b7a444f0785929 Vasundhara Volam    2020-03-27  10143  			HWRM_VERSION_UPDATE;
+b7a444f0785929 Vasundhara Volam    2020-03-27  10144  
+b7a444f0785929 Vasundhara Volam    2020-03-27  10145  	if (bp->hwrm_spec_code > hwrm_ver)
+b7a444f0785929 Vasundhara Volam    2020-03-27  10146  		snprintf(bp->hwrm_ver_supp, FW_VER_STR_LEN, "%d.%d.%d",
+b7a444f0785929 Vasundhara Volam    2020-03-27  10147  			 HWRM_VERSION_MAJOR, HWRM_VERSION_MINOR,
+b7a444f0785929 Vasundhara Volam    2020-03-27  10148  			 HWRM_VERSION_UPDATE);
+b7a444f0785929 Vasundhara Volam    2020-03-27  10149  	else
+b7a444f0785929 Vasundhara Volam    2020-03-27  10150  		snprintf(bp->hwrm_ver_supp, FW_VER_STR_LEN, "%d.%d.%d",
+b7a444f0785929 Vasundhara Volam    2020-03-27  10151  			 resp->hwrm_intf_maj_8b, resp->hwrm_intf_min_8b,
+b7a444f0785929 Vasundhara Volam    2020-03-27  10152  			 resp->hwrm_intf_upd_8b);
+b7a444f0785929 Vasundhara Volam    2020-03-27  10153  
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10154  	fw_maj = le16_to_cpu(resp->hwrm_fw_major);
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10155  	if (bp->hwrm_spec_code > 0x10803 && fw_maj) {
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10156  		fw_min = le16_to_cpu(resp->hwrm_fw_minor);
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10157  		fw_bld = le16_to_cpu(resp->hwrm_fw_build);
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10158  		fw_rsv = le16_to_cpu(resp->hwrm_fw_patch);
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10159  		len = FW_VER_STR_LEN;
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10160  	} else {
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10161  		fw_maj = resp->hwrm_fw_maj_8b;
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10162  		fw_min = resp->hwrm_fw_min_8b;
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10163  		fw_bld = resp->hwrm_fw_bld_8b;
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10164  		fw_rsv = resp->hwrm_fw_rsvd_8b;
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10165  		len = BC_HWRM_STR_LEN;
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10166  	}
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10167  	bp->fw_ver_code = BNXT_FW_VER_CODE(fw_maj, fw_min, fw_bld, fw_rsv);
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10168  	snprintf(bp->fw_ver_str, len, "%d.%d.%d.%d", fw_maj, fw_min, fw_bld,
+d0ad2ea2bc1858 Michael Chan        2020-06-23  10169  		 fw_rsv);
+c0c050c58d8409 Michael Chan        2015-10-22  10170  
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10171  	if (strlen(resp->active_pkg_name)) {
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10172  		int fw_ver_len = strlen(bp->fw_ver_str);
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10173  
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10174  		snprintf(bp->fw_ver_str + fw_ver_len,
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10175  			 FW_VER_STR_LEN - fw_ver_len - 1, "/pkg %s",
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10176  			 resp->active_pkg_name);
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10177  		bp->fw_cap |= BNXT_FW_CAP_PKG_VER;
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10178  	}
+691aa62045c2b2 Vasundhara Volam    2019-05-05  10179  
+ff4fe81d2d49e3 Michael Chan        2016-02-26  10180  	bp->hwrm_cmd_timeout = le16_to_cpu(resp->def_req_timeout);
+ff4fe81d2d49e3 Michael Chan        2016-02-26  10181  	if (!bp->hwrm_cmd_timeout)
+ff4fe81d2d49e3 Michael Chan        2016-02-26  10182  		bp->hwrm_cmd_timeout = DFLT_HWRM_CMD_TIMEOUT;
+bce9a0b7900836 Edwin Peer          2022-01-09  10183  	bp->hwrm_cmd_max_timeout = le16_to_cpu(resp->max_req_timeout) * 1000;
+bce9a0b7900836 Edwin Peer          2022-01-09  10184  	if (!bp->hwrm_cmd_max_timeout)
+bce9a0b7900836 Edwin Peer          2022-01-09  10185  		bp->hwrm_cmd_max_timeout = HWRM_CMD_MAX_TIMEOUT;
+0fcad44a86bdc2 Michael Chan        2025-04-17  10186  	max_tmo_secs = bp->hwrm_cmd_max_timeout / 1000;
+8ff6175139967c Arnd Bergmann       2025-04-23  10187  #ifdef CONFIG_DETECT_HUNG_TASK
+0fcad44a86bdc2 Michael Chan        2025-04-17  10188  	if (bp->hwrm_cmd_max_timeout > HWRM_CMD_MAX_TIMEOUT ||
+0fcad44a86bdc2 Michael Chan        2025-04-17  10189  	    max_tmo_secs > CONFIG_DEFAULT_HUNG_TASK_TIMEOUT) {
+0fcad44a86bdc2 Michael Chan        2025-04-17  10190  		netdev_warn(bp->dev, "Device requests max timeout of %d seconds, may trigger hung task watchdog (kernel default %ds)\n",
+0fcad44a86bdc2 Michael Chan        2025-04-17  10191  			    max_tmo_secs, CONFIG_DEFAULT_HUNG_TASK_TIMEOUT);
+0fcad44a86bdc2 Michael Chan        2025-04-17  10192  	}
+8ff6175139967c Arnd Bergmann       2025-04-23  10193  #endif
+ff4fe81d2d49e3 Michael Chan        2016-02-26  10194  
+1dfddc41ae4990 Michael Chan        2018-10-14  10195  	if (resp->hwrm_intf_maj_8b >= 1) {
+e6ef26991a46e2 Michael Chan        2016-03-28  10196  		bp->hwrm_max_req_len = le16_to_cpu(resp->max_req_win_len);
+1dfddc41ae4990 Michael Chan        2018-10-14  10197  		bp->hwrm_max_ext_req_len = le16_to_cpu(resp->max_ext_req_len);
+1dfddc41ae4990 Michael Chan        2018-10-14  10198  	}
+1dfddc41ae4990 Michael Chan        2018-10-14  10199  	if (bp->hwrm_max_ext_req_len < HWRM_MAX_REQ_LEN)
+1dfddc41ae4990 Michael Chan        2018-10-14  10200  		bp->hwrm_max_ext_req_len = HWRM_MAX_REQ_LEN;
+e6ef26991a46e2 Michael Chan        2016-03-28  10201  
+659c805cc01b3c Michael Chan        2016-06-13  10202  	bp->chip_num = le16_to_cpu(resp->chip_num);
+5313845f491f22 Michael Chan        2020-01-27  10203  	bp->chip_rev = resp->chip_rev;
+3e8060fa837630 Prashant Sreedharan 2016-07-18  10204  	if (bp->chip_num == CHIP_NUM_58700 && !resp->chip_rev &&
+3e8060fa837630 Prashant Sreedharan 2016-07-18  10205  	    !resp->chip_metal)
+3e8060fa837630 Prashant Sreedharan 2016-07-18  10206  		bp->flags |= BNXT_FLAG_CHIP_NITRO_A0;
+659c805cc01b3c Michael Chan        2016-06-13  10207  
+e605db801bdeb9 Deepak Khungar      2017-05-29  10208  	dev_caps_cfg = le32_to_cpu(resp->dev_caps_cfg);
+e605db801bdeb9 Deepak Khungar      2017-05-29  10209  	if ((dev_caps_cfg & VER_GET_RESP_DEV_CAPS_CFG_SHORT_CMD_SUPPORTED) &&
+e605db801bdeb9 Deepak Khungar      2017-05-29  10210  	    (dev_caps_cfg & VER_GET_RESP_DEV_CAPS_CFG_SHORT_CMD_REQUIRED))
+97381a1831124c Michael Chan        2018-08-05  10211  		bp->fw_cap |= BNXT_FW_CAP_SHORT_CMD;
+e605db801bdeb9 Deepak Khungar      2017-05-29  10212  
+760b6d33410cda Venkat Duvvuru      2018-12-20  10213  	if (dev_caps_cfg & VER_GET_RESP_DEV_CAPS_CFG_KONG_MB_CHNL_SUPPORTED)
+760b6d33410cda Venkat Duvvuru      2018-12-20  10214  		bp->fw_cap |= BNXT_FW_CAP_KONG_MB_CHNL;
+760b6d33410cda Venkat Duvvuru      2018-12-20  10215  
+abd43a13525db7 Venkat Duvvuru      2018-12-20  10216  	if (dev_caps_cfg &
+abd43a13525db7 Venkat Duvvuru      2018-12-20  10217  	    VER_GET_RESP_DEV_CAPS_CFG_FLOW_HANDLE_64BIT_SUPPORTED)
+abd43a13525db7 Venkat Duvvuru      2018-12-20  10218  		bp->fw_cap |= BNXT_FW_CAP_OVS_64BIT_HANDLE;
+abd43a13525db7 Venkat Duvvuru      2018-12-20  10219  
+2a516444434ffa Michael Chan        2019-02-19  10220  	if (dev_caps_cfg &
+2a516444434ffa Michael Chan        2019-02-19  10221  	    VER_GET_RESP_DEV_CAPS_CFG_TRUSTED_VF_SUPPORTED)
+2a516444434ffa Michael Chan        2019-02-19  10222  		bp->fw_cap |= BNXT_FW_CAP_TRUSTED_VF;
+2a516444434ffa Michael Chan        2019-02-19  10223  
+e969ae5bbfcf48 Michael Chan        2019-05-05  10224  	if (dev_caps_cfg &
+e969ae5bbfcf48 Michael Chan        2019-05-05  10225  	    VER_GET_RESP_DEV_CAPS_CFG_CFA_ADV_FLOW_MGNT_SUPPORTED)
+e969ae5bbfcf48 Michael Chan        2019-05-05  10226  		bp->fw_cap |= BNXT_FW_CAP_CFA_ADV_FLOW;
+e969ae5bbfcf48 Michael Chan        2019-05-05  10227  
+c0c050c58d8409 Michael Chan        2015-10-22  10228  hwrm_ver_get_exit:
+bbf33d1d9805fc Edwin Peer          2021-08-29  10229  	hwrm_req_drop(bp, req);
+c0c050c58d8409 Michael Chan        2015-10-22  10230  	return rc;
+c0c050c58d8409 Michael Chan        2015-10-22  10231  }
+c0c050c58d8409 Michael Chan        2015-10-22  10232  
 
-:::::: The code at line 1507 was first introduced by commit
-:::::: 4f8206b882868b62dc15ddfc0c17bb031876afb5 s390/ap: driver callback to=
- indicate resource in use
+:::::: The code at line 10113 was first introduced by commit
+:::::: 0fcad44a86bdc2b5f202d91ba1eeeee6fceb7b25 bnxt_en: Change FW message timeout warning
 
-:::::: TO: Tony Krowiak <akrowiak@linux.ibm.com>
-:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
+:::::: TO: Michael Chan <michael.chan@broadcom.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
