@@ -1,138 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A701F461D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 16:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC6D3254AA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 16:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769358197; cv=none; b=U+xExA3O2iwG9tiOS0f9/DoY18jnEt//OwI3l4KYOfdTWuVECxJMYGF2clG6tdo6jOBMKaSAjwakZJlc33TJfepWnhmCcJpMGigHDjM+YQJ204LMRZLYhS+0DM+z62uHlBsQ3sAC2NZyRhsdXX67SUJBvr+qx3BqqVcmS4VVz7A=
+	t=1769359215; cv=none; b=kX318h41tG5FSLE+/fvExzodbZqFkZiWFCHvsbqPIJTmNVEc56YoDLqyCE5nqI3GE+4AYRkg8yKa6dQAQITdUjcKlkz2D2KmGy2+pPQjLhGWnVNxHJ4pMpU0RgnkCMUY/WXcsSPqS+oCTC0AAMN0m7f/lQbF6wmx5YGBZIkwyHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769358197; c=relaxed/simple;
-	bh=Q+C3PlAHFFClJm32UkwPQpUTYsed3vglsbB5dFYDyRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jj0F30Jc/+HrTdFHaGa54kuL3vtn+puZAGpBjPwSbTGTVeo5coT+Dz4/AKnYMIEFwbQhTqQYDwWDkITtpHT3Pa/NzPDyTBkVEa6awqXeoeMwhj7FcFVWTm7scl3YfJ8oE+EKPkCqr6izbaCMEx+pa8Oj0xwe1fu34VO/AaAVhqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dNm+x/Cs; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1769359215; c=relaxed/simple;
+	bh=VGxNC+RotGbRZLBulaHfdPTzAk7H7el8QcfkTrFSyVY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HlfQ4G88b+/UwnDGlrDeMOGJ2vk/5Pt26MiwSqhpeXkZHvOxRTLBH+YR2XfRue7MRWW5BAtVhwhwfePcFRe9YwlG8npppCEBEx8aDYELc00g+Q52IE0WJiXaHljiFa5lK2tsWqDieCI7kfvb2LUG0ZYRJyIQ2uye0Yd5EVPVtb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RTDJ5N0q; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNm+x/Cs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RTDJ5N0q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769358197; x=1800894197;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q+C3PlAHFFClJm32UkwPQpUTYsed3vglsbB5dFYDyRs=;
-  b=dNm+x/Cs+Am3DUCamFiuMVJifM+DPqHxrN9iOjB2jO/ggYqUKUnrQuDh
-   6sjPgEI5H1AKCyDaWt8p3P9wqAnFvIP65FLtHSCP7qUBQmCB0deLiaPzk
-   ujmQfyYfQoXVc2B0fyhiuDwgnmziyPmYuC3BL5NkJ3/9YHNZ+YLFaV9FV
-   5Ktk644qm9kK+dgUoWRmXuWZ+GEp+2eOZPJ9iXYsvwmIKVaimeJ+HzzeI
-   ReDmjzmEM9HNRGHoryO9IXgagFKkfohyl29lB4vMSwqe+ofeK94FMBU48
-   nQ9XRm0NG1O374tSQR41H82rUmykfVmnJevoPiDTEBkaI0xFsUAGEIuY2
-   A==;
-X-CSE-ConnectionGUID: wB611b0yTvOYRAfb6v/2ww==
-X-CSE-MsgGUID: r0Y2qpgiTd6+ZtAFrlLMDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="81180957"
+  t=1769359213; x=1800895213;
+  h=date:from:to:cc:subject:message-id;
+  bh=VGxNC+RotGbRZLBulaHfdPTzAk7H7el8QcfkTrFSyVY=;
+  b=RTDJ5N0qiDGgaRdre5LW3EhbIs1iVPYwuT2B6aak9+JrOgZtl8C0HIFu
+   d2B9Uc/cPA0bDK/lSLiYncWojokFY/hxz9Q3RJOtwfN2SpmuvN6fxPD1W
+   Tiwc3zFkQTPiEmedcterHYv38nHgo5Pm9LvN+yanMYfuep0av8+MwbdNF
+   zfmx+Y7G0dDrLcggOOS50vIEx16It1CNwpAxp3getap7AUjHUUbbbaqa5
+   qD3GaiOqpK01IiYXA/k3ah6cAfLHJHySXyX8CtP8aBmHkK802HmdLXzfB
+   w+wXPlQ/DQqb97HuxQ4E2xCyALD+dvNezhgxqNOvznaRg15XU3ueeiG/l
+   w==;
+X-CSE-ConnectionGUID: JaAMJJ6tQcWl3nODNnkQpQ==
+X-CSE-MsgGUID: 9HoUwC1ISUaYFmlvz0gubA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="81919711"
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="81180957"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 08:23:16 -0800
-X-CSE-ConnectionGUID: 16wwdm3mQgyBkh2BeM+bEg==
-X-CSE-MsgGUID: SlVq3XsoS6CgXeqEGfs4hQ==
+   d="scan'208";a="81919711"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 08:40:12 -0800
+X-CSE-ConnectionGUID: EqlZc07uSv2bNnD+sgI1IA==
+X-CSE-MsgGUID: tPTZxM16To69DANVfjOnlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="211947092"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Jan 2026 08:23:13 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="207914965"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Jan 2026 08:40:11 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk2tK-00000000WBG-3BZ1;
-	Sun, 25 Jan 2026 16:23:10 +0000
-Date: Mon, 26 Jan 2026 00:22:15 +0800
+	id 1vk39k-000000001JF-3ssu;
+	Sun, 25 Jan 2026 16:40:08 +0000
+Date: Sun, 25 Jan 2026 17:39:44 +0100
 From: kernel test robot <lkp@intel.com>
-To: Dorjoy Chowdhury <dorjoychy111@gmail.com>,
-	linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	jlayton@kernel.org, chuck.lever@oracle.com, alex.aring@gmail.com,
-	arnd@arndb.de
-Subject: Re: [PATCH 1/2] open: new O_REGULAR flag support
-Message-ID: <202601260042.TRDQjGeu-lkp@intel.com>
-References: <20260125141518.59493-2-dorjoychy111@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 2/2]
+ pkey_sighandler_tests.c:119:9: warning: array subscript 0 is outside array
+ bounds of 'int[0]'
+Message-ID: <202601251717.OaRSWUry-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260125141518.59493-2-dorjoychy111@gmail.com>
 
-Hi Dorjoy,
+Hi Kevin,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on shuah-kselftest/next shuah-kselftest/fixes linus/master arnd-asm-generic/master v6.19-rc6 next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dorjoy-Chowdhury/open-new-O_REGULAR-flag-support/20260125-221826
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260125141518.59493-2-dorjoychy111%40gmail.com
-patch subject: [PATCH 1/2] open: new O_REGULAR flag support
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260126/202601260042.TRDQjGeu-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260042.TRDQjGeu-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   9ca0fde2622c59c97612be0765d6d3c101122f69
+commit: 54dba9d5ae94c7df8662b6b3a09471beb342aecc [2/2] selftests/mm: build with -O2
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260125/202601251717.OaRSWUry-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251717.OaRSWUry-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601260042.TRDQjGeu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601251717.OaRSWUry-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   fs/fcntl.c: In function 'fcntl_init':
->> include/linux/compiler_types.h:631:45: error: call to '__compiletime_assert_389' declared with attribute error: BUILD_BUG_ON failed: 21 - 1 != HWEIGHT32( (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) | __FMODE_EXEC)
-     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:612:25: note: in definition of macro '__compiletime_assert'
-     612 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:631:9: note: in expansion of macro '_compiletime_assert'
-     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   fs/fcntl.c:1172:9: note: in expansion of macro 'BUILD_BUG_ON'
-    1172 |         BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_389 +631 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  621  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  629   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  630  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @631  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  632  
+   pkey_sighandler_tests.c: In function 'thread_segv_with_pkey0_disabled':
+>> pkey_sighandler_tests.c:119:9: warning: array subscript 0 is outside array bounds of 'int[0]' [-Warray-bounds=]
+     119 |         *(int *) (0x1) = 1;
+         |         ^~~~~~~~~~~~~~
+   cc1: note: source object is likely at address zero
+   In function 'thread_segv_maperr_ptr',
+       inlined from 'test_sigsegv_handler_with_different_pkey_for_stack' at pkey_sighandler_tests.c:288:3:
+   pkey_sighandler_tests.c:148:14: warning: array subscript 0 is outside array bounds of 'int[0]' [-Warray-bounds=]
+     148 |         *bad = 1;
+         |         ~~~~~^~~
+   In function 'test_sigsegv_handler_with_different_pkey_for_stack':
+   cc1: note: source object is likely at address zero
 
 -- 
 0-DAY CI Kernel Test Service
