@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFEF19CD06
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 13:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9B71397
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 14:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769348050; cv=none; b=herhOWRmvly2gI/j8vE0B62aKxlekfdAA0/IRaH2y0+/Fz18O4iAyXUUO4sdnHbBsGFvYF0YmRhWBkE8aHv2YqDvVTkIBj8CbS21wwXWARoVNdi6QrjhjvExZX2pP2MsoVz7owb4X2s0E0jt++gFLXvgA9KGZo2e0IOE71SuDg0=
+	t=1769352254; cv=none; b=dwZ+NjiJU5NWiawZEJV0X50+8JkJbFctIExHMhkwKdqgk1yI9Dct7xHqIUTu0IHuafCt9zV2pW704Hy8L1UDosRP2ScnKY43e731G/dZwJ9QmippLchm96ESEZUq106pVPyR4Y+XquaetnGmOtzELeHntUO595C74uI02AxvxW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769348050; c=relaxed/simple;
-	bh=WifboPLjXbhEsmFdsS5tbwUU0VJbyvvIUECbov48NIs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jg7rsg47ga//Yx8BcTV2iMNekPI/zRida1uPQOU+EJ05Qdf1ZyTue9rSwmWbK8wodtm4RHCUMNaDEdkVorY43KK85T2ka90b4gU0PqHpXyUNuoA87x+GLdY5o2QjVlQw5pDGIWXtHy1CFyJqzFsBpZTZg8W8qDxUidypk/PBPGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LHR09CPC; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1769352254; c=relaxed/simple;
+	bh=Aq6xdfyd5iujdYv6hF01TfXpTdHOCxy8dkns3Z4HO/c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=f8MrJj1cp3s0nHgH1rYSotUAmkBtkkQeUYopaOY6lQC1ACYGtcXr0fEz/jSf7RIG8U0uzmgHMn0i0md+6/3fd2Rn0w5sfRD/a0G7baj3n62DoMGN8rOtOUQ6qwWYbyj2pjUdYwx702Ut/hMriiJZIDlOSuxU8v5z/JkUyxB1Qc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgZKmsx7; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LHR09CPC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgZKmsx7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769348050; x=1800884050;
+  t=1769352252; x=1800888252;
   h=date:from:to:cc:subject:message-id;
-  bh=WifboPLjXbhEsmFdsS5tbwUU0VJbyvvIUECbov48NIs=;
-  b=LHR09CPCEzBS25GzFWTNgP8vxYyurKalasbecXza3Z2UlFgZC+cQ8eO1
-   KwoPKrlHzqYHXiQHHvDI3xioHyU2KZ7Foj5XUKJVi+TvjuuFgD5/laGn0
-   79HNiilmPqLI1pNOWEdblP1+XooevRKDWrr8Wdj1P1d9hWoGXmCpE4ks7
-   a7eOYmZ79lCvZHtGWHg7h7fI2i3QQTluQrc/WKXuXu+pIVc0XZHtVogb1
-   aS8Fau1KOoGSGB04ismYijnlFdGCghsdVkqXSB3sBmjN8GwHpBWV/rkoU
-   VwrdqIWljpne9PtyIL6JmWz19ZKqzJypmIkGawoqiYp4w6jw6B/FCKdmk
-   g==;
-X-CSE-ConnectionGUID: vMthWcG9RGe3iqI7pHqhBg==
-X-CSE-MsgGUID: owufJEjnRW++WnzqFwlLbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70451404"
+  bh=Aq6xdfyd5iujdYv6hF01TfXpTdHOCxy8dkns3Z4HO/c=;
+  b=kgZKmsx7sRDiFuJuIeVUcXgnBN3ZbzXS3pyyzqv9L/S2++N9B2qnrZDo
+   JhNkxYJ8MO6mDi26YLtEn5znIVaIrfGS9LR/RmysSx0QUrzGjKOwg1WSp
+   0EymK4fd0fOMCkpTfNgmNvnQaiF5TbZkbo/XAj3b5speZ64zXOuWMBMgK
+   KUyOkalwLBRFPBTU/80tsVbq/nFZciGHoF/t4+lmL3HulM/90Lk9caSCy
+   yO465cNXB1kKw5BKIBXju4itHnPsoHViUTWK85QlkzyvYE0AQSvqx3dWE
+   V7ah5+5kcCYNjHUA/+oKpbYY+yEsuR5/mHbIu68ZcqThm5agD/1NWFovC
+   Q==;
+X-CSE-ConnectionGUID: lHwoP0tuTbunFCrYvSppkQ==
+X-CSE-MsgGUID: g/Cn28kYQ6CTmByVE9WpVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="81174752"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="70451404"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 05:34:07 -0800
-X-CSE-ConnectionGUID: h3prWw46SBekWdEuscGzJg==
-X-CSE-MsgGUID: rkaXAi8XSZaoJoeji7JvZA==
+   d="scan'208";a="81174752"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 06:44:11 -0800
+X-CSE-ConnectionGUID: nSFcyEexT9uGhajx7c/luA==
+X-CSE-MsgGUID: sEIvMnk7T9yBLZa18t3qKg==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Jan 2026 05:34:05 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
+   d="scan'208";a="207284817"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 25 Jan 2026 06:44:10 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk0Fe-00000000W2I-2tqD;
-	Sun, 25 Jan 2026 13:34:02 +0000
-Date: Sun, 25 Jan 2026 21:33:05 +0800
+	id 1vk1LT-000000001Hd-2kbD;
+	Sun, 25 Jan 2026 14:44:07 +0000
+Date: Sun, 25 Jan 2026 15:43:47 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/vmxon_sucks 17/18]
- arch/x86/kvm/vmx/main.c:1077:1: warning: label 'err_tdx_bringup' defined but
- not used
-Message-ID: <202601252103.rucmNkfl-lkp@intel.com>
+Subject: [android-common:android17-6.18 4/4] kismet: WARNING: unmet
+ direct dependencies detected for PHY_PACKAGE when selected by
+ GKI_HIDDEN_PHY_CONFIGS
+Message-ID: <202601251519.Ng4ZCCVD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,72 +60,23 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/sean-jc/linux x86/vmxon_sucks
-head:   812d315824cbec66990b83771c86b0ef6f6fc0e6
-commit: 7fcfe117b421e1077f02e13d0cd5e8d1457f4b15 [17/18] KVM: TDX: Fold tdx_bringup() into tdx_hardware_setup()
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260125/202601252103.rucmNkfl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601252103.rucmNkfl-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   c624c4db89acf5f5e2466e371f744a5b6c8261e2
+commit: e720a50b14c5896defc425452f52d3ee1d2de1c5 [4/4] ANDROID: GKI: Select PHY_PACKAGE for vendor modules
+config: i386-kismet-CONFIG_PHY_PACKAGE-CONFIG_GKI_HIDDEN_PHY_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260125/202601251519.Ng4ZCCVD-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260125/202601251519.Ng4ZCCVD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601252103.rucmNkfl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601251519.Ng4ZCCVD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   arch/x86/kvm/vmx/main.c: In function 'vt_init':
->> arch/x86/kvm/vmx/main.c:1077:1: warning: label 'err_tdx_bringup' defined but not used [-Wunused-label]
-    1077 | err_tdx_bringup:
-         | ^~~~~~~~~~~~~~~
-
-
-vim +/err_tdx_bringup +1077 arch/x86/kvm/vmx/main.c
-
-d6bee7813752b3 Kai Huang      2025-01-22  1040  
-d6bee7813752b3 Kai Huang      2025-01-22  1041  static int __init vt_init(void)
-d6bee7813752b3 Kai Huang      2025-01-22  1042  {
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1043  	unsigned vcpu_size, vcpu_align;
-d6bee7813752b3 Kai Huang      2025-01-22  1044  	int r;
-d6bee7813752b3 Kai Huang      2025-01-22  1045  
-d6bee7813752b3 Kai Huang      2025-01-22  1046  	r = vmx_init();
-d6bee7813752b3 Kai Huang      2025-01-22  1047  	if (r)
-d6bee7813752b3 Kai Huang      2025-01-22  1048  		return r;
-d6bee7813752b3 Kai Huang      2025-01-22  1049  
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1050  	/*
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1051  	 * TDX and VMX have different vCPU structures.  Calculate the
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1052  	 * maximum size/align so that kvm_init() can use the larger
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1053  	 * values to create the kmem_vcpu_cache.
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1054  	 */
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1055  	vcpu_size = sizeof(struct vcpu_vmx);
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1056  	vcpu_align = __alignof__(struct vcpu_vmx);
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1057  	if (enable_tdx) {
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1058  		vcpu_size = max_t(unsigned, vcpu_size,
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1059  				sizeof(struct vcpu_tdx));
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1060  		vcpu_align = max_t(unsigned, vcpu_align,
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1061  				__alignof__(struct vcpu_tdx));
-161d34609f9b31 Isaku Yamahata 2024-12-10  1062  		kvm_caps.supported_vm_types |= BIT(KVM_X86_TDX_VM);
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1063  	}
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1064  
-d6bee7813752b3 Kai Huang      2025-01-22  1065  	/*
-d6bee7813752b3 Kai Huang      2025-01-22  1066  	 * Common KVM initialization _must_ come last, after this, /dev/kvm is
-d6bee7813752b3 Kai Huang      2025-01-22  1067  	 * exposed to userspace!
-d6bee7813752b3 Kai Huang      2025-01-22  1068  	 */
-09b3d3c17f365f Isaku Yamahata 2024-10-30  1069  	r = kvm_init(vcpu_size, vcpu_align, THIS_MODULE);
-d6bee7813752b3 Kai Huang      2025-01-22  1070  	if (r)
-d6bee7813752b3 Kai Huang      2025-01-22  1071  		goto err_kvm_init;
-d6bee7813752b3 Kai Huang      2025-01-22  1072  
-d6bee7813752b3 Kai Huang      2025-01-22  1073  	return 0;
-d6bee7813752b3 Kai Huang      2025-01-22  1074  
-d6bee7813752b3 Kai Huang      2025-01-22  1075  err_kvm_init:
-fcdbdf63431c9f Kai Huang      2024-11-15  1076  	tdx_cleanup();
-fcdbdf63431c9f Kai Huang      2024-11-15 @1077  err_tdx_bringup:
-
-:::::: The code at line 1077 was first introduced by commit
-:::::: fcdbdf63431c9faf639bffc957ea2ce9b545432e KVM: VMX: Initialize TDX during KVM module load
-
-:::::: TO: Kai Huang <kai.huang@intel.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PHY_PACKAGE when selected by GKI_HIDDEN_PHY_CONFIGS
+   WARNING: unmet direct dependencies detected for PHY_PACKAGE
+     Depends on [n]: NETDEVICES [=y] && PHYLIB [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_PHY_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
