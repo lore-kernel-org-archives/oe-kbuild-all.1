@@ -1,110 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CF226CE3B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 17:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F66B224B0E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 17:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769362594; cv=none; b=a7gPqrnBkijcrzvBM5cc25nILpNvdHhbklxyXU8mbQ0t6tWl4pTaO00tbSDdLxcl8tQcjeBcxjfPs8CO9iyrcQpmBr7yKXMr9YEaPL48qZK3xeonPSyutq1km1l75fN+T+fNej8Q3zWO5ks85eirnwM3QrC/IEefbsovWxdnraU=
+	t=1769363193; cv=none; b=eEBEpNicE9NxR2ZHBPETUSJiqVpi8vVqAP6lbbApL45o7r1l/sTAEW3vop9Z0r0Bk1TzpF8Mus6enzfxZGHny9ZG2wgTM8wmtZ0PvR6jEGZ4WmKkRA6raySTd3jRClQPRWvEOYZYjdfsVhsqBYvxJhqN2Qlj5pCXvwjEPcpFR78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769362594; c=relaxed/simple;
-	bh=nv1wxSrtm7P0hycmz56kHy70Z0Tg3BIJ1VNF0ACAFoE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r+zR84l8fntiyDCFCHsRKR/8+1Ob18M/CvetBF+1reJH6fveTymU/TNT5seMwqH6c8M295q/7YtXAw9hupNqopEhyOZpir8xwdWqqrDgqM+JWH9PHGllS8Q0LOWksjl0jPn5WYeXCxzkSRNjNtlT2YtFuyf+mo/3oyHErEgVn4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCInzFCO; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1769363193; c=relaxed/simple;
+	bh=eHHsH4yt16aJelqVS20YoyHqrNHSpJIiCOunl5LZizI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=njBSqvhC/JLhYpAETYZwbPkRqOW7YSgL6kdOZ3aU4AJsuCO/SoLP0NwvKFtFNJA9A9Im6oYTSVsEHcvuuWkHiDfvV973Ua0fK36cFWAxZ3Omg5tU01+1AVKjyiJyX2FGEPsxQ6Iy8qND1QFZ2d8ikVY9lNRK6srO6S51xvHaaH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwtPjZiX; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCInzFCO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwtPjZiX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769362593; x=1800898593;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nv1wxSrtm7P0hycmz56kHy70Z0Tg3BIJ1VNF0ACAFoE=;
-  b=aCInzFCOYZg3JZ4nXpwIUFtgFNAy4cNuJ0Enne9tSbnzT0RUb0veQNIO
-   tITLZoRwI0+gDibqEhm6IfJnOz3GlXJMiItnKhqGCaKqTop8Dv5QT4pHB
-   evELpETqCy/w6JbyLBR4YDG1tjKBCGMeB0K+4MpmgSNGl+q4eXKMxIwDr
-   mrK6E4sjD5KDBrTJJ/WjHjYjD++9lCD4XAguK/5jt+zdx0AXo4xEXsyS9
-   LOTq8mtpzI4WRTDa4bepYToD6lDJ7ag/wPJArvhmnih/qmwIKL/pA+hek
-   Ux8KIqEY3L9UrPJagKeM9k7kFWlIM2wWVYhi0qhDf/b+g7rfzdNJPGUdO
-   A==;
-X-CSE-ConnectionGUID: SwzUjKm3QR29grTyu77mig==
-X-CSE-MsgGUID: KujoG0MOS8+h8HHbBUj3GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="73137747"
+  t=1769363191; x=1800899191;
+  h=date:from:to:cc:subject:message-id;
+  bh=eHHsH4yt16aJelqVS20YoyHqrNHSpJIiCOunl5LZizI=;
+  b=VwtPjZiXP5/TkQq2ofNoLwMrvd4CEUjHzrQZ056S7/mQp+Wmx4apKDy4
+   bimt9AzIgJhAgRd9Dnjvu3h5sUtLkDltY4Z4TOAQ1dXiZYboY6feIx0R5
+   H83CMYvS7VrXOI4VKUBo8BuM7KqRJHdui/gb6rC3yxf5+9fbPjW605ckA
+   xQ7qOIcQ4RoyloRYQOxI2coamTpTuoMSAPZVyLhaBF8p/PTQhUUODqztM
+   nVFSiR1fsLmYvj9a+xTcAAYNKHAsUS3aiySIPRQigcpRvS3cuyRTAZTPn
+   /tUz0ORWElE4rE9jFBciidxgZxCZdq7bEl1MOwoRN0Q45RQMA63IHUNya
+   g==;
+X-CSE-ConnectionGUID: WeqhR2WDTvSmeSRwJEMEBQ==
+X-CSE-MsgGUID: MFnJ2SACQZWkb+4C57vqug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70609868"
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="73137747"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 09:36:33 -0800
-X-CSE-ConnectionGUID: ehcMsMgnQ2Oyiy3lgNVKug==
-X-CSE-MsgGUID: Dny8s/5ORwO1xDUdrwvm6Q==
+   d="scan'208";a="70609868"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 09:46:31 -0800
+X-CSE-ConnectionGUID: By/I076mTOak+2+E82WO4w==
+X-CSE-MsgGUID: FbDzf9LGSOe1Eh/1MTRNhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="238139627"
+   d="scan'208";a="207391811"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Jan 2026 09:36:29 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 25 Jan 2026 09:46:29 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk42F-00000000WJ4-0Wiz;
-	Sun, 25 Jan 2026 17:36:27 +0000
-Date: Mon, 26 Jan 2026 01:35:49 +0800
+	id 1vk4Bv-00000000WJO-1HG7;
+	Sun, 25 Jan 2026 17:46:27 +0000
+Date: Mon, 26 Jan 2026 01:46:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: "David E. Box" <david.e.box@linux.intel.com>,
-	thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
-	irenic.rajneesh@gmail.com, ilpo.jarvinen@linux.intel.com,
-	srinivas.pandruvada@linux.intel.com, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, xi.pardee@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	"David E. Box" <david.e.box@linux.intel.com>, hansg@kernel.org,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] platform/x86/intel/vsec: Switch exported helpers
- from pci_dev to device
-Message-ID: <202601260115.T3rBZhUE-lkp@intel.com>
-References: <20260123025108.3772255-5-david.e.box@linux.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 1/1]
+ arch/x86/xen/enlighten_pv.c:650:24: warning: no previous prototype for
+ 'xen_pv_evtchn_do_upcall'
+Message-ID: <202601260110.sQgi67oi-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123025108.3772255-5-david.e.box@linux.intel.com>
 
-Hi David,
+Hi Brian,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on 0f61b1860cc3f52aef9036d7235ed1f017632193]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-E-Box/platform-x86-intel-vsec-Refactor-base_addr-handling/20260123-105437
-base:   0f61b1860cc3f52aef9036d7235ed1f017632193
-patch link:    https://lore.kernel.org/r/20260123025108.3772255-5-david.e.box%40linux.intel.com
-patch subject: [PATCH v4 4/6] platform/x86/intel/vsec: Switch exported helpers from pci_dev to device
-config: x86_64-randconfig-074-20251025 (https://download.01.org/0day-ci/archive/20260126/202601260115.T3rBZhUE-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   5b3c238664a9e4ff294071a48ce7292e325e2be2
+commit: 67d749f3e3516c7343ea6c7fdd38fd3dbfa05936 [1/1] x86/xen: Move Xen upcall handler
+config: x86_64-randconfig-072-20260125 (https://download.01.org/0day-ci/archive/20260126/202601260110.sQgi67oi-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260115.T3rBZhUE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260110.sQgi67oi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601260115.T3rBZhUE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601260110.sQgi67oi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Note: functions only called from assembly code should be annotated with the asmlinkage attribute
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> drivers/gpu/drm/xe/xe_vsec.h:13:30: error: 'struct device' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-      13 | int xe_pmt_telem_read(struct device *dev, u32 guid, u64 *data, loff_t user_offset, u32 count);
-         |                              ^~~~~~
-   cc1: all warnings being treated as errors
+>> arch/x86/xen/enlighten_pv.c:650:24: warning: no previous prototype for 'xen_pv_evtchn_do_upcall' [-Wmissing-prototypes]
+     650 | __visible noinstr void xen_pv_evtchn_do_upcall(struct pt_regs *regs)
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/xen/enlighten_pv.c:1301:34: warning: no previous prototype for 'xen_start_kernel' [-Wmissing-prototypes]
+    1301 | asmlinkage __visible void __init xen_start_kernel(struct start_info *si)
+         |                                  ^~~~~~~~~~~~~~~~
 
 
-vim +13 drivers/gpu/drm/xe/xe_vsec.h
+vim +/xen_pv_evtchn_do_upcall +650 arch/x86/xen/enlighten_pv.c
 
-    11	
-    12	void xe_vsec_init(struct xe_device *xe);
-  > 13	int xe_pmt_telem_read(struct device *dev, u32 guid, u64 *data, loff_t user_offset, u32 count);
-    14	
+   649	
+ > 650	__visible noinstr void xen_pv_evtchn_do_upcall(struct pt_regs *regs)
+   651	{
+   652		irqentry_state_t state = irqentry_enter(regs);
+   653		bool inhcall;
+   654	
+   655		instrumentation_begin();
+   656		run_sysvec_on_irqstack_cond(__xen_pv_evtchn_do_upcall, regs);
+   657	
+   658		inhcall = get_and_clear_inhcall();
+   659		if (inhcall && !WARN_ON_ONCE(state.exit_rcu)) {
+   660			irqentry_exit_cond_resched();
+   661			instrumentation_end();
+   662			restore_inhcall(inhcall);
+   663		} else {
+   664			instrumentation_end();
+   665			irqentry_exit(regs, state);
+   666		}
+   667	}
+   668	
 
 -- 
 0-DAY CI Kernel Test Service
