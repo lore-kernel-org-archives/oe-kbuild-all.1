@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BBE3BB4A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 18:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585412EFD9E;
+	Sun, 25 Jan 2026 19:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769365776; cv=none; b=LSp4pPwiFPNgbUnp1Rl32XDhd/6G3/CVArD5MSdzPKSEQqERoBu/EzlmYI1A55d8OrqLVkWkyUNzI5Tq2ydlQpc8wDjJv8qgs+c4PHGaCkNqAvnN/aEKUuzleYS93EeLzUL/3qR97Hc+aJI+to7JDGXr26Nl1ojkRPOFvUFwRV0=
+	t=1769369034; cv=none; b=s+Bi0P01DBoyG7G58AYY54QQo1O+r7lb8EsjTsBBpRUa3m/YEgRNelCi8WhbgLVzDypnksCDnCJMMPwZ7X9WcJdZ2oQ2jatosOKNfTqCPihODuEVDeC8bmqsU0K8oX5Pq6x6PKnaV5mbB2oWI+qs12b80cf/2oOPu0UvH2ehVsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769365776; c=relaxed/simple;
-	bh=W9P9tre4+HVal/g9jCysDvdxp1iDaRz3u4evfKsw6fY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=gircr8CDnl0jMGWB+BKYwUrH26jyVyLVo7CeKINO0E8DhsbSLsr60K7U3lksOs+ut0BTtOsOPK7QPgzSa2Hf0yRT8t4/L9a5Zyf7sprN1U7ncZwWuwYELiwdu3RfVEbH71V5o7bew/Pr/QFBz/HyxWp12ug3vc0jc5aDUQ6/Syw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gU2xCuna; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1769369034; c=relaxed/simple;
+	bh=ZvY+/dIefD4oYxaWRxIw+XqWndXIEC0UHyn4rMcgJM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=kSKFWIjc7qR4816onsljmJRRGCAQhSr9e0yH7MWjLwfN5zZYaZtfYYJsrL+kwUy2Byk8aoekdc//VIJ+4JBNbcZfTN+/jU2KjtUktDxjnQu/VC1bmAlaR1O+HAqUIRVWX8PumfKcRQB34iP2Fa9lveYyHXnoR4xR9PzcQoCLJZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ow7aAeCc; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gU2xCuna"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ow7aAeCc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769365775; x=1800901775;
+  t=1769369032; x=1800905032;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=W9P9tre4+HVal/g9jCysDvdxp1iDaRz3u4evfKsw6fY=;
-  b=gU2xCunaJxd57U5w2YveWanwVfm0WqAENimlfcEG+xj7yI+y2Fae28QX
-   ZHsZkWyflX59ywd/OC1LbPo5ad851HAUaKcMpaSEU3B/2jHT209BVxCXA
-   352LTLN8V0DgQfN/wURwhsZObsFl3s6uxI1xktBUinAMXhVy1KIfwexPL
-   hb7Ulcrwvoxwye7RG7dTBfRPi4iq/YQuCYwi2yx79IU3ZRtjE+EwIU9qx
-   slb6KuDrhKnmNuBSoceM0qGuVZBaWJFuT58OE/LvT+j/Levd5HF/knsFB
-   NGvuTlbCYRtXpH4nG375Ofa/58LbL5FPs3BS28HtUlbkEriJ/mvAkbjMl
-   A==;
-X-CSE-ConnectionGUID: ZbxYiIx/T6+qZqskbOtwEQ==
-X-CSE-MsgGUID: 2lVGIcNbRYSigm46FkXMtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="69577598"
+  bh=ZvY+/dIefD4oYxaWRxIw+XqWndXIEC0UHyn4rMcgJM8=;
+  b=Ow7aAeCc4LW5ZyUJSmqv+qWHP9BhrqWpEsIlH121t89TdlyJGKzYDG0i
+   URsMLwqb+WHjAuRt1lbxIoTEjFqnO57wSaRINZeX/XLFTm4z91AovabWn
+   ZUj80g6BfvG0bAVPmWrnzS05uuV/EyMxNXjVTXttMjOliyP9AgDmSEVAx
+   k1c2CeY1St/LYTqO1YtTHcwvYuuWD/JvQ15zos8ApFQ/OzjIJo6kkJOYm
+   mmc+jIVNf3PZi8UNCl8DztCJZfd+JHky+VcvHKjTagSJglYBTZsD7GmwY
+   Ekkj9kqpD+mtQWl7lApUKDWr55GU+uAp36gZ6o3xcmZlguX4GSN8eJnHi
+   Q==;
+X-CSE-ConnectionGUID: FyBQ2p5lR3iunWKp15myPg==
+X-CSE-MsgGUID: tfA7xHyzRc+uMXEh92JGFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70647721"
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="69577598"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 10:29:34 -0800
-X-CSE-ConnectionGUID: hrBookbpTl20UCzTsy3qqQ==
-X-CSE-MsgGUID: zN19QoN+T4afIm9CTs0rrQ==
+   d="scan'208";a="70647721"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 11:23:51 -0800
+X-CSE-ConnectionGUID: k36dFk4GQLSZBmGKtJjH1Q==
+X-CSE-MsgGUID: ok/yCGfgQ62KKbKJ8OqBcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="238146621"
+   d="scan'208";a="211970758"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Jan 2026 10:29:32 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 25 Jan 2026 11:23:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk4rY-00000000WLC-3Jxo;
-	Sun, 25 Jan 2026 18:29:28 +0000
-Date: Mon, 26 Jan 2026 02:29:12 +0800
+	id 1vk5i7-00000000WYz-2q5I;
+	Sun, 25 Jan 2026 19:23:47 +0000
+Date: Mon, 26 Jan 2026 03:23:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/sysfs-const-driver-attribute 15/17]
- drivers/s390/cio/ccwgroup.c:385:34: warning: assignment discards 'const'
- qualifier from pointer target type
-Message-ID: <202601260241.ktuxai81-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/sysfs-const-driver-attribute 17/17]
+ drivers/s390/crypto/ap_bus.c:1507:20: error: initializing 'struct ap_driver
+ *' with an expression of type 'const struct ap_driver *' discards qualifiers
+Message-ID: <202601260335.bRgOolw4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,197 +67,79 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
 inux.git b4/sysfs-const-driver-attribute
 head:   92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d
-commit: 28a546377e7351001aec8530b9b5c171928dd1a5 [15/17] s390 prep
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260126=
-/202601260241.ktuxai81-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
+commit: 92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d [17/17] bus_for_each_drv
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260126=
+/202601260335.bRgOolw4-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c=
+1ec4a3095ab096dd780e84d7ab81f3d7ff)
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260126/202601260241.ktuxai81-lkp@intel.com/reproduce)
+/20260126/202601260335.bRgOolw4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601260241.ktuxai81-lkp@i=
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601260335.bRgOolw4-lkp@i=
 ntel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/s390/cio/ccwgroup.c: In function 'ccwgroup_create_dev':
->> drivers/s390/cio/ccwgroup.c:385:34: warning: assignment discards 'const'=
- qualifier from pointer target type [-Wdiscarded-qualifiers]
-     385 |                 gdev->dev.driver =3D &gdrv->driver;
-         |                                  ^
+>> drivers/s390/crypto/ap_bus.c:1507:20: error: initializing 'struct ap_dri=
+ver *' with an expression of type 'const struct ap_driver *' discards quali=
+fiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+    1507 |         struct ap_driver *ap_drv =3D to_ap_drv(drv);
+         |                           ^        ~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/const +385 drivers/s390/cio/ccwgroup.c
+vim +1507 drivers/s390/crypto/ap_bus.c
 
-022b660ae5d075 Ursula Braun        2008-04-24  300 =20
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  301  /**
-f2962dae0efd81 Sebastian Ott       2012-05-15  302   * ccwgroup_create_dev(=
-) - create and register a ccw group device
-f2962dae0efd81 Sebastian Ott       2012-05-15  303   * @parent: parent devi=
-ce for the new device
-f2962dae0efd81 Sebastian Ott       2012-05-15  304   * @gdrv: driver for th=
-e new group device
-022b660ae5d075 Ursula Braun        2008-04-24  305   * @num_devices: number=
- of slave devices
-022b660ae5d075 Ursula Braun        2008-04-24  306   * @buf: buffer contain=
-ing comma separated bus ids of slave devices
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  307   *
-f2962dae0efd81 Sebastian Ott       2012-05-15  308   * Create and register =
-a new ccw group device as a child of @parent. Slave
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  309   * devices are obtained=
- from the list of bus ids given in @buf.
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  310   * Returns:
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  311   *  %0 on success and a=
-n error code on failure.
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  312   * Context:
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  313   *  non-atomic
-^1da177e4c3f41 Linus Torvalds      2005-04-16  314   */
-28a546377e7351 Thomas Wei=C3=9Fschuh    2026-01-25  315  int ccwgroup_creat=
-e_dev(struct device *parent, const struct ccwgroup_driver *gdrv,
-9814fdfbecbb03 Sebastian Ott       2012-05-15  316  			int num_devices, con=
-st char *buf)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  317  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  318  	struct ccwgroup_device=
- *gdev;
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  319  	struct ccw_dev_id dev_=
-id;
-022b660ae5d075 Ursula Braun        2008-04-24  320  	int rc, i;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  321 =20
-ab7efda477f976 Julian Wiedmann     2018-01-30  322  	if (num_devices < 1)
-ab7efda477f976 Julian Wiedmann     2018-01-30  323  		return -EINVAL;
-ab7efda477f976 Julian Wiedmann     2018-01-30  324 =20
-acafe7e3021616 Kees Cook           2018-05-08  325  	gdev =3D kzalloc(struc=
-t_size(gdev, cdev, num_devices), GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  326  	if (!gdev)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  327  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  328 =20
-^1da177e4c3f41 Linus Torvalds      2005-04-16  329  	atomic_set(&gdev->onof=
-f, 0);
-d76123eb357a4b Cornelia Huck       2007-04-27  330  	mutex_init(&gdev->reg_=
-mutex);
-d76123eb357a4b Cornelia Huck       2007-04-27  331  	mutex_lock(&gdev->reg_=
-mutex);
-0b60f9ead5d481 Tejun Heo           2014-02-03  332  	INIT_WORK(&gdev->ungro=
-up_work, ccwgroup_ungroup_workfn);
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  333  	gdev->count =3D num_de=
-vices;
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  334  	gdev->dev.bus =3D &ccw=
-group_bus_type;
-f2962dae0efd81 Sebastian Ott       2012-05-15  335  	gdev->dev.parent =3D p=
-arent;
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  336  	gdev->dev.release =3D =
-ccwgroup_release;
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  337  	device_initialize(&gde=
-v->dev);
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  338 =20
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  339  	for (i =3D 0; i < num_=
-devices && buf; i++) {
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  340  		rc =3D __get_next_id(=
-&buf, &dev_id);
-022b660ae5d075 Ursula Braun        2008-04-24  341  		if (rc !=3D 0)
-022b660ae5d075 Ursula Braun        2008-04-24  342  			goto error;
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  343  		gdev->cdev[i] =3D get=
-_ccwdev_by_dev_id(&dev_id);
-022b660ae5d075 Ursula Braun        2008-04-24  344  		/*
-022b660ae5d075 Ursula Braun        2008-04-24  345  		 * All devices have t=
-o be of the same type in
-022b660ae5d075 Ursula Braun        2008-04-24  346  		 * order to be groupe=
-d.
-022b660ae5d075 Ursula Braun        2008-04-24  347  		 */
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  348  		if (!gdev->cdev[i] ||=
- !gdev->cdev[i]->drv ||
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  349  		    gdev->cdev[i]->dr=
-v !=3D gdev->cdev[0]->drv ||
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  350  		    gdev->cdev[i]->id=
-.driver_info !=3D
-^1da177e4c3f41 Linus Torvalds      2005-04-16  351  		    gdev->cdev[0]->id=
-.driver_info) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  352  			rc =3D -EINVAL;
-d76123eb357a4b Cornelia Huck       2007-04-27  353  			goto error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  354  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  355  		/* Don't allow a devi=
-ce to belong to more than one group. */
-c560d105a19746 Sebastian Ott       2010-05-26  356  		spin_lock_irq(gdev->c=
-dev[i]->ccwlock);
-db6a64238a9277 Cornelia Huck       2008-01-26  357  		if (dev_get_drvdata(&=
-gdev->cdev[i]->dev)) {
-c560d105a19746 Sebastian Ott       2010-05-26  358  			spin_unlock_irq(gdev=
-->cdev[i]->ccwlock);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  359  			rc =3D -EINVAL;
-d76123eb357a4b Cornelia Huck       2007-04-27  360  			goto error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  361  		}
-db6a64238a9277 Cornelia Huck       2008-01-26  362  		dev_set_drvdata(&gdev=
-->cdev[i]->dev, gdev);
-c560d105a19746 Sebastian Ott       2010-05-26  363  		spin_unlock_irq(gdev-=
->cdev[i]->ccwlock);
-17088229846c07 Cornelia Huck       2006-07-27  364  	}
-022b660ae5d075 Ursula Braun        2008-04-24  365  	/* Check for sufficien=
-t number of bus ids. */
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  366  	if (i < num_devices) {
-022b660ae5d075 Ursula Braun        2008-04-24  367  		rc =3D -EINVAL;
-022b660ae5d075 Ursula Braun        2008-04-24  368  		goto error;
-022b660ae5d075 Ursula Braun        2008-04-24  369  	}
-022b660ae5d075 Ursula Braun        2008-04-24  370  	/* Check for trailing =
-stuff. */
-ea298e6ee8b34b Vasily Gorbik       2019-09-17  371  	if (i =3D=3D num_devic=
-es && buf && strlen(buf) > 0) {
-022b660ae5d075 Ursula Braun        2008-04-24  372  		rc =3D -EINVAL;
-022b660ae5d075 Ursula Braun        2008-04-24  373  		goto error;
-022b660ae5d075 Ursula Braun        2008-04-24  374  	}
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  375  	/* Check if the device=
-s are bound to the required ccw driver. */
-ab7efda477f976 Julian Wiedmann     2018-01-30  376  	if (gdrv && gdrv->ccw_=
-driver &&
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  377  	    gdev->cdev[0]->drv=
- !=3D gdrv->ccw_driver) {
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  378  		rc =3D -EINVAL;
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  379  		goto error;
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  380  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  381 =20
-1bf5b2853925cf Cornelia Huck       2008-10-10  382  	dev_set_name(&gdev->de=
-v, "%s", dev_name(&gdev->cdev[0]->dev));
-f2962dae0efd81 Sebastian Ott       2012-05-15  383 =20
-f2962dae0efd81 Sebastian Ott       2012-05-15  384  	if (gdrv) {
-f2962dae0efd81 Sebastian Ott       2012-05-15 @385  		gdev->dev.driver =3D =
-&gdrv->driver;
-f2962dae0efd81 Sebastian Ott       2012-05-15  386  		rc =3D gdrv->setup ? =
-gdrv->setup(gdev) : 0;
-f2962dae0efd81 Sebastian Ott       2012-05-15  387  		if (rc)
-f2962dae0efd81 Sebastian Ott       2012-05-15  388  			goto error;
-f2962dae0efd81 Sebastian Ott       2012-05-15  389  	}
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  390  	rc =3D device_add(&gde=
-v->dev);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  391  	if (rc)
-d76123eb357a4b Cornelia Huck       2007-04-27  392  		goto error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  393  	rc =3D __ccwgroup_crea=
-te_symlinks(gdev);
-dad572e3701385 Sebastian Ott       2011-10-30  394  	if (rc) {
-dad572e3701385 Sebastian Ott       2011-10-30  395  		device_del(&gdev->dev=
-);
-dad572e3701385 Sebastian Ott       2011-10-30  396  		goto error;
-dad572e3701385 Sebastian Ott       2011-10-30  397  	}
-d76123eb357a4b Cornelia Huck       2007-04-27  398  	mutex_unlock(&gdev->re=
-g_mutex);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  399  	return 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  400  error:
-d76123eb357a4b Cornelia Huck       2007-04-27  401  	mutex_unlock(&gdev->re=
-g_mutex);
-d76123eb357a4b Cornelia Huck       2007-04-27  402  	put_device(&gdev->dev);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  403  	return rc;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  404  }
-f2962dae0efd81 Sebastian Ott       2012-05-15  405  EXPORT_SYMBOL(ccwgroup_=
-create_dev);
-f2962dae0efd81 Sebastian Ott       2012-05-15  406 =20
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1503 =20
+92cff81ee317b9 Thomas Wei=C3=9Fschuh     2026-01-25  1504  static int __ver=
+ify_card_reservations(const struct device_driver *drv, void *data)
+4f8206b882868b Tony Krowiak         2019-02-01  1505  {
+4f8206b882868b Tony Krowiak         2019-02-01  1506  	int rc =3D 0;
+4f8206b882868b Tony Krowiak         2019-02-01 @1507  	struct ap_driver *ap=
+_drv =3D to_ap_drv(drv);
+4f8206b882868b Tony Krowiak         2019-02-01  1508  	unsigned long *newap=
+m =3D (unsigned long *)data;
+6917f434fda346 Harald Freudenberger 2025-11-19  1509  	unsigned long aqm_an=
+y[BITS_TO_LONGS(AP_DOMAINS)];
+4f8206b882868b Tony Krowiak         2019-02-01  1510 =20
+4f8206b882868b Tony Krowiak         2019-02-01  1511  	/*
+4f8206b882868b Tony Krowiak         2019-02-01  1512  	 * increase the driv=
+er's module refcounter to be sure it is not
+4f8206b882868b Tony Krowiak         2019-02-01  1513  	 * going away when w=
+e invoke the callback function.
+4f8206b882868b Tony Krowiak         2019-02-01  1514  	 */
+4f8206b882868b Tony Krowiak         2019-02-01  1515  	if (!try_module_get(=
+drv->owner))
+4f8206b882868b Tony Krowiak         2019-02-01  1516  		return 0;
+4f8206b882868b Tony Krowiak         2019-02-01  1517 =20
+4f8206b882868b Tony Krowiak         2019-02-01  1518  	if (ap_drv->in_use) {
+6917f434fda346 Harald Freudenberger 2025-11-19  1519  		bitmap_fill(aqm_any=
+, AP_DOMAINS);
+6917f434fda346 Harald Freudenberger 2025-11-19  1520  		rc =3D ap_drv->in_u=
+se(newapm, aqm_any);
+4f8206b882868b Tony Krowiak         2019-02-01  1521  		if (rc)
+4f8206b882868b Tony Krowiak         2019-02-01  1522  			rc =3D -EBUSY;
+4f8206b882868b Tony Krowiak         2019-02-01  1523  	}
+4f8206b882868b Tony Krowiak         2019-02-01  1524 =20
+4f8206b882868b Tony Krowiak         2019-02-01  1525  	/* release the drive=
+r's module */
+4f8206b882868b Tony Krowiak         2019-02-01  1526  	module_put(drv->owne=
+r);
+4f8206b882868b Tony Krowiak         2019-02-01  1527 =20
+4f8206b882868b Tony Krowiak         2019-02-01  1528  	return rc;
+4f8206b882868b Tony Krowiak         2019-02-01  1529  }
+4f8206b882868b Tony Krowiak         2019-02-01  1530 =20
 
-:::::: The code at line 385 was first introduced by commit
-:::::: f2962dae0efd81fed06d0687f300725ab063587a s390/ccwgroup: introduce cc=
-wgroup_create_dev
+:::::: The code at line 1507 was first introduced by commit
+:::::: 4f8206b882868b62dc15ddfc0c17bb031876afb5 s390/ap: driver callback to=
+ indicate resource in use
 
-:::::: TO: Sebastian Ott <sebott@linux.vnet.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+:::::: TO: Tony Krowiak <akrowiak@linux.ibm.com>
+:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
 
 --=20
 0-DAY CI Kernel Test Service
