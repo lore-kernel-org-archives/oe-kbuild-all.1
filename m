@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF35121FF2E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 03:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8433472612;
+	Sun, 25 Jan 2026 04:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769312149; cv=none; b=FW/NUafmSSPQdsNoFrU8vNZuxC7pbE7Os2H9jdGjqB1XxYvewW0Gm8mI5qqFbzjKqSIMWRrP/1R64CEpYm+NwKYz8AFP/pmfo0xD19SpHDlru79Rqiuee3Z6irR0wE/mZEs8SZ7wCi2hRcMOAl5HVNI8XhpGKaEOVPo3g+bK7d8=
+	t=1769314073; cv=none; b=nB3Kubkitw5fFjFLXNdUijB+nxmMVQ7KJOxCZXikdPAFxx6qGsrdZATNP6JXAYawTxsokFafCmXBpg5+U2EmRzNHfzS3wVJGuWXxXOfQEHDLFwqPeJyRtS/NckEgHPXTBR1EFvjz5lqyrY6/B7TSTk8VBrXKF3LFZp3pYOJHyTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769312149; c=relaxed/simple;
-	bh=JQsEoEhcC6Fa65vcPyk1EB2QxzTkYGIcCTd96/um7l8=;
+	s=arc-20240116; t=1769314073; c=relaxed/simple;
+	bh=z/Q3Uki5iUeDrYudztHt8sojXXIhjVcCLpsmjGeWo9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GyFTLADDgg7jeTbvuY3tsNv5M9+GIqI43RarLFexs6fLHYS558g3y0ti+6bcCy/9fYgFJwpYEfYiQmBrBChQdRV0gAQera5FvNWfoEPi3Eq2KNnSH/9OYyaVnHIysf0nf0g94X/MtTRItGDKIIdgcwZMfITsyHGmJ+t9A4gl9mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9/47vQh; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=c9VXL46QYWcRBXX+VuCEdZIVhErSkr8o1XTrYF+KjOChKykiHhTPiPNt8qBwDtTmsKi29v4nAWtHIFY/ee7syF7EpminjwN6Em4qWY5t9O3qzREvu7jusUFKnfEjmJ5ninWM9cN3zVsO5wIEDcnGpBpUXwZ9jSqNdV4TWEnfzIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fb1ND8Ea; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9/47vQh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fb1ND8Ea"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769312147; x=1800848147;
+  t=1769314072; x=1800850072;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JQsEoEhcC6Fa65vcPyk1EB2QxzTkYGIcCTd96/um7l8=;
-  b=E9/47vQhlT1c+s7AMA+alIfFozQ5ocT2jBdg1BMAD2d18XxYqdygI8+d
-   ORYZRx504u3IZSZsQRphUFZslu1KBb4zcmefNj564ieE6n5WaqfB+wAuD
-   xQCvj0XPxdTIAOqTLmLj70sJFJYe9XogDnF1kPWGBwc6CDtPb1Jn89LHa
-   PTMuSLQpvJ9n/G+6wXNgiyFaw2wiyT9mVQX/KSOedCXJFxOS6vKpMhQF8
-   sxHKxJZA5H4cO6nc3KjYa05jYfDPM7OtW2jtg/Cx3Nz/tEI0l8lBq9Hel
-   uzvrjjeJe1nhmqBxStSq1u9bjQ9Jg4/rGwISGH2UcL/FWd5TiSoHGUA8u
-   A==;
-X-CSE-ConnectionGUID: SIwkne4zRbqopbQaLmXRcA==
-X-CSE-MsgGUID: /A9R5xs2R92D2/OGQUOp4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="81887380"
+  bh=z/Q3Uki5iUeDrYudztHt8sojXXIhjVcCLpsmjGeWo9c=;
+  b=Fb1ND8Ea94J+Y4nFNEdPnomrjWCL0q8j0fXJ3xKW6PyKUjmJUVTUstty
+   oX5eB4iXrmc/uXFoMkArZDR3UZMTOwupPNyXqj1Pj0qqfh/l4naG0SJUZ
+   oSj9goCW68oaa9SAZKKdvEyhr/vFm/0rBESgIuuOmoc6Olpwiq+aCj749
+   9LTQ7xyl2EsGu0zkkZD2nOBB6CaDWNoUqIIfOUeZxJnopMB40jRa8Rvn7
+   PlH3OzvuhasO3jI79eQbqYGEBo+hsC/18T0Y5viQcbgfIWATE0FrfJ8Tt
+   RK+hKJEzsrqOoCwWX6TeXzMERDCA5FjufceoFqeXWyHupzePutRWEUzZS
+   g==;
+X-CSE-ConnectionGUID: cFxjosCvQqaz/FCiz4ofhw==
+X-CSE-MsgGUID: AraGoOFSRDSTKqHkulH44Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70419462"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="81887380"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 19:35:46 -0800
-X-CSE-ConnectionGUID: p9J6Em+ARi27w2zGUpiipw==
-X-CSE-MsgGUID: BcSlIp6QRVyQADtTe9wmkA==
+   d="scan'208";a="70419462"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 20:07:51 -0800
+X-CSE-ConnectionGUID: nM2A70SRQ/+OhsvZU2XmIQ==
+X-CSE-MsgGUID: iJHVGoymRpu9ROwGyASi6Q==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
+   d="scan'208";a="207798954"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Jan 2026 19:35:45 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 24 Jan 2026 20:07:47 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjqud-00000000Vis-0UMk;
-	Sun, 25 Jan 2026 03:35:43 +0000
-Date: Sun, 25 Jan 2026 11:35:30 +0800
+	id 1vjrPc-00000000Vl4-2R1P;
+	Sun, 25 Jan 2026 04:07:44 +0000
+Date: Sun, 25 Jan 2026 12:07:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuhao Huang <nekowong743@gmail.com>, linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linus.walleij@linaro.org, brgl@bgdev.pl,
-	linux-kernel@vger.kernel.org, Yuhao Huang <nekowong743@gmail.com>
-Subject: Re: [PATCH] gpio: virtuser: fix UAF in configfs release path
-Message-ID: <202601251126.ywFiWrat-lkp@intel.com>
-References: <20260124162111.3945666-1-nekowong743@gmail.com>
+To: Junhui Liu <junhui.liu@pigmoral.tech>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+	Junhui Liu <junhui.liu@pigmoral.tech>
+Subject: Re: [PATCH 4/7] clk: sunxi-ng: Extract common RTC CCU clock logic
+Message-ID: <202601251139.9CCmxdok-lkp@intel.com>
+References: <20260121-a733-rtc-v1-4-d359437f23a7@pigmoral.tech>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,51 +75,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260124162111.3945666-1-nekowong743@gmail.com>
+In-Reply-To: <20260121-a733-rtc-v1-4-d359437f23a7@pigmoral.tech>
 
-Hi Yuhao,
+Hi Junhui,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.19-rc6 next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuhao-Huang/gpio-virtuser-fix-UAF-in-configfs-release-path/20260125-002359
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20260124162111.3945666-1-nekowong743%40gmail.com
-patch subject: [PATCH] gpio: virtuser: fix UAF in configfs release path
-config: m68k-randconfig-r073-20260125 (https://download.01.org/0day-ci/archive/20260125/202601251126.ywFiWrat-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
+url:    https://github.com/intel-lab-lkp/linux/commits/Junhui-Liu/dt-bindings-rtc-sun6i-Add-Allwinner-A733-support/20260121-192151
+base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+patch link:    https://lore.kernel.org/r/20260121-a733-rtc-v1-4-d359437f23a7%40pigmoral.tech
+patch subject: [PATCH 4/7] clk: sunxi-ng: Extract common RTC CCU clock logic
+config: arm64-randconfig-002-20260125 (https://download.01.org/0day-ci/archive/20260125/202601251139.9CCmxdok-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251139.9CCmxdok-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601251126.ywFiWrat-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601251139.9CCmxdok-lkp@intel.com/
 
-smatch warnings:
-drivers/gpio/gpio-virtuser.c:1685 gpio_virtuser_device_config_group_release() warn: inconsistent indenting
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +1685 drivers/gpio/gpio-virtuser.c
-
-  1680	
-  1681	static void gpio_virtuser_device_config_group_release(struct config_item *item)
-  1682	{
-  1683		struct gpio_virtuser_device *dev = to_gpio_virtuser_device(item);
-  1684	
-> 1685	    scoped_guard(mutex, &dev->lock) {
-  1686	        if (gpio_virtuser_device_is_live(dev))
-  1687	            gpio_virtuser_device_deactivate(dev);
-  1688	    }
-  1689	
-  1690		mutex_destroy(&dev->lock);
-  1691		ida_free(&gpio_virtuser_ida, dev->id);
-  1692		kfree(dev);
-  1693	}
-  1694	
+>> ERROR: modpost: "ccu_iosc_32k_ops" [drivers/clk/sunxi-ng/sun6i-rtc-ccu.ko] undefined!
+>> ERROR: modpost: "ccu_iosc_ops" [drivers/clk/sunxi-ng/sun6i-rtc-ccu.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
