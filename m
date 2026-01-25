@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDD923ABB0;
-	Sun, 25 Jan 2026 17:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F9D238C15
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 17:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769363536; cv=none; b=TM9Hsbb93s0I6bGLXEqsV300q/DVHIr+vyqsa6+k64JM+SkLM3MNresmGupnhOQmMjJGmN/iqIQqG+q84VdrNwrOplTRZAyiHPuwVD8qUd973mcZ5lAR+RL8P93snFD3mKQ2xXCU/PXj+09ylSojT+VcSrcEjF85po9XPySIvpU=
+	t=1769363853; cv=none; b=G0J/q61vwCPzmf5tntmm9SR3+nI6lTTKVXmDtamIbyiCXrLvJiFHzDlVhAal1m06mydXLnDU78zl7VCfUKoEn/p12KsY5YPvQeJfH8tW/nChpjphJayKOVQ77skUz0EEvQBqjgWOFfLsG4br2wih1C9H6mR/pFoStIykdwwmMr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769363536; c=relaxed/simple;
-	bh=YnbJDmctA8Kn5tEtpzFyhTSiRZrok1/JotS08QQp2As=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=q1m4f8Vz2lXoAtEKtqCwNudDM4KyD3amMSmJ/MtPclU1D1o0EwUQAbUR8ZNdr36uI1CU4r38Eq6aVUQchV+b+8Az+npTUdoGuKEpYlStwFxcgHh6D/Kv9hxHiF7kiid/S+qC2tgnX176+/ex7kszmb16SqOqYI7h3r2oGq/pk2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQLC3Ces; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1769363853; c=relaxed/simple;
+	bh=nRxADo4Nyu8l/feUIGt4HwyEpJCIm8iUC7eNQVA3HUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jp+E/oL52OZ+ZfMl28Bsz/T9jW+KMQd3LDQUfHhWPf4qWk0vVteYKTRqgHfM83HOtYroDM5HbNKOL2duLfP+FVEohGZjlSTUe1LHnio546/T+mojhEbJ26o2V5UCS9L6M/SXZmG0g6P1xKw3gb13iWvrlR0/w96vsMIe3lSVWGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3a3omRy; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQLC3Ces"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3a3omRy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769363534; x=1800899534;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YnbJDmctA8Kn5tEtpzFyhTSiRZrok1/JotS08QQp2As=;
-  b=cQLC3Cesqz34/K558L2BQQD6RdCpHCoQba8+H303Pn3kSZq0B72lwWCC
-   2hlFVZV8LaslAmmwnfnU5dRgqTvhgqfWXDbK2bYaiuOOy8iAoy9U9BlNg
-   PAngeZmFmY5rGx/2I/r/O5oADG4ezaCAa5Fv/cQPIgVtigRXD4+gLAvCm
-   YOr7lmfwMPjsV27/1Ul7PNmhJg1EIs8O3gA4i63spPFk5WnwicGxaXEX0
-   eZkPYbhI77M7NkwIEpaClaMXSnLr0WOmMNuaKabrhXuJRbq+H9Bo7FtaR
-   bjZTjrpSxDo3ESjImqVinRmoPr2RjNQvkvi+Aozfml1rtpMlt4/d7uh7K
-   g==;
-X-CSE-ConnectionGUID: hy0uicycTvCP7YFHfNTX1w==
-X-CSE-MsgGUID: BUHnO3t/SbuQyowm8gOJrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="74415280"
+  t=1769363851; x=1800899851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nRxADo4Nyu8l/feUIGt4HwyEpJCIm8iUC7eNQVA3HUk=;
+  b=A3a3omRy7MySwi56IgyPrZlSDkx3c9ZKzBkv4X5mc+g66VcfEsxfVsaX
+   LKD3C49Duq673MElM214iWPO6eCrjyqfPfskhr5S7/f7AsQ6/wU4dqb2n
+   RIZio4IaHyl8qaKZP8AEXLg87M903nzKJAgDcabsfe5Eb1OegBpAdvStb
+   5Unigs2jAIi+ZvIJcNTRIdQh0YjUnFXp0R/NPAEbOClprr6qkVTnvevgz
+   K0dtdWqoarjpA76V42V70NsnXkMHyhOBojnkduO+o5fFFr9Gkuskpc81W
+   pQ1jx9I1O+xXvjIPzxSqa9Zz5azZs6mpO1jFhkGbMnR2l7fIIDoBUclfZ
+   w==;
+X-CSE-ConnectionGUID: 8n0zfcVBRjSuoU84s/bgQQ==
+X-CSE-MsgGUID: D5K2RqDJSGiZU8HGYmWlKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70610345"
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="74415280"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 09:52:13 -0800
-X-CSE-ConnectionGUID: X7hweObiQt22NfxEtQw+Vw==
-X-CSE-MsgGUID: boVMw0cHTq6YwVluiIupag==
+   d="scan'208";a="70610345"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 09:57:31 -0800
+X-CSE-ConnectionGUID: 6unDacyaSai3hn1O9+Bodg==
+X-CSE-MsgGUID: HC8zLoNQQfavUl7sPAyPMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="238746312"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Jan 2026 09:52:11 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207393020"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 25 Jan 2026 09:57:30 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk4HR-000000001KD-2fh5;
-	Sun, 25 Jan 2026 17:52:09 +0000
-Date: Sun, 25 Jan 2026 18:51:37 +0100
+	id 1vk4MZ-00000000WJi-2xuK;
+	Sun, 25 Jan 2026 17:57:27 +0000
+Date: Mon, 26 Jan 2026 01:57:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/sysfs-const-driver-attribute 17/17]
- drivers/i2c/i2c-core-base.c:1602:46: error: incompatible function pointer
- types passing 'int (struct device_driver *, void *)' to parameter of type
- 'int (*)(const struct device_driver *, void *)'
-Message-ID: <202601251801.Y5dqDeCr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Markus Probst <markus.probst@posteo.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 4/4] leds: add disk trigger for each ata port
+Message-ID: <202601260105.4AcOxoMJ-lkp@intel.com>
+References: <20260123-ledtrig_disk_-v1-4-07004756467b@posteo.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,145 +61,164 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123-ledtrig_disk_-v1-4-07004756467b@posteo.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/sysfs-const-driver-attribute
-head:   92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d
-commit: 92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d [17/17] bus_for_each_drv
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260125/202601251801.Y5dqDeCr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251801.Y5dqDeCr-lkp@intel.com/reproduce)
+Hi Markus,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Probst/leds-dt-bindings-add-disk-trigger-led-pattern/20260124-030650
+base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+patch link:    https://lore.kernel.org/r/20260123-ledtrig_disk_-v1-4-07004756467b%40posteo.de
+patch subject: [PATCH RFC 4/4] leds: add disk trigger for each ata port
+config: x86_64-buildonly-randconfig-002-20260125 (https://download.01.org/0day-ci/archive/20260126/202601260105.4AcOxoMJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260105.4AcOxoMJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601251801.Y5dqDeCr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601260105.4AcOxoMJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/i2c/i2c-core-base.c:1602:46: error: incompatible function pointer types passing 'int (struct device_driver *, void *)' to parameter of type 'int (*)(const struct device_driver *, void *)' [-Wincompatible-function-pointer-types]
-    1602 |         bus_for_each_drv(&i2c_bus_type, NULL, adap, __process_new_adapter);
-         |                                                     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/bus.h:241:26: note: passing argument to parameter 'fn' here
-     241 |                      void *data, int (*fn)(const struct device_driver *, void *));
-         |                                        ^
-   drivers/i2c/i2c-core-base.c:1773:11: error: incompatible function pointer types passing 'int (struct device_driver *, void *)' to parameter of type 'int (*)(const struct device_driver *, void *)' [-Wincompatible-function-pointer-types]
-    1773 |                                __process_removed_adapter);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/bus.h:241:26: note: passing argument to parameter 'fn' here
-     241 |                      void *data, int (*fn)(const struct device_driver *, void *));
-         |                                        ^
-   2 errors generated.
+>> Warning: drivers/ata/libata-core.c:5543 function parameter 'port_no' not described in 'ata_port_alloc'
+>> Warning: drivers/ata/libata-core.c:5543 function parameter 'port_no' not described in 'ata_port_alloc'
+--
+   drivers/leds/trigger/ledtrig-disk.c: In function 'pattern_init':
+   drivers/leds/trigger/ledtrig-disk.c:119:9: error: cleanup argument not a function
+     119 |         u32 *pattern __free(kfree) = led_get_default_pattern(led_cdev, &size);
+         |         ^~~
+   drivers/leds/trigger/ledtrig-disk.c: In function 'ledtrig_disk_activate':
+   drivers/leds/trigger/ledtrig-disk.c:139:21: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+     139 |         disk_data = kzalloc(sizeof(*disk_data), GFP_KERNEL);
+         |                     ^~~~~~~
+   drivers/leds/trigger/ledtrig-disk.c:139:19: error: assignment to 'struct ledtrig_disk_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     139 |         disk_data = kzalloc(sizeof(*disk_data), GFP_KERNEL);
+         |                   ^
+   drivers/leds/trigger/ledtrig-disk.c: In function 'ledtrig_disk_blink_oneshot':
+   drivers/leds/trigger/ledtrig-disk.c:186:9: error: implicit declaration of function 'list_for_each_entry_rcu'; did you mean 'list_for_each_entry_from'? [-Wimplicit-function-declaration]
+     186 |         list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+         |         list_for_each_entry_from
+   drivers/leds/trigger/ledtrig-disk.c:186:61: error: 'trig_list' undeclared (first use in this function); did you mean 'lru_list'?
+     186 |         list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
+         |                                                             ^~~~~~~~~
+         |                                                             lru_list
+   drivers/leds/trigger/ledtrig-disk.c:186:61: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/leds/trigger/ledtrig-disk.c:186:71: error: expected ';' before '{' token
+     186 |         list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
+         |                                                                       ^~
+         |                                                                       ;
+   drivers/leds/trigger/ledtrig-disk.c:183:35: warning: unused variable 'disk_data' [-Wunused-variable]
+     183 |         struct ledtrig_disk_data *disk_data;
+         |                                   ^~~~~~~~~
+   drivers/leds/trigger/ledtrig-disk.c: In function 'ledtrig_disk_trigger_register':
+>> drivers/leds/trigger/ledtrig-disk.c:214:48: error: initialization of 'struct ledtrig_disk_trigger *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     214 |         struct ledtrig_disk_trigger *trigger = kzalloc(sizeof(*trigger), GFP_KERNEL);
+         |                                                ^~~~~~~
+>> drivers/leds/trigger/ledtrig-disk.c:220:27: error: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     220 |         trigger->all.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
+         |                           ^
+   drivers/leds/trigger/ledtrig-disk.c:239:28: error: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     239 |         trigger->read.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
+         |                            ^
+   drivers/leds/trigger/ledtrig-disk.c:258:29: error: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     258 |         trigger->write.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
+         |                             ^
+>> drivers/leds/trigger/ledtrig-disk.c:284:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+     284 |         kfree(trigger->all.name);
+         |         ^~~~~
 
 
-vim +1602 drivers/i2c/i2c-core-base.c
+vim +214 drivers/leds/trigger/ledtrig-disk.c
 
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1518  
-6e13e641841833c drivers/i2c/i2c-core.c      David Brownell     2007-05-01  1519  static int i2c_register_adapter(struct i2c_adapter *adap)
-^1da177e4c3f415 drivers/i2c/i2c-core.c      Linus Torvalds     2005-04-16  1520  {
-ce0dffafd403e78 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1521  	int res = -EINVAL;
-^1da177e4c3f415 drivers/i2c/i2c-core.c      Linus Torvalds     2005-04-16  1522  
-1d0b19c9a0612c6 drivers/i2c/i2c-core.c      David Brownell     2008-10-14  1523  	/* Can't register until after driver model init */
-95026658c46ea2d drivers/i2c/i2c-core.c      Sudip Mukherjee    2016-03-07  1524  	if (WARN_ON(!is_registered)) {
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1525  		res = -EAGAIN;
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1526  		goto out_list;
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1527  	}
-1d0b19c9a0612c6 drivers/i2c/i2c-core.c      David Brownell     2008-10-14  1528  
-2236baa75f70485 drivers/i2c/i2c-core.c      Jean Delvare       2010-11-15  1529  	/* Sanity checks */
-8ddfe4108e0a160 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1530  	if (WARN(!adap->name[0], "i2c adapter has no name"))
-ce0dffafd403e78 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1531  		goto out_list;
-8ddfe4108e0a160 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1532  
-8ddfe4108e0a160 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1533  	if (!adap->algo) {
-44239a5afd7c568 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1534  		pr_err("adapter '%s': no algo supplied!\n", adap->name);
-ce0dffafd403e78 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1535  		goto out_list;
-2236baa75f70485 drivers/i2c/i2c-core.c      Jean Delvare       2010-11-15  1536  	}
-2236baa75f70485 drivers/i2c/i2c-core.c      Jean Delvare       2010-11-15  1537  
-d1ed7985b9a6b85 drivers/i2c/i2c-core.c      Peter Rosin        2016-08-25  1538  	if (!adap->lock_ops)
-d1ed7985b9a6b85 drivers/i2c/i2c-core.c      Peter Rosin        2016-08-25  1539  		adap->lock_ops = &i2c_adapter_lock_ops;
-8320f495cf441d5 drivers/i2c/i2c-core.c      Peter Rosin        2016-05-04  1540  
-9ac6cb5fbb1781d drivers/i2c/i2c-core-base.c Wolfram Sang       2018-12-19  1541  	adap->locked_flags = 0;
-194684e596af4bd drivers/i2c/i2c-core.c      Mika Kuoppala      2009-12-06  1542  	rt_mutex_init(&adap->bus_lock);
-6ef91fcca8a8ba3 drivers/i2c/i2c-core.c      Peter Rosin        2016-05-04  1543  	rt_mutex_init(&adap->mux_lock);
-c4d3dfd8ccaef2c drivers/i2c/i2c-core-base.c Wolfram Sang       2025-02-05  1544  	mutex_init(&adap->userspace_clients_lock);
-c4d3dfd8ccaef2c drivers/i2c/i2c-core-base.c Wolfram Sang       2025-02-05  1545  	INIT_LIST_HEAD(&adap->userspace_clients);
-^1da177e4c3f415 drivers/i2c/i2c-core.c      Linus Torvalds     2005-04-16  1546  
-8fcfef6e65c5b58 drivers/i2c/i2c-core.c      Jean Delvare       2009-03-28  1547  	/* Set default timeout to 1 second if not already set */
-8fcfef6e65c5b58 drivers/i2c/i2c-core.c      Jean Delvare       2009-03-28  1548  	if (adap->timeout == 0)
-8fcfef6e65c5b58 drivers/i2c/i2c-core.c      Jean Delvare       2009-03-28  1549  		adap->timeout = HZ;
-8fcfef6e65c5b58 drivers/i2c/i2c-core.c      Jean Delvare       2009-03-28  1550  
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1551  	/* register soft irqs for Host Notify */
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1552  	res = i2c_setup_host_notify_irq_domain(adap);
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1553  	if (res) {
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1554  		pr_err("adapter '%s': can't create Host Notify IRQs (%d)\n",
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1555  		       adap->name, res);
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1556  		goto out_list;
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1557  	}
-4d5538f5882a6b6 drivers/i2c/i2c-core.c      Benjamin Tissoires 2016-10-13  1558  
-27d9c1838f65cc5 drivers/i2c/i2c-core.c      Kay Sievers        2009-01-07  1559  	dev_set_name(&adap->dev, "i2c-%d", adap->nr);
-4f8cf8240a0c8b2 drivers/i2c/i2c-core.c      Jean Delvare       2009-09-18  1560  	adap->dev.bus = &i2c_bus_type;
-4f8cf8240a0c8b2 drivers/i2c/i2c-core.c      Jean Delvare       2009-09-18  1561  	adap->dev.type = &i2c_adapter_type;
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1562  	device_initialize(&adap->dev);
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1563  
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1564  	/*
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1565  	 * This adapter can be used as a parent immediately after device_add(),
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1566  	 * setup runtime-pm (especially ignore-children) before hand.
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1567  	 */
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1568  	device_enable_async_suspend(&adap->dev);
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1569  	pm_runtime_no_callbacks(&adap->dev);
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1570  	pm_suspend_ignore_children(&adap->dev, true);
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1571  	pm_runtime_enable(&adap->dev);
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1572  
-60f68597024d5af drivers/i2c/i2c-core-base.c Hans de Goede      2024-08-12  1573  	res = device_add(&adap->dev);
-8ddfe4108e0a160 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1574  	if (res) {
-44239a5afd7c568 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1575  		pr_err("adapter '%s': can't register device (%d)\n", adap->name, res);
-3f8c4f5e9a57868 drivers/i2c/i2c-core-base.c Joe Hattori        2024-12-11  1576  		put_device(&adap->dev);
-b119c6c952a086f drivers/i2c/i2c-core.c      Jean Delvare       2006-08-15  1577  		goto out_list;
-8ddfe4108e0a160 drivers/i2c/i2c-core.c      Wolfram Sang       2016-07-09  1578  	}
-^1da177e4c3f415 drivers/i2c/i2c-core.c      Linus Torvalds     2005-04-16  1579  
-73febd775bdbdb9 drivers/i2c/i2c-core-base.c Wolfram Sang       2023-11-12  1580  	adap->debugfs = debugfs_create_dir(dev_name(&adap->dev), i2c_debugfs_root);
-73febd775bdbdb9 drivers/i2c/i2c-core-base.c Wolfram Sang       2023-11-12  1581  
-a263a84088f689b drivers/i2c/i2c-core-base.c Akhil R            2022-01-28  1582  	res = i2c_setup_smbus_alert(adap);
-f8756c67b3de71a drivers/i2c/i2c-core-base.c Phil Reid          2017-08-24  1583  	if (res)
-f8756c67b3de71a drivers/i2c/i2c-core-base.c Phil Reid          2017-08-24  1584  		goto out_reg;
-f8756c67b3de71a drivers/i2c/i2c-core-base.c Phil Reid          2017-08-24  1585  
-23a698fe65eca15 drivers/i2c/i2c-core-base.c Codrin Ciubotariu  2020-08-04  1586  	res = i2c_init_recovery(adap);
-23a698fe65eca15 drivers/i2c/i2c-core-base.c Codrin Ciubotariu  2020-08-04  1587  	if (res == -EPROBE_DEFER)
-23a698fe65eca15 drivers/i2c/i2c-core-base.c Codrin Ciubotariu  2020-08-04  1588  		goto out_reg;
-23a698fe65eca15 drivers/i2c/i2c-core-base.c Codrin Ciubotariu  2020-08-04  1589  
-23a698fe65eca15 drivers/i2c/i2c-core-base.c Codrin Ciubotariu  2020-08-04  1590  	dev_dbg(&adap->dev, "adapter [%s] registered\n", adap->name);
-23a698fe65eca15 drivers/i2c/i2c-core-base.c Codrin Ciubotariu  2020-08-04  1591  
-729d6dd57146495 drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1592  	/* create pre-declared device nodes */
-687b81d083c082b drivers/i2c/i2c-core.c      Wolfram Sang       2013-07-11  1593  	of_i2c_register_devices(adap);
-aec809fc63f61a8 drivers/i2c/i2c-core.c      Jarkko Nikula      2016-08-12  1594  	i2c_acpi_install_space_handler(adap);
-21653a4181ff292 drivers/i2c/i2c-core-base.c Hans de Goede      2020-09-09  1595  	i2c_acpi_register_devices(adap);
-687b81d083c082b drivers/i2c/i2c-core.c      Wolfram Sang       2013-07-11  1596  
-6e13e641841833c drivers/i2c/i2c-core.c      David Brownell     2007-05-01  1597  	if (adap->nr < __i2c_first_dynamic_bus_num)
-6e13e641841833c drivers/i2c/i2c-core.c      David Brownell     2007-05-01  1598  		i2c_scan_static_board_info(adap);
-6e13e641841833c drivers/i2c/i2c-core.c      David Brownell     2007-05-01  1599  
-4735c98f8447acb drivers/i2c/i2c-core.c      Jean Delvare       2008-07-14  1600  	/* Notify drivers */
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1601  	mutex_lock(&core_lock);
-d6703281ff20df6 drivers/i2c/i2c-core.c      Jean Delvare       2010-08-11 @1602  	bus_for_each_drv(&i2c_bus_type, NULL, adap, __process_new_adapter);
-caada32afe0d181 drivers/i2c/i2c-core.c      Jean Delvare       2008-01-27  1603  	mutex_unlock(&core_lock);
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1604  
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1605  	return 0;
-b119c6c952a086f drivers/i2c/i2c-core.c      Jean Delvare       2006-08-15  1606  
-f8756c67b3de71a drivers/i2c/i2c-core-base.c Phil Reid          2017-08-24  1607  out_reg:
-73febd775bdbdb9 drivers/i2c/i2c-core-base.c Wolfram Sang       2023-11-12  1608  	debugfs_remove_recursive(adap->debugfs);
-f8756c67b3de71a drivers/i2c/i2c-core-base.c Phil Reid          2017-08-24  1609  	init_completion(&adap->dev_released);
-f8756c67b3de71a drivers/i2c/i2c-core-base.c Phil Reid          2017-08-24  1610  	device_unregister(&adap->dev);
-f8756c67b3de71a drivers/i2c/i2c-core-base.c Phil Reid          2017-08-24  1611  	wait_for_completion(&adap->dev_released);
-b119c6c952a086f drivers/i2c/i2c-core.c      Jean Delvare       2006-08-15  1612  out_list:
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1613  	mutex_lock(&core_lock);
-b119c6c952a086f drivers/i2c/i2c-core.c      Jean Delvare       2006-08-15  1614  	idr_remove(&i2c_adapter_idr, adap->nr);
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1615  	mutex_unlock(&core_lock);
-35fc37f8188177e drivers/i2c/i2c-core.c      Jean Delvare       2009-06-19  1616  	return res;
-^1da177e4c3f415 drivers/i2c/i2c-core.c      Linus Torvalds     2005-04-16  1617  }
-^1da177e4c3f415 drivers/i2c/i2c-core.c      Linus Torvalds     2005-04-16  1618  
-
-:::::: The code at line 1602 was first introduced by commit
-:::::: d6703281ff20df6c2c0ea7c39a0cc2fa8be3e680 i2c: Drop dummy variable
-
-:::::: TO: Jean Delvare <khali@linux-fr.org>
-:::::: CC: Jean Delvare <khali@linux-fr.org>
+   211	
+   212	struct ledtrig_disk_trigger *ledtrig_disk_trigger_register(const char *name)
+   213	{
+ > 214		struct ledtrig_disk_trigger *trigger = kzalloc(sizeof(*trigger), GFP_KERNEL);
+   215		int ret, n;
+   216	
+   217		if (!trigger)
+   218			return ERR_PTR(-ENOMEM);
+   219	
+ > 220		trigger->all.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
+   221		if (!trigger->all.name) {
+   222			ret = -ENOMEM;
+   223			goto err1;
+   224		}
+   225	
+   226		n = snprintf((char *)trigger->all.name, TRIG_NAME_MAX, "%s-disk-activity", name);
+   227		if (n >= TRIG_NAME_MAX) {
+   228			ret = -E2BIG;
+   229			goto err1;
+   230		}
+   231	
+   232		trigger->all.activate = ledtrig_disk_activate;
+   233		trigger->all.groups = ledtrig_disk_groups;
+   234	
+   235		ret = led_trigger_register(&trigger->all);
+   236		if (ret)
+   237			goto err1;
+   238	
+   239		trigger->read.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
+   240		if (!trigger->read.name) {
+   241			ret = -ENOMEM;
+   242			goto err2;
+   243		}
+   244	
+   245		n = snprintf((char *)trigger->read.name, TRIG_NAME_MAX, "%s-disk-read", name);
+   246		if (n >= TRIG_NAME_MAX) {
+   247			ret = -E2BIG;
+   248			goto err2;
+   249		}
+   250	
+   251		trigger->read.activate = ledtrig_disk_activate;
+   252		trigger->read.groups = ledtrig_disk_groups;
+   253	
+   254		ret = led_trigger_register(&trigger->read);
+   255		if (ret)
+   256			goto err2;
+   257	
+   258		trigger->write.name = kzalloc(TRIG_NAME_MAX, GFP_KERNEL);
+   259		if (!trigger->write.name) {
+   260			ret = -ENOMEM;
+   261			goto err3;
+   262		}
+   263	
+   264		n = snprintf((char *)trigger->write.name, TRIG_NAME_MAX, "%s-disk-write", name);
+   265		if (n >= TRIG_NAME_MAX) {
+   266			ret = -E2BIG;
+   267			goto err3;
+   268		}
+   269	
+   270		trigger->write.activate = ledtrig_disk_activate;
+   271		trigger->write.groups = ledtrig_disk_groups;
+   272	
+   273		ret = led_trigger_register(&trigger->write);
+   274		if (ret)
+   275			goto err3;
+   276	
+   277		return trigger;
+   278	
+   279	err3:
+   280		led_trigger_unregister(&trigger->read);
+   281	err2:
+   282		led_trigger_unregister(&trigger->all);
+   283	err1:
+ > 284		kfree(trigger->all.name);
+   285		kfree(trigger->read.name);
+   286		kfree(trigger->write.name);
+   287		kfree(trigger);
+   288	
+   289		return ERR_PTR(ret);
+   290	}
+   291	EXPORT_SYMBOL(ledtrig_disk_trigger_register);
+   292	
 
 -- 
 0-DAY CI Kernel Test Service
