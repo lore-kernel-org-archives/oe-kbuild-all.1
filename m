@@ -1,98 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935022940D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 00:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2716D24B28;
+	Sun, 25 Jan 2026 01:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769302065; cv=none; b=FSheSkfTmPdsan+BkiOQi5E8ae5Un/oRPLL9girP3D2yXvymHcYSTxST1E2NK3Ty42NXvCj8v1OlLzTVsLIHPwCf4Kj5KRyl/g2RKrXaWMjJ36KwXwBSCLGJW82Q9hSZrki2CloneLR4YqbJacbpuCzeUpLCYWmOCHcOa729hS8=
+	t=1769303326; cv=none; b=OZqpjGRHInvfmwRayxIzZUsEsWxaNhe10JhepO78lcGlwxecwNVAeSyp2VlblS7Z6H9S4gviD/BGc9QLmRO6omEiINR+x9nRgpnfwy6jRdg4dg8gG0gnKlfMr+WLOX5N7EmRI5dGuPWHcpDWaFWbe2AXu7D5t9zx2sn/hSzjEyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769302065; c=relaxed/simple;
-	bh=9d4lzESrOX3HOgwNfG2uhIMhvob/39EOT/Bckx7i5Dk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VgRqRQ1eJakURh21TLf16YqS86NLfOpkMxrJgAw089Jxi11ZIvAx4QUyYx7qjr0s7Ks0ign1ucVQ+h+kN0wJIHFhMfJEAKsD7UYOaZzdA8l2vEtAjgfZWug3s7oxHMiD1Mlkb3upW7fgIUpSar4S4blVR0r3ahFfG4rvz6CMNgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iD1K9EPp; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1769303326; c=relaxed/simple;
+	bh=dOlMji1cbfZuJXBQtqg4KH5bvaGdN51WTw0/duYYg+8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=L5ckuP+6FNPZs03LmSjE/dq14uXCXOywv059NeCwgoBop3cKX/hN1DMUar3s5MnY1QRKbR/KeAUJKVqs4kLxt24fd2VE1IKlaC4WaWL9wWmvoUJrjbQITnp9Ty14COrS4Ro3iUs7Ga0W9cn/hR7NQvqNn4PycruGy0/30voORXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MO3qtC5w; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iD1K9EPp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MO3qtC5w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769302062; x=1800838062;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9d4lzESrOX3HOgwNfG2uhIMhvob/39EOT/Bckx7i5Dk=;
-  b=iD1K9EPp3DlXlMzQi8F33um6XDhAmQzL7g7gcz3mx6y6K+lrXBBjT9yU
-   GKyEXo7yYlhqJ9TZjiAnreD+bTX/9UQf3DCVTI86hZFmdcSDiqJsbA/MZ
-   UUWqq1CZNLOwK88ih7Pj6gzz5PTPrKozI6HUtH71cY+5jj8BZEhpaQCpC
-   /zx4xT7KQC1X7j3d22VRrbyGu7ry39fmdrjSnEZGt9LZMYc4GiA4Iqut0
-   9yxvYhEix2QEBzHaUOLnDKyn4HaACpW+JZcXKhl4Mw6O+5bB6onIy7u16
-   Ml9nDuKOXt55v7c1jbx6uEgfhR3tPyq8Swu6lNXjrPDHxWN4ymIk+fFYr
-   w==;
-X-CSE-ConnectionGUID: d7cc2wwRSSuIFz12oUuJog==
-X-CSE-MsgGUID: QIbzD7MqQVeg56u4w+Fylg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="69533314"
+  t=1769303324; x=1800839324;
+  h=date:from:to:cc:subject:message-id;
+  bh=dOlMji1cbfZuJXBQtqg4KH5bvaGdN51WTw0/duYYg+8=;
+  b=MO3qtC5wbwXQxFhM2syQojPfYgtHSiL5EGAfbuxVhY0bhIEjwBLJjDVb
+   wt0VZjQ7Dyy7jNsVhE1pbXoxlSGGbOrg2ptYZ3jrlvuV1zH1+OkzzO6Ok
+   msFLg7Ut2RWhoMYz4Nkh4y6k9KIsXq7WEP6AwTg0xQpm9pIsAjy4DEQtN
+   MblVKjoqjBgfaLPxT8+i9gcnJsqhiLBwaYGFcR3xzS8kXLzwinI4ws5E4
+   a6uz8xLKEaiEbNc4Fe+VlxdmalSPRBgkN1lDaqYx1duvzs43IiFUxc+NA
+   lOObBRuuEGPBmsAeE0MSEhxlzWLVt86LoX+gK682ijwCYnLQziS27NEfv
+   Q==;
+X-CSE-ConnectionGUID: H7GIkJGHQea+a8VTkjV8dg==
+X-CSE-MsgGUID: iJdjWascS12lZtcobnRZjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="88091061"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="69533314"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 16:47:41 -0800
-X-CSE-ConnectionGUID: 4YQvcAyYSoWTqoJDY6VvCA==
-X-CSE-MsgGUID: tIdXJWLFSDGD08dsLn5EsQ==
+   d="scan'208";a="88091061"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 17:08:44 -0800
+X-CSE-ConnectionGUID: 0qLA5uXeSx23cH1oMUV7YA==
+X-CSE-MsgGUID: PSTmkor6TbiCnZKrPDR16w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="207161718"
+   d="scan'208";a="211858038"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 Jan 2026 16:47:41 -0800
+  by orviesa004.jf.intel.com with ESMTP; 24 Jan 2026 17:08:42 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjoHy-00000000Vdm-28xd;
-	Sun, 25 Jan 2026 00:47:38 +0000
-Date: Sun, 25 Jan 2026 08:46:49 +0800
+	id 1vjocJ-00000000Vec-2YGv;
+	Sun, 25 Jan 2026 01:08:39 +0000
+Date: Sun, 25 Jan 2026 09:07:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/3] fs/init: move creating the mount data_page into
- init_mount()
-Message-ID: <202601250840.CWZlP3ix-lkp@intel.com>
-References: <20260124003939.426931-2-hpa@zytor.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/mm 5/30] warning: associated items `from_raw`,
+ `next`, and `new` are never used
+Message-ID: <202601250810.q4eMSFkF-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260124003939.426931-2-hpa@zytor.com>
 
-Hi Peter,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.19-rc6 next-20260123]
-[cannot apply to brauner-vfs/vfs.all]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/H-Peter-Anvin/fs-init-move-creating-the-mount-data_page-into-init_mount/20260124-084417
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260124003939.426931-2-hpa%40zytor.com
-patch subject: [RFC PATCH 1/3] fs/init: move creating the mount data_page into init_mount()
-config: xtensa-allnoconfig (https://download.01.org/0day-ci/archive/20260125/202601250840.CWZlP3ix-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601250840.CWZlP3ix-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
+head:   b94c5d9b67e466e13a0e7ab9ac11c4bbc1cac1a9
+commit: 39d0c149fcf8f63632522435df53e3648999d824 [5/30] rust: clist: Add support to interface with C linked lists
+config: x86_64-buildonly-randconfig-004-20260125 (https://download.01.org/0day-ci/archive/20260125/202601250810.q4eMSFkF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601250810.q4eMSFkF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601250840.CWZlP3ix-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601250810.q4eMSFkF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: try_to_run_init_process+0x24 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+>> warning: associated items `from_raw`, `next`, and `new` are never used
+   --> rust/kernel/clist.rs:113:26
+   |
+   105 | impl CListHead {
+   | -------------- associated items in this implementation
+   ...
+   113 |     pub(crate) unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Self {
+   |                          ^^^^^^^^
+   ...
+   128 |     pub(crate) fn next(&self) -> &Self {
+   |                   ^^^^
+   ...
+   145 |     pub(crate) fn new() -> impl PinInit<Self> {
+   |                   ^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+--
+>> warning: struct `CListHeadIter` is never constructed
+   --> rust/kernel/clist.rs:179:8
+   |
+   179 | struct CListHeadIter<'a> {
+   |        ^^^^^^^^^^^^^
+--
+>> warning: associated items `from_raw` and `iter` are never used
+   --> rust/kernel/clist.rs:231:26
+   |
+   220 | impl<T, const OFFSET: usize> CList<T, OFFSET> {
+   | --------------------------------------------- associated items in this implementation
+   ...
+   231 |     pub(crate) unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Self {
+   |                          ^^^^^^^^
+   ...
+   247 |     pub(crate) fn iter(&self) -> CListIter<'_, T, OFFSET> {
+   |                   ^^^^
+--
+>> warning: struct `CListIter` is never constructed
+   --> rust/kernel/clist.rs:260:19
+   |
+   260 | pub(crate) struct CListIter<'a, T, const OFFSET: usize> {
+   |                   ^^^^^^^^^
 
 -- 
 0-DAY CI Kernel Test Service
