@@ -1,188 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D7121765B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 09:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7191DF25C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 11:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769332500; cv=none; b=qon7ym5OPd1S90PJAn8YiVpBtI2ITB/tkCeQrRZUTsdyul5S4ee8RGMt8gzFimHWV8ERmr6Z5xL9eEoZWjxstEMHA+OO/69SguFkT412bQBxHXsYul0ETHyX0md4CAkPIfqqpF6zMSdihNymwzMJztblgNN2LoPxz7y64dcD4SU=
+	t=1769341144; cv=none; b=DTs3xHh+UgNSZ8pf8kSMT9AaVzxyl8t8anrHOzfbCRnsydfsKorfh4Ls4F+mXofgnmYxZ3HqUP7TP/NqWVWjf18e5o3q0GTS89kUW/yh/nVSzNp8xKmKkQoXSCAjCVA7A9nYaqi/0mSrRdLpj/p2wD9tZ7o+Qs0CYaMMY5ZFCkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769332500; c=relaxed/simple;
-	bh=tRQ/mNWRLdpsXNh3zOjHtc8eCVNp+FtEhTz9agG1KtE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Mk3qUS8nylLv/eR0l9DfjMGEqNjrP4AdJJyjM2400Hj5b7VPqHjrw4X9xB6n8JoCsibOASgXxwzr+RcnWvDF7TEsHm0uIyf1GuLr8LNR+6WZBlc7tUj7MA4GjVmurp8iMNr1EsfSoNcUK7e+W6y4i7iJQhuPDjAslBjwvtJUHEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cM3eFRIq; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1769341144; c=relaxed/simple;
+	bh=hppzs4PtZ2RcfRfzmw9atgN7SnYMpxJ97jpXf49BNWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VdJ3C9HrUtkO64XIlGfqqnRcmjJISJ36wkgHJXuH7jD+8V1/3sBP3AWu/UjKw8Qr7tXvgN+CJsacNXzFLgqOnTLvS6RQ2n36j9nNYuvLoxQXS+myzPT2HIaeVk2VhJ/yzmMah/id/TOM3exMGR03n4BL+djH8eZukCS2Y5DEMMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQFX09Wc; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cM3eFRIq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQFX09Wc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769332499; x=1800868499;
-  h=date:from:to:cc:subject:message-id;
-  bh=tRQ/mNWRLdpsXNh3zOjHtc8eCVNp+FtEhTz9agG1KtE=;
-  b=cM3eFRIq8zkjKnG72MuKfWCtXaVi+7WqD11qmhSZp4edUy43A3fuk32u
-   9sjMcEFpVpnixZAnZf9z04GsPyz37EOKaTW2qOt1Lpu+w5lNBn7V0ogM4
-   a8Qpq5DUYtHqaMvX3tbgjyKnqIfzxpMPb44ddo3NGjmobvwFoPcG2Z0TA
-   nUBb4tmFMAiRdcNjWiL7YNZTCNfTnyjzNHdEwVcs0rgJshaDXwM9bZ30y
-   bbx55K9S+VzBAJZdE2JG8gFlhYW6cBHsRoeDhCQKv++5TP7vM3CyBIO8P
-   JiwBA5/VzrSTQHTM5E7Kxtl0IOA7hbL5tgN2wGGN30gqQrVJRNeJtLz0s
-   g==;
-X-CSE-ConnectionGUID: p3ygbZf9Tl6a5L9u5dOPjA==
-X-CSE-MsgGUID: bj5z/Qw4QXy3SHK+Q3+qkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70588131"
+  t=1769341142; x=1800877142;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hppzs4PtZ2RcfRfzmw9atgN7SnYMpxJ97jpXf49BNWo=;
+  b=PQFX09WcznY1OfF7yWrqq+ZNCeWltYLbuYHjqOmCAfoF3Xn/uDJ37fBs
+   P4Cf4UccyZ0IqnOsMqvbO3i/XwIj3ImFwbYdxogpxxYvBWySwifX6Uwyc
+   /a1jQHR4Erq008AzZZO0oK2ZGBqWQlIW5VEOxjF7fAe0KcJJjK/THGUD4
+   UrEeuBttdqQDlersiPG6P4JiZwEJmjde9oRFrWYX+ruRGdWwrpNXsN8uy
+   t1nTJAvKR9JKPA58o0hkkvQ7i9sAn7Kq/vKDdV2blgFJheuPpqpOtLedM
+   AkKo2DZH3CyCpzR4AqaK7P0qWQR23Jn52UBlpy03CJAG/Mdbv7Ab/qctr
+   A==;
+X-CSE-ConnectionGUID: JRg0SWFrRfqS0EFHqZhTiw==
+X-CSE-MsgGUID: DEbPfr6WQZmTX5G1BU/iTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11681"; a="70440638"
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="70588131"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 01:14:58 -0800
-X-CSE-ConnectionGUID: hxI5loUTQoukr+CCElArpg==
-X-CSE-MsgGUID: wtN48MFcRaaSp0VO3jUtdg==
+   d="scan'208";a="70440638"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 03:39:01 -0800
+X-CSE-ConnectionGUID: /+rfgwwQR0CxzdgKvzq/iw==
+X-CSE-MsgGUID: kVf5B5QiT262qek9NjF/hA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="206665316"
+   d="scan'208";a="212298969"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 25 Jan 2026 01:14:57 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 25 Jan 2026 03:39:00 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjwCs-00000000Vuo-1qPJ;
-	Sun, 25 Jan 2026 09:14:54 +0000
-Date: Sun, 25 Jan 2026 17:14:07 +0800
+	id 1vjySI-00000000VyQ-0mnj;
+	Sun, 25 Jan 2026 11:38:58 +0000
+Date: Sun, 25 Jan 2026 19:38:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Antoine Bouyer <antoine.bouyer@nxp.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-rc 131/131]
- drivers/net/phy/as21xxx.c:432:20: warning: variable 'ret' set but not used
-Message-ID: <202601251752.35sO5l6y-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [RFC v1 09/11] media: platform: Add NXP Neoisp Image Signal
+ Processor
+Message-ID: <202601251949.tfmL0ZqH-lkp@intel.com>
+References: <20260123080938.3367348-10-antoine.bouyer@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123080938.3367348-10-antoine.bouyer@nxp.com>
 
-Hi Frank,
+Hi Antoine,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-rc
-head:   b99e3f4753537bac1067bdaa28a34cdb01cc5308
-commit: 2a3cf4947bd4995558a9fd1b4df4556bf94f06b3 [131/131] net: phy: as21: try the driver from mtk-sdk
-config: parisc-randconfig-001-20260125 (https://download.01.org/0day-ci/archive/20260125/202601251752.35sO5l6y-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251752.35sO5l6y-lkp@intel.com/reproduce)
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on linus/master v6.19-rc6 next-20260123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoine-Bouyer/media-uapi-v4l2-isp-Add-v4l2-ISP-extensible-statistics-definitions/20260123-161422
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260123080938.3367348-10-antoine.bouyer%40nxp.com
+patch subject: [RFC v1 09/11] media: platform: Add NXP Neoisp Image Signal Processor
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260125/202601251949.tfmL0ZqH-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251949.tfmL0ZqH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601251752.35sO5l6y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601251949.tfmL0ZqH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/phy/as21xxx.c: In function 'aeon_set_default_value':
->> drivers/net/phy/as21xxx.c:432:20: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     int pos = 0, val, ret = 0, remaining;
-                       ^~~
-   drivers/net/phy/as21xxx.c: At top level:
-   drivers/net/phy/as21xxx.c:1331:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1331:18: note: (near initialization for 'as21xxx_drivers[2].read_status')
-   drivers/net/phy/as21xxx.c:1348:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1348:18: note: (near initialization for 'as21xxx_drivers[3].read_status')
-   drivers/net/phy/as21xxx.c:1365:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1365:18: note: (near initialization for 'as21xxx_drivers[4].read_status')
-   drivers/net/phy/as21xxx.c:1382:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1382:18: note: (near initialization for 'as21xxx_drivers[5].read_status')
-   drivers/net/phy/as21xxx.c:1399:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1399:18: note: (near initialization for 'as21xxx_drivers[6].read_status')
-   drivers/net/phy/as21xxx.c:1416:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1416:18: note: (near initialization for 'as21xxx_drivers[7].read_status')
-   drivers/net/phy/as21xxx.c:1433:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1433:18: note: (near initialization for 'as21xxx_drivers[8].read_status')
-   drivers/net/phy/as21xxx.c:1450:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1450:18: note: (near initialization for 'as21xxx_drivers[9].read_status')
-   drivers/net/phy/as21xxx.c:1467:18: warning: initialized field overwritten [-Woverride-init]
-      .read_status = as21xxx_read_status,
-                     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/as21xxx.c:1467:18: note: (near initialization for 'as21xxx_drivers[10].read_status')
+   drivers/media/platform/nxp/neoisp/neoisp_ctx.c: In function 'neoisp_ctx_update_buf_addr':
+>> drivers/media/platform/nxp/neoisp/neoisp_ctx.c:1841:20: warning: variable 'height' set but not used [-Wunused-but-set-variable]
+    1841 |         u32 width, height, ibpp, inp0_stride, inp1_stride;
+         |                    ^~~~~~
+>> drivers/media/platform/nxp/neoisp/neoisp_ctx.c:1841:13: warning: variable 'width' set but not used [-Wunused-but-set-variable]
+    1841 |         u32 width, height, ibpp, inp0_stride, inp1_stride;
+         |             ^~~~~
 
 
-vim +/ret +432 drivers/net/phy/as21xxx.c
+vim +/height +1841 drivers/media/platform/nxp/neoisp/neoisp_ctx.c
 
-   424	
-   425	static int aeon_set_default_value(struct phy_device *phydev)
-   426	{
-   427		static const unsigned char base_data[] = {0x32, 0x30, 0x32, 0x33, 0x30, 0x37, 0x31, 0x34};
-   428		unsigned char bytebuf[16];
-   429		unsigned short *wdata;
-   430		unsigned int mask;
-   431		int byte_count, wdata_count = 0;
- > 432		int pos = 0, val, ret = 0, remaining;
-   433		unsigned char padded_bytes[MEM_WORD_SIZE] = {0};
-   434		mask = param1 | 14;
-   435		memcpy(bytebuf, base_data, sizeof(base_data));
-   436		bytebuf[8] = mask & 0xff;
-   437		bytebuf[9] = (mask >> 8) & 0xff;
-   438		byte_count = 10;
-   439		wdata = kmalloc(MAX_WDATA_SIZE * sizeof(unsigned short), GFP_KERNEL);
-   440		if (!wdata) {
-   441			pr_err("Failed to allocate wdata array\n");
-   442			return -ENOMEM;
-   443		}
-   444		while (pos + MEM_WORD_SIZE <= byte_count) {
-   445			if (wdata_count + 2 > MAX_WDATA_SIZE) {
-   446				pr_err("wdata array overflow\n");
-   447				ret = -ENOSPC;
-   448				goto cleanup;
-   449			}
-   450			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos]);
-   451			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos + 2]);
-   452			pos += MEM_WORD_SIZE;
-   453		}
-   454		remaining = byte_count - pos;
-   455		if (remaining > 0) {
-   456			if (wdata_count + 2 <= MAX_WDATA_SIZE) {
-   457				// Here we just need padded_bytes once, otherwise we need to read from mem
-   458				memcpy(padded_bytes, &bytebuf[pos], remaining);
-   459				wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[0]);
-   460				wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[2]);
-   461			}
-   462		}
-   463		val = aeon_cl45_read(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
-   464		val |= 0x12;
-   465		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
-   466		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_FW_START_ADDR,
-   467				(u16)(AEON_MEM_DEFAULT_ADDR & 0xFFFF));
-   468		phy_modify_mmd(phydev, MDIO_MMD_VEND1,
-   469				VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD,
-   470				0x3ffc, 0xc000);
-   471		aeon_cl45_write_burst(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_LOAD,
-   472				(unsigned char *)wdata, wdata_count*2);
-   473		val = aeon_cl45_read(phydev, MDIO_MMD_VEND1,
-   474				VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD); //GLB_REG_MDIO_INDIRECT_ADDRCMD
-   475		val &= 0x3FFF;
-   476		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD, val);
-   477		val = aeon_cl45_read(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
-   478		val &= 0xFFED;
-   479		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
-   480	cleanup:
-   481		kfree(wdata);
-   482		return 0;
-   483	}
-   484	
+  1828	
+  1829	/*
+  1830	 * Set pipe conf volatile settings (i.e. buffer addresses)
+  1831	 */
+  1832	void neoisp_ctx_update_buf_addr(struct neoisp_dev_s *neoispd)
+  1833	{
+  1834		struct neoisp_job_s *job = &neoispd->queued_job;
+  1835		struct neoisp_pipe_conf_s *cfg = &job->node_group->context->hw.pipe_conf.common;
+  1836		struct neoisp_buffer_s *buf_inp0 = job->buf[NEOISP_INPUT0_NODE];
+  1837		struct neoisp_buffer_s *buf_inp1 = job->buf[NEOISP_INPUT1_NODE];
+  1838		struct neoisp_buffer_s *buf_out = job->buf[NEOISP_FRAME_NODE];
+  1839		struct neoisp_buffer_s *buf_ir = job->buf[NEOISP_IR_NODE];
+  1840		struct neoisp_node_s *nd;
+> 1841		u32 width, height, ibpp, inp0_stride, inp1_stride;
+  1842		dma_addr_t inp0_addr, inp1_addr;
+  1843	
+  1844		/* Input0 specific */
+  1845		nd = &job->node_group->node[NEOISP_INPUT0_NODE];
+  1846		width = nd->crop.width;
+  1847		height = nd->crop.height;
+  1848		ibpp = (nd->neoisp_format->bit_depth + 7) / 8;
+  1849		inp0_stride = nd->format.fmt.pix_mp.plane_fmt[0].bytesperline;
+  1850	
+  1851		/* Input0 - Take crop into account if any */
+  1852		inp0_addr = get_addr(buf_inp0, 0) + (nd->crop.left * ibpp) + (nd->crop.top * inp0_stride);
+  1853	
+  1854		/* Input 1 specific */
+  1855		nd = &job->node_group->node[NEOISP_INPUT1_NODE];
+  1856		ibpp = (nd->neoisp_format->bit_depth + 7) / 8;
+  1857		inp1_stride = nd->format.fmt.pix_mp.plane_fmt[0].bytesperline;
+  1858	
+  1859		/* Input1 - Take crop into account if any */
+  1860		inp1_addr = get_addr(buf_inp1, 0) + (nd->crop.left * ibpp) + (nd->crop.top * inp1_stride);
+  1861	
+  1862		cfg->img0_in_addr =
+  1863			NEO_PIPE_CONF_ADDR_SET(inp0_addr);
+  1864	
+  1865		/* Handle hdr inputs */
+  1866		nd = &job->node_group->node[NEOISP_INPUT1_NODE];
+  1867		if (neoisp_node_link_is_enabled(nd)) {
+  1868			cfg->img1_in_addr =
+  1869				NEO_PIPE_CONF_ADDR_SET(inp1_addr);
+  1870		}
+  1871	
+  1872		nd = &job->node_group->node[NEOISP_FRAME_NODE];
+  1873		if (neoisp_node_link_is_enabled(nd)) {
+  1874			/* Planar/multiplanar output image addresses */
+  1875			switch (nd->format.fmt.pix_mp.pixelformat) {
+  1876			case V4L2_PIX_FMT_GREY:
+  1877			case V4L2_PIX_FMT_Y10:
+  1878			case V4L2_PIX_FMT_Y12:
+  1879			case V4L2_PIX_FMT_Y16:
+  1880			case V4L2_PIX_FMT_Y16_BE:
+  1881				/* Monochrome formats: only output channel 0 is used */
+  1882				cfg->outch0_addr =
+  1883					NEO_PIPE_CONF_ADDR_SET(get_addr(buf_out, 0));
+  1884				break;
+  1885			case V4L2_PIX_FMT_NV12:
+  1886			case V4L2_PIX_FMT_NV21:
+  1887			case V4L2_PIX_FMT_NV16:
+  1888			case V4L2_PIX_FMT_NV61:
+  1889				/* Semi-Planar formats: both output channels are used */
+  1890				cfg->outch0_addr =
+  1891					NEO_PIPE_CONF_ADDR_SET(get_addr(buf_out, 0));
+  1892				cfg->outch1_addr =
+  1893					NEO_PIPE_CONF_ADDR_SET(get_addr(buf_out, 1));
+  1894				break;
+  1895			default:
+  1896				/* Interleaved formats: only output channel 1 is used */
+  1897				cfg->outch1_addr =
+  1898					NEO_PIPE_CONF_ADDR_SET(get_addr(buf_out, 0));
+  1899				break;
+  1900			}
+  1901		}
+  1902	
+  1903		nd = &job->node_group->node[NEOISP_IR_NODE];
+  1904		if (neoisp_node_link_is_enabled(nd))
+  1905			cfg->outir_addr =
+  1906				NEO_PIPE_CONF_ADDR_SET(get_addr(buf_ir, 0));
+  1907	}
+  1908	
 
 -- 
 0-DAY CI Kernel Test Service
