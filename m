@@ -1,258 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240EE14BF92
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 14:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1E21DE8B5
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 15:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769353033; cv=none; b=ZR+pwNiboedxSPn/UwZaVufYZ0sN1R3RAHmWhNt2Bo15zIR0C0TFW3i0ToeYFudebp2kZIJCZIMJ4jmVNqxoE06XPORw3GlHgq+RsYmlzDv0ws1rVkwbvi4DJLeN+QBUBYR/bm1EhaM64i7WYv6HCLafZGsuDaUFgs3CUn5t7MY=
+	t=1769353935; cv=none; b=I8QKAB+USUmqa0DuVchAVnvUl1T2+K1lNEmOrUyeaw1nKrYhVEpVTs83A1xF2bJKd8ezfxFsel4yHCnwz8J9eWzX61xHU+V+/i6WFWkkpZyIaR0WviJQBD2iEtz28MK71KJqI8OtY5TnGW1JwHxq2pPGLE6BopYKVoBm+IHoBA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769353033; c=relaxed/simple;
-	bh=PlNy1KMzSkSE4PyLuRAnXo5oOT+6G790j2S1tkksx/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JpgjgXZpQ1ua4ccfl/PLLGzVsrpb5oFwF5lsKSIK44p4uXNA+UM5D8CkIVwGHGAxYo8LXkrxCUPe//Ev6kznaR/ZjI85RmZkAfZTc9OvoqEoUukM3zJ1IKJCNDSBQRvdZsa33968BtB1aEoflv5Ww6Xbabjtf0RD8rtE0ExIEQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sf3NLbaX; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1769353935; c=relaxed/simple;
+	bh=KbbgbxW8/c+SBr/x1r+V1BVCbdzPbqJREk5lxMbUszo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SzS6UjT5jBhANoGSCgDtcaESlqPLXUh16RoD3bTUoTEftiWFMztO6/Z8zOqZmHGVowEom9nohWXVsxKi87bIPgX+xYHuMrDBscwmrhejD7qrPXm9/PmFxg4UsG1S5V2200BeiKYjOB/cbLnbGd6pWahOWEiz4CFQ0mRaPtgbxwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F0RpXxG5; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sf3NLbaX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F0RpXxG5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769353031; x=1800889031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PlNy1KMzSkSE4PyLuRAnXo5oOT+6G790j2S1tkksx/U=;
-  b=Sf3NLbaXmuRIfB5BBS1urIWuBG36yEsDN+CYwy1cWRTdx1dUDjXW80fW
-   M/cRosS+tFMs5XuzCWF1QZmVBvz5g1uaZ2WUPi1nzrXBu0VIslv1iLlFo
-   o0IXHprhvvaWUpUGPi7DgWxBAwPdPwK47grc7SpQoH+SigjI498oxOF/w
-   SbTlwofVlOBq0qnWGsvKfgXbUXudT+EQj+3A9MrqdA/CZF4Gu5yHzPEt2
-   ypdSZDWQ1CP9O+m76F0WDWWyCHbDRR104igaawCrZtJCX5RCYPcvwQedW
-   UP2WcFKcXYYrcib5XJS0u6aT5IFj+Muc9XlXyx1YUziFD6YPGwXUWqNK8
-   g==;
-X-CSE-ConnectionGUID: LuX32v2lRtG6GWQT7Zn/HQ==
-X-CSE-MsgGUID: /GWrsB0SQY2ltn9vg9F7QQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70602954"
-X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="70602954"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 06:57:11 -0800
-X-CSE-ConnectionGUID: 1xoSAxLEQ4K53lEXsRKdUw==
-X-CSE-MsgGUID: rpuhvLHmTRaveEEkXdgZUw==
+  t=1769353934; x=1800889934;
+  h=date:from:to:cc:subject:message-id;
+  bh=KbbgbxW8/c+SBr/x1r+V1BVCbdzPbqJREk5lxMbUszo=;
+  b=F0RpXxG5Rnc85kDB8n6y0AsMUhFSS14kD5pPI/P21oWvUFRC3njEgKC9
+   aUI7MvKHdwlwSCoUFP14+fY8RifZknEdXVETS9scStpwtRFxnT8z1Zo90
+   XkVwHBmWOdWdz8BEwaxgKyjbfZxbkn7UHHbW1ZohOfJhhpyP97F39Qc/D
+   2qTgE+A3/WPLyS79bvxrn5QrKo+/n6SDrZotyJZfEKuRf8Ez2JFVGl+kF
+   q5AbWrnwLeyB+27bZf7/mpjZyQG72ZJA0YrCVCScpOxwck2XyyzE2T9kV
+   nyyEOLnbQ21GTCW3SIEUY9qMaYe7Zvkp9AXXNlIqfvAl+Pd0gUKy1+Yao
+   Q==;
+X-CSE-ConnectionGUID: dVRWIgLhThu2hueaM5fcNg==
+X-CSE-MsgGUID: 53rLDA6UTJiMcdp2eKTuoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="81916878"
+X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
+   d="scan'208";a="81916878"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 07:12:13 -0800
+X-CSE-ConnectionGUID: WujKOezaQsmH7PGvPAU7LA==
+X-CSE-MsgGUID: LpLW+SA7SV2aGp2YFA8UAg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,252,1763452800"; 
-   d="scan'208";a="207073804"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Jan 2026 06:57:08 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
+   d="scan'208";a="207527465"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 25 Jan 2026 07:12:10 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk1Y1-00000000W5q-37at;
-	Sun, 25 Jan 2026 14:57:05 +0000
-Date: Sun, 25 Jan 2026 22:56:35 +0800
+	id 1vk1ma-000000001IB-0HiI;
+	Sun, 25 Jan 2026 15:12:08 +0000
+Date: Sun, 25 Jan 2026 16:11:59 +0100
 From: kernel test robot <lkp@intel.com>
-To: Mingyou Chen <qby140326@gmail.com>, hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org, cryolitia.pukngae@linux.dev,
-	Mingyou Chen <qby140326@gmail.com>
-Subject: Re: [PATCH v4] platform/x86: tongfang-mifs-wmi: Add new Tongfang
- MIFS WMI driver
-Message-ID: <202601252202.qioPfCgA-lkp@intel.com>
-References: <20260125094422.6405-1-qby140326@gmail.com>
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>
+Subject: [linux-next:master 7747/9539] kernel/bpf/stream.c:240:70:
+ warning: diagnostic behavior may be improved by adding the 'format(printf, 2,
+ 0)' attribute to the declaration of 'bpf_stream_vprintk'
+Message-ID: <202601251630.4lFpAheQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260125094422.6405-1-qby140326@gmail.com>
 
-Hi Mingyou,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc6 next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mingyou-Chen/platform-x86-tongfang-mifs-wmi-Add-new-Tongfang-MIFS-WMI-driver/20260125-174727
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260125094422.6405-1-qby140326%40gmail.com
-patch subject: [PATCH v4] platform/x86: tongfang-mifs-wmi: Add new Tongfang MIFS WMI driver
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260125/202601252202.qioPfCgA-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601252202.qioPfCgA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+commit: d806f3101276a1ed18d963944580e1ee1c7a3d26 [7747/9539] bpf: Migrate bpf_stream_vprintk() to KF_IMPLICIT_ARGS
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260125/202601251630.4lFpAheQ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260125/202601251630.4lFpAheQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601252202.qioPfCgA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601251630.4lFpAheQ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/platform/x86/tongfang-mifs-wmi.c: In function 'tongfang_mifs_wmi_call':
->> drivers/platform/x86/tongfang-mifs-wmi.c:143:27: error: storage size of 'in_buf' isn't known
-     143 |         struct wmi_buffer in_buf, out_buf;
-         |                           ^~~~~~
->> drivers/platform/x86/tongfang-mifs-wmi.c:143:35: error: storage size of 'out_buf' isn't known
-     143 |         struct wmi_buffer in_buf, out_buf;
-         |                                   ^~~~~~~
->> drivers/platform/x86/tongfang-mifs-wmi.c:156:15: error: implicit declaration of function 'wmidev_invoke_method'; did you mean 'wmidev_evaluate_method'? [-Wimplicit-function-declaration]
-     156 |         ret = wmidev_invoke_method(data->wdev, 0, 1, &in_buf,
-         |               ^~~~~~~~~~~~~~~~~~~~
-         |               wmidev_evaluate_method
->> drivers/platform/x86/tongfang-mifs-wmi.c:143:35: warning: unused variable 'out_buf' [-Wunused-variable]
-     143 |         struct wmi_buffer in_buf, out_buf;
-         |                                   ^~~~~~~
->> drivers/platform/x86/tongfang-mifs-wmi.c:143:27: warning: unused variable 'in_buf' [-Wunused-variable]
-     143 |         struct wmi_buffer in_buf, out_buf;
-         |                           ^~~~~~
-   drivers/platform/x86/tongfang-mifs-wmi.c: In function 'laptop_profile_set':
->> drivers/platform/x86/tongfang-mifs-wmi.c:240:21: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     240 |                 val = WMI_PP_PERFORMANCE;
-         |                 ~~~~^~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/tongfang-mifs-wmi.c:241:9: note: here
-     241 |         case PLATFORM_PROFILE_PERFORMANCE:
-         |         ^~~~
+>> kernel/bpf/stream.c:240:70: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'bpf_stream_vprintk' [-Wmissing-format-attribute]
+     215 |         ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt__str, data.bin_args);
+         |                                                                             ^
+   kernel/bpf/stream.c:215:17: note: 'bpf_stream_vprintk' declared here
+     215 | __bpf_kfunc int bpf_stream_vprintk(int stream_id, const char *fmt__str, const void *args,
+         |                 ^
+   1 warning generated.
 
 
-vim +143 drivers/platform/x86/tongfang-mifs-wmi.c
+vim +240 kernel/bpf/stream.c
 
-   138	
-   139	static int tongfang_mifs_wmi_call(struct tongfang_mifs_wmi_data *data,
-   140					  const struct tongfang_mifs_input *input,
-   141					  struct tongfang_mifs_output *output)
-   142	{
- > 143		struct wmi_buffer in_buf, out_buf;
-   144		int ret;
-   145	
-   146		guard(mutex)(&data->lock);
-   147	
-   148		in_buf.length = sizeof(*input);
-   149		in_buf.data = (void *)input;
-   150	
-   151		if (output) {
-   152			out_buf.length = sizeof(*output);
-   153			out_buf.data = output;
-   154		}
-   155	
- > 156		ret = wmidev_invoke_method(data->wdev, 0, 1, &in_buf,
-   157					   output ? &out_buf : NULL);
-   158	
-   159		return ret;
-   160	}
-   161	
-   162	static bool is_ac_online(void)
-   163	{
-   164		struct power_supply *psy;
-   165		union power_supply_propval val;
-   166		bool online = false;
-   167	
-   168		psy = power_supply_get_by_name("ADP1");
-   169		if (!psy)
-   170			return false;
-   171	
-   172		if (!power_supply_get_property(psy, POWER_SUPPLY_PROP_ONLINE, &val))
-   173			online = (val.intval == 1);
-   174	
-   175		power_supply_put(psy);
-   176		return online;
-   177	}
-   178	
-   179	static int laptop_profile_get(struct device *dev,
-   180				      enum platform_profile_option *profile)
-   181	{
-   182		struct tongfang_mifs_wmi_data *data = dev_get_drvdata(dev);
-   183		struct tongfang_mifs_input input = {
-   184			.reserved1 = 0,
-   185			.operation = WMI_METHOD_GET,
-   186			.reserved2 = 0,
-   187			.function = WMI_FN_SYSTEM_PER_MODE,
-   188		};
-   189		struct tongfang_mifs_output result;
-   190		int ret;
-   191	
-   192		ret = tongfang_mifs_wmi_call(data, &input, &result);
-   193	
-   194		if (ret)
-   195			return ret;
-   196	
-   197		switch (result.data[0]) {
-   198		case WMI_PP_BALANCED:
-   199			*profile = PLATFORM_PROFILE_BALANCED;
-   200			break;
-   201		case WMI_PP_PERFORMANCE:
-   202			*profile = PLATFORM_PROFILE_BALANCED_PERFORMANCE;
-   203			break;
-   204		case WMI_PP_QUIET:
-   205			*profile = PLATFORM_PROFILE_LOW_POWER;
-   206			break;
-   207		case WMI_PP_FULL_SPEED:
-   208			*profile = PLATFORM_PROFILE_PERFORMANCE;
-   209			break; /* Fullspeed */
-   210		default:
-   211			return -EINVAL;
-   212		}
-   213		return 0;
-   214	}
-   215	
-   216	
-   217	static int laptop_profile_set(struct device *dev,
-   218				      enum platform_profile_option profile)
-   219	{
-   220		struct tongfang_mifs_wmi_data *data = dev_get_drvdata(dev);
-   221		struct tongfang_mifs_input input = {
-   222			.reserved1 = 0,
-   223			.operation = WMI_METHOD_SET,
-   224			.reserved2 = 0,
-   225			.function = WMI_FN_SYSTEM_PER_MODE,
-   226		};
-   227		struct tongfang_mifs_output ac_type_res;
-   228	
-   229		u8 val;
-   230		int ret;
-   231	
-   232		switch (profile) {
-   233		case PLATFORM_PROFILE_LOW_POWER:
-   234			val = WMI_PP_QUIET;
-   235			break;
-   236		case PLATFORM_PROFILE_BALANCED:
-   237			val = WMI_PP_BALANCED;
-   238			break;
-   239		case PLATFORM_PROFILE_BALANCED_PERFORMANCE:
- > 240			val = WMI_PP_PERFORMANCE;
-   241		case PLATFORM_PROFILE_PERFORMANCE:
-   242			/* Check if Typec power is not connected for full-speed/performance mode */
-   243			input.operation = WMI_METHOD_GET;
-   244			input.function = WMI_FN_SYSTEM_AC_TYPE;
-   245			ret = tongfang_mifs_wmi_call(data, &input, &ac_type_res);
-   246			if (ret)
-   247				return ret;
-   248	
-   249			/* Full-speed/performance mode requires DC power (not USB-C) */
-   250			if (ac_type_res.data[0] == WMI_SYSTEM_AC_TYPEC || !is_ac_online())
-   251				return -EOPNOTSUPP;
-   252	
-   253			if (!val)
-   254				val = WMI_PP_FULL_SPEED;
-   255	
-   256			/* Restore operation and function for the actual SET call */
-   257			input.operation = WMI_METHOD_SET;
-   258			input.function = WMI_FN_SYSTEM_PER_MODE;
-   259			break;
-   260		default:
-   261			return -EOPNOTSUPP;
-   262		}
-   263	
-   264		input.payload[0] = val;
-   265	
-   266		ret = tongfang_mifs_wmi_call(data, &input, NULL);
-   267		return ret;
-   268	}
-   269	
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  210  
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  211  /*
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  212   * Avoid using enum bpf_stream_id so that kfunc users don't have to pull in the
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  213   * enum in headers.
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  214   */
+d806f3101276a1 Ihor Solodrai           2026-01-20  215  __bpf_kfunc int bpf_stream_vprintk(int stream_id, const char *fmt__str, const void *args,
+d806f3101276a1 Ihor Solodrai           2026-01-20  216  				   u32 len__sz, struct bpf_prog_aux *aux)
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  217  {
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  218  	struct bpf_bprintf_data data = {
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  219  		.get_bin_args	= true,
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  220  		.get_buf	= true,
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  221  	};
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  222  	u32 fmt_size = strlen(fmt__str) + 1;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  223  	struct bpf_stream *stream;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  224  	u32 data_len = len__sz;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  225  	int ret, num_args;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  226  
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  227  	stream = bpf_stream_get(stream_id, aux);
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  228  	if (!stream)
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  229  		return -ENOENT;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  230  
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  231  	if (data_len & 7 || data_len > MAX_BPRINTF_VARARGS * 8 ||
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  232  	    (data_len && !args))
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  233  		return -EINVAL;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  234  	num_args = data_len / 8;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  235  
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  236  	ret = bpf_bprintf_prepare(fmt__str, fmt_size, args, num_args, &data);
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  237  	if (ret < 0)
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  238  		return ret;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  239  
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03 @240  	ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt__str, data.bin_args);
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  241  	/* Exclude NULL byte during push. */
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  242  	ret = bpf_stream_push_str(stream, data.buf, ret);
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  243  	bpf_bprintf_cleanup(&data);
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  244  
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  245  	return ret;
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  246  }
+5ab154f1463a11 Kumar Kartikeya Dwivedi 2025-07-03  247  
+
+:::::: The code at line 240 was first introduced by commit
+:::::: 5ab154f1463a111e1dc8fd5d31eaa7a2a71fe2e6 bpf: Introduce BPF standard streams
+
+:::::: TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
