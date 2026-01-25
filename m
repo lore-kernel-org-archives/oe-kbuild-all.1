@@ -1,264 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5612BE621
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 17:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C382BD58A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jan 2026 17:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769361916; cv=none; b=gH0ewV9F9qtX/94Bge3t8JmG9lsXMHWGHFpA2pT+j+LLZ1KlPyenh1EAkbdAwY4Zp2gLzby/hTrLWDxbm2KXZiSSUWHEh/0WQz3YP5GAxpJJKV3nUzPbHVqvTwn87Q+nHbiqMLBhqHVC0a+OsW1FVwxM/eQlfM6CNkFywxUzSsE=
+	t=1769361932; cv=none; b=i7NX+UVgG6WLx0/d2vwt+Z2AKL4ySdgbcPqNBxWClM3Ra1dRCNU+3PG7uMJl/xnyOfHz2fM8XqkrfYwpD+A0NNxzfcPQpJ4+aGRlEKP6tA9hTETo2vikuCf3C187djHcCLhEFhqkYX+CoTtOW3uH0B09ng3krxL12Aa2cXP9TSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769361916; c=relaxed/simple;
-	bh=mQLKLsUiOyFHAMnjSDCUNZY9d4dt0wRNbRAcLk9OIug=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=P1bxqNOZHV1g6xW3TOqj4y0qKOoZhowpxDP+NIBhhMo/NYAjuatFyMA1Jgy6DgEz+JmsKeetx0hZiQuFbmVBUsYE12dkZJY2q3jBUVsXqLrMlIExbRmnw8tk7wLh69SjQ3jisgLIJf/nWhkySxFEHvMMXJtmvMe/FTTfYAdsEOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpF5IHWd; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1769361932; c=relaxed/simple;
+	bh=gT8ovZMQXJ0Jpd7mseTA+uOT+PN7A6EOrDJjMiQl/zE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q+U5eSsKffaZyozPaL4CS8gNg1326jYNfdH9w9vxlA9FhYLm5yxYssswrBMEOfnjTZ2ynonS1k30n0gKpwekmJSzogR55IBL+uHKNgyz/q6V2YBZTGvMssl4sRRyvjbLt5ITNPbhBNQ/96H/GR/PICT1gJh7XkJqAKbaa9SszPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l4IfwBwC; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpF5IHWd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l4IfwBwC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769361914; x=1800897914;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mQLKLsUiOyFHAMnjSDCUNZY9d4dt0wRNbRAcLk9OIug=;
-  b=hpF5IHWdCR+aOp1vcyZHfdA1y2pN46yEPx1SZZP21kSzPd9IxwDyiFQ2
-   PG+A/6D9LcyBN/imbJ9YMhqSNgGAT0MGydxuL7JR3wBksukBTfQeJCmAb
-   fbpDbXKRuWN0IMZGIard145WaeH/n8on8TZhme+eMOiZC9yRBGEbiIko7
-   jY2XUvkHdZmVEzc6qju/eGMxUu2zefb0MzYHJAuH+LBkxVi2wiTMgc76y
-   tjsekwNQKC39LF1+222qzRIfWjhc07GOeVYj6QDiiT6B8YUHFF5uAhzDR
-   w9vaZIQkv4IucbO9WGxnHRiXDsHovG4U8X8VCqLeXP/yH3xrSFUB3JAU4
-   g==;
-X-CSE-ConnectionGUID: ndV5abc6T3yp3/NXPMtd+w==
-X-CSE-MsgGUID: ZQ/1vWZURI6PXTN/FQxIWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="74414286"
+  t=1769361931; x=1800897931;
+  h=date:from:to:cc:subject:message-id;
+  bh=gT8ovZMQXJ0Jpd7mseTA+uOT+PN7A6EOrDJjMiQl/zE=;
+  b=l4IfwBwCXQrrWWe4M59JWFM60cyGMN3EuP3eXMDs81lAiIU7z6DCahkO
+   GIevhtbfPLxS0E7fJ8dV8GPyXbQHKQBH6DAbV4eqqBNcUMXcNJW+AkQFG
+   QQ+FvolyFkBHoRC+wM9rnWHXX1ndTO8RNqYXWSlIRUrC4owg8AtKdWHSX
+   lf9xTS8R25iRRnMOD4uDgrxtCaS+8wMJ6pH2BYhg8+dnovS4h1CcCMaqs
+   3r59/DMifA7xb4gPLNrKnSdHhwJhUDfezx4RRo+1YHN1GfCsZMHILcFBz
+   6iie4nCCwrsMyerwnEDXhlYIaGo3V02nfGTxKqIAimQs05nUjsAgzlQzb
+   Q==;
+X-CSE-ConnectionGUID: BZbrP3URQHqldh39ZTR8uQ==
+X-CSE-MsgGUID: 0BnnuNaLRlicvmxUskLfMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70521500"
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="74414286"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 09:25:14 -0800
-X-CSE-ConnectionGUID: s+PBlRgOT8G3RP/K5B8gOA==
-X-CSE-MsgGUID: n3sb4uHmSvOncqOCoys+bg==
+   d="scan'208";a="70521500"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 09:25:31 -0800
+X-CSE-ConnectionGUID: UWWi8F0MTcuf3G+TlXh/Zg==
+X-CSE-MsgGUID: dfF3i2ZfRleK7ISQbAddQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
-   d="scan'208";a="245106873"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 25 Jan 2026 09:25:12 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207521595"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 25 Jan 2026 09:25:29 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vk3rJ-000000001Jl-16gu;
-	Sun, 25 Jan 2026 17:25:09 +0000
-Date: Sun, 25 Jan 2026 18:24:35 +0100
+	id 1vk3ra-00000000WIQ-1vdT;
+	Sun, 25 Jan 2026 17:25:26 +0000
+Date: Mon, 26 Jan 2026 01:25:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/sysfs-const-driver-attribute 15/17]
- drivers/s390/cio/ccwgroup.c:385:34: warning: assignment discards 'const'
- qualifier from pointer target type
-Message-ID: <202601251802.AecPao1f-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.18-main 120/120]
+ drivers/net/pcs/pcs-airoha.c:2537:2: warning: unannotated fall-through
+ between switch labels
+Message-ID: <202601260147.hMktLz6U-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/sysfs-const-driver-attribute
-head:   92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d
-commit: 28a546377e7351001aec8530b9b5c171928dd1a5 [15/17] s390 prep
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260=
-125/202601251802.AecPao1f-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260125/202601251802.AecPao1f-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-main
+head:   f447ce9b159ce17f5b24dec013664fa745717235
+commit: dd015b832d721b09d105cbaa4b10d7d1eee57d55 [120/120] net: pcs: airoha: add PCS driver for Airoha SoC
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260126/202601260147.hMktLz6U-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260147.hMktLz6U-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601251802.AecPao1f-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601260147.hMktLz6U-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/s390/cio/ccwgroup.c: In function 'ccwgroup_create_dev':
->> drivers/s390/cio/ccwgroup.c:385:34: warning: assignment discards 'const'=
- qualifier from pointer target type [-Wdiscarded-qualifiers]
-     385 |                 gdev->dev.driver =3D &gdrv->driver;
-         |                                  ^
+>> drivers/net/pcs/pcs-airoha.c:2537:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    2537 |         default:
+         |         ^
+   drivers/net/pcs/pcs-airoha.c:2537:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    2537 |         default:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/net/pcs/pcs-airoha.c:2537:2: note: insert 'break;' to avoid fall-through
+    2537 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
 
 
-vim +/const +385 drivers/s390/cio/ccwgroup.c
+vim +2537 drivers/net/pcs/pcs-airoha.c
 
-022b660ae5d075 Ursula Braun        2008-04-24  300 =20
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  301  /**
-f2962dae0efd81 Sebastian Ott       2012-05-15  302   * ccwgroup_create_dev(=
-) - create and register a ccw group device
-f2962dae0efd81 Sebastian Ott       2012-05-15  303   * @parent: parent devi=
-ce for the new device
-f2962dae0efd81 Sebastian Ott       2012-05-15  304   * @gdrv: driver for th=
-e new group device
-022b660ae5d075 Ursula Braun        2008-04-24  305   * @num_devices: number=
- of slave devices
-022b660ae5d075 Ursula Braun        2008-04-24  306   * @buf: buffer contain=
-ing comma separated bus ids of slave devices
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  307   *
-f2962dae0efd81 Sebastian Ott       2012-05-15  308   * Create and register =
-a new ccw group device as a child of @parent. Slave
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  309   * devices are obtained=
- from the list of bus ids given in @buf.
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  310   * Returns:
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  311   *  %0 on success and a=
-n error code on failure.
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  312   * Context:
-b2ffd8e9a76ec9 Cornelia Huck       2007-10-12  313   *  non-atomic
-^1da177e4c3f41 Linus Torvalds      2005-04-16  314   */
-28a546377e7351 Thomas Wei=C3=9Fschuh    2026-01-25  315  int ccwgroup_creat=
-e_dev(struct device *parent, const struct ccwgroup_driver *gdrv,
-9814fdfbecbb03 Sebastian Ott       2012-05-15  316  			int num_devices, con=
-st char *buf)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  317  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  318  	struct ccwgroup_device=
- *gdev;
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  319  	struct ccw_dev_id dev_=
-id;
-022b660ae5d075 Ursula Braun        2008-04-24  320  	int rc, i;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  321 =20
-ab7efda477f976 Julian Wiedmann     2018-01-30  322  	if (num_devices < 1)
-ab7efda477f976 Julian Wiedmann     2018-01-30  323  		return -EINVAL;
-ab7efda477f976 Julian Wiedmann     2018-01-30  324 =20
-acafe7e3021616 Kees Cook           2018-05-08  325  	gdev =3D kzalloc(struc=
-t_size(gdev, cdev, num_devices), GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  326  	if (!gdev)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  327  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  328 =20
-^1da177e4c3f41 Linus Torvalds      2005-04-16  329  	atomic_set(&gdev->onof=
-f, 0);
-d76123eb357a4b Cornelia Huck       2007-04-27  330  	mutex_init(&gdev->reg_=
-mutex);
-d76123eb357a4b Cornelia Huck       2007-04-27  331  	mutex_lock(&gdev->reg_=
-mutex);
-0b60f9ead5d481 Tejun Heo           2014-02-03  332  	INIT_WORK(&gdev->ungro=
-up_work, ccwgroup_ungroup_workfn);
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  333  	gdev->count =3D num_de=
-vices;
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  334  	gdev->dev.bus =3D &ccw=
-group_bus_type;
-f2962dae0efd81 Sebastian Ott       2012-05-15  335  	gdev->dev.parent =3D p=
-arent;
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  336  	gdev->dev.release =3D =
-ccwgroup_release;
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  337  	device_initialize(&gde=
-v->dev);
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  338 =20
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  339  	for (i =3D 0; i < num_=
-devices && buf; i++) {
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  340  		rc =3D __get_next_id(=
-&buf, &dev_id);
-022b660ae5d075 Ursula Braun        2008-04-24  341  		if (rc !=3D 0)
-022b660ae5d075 Ursula Braun        2008-04-24  342  			goto error;
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  343  		gdev->cdev[i] =3D get=
-_ccwdev_by_dev_id(&dev_id);
-022b660ae5d075 Ursula Braun        2008-04-24  344  		/*
-022b660ae5d075 Ursula Braun        2008-04-24  345  		 * All devices have t=
-o be of the same type in
-022b660ae5d075 Ursula Braun        2008-04-24  346  		 * order to be groupe=
-d.
-022b660ae5d075 Ursula Braun        2008-04-24  347  		 */
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  348  		if (!gdev->cdev[i] ||=
- !gdev->cdev[i]->drv ||
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  349  		    gdev->cdev[i]->dr=
-v !=3D gdev->cdev[0]->drv ||
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  350  		    gdev->cdev[i]->id=
-.driver_info !=3D
-^1da177e4c3f41 Linus Torvalds      2005-04-16  351  		    gdev->cdev[0]->id=
-.driver_info) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  352  			rc =3D -EINVAL;
-d76123eb357a4b Cornelia Huck       2007-04-27  353  			goto error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  354  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  355  		/* Don't allow a devi=
-ce to belong to more than one group. */
-c560d105a19746 Sebastian Ott       2010-05-26  356  		spin_lock_irq(gdev->c=
-dev[i]->ccwlock);
-db6a64238a9277 Cornelia Huck       2008-01-26  357  		if (dev_get_drvdata(&=
-gdev->cdev[i]->dev)) {
-c560d105a19746 Sebastian Ott       2010-05-26  358  			spin_unlock_irq(gdev=
-->cdev[i]->ccwlock);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  359  			rc =3D -EINVAL;
-d76123eb357a4b Cornelia Huck       2007-04-27  360  			goto error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  361  		}
-db6a64238a9277 Cornelia Huck       2008-01-26  362  		dev_set_drvdata(&gdev=
-->cdev[i]->dev, gdev);
-c560d105a19746 Sebastian Ott       2010-05-26  363  		spin_unlock_irq(gdev-=
->cdev[i]->ccwlock);
-17088229846c07 Cornelia Huck       2006-07-27  364  	}
-022b660ae5d075 Ursula Braun        2008-04-24  365  	/* Check for sufficien=
-t number of bus ids. */
-b7a610f7b4cb95 Sebastian Ott       2012-05-15  366  	if (i < num_devices) {
-022b660ae5d075 Ursula Braun        2008-04-24  367  		rc =3D -EINVAL;
-022b660ae5d075 Ursula Braun        2008-04-24  368  		goto error;
-022b660ae5d075 Ursula Braun        2008-04-24  369  	}
-022b660ae5d075 Ursula Braun        2008-04-24  370  	/* Check for trailing =
-stuff. */
-ea298e6ee8b34b Vasily Gorbik       2019-09-17  371  	if (i =3D=3D num_devic=
-es && buf && strlen(buf) > 0) {
-022b660ae5d075 Ursula Braun        2008-04-24  372  		rc =3D -EINVAL;
-022b660ae5d075 Ursula Braun        2008-04-24  373  		goto error;
-022b660ae5d075 Ursula Braun        2008-04-24  374  	}
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  375  	/* Check if the device=
-s are bound to the required ccw driver. */
-ab7efda477f976 Julian Wiedmann     2018-01-30  376  	if (gdrv && gdrv->ccw_=
-driver &&
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  377  	    gdev->cdev[0]->drv=
- !=3D gdrv->ccw_driver) {
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  378  		rc =3D -EINVAL;
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  379  		goto error;
-f9a5d70cfaf3e3 Julian Wiedmann     2017-09-14  380  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  381 =20
-1bf5b2853925cf Cornelia Huck       2008-10-10  382  	dev_set_name(&gdev->de=
-v, "%s", dev_name(&gdev->cdev[0]->dev));
-f2962dae0efd81 Sebastian Ott       2012-05-15  383 =20
-f2962dae0efd81 Sebastian Ott       2012-05-15  384  	if (gdrv) {
-f2962dae0efd81 Sebastian Ott       2012-05-15 @385  		gdev->dev.driver =3D =
-&gdrv->driver;
-f2962dae0efd81 Sebastian Ott       2012-05-15  386  		rc =3D gdrv->setup ? =
-gdrv->setup(gdev) : 0;
-f2962dae0efd81 Sebastian Ott       2012-05-15  387  		if (rc)
-f2962dae0efd81 Sebastian Ott       2012-05-15  388  			goto error;
-f2962dae0efd81 Sebastian Ott       2012-05-15  389  	}
-16f7f9564c3ae1 Peter Oberparleiter 2008-08-21  390  	rc =3D device_add(&gde=
-v->dev);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  391  	if (rc)
-d76123eb357a4b Cornelia Huck       2007-04-27  392  		goto error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  393  	rc =3D __ccwgroup_crea=
-te_symlinks(gdev);
-dad572e3701385 Sebastian Ott       2011-10-30  394  	if (rc) {
-dad572e3701385 Sebastian Ott       2011-10-30  395  		device_del(&gdev->dev=
-);
-dad572e3701385 Sebastian Ott       2011-10-30  396  		goto error;
-dad572e3701385 Sebastian Ott       2011-10-30  397  	}
-d76123eb357a4b Cornelia Huck       2007-04-27  398  	mutex_unlock(&gdev->re=
-g_mutex);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  399  	return 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  400  error:
-d76123eb357a4b Cornelia Huck       2007-04-27  401  	mutex_unlock(&gdev->re=
-g_mutex);
-d76123eb357a4b Cornelia Huck       2007-04-27  402  	put_device(&gdev->dev);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  403  	return rc;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  404  }
-f2962dae0efd81 Sebastian Ott       2012-05-15  405  EXPORT_SYMBOL(ccwgroup_=
-create_dev);
-f2962dae0efd81 Sebastian Ott       2012-05-15  406 =20
+  2516	
+  2517	static void airoha_pcs_an_restart(struct phylink_pcs *pcs)
+  2518	{
+  2519		struct airoha_pcs_priv *priv = phylink_pcs_to_airoha_pcs_port(pcs);
+  2520	
+  2521		switch (priv->interface) {
+  2522		case PHY_INTERFACE_MODE_SGMII:
+  2523		case PHY_INTERFACE_MODE_1000BASEX:
+  2524		case PHY_INTERFACE_MODE_2500BASEX:
+  2525			regmap_set_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2526					AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2527			udelay(3);
+  2528			regmap_clear_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2529					  AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2530			break;
+  2531		case PHY_INTERFACE_MODE_USXGMII:
+  2532			regmap_set_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2533					AIROHA_PCS_USXGMII_AN_RESTART);
+  2534			udelay(3);
+  2535			regmap_clear_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2536					  AIROHA_PCS_USXGMII_AN_RESTART);
+> 2537		default:
+  2538			return;
+  2539		}
+  2540	}
+  2541	
 
-:::::: The code at line 385 was first introduced by commit
-:::::: f2962dae0efd81fed06d0687f300725ab063587a s390/ccwgroup: introduce cc=
-wgroup_create_dev
-
-:::::: TO: Sebastian Ott <sebott@linux.vnet.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
