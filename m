@@ -1,66 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CFD274658
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 19:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A373B2BA;
+	Mon, 26 Jan 2026 19:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769454630; cv=none; b=NAjbN5I4sI3hSdnqT7OfxwPmEpzcBHFhalF9PnA4muGZoHpy1tY6vgTfuXS0SDbngrKSp8O+BZ6MTUxkUyazWL2lpbvVvq7j9iQtYKAkg8RuUzNc13Yyu45ELh+tGbmB+r15JHWMxNb9B9ZMXNeTROJm7HyFkUeNVddPFPzInvo=
+	t=1769456495; cv=none; b=ski6Un8eKnzG3wNoAnaT5ZXjQ2XcXAnpWgG8mS2WGOcPl3QvIJxQJk2lgpYjrNR35IdRYgPik77CqZFR5DwPaAeFamGlpG2K6aoIyCeSirvTYxhW0uUe1eXtEKbd4pzRtAji530mactWe77zky95X6SQpC4Jw2BhO4NCl/pUK0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769454630; c=relaxed/simple;
-	bh=y8WZa5lTxZhinaJ1vI22gqo62u2Mkl4bP9hj4eR0CVE=;
+	s=arc-20240116; t=1769456495; c=relaxed/simple;
+	bh=uQFMWGnGGz/UkepHe6qNZM7ssltN76ODEap8qFaeK2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tT2r0hobbwmmI+5WPYFY6xTAt2NxuQuasm9jd0xSPmFPLoJZhIQJL/RnpYYext+G69stWJbRw9NUYMxluPV9kCpRPtES+OOavqZUZIY1eDr+SE+oWv5pKPVuJhFhv6/2s5ReMZ3W8Zp34LDmk1e1xIQM27Q0SVbVayol4HBQqJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bi7FTri6; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=qggjf/lZfoAS2MuX+rOAglZQ03BmUkxk1uqlz+btCIqU39ddsMcu6Sc0eMS2lzzuqUCw/wp1bYFWFv5Uv4UdB1GmY0CoI172W4zpN4RjJaJcCieOxJAC7aMWQWYKGvG0rhi3QjWprJgapq2ETm6+5ndRbYcIB1gaMfCdJBX+Trk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=derieL3L; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bi7FTri6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="derieL3L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769454629; x=1800990629;
+  t=1769456494; x=1800992494;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y8WZa5lTxZhinaJ1vI22gqo62u2Mkl4bP9hj4eR0CVE=;
-  b=bi7FTri6sg2ihWZWt0iv85T1Wm+og34za6DXH0ogMmoqpNrLeR8w+m31
-   lHuDblvib9R8Rw+CWU/WsUy4oBbd/F6iLRtY7iPQbXhxVZzLj3qiRCjm/
-   Lu1yfqna8SkVMJelLvlV+l36BavbUs+BYDfZ3aS+aA4ejlP1kLZYd2HbQ
-   SvA9ngp+o7n5OQqVjwApbzeBHiBmrye5MK2oaeMzqZ2hu4n1RT6J0inyf
-   SoDS1es7rmsmXxqN16bebTFZpPXDrv7KnrbZIhZDQ8HSybBpkGv8RpvVx
-   seeip9AmCeYE8DmWCWpNc1m7OY/nHrSeLIlk1WAP6QKbgc3IW7Joa+eoP
+  bh=uQFMWGnGGz/UkepHe6qNZM7ssltN76ODEap8qFaeK2s=;
+  b=derieL3LLtDdLkKo62F/2aghx7RorjhNNvIFNM3y62aJ5uFizAoBe8iu
+   1At6KcH7MVaWC7f/J+n5FVM/nDFpxINAXVofD5cCafOk34W7ylQgBcjRW
+   YQVSKVx/lor3hPrirIzN3FEn8vcMQ70p81nBdw9hpC4gLSzKew0HVXj/o
+   bcjRpAOnEghYpq3zBCpNZzkICk/a9HgkVNRoeCrocxC/Zd/+Bf4u6aApH
+   3PxnOh6h1iQXCcj3EVp8F7SU9ZyXuzS6x3t3jmXz4+t3gUsNXPhJhhRns
+   ElT6aYmdgP1MDzLOoppsA72Bx99NFD6xO8ARm30znAx8xzKbk6Ht1QXTj
    Q==;
-X-CSE-ConnectionGUID: FUVC1PhtRAevbFZJ6+U5Sg==
-X-CSE-MsgGUID: PlqAOPNhQGiGUDEljExmtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="58212092"
+X-CSE-ConnectionGUID: dYNVwXeqQiaWSUbJ+7qIrA==
+X-CSE-MsgGUID: kxc3EeAQQcq5iYml+xWEXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70545871"
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="58212092"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 11:10:29 -0800
-X-CSE-ConnectionGUID: JQZN/nleR1mKrX8NgdsnHw==
-X-CSE-MsgGUID: 9Fr2sKWUTraXYXXumoWrtA==
+   d="scan'208";a="70545871"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 11:41:33 -0800
+X-CSE-ConnectionGUID: n0esMp9ySU+Mz1YRzxo6RQ==
+X-CSE-MsgGUID: jseCndPdQO2p/ZZbLSbXCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="212217771"
+   d="scan'208";a="206992580"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Jan 2026 11:10:26 -0800
+  by orviesa010.jf.intel.com with ESMTP; 26 Jan 2026 11:41:28 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkRyh-00000000Xbu-3oiy;
-	Mon, 26 Jan 2026 19:10:23 +0000
-Date: Tue, 27 Jan 2026 03:09:57 +0800
+	id 1vkSSj-00000000XdK-0FbY;
+	Mon, 26 Jan 2026 19:41:25 +0000
+Date: Tue, 27 Jan 2026 03:41:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH net-next] net: stmmac: report active PHY interface
-Message-ID: <202601270336.BzkH3lDa-lkp@intel.com>
-References: <E1vkLXO-00000005uxQ-31ZV@rmk-PC.armlinux.org.uk>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: Re: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
+Message-ID: <202601270307.Ds4yus7I-lkp@intel.com>
+References: <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,72 +78,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1vkLXO-00000005uxQ-31ZV@rmk-PC.armlinux.org.uk>
+In-Reply-To: <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
 
-Hi Russell,
+Hi Kaustabh,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-report-active-PHY-interface/20260126-201908
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1vkLXO-00000005uxQ-31ZV%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net-next] net: stmmac: report active PHY interface
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260127/202601270336.BzkH3lDa-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270336.BzkH3lDa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kaustabh-Chakraborty/dt-bindings-leds-document-Samsung-S2M-series-PMIC-flash-LED-device/20260126-031457
+base:   ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+patch link:    https://lore.kernel.org/r/20260126-s2mu005-pmic-v2-6-78f1a75f547a%40disroot.org
+patch subject: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260127/202601270307.Ds4yus7I-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270307.Ds4yus7I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601270336.BzkH3lDa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601270307.Ds4yus7I-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c:41:10: warning: 'PHY_INTF_RGMII' redefined
-      41 | #define  PHY_INTF_RGMII                 FIELD_PREP(PHY_INTF_MASK, 1)
-         |          ^~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/stmicro/stmmac/stmmac.h:20,
-                    from drivers/net/ethernet/stmicro/stmmac/stmmac_platform.h:12,
-                    from drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c:17:
-   drivers/net/ethernet/stmicro/stmmac/common.h:328:9: note: this is the location of the previous definition
-     328 | #define PHY_INTF_RGMII          1
-         |         ^~~~~~~~~~~~~~
+>> drivers/mfd/sec-irq.c:218:7: error: expression is not an integer constant expression
+           case irqf_regs[0]:
+                ^~~~~~~~~~~~
+   drivers/mfd/sec-irq.c:218:7: note: initializer of 'irqf_regs' is not a constant expression
+   drivers/mfd/sec-irq.c:204:21: note: declared here
+           const unsigned int irqf_regs[] = {
+                              ^
+   drivers/mfd/sec-irq.c:220:7: error: expression is not an integer constant expression
+           case mask_regs[0]:
+                ^~~~~~~~~~~~
+   drivers/mfd/sec-irq.c:220:7: note: initializer of 'mask_regs' is not a constant expression
+   drivers/mfd/sec-irq.c:210:21: note: declared here
+           const unsigned int mask_regs[] = {
+                              ^
+   2 errors generated.
 
 
-vim +/PHY_INTF_RGMII +41 drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
+vim +218 drivers/mfd/sec-irq.c
 
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  18  
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  19  #define GMAC_CLK_EN			0x00
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  20  #define  GMAC_TX_CLK_EN			BIT(1)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  21  #define  GMAC_TX_CLK_N_EN		BIT(2)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  22  #define  GMAC_TX_CLK_OUT_EN		BIT(3)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  23  #define  GMAC_RX_CLK_EN			BIT(4)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  24  #define  GMAC_RX_CLK_N_EN		BIT(5)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  25  #define  GMAC_EPHY_REF_CLK_EN		BIT(6)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  26  #define GMAC_RXCLK_DELAY_CTRL		0x04
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  27  #define  GMAC_RXCLK_BYPASS		BIT(15)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  28  #define  GMAC_RXCLK_INVERT		BIT(14)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  29  #define  GMAC_RXCLK_DELAY		GENMASK(4, 0)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  30  #define GMAC_TXCLK_DELAY_CTRL		0x08
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  31  #define  GMAC_TXCLK_BYPASS		BIT(15)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  32  #define  GMAC_TXCLK_INVERT		BIT(14)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  33  #define  GMAC_TXCLK_DELAY		GENMASK(4, 0)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  34  #define GMAC_PLLCLK_DIV			0x0c
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  35  #define  GMAC_PLLCLK_DIV_EN		BIT(31)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  36  #define  GMAC_PLLCLK_DIV_NUM		GENMASK(7, 0)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  37  #define GMAC_GTXCLK_SEL			0x18
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  38  #define  GMAC_GTXCLK_SEL_PLL		BIT(0)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  39  #define GMAC_INTF_CTRL			0x1c
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  40  #define  PHY_INTF_MASK			BIT(0)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03 @41  #define  PHY_INTF_RGMII			FIELD_PREP(PHY_INTF_MASK, 1)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  42  #define  PHY_INTF_MII_GMII		FIELD_PREP(PHY_INTF_MASK, 0)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  43  #define GMAC_TXCLK_OEN			0x20
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  44  #define  TXCLK_DIR_MASK			BIT(0)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  45  #define  TXCLK_DIR_OUTPUT		FIELD_PREP(TXCLK_DIR_MASK, 0)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  46  #define  TXCLK_DIR_INPUT		FIELD_PREP(TXCLK_DIR_MASK, 1)
-33a1a01e3afa72 Jisheng Zhang 2024-11-03  47  
+   200	
+   201	static unsigned int s2mu005_irq_get_reg(struct regmap_irq_chip_data *data,
+   202						unsigned int base, int index)
+   203	{
+   204		const unsigned int irqf_regs[] = {
+   205			S2MU005_REG_CHGR_INT1,
+   206			S2MU005_REG_FLED_INT1,
+   207			S2MU005_REG_MUIC_INT1,
+   208			S2MU005_REG_MUIC_INT2,
+   209		};
+   210		const unsigned int mask_regs[] = {
+   211			S2MU005_REG_CHGR_INT1M,
+   212			S2MU005_REG_FLED_INT1M,
+   213			S2MU005_REG_MUIC_INT1M,
+   214			S2MU005_REG_MUIC_INT2M,
+   215		};
+   216	
+   217		switch (base) {
+ > 218		case irqf_regs[0]:
+   219			return irqf_regs[index];
+   220		case mask_regs[0]:
+   221			return mask_regs[index];
+   222		}
+   223	
+   224		return base;
+   225	}
+   226	
 
 -- 
 0-DAY CI Kernel Test Service
