@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E621B2D46A2;
-	Mon, 26 Jan 2026 20:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4546924A07C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 21:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769459735; cv=none; b=KtUXvlkmnwgqC7JSd+JlPbynSjkeYMjM+N8jTAhc4V/HAXZHfLM/rd4VySmqsrQ+6CXImIe4way1v6s2EbC+UTsKnkUJD1DbfZp0ngASMDGYYemNbom1y9TeYvq+ISDtyISaB83aDV7NeM1BOWMNYclBGsb4RNgrhsdZFpqZqLc=
+	t=1769464118; cv=none; b=kmI+SG3VdvUQ4+dUI9FR3Pbq7BruZRhO4/5QQ7223VLTCMWxtWd0qtYOG/PPVmIlPqSoCfGY05Ti6XzMYdu4xZc4eA7K3ypS0iBPF4iQzENlmw73XgJ2Mv9aQPVubNbpiPmguvvgh2nVRL6R+fG+p1YBrMVtif1YlDK+VL5K1tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769459735; c=relaxed/simple;
-	bh=Hv73xovg7rs+ED9F7z8l/VwWVkfiGm/GSqfIJQSKT6M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WmGPV2dTucJ2rBrX1qM7azPr5nY718yxtuw8qNc9uiW/K2uAwEGfIt4hByrJS2+Hs6Hi+30XRthdkWFIL/HR9yiEKSoDShnGJi2dnutnzboii8xy8VVeGY4e+P5MUI/Gucbd/GK6oB/kt09L17J24OiXZOJG0M4vHP1ljVXAobc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hvcht4Ht; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769464118; c=relaxed/simple;
+	bh=HvJ0R1g1nLCdcUzqWInWi7tgN+DpVonB3+oh5JVh678=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=KeNED/FzzouS3HbVQNHLdDWD6IB4FTrtKyXQoKFhB2xM6n+t99qXuPMtYlZ01mKOa/TAAjJYfXxCX5CfELBH1SsLPkWOqkzBlvJbZYEVvcrcHNDMqxZwX5C8+N37joNOaUQ/+fybvcVYZollQk4tGT8/k1VCgeuVaEtE/LtXhfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dC75Vurq; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hvcht4Ht"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dC75Vurq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769459734; x=1800995734;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Hv73xovg7rs+ED9F7z8l/VwWVkfiGm/GSqfIJQSKT6M=;
-  b=hvcht4Ht9cb2SvSp3r/zPn2cOxXSiFezycdz2VcQewmz1lCwbLVxhFZZ
-   4Vb3KcsyPkxaemAa9VPtbI6KX3MCNBiFeR+7KfbWXJ07gizIA0L+YA9PQ
-   7pqoDZm8xk3Ad2zbHsRnnz5xj+ocPmLQQtY0+/m7L1zKriTD/VxK7iFgh
-   pTCx58LhV6xz+zKoS6eRXI+SmoJcZ29N3kL1sRXfTFWXStehwqpmBfhSN
-   IFtXNf0X4IW/QGk62gPKV0DLHFjsjKdpfZGMhfnQilmPeBsRWwBLdTlta
-   0+RUJJ3OzJllS0PpgttfzLKN5fY5wTyU1Ej5fs46AvjX29a6gX7+hTN++
-   g==;
-X-CSE-ConnectionGUID: r5/WD2bvSfWO1NhMoX7DFw==
-X-CSE-MsgGUID: sN5/kjy5RceSeH+VUYo9cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70548998"
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="70548998"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 12:35:33 -0800
-X-CSE-ConnectionGUID: sagnajPzQ5CRUn3YbCDE2w==
-X-CSE-MsgGUID: nd9RHMb/SPikWc1P17fuuQ==
+  t=1769464117; x=1801000117;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HvJ0R1g1nLCdcUzqWInWi7tgN+DpVonB3+oh5JVh678=;
+  b=dC75VurqHNVd7eXr2GHSZasI8DlkRrcG9OsRE4v7w1+N0zeeLroygFJJ
+   1mY3uANmd/HtycrnttNNIQTGKRz6rD2v9s66g2Nd3k9laRqrn8gZ0PgDd
+   CrRcZn/vOmEShTdrJcYPczogQwoXxlnTMSlbeuuTC5/GRrJgp7cVJoyQ0
+   wRSvbOi/mZ8uiutUzq1AYJoQNS8RCw55uscH2JiGrqxavlNlqQ9CGKcg4
+   ZZEJMq0Km5vppeQsiFMPnoCpA+7KC+Ze5KeYODrEx+9QeA8pntHPN0K8V
+   CHDxViGj+wW6R4cvrRUwWfKAq0akVLci3tdP8p80Qhu4qSfaJ+BRp9jAZ
+   Q==;
+X-CSE-ConnectionGUID: qPe5Jf9+SeSFEgB0x5lgGw==
+X-CSE-MsgGUID: oefP1i4iQc6wCWvEjS0ByQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="81283693"
+X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
+   d="scan'208";a="81283693"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 13:48:36 -0800
+X-CSE-ConnectionGUID: u5UYQiSgQrOpzYnaX1o/ng==
+X-CSE-MsgGUID: dk4wuJZ8SfqiIzH5vpno5Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="208125486"
+X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
+   d="scan'208";a="212769137"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Jan 2026 12:35:30 -0800
+  by orviesa005.jf.intel.com with ESMTP; 26 Jan 2026 13:48:35 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkTJ2-00000000XfO-2ljl;
-	Mon, 26 Jan 2026 20:35:28 +0000
-Date: Tue, 27 Jan 2026 04:34:49 +0800
+	id 1vkURk-00000000Xio-22uq;
+	Mon, 26 Jan 2026 21:48:32 +0000
+Date: Tue, 27 Jan 2026 05:47:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH net-next] net: stmmac: report active PHY interface
-Message-ID: <202601270450.IAoLETfq-lkp@intel.com>
-References: <E1vkLXO-00000005uxQ-31ZV@rmk-PC.armlinux.org.uk>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 41/42]
+ kernel/time/hrtimer.c:121:63: error: expression in static assertion is not
+ constant
+Message-ID: <202601270510.QUNl5u8V-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,71 +61,139 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1vkLXO-00000005uxQ-31ZV@rmk-PC.armlinux.org.uk>
 
-Hi Russell,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-report-active-PHY-interface/20260126-201908
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1vkLXO-00000005uxQ-31ZV%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net-next] net: stmmac: report active PHY interface
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20260127/202601270450.IAoLETfq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270450.IAoLETfq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   80461d79725e9de0ffda5d621552a2db3608f64d
+commit: 2969d9693803a8bfd1c8bfcf3943af5a920be88f [41/42] hrtimer: Add support for auxiliary clocks
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260127/202601270510.QUNl5u8V-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270510.QUNl5u8V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601270450.IAoLETfq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601270510.QUNl5u8V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c:41:10: warning: 'PHY_INTF_RGMII' macro redefined [-Wmacro-redefined]
-      41 | #define  PHY_INTF_RGMII                 FIELD_PREP(PHY_INTF_MASK, 1)
-         |          ^
-   drivers/net/ethernet/stmicro/stmmac/common.h:328:9: note: previous definition is here
-     328 | #define PHY_INTF_RGMII          1
-         |         ^
-   1 warning generated.
+   In file included from include/linux/bits.h:30,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from kernel/time/hrtimer.c:25:
+>> kernel/time/hrtimer.c:121:63: error: expression in static assertion is not constant
+     121 | static_assert(HRTIMER_BASE_MONOTONIC_SOFT - HRTIMER_BASE_AUX0 == MAX_AUX_CLOCKS);
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   kernel/time/hrtimer.c:121:1: note: in expansion of macro 'static_assert'
+     121 | static_assert(HRTIMER_BASE_MONOTONIC_SOFT - HRTIMER_BASE_AUX0 == MAX_AUX_CLOCKS);
+         | ^~~~~~~~~~~~~
 
 
-vim +/PHY_INTF_RGMII +41 drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
+vim +121 kernel/time/hrtimer.c
 
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  18  
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  19  #define GMAC_CLK_EN			0x00
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  20  #define  GMAC_TX_CLK_EN			BIT(1)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  21  #define  GMAC_TX_CLK_N_EN		BIT(2)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  22  #define  GMAC_TX_CLK_OUT_EN		BIT(3)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  23  #define  GMAC_RX_CLK_EN			BIT(4)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  24  #define  GMAC_RX_CLK_N_EN		BIT(5)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  25  #define  GMAC_EPHY_REF_CLK_EN		BIT(6)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  26  #define GMAC_RXCLK_DELAY_CTRL		0x04
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  27  #define  GMAC_RXCLK_BYPASS		BIT(15)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  28  #define  GMAC_RXCLK_INVERT		BIT(14)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  29  #define  GMAC_RXCLK_DELAY		GENMASK(4, 0)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  30  #define GMAC_TXCLK_DELAY_CTRL		0x08
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  31  #define  GMAC_TXCLK_BYPASS		BIT(15)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  32  #define  GMAC_TXCLK_INVERT		BIT(14)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  33  #define  GMAC_TXCLK_DELAY		GENMASK(4, 0)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  34  #define GMAC_PLLCLK_DIV			0x0c
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  35  #define  GMAC_PLLCLK_DIV_EN		BIT(31)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  36  #define  GMAC_PLLCLK_DIV_NUM		GENMASK(7, 0)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  37  #define GMAC_GTXCLK_SEL			0x18
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  38  #define  GMAC_GTXCLK_SEL_PLL		BIT(0)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  39  #define GMAC_INTF_CTRL			0x1c
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  40  #define  PHY_INTF_MASK			BIT(0)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03 @41  #define  PHY_INTF_RGMII			FIELD_PREP(PHY_INTF_MASK, 1)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  42  #define  PHY_INTF_MII_GMII		FIELD_PREP(PHY_INTF_MASK, 0)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  43  #define GMAC_TXCLK_OEN			0x20
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  44  #define  TXCLK_DIR_MASK			BIT(0)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  45  #define  TXCLK_DIR_OUTPUT		FIELD_PREP(TXCLK_DIR_MASK, 0)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  46  #define  TXCLK_DIR_INPUT		FIELD_PREP(TXCLK_DIR_MASK, 1)
-33a1a01e3afa724 Jisheng Zhang 2024-11-03  47  
+  > 25	#include <linux/cpu.h>
+    26	#include <linux/export.h>
+    27	#include <linux/percpu.h>
+    28	#include <linux/hrtimer.h>
+    29	#include <linux/notifier.h>
+    30	#include <linux/syscalls.h>
+    31	#include <linux/interrupt.h>
+    32	#include <linux/tick.h>
+    33	#include <linux/err.h>
+    34	#include <linux/debugobjects.h>
+    35	#include <linux/sched/signal.h>
+    36	#include <linux/sched/sysctl.h>
+    37	#include <linux/sched/rt.h>
+    38	#include <linux/sched/deadline.h>
+    39	#include <linux/sched/nohz.h>
+    40	#include <linux/sched/debug.h>
+    41	#include <linux/sched/isolation.h>
+    42	#include <linux/timer.h>
+    43	#include <linux/freezer.h>
+    44	#include <linux/compat.h>
+    45	
+    46	#include <linux/uaccess.h>
+    47	
+    48	#include <trace/events/timer.h>
+    49	
+    50	#include "tick-internal.h"
+    51	
+    52	/*
+    53	 * The resolution of the clocks. The resolution value is returned in
+    54	 * the clock_getres() system call to give application programmers an
+    55	 * idea of the (in)accuracy of timers. Timer values are rounded up to
+    56	 * this resolution values.
+    57	 */
+    58	#define HIGH_RES_NSEC		1
+    59	
+    60	/*
+    61	 * Masks for selecting the soft and hard context timers from
+    62	 * cpu_base->active
+    63	 */
+    64	#define MASK_SHIFT		(HRTIMER_BASE_MONOTONIC_SOFT)
+    65	#define HRTIMER_ACTIVE_HARD	((1U << MASK_SHIFT) - 1)
+    66	#define HRTIMER_ACTIVE_SOFT	(HRTIMER_ACTIVE_HARD << MASK_SHIFT)
+    67	#define HRTIMER_ACTIVE_ALL	(HRTIMER_ACTIVE_SOFT | HRTIMER_ACTIVE_HARD)
+    68	
+    69	static void retrigger_next_event(void *arg);
+    70	static ktime_t __hrtimer_cb_get_time(clockid_t clock_id);
+    71	static inline int hrtimer_clockid_to_base(clockid_t clock_id);
+    72	
+    73	/*
+    74	 * The timer bases:
+    75	 *
+    76	 * There are more clockids than hrtimer bases. Thus, we index
+    77	 * into the timer bases by the hrtimer_base_type enum. When trying
+    78	 * to reach a base using a clockid, hrtimer_clockid_to_base()
+    79	 * is used to convert from clockid to the proper hrtimer_base_type.
+    80	 */
+    81	#define HRTIMER_CLOCK_BASE(_index, _clockid) \
+    82		[(_index)] = { .index = (_index), .clockid = (_clockid) }
+    83	
+    84	DEFINE_PER_CPU(struct hrtimer_cpu_base, hrtimer_bases) =
+    85	{
+    86		.lock = __RAW_SPIN_LOCK_UNLOCKED(hrtimer_bases.lock),
+    87		.clock_base =
+    88		{
+    89			HRTIMER_CLOCK_BASE(HRTIMER_BASE_MONOTONIC,	CLOCK_MONOTONIC),
+    90			HRTIMER_CLOCK_BASE(HRTIMER_BASE_REALTIME,	CLOCK_REALTIME),
+    91			HRTIMER_CLOCK_BASE(HRTIMER_BASE_BOOTTIME,	CLOCK_BOOTTIME),
+    92			HRTIMER_CLOCK_BASE(HRTIMER_BASE_TAI,		CLOCK_TAI),
+    93	#ifdef CONFIG_POSIX_AUX_CLOCKS
+    94			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX0,		CLOCK_AUX + 0),
+    95			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX1,		CLOCK_AUX + 1),
+    96			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX2,		CLOCK_AUX + 2),
+    97			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX3,		CLOCK_AUX + 3),
+    98			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX4,		CLOCK_AUX + 4),
+    99			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX5,		CLOCK_AUX + 5),
+   100			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX6,		CLOCK_AUX + 6),
+   101			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX7,		CLOCK_AUX + 7),
+   102	#endif /* CONFIG_POSIX_AUX_CLOCKS */
+   103			HRTIMER_CLOCK_BASE(HRTIMER_BASE_MONOTONIC_SOFT,	CLOCK_MONOTONIC),
+   104			HRTIMER_CLOCK_BASE(HRTIMER_BASE_REALTIME_SOFT,	CLOCK_REALTIME),
+   105			HRTIMER_CLOCK_BASE(HRTIMER_BASE_BOOTTIME_SOFT,	CLOCK_BOOTTIME),
+   106			HRTIMER_CLOCK_BASE(HRTIMER_BASE_TAI_SOFT,	CLOCK_TAI),
+   107	#ifdef CONFIG_POSIX_AUX_CLOCKS
+   108			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX0_SOFT,	CLOCK_AUX + 0),
+   109			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX1_SOFT,	CLOCK_AUX + 1),
+   110			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX2_SOFT,	CLOCK_AUX + 2),
+   111			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX3_SOFT,	CLOCK_AUX + 3),
+   112			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX4_SOFT,	CLOCK_AUX + 4),
+   113			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX5_SOFT,	CLOCK_AUX + 5),
+   114			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX6_SOFT,	CLOCK_AUX + 6),
+   115			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX7_SOFT,	CLOCK_AUX + 7),
+   116	#endif /* CONFIG_POSIX_AUX_CLOCKS */
+   117		},
+   118		.csd = CSD_INIT(retrigger_next_event, NULL)
+   119	};
+   120	
+ > 121	static_assert(HRTIMER_BASE_MONOTONIC_SOFT - HRTIMER_BASE_AUX0 == MAX_AUX_CLOCKS);
+   122	
 
 -- 
 0-DAY CI Kernel Test Service
