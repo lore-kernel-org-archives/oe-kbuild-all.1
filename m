@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B6133F8C7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 15:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1953133F8C4;
+	Mon, 26 Jan 2026 16:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769441465; cv=none; b=lJXow6B6OLFIl5FgDOaPWrUC0O5igXOKPNeWfOX2LE/2kqHa10J1FxQm+TLXUPhhJoegvfTA3Mv07aHPjvUH9epIT4IA5AbId4FC7Camyf0CrY4AdtTSSZqVgGKHfmqEobefO9sSzjGZKeKbA/ryh4QSmm0+4MpSh98+q5R5Crs=
+	t=1769444662; cv=none; b=U5fpuf5lBiwuHFNzrOk+iszMcwgNJMcICdtOG96AYoURBL8PKbUk2NLiitAN6fJRZfnCytazqr6C2pIjpzuWK3rJ4WS/gwcCV1qgRU/T6Zo0uFjeqcEYKhoMUAx3XYcPRTm+HVU/ZJ+aQALjqaycSsQc+xiNoeE8WXWiNZ2Mw8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769441465; c=relaxed/simple;
-	bh=6PXdi1088MWNhPjDiFs9VXCuNQaaigqJ491IXJQkS9Q=;
+	s=arc-20240116; t=1769444662; c=relaxed/simple;
+	bh=F6ank0bmKxfrYxXZyToG3EBxNPDlK7h2wNtKgvgZxVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qVdgdtdfS6COk8ZKXDLci80gDYbrbesc01bADZpj3DAkAEMFou7IWIbhxSUnCzZBujVALxUBSlynczSSlxOB9pZGkBaQvSPBH8UIWAUmANHPSX6hSGYNo++GkJWkegMqZb9FgzgzZMDHu9injcUZ6WC/bQXws3FBXh26SFZdjBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQzwVpZN; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=uK7pHUj37aqWZRGT+zR9/1o2lgIj2yOHEdoip4WKtfzeRRWz+12Hj3zRcAX94xjS31C8iI1v72770UdWeAp/Nds15hWDHyBxjrL6rQSj0frB951NzP6r4Lh8fN80PSA2utYwgwnZFGhE7TBsWzXXrF7lIYir2d7qA/kMaoG2x74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iBDSesd2; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQzwVpZN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iBDSesd2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769441462; x=1800977462;
+  t=1769444660; x=1800980660;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6PXdi1088MWNhPjDiFs9VXCuNQaaigqJ491IXJQkS9Q=;
-  b=gQzwVpZNsnY7I3CAYH4zi2qrseOmnWMGAeype0sfoRDg6yPpPfKkmgvQ
-   B/W3z6ND3CbCKW/gX+4vjFFMhqyckB4QXbREF10Sbj2QdhZUfMHkh/aFp
-   Ca5fzyi+SvJhN+gEpLOykindtLYaJ6K7/CNtd4bBsojUGeMta0u+TJNDo
-   UKgyu/frJIqhnMNXhivzxLW8hSGbS0xPP5H2ox9t9LiyoyhRCcwdy9TNd
-   57Ds1r3lu+TxstxhksGkkxWfIBhEUN/DRhGzaSzAoVq6PKJWjPJQe716h
-   rEBfs5W22MK5UBYlKSZfkGZk70/HGptkb6KbGAxeMOxVqG++eYYIjDB7y
-   w==;
-X-CSE-ConnectionGUID: gAGBmDdtToSkOmxsk0noiw==
-X-CSE-MsgGUID: nY7cnPHKQtiNiN2/ogtwFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70677336"
+  bh=F6ank0bmKxfrYxXZyToG3EBxNPDlK7h2wNtKgvgZxVI=;
+  b=iBDSesd2fTWXROcLlO+A71tknuPa81Ijpg2xJFXfay4jvR/IA6wO/8HL
+   bKVGBhXpOvajSbB2Mr4cxh8yvVl/ZK6YJgLmGYUNbdHm2KJVISDkwobbS
+   JlKZENa+8k7r321YOAUdoctH9hE41zyN8jtvSzYYIMIjmOGryyzjHwLQp
+   eGnYOohskGyXym1tMlfeRpo/CGmBO8SWvU6gU5M5OjN8SiktJRUf9qyLx
+   O/p/wp49SkY/+LWp3fWyp67d6tGN0IQ0VltHkMizh7lkbugKen2aNliOf
+   nOTSSpfpmxwG4E+J2ts25yWQem6wcC0FY6+Gyiz4CkGL9eNfdLIgz+5Rn
+   A==;
+X-CSE-ConnectionGUID: qQ4NUaoqRyqz9hnkD2QXBQ==
+X-CSE-MsgGUID: WVQ82nGQQRSQcvoG6qA7+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70527647"
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="70677336"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 07:31:01 -0800
-X-CSE-ConnectionGUID: SzHE+xC8TzGzllcS1B8DrQ==
-X-CSE-MsgGUID: sHK29it8QFK3yNLcFj+yUQ==
+   d="scan'208";a="70527647"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 08:24:19 -0800
+X-CSE-ConnectionGUID: XKvyLG4YQXGTZtQKIL2rNg==
+X-CSE-MsgGUID: txOZjIlZTJWhoEfA3R8BwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="208128007"
+   d="scan'208";a="238392935"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Jan 2026 07:30:58 -0800
+  by orviesa002.jf.intel.com with ESMTP; 26 Jan 2026 08:24:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkOYJ-00000000XQs-3zAU;
-	Mon, 26 Jan 2026 15:30:55 +0000
-Date: Mon, 26 Jan 2026 23:30:22 +0800
+	id 1vkPNs-00000000XTy-2bEe;
+	Mon, 26 Jan 2026 16:24:12 +0000
+Date: Tue, 27 Jan 2026 00:23:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Qiliang Yuan <realwujing@gmail.com>, kprateek.nayak@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, bsegall@google.com,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, bsegall@google.com,
 	dietmar.eggemann@arm.com, juri.lelli@redhat.com,
 	linux-kernel@vger.kernel.org, mgorman@suse.de, mingo@redhat.com,
 	peterz@infradead.org, realwujing@gmail.com, rostedt@goodmis.org,
@@ -58,7 +58,7 @@ Cc: oe-kbuild-all@lists.linux.dev, bsegall@google.com,
 	yuanql9@chinatelecom.cn
 Subject: Re: [PATCH v3] sched/fair: Cache NUMA node statistics to avoid O(N)
  scanning
-Message-ID: <202601262359.B2LmQ3KH-lkp@intel.com>
+Message-ID: <202601270016.PIXAItvH-lkp@intel.com>
 References: <20260126110250.1060512-1-realwujing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,251 +84,253 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Qiliang-Yuan/sched-fair-C
 base:   tip/sched/core
 patch link:    https://lore.kernel.org/r/20260126110250.1060512-1-realwujing%40gmail.com
 patch subject: [PATCH v3] sched/fair: Cache NUMA node statistics to avoid O(N) scanning
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260126/202601262359.B2LmQ3KH-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601262359.B2LmQ3KH-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260127/202601270016.PIXAItvH-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270016.PIXAItvH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601262359.B2LmQ3KH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601270016.PIXAItvH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/sched/fair.c: In function 'update_sg_lb_stats':
->> kernel/sched/fair.c:10524:51: error: 'node_stats_cache' undeclared (first use in this function); did you mean 'numa_stats_cache'?
-   10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-         |                                                   ^~~~~~~~~~~~~~~~
-         |                                                   numa_stats_cache
-   kernel/sched/fair.c:10524:51: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from <command-line>:
->> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+>> kernel/sched/fair.c:10524:37: error: use of undeclared identifier 'node_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                                                   ^
+>> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:610:10: note: expanded from macro '__native_word'
+     610 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+         |                 ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
      629 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+>> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
       60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                 ^~~~~~~~~~
->> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:610:39: note: expanded from macro '__native_word'
+     610 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+         |                                              ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
      629 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+>> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
       60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                 ^~~~~~~~~~
->> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:611:10: note: expanded from macro '__native_word'
+     611 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+         |                 ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
      629 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+>> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
       60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                 ^~~~~~~~~~
->> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:611:38: note: expanded from macro '__native_word'
+     611 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+         |                                             ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
      629 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+>> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
       60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                 ^~~~~~~~~~
->> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+         |                                        ^
+   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                                       ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
      629 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                 ^~~~~~~~~~
-   In file included from ./arch/nios2/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:380,
-                    from include/linux/cleanup.h:5,
-                    from include/linux/irqflags.h:17,
-                    from include/asm-generic/cmpxchg.h:15,
-                    from ./arch/nios2/include/generated/asm/cmpxchg.h:1,
-                    from include/asm-generic/atomic.h:12,
-                    from ./arch/nios2/include/generated/asm/atomic.h:1,
-                    from include/linux/atomic.h:7,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/energy_model.h:4,
-                    from kernel/sched/fair.c:23:
->> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                                 ^~
-   include/asm-generic/rwonce.h:55:27: note: in definition of macro '__WRITE_ONCE'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+>> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONCE'
+      61 |         __WRITE_ONCE(x, val);                                           \
+         |                      ^
+   include/asm-generic/rwonce.h:55:20: note: expanded from macro '__WRITE_ONCE'
       55 |         *(volatile typeof(x) *)&(x) = (val);                            \
          |                           ^
-   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                 ^~~~~~~~~~
->> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                                 ^~
-   include/asm-generic/rwonce.h:55:34: note: in definition of macro '__WRITE_ONCE'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+>> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONCE'
+      61 |         __WRITE_ONCE(x, val);                                           \
+         |                      ^
+   include/asm-generic/rwonce.h:55:27: note: expanded from macro '__WRITE_ONCE'
       55 |         *(volatile typeof(x) *)&(x) = (val);                            \
          |                                  ^
-   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
-   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-         |                 ^~~~~~~~~~
-   In file included from <command-line>:
-   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+   kernel/sched/fair.c:10527:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
       60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10527:17: note: in expansion of macro 'WRITE_ONCE'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                 ^~~~~~~~~~
-   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:610:10: note: expanded from macro '__native_word'
+     610 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+         |                 ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
      649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10527:17: note: in expansion of macro 'WRITE_ONCE'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                 ^~~~~~~~~~
-   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
      629 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+   kernel/sched/fair.c:10527:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:610:39: note: expanded from macro '__native_word'
+     610 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+         |                                              ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
      649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10527:17: note: in expansion of macro 'WRITE_ONCE'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                 ^~~~~~~~~~
-   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
      629 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+   kernel/sched/fair.c:10527:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:611:10: note: expanded from macro '__native_word'
+     611 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+         |                 ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
      649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:10527:17: note: in expansion of macro 'WRITE_ONCE'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                 ^~~~~~~~~~
-   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
-   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-         |                                 ^~
-   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
      629 |                 if (!(condition))                                       \
          |                       ^~~~~~~~~
-   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
+    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+          |                        ^
+   kernel/sched/fair.c:10527:19: error: incomplete definition of type 'struct numa_stats_cache'
+    10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+          |                            ~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:611:38: note: expanded from macro '__native_word'
+     611 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+         |                                             ^
+   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
+     637 |         __compiletime_assert(condition, msg, prefix, suffix)
 
 
-vim +10524 kernel/sched/fair.c
+vim +/node_stats_cache +10524 kernel/sched/fair.c
 
  10426	
  10427	/**
