@@ -1,159 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698D5262A6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 05:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50147221DB1;
+	Mon, 26 Jan 2026 05:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769404849; cv=none; b=tjW+SRzjhFuxvZL1/hAIlR4Ksdpai52IQpqqVtPzhn6CVEaP6iMVuDiqlySiAksIXMwBlQ/CKZ7YE03Ha5FN8A70ubSDdqAZ9PcjvCey71iieOy5W6E83zmAL62YnT1NZFpFNwICPEm1q4nYwM/We2OPpM47XjdDzMfWH0lT38g=
+	t=1769404849; cv=none; b=PwnPDB/GfhI95KqNeY+5SWHywpgIa6Okn0EZs91F5c/RZvtgwuJxBIfIVTJHBjMi4lYu9T2eQOEqYSM6HRmuLO9ph1PLv3hPvvfm2XUWD7vq3ELgSVInW5j1lmeYGDqJTJLg+xUywTZpqErCOcZ6q/vaNPSDLYA6VmbvkPGhHBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769404849; c=relaxed/simple;
-	bh=m/SqDp10g2NrVA6doGfluragC7c1jscZ5Tg7ztaY+e4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=fmc+CHydbkkiH/q7DAVOC2UFodJEx6sQj1DwSffTzWSvahMPnWWzIUSFoyLprRJOsJZe37UzgB3XbYtZsFfu/CLik23m9l6FmaWsygbhAxzrbhq80wAFAhP31t3/xkybmYsflrayNxxJHwLsE4UJXVorXhuob7Tjc1zOx89Qjp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZ1LsIKd; arc=none smtp.client-ip=192.198.163.17
+	bh=lIIySIxjC+F/+hLCaAdTMtlygliQTbPaYAx9O5w1niM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ooHN0IhVsgpBbg3La3bQpfJEu8MN6UjpVgAv2BT8h55mbFZkDUCS4zuYu6ul617ziN6pSQItA/l0cfRCmHYe+0xYQaFk0o3Y0vpbl5x1NNMKz8JM2QwucrRMnTc3KBWxZgwKuKX2O5lJ7u9GZ3U0kT26XCk7SKrTZiQn8JkikVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jnyQW9We; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZ1LsIKd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jnyQW9We"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769404847; x=1800940847;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=m/SqDp10g2NrVA6doGfluragC7c1jscZ5Tg7ztaY+e4=;
-  b=eZ1LsIKdht/7j2r/61rctOJDZpcu6/w/iTulbfYFe4X/r1a2kuFyPY5o
-   0XJnqG5LLGG3s8VJKGq5Hg5ZA+nuhw0kG4ajJ/B7QM6AeDxj5ZblRt7/J
-   og5NvNFoWwfJ89YvpQUkVZ+7QK4QYlkwEw5X+T0Z2erepq4zyUQxuZAas
-   JUZHNUM73ddWuzDpqY0ugmksKJnTlnV0QUGK4p4SH1wGPBryiV8o5g9aL
-   X1TIGDyME2lIdmutuLaPp46Zc/eJgs9kNlA0p7DmxssuAcicgK7N0nO9N
-   zECX1WrqNhw7xejqOu3NQosWCMAl7MEJmNWgHaps+L4S3D6MZXgt4LNkz
-   A==;
-X-CSE-ConnectionGUID: xLVGQfbjTtWBSR4R0xjNsg==
-X-CSE-MsgGUID: RQrUnT33QgKPgvfBvo5yWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70487473"
+  t=1769404849; x=1800940849;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lIIySIxjC+F/+hLCaAdTMtlygliQTbPaYAx9O5w1niM=;
+  b=jnyQW9We4WFTioHd8qigtIRyCKdYwEquAv0CgOrAYE1yuJpMahsJL8WO
+   SOpFi8X8E4kzDH99htzeFK4oZPxPBz84ufgejPOvp/Tayt6W3l33BNxsP
+   RlSp0cP5KBg9CXXrEa69VkOH4uhDqdYo7QLz/iNzG/vNoNKa7wIbjkm55
+   niFh+bXhrFdrBUGU4OwgWa6ncaTqYciBJsWcZZYm13z1nxtgd4legtpkx
+   wL8gInpikgJ3omuwacD75+KX3OMIsWdGkJzJP3lDOJudJuwk9YpHaNmK+
+   rOkbOOZY0emkzNKfU/MeZWtihcoc4Fx/FfOpqWNaYtCVA8s7gszVL81N5
+   g==;
+X-CSE-ConnectionGUID: Ve9SnSpiRYGj6MdKhO8iGA==
+X-CSE-MsgGUID: +Z2A1hyFQoe2X0L1wWlllA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="93243276"
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="70487473"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 21:20:46 -0800
-X-CSE-ConnectionGUID: g9dnZ470RL+wvv9r0wVFYg==
-X-CSE-MsgGUID: uA29fu3fTveatCinTf4FZg==
+   d="scan'208";a="93243276"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 21:20:48 -0800
+X-CSE-ConnectionGUID: shdXjNf4S0evh3rcUgSJqw==
+X-CSE-MsgGUID: 7fFaf1RbTM+qk/O1vpVBxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="230549470"
+   d="scan'208";a="211688175"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Jan 2026 21:20:45 -0800
+  by orviesa003.jf.intel.com with ESMTP; 25 Jan 2026 21:20:45 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkF1m-00000000Wvg-21RU;
+	id 1vkF1m-00000000Wve-1v2U;
 	Mon, 26 Jan 2026 05:20:42 +0000
-Date: Mon, 26 Jan 2026 13:20:12 +0800
+Date: Mon, 26 Jan 2026 13:20:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/sysfs-const-driver-attribute 16/17]
- drivers/dax/bus.c:138:28: sparse: sparse: incorrect type in argument 1
- (different modifiers)
-Message-ID: <202601261304.nZ0r05dT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, sathya.prakash@broadcom.com,
+	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
+	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Subject: Re: [PATCH] scsi: mpt3sas: fix a potential memory leak in
+ scsih_pci_slot_reset()
+Message-ID: <202601261539.Dt3EKe8y-lkp@intel.com>
+References: <20260125161201.2156109-1-lihaoxiang@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260125161201.2156109-1-lihaoxiang@isrc.iscas.ac.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/sysfs-const-driver-attribute
-head:   92cff81ee317b9c2c7c4e3bb80f46c9feddbfa9d
-commit: 445ba0f479b21cc9310a99aefa9de3d53559eeb0 [16/17] x
-config: sh-randconfig-r132-20260126 (https://download.01.org/0day-ci/archiv=
-e/20260126/202601261304.nZ0r05dT-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260126/202601261304.nZ0r05dT-lkp@intel.com/reproduce)
+Hi Haoxiang,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jejb-scsi/for-next]
+[also build test ERROR on mkp-scsi/for-next linus/master v6.19-rc7 next-20260123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haoxiang-Li/scsi-mpt3sas-fix-a-potential-memory-leak-in-scsih_pci_slot_reset/20260126-001420
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20260125161201.2156109-1-lihaoxiang%40isrc.iscas.ac.cn
+patch subject: [PATCH] scsi: mpt3sas: fix a potential memory leak in scsih_pci_slot_reset()
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260126/202601261539.Dt3EKe8y-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601261539.Dt3EKe8y-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601261304.nZ0r05dT-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601261539.Dt3EKe8y-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/dax/bus.c:19:1: sparse: sparse: symbol 'dax_region_rwsem' was no=
-t declared. Should it be static?
-   drivers/dax/bus.c:25:1: sparse: sparse: symbol 'dax_dev_rwsem' was not d=
-eclared. Should it be static?
->> drivers/dax/bus.c:138:28: sparse: sparse: incorrect type in argument 1 (=
-different modifiers) @@     expected struct device_driver *drv @@     got s=
-truct device_driver const * @@
-   drivers/dax/bus.c:138:28: sparse:     expected struct device_driver *drv
-   drivers/dax/bus.c:138:28: sparse:     got struct device_driver const *
-   drivers/dax/bus.c:145:28: sparse: sparse: incorrect type in argument 1 (=
-different modifiers) @@     expected struct device_driver *drv @@     got s=
-truct device_driver const * @@
-   drivers/dax/bus.c:145:28: sparse:     expected struct device_driver *drv
-   drivers/dax/bus.c:145:28: sparse:     got struct device_driver const *
---
->> drivers/usb/core/driver.c:134:38: sparse: sparse: incorrect type in init=
-ializer (different modifiers) @@     expected struct usb_driver *usb_drv @@=
-     got struct usb_driver const * @@
-   drivers/usb/core/driver.c:134:38: sparse:     expected struct usb_driver=
- *usb_drv
-   drivers/usb/core/driver.c:134:38: sparse:     got struct usb_driver cons=
-t *
-   drivers/usb/core/driver.c:142:38: sparse: sparse: incorrect type in init=
-ializer (different modifiers) @@     expected struct usb_driver *usb_drv @@=
-     got struct usb_driver const * @@
-   drivers/usb/core/driver.c:142:38: sparse:     expected struct usb_driver=
- *usb_drv
-   drivers/usb/core/driver.c:142:38: sparse:     got struct usb_driver cons=
-t *
->> drivers/usb/core/driver.c:155:41: sparse: sparse: incorrect type in init=
-ializer (different modifiers) @@     expected struct usb_driver *usb_driver=
- @@     got struct usb_driver const * @@
-   drivers/usb/core/driver.c:155:41: sparse:     expected struct usb_driver=
- *usb_driver
-   drivers/usb/core/driver.c:155:41: sparse:     got struct usb_driver cons=
-t *
---
->> drivers/usb/serial/bus.c:109:45: sparse: sparse: incorrect type in initi=
-alizer (different modifiers) @@     expected struct usb_serial_driver *usb_=
-drv @@     got struct usb_serial_driver const * @@
-   drivers/usb/serial/bus.c:109:45: sparse:     expected struct usb_serial_=
-driver *usb_drv
-   drivers/usb/serial/bus.c:109:45: sparse:     got struct usb_serial_drive=
-r const *
-   drivers/usb/serial/bus.c:123:45: sparse: sparse: incorrect type in initi=
-alizer (different modifiers) @@     expected struct usb_serial_driver *usb_=
-drv @@     got struct usb_serial_driver const * @@
-   drivers/usb/serial/bus.c:123:45: sparse:     expected struct usb_serial_=
-driver *usb_drv
-   drivers/usb/serial/bus.c:123:45: sparse:     got struct usb_serial_drive=
-r const *
+All errors (new ones prefixed by >>):
 
-vim +138 drivers/dax/bus.c
+>> drivers/scsi/mpt3sas/mpt3sas_scsih.c:12533:2: error: call to undeclared function 'mpt3sas_base_unmap_resources'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    12533 |         mpt3sas_base_unmap_resources(ioc);
+          |         ^
+   drivers/scsi/mpt3sas/mpt3sas_scsih.c:12533:2: note: did you mean 'mpt3sas_base_map_resources'?
+   drivers/scsi/mpt3sas/mpt3sas_base.h:1700:5: note: 'mpt3sas_base_map_resources' declared here
+    1700 | int mpt3sas_base_map_resources(struct MPT3SAS_ADAPTER *ioc);
+         |     ^
+   1 error generated.
 
-d200781ef237a3 Dan Williams     2018-11-07  134 =20
-445ba0f479b21c Thomas Wei=C3=9Fschuh 2026-01-25  135  static ssize_t new_id=
-_store(const struct device_driver *drv, const char *buf,
-d200781ef237a3 Dan Williams     2018-11-07  136  		size_t count)
-d200781ef237a3 Dan Williams     2018-11-07  137  {
-6488e1afce77b1 Thomas Wei=C3=9Fschuh 2026-01-25 @138  	return do_id_store(p=
-tr_unqual(drv), buf, count, ID_ADD);
-d200781ef237a3 Dan Williams     2018-11-07  139  }
-d200781ef237a3 Dan Williams     2018-11-07  140  static DRIVER_ATTR_WO(new_=
-id);
-d200781ef237a3 Dan Williams     2018-11-07  141 =20
 
-:::::: The code at line 138 was first introduced by commit
-:::::: 6488e1afce77b1f23ff40dde7ded5df3f0fd789f dax: ptr_unqual
+vim +/mpt3sas_base_unmap_resources +12533 drivers/scsi/mpt3sas/mpt3sas_scsih.c
 
-:::::: TO: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-:::::: CC: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+ 12496	
+ 12497	/**
+ 12498	 * scsih_pci_slot_reset - Called when PCI slot has been reset.
+ 12499	 * @pdev: PCI device struct
+ 12500	 *
+ 12501	 * Description: This routine is called by the pci error recovery
+ 12502	 * code after the PCI slot has been reset, just before we
+ 12503	 * should resume normal operations.
+ 12504	 */
+ 12505	static pci_ers_result_t
+ 12506	scsih_pci_slot_reset(struct pci_dev *pdev)
+ 12507	{
+ 12508		struct Scsi_Host *shost;
+ 12509		struct MPT3SAS_ADAPTER *ioc;
+ 12510		int rc;
+ 12511	
+ 12512		if (_scsih_get_shost_and_ioc(pdev, &shost, &ioc))
+ 12513			return PCI_ERS_RESULT_DISCONNECT;
+ 12514	
+ 12515		ioc_info(ioc, "PCI error: slot reset callback!!\n");
+ 12516	
+ 12517		ioc->pci_error_recovery = 0;
+ 12518		ioc->pdev = pdev;
+ 12519		pci_restore_state(pdev);
+ 12520		rc = mpt3sas_base_map_resources(ioc);
+ 12521		if (rc)
+ 12522			return PCI_ERS_RESULT_DISCONNECT;
+ 12523	
+ 12524		ioc_info(ioc, "Issuing Hard Reset as part of PCI Slot Reset\n");
+ 12525		rc = mpt3sas_base_hard_reset_handler(ioc, FORCE_BIG_HAMMER);
+ 12526	
+ 12527		ioc_warn(ioc, "hard reset: %s\n",
+ 12528			 (rc == 0) ? "success" : "failed");
+ 12529	
+ 12530		if (!rc)
+ 12531			return PCI_ERS_RESULT_RECOVERED;
+ 12532	
+ 12533		mpt3sas_base_unmap_resources(ioc);
+ 12534		return PCI_ERS_RESULT_DISCONNECT;
+ 12535	}
+ 12536	
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
