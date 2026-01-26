@@ -1,264 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C9C28A72F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 19:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55479248886
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 20:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769457327; cv=none; b=lXLy/7KoZsrz1IuDkFKoedOdwewpejkXqXV9yZ7EaVpaCclrBQaJAmDquN9RKcJuTid6qKd3thykzpv7mcOnwlYlg2JLoKr0r0H/QQrl++kM4rXdTmwttZwxL9t2ze+9rB8sc+vFaY+cSHDI+Mh9tVDNDt79nFWDi87DA2FfeeM=
+	t=1769458407; cv=none; b=I09eWOihBFKNbnvPd+85sqO92zfFsGw5Jl3j+InOmS4US5bX2IMlEW7eNpuFT2mZg1UOtRxPpsGtvdiXculoaO5pPSo1ZUUSJ4csia/4Z8PS0cZVyBWIUCHU5oKNqibtnJy96LiWWV2N17VMtKd2DZmfIMt23W4wgx/uSR6NfUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769457327; c=relaxed/simple;
-	bh=bzYjp+8xDiAYc9Gm7J8G6NjVxzQxrMXHBQZwbxSYmLc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jlNeoo8poZJLL6vfTaXEqIPagF6x92k8T5XGGRQdUAhUq5lbTzffDMM1XFieprDT0Bk8YLVdqp5bi1XbFzqoCdzsSC/Nn3ZcBJYRw818hvD9188fIS7+9ndZgKhiaUaSRN40Ndu/g3TqeWUq4UFiXqsvJZ7oQ7tzcWrfJ9LeSoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mc5ehc/S; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1769458407; c=relaxed/simple;
+	bh=qkJo7ESXrCrfYoaZyj6OtEZMoYS2QMRbXdhAs0mHk+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VaKdXHOeoEpD471W9YjLcmh97cpwPc2cjIs4HdBIeshazHNsgWLnxpYLZp8sWYvww22U1izseT7gRYa1cLyth+CSqNRKZg0DCyg/y4X+r+r0gLk/czdMKxD6EO8WreEed3M8YB0otjaAs6NHVjBrKN13DjPjH5CjbEblh/j4fdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gJJfJvOV; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mc5ehc/S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gJJfJvOV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769457325; x=1800993325;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bzYjp+8xDiAYc9Gm7J8G6NjVxzQxrMXHBQZwbxSYmLc=;
-  b=mc5ehc/SPhUU9eVTVHm3boI3rIlPQ9Cal9giHUuVvAOKvyDnHwLlEsns
-   z8QXy0gjdf2spzWH/jOqXSP5aIqbw6+2UIbJ7CBNUUP1zVVklWESd/V7y
-   SwpzSVUNB7MzGwjcdD8eGmdM4buu64gvAZFNiXn6xfCqQPCfxYkfDeB2X
-   9GxO8DOvMjSaLvE+0xYwT+YCFRk6QDGuVPPvc11yti0BFKVLuW8mama6v
-   OLGx4V+NdmjCh7B5uqVYejgaewE03FTIYwr5V9bEK8EaqvXWMd8f0Tv/t
-   dChdxTLonfnzcQ5qPlznNUo01Sw1EKPbZvfwYBpyMaTsMeatGtl6qEKK4
-   Q==;
-X-CSE-ConnectionGUID: Uo00OcraSz64rWpGmZX1XA==
-X-CSE-MsgGUID: AIXzQNooRdGjUk3wSLf8Hw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="88220404"
+  t=1769458405; x=1800994405;
+  h=date:from:to:cc:subject:message-id;
+  bh=qkJo7ESXrCrfYoaZyj6OtEZMoYS2QMRbXdhAs0mHk+Y=;
+  b=gJJfJvOVROOKhOTWWc6CE7g8DGqaeRL7vUVqEDETbP5m98LM2UXW5Cr3
+   vpSstJ2rNQigDrKfe3BT82Tfv5kLmidcHDSk5HWtWjPp5+Xk1C0ngJvYX
+   pN3l2xRIFgpS7NtNcBzBcSX+kUlnnjLCWSyZwRACgm88Q6Fc3dx/jaQ9P
+   ob1LcRt31wniEhNovI/dxvD3A5YCcMi7P9DECnaNFmTbYb1HycotwqMR/
+   xkVCvEBY1bzLHfzVdf9j0q4vdeCS3JwPNzMEKmMChMWIhGis0dvN297MZ
+   EU26QN4MZqApVAFUOJYk7WPPdUWPXuYcFezEmEMVp+Ux4KuKEai0pixfb
+   A==;
+X-CSE-ConnectionGUID: etC7kzvZSiapz3GZJ6gK9A==
+X-CSE-MsgGUID: 4ezZEj9FSu6wNu7WzK22Jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="69843717"
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="88220404"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 11:55:24 -0800
-X-CSE-ConnectionGUID: M+z32x+hT9COs304ebl1QA==
-X-CSE-MsgGUID: CM8cJ8CfSFeNo2ReGsNN7w==
+   d="scan'208";a="69843717"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 12:13:25 -0800
+X-CSE-ConnectionGUID: uA9dRYdoSgKIiQVUpP8LIQ==
+X-CSE-MsgGUID: icOJ/cmURlOxI3IBdlDtFQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="207577766"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Jan 2026 11:55:23 -0800
+  by orviesa009.jf.intel.com with ESMTP; 26 Jan 2026 12:13:24 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkSgD-000000001an-0TTB;
-	Mon, 26 Jan 2026 19:55:21 +0000
-Date: Mon, 26 Jan 2026 20:54:27 +0100
+	id 1vkSxd-000000001az-13ZR;
+	Mon, 26 Jan 2026 20:13:21 +0000
+Date: Mon, 26 Jan 2026 21:12:49 +0100
 From: kernel test robot <lkp@intel.com>
-To: SeungJong Ha via B4 Relay <devnull+engineer.jjhama.gmail.com@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 2/3] rust: tty: add TTY subsystem abstractions
-Message-ID: <202601262059.RG0O6igF-lkp@intel.com>
-References: <20260126-rust-tty-printk-driver-v1-2-28604e7e100e@gmail.com>
+Subject: [android-common:android13-5.10 1/1]
+ kernel/trace/trace_events.c:1876:37: warning: unused variable
+ 'ftrace_event_id_fops'
+Message-ID: <202601262120.Zm4zkSO4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126-rust-tty-printk-driver-v1-2-28604e7e100e@gmail.com>
 
-Hi SeungJong,
+Hi Nick,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on e741e19d7691c5e6f5c2bbff980d835dccb86054]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/SeungJong-Ha-via-B4-Relay/rust-bindings-add-TTY-subsystem-headers/20260126-202713
-base:   e741e19d7691c5e6f5c2bbff980d835dccb86054
-patch link:    https://lore.kernel.org/r/20260126-rust-tty-printk-driver-v1-2-28604e7e100e%40gmail.com
-patch subject: [PATCH RFC 2/3] rust: tty: add TTY subsystem abstractions
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260126/202601262059.RG0O6igF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601262059.RG0O6igF-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   c35b97a00bbebbd99c3e1980433ff4e45ba40082
+commit: 377062e9833e131b9808a04f71be39161a1f04a6 [1/1] UPSTREAM: Makefile: infer --target from ARCH for CC=clang
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260126/202601262120.Zm4zkSO4-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601262120.Zm4zkSO4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601262059.RG0O6igF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601262120.Zm4zkSO4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/tty/port.rs:9:
-    
-    use pin_init::PinInit;
-    
-   -use crate::{
-   -    bindings,
-   -    error::VTABLE_DEFAULT_ERROR,
-   -    prelude::*,
-   -    types::Opaque,
-   -};
-   +use crate::{bindings, error::VTABLE_DEFAULT_ERROR, prelude::*, types::Opaque};
-    
-    /// A combined TTY port and driver data structure.
-    ///
->> Diff in rust/kernel/tty/driver.rs:6:
-    
-    use core::marker::PhantomData;
-    
-   -use super::{
-   -    DriverPort,
-   -    PortOperations,
-   -    Tty,
-   -};
-   +use super::{DriverPort, PortOperations, Tty};
-    use crate::{
-        bindings,
-   -    error::{
-   -        Error,
-   -        Result,
-   -        VTABLE_DEFAULT_ERROR,
-   -    },
-   +    error::{Error, Result, VTABLE_DEFAULT_ERROR},
-        prelude::*,
-        sync::Arc,
-        types::Opaque,
->> Diff in rust/kernel/tty/driver.rs:6:
-    
-    use core::marker::PhantomData;
-    
-   -use super::{
-   -    DriverPort,
-   -    PortOperations,
-   -    Tty,
-   -};
-   +use super::{DriverPort, PortOperations, Tty};
-    use crate::{
-        bindings,
-   -    error::{
-   -        Error,
-   -        Result,
-   -        VTABLE_DEFAULT_ERROR,
-   -    },
-   +    error::{Error, Result, VTABLE_DEFAULT_ERROR},
-        prelude::*,
-        sync::Arc,
-        types::Opaque,
->> Diff in rust/kernel/tty/port.rs:9:
-    
-    use pin_init::PinInit;
-    
-   -use crate::{
-   -    bindings,
-   -    error::VTABLE_DEFAULT_ERROR,
-   -    prelude::*,
-   -    types::Opaque,
-   -};
-   +use crate::{bindings, error::VTABLE_DEFAULT_ERROR, prelude::*, types::Opaque};
-    
-    /// A combined TTY port and driver data structure.
-    ///
->> Diff in rust/kernel/tty.rs:14:
-    use core::marker::PhantomData;
-    
-    pub use driver::{
-   -    flags,
-   -    oflag,
-   -    DriverType,
-   -    Operations,
-   -    Options,
-   -    TtyDriver,
-   -    TtyDriverBuilder,
-   -    TTYAUX_MAJOR,
-   +    flags, oflag, DriverType, Operations, Options, TtyDriver, TtyDriverBuilder, TTYAUX_MAJOR,
-    };
-   -pub use port::{
-   -    DriverPort,
-   -    Operations as PortOperations,
-   -};
-   +pub use port::{DriverPort, Operations as PortOperations};
-    
-   -use crate::{
-   -    bindings,
-   -    sync::Arc,
-   -};
-   +use crate::{bindings, sync::Arc};
-    
-    /// TTY struct wrapper, generic over driver data and driver state types.
-    ///
->> Diff in rust/kernel/tty/driver.rs:6:
-    
-    use core::marker::PhantomData;
-    
-   -use super::{
-   -    DriverPort,
-   -    PortOperations,
-   -    Tty,
-   -};
-   +use super::{DriverPort, PortOperations, Tty};
-    use crate::{
-        bindings,
-   -    error::{
-   -        Error,
-   -        Result,
-   -        VTABLE_DEFAULT_ERROR,
-   -    },
-   +    error::{Error, Result, VTABLE_DEFAULT_ERROR},
-        prelude::*,
-        sync::Arc,
-        types::Opaque,
->> Diff in rust/kernel/tty/port.rs:9:
-    
-    use pin_init::PinInit;
-    
-   -use crate::{
-   -    bindings,
-   -    error::VTABLE_DEFAULT_ERROR,
-   -    prelude::*,
-   -    types::Opaque,
-   -};
-   +use crate::{bindings, error::VTABLE_DEFAULT_ERROR, prelude::*, types::Opaque};
-    
-    /// A combined TTY port and driver data structure.
-    ///
->> Diff in rust/kernel/tty.rs:14:
-    use core::marker::PhantomData;
-    
-    pub use driver::{
-   -    flags,
-   -    oflag,
-   -    DriverType,
-   -    Operations,
-   -    Options,
-   -    TtyDriver,
-   -    TtyDriverBuilder,
-   -    TTYAUX_MAJOR,
-   +    flags, oflag, DriverType, Operations, Options, TtyDriver, TtyDriverBuilder, TTYAUX_MAJOR,
-    };
-   -pub use port::{
-   -    DriverPort,
-   -    Operations as PortOperations,
-   -};
-   +pub use port::{DriverPort, Operations as PortOperations};
-    
-   -use crate::{
-   -    bindings,
-   -    sync::Arc,
-   -};
-   +use crate::{bindings, sync::Arc};
-    
-    /// TTY struct wrapper, generic over driver data and driver state types.
-    ///
-   make[2]: *** [Makefile:1871: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   In file included from <built-in>:2:
+   In file included from ././include/linux/compiler_types.h:69:
+   ./include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:367:9: note: previous definition is here
+     367 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> kernel/trace/trace_events.c:1876:37: warning: unused variable 'ftrace_event_id_fops' [-Wunused-const-variable]
+    1876 | static const struct file_operations ftrace_event_id_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +/ftrace_event_id_fops +1876 kernel/trace/trace_events.c
+
+981d081ec8b958 Steven Rostedt 2009-03-02  1875  
+23725aeeab10ba Peter Zijlstra 2009-03-19 @1876  static const struct file_operations ftrace_event_id_fops = {
+23725aeeab10ba Peter Zijlstra 2009-03-19  1877  	.read = event_id_read,
+6038f373a3dc1f Arnd Bergmann  2010-08-15  1878  	.llseek = default_llseek,
+23725aeeab10ba Peter Zijlstra 2009-03-19  1879  };
+23725aeeab10ba Peter Zijlstra 2009-03-19  1880  
+
+:::::: The code at line 1876 was first introduced by commit
+:::::: 23725aeeab10ba02bcf10ec49ad73146b54cb52f ftrace: provide an id file for each event
+
+:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
