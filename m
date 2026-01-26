@@ -1,32 +1,67 @@
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06F1C314D19
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 09:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFF730DD3A;
+	Mon, 26 Jan 2026 10:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769419924; cv=none; b=pwaYSubcmNLudMXxl7iRLvyF2m5HFl+l/BDDdINimVHAyNhyE3sCzLdu/PNC+vEYhhayD8/HPoD8tMkUEouVhblWoNEnPG08+Za20yHx/g+qyRlYNzLFYj1QACsM/rUf0nLusJsY3kGlJ7iTWLo2SnjdtWVvnfq1hhVnHyxlLDQ=
+	t=1769422695; cv=none; b=GBUSbQOh3iDNQcN97NSkt8tXs0wAMF2J9MhWh519Y/fxuFzSw7xI/30ysYRqOHeB0qwzLXSM8B8kpAmM5wxaVEv8fcKInKXujlSfP0fzkyUmlaYY/MC6+RuiwhZqMmCUBqcTedDTBr+qXPAR0suMrVCZen5Fr4ZbS6wlV+qJH58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769419924; c=relaxed/simple;
-	bh=ZsJ3ecwq9pLznx+VXyd4otowFYbw1bQJhRLNH/d6s+E=;
+	s=arc-20240116; t=1769422695; c=relaxed/simple;
+	bh=quqRkVFthBroWqgig1FsNhPaP4WnTvGnsAf91QGigAk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=REIKjASCjRneefp/i/KFVtRBqiZ+LY/CCGLJwDOjzbC3oouAPxQw2nwCN7aR47a3TEePQAtuGfujxia+8Wf54gIVwf1UIf4zFev90EyJkuvsJKPgq9rF8j7v73qXuxRER7m0Nnb5v5wD3XPTkp4omRYxZ4WCfssMKcqYBC2CCvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-18-697730ff2573
-Date: Mon, 26 Jan 2026 18:16:42 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	David Hildenbrand <david@kernel.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
-	kernel_team@skhynix.com
-Subject: Re: [akpm-mm:mm-unstable /301] net/core/page_pool.c:713:71: sparse:
- sparse: incorrect type in argument 1 (different base types)
-Message-ID: <20260126091642.GA62597@system.software.com>
-References: <202601161606.8RuyUh2k-lkp@intel.com>
- <20260116151500.b56d0cc2525072123ad2d86d@linux-foundation.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WNgQD6qv1q5U8y7xH7N6LJljtMDSIw3xT0EVWbAGxyuT9x0g/FS4LdIWjR761fTy1+jtGBbGjPsJPsPGpkVnPf2wA42t9hDOiUbogNkSCuUBCib1SS6Mg9Zv+OMUbDsUeEdSw1cR9Pamt5bTWT1YI7BTh4dXHqiyGZbcjlKsgKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPyfcySK; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPyfcySK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769422694; x=1800958694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=quqRkVFthBroWqgig1FsNhPaP4WnTvGnsAf91QGigAk=;
+  b=mPyfcySKXEHWHRuaeX3QepwZgYyxBvhi9SxNlqr3XB66SppgL3a6zhg7
+   XTpu7qikDGJAE5DBGud4ecpxbQdcV62ekCAOuDUwmS48hkIuutvo2iFe1
+   76JNcOhYKg/bM9s2gFDu6lc1BAMdkK+Ocbtdc3RjyGOKgaWST8mXUaUqF
+   vNNcWgOvf/jU2fK3B7DHR7cmtUW9entAxkuqCjrPv9vsNEjGayPmiJTX4
+   QEA8R5wVuq3S0PbojYGb173ir8YwQOB3DhqfeIROdEmr51fuOS2r2BQLr
+   p97O4tflZ8ODiZpUV4bcI9cA9wfYDQZxQcRuH4kb8A/RixhvIhbcZvKkg
+   w==;
+X-CSE-ConnectionGUID: 3C07O8FDS3+bCes+Zoq6ww==
+X-CSE-MsgGUID: OQrr4GrUSL+23NjkUCIMfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70501578"
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="70501578"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:18:14 -0800
+X-CSE-ConnectionGUID: EZyT1F7jTTazaVY3kxp/rQ==
+X-CSE-MsgGUID: Wla4yzLASDOGBJsv28hOPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="211736576"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:18:10 -0800
+Date: Mon, 26 Jan 2026 12:18:07 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Kyle Hsieh <kylehsieh1995@gmail.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Beguin <liambeguin@gmail.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] iio: adc: ltc2309: add support for ltc2305
+Message-ID: <aXc_XxDxc5PuI7Tu@smile.fi.intel.com>
+References: <20260126-add_ltc2305_driver-v3-2-951349a87f97@gmail.com>
+ <202601261441.M4qQzY72-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,74 +70,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260116151500.b56d0cc2525072123ad2d86d@linux-foundation.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrILMWRmVeSWpSXmKPExsXC9ZZnoe5/g/JMg8YTqhZz1q9hs5izahuj
-	xfOtvxgt7q35z2rxqvkRm8WhlVeYLC4dfsTiwO6xc9Zddo/Fe14yeWxa1cnmsenTJHaPEzN+
-	s3i82DyT0eP9vqtsAexRXDYpqTmZZalF+nYJXBmn7neyFlwUrvje28vewLhMoIuRk0NCwERi
-	7q8Z7DD2vEMfmUBsFgFViSlLu8HibALqEjdu/GQGsUUEdCVWPd8FZHNxMAusYJLYv/svG4gj
-	DDRO4sX+e0AOBwevgIXE7amhIA1CAkUSf95PYgGxeQUEJU7OfAJmMwtoSdz495IJpJxZQFpi
-	+T8OEJNTwFviydJwkApRAWWJA9uOM4FMlxA4wCZx6PpcJog7JSUOrrjBMoFRYBaSqbOQTJ2F
-	MHUBI/MqRqHMvLLcxMwcE72MyrzMCr3k/NxNjMCAX1b7J3oH46cLwYcYBTgYlXh4f5iVZQqx
-	JpYVV+YeYpTgYFYS4eVfVpopxJuSWFmVWpQfX1Sak1p8iFGag0VJnNfoW3mKkEB6Yklqdmpq
-	QWoRTJaJg1OqgdFiVs7t+1s+f/d/tsXi1yylrU2bJF+def/sSuFtqx2Tbe5rnY39z2wZwlUy
-	q7eYpyFCWc7+x/N1osL3GKTZHh2fr7Dij/CP4JdvLMuznq588/+nf1biMr4vr3ct0la/cH6f
-	zbf2lTeX7Q3R6vPhbXncIrF42qElE4R1EiceXO9ad2pOxQ2zw6t5lFiKMxINtZiLihMBMNsw
-	nXQCAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBLMWRmVeSWpSXmKPExsXC5WfdrPvfoDzT4PgTcYs569ewWcxZtY3R
-	4vnWX4wWh+eeZLW4t+Y/q8Wr5kdsFodWXmGyuHT4EYsDh8fOWXfZPRbvecnksWlVJ5vHpk+T
-	2D1OzPjN4vFi80xGj/f7rrJ5LH7xgSmAI4rLJiU1J7MstUjfLoEr49T9TtaCi8IV33t72RsY
-	lwl0MXJySAiYSMw79JEJxGYRUJWYsrSbHcRmE1CXuHHjJzOILSKgK7Hq+S4gm4uDWWAFk8T+
-	3X/ZQBxhoBESL/bfA3I4OHgFLCRuTw0FaRASKJL4834SC4jNKyAocXLmEzCbWUBL4sa/l0wg
-	5cwC0hLL/3GAmJwC3hJPloaDVIgKKEsc2HacaQIj7ywkzbOQNM9CaF7AyLyKUSQzryw3MTPH
-	VK84O6MyL7NCLzk/dxMjMHyX1f6ZuIPxy2X3Q4wCHIxKPLwf9MsyhVgTy4orcw8xSnAwK4nw
-	8i8rzRTiTUmsrEotyo8vKs1JLT7EKM3BoiTO6xWemiAkkJ5YkpqdmlqQWgSTZeLglGpg7Kj8
-	lt1i+df/0wKF9/WOD/dKRu96aP1dNnHGup2XvJ9OW5Jeknrt+caDFxaHme8yzDoXUfKAp3rB
-	seN9cjW2yw5dEOBdO6fvdJP0006xQnarzJB5yckKd2yeLzno6W/FvmLdqyoTjxNOmiZrIheG
-	Fa7eW/+8TDIymnXSc+uvcsKGIveUn9zxV2Ipzkg01GIuKk4EAH1IdQxbAgAA
-X-CFilter-Loop: Reflected
+In-Reply-To: <202601261441.M4qQzY72-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jan 16, 2026 at 03:15:00PM -0800, Andrew Morton wrote:
-> On Fri, 16 Jan 2026 16:41:32 +0800 kernel test robot <lkp@intel.com> wrote:
+On Mon, Jan 26, 2026 at 02:22:21PM +0800, kernel test robot wrote:
+> Hi Kyle,
 > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> > head:   fe2c34b6ea5a0e1175c30d59bc1c28caafb02c62
-> > commit: 7699fe82442a62ea29a3745b29dbb8ef8c42d8db [/301] mm: introduce a new page type for page pool in page type
-> > config: x86_64-randconfig-122-20260115 (https://download.01.org/0day-ci/archive/20260116/202601161606.8RuyUh2k-lkp@intel.com/config)
-> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161606.8RuyUh2k-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601161606.8RuyUh2k-lkp@intel.com/
-> >
-> > sparse warnings: (new ones prefixed by >>)
-> > >> net/core/page_pool.c:713:71: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted netmem_ref [usertype] netmem @@     got unsigned long @@
-> >    net/core/page_pool.c:713:71: sparse:     expected restricted netmem_ref [usertype] netmem
-> >    net/core/page_pool.c:713:71: sparse:     got unsigned long
-> >    net/core/page_pool.c:734:73: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted netmem_ref [usertype] netmem @@     got unsigned long @@
-> >    net/core/page_pool.c:734:73: sparse:     expected restricted netmem_ref [usertype] netmem
-> >    net/core/page_pool.c:734:73: sparse:     got unsigned long
+> kernel test robot noticed the following build warnings:
 > 
-> Oh, OK.
+> [auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
 > 
-> Byungchul, please remind me why I'm carrying a page-pool patch?  I
-> applied it because email headers and because Suggested-by:David, but
-> these things are usually carried in the networking tree.
-
-Sorry for late reply.  This patch changes both mm and network, but I
-aimed at mm tree since I thought it's more about mm - Jakub also think
-so.  See the following link:
-
-  https://lore.kernel.org/all/20250813075212.051b5178@kernel.org/
-
-> And I never applied [patch 2/2]
-> (https://lkml.kernel.org/r/20251215071001.78263-3-byungchul@sk.com)
-> because "kernel test robot" reported a build error.
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Hsieh/dt-bindings-adc-ltc2497-add-support-for-ltc2305/20260126-093339
+> base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+> patch link:    https://lore.kernel.org/r/20260126-add_ltc2305_driver-v3-2-951349a87f97%40gmail.com
+> patch subject: [PATCH v3 2/2] iio: adc: ltc2309: add support for ltc2305
+> config: i386-buildonly-randconfig-006-20260126 (https://download.01.org/0day-ci/archive/20260126/202601261441.M4qQzY72-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601261441.M4qQzY72-lkp@intel.com/reproduce)
 > 
-> In fact, I'll drop the patch - please let's have a redo.
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601261441.M4qQzY72-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/iio/adc/ltc2309.c:209:20: warning: variable 'chip_info' is uninitialized when used here [-Wuninitialized]
+>      209 |         indio_dev->name = chip_info->name;
+>          |                           ^~~~~~~~~
+>    drivers/iio/adc/ltc2309.c:195:43: note: initialize the variable 'chip_info' to silence this warning
+>      195 |         const struct ltc2309_chip_info *chip_info;
+>          |                                                  ^
+>          |                                                   = NULL
 
-Okay.  I will retry.  Thanks.
+This is so wrong advice!
 
-	Byungchul
+>    1 warning generated.
+
+...
+
+The device_get_match_data() call is missing.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
