@@ -1,223 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1C91DE8AE;
-	Mon, 26 Jan 2026 20:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941C12C0298;
+	Mon, 26 Jan 2026 20:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769458615; cv=none; b=cvxv9M+cZ+fQ91HALdDo4sVhkm9FeY1TJrcjnUWUSTyKUbtLLqQCPd8W0Wgov4g6RVgOdYiNMLxcsIvJKzBDqk28i2PaLKeHXT2l4VkOxmUhddqHZgp8T9aOmjIutK4SpSLXBj4zfbKU9plTRtw+HZrXvG5opg+1h9OcyHlQIMI=
+	t=1769459734; cv=none; b=uqWhL8iBJTkIp7Gzx2P2zBDNCoww9Do5DfqfFwWPHV9+PjJFv0VNPa8w4UoT6IMHrFDEu1Bb6Mj4HXteSiE3GUynIkXt/arlffDcZDYMLaz/GQE7V9HIEQJ19TpF0y7WaJPssiYg3zoNHkHnSYuj1BRQAm9etCuniQYc/NTvmvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769458615; c=relaxed/simple;
-	bh=jDTJt28eS0OoJ53PsZXeEECWkT1UGi1eT3ZMSzGB25M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tefQNQaf5/kdwUCTs64fO3Y7srpBxaJR24EuSkjlytnCTgCA3q5U/jW1o3VJKRa5IMoDahkAgzHZ128KpIr1jFwLjau1qIKeiUGXZTVeB7y2qoyBcuYnXr07fqV7Ojdu9kKCikwrYWlB/xEZRckrlnWNPBKeVBmoVLQKtA5ergA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgDV8Qd6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769459734; c=relaxed/simple;
+	bh=V1RzzugFq4lQjn+rRdnD+51syDtTdeDk9UK3+wcJ9r4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=tfWdZG2GWceW5Hh9hi4uLdgmCgLRwl0to6trMKZPcFpIO3aQ793jb8bUqGCeBx3pPXJW7+tqdOYmTUFpYLZedixJ+YdKhGYdTQdbbBiiERF6vgQnpILh/xadapqKqQSzUSDCqK26BY7T4YMG29Sr6aiE/Jn2MdXVnb4J5j154UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l0RokPYe; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgDV8Qd6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01506C116C6;
-	Mon, 26 Jan 2026 20:16:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769458614;
-	bh=jDTJt28eS0OoJ53PsZXeEECWkT1UGi1eT3ZMSzGB25M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kgDV8Qd6nYF8zBFQPhFHXo8DLxGwM1sFByWRSjdf2B4nK8GHyILToDsGWcS2sbgSJ
-	 WypEHy8Ic5kMPpX/hS437eVpNKOx7tSI8mEE11fm8cRkvCcrTgFWCkGz+6Rsbj4TrB
-	 xTHCWj7tg9tXwPu4WZHGeKSlHDr7CT6TCJucpPXy1kyydP+wocvh7J8zz2i4VUGgOK
-	 gKZ00hQchg9jSWBqNAWSusenBje3lcIVDUAsoTB2Y5FQ1VqLlsd5fUYfMS4VXPwNMR
-	 IvFVt1LZO7vLmcxVqYof+g4OR/d1c+Mil2tJNpxcy8CehyGidmRZSzW1waoRzY7axf
-	 SLrz9kJMPA0Nw==
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-To: kernel test robot <lkp@intel.com>,
- Frederic Weisbecker <frederic@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org
-Subject:
- Re: [rafael-pm:bleeding-edge 175/176] ERROR: modpost: "tick_nohz_enabled"
- [drivers/cpufreq/cpufreq_ondemand.ko] undefined!
-Date: Mon, 26 Jan 2026 21:16:49 +0100
-Message-ID: <4709230.LvFx2qVVIh@rafael.j.wysocki>
-Organization: Linux Kernel Development
-In-Reply-To: <aXN9-KrR0YyC7YDV@localhost.localdomain>
-References:
- <202601231505.4Q8tb33s-lkp@intel.com>
- <aXN9-KrR0YyC7YDV@localhost.localdomain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l0RokPYe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769459732; x=1800995732;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V1RzzugFq4lQjn+rRdnD+51syDtTdeDk9UK3+wcJ9r4=;
+  b=l0RokPYePyYID4DchkqJ8gh+PpTS3ISnGOfIB9aZVsdv73ZpVR92md78
+   AqSA8mm5vxkHM0IOtD2P0CmncCPxH5Doml++Y9a5DPzJZkEJ0RLVhOiZf
+   PmT7jS9eiBPOZMm8Y7dlrPh4BoDc4kPMOilWe7/n0WjdmrxX47+8icGuc
+   l/VFF3K9CHIX67PDIT8v1038EHf/qwdxjt4CWWlmTSpmdJe/3ooqoWwx9
+   wF0y5pR1JGaSRxO6iJcnJLEp+tjm8Qhsv+TvgAstqKlWhuXS2EgsnEiav
+   0cWNFdLV6bIwJgzt2xR1mQrblDFuZmvyR82lIN3q4GoiX6TIBGe7jE/9p
+   Q==;
+X-CSE-ConnectionGUID: Oc2kUtlrQ9ieB9oeBPZbaQ==
+X-CSE-MsgGUID: hyffc7jDTeSpvELlcD7aSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="88223077"
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="88223077"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 12:35:32 -0800
+X-CSE-ConnectionGUID: S59lCWnrT7qfeQEGD1Jk/Q==
+X-CSE-MsgGUID: tbwxUyztSPmeprNDfLzwLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="212238335"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 26 Jan 2026 12:35:31 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vkTJ2-00000000XfQ-2zGW;
+	Mon, 26 Jan 2026 20:35:28 +0000
+Date: Tue, 27 Jan 2026 04:34:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 41/42]
+ kernel/time/hrtimer.c:121:45: error: static assertion expression is not an
+ integral constant expression
+Message-ID: <202601270426.K3P5aymt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 
-On Friday, January 23, 2026 2:56:08 PM CET Frederic Weisbecker wrote:
-> Le Fri, Jan 23, 2026 at 03:37:07PM +0800, kernel test robot a =C3=A9crit :
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm=
-=2Egit bleeding-edge
-> > head:   8a22b02a1427ff0eab01a1b7cd62355238ba3d5b
-> > commit: cc85c350babcb86c65da5393532f1cb255c750bc [175/176] cpufreq: ond=
-emand: Simplify idle cputime granularity test
-> > config: i386-buildonly-randconfig-002-20260123 (https://download.01.org=
-/0day-ci/archive/20260123/202601231505.4Q8tb33s-lkp@intel.com/config)
-> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20260123/202601231505.4Q8tb33s-lkp@intel.com/reproduce)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601231505.4Q8tb33s-l=
-kp@intel.com/
-> >=20
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> >=20
-> > >> ERROR: modpost: "tick_nohz_enabled" [drivers/cpufreq/cpufreq_ondeman=
-d.ko] undefined!
-> >=20
->=20
-> Right...
->=20
-> Is it better with this replacement?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   80461d79725e9de0ffda5d621552a2db3608f64d
+commit: 2969d9693803a8bfd1c8bfcf3943af5a920be88f [41/42] hrtimer: Add support for auxiliary clocks
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260127/202601270426.K3P5aymt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270426.K3P5aymt-lkp@intel.com/reproduce)
 
-It is still failing the build.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601270426.K3P5aymt-lkp@intel.com/
 
-I'll fix it up tomorrow.
+All errors (new ones prefixed by >>):
 
-> ---
-> From: Frederic Weisbecker <frederic@kernel.org>
-> Date: Wed, 7 Jan 2026 17:25:09 +0100
-> Subject: [PATCH] cpufreq: ondemand: Simplify idle cputime granularity test
->=20
-> cpufreq calls get_cpu_idle_time_us() just to know if idle cputime
-> accounting has a nanoseconds granularity.
->=20
-> Use the appropriate indicator instead to make that deduction.
->=20
-> Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Viresh Kumar <viresh.kumar@linaro.org>
-> Cc: linux-pm@vger.kernel.org
-> ---
->  drivers/cpufreq/cpufreq_ondemand.c | 7 +------
->  include/linux/tick.h               | 1 +
->  kernel/time/hrtimer.c              | 2 +-
->  kernel/time/tick-internal.h        | 2 --
->  kernel/time/tick-sched.c           | 8 +++++++-
->  kernel/time/timer.c                | 2 +-
->  6 files changed, 11 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufreq=
-_ondemand.c
-> index a6ecc203f7b7..bb7db82930e4 100644
-> --- a/drivers/cpufreq/cpufreq_ondemand.c
-> +++ b/drivers/cpufreq/cpufreq_ondemand.c
-> @@ -334,17 +334,12 @@ static void od_free(struct policy_dbs_info *policy_=
-dbs)
->  static int od_init(struct dbs_data *dbs_data)
->  {
->  	struct od_dbs_tuners *tuners;
-> -	u64 idle_time;
-> -	int cpu;
-> =20
->  	tuners =3D kzalloc(sizeof(*tuners), GFP_KERNEL);
->  	if (!tuners)
->  		return -ENOMEM;
-> =20
-> -	cpu =3D get_cpu();
-> -	idle_time =3D get_cpu_idle_time_us(cpu, NULL);
-> -	put_cpu();
-> -	if (idle_time !=3D -1ULL) {
-> +	if (tick_nohz_is_active()) {
->  		/* Idle micro accounting is supported. Use finer thresholds */
->  		dbs_data->up_threshold =3D MICRO_FREQUENCY_UP_THRESHOLD;
->  	} else {
-> diff --git a/include/linux/tick.h b/include/linux/tick.h
-> index ac76ae9fa36d..fe7f51451ba1 100644
-> --- a/include/linux/tick.h
-> +++ b/include/linux/tick.h
-> @@ -126,6 +126,7 @@ enum tick_dep_bits {
-> =20
->  #ifdef CONFIG_NO_HZ_COMMON
->  extern bool tick_nohz_enabled;
-> +extern bool tick_nohz_is_active(void);
->  extern bool tick_nohz_tick_stopped(void);
->  extern bool tick_nohz_tick_stopped_cpu(int cpu);
->  extern void tick_nohz_idle_stop_tick(void);
-> diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-> index f8ea8c8fc895..e1bbf883dfa8 100644
-> --- a/kernel/time/hrtimer.c
-> +++ b/kernel/time/hrtimer.c
-> @@ -943,7 +943,7 @@ void clock_was_set(unsigned int bases)
->  	cpumask_var_t mask;
->  	int cpu;
-> =20
-> -	if (!hrtimer_hres_active(cpu_base) && !tick_nohz_active)
-> +	if (!hrtimer_hres_active(cpu_base) && !tick_nohz_is_active())
->  		goto out_timerfd;
-> =20
->  	if (!zalloc_cpumask_var(&mask, GFP_KERNEL)) {
-> diff --git a/kernel/time/tick-internal.h b/kernel/time/tick-internal.h
-> index 4e4f7bbe2a64..597d816d22e8 100644
-> --- a/kernel/time/tick-internal.h
-> +++ b/kernel/time/tick-internal.h
-> @@ -156,7 +156,6 @@ static inline void tick_nohz_init(void) { }
->  #endif
-> =20
->  #ifdef CONFIG_NO_HZ_COMMON
-> -extern unsigned long tick_nohz_active;
->  extern void timers_update_nohz(void);
->  extern u64 get_jiffies_update(unsigned long *basej);
->  # ifdef CONFIG_SMP
-> @@ -171,7 +170,6 @@ extern void timer_expire_remote(unsigned int cpu);
->  # endif
->  #else /* CONFIG_NO_HZ_COMMON */
->  static inline void timers_update_nohz(void) { }
-> -#define tick_nohz_active (0)
->  #endif
-> =20
->  DECLARE_PER_CPU(struct hrtimer_cpu_base, hrtimer_bases);
-> diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
-> index 21ac561a8545..81c619bf662c 100644
-> --- a/kernel/time/tick-sched.c
-> +++ b/kernel/time/tick-sched.c
-> @@ -691,7 +691,7 @@ void __init tick_nohz_init(void)
->   * NO HZ enabled ?
->   */
->  bool tick_nohz_enabled __read_mostly  =3D true;
-> -unsigned long tick_nohz_active  __read_mostly;
-> +static unsigned long tick_nohz_active  __read_mostly;
->  /*
->   * Enable / Disable tickless mode
->   */
-> @@ -702,6 +702,12 @@ static int __init setup_tick_nohz(char *str)
-> =20
->  __setup("nohz=3D", setup_tick_nohz);
-> =20
-> +bool tick_nohz_is_active(void)
-> +{
-> +	return tick_nohz_active;
-> +}
-> +EXPORT_SYMBOL_GPL(tick_nohz_is_active);
-> +
->  bool tick_nohz_tick_stopped(void)
->  {
->  	struct tick_sched *ts =3D this_cpu_ptr(&tick_cpu_sched);
-> diff --git a/kernel/time/timer.c b/kernel/time/timer.c
-> index 1f2364126894..7e1e3bde6b8b 100644
-> --- a/kernel/time/timer.c
-> +++ b/kernel/time/timer.c
-> @@ -281,7 +281,7 @@ DEFINE_STATIC_KEY_FALSE(timers_migration_enabled);
-> =20
->  static void timers_update_migration(void)
->  {
-> -	if (sysctl_timer_migration && tick_nohz_active)
-> +	if (sysctl_timer_migration && tick_nohz_is_active())
->  		static_branch_enable(&timers_migration_enabled);
->  	else
->  		static_branch_disable(&timers_migration_enabled);
->=20
+>> kernel/time/hrtimer.c:121:45: error: static assertion expression is not an integral constant expression
+     121 | static_assert(HRTIMER_BASE_MONOTONIC_SOFT - HRTIMER_BASE_AUX0 == MAX_AUX_CLOCKS);
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   1 error generated.
 
 
+vim +121 kernel/time/hrtimer.c
 
+   120	
+ > 121	static_assert(HRTIMER_BASE_MONOTONIC_SOFT - HRTIMER_BASE_AUX0 == MAX_AUX_CLOCKS);
+   122	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
