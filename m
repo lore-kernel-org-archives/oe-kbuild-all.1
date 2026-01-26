@@ -1,169 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2525D3385B2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 14:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE2423182D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 14:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769437081; cv=none; b=RMtiJ9khCXjPtVwjTfRCFOz5ypARtFyZsdxrgav6emQCFZ/YMw1Bg4om0QzDQ+bQKIIhfvCz09XztbykSQj1gFU4Mc8dvKQUHIFWaXyJAonk1B5saXDjjUCRv3oOHAvLR5DwdQ00KVWXwesMkP5utY4fwVXS6zkytfOcbgDzKhc=
+	t=1769437857; cv=none; b=i7mSqoGKzjsVmQY3hbhgYWLbXHLTvjDVmbJcqcFTNLMoYXAS2LRjPVH3YeebsWhuYEB42d3paRPh0aoRyGWmEgMa3EeyCv1NWGSGsmLcskDkRfUCyAD/1d3ZZw543K0OQxO2Z3MBwzevGVJ2iAvhHsQOLRglaE1kyacY2ZG9vbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769437081; c=relaxed/simple;
-	bh=xeDWngqya0qhU4z6lV5Uzc9Xyw1MTwc5ZzZeotSP5pI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D4UMclktKYPvMp25V+hZe8DO5esEoyz6ATEC5LBrV07d0vqxyW2oVWXYxm40jpIiqL2eMrrut5Y1rV0rUojhigb4KaJW7/TwbI09UnkUIwZlw/Du+WRi5zidE40nCWIkho44XyoKBuXfxCKGz79zaQCMvD/1oVKyBIcgVWTlTPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=can6yX0p; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769437857; c=relaxed/simple;
+	bh=9lal1y80TjMOe8e6CtuzMYFHogezVJkhDM/qVH78O5Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c6Zc2zeIpbmddGrVWJ7plLCmeQZsDMqfFDNYY3Wh2HMZExcGQx4qIquyBKV9oxWXMLoyAAkyRYVliyEkwO9ZcpSIn6/kEEAsEg3LylcQXw/yk4aKnVAcTLqSb0U0d8hOrhBuZYUtEokOh8BeAGeHIcRBQpZZMO/ZImcRUVUCx80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TH15sgCZ; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="can6yX0p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769437079; x=1800973079;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xeDWngqya0qhU4z6lV5Uzc9Xyw1MTwc5ZzZeotSP5pI=;
-  b=can6yX0p4UzEsO88ULloCX9oHxJE36+/npuW+zkTDZIs3n9gRK+NNGbw
-   CAzXumqxhIzjdNYtvop+lXWOhra/Kzy4Rfzb90351e+ASwrOf2suQI9qx
-   IMwJFr5Rsgli34dIHv455ysAIwGTX78xm249Wms97KCdooexLm70vuXdF
-   txG1JnjLKRVLSbRjK1oHq3M0poUMQd8NQtiSSmV+/YM5qhv4D5pXkUrgu
-   OdmPguBXniE4dpd4MAUpoX7oSn3nZV/K1Y93eH0UvX+P9rwIgZxSxxfoi
-   W+IODpFstqyMGs+OpwLg+WsiW+PYtaGCe/8epsbWpXzRsUVhm7Jg7DlaF
-   g==;
-X-CSE-ConnectionGUID: tjauBPkBQP+SPKmMjXU2aQ==
-X-CSE-MsgGUID: SidmS0lxQ/i3TDNhtn4wCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="88026599"
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="88026599"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:17:59 -0800
-X-CSE-ConnectionGUID: bMMd/1CpSf2kDNFYCKZeGw==
-X-CSE-MsgGUID: xWHtBDO8RCaVp4uh22hrsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="206811273"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Jan 2026 06:17:54 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vkNPb-00000000XO2-3LKq;
-	Mon, 26 Jan 2026 14:17:51 +0000
-Date: Mon, 26 Jan 2026 22:17:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Bastien Curutchet (Schneider Electric)" <bastien.curutchet@bootlin.com>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	=?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org,
-	"Bastien Curutchet (Schneider Electric)" <bastien.curutchet@bootlin.com>
-Subject: Re: [PATCH net-next v3 4/8] net: dsa: microchip: Add support for
- KSZ8463's PTP interrupts
-Message-ID: <202601262210.Ncec5HWm-lkp@intel.com>
-References: <20260126-ksz8463-ptp-v3-4-9f092aeb8492@bootlin.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TH15sgCZ"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E8348C21A84;
+	Mon, 26 Jan 2026 14:30:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 421ED60717;
+	Mon, 26 Jan 2026 14:30:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 92C9F119A8409;
+	Mon, 26 Jan 2026 15:30:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1769437850; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=oGOu1acFDzY7QezPEMddKtt+4qHQKgIX3FItFAcKfnA=;
+	b=TH15sgCZQxpMf/AH4JvqA7zD/LuRor3i0kubsJ0vJ+fZWgRKy9ik7e6CWkl1WUkH/bd9qQ
+	QJZ2rHka3KFn01ypP9gaS+2DrUO+SDhIbewvJhtZdNwpp5AJ7d+KAU0vGKtcesiF3KF7XL
+	To4+2zUkvEteMBvNmjVbUDc3SI7WFpar3cq/lngtamICLthirY3e6FmQHARriA2qYW96CH
+	TMNLehSjtNmcE3GKaTgtJ//E3/U8kmM0i+t3UpnIAz8u8/7u0TRxCapsfGr0QPm927WWRH
+	TqfYJaeYyvyHvV0ndzxvHgv55KMgEGSftYL5VD5ZkfhkpHAbTLbsZaPC3szeGw==
+Message-ID: <d8d29c67-59ba-4f5c-beab-f93d61e93aed@bootlin.com>
+Date: Mon, 26 Jan 2026 15:30:45 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126-ksz8463-ptp-v3-4-9f092aeb8492@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 4/8] net: dsa: microchip: Add support for
+ KSZ8463's PTP interrupts
+To: kernel test robot <lkp@intel.com>, Woojung Huh
+ <woojung.huh@microchip.com>, UNGLinuxDriver@microchip.com,
+ Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Richard Cochran <richardcochran@gmail.com>, Simon Horman <horms@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+ Pascal Eberhard <pascal.eberhard@se.com>,
+ =?UTF-8?Q?Miqu=C3=A8l_Raynal?= <miquel.raynal@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org
+References: <20260126-ksz8463-ptp-v3-4-9f092aeb8492@bootlin.com>
+ <202601262210.Ncec5HWm-lkp@intel.com>
+From: Bastien Curutchet <bastien.curutchet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <202601262210.Ncec5HWm-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Bastien,
+Hi all,
 
-kernel test robot noticed the following build warnings:
+On 1/26/26 3:17 PM, kernel test robot wrote:
+> Hi Bastien,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 3adff276e751051e77be4df8d29eab1cf0856fbf]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Curutchet-Schneider-Electric/net-dsa-microchip-Add-support-for-KSZ8463-global-irq/20260126-163430
+> base:   3adff276e751051e77be4df8d29eab1cf0856fbf
+> patch link:    https://lore.kernel.org/r/20260126-ksz8463-ptp-v3-4-9f092aeb8492%40bootlin.com
+> patch subject: [PATCH net-next v3 4/8] net: dsa: microchip: Add support for KSZ8463's PTP interrupts
+> config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260126/202601262210.Ncec5HWm-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601262210.Ncec5HWm-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601262210.Ncec5HWm-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     drivers/net/dsa/microchip/ksz_ptp.c: In function 'ksz8463_ptp_irq_setup':
+>>> drivers/net/dsa/microchip/ksz_ptp.c:1171:35: warning: unused variable 'ops' [-Wunused-variable]
+>      1171 |         const struct ksz_dev_ops *ops = dev->dev_ops;
+>           |                                   ^~~
+> 
+> 
+Sorry about the noise on this one, I should have spotted it.
 
-[auto build test WARNING on 3adff276e751051e77be4df8d29eab1cf0856fbf]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Curutchet-Schneider-Electric/net-dsa-microchip-Add-support-for-KSZ8463-global-irq/20260126-163430
-base:   3adff276e751051e77be4df8d29eab1cf0856fbf
-patch link:    https://lore.kernel.org/r/20260126-ksz8463-ptp-v3-4-9f092aeb8492%40bootlin.com
-patch subject: [PATCH net-next v3 4/8] net: dsa: microchip: Add support for KSZ8463's PTP interrupts
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260126/202601262210.Ncec5HWm-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601262210.Ncec5HWm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601262210.Ncec5HWm-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/dsa/microchip/ksz_ptp.c: In function 'ksz8463_ptp_irq_setup':
->> drivers/net/dsa/microchip/ksz_ptp.c:1171:35: warning: unused variable 'ops' [-Wunused-variable]
-    1171 |         const struct ksz_dev_ops *ops = dev->dev_ops;
-         |                                   ^~~
+I'll respin again.
 
 
-vim +/ops +1171 drivers/net/dsa/microchip/ksz_ptp.c
-
-  1167	
-  1168	int ksz8463_ptp_irq_setup(struct dsa_switch *ds)
-  1169	{
-  1170		struct ksz_device *dev = ds->priv;
-> 1171		const struct ksz_dev_ops *ops = dev->dev_ops;
-  1172		struct ksz_port *port1, *port2;
-  1173		struct ksz_irq *ptpirq;
-  1174		int ret;
-  1175	
-  1176		port1 = &dev->ports[0];
-  1177		port2 = &dev->ports[1];
-  1178		ptpirq = &port1->ptpirq;
-  1179	
-  1180		ptpirq->irq_num = irq_find_mapping(dev->girq.domain, KSZ8463_SRC_PTP_INT);
-  1181		if (!ptpirq->irq_num)
-  1182			return -EINVAL;
-  1183	
-  1184		ptpirq->dev = dev;
-  1185		ptpirq->nirqs = 4;
-  1186		ptpirq->reg_mask = KSZ8463_PTP_TS_IER;
-  1187		ptpirq->reg_status = KSZ8463_PTP_TS_ISR;
-  1188		ptpirq->irq0_offset = KSZ8463_PTP_INT_START;
-  1189		snprintf(ptpirq->name, sizeof(ptpirq->name), "ptp-irq");
-  1190	
-  1191		ptpirq->domain = irq_domain_create_linear(dev_fwnode(dev->dev), ptpirq->nirqs,
-  1192							  &ksz_ptp_irq_domain_ops, ptpirq);
-  1193		if (!ptpirq->domain)
-  1194			return -ENOMEM;
-  1195	
-  1196		ret = request_threaded_irq(ptpirq->irq_num, NULL, ksz_ptp_irq_thread_fn,
-  1197					   IRQF_ONESHOT, ptpirq->name, ptpirq);
-  1198		if (ret)
-  1199			goto release_domain;
-  1200	
-  1201		ret = ksz8463_ptp_port_irq_setup(ptpirq, port1,
-  1202						 KSZ8463_PTP_PORT1_INT_START - KSZ8463_PTP_INT_START);
-  1203		if (ret)
-  1204			goto release_irq;
-  1205	
-  1206		ret = ksz8463_ptp_port_irq_setup(ptpirq, port2,
-  1207						 KSZ8463_PTP_PORT2_INT_START - KSZ8463_PTP_INT_START);
-  1208		if (ret)
-  1209			goto free_port1;
-  1210	
-  1211		return 0;
-  1212	
-  1213	free_port1:
-  1214		ksz8463_ptp_port_irq_teardown(port1);
-  1215	release_irq:
-  1216		free_irq(ptpirq->irq_num, ptpirq);
-  1217	release_domain:
-  1218		irq_domain_remove(ptpirq->domain);
-  1219	
-  1220		return ret;
-  1221	}
-  1222	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Bastien
