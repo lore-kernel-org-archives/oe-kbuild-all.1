@@ -1,70 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA1027A133;
-	Mon, 26 Jan 2026 06:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1252C08B1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 07:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769408588; cv=none; b=az+6qPIsdRajlUydFf6/cEUTniBZ014zX3Tzpyw+tLdrkBzEuqtN7H2MmTC/LkQXxtt8lc3bVN57rmRS/1emlsqVvhbUB/wJz0Fl6IXA5SFtARDTzKa4I7QZnd1kTgXiVbgio8xUm09UO1XBuj2CXw1BQFRtC9xvfaZMz2xyDxc=
+	t=1769411772; cv=none; b=s79IeK/eijylF4v+cV6lv9xcVaaP1BFRYyw3SELZEjAK8HYx5bqmI/vGvVQw32tn9Hdhkp08xnn5VkrhkwXyzdtd/z6vcYuI8VjNWHqU9UNxdGlpZsUC9LkOpUjFms5HxdHaTCC3j7Ke3aTD4mG/zW5vL+QKpfC5To6SPg7o1E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769408588; c=relaxed/simple;
-	bh=YsXx1MoHLIz7jzQAiJhBrQUFvFX/e6YQld0DsR1WATo=;
+	s=arc-20240116; t=1769411772; c=relaxed/simple;
+	bh=cuLtFa4X5N8EDw4JojqtUoQ3rGWi3/cxlUCgRiMT6L4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g6SWf+8BaRdJJINHvvxpWkbFvPeHDbLt8nI/VigcM/VyfWoh1Y/ROg8WAnk1HtIUegnInN5tp5wJRgMEtdgy0Uw/+3vAxa6Gxds7G38d4uOweFG8+zdcsRs7JZtwRjEhzoBh9FPl7/JObSdigxUDaagsFnUqeIjbbB19/RUDG0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEl/ecQE; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=eOakZUPYLXZZda2MzBehebvXYG9pgEyGnwLOmI3MKCcUPt92vH3hlB7PFvGGNahxE0QwfC4C7IDi017CDSMYpT1Wdyr0OgiT9NggebODxV0fC5kYjOXQagdUPp5iH/9VP4RSf/pm8QSqxML1MyIuZEiv6qSC/SMdYPFqhOzH06A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IieUf7SB; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEl/ecQE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IieUf7SB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769408587; x=1800944587;
+  t=1769411771; x=1800947771;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YsXx1MoHLIz7jzQAiJhBrQUFvFX/e6YQld0DsR1WATo=;
-  b=eEl/ecQEtlsY5L6w7xsv49QH9yk2Iu2mhoauP6iM/ztkiD2AEb8evH0h
-   EQaN89kymT7DLPlc2EuyoiXaVHe0FxzWpHZ9d3PAfs7jUHIUAFPUSR/TR
-   66oXWtTsmlFM2qSLl5/ifgYSPjo9xYc4YxRDf3nowKVTt3vdZk9qTLWwD
-   kshoZGnYZnDGy/njyxhRCOPkeCUbrzeLnH2Ys2/Q7mQ+Un51ZEmM+WCee
-   rY/uIqXuep8EE92Gqeqm/AfxgnNWiCMNSvQFRP7q+W429+rSEV5+qiyGg
-   aHVCuHPh4DfZozQM2/u/7799achOBaVse+faGGh66Km40cv+E+L4p9lWp
-   Q==;
-X-CSE-ConnectionGUID: esFJFkpfQmKhaxCo77bQYA==
-X-CSE-MsgGUID: LkgImaC4Q0q1RLBF9tr9Xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="58158198"
+  bh=cuLtFa4X5N8EDw4JojqtUoQ3rGWi3/cxlUCgRiMT6L4=;
+  b=IieUf7SBWAdoCgPVAPNJt+LJb9Yhw4AAthPMvmASaDRPa5MTeHU81FJt
+   3a5MfRJE1NMETK0+AiYbDw5VVCXp6TJ4F3dWSh/eA+PYDGnPq32/qgs0L
+   eSqbyRG7iupDP33BWKO3yIuV54SmI8OyF50Fr/xmohMmvaySO14oL/JQd
+   ThYomC2nXwlsmWIZYz9/Ft0yrAbqII3+kHla7Tgzfz2yAycy8bWTmumoV
+   06DdRtRzh2a3tVDjPVjNDKEhAoRYM6luTzxTqCGe78LzaA739F+Xcf30f
+   7ntfzcttZ0MaeMSn5RKc7MSpjPeHp8M1JUJsYpxDs6yn/gqa6nfix7Nrm
+   g==;
+X-CSE-ConnectionGUID: LOg4GC2gQX2W8cRtlcdPJQ==
+X-CSE-MsgGUID: PNDmmgR6QIS36dsy4aHjag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="82019788"
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="58158198"
+   d="scan'208";a="82019788"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 22:23:05 -0800
-X-CSE-ConnectionGUID: u4qiLRv2TbGKtlwNgiNogA==
-X-CSE-MsgGUID: bfxaqDnrS3a/xUWWplBWVw==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 23:16:10 -0800
+X-CSE-ConnectionGUID: trsgUnd6SlCWjfR5ZCFcqQ==
+X-CSE-MsgGUID: +0ide2moQIWlxfHbk/B9dA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="207406796"
+   d="scan'208";a="207415440"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Jan 2026 22:23:02 -0800
+  by orviesa009.jf.intel.com with ESMTP; 25 Jan 2026 23:16:07 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkG02-00000000X02-3aRH;
-	Mon, 26 Jan 2026 06:22:58 +0000
-Date: Mon, 26 Jan 2026 14:22:21 +0800
+	id 1vkGpP-00000000X2M-3B5n;
+	Mon, 26 Jan 2026 07:16:03 +0000
+Date: Mon, 26 Jan 2026 15:15:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kyle Hsieh <kylehsieh1995@gmail.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Beguin <liambeguin@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Kyle Hsieh <kylehsieh1995@gmail.com>
-Subject: Re: [PATCH v3 2/2] iio: adc: ltc2309: add support for ltc2305
-Message-ID: <202601261441.M4qQzY72-lkp@intel.com>
-References: <20260126-add_ltc2305_driver-v3-2-951349a87f97@gmail.com>
+To: Kairui Song <ryncsn@gmail.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
+	Barry Song <baohua@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	linux-kernel@vger.kernel.org, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>
+Subject: Re: [PATCH 06/12] mm, swap: implement helpers for reserving data in
+ the swap table
+Message-ID: <202601261555.3oBvFZIt-lkp@intel.com>
+References: <20260126-swap-table-p3-v1-6-a74155fab9b0@tencent.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,76 +73,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260126-add_ltc2305_driver-v3-2-951349a87f97@gmail.com>
+In-Reply-To: <20260126-swap-table-p3-v1-6-a74155fab9b0@tencent.com>
 
-Hi Kyle,
+Hi Kairui,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+[auto build test ERROR on 10de4550639e9df9242e32e9affc90ed75a27c7d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Hsieh/dt-bindings-adc-ltc2497-add-support-for-ltc2305/20260126-093339
-base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-patch link:    https://lore.kernel.org/r/20260126-add_ltc2305_driver-v3-2-951349a87f97%40gmail.com
-patch subject: [PATCH v3 2/2] iio: adc: ltc2309: add support for ltc2305
-config: i386-buildonly-randconfig-006-20260126 (https://download.01.org/0day-ci/archive/20260126/202601261441.M4qQzY72-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601261441.M4qQzY72-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-swap-protect-si-swap_file-properly-and-use-as-a-mount-indicator/20260126-020149
+base:   10de4550639e9df9242e32e9affc90ed75a27c7d
+patch link:    https://lore.kernel.org/r/20260126-swap-table-p3-v1-6-a74155fab9b0%40tencent.com
+patch subject: [PATCH 06/12] mm, swap: implement helpers for reserving data in the swap table
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260126/202601261555.3oBvFZIt-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601261555.3oBvFZIt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601261441.M4qQzY72-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601261555.3oBvFZIt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/adc/ltc2309.c:209:20: warning: variable 'chip_info' is uninitialized when used here [-Wuninitialized]
-     209 |         indio_dev->name = chip_info->name;
-         |                           ^~~~~~~~~
-   drivers/iio/adc/ltc2309.c:195:43: note: initialize the variable 'chip_info' to silence this warning
-     195 |         const struct ltc2309_chip_info *chip_info;
-         |                                                  ^
-         |                                                   = NULL
-   1 warning generated.
+   In file included from <command-line>:
+   In function 'pfn_to_swp_tb',
+       inlined from 'folio_to_swp_tb' at mm/swap_table.h:115:9,
+       inlined from '__swap_cache_add_folio' at mm/swap_state.c:151:11:
+>> include/linux/compiler_types.h:631:45: error: call to '__compiletime_assert_601' declared with attribute error: BUILD_BUG_ON failed: SWAP_CACHE_PFN_BITS > (BITS_PER_LONG - SWP_TB_PFN_MARK_BITS - SWP_TB_COUNT_BITS)
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:612:25: note: in definition of macro '__compiletime_assert'
+     612 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:631:9: note: in expansion of macro '_compiletime_assert'
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   mm/swap_table.h:104:9: note: in expansion of macro 'BUILD_BUG_ON'
+     104 |         BUILD_BUG_ON(SWAP_CACHE_PFN_BITS >
+         |         ^~~~~~~~~~~~
+   In function 'pfn_to_swp_tb',
+       inlined from 'folio_to_swp_tb' at mm/swap_table.h:115:9,
+       inlined from '__swap_cache_replace_folio' at mm/swap_state.c:334:11:
+>> include/linux/compiler_types.h:631:45: error: call to '__compiletime_assert_601' declared with attribute error: BUILD_BUG_ON failed: SWAP_CACHE_PFN_BITS > (BITS_PER_LONG - SWP_TB_PFN_MARK_BITS - SWP_TB_COUNT_BITS)
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:612:25: note: in definition of macro '__compiletime_assert'
+     612 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:631:9: note: in expansion of macro '_compiletime_assert'
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   mm/swap_table.h:104:9: note: in expansion of macro 'BUILD_BUG_ON'
+     104 |         BUILD_BUG_ON(SWAP_CACHE_PFN_BITS >
+         |         ^~~~~~~~~~~~
 
 
-vim +/chip_info +209 drivers/iio/adc/ltc2309.c
+vim +/__compiletime_assert_601 +631 include/linux/compiler_types.h
 
-   192	
-   193	static int ltc2309_probe(struct i2c_client *client)
-   194	{
-   195		const struct ltc2309_chip_info *chip_info;
-   196		struct iio_dev *indio_dev;
-   197		struct ltc2309 *ltc2309;
-   198		int ret;
-   199	
-   200		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*ltc2309));
-   201		if (!indio_dev)
-   202			return -ENOMEM;
-   203	
-   204		ltc2309 = iio_priv(indio_dev);
-   205	
-   206		ltc2309->dev = &indio_dev->dev;
-   207		ltc2309->client = client;
-   208	
- > 209		indio_dev->name = chip_info->name;
-   210		indio_dev->modes = INDIO_DIRECT_MODE;
-   211		indio_dev->channels = chip_info->channels;
-   212		indio_dev->num_channels = chip_info->num_channels;
-   213		indio_dev->info = &ltc2309_info;
-   214	
-   215		ret = devm_regulator_get_enable_read_voltage(&client->dev, "vref");
-   216		if (ret < 0 && ret != -ENODEV)
-   217			return dev_err_probe(ltc2309->dev, ret,
-   218					     "failed to get vref voltage\n");
-   219	
-   220		ltc2309->vref_mv = ret == -ENODEV ? LTC2309_INTERNAL_REF_MV : ret / 1000;
-   221	
-   222		mutex_init(&ltc2309->lock);
-   223	
-   224		return devm_iio_device_register(&client->dev, indio_dev);
-   225	}
-   226	
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  617  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  618  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  619  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  620  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  621  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  622   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  623   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  624   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  625   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  626   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  627   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  628   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  629   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  630  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @631  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  632  
 
 -- 
 0-DAY CI Kernel Test Service
