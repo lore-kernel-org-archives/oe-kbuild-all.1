@@ -1,447 +1,229 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1953133F8C4;
-	Mon, 26 Jan 2026 16:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769444662; cv=none; b=U5fpuf5lBiwuHFNzrOk+iszMcwgNJMcICdtOG96AYoURBL8PKbUk2NLiitAN6fJRZfnCytazqr6C2pIjpzuWK3rJ4WS/gwcCV1qgRU/T6Zo0uFjeqcEYKhoMUAx3XYcPRTm+HVU/ZJ+aQALjqaycSsQc+xiNoeE8WXWiNZ2Mw8I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769444662; c=relaxed/simple;
-	bh=F6ank0bmKxfrYxXZyToG3EBxNPDlK7h2wNtKgvgZxVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uK7pHUj37aqWZRGT+zR9/1o2lgIj2yOHEdoip4WKtfzeRRWz+12Hj3zRcAX94xjS31C8iI1v72770UdWeAp/Nds15hWDHyBxjrL6rQSj0frB951NzP6r4Lh8fN80PSA2utYwgwnZFGhE7TBsWzXXrF7lIYir2d7qA/kMaoG2x74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iBDSesd2; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C47334D4D2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 18:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769451110; cv=fail; b=A/R6iM2n1FGdd9fHVCn2szIxVbjFBvuYFJ/7qat0HKuRndkJ5nSbABaWWcgAM7WTuJ6+Nh2yLrN5Op5Hx/n2YE6Ri/29x/EE8LufZKlyXOGB737OywWfn3quagrGZYHcNbepYOtuDsKjHZ7AKeCo379OG3v2CEZnXVVnwpxqUhc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769451110; c=relaxed/simple;
+	bh=lxJCksWVgjYyZf6JiPOeT9j5oBPPn15cJin8Fvfrids=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=btQd8EIBJTLip0zqP8/sWxo370ugiwVJWsamAy+0aRTt8hj+/B484ucy3IHgFaDYvWYF5NTpniayAaHcSDB779S2+4OGeUBLmc6hp3ehczodlEMvguWbvcHGZKlM3mWQ91/OME2vlVbotj2EICzMPLq6oB4/usU4UVA5F8ysvQA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GNLtzCEd; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iBDSesd2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GNLtzCEd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769444660; x=1800980660;
+  t=1769451109; x=1800987109;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F6ank0bmKxfrYxXZyToG3EBxNPDlK7h2wNtKgvgZxVI=;
-  b=iBDSesd2fTWXROcLlO+A71tknuPa81Ijpg2xJFXfay4jvR/IA6wO/8HL
-   bKVGBhXpOvajSbB2Mr4cxh8yvVl/ZK6YJgLmGYUNbdHm2KJVISDkwobbS
-   JlKZENa+8k7r321YOAUdoctH9hE41zyN8jtvSzYYIMIjmOGryyzjHwLQp
-   eGnYOohskGyXym1tMlfeRpo/CGmBO8SWvU6gU5M5OjN8SiktJRUf9qyLx
-   O/p/wp49SkY/+LWp3fWyp67d6tGN0IQ0VltHkMizh7lkbugKen2aNliOf
-   nOTSSpfpmxwG4E+J2ts25yWQem6wcC0FY6+Gyiz4CkGL9eNfdLIgz+5Rn
-   A==;
-X-CSE-ConnectionGUID: qQ4NUaoqRyqz9hnkD2QXBQ==
-X-CSE-MsgGUID: WVQ82nGQQRSQcvoG6qA7+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70527647"
+   in-reply-to:mime-version;
+  bh=lxJCksWVgjYyZf6JiPOeT9j5oBPPn15cJin8Fvfrids=;
+  b=GNLtzCEdzcumsrIeMgZmL3y/MYHIjMro/5xoXrN3wRmeY4McNZxl/ogg
+   sKlAB6z6mq9zN9Ay7oF2KWsW6UYvbG9RIXqHTCDJO9LKGubYj8NmjstAu
+   xd3MM+1abFIzmTD1IMr7Igi4/KxkxJilaeKD0hdAmchB8D7F5HtNbuXKI
+   fDT7y6BVn0LQrkc9h3PVASy9t7EyaJeTO8n+X6TL2kVXnNkWTDTiYJxQt
+   M/ubmUAp+BfSxJXZqiD8qAEkb/StdplgwsWCJ6zZArx8ZmheVg/+DwOXe
+   K3OXs6Uzr7EWVPPWGQOVfcONG9MJdIIn5zfwxzoxAqgZMvayHC2nP12Zd
+   Q==;
+X-CSE-ConnectionGUID: pCabIob4Ry2tO1hrKL8DAg==
+X-CSE-MsgGUID: ZXCAPN8hTXWHFV7cNOJX7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70537454"
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="70527647"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 08:24:19 -0800
-X-CSE-ConnectionGUID: XKvyLG4YQXGTZtQKIL2rNg==
-X-CSE-MsgGUID: txOZjIlZTJWhoEfA3R8BwQ==
+   d="scan'208";a="70537454"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 10:11:33 -0800
+X-CSE-ConnectionGUID: 5KKg+VdwSsKeyhvnIVqq5w==
+X-CSE-MsgGUID: cOlE/39xSZyZ9nodQCTv/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="238392935"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Jan 2026 08:24:15 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vkPNs-00000000XTy-2bEe;
-	Mon, 26 Jan 2026 16:24:12 +0000
-Date: Tue, 27 Jan 2026 00:23:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qiliang Yuan <realwujing@gmail.com>, kprateek.nayak@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, bsegall@google.com,
-	dietmar.eggemann@arm.com, juri.lelli@redhat.com,
-	linux-kernel@vger.kernel.org, mgorman@suse.de, mingo@redhat.com,
-	peterz@infradead.org, realwujing@gmail.com, rostedt@goodmis.org,
-	vincent.guittot@linaro.org, vschneid@redhat.com,
-	yuanql9@chinatelecom.cn
-Subject: Re: [PATCH v3] sched/fair: Cache NUMA node statistics to avoid O(N)
- scanning
-Message-ID: <202601270016.PIXAItvH-lkp@intel.com>
-References: <20260126110250.1060512-1-realwujing@gmail.com>
+   d="scan'208";a="207625050"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 10:11:32 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 26 Jan 2026 10:11:30 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Mon, 26 Jan 2026 10:11:30 -0800
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.56) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 26 Jan 2026 10:11:30 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l1fBX+8o9MJtefe1TgTMD/74sUOkJu2xSzAiWfcWV64N6t47/W27wuonCWTmqhJXkTtfecpa5nj8Dpdd5zTStAd/RH1AlKQ+SDKjAtmjoZGXDzLouznJfx3zZlVf2jGzS+2plQ7qlN1Mu51LeTU9jmSHBw1whUrO7WgZxRrZbrWY1maW4JY9JbvhLqMRT9uoKczqRxSZNf38ercir3ifYw0tMA7fy4XrtmUjI7oNnCdrZ0FKCrqvVhhY+iaB2GayPog13/dmPIw7+XNM8c02eG44IRfjgNH0W8Z6T/+jqD7By79Mtq0ZWZQpPgqS5wBxS567U1R8JtkvbuSZTRVY9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I5mvsjDDVbtiwXWq5ulUHql1qXcgOqkLbZw3IWa6jtM=;
+ b=yBoDIq/EKLeAg2CeYrpWaf15xOiPAWnwXCWwrxscZdSnRmi2u1qkoR2dmCKmRXS32xUlo9ieRHt5splVNKNcJQ0QSb5jf+SKj+cd+ZrZHOTsxsM/iRBXbzNU9MG5y+Olxs9P/saGJ/+Is7QP51jHqd9lSGmPj0/Ff53j8DNXJq4Mn5hVhQ1tP1eMZXsb99sq/uKLvu4YT3i3VE5enaJGbGz74PkFd1epH6Mje5O17jTSpO+o90ShEq9XRqBU8iuJ9yUnG3hSWTYqH4uDrMg/oeQqSDIhMtGpmOoy1r1wZ64OzMyOCpDgTbWj3bIVV64BxdARRKZdMroh4YbfcISpfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by CO1PR11MB4802.namprd11.prod.outlook.com (2603:10b6:303:94::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.14; Mon, 26 Jan
+ 2026 18:10:22 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::1d86:a34:519a:3b0d]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::1d86:a34:519a:3b0d%5]) with mapi id 15.20.9542.010; Mon, 26 Jan 2026
+ 18:10:21 +0000
+Date: Mon, 26 Jan 2026 13:10:17 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: kernel test robot <lkp@intel.com>, "David E. Box"
+	<david.e.box@linux.intel.com>
+CC: "David E. Box" <david.e.box@linux.intel.com>,
+	<thomas.hellstrom@linux.intel.com>, <irenic.rajneesh@gmail.com>,
+	<ilpo.jarvinen@linux.intel.com>, <srinivas.pandruvada@linux.intel.com>,
+	<intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<xi.pardee@linux.intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<hansg@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<platform-driver-x86@vger.kernel.org>
+Subject: Re: [PATCH v4 4/6] platform/x86/intel/vsec: Switch exported helpers
+ from pci_dev to device
+Message-ID: <aXeuCXDQyFbUSe3Q@intel.com>
+References: <20260123025108.3772255-5-david.e.box@linux.intel.com>
+ <202601260115.T3rBZhUE-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202601260115.T3rBZhUE-lkp@intel.com>
+X-ClientProxiedBy: BY1P220CA0008.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:59d::16) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126110250.1060512-1-realwujing@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|CO1PR11MB4802:EE_
+X-MS-Office365-Filtering-Correlation-Id: 073a874d-ab19-41d3-ac72-08de5d062b99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Jz2daKOBeccxZn6sGFjJ2kiTX3ZbHnEIJF8iNJ+CnLUEJwaTPeh36UStoXzO?=
+ =?us-ascii?Q?KYsO44f2Z2ldRttHOcQhHGZKPBfqdluXU7W2RZCPZ9ozJkuHTpz6Mh/RW27+?=
+ =?us-ascii?Q?tqdrFlFX9KVLcTJER7KDw9QRcVCgqlmh/rA7eNHoWxdPa78pXnYZkbA3vzoH?=
+ =?us-ascii?Q?3FUawChLAvkAq7cfIlMP+nSlcME/dz5JBg3AQgWo/tdzlN+Bz+NVEI8TqWJG?=
+ =?us-ascii?Q?BowAn+cIGrVuXel/5Hd9a493vvsCpXzfzrf8sV7Q4ruQZbli7ie5VvXhsgrm?=
+ =?us-ascii?Q?4zfWp97I6PFwG2sztx+gvV+EulDOs1jnIQn65WDg5WmZ+O+10u1IKEjCKXmd?=
+ =?us-ascii?Q?dCNP/CQba46JydFrY2VFlpzLMtM92uEYPwwDrcCyyFYB87vu1dmPTnZ7C9+E?=
+ =?us-ascii?Q?Aq+NoDbPjqD11IDdKG1saB5o2KwZm7vBOCa5wRUs2972KX0+8HjHOKUrwoMT?=
+ =?us-ascii?Q?aVHurY9n4O9MWyemAbh3c4D7ZZVEk4PdHE3lvK0NZ5NaSdQ5XGtEtLgAqpMc?=
+ =?us-ascii?Q?FEdkdyosxKynYaL1O5uis5cC1sIxYIngiZ+jEE//WOo3Qe1LtKjjfM4z9BHi?=
+ =?us-ascii?Q?4jVUH0ZxFvbdITj3SZInZxUAFKfwZ+KnfKdxLbT4FMPkOlVEnl+N0rTWS7/7?=
+ =?us-ascii?Q?mteVCdUhgOxZ3joWIOgjeR0dWOMh7dI2GX7xhzJHIzhF8uNRN73lM8e5pfTu?=
+ =?us-ascii?Q?obMVoYbFhsgkGGEMpeY+iCctCs6NpgSnky+eaCFUIABSTNzV0IicUnKo5IBB?=
+ =?us-ascii?Q?uqrMXBxgg1HqnPGvdCZzmapEmFm1UUl9gHfLh8+aBtiIJdoigRg8felNV77h?=
+ =?us-ascii?Q?MiEN0M00sOLdyncslOpWsg8Sr9z3XwM+KFRJeS8PvVmGAe1vOcLQLdRhBnCK?=
+ =?us-ascii?Q?LLCl1Gb4JxPxC4VRAkPtmBxUiEbWb6Qfl81auH/jj5l5iyoeMDaPbE/JWJTE?=
+ =?us-ascii?Q?zGpF1bHnXvMK2m/6YFYHbxEERPO2lxb4ASQhg9ns0nVYhuQaOalAufepDuMj?=
+ =?us-ascii?Q?pfYpEq785222XqQhVbK1aeDEi5HubfLhQdvpoM0JbVlLDLkxTSykhc4L/rzJ?=
+ =?us-ascii?Q?OKqN1djqNRrVwwFruHoahre+OihaMtFaO0/7uVb8NxhTNRL0AUCjuJQ3m319?=
+ =?us-ascii?Q?0G0zuRVOdUnjYorlEIlIccGmLekbRS2e7AggZ9lpf6pYoQjzJtGieMjfWJ2D?=
+ =?us-ascii?Q?0EETlooa+1K2LzOYpo/ZeogGqErXMTSxoZxF75wMGdObxSCFMKPlfOHwBEf0?=
+ =?us-ascii?Q?GC+SrkOoxLevgkQmPQHHsNN7Nec9teUQHRgxoMVG4H9Umgfb+7QVFmcm5vdn?=
+ =?us-ascii?Q?mXZHJyIyC98DM7rp1oIkpCmnwevuf+z66FF88CVYX5oQWMYxvblKOqtyxbZI?=
+ =?us-ascii?Q?G1R07xD2HHyfJnZVGbDw7ZKFDrOL4H9ihI911U4pqMypzARlBZKBPrbXWUAL?=
+ =?us-ascii?Q?z0HxhkaNcwOnpQ1Us8cdHat2dQfdfLU3EODIv5TTBj7Gt74PASnzGkGLQKSc?=
+ =?us-ascii?Q?PW6WuSJZJWtoR0nOdTYn6OWI5zqnBu4xo3f1zxxPm5BYZ1FkQGlWxWblFCgQ?=
+ =?us-ascii?Q?8oPjd4Xh5IZuhdrUui1QoNPm3fh8YtiwbBjgm3Or?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR11MB8430.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q4JkAT3kI0HKaYFC/bxg2cjoADx6aKK0C/ibFN3LSzlkefrk9UOPY+eD7pIR?=
+ =?us-ascii?Q?ysNbvRpfcokSecxwz4m9bIlDLYOb1dmbW9uVjBah2+A4E3A0feBszGlkH0Hm?=
+ =?us-ascii?Q?c5u1KtGwT8AA6fMAL4qtPr0J8tMyzHE4xo3Ut2lH2YKAoqirFeHjq+iwnofj?=
+ =?us-ascii?Q?2zSM3yGKD5FD4iqFRJrPkiJdft4YCUNv+R2BrNbE2/GD1XATKo9L1M2j1UdW?=
+ =?us-ascii?Q?dUPbY0jft8H7eGT04S/4LZi/cIOORzjfTfNME9Je0jrRWVkfcr+t+nR5s9ax?=
+ =?us-ascii?Q?JwmJCVjQ7R5dvGToIcTEsFPqnNo03ngzeiQni3hGYErsnEvVamJcbAiwl6/k?=
+ =?us-ascii?Q?mCzChsDyxMMLGwLPJrwbiN7bXL6R0k+SHdxKFq6frkYcy+dZMOmP8LncLVjO?=
+ =?us-ascii?Q?+pbUcCC6KcKfqDgxo7iKzHMgf1OB4EbXO54TUquFNqK0G3CWjx1jb+EXHBbR?=
+ =?us-ascii?Q?NRRNHdUHO2eNfbSKZv97krRc2knHyaeKuk8Mpqz/U2+v2vJNqvNrSBY9M+EH?=
+ =?us-ascii?Q?yX2f10ZKatDKjGqCC3mgQrYaF3P2Qf8YlNV00lp4SsPIANffo3MaXWHA4mJQ?=
+ =?us-ascii?Q?WKC4lO0t7g+bBwTYTHAlH8oEBWr/VkKFGANi4OkK7Xu+ytuDgHo6++CCKC/c?=
+ =?us-ascii?Q?NhVnv1JFb8T+IlrYFv4iQILLu2y6VzSOilXLJ61pjPHXsRJGBx2hD386G93A?=
+ =?us-ascii?Q?IszCCChTlyARY3EWpiJ0Vw7VGF5VVSfZvpEDb64VEP9qcxygRxZssiu8u0g8?=
+ =?us-ascii?Q?cu06homzeOPXG6efu+UVHrGfyq2KaxXJnxXZZKl+LO4DBQYRTlMfZOcqmJ1g?=
+ =?us-ascii?Q?pahAxPqV5vNpC29OWmAHexOsgGbsjo1Q3MK7STJv2XcF5m+ZwREJNhHNWZX4?=
+ =?us-ascii?Q?SWerYuShVzm2FxWXe1EuxMyqXUWP90r/9RUtFaELXa15VeaKUZCnGJRwO/2N?=
+ =?us-ascii?Q?qV7eMHtuU1FiIMuyZf12eeYKi+4sH4WLiwDKeLucFV0Y/8CH5J1oU0OjqH19?=
+ =?us-ascii?Q?ML6HbTBJ9yb1AI1ASPxrxAMIjZeYlmGdhQwutA+UwaJQbJ+ID4QWKhBUR2TP?=
+ =?us-ascii?Q?L0iA4Gj2L6O6fiecouH3tk1RjbPH+wEiIvlXt2t/ZO1bXTDKLw1ybYHSj0vT?=
+ =?us-ascii?Q?fls1ATF6SSE161WyJiQqU7yqGUUpqzQnedxCeIFnQqLG5FoxL4N2pHdNbxj6?=
+ =?us-ascii?Q?V8fQeXlJMhl6nW5xU6Tfya08Tq1z83jXcX8e5xgfDGMSVcyf0W2/VBtks8PQ?=
+ =?us-ascii?Q?5zwuEypXOc8sVotxx6WroVPFwVWmmusz4QmJk7QV0vnmOGQ4xCMJIEvtBQCv?=
+ =?us-ascii?Q?UEkwrrf258NRKZNJgbOwB6WFOoDCS7eBa7R1N6ioBkx3xTu8OhFNDEAGhG+Y?=
+ =?us-ascii?Q?CZLDnouN1OttL9IPuqbKm5A7orgEtd6VVx8LxNzjjsa6j8kA7WAT54wDL/as?=
+ =?us-ascii?Q?fnlM9+CCcuo3jjxERD5fpdPgWTtohy4e6C29D7BioEHFBTVcxi1ceE2hcaJT?=
+ =?us-ascii?Q?4+DjWatPAITaXQJO134hDDGeil+rCi/OGUv0s0DO/5Ik+Ny3p3eJTbOMmDe5?=
+ =?us-ascii?Q?tOiHIVwiIGLOPVL1cUkeI2FM1zMNPA7WyBbRxAOvCzVJW3xl8zIstNsT5+8a?=
+ =?us-ascii?Q?jvN6BzByha+rZumAIiiW3Jv5TE8eLzJqayM3/ncm0/OGwnjMhWFTYDPrP31V?=
+ =?us-ascii?Q?PvwLGdqZ5jsfX4lzrHOH0+Rtt22EmG8nZ0YARTtxRaXbj9tSCaKI6lz8Lpv5?=
+ =?us-ascii?Q?BoRQRS/vqQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 073a874d-ab19-41d3-ac72-08de5d062b99
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 18:10:21.8522
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kKPM2DwdJZElMIWfcFnUtsGwc0RcJBs2vBW649Vgg8yCh4vUEFoGW9sXf6ds13HF/Rk5Qg3gvQTG5UvFMH5eZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4802
+X-OriginatorOrg: intel.com
 
-Hi Qiliang,
+On Mon, Jan 26, 2026 at 01:35:49AM +0800, kernel test robot wrote:
+> Hi David,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 0f61b1860cc3f52aef9036d7235ed1f017632193]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-E-Box/platform-x86-intel-vsec-Refactor-base_addr-handling/20260123-105437
+> base:   0f61b1860cc3f52aef9036d7235ed1f017632193
+> patch link:    https://lore.kernel.org/r/20260123025108.3772255-5-david.e.box%40linux.intel.com
+> patch subject: [PATCH v4 4/6] platform/x86/intel/vsec: Switch exported helpers from pci_dev to device
+> config: x86_64-randconfig-074-20251025 (https://download.01.org/0day-ci/archive/20260126/202601260115.T3rBZhUE-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260115.T3rBZhUE-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601260115.T3rBZhUE-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from <command-line>:
+> >> drivers/gpu/drm/xe/xe_vsec.h:13:30: error: 'struct device' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+>       13 | int xe_pmt_telem_read(struct device *dev, u32 guid, u64 *data, loff_t user_offset, u32 count);
+>          |                              ^~~~~~
+>    cc1: all warnings being treated as errors
+> 
+> 
+> vim +13 drivers/gpu/drm/xe/xe_vsec.h
+> 
+>     11	
+>     12	void xe_vsec_init(struct xe_device *xe);
+>   > 13	int xe_pmt_telem_read(struct device *dev, u32 guid, u64 *data, loff_t user_offset, u32 count);
+>     14	
 
-kernel test robot noticed the following build errors:
+David, you probably need a
+struct device; in the beginning of this header to shut off this build issue.
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on linus/master v6.19-rc7 next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
+Rodrigo.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qiliang-Yuan/sched-fair-Cache-NUMA-node-statistics-to-avoid-O-N-scanning/20260126-190546
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20260126110250.1060512-1-realwujing%40gmail.com
-patch subject: [PATCH v3] sched/fair: Cache NUMA node statistics to avoid O(N) scanning
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260127/202601270016.PIXAItvH-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270016.PIXAItvH-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601270016.PIXAItvH-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> kernel/sched/fair.c:10524:37: error: use of undeclared identifier 'node_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                                                   ^
->> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:610:10: note: expanded from macro '__native_word'
-     610 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                 ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
->> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:610:39: note: expanded from macro '__native_word'
-     610 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                              ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
->> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:611:10: note: expanded from macro '__native_word'
-     611 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                 ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
->> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:611:38: note: expanded from macro '__native_word'
-     611 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                                             ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
->> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                                       ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
->> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |                      ^
-   include/asm-generic/rwonce.h:55:20: note: expanded from macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                           ^
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
->> kernel/sched/fair.c:10526:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |                      ^
-   include/asm-generic/rwonce.h:55:27: note: expanded from macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                  ^
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
-   kernel/sched/fair.c:10527:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:610:10: note: expanded from macro '__native_word'
-     610 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                 ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
-   kernel/sched/fair.c:10527:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:610:39: note: expanded from macro '__native_word'
-     610 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                              ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
-   kernel/sched/fair.c:10527:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:611:10: note: expanded from macro '__native_word'
-     611 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                 ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:629:9: note: expanded from macro '__compiletime_assert'
-     629 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   kernel/sched/fair.c:10524:10: note: forward declaration of 'struct numa_stats_cache'
-    10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
-          |                        ^
-   kernel/sched/fair.c:10527:19: error: incomplete definition of type 'struct numa_stats_cache'
-    10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
-          |                            ~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:611:38: note: expanded from macro '__native_word'
-     611 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                                             ^
-   include/linux/compiler_types.h:649:22: note: expanded from macro 'compiletime_assert'
-     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:637:23: note: expanded from macro '_compiletime_assert'
-     637 |         __compiletime_assert(condition, msg, prefix, suffix)
-
-
-vim +/node_stats_cache +10524 kernel/sched/fair.c
-
- 10426	
- 10427	/**
- 10428	 * update_sg_lb_stats - Update sched_group's statistics for load balancing.
- 10429	 * @env: The load balancing environment.
- 10430	 * @sds: Load-balancing data with statistics of the local group.
- 10431	 * @group: sched_group whose statistics are to be updated.
- 10432	 * @sgs: variable to hold the statistics for this group.
- 10433	 * @sg_overloaded: sched_group is overloaded
- 10434	 * @sg_overutilized: sched_group is overutilized
- 10435	 */
- 10436	static inline void update_sg_lb_stats(struct lb_env *env,
- 10437					      struct sd_lb_stats *sds,
- 10438					      struct sched_group *group,
- 10439					      struct sg_lb_stats *sgs,
- 10440					      bool *sg_overloaded,
- 10441					      bool *sg_overutilized)
- 10442	{
- 10443		int i, nr_running, local_group, sd_flags = env->sd->flags;
- 10444		bool balancing_at_rd = !env->sd->parent;
- 10445	
- 10446		memset(sgs, 0, sizeof(*sgs));
- 10447	
- 10448		local_group = group == sds->local;
- 10449	
- 10450		for_each_cpu_and(i, sched_group_span(group), env->cpus) {
- 10451			struct rq *rq = cpu_rq(i);
- 10452			unsigned long load = cpu_load(rq);
- 10453	
- 10454			sgs->group_load += load;
- 10455			sgs->group_util += cpu_util_cfs(i);
- 10456			sgs->group_runnable += cpu_runnable(rq);
- 10457			sgs->sum_h_nr_running += rq->cfs.h_nr_runnable;
- 10458	
- 10459			nr_running = rq->nr_running;
- 10460			sgs->sum_nr_running += nr_running;
- 10461	
- 10462			if (cpu_overutilized(i))
- 10463				*sg_overutilized = 1;
- 10464	
- 10465			/*
- 10466			 * No need to call idle_cpu() if nr_running is not 0
- 10467			 */
- 10468			if (!nr_running && idle_cpu(i)) {
- 10469				sgs->idle_cpus++;
- 10470				/* Idle cpu can't have misfit task */
- 10471				continue;
- 10472			}
- 10473	
- 10474			/* Overload indicator is only updated at root domain */
- 10475			if (balancing_at_rd && nr_running > 1)
- 10476				*sg_overloaded = 1;
- 10477	
- 10478	#ifdef CONFIG_NUMA_BALANCING
- 10479			/* Only fbq_classify_group() uses this to classify NUMA groups */
- 10480			if (sd_flags & SD_NUMA) {
- 10481				sgs->nr_numa_running += rq->nr_numa_running;
- 10482				sgs->nr_preferred_running += rq->nr_preferred_running;
- 10483			}
- 10484	#endif
- 10485			if (local_group)
- 10486				continue;
- 10487	
- 10488			if (sd_flags & SD_ASYM_CPUCAPACITY) {
- 10489				/* Check for a misfit task on the cpu */
- 10490				if (sgs->group_misfit_task_load < rq->misfit_task_load) {
- 10491					sgs->group_misfit_task_load = rq->misfit_task_load;
- 10492					*sg_overloaded = 1;
- 10493				}
- 10494			} else if (env->idle && sched_reduced_capacity(rq, env->sd)) {
- 10495				/* Check for a task running on a CPU with reduced capacity */
- 10496				if (sgs->group_misfit_task_load < load)
- 10497					sgs->group_misfit_task_load = load;
- 10498			}
- 10499		}
- 10500	
- 10501		sgs->group_capacity = group->sgc->capacity;
- 10502	
- 10503		sgs->group_weight = group->group_weight;
- 10504	
- 10505		/* Check if dst CPU is idle and preferred to this group */
- 10506		if (!local_group && env->idle && sgs->sum_h_nr_running &&
- 10507		    sched_group_asym(env, sgs, group))
- 10508			sgs->group_asym_packing = 1;
- 10509	
- 10510		/* Check for loaded SMT group to be balanced to dst CPU */
- 10511		if (!local_group && smt_balance(env, sgs, group))
- 10512			sgs->group_smt_balance = 1;
- 10513	
- 10514		sgs->group_type = group_classify(env->sd->imbalance_pct, group, sgs);
- 10515	
- 10516		/* Computing avg_load makes sense only when group is overloaded */
- 10517		if (sgs->group_type == group_overloaded)
- 10518			sgs->avg_load = (sgs->group_load * SCHED_CAPACITY_SCALE) /
- 10519					sgs->group_capacity;
- 10520	
- 10521		/* Algorithmic Optimization: Cache node stats for O(1) NUMA lookups */
- 10522		if (env->sd->flags & SD_NUMA) {
- 10523			int nid = cpu_to_node(cpumask_first(sched_group_span(group)));
- 10524			struct numa_stats_cache *cache = &node_stats_cache[nid];
- 10525	
- 10526			WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
- 10527			WRITE_ONCE(cache->load, sgs->group_load);
- 10528			WRITE_ONCE(cache->util, sgs->group_util);
- 10529			WRITE_ONCE(cache->runnable, sgs->group_runnable);
- 10530			WRITE_ONCE(cache->capacity, sgs->group_capacity);
- 10531			WRITE_ONCE(cache->last_update, jiffies);
- 10532		}
- 10533	}
- 10534	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
