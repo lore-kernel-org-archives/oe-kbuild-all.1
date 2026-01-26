@@ -1,68 +1,77 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A332FF144
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 22:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE52243367;
+	Mon, 26 Jan 2026 22:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769465983; cv=none; b=AGGPN+QJmuASxy+4v7zb7LTYVFI/SkeqFudY5LODBBYCLnQhB55+uOfS+AxyXw3DCQiCXnXPxCEAqrGEal2s5VaFrPRKd7ZypIYDVZ/0vZ+N3hmwFgZ9+6+As74Q8ug+F9D/Rg40KIWdrIzQrArOpiNBfm2FhkwGUjyBatB/V6I=
+	t=1769466645; cv=none; b=IIXpuuiL7IM+jT0VImYCrq0A8ZxZykC0YwO0DPA1qejzKmX8yvc4pSmZDn21WWn6kmpgd9ZHqTb9Z5C7oBU8Vg61M8twsXDktknqo/ZrIdt+7vwJEFnNIYxbOQ47ww+ilRB0vz/N4cWNQoAzbhNBfDtbXl1W3PHhqnsfRhf3jrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769465983; c=relaxed/simple;
-	bh=MfG5mNjjM2G02N3+AWG0P0JkfwOAvfM7VEWe3256V5c=;
+	s=arc-20240116; t=1769466645; c=relaxed/simple;
+	bh=SDlHPRbnJB1XeB8p7QDzp8qp4nlasKsGSTn2yj84yhk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d0qBFZZNeZgU4L+ec3qMp4TIuLXnC42fyel/ZF1bqBcjySiYKRGcrrbPnEAgJP2f+h86FSw27NKH0xGiIV19HdpUT7guQS6snNjTWw5BTqMP9oTdRgpCHjDsGtI1peeENxp7tp4wCxFsPwVLoPhJjHE4eSBO9GmlN70vgiY6Dwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXDN6svr; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=RH301C2u74X/SpixfaOZUmjd7OkLQUqxrUgANH4OnZXANh/qjzqIJa0M795ZeDavdSmCaHDEGVPx6Sqh8nzWWaS4+q4op6PC3uUGTk5XrjdWb19HVxxNdgH8FELizbV6Wl4ksAT2e/wR8yIwvmUbvMLoyegPBTWgNR70CMW1vbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwWVieaK; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXDN6svr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwWVieaK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769465980; x=1801001980;
+  t=1769466643; x=1801002643;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MfG5mNjjM2G02N3+AWG0P0JkfwOAvfM7VEWe3256V5c=;
-  b=iXDN6svrT9SE18gIoKHKbdQjiAqMdHdLvJn7/2woqeWfXtyiwq8GZ/q/
-   imcv0jihDY4/rDYChdBSBL2c05TpbC08Qxs2nJgrZfLQOr31aCCsB9AN3
-   ESVsXnOYRcxGmUaJXhAQb6n1GOcqVOeN1fU7QTKgWjQelLOmpMJFjMfi/
-   lKPlokgJ6zQ0oMqAfdPxrwDoPVeS/47iWgL02DohQP+VHbQSGYIUagRpG
-   rulaFHuY+/txTpIpDM+X0oiVZ38vOFM8Twsr41jFaqjW3RWCzdP6xTwSN
-   KuYyLbMecjHMZrFrMkP25j7q8CfuZ9u4YghksJnYCZShXIuFLQpyhZCUf
-   Q==;
-X-CSE-ConnectionGUID: gvZqMGTlSI6K5kZY40yZOA==
-X-CSE-MsgGUID: 0n2wIVc8SeSAhIylhLdagg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="82020727"
+  bh=SDlHPRbnJB1XeB8p7QDzp8qp4nlasKsGSTn2yj84yhk=;
+  b=kwWVieaK6oIDinCVoON3WUCf1HQdLmN29sH8f+W870VeoHxuspHzIzMU
+   RIOfuodu0XPTlp2XNWYF1VN9tPd1E80hu6cNQg5V+gX5bPq05YKJbddpb
+   lUpsIFDyXP9GBYve8SMvSmHsuRissY3zdlPM7myreYwv4Tp1KvobmHq4C
+   hEcsab4pcOP729pne2zriSqY3ixgGG8Lkg+ovOrWdUu9D6zmoIjWlpa2C
+   3QU6L5VFVBboL7oOvjy1y99hkDz9yX66lWOfd7UU19r1mArREqmZA7/Fi
+   +dcAiwMsSSJOlfrRlTn5AH05abkUok8XujlcuEfPiasZEqxHpYxnxH2PC
+   g==;
+X-CSE-ConnectionGUID: Tl40MTtVQPuam/P0FvbGnw==
+X-CSE-MsgGUID: YYejrUQUTWO+53ZIRbAPgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="82021443"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="82020727"
+   d="scan'208";a="82021443"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 14:19:40 -0800
-X-CSE-ConnectionGUID: g4hHWet8R1qn9oh1nF18gQ==
-X-CSE-MsgGUID: tuyl5+JHQhyy8v27GXZOhg==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 14:30:43 -0800
+X-CSE-ConnectionGUID: Kg8CKuQ1QIO3ci8zzJ95cA==
+X-CSE-MsgGUID: /mOcDF+HSoStiLCAx97Guw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="245405233"
+   d="scan'208";a="245407170"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Jan 2026 14:19:36 -0800
+  by orviesa001.jf.intel.com with ESMTP; 26 Jan 2026 14:30:37 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkUvl-00000000Xjy-2AbJ;
-	Mon, 26 Jan 2026 22:19:33 +0000
-Date: Tue, 27 Jan 2026 06:19:21 +0800
+	id 1vkV6P-00000000XkE-3Sha;
+	Mon, 26 Jan 2026 22:30:33 +0000
+Date: Tue, 27 Jan 2026 06:29:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Heiko Stuebner <heiko@sntech.de>, Jakub Kicinski <kuba@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH net-next v2 08/22] net: stmmac: rk: convert rk3588 to
- mask-based interface mode config
-Message-ID: <202601270652.AmCxSo3f-lkp@intel.com>
-References: <E1vkL2I-00000005usu-42Hy@rmk-PC.armlinux.org.uk>
+To: pengfuyuan <pengfuyuan@kylinos.cn>, Danilo Krummrich <dakr@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Helge Deller <deller@gmx.de>, Hans de Goede <hansg@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
+	Sam Ravnborg <sam@ravnborg.org>, Zsolt Kajtar <soci@c64.rulez.org>,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	pengfuyuan <pengfuyuan@kylinos.cn>
+Subject: Re: [PATCH v1 v1 3/4] rust: fb: add framebuffer driver support
+Message-ID: <202601270630.FHzCSbVv-lkp@intel.com>
+References: <20260126081744.781392-4-pengfuyuan@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,50 +80,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1vkL2I-00000005usu-42Hy@rmk-PC.armlinux.org.uk>
+In-Reply-To: <20260126081744.781392-4-pengfuyuan@kylinos.cn>
 
-Hi Russell,
+Hi pengfuyuan,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on rust/rust-next]
+[also build test ERROR on driver-core/driver-core-linus linus/master v6.19-rc7]
+[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next next-20260123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-rk-avoid-phy_power_on/20260126-234820
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1vkL2I-00000005usu-42Hy%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net-next v2 08/22] net: stmmac: rk: convert rk3588 to mask-based interface mode config
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260127/202601270652.AmCxSo3f-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270652.AmCxSo3f-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/pengfuyuan/rust-io-mem-add-ioremap_wc-support/20260126-162117
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260126081744.781392-4-pengfuyuan%40kylinos.cn
+patch subject: [PATCH v1 v1 3/4] rust: fb: add framebuffer driver support
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260127/202601270630.FHzCSbVv-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270630.FHzCSbVv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601270652.AmCxSo3f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601270630.FHzCSbVv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: In function 'rk_write_gmac_grf_reg':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:132:24: warning: variable 'regmap' set but not used [-Wunused-but-set-variable]
-     132 |         struct regmap *regmap;
-         |                        ^~~~~~
-
-
-vim +/regmap +132 drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
-
-   129	
-   130	static int rk_write_gmac_grf_reg(struct rk_priv_data *bsp_priv, u32 val)
-   131	{
- > 132		struct regmap *regmap;
-   133	
-   134		if (bsp_priv->ops->gmac_grf_reg_in_php)
-   135			regmap = bsp_priv->php_grf;
-   136		else
-   137			regmap = bsp_priv->grf;
-   138	
-   139		return regmap_write(bsp_priv->grf, bsp_priv->gmac_grf_reg, val);
-   140	}
-   141	
+>> error[E0308]: mismatched types
+   --> rust/kernel/fb/device.rs:307:23
+   |
+   307 |         fb_read: Some(Self::read_callback),
+   |                  ---- ^^^^^^^^^^^^^^^^^^^ expected fn pointer, found fn item
+   |                  |
+   |                  arguments to this enum variant are incorrect
+   |
+   = note: expected fn pointer `unsafe extern "C" fn(_, *mut u8, _, _) -> _`
+   found fn item `extern "C" fn(_, *mut i8, _, _) -> _ {fb::device::Device::<T>::read_callback}`
+   help: the type constructed contains `extern "C" fn(*mut fb_info, *mut i8, usize, *mut i64) -> isize {fb::device::Device::<T>::read_callback}` due to the type of the argument passed
+   --> rust/kernel/fb/device.rs:307:18
+   |
+   307 |         fb_read: Some(Self::read_callback),
+   |                  ^^^^^-------------------^
+   |                       |
+   |                       this argument influences the type of `Some`
+   note: tuple variant defined here
+   --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
+   |
+   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+   |     ^^^^
+--
+>> error[E0308]: mismatched types
+   --> rust/kernel/fb/device.rs:308:24
+   |
+   308 |         fb_write: Some(Self::write_callback),
+   |                   ---- ^^^^^^^^^^^^^^^^^^^^ expected fn pointer, found fn item
+   |                   |
+   |                   arguments to this enum variant are incorrect
+   |
+   = note: expected fn pointer `unsafe extern "C" fn(_, *const u8, _, _) -> _`
+   found fn item `extern "C" fn(_, *const i8, _, _) -> _ {fb::device::Device::<T>::write_callback}`
+   help: the type constructed contains `extern "C" fn(*mut fb_info, *const i8, usize, *mut i64) -> isize {fb::device::Device::<T>::write_callback}` due to the type of the argument passed
+   --> rust/kernel/fb/device.rs:308:19
+   |
+   308 |         fb_write: Some(Self::write_callback),
+   |                   ^^^^^--------------------^
+   |                        |
+   |                        this argument influences the type of `Some`
+   note: tuple variant defined here
+   --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
+   |
+   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+   |     ^^^^
+--
+>> error[E0308]: mismatched types
+   --> rust/kernel/fb/io.rs:32:13
+   |
+   30     |         bindings::fb_io_read(
+   |         -------------------- arguments to this function are incorrect
+   31     |             device.as_raw(),
+   32     |             buf.as_mut_ptr() as *mut core::ffi::c_char,
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `*mut u8`, found `*mut i8`
+   |
+   = note: expected raw pointer `*mut u8`
+   found raw pointer `*mut i8`
+   note: function defined here
+   --> rust/bindings/bindings_generated.rs:123562:12
+   |
+   123562 |     pub fn fb_io_read(
+   |            ^^^^^^^^^^
+--
+>> error[E0308]: mismatched types
+   --> rust/kernel/fb/io.rs:58:13
+   |
+   56     |         bindings::fb_io_write(
+   |         --------------------- arguments to this function are incorrect
+   57     |             device.as_raw(),
+   58     |             buf.as_ptr() as *const core::ffi::c_char,
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `*const u8`, found `*const i8`
+   |
+   = note: expected raw pointer `*const u8`
+   found raw pointer `*const i8`
+   note: function defined here
+   --> rust/bindings/bindings_generated.rs:123570:12
+   |
+   123570 |     pub fn fb_io_write(
+   |            ^^^^^^^^^^^
 
 -- 
 0-DAY CI Kernel Test Service
