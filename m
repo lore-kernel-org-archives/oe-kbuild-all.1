@@ -1,348 +1,444 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC3F625
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 15:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B6133F8C7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 15:31:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769441463; cv=none; b=hf8cpz2XPREJcyycwha0ezbygcWrWVaRxCPHREnF9M5JAAssZipp5vLwuOI7h9ZB60/DqJKYKXxlNIwC2ODMpU1qVoYoJJTh39MAcDkqacfpMvwOc4TqAlUdU2Es2znpoODPcVwcu5MMzI3ZkOdR5DsUNns9ci1BFi1Ws6FDnUo=
+	t=1769441465; cv=none; b=lJXow6B6OLFIl5FgDOaPWrUC0O5igXOKPNeWfOX2LE/2kqHa10J1FxQm+TLXUPhhJoegvfTA3Mv07aHPjvUH9epIT4IA5AbId4FC7Camyf0CrY4AdtTSSZqVgGKHfmqEobefO9sSzjGZKeKbA/ryh4QSmm0+4MpSh98+q5R5Crs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769441463; c=relaxed/simple;
-	bh=ebLtXo5D+IokwTgkwh8lgalU38UrePDWucsIDG45yc4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qE0/NlrUpW5qtPEPkoAQA5Kvtj3QuXMl5GdRU84E/P4lksNa1p2boZKE/wzeB9+23qN8ellrDFYUN59RYvrNZN8ZNYtvbFOumtGObK5iQDJimbXrK/+cGi2s/eQ8yUy31726R0ZST6EpxRW4mQDvBtKwAjluV/8rAVVwbqAAhsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aehUmfC3; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1769441465; c=relaxed/simple;
+	bh=6PXdi1088MWNhPjDiFs9VXCuNQaaigqJ491IXJQkS9Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qVdgdtdfS6COk8ZKXDLci80gDYbrbesc01bADZpj3DAkAEMFou7IWIbhxSUnCzZBujVALxUBSlynczSSlxOB9pZGkBaQvSPBH8UIWAUmANHPSX6hSGYNo++GkJWkegMqZb9FgzgzZMDHu9injcUZ6WC/bQXws3FBXh26SFZdjBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQzwVpZN; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aehUmfC3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQzwVpZN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769441461; x=1800977461;
-  h=date:from:to:cc:subject:message-id;
-  bh=ebLtXo5D+IokwTgkwh8lgalU38UrePDWucsIDG45yc4=;
-  b=aehUmfC3sPwSILYhQEw6xIzqGfr4Qsh8dmyMwrkENDnWQCZsDQrRI9K0
-   F0oLmXt+RCPo0rclH804c3CWWLqgBgrH0uR1RmVj7M1zLZSy4MxkDqhcX
-   iaM5vVp+sdf9zclQm30goJr2zD/ThhXojR7WjQD1rF1LY7RxSTCUDulqk
-   eBtPIDgl9MEt6wQVVZTZKCwvgPaDoJf5btlhpor3VcGQxJDqDsvMSAKUA
-   A5LGxFYrTOqFrAApCKsmEZNWMMgCuHb2IuY+LMK2maXtq4d0iA5ek6q2N
-   Ih+cbbsllosy53JB8XUJi1fBtoxI5nLgBkSSE3oVTxtMWnH98YFcgR6Wk
-   g==;
-X-CSE-ConnectionGUID: nw/yyIDQSRu0mcOgYdnbrA==
-X-CSE-MsgGUID: PvDjtvuDSiKSVU2gOMVJ7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70711105"
+  t=1769441462; x=1800977462;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6PXdi1088MWNhPjDiFs9VXCuNQaaigqJ491IXJQkS9Q=;
+  b=gQzwVpZNsnY7I3CAYH4zi2qrseOmnWMGAeype0sfoRDg6yPpPfKkmgvQ
+   B/W3z6ND3CbCKW/gX+4vjFFMhqyckB4QXbREF10Sbj2QdhZUfMHkh/aFp
+   Ca5fzyi+SvJhN+gEpLOykindtLYaJ6K7/CNtd4bBsojUGeMta0u+TJNDo
+   UKgyu/frJIqhnMNXhivzxLW8hSGbS0xPP5H2ox9t9LiyoyhRCcwdy9TNd
+   57Ds1r3lu+TxstxhksGkkxWfIBhEUN/DRhGzaSzAoVq6PKJWjPJQe716h
+   rEBfs5W22MK5UBYlKSZfkGZk70/HGptkb6KbGAxeMOxVqG++eYYIjDB7y
+   w==;
+X-CSE-ConnectionGUID: gAGBmDdtToSkOmxsk0noiw==
+X-CSE-MsgGUID: nY7cnPHKQtiNiN2/ogtwFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70677336"
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="70711105"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 07:31:00 -0800
-X-CSE-ConnectionGUID: JV4CwiwBR4W083IlnJJs4A==
-X-CSE-MsgGUID: HoDWqaXcTDiz2p+1USUBxw==
+   d="scan'208";a="70677336"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 07:31:01 -0800
+X-CSE-ConnectionGUID: SzHE+xC8TzGzllcS1B8DrQ==
+X-CSE-MsgGUID: sHK29it8QFK3yNLcFj+yUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="207728242"
+   d="scan'208";a="208128007"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 26 Jan 2026 07:30:59 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 26 Jan 2026 07:30:58 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkOYK-00000000XQu-00HO;
-	Mon, 26 Jan 2026 15:30:56 +0000
-Date: Mon, 26 Jan 2026 23:30:23 +0800
+	id 1vkOYJ-00000000XQs-3zAU;
+	Mon, 26 Jan 2026 15:30:55 +0000
+Date: Mon, 26 Jan 2026 23:30:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:vcam 5/5]
- drivers/media/v4l2-core/v4l2-vcam.c:917:1: warning: the frame size of 1592
- bytes is larger than 1280 bytes
-Message-ID: <202601262322.a5MfW4Bd-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Qiliang Yuan <realwujing@gmail.com>, kprateek.nayak@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, bsegall@google.com,
+	dietmar.eggemann@arm.com, juri.lelli@redhat.com,
+	linux-kernel@vger.kernel.org, mgorman@suse.de, mingo@redhat.com,
+	peterz@infradead.org, realwujing@gmail.com, rostedt@goodmis.org,
+	vincent.guittot@linaro.org, vschneid@redhat.com,
+	yuanql9@chinatelecom.cn
+Subject: Re: [PATCH v3] sched/fair: Cache NUMA node statistics to avoid O(N)
+ scanning
+Message-ID: <202601262359.B2LmQ3KH-lkp@intel.com>
+References: <20260126110250.1060512-1-realwujing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260126110250.1060512-1-realwujing@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git vcam
-head:   43ae87738b05d8f8e7ae4d1d6a250c396687a081
-commit: 89e4b2f0909bc377757b65e8565bee625b210c76 [5/5] media: v4l2-vcam
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260126/202601262322.a5MfW4Bd-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601262322.a5MfW4Bd-lkp@intel.com/reproduce)
+Hi Qiliang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on linus/master v6.19-rc7 next-20260123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qiliang-Yuan/sched-fair-Cache-NUMA-node-statistics-to-avoid-O-N-scanning/20260126-190546
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20260126110250.1060512-1-realwujing%40gmail.com
+patch subject: [PATCH v3] sched/fair: Cache NUMA node statistics to avoid O(N) scanning
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260126/202601262359.B2LmQ3KH-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601262359.B2LmQ3KH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601262322.a5MfW4Bd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601262359.B2LmQ3KH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/v4l2-core/v4l2-vcam.c: In function 'v4l2_vcam_ioc_vcam_new_validate':
-   drivers/media/v4l2-core/v4l2-vcam.c:1209:45: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    1209 |         len = strncpy_from_user(card_label, (void __user *)config->card_label,
-         |                                             ^
-   drivers/media/v4l2-core/v4l2-vcam.c: In function 'v4l2_vcam_server_ioctl':
->> drivers/media/v4l2-core/v4l2-vcam.c:917:1: warning: the frame size of 1592 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     917 | }
-         | ^
+   kernel/sched/fair.c: In function 'update_sg_lb_stats':
+>> kernel/sched/fair.c:10524:51: error: 'node_stats_cache' undeclared (first use in this function); did you mean 'numa_stats_cache'?
+   10524 |                 struct numa_stats_cache *cache = &node_stats_cache[nid];
+         |                                                   ^~~~~~~~~~~~~~~~
+         |                                                   numa_stats_cache
+   kernel/sched/fair.c:10524:51: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from <command-line>:
+>> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                 ^~~~~~~~~~
+>> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                 ^~~~~~~~~~
+>> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                 ^~~~~~~~~~
+>> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                 ^~~~~~~~~~
+>> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                 ^~~~~~~~~~
+   In file included from ./arch/nios2/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:380,
+                    from include/linux/cleanup.h:5,
+                    from include/linux/irqflags.h:17,
+                    from include/asm-generic/cmpxchg.h:15,
+                    from ./arch/nios2/include/generated/asm/cmpxchg.h:1,
+                    from include/asm-generic/atomic.h:12,
+                    from ./arch/nios2/include/generated/asm/atomic.h:1,
+                    from include/linux/atomic.h:7,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+>> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                                 ^~
+   include/asm-generic/rwonce.h:55:27: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                           ^
+   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                 ^~~~~~~~~~
+>> kernel/sched/fair.c:10526:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                                 ^~
+   include/asm-generic/rwonce.h:55:34: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                  ^
+   kernel/sched/fair.c:10526:17: note: in expansion of macro 'WRITE_ONCE'
+   10526 |                 WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+         |                 ^~~~~~~~~~
+   In file included from <command-line>:
+   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10527:17: note: in expansion of macro 'WRITE_ONCE'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                 ^~~~~~~~~~
+   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10527:17: note: in expansion of macro 'WRITE_ONCE'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                 ^~~~~~~~~~
+   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10527:17: note: in expansion of macro 'WRITE_ONCE'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                 ^~~~~~~~~~
+   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
+     649 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:10527:17: note: in expansion of macro 'WRITE_ONCE'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                 ^~~~~~~~~~
+   kernel/sched/fair.c:10527:33: error: invalid use of undefined type 'struct numa_stats_cache'
+   10527 |                 WRITE_ONCE(cache->load, sgs->group_load);
+         |                                 ^~
+   include/linux/compiler_types.h:629:23: note: in definition of macro '__compiletime_assert'
+     629 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:649:9: note: in expansion of macro '_compiletime_assert'
 
 
-vim +917 drivers/media/v4l2-core/v4l2-vcam.c
+vim +10524 kernel/sched/fair.c
 
-   662	
-   663	static long v4l2_vcam_server_ioctl(struct file *file, unsigned int cmd,
-   664					   unsigned long arg)
-   665	{
-   666		struct v4l2_vcam_data *dev = file->private_data;
-   667		void __user *argp = (void __user *)arg;
-   668		long ret = 0;
-   669	
-   670		if (mutex_lock_interruptible(&dev->lock))
-   671			return -ERESTARTSYS;
-   672	
-   673		switch (cmd) {
-   674		case VIDIOC_QUERYCAP: {
-   675			struct v4l2_capability cap = {};
-   676			__u32 capabilities = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_OUTPUT;
-   677	
-   678			cap.device_caps = capabilities;
-   679			cap.capabilities = capabilities | V4L2_CAP_DEVICE_CAPS;
-   680	
-   681			strscpy(cap.driver, "v4l2 loopback", sizeof(cap.driver));
-   682			strscpy(cap.card, dev->vdev->name, sizeof(cap.card));
-   683			snprintf(cap.bus_info, sizeof(cap.bus_info), "platform:%.*s",
-   684				 (int)(sizeof(cap.bus_info) - sizeof("platform:")),
-   685				 dev->v4l2_dev.name);
-   686	
-   687			memset(cap.reserved, 0, sizeof(cap.reserved));
-   688			ret = 0; // The function v4l2_vcam_querycap_out would return 0
-   689	
-   690			if (!ret && copy_to_user(argp, &cap, sizeof(cap)))
-   691				ret = -EFAULT;
-   692			break;
-   693		}
-   694		case VIDIOC_ENUM_FMT: {
-   695			struct v4l2_fmtdesc f;
-   696	
-   697			if (copy_from_user(&f, argp, sizeof(f))) {
-   698				ret = -EFAULT;
-   699				break;
-   700			}
-   701			if (f.type != V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-   702				ret = -EINVAL;
-   703				break;
-   704			}
-   705			ret = v4l2_vcam_enum_fmt_out(dev, &f);
-   706			if (!ret && copy_to_user(argp, &f, sizeof(f)))
-   707				ret = -EFAULT;
-   708			break;
-   709		}
-   710		case VIDIOC_G_FMT: {
-   711			struct v4l2_format fmt;
-   712	
-   713			if (copy_from_user(&fmt, argp, sizeof(fmt))) {
-   714				ret = -EFAULT;
-   715				break;
-   716			}
-   717			if (fmt.type != V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-   718				ret = -EINVAL;
-   719				break;
-   720			}
-   721			ret = v4l2_vcam_g_fmt_out(dev, &fmt);
-   722			if (!ret && copy_to_user(argp, &fmt, sizeof(fmt)))
-   723				ret = -EFAULT;
-   724			break;
-   725		}
-   726		case VIDIOC_TRY_FMT: {
-   727			struct v4l2_format fmt;
-   728	
-   729			if (copy_from_user(&fmt, argp, sizeof(fmt))) {
-   730				ret = -EFAULT;
-   731				break;
-   732			}
-   733			if (fmt.type != V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-   734				ret = -EINVAL;
-   735				break;
-   736			}
-   737			ret = v4l2_vcam_try_fmt_out(dev, &fmt);
-   738			if (!ret && copy_to_user(argp, &fmt, sizeof(fmt)))
-   739				ret = -EFAULT;
-   740			break;
-   741		}
-   742		case VIDIOC_S_FMT: {
-   743			struct v4l2_format fmt;
-   744	
-   745			if (copy_from_user(&fmt, argp, sizeof(fmt))) {
-   746				ret = -EFAULT;
-   747				break;
-   748			}
-   749			if (fmt.type != V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-   750				ret = -EINVAL;
-   751				break;
-   752			}
-   753			ret = v4l2_vcam_s_fmt_out(dev, &fmt);
-   754			if (!ret && copy_to_user(argp, &fmt, sizeof(fmt)))
-   755				ret = -EFAULT;
-   756			break;
-   757		}
-   758		case VIDIOC_ENUM_FRAMESIZES: {
-   759			struct v4l2_frmsizeenum fsize;
-   760	
-   761			if (copy_from_user(&fsize, argp, sizeof(fsize))) {
-   762				ret = -EFAULT;
-   763				break;
-   764			}
-   765			ret = v4l2_vcam_enum_framesizes(dev, &fsize);
-   766			if (!ret && copy_to_user(argp, &fsize, sizeof(fsize)))
-   767				ret = -EFAULT;
-   768			break;
-   769		}
-   770		case VIDIOC_ENUM_FRAMEINTERVALS: {
-   771			struct v4l2_frmivalenum fival;
-   772	
-   773			if (copy_from_user(&fival, argp, sizeof(fival))) {
-   774				ret = -EFAULT;
-   775				break;
-   776			}
-   777			ret = v4l2_vcam_enum_frameintervals(dev, &fival);
-   778			if (!ret && copy_to_user(argp, &fival, sizeof(fival)))
-   779				ret = -EFAULT;
-   780			break;
-   781		}
-   782		case VIDIOC_G_PARM: {
-   783			struct v4l2_streamparm parm;
-   784	
-   785			if (copy_from_user(&parm, argp, sizeof(parm))) {
-   786				ret = -EFAULT;
-   787				break;
-   788			}
-   789			ret = v4l2_vcam_g_parm_out(dev, &parm);
-   790			if (!ret && copy_to_user(argp, &parm, sizeof(parm)))
-   791				ret = -EFAULT;
-   792			break;
-   793		}
-   794		case VIDIOC_S_PARM: {
-   795			struct v4l2_streamparm parm;
-   796	
-   797			if (copy_from_user(&parm, argp, sizeof(parm))) {
-   798				ret = -EFAULT;
-   799				break;
-   800			}
-   801			ret = v4l2_vcam_s_parm_out(dev, &parm);
-   802			if (!ret && copy_to_user(argp, &parm, sizeof(parm)))
-   803				ret = -EFAULT;
-   804			break;
-   805		}
-   806		case VIDIOC_REQBUFS: {
-   807			struct v4l2_requestbuffers req;
-   808	
-   809			if (copy_from_user(&req, argp, sizeof(req))) {
-   810				ret = -EFAULT;
-   811				break;
-   812			}
-   813			ret = v4l2_vcam_server_reqbufs(file, dev, &req);
-   814			if (!ret && copy_to_user(argp, &req, sizeof(req)))
-   815				ret = -EFAULT;
-   816			break;
-   817		}
-   818		case VIDIOC_CREATE_BUFS: {
-   819			struct v4l2_create_buffers bufs;
-   820	
-   821			if (copy_from_user(&bufs, argp, sizeof(bufs))) {
-   822				ret = -EFAULT;
-   823				break;
-   824			}
-   825			ret = v4l2_vcam_server_create_bufs(file, dev, &bufs);
-   826			if (!ret && copy_to_user(argp, &bufs, sizeof(bufs)))
-   827				ret = -EFAULT;
-   828			break;
-   829		}
-   830		case VIDIOC_PREPARE_BUF: {
-   831			struct v4l2_buffer buf;
-   832	
-   833			if (copy_from_user(&buf, argp, sizeof(buf))) {
-   834				ret = -EFAULT;
-   835				break;
-   836			}
-   837			ret = v4l2_vcam_server_prepare_buf(file, dev, &buf);
-   838			if (!ret && copy_to_user(argp, &buf, sizeof(buf)))
-   839				ret = -EFAULT;
-   840			break;
-   841		}
-   842		case VIDIOC_QUERYBUF: {
-   843			struct v4l2_buffer buf;
-   844	
-   845			if (copy_from_user(&buf, argp, sizeof(buf))) {
-   846				ret = -EFAULT;
-   847				break;
-   848			}
-   849			ret = v4l2_vcam_server_querybuf(file, dev, &buf);
-   850			if (!ret && copy_to_user(argp, &buf, sizeof(buf)))
-   851				ret = -EFAULT;
-   852			break;
-   853		}
-   854		case VIDIOC_EXPBUF: {
-   855			struct v4l2_exportbuffer buf;
-   856	
-   857			if (copy_from_user(&buf, argp, sizeof(buf))) {
-   858				ret = -EFAULT;
-   859				break;
-   860			}
-   861			ret = v4l2_vcam_server_expbuf(file, dev, &buf);
-   862			if (!ret && copy_to_user(argp, &buf, sizeof(buf)))
-   863				ret = -EFAULT;
-   864			break;
-   865		}
-   866		case VIDIOC_QBUF: {
-   867			struct v4l2_buffer buf;
-   868	
-   869			if (copy_from_user(&buf, argp, sizeof(buf))) {
-   870				ret = -EFAULT;
-   871				break;
-   872			}
-   873			ret = v4l2_vcam_server_qbuf(file, dev, &buf);
-   874			if (!ret && copy_to_user(argp, &buf, sizeof(buf)))
-   875				ret = -EFAULT;
-   876			break;
-   877		}
-   878		case VIDIOC_DQBUF: {
-   879			struct v4l2_buffer buf;
-   880	
-   881			if (copy_from_user(&buf, argp, sizeof(buf))) {
-   882				ret = -EFAULT;
-   883				break;
-   884			}
-   885			ret = v4l2_vcam_server_dqbuf(file, dev, &buf);
-   886			if (!ret && copy_to_user(argp, &buf, sizeof(buf)))
-   887				ret = -EFAULT;
-   888			break;
-   889		}
-   890		case VIDIOC_STREAMON: {
-   891			enum v4l2_buf_type type;
-   892	
-   893			if (copy_from_user(&type, argp, sizeof(type))) {
-   894				ret = -EFAULT;
-   895				break;
-   896			}
-   897			ret = v4l2_vcam_server_streamon(file, dev, type);
-   898			break;
-   899		}
-   900		case VIDIOC_STREAMOFF: {
-   901			enum v4l2_buf_type type;
-   902	
-   903			if (copy_from_user(&type, argp, sizeof(type))) {
-   904				ret = -EFAULT;
-   905				break;
-   906			}
-   907			ret = v4l2_vcam_server_streamoff(file, dev, type);
-   908			break;
-   909		}
-   910		default:
-   911			ret = -ENOTTY;
-   912			break;
-   913		}
-   914	
-   915		mutex_unlock(&dev->lock);
-   916		return ret;
- > 917	}
-   918	
+ 10426	
+ 10427	/**
+ 10428	 * update_sg_lb_stats - Update sched_group's statistics for load balancing.
+ 10429	 * @env: The load balancing environment.
+ 10430	 * @sds: Load-balancing data with statistics of the local group.
+ 10431	 * @group: sched_group whose statistics are to be updated.
+ 10432	 * @sgs: variable to hold the statistics for this group.
+ 10433	 * @sg_overloaded: sched_group is overloaded
+ 10434	 * @sg_overutilized: sched_group is overutilized
+ 10435	 */
+ 10436	static inline void update_sg_lb_stats(struct lb_env *env,
+ 10437					      struct sd_lb_stats *sds,
+ 10438					      struct sched_group *group,
+ 10439					      struct sg_lb_stats *sgs,
+ 10440					      bool *sg_overloaded,
+ 10441					      bool *sg_overutilized)
+ 10442	{
+ 10443		int i, nr_running, local_group, sd_flags = env->sd->flags;
+ 10444		bool balancing_at_rd = !env->sd->parent;
+ 10445	
+ 10446		memset(sgs, 0, sizeof(*sgs));
+ 10447	
+ 10448		local_group = group == sds->local;
+ 10449	
+ 10450		for_each_cpu_and(i, sched_group_span(group), env->cpus) {
+ 10451			struct rq *rq = cpu_rq(i);
+ 10452			unsigned long load = cpu_load(rq);
+ 10453	
+ 10454			sgs->group_load += load;
+ 10455			sgs->group_util += cpu_util_cfs(i);
+ 10456			sgs->group_runnable += cpu_runnable(rq);
+ 10457			sgs->sum_h_nr_running += rq->cfs.h_nr_runnable;
+ 10458	
+ 10459			nr_running = rq->nr_running;
+ 10460			sgs->sum_nr_running += nr_running;
+ 10461	
+ 10462			if (cpu_overutilized(i))
+ 10463				*sg_overutilized = 1;
+ 10464	
+ 10465			/*
+ 10466			 * No need to call idle_cpu() if nr_running is not 0
+ 10467			 */
+ 10468			if (!nr_running && idle_cpu(i)) {
+ 10469				sgs->idle_cpus++;
+ 10470				/* Idle cpu can't have misfit task */
+ 10471				continue;
+ 10472			}
+ 10473	
+ 10474			/* Overload indicator is only updated at root domain */
+ 10475			if (balancing_at_rd && nr_running > 1)
+ 10476				*sg_overloaded = 1;
+ 10477	
+ 10478	#ifdef CONFIG_NUMA_BALANCING
+ 10479			/* Only fbq_classify_group() uses this to classify NUMA groups */
+ 10480			if (sd_flags & SD_NUMA) {
+ 10481				sgs->nr_numa_running += rq->nr_numa_running;
+ 10482				sgs->nr_preferred_running += rq->nr_preferred_running;
+ 10483			}
+ 10484	#endif
+ 10485			if (local_group)
+ 10486				continue;
+ 10487	
+ 10488			if (sd_flags & SD_ASYM_CPUCAPACITY) {
+ 10489				/* Check for a misfit task on the cpu */
+ 10490				if (sgs->group_misfit_task_load < rq->misfit_task_load) {
+ 10491					sgs->group_misfit_task_load = rq->misfit_task_load;
+ 10492					*sg_overloaded = 1;
+ 10493				}
+ 10494			} else if (env->idle && sched_reduced_capacity(rq, env->sd)) {
+ 10495				/* Check for a task running on a CPU with reduced capacity */
+ 10496				if (sgs->group_misfit_task_load < load)
+ 10497					sgs->group_misfit_task_load = load;
+ 10498			}
+ 10499		}
+ 10500	
+ 10501		sgs->group_capacity = group->sgc->capacity;
+ 10502	
+ 10503		sgs->group_weight = group->group_weight;
+ 10504	
+ 10505		/* Check if dst CPU is idle and preferred to this group */
+ 10506		if (!local_group && env->idle && sgs->sum_h_nr_running &&
+ 10507		    sched_group_asym(env, sgs, group))
+ 10508			sgs->group_asym_packing = 1;
+ 10509	
+ 10510		/* Check for loaded SMT group to be balanced to dst CPU */
+ 10511		if (!local_group && smt_balance(env, sgs, group))
+ 10512			sgs->group_smt_balance = 1;
+ 10513	
+ 10514		sgs->group_type = group_classify(env->sd->imbalance_pct, group, sgs);
+ 10515	
+ 10516		/* Computing avg_load makes sense only when group is overloaded */
+ 10517		if (sgs->group_type == group_overloaded)
+ 10518			sgs->avg_load = (sgs->group_load * SCHED_CAPACITY_SCALE) /
+ 10519					sgs->group_capacity;
+ 10520	
+ 10521		/* Algorithmic Optimization: Cache node stats for O(1) NUMA lookups */
+ 10522		if (env->sd->flags & SD_NUMA) {
+ 10523			int nid = cpu_to_node(cpumask_first(sched_group_span(group)));
+ 10524			struct numa_stats_cache *cache = &node_stats_cache[nid];
+ 10525	
+ 10526			WRITE_ONCE(cache->nr_running, sgs->sum_h_nr_running);
+ 10527			WRITE_ONCE(cache->load, sgs->group_load);
+ 10528			WRITE_ONCE(cache->util, sgs->group_util);
+ 10529			WRITE_ONCE(cache->runnable, sgs->group_runnable);
+ 10530			WRITE_ONCE(cache->capacity, sgs->group_capacity);
+ 10531			WRITE_ONCE(cache->last_update, jiffies);
+ 10532		}
+ 10533	}
+ 10534	
 
 -- 
 0-DAY CI Kernel Test Service
