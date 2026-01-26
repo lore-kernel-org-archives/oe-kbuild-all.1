@@ -1,151 +1,126 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F9C2FB632
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 08:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769416123; cv=pass; b=g7Impp0KetdqJOVyRS1elxDThsgWtacwh4nk1pREGXxNi42fZ63fhoPw+cNsWeMtbRgjAoHUyZpcsPfcG7U2PqlXFPijsSN9pe3RLEuIEONGx1TY6mnoUK0Gx7l441A32C0kKXD8rJlEWOmdtom51h7644EzDdYL5CMBtcqStEE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769416123; c=relaxed/simple;
-	bh=IChdIJUhRMDHLJJyyMM7C09xoDho5XgoklbM0lDLFHQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hY8Jw1I4ptBYYohECadNDiYlpwiAi8eAnO7rJuLMiAyjOY3WxZSY4yl2HlVB+sw/0pUag1m9aHrO/aLAfjgY/7muEfaBL0/UYpzZFdAJG3LGWLjmV5q/fW2IMVI8HS9tDytiNjybX+atV8eDo+ZRGax3jiUEdyVW/ZscbmqzfxE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YqR7F3a5; arc=pass smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFFF306496
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 09:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769419358; cv=none; b=mZr0XhAaPuBmhwYUSH7Av33IIYjQ3FK5L471W5w/bTZUhhId1EOpxks/3S7liD6YfbzKJT5OceBsuQU+kMPdBFxz2BwjXgmshs26cAfA4llyRwS7CfuUZTWX6koDNq8XWUen51ilhsWRDeGEUKeq2g/cBmd/2u6MeRaXhlwZUSg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769419358; c=relaxed/simple;
+	bh=pwtagrJ6Orntn9rCTwPChBjN7HhxzqpgG+/pftaTDqI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iSolLdcPYyrmzJbFnIcW/7XvU8sphEh5J/mLg8HENrfRX1unU1jxFZxw0vjhidBGNe8xt3hf2z6C1K4fZRscgxFsAWNpCfL+F4mpd7im9vOgFBedGHJ+9RNBWlifkeUQQZPVbJPjgPFkhs6IcuxhSzQFtenaRC7mdP2sx/rLmbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=09CBhijv; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YqR7F3a5"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8869cd7bb1so438768766b.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 00:28:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769416120; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hMzLyuNR35bh++VT7FP3gUOuySTU9lYQ1METKzweEPCrkFwlr1KRgfc0LJZxMpROYB
-         uex8AGHXWDgYPNri/prbTih8hHEDc+92OwfO7N46kXB9AUNtKEUlVFWGN1mgNx5n/5RR
-         QXB45i3mWWdKzSR0gNzyMlNMNZW+Bo8MdEnnT9pyBmFLo//8vN//5en4dxfglodCps7J
-         EHVMS0YC3dZvJdA+2vpDLSBJa5js7it1LD3SVkpgKtYRsaWIRRfHULPbNDLWourSXvaw
-         k6B+1DfdJJF/hDuUTzfgYOmnBXlM1+PrdWv8mwJwYcmXjaaxp+ji2U7b54+6iOWiTBPa
-         Rung==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cq+fCPk8KJ9iRXfyMvxZCksWGZNw2PsDH5Tkw+tm140=;
-        fh=7Q70bag0tX0BELDJl+JH3Jgpp/BXp3jwW0Pppm2oLfo=;
-        b=JQVNkZIF8gpJE+xHmxL07Q4dn+j57HsWdyj2BZvroR3Ep3ZLGkPFMI1iJXqPHv2tCM
-         v4uMCBxhEdE3P1eiUWCbSjBlYDLT3BZLQ0LezHLRQptbvcWKVoZgO/1nfL3QdJnELENx
-         uZo6q4KS/pSXQoWTGFFFs/Iwd00488BwE2jYUxUhKy0A5m2hxIZCMugq3m3fKvXyU4hd
-         UvcOA46uGyTm1frkwoPMl1Nz9R+QW7XDZ0LCIKaAvgFqoWV43VmLdj1hxI3PgalC2VPn
-         eVzvgSP/lXBUrvUza+zEyy49aTLpElNhYCYDmlY+HnY0Tvsg/kNNAyhX8L3TvvRXq0bz
-         9ZJA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="09CBhijv"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-6581a45f30eso404527a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 01:22:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769416120; x=1770020920; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cq+fCPk8KJ9iRXfyMvxZCksWGZNw2PsDH5Tkw+tm140=;
-        b=YqR7F3a5kyBZA/XtpwJ9JQYSg3ti/PGmcze3A3/vHEdkHTUQqQFi3NlTxvJ7+bGLBY
-         aPbt7JtiOK+CHe5kfDckuuhJuXrSgHMqX253lfZVF4BpOAdkLBfux1UDG5uOW6ofa/20
-         UL86lA9949jJ+s+ORz+pldDfuFhwbi49mIizvs4bW9xKxaWZk7+3jCnryFhb7PPcoXEd
-         2z3tjl6pmrUIrAMMn3vJPyB8sb+j2b2fsRd6QnaY2aK7ptNGEZ78eO4XX0oFlktBcRBV
-         3czRV04Pn+nBoGsaYnPST6g8SpS1A4hpUePYZcuts7qKD0RaSq4+qP95FUu2ZPk+O6Ml
-         sUPQ==
+        d=google.com; s=20230601; t=1769419355; x=1770024155; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7a6yIcsB2kt1CiNa5tFb4Ajz4/4gpPILl4lTvlfFzgs=;
+        b=09CBhijvf3dRDSUNSd9nVxzIRs7KePAlfFHrslLj2JL2k1dXN2lSZ8tT6QjBQnboho
+         2kE+1PoLdGuJv0o3nlaCCrOgkAqLMM570XSgb72vNIZm3TFCM9AUrtow1/QBTJya+0+Y
+         Vnp/H/UTmRUgg9YupCE9OuTa3GhzYtGyABBJZSsWVRMge/emF51s+xcVWLeNi4ulMm4u
+         84tsG3WwksfeSx6FmqYJnC3hoyQHlwUyftF4G9Atuqm4NCStPNB6CFqP0WrK6lPsyA8i
+         BYIjsDHDH4B3GnGWopOuqH74BB83yVFLvkchVGrpFA8hD88BiLk7hpYk7WYbuXCfVZlo
+         ghBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769416120; x=1770020920;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cq+fCPk8KJ9iRXfyMvxZCksWGZNw2PsDH5Tkw+tm140=;
-        b=wxeDPgXX43jAS3OSlzQI3e4kmDov023eXGYOq5By3XPzo8ildBeGKBXBqWn/JRS+4o
-         oG0RriQH0PkmglGSiDEgBmN/485w8hp54N7JrW6vgisM7XerYQIIEr0p8CQc5dyIi+81
-         pr73qX1rJSSNPnMC8mRCWo495kqYwVSSvJ47C84ZCkY4rvjuLyxwwct1q2RkZHLshpGb
-         eN04U+Akw3bF3bn4rJJvC3avwEh05lA89HLMvoREt/Z7u/fZ5kW94Q5UAfMJQWDDm0sm
-         SSQV4k8lePGYGqJkjKv8+nQL77WUqBB3he7yghX3wxq0GWxuD1CzyQ4b338uXXllABoc
-         aRSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWkzZmD+q2DrlCKPgC6y2NGSCxXzVdD9JJYl7bOLblHh4bXQwL92EyftnYVh2NBdbETu8QZ+YEb2j/HEz/9@lists.linux.dev
-X-Gm-Message-State: AOJu0YwU8rG+1o2KQGixjeQppA16CRjCDBbuhp1v5GglzfDbCyXUj5GV
-	Z9t9t8cv11ia8akUg1A3hXoFSpodwTIOUMhNIeFwEisLbX55S6/sUvmi47RIC1O4UrmGYp6f7LG
-	ljMSBHsd8gbZg7xLrySwBQ8BT9RIU8jg=
-X-Gm-Gg: AZuq6aLVVTg/vvCwwDnfbnmcLELlethtSuZbAqmuXY/foR6hH4Gf7Vr9YaUJOXRuRSj
-	zCoylCUTy7r93UOgVZx/XOrxuMFh+kgEV6QMxFsoyg7NtuTiiZzt9e58iDCelBRTN9LL9YjHVqt
-	toMSfqiMoqc12/wMHNnk+jHTTOgsKC4diK62duACLyX5z9vE+soxHPMjzg/DT3B26oYQ0klAhkZ
-	Rq5LXXhwcP11T/tf1+aVZex6NdwseV8wICjHmcoOAx/FC3d7rUeL+57PfPZGDy9mzXqP0CMuHYU
-	rf4x+vAA+FzTu+AAikcr2rUYMFk=
-X-Received: by 2002:a17:907:745:b0:b88:5158:d10e with SMTP id
- a640c23a62f3a-b8d3f9fbc54mr259128766b.21.1769416120083; Mon, 26 Jan 2026
- 00:28:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769419355; x=1770024155;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=7a6yIcsB2kt1CiNa5tFb4Ajz4/4gpPILl4lTvlfFzgs=;
+        b=lQ9wtOvCs61xqNfAasDe0G+9zZAIvcG4neRSAUs5QtSyI5YMXuPlOWicmMgw8Hyo+n
+         9A7oPeRefoPXwS1fTkknpFzJmg0UK0E/DDQHTeGeoa2ddKmUdaj43qJJmsAY3QMEnB+F
+         JymkoQTUbiokjs0a2MQzYMOYQp7qjRZ8ABzkE1elsE4A9czrQ8wkW8D2o9VO7XREXE/+
+         GWTgkvDXj043SunCZi3TcSILSVTEBNWCHycZKLpkdYDh9hxHBYJYxcfXL1hSa9Tu4IY9
+         ZOXtGNdJcCkgC55PqanUAMRcFRsoPEKVw7GbsAUIfcTATXcWFl084aCd6US68bepSYrc
+         IQeg==
+X-Forwarded-Encrypted: i=1; AJvYcCWoiyPwf0XOsEInEDf5M+ECVmLg6xCMBnYRqe4906ncUDCF6W0X/TloJAeAla25DDSxfS2qLUUk7VMhSTmt@lists.linux.dev
+X-Gm-Message-State: AOJu0YyrBqP2y4cLD+SDaIGB2hwOv6hFZrLRWPtdpxGwu7/KR1aMAdpb
+	uuKvYTKvPUUuV7g3v0/er0hHlVgDrCupZ436Za6K5+sfhXR1InWcQiOk4qYGsYI4iupBXOrU/dL
+	wYX3dofUyYYdPUyeDUg==
+X-Received: from edqr22.prod.google.com ([2002:aa7:d596:0:b0:654:3514:7440])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:358f:b0:64b:4f44:60ef with SMTP id 4fb4d7f45d1cf-658706e14famr2889920a12.27.1769419355015;
+ Mon, 26 Jan 2026 01:22:35 -0800 (PST)
+Date: Mon, 26 Jan 2026 09:22:34 +0000
+In-Reply-To: <CAJ-ks9=N6GViTH-7Ki1qpSfRdByBFxb9132et7J0OXTTcosLwg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260126-swap-table-p3-v1-6-a74155fab9b0@tencent.com> <202601261555.3oBvFZIt-lkp@intel.com>
-In-Reply-To: <202601261555.3oBvFZIt-lkp@intel.com>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Mon, 26 Jan 2026 16:28:02 +0800
-X-Gm-Features: AZwV_Qgonn_1_M6o2-084NZVOdJiyhj0M59xAlSN4R8mXMx23SHqrmLkmWC0ORo
-Message-ID: <CAMgjq7A3PP6H4_OAq+_rdKCa1h8zjbzO2nHXxo_kSrLTCirvWA@mail.gmail.com>
-Subject: Re: [PATCH 06/12] mm, swap: implement helpers for reserving data in
- the swap table
-To: kernel test robot <lkp@intel.com>
-Cc: linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-kernel@vger.kernel.org, 
-	Chris Li <chrisl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+References: <20260122144444.265412-1-gary@kernel.org> <202601250701.wXxtGd9z-lkp@intel.com>
+ <CAJ-ks9=N6GViTH-7Ki1qpSfRdByBFxb9132et7J0OXTTcosLwg@mail.gmail.com>
+Message-ID: <aXcyWhM-KSg52t0I@google.com>
+Subject: Re: [PATCH v2 1/2] rust: task: use `as_char_ptr` instead of `as_ptr().cast()`
+From: Alice Ryhl <aliceryhl@google.com>
+To: Tamir Duberstein <tamird@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, Gary Guo <gary@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Panagiotis Foliadis <pfoliadis@posteo.net>, 
+	Shankari Anand <shankari.ak0208@gmail.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 26, 2026 at 3:16=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Kairui,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 10de4550639e9df9242e32e9affc90ed75a27c7d]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-swa=
-p-protect-si-swap_file-properly-and-use-as-a-mount-indicator/20260126-02014=
-9
-> base:   10de4550639e9df9242e32e9affc90ed75a27c7d
-> patch link:    https://lore.kernel.org/r/20260126-swap-table-p3-v1-6-a741=
-55fab9b0%40tencent.com
-> patch subject: [PATCH 06/12] mm, swap: implement helpers for reserving da=
-ta in the swap table
-> config: arc-allyesconfig (https://download.01.org/0day-ci/archive/2026012=
-6/202601261555.3oBvFZIt-lkp@intel.com/config)
-> compiler: arc-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260126/202601261555.3oBvFZIt-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601261555.3oBvFZIt-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from <command-line>:
->    In function 'pfn_to_swp_tb',
->        inlined from 'folio_to_swp_tb' at mm/swap_table.h:115:9,
->        inlined from '__swap_cache_add_folio' at mm/swap_state.c:151:11:
-> >> include/linux/compiler_types.h:631:45: error: call to '__compiletime_a=
-ssert_601' declared with attribute error: BUILD_BUG_ON failed: SWAP_CACHE_P=
-FN_BITS > (BITS_PER_LONG - SWP_TB_PFN_MARK_BITS - SWP_TB_COUNT_BITS)
+On Sun, Jan 25, 2026 at 03:19:53PM -0500, Tamir Duberstein wrote:
+> On Sat, Jan 24, 2026 at 6:34=E2=80=AFPM kernel test robot <lkp@intel.com>=
+ wrote:
+> >
+> > Hi Gary,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on 053966c344dbd346e71305f530e91ea77916189f]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Guo/rust-di=
+sallow-use-of-CStr-as_ptr/20260122-224657
+> > base:   053966c344dbd346e71305f530e91ea77916189f
+> > patch link:    https://lore.kernel.org/r/20260122144444.265412-1-gary%4=
+0kernel.org
+> > patch subject: [PATCH v2 1/2] rust: task: use `as_char_ptr` instead of =
+`as_ptr().cast()`
+> > config: x86_64-buildonly-randconfig-004-20260125 (https://download.01.o=
+rg/0day-ci/archive/20260125/202601250701.wXxtGd9z-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87=
+f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20260125/202601250701.wXxtGd9z-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601250701.wXxtGd9z-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> > >> warning: unused import: `str::CStrExt`
+> >    --> rust/kernel/task.rs:12:5
+> >    |
+> >    12 |     str::CStrExt,
+> >    |     ^^^^^^^^^^^^
+> >    |
+> >    =3D note: `#[warn(unused_imports)]` on by default
+>=20
+> Seems like the import needs to be conditional on
+> CONFIG_DEBUG_ATOMIC_SLEEP. Aside: it can also be `as _` since it isn't
+> named directly.
 
-So IIUC ARC may have MAX_POSSIBLE_PHYSMEM_BITS =3D=3D 40 with PAGE_SHIFT
-=3D=3D 13, BITS_PER_LONG =3D=3D 32. So SWAP_CACHE_PFN_BITS has to be shrunk=
- to
-3 on that arch (Currently SWAP_CACHE_PFN_BITS =3D=3D 4). That is
-acceptable, swap count value beyond (1 << 3) is still offloaded to the
-extended table just fine and that's the unlikely case.
+Can we just import the prelude instead of having a conditional import?
 
-I'll update the macro definitions to let SWAP_CACHE_PFN_BITS shrink
-automatically when there are not enough bits, and trigger a build
-error if SWAP_CACHE_PFN_BITS <=3D 1, and test the ARC build.
+Alice
