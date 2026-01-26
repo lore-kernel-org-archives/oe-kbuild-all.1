@@ -1,193 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE52243367;
-	Mon, 26 Jan 2026 22:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEC22417D9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 22:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769466645; cv=none; b=IIXpuuiL7IM+jT0VImYCrq0A8ZxZykC0YwO0DPA1qejzKmX8yvc4pSmZDn21WWn6kmpgd9ZHqTb9Z5C7oBU8Vg61M8twsXDktknqo/ZrIdt+7vwJEFnNIYxbOQ47ww+ilRB0vz/N4cWNQoAzbhNBfDtbXl1W3PHhqnsfRhf3jrE=
+	t=1769467840; cv=none; b=KGnIvEG4s5/9iHVpWRsEz1UjNGDG1ta6T3umy1EvZ0BHBznzJm9S7IEBWxILXafZoy2hmMRlh1lyUFCLgKiLejcwAOhEKXlRfglFAq44kE7RjuZEVWQ5AeMvvVTuQamgd776Lqz9ASoXRpr/oE7u2Z88CltN2aWkMX+1TY2ac6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769466645; c=relaxed/simple;
-	bh=SDlHPRbnJB1XeB8p7QDzp8qp4nlasKsGSTn2yj84yhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RH301C2u74X/SpixfaOZUmjd7OkLQUqxrUgANH4OnZXANh/qjzqIJa0M795ZeDavdSmCaHDEGVPx6Sqh8nzWWaS4+q4op6PC3uUGTk5XrjdWb19HVxxNdgH8FELizbV6Wl4ksAT2e/wR8yIwvmUbvMLoyegPBTWgNR70CMW1vbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwWVieaK; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1769467840; c=relaxed/simple;
+	bh=t1wJk/DjGifY9oufoNsM237q154z6KflsujgQWOSA3I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JtQAaSD/fvirUV6ZbxCod8DzF2hGnWNDMZ8RXEq6rtbgNuhWIiAn/KTopTM33w+5ECGQMkvFcPi9cznA6VpeUuFtpaIIi/rBZrngdpqX0WuD8mMEgttZB+yzKouj2s7OilF4dCOWkpqiJRbX1uAoVtyKEXjJHozNv8gsC/t1GxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d7Mq0QDE; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwWVieaK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d7Mq0QDE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769466643; x=1801002643;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SDlHPRbnJB1XeB8p7QDzp8qp4nlasKsGSTn2yj84yhk=;
-  b=kwWVieaK6oIDinCVoON3WUCf1HQdLmN29sH8f+W870VeoHxuspHzIzMU
-   RIOfuodu0XPTlp2XNWYF1VN9tPd1E80hu6cNQg5V+gX5bPq05YKJbddpb
-   lUpsIFDyXP9GBYve8SMvSmHsuRissY3zdlPM7myreYwv4Tp1KvobmHq4C
-   hEcsab4pcOP729pne2zriSqY3ixgGG8Lkg+ovOrWdUu9D6zmoIjWlpa2C
-   3QU6L5VFVBboL7oOvjy1y99hkDz9yX66lWOfd7UU19r1mArREqmZA7/Fi
-   +dcAiwMsSSJOlfrRlTn5AH05abkUok8XujlcuEfPiasZEqxHpYxnxH2PC
-   g==;
-X-CSE-ConnectionGUID: Tl40MTtVQPuam/P0FvbGnw==
-X-CSE-MsgGUID: YYejrUQUTWO+53ZIRbAPgg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="82021443"
+  t=1769467839; x=1801003839;
+  h=date:from:to:cc:subject:message-id;
+  bh=t1wJk/DjGifY9oufoNsM237q154z6KflsujgQWOSA3I=;
+  b=d7Mq0QDEXyubQFWYKBY5kkAvUtTumY3KuQHcJpumTTJBl5Cj89z3WvB1
+   Qe67Se6hseJvZWF+H75W2uXbwbONPlJCDWt5J5cvwgv4XTbyrAEcEDHe0
+   d8mT5pHlm1rUVHPmrhe2lVnfLCabYCnBjmsDtpL2OTPUfzdED/8vPH1WF
+   gljTuoJ1XOHerfk/f3Hxw3thUHybvmZz3OHJdraSuDiHK3gWPuDHDvgMm
+   cTi1eFTQ5Z1mFmf4eq6t413OaDujItBSFFwpLPw5LEL7EEujnxeWs8iz3
+   vdpqRruh5dUzXk+3Pkbm4SLRnRKRC4ycxAiSjQm39YBsR8PCwjvOIueta
+   Q==;
+X-CSE-ConnectionGUID: 6Nr6GEGyQhmEfw3/UwI6zQ==
+X-CSE-MsgGUID: 4LvYGItWSxuwwEN8kfmtzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="80954921"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="82021443"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 14:30:43 -0800
-X-CSE-ConnectionGUID: Kg8CKuQ1QIO3ci8zzJ95cA==
-X-CSE-MsgGUID: /mOcDF+HSoStiLCAx97Guw==
+   d="scan'208";a="80954921"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 14:50:39 -0800
+X-CSE-ConnectionGUID: JVcOPkjaQsOFXF7CNyABQg==
+X-CSE-MsgGUID: HiCqvbfkRRmrBM+fndezKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="245407170"
+   d="scan'208";a="212347953"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Jan 2026 14:30:37 -0800
+  by orviesa004.jf.intel.com with ESMTP; 26 Jan 2026 14:50:37 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkV6P-00000000XkE-3Sha;
-	Mon, 26 Jan 2026 22:30:33 +0000
-Date: Tue, 27 Jan 2026 06:29:48 +0800
+	id 1vkVPm-00000000Xkk-1Mhp;
+	Mon, 26 Jan 2026 22:50:34 +0000
+Date: Tue, 27 Jan 2026 06:50:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: pengfuyuan <pengfuyuan@kylinos.cn>, Danilo Krummrich <dakr@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Miguel Ojeda <ojeda@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Helge Deller <deller@gmx.de>, Hans de Goede <hansg@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
-	Sam Ravnborg <sam@ravnborg.org>, Zsolt Kajtar <soci@c64.rulez.org>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	pengfuyuan <pengfuyuan@kylinos.cn>
-Subject: Re: [PATCH v1 v1 3/4] rust: fb: add framebuffer driver support
-Message-ID: <202601270630.FHzCSbVv-lkp@intel.com>
-References: <20260126081744.781392-4-pengfuyuan@kylinos.cn>
+To: Bahubali B Gumaji <bahubali.bg@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>,
+ Hyunchul Lee <hyc.lee@gmail.com>,
+ "Sang-Soo Lee" <constant.lee@samsung.com>
+Subject: [samba-ksmbd:ksmbd-for-next-next 2/2]
+ fs/smb/server/vfs_cache.c:94:31: sparse: sparse: dereference of noderef
+ expression
+Message-ID: <202601270605.0ZMnwnbK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126081744.781392-4-pengfuyuan@kylinos.cn>
 
-Hi pengfuyuan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on driver-core/driver-core-linus linus/master v6.19-rc7]
-[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/pengfuyuan/rust-io-mem-add-ioremap_wc-support/20260126-162117
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260126081744.781392-4-pengfuyuan%40kylinos.cn
-patch subject: [PATCH v1 v1 3/4] rust: fb: add framebuffer driver support
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260127/202601270630.FHzCSbVv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270630.FHzCSbVv-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
+head:   8cc38d4af66aa19d0e67d4b148abd6c50de339f8
+commit: 8cc38d4af66aa19d0e67d4b148abd6c50de339f8 [2/2] ksmbd: add procfs interface for runtime monitoring and statistics
+config: hexagon-randconfig-r111-20260126 (https://download.01.org/0day-ci/archive/20260127/202601270605.0ZMnwnbK-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270605.0ZMnwnbK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601270630.FHzCSbVv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601270605.0ZMnwnbK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/smb/server/vfs_cache.c:94:31: sparse: sparse: dereference of noderef expression
+   fs/smb/server/vfs_cache.c:97:41: sparse: sparse: dereference of noderef expression
+   fs/smb/server/vfs_cache.c:101:43: sparse: sparse: dereference of noderef expression
+--
+>> fs/smb/server/connection.c:27:23: sparse: sparse: symbol 'proc_clients' was not declared. Should it be static?
+--
+>> fs/smb/server/mgmt/user_session.c:54:10: sparse: sparse: cast to restricted __le16
+   fs/smb/server/mgmt/user_session.c:55:10: sparse: sparse: cast to restricted __le16
 
->> error[E0308]: mismatched types
-   --> rust/kernel/fb/device.rs:307:23
-   |
-   307 |         fb_read: Some(Self::read_callback),
-   |                  ---- ^^^^^^^^^^^^^^^^^^^ expected fn pointer, found fn item
-   |                  |
-   |                  arguments to this enum variant are incorrect
-   |
-   = note: expected fn pointer `unsafe extern "C" fn(_, *mut u8, _, _) -> _`
-   found fn item `extern "C" fn(_, *mut i8, _, _) -> _ {fb::device::Device::<T>::read_callback}`
-   help: the type constructed contains `extern "C" fn(*mut fb_info, *mut i8, usize, *mut i64) -> isize {fb::device::Device::<T>::read_callback}` due to the type of the argument passed
-   --> rust/kernel/fb/device.rs:307:18
-   |
-   307 |         fb_read: Some(Self::read_callback),
-   |                  ^^^^^-------------------^
-   |                       |
-   |                       this argument influences the type of `Some`
-   note: tuple variant defined here
-   --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
-   |
-   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
-   |     ^^^^
---
->> error[E0308]: mismatched types
-   --> rust/kernel/fb/device.rs:308:24
-   |
-   308 |         fb_write: Some(Self::write_callback),
-   |                   ---- ^^^^^^^^^^^^^^^^^^^^ expected fn pointer, found fn item
-   |                   |
-   |                   arguments to this enum variant are incorrect
-   |
-   = note: expected fn pointer `unsafe extern "C" fn(_, *const u8, _, _) -> _`
-   found fn item `extern "C" fn(_, *const i8, _, _) -> _ {fb::device::Device::<T>::write_callback}`
-   help: the type constructed contains `extern "C" fn(*mut fb_info, *const i8, usize, *mut i64) -> isize {fb::device::Device::<T>::write_callback}` due to the type of the argument passed
-   --> rust/kernel/fb/device.rs:308:19
-   |
-   308 |         fb_write: Some(Self::write_callback),
-   |                   ^^^^^--------------------^
-   |                        |
-   |                        this argument influences the type of `Some`
-   note: tuple variant defined here
-   --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
-   |
-   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
-   |     ^^^^
---
->> error[E0308]: mismatched types
-   --> rust/kernel/fb/io.rs:32:13
-   |
-   30     |         bindings::fb_io_read(
-   |         -------------------- arguments to this function are incorrect
-   31     |             device.as_raw(),
-   32     |             buf.as_mut_ptr() as *mut core::ffi::c_char,
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `*mut u8`, found `*mut i8`
-   |
-   = note: expected raw pointer `*mut u8`
-   found raw pointer `*mut i8`
-   note: function defined here
-   --> rust/bindings/bindings_generated.rs:123562:12
-   |
-   123562 |     pub fn fb_io_read(
-   |            ^^^^^^^^^^
---
->> error[E0308]: mismatched types
-   --> rust/kernel/fb/io.rs:58:13
-   |
-   56     |         bindings::fb_io_write(
-   |         --------------------- arguments to this function are incorrect
-   57     |             device.as_raw(),
-   58     |             buf.as_ptr() as *const core::ffi::c_char,
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `*const u8`, found `*const i8`
-   |
-   = note: expected raw pointer `*const u8`
-   found raw pointer `*const i8`
-   note: function defined here
-   --> rust/bindings/bindings_generated.rs:123570:12
-   |
-   123570 |     pub fn fb_io_write(
-   |            ^^^^^^^^^^^
+vim +94 fs/smb/server/vfs_cache.c
+
+    68	
+    69	static int proc_show_files(struct seq_file *m, void *v)
+    70	{
+    71		struct ksmbd_file	*fp = NULL;
+    72		unsigned int		id;
+    73	
+    74		seq_printf(m, "#%-10s %-10s %-10s %-10s %-15s %-10s %-10s %s\n",
+    75			   "<tree id>", "<pid>", "<vid>", "<refcnt>",
+    76			   "<oplock>", "<daccess>", "<saccess>",
+    77			   "<name>");
+    78	
+    79		read_lock(&global_ft.lock);
+    80		idr_for_each_entry(global_ft.idr, fp, id) {
+    81			seq_printf(m, "%#-10x %#-10llx %#-10llx %#-10x",
+    82				   fp->tcon->id,
+    83				   fp->persistent_id,
+    84				   fp->volatile_id,
+    85				   atomic_read(&fp->refcount));
+    86	
+    87			if (!fp->f_opinfo) {
+    88				seq_printf(m, " %-15s", " ");
+    89			} else {
+    90				const struct ksmbd_const_name *const_names;
+    91				int count;
+    92				unsigned int level;
+    93	
+  > 94				if (fp->f_opinfo->is_lease) {
+    95					const_names = ksmbd_lease_const_names;
+    96					count = ARRAY_SIZE(ksmbd_lease_const_names);
+    97					level = le32_to_cpu(fp->f_opinfo->o_lease->state);
+    98				} else {
+    99					const_names = ksmbd_oplock_const_names;
+   100					count = ARRAY_SIZE(ksmbd_oplock_const_names);
+   101					level = fp->f_opinfo->level;
+   102				}
+   103				ksmbd_proc_show_const_name(m, " %-15s",
+   104							   const_names, count, level);
+   105			}
+   106	
+   107			seq_printf(m, " %#010x %#010x %s\n",
+   108				   le32_to_cpu(fp->daccess),
+   109				   le32_to_cpu(fp->saccess),
+   110				   fp->filp->f_path.dentry->d_name.name);
+   111		}
+   112		read_unlock(&global_ft.lock);
+   113		return 0;
+   114	}
+   115	
 
 -- 
 0-DAY CI Kernel Test Service
