@@ -1,126 +1,108 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFFF306496
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 09:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06F1C314D19
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 09:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769419358; cv=none; b=mZr0XhAaPuBmhwYUSH7Av33IIYjQ3FK5L471W5w/bTZUhhId1EOpxks/3S7liD6YfbzKJT5OceBsuQU+kMPdBFxz2BwjXgmshs26cAfA4llyRwS7CfuUZTWX6koDNq8XWUen51ilhsWRDeGEUKeq2g/cBmd/2u6MeRaXhlwZUSg=
+	t=1769419924; cv=none; b=pwaYSubcmNLudMXxl7iRLvyF2m5HFl+l/BDDdINimVHAyNhyE3sCzLdu/PNC+vEYhhayD8/HPoD8tMkUEouVhblWoNEnPG08+Za20yHx/g+qyRlYNzLFYj1QACsM/rUf0nLusJsY3kGlJ7iTWLo2SnjdtWVvnfq1hhVnHyxlLDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769419358; c=relaxed/simple;
-	bh=pwtagrJ6Orntn9rCTwPChBjN7HhxzqpgG+/pftaTDqI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iSolLdcPYyrmzJbFnIcW/7XvU8sphEh5J/mLg8HENrfRX1unU1jxFZxw0vjhidBGNe8xt3hf2z6C1K4fZRscgxFsAWNpCfL+F4mpd7im9vOgFBedGHJ+9RNBWlifkeUQQZPVbJPjgPFkhs6IcuxhSzQFtenaRC7mdP2sx/rLmbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=09CBhijv; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="09CBhijv"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-6581a45f30eso404527a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 01:22:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769419355; x=1770024155; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7a6yIcsB2kt1CiNa5tFb4Ajz4/4gpPILl4lTvlfFzgs=;
-        b=09CBhijvf3dRDSUNSd9nVxzIRs7KePAlfFHrslLj2JL2k1dXN2lSZ8tT6QjBQnboho
-         2kE+1PoLdGuJv0o3nlaCCrOgkAqLMM570XSgb72vNIZm3TFCM9AUrtow1/QBTJya+0+Y
-         Vnp/H/UTmRUgg9YupCE9OuTa3GhzYtGyABBJZSsWVRMge/emF51s+xcVWLeNi4ulMm4u
-         84tsG3WwksfeSx6FmqYJnC3hoyQHlwUyftF4G9Atuqm4NCStPNB6CFqP0WrK6lPsyA8i
-         BYIjsDHDH4B3GnGWopOuqH74BB83yVFLvkchVGrpFA8hD88BiLk7hpYk7WYbuXCfVZlo
-         ghBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769419355; x=1770024155;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7a6yIcsB2kt1CiNa5tFb4Ajz4/4gpPILl4lTvlfFzgs=;
-        b=lQ9wtOvCs61xqNfAasDe0G+9zZAIvcG4neRSAUs5QtSyI5YMXuPlOWicmMgw8Hyo+n
-         9A7oPeRefoPXwS1fTkknpFzJmg0UK0E/DDQHTeGeoa2ddKmUdaj43qJJmsAY3QMEnB+F
-         JymkoQTUbiokjs0a2MQzYMOYQp7qjRZ8ABzkE1elsE4A9czrQ8wkW8D2o9VO7XREXE/+
-         GWTgkvDXj043SunCZi3TcSILSVTEBNWCHycZKLpkdYDh9hxHBYJYxcfXL1hSa9Tu4IY9
-         ZOXtGNdJcCkgC55PqanUAMRcFRsoPEKVw7GbsAUIfcTATXcWFl084aCd6US68bepSYrc
-         IQeg==
-X-Forwarded-Encrypted: i=1; AJvYcCWoiyPwf0XOsEInEDf5M+ECVmLg6xCMBnYRqe4906ncUDCF6W0X/TloJAeAla25DDSxfS2qLUUk7VMhSTmt@lists.linux.dev
-X-Gm-Message-State: AOJu0YyrBqP2y4cLD+SDaIGB2hwOv6hFZrLRWPtdpxGwu7/KR1aMAdpb
-	uuKvYTKvPUUuV7g3v0/er0hHlVgDrCupZ436Za6K5+sfhXR1InWcQiOk4qYGsYI4iupBXOrU/dL
-	wYX3dofUyYYdPUyeDUg==
-X-Received: from edqr22.prod.google.com ([2002:aa7:d596:0:b0:654:3514:7440])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:358f:b0:64b:4f44:60ef with SMTP id 4fb4d7f45d1cf-658706e14famr2889920a12.27.1769419355015;
- Mon, 26 Jan 2026 01:22:35 -0800 (PST)
-Date: Mon, 26 Jan 2026 09:22:34 +0000
-In-Reply-To: <CAJ-ks9=N6GViTH-7Ki1qpSfRdByBFxb9132et7J0OXTTcosLwg@mail.gmail.com>
+	s=arc-20240116; t=1769419924; c=relaxed/simple;
+	bh=ZsJ3ecwq9pLznx+VXyd4otowFYbw1bQJhRLNH/d6s+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=REIKjASCjRneefp/i/KFVtRBqiZ+LY/CCGLJwDOjzbC3oouAPxQw2nwCN7aR47a3TEePQAtuGfujxia+8Wf54gIVwf1UIf4zFev90EyJkuvsJKPgq9rF8j7v73qXuxRER7m0Nnb5v5wD3XPTkp4omRYxZ4WCfssMKcqYBC2CCvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c2dff70000001609-18-697730ff2573
+Date: Mon, 26 Jan 2026 18:16:42 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	David Hildenbrand <david@kernel.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
+	kernel_team@skhynix.com
+Subject: Re: [akpm-mm:mm-unstable /301] net/core/page_pool.c:713:71: sparse:
+ sparse: incorrect type in argument 1 (different base types)
+Message-ID: <20260126091642.GA62597@system.software.com>
+References: <202601161606.8RuyUh2k-lkp@intel.com>
+ <20260116151500.b56d0cc2525072123ad2d86d@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260122144444.265412-1-gary@kernel.org> <202601250701.wXxtGd9z-lkp@intel.com>
- <CAJ-ks9=N6GViTH-7Ki1qpSfRdByBFxb9132et7J0OXTTcosLwg@mail.gmail.com>
-Message-ID: <aXcyWhM-KSg52t0I@google.com>
-Subject: Re: [PATCH v2 1/2] rust: task: use `as_char_ptr` instead of `as_ptr().cast()`
-From: Alice Ryhl <aliceryhl@google.com>
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Gary Guo <gary@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Panagiotis Foliadis <pfoliadis@posteo.net>, 
-	Shankari Anand <shankari.ak0208@gmail.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116151500.b56d0cc2525072123ad2d86d@linux-foundation.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrILMWRmVeSWpSXmKPExsXC9ZZnoe5/g/JMg8YTqhZz1q9hs5izahuj
+	xfOtvxgt7q35z2rxqvkRm8WhlVeYLC4dfsTiwO6xc9Zddo/Fe14yeWxa1cnmsenTJHaPEzN+
+	s3i82DyT0eP9vqtsAexRXDYpqTmZZalF+nYJXBmn7neyFlwUrvje28vewLhMoIuRk0NCwERi
+	7q8Z7DD2vEMfmUBsFgFViSlLu8HibALqEjdu/GQGsUUEdCVWPd8FZHNxMAusYJLYv/svG4gj
+	DDRO4sX+e0AOBwevgIXE7amhIA1CAkUSf95PYgGxeQUEJU7OfAJmMwtoSdz495IJpJxZQFpi
+	+T8OEJNTwFviydJwkApRAWWJA9uOM4FMlxA4wCZx6PpcJog7JSUOrrjBMoFRYBaSqbOQTJ2F
+	MHUBI/MqRqHMvLLcxMwcE72MyrzMCr3k/NxNjMCAX1b7J3oH46cLwYcYBTgYlXh4f5iVZQqx
+	JpYVV+YeYpTgYFYS4eVfVpopxJuSWFmVWpQfX1Sak1p8iFGag0VJnNfoW3mKkEB6Yklqdmpq
+	QWoRTJaJg1OqgdFiVs7t+1s+f/d/tsXi1yylrU2bJF+def/sSuFtqx2Tbe5rnY39z2wZwlUy
+	q7eYpyFCWc7+x/N1osL3GKTZHh2fr7Dij/CP4JdvLMuznq588/+nf1biMr4vr3ct0la/cH6f
+	zbf2lTeX7Q3R6vPhbXncIrF42qElE4R1EiceXO9ad2pOxQ2zw6t5lFiKMxINtZiLihMBMNsw
+	nXQCAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBLMWRmVeSWpSXmKPExsXC5WfdrPvfoDzT4PgTcYs569ewWcxZtY3R
+	4vnWX4wWh+eeZLW4t+Y/q8Wr5kdsFodWXmGyuHT4EYsDh8fOWXfZPRbvecnksWlVJ5vHpk+T
+	2D1OzPjN4vFi80xGj/f7rrJ5LH7xgSmAI4rLJiU1J7MstUjfLoEr49T9TtaCi8IV33t72RsY
+	lwl0MXJySAiYSMw79JEJxGYRUJWYsrSbHcRmE1CXuHHjJzOILSKgK7Hq+S4gm4uDWWAFk8T+
+	3X/ZQBxhoBESL/bfA3I4OHgFLCRuTw0FaRASKJL4834SC4jNKyAocXLmEzCbWUBL4sa/l0wg
+	5cwC0hLL/3GAmJwC3hJPloaDVIgKKEsc2HacaQIj7ywkzbOQNM9CaF7AyLyKUSQzryw3MTPH
+	VK84O6MyL7NCLzk/dxMjMHyX1f6ZuIPxy2X3Q4wCHIxKPLwf9MsyhVgTy4orcw8xSnAwK4nw
+	8i8rzRTiTUmsrEotyo8vKs1JLT7EKM3BoiTO6xWemiAkkJ5YkpqdmlqQWgSTZeLglGpg7Kj8
+	lt1i+df/0wKF9/WOD/dKRu96aP1dNnHGup2XvJ9OW5Jeknrt+caDFxaHme8yzDoXUfKAp3rB
+	seN9cjW2yw5dEOBdO6fvdJP0006xQnarzJB5yckKd2yeLzno6W/FvmLdqyoTjxNOmiZrIheG
+	Fa7eW/+8TDIymnXSc+uvcsKGIveUn9zxV2Ipzkg01GIuKk4EAH1IdQxbAgAA
+X-CFilter-Loop: Reflected
 
-On Sun, Jan 25, 2026 at 03:19:53PM -0500, Tamir Duberstein wrote:
-> On Sat, Jan 24, 2026 at 6:34=E2=80=AFPM kernel test robot <lkp@intel.com>=
- wrote:
+On Fri, Jan 16, 2026 at 03:15:00PM -0800, Andrew Morton wrote:
+> On Fri, 16 Jan 2026 16:41:32 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> > head:   fe2c34b6ea5a0e1175c30d59bc1c28caafb02c62
+> > commit: 7699fe82442a62ea29a3745b29dbb8ef8c42d8db [/301] mm: introduce a new page type for page pool in page type
+> > config: x86_64-randconfig-122-20260115 (https://download.01.org/0day-ci/archive/20260116/202601161606.8RuyUh2k-lkp@intel.com/config)
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161606.8RuyUh2k-lkp@intel.com/reproduce)
 > >
-> > Hi Gary,
-> >
-> > kernel test robot noticed the following build warnings:
-> >
-> > [auto build test WARNING on 053966c344dbd346e71305f530e91ea77916189f]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Guo/rust-di=
-sallow-use-of-CStr-as_ptr/20260122-224657
-> > base:   053966c344dbd346e71305f530e91ea77916189f
-> > patch link:    https://lore.kernel.org/r/20260122144444.265412-1-gary%4=
-0kernel.org
-> > patch subject: [PATCH v2 1/2] rust: task: use `as_char_ptr` instead of =
-`as_ptr().cast()`
-> > config: x86_64-buildonly-randconfig-004-20260125 (https://download.01.o=
-rg/0day-ci/archive/20260125/202601250701.wXxtGd9z-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87=
-f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20260125/202601250701.wXxtGd9z-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > > the same patch/commit), kindly add following tags
 > > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601250701.wXxtGd9z-l=
-kp@intel.com/
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601161606.8RuyUh2k-lkp@intel.com/
 > >
-> > All warnings (new ones prefixed by >>):
-> >
-> > >> warning: unused import: `str::CStrExt`
-> >    --> rust/kernel/task.rs:12:5
-> >    |
-> >    12 |     str::CStrExt,
-> >    |     ^^^^^^^^^^^^
-> >    |
-> >    =3D note: `#[warn(unused_imports)]` on by default
->=20
-> Seems like the import needs to be conditional on
-> CONFIG_DEBUG_ATOMIC_SLEEP. Aside: it can also be `as _` since it isn't
-> named directly.
+> > sparse warnings: (new ones prefixed by >>)
+> > >> net/core/page_pool.c:713:71: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted netmem_ref [usertype] netmem @@     got unsigned long @@
+> >    net/core/page_pool.c:713:71: sparse:     expected restricted netmem_ref [usertype] netmem
+> >    net/core/page_pool.c:713:71: sparse:     got unsigned long
+> >    net/core/page_pool.c:734:73: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted netmem_ref [usertype] netmem @@     got unsigned long @@
+> >    net/core/page_pool.c:734:73: sparse:     expected restricted netmem_ref [usertype] netmem
+> >    net/core/page_pool.c:734:73: sparse:     got unsigned long
+> 
+> Oh, OK.
+> 
+> Byungchul, please remind me why I'm carrying a page-pool patch?  I
+> applied it because email headers and because Suggested-by:David, but
+> these things are usually carried in the networking tree.
 
-Can we just import the prelude instead of having a conditional import?
+Sorry for late reply.  This patch changes both mm and network, but I
+aimed at mm tree since I thought it's more about mm - Jakub also think
+so.  See the following link:
 
-Alice
+  https://lore.kernel.org/all/20250813075212.051b5178@kernel.org/
+
+> And I never applied [patch 2/2]
+> (https://lkml.kernel.org/r/20251215071001.78263-3-byungchul@sk.com)
+> because "kernel test robot" reported a build error.
+> 
+> In fact, I'll drop the patch - please let's have a redo.
+
+Okay.  I will retry.  Thanks.
+
+	Byungchul
