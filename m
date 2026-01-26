@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B801DDC37
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jan 2026 02:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BC91A9F96;
+	Mon, 26 Jan 2026 02:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769393120; cv=none; b=ajqNpbRB4gewV8T4G//8SsGF8Y7vJg8CuhRJ08PVRoJUNBNlPxXf1Ms/MMe0311a6FJDz+tMjcjfB3XTFzsMQWHfVbG6XyF7fRSl8JX1Y6C3IsmHxomBWChtwHtR3fz/lVt1+oWWoAjKop5Px0ZM9Jium3Uomx6sVDtqK91y49M=
+	t=1769393353; cv=none; b=cPyZZsGPxocusd0jBPoLSEgsGsbrsrKEcHj1jNt0WMgFiiDZKThKkXIy7ALPb5QvUwAc6wjf6jKfx/O/SryENsZKdzyzAnhz4d0PBTIn7f0Bldh5fI3SKkkabP+eAnirJwtp2vOw5wk8Uu1s1D+D1hG6Hp9IYSoliVS2xL9y1uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769393120; c=relaxed/simple;
-	bh=GXtdJel1eUo3aIj4hiUu8GuQI8Z1AaGYsOJcqinsUVA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=irhZeRRlEjZBIEpu/rOkLLfvdU28l7T5L1b6lsY/LERapOMG3vzBoNWSQctydbFbh60rEvc3x4ZTRh+VKKAkPAgzi3eGbmmzuug+E6wNaLQMuJ6q9afSL6Qwd8otM2qGgffGA7+St6Vo6lRr5Cwxvg+pyYiueDQy1pd7tHio0Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f8GMWdb/; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1769393353; c=relaxed/simple;
+	bh=sSbJvrx5bkMXjHoh9sqSiyJmRyFVZw6mCTis7HnvZh0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H9HxFe9B01b1ydD4ufOnItOP97tfrj8nsdQvpYAZF1aGkFIEzJD5ygViauof43ZbHt3wB/mIWP93zF9S4aOnu1DLaDUPnsqxHIeGh7kbXG/9EBa/xjmSkwgickuHzieyLYVobHvioVJANVMl+5y+zAp33u04HKfj2RyjlDOVwR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V0Quz4R8; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8GMWdb/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V0Quz4R8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769393118; x=1800929118;
+  t=1769393352; x=1800929352;
   h=date:from:to:cc:subject:message-id;
-  bh=GXtdJel1eUo3aIj4hiUu8GuQI8Z1AaGYsOJcqinsUVA=;
-  b=f8GMWdb/EQK89IiCx3XX/PAY5BlN1AHTm865IL2LfEM5pI9fwp0LLR76
-   54cafMA9xV50QV4EpfWXdxXlRg5yc65oWqBfbeSVWMYRqqQ3RkrFrBkXu
-   qWjG8T0EZj+Mx3ux1sMRaJeHtNaF5S5ZOsHMTh0YdxU2O5SRoP8PfXl5P
-   J64WHcP1UfyykLgSkR9iPc7SmY2GVGLJ5Zxhxw8s64lAWtdzJ64ZLi0Tf
-   kVCBAEjwK7pjP/IH4+cbYlxGHibfpaO1tU9OXwlrPNCfj4BAXTRHcFhbi
-   vlePGNqYDyXPmLqGFPC2FUGdIhANNBSmRn9+XNgfv4hnEydkkv8pkeUtd
-   Q==;
-X-CSE-ConnectionGUID: FXYKtToCRaWbKSy7d7EXsQ==
-X-CSE-MsgGUID: /CjidaD4Sb6J27lcYo3vsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="96038862"
+  bh=sSbJvrx5bkMXjHoh9sqSiyJmRyFVZw6mCTis7HnvZh0=;
+  b=V0Quz4R8N85FuT9PwelvLTTDK+5j4HKKsaFGunbjI12sRL+UXfZZZ3Gf
+   tbH4yh7EiMOFFZ3KLj3mm+YbLVll+OqLVqwiN+miK+rdCbjbNYa9JCz5Z
+   4Hx1d22tD8TALymHISXPQXi1y3GJVo1fp6NKSFVklfyuElAjCh0t+UMPj
+   QPNvAqo/hERjRitJUE9MtldDlEhpOJuEE50DqZiAVh5dg9XRLhISu2uoS
+   7uHD4+qE2RDvURNCPVOcxgN9iswV4suauul4ajFAjj30rhp6YyafxOkXz
+   RXIyVlZm0gZ/adXlfMaLfZ9O84PV1j+03VPOgMhvJlC67NseeEp20C5gv
+   A==;
+X-CSE-ConnectionGUID: 0lsu6BydSc6daAUrzs5Yvg==
+X-CSE-MsgGUID: 8oM0k5COTzayxfp8DKUcWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="74438123"
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="96038862"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 18:05:17 -0800
-X-CSE-ConnectionGUID: aCrYD861Tv6pw8v/rNlpzw==
-X-CSE-MsgGUID: 9GkTIftXRv6tS38RxVhTmw==
+   d="scan'208";a="74438123"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 18:09:11 -0800
+X-CSE-ConnectionGUID: MhzZdf7LSs+9rcOG/r0qdA==
+X-CSE-MsgGUID: H1xVcsSFQ3m6famoQ2xBHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="212545621"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 25 Jan 2026 18:05:16 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207989436"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Jan 2026 18:09:10 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkBya-000000001PB-3pA6;
-	Mon, 26 Jan 2026 02:05:12 +0000
-Date: Mon, 26 Jan 2026 03:04:21 +0100
+	id 1vkC2O-00000000WoQ-0FWz;
+	Mon, 26 Jan 2026 02:09:08 +0000
+Date: Mon, 26 Jan 2026 10:08:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bastien Nocera <hadess@hadess.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
- Jiri Kosina <jikos@kernel.org>
-Subject: [hid:for-6.20/pm_ptr 7/12]
- drivers/hid/hid-picolcd_core.c:651:33: error: 'picolcd_suspend' undeclared
- here (not in a function); did you mean 'picolcd_reset'?
-Message-ID: <202601260353.Dk5ekiee-lkp@intel.com>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
+Subject: [mptcp:export-net 2/9] .b4-config: warning: ignored by one
+ of the .gitignore files
+Message-ID: <202601261005.GjTiE57c-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,77 +59,23 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-6.20/pm_ptr
-head:   d68a5fd939f460a7db76d127005af51cb13c69fa
-commit: 318f7b0f1bea13d3aa0506fe6f40399f11c4ae52 [7/12] HID: picolcd_core: Use pm_ptr instead of #ifdef CONFIG_PM
-config: i386-randconfig-2006-20250804 (https://download.01.org/0day-ci/archive/20260126/202601260353.Dk5ekiee-lkp@intel.com/config)
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
+head:   49c680ea6316ba79a5bebbd4ef202bbeed300a8d
+commit: 899eca1cb578d3b24afc42b92b12e39b80f33559 [2/9] DO-NOT-MERGE: git markup: net
+config: x86_64-randconfig-121-20250915 (https://download.01.org/0day-ci/archive/20260126/202601261005.GjTiE57c-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260353.Dk5ekiee-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601261005.GjTiE57c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601260353.Dk5ekiee-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601261005.GjTiE57c-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:36,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/hid.h:19,
-                    from drivers/hid/hid-picolcd_core.c:10:
->> drivers/hid/hid-picolcd_core.c:651:33: error: 'picolcd_suspend' undeclared here (not in a function); did you mean 'picolcd_reset'?
-     651 |         .suspend =       pm_ptr(picolcd_suspend),
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/hid/hid-picolcd_core.c:651:26: note: in expansion of macro 'pm_ptr'
-     651 |         .suspend =       pm_ptr(picolcd_suspend),
-         |                          ^~~~~~
->> drivers/hid/hid-picolcd_core.c:652:33: error: 'picolcd_resume' undeclared here (not in a function); did you mean 'picolcd_remove'?
-     652 |         .resume =        pm_ptr(picolcd_resume),
-         |                                 ^~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/hid/hid-picolcd_core.c:652:26: note: in expansion of macro 'pm_ptr'
-     652 |         .resume =        pm_ptr(picolcd_resume),
-         |                          ^~~~~~
->> drivers/hid/hid-picolcd_core.c:653:33: error: 'picolcd_reset_resume' undeclared here (not in a function); did you mean 'picolcd_reset'?
-     653 |         .reset_resume =  pm_ptr(picolcd_reset_resume),
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/hid/hid-picolcd_core.c:653:26: note: in expansion of macro 'pm_ptr'
-     653 |         .reset_resume =  pm_ptr(picolcd_reset_resume),
-         |                          ^~~~~~
-
-
-vim +651 drivers/hid/hid-picolcd_core.c
-
-   644	
-   645	static struct hid_driver picolcd_driver = {
-   646		.name =          "hid-picolcd",
-   647		.id_table =      picolcd_devices,
-   648		.probe =         picolcd_probe,
-   649		.remove =        picolcd_remove,
-   650		.raw_event =     picolcd_raw_event,
- > 651		.suspend =       pm_ptr(picolcd_suspend),
- > 652		.resume =        pm_ptr(picolcd_resume),
- > 653		.reset_resume =  pm_ptr(picolcd_reset_resume),
-   654	};
-   655	module_hid_driver(picolcd_driver);
-   656	
+>> .b4-config: warning: ignored by one of the .gitignore files
+   .git_markup: warning: ignored by one of the .gitignore files
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
