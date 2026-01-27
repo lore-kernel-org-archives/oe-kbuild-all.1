@@ -1,69 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDF6328255;
-	Tue, 27 Jan 2026 18:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324F836680D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 19:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769540218; cv=none; b=ezhMpWPF0uSez+erYVDFF9kxYjQZuINwonaENOlVk7XmM+7BkiQM1+qmHPFMZsRjCiGh5OJzSFOTUjm+Hb5GFKgDWipdKUHBETboqmC9sT5Ksg6LtgKIE43ffyh0IWun6uP9hcOyYEndTL9EQxAMKvOUu5MreS0r0C+QPUdwoxo=
+	t=1769541286; cv=none; b=OV1w9GnZtxraJXpCUEtisG0D5rGPfjQ3sowYpCx/jt9vL4AtQyQWr5fXKfDntYRlH6m2rRNXE3su9GHpMP+bFZyboC3ajggaSdhH2XjWJpDo20FhSFED0/E73FrUrgSQgZcumXuYTM8m43Op4cOGR2ngXZmhddWraiJecunh8ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769540218; c=relaxed/simple;
-	bh=Ch0LIB4X3I+61DsXgHOBKVGaZxOxxpivi8bEXcVQRqI=;
+	s=arc-20240116; t=1769541286; c=relaxed/simple;
+	bh=kQs4g0Hj1ItK/QiIzgpxVcFUJqnU6e1/jMgmoaFBUsw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YLhCz/sjxBHhq5uSAsF7ofShWk+slMq5Hkocvp02LCLYI7NI28GUvk8w8QTx7ImMBjBLQmuNTL78nC0jg0nVv9Pzxi5KbcH9rXqSc5ecM8C0zqmXbURGzxSfHXLoR8N4aeZ4CE4eO4u9u9chbTSX0AfwztOyzZHz7y0a2AoOgGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PeneBB5K; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=ftijstVoz2zpQoVEAtAkBZpNlfMsk4Q67wnNV5OHwqcl9Iy7mKQHQ7pSKLxELbgOmwgmzHkI1gU+3Wv/w5szCj44KeOBZEoFtvQSRBaCI4TFDXLB6B1irxRk3afClQiaP25TtzBN3dB/1A/sN/+2Bkwwg+2cZ1Gw1S5sdJBZstQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CH7vYiZL; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PeneBB5K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CH7vYiZL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769540217; x=1801076217;
+  t=1769541284; x=1801077284;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ch0LIB4X3I+61DsXgHOBKVGaZxOxxpivi8bEXcVQRqI=;
-  b=PeneBB5K61qZ6UsrDgFrzFsILjKlQBhFVzefPAq0/HWBP5aqXn/PAfcW
-   uLiLOqBx0KficCZkvJnMTol4m9hq1I1p91i8vtK+qXASHFvd2F3Qk/e94
-   /BJ31y4c72md5KoMj/anFrYXGZ7vT8r0ibXp0PUZXLh6OJiRjitS+GMUs
-   +2FrK+Q8jVem2oKtK+gEkwCGXPdIXF/djhPiCGTf4035uWXlvxc2UTw/h
-   M4n0Z6zPaJGHLKOJV4phe8Tu1VeR1GSXkkcziF1MNzpKo58avXIBoT6r7
-   EnTk4aZAIsAI+rfSyZVJxBLKKX+u9WM9EsfVnMCt85pGt1qKc+A+HJMrY
+  bh=kQs4g0Hj1ItK/QiIzgpxVcFUJqnU6e1/jMgmoaFBUsw=;
+  b=CH7vYiZL72m81zm3EL+XFofBp+C9jDqbjBB9HKgXQZKs8gBFfW3Q/0Zs
+   oenDs4uTifiZF2HvKw0zeJ5ACrseHqz5iBGUpEemn6JcNSVkoZM3i3fR/
+   ivkGzclRHeA3hdNxb/ABHihDXBCTQEy49bCwTKk1qxyJDKdp5342IvT6v
+   lgzzPiqKgqIW9JAppbFILfWMCgaIPo+Ip+w5L49wrLaaQ8iXFJRP54HzU
+   o5dFbJn7YyI0aTJ0fJTP6pKJzkdiTKL3AgZbOWRUsu/0jRO3hrOvRwym5
+   K46HCELYv+hr9Ky2luJ3UgeE19lpH9bmMmAyhW8TlPPH8gFs2SdP7JlpB
    Q==;
-X-CSE-ConnectionGUID: +8E/o4egQ2+vJPQquqGwGg==
-X-CSE-MsgGUID: zDg8m+c2Tu+L8916vSjjxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="81377731"
+X-CSE-ConnectionGUID: SBNGDrOdTQubXNEqfmrmmA==
+X-CSE-MsgGUID: pWTR4hZpSa+zIQH30RbSpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="73336238"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="81377731"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 10:56:56 -0800
-X-CSE-ConnectionGUID: 943+XywOTBeCmu+rfv8XIg==
-X-CSE-MsgGUID: 27YhhHwpQZ6G6ZLX+E50Fw==
+   d="scan'208";a="73336238"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 11:14:41 -0800
+X-CSE-ConnectionGUID: 92Woe+I6ROehAEhwqVIEMA==
+X-CSE-MsgGUID: QO/jNyD9R4i0G7V/8wwXJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="208409714"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Jan 2026 10:56:51 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="212604699"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 27 Jan 2026 11:14:40 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkoF6-00000000YrA-2dUf;
-	Tue, 27 Jan 2026 18:56:48 +0000
-Date: Wed, 28 Jan 2026 02:56:12 +0800
+	id 1vkoWK-000000001vN-3e9X;
+	Tue, 27 Jan 2026 19:14:36 +0000
+Date: Tue, 27 Jan 2026 20:13:41 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ruidong Tian <tianruidong@linux.alibaba.com>, catalin.marinas@arm.com,
-	will@kernel.org, lpieralisi@kernel.org, guohanjun@huawei.com,
-	sudeep.holla@arm.com, rafael@kernel.org, robin.murphy@arm.com,
-	mark.rutland@arm.com, tony.luck@intel.com, bp@alien8.de,
-	tglx@linutronix.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lenb@kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-acpi@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-edac@vger.kernel.org, mchehab@kernel.org,
-	xueshuai@linux.alibaba.com, zhuo.song@linux.alibaba.com,
-	oliver.yang@linux.alibaba.com,
-	Ruidong Tian <tianruidong@linux.alibaba.com>
-Subject: Re: [PATCH v6 15/16] ras: AEST: support vendor node CMN700
-Message-ID: <202601280228.CbJgYMRG-lkp@intel.com>
-References: <20260122094656.73399-16-tianruidong@linux.alibaba.com>
+To: Austin Kim <austindh.kim@gmail.com>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, austindh.kim@gmail.com
+Subject: Re: [PATCH] riscv: export kaslr offset and satp in VMCOREINFO ELF
+ notes
+Message-ID: <202601272006.NUdRcAIi-lkp@intel.com>
+References: <aXiF55y5D49gcpUg@adminpc-PowerEdge-R7525>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,119 +66,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260122094656.73399-16-tianruidong@linux.alibaba.com>
+In-Reply-To: <aXiF55y5D49gcpUg@adminpc-PowerEdge-R7525>
 
-Hi Ruidong,
+Hi Austin,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.19-rc7 next-20260126]
-[cannot apply to tip/smp/core]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.16-rc1 next-20260127]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ruidong-Tian/ACPI-AEST-Parse-the-AEST-table/20260122-180219
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20260122094656.73399-16-tianruidong%40linux.alibaba.com
-patch subject: [PATCH v6 15/16] ras: AEST: support vendor node CMN700
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260128/202601280228.CbJgYMRG-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280228.CbJgYMRG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Austin-Kim/riscv-export-kaslr-offset-and-satp-in-VMCOREINFO-ELF-notes/20260127-173528
+base:   linus/master
+patch link:    https://lore.kernel.org/r/aXiF55y5D49gcpUg%40adminpc-PowerEdge-R7525
+patch subject: [PATCH] riscv: export kaslr offset and satp in VMCOREINFO ELF notes
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260127/202601272006.NUdRcAIi-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601272006.NUdRcAIi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601280228.CbJgYMRG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601272006.NUdRcAIi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/ras/aest/aest-cmn.c:209:19: warning: variable 'hnd_base' set but not used [-Wunused-but-set-variable]
-     209 |         u64 errgsr_addr, hnd_base;
-         |                          ^
-   1 warning generated.
+   riscv64-linux-ld: arch/riscv/kernel/vmcore_info.o: in function `arch_crash_save_vmcoreinfo':
+>> arch/riscv/kernel/vmcore_info.c:23:(.text+0x240): undefined reference to `kaslr_offset'
 
 
-vim +/hnd_base +209 drivers/ras/aest/aest-cmn.c
+vim +23 arch/riscv/kernel/vmcore_info.c
 
-   203	
-   204	static int aest_cmn_reorgnize_node(struct aest_device *adev,
-   205					   struct acpi_aest_node *anode, u64 base)
-   206	{
-   207		struct aest_node *cmn_node;
-   208		u64 hnd_offset, cmn_node_offset, reg, logic_id, type, node_id;
- > 209		u64 errgsr_addr, hnd_base;
-   210		struct aest_record *record;
-   211		int ret, node_index;
-   212		struct cmn_vendor_data *vendor_data;
-   213	
-   214		if (anode->interface_hdr->type !=
-   215		    ACPI_AEST_NODE_SINGLE_RECORD_MEMORY_MAPPED) {
-   216			aest_dev_err(adev, "CMN just use single memory mapping\n");
-   217			return -ENODEV;
-   218		}
-   219	
-   220		hnd_offset = *((u64 *)anode->vendor->vendor_specific_data);
-   221		cmn_node_offset = *((u64 *)&anode->vendor->vendor_specific_data[8]);
-   222	
-   223		reg = readq_relaxed((void *)base + cmn_node_offset + CMN_NODE_INFO);
-   224	
-   225		logic_id = FIELD_GET(CMN_NI_LOGICAL_ID, reg);
-   226		type = FIELD_GET(CMN_NI_NODE_TYPE, reg);
-   227		node_id = FIELD_GET(CMN_NI_NODE_ID, reg);
-   228	
-   229		hnd_base = base + hnd_offset;
-   230		node_index = cmn_config->node_id_map[type];
-   231		errgsr_addr = base + cmn_config->errgsr_offset(hnd_offset, node_index);
-   232	
-   233		// node not register, create it
-   234		cmn_node = &adev->nodes[node_index];
-   235		if (!cmn_node->errgsr) {
-   236			ret = aest_cmn_init_node(adev, cmn_node, anode, type,
-   237						 errgsr_addr);
-   238			if (ret)
-   239				return -ENOMEM;
-   240		}
-   241	
-   242		aest_dev_dbg(adev, "node type %llx, id %llx, offset %llx\n", type,
-   243			     logic_id, cmn_node_offset);
-   244	
-   245		if (!test_bit(0, anode->record_implemented))
-   246			clear_bit(logic_id, cmn_node->record_implemented);
-   247	
-   248		if (!test_bit(0, anode->status_reporting))
-   249			clear_bit(logic_id, cmn_node->status_reporting);
-   250	
-   251		record = &cmn_node->records[logic_id];
-   252		record->name =
-   253			devm_kasprintf(adev->dev, GFP_KERNEL, "record%lld", logic_id);
-   254		if (!record->name)
-   255			return -ENOMEM;
-   256		record->regs_base = devm_ioremap(
-   257			adev->dev, (resource_size_t)anode->interface_hdr->address,
-   258			sizeof(struct ras_ext_regs));
-   259		if (!record->regs_base)
-   260			return -ENOMEM;
-   261		record->addressing_mode = test_bit(0, anode->addressing_mode);
-   262		record->node = cmn_node;
-   263		record->index = logic_id;
-   264		record->access = &aest_access[anode->interface_hdr->type];
-   265	
-   266		vendor_data = devm_kzalloc(adev->dev, sizeof(struct cmn_vendor_data),
-   267					   GFP_KERNEL);
-   268		vendor_data->node_type = type;
-   269		vendor_data->node_id = node_id;
-   270		vendor_data->logic_id = logic_id;
-   271	
-   272		record->vendor_data = vendor_data;
-   273		record->vendor_data_size = sizeof(struct cmn_vendor_data);
-   274	
-   275		aest_record_dbg(record, "base %llx\n", anode->interface_hdr->address);
-   276	
-   277		return 0;
-   278	}
-   279	
+cfe94d456775a4 arch/riscv/kernel/vmcore_info.c Austin Kim      2026-01-27  10  
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  11  void arch_crash_save_vmcoreinfo(void)
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  12  {
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  13  	VMCOREINFO_NUMBER(phys_ram_base);
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  14  
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  15  	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  16  	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
+c41bd2514184d7 arch/riscv/kernel/crash_core.c  Ignat Korchagin 2023-11-29  17  #ifdef CONFIG_MMU
+c41bd2514184d7 arch/riscv/kernel/crash_core.c  Ignat Korchagin 2023-11-29  18  	VMCOREINFO_NUMBER(VA_BITS);
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  19  	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  20  	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  21  #ifdef CONFIG_64BIT
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26  22  	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
+649d6b1019a2f2 arch/riscv/kernel/crash_core.c  Xianting Tian   2022-10-26 @23  	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
 
 -- 
 0-DAY CI Kernel Test Service
