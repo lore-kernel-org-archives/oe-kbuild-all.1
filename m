@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBC5322B7B;
-	Tue, 27 Jan 2026 19:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF47336EA84
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 19:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769541535; cv=none; b=pcGzG84D9HtqmtZZYPwCkT7BjxvedHCoGxroWeJFdk3Dx92SPAeUUbm5u32hBX9gGqF7r3zfbnpppHtSUYVPF8evVt7tD2fEKq266oI22yxzn7Y1HzSvO/rBqdFQOH4pcWRehkOLNykEwh4dTwOi01fiVitqEFTK7xfYFG8sJTs=
+	t=1769542797; cv=none; b=D7+wurLDMxYgIac8s7itaYImQt72kwfvmV8ldiyYa+392xDsh4Wzs0wHecPoqsgTJwjPsKyoEg3qO9X3D9KMC/1qJlpJsQTR7Yea/XxTPO6BcsBf4wmmK1ZqsAy7pCtTjJRMxuYJjDska46du/0tgzr02/l/wjhW09bNEsnodnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769541535; c=relaxed/simple;
-	bh=6wCl/uGDdAxwNuwGhTFeLBr37I6ykNnRVaX8dgkMG+g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JbgOPymQQ1pJEo/MBGADNbsnUO122fIOfxUfjIOhNRVgEiCX86vtCinKxHJqfYsA+V55XpZ/61ZrY4ub9tGu15LTqT/6eF9IJJPzWIinzF5zPtxaBI7NhD9XgzrabDp5DVBZUjFPbSt5mEtXtjz3rAmLcWK4chj2l1aOPH2Qs8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdBznfLs; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769542797; c=relaxed/simple;
+	bh=6bkg1mrU6FHYMdClssW2rDJDHEc707zMzCU9SFJ5P3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=seD+pvJkWFvNJ6n5f/2UbzRaBbx6Ib1GghZ0MZkskVAK7Fo8z5Ddd/tv+SI1NmBQ9YVrPDl13Gj2R5Cp4kJ8HrfBJx6QJdsWbBb2M7v52jh3fovM99hlRry8/E8xacuc3vnnf65vW8JBuGWA1sQ0DemqGGTAgmWntCg0vQVvmps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5GFgVPs; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdBznfLs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5GFgVPs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769541534; x=1801077534;
+  t=1769542795; x=1801078795;
   h=date:from:to:cc:subject:message-id;
-  bh=6wCl/uGDdAxwNuwGhTFeLBr37I6ykNnRVaX8dgkMG+g=;
-  b=ZdBznfLs1KLUjVZUkDgSXWz/BfgC8y3TqNPsaujnZTOC78v9pzn6BDnn
-   43GB17Aq+6FMvQCXIXVDs3TC2jhWWSPly7E1h9nlF3o3WYoMITlvID/wq
-   EP9bbCjf28up/nKwE0X5vPFd3UYgBQ0LB81ElZMX35XzDfIg5Yq+Hnn0p
-   cCySRc7IjvbsGbo86mOLakwKfso9Z5SsekVC/si6tYSylW3u9QDMTVKIZ
-   Yx0C+2Xl9mTd9at5dJgd+aQqPk4AtEZQSTUecgv+STjkatWNah969YEfP
-   YtmUfwWzMtR0sVt5rG0KhAF39dugROZWtZHx2sgAYiYaZJs2ZFeIrZLfO
-   Q==;
-X-CSE-ConnectionGUID: ARUMXlCSSDKXt4cjlp4l1w==
-X-CSE-MsgGUID: yKA3g3tySI64M/L0tJtUyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70648989"
+  bh=6bkg1mrU6FHYMdClssW2rDJDHEc707zMzCU9SFJ5P3Y=;
+  b=a5GFgVPsyuvSIshUZHAPHMlf5yGZG7Z4/7BezACJ5hyvzRCytu2vYaK/
+   WbTKjVVv6SY10zReb6KV5qGNaW8T9nB+TDLtX8wF7m6IlV0PGOnv3EL1U
+   vYxmIuFXVt4rQGBguAke+lBAMPvwg3UVIj+HM0kLdtgi+1ADXaHeEzfRF
+   1h0mamYKMw5hCEhKvmIFEPJF5x1exYszYahaYzVZaDXNUesOosCPnzr5Q
+   G+oMtuiuCwwZUUzFjTKfvPjmUgXITeerfx9mO1+jWKNsk6EqA/jUDcm+c
+   zAUt5aKvaICB8cYDk9qfl1aa17lFBbNH7K//4wu5DVMR9NYa/akQj7Q5J
+   w==;
+X-CSE-ConnectionGUID: tfVlRg12SciHSzqXGb4y2A==
+X-CSE-MsgGUID: BX9iiY+DTDivE2FiVnVdfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="82178266"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="70648989"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 11:18:53 -0800
-X-CSE-ConnectionGUID: bYObomZkTDWY/5GHpB/wFA==
-X-CSE-MsgGUID: Nl6PzGUITHCzlnztrfQbSg==
+   d="scan'208";a="82178266"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 11:39:54 -0800
+X-CSE-ConnectionGUID: prkqp5cQSpO0jAg/HB4Mdg==
+X-CSE-MsgGUID: m9cLc4sjT9C0XHbZfE0JDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="245678980"
+   d="scan'208";a="212918375"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Jan 2026 11:18:52 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jan 2026 11:39:52 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkoaP-00000000YsU-1tj6;
-	Tue, 27 Jan 2026 19:18:49 +0000
-Date: Wed, 28 Jan 2026 03:18:27 +0800
+	id 1vkouk-00000000Ytc-0xED;
+	Tue, 27 Jan 2026 19:39:50 +0000
+Date: Wed, 28 Jan 2026 03:39:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-s390@vger.kernel.org, Sven Schnelle <svens@linux.ibm.com>
-Subject: [s390:for-next 19/27] lib/bug.c:190:22: warning: diagnostic
- behavior may be improved by adding the 'format(printf, 1, 0)' attribute to
- the declaration of '__warn_printf'
-Message-ID: <202601280339.1xH8iSrP-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/boot_qemu 26/38]
+ arch/hexagon/kernel/irq-hexagon-h2.c:61:19: sparse: sparse: symbol
+ 'hexagon_irq_domain' was not declared. Should it be static?
+Message-ID: <202601280357.nhNdngPg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,74 +60,35 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git for-next
-head:   d06f05df104d3cefd48cbf8d2eb76b8e73f39ae1
-commit: 04dabb4261c387318affbdb22c15c31138a989f5 [19/27] s390/bug: Implement __WARN_printf()
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260128/202601280339.1xH8iSrP-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280339.1xH8iSrP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/boot_qemu
+head:   6dd00eeb9163d38cdab8b12c40702a711f04a9ab
+commit: c03d45c08b8a1046b1502fc07d0a7145fc2fb5b8 [26/38] hexagon: add memory management enhancements
+config: hexagon-randconfig-r132-20260127 (https://download.01.org/0day-ci/archive/20260128/202601280357.nhNdngPg-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280357.nhNdngPg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601280339.1xH8iSrP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601280357.nhNdngPg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/hexagon/kernel/irq-hexagon-h2.c: note: in included file (through arch/hexagon/include/asm/processor.h, arch/hexagon/include/asm/thread_info.h, include/linux/thread_info.h, ...):
+   arch/hexagon/include/asm/hexagon_vm.h:51:5: sparse: sparse: undefined preprocessor identifier '__HEXAGON_ARCH__'
+>> arch/hexagon/kernel/irq-hexagon-h2.c:61:19: sparse: sparse: symbol 'hexagon_irq_domain' was not declared. Should it be static?
 
->> lib/bug.c:190:22: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 0)' attribute to the declaration of '__warn_printf' [-Wmissing-format-attribute]
-     179 | static void __warn_printf(const char *fmt, struct pt_regs *regs)
-         | __attribute__((format(printf, 1, 0))) 
-     180 | {
-     181 |         if (!fmt)
-     182 |                 return;
-     183 | 
-     184 | #ifdef HAVE_ARCH_BUG_FORMAT_ARGS
-     185 |         if (regs) {
-     186 |                 struct arch_va_list _args;
-     187 |                 va_list *args = __warn_args(&_args, regs);
-     188 | 
-     189 |                 if (args) {
-     190 |                         vprintk(fmt, *args);
-         |                                           ^
-   lib/bug.c:179:13: note: '__warn_printf' declared here
-     179 | static void __warn_printf(const char *fmt, struct pt_regs *regs)
-         |             ^
-   1 warning generated.
+vim +/hexagon_irq_domain +61 arch/hexagon/kernel/irq-hexagon-h2.c
 
+6061edff3d8ebe Richard Kuo 2025-08-26  59  
+6061edff3d8ebe Richard Kuo 2025-08-26  60  /*  Warning:  irq domain ahead.  */
+6061edff3d8ebe Richard Kuo 2025-08-26 @61  struct irq_domain *hexagon_irq_domain;
+6061edff3d8ebe Richard Kuo 2025-08-26  62  
 
-vim +190 lib/bug.c
+:::::: The code at line 61 was first introduced by commit
+:::::: 6061edff3d8ebe38f05bbe7fb07b774fb0269edf hexagon: add H2 hypervisor interface support
 
-7664c5a1da4711 Jeremy Fitzhardinge 2006-12-08  175  
-d36067d6ea0082 Brendan Jackman     2025-12-07  176  __diag_push();
-d36067d6ea0082 Brendan Jackman     2025-12-07  177  __diag_ignore(GCC, all, "-Wsuggest-attribute=format",
-d36067d6ea0082 Brendan Jackman     2025-12-07  178  	      "Not a valid __printf() conversion candidate.");
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  179  static void __warn_printf(const char *fmt, struct pt_regs *regs)
-d292dbb5640c5b Peter Zijlstra      2025-06-02  180  {
-d292dbb5640c5b Peter Zijlstra      2025-06-02  181  	if (!fmt)
-d292dbb5640c5b Peter Zijlstra      2025-06-02  182  		return;
-d292dbb5640c5b Peter Zijlstra      2025-06-02  183  
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  184  #ifdef HAVE_ARCH_BUG_FORMAT_ARGS
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  185  	if (regs) {
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  186  		struct arch_va_list _args;
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  187  		va_list *args = __warn_args(&_args, regs);
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  188  
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  189  		if (args) {
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07 @190  			vprintk(fmt, *args);
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  191  			return;
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  192  		}
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  193  	}
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  194  #endif
-5c47b7f3d1a9d7 Peter Zijlstra      2025-06-07  195  
-d292dbb5640c5b Peter Zijlstra      2025-06-02  196  	printk("%s", fmt);
-d292dbb5640c5b Peter Zijlstra      2025-06-02  197  }
-d36067d6ea0082 Brendan Jackman     2025-12-07  198  __diag_pop();
-d292dbb5640c5b Peter Zijlstra      2025-06-02  199  
-
-:::::: The code at line 190 was first introduced by commit
-:::::: 5c47b7f3d1a9d7589026a201abb8ad445f029246 bug: Add BUG_FORMAT_ARGS infrastructure
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+:::::: TO: Richard Kuo <rkuo@quicinc.com>
+:::::: CC: Brian Cain <brian.cain@oss.qualcomm.com>
 
 -- 
 0-DAY CI Kernel Test Service
