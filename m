@@ -1,199 +1,277 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA0038FA3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 00:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6512C1D63E4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 00:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769473891; cv=none; b=B2OfTJNAa3pcVWecHqqjezjw8SdEPlrt6nJWuHrn9IErmb2o+xZtEt3KBYEYax2c82a2F1rGXrEjL98oXaXOlzs2DYUjUw+kd/RAAGYq6/Mx4d8pFE4NggjeKgRogPu2vlQD22zvjihLBIBj1E12upJacczHEH6k+0CGxWyMgY0=
+	t=1769474204; cv=none; b=KeHhzZNX6XFYzUXmY8FKK1K/h2Br+/VtRCDO+sbEc4/REvqIwHTI+lzz6/uPbgOcsWphh7NRc+0ZxMy3cSYEclOyjpd3Yx3UBfO41QLMD3zJ+12mnbMKSaBY9o+vndXa48MUP4HnwNzB9vw5WbT8VE6nXXCQNzQlJoTjMtIKINc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769473891; c=relaxed/simple;
-	bh=oIlRl11TKzaBFc3P5GY9CvKp9tgVEI64TOBxM9vFf3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=seD9hTz+u38c3rkqsDQbhDR76LkmvCBBqBkcW4PVFGnsbrjmzqqvYa1wDRQXu33CzadgBuDVwd+yYe37bg7qZJtb1o5b4Qxow7m27gnz3msZmMEU+LzlnsGrvEf9A69XhlutfurOZ2U0S0xSf9W09QJkg7pcQegIFZBZAipUuBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4vRbPg5; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1769474204; c=relaxed/simple;
+	bh=52zjGz1Ke01vp+JOrIwffodOmOQr1D0rdBiN7aGOFf8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XNPv4zFiYsvsmjbchW6qlxaCvpA8r//bhBW2DjyfnuJBs+5r38i5VgTktApMHHDM+4vea6eP53XVrFZ0n8m4M78RVRxLYNx5vvUrt+TS3Y+CYWWVLWBO4osi0tcpuN/A5pcctIt1Rg7j6H9DSJbfYgvE+pRK4ER82U+sddGp8c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQmX78RL; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4vRbPg5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQmX78RL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769473889; x=1801009889;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oIlRl11TKzaBFc3P5GY9CvKp9tgVEI64TOBxM9vFf3w=;
-  b=m4vRbPg5UM1nE+y2K7RCgVWrwbsZu+75g1lLKKoGh9U6+1CYNKTmOZXt
-   KZpjhFDzVPcc51rWOLqU8DTFRYjBjHR9WTwCf5liB1W88Ebu2yTOERwab
-   ecXK2no14DSUZ3+FiPUkNrvoJzLZ8yeA42DdXzEb2hlKCB3WDJ4BNAx3l
-   wXVDBSQKJuSmY+wSogc9H0Z3+HOmo8cDOup8AaXQGfPABkyak4UP7awbX
-   PCHsTi/oR24D7mmnLoya05p8RW4dYt9N/79jX1ZHNCUiZeYVcICkXPGOM
-   nvKiglHExC6NWjCnWQmfOOYcPe4LwrwqJbCRNqLyDbIOMRC9hX91FcruN
-   w==;
-X-CSE-ConnectionGUID: 5OnDzGslT72Uc2YYwJQ9eg==
-X-CSE-MsgGUID: LkjfswjPTsa5cvPXWLfRBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="96122492"
+  t=1769474202; x=1801010202;
+  h=date:from:to:cc:subject:message-id;
+  bh=52zjGz1Ke01vp+JOrIwffodOmOQr1D0rdBiN7aGOFf8=;
+  b=CQmX78RLBz+XzSLEUNUTAIEcF/9ltgax52ksKp1gIeqRJrInE2xljjce
+   UlG0nXJH+DgCbOXGbd0qByRDSgbPBECU03yVpfQ5+fx18vAaH1BlLvA1h
+   z2kYtjPmh3+6/OvvY0Y4Hr5QhlBi4Km907LFARGd7ALU32wGQu/kjCh4d
+   Gaor9BlEJ+dxClLBsNtCkqdJHJ78wryZL/04ON92z9g4h5D+6uqVddcqR
+   gD5QpRxKaXXu9PfdpYTpVvxzNXzWwyO6GEcCByLu+nAMXhu1k7uSHagU3
+   V5y9kvj8YvUM1RhI+r82hpqGfq4m8w4sVGTZKTzuyt+yKgc8fVM89KADx
+   Q==;
+X-CSE-ConnectionGUID: KN5YcOg5TdKeMIm45KweQA==
+X-CSE-MsgGUID: G/+L8R33RFm0JaqVYM4vbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="82028036"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="96122492"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 16:31:28 -0800
-X-CSE-ConnectionGUID: VsOsXZOLTNmDPktDB1k+wg==
-X-CSE-MsgGUID: 9fJyw7mHQiGspdoXKnrHtQ==
+   d="scan'208";a="82028036"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 16:36:41 -0800
+X-CSE-ConnectionGUID: dzg7tok3Sgqljx+ZCvyTHw==
+X-CSE-MsgGUID: +rmG+Y5OSwuKOTFxD1NE3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="207626827"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 26 Jan 2026 16:31:26 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207701752"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 26 Jan 2026 16:36:40 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkWzL-000000001e1-39Df;
-	Tue, 27 Jan 2026 00:31:23 +0000
-Date: Tue, 27 Jan 2026 01:30:38 +0100
+	id 1vkX4Q-00000000Xnw-0Iqp;
+	Tue, 27 Jan 2026 00:36:38 +0000
+Date: Tue, 27 Jan 2026 08:36:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 41/42]
- kernel/time/hrtimer.c:121:63: error: expression in static assertion is not
- constant
-Message-ID: <202601270110.jum0a4Ph-lkp@intel.com>
+To: Ido Schimmel <idosch@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
+Subject: [jpirko-mlxsw:combined_queue 10/10]
+ drivers/message/fusion/mptlan.c:1177:21: sparse: sparse: cast to restricted
+ __le16
+Message-ID: <202601270833.btA1NTge-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   80461d79725e9de0ffda5d621552a2db3608f64d
-commit: 2969d9693803a8bfd1c8bfcf3943af5a920be88f [41/42] hrtimer: Add support for auxiliary clocks
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260127/202601270110.jum0a4Ph-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270110.jum0a4Ph-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   06ab0cafbab0b7f660ddbcbcbf3f7f9e3610260c
+commit: 06ab0cafbab0b7f660ddbcbcbf3f7f9e3610260c [10/10] TMP: Revert "module: Add compile-time check for embedded NUL characters"
+config: loongarch-randconfig-r122-20260127 (https://download.01.org/0day-ci/archive/20260127/202601270833.btA1NTge-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270833.btA1NTge-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601270110.jum0a4Ph-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601270833.btA1NTge-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/message/fusion/mptlan.c:1177:21: sparse: sparse: cast to restricted __le16
+>> drivers/message/fusion/mptlan.c:1240:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] TransactionContext @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1240:52: sparse:     expected unsigned int [usertype] TransactionContext
+   drivers/message/fusion/mptlan.c:1240:52: sparse:     got restricted __le32 [usertype]
+>> drivers/message/fusion/mptlan.c:1244:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] FlagsLength @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1244:46: sparse:     expected unsigned int [usertype] FlagsLength
+   drivers/message/fusion/mptlan.c:1244:46: sparse:     got restricted __le32 [usertype]
+>> drivers/message/fusion/mptlan.c:1248:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] Low @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1248:46: sparse:     expected unsigned int [usertype] Low
+   drivers/message/fusion/mptlan.c:1248:46: sparse:     got restricted __le32 [usertype]
+>> drivers/message/fusion/mptlan.c:1250:55: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] High @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1250:55: sparse:     expected unsigned int [usertype] High
+   drivers/message/fusion/mptlan.c:1250:55: sparse:     got restricted __le32 [usertype]
+>> drivers/message/fusion/mptlan.c:1264:38: sparse: sparse: invalid assignment: |=
+   drivers/message/fusion/mptlan.c:1264:38: sparse:    left side has type unsigned int
+   drivers/message/fusion/mptlan.c:1264:38: sparse:    right side has type restricted __le32
+>> drivers/message/fusion/mptlan.c:1266:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] BucketCount @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1266:39: sparse:     expected unsigned int [usertype] BucketCount
+   drivers/message/fusion/mptlan.c:1266:39: sparse:     got restricted __le32 [usertype]
+>> drivers/message/fusion/mptlan.c:969:25: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:974:9: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:977:14: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:981:15: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:986:17: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:991:18: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:995:18: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:1025:31: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:612:9: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:617:17: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:641:23: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:346:17: sparse: sparse: cast to restricted __le32
+>> drivers/message/fusion/mptlan.c:1500:27: sparse: sparse: restricted __be16 degrades to integer
+>> drivers/message/fusion/mptlan.c:1537:29: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] ethertype @@
+   drivers/message/fusion/mptlan.c:1537:29: sparse:     expected unsigned short
+   drivers/message/fusion/mptlan.c:1537:29: sparse:     got restricted __be16 [usertype] ethertype
+>> drivers/message/fusion/mptlan.c:1540:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] @@
+   drivers/message/fusion/mptlan.c:1540:16: sparse:     expected unsigned short
+   drivers/message/fusion/mptlan.c:1540:16: sparse:     got restricted __be16 [usertype]
+   drivers/message/fusion/mptlan.c:746:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] TransactionContext @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:746:36: sparse:     expected unsigned int [usertype] TransactionContext
+   drivers/message/fusion/mptlan.c:746:36: sparse:     got restricted __le32 [usertype]
+>> drivers/message/fusion/mptlan.c:754:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:754:39: sparse:     expected unsigned int
+   drivers/message/fusion/mptlan.c:754:39: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:757:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:757:39: sparse:     expected unsigned int
+   drivers/message/fusion/mptlan.c:757:39: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:767:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] FlagsLength @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:767:30: sparse:     expected unsigned int [usertype] FlagsLength
+   drivers/message/fusion/mptlan.c:767:30: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:776:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] Low @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:776:30: sparse:     expected unsigned int [usertype] Low
+   drivers/message/fusion/mptlan.c:776:30: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:778:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] High @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:778:39: sparse:     expected unsigned int [usertype] High
+   drivers/message/fusion/mptlan.c:778:39: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:785:9: sparse: sparse: cast to restricted __le32
+>> drivers/message/fusion/mptlan.c:820:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] protocol @@     got unsigned short @@
+   drivers/message/fusion/mptlan.c:820:23: sparse:     expected restricted __be16 [usertype] protocol
+   drivers/message/fusion/mptlan.c:820:23: sparse:     got unsigned short
+   drivers/message/fusion/mptlan.c:924:23: sparse: sparse: cast to restricted __le32
 
-   In file included from include/linux/bits.h:30,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from kernel/time/hrtimer.c:25:
->> kernel/time/hrtimer.c:121:63: error: expression in static assertion is not constant
-     121 | static_assert(HRTIMER_BASE_MONOTONIC_SOFT - HRTIMER_BASE_AUX0 == MAX_AUX_CLOCKS);
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   kernel/time/hrtimer.c:121:1: note: in expansion of macro 'static_assert'
-     121 | static_assert(HRTIMER_BASE_MONOTONIC_SOFT - HRTIMER_BASE_AUX0 == MAX_AUX_CLOCKS);
-         | ^~~~~~~~~~~~~
+vim +1177 drivers/message/fusion/mptlan.c
 
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1139  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1140  static void
+c4028958b6ecad David Howells       2006-11-22  1141  mpt_lan_post_receive_buckets(struct mpt_lan_priv *priv)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1142  {
+c4028958b6ecad David Howells       2006-11-22  1143  	struct net_device *dev = priv->dev;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1144  	MPT_ADAPTER *mpt_dev = priv->mpt_dev;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1145  	MPT_FRAME_HDR *mf;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1146  	LANReceivePostRequest_t *pRecvReq;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1147  	SGETransaction32_t *pTrans;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1148  	SGESimple64_t *pSimple;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1149  	struct sk_buff *skb;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1150  	dma_addr_t dma;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1151  	u32 curr, buckets, count, max;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1152  	u32 len = (dev->mtu + dev->hard_header_len + 4);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1153  	unsigned long flags;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1154  	int i;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1155  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1156  	curr = atomic_read(&priv->buckets_out);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1157  	buckets = (priv->max_buckets_out - curr);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1158  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1159  	dioprintk((KERN_INFO MYNAM ": %s/%s: @%s, Start_buckets = %u, buckets_out = %u\n",
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1160  			IOC_AND_NETDEV_NAMES_s_s(dev),
+cadbd4a5e36dde Harvey Harrison     2008-07-03  1161  			__func__, buckets, curr));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1162  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1163  	max = (mpt_dev->req_sz - MPT_LAN_RECEIVE_POST_REQUEST_SIZE) /
+4e2e619f3c9e3c Gustavo A. R. Silva 2021-03-24  1164  			(sizeof(SGETransaction32_t) + sizeof(SGESimple64_t));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1165  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1166  	while (buckets) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1167  		mf = mpt_get_msg_frame(LanCtx, mpt_dev);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1168  		if (mf == NULL) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1169  			printk (KERN_ERR "%s: Unable to alloc request frame\n",
+cadbd4a5e36dde Harvey Harrison     2008-07-03  1170  				__func__);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1171  			dioprintk((KERN_ERR "%s: %u buckets remaining\n",
+cadbd4a5e36dde Harvey Harrison     2008-07-03  1172  				 __func__, buckets));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1173  			goto out;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1174  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1175  		pRecvReq = (LANReceivePostRequest_t *) mf;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1176  
+e1fc2b5167f9c3 Eric Moore          2007-09-29 @1177  		i = le16_to_cpu(mf->u.frame.hwhdr.msgctxu.fld.req_idx);
+e1fc2b5167f9c3 Eric Moore          2007-09-29  1178  		mpt_dev->RequestNB[i] = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1179  		count = buckets;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1180  		if (count > max)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1181  			count = max;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1182  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1183  		pRecvReq->Function    = MPI_FUNCTION_LAN_RECEIVE;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1184  		pRecvReq->ChainOffset = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1185  		pRecvReq->MsgFlags    = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1186  		pRecvReq->PortNumber  = priv->pnum;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1187  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1188  		pTrans = (SGETransaction32_t *) pRecvReq->SG_List;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1189  		pSimple = NULL;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1190  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1191  		for (i = 0; i < count; i++) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1192  			int ctx;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1193  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1194  			spin_lock_irqsave(&priv->rxfidx_lock, flags);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1195  			if (priv->mpt_rxfidx_tail < 0) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1196  				printk (KERN_ERR "%s: Can't alloc context\n",
+cadbd4a5e36dde Harvey Harrison     2008-07-03  1197  					__func__);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1198  				spin_unlock_irqrestore(&priv->rxfidx_lock,
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1199  						       flags);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1200  				break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1201  			}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1202  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1203  			ctx = priv->mpt_rxfidx[priv->mpt_rxfidx_tail--];
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1204  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1205  			skb = priv->RcvCtl[ctx].skb;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1206  			if (skb && (priv->RcvCtl[ctx].len != len)) {
+b114dda6f2f10c Christophe JAILLET  2022-01-06  1207  				dma_unmap_single(&mpt_dev->pcidev->dev,
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1208  						 priv->RcvCtl[ctx].dma,
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1209  						 priv->RcvCtl[ctx].len,
+b114dda6f2f10c Christophe JAILLET  2022-01-06  1210  						 DMA_FROM_DEVICE);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1211  				dev_kfree_skb(priv->RcvCtl[ctx].skb);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1212  				skb = priv->RcvCtl[ctx].skb = NULL;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1213  			}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1214  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1215  			if (skb == NULL) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1216  				skb = dev_alloc_skb(len);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1217  				if (skb == NULL) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1218  					printk (KERN_WARNING
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1219  						MYNAM "/%s: Can't alloc skb\n",
+cadbd4a5e36dde Harvey Harrison     2008-07-03  1220  						__func__);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1221  					priv->mpt_rxfidx[++priv->mpt_rxfidx_tail] = ctx;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1222  					spin_unlock_irqrestore(&priv->rxfidx_lock, flags);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1223  					break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1224  				}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1225  
+b114dda6f2f10c Christophe JAILLET  2022-01-06  1226  				dma = dma_map_single(&mpt_dev->pcidev->dev,
+b114dda6f2f10c Christophe JAILLET  2022-01-06  1227  						     skb->data, len,
+b114dda6f2f10c Christophe JAILLET  2022-01-06  1228  						     DMA_FROM_DEVICE);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1229  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1230  				priv->RcvCtl[ctx].skb = skb;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1231  				priv->RcvCtl[ctx].dma = dma;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1232  				priv->RcvCtl[ctx].len = len;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1233  			}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1234  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1235  			spin_unlock_irqrestore(&priv->rxfidx_lock, flags);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1236  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1237  			pTrans->ContextSize   = sizeof(u32);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1238  			pTrans->DetailsLength = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1239  			pTrans->Flags         = 0;
+4e2e619f3c9e3c Gustavo A. R. Silva 2021-03-24 @1240  			pTrans->TransactionContext = cpu_to_le32(ctx);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1241  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1242  			pSimple = (SGESimple64_t *) pTrans->TransactionDetails;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1243  
+^1da177e4c3f41 Linus Torvalds      2005-04-16 @1244  			pSimple->FlagsLength = cpu_to_le32(
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1245  				((MPI_SGE_FLAGS_END_OF_BUFFER |
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1246  				  MPI_SGE_FLAGS_SIMPLE_ELEMENT |
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1247  				  MPI_SGE_FLAGS_64_BIT_ADDRESSING) << MPI_SGE_FLAGS_SHIFT) | len);
+^1da177e4c3f41 Linus Torvalds      2005-04-16 @1248  			pSimple->Address.Low = cpu_to_le32((u32) priv->RcvCtl[ctx].dma);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1249  			if (sizeof(dma_addr_t) > sizeof(u32))
+^1da177e4c3f41 Linus Torvalds      2005-04-16 @1250  				pSimple->Address.High = cpu_to_le32((u32) ((u64) priv->RcvCtl[ctx].dma >> 32));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1251  			else
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1252  				pSimple->Address.High = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1253  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1254  			pTrans = (SGETransaction32_t *) (pSimple + 1);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1255  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1256  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1257  		if (pSimple == NULL) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1258  /**/			printk (KERN_WARNING MYNAM "/%s: No buckets posted\n",
+cadbd4a5e36dde Harvey Harrison     2008-07-03  1259  /**/				__func__);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1260  			mpt_free_msg_frame(mpt_dev, mf);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1261  			goto out;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1262  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1263  
+^1da177e4c3f41 Linus Torvalds      2005-04-16 @1264  		pSimple->FlagsLength |= cpu_to_le32(MPI_SGE_FLAGS_END_OF_LIST << MPI_SGE_FLAGS_SHIFT);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1265  
+^1da177e4c3f41 Linus Torvalds      2005-04-16 @1266  		pRecvReq->BucketCount = cpu_to_le32(i);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  1267  
 
-vim +121 kernel/time/hrtimer.c
+:::::: The code at line 1177 was first introduced by commit
+:::::: e1fc2b5167f9c3614099e55d3f49763a26a5a339 [SCSI] mptlan: bug fix, only half the message frame is dma'd resulting in corruption
 
-  > 25	#include <linux/cpu.h>
-    26	#include <linux/export.h>
-    27	#include <linux/percpu.h>
-    28	#include <linux/hrtimer.h>
-    29	#include <linux/notifier.h>
-    30	#include <linux/syscalls.h>
-    31	#include <linux/interrupt.h>
-    32	#include <linux/tick.h>
-    33	#include <linux/err.h>
-    34	#include <linux/debugobjects.h>
-    35	#include <linux/sched/signal.h>
-    36	#include <linux/sched/sysctl.h>
-    37	#include <linux/sched/rt.h>
-    38	#include <linux/sched/deadline.h>
-    39	#include <linux/sched/nohz.h>
-    40	#include <linux/sched/debug.h>
-    41	#include <linux/sched/isolation.h>
-    42	#include <linux/timer.h>
-    43	#include <linux/freezer.h>
-    44	#include <linux/compat.h>
-    45	
-    46	#include <linux/uaccess.h>
-    47	
-    48	#include <trace/events/timer.h>
-    49	
-    50	#include "tick-internal.h"
-    51	
-    52	/*
-    53	 * The resolution of the clocks. The resolution value is returned in
-    54	 * the clock_getres() system call to give application programmers an
-    55	 * idea of the (in)accuracy of timers. Timer values are rounded up to
-    56	 * this resolution values.
-    57	 */
-    58	#define HIGH_RES_NSEC		1
-    59	
-    60	/*
-    61	 * Masks for selecting the soft and hard context timers from
-    62	 * cpu_base->active
-    63	 */
-    64	#define MASK_SHIFT		(HRTIMER_BASE_MONOTONIC_SOFT)
-    65	#define HRTIMER_ACTIVE_HARD	((1U << MASK_SHIFT) - 1)
-    66	#define HRTIMER_ACTIVE_SOFT	(HRTIMER_ACTIVE_HARD << MASK_SHIFT)
-    67	#define HRTIMER_ACTIVE_ALL	(HRTIMER_ACTIVE_SOFT | HRTIMER_ACTIVE_HARD)
-    68	
-    69	static void retrigger_next_event(void *arg);
-    70	static ktime_t __hrtimer_cb_get_time(clockid_t clock_id);
-    71	static inline int hrtimer_clockid_to_base(clockid_t clock_id);
-    72	
-    73	/*
-    74	 * The timer bases:
-    75	 *
-    76	 * There are more clockids than hrtimer bases. Thus, we index
-    77	 * into the timer bases by the hrtimer_base_type enum. When trying
-    78	 * to reach a base using a clockid, hrtimer_clockid_to_base()
-    79	 * is used to convert from clockid to the proper hrtimer_base_type.
-    80	 */
-    81	#define HRTIMER_CLOCK_BASE(_index, _clockid) \
-    82		[(_index)] = { .index = (_index), .clockid = (_clockid) }
-    83	
-    84	DEFINE_PER_CPU(struct hrtimer_cpu_base, hrtimer_bases) =
-    85	{
-    86		.lock = __RAW_SPIN_LOCK_UNLOCKED(hrtimer_bases.lock),
-    87		.clock_base =
-    88		{
-    89			HRTIMER_CLOCK_BASE(HRTIMER_BASE_MONOTONIC,	CLOCK_MONOTONIC),
-    90			HRTIMER_CLOCK_BASE(HRTIMER_BASE_REALTIME,	CLOCK_REALTIME),
-    91			HRTIMER_CLOCK_BASE(HRTIMER_BASE_BOOTTIME,	CLOCK_BOOTTIME),
-    92			HRTIMER_CLOCK_BASE(HRTIMER_BASE_TAI,		CLOCK_TAI),
-    93	#ifdef CONFIG_POSIX_AUX_CLOCKS
-    94			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX0,		CLOCK_AUX + 0),
-    95			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX1,		CLOCK_AUX + 1),
-    96			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX2,		CLOCK_AUX + 2),
-    97			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX3,		CLOCK_AUX + 3),
-    98			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX4,		CLOCK_AUX + 4),
-    99			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX5,		CLOCK_AUX + 5),
-   100			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX6,		CLOCK_AUX + 6),
-   101			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX7,		CLOCK_AUX + 7),
-   102	#endif /* CONFIG_POSIX_AUX_CLOCKS */
-   103			HRTIMER_CLOCK_BASE(HRTIMER_BASE_MONOTONIC_SOFT,	CLOCK_MONOTONIC),
-   104			HRTIMER_CLOCK_BASE(HRTIMER_BASE_REALTIME_SOFT,	CLOCK_REALTIME),
-   105			HRTIMER_CLOCK_BASE(HRTIMER_BASE_BOOTTIME_SOFT,	CLOCK_BOOTTIME),
-   106			HRTIMER_CLOCK_BASE(HRTIMER_BASE_TAI_SOFT,	CLOCK_TAI),
-   107	#ifdef CONFIG_POSIX_AUX_CLOCKS
-   108			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX0_SOFT,	CLOCK_AUX + 0),
-   109			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX1_SOFT,	CLOCK_AUX + 1),
-   110			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX2_SOFT,	CLOCK_AUX + 2),
-   111			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX3_SOFT,	CLOCK_AUX + 3),
-   112			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX4_SOFT,	CLOCK_AUX + 4),
-   113			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX5_SOFT,	CLOCK_AUX + 5),
-   114			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX6_SOFT,	CLOCK_AUX + 6),
-   115			HRTIMER_CLOCK_BASE(HRTIMER_BASE_AUX7_SOFT,	CLOCK_AUX + 7),
-   116	#endif /* CONFIG_POSIX_AUX_CLOCKS */
-   117		},
-   118		.csd = CSD_INIT(retrigger_next_event, NULL)
-   119	};
-   120	
- > 121	static_assert(HRTIMER_BASE_MONOTONIC_SOFT - HRTIMER_BASE_AUX0 == MAX_AUX_CLOCKS);
-   122	
+:::::: TO: Eric Moore <eric.moore@lsi.com>
+:::::: CC: James Bottomley <jejb@mulgrave.localdomain>
 
 -- 
 0-DAY CI Kernel Test Service
