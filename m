@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0BC33F38E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 10:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2318F343D6E;
+	Tue, 27 Jan 2026 10:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769509827; cv=none; b=HBaBgyXDOM4U5zKuEPk5g/vDvwJoVUUV2phbpQyi27lIesNSz4h4SZlxmTGubYuHVaED7QPBcW7wnKaJFE8AVKtvTDjN06O9k1Q7sqtzAJH6s0nNVUh1nNuvsvHNBZXLnJWzO4aZdYgxrbpDW/Fe52+ft77yZnDdqi9WjT/a+AM=
+	t=1769510545; cv=none; b=RDbHhshWrxhpj9+PG2I+Z+ukytxY0jSVMNNpAri3ZYzqU1TjnonLjKLwa3huqkNTw0sPl10AjcDiekpvVp3vEf3XLXCQkHPiTfAdOHs2nlNCYYhzbLx1Jfiob3yQo6ie3e4XM9/9ljxYIA8f3PShyXdarXnKvU7gRF6IYMA2QFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769509827; c=relaxed/simple;
-	bh=3QJH2QPJ8GEyk6JJKrV4dvDZpX1cLKOmlK/I03eM/Xs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kCLeYXLlFJh3fjhmfoDwnRbe6R7+6YFteRVSDifkW212BK7yNWh82D5YP8lk1IZQopo03X1p/5d6oNdmA9wmKEWMEFXzHF7SurEHyavbttY+affBdKkXLk7YBt8nxMTdmO4K5Hh8AgL5jrhlA/DBjGOQ8C1GgQYS5T/w74/N5sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNhPMsdL; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1769510545; c=relaxed/simple;
+	bh=iOwR9j2XgjX2wR3jZG+vODfixjwvdIhZAqBoaQMR2pI=;
+	h=Date:From:Cc:Subject:Message-ID; b=pDeaBwpZ1DSn8SON7em1g8286EPprGiZLHfjJ06rxEj58r3B2imvVLPqWaBsxIF6n0R+RzOycfT7NOr5zyBjry18SNg6Lhpc2B5Xq+qVTK09sufX57E+vrH/uW9bkmxVZHXhq4PJBfdSGovrqYkSM5LdnL7oRtWMN1V0Rl5scDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eUi1+mPn; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNhPMsdL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eUi1+mPn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769509822; x=1801045822;
-  h=date:from:to:cc:subject:message-id;
-  bh=3QJH2QPJ8GEyk6JJKrV4dvDZpX1cLKOmlK/I03eM/Xs=;
-  b=hNhPMsdLBJe6+f8atfO2DdUvMMRcPA9xFlfVTkbDCFtwkT8gLlV/ydeq
-   KZKzaCy3bTbGQN6V3leHl9mYmIS+mdXWwGLyhvasupoRe86WZidYfw9nU
-   noX9haQfi6WlWqs0be3sPj33bij+Lqk95ADVtcetsLBoh1q5BwisPpU6P
-   mIizP4d1Vtw59gb2pFlxp0+TUOLmZ/MyFKBcy04fduiWRxpBd2BGKSF0U
-   xh/IuvDB1GgsYT5jeIWqPXEsfmRj+UlC4y0qczdEQWv272gc6AYVS2L7c
-   0VdaM/aviA1UPydQyPJj0CF5WNuQSTsVxZbTka6NlmfZn3bGTF8AySYLp
+  t=1769510541; x=1801046541;
+  h=date:from:cc:subject:message-id;
+  bh=iOwR9j2XgjX2wR3jZG+vODfixjwvdIhZAqBoaQMR2pI=;
+  b=eUi1+mPnsd6Jcj5WOnq4iiTp2DhNVprPRo24E1OLPLcm4p6zIu9ACifm
+   CZSQqIEGFoy5NsjipymDDrIZPXxIuO8LE9e+lWiXIG5aitUxOV1pSIvAf
+   eD0ickq7g6lg5+PH2j/itGmAll9qeLFy0JPCEXoHPswhizjcphC+FQimv
+   OOQd8Exl1hErZQUL+CGbqKIAkrBUz6A6dSGIGzV91MUH10VCN3gndUgsh
+   xo7rr0Q4n1UWC9XazjD/mmDzVEqSB9qzkjaE45CBNP9flknEXnx5xJkT3
+   nBNQV9vXxt8otjICdXGfxlFnB1i6m5TylRxUb9mQY2ylLmH7JsVRo8wIW
    w==;
-X-CSE-ConnectionGUID: ByY5VAUmRjm+DCrYTBwzrA==
-X-CSE-MsgGUID: y7KS/IJ1RTyC9/BF5UEDdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="74546258"
+X-CSE-ConnectionGUID: SVubGnqWQJ+8iYmhWmm5vA==
+X-CSE-MsgGUID: RJ7wHdG7SWK54MpK3wKemw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70744294"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="74546258"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:30:19 -0800
-X-CSE-ConnectionGUID: izH0XWD0QoK8zs4oaEAnEA==
-X-CSE-MsgGUID: YSSH4qECSaO8Lub84ztcrQ==
+   d="scan'208";a="70744294"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:42:20 -0800
+X-CSE-ConnectionGUID: OkbldqlXSCOYPyyKFKffQg==
+X-CSE-MsgGUID: GUqbVH2cQ8y8/RdYNqK3IQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="212403754"
+   d="scan'208";a="239211656"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Jan 2026 02:30:17 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 27 Jan 2026 02:42:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkgKt-00000000YJg-0xKk;
-	Tue, 27 Jan 2026 10:30:15 +0000
-Date: Tue, 27 Jan 2026 18:29:58 +0800
+	id 1vkgWW-00000000YLi-1J0F;
+	Tue, 27 Jan 2026 10:42:16 +0000
+Date: Tue, 27 Jan 2026 18:41:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.3 8/18]
- arch/x86/include/asm/cmpxchg.h:89:36: error: initialization of 'int' from
- 'struct bpf_struct_ops_link *' makes integer from pointer without a cast
-Message-ID: <202601271849.2v8PBE2A-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [fustini:b4/ssqosid-cbqri 14/18]
+ include/linux/acpi.h:1582:9: error: incompatible integer to pointer
+ conversion returning 'int' from a function with result type 'struct
+ acpi_pptt_cache *'
+Message-ID: <202601271843.aOsOKG9z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,510 +60,182 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.3
-head:   4f455e283257caaedc8070f2806557e6b3d31cae
-commit: ce0600c8f5c7ec3ecccdc82513de16ed10686391 [8/18] mm: introduce BPF OOM struct ops
-config: x86_64-buildonly-randconfig-006-20260127 (https://download.01.org/0day-ci/archive/20260127/202601271849.2v8PBE2A-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271849.2v8PBE2A-lkp@intel.com/reproduce)
+TO: Drew Fustini <fustini@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git b4/ssqosid-cbqri
+head:   8182dddb709d03a64b99b430d05f8f21103aa9b3
+commit: 60aed9e92fe0ca93b56a46ae251eb1ff851d572f [14/18] acpi: pptt: Add helper to find a cache from id
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260127/202601271843.aOsOKG9z-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271843.aOsOKG9z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601271849.2v8PBE2A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601271843.aOsOKG9z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:532:50: note: in expansion of macro 'READ_ONCE'
-     532 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:680:9: note: in expansion of macro '__rcu_dereference_check'
-     680 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/bpf_oom.c:50:27: note: in expansion of macro 'rcu_dereference_check'
-      50 |                 st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   mm/bpf_oom.c:50:71: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-      50 |                 st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
-         |                                                                       ^
-   include/linux/compiler_types.h:581:27: note: in definition of macro '__unqual_scalar_typeof'
-     581 |                 _Generic((x),                                           \
-         |                           ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   include/linux/rcupdate.h:532:50: note: in expansion of macro 'READ_ONCE'
-     532 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:680:9: note: in expansion of macro '__rcu_dereference_check'
-     680 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/bpf_oom.c:50:27: note: in expansion of macro 'rcu_dereference_check'
-      50 |                 st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:380,
-                    from include/uapi/linux/filter.h:9,
-                    from include/linux/bpf.h:8:
-   mm/bpf_oom.c:50:71: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-      50 |                 st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
-         |                                                                       ^
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   include/linux/rcupdate.h:532:50: note: in expansion of macro 'READ_ONCE'
-     532 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                  ^~~~~~~~~
-   include/linux/rcupdate.h:680:9: note: in expansion of macro '__rcu_dereference_check'
-     680 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/bpf_oom.c:50:27: note: in expansion of macro 'rcu_dereference_check'
-      50 |                 st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   mm/bpf_oom.c:50:71: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-      50 |                 st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
-         |                                                                       ^
-   include/linux/rcupdate.h:535:19: note: in definition of macro '__rcu_dereference_check'
-     535 |         ((typeof(*p) __force __kernel *)(local)); \
-         |                   ^
-   mm/bpf_oom.c:50:27: note: in expansion of macro 'rcu_dereference_check'
-      50 |                 st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/atomic.h:82,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/alloc_tag.h:13,
-                    from include/linux/workqueue.h:9:
-   mm/bpf_oom.c: In function 'bpf_oom_ops_reg':
-   mm/bpf_oom.c:115:31: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |                               ^
-   include/linux/atomic/atomic-instrumented.h:4785:16: note: in definition of macro 'cmpxchg'
-    4785 |         typeof(ptr) __ai_ptr = (ptr); \
-         |                ^~~
-   mm/bpf_oom.c:115:31: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |                               ^
-   include/linux/atomic/atomic-instrumented.h:4785:33: note: in definition of macro 'cmpxchg'
-    4785 |         typeof(ptr) __ai_ptr = (ptr); \
-         |                                 ^~~
-   include/linux/atomic/atomic-instrumented.h:4787:55: error: invalid type argument of unary '*' (have 'int')
-    4787 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
-         |                                                       ^~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4787:38: error: passing argument 1 of 'instrument_atomic_read_write' makes pointer from integer without a cast [-Wint-conversion]
-    4787 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
-         |                                      ^~~~~~~~
-         |                                      |
-         |                                      int
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   In file included from include/linux/atomic/atomic-instrumented.h:17:
-   include/linux/instrumented.h:94:79: note: expected 'const volatile void *' but argument is of type 'int'
-      94 | static __always_inline void instrument_atomic_read_write(const volatile void *v, size_t size)
-         |                                                          ~~~~~~~~~~~~~~~~~~~~~^
-   In file included from arch/x86/include/asm/atomic.h:8,
-                    from include/linux/atomic.h:7:
->> arch/x86/include/asm/cmpxchg.h:87:20: error: invalid type argument of unary '*' (have 'int')
-      87 |         __typeof__(*(ptr)) __ret;                                       \
-         |                    ^~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:88:20: error: invalid type argument of unary '*' (have 'int')
-      88 |         __typeof__(*(ptr)) __old = (old);                               \
-         |                    ^~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
->> arch/x86/include/asm/cmpxchg.h:88:36: error: initialization of 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
-      88 |         __typeof__(*(ptr)) __old = (old);                               \
-         |                                    ^
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:89:20: error: invalid type argument of unary '*' (have 'int')
-      89 |         __typeof__(*(ptr)) __new = (new);                               \
-         |                    ^~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
->> arch/x86/include/asm/cmpxchg.h:89:36: error: initialization of 'int' from 'struct bpf_struct_ops_link *' makes integer from pointer without a cast [-Wint-conversion]
-      89 |         __typeof__(*(ptr)) __new = (new);                               \
-         |                                    ^
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:41: error: invalid type argument of unary '*' (have 'int')
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |                                         ^~~~~~
-   arch/x86/include/asm/cmpxchg.h:90:17: note: in definition of macro '__raw_cmpxchg'
-      90 |         switch (size) {                                                 \
-         |                 ^~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:93:38: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      93 |                 volatile u8 *__ptr = (volatile u8 *)(ptr);              \
-         |                                      ^
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:102:39: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     102 |                 volatile u16 *__ptr = (volatile u16 *)(ptr);            \
-         |                                       ^
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:111:39: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     111 |                 volatile u32 *__ptr = (volatile u32 *)(ptr);            \
-         |                                       ^
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:120:39: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     120 |                 volatile u64 *__ptr = (volatile u64 *)(ptr);            \
-         |                                       ^
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:115:13: note: in expansion of macro 'cmpxchg'
-     115 |         if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
-         |             ^~~~~~~
-   In file included from arch/x86/include/asm/bug.h:193,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8:
-   mm/bpf_oom.c: In function 'bpf_oom_ops_unreg':
-   mm/bpf_oom.c:133:35: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                                   ^
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/bpf_oom.c:133:17: note: in expansion of macro 'cmpxchg'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                 ^~~~~~~
-   mm/bpf_oom.c:133:35: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                                   ^
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/bpf_oom.c:133:17: note: in expansion of macro 'cmpxchg'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                 ^~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4787:55: error: invalid type argument of unary '*' (have 'int')
-    4787 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
-         |                                                       ^~~~~~~~~
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/bpf_oom.c:133:17: note: in expansion of macro 'cmpxchg'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                 ^~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4787:38: error: passing argument 1 of 'instrument_atomic_read_write' makes pointer from integer without a cast [-Wint-conversion]
-    4787 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
-         |                                      ^~~~~~~~
-         |                                      |
-         |                                      int
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/bpf_oom.c:133:17: note: in expansion of macro 'cmpxchg'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                 ^~~~~~~
-   include/linux/instrumented.h:94:79: note: expected 'const volatile void *' but argument is of type 'int'
-      94 | static __always_inline void instrument_atomic_read_write(const volatile void *v, size_t size)
-         |                                                          ~~~~~~~~~~~~~~~~~~~~~^
->> arch/x86/include/asm/cmpxchg.h:87:20: error: invalid type argument of unary '*' (have 'int')
-      87 |         __typeof__(*(ptr)) __ret;                                       \
-         |                    ^~~~~~
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:133:17: note: in expansion of macro 'cmpxchg'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                 ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:88:20: error: invalid type argument of unary '*' (have 'int')
-      88 |         __typeof__(*(ptr)) __old = (old);                               \
-         |                    ^~~~~~
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:133:17: note: in expansion of macro 'cmpxchg'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                 ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:88:36: error: initialization of 'int' from 'struct bpf_struct_ops_link *' makes integer from pointer without a cast [-Wint-conversion]
-      88 |         __typeof__(*(ptr)) __old = (old);                               \
-         |                                    ^
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:133:17: note: in expansion of macro 'cmpxchg'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                 ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:88:36: note: (near initialization for '__ret_warn_on')
-      88 |         __typeof__(*(ptr)) __old = (old);                               \
-         |                                    ^
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~
-   mm/bpf_oom.c:133:17: note: in expansion of macro 'cmpxchg'
-     133 |         WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
-         |                 ^~~~~~~
-   arch/x86/include/asm/cmpxchg.h:89:20: error: invalid type argument of unary '*' (have 'int')
-      89 |         __typeof__(*(ptr)) __new = (new);                               \
-         |                    ^~~~~~
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
-     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
-     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-         |         ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4788:9: note: in expansion of macro 'raw_cmpxchg'
-    4788 |         raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+>> include/linux/acpi.h:1582:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct acpi_pptt_cache *' [-Wint-conversion]
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:116:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:116:21: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:119:11: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:119:27: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:174:27: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:174:10: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:175:20: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:175:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:177:27: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:177:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:198:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:211:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:242:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   include/linux/signal.h:255:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+   clang diag: include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:116:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:116:21: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:119:11: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:119:27: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:174:27: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:174:10: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:175:20: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:175:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:177:27: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:177:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:198:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:211:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:242:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+   clang diag: include/linux/signal.h:255:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+>> Unable to generate bindings: clang diagnosed error: include/linux/acpi.h:1582:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct acpi_pptt_cache *' [-Wint-conversion]
 
 
-vim +89 arch/x86/include/asm/cmpxchg.h
+vim +1582 include/linux/acpi.h
 
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   79  
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   80  /*
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   81   * Atomic compare and exchange.  Compare OLD with MEM, if identical,
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   82   * store NEW in MEM.  Return the initial value in MEM.  Success is
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   83   * indicated by comparing RETURN with OLD.
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   84   */
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   85  #define __raw_cmpxchg(ptr, old, new, size, lock)			\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   86  ({									\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  @87  	__typeof__(*(ptr)) __ret;					\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  @88  	__typeof__(*(ptr)) __old = (old);				\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  @89  	__typeof__(*(ptr)) __new = (new);				\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   90  	switch (size) {							\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   91  	case __X86_CASE_B:						\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   92  	{								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   93  		volatile u8 *__ptr = (volatile u8 *)(ptr);		\
-faa6f77b0dfae95 Uros Bizjak         2025-03-09   94  		asm_inline volatile(lock "cmpxchgb %2, %1"		\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   95  			     : "=a" (__ret), "+m" (*__ptr)		\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   96  			     : "q" (__new), "0" (__old)			\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   97  			     : "memory");				\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   98  		break;							\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18   99  	}								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  100  	case __X86_CASE_W:						\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  101  	{								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  102  		volatile u16 *__ptr = (volatile u16 *)(ptr);		\
-faa6f77b0dfae95 Uros Bizjak         2025-03-09  103  		asm_inline volatile(lock "cmpxchgw %2, %1"		\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  104  			     : "=a" (__ret), "+m" (*__ptr)		\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  105  			     : "r" (__new), "0" (__old)			\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  106  			     : "memory");				\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  107  		break;							\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  108  	}								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  109  	case __X86_CASE_L:						\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  110  	{								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  111  		volatile u32 *__ptr = (volatile u32 *)(ptr);		\
-faa6f77b0dfae95 Uros Bizjak         2025-03-09  112  		asm_inline volatile(lock "cmpxchgl %2, %1"		\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  113  			     : "=a" (__ret), "+m" (*__ptr)		\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  114  			     : "r" (__new), "0" (__old)			\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  115  			     : "memory");				\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  116  		break;							\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  117  	}								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  118  	case __X86_CASE_Q:						\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  119  	{								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  120  		volatile u64 *__ptr = (volatile u64 *)(ptr);		\
-faa6f77b0dfae95 Uros Bizjak         2025-03-09  121  		asm_inline volatile(lock "cmpxchgq %2, %1"		\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  122  			     : "=a" (__ret), "+m" (*__ptr)		\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  123  			     : "r" (__new), "0" (__old)			\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  124  			     : "memory");				\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  125  		break;							\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  126  	}								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  127  	default:							\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  128  		__cmpxchg_wrong_size();					\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  129  	}								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  130  	__ret;								\
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  131  })
-e9826380d83d1bd Jeremy Fitzhardinge 2011-08-18  132  
-
-:::::: The code at line 89 was first introduced by commit
-:::::: e9826380d83d1bda3ee5663bf3fa4667a6fbe60a x86, cmpxchg: Unify cmpxchg into cmpxchg.h
-
-:::::: TO: Jeremy Fitzhardinge <jeremy.fitzhardinge@citrix.com>
-:::::: CC: H. Peter Anvin <hpa@linux.intel.com>
+  1579	
+  1580	static inline struct acpi_pptt_cache *find_acpi_cache_from_id(u32 cache_id)
+  1581	{
+> 1582		return -EINVAL;
+  1583	}
+  1584	
 
 -- 
 0-DAY CI Kernel Test Service
