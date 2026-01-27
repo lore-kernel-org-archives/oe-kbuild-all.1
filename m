@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A53716DC28;
-	Tue, 27 Jan 2026 10:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B793D3385B6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 10:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769508506; cv=none; b=jygbO2G0gM7oXQoUcRZhm6wakR1vmARA6ELvczDPITtvbxmgsHfxf1Ff4GX8x5+3zJABd6L+9weAxDHDrB0woWAjUwdyg3KlwcSkB6Wds0jY6UK8H02RJtwQi8PW8CIQoheVMNjfhLX6DafhZMpTVb3TxPd/0NlJdhwyFAXNXAY=
+	t=1769509102; cv=none; b=sOT4Y3e/XqKOUpe4YGHwCY5+nQcjNORQtTJjxA5XP76rXmxDq6Hq3VmNOvBJzpwOZ4iF2FmkJvH5rwy3Ohgbaz0K9oZsCI8tjLNyaXjTNxP/UafpsakAwYGXNAs7WIujyiL9iINjSdCIYA2SNhmIVk/vDgetBkknJ8qkr8Cwe94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769508506; c=relaxed/simple;
-	bh=1WQT8KOZ2OGkIybpU6URhQjvfVU0byun95Q19xtBO4E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ao26GIPlZZnH9vNdKs6Tw4sOSM4JUzkF67huh6bxzm8glBbcf9wjnnDGMbE1mVjSWuqKoPXF1ZT1kUQDdym3l8mh32/8edyMOI15fBZz67cV+ofRWsiDPY/NkBUGBt9DC05yD4Rl9Whp67jYDNGD7r0nrNJ4lxzu+SUIJZiIOfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZxgn6pf; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1769509102; c=relaxed/simple;
+	bh=zUEA3nYzm1bp9tTLZrcSPhADEnJx1W4v9UucolxzNFc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JHrq1PFwaSmzZn/O062XQHnw9W8bxTtoxR/QiMKiqNu4WBnBujAX0oDb5BQc27Kv1eU/hpeDEfAHWTnqOy/rC1T1db/9gBqSY5WpK1IBxmtnV45mBHwK4CBxW7ksagpbtG0DxxGGwTXMAHFDrvbkTiHKcQxlskv5dBo4hWnXEAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ig06aMvc; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZxgn6pf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ig06aMvc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769508504; x=1801044504;
+  t=1769509100; x=1801045100;
   h=date:from:to:cc:subject:message-id;
-  bh=1WQT8KOZ2OGkIybpU6URhQjvfVU0byun95Q19xtBO4E=;
-  b=HZxgn6pf0S4HKFicUf8R5ACOk7/SDEYu0XGmrXlZIRhOmUMUnKF9e6Rg
-   agPAWRXh7Ddw70KN9EjD96QRwfWbbR5mX081EOVDyS83ALvRgzGeiA1NC
-   G6lak/LbGI84sMeMe37T4WoobSjGrRzbuoUmEOnrLzk/BsbgJExe4k7ws
-   1xxyXN2xAoO56d4eCHQNlP4cqjcSeBdM1H1XtFHXHJbq4h2Zby6YTsC4y
-   hbWE5QeV/QI4pKmzuJDwWDzwEN8yx2ZRSbYqFTau/zeGTb1LiBedhzbNn
-   mQHADrpyLMnrz3JBKqjcdPc+SXjT1taB1i2eVSIet3q+mjvUOcnsCXfFD
+  bh=zUEA3nYzm1bp9tTLZrcSPhADEnJx1W4v9UucolxzNFc=;
+  b=Ig06aMvcHmBEjHbXHm6WQAxAbBk6UpHqrIIduF4S4yGalmXn6BeprSP8
+   XYU40+cCm9Xn2jtNUcM4aGi8La/nVrd5212pgmKekdchLvrvZu2vSHnQQ
+   uvQviaTOVB4qDfMTmMwMstp3QkW3YRlKBQ10EPGKM6DDTTUpJUIdbf2GZ
+   JMs1Of+tBBTHG/VKXYGeGXE7hB1lOZ11hUW59Ys7CoAu6mLT54x8Lcz+P
+   qrNJrhgRGSvaht3rlmgV5gwM0r/FW/6kyAxq87wRxNPqj6lJNUSIyWgP6
+   UsqyI97vaQS2SoP/BtactOPw/l9PEx2l1CRpKno914Hh1PJLxs7o/VlHH
    Q==;
-X-CSE-ConnectionGUID: w9cGac4aSpeCPOMvEu2Seg==
-X-CSE-MsgGUID: G04f0nOrTdyUb7mFY8ZMbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="73286118"
+X-CSE-ConnectionGUID: JZMN2lRxSguIW64KGvv8RA==
+X-CSE-MsgGUID: J9fJ2fSnQEqgHoKZ/Jookw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="93358886"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="73286118"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:08:18 -0800
-X-CSE-ConnectionGUID: CK6NpcXpT1ifyT50LhHahw==
-X-CSE-MsgGUID: ynrCtvBxTAmNBnG7coj/7Q==
+   d="scan'208";a="93358886"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:18:19 -0800
+X-CSE-ConnectionGUID: 2HuKHihnRbK3mTF6PksJew==
+X-CSE-MsgGUID: a73/WLj/THW7c7TC22u0yA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="212400370"
+   d="scan'208";a="212798708"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Jan 2026 02:08:16 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jan 2026 02:18:17 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkfza-00000000YHz-1NEr;
-	Tue, 27 Jan 2026 10:08:14 +0000
-Date: Tue, 27 Jan 2026 18:07:43 +0800
+	id 1vkg9G-00000000YIv-3aIn;
+	Tue, 27 Jan 2026 10:18:14 +0000
+Date: Tue, 27 Jan 2026 18:18:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Richard Kuo <rkuo@quicinc.com>
-Subject: [bcain:bcain/boot_qemu 17/38]
- arch/hexagon/kernel/setup.c:50:15: error: use of undeclared identifier
- '__dtb_start'; did you mean '__bss_start'?
-Message-ID: <202601271734.z9irEdXr-lkp@intel.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:bpfoom.3 8/18]
+ arch/xtensa/include/asm/cmpxchg.h:87:30: warning: initialization of 'int'
+ from 'struct bpf_struct_ops_link *' makes integer from pointer without a cast
+Message-ID: <202601271851.FG99nPGp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,97 +60,441 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/boot_qemu
-head:   6dd00eeb9163d38cdab8b12c40702a711f04a9ab
-commit: 3b5a4aadbb772ade58b62c4db9f3d0b3c27e386e [17/38] hexagon: add platform infrastructure
-config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260127/202601271734.z9irEdXr-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271734.z9irEdXr-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git bpfoom.3
+head:   4f455e283257caaedc8070f2806557e6b3d31cae
+commit: ce0600c8f5c7ec3ecccdc82513de16ed10686391 [8/18] mm: introduce BPF OOM struct ops
+config: xtensa-randconfig-r053-20260127 (https://download.01.org/0day-ci/archive/20260127/202601271851.FG99nPGp-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271851.FG99nPGp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601271734.z9irEdXr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601271851.FG99nPGp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/hexagon/kernel/setup.c:22:
-   arch/hexagon/include/asm/platform.h:29:13: error: conflicting types for 'early_memtest'
-      29 | extern void early_memtest(unsigned long start, unsigned long end);
-         |             ^
-   include/linux/memblock.h:610:20: note: previous definition is here
-     610 | static inline void early_memtest(phys_addr_t start, phys_addr_t end) { }
-         |                    ^
-   arch/hexagon/kernel/setup.c:49:13: error: use of undeclared identifier 'external_buffer'
-      49 |         char *p = &external_buffer;
-         |                    ^~~~~~~~~~~~~~~
->> arch/hexagon/kernel/setup.c:50:15: error: use of undeclared identifier '__dtb_start'; did you mean '__bss_start'?
-      50 |         void *dtb = &__dtb_start;
-         |                      ^~~~~~~~~~~
-         |                      __bss_start
-   include/asm-generic/sections.h:37:13: note: '__bss_start' declared here
-      37 | extern char __bss_start[], __bss_stop[];
-         |             ^
-   3 errors generated.
+         |                                                                        ^
+   include/linux/rcupdate.h:532:43: note: in expansion of macro 'READ_ONCE'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                           ^~~~~~~~~
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     680 |  __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/bpf_oom.c:50:13: note: in expansion of macro 'rcu_dereference_check'
+      50 |   st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/workqueue.h:17,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   mm/bpf_oom.c:50:57: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
+      50 |   st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
+         |                                                         ^
+   include/linux/rcupdate.h:535:12: note: in definition of macro '__rcu_dereference_check'
+     535 |  ((typeof(*p) __force __kernel *)(local)); \
+         |            ^
+   mm/bpf_oom.c:50:13: note: in expansion of macro 'rcu_dereference_check'
+      50 |   st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/xtensa/include/asm/bitops.h:215,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/xtensa/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/alloc_tag.h:11,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   mm/bpf_oom.c: In function 'bpf_oom_ops_reg':
+   mm/bpf_oom.c:115:24: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |                        ^
+   include/linux/atomic/atomic-instrumented.h:4785:9: note: in definition of macro 'cmpxchg'
+    4785 |  typeof(ptr) __ai_ptr = (ptr); \
+         |         ^~~
+   mm/bpf_oom.c:115:24: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |                        ^
+   include/linux/atomic/atomic-instrumented.h:4785:26: note: in definition of macro 'cmpxchg'
+    4785 |  typeof(ptr) __ai_ptr = (ptr); \
+         |                          ^~~
+   include/linux/atomic/atomic-instrumented.h:4787:48: error: invalid type argument of unary '*' (have 'int')
+    4787 |  instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                                                ^~~~~~~~~
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4787:31: warning: passing argument 1 of 'instrument_atomic_read_write' makes pointer from integer without a cast [-Wint-conversion]
+    4787 |  instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                               ^~~~~~~~
+         |                               |
+         |                               int
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+   In file included from include/asm-generic/bitops/instrumented-atomic.h:14,
+                    from arch/xtensa/include/asm/bitops.h:208,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/xtensa/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/alloc_tag.h:11,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   include/linux/instrumented.h:94:79: note: expected 'const volatile void *' but argument is of type 'int'
+      94 | static __always_inline void instrument_atomic_read_write(const volatile void *v, size_t size)
+         |                                                          ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from arch/xtensa/include/asm/atomic.h:19,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/xtensa/include/asm/bitops.h:215,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/xtensa/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/alloc_tag.h:11,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   arch/xtensa/include/asm/cmpxchg.h:86:16: error: invalid type argument of unary '*' (have 'int')
+      86 |  ({ __typeof__(*(ptr)) _o_ = (o);          \
+         |                ^~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+>> arch/xtensa/include/asm/cmpxchg.h:86:30: warning: initialization of 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+      86 |  ({ __typeof__(*(ptr)) _o_ = (o);          \
+         |                              ^
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:87:16: error: invalid type argument of unary '*' (have 'int')
+      87 |     __typeof__(*(ptr)) _n_ = (n);          \
+         |                ^~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+>> arch/xtensa/include/asm/cmpxchg.h:87:30: warning: initialization of 'int' from 'struct bpf_struct_ops_link *' makes integer from pointer without a cast [-Wint-conversion]
+      87 |     __typeof__(*(ptr)) _n_ = (n);          \
+         |                              ^
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:88:17: error: invalid type argument of unary '*' (have 'int')
+      88 |     (__typeof__(*(ptr))) __cmpxchg((ptr), (unsigned long)_o_,       \
+         |                 ^~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:89:44: error: invalid type argument of unary '*' (have 'int')
+      89 |                (unsigned long)_n_, sizeof (*(ptr))); \
+         |                                            ^~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+>> arch/xtensa/include/asm/cmpxchg.h:88:36: warning: passing argument 1 of '__cmpxchg' makes pointer from integer without a cast [-Wint-conversion]
+      88 |     (__typeof__(*(ptr))) __cmpxchg((ptr), (unsigned long)_o_,       \
+         |                                    ^~~~~
+         |                                    |
+         |                                    int
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:115:6: note: in expansion of macro 'cmpxchg'
+     115 |  if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+         |      ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:75:26: note: expected 'volatile void *' but argument is of type 'int'
+      75 | __cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int size)
+         |           ~~~~~~~~~~~~~~~^~~
+   In file included from ./arch/xtensa/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/alloc_tag.h:8,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   mm/bpf_oom.c: In function 'bpf_oom_ops_unreg':
+   mm/bpf_oom.c:133:28: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |                            ^
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   mm/bpf_oom.c:133:28: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |                            ^
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4787:48: error: invalid type argument of unary '*' (have 'int')
+    4787 |  instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                                                ^~~~~~~~~
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4787:31: warning: passing argument 1 of 'instrument_atomic_read_write' makes pointer from integer without a cast [-Wint-conversion]
+    4787 |  instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                               ^~~~~~~~
+         |                               |
+         |                               int
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   In file included from include/asm-generic/bitops/instrumented-atomic.h:14,
+                    from arch/xtensa/include/asm/bitops.h:208,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/xtensa/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/alloc_tag.h:11,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   include/linux/instrumented.h:94:79: note: expected 'const volatile void *' but argument is of type 'int'
+      94 | static __always_inline void instrument_atomic_read_write(const volatile void *v, size_t size)
+         |                                                          ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from ./arch/xtensa/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/alloc_tag.h:8,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   arch/xtensa/include/asm/cmpxchg.h:86:16: error: invalid type argument of unary '*' (have 'int')
+      86 |  ({ __typeof__(*(ptr)) _o_ = (o);          \
+         |                ^~~~~~
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:86:30: warning: initialization of 'int' from 'struct bpf_struct_ops_link *' makes integer from pointer without a cast [-Wint-conversion]
+      86 |  ({ __typeof__(*(ptr)) _o_ = (o);          \
+         |                              ^
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+--
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:86:30: note: (near initialization for '__ret_warn_on')
+      86 |  ({ __typeof__(*(ptr)) _o_ = (o);          \
+         |                              ^
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:87:16: error: invalid type argument of unary '*' (have 'int')
+      87 |     __typeof__(*(ptr)) _n_ = (n);          \
+         |                ^~~~~~
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:87:30: warning: initialization of 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+      87 |     __typeof__(*(ptr)) _n_ = (n);          \
+         |                              ^
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:87:30: note: (near initialization for '__ret_warn_on')
+      87 |     __typeof__(*(ptr)) _n_ = (n);          \
+         |                              ^
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:88:17: error: invalid type argument of unary '*' (have 'int')
+      88 |     (__typeof__(*(ptr))) __cmpxchg((ptr), (unsigned long)_o_,       \
+         |                 ^~~~~~
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   arch/xtensa/include/asm/cmpxchg.h:89:44: error: invalid type argument of unary '*' (have 'int')
+      89 |                (unsigned long)_n_, sizeof (*(ptr))); \
+         |                                            ^~~~~~
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+>> arch/xtensa/include/asm/cmpxchg.h:88:36: warning: passing argument 1 of '__cmpxchg' makes pointer from integer without a cast [-Wint-conversion]
+      88 |     (__typeof__(*(ptr))) __cmpxchg((ptr), (unsigned long)_o_,       \
+         |                                    ^~~~~
+         |                                    |
+         |                                    int
+   include/asm-generic/bug.h:155:25: note: in definition of macro 'WARN_ON'
+     155 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4788:2: note: in expansion of macro 'raw_cmpxchg'
+    4788 |  raw_cmpxchg(__ai_ptr, __VA_ARGS__); \
+         |  ^~~~~~~~~~~
+   mm/bpf_oom.c:133:10: note: in expansion of macro 'cmpxchg'
+     133 |  WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+         |          ^~~~~~~
+   In file included from arch/xtensa/include/asm/atomic.h:19,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/xtensa/include/asm/bitops.h:215,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/xtensa/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/alloc_tag.h:11,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   arch/xtensa/include/asm/cmpxchg.h:75:26: note: expected 'volatile void *' but argument is of type 'int'
+      75 | __cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int size)
+         |           ~~~~~~~~~~~~~~~^~~
+   In file included from mm/bpf_oom.c:8:
+   mm/bpf_oom.c: In function 'bpf_oom_struct_ops_init':
+   include/linux/bpf.h:2147:50: warning: statement with no effect [-Wunused-value]
+    2147 | #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
+         |                                                  ^~~~~~~~~~~~~~~~
+   mm/bpf_oom.c:190:9: note: in expansion of macro 'register_bpf_struct_ops'
+     190 |  return register_bpf_struct_ops(&bpf_oom_bpf_ops, bpf_oom_ops);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +50 arch/hexagon/kernel/setup.c
+vim +87 arch/xtensa/include/asm/cmpxchg.h
 
-e03167b26b7fcf Richard Kuo  2011-10-31  41  
-e03167b26b7fcf Richard Kuo  2011-10-31  42  /*
-e03167b26b7fcf Richard Kuo  2011-10-31  43   * setup_arch -  high level architectural setup routine
-e03167b26b7fcf Richard Kuo  2011-10-31  44   * @cmdline_p: pointer to pointer to command-line arguments
-e03167b26b7fcf Richard Kuo  2011-10-31  45   */
-e03167b26b7fcf Richard Kuo  2011-10-31  46  
-e03167b26b7fcf Richard Kuo  2011-10-31  47  void __init setup_arch(char **cmdline_p)
-e03167b26b7fcf Richard Kuo  2011-10-31  48  {
-d0ca0a1efebd32 Brian Cain   2026-01-24  49  	char *p = &external_buffer;
-d0ca0a1efebd32 Brian Cain   2026-01-24 @50  	void *dtb = &__dtb_start;
-e03167b26b7fcf Richard Kuo  2011-10-31  51  
-e03167b26b7fcf Richard Kuo  2011-10-31  52  	/*
-e03167b26b7fcf Richard Kuo  2011-10-31  53  	 * Set up event bindings to handle exceptions and interrupts.
-e03167b26b7fcf Richard Kuo  2011-10-31  54  	 */
-e03167b26b7fcf Richard Kuo  2011-10-31  55  	__vmsetvec(_K_VM_event_vector);
-e03167b26b7fcf Richard Kuo  2011-10-31  56  
-2738f359b1dcae Randy Dunlap 2018-06-14  57  	printk(KERN_INFO "PHYS_OFFSET=0x%08lx\n", PHYS_OFFSET);
-d0ca0a1efebd32 Brian Cain   2026-01-24  58  	/*  initial machine setup from flattened device tree  */
-d0ca0a1efebd32 Brian Cain   2026-01-24  59  	mdesc = setup_machine_fdt(dtb);
-d0ca0a1efebd32 Brian Cain   2026-01-24  60  
-d0ca0a1efebd32 Brian Cain   2026-01-24  61  	if (!mdesc)
-d0ca0a1efebd32 Brian Cain   2026-01-24  62  		panic("setup_machine_fdt returned NULL\n");
-8f5a0b9dffeb3c Richard Kuo  2013-03-22  63  
-d0ca0a1efebd32 Brian Cain   2026-01-24  64  	if (mdesc->setup_arch_platform) {
-d0ca0a1efebd32 Brian Cain   2026-01-24  65  		mdesc->setup_arch_platform();
-d0ca0a1efebd32 Brian Cain   2026-01-24  66  	}
-d0ca0a1efebd32 Brian Cain   2026-01-24  67  
-d0ca0a1efebd32 Brian Cain   2026-01-24  68  	printk("vmversion=0x%08lx\n", vmversion);
-d0ca0a1efebd32 Brian Cain   2026-01-24  69  	printk("vm build id=0x%08lx\n", __vmgetinfo(vm_info_build_id));
-d0ca0a1efebd32 Brian Cain   2026-01-24  70  	printk("boot_info=%p\n", boot_info);
-e03167b26b7fcf Richard Kuo  2011-10-31  71  	/*
-d0ca0a1efebd32 Brian Cain   2026-01-24  72  	 * Will need to work on boot specification.
-e03167b26b7fcf Richard Kuo  2011-10-31  73  	 */
-d0ca0a1efebd32 Brian Cain   2026-01-24  74  	//  Todo:  seriously need to fix this for all platforms
-d0ca0a1efebd32 Brian Cain   2026-01-24  75  #ifdef CONFIG_HEXAGON_MSM8960_FLUID
-d0ca0a1efebd32 Brian Cain   2026-01-24  76  	{
-d0ca0a1efebd32 Brian Cain   2026-01-24  77  		unsigned int *magic;
-d0ca0a1efebd32 Brian Cain   2026-01-24  78  
-d0ca0a1efebd32 Brian Cain   2026-01-24  79  		p = NULL;
-d0ca0a1efebd32 Brian Cain   2026-01-24  80  		for (magic = (unsigned int *)&external_buffer;
-d0ca0a1efebd32 Brian Cain   2026-01-24  81  		     magic < ((unsigned int *)&external_buffer) + 32; magic++) {
-d0ca0a1efebd32 Brian Cain   2026-01-24  82  			if (*magic == 0x54410009) {
-d0ca0a1efebd32 Brian Cain   2026-01-24  83  				p = (char *)++magic;
-d0ca0a1efebd32 Brian Cain   2026-01-24  84  				break;
-d0ca0a1efebd32 Brian Cain   2026-01-24  85  			}
-d0ca0a1efebd32 Brian Cain   2026-01-24  86  		}
-d0ca0a1efebd32 Brian Cain   2026-01-24  87  	}
-d0ca0a1efebd32 Brian Cain   2026-01-24  88  #endif
-e03167b26b7fcf Richard Kuo  2011-10-31  89  
+f9aa7e1882f3ce David Howells 2012-03-28  84  
+b9b12978a8e9a4 Mark Rutland  2021-05-25  85  #define arch_cmpxchg(ptr,o,n)						      \
+f9aa7e1882f3ce David Howells 2012-03-28 @86  	({ __typeof__(*(ptr)) _o_ = (o);				      \
+f9aa7e1882f3ce David Howells 2012-03-28 @87  	   __typeof__(*(ptr)) _n_ = (n);				      \
+f9aa7e1882f3ce David Howells 2012-03-28 @88  	   (__typeof__(*(ptr))) __cmpxchg((ptr), (unsigned long)_o_,	      \
+f9aa7e1882f3ce David Howells 2012-03-28  89  	   			        (unsigned long)_n_, sizeof (*(ptr))); \
+f9aa7e1882f3ce David Howells 2012-03-28  90  	})
+f9aa7e1882f3ce David Howells 2012-03-28  91  
 
-:::::: The code at line 50 was first introduced by commit
-:::::: d0ca0a1efebd3204a0a0c8b7df0db18e9bfd0a1e hexagon: update boot and setup code
+:::::: The code at line 87 was first introduced by commit
+:::::: f9aa7e1882f3ceec919b30f64a2ce6e66a2571b1 Disintegrate asm/system.h for Xtensa
 
-:::::: TO: Brian Cain <brian.cain@oss.qualcomm.com>
-:::::: CC: Brian Cain <brian.cain@oss.qualcomm.com>
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
