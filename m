@@ -1,120 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB00332C924
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 07:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE3C2C08A8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 08:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769497925; cv=none; b=ONS9rjzdvNklHk/0gpB53KpmVD+hiRMcX6HDtc4TUCGsgqFiwlUO70U76q6BrvMuJZlrmHF0ah7FXIzEbXfHH4LH6S58p800E1k3mvJEkPiCH23xbtCxUJx3yVJDFgN0rJA+yUAKOVmQuTRftYtpU/MVSkHMP2+EKFZbRX3cVfg=
+	t=1769503391; cv=none; b=P593BVygqh6voLJ7Td/TPJb+kglSaqDxqTqxymGkIeO2ojyirqFXDCpVookkjcGyOMXguy8U8hXBi9fV/DGSFnSFV5Fcr6LrcC+HaEBvfGpB3MWICyhf7ox0nnPTgFscW30P9ghQGO2gu5dVI7fYn0MO15MidVyF8nCyH/Ye4eM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769497925; c=relaxed/simple;
-	bh=2Qd9XEtpHBydFVVajsCBLmayruLHcQ+ZWqi4LLtEbFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZRugR2i8MvlC6cDG59R3Aoy5mhMrskQ6MtEIGrqTgFRhcvJ+6THPjQCVW+3u44YGNqX+bvFldHRnzDUhYvQuk9NinINYBa7nlbeGK+Zfr7/CvaKZGHRkjaOmlUlmwssq21vNJe2cGtR8nwtu5oNTF8WdXq0VBPl934NL1mI0bAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5cjzp3E; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1769503391; c=relaxed/simple;
+	bh=SP0MEQhwvM3luH1Ax+JXGl6lHSXUZ1vmEIQJEDJYdzk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iEgrIkM8O2kC3bl/WLBYzEUkqBncfKLW7QciM6wrSwd/Z9c776F0AYgXZqy0CNI9PWbWvrvgIEXx18yCzoEmTx5CDVj5Znaqxl55yJYGo6IhqvwlKEmLxKJH90sCu9fFvLZioyHbJYGrCz376GYQ1UHBifKjrnp9tIfiA/2xXj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNNGUJ+h; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5cjzp3E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNNGUJ+h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769497924; x=1801033924;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Qd9XEtpHBydFVVajsCBLmayruLHcQ+ZWqi4LLtEbFc=;
-  b=C5cjzp3Eo9psv+gU3G6NRTtRzcD0ep6wRnW9NLzOBkQZuvuv6TPgSvD2
-   ETJ4tKWDvB1aYu3ye/wF5s1SaYt1VUZdUXKuOHQy6WNHvilNJJX6aqdVA
-   eBwgim89uFYJmBToTtOUZHET3K58d090kRsK7KxHb9UtaVyxvOwi+s9K/
-   zwJz5MYF93NrvThLseXS/cA9jd0q/bAT/A1fkoPkzj73lsLBWAXO5TNqr
-   F/sjHG8DVdOC6HZGoeYK/ZCKNYeEkiFRGLuT+R80Gtb/oy/sL5ue6Kf/D
-   WzORvxASBBnR7Kx+bjq2PDr6CC5RsmYtpMbp1iVdR/AuS0pdq8oPQB2Ui
+  t=1769503390; x=1801039390;
+  h=date:from:to:cc:subject:message-id;
+  bh=SP0MEQhwvM3luH1Ax+JXGl6lHSXUZ1vmEIQJEDJYdzk=;
+  b=mNNGUJ+h6Y1JZupBLVsPoeHPcYCK9Xx0EO2W6dOjnEZaMKHaj4/GxeMp
+   bc70MRgvYk9GM9Dc7Wko1DZTw8H5OK/j9kNU3dCXBsNKXVqGRM/9F7w5B
+   pqTp99ID/DxIuU+kH2ET0sACv9YCcxtW7mF5pQMzbpQcxu6t97bR1dOex
+   hRyvKnmfvNhH51Dx2hrVgBOMm74gWeKTAbeltsGtDGSdRDFZVDXbDlxXi
+   hJlmYvJZ2lXnXkQQAsEluAt+vDXRupPmwEZzJ04ScnqzGYxwuGTr6Z70x
+   O1fON7xfUNNCF0GhXr+gmTCY4jMTO7e1/7la9q6EzZAV6eqgmwvlJGtn3
    w==;
-X-CSE-ConnectionGUID: iVlWNcmvTpuLHxLLisZyVQ==
-X-CSE-MsgGUID: 0q53k1xjSw2y0obDyKghGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="58259853"
+X-CSE-ConnectionGUID: jAPFXZsdRkasQld7lIZisA==
+X-CSE-MsgGUID: EujUSZ7zQD68cJbITCv71A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="74556064"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="58259853"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 23:12:03 -0800
-X-CSE-ConnectionGUID: eCkwl3AcRp23gsnn0PaD4Q==
-X-CSE-MsgGUID: WFwduOm1TTet8heOIz16mg==
+   d="scan'208";a="74556064"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 00:43:09 -0800
+X-CSE-ConnectionGUID: jM2t+7/DROu9yLapjcH5xw==
+X-CSE-MsgGUID: wbeqg7GZQWaIcCu1Vg3MAA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
+   d="scan'208";a="208285923"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Jan 2026 23:12:01 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 27 Jan 2026 00:43:07 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkdF0-00000000Y5K-2Xwm;
-	Tue, 27 Jan 2026 07:11:58 +0000
-Date: Tue, 27 Jan 2026 15:11:10 +0800
+	id 1vkefB-00000000YAp-0z2X;
+	Tue, 27 Jan 2026 08:43:05 +0000
+Date: Tue, 27 Jan 2026 16:42:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Koichiro Den <den@valinux.co.jp>, jingoohan1@gmail.com, mani@kernel.org,
-	lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org,
-	bhelgaas@google.com, Frank.Li@nxp.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] PCI: dwc: Add helper to query integrated dw-edma
- register window
-Message-ID: <202601271506.INKGUWyt-lkp@intel.com>
-References: <20260126071550.3233631-2-den@valinux.co.jp>
+To: Bahubali B Gumaji <bahubali.bg@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>,
+ Hyunchul Lee <hyc.lee@gmail.com>,
+ "Sang-Soo Lee" <constant.lee@samsung.com>
+Subject: [samba-ksmbd:ksmbd-for-next-next 2/2]
+ fs/smb/server/mgmt/user_session.c:98:58: error: 'struct ksmbd_conn' has no
+ member named 'inet6_addr'; did you mean 'inet_addr'?
+Message-ID: <202601271646.P2vIDioZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126071550.3233631-2-den@valinux.co.jp>
 
-Hi Koichiro,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.19-rc7 next-20260126]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Koichiro-Den/PCI-dwc-Add-helper-to-query-integrated-dw-edma-register-window/20260126-152209
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260126071550.3233631-2-den%40valinux.co.jp
-patch subject: [PATCH 1/2] PCI: dwc: Add helper to query integrated dw-edma register window
-config: um-randconfig-r071-20260127 (https://download.01.org/0day-ci/archive/20260127/202601271506.INKGUWyt-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271506.INKGUWyt-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
+head:   8cc38d4af66aa19d0e67d4b148abd6c50de339f8
+commit: 8cc38d4af66aa19d0e67d4b148abd6c50de339f8 [2/2] ksmbd: add procfs interface for runtime monitoring and statistics
+config: mips-randconfig-r064-20260127 (https://download.01.org/0day-ci/archive/20260127/202601271646.P2vIDioZ-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271646.P2vIDioZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601271506.INKGUWyt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601271646.P2vIDioZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/dwc/pcie-designware.c: In function 'dwc_pcie_edma_get_reg_window':
->> drivers/pci/controller/dwc/pcie-designware.c:1358:14: error: implicit declaration of function 'epc_get_drvdata'; did you mean 'epf_get_drvdata'? [-Wimplicit-function-declaration]
-    1358 |         ep = epc_get_drvdata(epc);
-         |              ^~~~~~~~~~~~~~~
-         |              epf_get_drvdata
->> drivers/pci/controller/dwc/pcie-designware.c:1358:12: error: assignment to 'struct dw_pcie_ep *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1358 |         ep = epc_get_drvdata(epc);
-         |            ^
+   fs/smb/server/mgmt/user_session.c: In function 'show_proc_session':
+>> fs/smb/server/mgmt/user_session.c:98:58: error: 'struct ksmbd_conn' has no member named 'inet6_addr'; did you mean 'inet_addr'?
+      seq_printf(m, "%-20s\t%pI6c\n", "client", &chan->conn->inet6_addr);
+                                                             ^~~~~~~~~~
+                                                             inet_addr
+   fs/smb/server/mgmt/user_session.c: In function 'show_proc_sessions':
+   fs/smb/server/mgmt/user_session.c:207:44: error: 'struct ksmbd_conn' has no member named 'inet6_addr'; did you mean 'inet_addr'?
+       seq_printf(m, " %-40pI6c", &chan->conn->inet6_addr);
+                                               ^~~~~~~~~~
+                                               inet_addr
 
 
-vim +1358 drivers/pci/controller/dwc/pcie-designware.c
+vim +98 fs/smb/server/mgmt/user_session.c
 
-  1348	
-  1349	int dwc_pcie_edma_get_reg_window(struct pci_epc *epc, phys_addr_t *phys,
-  1350					 resource_size_t *sz)
-  1351	{
-  1352		struct dw_pcie_ep *ep;
-  1353		struct dw_pcie *pci;
-  1354	
-  1355		if (!epc || !phys || !sz)
-  1356			return -EINVAL;
-  1357	
-> 1358		ep = epc_get_drvdata(epc);
+    80	
+    81	static int show_proc_session(struct seq_file *m, void *v)
+    82	{
+    83		struct ksmbd_session *sess;
+    84		struct ksmbd_tree_connect *tree_conn;
+    85		struct ksmbd_share_config *share_conf;
+    86		struct channel *chan;
+    87		unsigned long id;
+    88		int i = 0;
+    89	
+    90		sess = (struct ksmbd_session *)m->private;
+    91		ksmbd_user_session_get(sess);
+    92	
+    93		i = 0;
+    94		xa_for_each(&sess->ksmbd_chann_list, id, chan) {
+    95		if (chan->conn->inet_addr)
+    96			seq_printf(m, "%-20s\t%pI4c\n", "client", &chan->conn->inet_addr);
+    97		else
+  > 98			seq_printf(m, "%-20s\t%pI6c\n", "client", &chan->conn->inet6_addr);
+    99		seq_printf(m, "%-20s\t%s\n", "user", session_user_name(sess));
+   100		seq_printf(m, "%-20s\t%llu\n", "id", sess->id);
+   101		seq_printf(m, "%-20s\t%s\n", "state", session_state_string(sess));
+   102	
+   103		seq_printf(m, "%-20s\t", "capabilities");
+   104		ksmbd_proc_show_flag_names(m,
+   105					   ksmbd_sess_cap_const_names,
+   106					   ARRAY_SIZE(ksmbd_sess_cap_const_names),
+   107					   chan->conn->vals->req_capabilities);
+   108	
+   109		if (sess->sign) {
+   110			seq_printf(m, "%-20s\t", "signing");
+   111			ksmbd_proc_show_const_name(m, "%s\t",
+   112						   ksmbd_signing_const_names,
+   113						   ARRAY_SIZE(ksmbd_signing_const_names),
+   114						   le16_to_cpu(chan->conn->signing_algorithm));
+   115		} else if (sess->enc) {
+   116			seq_printf(m, "%-20s\t", "encryption");
+   117			ksmbd_proc_show_const_name(m, "%s\t",
+   118						   ksmbd_cipher_const_names,
+   119						   ARRAY_SIZE(ksmbd_cipher_const_names),
+   120						   le16_to_cpu(chan->conn->cipher_type));
+   121		}
+   122			i++;
+   123		}
+   124	
+   125		seq_printf(m, "%-20s\t%d\n", "channels", i);
+   126	
+   127		i = 0;
+   128		xa_for_each(&sess->tree_conns, id, tree_conn) {
+   129			share_conf = tree_conn->share_conf;
+   130			seq_printf(m, "%-20s\t%s\t%8d", "share",
+   131				   share_conf->name, tree_conn->id);
+   132			if (test_share_config_flag(share_conf, KSMBD_SHARE_FLAG_PIPE))
+   133				seq_printf(m, " %s ", "pipe");
+   134			else
+   135				seq_printf(m, " %s ", "disk");
+   136			seq_putc(m, '\n');
+   137		}
+   138	
+   139		ksmbd_user_session_put(sess);
+   140		return 0;
+   141	}
+   142	
 
 -- 
 0-DAY CI Kernel Test Service
