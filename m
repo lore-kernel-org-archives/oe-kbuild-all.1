@@ -1,113 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477532E973F;
-	Tue, 27 Jan 2026 04:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8DB2E7BD9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 04:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769489824; cv=none; b=UFzJY3tL07vPkFkZHzjrLIemWZXfLcfaac8RHVuzH5CyiKY7RkT62RZ9xSx2CFhXjSSmUTPAm7+TQ7fk56y7XysaLt58S24a30z/TaiqhFCaS+lIE9JRRx8llRZBRnzEiI62PyunKd41mpKCWeXtJwnQfUDBAxqmMdm1xBDwa6w=
+	t=1769489847; cv=none; b=p/XBH0f/WbX6j+6aa15IMbiAW5EziP3Rx30M7cPpQV1+L/2EV2rRY8WwXh6WZhp59wovHgQaM1zrlr7Txtnw8m98TOwqgYKK92Olmc86Jvsvk40m/kL5xa2QDg4tMoTYhpMBlRVmARjjxcWCXyzDdjzUyngaYCjXWUL2nDr1rTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769489824; c=relaxed/simple;
-	bh=iCCD613JRllm9h3TTRIOf9U7yT/wcqwphBj87uNAy8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QUy58629mpiaLJ0lauMNL/Hs49Vucy2egJra3ZGnhbGgoudYvtxKwg0vP3nLi6bt7kyYo5UPOrfB/031DrTw5iW99uebsG4CGN/SjfJGxQanktAixH8S8/twKPYtPw3V6GiIW8ynJR2K51YG7KMMYSKfdNt8XRVIcgEpL2OjjNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=daMYg1oO; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769489847; c=relaxed/simple;
+	bh=ClRxzBvvOAJ67nshkP8czecXBaW0lxyBs7USIUXwsyY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UNdqIwaEjpCKDoL+54+Hmh/6EWZUi7awOgJfsjP1XyXtI1zFLyPM2Q2GH3Y8ovuTR55Y0BFmEiC2pZ0ie6cd0C7f5rdftxB4b9S3yPwSpkLe2xTVJrPYY6YXz+eNFo5AO5SLOrO8Rgr0skO8xQUmt2PI8RemNn5w0IF4T7RcP0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=liuQXtEZ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="daMYg1oO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="liuQXtEZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769489822; x=1801025822;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iCCD613JRllm9h3TTRIOf9U7yT/wcqwphBj87uNAy8M=;
-  b=daMYg1oObe3BtsAcjqu4hJbAQZ+aO9xYkIOjL9v+MTTk/J33nOpzXKBB
-   sb1vovTy4Pk0IsaogJid6MVc0hya1ohg24y++tiIN+VChLMisG3Iy9Ts9
-   3s1GLZ4Tvkh+NUiuQX73NijyTeN38IiZpHC/scUCO4C9NjiasHIWqws+v
-   4hbQ95sZk5W28Ayh2eSx6T5JQ+R28FqOv3oskE1/i7Lc2lcpHVF0QchLd
-   OSfLzcndsvXrr0C+C75aqS4J3tIyZL8wYuEzIM/bkHyRYMTfX6w11U+WE
-   P0JqvoD+tVUJ7WRu2O8c1h0x6AhL+Eklplb7RMwHyg+WDgM5KPFLyWC7X
-   A==;
-X-CSE-ConnectionGUID: vDbg3AJhSbit2P61U+QY7Q==
-X-CSE-MsgGUID: 7iKEi2AZSVSskq35pupcpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70576409"
+  t=1769489845; x=1801025845;
+  h=date:from:to:cc:subject:message-id;
+  bh=ClRxzBvvOAJ67nshkP8czecXBaW0lxyBs7USIUXwsyY=;
+  b=liuQXtEZhbrGRzVx/wYK145sbVK6J7gxoN5Re3zvFJ1hj5rq235HqWYG
+   1ezIBYNh6m1bKFhXPhqwXsEAd/FmW6VpY/mPL1Q1XY/6zivVClK//pIBt
+   wgPKzm1qaYIUbKUviGhXR9QJW7TS6C9suR1KzPSbkCN7B62xO3pE5h5Oz
+   4b5qn1SIHJ0GyCmrawsKvK2SqUpQSSM8rEMEvy3HZlK0bLwAbyAEFsIkD
+   WX0wH0DmAe0FLZFeSLGjQgpAPr6YYeRXRHvBzwDJcjfFckSTzfcBLyDzX
+   TrvcwJgdCK22eA3hT+ixA3sRzjQXjE7P9x8L+jDPlKuNqOXIyvzGOlB/k
+   g==;
+X-CSE-ConnectionGUID: MnDH36nRSgWlm4Vo2joc+Q==
+X-CSE-MsgGUID: 7DChqkkYS7u/dOxjiooKmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70646605"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="70576409"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 20:56:56 -0800
-X-CSE-ConnectionGUID: RnL5XyQ0TyifckmNW9deyg==
-X-CSE-MsgGUID: BjAW/y1nS+OoBpGBNWqn3g==
+   d="scan'208";a="70646605"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 20:56:55 -0800
+X-CSE-ConnectionGUID: NqzAWBP2RfyIJONLPBBvVA==
+X-CSE-MsgGUID: uFcj+ESiSAWmVmYKjpK2Fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="207103829"
+   d="scan'208";a="208232208"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Jan 2026 20:56:53 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 26 Jan 2026 20:56:53 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkb8E-00000000Y0S-2WGC;
+	id 1vkb8E-00000000Y0U-2bPz;
 	Tue, 27 Jan 2026 04:56:50 +0000
-Date: Tue, 27 Jan 2026 12:56:47 +0800
+Date: Tue, 27 Jan 2026 12:56:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neilb@ownmail.net>,
-	Jeff Layton <jlayton@kernel.org>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <dai.ngo@oracle.com>, Tom Talpey <tom@talpey.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v3 11/14] lockd: Move xdr.h from include/linux/lockd/ to
- fs/lockd/
-Message-ID: <202601271247.TFeb5MO5-lkp@intel.com>
-References: <20260126195535.154697-12-cel@kernel.org>
+To: Paul Mackerras <paulus@ozlabs.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Madhavan Srinivasan <maddy@linux.ibm.com>
+Subject: arch/powerpc/platforms/microwatt/smp.c:79:24: sparse:
+ sparse: cast removes address space '__iomem' of expression
+Message-ID: <202601271250.ASHv58o3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126195535.154697-12-cel@kernel.org>
 
-Hi Chuck,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on brauner-vfs/vfs.all linus/master v6.19-rc7 next-20260126]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/lockd-Simplify-cast_status-in-svcproc-c/20260127-035838
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260126195535.154697-12-cel%40kernel.org
-patch subject: [PATCH v3 11/14] lockd: Move xdr.h from include/linux/lockd/ to fs/lockd/
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20260127/202601271247.TFeb5MO5-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fcb70a56f4d81450114034b2c61f48ce7444a0e2
+commit: aca95fb6bb572a77f39d42d83ab72a965026577d powerpc/microwatt: Add SMP support
+date:   11 months ago
+config: powerpc64-randconfig-r123-20260126 (https://download.01.org/0day-ci/archive/20260127/202601271250.ASHv58o3-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271247.TFeb5MO5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271250.ASHv58o3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601271247.TFeb5MO5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601271250.ASHv58o3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/powerpc/platforms/microwatt/smp.c:79:24: sparse: sparse: cast removes address space '__iomem' of expression
+>> arch/powerpc/platforms/microwatt/smp.c:79:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
+   arch/powerpc/platforms/microwatt/smp.c:79:24: sparse:     expected void [noderef] __iomem *addr
+   arch/powerpc/platforms/microwatt/smp.c:79:24: sparse:     got void *
 
-   In file included from fs/nfsd/lockd.c:11:
->> include/linux/lockd/bind.h:76:64: warning: declaration of 'struct file_lock' will not be visible outside of this function [-Wvisibility]
-      76 | extern int      nlmclnt_proc(struct nlm_host *host, int cmd, struct file_lock *fl, void *data);
-         |                                                                     ^
-   1 warning generated.
+vim +/__iomem +79 arch/powerpc/platforms/microwatt/smp.c
 
-
-vim +76 include/linux/lockd/bind.h
-
-b1ece737f44f91d Benjamin Coddington  2017-04-11  75  
-b1ece737f44f91d Benjamin Coddington  2017-04-11 @76  extern int	nlmclnt_proc(struct nlm_host *host, int cmd, struct file_lock *fl, void *data);
-40373b125de6bab Trond Myklebust      2019-04-09  77  extern int	lockd_up(struct net *net, const struct cred *cred);
-e3f70eadb7dddfb Stanislav Kinsbursky 2012-03-29  78  extern void	lockd_down(struct net *net);
-^1da177e4c3f415 Linus Torvalds       2005-04-16  79  
+    42	
+    43	void __init microwatt_init_smp(void)
+    44	{
+    45		volatile unsigned char __iomem *syscon;
+    46		int ncpus;
+    47		int timeout;
+    48	
+    49		syscon = early_ioremap(SYSCON_BASE, SYSCON_LENGTH);
+    50		if (syscon == NULL) {
+    51			pr_err("Failed to map SYSCON\n");
+    52			return;
+    53		}
+    54		ncpus = (readl(syscon + SYSCON_CPU_CTRL) >> 8) & 0xff;
+    55		if (ncpus < 2)
+    56			goto out;
+    57	
+    58		smp_ops = &microwatt_smp_ops;
+    59	
+    60		/*
+    61		 * Write two instructions at location 0:
+    62		 * mfspr r3, PIR
+    63		 * b __secondary_hold
+    64		 */
+    65		*(unsigned int *)KERNELBASE = PPC_RAW_MFSPR(3, SPRN_PIR);
+    66		*(unsigned int *)(KERNELBASE+4) = PPC_RAW_BRANCH(&__secondary_hold - (char *)(KERNELBASE+4));
+    67	
+    68		/* enable the other CPUs, they start at location 0 */
+    69		writel((1ul << ncpus) - 1, syscon + SYSCON_CPU_CTRL);
+    70	
+    71		timeout = 10000;
+    72		while (!__secondary_hold_acknowledge) {
+    73			if (--timeout == 0)
+    74				break;
+    75			barrier();
+    76		}
+    77	
+    78	 out:
+  > 79		early_iounmap((void *)syscon, SYSCON_LENGTH);
 
 -- 
 0-DAY CI Kernel Test Service
