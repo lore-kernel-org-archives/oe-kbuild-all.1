@@ -1,80 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725E234CFCA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 12:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B4B3557EF;
+	Tue, 27 Jan 2026 12:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769517749; cv=none; b=May8M93ixmhEBvOvcS7sHq6yyabXNvKZAHaB6Y/Ina98tKXaSBRznGdJixFAjK/iIYVgkbGunDU4kVwwemyrdNIIWfkH5g3D9xNCLPYEuyb3lhLYAY33y2PCRGuuvwHnN3W5KdXb7C46sJ9nq2JtSQhh1FNFUEXeSSfZJ6kO/Lk=
+	t=1769518353; cv=none; b=bbJRVAPtMRAaAAavuSD0cD1gYJO/10S90nIOv4Rz2oj807TSARn2xVbczW5Moo3xcaCwqYrsj9dQXKtng/NXSG7LBcFwjxYM6QxkK32DVoDsFQsVvah6/NJKN7ekZo28sPtPTDB1oyRYsqSKZTGKk1vZUQshFzDlpj2KkWy57r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769517749; c=relaxed/simple;
-	bh=CAoDe14Qy3FjIlY39zoN0opHszpQg5jZbnvQobOm/5I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oF1+VppxWm4j6Vb1LPUkRFzikIR24Bz6hjqlhr1Mt056DCT+COrEEGVznFTPfY1C0CIt5/axzeDlFE25spITWNhN+b3d4mk2FeSYtygSlQc/vcD4H+ArtDJUjS/UFZDLbCjThDRTuNCvBgA4H1XKK0ZBs/meBoBekI+5iZWCYB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2FV6sR9; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1769518353; c=relaxed/simple;
+	bh=vgbQx0vDwWYjR3sK+ZddrCDH4qHiveEQokdGsfxcS2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QiGApWhPi011aVnIa4M/dTeZjwvyBlwQq+FBFz/30WjcQK9Bio/fjd9QaYNYvRoqmOeiJnbXHziqFCGZZOmNqf1bOsast9xlg6E6FZJFgrB4ZdYUbzF3jQzPNcyK1WjThmEZGU8SRZ//FZZjLPLQNvvxrEG0b3MDdNs85GiyNgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SES5YQjN; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2FV6sR9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SES5YQjN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769517749; x=1801053749;
-  h=date:from:to:cc:subject:message-id;
-  bh=CAoDe14Qy3FjIlY39zoN0opHszpQg5jZbnvQobOm/5I=;
-  b=K2FV6sR92MPrzhX/1AWSxtKOdaGQ/vMgCPZgTUZ6//aZ28dcsakLXjNk
-   SHzimfY2pPJYYOR4EGniiMTEKUbmHQh6DXdB0VKmW9p8RSmzPb/SABiTD
-   nvO3A/6IcSP7D6qqYnDibp1am2u30k+Fcy3kNMLwpVzdKxBdp0FD26oAn
-   APbvDvZ/5lVBS4DxYLCdhdDSVcfD9JI9DHcO371kKbNqCnZlHXyEX93mz
-   RtPUJFSBIjfXcqEd2skhaQJsvz2vNAJWYcM0iR6iBfP1W/5c0NOC+u1aI
-   xD5mHkVNR4pNgo6n+wPuyQrVQIRvDa3MfoBBtcswS6pa5vmZVKLJjB22s
-   w==;
-X-CSE-ConnectionGUID: dM0tibO1QOCf29CoUHWWIw==
-X-CSE-MsgGUID: Dsyiati2T2Wcp4kRAnF5bA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70614033"
+  t=1769518352; x=1801054352;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vgbQx0vDwWYjR3sK+ZddrCDH4qHiveEQokdGsfxcS2g=;
+  b=SES5YQjNcyUd8k/laP9GFC14cP68poR/dc6b6XTEnFsdEraYHJ23evy/
+   6DO5aEgWGrfliAqgJxweNzstlIFiPUKtz21Cm14DlV3KdhIs+DNl1QjLY
+   HUGPeWxwKVpLtmL28GGY3gIR2iqaLOUDMNCqrJiBWMnJpKAGTtmC+2XBA
+   SvQLbu0CesrmolT3nfD7csmfJ5d7k+q+wYMYhYG9IdTHwzBz50/URyppV
+   jVc3qzwgHzRF+U7t5ZSV4NU7dHaIO2eVBPrAMDJhz9zhnX0nFm92To6Jr
+   yLvxRLpLwCLS3xqQu9RIWox4JvKwS+mH72tmLvQ4auIGeEfDy22eZB1eW
+   Q==;
+X-CSE-ConnectionGUID: fCgSDWwESuqSDTOyOddrvQ==
+X-CSE-MsgGUID: zEQG0a2uQlCXvRw5TZYjpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="69911723"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="70614033"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 04:42:28 -0800
-X-CSE-ConnectionGUID: GaXvkiUUQZ6uoZHcgOjNjw==
-X-CSE-MsgGUID: SVaV93nGT3qh4Q7pPnPidQ==
+   d="scan'208";a="69911723"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 04:52:31 -0800
+X-CSE-ConnectionGUID: wIcgciS6QfOH3oFLtMWbAA==
+X-CSE-MsgGUID: Xwu+uTG+Su+JHQ8O8Uf/EQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="207586211"
+   d="scan'208";a="230922383"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Jan 2026 04:42:26 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jan 2026 04:52:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkiOl-00000000YTa-2E8T;
-	Tue, 27 Jan 2026 12:42:23 +0000
-Date: Tue, 27 Jan 2026 20:41:31 +0800
+	id 1vkiYR-00000000YUG-3ffS;
+	Tue, 27 Jan 2026 12:52:23 +0000
+Date: Tue, 27 Jan 2026 20:52:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.3 8/18] oom_kill.c:undefined reference to
- `bpf_handle_oom'
-Message-ID: <202601272007.jgTozW2u-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ruidong Tian <tianruidong@linux.alibaba.com>, catalin.marinas@arm.com,
+	will@kernel.org, lpieralisi@kernel.org, guohanjun@huawei.com,
+	sudeep.holla@arm.com, rafael@kernel.org, robin.murphy@arm.com,
+	mark.rutland@arm.com, tony.luck@intel.com, bp@alien8.de,
+	tglx@linutronix.de, peterz@infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lenb@kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-acpi@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-edac@vger.kernel.org, mchehab@kernel.org,
+	xueshuai@linux.alibaba.com, zhuo.song@linux.alibaba.com,
+	oliver.yang@linux.alibaba.com,
+	Ruidong Tian <tianruidong@linux.alibaba.com>
+Subject: Re: [PATCH v6 13/16] ras: AEST: Introduce AEST inject interface to
+ test AEST driver
+Message-ID: <202601272009.SKq0aXMN-lkp@intel.com>
+References: <20260122094656.73399-14-tianruidong@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260122094656.73399-14-tianruidong@linux.alibaba.com>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.3
-head:   4f455e283257caaedc8070f2806557e6b3d31cae
-commit: ce0600c8f5c7ec3ecccdc82513de16ed10686391 [8/18] mm: introduce BPF OOM struct ops
-config: sh-randconfig-002-20260127 (https://download.01.org/0day-ci/archive/20260127/202601272007.jgTozW2u-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601272007.jgTozW2u-lkp@intel.com/reproduce)
+Hi Ruidong,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on arm64/for-next/core]
+[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.19-rc7 next-20260126]
+[cannot apply to tip/smp/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ruidong-Tian/ACPI-AEST-Parse-the-AEST-table/20260122-180219
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20260122094656.73399-14-tianruidong%40linux.alibaba.com
+patch subject: [PATCH v6 13/16] ras: AEST: Introduce AEST inject interface to test AEST driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260127/202601272009.SKq0aXMN-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601272009.SKq0aXMN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601272007.jgTozW2u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601272009.SKq0aXMN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sh4-linux-ld: mm/oom_kill.o: in function `out_of_memory':
->> oom_kill.c:(.text+0x15d4): undefined reference to `bpf_handle_oom'
+>> drivers/ras/aest/aest-sysfs.c:194:45: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     194 |                 snprintf(name, sizeof(name), "processor%u%u", cpu);
+         |                                                          ~^
+   1 warning generated.
+
+
+vim +194 drivers/ras/aest/aest-sysfs.c
+
+   182	
+   183	static void
+   184	aest_oncore_dev_init_debugfs(struct aest_device *adev)
+   185	{
+   186		int cpu, i;
+   187		struct aest_node *node;
+   188		struct aest_device *percpu_dev;
+   189		char name[16];
+   190	
+   191		for_each_possible_cpu(cpu) {
+   192			percpu_dev = this_cpu_ptr(adev->adev_oncore);
+   193	
+ > 194			snprintf(name, sizeof(name), "processor%u%u", cpu);
+   195			percpu_dev->debugfs = debugfs_create_dir(name, adev->debugfs);
+   196	
+   197			for (i = 0; i < adev->node_cnt; i++) {
+   198				node = &adev->nodes[i];
+   199	
+   200				node->debugfs = debugfs_create_dir(node->name,
+   201								percpu_dev->debugfs);
+   202				aest_node_init_debugfs(node);
+   203			}
+   204		}
+   205	}
+   206	
 
 -- 
 0-DAY CI Kernel Test Service
