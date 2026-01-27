@@ -1,242 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2318F343D6E;
-	Tue, 27 Jan 2026 10:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF86334320A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 10:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769510545; cv=none; b=RDbHhshWrxhpj9+PG2I+Z+ukytxY0jSVMNNpAri3ZYzqU1TjnonLjKLwa3huqkNTw0sPl10AjcDiekpvVp3vEf3XLXCQkHPiTfAdOHs2nlNCYYhzbLx1Jfiob3yQo6ie3e4XM9/9ljxYIA8f3PShyXdarXnKvU7gRF6IYMA2QFg=
+	t=1769510545; cv=none; b=Kh8YX9zsDDOz+KCfrgyDj/lQXoa+WArH2wq/IMbux06Odrz1WLmFMjf5FqcHOY4A5kEA3GprCXnk+twDUMjurFxzGZyjrdbuwAU0Qzw0fKf+Ju4vixr8X3uJylPZi+nd9MBImVmnENyj5YBfp1ZDRkPwbTivmsMtxUDpruQCm5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769510545; c=relaxed/simple;
-	bh=iOwR9j2XgjX2wR3jZG+vODfixjwvdIhZAqBoaQMR2pI=;
-	h=Date:From:Cc:Subject:Message-ID; b=pDeaBwpZ1DSn8SON7em1g8286EPprGiZLHfjJ06rxEj58r3B2imvVLPqWaBsxIF6n0R+RzOycfT7NOr5zyBjry18SNg6Lhpc2B5Xq+qVTK09sufX57E+vrH/uW9bkmxVZHXhq4PJBfdSGovrqYkSM5LdnL7oRtWMN1V0Rl5scDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eUi1+mPn; arc=none smtp.client-ip=198.175.65.18
+	bh=gSqNemBd0PR8B3jO7ewdHUoRSynu+khvBHQdpE+xdX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=LpeIIxvG0+2IM8/mUo0FYoWlT6uuaV/DCvTbEQK3GqK3X3dnTJ3tgtPzc5a5NJBSJEZxj+Sfmpd4+6HG1nn16HBt+aXVJGzyxS4/qL0UOc7GCIX8vnEEwxynKJfpMXB9qz59wdHhWjrgLSszU7UQr87yef6p7/fm6Nd0z+abYrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHsfXoqr; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eUi1+mPn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHsfXoqr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1769510541; x=1801046541;
-  h=date:from:cc:subject:message-id;
-  bh=iOwR9j2XgjX2wR3jZG+vODfixjwvdIhZAqBoaQMR2pI=;
-  b=eUi1+mPnsd6Jcj5WOnq4iiTp2DhNVprPRo24E1OLPLcm4p6zIu9ACifm
-   CZSQqIEGFoy5NsjipymDDrIZPXxIuO8LE9e+lWiXIG5aitUxOV1pSIvAf
-   eD0ickq7g6lg5+PH2j/itGmAll9qeLFy0JPCEXoHPswhizjcphC+FQimv
-   OOQd8Exl1hErZQUL+CGbqKIAkrBUz6A6dSGIGzV91MUH10VCN3gndUgsh
-   xo7rr0Q4n1UWC9XazjD/mmDzVEqSB9qzkjaE45CBNP9flknEXnx5xJkT3
-   nBNQV9vXxt8otjICdXGfxlFnB1i6m5TylRxUb9mQY2ylLmH7JsVRo8wIW
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gSqNemBd0PR8B3jO7ewdHUoRSynu+khvBHQdpE+xdX8=;
+  b=PHsfXoqreYP1PueZj80d1N4VjfOfGeYq3+1Yh4kOpUrMgRjpgKyZYV0w
+   w0gKZCRqGqZhlzGy+kOh482XE8n9yPCMV/cpFA1aTxOXIKbH9SGclBe1F
+   5+2p+oNMyU9N0e7BzzHXXGuZhmV/q4ygj2vwBwM9j80yH051WOP1t3cYV
+   F5h6ME0tmW0cio4cVYIHkjRnyrES6BVsgt5XrYRK9898iTNMMN92LmHQ0
+   GTsHB30qKZzqoJBPPgtONX/iZ7KGu1ni4gdJSjgUnFqOzMPJh5LpJgvfr
+   zCEWkpMm3m4+yBI+atz2063ylDYntb56xyRrF9xiENv38QYwO6N1jVl/J
    w==;
-X-CSE-ConnectionGUID: SVubGnqWQJ+8iYmhWmm5vA==
-X-CSE-MsgGUID: RJ7wHdG7SWK54MpK3wKemw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70744294"
+X-CSE-ConnectionGUID: fgXcRmxST26eeSCYE6cFkw==
+X-CSE-MsgGUID: Ciqd4lC7Rg+XZAK0esJD8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="96166280"
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="70744294"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:42:20 -0800
-X-CSE-ConnectionGUID: OkbldqlXSCOYPyyKFKffQg==
-X-CSE-MsgGUID: GUqbVH2cQ8y8/RdYNqK3IQ==
+   d="scan'208";a="96166280"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:42:20 -0800
+X-CSE-ConnectionGUID: aRUzkE+9SP6uooRnmp6uHA==
+X-CSE-MsgGUID: oFgcNYf0Sd6XQYbQH2lr9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="239211656"
+   d="scan'208";a="208374244"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Jan 2026 02:42:18 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 27 Jan 2026 02:42:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkgWW-00000000YLi-1J0F;
+	id 1vkgWW-00000000YLg-1BOS;
 	Tue, 27 Jan 2026 10:42:16 +0000
-Date: Tue, 27 Jan 2026 18:41:40 +0800
+Date: Tue, 27 Jan 2026 18:41:28 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [fustini:b4/ssqosid-cbqri 14/18]
- include/linux/acpi.h:1582:9: error: incompatible integer to pointer
- conversion returning 'int' from a function with result type 'struct
- acpi_pptt_cache *'
-Message-ID: <202601271843.aOsOKG9z-lkp@intel.com>
+To: Brian Cain <brian.cain@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bcain:bcain/boot_qemu 34/38]
+ drivers/tty/serial/serial_core.c:1940:1: warning: 'optnone' attribute
+ directive ignored
+Message-ID: <202601271805.pHjwD2rS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-TO: Drew Fustini <fustini@kernel.org>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bca=
+in/boot_qemu
+head:   6dd00eeb9163d38cdab8b12c40702a711f04a9ab
+commit: a3b0b5e10734352dc6a204aa0b2c04893ff5187f [34/38] hexagon: work arou=
+nd QEMU uart_port_activate codegen bug
+config: openrisc-randconfig-r073-20260127 (https://download.01.org/0day-ci/=
+archive/20260127/202601271805.pHjwD2rS-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260127/202601271805.pHjwD2rS-lkp@intel.com/reproduce)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git b4/ssqosid-cbqri
-head:   8182dddb709d03a64b99b430d05f8f21103aa9b3
-commit: 60aed9e92fe0ca93b56a46ae251eb1ff851d572f [14/18] acpi: pptt: Add helper to find a cache from id
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260127/202601271843.aOsOKG9z-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601271843.aOsOKG9z-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601271843.aOsOKG9z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601271805.pHjwD2rS-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> include/linux/acpi.h:1582:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct acpi_pptt_cache *' [-Wint-conversion]
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:116:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:116:21: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:119:11: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:119:27: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:174:27: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:174:10: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:175:20: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:175:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:177:27: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:177:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:198:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:211:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:242:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   include/linux/signal.h:255:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-   clang diag: include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:116:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:116:21: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:119:11: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:119:27: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:138:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:138:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:139:8: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:139:24: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:140:3: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:141:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:144:8: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:144:24: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:145:3: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:174:27: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:174:10: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:175:20: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:175:3: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:177:27: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:177:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:198:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:211:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:242:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-   clang diag: include/linux/signal.h:255:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
->> Unable to generate bindings: clang diagnosed error: include/linux/acpi.h:1582:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct acpi_pptt_cache *' [-Wint-conversion]
+>> drivers/tty/serial/serial_core.c:1940:1: warning: 'optnone' attribute di=
+rective ignored [-Wattributes]
+    1940 | {
+         | ^
 
 
-vim +1582 include/linux/acpi.h
+vim +/optnone +1940 drivers/tty/serial/serial_core.c
 
-  1579	
-  1580	static inline struct acpi_pptt_cache *find_acpi_cache_from_id(u32 cache_id)
-  1581	{
-> 1582		return -EINVAL;
-  1583	}
-  1584	
+1c7b13c4886f5c drivers/tty/serial/serial_core.c Jiri Slaby     2011-11-09  =
+1932 =20
+a3b0b5e1073435 drivers/tty/serial/serial_core.c Brian Cain     2026-01-26  =
+1933  /*
+a3b0b5e1073435 drivers/tty/serial/serial_core.c Brian Cain     2026-01-26  =
+1934   * Work around QEMU hexagon emulation bug: the conditional
+a3b0b5e1073435 drivers/tty/serial/serial_core.c Brian Cain     2026-01-26  =
+1935   * memd + dealloc_return packet generated at -O2 corrupts
+a3b0b5e1073435 drivers/tty/serial/serial_core.c Brian Cain     2026-01-26  =
+1936   * callee-saved registers due to incorrect packet semantics.
+a3b0b5e1073435 drivers/tty/serial/serial_core.c Brian Cain     2026-01-26  =
+1937   */
+a3b0b5e1073435 drivers/tty/serial/serial_core.c Brian Cain     2026-01-26  =
+1938  static int __attribute__((optnone))
+a3b0b5e1073435 drivers/tty/serial/serial_core.c Brian Cain     2026-01-26  =
+1939  uart_port_activate(struct tty_port *port, struct tty_struct *tty)
+b3b57646186400 drivers/tty/serial/serial_core.c Rob Herring    2016-08-22 @=
+1940  {
+b3b57646186400 drivers/tty/serial/serial_core.c Rob Herring    2016-08-22  =
+1941  	struct uart_state *state =3D container_of(port, struct uart_state, p=
+ort);
+b3b57646186400 drivers/tty/serial/serial_core.c Rob Herring    2016-08-22  =
+1942  	struct uart_port *uport;
+13b18d35909707 drivers/tty/serial/serial_core.c Serge Semin    2019-05-08  =
+1943  	int ret;
+b3b57646186400 drivers/tty/serial/serial_core.c Rob Herring    2016-08-22  =
+1944 =20
+4047b37122d1be drivers/tty/serial/serial_core.c Peter Hurley   2016-04-09  =
+1945  	uport =3D uart_port_check(state);
+b3b57646186400 drivers/tty/serial/serial_core.c Rob Herring    2016-08-22  =
+1946  	if (!uport || uport->flags & UPF_DEAD)
+b3b57646186400 drivers/tty/serial/serial_core.c Rob Herring    2016-08-22  =
+1947  		return -ENXIO;
+^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds 2005-04-16  =
+1948 =20
+^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds 2005-04-16  =
+1949  	/*
+^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds 2005-04-16  =
+1950  	 * Start up the serial port.
+^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds 2005-04-16  =
+1951  	 */
+dcd794c6ed631b drivers/tty/serial/serial_core.c Ilpo J=C3=A4rvinen  2023-01=
+-17  1952  	ret =3D uart_startup(tty, state, false);
+13b18d35909707 drivers/tty/serial/serial_core.c Serge Semin    2019-05-08  =
+1953  	if (ret > 0)
+9b5aa54986fc85 drivers/tty/serial/serial_core.c Ilpo J=C3=A4rvinen  2023-01=
+-17  1954  		tty_port_set_active(port, true);
+13b18d35909707 drivers/tty/serial/serial_core.c Serge Semin    2019-05-08  =
+1955 =20
+13b18d35909707 drivers/tty/serial/serial_core.c Serge Semin    2019-05-08  =
+1956  	return ret;
+^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds 2005-04-16  =
+1957  }
+^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds 2005-04-16  =
+1958 =20
 
--- 
+:::::: The code at line 1940 was first introduced by commit
+:::::: b3b57646186400d4f54652ab7bbf55f5764d9467 tty: serial_core: convert u=
+art_open to use tty_port_open
+
+:::::: TO: Rob Herring <robh@kernel.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
