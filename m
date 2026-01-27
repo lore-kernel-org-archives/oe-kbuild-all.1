@@ -1,198 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4642D324B30
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jan 2026 18:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDF6328255;
+	Tue, 27 Jan 2026 18:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769540217; cv=none; b=IYf3gW8jo97dUUgQZa1Jlq2R35Pl8J8+uYP4gi11+n12dH6ju2Zt5y6QCQPRkJgRWC3ASILbw6senfc9rEU1DqD4zwtFaX5ukRgk5kaxw0uJayIqID7UI+vDce2kwP9n9IPeJ9lGqmF+n00kbT2hLF41NAjJY6zoOt1VxTRpXFg=
+	t=1769540218; cv=none; b=ezhMpWPF0uSez+erYVDFF9kxYjQZuINwonaENOlVk7XmM+7BkiQM1+qmHPFMZsRjCiGh5OJzSFOTUjm+Hb5GFKgDWipdKUHBETboqmC9sT5Ksg6LtgKIE43ffyh0IWun6uP9hcOyYEndTL9EQxAMKvOUu5MreS0r0C+QPUdwoxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769540217; c=relaxed/simple;
-	bh=fwPaGqOTHtFPbqdPnaTVwMYLaAqbjqp5aHU5bd3jSFc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UsqxV7V7cnPCg7H0ElsRv1G1+uQgKT6cL0ONsPqmbaQVxtOIGx4aT388l7lK95hlnFnXS0u9muJzYxKZjMuAlz/SGpV+ZPV7DkebIUz9fcHaLEWMEIgr26Nj18++1D1xXwvXRNU/eyrXRtN0Kkqc31TNU+87duCX3DkRINsInb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XZAWQukj; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1769540218; c=relaxed/simple;
+	bh=Ch0LIB4X3I+61DsXgHOBKVGaZxOxxpivi8bEXcVQRqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YLhCz/sjxBHhq5uSAsF7ofShWk+slMq5Hkocvp02LCLYI7NI28GUvk8w8QTx7ImMBjBLQmuNTL78nC0jg0nVv9Pzxi5KbcH9rXqSc5ecM8C0zqmXbURGzxSfHXLoR8N4aeZ4CE4eO4u9u9chbTSX0AfwztOyzZHz7y0a2AoOgGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PeneBB5K; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XZAWQukj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PeneBB5K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769540215; x=1801076215;
-  h=date:from:to:cc:subject:message-id;
-  bh=fwPaGqOTHtFPbqdPnaTVwMYLaAqbjqp5aHU5bd3jSFc=;
-  b=XZAWQukjpBd2whfwBgYnDqt4eun94DA/lYepFeVyKC8uR0s0uor12eKg
-   AthFVXrY21CYXR+RzNmH3+5hZDjSkyMWDgIrliFSfM/UWWaew8QPvGvW9
-   y2UR57EiqpOfRcl14PGaKoPPMWQhFrsRGzEJbNcDc82kfdwtT6sU943vN
-   LzmJHnNcIECvs8ZashckwUxRoRemPtOv+qEH0FoYIp7YHSW4cvmN427M8
-   V/xc9+OVbOIuB4N5zdnY7xN/zs5UwluqDaJ+UpId/5hzQc/c6MfDjkpht
-   gAt19ThNe+0YifpLjaSN8yy/bsswPa/ASOtLKTlxMN9B9u5AkaYhiIHC1
-   g==;
-X-CSE-ConnectionGUID: O+d11aWhSFubYeUFiGOMyQ==
-X-CSE-MsgGUID: SI9HfeShR4KQOyy5uq0c/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="73333653"
+  t=1769540217; x=1801076217;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ch0LIB4X3I+61DsXgHOBKVGaZxOxxpivi8bEXcVQRqI=;
+  b=PeneBB5K61qZ6UsrDgFrzFsILjKlQBhFVzefPAq0/HWBP5aqXn/PAfcW
+   uLiLOqBx0KficCZkvJnMTol4m9hq1I1p91i8vtK+qXASHFvd2F3Qk/e94
+   /BJ31y4c72md5KoMj/anFrYXGZ7vT8r0ibXp0PUZXLh6OJiRjitS+GMUs
+   +2FrK+Q8jVem2oKtK+gEkwCGXPdIXF/djhPiCGTf4035uWXlvxc2UTw/h
+   M4n0Z6zPaJGHLKOJV4phe8Tu1VeR1GSXkkcziF1MNzpKo58avXIBoT6r7
+   EnTk4aZAIsAI+rfSyZVJxBLKKX+u9WM9EsfVnMCt85pGt1qKc+A+HJMrY
+   Q==;
+X-CSE-ConnectionGUID: +8E/o4egQ2+vJPQquqGwGg==
+X-CSE-MsgGUID: zDg8m+c2Tu+L8916vSjjxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="81377731"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="73333653"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 10:56:54 -0800
-X-CSE-ConnectionGUID: cFF/z62kR2aciT/5CTVttw==
-X-CSE-MsgGUID: oIm4O2DDScmrIbMALbEc7A==
+   d="scan'208";a="81377731"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 10:56:56 -0800
+X-CSE-ConnectionGUID: 943+XywOTBeCmu+rfv8XIg==
+X-CSE-MsgGUID: 27YhhHwpQZ6G6ZLX+E50Fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="212599599"
+   d="scan'208";a="208409714"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Jan 2026 10:56:52 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 27 Jan 2026 10:56:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkoF6-00000000YrC-2kI3;
+	id 1vkoF6-00000000YrA-2dUf;
 	Tue, 27 Jan 2026 18:56:48 +0000
-Date: Wed, 28 Jan 2026 02:56:34 +0800
+Date: Wed, 28 Jan 2026 02:56:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/tdx_huge_sept 15/53]
- arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument
- 1 (different address spaces)
-Message-ID: <202601280247.B3HHRxkm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ruidong Tian <tianruidong@linux.alibaba.com>, catalin.marinas@arm.com,
+	will@kernel.org, lpieralisi@kernel.org, guohanjun@huawei.com,
+	sudeep.holla@arm.com, rafael@kernel.org, robin.murphy@arm.com,
+	mark.rutland@arm.com, tony.luck@intel.com, bp@alien8.de,
+	tglx@linutronix.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lenb@kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-acpi@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-edac@vger.kernel.org, mchehab@kernel.org,
+	xueshuai@linux.alibaba.com, zhuo.song@linux.alibaba.com,
+	oliver.yang@linux.alibaba.com,
+	Ruidong Tian <tianruidong@linux.alibaba.com>
+Subject: Re: [PATCH v6 15/16] ras: AEST: support vendor node CMN700
+Message-ID: <202601280228.CbJgYMRG-lkp@intel.com>
+References: <20260122094656.73399-16-tianruidong@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260122094656.73399-16-tianruidong@linux.alibaba.com>
 
-Hi Sean,
+Hi Ruidong,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/sean-jc/linux x86/tdx_huge_sept
-head:   4c35756ab388149481ea4bba261cfe450dac4fed
-commit: 70002ec92ce671fd481e7fc6a2e9150aae74eed8 [15/53] KVM: x86/mmu: Fold set_external_spte_present() into its sole caller
-config: x86_64-randconfig-121-20260127 (https://download.01.org/0day-ci/archive/20260128/202601280247.B3HHRxkm-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280247.B3HHRxkm-lkp@intel.com/reproduce)
+[auto build test WARNING on arm64/for-next/core]
+[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.19-rc7 next-20260126]
+[cannot apply to tip/smp/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ruidong-Tian/ACPI-AEST-Parse-the-AEST-table/20260122-180219
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20260122094656.73399-16-tianruidong%40linux.alibaba.com
+patch subject: [PATCH v6 15/16] ras: AEST: support vendor node CMN700
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260128/202601280228.CbJgYMRG-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280228.CbJgYMRG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601280247.B3HHRxkm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601280228.CbJgYMRG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rculist.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
->> arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     got unsigned long long [usertype] *sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     got unsigned long long [usertype] *sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     got unsigned long long [usertype] *sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     got unsigned long long [usertype] *sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1556:33: sparse: sparse: context imbalance in 'tdp_mmu_split_huge_pages_root' - unexpected unlock
->> arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     got unsigned long long [usertype] *sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:640:50: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:642:50: sparse:     got unsigned long long [usertype] *sptep
+All warnings (new ones prefixed by >>):
 
-vim +640 arch/x86/kvm/mmu/tdp_mmu.c
+>> drivers/ras/aest/aest-cmn.c:209:19: warning: variable 'hnd_base' set but not used [-Wunused-but-set-variable]
+     209 |         u64 errgsr_addr, hnd_base;
+         |                          ^
+   1 warning generated.
 
-   597	
-   598	static inline int __must_check __tdp_mmu_set_spte_atomic(struct kvm *kvm,
-   599								 struct tdp_iter *iter,
-   600								 u64 new_spte)
-   601	{
-   602		u64 *sptep = rcu_dereference(iter->sptep);
-   603	
-   604		/*
-   605		 * The caller is responsible for ensuring the old SPTE is not a FROZEN
-   606		 * SPTE.  KVM should never attempt to zap or manipulate a FROZEN SPTE,
-   607		 * and pre-checking before inserting a new SPTE is advantageous as it
-   608		 * avoids unnecessary work.
-   609		 */
-   610		WARN_ON_ONCE(iter->yielded || is_frozen_spte(iter->old_spte));
-   611	
-   612		if (is_mirror_sptep(iter->sptep) && !is_frozen_spte(new_spte)) {
-   613			int ret;
-   614	
-   615			/*
-   616			 * KVM doesn't currently support zapping or splitting SPTEs
-   617			 * while holding mmu_lock for read.
-   618			 */
-   619			if (KVM_BUG_ON(is_shadow_present_pte(iter->old_spte), kvm) ||
-   620			    KVM_BUG_ON(!is_shadow_present_pte(new_spte), kvm))
-   621				return -EBUSY;
-   622	
-   623			/*
-   624			 * Temporarily freeze the SPTE until the external PTE operation
-   625			 * has completed, e.g. so that concurrent faults don't attempt
-   626			 * to install a child PTE in the external page table before the
-   627			 * parent PTE has been written.
-   628			 */
-   629			if (!try_cmpxchg64(sptep, &iter->old_spte, FROZEN_SPTE))
-   630				return -EBUSY;
-   631	
-   632			/*
-   633			 * Update the external PTE.  On success, set the mirror SPTE to
-   634			 * the desired value.  On failure, restore the old SPTE so that
-   635			 * the SPTE isn't frozen in perpetuity.
-   636			 */
-   637			ret = kvm_x86_call(set_external_spte)(kvm, iter->gfn,
-   638							      iter->level, new_spte);
-   639			if (ret)
- > 640				__kvm_tdp_mmu_write_spte(sptep, iter->old_spte);
-   641			else
-   642				__kvm_tdp_mmu_write_spte(sptep, new_spte);
-   643			return ret;
-   644		}
-   645	
-   646		/*
-   647		 * Note, fast_pf_fix_direct_spte() can also modify TDP MMU SPTEs and
-   648		 * does not hold the mmu_lock.  On failure, i.e. if a different logical
-   649		 * CPU modified the SPTE, try_cmpxchg64() updates iter->old_spte with
-   650		 * the current value, so the caller operates on fresh data, e.g. if it
-   651		 * retries tdp_mmu_set_spte_atomic()
-   652		 */
-   653		if (!try_cmpxchg64(sptep, &iter->old_spte, new_spte))
-   654			return -EBUSY;
-   655	
-   656		return 0;
-   657	}
-   658	
+
+vim +/hnd_base +209 drivers/ras/aest/aest-cmn.c
+
+   203	
+   204	static int aest_cmn_reorgnize_node(struct aest_device *adev,
+   205					   struct acpi_aest_node *anode, u64 base)
+   206	{
+   207		struct aest_node *cmn_node;
+   208		u64 hnd_offset, cmn_node_offset, reg, logic_id, type, node_id;
+ > 209		u64 errgsr_addr, hnd_base;
+   210		struct aest_record *record;
+   211		int ret, node_index;
+   212		struct cmn_vendor_data *vendor_data;
+   213	
+   214		if (anode->interface_hdr->type !=
+   215		    ACPI_AEST_NODE_SINGLE_RECORD_MEMORY_MAPPED) {
+   216			aest_dev_err(adev, "CMN just use single memory mapping\n");
+   217			return -ENODEV;
+   218		}
+   219	
+   220		hnd_offset = *((u64 *)anode->vendor->vendor_specific_data);
+   221		cmn_node_offset = *((u64 *)&anode->vendor->vendor_specific_data[8]);
+   222	
+   223		reg = readq_relaxed((void *)base + cmn_node_offset + CMN_NODE_INFO);
+   224	
+   225		logic_id = FIELD_GET(CMN_NI_LOGICAL_ID, reg);
+   226		type = FIELD_GET(CMN_NI_NODE_TYPE, reg);
+   227		node_id = FIELD_GET(CMN_NI_NODE_ID, reg);
+   228	
+   229		hnd_base = base + hnd_offset;
+   230		node_index = cmn_config->node_id_map[type];
+   231		errgsr_addr = base + cmn_config->errgsr_offset(hnd_offset, node_index);
+   232	
+   233		// node not register, create it
+   234		cmn_node = &adev->nodes[node_index];
+   235		if (!cmn_node->errgsr) {
+   236			ret = aest_cmn_init_node(adev, cmn_node, anode, type,
+   237						 errgsr_addr);
+   238			if (ret)
+   239				return -ENOMEM;
+   240		}
+   241	
+   242		aest_dev_dbg(adev, "node type %llx, id %llx, offset %llx\n", type,
+   243			     logic_id, cmn_node_offset);
+   244	
+   245		if (!test_bit(0, anode->record_implemented))
+   246			clear_bit(logic_id, cmn_node->record_implemented);
+   247	
+   248		if (!test_bit(0, anode->status_reporting))
+   249			clear_bit(logic_id, cmn_node->status_reporting);
+   250	
+   251		record = &cmn_node->records[logic_id];
+   252		record->name =
+   253			devm_kasprintf(adev->dev, GFP_KERNEL, "record%lld", logic_id);
+   254		if (!record->name)
+   255			return -ENOMEM;
+   256		record->regs_base = devm_ioremap(
+   257			adev->dev, (resource_size_t)anode->interface_hdr->address,
+   258			sizeof(struct ras_ext_regs));
+   259		if (!record->regs_base)
+   260			return -ENOMEM;
+   261		record->addressing_mode = test_bit(0, anode->addressing_mode);
+   262		record->node = cmn_node;
+   263		record->index = logic_id;
+   264		record->access = &aest_access[anode->interface_hdr->type];
+   265	
+   266		vendor_data = devm_kzalloc(adev->dev, sizeof(struct cmn_vendor_data),
+   267					   GFP_KERNEL);
+   268		vendor_data->node_type = type;
+   269		vendor_data->node_id = node_id;
+   270		vendor_data->logic_id = logic_id;
+   271	
+   272		record->vendor_data = vendor_data;
+   273		record->vendor_data_size = sizeof(struct cmn_vendor_data);
+   274	
+   275		aest_record_dbg(record, "base %llx\n", anode->interface_hdr->address);
+   276	
+   277		return 0;
+   278	}
+   279	
 
 -- 
 0-DAY CI Kernel Test Service
