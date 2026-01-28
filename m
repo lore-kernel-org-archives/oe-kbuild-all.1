@@ -1,92 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD4A33ADAA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 08:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C8132ED24
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 09:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769590649; cv=none; b=Gq6obZK7lNL0ri0wul5PfRLBSv2ljs8OvX65XJGN8EhDFsDOg2LnVSBGo2fjJEfa6bjuMMOJHBl9ybj0s0ofRlbZUm+HzLbSHdVs3f0gcvV63bHWOzSH9NzbcYzH2caJN1NfuPDRgGqCxLFSa8maBf0FB9xAG3Q1gZz8SUZyg58=
+	t=1769591844; cv=none; b=mtW8oF26Kpt/NC68ztkSOdpby+shTyIdBKVkZMHglZz+AaUZwbNJkFPFLQfnPAZVCrNAZbPkd9BspAFDFkKft8Vf4KwM1o71OW5YzJNSUc0keMLUMJuWgmm+Lfyr+o1oCFbkBcN90jLnggEki6NaOri+JwJv4MFNOYzdOg18iBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769590649; c=relaxed/simple;
-	bh=XA6UjBGtiFG9jBe8bpwCq9ZHPwdUQiv6+YEY+4B41n8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=j1ZlNsfc5aoyvchLTXCgog2SbuDRi9REx6u7UjyTJamnQvrDznLQzmHzZKsMTXT0qZNWz359OP4zbMyQF0y/LvYYW4GmrgpNEVzQbMN6Z/RgWb+jWMv9q+eNiCvVU5/L2QapuhDv3FrEUSZn1bJh1gaNf1E5v9u7Oo5ZDuPy6y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YzWPH/tm; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769591844; c=relaxed/simple;
+	bh=yO6+U0qaxUaYOUYCKg1MexH3YZt5dPEUe3lerkYdUFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GczVnzoKnwp/9RBfE7oUt+ikSzctDMTaAKyYFlG43UTuk/NHICtI09RwMYj+mgeZhynRFlNNMLmHhrp4n1I85DYtpFoGbPJyqANsXJmGvjTZSCDGUGqPjavU3KY1ABBI0J6kjWvkpznOB7c0A9eEd5pVd0MOswB2QrQQtEQfcoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=B4wz4sOa; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzWPH/tm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769590648; x=1801126648;
-  h=date:from:to:cc:subject:message-id;
-  bh=XA6UjBGtiFG9jBe8bpwCq9ZHPwdUQiv6+YEY+4B41n8=;
-  b=YzWPH/tmP0D7nlnFekIT4lhfmwJICXOAbLRbbudzxGpBIMLhSwhacmfo
-   +anWelrdZSQ3e3vK/x7DyZb+IJCxcuhlKs7dW+V6Wx/nx3u8YNNfT0ENM
-   d6AdBC0otJEiAxhEaDKdqOe41axFh0+qdDVJWxD1caXYiUKvmqNGECifW
-   AaGtbs15WO3nqv89JduLODaxys834rX5prQ0PPgVj4d1+XZPxSLiW7NQU
-   GOJecPTGm3Z705+8FWsN6r2p6B70pivBMGxu0AiITemGyrhVVVl/PBn6O
-   VOtwYMkyXWYb1BAs9CpmuA4GnS/y4+W+w21LZ6hPbnEKpoBARN4hvn+NQ
-   w==;
-X-CSE-ConnectionGUID: aK/TYjDPTJ6xOhtUbYmdFQ==
-X-CSE-MsgGUID: 4NfLKbGPSj+aw8luMjCViQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="88372837"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="88372837"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 00:57:28 -0800
-X-CSE-ConnectionGUID: LgIw7xSySmSzRqDQqjo5eQ==
-X-CSE-MsgGUID: OkWwNfNETzC54T54Qop7kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="213079397"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Jan 2026 00:57:26 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vl1Ma-00000000ZU0-0y6x;
-	Wed, 28 Jan 2026 08:57:24 +0000
-Date: Wed, 28 Jan 2026 16:56:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Kuo <rkuo@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@kernel.org>
-Subject: [bcain:bcain/boot_qemu 24/38]
- arch/hexagon/kernel/smp.c:25:1: sparse: sparse: symbol '__pcpu_scope_ipi_irq'
- was not declared. Should it be static?
-Message-ID: <202601281612.gRcZ4j23-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="B4wz4sOa"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42fb4eeb482so4516148f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 01:17:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1769591841; x=1770196641; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/k4MsBbSp2/KH17/DEg4LJaTxhduisqFO54YsL7siAQ=;
+        b=B4wz4sOatPoqTcrwMGe+Wkha/9eDA+cAqEhz3npFbHMI864UAt73qwJElBZRHc/Tq6
+         jGwzLdjSCx/uHjJ20AMeaLBzDka7Ah7Ng6yiNX9TbrEh4cwO49x8gVV8hbJA02yjwe/s
+         D+jueZEGIv21+HNc5r5FmdsUoaCtsZVf03Gjyx6I5k8jVFp8Edj+UiR2f/EG9PVxq5m/
+         WYvho06EkSqR5fy30SNsR5vxEyGB+KyrHU8RbqHbCh1NNEJhSnP7xC1mx85aDpfchRY7
+         4aPklkjR7QXwwiV7AZKcB4n9/JFKkDuiZryTQ2xFDqAzcP9Na7pznHF5UhbQzP7OdYLy
+         /TfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769591841; x=1770196641;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/k4MsBbSp2/KH17/DEg4LJaTxhduisqFO54YsL7siAQ=;
+        b=MDyYcJZEkN6VnddVZGr1HGBc/q68d2Z1ViRvIZHHDn6c2fT16qMtNv99FFiNO4Tr+2
+         nEq2BT2t2SolUIEVGUPuLFB2CSe/eouCG+8hVs5xbbFv/Fwu3lxNC45ejTyKJv8HiiD/
+         4v0aBjhQT5kvLa0TyY+OS8lyopdjHzOKwgg5S6MLjMmjJIvTmpE/NUL1crYP8S/1Ikcj
+         NlDv27naQVynvfcMIsYXz08uF29GXj9Jbx7UAcPplpxN4PHIkrW9sbbq3J+x2lLNQ/Up
+         4lOnVFAvHtx3F8oEXx2emawdNGLjUeBX10bu/HnhQREm55Wceq1ketrpCCiZb5AJ77Jc
+         unhg==
+X-Forwarded-Encrypted: i=1; AJvYcCUEdNvquKGGwd7YjxOc9gaz3Kc7ULtf2vj2XOyMyypWBrH/wgNLvg3Ly5S01+YpacGJxxjWQWMGxlhqEDRL@lists.linux.dev
+X-Gm-Message-State: AOJu0YyzkRliEZj/p3FzQNIlkZ0lrXgqTWfGju+NAzNqezTJYIfPyr5D
+	nf8+vQC9pyV8ZyjO0ztm7ZBcU4gEn6PF9ocGxwG3y8AB334/iSDspYQda00iLTEBIAE=
+X-Gm-Gg: AZuq6aKEj57FDFNZJUHLDZDJEXsta1U9Iw47tFj7boimW9RHPbE7hZwFUGvb0qUlfE9
+	94wBiaMxFzGxi7HCw1EEA9Q5SfqkNf3OXNFZZeegKyVypU9RK3A4bd9PhZgQGgh7we+2r85ojkL
+	2OVXQWKJ9ZNtJxpW7zJ1doALWhD5y0OwObrvN4k+AKJ40XCjdUsmKHMVZ1BmalBC7V3GOIby4pS
+	361XfZlGdIZgR/WDFad36PD3TKfWAOFmBL8xCz78zKNadX10uoStbXAqeVaxA3Rl7Qsl3Ws3e88
+	qBKw2im8jRFe7WSCPaTJsJmcoleDZD+OLmW0gt2o10fpXdVfhDDLLkVXWLtyE3H1zkQDvjtlWtW
+	k3BT9YllEf6msIxGQvYZEL6BI2TN9gfWV6Sg7Ku6un4vRuaOglD31qWwUarqg7M5IeBM/E64muN
+	iBY5ouFxPKqrnJTg==
+X-Received: by 2002:a05:6000:1ac6:b0:432:84f9:8c04 with SMTP id ffacd0b85a97d-435dd06e029mr5958691f8f.24.1769591840559;
+        Wed, 28 Jan 2026 01:17:20 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10ee057sm6281836f8f.15.2026.01.28.01.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 01:17:20 -0800 (PST)
+Date: Wed, 28 Jan 2026 10:17:17 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Tamir Duberstein <tamird@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	llvm@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3] printf: convert test_hashed into macro
+Message-ID: <aXnUHTu62MmNGNdy@pathway.suse.cz>
+References: <20260121-printf-kunit-printf-attr-v3-1-4144f337ec8b@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121-printf-kunit-printf-attr-v3-1-4144f337ec8b@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/boot_qemu
-head:   6dd00eeb9163d38cdab8b12c40702a711f04a9ab
-commit: 1a649d9c9e2ed1a173b803ded2b4a2a997c42aef [24/38] hexagon: add debug infrastructure
-config: hexagon-randconfig-r111-20260128 (https://download.01.org/0day-ci/archive/20260128/202601281612.gRcZ4j23-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281612.gRcZ4j23-lkp@intel.com/reproduce)
+On Wed 2026-01-21 11:10:08, Tamir Duberstein wrote:
+> This allows the compiler to check the arguments against the __printf()
+> attribute on __test(). This produces better diagnostics when incorrect
+> inputs are passed.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512061600.89CKQ3ag-lkp@intel.com/
+> Signed-off-by: Tamir Duberstein <tamird@kernel.org>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601281612.gRcZ4j23-lkp@intel.com/
+Looks good to me:
 
-sparse warnings: (new ones prefixed by >>)
-   arch/hexagon/kernel/smp.c: note: in included file (through arch/hexagon/include/asm/processor.h, arch/hexagon/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   arch/hexagon/include/asm/hexagon_vm.h:51:5: sparse: sparse: undefined preprocessor identifier '__HEXAGON_ARCH__'
->> arch/hexagon/kernel/smp.c:25:1: sparse: sparse: symbol '__pcpu_scope_ipi_irq' was not declared. Should it be static?
->> arch/hexagon/kernel/smp.c:28:1: sparse: sparse: symbol '__pcpu_scope_vpid' was not declared. Should it be static?
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-vim +/__pcpu_scope_ipi_irq +25 arch/hexagon/kernel/smp.c
+Best Regards,
+Petr
 
-    24	
-  > 25	DEFINE_PER_CPU(u32, ipi_irq);
-    26	
-    27	/*  Virtual Processor ID storage  */
-  > 28	DEFINE_PER_CPU(u32, vpid);
-    29	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+PS: I am going to push it right now. It took me some time to get back
+    to this mail. I am a bit overloaded at the moment.
+    
