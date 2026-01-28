@@ -1,154 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6258434DCD6;
-	Wed, 28 Jan 2026 12:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D1D350D65
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 13:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769603320; cv=none; b=lZ3hKFSxWMhRzQ9J6fyKQxnKwCOHGrHjgeecSTe/0mJyCy66Egl3CEZZ30Gvq5iF3yKE9dWWKvBn3FOqUKl/EVJbaz8F9ZCDGWQoxEiKiZRUfe76hkmh9nGkz0ev7jcq+GjeoVU2sJLXRNbfybsTAAdDxDldlwaHWeDknD3VtN8=
+	t=1769606503; cv=none; b=cps2ln1fZD8JhfBAWN5/e5t5eut0zUxHp/xxkdLGu7EtumcWRThgsHqvpL9hWnOlapNrCWcEWZX8zrRSCU0nxgAs8gjEKiDNPDKrTf83+tPyp2r/dNSQ1e3jVEFGqDvd3M7glD41IyZiw0jdlO7wGShaoNJR0KMRIKpnp8CMx3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769603320; c=relaxed/simple;
-	bh=A7Xw0tl1xzvmygvyEFGIONlF/sa0tWcj9BxvNn4CISY=;
+	s=arc-20240116; t=1769606503; c=relaxed/simple;
+	bh=IBtvxcFQH17EFb7APUsEEaA1PasU3giQo88bh1kk8LI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eKYSrCnNQKfKZ91i/FuLp02sMGVHwUTWdO+7Gy7u1AR82kVmQTIMEgjftXl04X410pSsl86x7QKyzmSiPYOilpaz9RsPSiWbcm2yt1lPMOZPxt59ZMR8zvecFeD3j6vIGA8qi39SRbExWLZex0z6F8fKoyYYazyDEKSsHoJy6sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CvXN+gD/; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=h/44czMhEUsAhLJP7yDVMvlgNRepQsBtcl4awIjW+x+A9eZnKL5kgIN1TXIUChgTgI/AYo3tmxU6aOMrPY7UACkvyykeeOOvsKjo6zLG/nKj3hm6E3tiZsJEhpBNA9Ex29w0+KF5vr4OtOGAABOyAqJoFM1C+XPnntyp75Dq3n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NjkLZO9G; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CvXN+gD/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NjkLZO9G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769603319; x=1801139319;
+  t=1769606502; x=1801142502;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A7Xw0tl1xzvmygvyEFGIONlF/sa0tWcj9BxvNn4CISY=;
-  b=CvXN+gD/HhLHT0VJlGW1rpq8VMuiPcLAVKL2ihNMjWZ/iQJhvvTp0hO9
-   nILqkmPjQWY9I38M4r6yLuVQNAWq+U5yUzUSUjVkZb7Aq0nTPW2IBkZNw
-   SrjxtVq6low0b7xRtObT7Mpc+wqwosIeaZ1KOqBEIWOhVe26PWDGfTyaL
-   8EZc9kXeMcLVOm9tlej5kEbJo280fyBpxFy5Fjp54EXlpcfMagvDRKczb
-   7bJJpd2aKhPfSE171YCMfTSrQH3tzKDmL8cv7lKIC47t5CE8CaikMNVvf
-   a8PMc0DHleBk20t5OeaGxk8nhoLloyCORN7yroGe5BTfQUCYPC7joOJ7S
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=IBtvxcFQH17EFb7APUsEEaA1PasU3giQo88bh1kk8LI=;
+  b=NjkLZO9GspLJfyjyO5NT2rQhzX7VNhUwuSpByVG/VETQGcKf92fFTroH
+   hIcZeGXN1t3y54rOIYHMrtVaa/IupCXGW4JeTJz0CEX+Zxfn5kiL5tbUe
+   b78Lf17aY4E3Da8pydy+vy6ww1KKlHzo25F6L7cRQ7tCbZcCm+3MJmPfB
+   FQ/kCo3+5uQXq1cRUy6+iOXmmZrD7ucqkksJQ6VvM0r6ORWMfoXvT+pLv
+   8X4IvyaGn1rp7CEHp3KX73CNrHiv95TNHAlK24xZLUOUjLy9RfXI0lN8V
+   bmdAEPwbQsZCy27W/IDx5nL9KXIo/+3tsV8LcmcMc+wRQAN8i1Bx1Yp7m
    w==;
-X-CSE-ConnectionGUID: 5qS8BSSrQUqMUihDrhGTJQ==
-X-CSE-MsgGUID: toFlbRRFThuVHvBXjuojNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="73407355"
+X-CSE-ConnectionGUID: rwwCEGlXQ9axEBfSZglbdw==
+X-CSE-MsgGUID: aI9t/PocSf6Lr+RsL/BNGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="82184135"
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="73407355"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 04:28:39 -0800
-X-CSE-ConnectionGUID: qRthnxTDQ1KkXhPW5rH37g==
-X-CSE-MsgGUID: eOk+ZaU3Q4GqI+WjpEs3gA==
+   d="scan'208";a="82184135"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 05:21:41 -0800
+X-CSE-ConnectionGUID: UOTjtR7UQHO3E0a1uQjRoQ==
+X-CSE-MsgGUID: f7tU4Gj4QDShAnjUhX6aFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="207388586"
+   d="scan'208";a="208280486"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Jan 2026 04:28:36 -0800
+  by orviesa008.jf.intel.com with ESMTP; 28 Jan 2026 05:21:39 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vl4ev-00000000Zea-0ay7;
-	Wed, 28 Jan 2026 12:28:33 +0000
-Date: Wed, 28 Jan 2026 20:28:30 +0800
+	id 1vl5UG-00000000ZhM-1Cs0;
+	Wed, 28 Jan 2026 13:21:36 +0000
+Date: Wed, 28 Jan 2026 21:21:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	virtualization@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, "Michael S . Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH v2 2/2] virtio: silence KCSAN warning in
- virtqueue_kick_prepare
-Message-ID: <202601282030.CWdibo9B-lkp@intel.com>
-References: <20260127152524.200465-3-johannes.thumshirn@wdc.com>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 04/11] amdgpu/vce: use amdgpu_gtt_mgr_alloc_entries
+Message-ID: <202601282153.4kuaeoS5-lkp@intel.com>
+References: <20260126133518.2486-5-pierre-eric.pelloux-prayer@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260127152524.200465-3-johannes.thumshirn@wdc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260126133518.2486-5-pierre-eric.pelloux-prayer@amd.com>
 
-Hi Johannes,
+Hi Pierre-Eric,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc7]
-[cannot apply to mst-vhost/linux-next next-20260127]
+[auto build test WARNING on next-20260123]
+[cannot apply to drm-misc/drm-misc-next v6.19-rc7 v6.19-rc6 v6.19-rc5 linus/master v6.19-rc7]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/virtio-silence-KCSAN-warning-in-virtqueue_get_buf_ctx_split/20260127-235023
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260127152524.200465-3-johannes.thumshirn%40wdc.com
-patch subject: [PATCH v2 2/2] virtio: silence KCSAN warning in virtqueue_kick_prepare
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260128/202601282030.CWdibo9B-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601282030.CWdibo9B-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-amdgpu-remove-gart_window_lock-usage-from-gmc-v12_1/20260126-214013
+base:   next-20260123
+patch link:    https://lore.kernel.org/r/20260126133518.2486-5-pierre-eric.pelloux-prayer%40amd.com
+patch subject: [PATCH v6 04/11] amdgpu/vce: use amdgpu_gtt_mgr_alloc_entries
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260128/202601282153.4kuaeoS5-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601282153.4kuaeoS5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601282030.CWdibo9B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601282153.4kuaeoS5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/vhost/vringh.c: In function '__vringh_notify_enable':
->> drivers/vhost/vringh.c:559:33: error: lvalue required as unary '&' operand
-     559 |                 if (putu16(vrh, &vring_avail_event(&vrh->vring),
-         |                                 ^
-   drivers/vhost/vringh.c:562:36: error: lvalue required as unary '&' operand
-     562 |                                    &vring_avail_event(&vrh->vring));
-         |                                    ^
+   drivers/gpu/drm/amd/amdgpu/vce_v1_0.c: In function 'vce_v1_0_ensure_vcpu_bo_32bit_addr':
+>> drivers/gpu/drm/amd/amdgpu/vce_v1_0.c:533:13: warning: unused variable 'gpu_addr' [-Wunused-variable]
+     533 |         u64 gpu_addr = amdgpu_bo_gpu_offset(adev->vce.vcpu_bo);
+         |             ^~~~~~~~
 
 
-vim +559 drivers/vhost/vringh.c
+vim +/gpu_addr +533 drivers/gpu/drm/amd/amdgpu/vce_v1_0.c
 
-f87d0fbb579818f Rusty Russell      2013-03-20  542  
-f87d0fbb579818f Rusty Russell      2013-03-20  543  static inline bool __vringh_notify_enable(struct vringh *vrh,
-b9f7ac8c72894c1 Michael S. Tsirkin 2014-12-12  544  					  int (*getu16)(const struct vringh *vrh,
-b9f7ac8c72894c1 Michael S. Tsirkin 2014-12-12  545  							u16 *val, const __virtio16 *p),
-b9f7ac8c72894c1 Michael S. Tsirkin 2014-12-12  546  					  int (*putu16)(const struct vringh *vrh,
-b9f7ac8c72894c1 Michael S. Tsirkin 2014-12-12  547  							__virtio16 *p, u16 val))
-f87d0fbb579818f Rusty Russell      2013-03-20  548  {
-f87d0fbb579818f Rusty Russell      2013-03-20  549  	u16 avail;
-f87d0fbb579818f Rusty Russell      2013-03-20  550  
-f87d0fbb579818f Rusty Russell      2013-03-20  551  	if (!vrh->event_indices) {
-f87d0fbb579818f Rusty Russell      2013-03-20  552  		/* Old-school; update flags. */
-b9f7ac8c72894c1 Michael S. Tsirkin 2014-12-12  553  		if (putu16(vrh, &vrh->vring.used->flags, 0) != 0) {
-f87d0fbb579818f Rusty Russell      2013-03-20  554  			vringh_bad("Clearing used flags %p",
-f87d0fbb579818f Rusty Russell      2013-03-20  555  				   &vrh->vring.used->flags);
-f87d0fbb579818f Rusty Russell      2013-03-20  556  			return true;
-f87d0fbb579818f Rusty Russell      2013-03-20  557  		}
-f87d0fbb579818f Rusty Russell      2013-03-20  558  	} else {
-b9f7ac8c72894c1 Michael S. Tsirkin 2014-12-12 @559  		if (putu16(vrh, &vring_avail_event(&vrh->vring),
-f87d0fbb579818f Rusty Russell      2013-03-20  560  			   vrh->last_avail_idx) != 0) {
-f87d0fbb579818f Rusty Russell      2013-03-20  561  			vringh_bad("Updating avail event index %p",
-f87d0fbb579818f Rusty Russell      2013-03-20  562  				   &vring_avail_event(&vrh->vring));
-f87d0fbb579818f Rusty Russell      2013-03-20  563  			return true;
-f87d0fbb579818f Rusty Russell      2013-03-20  564  		}
-f87d0fbb579818f Rusty Russell      2013-03-20  565  	}
-f87d0fbb579818f Rusty Russell      2013-03-20  566  
-f87d0fbb579818f Rusty Russell      2013-03-20  567  	/* They could have slipped one in as we were doing that: make
-f87d0fbb579818f Rusty Russell      2013-03-20  568  	 * sure it's written, then check again. */
-f87d0fbb579818f Rusty Russell      2013-03-20  569  	virtio_mb(vrh->weak_barriers);
-f87d0fbb579818f Rusty Russell      2013-03-20  570  
-b9f7ac8c72894c1 Michael S. Tsirkin 2014-12-12  571  	if (getu16(vrh, &avail, &vrh->vring.avail->idx) != 0) {
-f87d0fbb579818f Rusty Russell      2013-03-20  572  		vringh_bad("Failed to check avail idx at %p",
-f87d0fbb579818f Rusty Russell      2013-03-20  573  			   &vrh->vring.avail->idx);
-f87d0fbb579818f Rusty Russell      2013-03-20  574  		return true;
-f87d0fbb579818f Rusty Russell      2013-03-20  575  	}
-f87d0fbb579818f Rusty Russell      2013-03-20  576  
-f87d0fbb579818f Rusty Russell      2013-03-20  577  	/* This is unlikely, so we just leave notifications enabled
-f87d0fbb579818f Rusty Russell      2013-03-20  578  	 * (if we're using event_indices, we'll only get one
-f87d0fbb579818f Rusty Russell      2013-03-20  579  	 * notification anyway). */
-f87d0fbb579818f Rusty Russell      2013-03-20  580  	return avail == vrh->last_avail_idx;
-f87d0fbb579818f Rusty Russell      2013-03-20  581  }
-f87d0fbb579818f Rusty Russell      2013-03-20  582  
+d4a640d4b9f34a Timur Kristóf              2025-11-07  516  
+221cadb9c6bc2e Timur Kristóf              2025-11-07  517  /**
+221cadb9c6bc2e Timur Kristóf              2025-11-07  518   * vce_v1_0_ensure_vcpu_bo_32bit_addr() - ensure the VCPU BO has a 32-bit address
+221cadb9c6bc2e Timur Kristóf              2025-11-07  519   *
+221cadb9c6bc2e Timur Kristóf              2025-11-07  520   * @adev: amdgpu_device pointer
+221cadb9c6bc2e Timur Kristóf              2025-11-07  521   *
+221cadb9c6bc2e Timur Kristóf              2025-11-07  522   * Due to various hardware limitations, the VCE1 requires
+221cadb9c6bc2e Timur Kristóf              2025-11-07  523   * the VCPU BO to be in the low 32 bit address range.
+221cadb9c6bc2e Timur Kristóf              2025-11-07  524   * Ensure that the VCPU BO has a 32-bit GPU address,
+221cadb9c6bc2e Timur Kristóf              2025-11-07  525   * or return an error code when that isn't possible.
+221cadb9c6bc2e Timur Kristóf              2025-11-07  526   *
+221cadb9c6bc2e Timur Kristóf              2025-11-07  527   * To accomodate that, we put GART to the LOW address range
+221cadb9c6bc2e Timur Kristóf              2025-11-07  528   * and reserve some GART pages where we map the VCPU BO,
+221cadb9c6bc2e Timur Kristóf              2025-11-07  529   * so that it gets a 32-bit address.
+221cadb9c6bc2e Timur Kristóf              2025-11-07  530   */
+221cadb9c6bc2e Timur Kristóf              2025-11-07  531  static int vce_v1_0_ensure_vcpu_bo_32bit_addr(struct amdgpu_device *adev)
+221cadb9c6bc2e Timur Kristóf              2025-11-07  532  {
+221cadb9c6bc2e Timur Kristóf              2025-11-07 @533  	u64 gpu_addr = amdgpu_bo_gpu_offset(adev->vce.vcpu_bo);
+221cadb9c6bc2e Timur Kristóf              2025-11-07  534  	u64 bo_size = amdgpu_bo_size(adev->vce.vcpu_bo);
+221cadb9c6bc2e Timur Kristóf              2025-11-07  535  	u64 max_vcpu_bo_addr = 0xffffffff - bo_size;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  536  	u64 num_pages = ALIGN(bo_size, AMDGPU_GPU_PAGE_SIZE) / AMDGPU_GPU_PAGE_SIZE;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  537  	u64 pa = amdgpu_gmc_vram_pa(adev, adev->vce.vcpu_bo);
+221cadb9c6bc2e Timur Kristóf              2025-11-07  538  	u64 flags = AMDGPU_PTE_READABLE | AMDGPU_PTE_WRITEABLE | AMDGPU_PTE_VALID;
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  539  	u64 vce_gart_start;
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  540  	int r;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  541  
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  542  	r = amdgpu_gtt_mgr_alloc_entries(&adev->mman.gtt_mgr,
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  543  					 &adev->vce.node, num_pages,
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  544  					 DRM_MM_INSERT_LOW);
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  545  	if (r)
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  546  		return r;
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  547  
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  548  	vce_gart_start = adev->vce.node.start * AMDGPU_GPU_PAGE_SIZE;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  549  
+221cadb9c6bc2e Timur Kristóf              2025-11-07  550  	/* Check if we can map the VCPU BO in GART to a 32-bit address. */
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  551  	if (adev->gmc.gart_start + vce_gart_start > max_vcpu_bo_addr)
+221cadb9c6bc2e Timur Kristóf              2025-11-07  552  		return -EINVAL;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  553  
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  554  	amdgpu_gart_map_vram_range(adev, pa, adev->vce.node.start,
+221cadb9c6bc2e Timur Kristóf              2025-11-07  555  				   num_pages, flags, adev->gart.ptr);
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  556  	adev->vce.gpu_addr = adev->gmc.gart_start + vce_gart_start;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  557  	if (adev->vce.gpu_addr > max_vcpu_bo_addr)
+221cadb9c6bc2e Timur Kristóf              2025-11-07  558  		return -EINVAL;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  559  
+221cadb9c6bc2e Timur Kristóf              2025-11-07  560  	return 0;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  561  }
+221cadb9c6bc2e Timur Kristóf              2025-11-07  562  
 
 -- 
 0-DAY CI Kernel Test Service
