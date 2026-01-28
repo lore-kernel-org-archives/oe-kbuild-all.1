@@ -1,101 +1,215 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4F32F7AB1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 14:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D928C2BF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 14:45:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769610947; cv=none; b=mx7lG9lI8LaVpxTeRDUtGD+FcMaTOJuJOkquyXIntxomoJMAUdd6g54S07SchAgoZ8thTBsRTIvifAPLKXrXEc6LDyLpDSFPJmQqGmWEV6y8Z5LXd4rWAzGIT/aPnHQWs9uju6O3waKpJ/rLSDBW55ESMO84ST0MsSFPLMbXDQk=
+	t=1769611550; cv=none; b=DaVgg3s9K+zwJU560sOiWtFgTobzmRVBCUBDGm3QRceYUh6Cz7FE+IdW+lkMVnpnc+EkVyCncBcJAT1gwlDymPnSpMf1npOEi2YSLjOgb1FogNVQnG4u5zekxtguMrhkutqTgg7gtPbxfKw61OAmfwn4pEBVDNohTDT2v8K2Rz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769610947; c=relaxed/simple;
-	bh=TIS6+NCNSxuYcHnex6jqVW17k9Gykj+1BMu7IWrxzNs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=vGYKu9PZsSQmmXfxVNq1g4OVkH8bKPFxO+LCEGmINqrVrCObPchEC7SB+a17QN5OZHc4BmV3TJoJx7UiYnqVDciwhiCsgHdm4yaRO2fI8eoYsnzX+Km8dOVbthp5fv3KovwD87ekRzNxL8djMC6t4KiD1XE/JKFF9QmRXzTfmoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtnIaX5s; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1769611550; c=relaxed/simple;
+	bh=+eH8C9zSuGZKQtATqOlIcM1L0qnOfOH4Q1w1uWBpTVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ga1avgodkjHkoGszx3bGt1hv/viV2BAJbrK//J46iwLVlpPFPjtdRLheu7nySmaXXCrxvfcc5BH0xNIOyCN7F4yc64v05tbEIyIHl1+zb4wZhLaH4nT1uHQdSRxqVAIc7iySUyFlmzsKcbDv5kmfAK5ZOtWv6jBpElJYMuuhHNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4KhzAnQ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtnIaX5s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4KhzAnQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769610945; x=1801146945;
-  h=date:from:to:cc:subject:message-id;
-  bh=TIS6+NCNSxuYcHnex6jqVW17k9Gykj+1BMu7IWrxzNs=;
-  b=VtnIaX5sQuuZlY5RU8lMeg5fk/21Uvk+/9xak47W3xte9rYqPUZMTCBK
-   BUMupzONANZ0RaStHy8l79ouF32rbl6FKzYzUFh/3X2WhKnskrvaKSdsY
-   hwaODVTfPR9PzXxKYcHyRtKsMa3+qhO+Nf/gq57cfFuIIkPfMVnmMa5GO
-   S/+7FXtSAk6lwlZ6v5iuBH1U1x1MZZuaTVNAI/caCklEgeCOwgzftAf0z
-   Jpt5uwT3HYYNOsSeME1aJUsRz5YW8meMPskVgOYPryHJamCZrtClOMn2J
-   ZBJyMmjrHcGQlsDnTgI/aksE4GnEGSITGYqvuv8Rbiz42nbSCps+1JjRR
+  t=1769611548; x=1801147548;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+eH8C9zSuGZKQtATqOlIcM1L0qnOfOH4Q1w1uWBpTVk=;
+  b=Z4KhzAnQ6RlGWp5VoNoQV2PNki2FfQCROi1lM3yVw57GHyGf+esDi0GP
+   tjRLTgkYojj/r0/R1odyuGgRkj9Asl2JPiVDpPCFoYTenh7lHEOAAaDBU
+   LJyl5qlGz0g1UOyM0kdCbLnP4nVUvlgeJO3qwkParQyVPubaxOUT6VX8E
+   YEmt58m+Ew6uRXFMSCJfz69EgX/7TCEyu0vu4l0upO8Udd1DUrnZhU4jI
+   2gnwG6KYgmL1TYSCnCKHkeRCXDIPmWj1z723VuvIUeDT8f9AzABI0nzRe
+   xjhgqEKclELRGxLaFix5SEnaxO20BKSmGnhwdCQoXMhpXFY1llL4qhzB3
    w==;
-X-CSE-ConnectionGUID: 18FeuYIGQY2ozdkmn2Ddug==
-X-CSE-MsgGUID: VL/akx4rS2eqijQ6bEDKIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="58403390"
+X-CSE-ConnectionGUID: rcuoQBzSQSiDh8Tqs+/Z6A==
+X-CSE-MsgGUID: +1HL3Ub7Rn+2ccvmpuR6DQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="58405198"
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="58403390"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 06:35:44 -0800
-X-CSE-ConnectionGUID: n/NkcCFCT8urbtU9vmOkJA==
-X-CSE-MsgGUID: HQ5b2m+kQByV8Uyb+RYjew==
+   d="scan'208";a="58405198"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 06:45:48 -0800
+X-CSE-ConnectionGUID: eeaYUYVPTS+pfSiR37CUhQ==
+X-CSE-MsgGUID: H+qkhrBkRd2KCqtMMuhg2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="208297103"
+   d="scan'208";a="208348253"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Jan 2026 06:35:43 -0800
+  by orviesa007.jf.intel.com with ESMTP; 28 Jan 2026 06:45:43 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vl6dw-00000000Zl6-3R0i;
-	Wed, 28 Jan 2026 14:35:40 +0000
-Date: Wed, 28 Jan 2026 22:35:01 +0800
+	id 1vl6nd-00000000Zm4-1T9i;
+	Wed, 28 Jan 2026 14:45:41 +0000
+Date: Wed, 28 Jan 2026 22:45:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 8/8]
- arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:55:5: sparse: sparse: symbol
- 'kvm_iommu_refill' was not declared. Should it be static?
-Message-ID: <202601282254.vbKuzkDF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Feng Yang <yangfeng59949@163.com>, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next] bpf: Add the missing types in the logs
+Message-ID: <202601282215.BONmLaMY-lkp@intel.com>
+References: <20260128085842.145057-1-yangfeng59949@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260128085842.145057-1-yangfeng59949@163.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5a8f9765bd232fdc77183cca9f99196fa87b1bcc
-commit: be3195fe7b08b042aca453d795a8d0afede4d2a4 [8/8] ANDROID: KVM: arm64: iommu: Use unified allocator interface
-config: arm64-randconfig-r131-20260128 (https://download.01.org/0day-ci/archive/20260128/202601282254.vbKuzkDF-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601282254.vbKuzkDF-lkp@intel.com/reproduce)
+Hi Feng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Yang/bpf-Add-the-missing-types-in-the-logs/20260128-170535
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260128085842.145057-1-yangfeng59949%40163.com
+patch subject: [PATCH bpf-next] bpf: Add the missing types in the logs
+config: x86_64-buildonly-randconfig-003-20260128 (https://download.01.org/0day-ci/archive/20260128/202601282215.BONmLaMY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601282215.BONmLaMY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601282254.vbKuzkDF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601282215.BONmLaMY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:55:5: sparse: sparse: symbol 'kvm_iommu_refill' was not declared. Should it be static?
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:60:6: sparse: sparse: symbol 'kvm_iommu_reclaim' was not declared. Should it be static?
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:65:5: sparse: sparse: symbol 'kvm_iommu_reclaimable' was not declared. Should it be static?
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:99:21: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +/kvm_iommu_refill +55 arch/arm64/kvm/hyp/nvhe/iommu/iommu.c
+   kernel/bpf/log.c: In function 'reg_type_str':
+>> kernel/bpf/log.c:476:59: warning: '%s' directive output may be truncated writing up to 13 bytes into a region of size between 8 and 64 [-Wformat-truncation=]
+     476 |         snprintf(prefix, sizeof(prefix), "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+         |                                                           ^~
+   kernel/bpf/log.c:476:9: note: 'snprintf' output between 1 and 178 bytes into a destination of size 64
+     476 |         snprintf(prefix, sizeof(prefix), "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     477 |                  type & MEM_RDONLY ? "rdonly_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     478 |                  type & MEM_RINGBUF ? "ringbuf_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     479 |                  type & MEM_USER ? "user_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     480 |                  type & MEM_PERCPU ? "percpu_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     481 |                  type & MEM_RCU ? "rcu_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     482 |                  type & PTR_UNTRUSTED ? "untrusted_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     483 |                  type & PTR_TRUSTED ? "trusted_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     484 |                  type & MEM_UNINIT ? "uninit_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     485 |                  type & DYNPTR_TYPE_LOCAL ? "dynptr_local_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     486 |                  type & DYNPTR_TYPE_RINGBUF ? "dynptr_ringbuf_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     487 |                  type & MEM_FIXED_SIZE ? "fixed_size_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     488 |                  type & MEM_ALLOC ? "alloc_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     489 |                  type & NON_OWN_REF ? "non_own_ref_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     490 |                  type & DYNPTR_TYPE_SKB ? "dynptr_skb_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     491 |                  type & DYNPTR_TYPE_XDP ? "dynptr_xdp_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     492 |                  type & MEM_ALIGNED ? "aligned_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     493 |                  type & MEM_WRITE ? "write_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     494 |                  type & DYNPTR_TYPE_SKB_META ? "dynptr_skb_meta_" : "",
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     495 |                  type & DYNPTR_TYPE_FILE ? "dynptr_file_" : ""
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     496 |         );
+         |         ~
 
-    54	
-  > 55	int kvm_iommu_refill(struct kvm_hyp_memcache *host_mc)
-    56	{
-    57		return refill_hyp_pool(&iommu_host_pool, host_mc);
-    58	}
-    59	
-  > 60	void kvm_iommu_reclaim(struct kvm_hyp_memcache *host_mc, int target)
-    61	{
-    62		reclaim_hyp_pool(&iommu_host_pool, host_mc, target);
-    63	}
-    64	
-  > 65	int kvm_iommu_reclaimable(void)
-    66	{
-    67		return hyp_pool_free_pages(&iommu_host_pool);
-    68	}
-    69	
+
+vim +476 kernel/bpf/log.c
+
+   434	
+   435	/* string representation of 'enum bpf_reg_type'
+   436	 *
+   437	 * Note that reg_type_str() can not appear more than once in a single verbose()
+   438	 * statement.
+   439	 */
+   440	const char *reg_type_str(struct bpf_verifier_env *env, enum bpf_reg_type type)
+   441	{
+   442		char postfix[16] = {0}, prefix[64] = {0};
+   443		static const char * const str[] = {
+   444			[NOT_INIT]		= "?",
+   445			[SCALAR_VALUE]		= "scalar",
+   446			[PTR_TO_CTX]		= "ctx",
+   447			[CONST_PTR_TO_MAP]	= "map_ptr",
+   448			[PTR_TO_MAP_VALUE]	= "map_value",
+   449			[PTR_TO_STACK]		= "fp",
+   450			[PTR_TO_PACKET]		= "pkt",
+   451			[PTR_TO_PACKET_META]	= "pkt_meta",
+   452			[PTR_TO_PACKET_END]	= "pkt_end",
+   453			[PTR_TO_FLOW_KEYS]	= "flow_keys",
+   454			[PTR_TO_SOCKET]		= "sock",
+   455			[PTR_TO_SOCK_COMMON]	= "sock_common",
+   456			[PTR_TO_TCP_SOCK]	= "tcp_sock",
+   457			[PTR_TO_TP_BUFFER]	= "tp_buffer",
+   458			[PTR_TO_XDP_SOCK]	= "xdp_sock",
+   459			[PTR_TO_BTF_ID]		= "ptr_",
+   460			[PTR_TO_MEM]		= "mem",
+   461			[PTR_TO_ARENA]		= "arena",
+   462			[PTR_TO_BUF]		= "buf",
+   463			[PTR_TO_FUNC]		= "func",
+   464			[PTR_TO_INSN]		= "insn",
+   465			[PTR_TO_MAP_KEY]	= "map_key",
+   466			[CONST_PTR_TO_DYNPTR]	= "dynptr_ptr",
+   467		};
+   468	
+   469		if (type & PTR_MAYBE_NULL) {
+   470			if (base_type(type) == PTR_TO_BTF_ID)
+   471				strscpy(postfix, "or_null_");
+   472			else
+   473				strscpy(postfix, "_or_null");
+   474		}
+   475	
+ > 476		snprintf(prefix, sizeof(prefix), "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+   477			 type & MEM_RDONLY ? "rdonly_" : "",
+   478			 type & MEM_RINGBUF ? "ringbuf_" : "",
+   479			 type & MEM_USER ? "user_" : "",
+   480			 type & MEM_PERCPU ? "percpu_" : "",
+   481			 type & MEM_RCU ? "rcu_" : "",
+   482			 type & PTR_UNTRUSTED ? "untrusted_" : "",
+   483			 type & PTR_TRUSTED ? "trusted_" : "",
+   484			 type & MEM_UNINIT ? "uninit_" : "",
+   485			 type & DYNPTR_TYPE_LOCAL ? "dynptr_local_" : "",
+   486			 type & DYNPTR_TYPE_RINGBUF ? "dynptr_ringbuf_" : "",
+   487			 type & MEM_FIXED_SIZE ? "fixed_size_" : "",
+   488			 type & MEM_ALLOC ? "alloc_" : "",
+   489			 type & NON_OWN_REF ? "non_own_ref_" : "",
+   490			 type & DYNPTR_TYPE_SKB ? "dynptr_skb_" : "",
+   491			 type & DYNPTR_TYPE_XDP ? "dynptr_xdp_" : "",
+   492			 type & MEM_ALIGNED ? "aligned_" : "",
+   493			 type & MEM_WRITE ? "write_" : "",
+   494			 type & DYNPTR_TYPE_SKB_META ? "dynptr_skb_meta_" : "",
+   495			 type & DYNPTR_TYPE_FILE ? "dynptr_file_" : ""
+   496		);
+   497	
+   498		snprintf(env->tmp_str_buf, TMP_STR_BUF_LEN, "%s%s%s",
+   499			 prefix, str[base_type(type)], postfix);
+   500		return env->tmp_str_buf;
+   501	}
+   502	
 
 -- 
 0-DAY CI Kernel Test Service
