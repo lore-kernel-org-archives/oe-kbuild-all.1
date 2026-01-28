@@ -1,131 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718921E505
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 00:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740041A238C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 00:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769560304; cv=none; b=IQd3bIWr7vpuNhEjX2FX5nhYSQM9RsaHKXqPxa6kHjWAcU2Xgvp+YfZc6KLooiZa3mSG5uMhdgmJe00kk3UkI2ys+UwuO4s1z5ztq6Co6zPqOvWYbCIAfEt6uwWeVBaPIafjK3Rwk8at1cl6YTK672YV5ybmJtC3njGMUis2nMU=
+	t=1769560304; cv=none; b=HPwGv88SJvwwmIC2OmZfiYzOHLQobvEfxEmNOFBUHVVPR5cGTCmgr0P7v+vxPwQ/TOMbASLL4JHx9ElPeXgE7RKZFhv5caTSI9e3zUMPNRbbYi1iHo6QWXrslGN6GICtoBC1MCX4CgoOcED38QvotcpPV2UWpcXrvgxeJSjJViw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769560304; c=relaxed/simple;
-	bh=zF/rAA7SR1fxGTAx9Q1QtsU0LOaDJ62LH4zuaETMZV0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BU4Oz7puhqA+1SLCXHsm9mXjr95SNVoGDKhUBkcNRtzzMSZ1HeYXamE1+uVgxzFjJYqfGDIzyrsPoaSeopO5UzGW7EhWkcli4cla6fh+ippiXyyphKy2Ltv8PyvgI2pETixcGuocHV0DJ4VdIQNIridPhqoqks0EDmIoOGocTIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BuYSKjNZ; arc=none smtp.client-ip=198.175.65.19
+	bh=Tiw/EOrYwH8Y6t6NaJEyTlwqUXtWs6umlmGrrdrcwdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kPDLKr6k7YDzgBTb1W82kvrPqNUSOTBOwbKQ758Zg15s/WBK92uYK70lwGoayDYE3r7QdaMp8hFCpe6CAfPjHFZneJ9jQGuXrxHBBjtLlYsqstbAD0rfgyCiAZaZzNkGEzlJUUeeUUMgVRT8HN/xX5GhjizOtkIPvtub2eWgTFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FS+YHLR4; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuYSKjNZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FS+YHLR4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769560302; x=1801096302;
-  h=date:from:to:cc:subject:message-id;
-  bh=zF/rAA7SR1fxGTAx9Q1QtsU0LOaDJ62LH4zuaETMZV0=;
-  b=BuYSKjNZAHbkdb/b88Xq4x77YarD872EmSLCxOd6H+rzs+41/l7/s5s/
-   dj5xITUf+oplvWFb+V6LsV1QgbrCL2IRzf/UdnYElbV/Y78i4ydzEgpk2
-   IbblUhnSTn+4S/PkpMkLbNuSQvDUeaR47bFThO5+O7TIaccKy1Z9ofyec
-   RpXNZvxFmavquuAbR4gGOq62Sv/2b+Y8Khx0U+x2BeUTOzIwsMDY3jID1
-   h0YmW+3bkHweNbzciaIfSjZWTO+h50Zw8DDDXpeJck/aKulxAwEL7L+M/
-   MZs16ruEhGBrwOSumhKsUWL6fX/P1kSjKig4H6jYb+3AmdWA8IZg2DrOI
-   Q==;
-X-CSE-ConnectionGUID: Nj+MNls9RL+/5ZnqH92V3Q==
-X-CSE-MsgGUID: w17UIwlZS3aL9j06QSRyJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70662696"
+  t=1769560304; x=1801096304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tiw/EOrYwH8Y6t6NaJEyTlwqUXtWs6umlmGrrdrcwdw=;
+  b=FS+YHLR4ib0ei6N9ZO9YH6Uq2GNORXqVH0BT5mg5OF3d28KB9eRFl0NZ
+   sgbEEPQvebIPtuze1vWqp4WKymES1HRn6ikcSp0YFqyuMeHcRRejM5B6C
+   hbC0vprEeDH5gy4At7xh20Lg6HLaMay+YJNgoSbJRepfczDm0+Irl8qtJ
+   5AEM0m2QxkUvpsRbulgW8xtTPpwfNYvals9KXz2RqXft41UJLgWDXnk/H
+   UxeMLXmuW194y7JfqFDdcREtG3wdC8SZjOS72QxErp6bUQwQ8KPrTrboQ
+   rml16cl8tz/fEbGSsFUAQ7Iu04n2YsNWwTK+ZVzp2DWeKTXK8Tg92+IvB
+   w==;
+X-CSE-ConnectionGUID: ds3KQhndRkSBjhkd950zuQ==
+X-CSE-MsgGUID: 6SusEPFnQ1WWUslUbcz+gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="73358499"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="70662696"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 16:31:42 -0800
-X-CSE-ConnectionGUID: XgN7zG59RZ+5HQTtjhG4Fw==
-X-CSE-MsgGUID: r8f1EEvaR7SWLDI7VohL+g==
+   d="scan'208";a="73358499"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 16:31:43 -0800
+X-CSE-ConnectionGUID: yad6J91uS2u81M+B0sb+uA==
+X-CSE-MsgGUID: C9/9Rd1aTmWhYJ4Gaaa8Og==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="212590575"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Jan 2026 16:31:40 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 27 Jan 2026 16:31:40 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vktT8-000000001xP-2CwY;
+	id 1vktT8-000000001xN-23Ms;
 	Wed, 28 Jan 2026 00:31:38 +0000
-Date: Wed, 28 Jan 2026 01:31:10 +0100
+Date: Wed, 28 Jan 2026 01:30:38 +0100
 From: kernel test robot <lkp@intel.com>
-To: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: drivers/vhost/vringh.c:559:33: error: lvalue required as
- unary '&' operand
-Message-ID: <202601280148.8Z2rFqjo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Romain Gantois <romain.gantois@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Romain Gantois <romain.gantois@bootlin.com>
+Subject: Re: [PATCH 2/2] misc: ti_fpc202: Support special-purpose GPIO lines
+ with LED features
+Message-ID: <202601280105.Lu065wxA-lkp@intel.com>
+References: <20260127-fpc202-leds-v1-2-ebd0cfb9f9a1@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127-fpc202-leds-v1-2-ebd0cfb9f9a1@bootlin.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/virtio-silence-KCSAN-warning-in-virtqueue_get_buf_ctx_split/20260127-235023
-head:   d43eaf1d749bfdaff9cd06104bb8838d105ab33b
-commit: d43eaf1d749bfdaff9cd06104bb8838d105ab33b virtio: silence KCSAN warning in virtqueue_kick_prepare
-date:   9 hours ago
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260128/202601280148.8Z2rFqjo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280148.8Z2rFqjo-lkp@intel.com/reproduce)
+Hi Romain,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a8a6d9b4da001a84dd715d92f034d2bf777199c8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-misc-Describe-FPC202-LED-features/20260127-215935
+base:   a8a6d9b4da001a84dd715d92f034d2bf777199c8
+patch link:    https://lore.kernel.org/r/20260127-fpc202-leds-v1-2-ebd0cfb9f9a1%40bootlin.com
+patch subject: [PATCH 2/2] misc: ti_fpc202: Support special-purpose GPIO lines with LED features
+config: i386-kismet-CONFIG_LEDS_GPIO-CONFIG_MERAKI_MX100-0-0 (https://download.01.org/0day-ci/archive/20260128/202601280105.Lu065wxA-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260128/202601280105.Lu065wxA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601280148.8Z2rFqjo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601280105.Lu065wxA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/vhost/vringh.c: In function '__vringh_notify_enable':
->> drivers/vhost/vringh.c:559:33: error: lvalue required as unary '&' operand
-     559 |                 if (putu16(vrh, &vring_avail_event(&vrh->vring),
-         |                                 ^
-   drivers/vhost/vringh.c:562:36: error: lvalue required as unary '&' operand
-     562 |                                    &vring_avail_event(&vrh->vring));
-         |                                    ^
-
-
-vim +559 drivers/vhost/vringh.c
-
-f87d0fbb579818 Rusty Russell      2013-03-20  542  
-f87d0fbb579818 Rusty Russell      2013-03-20  543  static inline bool __vringh_notify_enable(struct vringh *vrh,
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  544  					  int (*getu16)(const struct vringh *vrh,
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  545  							u16 *val, const __virtio16 *p),
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  546  					  int (*putu16)(const struct vringh *vrh,
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  547  							__virtio16 *p, u16 val))
-f87d0fbb579818 Rusty Russell      2013-03-20  548  {
-f87d0fbb579818 Rusty Russell      2013-03-20  549  	u16 avail;
-f87d0fbb579818 Rusty Russell      2013-03-20  550  
-f87d0fbb579818 Rusty Russell      2013-03-20  551  	if (!vrh->event_indices) {
-f87d0fbb579818 Rusty Russell      2013-03-20  552  		/* Old-school; update flags. */
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  553  		if (putu16(vrh, &vrh->vring.used->flags, 0) != 0) {
-f87d0fbb579818 Rusty Russell      2013-03-20  554  			vringh_bad("Clearing used flags %p",
-f87d0fbb579818 Rusty Russell      2013-03-20  555  				   &vrh->vring.used->flags);
-f87d0fbb579818 Rusty Russell      2013-03-20  556  			return true;
-f87d0fbb579818 Rusty Russell      2013-03-20  557  		}
-f87d0fbb579818 Rusty Russell      2013-03-20  558  	} else {
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12 @559  		if (putu16(vrh, &vring_avail_event(&vrh->vring),
-f87d0fbb579818 Rusty Russell      2013-03-20  560  			   vrh->last_avail_idx) != 0) {
-f87d0fbb579818 Rusty Russell      2013-03-20  561  			vringh_bad("Updating avail event index %p",
-f87d0fbb579818 Rusty Russell      2013-03-20  562  				   &vring_avail_event(&vrh->vring));
-f87d0fbb579818 Rusty Russell      2013-03-20  563  			return true;
-f87d0fbb579818 Rusty Russell      2013-03-20  564  		}
-f87d0fbb579818 Rusty Russell      2013-03-20  565  	}
-f87d0fbb579818 Rusty Russell      2013-03-20  566  
-f87d0fbb579818 Rusty Russell      2013-03-20  567  	/* They could have slipped one in as we were doing that: make
-f87d0fbb579818 Rusty Russell      2013-03-20  568  	 * sure it's written, then check again. */
-f87d0fbb579818 Rusty Russell      2013-03-20  569  	virtio_mb(vrh->weak_barriers);
-f87d0fbb579818 Rusty Russell      2013-03-20  570  
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  571  	if (getu16(vrh, &avail, &vrh->vring.avail->idx) != 0) {
-f87d0fbb579818 Rusty Russell      2013-03-20  572  		vringh_bad("Failed to check avail idx at %p",
-f87d0fbb579818 Rusty Russell      2013-03-20  573  			   &vrh->vring.avail->idx);
-f87d0fbb579818 Rusty Russell      2013-03-20  574  		return true;
-f87d0fbb579818 Rusty Russell      2013-03-20  575  	}
-f87d0fbb579818 Rusty Russell      2013-03-20  576  
-f87d0fbb579818 Rusty Russell      2013-03-20  577  	/* This is unlikely, so we just leave notifications enabled
-f87d0fbb579818 Rusty Russell      2013-03-20  578  	 * (if we're using event_indices, we'll only get one
-f87d0fbb579818 Rusty Russell      2013-03-20  579  	 * notification anyway). */
-f87d0fbb579818 Rusty Russell      2013-03-20  580  	return avail == vrh->last_avail_idx;
-f87d0fbb579818 Rusty Russell      2013-03-20  581  }
-f87d0fbb579818 Rusty Russell      2013-03-20  582  
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for LEDS_GPIO when selected by MERAKI_MX100
+   WARNING: unmet direct dependencies detected for LEDS_CLASS
+     Depends on [n]: NEW_LEDS [=n]
+     Selected by [y]:
+     - TI_FPC202 [=y] && I2C [=y]
+   
+   WARNING: unmet direct dependencies detected for LEDS_GPIO
+     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=y] && (GPIOLIB [=y] || COMPILE_TEST [=n])
+     Selected by [y]:
+     - MERAKI_MX100 [=y] && X86_PLATFORM_DEVICES [=y] && GPIOLIB [=y] && GPIO_ICH [=y] && LEDS_CLASS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
