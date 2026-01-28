@@ -1,116 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3B635A93F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 17:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251B936EAAF;
+	Wed, 28 Jan 2026 17:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769622216; cv=none; b=RvXkGI1bOwiEDQN9kGZWn1zCG3onCXZs8IZnrjEZ0HjSBpomDBNlBV7vfpN6bbiSnt/Z5phqjy8G+MZsXg32mKm9bZ6LukZFTppJwfUoQsedzt5BPLoimJwibA0X29SAfTra/8QET5BDbWKqJ71IGEt7Io0IDwDxGa+QjfQM0Hk=
+	t=1769622365; cv=none; b=EebkHvmnsscm0e5g/cEWPTy2OXPkwRBXTnUC/npB+pZZjA3ufDk2QJlCcu/qgQ9bGaRUWQVesbjZJ55eeh7hFgEPP0/jtjxc3zT4YZCCQku7KIqZIg8yMd77jtzhCtsQm+iAO3gl1ohGqElSZjjlLmz0Vj36/pqhHxdaFk/m72c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769622216; c=relaxed/simple;
-	bh=g1jAkOyBexOK0ZIsA6MWbUTp4PeGmeSSzmktzpC4sZg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u4RDr4B1e+771SovIBOzIfMLFlOP4QqSHXb4JKaQFg7XTkSssll4UgZoJXLY/in9qj7vjTHKr8+/uFV4bPjhBvONh589WFz2a1PzFfzTPTl2QhtLe5YA+7gn7yOxPHw2LrBMkfqz5WgBi5HRq0CXNIi9paTY8csJmlq0zbMqd1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RWLHydsP; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769622365; c=relaxed/simple;
+	bh=y6zcCm0weiv02jif+kCDNZ3KdQfxUZJx2damFDR2gS0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=WIUozGZ5cvQ+WrRCOyvRghMRwDCWs/XkvRxJHKqj0YOApAE95C0ZuQpn1o0bcxlfP66TYZTnDwT8V1hIjkx+SuMYGpHaiQVnD8NnpTWwOdCLLws85pQNKwxKQDtxESPf5LckCNyth+duLdcSxfA4KkydAECiCECORptmbxa1Xp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFRZnsHZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWLHydsP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769622216; x=1801158216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g1jAkOyBexOK0ZIsA6MWbUTp4PeGmeSSzmktzpC4sZg=;
-  b=RWLHydsPC18A6uOgX9ju2XY44+6UFsW0rU/WJpIjFHbknDXHryVzG25y
-   e8zaYISXLB/wNrFcz2xo/HrK7yBXObN57QOaEHZSmgfzchonlbzdcusOw
-   0vQuF41g0PeeLTfRT/VwjxB/UMpDcx/ayXBudV+iR8bLCfJmT7fDUE48H
-   tUlPREG2vY0qAn86e19eXaBjesM+5MMbhi/fDYN08o0Lubdp3Fc46cPHv
-   ZqZ6JO/jAjQIEQp/Bgs1eX/qqR+H/zL9miHoYbsOqt1GacZ6crvyAmLea
-   /XFHnf7WK6n/3I8FS/MuIbYfN4U0Okba4NpOG1yUTU3ldKVJF4W+lzCLW
-   w==;
-X-CSE-ConnectionGUID: YqiC4ceeTNiuGQ+wFAJg4g==
-X-CSE-MsgGUID: qDePsi46T02FSpkx+pWtKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="96304443"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="96304443"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 09:43:35 -0800
-X-CSE-ConnectionGUID: lXx90f1VRK+eSlHmKMrAxw==
-X-CSE-MsgGUID: /7RCZ1ZZRD+YePQfVNi8Xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="231278422"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Jan 2026 09:43:32 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vl9Zg-00000000ae8-3lP1;
-	Wed, 28 Jan 2026 17:43:28 +0000
-Date: Thu, 29 Jan 2026 01:43:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gary Yang <gary.yang@cixtech.com>, lee@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
-	peter.chen@cixtech.com
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	cix-kernel-upstream@cixtech.com, Gary Yang <gary.yang@cixtech.com>
-Subject: Re: [PATCH v4 2/3] reset: cix: add support for cix sky1 resets
-Message-ID: <202601290142.8FfZLLZk-lkp@intel.com>
-References: <20260128093611.1932770-3-gary.yang@cixtech.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFRZnsHZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58777C4CEF7;
+	Wed, 28 Jan 2026 17:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769622364;
+	bh=y6zcCm0weiv02jif+kCDNZ3KdQfxUZJx2damFDR2gS0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=mFRZnsHZs6lFM7PSZkVe1GlO9JJr8mNZ8o66MDwyp0PzVuyv2tKhelNsdU7NCKhJU
+	 x3YA/xeBhZBoBximl2MEAFXqd1I3xk/K3AifqtvXU17g8YWqhD/V0ObLvcWcCOSBxt
+	 RIayPhRre/wudWFnrY9O/DRFwKu9xHIquRhuLRy6YOcalcJyl4jn6PoX3bVYgep2vH
+	 Iakqmn48mO4SlytBiTQwynPB6PX3vRtzIWOrdhujpgscPJjlXfP1253/MSpW9Gv7fR
+	 ggoItzyvTpD4svIJ4tj9WCIWwyra/pxJs83kDXH1spe6r/nAMmxh5/jypo0jwvT/Is
+	 f1QIccu0nObrw==
+Date: Wed, 28 Jan 2026 18:46:01 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Bastien Nocera <hadess@hadess.net>
+cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+    linux-input@vger.kernel.org
+Subject: Re: [hid:for-6.20/pm_ptr 7/12] drivers/hid/hid-picolcd_core.c:651:33:
+ error: 'picolcd_suspend' undeclared here (not in a function); did you mean
+ 'picolcd_reset'?
+In-Reply-To: <4ecf6a790596c4814c6666805b53aa7b1dd5a793.camel@hadess.net>
+Message-ID: <n7o7o70s-3pp0-r590-p65n-2175r761q79p@xreary.bet>
+References: <202601260353.Dk5ekiee-lkp@intel.com> <4ecf6a790596c4814c6666805b53aa7b1dd5a793.camel@hadess.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128093611.1932770-3-gary.yang@cixtech.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Gary,
+On Wed, 28 Jan 2026, Bastien Nocera wrote:
 
-kernel test robot noticed the following build warnings:
+> The wrong version of the patch got scheduled in that branch.
+> 
+> The branch has v1 of the patch:
+> https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-6.20/pm_ptr&id=318f7b0f1bea13d3aa0506fe6f40399f11c4ae52
+> 
+> This is what v2 looks like:
+> https://patchwork.kernel.org/project/linux-input/patch/20260113092546.265734-8-hadess@hadess.net/
+> which should fix the problem.
+> 
+> Note that my v2 patchset also dropped
+> "HID: surface: Use pm_ptr_sleep instead of #ifdef CONFIG_PM_SLEEP"
+> which is still in that branch.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on lee-leds/for-leds-next linus/master v6.19-rc7 next-20260127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hm, something went wrong with my b4 workflow then, sorry for the noise.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Yang/dt-bindings-reset-add-sky1-reset-controller/20260128-174335
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260128093611.1932770-3-gary.yang%40cixtech.com
-patch subject: [PATCH v4 2/3] reset: cix: add support for cix sky1 resets
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260129/202601290142.8FfZLLZk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601290142.8FfZLLZk-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601290142.8FfZLLZk-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/reset/reset-sky1.c:322:35: warning: 'sky1_src_config' defined but not used [-Wunused-const-variable=]
-     322 | static const struct regmap_config sky1_src_config[] = {
-         |                                   ^~~~~~~~~~~~~~~
-
-
-vim +/sky1_src_config +322 drivers/reset/reset-sky1.c
-
-   321	
- > 322	static const struct regmap_config sky1_src_config[] = {
-   323		{
-   324			.reg_bits = 32,
-   325			.val_bits = 32,
-   326			.reg_stride = 4,
-   327			.name = "src",
-   328		},
-   329	};
-   330	
+I'll take a look and ensure that the correct version gets queued.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jiri Kosina
+SUSE Labs
+
