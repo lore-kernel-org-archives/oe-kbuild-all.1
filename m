@@ -1,78 +1,65 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C8132ED24
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 09:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B2D344DBE;
+	Wed, 28 Jan 2026 09:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769591844; cv=none; b=mtW8oF26Kpt/NC68ztkSOdpby+shTyIdBKVkZMHglZz+AaUZwbNJkFPFLQfnPAZVCrNAZbPkd9BspAFDFkKft8Vf4KwM1o71OW5YzJNSUc0keMLUMJuWgmm+Lfyr+o1oCFbkBcN90jLnggEki6NaOri+JwJv4MFNOYzdOg18iBw=
+	t=1769592574; cv=none; b=c1pWRW+4FzGYMA+9OfPhOCH+JXmsG2nraw7AZH/QYJCzoDSd6J5XXtIZhOj1BmoFWHtWjHLJwPO9RAOreCGnH/tHDq2rk+6OWT2sgNAsDPpn2Tu+a7zLpWb3maHWM6l/QT1MbJerZFdN8/C0j4dzHycTlT6gTgEXn8bNMWBgBy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769591844; c=relaxed/simple;
-	bh=yO6+U0qaxUaYOUYCKg1MexH3YZt5dPEUe3lerkYdUFI=;
+	s=arc-20240116; t=1769592574; c=relaxed/simple;
+	bh=rDwq9sRL1qF9bXn85h9PIWuBPIylHoYEZLBuixGkovw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GczVnzoKnwp/9RBfE7oUt+ikSzctDMTaAKyYFlG43UTuk/NHICtI09RwMYj+mgeZhynRFlNNMLmHhrp4n1I85DYtpFoGbPJyqANsXJmGvjTZSCDGUGqPjavU3KY1ABBI0J6kjWvkpznOB7c0A9eEd5pVd0MOswB2QrQQtEQfcoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=B4wz4sOa; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=se4lePXS6RWFY9ycfTQ01smdQrZ2Fp5MMfAORNLksaxkU+snE8VHQVRKMntfGcufmagbsmzXdAQCg9GtVFM+qAD9TS3dPQTygrCVpyKeHcrGZlaIgtCJDlOd/0Bl1WHF8j/t8M8TIN2JG4QEFdxl2ToDt5k+wm7cLbOj4UykgCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ib4Ue8TF; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="B4wz4sOa"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42fb4eeb482so4516148f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 01:17:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1769591841; x=1770196641; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/k4MsBbSp2/KH17/DEg4LJaTxhduisqFO54YsL7siAQ=;
-        b=B4wz4sOatPoqTcrwMGe+Wkha/9eDA+cAqEhz3npFbHMI864UAt73qwJElBZRHc/Tq6
-         jGwzLdjSCx/uHjJ20AMeaLBzDka7Ah7Ng6yiNX9TbrEh4cwO49x8gVV8hbJA02yjwe/s
-         D+jueZEGIv21+HNc5r5FmdsUoaCtsZVf03Gjyx6I5k8jVFp8Edj+UiR2f/EG9PVxq5m/
-         WYvho06EkSqR5fy30SNsR5vxEyGB+KyrHU8RbqHbCh1NNEJhSnP7xC1mx85aDpfchRY7
-         4aPklkjR7QXwwiV7AZKcB4n9/JFKkDuiZryTQ2xFDqAzcP9Na7pznHF5UhbQzP7OdYLy
-         /TfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769591841; x=1770196641;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/k4MsBbSp2/KH17/DEg4LJaTxhduisqFO54YsL7siAQ=;
-        b=MDyYcJZEkN6VnddVZGr1HGBc/q68d2Z1ViRvIZHHDn6c2fT16qMtNv99FFiNO4Tr+2
-         nEq2BT2t2SolUIEVGUPuLFB2CSe/eouCG+8hVs5xbbFv/Fwu3lxNC45ejTyKJv8HiiD/
-         4v0aBjhQT5kvLa0TyY+OS8lyopdjHzOKwgg5S6MLjMmjJIvTmpE/NUL1crYP8S/1Ikcj
-         NlDv27naQVynvfcMIsYXz08uF29GXj9Jbx7UAcPplpxN4PHIkrW9sbbq3J+x2lLNQ/Up
-         4lOnVFAvHtx3F8oEXx2emawdNGLjUeBX10bu/HnhQREm55Wceq1ketrpCCiZb5AJ77Jc
-         unhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUEdNvquKGGwd7YjxOc9gaz3Kc7ULtf2vj2XOyMyypWBrH/wgNLvg3Ly5S01+YpacGJxxjWQWMGxlhqEDRL@lists.linux.dev
-X-Gm-Message-State: AOJu0YyzkRliEZj/p3FzQNIlkZ0lrXgqTWfGju+NAzNqezTJYIfPyr5D
-	nf8+vQC9pyV8ZyjO0ztm7ZBcU4gEn6PF9ocGxwG3y8AB334/iSDspYQda00iLTEBIAE=
-X-Gm-Gg: AZuq6aKEj57FDFNZJUHLDZDJEXsta1U9Iw47tFj7boimW9RHPbE7hZwFUGvb0qUlfE9
-	94wBiaMxFzGxi7HCw1EEA9Q5SfqkNf3OXNFZZeegKyVypU9RK3A4bd9PhZgQGgh7we+2r85ojkL
-	2OVXQWKJ9ZNtJxpW7zJ1doALWhD5y0OwObrvN4k+AKJ40XCjdUsmKHMVZ1BmalBC7V3GOIby4pS
-	361XfZlGdIZgR/WDFad36PD3TKfWAOFmBL8xCz78zKNadX10uoStbXAqeVaxA3Rl7Qsl3Ws3e88
-	qBKw2im8jRFe7WSCPaTJsJmcoleDZD+OLmW0gt2o10fpXdVfhDDLLkVXWLtyE3H1zkQDvjtlWtW
-	k3BT9YllEf6msIxGQvYZEL6BI2TN9gfWV6Sg7Ku6un4vRuaOglD31qWwUarqg7M5IeBM/E64muN
-	iBY5ouFxPKqrnJTg==
-X-Received: by 2002:a05:6000:1ac6:b0:432:84f9:8c04 with SMTP id ffacd0b85a97d-435dd06e029mr5958691f8f.24.1769591840559;
-        Wed, 28 Jan 2026 01:17:20 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10ee057sm6281836f8f.15.2026.01.28.01.17.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 01:17:20 -0800 (PST)
-Date: Wed, 28 Jan 2026 10:17:17 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	llvm@lists.linux.dev, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3] printf: convert test_hashed into macro
-Message-ID: <aXnUHTu62MmNGNdy@pathway.suse.cz>
-References: <20260121-printf-kunit-printf-attr-v3-1-4144f337ec8b@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ib4Ue8TF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769592572; x=1801128572;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rDwq9sRL1qF9bXn85h9PIWuBPIylHoYEZLBuixGkovw=;
+  b=Ib4Ue8TFCz/D+YOw3DGEoO4nHJeE/CoHBibpUNeclppM5q1iSqNxy2vs
+   OiM5kMRLeJW5GrHJBWU/k7jwH1uVKAXmqAv8xp/zq5Vjg6BhWnIJOaZeT
+   qfmQTAJkrl7TAqCK6l3t5PM+ryoKKTGiwfvrL/Ndt+H8bBYFyMMbWp7Jf
+   WHCOWlQEp5TG7/Jph2H5xMMt4tPWkKaDes6rRAg5ILR+TFTz8VuG3dY5I
+   H1Kh/B2WnHd0rBYKuuXVoISDJCrJeDVaGjGkkl7vleTxb8Cw9OBLWgVpK
+   lb4jLkms/5YXeK0qMeYZKF7p3OpKF7rzdMM6LY/T4HMRoS3MvH8VTv2e6
+   g==;
+X-CSE-ConnectionGUID: FYrdGDthR4G/7j0d+qxWaQ==
+X-CSE-MsgGUID: Kwr33zCISz6M7kvtXSHISA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="74659601"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="74659601"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 01:29:31 -0800
+X-CSE-ConnectionGUID: LZI6xFysRYGIU3MRBEPbKQ==
+X-CSE-MsgGUID: F6dQHfW0SYSplVVoFPGyzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="212319906"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 28 Jan 2026 01:29:29 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vl1rZ-00000000ZVU-1r2H;
+	Wed, 28 Jan 2026 09:29:25 +0000
+Date: Wed, 28 Jan 2026 17:29:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ethan Tidmore <ethantidmore06@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Michael Straube <straube.linux@gmail.com>,
+	Dan Carpenter <error27@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: Re: [PATCH v2 2/4] staging: rtl8723bs: remove dead RX FIFO  overflow
+ logic
+Message-ID: <202601281752.mqChL1f6-lkp@intel.com>
+References: <20260128004009.51095-3-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,24 +68,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260121-printf-kunit-printf-attr-v3-1-4144f337ec8b@kernel.org>
+In-Reply-To: <20260128004009.51095-3-ethantidmore06@gmail.com>
 
-On Wed 2026-01-21 11:10:08, Tamir Duberstein wrote:
-> This allows the compiler to check the arguments against the __printf()
-> attribute on __test(). This produces better diagnostics when incorrect
-> inputs are passed.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202512061600.89CKQ3ag-lkp@intel.com/
-> Signed-off-by: Tamir Duberstein <tamird@kernel.org>
+Hi Ethan,
 
-Looks good to me:
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+[auto build test WARNING on staging/staging-testing]
 
-Best Regards,
-Petr
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Tidmore/staging-rtl8723bs-remove-dead-RX-info-reset-logic/20260128-084338
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260128004009.51095-3-ethantidmore06%40gmail.com
+patch subject: [PATCH v2 2/4] staging: rtl8723bs: remove dead RX FIFO  overflow logic
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260128/202601281752.mqChL1f6-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281752.mqChL1f6-lkp@intel.com/reproduce)
 
-PS: I am going to push it right now. It took me some time to get back
-    to this mail. I am a bit overloaded at the moment.
-    
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601281752.mqChL1f6-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/staging/rtl8723bs/hal/rtl8723b_dm.c: In function 'rtl8723b_HalDmWatchDog':
+>> drivers/staging/rtl8723bs/hal/rtl8723b_dm.c:127:14: warning: variable 'fw_current_in_ps_mode' set but not used [-Wunused-but-set-variable]
+     127 |         bool fw_current_in_ps_mode = false;
+         |              ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/fw_current_in_ps_mode +127 drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+
+554c0a3abf216c Hans de Goede         2017-03-29  124  
+554c0a3abf216c Hans de Goede         2017-03-29  125  void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
+554c0a3abf216c Hans de Goede         2017-03-29  126  {
+90b69822a5cb6b Fabio M. De Francesco 2021-04-11 @127  	bool fw_current_in_ps_mode = false;
+554c0a3abf216c Hans de Goede         2017-03-29  128  	bool bFwPSAwake = true;
+554c0a3abf216c Hans de Goede         2017-03-29  129  	u8 hw_init_completed = false;
+554c0a3abf216c Hans de Goede         2017-03-29  130  	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+554c0a3abf216c Hans de Goede         2017-03-29  131  
+554c0a3abf216c Hans de Goede         2017-03-29  132  	hw_init_completed = Adapter->hw_init_completed;
+554c0a3abf216c Hans de Goede         2017-03-29  133  
+554c0a3abf216c Hans de Goede         2017-03-29  134  	if (hw_init_completed == false)
+554c0a3abf216c Hans de Goede         2017-03-29  135  		goto skip_dm;
+554c0a3abf216c Hans de Goede         2017-03-29  136  
+90b69822a5cb6b Fabio M. De Francesco 2021-04-11  137  	fw_current_in_ps_mode = adapter_to_pwrctl(Adapter)->fw_current_in_ps_mode;
+554c0a3abf216c Hans de Goede         2017-03-29  138  	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&bFwPSAwake));
+554c0a3abf216c Hans de Goede         2017-03-29  139  
+554c0a3abf216c Hans de Goede         2017-03-29  140  	/* ODM */
+554c0a3abf216c Hans de Goede         2017-03-29  141  	if (hw_init_completed == true) {
+554c0a3abf216c Hans de Goede         2017-03-29  142  		u8 bLinked = false;
+554c0a3abf216c Hans de Goede         2017-03-29  143  		u8 bsta_state = false;
+14c77a18375db3 Nishka Dasgupta       2019-07-02  144  		bool bBtDisabled = true;
+554c0a3abf216c Hans de Goede         2017-03-29  145  
+554c0a3abf216c Hans de Goede         2017-03-29  146  		if (rtw_linked_check(Adapter)) {
+554c0a3abf216c Hans de Goede         2017-03-29  147  			bLinked = true;
+554c0a3abf216c Hans de Goede         2017-03-29  148  			if (check_fwstate(&Adapter->mlmepriv, WIFI_STATION_STATE))
+554c0a3abf216c Hans de Goede         2017-03-29  149  				bsta_state = true;
+554c0a3abf216c Hans de Goede         2017-03-29  150  		}
+554c0a3abf216c Hans de Goede         2017-03-29  151  
+554c0a3abf216c Hans de Goede         2017-03-29  152  		ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_LINK, bLinked);
+554c0a3abf216c Hans de Goede         2017-03-29  153  		ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_STATION_STATE, bsta_state);
+554c0a3abf216c Hans de Goede         2017-03-29  154  
+554c0a3abf216c Hans de Goede         2017-03-29  155  		/* ODM_CmnInfoUpdate(&pHalData->odmpriv , ODM_CMNINFO_RSSI_MIN, pdmpriv->MinUndecoratedPWDBForDM); */
+554c0a3abf216c Hans de Goede         2017-03-29  156  
+d1f4b78027202d Nishka Dasgupta       2019-07-01  157  		bBtDisabled = hal_btcoex_IsBtDisabled(Adapter);
+554c0a3abf216c Hans de Goede         2017-03-29  158  
+a8fa78b8f49752 Javier F. Arias       2019-11-05  159  		ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_BT_ENABLED,
+c3a12cc1ec4c9c Javier F. Arias       2019-11-05  160  				  !bBtDisabled);
+554c0a3abf216c Hans de Goede         2017-03-29  161  
+554c0a3abf216c Hans de Goede         2017-03-29  162  		ODM_DMWatchdog(&pHalData->odmpriv);
+554c0a3abf216c Hans de Goede         2017-03-29  163  	}
+554c0a3abf216c Hans de Goede         2017-03-29  164  
+554c0a3abf216c Hans de Goede         2017-03-29  165  skip_dm:
+554c0a3abf216c Hans de Goede         2017-03-29  166  	return;
+554c0a3abf216c Hans de Goede         2017-03-29  167  }
+554c0a3abf216c Hans de Goede         2017-03-29  168  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
