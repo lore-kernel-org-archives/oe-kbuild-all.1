@@ -1,106 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE285B1EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 02:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3DB284671
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 02:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769566666; cv=none; b=s1VS4lxNN+AvcXSEt2qWC/kgFpjh6BqxlhvZoV3btQrGxwHe7HfEs1UK9pP8+XnzcR7iHvBiSvTtUHNDGQjPfWCNy+fH1QHwgXz6iF24rxGtiwJJcPQTE04hbIKyyMVr6beZIO3JcO4yx74WGoLhZ7ISx7alvWnMNft77smKTL0=
+	t=1769567294; cv=none; b=E77VLX1NpkDejGu4N7L95I0K9XKLKmdbb8DG/R0cN642Lkbfk/EzcggZI0VkchVf9nbbu+Fm1xi8wem8bbAykStT+Oq0ucHShs7hc33ManZqyS31Tp6pZUlgp6sKdvIjI2BvOB10vEWwfMIc+9uxmmDrazOAxQmEAxLDTn7s3U0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769566666; c=relaxed/simple;
-	bh=Xjui6Cnph1G4zFOmvliE5oBwZysBflQw300GaAPA054=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=T4sGDFvqrZAKWHcyDY8qPR9CtppD7vgI6knGMv8bc3VkgpIVtjLNQsWmGqGxrFca/b04204MqlbF5sCbaK4uWVLNHPgjCEbKo7Wdo6C9m4FEm9FERRWCGN1IY8ZXXoVCX/DpGBC1nfzE99Q27jtuona07DWZxGjseHGcxNnGZ74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JSVDmrPB; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1769567294; c=relaxed/simple;
+	bh=AsLaV6WjLigGQB+1fL0zxdBAPWzCg6IZSXz0Q9HxAG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YZ9e77GkYjtT8dEL4Ui6D0wSSkpSpVAs2cgmNshWgQYgyJkChtjKX7sLeuxSznyXYz+Vs8PS++94fYn26h8kknGOM4FAMA/+xE5dLQz5IvEB/2nMMiStEsDHmu5JUVzPevdILqGSmGCrsAGe1sybJmMl0yHanppQOUjdAD0S9W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PyjV7SE1; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JSVDmrPB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyjV7SE1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769566664; x=1801102664;
-  h=date:from:to:cc:subject:message-id;
-  bh=Xjui6Cnph1G4zFOmvliE5oBwZysBflQw300GaAPA054=;
-  b=JSVDmrPBU5FAT7lFMLCTVMqH+wv9u970J6Gnl2jOTBN6I9OcHxqhfkBE
-   uYGsAcgBQoaWXrpWbtAiGsZ5+TbQZRJLSUx2O1BCYGjIUPGgxuebdwtph
-   DrSiM39e5YZ+TtsTBx70jUXH3SR/riwdy5XrCJGC8B2mmByiuvh6ECMVb
-   HO/h78qDTlic/8CuHr53M9cDOSqREZXjqbC2jaJEcp45Yw6s0P/k10Qrw
-   r90wczfIVN+n0FHQan36w1yQ549QdCpPeLbUZ7RZGizAuxeirwShteZ6X
-   3G7d5ufkzPjGpZa7wvibNPdzr7IIoqdIRVIiKqV0VaTW+CPUVvX61WkzX
-   A==;
-X-CSE-ConnectionGUID: iSAlZDi1Tnmk9iz1SGtMJg==
-X-CSE-MsgGUID: vt006hAWTZ6LNcCyLri5sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70747411"
+  t=1769567291; x=1801103291;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AsLaV6WjLigGQB+1fL0zxdBAPWzCg6IZSXz0Q9HxAG8=;
+  b=PyjV7SE1zueYBRGlhnQU0B5qNqgkEhBv4VFRYE/5wigQ2DvG5ccjrYRl
+   Al32vIkzxVqeFBq0NgdNFSnbr7HLWdZQa6m0Fla84KrRjSXnRyp0GH33P
+   fEt+qpNyNWw4hrUDOvEabP0eMOkuFEPFQKa4DnehFLu6KurdsqUm2+7hG
+   IcKwQ4P+HYssVaBky16cDO2PinA5OEQQhXIi+rFDcsyX1IA0NgwVNqkSh
+   6BH76b8cCULl8yUpRaOugKsA7BLACKmmxHZ344LAATcg0cvf3yF2Pp2Y+
+   mx8I8ReQA07KSkHvKaTC0nuvvPbaocLlb6BTvy8kv0sV8ps1Mj6WwdxBp
+   w==;
+X-CSE-ConnectionGUID: +5TUf2NEQtamU/TxTKqadg==
+X-CSE-MsgGUID: kKz8yVUKTOCKWTd+73Qaow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="81881450"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="70747411"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 18:17:44 -0800
-X-CSE-ConnectionGUID: ceB/W4g7QJqyQyo66EpxAA==
-X-CSE-MsgGUID: 0b9dQ0blQ+aDlm5NHMCjGw==
+   d="scan'208";a="81881450"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 18:28:11 -0800
+X-CSE-ConnectionGUID: Y8t6OJ+RTyODRg9E9tlaNw==
+X-CSE-MsgGUID: 1pnRvin1TRWKvOKkPfe5QA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="213097915"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 27 Jan 2026 18:17:42 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207277691"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 27 Jan 2026 18:28:07 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkv7j-000000001z7-3YDi;
-	Wed, 28 Jan 2026 02:17:39 +0000
-Date: Wed, 28 Jan 2026 03:17:03 +0100
+	id 1vkvHo-00000000Z8y-1XK9;
+	Wed, 28 Jan 2026 02:28:04 +0000
+Date: Wed, 28 Jan 2026 10:27:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Oreoluwa Babatunde <oreoluwa.babatunde@oss.qualcomm.com>
-Subject: [mszyprowski:dma-mapping-fixes 5/5]
- ./include/linux/cma.h:60:5: warning: 'CONFIG_DMA_CMA' is not defined,
- evaluates to '0'
-Message-ID: <202601280336.KFaZQhdm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Joey Lu <a0987203069@gmail.com>, airlied@gmail.com, simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ychuang3@nuvoton.com, schung@nuvoton.com,
+	yclu4@nuvoton.com, a0987203069@gmail.com,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] drm/nuvoton: add MA35D1 display controller driver
+Message-ID: <202601281037.qP5gX0kK-lkp@intel.com>
+References: <20260126085727.2568958-4-a0987203069@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260126085727.2568958-4-a0987203069@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszyprowski/linux dma-mapping-fixes
-head:   05d6113cb1bd4408d4f9cf6497d076e08a6bfe3d
-commit: 05d6113cb1bd4408d4f9cf6497d076e08a6bfe3d [5/5] of: reserved_mem: Allow reserved_mem framework detect "cma=" kernel param
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260128/202601280336.KFaZQhdm-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280336.KFaZQhdm-lkp@intel.com/reproduce)
+Hi Joey,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next]
+[cannot apply to robh/for-next linus/master v6.19-rc7 next-20260127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Lu/dt-bindings-display-nuvoton-add-MA35D1-DCU-binding/20260126-170258
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260126085727.2568958-4-a0987203069%40gmail.com
+patch subject: [PATCH 3/3] drm/nuvoton: add MA35D1 display controller driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260128/202601281037.qP5gX0kK-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281037.qP5gX0kK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601280336.KFaZQhdm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601281037.qP5gX0kK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/crash_reserve.c:17:
->> ./include/linux/cma.h:60:5: warning: 'CONFIG_DMA_CMA' is not defined, evaluates to '0' [-Wundef]
-      60 | #if CONFIG_DMA_CMA
-         |     ^~~~~~~~~~~~~~
->> ./include/linux/cma.h:63:13: warning: 'cma_skip_dt_default_reserved_mem' defined but not used [-Wunused-function]
-      63 | static bool cma_skip_dt_default_reserved_mem(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/nuvoton/ma35_drm.h:18,
+                    from drivers/gpu/drm/nuvoton/ma35_plane.c:23:
+   drivers/gpu/drm/nuvoton/ma35_plane.c: In function 'ma35_layer_blend_mode_select':
+>> drivers/gpu/drm/nuvoton/ma35_plane.h:141:9: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     141 |         FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_ONE)
+         |         ^~~~~~~~~~
+   drivers/gpu/drm/nuvoton/ma35_plane.c:177:24: note: in expansion of macro 'MA35_BLEND_MODE_SRC'
+     177 |                 *reg = MA35_BLEND_MODE_SRC;
+         |                        ^~~~~~~~~~~~~~~~~~~
 --
-   In file included from mm/mm_init.c:29:
->> ./include/linux/cma.h:60:5: warning: 'CONFIG_DMA_CMA' is not defined, evaluates to '0' [-Wundef]
-      60 | #if CONFIG_DMA_CMA
-         |     ^~~~~~~~~~~~~~
+   drivers/gpu/drm/nuvoton/ma35_crtc.c: In function 'ma35_crtc_atomic_enable':
+>> drivers/gpu/drm/nuvoton/ma35_crtc.c:97:15: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      97 |         reg = FIELD_PREP(MA35_DISPLAY_TOTAL_MASK, mode->htotal) |
+         |               ^~~~~~~~~~
+   drivers/gpu/drm/nuvoton/ma35_crtc.c: In function 'ma35_crtc_get_scanout_position':
+>> drivers/gpu/drm/nuvoton/ma35_crtc.c:228:17: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     228 |         *hpos = FIELD_GET(MA35_DISPLAY_CURRENT_X, reg);
+         |                 ^~~~~~~~~
 
 
-vim +60 ./include/linux/cma.h
+vim +/FIELD_PREP +141 drivers/gpu/drm/nuvoton/ma35_plane.h
 
-    59	
-  > 60	#if CONFIG_DMA_CMA
-    61	extern bool cma_skip_dt_default_reserved_mem(void);
-    62	#else
-  > 63	static bool cma_skip_dt_default_reserved_mem(void)
-    64	{
-    65		return false;
-    66	}
-    67	#endif
-    68	
+   137	
+   138	/* configs for blend modes */
+   139	#define MA35_BLEND_MODE_CLEAR	0
+   140	#define MA35_BLEND_MODE_SRC	\
+ > 141		FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_ONE)
+   142	#define MA35_BLEND_MODE_DST \
+   143		FIELD_PREP(MA35_DST_BLENDING_MODE, MA35_ALPHA_BLEND_ONE)
+   144	#define MA35_BLEND_MODE_SRC_OVER \
+   145		(FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_ONE) | \
+   146		FIELD_PREP(MA35_DST_BLENDING_MODE, MA35_ALPHA_BLEND_INVERSED))
+   147	#define MA35_BLEND_MODE_DST_OVER \
+   148		(FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_INVERSED) | \
+   149		FIELD_PREP(MA35_DST_BLENDING_MODE, MA35_ALPHA_BLEND_ONE))
+   150	#define MA35_BLEND_MODE_SRC_IN \
+   151		FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_NORMAL)
+   152	#define MA35_BLEND_MODE_DST_IN \
+   153		FIELD_PREP(MA35_DST_BLENDING_MODE, MA35_ALPHA_BLEND_NORMAL)
+   154	#define MA35_BLEND_MODE_SRC_OUT \
+   155		FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_INVERSED)
+   156	#define MA35_BLEND_MODE_DST_OUT \
+   157		FIELD_PREP(MA35_DST_BLENDING_MODE, MA35_ALPHA_BLEND_INVERSED)
+   158	#define MA35_BLEND_MODE_SRC_ATOP \
+   159		(FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_NORMAL) | \
+   160		FIELD_PREP(MA35_DST_BLENDING_MODE, MA35_ALPHA_BLEND_INVERSED))
+   161	#define MA35_BLEND_MODE_DST_ATOP \
+   162		(FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_INVERSED) | \
+   163		FIELD_PREP(MA35_DST_BLENDING_MODE, MA35_ALPHA_BLEND_NORMAL))
+   164	#define MA35_BLEND_MODE_XOR \
+   165		(FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_INVERSED) | \
+   166		FIELD_PREP(MA35_DST_BLENDING_MODE, MA35_ALPHA_BLEND_INVERSED))
+   167	
 
 -- 
 0-DAY CI Kernel Test Service
