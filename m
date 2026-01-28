@@ -1,116 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987AE33ADAE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 23:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0DE33BBBD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 23:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769644197; cv=none; b=VBpwPo2eBWqhlWQCGym4StFr4/3taUhv04jh2GU4A/mjj5ayNCZzxokk9DvjJetJXxNzvywsML4eSr5av4J3lBnl1JdWqzOYe6rTxvlLyuDBVh3hvinL3enkLP/j1R6sNyKoZWQjmKHOM60HJ0nnfw+Nu5hWJP5VXXSd6Vhtrwg=
+	t=1769644675; cv=none; b=OJ4jaiMyXIreZ0tS+IpxyqZAee402S1KfWjUjrWCqormnAk62rMfZV9JPBB6Eov2By6EE2YXhYvG8HLmv3ltSK+gqWG6tcRQj2bWXZqowwdb2jpR43j4ntvMENkvE5ggMeId6Dcwd3UB/q7k6v25zJB5wqRhzavD2PtQ3Pc0BRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769644197; c=relaxed/simple;
-	bh=uI3RDr7HqUZjxLfQKmdKrlNh8La0nTbxIAzpjwhvhL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GvPGTFnXZIjK32gIZ60BNatH8qK7d8Pgi6E7ObMLykDkudHhs/aiIueV47g9VgCmyrgKDHL3GWINjLzqMbDJZg8aFIOoP0ySpYbQxactUjFVUnibrmzBbqqoMnma273/Fd/4zNCYJRISTto7Pur98n+CvRVnCoKyaATWiR3pceg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+M0cReD; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1769644675; c=relaxed/simple;
+	bh=HOLbuArSe4mtfQDwMPsKzFLaDT6He5EDymTrxGuDoGo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rWykP31AHrFpNQX3M5d9VbJVoPcjyICPgrq2Q8vNdrWo5YIW0UJNcNTlP4faNmKjAxqsJLucYcnONHI8gnI6CYy8vuO8gMtxEW2a6LTQbwT/BqVVRnfFsYETA5UfKn5D18ZNP+PecXS1TGT7dAHMIdLuySUxMBt+lX5bH2FsT/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YqRNUdiZ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+M0cReD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YqRNUdiZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769644196; x=1801180196;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uI3RDr7HqUZjxLfQKmdKrlNh8La0nTbxIAzpjwhvhL0=;
-  b=L+M0cReDyWpe8Y4irkASpa744AvxO65phHypLOTHYBXQ3GRuQLRuM/0a
-   lEvYREicZYZwuM4jVW4ji2aO1Q6ENCWgji2WzrGON49v2oovhuhmtXZ2r
-   s9JgI81eGoXXQc+2eiNFXNe1HJbkpyYlGAPshrFZgNN/+jR47o/kP6FrN
-   FIM9jn8NJ3Z1womb7Wt0ESZDc8Xj/2Wry1QRSBaxj3U7rF4WYDqbS3BLd
-   LNYMhHtcvWa2TWsK4rB9fhV6tcwDGLIz8bmMkOTA31YpP70r8qsv6kwfP
-   /pcjZTx2q6Sk9uH8pMkIuTsUd0JF906TZ87jcygAkApOtfRNLvqmjU5zO
-   Q==;
-X-CSE-ConnectionGUID: bb4iMtTvQpaSWoTBlvJpDg==
-X-CSE-MsgGUID: UhlIFFXaTqqLSZhLtOWgJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70766510"
+  t=1769644674; x=1801180674;
+  h=date:from:to:cc:subject:message-id;
+  bh=HOLbuArSe4mtfQDwMPsKzFLaDT6He5EDymTrxGuDoGo=;
+  b=YqRNUdiZg8wkQehRMTm5xL0bRZz/WPnMAq2+mktxrF80Z+/jnemLJxTx
+   vi+5aVTea7gYN8ieR4I83L2LribHNg5QOCMCVGpzu0HWxkKo3U2XK+9rA
+   gj5qcEgwcK/wdRwrXTMJuHLN4FO7gL/0BEQmb7UrrP5rVOF3/SIqgGm2W
+   936w7AGcqvQ8HnmLR1igfD19/tCsoinUraRj+KXrCBrmkXZGiaLTRnEvy
+   77Qw1O5FcXYhYiE/UJkF+bciOiyhGYSIx2V27C1bhyaUhV4GAsS8DBIAs
+   8qq5lo2fhZHrXHKUxtuK5Ja5aEBYKqL8pOZwkM7jfORB+hDgWW7PLkr2u
+   A==;
+X-CSE-ConnectionGUID: TcRtWZXzTu6wEwwBSdxlYg==
+X-CSE-MsgGUID: YxP6jl6GQgebMMHMgpcPOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="81600614"
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="70766510"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 15:49:55 -0800
-X-CSE-ConnectionGUID: wWr+rVRHRnCwxh2cpWOBcw==
-X-CSE-MsgGUID: +lVlpeSaQQ2nnHHivX0AoQ==
+   d="scan'208";a="81600614"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 15:57:53 -0800
+X-CSE-ConnectionGUID: ARFzvBDQT56DBfVPu9ujUg==
+X-CSE-MsgGUID: 8kecZzWNT9CReucbQDU11Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="208299916"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Jan 2026 15:49:51 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="231341542"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 28 Jan 2026 15:57:52 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlFIB-00000000289-3eBH;
-	Wed, 28 Jan 2026 23:49:47 +0000
-Date: Thu, 29 Jan 2026 00:49:12 +0100
+	id 1vlFPx-00000000avC-2NwB;
+	Wed, 28 Jan 2026 23:57:49 +0000
+Date: Thu, 29 Jan 2026 07:56:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Will Drewry <wad@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Subject: Re: [PATCH 3/5] selftests: kselftest: Add ksft_reset_state()
-Message-ID: <202601290039.37LnFCGx-lkp@intel.com>
-References: <20260128-kselftest-harness-v1-3-cb259fa81cd0@linutronix.de>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kas:compound_head 11/17] include/linux/mmzone.h:1565:23:
+ error: size of array 'vmemmap_tails' is negative
+Message-ID: <202601290752.Eg1DIO4s-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128-kselftest-harness-v1-3-cb259fa81cd0@linutronix.de>
 
-Hi Thomas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6d6ad32e22f028c525d5df471c5522616e645a6b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/selftests-kselftest-Treat-xpass-as-successful-result/20260128-182856
-base:   6d6ad32e22f028c525d5df471c5522616e645a6b
-patch link:    https://lore.kernel.org/r/20260128-kselftest-harness-v1-3-cb259fa81cd0%40linutronix.de
-patch subject: [PATCH 3/5] selftests: kselftest: Add ksft_reset_state()
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260129/202601290039.37LnFCGx-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601290039.37LnFCGx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git compound_head
+head:   6369fbab94308b760d36f19381acf4e2a6cc09a0
+commit: 34b575dc7cb0df61385aa523418a315abb7815bd [11/17] mm/hugetlb: Remove fake head pages
+config: powerpc64-randconfig-002-20260129 (https://download.01.org/0day-ci/archive/20260129/202601290752.Eg1DIO4s-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601290752.Eg1DIO4s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601290039.37LnFCGx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601290752.Eg1DIO4s-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from ovpn-cli.c:35:
->> tools/testing/selftests/../../../tools/testing/selftests/kselftest.h:488:2: warning: extra ';' outside of a function [-Wextra-semi]
-     488 | };
-         |  ^
-   1 warning generated.
+   In file included from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:16,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs/super_types.h:7,
+                    from include/linux/fs/super.h:5,
+                    from include/linux/fs.h:5,
+                    from include/linux/compat.h:17,
+                    from arch/powerpc/kernel/asm-offsets.c:13:
+>> include/linux/mmzone.h:1565:23: error: size of array 'vmemmap_tails' is negative
+    1565 |         unsigned long vmemmap_tails[NR_VMEMMAP_TAILS];
+         |                       ^~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:182: arch/powerpc/kernel/asm-offsets.s] Error 1 shuffle=3985168493
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1314: prepare0] Error 2 shuffle=3985168493
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3985168493
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3985168493
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +488 tools/testing/selftests/../../../tools/testing/selftests/kselftest.h
+vim +/vmemmap_tails +1565 include/linux/mmzone.h
 
-   478	
-   479	static inline void ksft_reset_state(void)
-   480	{
-   481		ksft_cnt.ksft_pass = 0;
-   482		ksft_cnt.ksft_fail = 0;
-   483		ksft_cnt.ksft_xfail = 0;
-   484		ksft_cnt.ksft_xpass = 0;
-   485		ksft_cnt.ksft_xskip = 0;
-   486		ksft_cnt.ksft_error = 0;
-   487		ksft_plan = 0;
- > 488	};
-   489	
+  1552	
+  1553		CACHELINE_PADDING(_pad2_);
+  1554	
+  1555		/* Per-node vmstats */
+  1556		struct per_cpu_nodestat __percpu *per_cpu_nodestats;
+  1557		atomic_long_t		vm_stat[NR_VM_NODE_STAT_ITEMS];
+  1558	#ifdef CONFIG_NUMA
+  1559		struct memory_tier __rcu *memtier;
+  1560	#endif
+  1561	#ifdef CONFIG_MEMORY_FAILURE
+  1562		struct memory_failure_stats mf_stats;
+  1563	#endif
+  1564	#ifdef CONFIG_SPARSEMEM_VMEMMAP
+> 1565		unsigned long vmemmap_tails[NR_VMEMMAP_TAILS];
+  1566	#endif
+  1567	} pg_data_t;
+  1568	
 
 -- 
 0-DAY CI Kernel Test Service
