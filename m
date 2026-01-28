@@ -1,67 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570CF2C11E9;
-	Wed, 28 Jan 2026 10:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9884E2D0625
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 10:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769594555; cv=none; b=B5YkJkHlZHUzN2cK4Ao1Xvrpcpwc0qB4wnMX0EzhbqP9ptHtN5y8DoVbOHtzchGVCH9ii4FJsOJhcnf4neC1mqaTpENckvERBnHAQfiatZlV9Qm1Gmjf88KhVutq6hPkMw8nNa+DJt22PPEiI432XiRFpdHg707kV3hy9lVpM7M=
+	t=1769594686; cv=none; b=N60Oou4wR2BNohJSB8z3Ypvq8LxjQzgwBk1/G4DHsLCSYQdIslPA4Lzg9BKqTdaeRsq0jMGCDWKjOOW5eST633gNYVdHjKnNg3ymgKf9WDjWhPheKdJN6MIrGTnUvA183FdcJ4Tfq42LogJEchSb0fEJKCqB2FvoCNVbd5Yx4HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769594555; c=relaxed/simple;
-	bh=M/1XAAe2fXUTjteJOxDYo6ou5Wc8lghhfgq/fQ9TNFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PnaiG6e43x5+VFTjDjQX39Sae08scnUiVtVeODFM4dX97L8kqenZxCWRDB2LAtPgFmIQDvYPGF/WgICI2+u7wzXqJbnapAjphqR0BEtOg7VZShV4CvNHtfZl4GMWzRpbMAWuYuy12o3aizXAiCWUkgT0PZMgWtj2XhA0SypOSag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AcuK0+Gm; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769594686; c=relaxed/simple;
+	bh=QVHDx3xcJSQGTsDOEtdfsXiKIHjbhDUL6hp1jm7lH8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RyIzO2SKZt4u4qXU1P++vCGZEPZlp4zMlNiiCA54e8BZTdRBZvIoc6txuwCQmLJQW1f55/j5c0uZ0NxO29qNtJ8EtqMqwqKojIqyxrl0vQdzCCfW3cbv/gw6Yczwt9HY3RADM8y0GsqerMtvaXnnPzW2yqUef6S/GqDrP/8dgVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xt5EskVA; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AcuK0+Gm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769594554; x=1801130554;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M/1XAAe2fXUTjteJOxDYo6ou5Wc8lghhfgq/fQ9TNFk=;
-  b=AcuK0+Gm/oB83L2Jnvyu6XN1/eBLmQJNq+wAMcofy0LnmVwmGwdDWe7l
-   FZcvfR4pBPBaP8Pk3RNxpwtcLCnDSvDxCRMmgbkAWCe3cy9rV3cGSCsRM
-   jstbGcqQm2lJ56IjapSe3MJ/22pZLJfgFoa4gKXO8H4UvgJbXbQwepq0o
-   P0WByboRONrQj0hBSnuyAPHBYDMrZNQ9tkiuvesdImJeUN3UIIGL/u3jp
-   69qjqxDoO84JrnNWzFU6KT2qHxI9AhBwuzNvy5eHGiVGnXHB4Iaf89D7e
-   945m7IXfU6FtqdSKQV3KnWmEBEP3PpOQK4XXuUu/Fh8ml7Pg3Dk2vsSrL
-   w==;
-X-CSE-ConnectionGUID: SzlYV4/6TU+6zQmwC48SVg==
-X-CSE-MsgGUID: P5nV5O/LRvWuUXEhUaUmFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70891963"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="70891963"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 02:02:33 -0800
-X-CSE-ConnectionGUID: 8I8p/2p0TrGpQgtzGYcMgw==
-X-CSE-MsgGUID: q85tbTJXQiWSPpZl4S4FGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="208015458"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Jan 2026 02:02:29 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vl2NW-00000000ZWa-0RDG;
-	Wed, 28 Jan 2026 10:02:26 +0000
-Date: Wed, 28 Jan 2026 18:01:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexey Charkov <alchark@gmail.com>,
-	Sjoerd Simons <sjoerd.simons@collabora.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH 10/10] ASoC: rockchip: spdif: Convert to FIELD_PREP
-Message-ID: <202601281701.vJDagmwh-lkp@intel.com>
-References: <20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb@collabora.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xt5EskVA"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4801eb2c0a5so63976765e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 02:04:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769594683; x=1770199483; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mtm8B2T7S1qUauc/6qoIpJTX7nj6fC+BOV/5dGgx6bA=;
+        b=Xt5EskVAhCGJzhsnUmUQLvG2cjqpOmlCWQcM4Stl4IFTM6xYJhZT4llPJmgCDqI9na
+         Q0u8xraCRrrEa8j2nlFIs3/81zyNVuoh3bcGxXSVmqQFc+y8MB99MZTnbRSUZ4HIc8Uy
+         t9LJjYxjVIbI+rvF3Lo/Kj8FrKGoe2JtecyTqirP7HYuADx/bWA3V2hg1szjyv+2Im4G
+         tTxmBWppdBN2HITPvbbz7VQPDhV2X0rDFZZjPNPNhi/TUWKhTvap/i+yEbZ+hC1eZo4i
+         v5UpLgUomDr1Sgh2bm2nOnj5RPlvDhQZUJsZ4UJfA4FUKn5ef6eeeQBlvc7cqjlM6wz4
+         DPDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769594683; x=1770199483;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mtm8B2T7S1qUauc/6qoIpJTX7nj6fC+BOV/5dGgx6bA=;
+        b=aX5Rkb8HItbg7L0vORtH3ZGKS1FciEOlcIvvu479kqPRdkT6D68ZE2Nv3gcnSbvBg8
+         w/HgmAXgQgQAQRnlBUJMJxX0G09V1wMUR+lNLjCF2Qwjt/YGhp1GJCcEmuBNAppalnCF
+         OyuIprOvyI9i9e0gUnpC34K8Te9/qIwUaPjDt1God27hIjpXAAHTcf8ea46YW48cubWy
+         z+31P6GJEYRDJ4MPlzhd1o21ovUYnIm49GQ9o1v9unTLrdpHtS9KnGU82wnytjM4eaNG
+         bDd6baCu6KoOnpcQGwBxxNQfR36kpVADv6HXlTrPCC1VzXIIangK6AWpbEBdH9KK1Pxg
+         2piw==
+X-Forwarded-Encrypted: i=1; AJvYcCVVc688A1Xjl3FBcxF1L5Zk660vEJsI9l4jR7WO4MmZAT/+Ab/3rH4zdNsuLq8ZkRurkrhQ6NBXutYH+GMi@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5v2b9Siw53XgqOHgyx8fauNOoW/Xopt4b1e85qkPcEQbabJKi
+	nro8EbedNUB0KhmpEGMwG9FXSmRMdHSuhmAZhCRVJXpHvyHDVA46sdgJduxRQ4wnRvo=
+X-Gm-Gg: AZuq6aK6ROXAIMnnGAgnEGLlVn/49JyzAyMVSThcAPJaz01lyxZtHjoMxbiUCHylNFh
+	ZEuhHJ14ekSDcSRRDZ11zpjjeBVJKUj9qCTvDgjCdjHSvLRws7z0BYOOk6rdd02ePh16dEpfo8U
+	6pYmJA9pFnMTNmBslCBawMeWPOB6hhF60gW337yLHCxDddQjMWu9gMeG2YEYu5B6yFBh+2b1sSM
+	Hmo+EE4qWXDLmo5puCQNTIj8rAV7YPMdgxWPy+lAXf+02+x67fu0GhPIZ4sbTwZj0f44oOKXIyV
+	nka1T5iv+3OKgF7RWZcsO2Toqp9TIDSYEFCbG2m0Sjv14t2XiXa6yMAOZ8TgG6THZeSn1VnRtgp
+	lTZCikX5YBaPX6qcaPSLQxCLZSkbtSo014biHP8x5bya/sMdD8cJWrNvczYHt3yjiHo7bZtXn6x
+	yXiJKFhncIOesyjOlu
+X-Received: by 2002:a05:600c:450b:b0:477:63b5:7148 with SMTP id 5b1f17b1804b1-48069c0fd5amr64474885e9.6.1769594682963;
+        Wed, 28 Jan 2026 02:04:42 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806e2df1aesm2898375e9.16.2026.01.28.02.04.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 02:04:42 -0800 (PST)
+Date: Wed, 28 Jan 2026 13:04:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Subject: [linux-next:master 7732/9539]
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c:161
+ dpu_hw_sspp_setup_pe_config_v13() warn: variable dereferenced before check
+ 'ctx' (see line 159)
+Message-ID: <202601252214.oEaY3UZM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,114 +76,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb@collabora.com>
 
-Hi Sebastian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 63804fed149a6750ffd28610c5c1c98cce6bd377]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Reichel/ASoC-rockchip-spdif-Use-device_get_match_data/20260128-001701
-base:   63804fed149a6750ffd28610c5c1c98cce6bd377
-patch link:    https://lore.kernel.org/r/20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb%40collabora.com
-patch subject: [PATCH 10/10] ASoC: rockchip: spdif: Convert to FIELD_PREP
-config: hexagon-randconfig-002-20260128 (https://download.01.org/0day-ci/archive/20260128/202601281701.vJDagmwh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281701.vJDagmwh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+commit: 688c7734002a1ee6f50a28ba9bd7aa380edbe12d [7732/9539] drm/msm/dpu: Add Kaanapali SSPP sub-block support
+config: mips-randconfig-r071-20260125 (https://download.01.org/0day-ci/archive/20260125/202601252214.oEaY3UZM-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 15.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601281701.vJDagmwh-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601252214.oEaY3UZM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c:161 dpu_hw_sspp_setup_pe_config_v13() warn: variable dereferenced before check 'ctx' (see line 159)
 
->> sound/soc/rockchip/rockchip_spdif.c:109:21: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     109 |         unsigned int val = SPDIF_CFGR_HALFWORD_ENABLE;
-         |                            ^
-   sound/soc/rockchip/rockchip_spdif.h:33:36: note: expanded from macro 'SPDIF_CFGR_HALFWORD_ENABLE'
-      33 | #define SPDIF_CFGR_HALFWORD_ENABLE      FIELD_PREP(SPDIF_CFGR_HALFWORD_MASK, 1)
-         |                                         ^
-   sound/soc/rockchip/rockchip_spdif.c:182:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     182 |                                          SPDIF_DMACR_TDE_ENABLE |
-         |                                          ^
-   sound/soc/rockchip/rockchip_spdif.h:48:33: note: expanded from macro 'SPDIF_DMACR_TDE_ENABLE'
-      48 | #define SPDIF_DMACR_TDE_ENABLE          FIELD_PREP(SPDIF_DMACR_TDE_MASK, 1)
-         |                                         ^
-   2 errors generated.
+vim +/ctx +161 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c
 
+688c7734002a1e Yuanjie Yang 2026-01-15  152  static void dpu_hw_sspp_setup_pe_config_v13(struct dpu_hw_sspp *ctx,
+688c7734002a1e Yuanjie Yang 2026-01-15  153  					    struct dpu_hw_pixel_ext *pe_ext)
+688c7734002a1e Yuanjie Yang 2026-01-15  154  {
+688c7734002a1e Yuanjie Yang 2026-01-15  155  	struct dpu_hw_blk_reg_map *c;
+688c7734002a1e Yuanjie Yang 2026-01-15  156  	u8 color;
+688c7734002a1e Yuanjie Yang 2026-01-15  157  	u32 lr_pe[4], tb_pe[4];
+688c7734002a1e Yuanjie Yang 2026-01-15  158  	const u32 bytemask = 0xff;
+688c7734002a1e Yuanjie Yang 2026-01-15 @159  	u32 offset = ctx->cap->sblk->sspp_rec0_blk.base;
+                                                             ^^^^^
+Dereference
 
-vim +/FIELD_PREP +109 sound/soc/rockchip/rockchip_spdif.c
+688c7734002a1e Yuanjie Yang 2026-01-15  160  
+688c7734002a1e Yuanjie Yang 2026-01-15 @161  	if (!ctx || !pe_ext)
+                                                     ^^^
+NULL check is too late.
 
-f874b80e157111 Sjoerd Simons     2015-10-08  102  
-f874b80e157111 Sjoerd Simons     2015-10-08  103  static int rk_spdif_hw_params(struct snd_pcm_substream *substream,
-f874b80e157111 Sjoerd Simons     2015-10-08  104  			      struct snd_pcm_hw_params *params,
-f874b80e157111 Sjoerd Simons     2015-10-08  105  			      struct snd_soc_dai *dai)
-f874b80e157111 Sjoerd Simons     2015-10-08  106  {
-f874b80e157111 Sjoerd Simons     2015-10-08  107  	struct rk_spdif_dev *spdif = snd_soc_dai_get_drvdata(dai);
-b8e112b77e45b4 Sugar Zhang       2026-01-27  108  	unsigned int mclk_rate = clk_get_rate(spdif->mclk);
-f874b80e157111 Sjoerd Simons     2015-10-08 @109  	unsigned int val = SPDIF_CFGR_HALFWORD_ENABLE;
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  110  	int bmc, div, ret, i;
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  111  	u16 *fc;
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  112  	u8 cs[CS_BYTE];
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  113  
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  114  	ret = snd_pcm_create_iec958_consumer_hw_params(params, cs, sizeof(cs));
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  115  	if (ret < 0)
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  116  		return ret;
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  117  
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  118  	fc = (u16 *)cs;
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  119  	for (i = 0; i < CS_BYTE / 2; i++)
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  120  		regmap_write(spdif->regmap, SPDIF_CHNSRn(i), CS_FRAME(fc[i]));
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  121  
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  122  	regmap_update_bits(spdif->regmap, SPDIF_CFGR, SPDIF_CFGR_CSE_MASK,
-9cd33c09d22fd1 Sugar Zhang       2026-01-27  123  			   SPDIF_CFGR_CSE_EN);
-f874b80e157111 Sjoerd Simons     2015-10-08  124  
-b8e112b77e45b4 Sugar Zhang       2026-01-27  125  	/* bmc = 128fs */
-b8e112b77e45b4 Sugar Zhang       2026-01-27  126  	bmc = 128 * params_rate(params);
-b8e112b77e45b4 Sugar Zhang       2026-01-27  127  	div = DIV_ROUND_CLOSEST(mclk_rate, bmc);
-b8e112b77e45b4 Sugar Zhang       2026-01-27  128  	val |= SPDIF_CFGR_CLK_DIV(div);
-f874b80e157111 Sjoerd Simons     2015-10-08  129  
-f874b80e157111 Sjoerd Simons     2015-10-08  130  	switch (params_format(params)) {
-f874b80e157111 Sjoerd Simons     2015-10-08  131  	case SNDRV_PCM_FORMAT_S16_LE:
-f874b80e157111 Sjoerd Simons     2015-10-08  132  		val |= SPDIF_CFGR_VDW_16;
-908589f3825713 Sugar Zhang       2026-01-27  133  		val |= SPDIF_CFGR_ADJ_RIGHT_J;
-f874b80e157111 Sjoerd Simons     2015-10-08  134  		break;
-f874b80e157111 Sjoerd Simons     2015-10-08  135  	case SNDRV_PCM_FORMAT_S20_3LE:
-f874b80e157111 Sjoerd Simons     2015-10-08  136  		val |= SPDIF_CFGR_VDW_20;
-908589f3825713 Sugar Zhang       2026-01-27  137  		val |= SPDIF_CFGR_ADJ_RIGHT_J;
-f874b80e157111 Sjoerd Simons     2015-10-08  138  		break;
-f874b80e157111 Sjoerd Simons     2015-10-08  139  	case SNDRV_PCM_FORMAT_S24_LE:
-f874b80e157111 Sjoerd Simons     2015-10-08  140  		val |= SPDIF_CFGR_VDW_24;
-908589f3825713 Sugar Zhang       2026-01-27  141  		val |= SPDIF_CFGR_ADJ_RIGHT_J;
-908589f3825713 Sugar Zhang       2026-01-27  142  		break;
-908589f3825713 Sugar Zhang       2026-01-27  143  	case SNDRV_PCM_FORMAT_S32_LE:
-908589f3825713 Sugar Zhang       2026-01-27  144  		val |= SPDIF_CFGR_VDW_24;
-908589f3825713 Sugar Zhang       2026-01-27  145  		val |= SPDIF_CFGR_ADJ_LEFT_J;
-f874b80e157111 Sjoerd Simons     2015-10-08  146  		break;
-f874b80e157111 Sjoerd Simons     2015-10-08  147  	default:
-f874b80e157111 Sjoerd Simons     2015-10-08  148  		return -EINVAL;
-f874b80e157111 Sjoerd Simons     2015-10-08  149  	}
-f874b80e157111 Sjoerd Simons     2015-10-08  150  
-908589f3825713 Sugar Zhang       2026-01-27  151  	/*
-908589f3825713 Sugar Zhang       2026-01-27  152  	 * clear MCLK domain logic before setting Fmclk and Fsdo to ensure
-908589f3825713 Sugar Zhang       2026-01-27  153  	 * that switching between S16_LE and S32_LE audio does not result
-908589f3825713 Sugar Zhang       2026-01-27  154  	 * in accidential channels swap.
-908589f3825713 Sugar Zhang       2026-01-27  155  	 */
-908589f3825713 Sugar Zhang       2026-01-27  156  	regmap_update_bits(spdif->regmap, SPDIF_CFGR, SPDIF_CFGR_CLR_MASK,
-908589f3825713 Sugar Zhang       2026-01-27  157  			   SPDIF_CFGR_CLR_EN);
-908589f3825713 Sugar Zhang       2026-01-27  158  	udelay(1);
-908589f3825713 Sugar Zhang       2026-01-27  159  
-f874b80e157111 Sjoerd Simons     2015-10-08  160  	ret = regmap_update_bits(spdif->regmap, SPDIF_CFGR,
-acc8b9d117912c Sugar Zhang       2021-08-24  161  				 SPDIF_CFGR_CLK_DIV_MASK |
-85c46be12ede08 Sebastian Reichel 2026-01-27  162  				 SPDIF_CFGR_HALFWORD_MASK |
-908589f3825713 Sugar Zhang       2026-01-27  163  				 SDPIF_CFGR_VDW_MASK |
-908589f3825713 Sugar Zhang       2026-01-27  164  				 SPDIF_CFGR_ADJ_MASK, val);
-f874b80e157111 Sjoerd Simons     2015-10-08  165  
-f874b80e157111 Sjoerd Simons     2015-10-08  166  	return ret;
-f874b80e157111 Sjoerd Simons     2015-10-08  167  }
-f874b80e157111 Sjoerd Simons     2015-10-08  168  
+688c7734002a1e Yuanjie Yang 2026-01-15  162  		return;
+688c7734002a1e Yuanjie Yang 2026-01-15  163  
+688c7734002a1e Yuanjie Yang 2026-01-15  164  	c = &ctx->hw;
+688c7734002a1e Yuanjie Yang 2026-01-15  165  	/* program SW pixel extension override for all pipes*/
+688c7734002a1e Yuanjie Yang 2026-01-15  166  	for (color = 0; color < DPU_MAX_PLANES; color++) {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
