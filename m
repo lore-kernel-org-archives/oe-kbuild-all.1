@@ -1,134 +1,245 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1186934DCC4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 09:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016D22D12F5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 10:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769594239; cv=none; b=kPsneFwZ99IwiQeNcE0gPPZAn93JOkHEtK6BaPvjr/Me1KrQcohKpGasTg67AiOThB4Kpl2uLgqaseZTGGvJ5Un8PWQE76azl5muR4Hc3tt5ODtozZmJzqwQi22YzmPDR1DeYxO6bqf5s+yVf3fxGaOz21KxkrGfP1O2HvXY+EM=
+	t=1769594552; cv=none; b=GnowiNSitiYxOtLihk23lhXkrH8eoZu7iEfoakNZZq3bphLmINb+kR2F3WFrjg57fwwie9to/ktGtTlgHPnSekFVd6bQBIBZvo4bCDNZEhl4TBD4GyYY1d0czeVaws5zykzPybI1ePR1Ucv7QkgENYF1dMz94DMZWkrBWQnXzOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769594239; c=relaxed/simple;
-	bh=GggrU3bHRA2xu7TDJMBNtXtRmwXwSU/q1CIR6m78pCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PRxcdXziiCqceBC7Xmf3N9JF34zCNhCpAk1lveYvIB1IfRRFfU0NQbXdrm+AV7t07s4lS4ZxZJ4Ze4kgVE+niySiqR6paCwiKl3tCGSvsTcxGDTbnV56rT4BSkYkp0oas7f1n+V77uEoNPq5qTD3crKJABUxga1A2NW86ra/HOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rD/cYRq7; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769594552; c=relaxed/simple;
+	bh=kAucBYJy3/iBuHpqV9tSUfqwhRTOFOj6GhFSPikbeMY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Mk7XgD+vUeGKAw+5U8BZsgT4aTcbyWTjKCdA9yd8vVLg7y0JE+T8ocnbDbmCE/FD/2WSVIOXLpzOZjAr6nU/TuJP390xKSIPV2SL4xNoQSFiL/P55ni8LDFOmWGU491F2RezyUHeVaiBuxg51uqQVW09wevTFPrpVWP/uRmguxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RcjUlGo6; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rD/cYRq7"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4359019da8cso5488942f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 01:57:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769594236; x=1770199036; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HmurQjdqSltJTABjXwnR2dRO5LAhljSLSjk5kJrk+Lk=;
-        b=rD/cYRq7fgjugWFdTRge8wcXUuAsiXVjkJaq3wipEi5mKRm3hcLqKbdM5PzREobT3N
-         tpBhtKGpcGBB5anH8oCIBrI6hmus/1/hBnmPo7rVvETAlStyuiKhmNZElH5tlTFcm0nJ
-         ySVTicHfQEOrhLOb8ogLzCL71XHYXT5wN4ds4MvbnIK5KewSfxyisOBXBl432xQmMIbz
-         Pn2JTbh2aPa5qk7EbJHzAoKC2kiQv9Y92M8kTpjE1XZek9o8OG76rFusV2tqZynWkPKE
-         wwTE/IthBr8g3i2zRDkW6S6fuBtTbepSd+XKhffDNIY9Sp87MQ0fGy0CyTiddwy6KLDl
-         mFhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769594236; x=1770199036;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HmurQjdqSltJTABjXwnR2dRO5LAhljSLSjk5kJrk+Lk=;
-        b=CL+41qquB/8bT76V13Q4vlRdrGegKzl2h/9YLrXiIftFG9mfeuKm5vEjv556Vsoz7y
-         US0MGxlF9qZdyT2Qehnaa98L0a7x9AmRX65Viy6eyB3zWNKwMhr8U3z9MStaFtzdGCdm
-         lFGYEbQGJ2phkGttBcZ6/j9DO+7YG/xCdTCYT9nKRWmRM02KpAhfaARzkXdNneiSwki/
-         SQkuknnSt0xl2dga3cmMydJdM/D5zEpgoVjphrMFaKP7H5LE4R+z4LWEb3rtVZgWNJFm
-         m9ZXkSBRs1Qn04MOjnEFSn5CCSVkzudEs4ES3cOOKl5qJAWbERcCR4y0Pusvp/Zt8h02
-         dVSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwm7vPq4IcOPZurl6nnQ3CLT0O7j8P3Y+B9fdddjdooAZRm1TKmlttnK9HC8S4znvThSfeJyqjONV9vX9U@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6YygK5sVQjWc+bAcgfHBewLB4ywa+HVvVOoSoZbGgcul1mGzn
-	bq9QzsaptRznuLU082vTLg1qpYEpCguX9UgGpnfvjyc/QLo0mx+4UqBs/IUg4wxofaI=
-X-Gm-Gg: AZuq6aISQ1JoyQstXCCJZWMk4UE4mvfQFG64owU/lxDx8A+0PgvLV/TWNhwDQ3JolO2
-	rCv60G0T+Q3l/itGF6sjM7DkjK7A3ZctcfMKjOMiuEIbnN7M37yZO4pZ51xQqqF+iZ74vB/yKwC
-	gXblfVKrPEuODQQ7RYLsgh2bw/mYkhbhW/vmTYHnudi9A7bV6KhpfsqK3XWc4CVLFim9rG1gHr/
-	N7YS4FRQUwwlAZYOFE6JgFB0YiVSLJnviK9YUXABP3gOMLjIvIGyACuXv9/kfYhn/cZCuW+oY2l
-	2Z3EtiKHcSTJGZJJbZUDdbhIZ7kYM6o+8O4Cd8DR+PRhGZtfw7cRw4exAIbsoC6up6DpZ+9aSBe
-	vL/xCVSXcIXXSpll1QJ65f/P60FUeTe6/1h2m3UHTLnC4Qi6vrzHsPGnTbu+K/cDoDhG325rUL5
-	1UmecXVpf3lQe0vRfd
-X-Received: by 2002:a05:6000:290f:b0:432:7068:18a with SMTP id ffacd0b85a97d-435dd032b79mr7484322f8f.20.1769594236265;
-        Wed, 28 Jan 2026 01:57:16 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131cfc9sm5507393f8f.21.2026.01.28.01.57.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 01:57:15 -0800 (PST)
-Date: Wed, 28 Jan 2026 12:57:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sean Christopherson <seanjc@google.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/tdx_huge_sept 40/47] arch/x86/kvm/mmu/tdp_mmu.c:1485
- tdp_mmu_alloc_sp_for_split() error: dereferencing freed memory 'sp' (line
- 1483)
-Message-ID: <202601250549.1WtInTxT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RcjUlGo6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769594551; x=1801130551;
+  h=date:from:to:cc:subject:message-id;
+  bh=kAucBYJy3/iBuHpqV9tSUfqwhRTOFOj6GhFSPikbeMY=;
+  b=RcjUlGo66CiUFF+IFdTyw+Keq4XsBWwfro1mZIsc3jUDGtME8KzWsAcL
+   9xlfR+DlBfH7sPJ5eTls9HhK+9DU0dLyuIqtfqe+09E7MGpq84i5C94rE
+   NH1cgi5but/MjX9bzufCNAW4pH9I+rf6sNDxyzkZZfEOFjgfyxYaq2lOU
+   y6IvCRPjlSUw7nT6zroIbZ/Xk3or2o31Ji8Y+Ky1RhmPBTSjnxY+gcq2q
+   n6c6t2IKouzMPsu+D8P91Wqi2MctMp2TxKNRWMCqObhZSCwYdayLiTDo2
+   eZJvqCdp3BMF2hdXqkIsyZ2M+PefZHYlhlhIBVNhHPVQPhTbvhrhY6xN0
+   A==;
+X-CSE-ConnectionGUID: oNrHDwVRRhCpNGL6iHyNjg==
+X-CSE-MsgGUID: IvKgJ436RROVtQc74+Bqhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70702883"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="70702883"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 02:02:31 -0800
+X-CSE-ConnectionGUID: Tit4kS9aS5OwBOJDvtYU+w==
+X-CSE-MsgGUID: MWFE90QhTk+5ML0iw3T5yQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="212777204"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 28 Jan 2026 02:02:29 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vl2NW-00000000ZWc-0kGj;
+	Wed, 28 Jan 2026 10:02:26 +0000
+Date: Wed, 28 Jan 2026 18:01:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org
+Subject: [agraf-2.6:virtio-dmb 1/1]
+ drivers/virtio/virtio_pci_modern.c:545:45: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202601281736.6KZZJdNR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux x86/tdx_huge_sept
-head:   4277c23972d92102c257f4d22acd908a47c0d69e
-commit: b1b08e9b2efc1b59d94433702c6c4669cbd86ba4 [40/47] KVM: x86/mmu: Add Dynamic PAMT support to vCPU-induced page split
-config: x86_64-randconfig-161-20260124 (https://download.01.org/0day-ci/archive/20260125/202601250549.1WtInTxT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://github.com/agraf/linux-2.6.git virtio-dmb
+head:   45a0bb294baa814a4b7f4acbc0eea8c55b05cd69
+commit: 45a0bb294baa814a4b7f4acbc0eea8c55b05cd69 [1/1] virtio-pci: Add Device Memory Buffer (DMB) support
+config: x86_64-randconfig-123-20260128 (https://download.01.org/0day-ci/archive/20260128/202601281736.6KZZJdNR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281736.6KZZJdNR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601250549.1WtInTxT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601281736.6KZZJdNR-lkp@intel.com/
 
-smatch warnings:
-arch/x86/kvm/mmu/tdp_mmu.c:1485 tdp_mmu_alloc_sp_for_split() error: dereferencing freed memory 'sp' (line 1483)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/virtio/virtio_pci_modern.c:545:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *shmem_vaddr @@     got void [noderef] __iomem * @@
+   drivers/virtio/virtio_pci_modern.c:545:45: sparse:     expected void *shmem_vaddr
+   drivers/virtio/virtio_pci_modern.c:545:45: sparse:     got void [noderef] __iomem *
+   drivers/virtio/virtio_pci_modern.c:567:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *shmem_vaddr @@     got void [noderef] __iomem * @@
+   drivers/virtio/virtio_pci_modern.c:567:45: sparse:     expected void *shmem_vaddr
+   drivers/virtio/virtio_pci_modern.c:567:45: sparse:     got void [noderef] __iomem *
+   drivers/virtio/virtio_pci_modern.c:587:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *shmem_vaddr @@     got void [noderef] __iomem * @@
+   drivers/virtio/virtio_pci_modern.c:587:45: sparse:     expected void *shmem_vaddr
+   drivers/virtio/virtio_pci_modern.c:587:45: sparse:     got void [noderef] __iomem *
+>> drivers/virtio/virtio_pci_modern.c:659:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *dmb_mem @@     got void * @@
+   drivers/virtio/virtio_pci_modern.c:659:33: sparse:     expected void [noderef] __iomem *dmb_mem
+   drivers/virtio/virtio_pci_modern.c:659:33: sparse:     got void *
 
-vim +/sp +1485 arch/x86/kvm/mmu/tdp_mmu.c
+vim +545 drivers/virtio/virtio_pci_modern.c
 
-4957bdc853d5f9d Isaku Yamahata      2026-01-21  1457  static struct kvm_mmu_page *tdp_mmu_alloc_sp_for_split(struct tdp_iter *iter)
-a3fe5dbda0a4bb7 David Matlack       2022-01-19  1458  {
-a3fe5dbda0a4bb7 David Matlack       2022-01-19  1459  	struct kvm_mmu_page *sp;
-a3fe5dbda0a4bb7 David Matlack       2022-01-19  1460  
-e1c04f7a9f4213c David Matlack       2024-06-11  1461  	sp = kmem_cache_zalloc(mmu_page_header_cache, GFP_KERNEL_ACCOUNT);
-a3fe5dbda0a4bb7 David Matlack       2022-01-19  1462  	if (!sp)
-a3fe5dbda0a4bb7 David Matlack       2022-01-19  1463  		return NULL;
-a3fe5dbda0a4bb7 David Matlack       2022-01-19  1464  
-e1c04f7a9f4213c David Matlack       2024-06-11  1465  	sp->spt = (void *)get_zeroed_page(GFP_KERNEL_ACCOUNT);
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1466  	if (!sp->spt)
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1467  		goto err_spt;
-a3fe5dbda0a4bb7 David Matlack       2022-01-19  1468  
-4957bdc853d5f9d Isaku Yamahata      2026-01-21  1469  	if (is_mirror_sptep(iter->sptep)) {
-4957bdc853d5f9d Isaku Yamahata      2026-01-21  1470  		sp->external_spt = (void *)kvm_x86_call(alloc_external_sp)(GFP_KERNEL_ACCOUNT);
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1471  		if (!sp->external_spt)
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1472  			goto err_external_spt;
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1473  
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1474  		if (kvm_x86_call(topup_external_cache)(kvm_get_running_vcpu(), 1))
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1475  			goto err_external_split;
-4957bdc853d5f9d Isaku Yamahata      2026-01-21  1476  	}
-4957bdc853d5f9d Isaku Yamahata      2026-01-21  1477  
-a3fe5dbda0a4bb7 David Matlack       2022-01-19  1478  	return sp;
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1479  
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1480  err_external_split:
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1481  	kvm_x86_call(free_external_sp)((unsigned long)sp->external_spt);
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1482  err_spt:
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22 @1483  	kmem_cache_free(mmu_page_header_cache, sp);
-                                                                                               ^^
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1484  err_external_spt:
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22 @1485  	free_page((unsigned long)sp->spt);
-                                                                  ^^^^^^^^^^^^^^^^^^^^^^
-This is done out of order.
-
-b1b08e9b2efc1b5 Sean Christopherson 2026-01-22  1486  	return NULL;
+   538	
+   539	static void vp_dmb_unmap_page(union virtio_map map, dma_addr_t map_handle,
+   540					     size_t size, enum dma_data_direction dir,
+   541					     ulong attrs)
+   542	{
+   543		struct pci_dev *pci_dev = to_pci_dev(map.dma_dev);
+   544		struct virtio_pci_device *vp_dev = pci_get_drvdata(pci_dev);
+ > 545		void *shmem_vaddr = vp_dev->dmb_mem + map_handle;
+   546		struct device *dev = &pci_dev->dev;
+   547		struct vp_dmb_mapping *mapping;
+   548	
+   549		mapping = vp_dmb_pop_map(vp_dev, map_handle);
+   550		if (dev_WARN_ONCE(dev, !mapping, "Unmap without map of handle %lx", (long)map_handle))
+   551			return;
+   552	
+   553		if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+   554		    (dir == DMA_FROM_DEVICE || dir == DMA_BIDIRECTIONAL))
+   555			memcpy(mapping->va, shmem_vaddr, size);
+   556	
+   557		kfree(mapping);
+   558	
+   559		vp_dmb_free(map, size, shmem_vaddr, map_handle, attrs);
+   560	}
+   561	
+   562	static void vp_dmb_sync_single_for_cpu(union virtio_map map, dma_addr_t map_handle,
+   563						      size_t size, enum dma_data_direction dir)
+   564	{
+   565		struct pci_dev *pci_dev = to_pci_dev(map.dma_dev);
+   566		struct virtio_pci_device *vp_dev = pci_get_drvdata(pci_dev);
+   567		void *shmem_vaddr = vp_dev->dmb_mem + map_handle;
+   568		struct device *dev = &pci_dev->dev;
+   569		struct vp_dmb_mapping mapping = {};
+   570		int r;
+   571	
+   572		r = vp_dmb_peek_map(vp_dev, map_handle, &mapping);
+   573	
+   574		if (dev_WARN_ONCE(dev, r, "CPU sync without map of handle %lx", (long)map_handle))
+   575			return;
+   576	
+   577		if ((dir == DMA_FROM_DEVICE || dir == DMA_BIDIRECTIONAL)) {
+   578			memcpy(mapping.va, shmem_vaddr, size);
+   579		}
+   580	}
+   581	
+   582	static void vp_dmb_sync_single_for_device(union virtio_map map, dma_addr_t map_handle,
+   583							 size_t size, enum dma_data_direction dir)
+   584	{
+   585		struct pci_dev *pci_dev = to_pci_dev(map.dma_dev);
+   586		struct virtio_pci_device *vp_dev = pci_get_drvdata(pci_dev);
+   587		void *shmem_vaddr = vp_dev->dmb_mem + map_handle;
+   588		struct device *dev = &pci_dev->dev;
+   589		struct vp_dmb_mapping mapping;
+   590		int r;
+   591	
+   592		r = vp_dmb_peek_map(vp_dev, map_handle, &mapping);
+   593	
+   594		if (dev_WARN_ONCE(dev, r, "CPU sync without map of handle %lx", (long)map_handle))
+   595			return;
+   596	
+   597		if ((dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
+   598			memcpy(shmem_vaddr, mapping.va, size);
+   599	}
+   600	
+   601	static bool vp_dmb_need_sync(union virtio_map map, dma_addr_t map_handle)
+   602	{
+   603		return true;
+   604	}
+   605	
+   606	static int vp_dmb_mapping_error(union virtio_map map, dma_addr_t map_handle)
+   607	{
+   608		return dma_mapping_error(map.dma_dev, map_handle);
+   609	}
+   610	
+   611	static size_t vp_dmb_max_mapping_size(union virtio_map map)
+   612	{
+   613		return 1024 * 1024; /* 1 MiB */
+   614	}
+   615	
+   616	static const struct virtio_map_ops vp_dmb_map_ops = {
+   617		.map_page = vp_dmb_map_page,
+   618		.unmap_page = vp_dmb_unmap_page,
+   619		.sync_single_for_cpu = vp_dmb_sync_single_for_cpu,
+   620		.sync_single_for_device = vp_dmb_sync_single_for_device,
+   621		.alloc = vp_dmb_alloc,
+   622		.free = vp_dmb_free,
+   623		.need_sync = vp_dmb_need_sync,
+   624		.mapping_error = vp_dmb_mapping_error,
+   625		.max_mapping_size = vp_dmb_max_mapping_size,
+   626	};
+   627	
+   628	/* virtio config->finalize_features() implementation */
+   629	static int vp_finalize_features(struct virtio_device *vdev)
+   630	{
+   631		struct virtio_pci_device *vp_dev = to_vp_device(vdev);
+   632		u64 features = vdev->features;
+   633	
+   634		/* Give virtio_ring a chance to accept features. */
+   635		vring_transport_features(vdev);
+   636	
+   637		/* Give virtio_pci a chance to accept features. */
+   638		vp_transport_features(vdev, features);
+   639	
+   640		if (!__virtio_test_bit(vdev, VIRTIO_F_VERSION_1)) {
+   641			dev_err(&vdev->dev, "virtio: device uses modern interface "
+   642				"but does not have VIRTIO_F_VERSION_1\n");
+   643			return -EINVAL;
+   644		}
+   645	
+   646		if (vp_check_common_size(vdev))
+   647			return -EINVAL;
+   648	
+   649		/* Initialize Device Memory Buffer if advertised by host */
+   650		if (__virtio_test_bit(vdev, VIRTIO_F_DMB)) {
+   651			struct virtio_shm_region region;
+   652	
+   653			if (!virtio_get_shm_region(vdev, &region, VIRTIO_SHMEM_ID_DMB)) {
+   654				dev_warn(&vdev->dev, "Failed to find DMB region");
+   655				return -EINVAL;
+   656			}
+   657	
+   658			vp_dev->dmb_pool = devm_gen_pool_create(&vdev->dev, ilog2(SMP_CACHE_BYTES), -1, "virtio-shmem");
+ > 659			vp_dev->dmb_mem = devm_memremap(&vdev->dev, region.addr, region.len, MEMREMAP_WB | MEMREMAP_DEC);
+   660			INIT_LIST_HEAD(&vp_dev->dmb_mappings);
+   661			spin_lock_init(&vp_dev->dmb_lock);
+   662	
+   663			if (vp_dev->dmb_pool) {
+   664				int ret = gen_pool_add_virt(vp_dev->dmb_pool, (ulong)vp_dev->dmb_mem,
+   665							    region.addr, region.len, -1);
+   666				if (ret != 0) {
+   667					dev_warn(&vdev->dev, "Failed to initialize DMB region");
+   668					return -EINVAL;
+   669				}
+   670	
+   671				/* Reserve first cache line to avoid offset 0 allocations */
+   672				ulong reserved = gen_pool_alloc(vp_dev->dmb_pool, SMP_CACHE_BYTES);
+   673				if (!reserved) {
+   674					dev_warn(&vdev->dev, "Failed to reserve shmem offset 0");
+   675					return -EINVAL;
+   676				}
+   677				vdev->map = &vp_dmb_map_ops;
+   678				vdev->vmap.dma_dev = &vp_dev->pci_dev->dev;
+   679	
+   680				dev_info(&vdev->dev, "Enabled %d bytes Virtio DMB region for %s", (int)region.len, dev_name(&vp_dev->pci_dev->dev));
+   681			}
+   682		}
+   683	
+   684		vp_modern_set_extended_features(&vp_dev->mdev, vdev->features_array);
+   685	
+   686		return 0;
+   687	}
+   688	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
