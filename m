@@ -1,207 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7021FECCD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 00:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC4754652
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 01:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769560868; cv=none; b=Es7/ZSMNRCHKLUqSFVKZ+m2kqRX4zMjyw8W4Uz+1jsfRcefCJXWmbWfdbQQv7QKGbQ6mIHsynM7qmOiAR61F3a8VFdIvAkotw2DOJkL7pSgR5EGG+apBtPtTctxj2gfQ+0CpJLbD+hpBeCFDmLN9nyqFrVN3HQ3W8chbBxHARtg=
+	t=1769565308; cv=none; b=jJXqiLZvYb3GFvEtX+h9NWVZoW1H0PZmdBkAxyRL+p4z79S9y1UUyNPv9r5i00QKUMffekVXRdrfsSTn2xUy93WQQ6A+aZ06ZPJSApHabx8KOdS3wt7AwKezQ5slZD8gpU6NizQjiTSZ2sBljCfWzt3RSfd14F4zQh1pYQpFcZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769560868; c=relaxed/simple;
-	bh=F1hjRhBOra8vHz9mxEh6/+idCt9uw5kEgQhPi64Um4U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GIP1UT9Zz+UJCz53kknhtRMK9ove/oXMdhDHOUFVyXOU10HQ+8MuIOe1hunkWZw/iFJ/4pK1waUo0tBzzvKb/qQiQsG9OSOuZQGtZEQNi3bj/wrQIHt45YD8xY7YAYw90BWHU/PZH7uj5PL2QqUm65uw9TMTt9PD8NVYNtH5qGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bk3WyMCf; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1769565308; c=relaxed/simple;
+	bh=eSbq1mPlv6h0XmWBf6MtVOCQmJsMcgoGJ3WmD3oAh8I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=u0bwXSrSNlkPLVUoG5TNc5OuvQ2Qi82j71gyz3gZ8W3yJXJLllFqF9xKrjGJXW7BwqmcUEywYGDvlvAjTN7okpUXfKDE8DrewnEKXavbbenVfBs1mGflI9BBzVYVSUE234sG2zrVLDr5GhZHC1Vale2DYRGdpAQXhFiebuty39k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mK18dh4N; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bk3WyMCf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mK18dh4N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769560867; x=1801096867;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F1hjRhBOra8vHz9mxEh6/+idCt9uw5kEgQhPi64Um4U=;
-  b=Bk3WyMCfT99T0WMbPtW5Wd3KYCeMoee1Pb55o6/W1lwtRp8PzLDkP/zq
-   RNgo0KH+gdXwOCr5pHBVqtQU28+X+GlBevV41E3+2Pnv9pWGYlrUnMKVX
-   0AP0g29VXHTG2VnRUrpGD6We+Gxv6uQbGvki1CKY4svisNeVDbYRq5mri
-   +p3ljiajT/Y2MtRBcFvIIWYjgG7hiHQwFNQJJydv+Sm4oVmxTVeYPgJQa
-   slCAA8PX0mOopenKK1icJm4jnhhCfjSdEBHc+/XtD8dEFDn7RUTj8Co6T
-   JcULqZpwRBRiA+NNvmft/iKEcDgpfgV4gV8K/VicO/d6RNz00RnArggaK
-   A==;
-X-CSE-ConnectionGUID: rvW4fNOKQk2yqlOtLiumIw==
-X-CSE-MsgGUID: MwL6KJlXQ9WKRQdLCLpaRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="88346467"
+  t=1769565307; x=1801101307;
+  h=date:from:to:cc:subject:message-id;
+  bh=eSbq1mPlv6h0XmWBf6MtVOCQmJsMcgoGJ3WmD3oAh8I=;
+  b=mK18dh4N70Ks8RLnzIzCe5h83Y69l+j5i+evx7n5mh9hSYab9q5XLzlf
+   5MiJTCeZn3ZKPXmL0D1X7mxlyKS5IfQnRgrYAsLm7OtrRfjSF/QAabKFY
+   nVINOE5xYdbZ0Vn+KOtYTbDwz3/Qu2ElmOED2AYLi4VJHBnvXNLRMnqb/
+   yPrc6v5CDMVuY2LtuBhon7heO6kd05IhVz4Ptk6tFJ+JW3eraBt92jWfv
+   L32y1RtrhnXaqbJlfNvh85644N5YCsCYnCoxaxwtjL9TANlOF9H+ppQKK
+   KYsuhfrF0GWZfYWs4lEO/7IjV51fD08UftAwnyNDr5YTLfNii6F4J9x6g
+   Q==;
+X-CSE-ConnectionGUID: Rx8aYrMZSaSlufWIxSUK8g==
+X-CSE-MsgGUID: z68f+26YSEasFb4WF746Ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="69788171"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="88346467"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 16:41:06 -0800
-X-CSE-ConnectionGUID: lweno+ItRjKplL0UF2+bfw==
-X-CSE-MsgGUID: u+He1W/rTNWSketWGfP4kA==
+   d="scan'208";a="69788171"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 17:55:06 -0800
+X-CSE-ConnectionGUID: rlFTdG7rR1Wpr7SlqDjskw==
+X-CSE-MsgGUID: QEtCYY6+S0u7opfKb5RxyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="208576043"
+   d="scan'208";a="213094048"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Jan 2026 16:41:02 -0800
+  by orviesa005.jf.intel.com with ESMTP; 27 Jan 2026 17:55:05 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vktcB-00000000Z4K-3dje;
-	Wed, 28 Jan 2026 00:40:59 +0000
-Date: Wed, 28 Jan 2026 08:40:26 +0800
+	id 1vkulq-00000000Z78-2oZF;
+	Wed, 28 Jan 2026 01:55:02 +0000
+Date: Wed, 28 Jan 2026 09:54:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Besar Wicaksono <bwicaksono@nvidia.com>, will@kernel.org,
-	suzuki.poulose@arm.com, robin.murphy@arm.com,
-	ilkka@os.amperecomputing.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-	mark.rutland@arm.com, treding@nvidia.com, jonathanh@nvidia.com,
-	vsethi@nvidia.com, rwiley@nvidia.com, sdonthineni@nvidia.com,
-	skelley@nvidia.com, ywan@nvidia.com, mochs@nvidia.com,
-	nirmoyd@nvidia.com, Besar Wicaksono <bwicaksono@nvidia.com>
-Subject: Re: [PATCH 6/8] perf: add NVIDIA Tegra410 CPU Memory Latency PMU
-Message-ID: <202601280830.2IJaaITg-lkp@intel.com>
-References: <20260126181155.2776097-7-bwicaksono@nvidia.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Oreoluwa Babatunde <oreoluwa.babatunde@oss.qualcomm.com>
+Subject: [mszyprowski:dma-mapping-fixes 5/5]
+ include/linux/cma.h:60:5: warning: "CONFIG_DMA_CMA" is not defined, evaluates
+ to 0
+Message-ID: <202601280910.9xoKfvQn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126181155.2776097-7-bwicaksono@nvidia.com>
 
-Hi Besar,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on linus/master v6.19-rc7 next-20260127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Besar-Wicaksono/perf-arm_cspmu-nvidia-Rename-doc-to-Tegra241/20260127-021604
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20260126181155.2776097-7-bwicaksono%40nvidia.com
-patch subject: [PATCH 6/8] perf: add NVIDIA Tegra410 CPU Memory Latency PMU
-config: arm64-randconfig-r113-20260128 (https://download.01.org/0day-ci/archive/20260128/202601280830.2IJaaITg-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280830.2IJaaITg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszyprowski/linux dma-mapping-fixes
+head:   05d6113cb1bd4408d4f9cf6497d076e08a6bfe3d
+commit: 05d6113cb1bd4408d4f9cf6497d076e08a6bfe3d [5/5] of: reserved_mem: Allow reserved_mem framework detect "cma=" kernel param
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260128/202601280910.9xoKfvQn-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280910.9xoKfvQn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601280830.2IJaaITg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601280910.9xoKfvQn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/perf/nvidia_t410_cmem_latency_pmu.c:604:12: error: call to undeclared function 'acpi_device_uid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     604 |         uid_str = acpi_device_uid(acpi_dev);
-         |                   ^
-   drivers/perf/nvidia_t410_cmem_latency_pmu.c:604:12: note: did you mean 'cpu_device_up'?
-   include/linux/cpu.h:119:5: note: 'cpu_device_up' declared here
-     119 | int cpu_device_up(struct device *dev);
-         |     ^
->> drivers/perf/nvidia_t410_cmem_latency_pmu.c:604:10: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
-     604 |         uid_str = acpi_device_uid(acpi_dev);
-         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/perf/nvidia_t410_cmem_latency_pmu.c:619:29: error: call to undeclared function 'acpi_device_hid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     619 |         cmem_lat_pmu->identifier = acpi_device_hid(acpi_dev);
-         |                                    ^
->> drivers/perf/nvidia_t410_cmem_latency_pmu.c:619:27: error: incompatible integer to pointer conversion assigning to 'const char *' from 'int' [-Wint-conversion]
-     619 |         cmem_lat_pmu->identifier = acpi_device_hid(acpi_dev);
-         |                                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+   In file included from mm/mm_init.c:29:
+>> include/linux/cma.h:60:5: warning: "CONFIG_DMA_CMA" is not defined, evaluates to 0 [-Wundef]
+      60 | #if CONFIG_DMA_CMA
+         |     ^~~~~~~~~~~~~~
+>> include/linux/cma.h:63:13: warning: 'cma_skip_dt_default_reserved_mem' defined but not used [-Wunused-function]
+      63 | static bool cma_skip_dt_default_reserved_mem(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/acpi_device_uid +604 drivers/perf/nvidia_t410_cmem_latency_pmu.c
+vim +/CONFIG_DMA_CMA +60 include/linux/cma.h
 
-   590	
-   591	static int cmem_lat_pmu_probe(struct platform_device *pdev)
-   592	{
-   593		struct device *dev = &pdev->dev;
-   594		struct acpi_device *acpi_dev;
-   595		struct cmem_lat_pmu *cmem_lat_pmu;
-   596		char *name, *uid_str;
-   597		int ret, i;
-   598		u32 socket;
-   599	
-   600		acpi_dev = ACPI_COMPANION(dev);
-   601		if (!acpi_dev)
-   602			return -ENODEV;
-   603	
- > 604		uid_str = acpi_device_uid(acpi_dev);
-   605		if (!uid_str)
-   606			return -ENODEV;
-   607	
-   608		ret = kstrtou32(uid_str, 0, &socket);
-   609		if (ret)
-   610			return ret;
-   611	
-   612		cmem_lat_pmu = devm_kzalloc(dev, sizeof(*cmem_lat_pmu), GFP_KERNEL);
-   613		name = devm_kasprintf(dev, GFP_KERNEL, "nvidia_cmem_latency_pmu_%u", socket);
-   614		if (!cmem_lat_pmu || !name)
-   615			return -ENOMEM;
-   616	
-   617		cmem_lat_pmu->dev = dev;
-   618		cmem_lat_pmu->name = name;
- > 619		cmem_lat_pmu->identifier = acpi_device_hid(acpi_dev);
-   620		platform_set_drvdata(pdev, cmem_lat_pmu);
-   621	
-   622		cmem_lat_pmu->pmu = (struct pmu) {
-   623			.parent		= &pdev->dev,
-   624			.task_ctx_nr	= perf_invalid_context,
-   625			.pmu_enable	= cmem_lat_pmu_enable,
-   626			.pmu_disable	= cmem_lat_pmu_disable,
-   627			.event_init	= cmem_lat_pmu_event_init,
-   628			.add		= cmem_lat_pmu_add,
-   629			.del		= cmem_lat_pmu_del,
-   630			.start		= cmem_lat_pmu_start,
-   631			.stop		= cmem_lat_pmu_stop,
-   632			.read		= cmem_lat_pmu_read,
-   633			.attr_groups	= cmem_lat_pmu_attr_groups,
-   634			.capabilities	= PERF_PMU_CAP_NO_EXCLUDE |
-   635						PERF_PMU_CAP_NO_INTERRUPT,
-   636		};
-   637	
-   638		/* Map the address of all the instances plus one for the broadcast. */
-   639		for (i = 0; i < NUM_INSTANCES + 1; i++) {
-   640			cmem_lat_pmu->base[i] = devm_platform_ioremap_resource(pdev, i);
-   641			if (IS_ERR(cmem_lat_pmu->base[i])) {
-   642				dev_err(dev, "Failed map address for instance %d\n", i);
-   643				return PTR_ERR(cmem_lat_pmu->base[i]);
-   644			}
-   645		}
-   646	
-   647		ret = cmem_lat_pmu_get_cpus(cmem_lat_pmu, socket);
-   648		if (ret)
-   649			return ret;
-   650	
-   651		ret = cpuhp_state_add_instance(cmem_lat_pmu_cpuhp_state,
-   652					       &cmem_lat_pmu->node);
-   653		if (ret) {
-   654			dev_err(&pdev->dev, "Error %d registering hotplug\n", ret);
-   655			return ret;
-   656		}
-   657	
-   658		cmem_lat_pmu_cg_ctrl(cmem_lat_pmu, CG_CTRL_ENABLE);
-   659		cmem_lat_pmu_ctrl(cmem_lat_pmu, CTRL_CLR);
-   660		cmem_lat_pmu_cg_ctrl(cmem_lat_pmu, CG_CTRL_DISABLE);
-   661	
-   662		ret = perf_pmu_register(&cmem_lat_pmu->pmu, name, -1);
-   663		if (ret) {
-   664			dev_err(&pdev->dev, "Failed to register PMU: %d\n", ret);
-   665			cpuhp_state_remove_instance(cmem_lat_pmu_cpuhp_state,
-   666						    &cmem_lat_pmu->node);
-   667			return ret;
-   668		}
-   669	
-   670		dev_dbg(&pdev->dev, "Registered %s PMU\n", name);
-   671	
-   672		return 0;
-   673	}
-   674	
+    59	
+  > 60	#if CONFIG_DMA_CMA
+    61	extern bool cma_skip_dt_default_reserved_mem(void);
+    62	#else
+  > 63	static bool cma_skip_dt_default_reserved_mem(void)
+    64	{
+    65		return false;
+    66	}
+    67	#endif
+    68	
 
 -- 
 0-DAY CI Kernel Test Service
