@@ -1,67 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740041A238C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 00:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7021FECCD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 00:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769560304; cv=none; b=HPwGv88SJvwwmIC2OmZfiYzOHLQobvEfxEmNOFBUHVVPR5cGTCmgr0P7v+vxPwQ/TOMbASLL4JHx9ElPeXgE7RKZFhv5caTSI9e3zUMPNRbbYi1iHo6QWXrslGN6GICtoBC1MCX4CgoOcED38QvotcpPV2UWpcXrvgxeJSjJViw=
+	t=1769560868; cv=none; b=Es7/ZSMNRCHKLUqSFVKZ+m2kqRX4zMjyw8W4Uz+1jsfRcefCJXWmbWfdbQQv7QKGbQ6mIHsynM7qmOiAR61F3a8VFdIvAkotw2DOJkL7pSgR5EGG+apBtPtTctxj2gfQ+0CpJLbD+hpBeCFDmLN9nyqFrVN3HQ3W8chbBxHARtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769560304; c=relaxed/simple;
-	bh=Tiw/EOrYwH8Y6t6NaJEyTlwqUXtWs6umlmGrrdrcwdw=;
+	s=arc-20240116; t=1769560868; c=relaxed/simple;
+	bh=F1hjRhBOra8vHz9mxEh6/+idCt9uw5kEgQhPi64Um4U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kPDLKr6k7YDzgBTb1W82kvrPqNUSOTBOwbKQ758Zg15s/WBK92uYK70lwGoayDYE3r7QdaMp8hFCpe6CAfPjHFZneJ9jQGuXrxHBBjtLlYsqstbAD0rfgyCiAZaZzNkGEzlJUUeeUUMgVRT8HN/xX5GhjizOtkIPvtub2eWgTFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FS+YHLR4; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=GIP1UT9Zz+UJCz53kknhtRMK9ove/oXMdhDHOUFVyXOU10HQ+8MuIOe1hunkWZw/iFJ/4pK1waUo0tBzzvKb/qQiQsG9OSOuZQGtZEQNi3bj/wrQIHt45YD8xY7YAYw90BWHU/PZH7uj5PL2QqUm65uw9TMTt9PD8NVYNtH5qGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bk3WyMCf; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FS+YHLR4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bk3WyMCf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769560304; x=1801096304;
+  t=1769560867; x=1801096867;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Tiw/EOrYwH8Y6t6NaJEyTlwqUXtWs6umlmGrrdrcwdw=;
-  b=FS+YHLR4ib0ei6N9ZO9YH6Uq2GNORXqVH0BT5mg5OF3d28KB9eRFl0NZ
-   sgbEEPQvebIPtuze1vWqp4WKymES1HRn6ikcSp0YFqyuMeHcRRejM5B6C
-   hbC0vprEeDH5gy4At7xh20Lg6HLaMay+YJNgoSbJRepfczDm0+Irl8qtJ
-   5AEM0m2QxkUvpsRbulgW8xtTPpwfNYvals9KXz2RqXft41UJLgWDXnk/H
-   UxeMLXmuW194y7JfqFDdcREtG3wdC8SZjOS72QxErp6bUQwQ8KPrTrboQ
-   rml16cl8tz/fEbGSsFUAQ7Iu04n2YsNWwTK+ZVzp2DWeKTXK8Tg92+IvB
-   w==;
-X-CSE-ConnectionGUID: ds3KQhndRkSBjhkd950zuQ==
-X-CSE-MsgGUID: 6SusEPFnQ1WWUslUbcz+gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="73358499"
+  bh=F1hjRhBOra8vHz9mxEh6/+idCt9uw5kEgQhPi64Um4U=;
+  b=Bk3WyMCfT99T0WMbPtW5Wd3KYCeMoee1Pb55o6/W1lwtRp8PzLDkP/zq
+   RNgo0KH+gdXwOCr5pHBVqtQU28+X+GlBevV41E3+2Pnv9pWGYlrUnMKVX
+   0AP0g29VXHTG2VnRUrpGD6We+Gxv6uQbGvki1CKY4svisNeVDbYRq5mri
+   +p3ljiajT/Y2MtRBcFvIIWYjgG7hiHQwFNQJJydv+Sm4oVmxTVeYPgJQa
+   slCAA8PX0mOopenKK1icJm4jnhhCfjSdEBHc+/XtD8dEFDn7RUTj8Co6T
+   JcULqZpwRBRiA+NNvmft/iKEcDgpfgV4gV8K/VicO/d6RNz00RnArggaK
+   A==;
+X-CSE-ConnectionGUID: rvW4fNOKQk2yqlOtLiumIw==
+X-CSE-MsgGUID: MwL6KJlXQ9WKRQdLCLpaRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="88346467"
 X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="73358499"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 16:31:43 -0800
-X-CSE-ConnectionGUID: yad6J91uS2u81M+B0sb+uA==
-X-CSE-MsgGUID: C9/9Rd1aTmWhYJ4Gaaa8Og==
+   d="scan'208";a="88346467"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 16:41:06 -0800
+X-CSE-ConnectionGUID: lweno+ItRjKplL0UF2+bfw==
+X-CSE-MsgGUID: u+He1W/rTNWSketWGfP4kA==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Jan 2026 16:31:40 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
+   d="scan'208";a="208576043"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 27 Jan 2026 16:41:02 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vktT8-000000001xN-23Ms;
-	Wed, 28 Jan 2026 00:31:38 +0000
-Date: Wed, 28 Jan 2026 01:30:38 +0100
+	id 1vktcB-00000000Z4K-3dje;
+	Wed, 28 Jan 2026 00:40:59 +0000
+Date: Wed, 28 Jan 2026 08:40:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Romain Gantois <romain.gantois@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Romain Gantois <romain.gantois@bootlin.com>
-Subject: Re: [PATCH 2/2] misc: ti_fpc202: Support special-purpose GPIO lines
- with LED features
-Message-ID: <202601280105.Lu065wxA-lkp@intel.com>
-References: <20260127-fpc202-leds-v1-2-ebd0cfb9f9a1@bootlin.com>
+To: Besar Wicaksono <bwicaksono@nvidia.com>, will@kernel.org,
+	suzuki.poulose@arm.com, robin.murphy@arm.com,
+	ilkka@os.amperecomputing.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	mark.rutland@arm.com, treding@nvidia.com, jonathanh@nvidia.com,
+	vsethi@nvidia.com, rwiley@nvidia.com, sdonthineni@nvidia.com,
+	skelley@nvidia.com, ywan@nvidia.com, mochs@nvidia.com,
+	nirmoyd@nvidia.com, Besar Wicaksono <bwicaksono@nvidia.com>
+Subject: Re: [PATCH 6/8] perf: add NVIDIA Tegra410 CPU Memory Latency PMU
+Message-ID: <202601280830.2IJaaITg-lkp@intel.com>
+References: <20260126181155.2776097-7-bwicaksono@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,37 +69,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260127-fpc202-leds-v1-2-ebd0cfb9f9a1@bootlin.com>
+In-Reply-To: <20260126181155.2776097-7-bwicaksono@nvidia.com>
 
-Hi Romain,
+Hi Besar,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on a8a6d9b4da001a84dd715d92f034d2bf777199c8]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on linus/master v6.19-rc7 next-20260127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-misc-Describe-FPC202-LED-features/20260127-215935
-base:   a8a6d9b4da001a84dd715d92f034d2bf777199c8
-patch link:    https://lore.kernel.org/r/20260127-fpc202-leds-v1-2-ebd0cfb9f9a1%40bootlin.com
-patch subject: [PATCH 2/2] misc: ti_fpc202: Support special-purpose GPIO lines with LED features
-config: i386-kismet-CONFIG_LEDS_GPIO-CONFIG_MERAKI_MX100-0-0 (https://download.01.org/0day-ci/archive/20260128/202601280105.Lu065wxA-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260128/202601280105.Lu065wxA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Besar-Wicaksono/perf-arm_cspmu-nvidia-Rename-doc-to-Tegra241/20260127-021604
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20260126181155.2776097-7-bwicaksono%40nvidia.com
+patch subject: [PATCH 6/8] perf: add NVIDIA Tegra410 CPU Memory Latency PMU
+config: arm64-randconfig-r113-20260128 (https://download.01.org/0day-ci/archive/20260128/202601280830.2IJaaITg-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280830.2IJaaITg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601280105.Lu065wxA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601280830.2IJaaITg-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for LEDS_GPIO when selected by MERAKI_MX100
-   WARNING: unmet direct dependencies detected for LEDS_CLASS
-     Depends on [n]: NEW_LEDS [=n]
-     Selected by [y]:
-     - TI_FPC202 [=y] && I2C [=y]
-   
-   WARNING: unmet direct dependencies detected for LEDS_GPIO
-     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=y] && (GPIOLIB [=y] || COMPILE_TEST [=n])
-     Selected by [y]:
-     - MERAKI_MX100 [=y] && X86_PLATFORM_DEVICES [=y] && GPIOLIB [=y] && GPIO_ICH [=y] && LEDS_CLASS [=y]
+All errors (new ones prefixed by >>):
+
+>> drivers/perf/nvidia_t410_cmem_latency_pmu.c:604:12: error: call to undeclared function 'acpi_device_uid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     604 |         uid_str = acpi_device_uid(acpi_dev);
+         |                   ^
+   drivers/perf/nvidia_t410_cmem_latency_pmu.c:604:12: note: did you mean 'cpu_device_up'?
+   include/linux/cpu.h:119:5: note: 'cpu_device_up' declared here
+     119 | int cpu_device_up(struct device *dev);
+         |     ^
+>> drivers/perf/nvidia_t410_cmem_latency_pmu.c:604:10: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
+     604 |         uid_str = acpi_device_uid(acpi_dev);
+         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/perf/nvidia_t410_cmem_latency_pmu.c:619:29: error: call to undeclared function 'acpi_device_hid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     619 |         cmem_lat_pmu->identifier = acpi_device_hid(acpi_dev);
+         |                                    ^
+>> drivers/perf/nvidia_t410_cmem_latency_pmu.c:619:27: error: incompatible integer to pointer conversion assigning to 'const char *' from 'int' [-Wint-conversion]
+     619 |         cmem_lat_pmu->identifier = acpi_device_hid(acpi_dev);
+         |                                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
+
+
+vim +/acpi_device_uid +604 drivers/perf/nvidia_t410_cmem_latency_pmu.c
+
+   590	
+   591	static int cmem_lat_pmu_probe(struct platform_device *pdev)
+   592	{
+   593		struct device *dev = &pdev->dev;
+   594		struct acpi_device *acpi_dev;
+   595		struct cmem_lat_pmu *cmem_lat_pmu;
+   596		char *name, *uid_str;
+   597		int ret, i;
+   598		u32 socket;
+   599	
+   600		acpi_dev = ACPI_COMPANION(dev);
+   601		if (!acpi_dev)
+   602			return -ENODEV;
+   603	
+ > 604		uid_str = acpi_device_uid(acpi_dev);
+   605		if (!uid_str)
+   606			return -ENODEV;
+   607	
+   608		ret = kstrtou32(uid_str, 0, &socket);
+   609		if (ret)
+   610			return ret;
+   611	
+   612		cmem_lat_pmu = devm_kzalloc(dev, sizeof(*cmem_lat_pmu), GFP_KERNEL);
+   613		name = devm_kasprintf(dev, GFP_KERNEL, "nvidia_cmem_latency_pmu_%u", socket);
+   614		if (!cmem_lat_pmu || !name)
+   615			return -ENOMEM;
+   616	
+   617		cmem_lat_pmu->dev = dev;
+   618		cmem_lat_pmu->name = name;
+ > 619		cmem_lat_pmu->identifier = acpi_device_hid(acpi_dev);
+   620		platform_set_drvdata(pdev, cmem_lat_pmu);
+   621	
+   622		cmem_lat_pmu->pmu = (struct pmu) {
+   623			.parent		= &pdev->dev,
+   624			.task_ctx_nr	= perf_invalid_context,
+   625			.pmu_enable	= cmem_lat_pmu_enable,
+   626			.pmu_disable	= cmem_lat_pmu_disable,
+   627			.event_init	= cmem_lat_pmu_event_init,
+   628			.add		= cmem_lat_pmu_add,
+   629			.del		= cmem_lat_pmu_del,
+   630			.start		= cmem_lat_pmu_start,
+   631			.stop		= cmem_lat_pmu_stop,
+   632			.read		= cmem_lat_pmu_read,
+   633			.attr_groups	= cmem_lat_pmu_attr_groups,
+   634			.capabilities	= PERF_PMU_CAP_NO_EXCLUDE |
+   635						PERF_PMU_CAP_NO_INTERRUPT,
+   636		};
+   637	
+   638		/* Map the address of all the instances plus one for the broadcast. */
+   639		for (i = 0; i < NUM_INSTANCES + 1; i++) {
+   640			cmem_lat_pmu->base[i] = devm_platform_ioremap_resource(pdev, i);
+   641			if (IS_ERR(cmem_lat_pmu->base[i])) {
+   642				dev_err(dev, "Failed map address for instance %d\n", i);
+   643				return PTR_ERR(cmem_lat_pmu->base[i]);
+   644			}
+   645		}
+   646	
+   647		ret = cmem_lat_pmu_get_cpus(cmem_lat_pmu, socket);
+   648		if (ret)
+   649			return ret;
+   650	
+   651		ret = cpuhp_state_add_instance(cmem_lat_pmu_cpuhp_state,
+   652					       &cmem_lat_pmu->node);
+   653		if (ret) {
+   654			dev_err(&pdev->dev, "Error %d registering hotplug\n", ret);
+   655			return ret;
+   656		}
+   657	
+   658		cmem_lat_pmu_cg_ctrl(cmem_lat_pmu, CG_CTRL_ENABLE);
+   659		cmem_lat_pmu_ctrl(cmem_lat_pmu, CTRL_CLR);
+   660		cmem_lat_pmu_cg_ctrl(cmem_lat_pmu, CG_CTRL_DISABLE);
+   661	
+   662		ret = perf_pmu_register(&cmem_lat_pmu->pmu, name, -1);
+   663		if (ret) {
+   664			dev_err(&pdev->dev, "Failed to register PMU: %d\n", ret);
+   665			cpuhp_state_remove_instance(cmem_lat_pmu_cpuhp_state,
+   666						    &cmem_lat_pmu->node);
+   667			return ret;
+   668		}
+   669	
+   670		dev_dbg(&pdev->dev, "Registered %s PMU\n", name);
+   671	
+   672		return 0;
+   673	}
+   674	
 
 -- 
 0-DAY CI Kernel Test Service
