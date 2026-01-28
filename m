@@ -1,124 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B268A1A285
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 07:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27772BEFFF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 08:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769584847; cv=none; b=kK3T+xyT3rfT0Q3rUN03LorbO1rbCICiIVlGRdzVq9bz+S1fezsXHyD7QwW/LGtHCBm6RIenTJgVBvOMUDQwyLU+Xq5MgKbImforwR9PZ50sjEqar2kHTF1j3QfXO+QPx2TWFcHiAGiNI6UDLx7lrufeK5kL9jJb+jie2H0a5cE=
+	t=1769587408; cv=none; b=R/gpxa8vkkMI/6Uo91mfLnqZmp8NksvD4NffU7WpUlwtoaO5smQwJmmL5Jb3rrD9NQkMVcz4c2s+slxptt13pb/gv5tgJ4J6tgNjMuF+Q7FhIfnQEyNEgmaBMRlTaLGQnWrUx2tGEXqe/5qeQrCiRb02YviwZQ/Dj8Yqo5EVrZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769584847; c=relaxed/simple;
-	bh=arqh/3JWCQPrRCPf4Lg/x7LUbmToIY+dbU6nl1I528M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gouEdMn3LF7B6v6Fjm1SCUY4zIaov8QHFjA38qT5x1/ttURsrSKhYoTgKoz7DBLx66ekRstW7QhT4XTLlup105YjmYWPztLbHX+938PvRnZqMLQpJNHP2fCb1oEjQhff2ouko8r/b0rWxVeacGn4xwVMT4gg0NT0Ad5/GUxKgeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zneftik0; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1769587408; c=relaxed/simple;
+	bh=3d/tmZJTKzqHsR6kZCrVuR+letIs5BJIxN+4e7NRCr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dkytFxa/h1FVOF7fto6DKLAvb4bdHTDIi3GI9gryYbO9JJKBIlkAYfeB81TwF+DlGiAWMk5r7z4uCN3SN3nDNEVqhkt+jmzOCJzq5EeLcSmSvv/5lPgYJdqfDBQ2MG97SykfWI9U/IYZXhYQS4puch4hyfq8WQ3GwjR6ZOl9kcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RAZxlZQb; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zneftik0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RAZxlZQb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769584846; x=1801120846;
-  h=date:from:to:cc:subject:message-id;
-  bh=arqh/3JWCQPrRCPf4Lg/x7LUbmToIY+dbU6nl1I528M=;
-  b=Zneftik0hF4tySBmxZVjxESdZx+/y+NprzJWET+mVIUfOJ9rr2vcZ4+h
-   KMThb6W1r0IMMFgf621qZ5uwWOpjP+AlIReQatEHRVAGIIoSueQkdynid
-   Yy9bPvo0x8Zw4HYS+ob4rfruOplV21Gd6tbwDGL0LTsBXpnRThMaiEEJn
-   gUON8Fq4M6LnoSMFG+HQEXSaUHnSvbIjU+pJ8+7fJmu/+YnOQtKBtMBh6
-   7tfXz5pIZMBCgXBuOIlJChEzxQ9Kjo8X46Qda4ItBZbTzvMURobA+QFUC
-   aGWwSJBD1rJYXPgJ0Ot7KQ7qJwF1LUa98JX7UJsBgsZB1r5yjngbsD6XX
-   Q==;
-X-CSE-ConnectionGUID: enIYh/zYTXGAC1jGf5lsWw==
-X-CSE-MsgGUID: 3msNbTxzR9+Pb4Iz8hmuUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="74639704"
+  t=1769587406; x=1801123406;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3d/tmZJTKzqHsR6kZCrVuR+letIs5BJIxN+4e7NRCr4=;
+  b=RAZxlZQb/86uuUD3dWAP0Q2oBImgD5gybCt/Vue1DvngcamcmOtLMhJQ
+   N+p5b5cAQGzU7zOTx4nMOTMqWTz6EyCeaQhKMznQVbv9xVVED8HXzlFLn
+   waRIwt4pjG9/BHrrQfKoD1IM7+r01SfpRlIrxKLA+FuirA0sP0wZ4wC1T
+   NBUhYoIzt+JQjkaLvbN+EMR9w0laQ4RHTVMSUYkVgfWtVkhD+fnlOaeeR
+   TLt5wRRu/V/FtfoUlLB4fid1wqgiCZsxeMUTKyywHezW30vcDBzALEtei
+   ZBFkgzyeCAtE4gnnhD3qQ9KmRjdg18sZTVbvbJkXQtzio8m/WXNwd57Vx
+   w==;
+X-CSE-ConnectionGUID: mwFoIdBPRnSQbomFRDTVtw==
+X-CSE-MsgGUID: 3yRaotWXT5+ck2OhHqyL+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="81107398"
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="74639704"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 23:20:45 -0800
-X-CSE-ConnectionGUID: /D4uKsuZQySZJJXgK+l8Ug==
-X-CSE-MsgGUID: 2IRhwk5tRR+heetCmFpomQ==
+   d="scan'208";a="81107398"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 00:03:25 -0800
+X-CSE-ConnectionGUID: 7C8+aZzxTVG81Xyoz7ptbQ==
+X-CSE-MsgGUID: 11z4ycgpRK2z2XtWMoCdaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="212739088"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 27 Jan 2026 23:20:45 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="207988033"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 28 Jan 2026 00:03:23 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vkzqz-0000000021R-3Av3;
-	Wed, 28 Jan 2026 07:20:41 +0000
-Date: Wed, 28 Jan 2026 08:20:41 +0100
+	id 1vl0WH-00000000ZRS-0w6L;
+	Wed, 28 Jan 2026 08:03:21 +0000
+Date: Wed, 28 Jan 2026 16:03:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cilium:pr/netkit-iouring15 17/18] net/xdp/xsk.c:126:17:
- error: call to undeclared function 'netif_get_rx_queue_lease_locked'; ISO C99
- and later do not support implicit function declarations
-Message-ID: <202601280810.qSqTo7ht-lkp@intel.com>
+To: Ido Schimmel <idosch@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
+Subject: [jpirko-mlxsw:combined_queue 10/10]
+ drivers/firewire/ohci.c:527:31: sparse: sparse: cast truncates bits from
+ constant value (10000 becomes 0)
+Message-ID: <202601281535.4qlSbZNI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/cilium/linux.git pr/netkit-iouring15
-head:   2bfd97dc4072315c583d973b90386dd82df70fae
-commit: 2735913301fe3285613f291f594b1749487137aa [17/18] Revert "net: Proxy net_mp_{open,close}_rxq for leased queues"
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260128/202601280810.qSqTo7ht-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601280810.qSqTo7ht-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   836937f105dd64e600acaa0286482270c382e394
+commit: 836937f105dd64e600acaa0286482270c382e394 [10/10] TMP: Revert "modul=
+e: Add compile-time check for embedded NUL characters"
+config: arm64-randconfig-r121-20260128 (https://download.01.org/0day-ci/arc=
+hive/20260128/202601281535.4qlSbZNI-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8=
+addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260128/202601281535.4qlSbZNI-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601280810.qSqTo7ht-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601281535.4qlSbZNI-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firewire/ohci.c:527:31: sparse: sparse: cast truncates bits from=
+ constant value (10000 becomes 0)
+   drivers/firewire/ohci.c:603:39: sparse: sparse: cast truncates bits from=
+ constant value (10000 becomes 0)
+   drivers/firewire/ohci.c:615:55: sparse: sparse: cast truncates bits from=
+ constant value (10000 becomes 0)
+   drivers/firewire/ohci.c:879:37: sparse: sparse: cast truncates bits from=
+ constant value (10000 becomes 0)
+   drivers/firewire/ohci.c:932:9: sparse: sparse: context imbalance in 'con=
+text_retire_descriptors' - different lock contexts for basic block
+   drivers/firewire/ohci.c:2035:20: sparse: sparse: context imbalance in 'i=
+rq_handler' - different lock contexts for basic block
+   drivers/firewire/ohci.c:2574:12: sparse: sparse: context imbalance in 'o=
+hci_enable_phys_dma' - different lock contexts for basic block
+   drivers/firewire/ohci.c:2609:12: sparse: sparse: context imbalance in 'o=
+hci_read_csr' - different lock contexts for basic block
+   drivers/firewire/ohci.c:2661:9: sparse: sparse: context imbalance in 'oh=
+ci_write_csr' - different lock contexts for basic block
+   drivers/firewire/ohci.c:3116:9: sparse: sparse: context imbalance in 'oh=
+ci_free_iso_context' - wrong count at exit
+   drivers/firewire/ohci.c:3138:12: sparse: sparse: context imbalance in 'o=
+hci_set_iso_channels' - wrong count at exit
+   drivers/firewire/ohci.c:3420:12: sparse: sparse: context imbalance in 'o=
+hci_queue_iso' - wrong count at exit
+--
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1800:45: sparse: sparse: inc=
+orrect type in assignment (different base types) @@     expected restricted=
+ __sum16 [usertype] check @@     got restricted __be16 [usertype] @@
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1800:45: sparse:     expecte=
+d restricted __sum16 [usertype] check
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1800:45: sparse:     got res=
+tricted __be16 [usertype]
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3038:22: sparse: sparse: inc=
+orrect type in argument 2 (different base types) @@     expected unsigned i=
+nt [usertype] val @@     got restricted __be32 [usertype] ip @@
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3038:22: sparse:     expecte=
+d unsigned int [usertype] val
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3038:22: sparse:     got res=
+tricted __be32 [usertype] ip
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:3083:40: sparse: sparse: inc=
+orrect type in argument 1 (different base types) @@     expected unsigned i=
+nt [usertype] val @@     got restricted __be32 [usertype] ip4dst @@
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3083:40: sparse:     expecte=
+d unsigned int [usertype] val
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3083:40: sparse:     got res=
+tricted __be32 [usertype] ip4dst
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3083:40: sparse: sparse: cas=
+t from restricted __be32
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3083:40: sparse: sparse: cas=
+t from restricted __be32
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3083:40: sparse: sparse: cas=
+t from restricted __be32
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3083:40: sparse: sparse: cas=
+t from restricted __be32
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3143:38: sparse: sparse: inc=
+orrect type in assignment (different base types) @@     expected restricted=
+ __be32 [usertype] ip4dst @@     got unsigned int [usertype] @@
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3143:38: sparse:     expecte=
+d restricted __be32 [usertype] ip4dst
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3143:38: sparse:     got uns=
+igned int [usertype]
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3147:38: sparse: sparse: inc=
+orrect type in assignment (different base types) @@     expected restricted=
+ __be32 [usertype] ip4src @@     got unsigned int @@
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3147:38: sparse:     expecte=
+d restricted __be32 [usertype] ip4src
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3147:38: sparse:     got uns=
+igned int
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3149:36: sparse: sparse: inc=
+orrect type in assignment (different base types) @@     expected restricted=
+ __be16 [usertype] psrc @@     got int @@
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3149:36: sparse:     expecte=
+d restricted __be16 [usertype] psrc
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3149:36: sparse:     got int
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3151:36: sparse: sparse: inc=
+orrect type in assignment (different base types) @@     expected restricted=
+ __be16 [usertype] pdst @@     got int @@
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3151:36: sparse:     expecte=
+d restricted __be16 [usertype] pdst
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3151:36: sparse:     got int
 
->> net/xdp/xsk.c:126:17: error: call to undeclared function 'netif_get_rx_queue_lease_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     126 |                 WARN_ON_ONCE(!netif_get_rx_queue_lease_locked(&dev, &id));
-         |                               ^
-   net/xdp/xsk.c:126:17: note: did you mean '__netif_get_rx_queue_lease'?
-   ./include/net/netdev_rx_queue.h:76:1: note: '__netif_get_rx_queue_lease' declared here
-      76 | __netif_get_rx_queue_lease(struct net_device **dev, unsigned int *rxq,
-         | ^
->> net/xdp/xsk.c:133:2: error: call to undeclared function 'netif_put_rx_queue_lease_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     133 |         netif_put_rx_queue_lease_locked(orig_dev, dev);
-         |         ^
-   net/xdp/xsk.c:151:8: error: call to undeclared function 'netif_get_rx_queue_lease_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     151 |                 if (!netif_get_rx_queue_lease_locked(&dev, &id))
-         |                      ^
-   net/xdp/xsk.c:164:2: error: call to undeclared function 'netif_put_rx_queue_lease_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     164 |         netif_put_rx_queue_lease_locked(orig_dev, dev);
-         |         ^
-   4 errors generated.
+vim +527 drivers/firewire/ohci.c
 
+32b46093a07698 drivers/firewire/fw-ohci.c Kristian H=C3=B8gsberg 2007-02-06=
+  520 =20
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  521=
+  static void ar_context_link_page(struct ar_context *ctx, unsigned int ind=
+ex)
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  522=
+  {
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  523=
+  	struct descriptor *d;
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  524=
+ =20
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  525=
+  	d =3D &ctx->descriptors[index];
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  526=
+  	d->branch_address  &=3D cpu_to_le32(~0xf);
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26 @527=
+  	d->res_count       =3D  cpu_to_le16(PAGE_SIZE);
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  528=
+  	d->transfer_status =3D  0;
+32b46093a07698 drivers/firewire/fw-ohci.c Kristian H=C3=B8gsberg 2007-02-06=
+  529 =20
+071595ebdc66d7 drivers/firewire/ohci.c    Stefan Richter    2010-07-27  530=
+  	wmb(); /* finish init of new descriptors before branch_address update */
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  531=
+  	d =3D &ctx->descriptors[ctx->last_buffer_index];
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  532=
+  	d->branch_address  |=3D cpu_to_le32(1);
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  533=
+ =20
+7a39d8b8216546 drivers/firewire/ohci.c    Clemens Ladisch   2010-11-26  534=
+  	ctx->last_buffer_index =3D index;
+32b46093a07698 drivers/firewire/fw-ohci.c Kristian H=C3=B8gsberg 2007-02-06=
+  535 =20
+a77754a75d58d5 drivers/firewire/fw-ohci.c Kristian H=C3=B8gsberg 2007-05-07=
+  536  	reg_write(ctx->ohci, CONTROL_SET(ctx->regs), CONTEXT_WAKE);
+837596a61ba8f9 drivers/firewire/ohci.c    Clemens Ladisch   2010-10-25  537=
+  }
+837596a61ba8f9 drivers/firewire/ohci.c    Clemens Ladisch   2010-10-25  538=
+ =20
 
-vim +/netif_get_rx_queue_lease_locked +126 net/xdp/xsk.c
+:::::: The code at line 527 was first introduced by commit
+:::::: 7a39d8b82165462729d09066bddb395a19025acd firewire: ohci: Asynchronou=
+s Reception rewrite
 
-1c1efc2af15886 Magnus Karlsson 2020-08-28  119  
-1c1efc2af15886 Magnus Karlsson 2020-08-28  120  void xsk_clear_pool_at_qid(struct net_device *dev, u16 queue_id)
-1c1efc2af15886 Magnus Karlsson 2020-08-28  121  {
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  122  	struct net_device *orig_dev = dev;
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  123  	unsigned int id = queue_id;
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  124  
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  125  	if (id < dev->real_num_rx_queues)
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15 @126  		WARN_ON_ONCE(!netif_get_rx_queue_lease_locked(&dev, &id));
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  127  
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  128  	if (id < dev->real_num_rx_queues)
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  129  		dev->_rx[id].pool = NULL;
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  130  	if (id < dev->real_num_tx_queues)
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  131  		dev->_tx[id].pool = NULL;
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15  132  
-e1d8d7f33eef21 Daniel Borkmann 2026-01-15 @133  	netif_put_rx_queue_lease_locked(orig_dev, dev);
-1c1efc2af15886 Magnus Karlsson 2020-08-28  134  }
-1c1efc2af15886 Magnus Karlsson 2020-08-28  135  
+:::::: TO: Clemens Ladisch <clemens@ladisch.de>
+:::::: CC: Stefan Richter <stefanr@s5r6.in-berlin.de>
 
-:::::: The code at line 126 was first introduced by commit
-:::::: e1d8d7f33eef21fc3c25b5f8234820db9dec3438 xsk: Proxy pool management for leased queues
-
-:::::: TO: Daniel Borkmann <daniel@iogearbox.net>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
