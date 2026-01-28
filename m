@@ -1,244 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016D22D12F5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 10:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570CF2C11E9;
+	Wed, 28 Jan 2026 10:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769594552; cv=none; b=GnowiNSitiYxOtLihk23lhXkrH8eoZu7iEfoakNZZq3bphLmINb+kR2F3WFrjg57fwwie9to/ktGtTlgHPnSekFVd6bQBIBZvo4bCDNZEhl4TBD4GyYY1d0czeVaws5zykzPybI1ePR1Ucv7QkgENYF1dMz94DMZWkrBWQnXzOI=
+	t=1769594555; cv=none; b=B5YkJkHlZHUzN2cK4Ao1Xvrpcpwc0qB4wnMX0EzhbqP9ptHtN5y8DoVbOHtzchGVCH9ii4FJsOJhcnf4neC1mqaTpENckvERBnHAQfiatZlV9Qm1Gmjf88KhVutq6hPkMw8nNa+DJt22PPEiI432XiRFpdHg707kV3hy9lVpM7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769594552; c=relaxed/simple;
-	bh=kAucBYJy3/iBuHpqV9tSUfqwhRTOFOj6GhFSPikbeMY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Mk7XgD+vUeGKAw+5U8BZsgT4aTcbyWTjKCdA9yd8vVLg7y0JE+T8ocnbDbmCE/FD/2WSVIOXLpzOZjAr6nU/TuJP390xKSIPV2SL4xNoQSFiL/P55ni8LDFOmWGU491F2RezyUHeVaiBuxg51uqQVW09wevTFPrpVWP/uRmguxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RcjUlGo6; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769594555; c=relaxed/simple;
+	bh=M/1XAAe2fXUTjteJOxDYo6ou5Wc8lghhfgq/fQ9TNFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PnaiG6e43x5+VFTjDjQX39Sae08scnUiVtVeODFM4dX97L8kqenZxCWRDB2LAtPgFmIQDvYPGF/WgICI2+u7wzXqJbnapAjphqR0BEtOg7VZShV4CvNHtfZl4GMWzRpbMAWuYuy12o3aizXAiCWUkgT0PZMgWtj2XhA0SypOSag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AcuK0+Gm; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RcjUlGo6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AcuK0+Gm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769594551; x=1801130551;
-  h=date:from:to:cc:subject:message-id;
-  bh=kAucBYJy3/iBuHpqV9tSUfqwhRTOFOj6GhFSPikbeMY=;
-  b=RcjUlGo66CiUFF+IFdTyw+Keq4XsBWwfro1mZIsc3jUDGtME8KzWsAcL
-   9xlfR+DlBfH7sPJ5eTls9HhK+9DU0dLyuIqtfqe+09E7MGpq84i5C94rE
-   NH1cgi5but/MjX9bzufCNAW4pH9I+rf6sNDxyzkZZfEOFjgfyxYaq2lOU
-   y6IvCRPjlSUw7nT6zroIbZ/Xk3or2o31Ji8Y+Ky1RhmPBTSjnxY+gcq2q
-   n6c6t2IKouzMPsu+D8P91Wqi2MctMp2TxKNRWMCqObhZSCwYdayLiTDo2
-   eZJvqCdp3BMF2hdXqkIsyZ2M+PefZHYlhlhIBVNhHPVQPhTbvhrhY6xN0
-   A==;
-X-CSE-ConnectionGUID: oNrHDwVRRhCpNGL6iHyNjg==
-X-CSE-MsgGUID: IvKgJ436RROVtQc74+Bqhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70702883"
+  t=1769594554; x=1801130554;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M/1XAAe2fXUTjteJOxDYo6ou5Wc8lghhfgq/fQ9TNFk=;
+  b=AcuK0+Gm/oB83L2Jnvyu6XN1/eBLmQJNq+wAMcofy0LnmVwmGwdDWe7l
+   FZcvfR4pBPBaP8Pk3RNxpwtcLCnDSvDxCRMmgbkAWCe3cy9rV3cGSCsRM
+   jstbGcqQm2lJ56IjapSe3MJ/22pZLJfgFoa4gKXO8H4UvgJbXbQwepq0o
+   P0WByboRONrQj0hBSnuyAPHBYDMrZNQ9tkiuvesdImJeUN3UIIGL/u3jp
+   69qjqxDoO84JrnNWzFU6KT2qHxI9AhBwuzNvy5eHGiVGnXHB4Iaf89D7e
+   945m7IXfU6FtqdSKQV3KnWmEBEP3PpOQK4XXuUu/Fh8ml7Pg3Dk2vsSrL
+   w==;
+X-CSE-ConnectionGUID: SzlYV4/6TU+6zQmwC48SVg==
+X-CSE-MsgGUID: P5nV5O/LRvWuUXEhUaUmFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70891963"
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="70702883"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 02:02:31 -0800
-X-CSE-ConnectionGUID: Tit4kS9aS5OwBOJDvtYU+w==
-X-CSE-MsgGUID: MWFE90QhTk+5ML0iw3T5yQ==
+   d="scan'208";a="70891963"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 02:02:33 -0800
+X-CSE-ConnectionGUID: 8I8p/2p0TrGpQgtzGYcMgw==
+X-CSE-MsgGUID: q85tbTJXQiWSPpZl4S4FGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="212777204"
+   d="scan'208";a="208015458"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Jan 2026 02:02:29 -0800
+  by orviesa009.jf.intel.com with ESMTP; 28 Jan 2026 02:02:29 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vl2NW-00000000ZWc-0kGj;
+	id 1vl2NW-00000000ZWa-0RDG;
 	Wed, 28 Jan 2026 10:02:26 +0000
-Date: Wed, 28 Jan 2026 18:01:40 +0800
+Date: Wed, 28 Jan 2026 18:01:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org
-Subject: [agraf-2.6:virtio-dmb 1/1]
- drivers/virtio/virtio_pci_modern.c:545:45: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202601281736.6KZZJdNR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexey Charkov <alchark@gmail.com>,
+	Sjoerd Simons <sjoerd.simons@collabora.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH 10/10] ASoC: rockchip: spdif: Convert to FIELD_PREP
+Message-ID: <202601281701.vJDagmwh-lkp@intel.com>
+References: <20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb@collabora.com>
 
-tree:   https://github.com/agraf/linux-2.6.git virtio-dmb
-head:   45a0bb294baa814a4b7f4acbc0eea8c55b05cd69
-commit: 45a0bb294baa814a4b7f4acbc0eea8c55b05cd69 [1/1] virtio-pci: Add Device Memory Buffer (DMB) support
-config: x86_64-randconfig-123-20260128 (https://download.01.org/0day-ci/archive/20260128/202601281736.6KZZJdNR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281736.6KZZJdNR-lkp@intel.com/reproduce)
+Hi Sebastian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 63804fed149a6750ffd28610c5c1c98cce6bd377]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Reichel/ASoC-rockchip-spdif-Use-device_get_match_data/20260128-001701
+base:   63804fed149a6750ffd28610c5c1c98cce6bd377
+patch link:    https://lore.kernel.org/r/20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb%40collabora.com
+patch subject: [PATCH 10/10] ASoC: rockchip: spdif: Convert to FIELD_PREP
+config: hexagon-randconfig-002-20260128 (https://download.01.org/0day-ci/archive/20260128/202601281701.vJDagmwh-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281701.vJDagmwh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601281736.6KZZJdNR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601281701.vJDagmwh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/virtio/virtio_pci_modern.c:545:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *shmem_vaddr @@     got void [noderef] __iomem * @@
-   drivers/virtio/virtio_pci_modern.c:545:45: sparse:     expected void *shmem_vaddr
-   drivers/virtio/virtio_pci_modern.c:545:45: sparse:     got void [noderef] __iomem *
-   drivers/virtio/virtio_pci_modern.c:567:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *shmem_vaddr @@     got void [noderef] __iomem * @@
-   drivers/virtio/virtio_pci_modern.c:567:45: sparse:     expected void *shmem_vaddr
-   drivers/virtio/virtio_pci_modern.c:567:45: sparse:     got void [noderef] __iomem *
-   drivers/virtio/virtio_pci_modern.c:587:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *shmem_vaddr @@     got void [noderef] __iomem * @@
-   drivers/virtio/virtio_pci_modern.c:587:45: sparse:     expected void *shmem_vaddr
-   drivers/virtio/virtio_pci_modern.c:587:45: sparse:     got void [noderef] __iomem *
->> drivers/virtio/virtio_pci_modern.c:659:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *dmb_mem @@     got void * @@
-   drivers/virtio/virtio_pci_modern.c:659:33: sparse:     expected void [noderef] __iomem *dmb_mem
-   drivers/virtio/virtio_pci_modern.c:659:33: sparse:     got void *
+All errors (new ones prefixed by >>):
 
-vim +545 drivers/virtio/virtio_pci_modern.c
+>> sound/soc/rockchip/rockchip_spdif.c:109:21: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     109 |         unsigned int val = SPDIF_CFGR_HALFWORD_ENABLE;
+         |                            ^
+   sound/soc/rockchip/rockchip_spdif.h:33:36: note: expanded from macro 'SPDIF_CFGR_HALFWORD_ENABLE'
+      33 | #define SPDIF_CFGR_HALFWORD_ENABLE      FIELD_PREP(SPDIF_CFGR_HALFWORD_MASK, 1)
+         |                                         ^
+   sound/soc/rockchip/rockchip_spdif.c:182:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     182 |                                          SPDIF_DMACR_TDE_ENABLE |
+         |                                          ^
+   sound/soc/rockchip/rockchip_spdif.h:48:33: note: expanded from macro 'SPDIF_DMACR_TDE_ENABLE'
+      48 | #define SPDIF_DMACR_TDE_ENABLE          FIELD_PREP(SPDIF_DMACR_TDE_MASK, 1)
+         |                                         ^
+   2 errors generated.
 
-   538	
-   539	static void vp_dmb_unmap_page(union virtio_map map, dma_addr_t map_handle,
-   540					     size_t size, enum dma_data_direction dir,
-   541					     ulong attrs)
-   542	{
-   543		struct pci_dev *pci_dev = to_pci_dev(map.dma_dev);
-   544		struct virtio_pci_device *vp_dev = pci_get_drvdata(pci_dev);
- > 545		void *shmem_vaddr = vp_dev->dmb_mem + map_handle;
-   546		struct device *dev = &pci_dev->dev;
-   547		struct vp_dmb_mapping *mapping;
-   548	
-   549		mapping = vp_dmb_pop_map(vp_dev, map_handle);
-   550		if (dev_WARN_ONCE(dev, !mapping, "Unmap without map of handle %lx", (long)map_handle))
-   551			return;
-   552	
-   553		if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
-   554		    (dir == DMA_FROM_DEVICE || dir == DMA_BIDIRECTIONAL))
-   555			memcpy(mapping->va, shmem_vaddr, size);
-   556	
-   557		kfree(mapping);
-   558	
-   559		vp_dmb_free(map, size, shmem_vaddr, map_handle, attrs);
-   560	}
-   561	
-   562	static void vp_dmb_sync_single_for_cpu(union virtio_map map, dma_addr_t map_handle,
-   563						      size_t size, enum dma_data_direction dir)
-   564	{
-   565		struct pci_dev *pci_dev = to_pci_dev(map.dma_dev);
-   566		struct virtio_pci_device *vp_dev = pci_get_drvdata(pci_dev);
-   567		void *shmem_vaddr = vp_dev->dmb_mem + map_handle;
-   568		struct device *dev = &pci_dev->dev;
-   569		struct vp_dmb_mapping mapping = {};
-   570		int r;
-   571	
-   572		r = vp_dmb_peek_map(vp_dev, map_handle, &mapping);
-   573	
-   574		if (dev_WARN_ONCE(dev, r, "CPU sync without map of handle %lx", (long)map_handle))
-   575			return;
-   576	
-   577		if ((dir == DMA_FROM_DEVICE || dir == DMA_BIDIRECTIONAL)) {
-   578			memcpy(mapping.va, shmem_vaddr, size);
-   579		}
-   580	}
-   581	
-   582	static void vp_dmb_sync_single_for_device(union virtio_map map, dma_addr_t map_handle,
-   583							 size_t size, enum dma_data_direction dir)
-   584	{
-   585		struct pci_dev *pci_dev = to_pci_dev(map.dma_dev);
-   586		struct virtio_pci_device *vp_dev = pci_get_drvdata(pci_dev);
-   587		void *shmem_vaddr = vp_dev->dmb_mem + map_handle;
-   588		struct device *dev = &pci_dev->dev;
-   589		struct vp_dmb_mapping mapping;
-   590		int r;
-   591	
-   592		r = vp_dmb_peek_map(vp_dev, map_handle, &mapping);
-   593	
-   594		if (dev_WARN_ONCE(dev, r, "CPU sync without map of handle %lx", (long)map_handle))
-   595			return;
-   596	
-   597		if ((dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
-   598			memcpy(shmem_vaddr, mapping.va, size);
-   599	}
-   600	
-   601	static bool vp_dmb_need_sync(union virtio_map map, dma_addr_t map_handle)
-   602	{
-   603		return true;
-   604	}
-   605	
-   606	static int vp_dmb_mapping_error(union virtio_map map, dma_addr_t map_handle)
-   607	{
-   608		return dma_mapping_error(map.dma_dev, map_handle);
-   609	}
-   610	
-   611	static size_t vp_dmb_max_mapping_size(union virtio_map map)
-   612	{
-   613		return 1024 * 1024; /* 1 MiB */
-   614	}
-   615	
-   616	static const struct virtio_map_ops vp_dmb_map_ops = {
-   617		.map_page = vp_dmb_map_page,
-   618		.unmap_page = vp_dmb_unmap_page,
-   619		.sync_single_for_cpu = vp_dmb_sync_single_for_cpu,
-   620		.sync_single_for_device = vp_dmb_sync_single_for_device,
-   621		.alloc = vp_dmb_alloc,
-   622		.free = vp_dmb_free,
-   623		.need_sync = vp_dmb_need_sync,
-   624		.mapping_error = vp_dmb_mapping_error,
-   625		.max_mapping_size = vp_dmb_max_mapping_size,
-   626	};
-   627	
-   628	/* virtio config->finalize_features() implementation */
-   629	static int vp_finalize_features(struct virtio_device *vdev)
-   630	{
-   631		struct virtio_pci_device *vp_dev = to_vp_device(vdev);
-   632		u64 features = vdev->features;
-   633	
-   634		/* Give virtio_ring a chance to accept features. */
-   635		vring_transport_features(vdev);
-   636	
-   637		/* Give virtio_pci a chance to accept features. */
-   638		vp_transport_features(vdev, features);
-   639	
-   640		if (!__virtio_test_bit(vdev, VIRTIO_F_VERSION_1)) {
-   641			dev_err(&vdev->dev, "virtio: device uses modern interface "
-   642				"but does not have VIRTIO_F_VERSION_1\n");
-   643			return -EINVAL;
-   644		}
-   645	
-   646		if (vp_check_common_size(vdev))
-   647			return -EINVAL;
-   648	
-   649		/* Initialize Device Memory Buffer if advertised by host */
-   650		if (__virtio_test_bit(vdev, VIRTIO_F_DMB)) {
-   651			struct virtio_shm_region region;
-   652	
-   653			if (!virtio_get_shm_region(vdev, &region, VIRTIO_SHMEM_ID_DMB)) {
-   654				dev_warn(&vdev->dev, "Failed to find DMB region");
-   655				return -EINVAL;
-   656			}
-   657	
-   658			vp_dev->dmb_pool = devm_gen_pool_create(&vdev->dev, ilog2(SMP_CACHE_BYTES), -1, "virtio-shmem");
- > 659			vp_dev->dmb_mem = devm_memremap(&vdev->dev, region.addr, region.len, MEMREMAP_WB | MEMREMAP_DEC);
-   660			INIT_LIST_HEAD(&vp_dev->dmb_mappings);
-   661			spin_lock_init(&vp_dev->dmb_lock);
-   662	
-   663			if (vp_dev->dmb_pool) {
-   664				int ret = gen_pool_add_virt(vp_dev->dmb_pool, (ulong)vp_dev->dmb_mem,
-   665							    region.addr, region.len, -1);
-   666				if (ret != 0) {
-   667					dev_warn(&vdev->dev, "Failed to initialize DMB region");
-   668					return -EINVAL;
-   669				}
-   670	
-   671				/* Reserve first cache line to avoid offset 0 allocations */
-   672				ulong reserved = gen_pool_alloc(vp_dev->dmb_pool, SMP_CACHE_BYTES);
-   673				if (!reserved) {
-   674					dev_warn(&vdev->dev, "Failed to reserve shmem offset 0");
-   675					return -EINVAL;
-   676				}
-   677				vdev->map = &vp_dmb_map_ops;
-   678				vdev->vmap.dma_dev = &vp_dev->pci_dev->dev;
-   679	
-   680				dev_info(&vdev->dev, "Enabled %d bytes Virtio DMB region for %s", (int)region.len, dev_name(&vp_dev->pci_dev->dev));
-   681			}
-   682		}
-   683	
-   684		vp_modern_set_extended_features(&vp_dev->mdev, vdev->features_array);
-   685	
-   686		return 0;
-   687	}
-   688	
+
+vim +/FIELD_PREP +109 sound/soc/rockchip/rockchip_spdif.c
+
+f874b80e157111 Sjoerd Simons     2015-10-08  102  
+f874b80e157111 Sjoerd Simons     2015-10-08  103  static int rk_spdif_hw_params(struct snd_pcm_substream *substream,
+f874b80e157111 Sjoerd Simons     2015-10-08  104  			      struct snd_pcm_hw_params *params,
+f874b80e157111 Sjoerd Simons     2015-10-08  105  			      struct snd_soc_dai *dai)
+f874b80e157111 Sjoerd Simons     2015-10-08  106  {
+f874b80e157111 Sjoerd Simons     2015-10-08  107  	struct rk_spdif_dev *spdif = snd_soc_dai_get_drvdata(dai);
+b8e112b77e45b4 Sugar Zhang       2026-01-27  108  	unsigned int mclk_rate = clk_get_rate(spdif->mclk);
+f874b80e157111 Sjoerd Simons     2015-10-08 @109  	unsigned int val = SPDIF_CFGR_HALFWORD_ENABLE;
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  110  	int bmc, div, ret, i;
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  111  	u16 *fc;
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  112  	u8 cs[CS_BYTE];
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  113  
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  114  	ret = snd_pcm_create_iec958_consumer_hw_params(params, cs, sizeof(cs));
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  115  	if (ret < 0)
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  116  		return ret;
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  117  
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  118  	fc = (u16 *)cs;
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  119  	for (i = 0; i < CS_BYTE / 2; i++)
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  120  		regmap_write(spdif->regmap, SPDIF_CHNSRn(i), CS_FRAME(fc[i]));
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  121  
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  122  	regmap_update_bits(spdif->regmap, SPDIF_CFGR, SPDIF_CFGR_CSE_MASK,
+9cd33c09d22fd1 Sugar Zhang       2026-01-27  123  			   SPDIF_CFGR_CSE_EN);
+f874b80e157111 Sjoerd Simons     2015-10-08  124  
+b8e112b77e45b4 Sugar Zhang       2026-01-27  125  	/* bmc = 128fs */
+b8e112b77e45b4 Sugar Zhang       2026-01-27  126  	bmc = 128 * params_rate(params);
+b8e112b77e45b4 Sugar Zhang       2026-01-27  127  	div = DIV_ROUND_CLOSEST(mclk_rate, bmc);
+b8e112b77e45b4 Sugar Zhang       2026-01-27  128  	val |= SPDIF_CFGR_CLK_DIV(div);
+f874b80e157111 Sjoerd Simons     2015-10-08  129  
+f874b80e157111 Sjoerd Simons     2015-10-08  130  	switch (params_format(params)) {
+f874b80e157111 Sjoerd Simons     2015-10-08  131  	case SNDRV_PCM_FORMAT_S16_LE:
+f874b80e157111 Sjoerd Simons     2015-10-08  132  		val |= SPDIF_CFGR_VDW_16;
+908589f3825713 Sugar Zhang       2026-01-27  133  		val |= SPDIF_CFGR_ADJ_RIGHT_J;
+f874b80e157111 Sjoerd Simons     2015-10-08  134  		break;
+f874b80e157111 Sjoerd Simons     2015-10-08  135  	case SNDRV_PCM_FORMAT_S20_3LE:
+f874b80e157111 Sjoerd Simons     2015-10-08  136  		val |= SPDIF_CFGR_VDW_20;
+908589f3825713 Sugar Zhang       2026-01-27  137  		val |= SPDIF_CFGR_ADJ_RIGHT_J;
+f874b80e157111 Sjoerd Simons     2015-10-08  138  		break;
+f874b80e157111 Sjoerd Simons     2015-10-08  139  	case SNDRV_PCM_FORMAT_S24_LE:
+f874b80e157111 Sjoerd Simons     2015-10-08  140  		val |= SPDIF_CFGR_VDW_24;
+908589f3825713 Sugar Zhang       2026-01-27  141  		val |= SPDIF_CFGR_ADJ_RIGHT_J;
+908589f3825713 Sugar Zhang       2026-01-27  142  		break;
+908589f3825713 Sugar Zhang       2026-01-27  143  	case SNDRV_PCM_FORMAT_S32_LE:
+908589f3825713 Sugar Zhang       2026-01-27  144  		val |= SPDIF_CFGR_VDW_24;
+908589f3825713 Sugar Zhang       2026-01-27  145  		val |= SPDIF_CFGR_ADJ_LEFT_J;
+f874b80e157111 Sjoerd Simons     2015-10-08  146  		break;
+f874b80e157111 Sjoerd Simons     2015-10-08  147  	default:
+f874b80e157111 Sjoerd Simons     2015-10-08  148  		return -EINVAL;
+f874b80e157111 Sjoerd Simons     2015-10-08  149  	}
+f874b80e157111 Sjoerd Simons     2015-10-08  150  
+908589f3825713 Sugar Zhang       2026-01-27  151  	/*
+908589f3825713 Sugar Zhang       2026-01-27  152  	 * clear MCLK domain logic before setting Fmclk and Fsdo to ensure
+908589f3825713 Sugar Zhang       2026-01-27  153  	 * that switching between S16_LE and S32_LE audio does not result
+908589f3825713 Sugar Zhang       2026-01-27  154  	 * in accidential channels swap.
+908589f3825713 Sugar Zhang       2026-01-27  155  	 */
+908589f3825713 Sugar Zhang       2026-01-27  156  	regmap_update_bits(spdif->regmap, SPDIF_CFGR, SPDIF_CFGR_CLR_MASK,
+908589f3825713 Sugar Zhang       2026-01-27  157  			   SPDIF_CFGR_CLR_EN);
+908589f3825713 Sugar Zhang       2026-01-27  158  	udelay(1);
+908589f3825713 Sugar Zhang       2026-01-27  159  
+f874b80e157111 Sjoerd Simons     2015-10-08  160  	ret = regmap_update_bits(spdif->regmap, SPDIF_CFGR,
+acc8b9d117912c Sugar Zhang       2021-08-24  161  				 SPDIF_CFGR_CLK_DIV_MASK |
+85c46be12ede08 Sebastian Reichel 2026-01-27  162  				 SPDIF_CFGR_HALFWORD_MASK |
+908589f3825713 Sugar Zhang       2026-01-27  163  				 SDPIF_CFGR_VDW_MASK |
+908589f3825713 Sugar Zhang       2026-01-27  164  				 SPDIF_CFGR_ADJ_MASK, val);
+f874b80e157111 Sjoerd Simons     2015-10-08  165  
+f874b80e157111 Sjoerd Simons     2015-10-08  166  	return ret;
+f874b80e157111 Sjoerd Simons     2015-10-08  167  }
+f874b80e157111 Sjoerd Simons     2015-10-08  168  
 
 -- 
 0-DAY CI Kernel Test Service
