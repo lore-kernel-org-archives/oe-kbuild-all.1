@@ -1,103 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4322FFF90
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 23:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6167034575F;
+	Wed, 28 Jan 2026 23:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769641794; cv=none; b=pAOo23kLAT5zp18ZsC+wq1Nj8gzciW12hBLHVBbqJ2yjIj1M/cTpk2OgnyRNSxoeYr2RHv01FXvECP4xDhUiiTg8t79O7veP37UOlCr2PZXmR2W0+X9w8s55youHCEnZ0xNMU07eHmdLBNR7dO0xUbr9gYdOD8jxWh6j70YI570=
+	t=1769642152; cv=none; b=upfeQaGoz+gBM7FZbkGfobTvbY8Nnur11UTN7CxvXTQEKxR4Pwu7m+4g5jptEEgwtQOO4uj9gY65PcogVpDbuOZnsUUxDCPENuLPW21N3CNwYrii2ffHjvD6WgxK8EJ35EQi4KEhTy13bSAIqMNPdBsB/y9pFLX3IeN28klVhGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769641794; c=relaxed/simple;
-	bh=o67jrujsjxrXCYiTT2MYB48pD0sWDtqltINhWwNs+4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gGbWQq5/tdzst+e5BFaHWKaDn6U6iuLAyygJK23NkAcpy/N6scG8QzyCzM3z6eV1bvO146jC7Yoi3QmZhQ0r8HW3Bf4SojkIWrZux3p9sNZ2wEeu5gQCtlpM35UiesjRwP7ODMtHw8lacNnw07QeHuBjo8oFocf7ZygGGev8ZjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n9vUvmwo; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1769642152; c=relaxed/simple;
+	bh=1jFlQQO8A+HMcYzsLtZzBxrY5nhSTOhny13PpycHMzw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fDidZHB4dbCk9YHx63CUM1Tanytr8Fn+A/+Z8L6LV33r2xphwgfhljL7mL+VlJBIe9dhO2mGIKIY6K6KNztJ7C+gd+9/sYacVMYx6OOEix47UIPoxnX77VmANP8YnzZrMO9XSNjkOimuJhi3bjzPsjdm30CFlJUvSYAi3xNByDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbMO6uma; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9vUvmwo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbMO6uma"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769641793; x=1801177793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o67jrujsjxrXCYiTT2MYB48pD0sWDtqltINhWwNs+4c=;
-  b=n9vUvmwowxtan1HS5LHlaA2M3trgJgmU8hUUERLtsWe5atmsfmvweUxt
-   MI8POmULqUI3hm9w4FaZXMyt7+z9nmtfg+LM98Y0YaCFqZo8VCDpsrACa
-   eAX0rWUvy7T8HDJ3l1pDe7EDuEubOwhxT8tFU1GTmm42sa38pArc0/kO2
-   ZIvMaGmROOgiZsYuHEldLGx5nxvcryclubIPOUsKyQxexAPXHf/wAXDfV
-   TaN9KUL3WHquATwCzo4+g4QExlcHPNsiNWWzLIcw3PhymTMKweIXHwgSH
-   P769Q68KbblvrlC9+qVEDkD8a0EL1dve35Wair9kxFDqOPhdOWoK2LBcQ
-   Q==;
-X-CSE-ConnectionGUID: tg4wLRWSQwaoAu4TomDzsw==
-X-CSE-MsgGUID: Ct8raFGWTLakCOzftgfPkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="81185483"
+  t=1769642151; x=1801178151;
+  h=date:from:to:cc:subject:message-id;
+  bh=1jFlQQO8A+HMcYzsLtZzBxrY5nhSTOhny13PpycHMzw=;
+  b=FbMO6umahngHw2SBFfAiSrIeHY0FAVHjknccV25TT96QTpe9X/JCvO52
+   vqPqMBIj9eT7ytR0jZ9DGl1j+jpv/ovTkkaLvT/c/jgPriqI3s3IuC1R2
+   9lOTisi1URdqraldcBoneVB1ZOTPkYFj04W2RRphiKDKVVJlYmnvkfOav
+   wyvzRPahhN3QxKJ/8AO4wIZNWozpv9W8NQizGY7NTIKYgyw7MrzJE9now
+   9juqrye7EesOrqLzefB3zQDhr6pI/Q39hKXzA1CG6NJNxM3l2YGssaGsU
+   3MbJSUgh11Reehw87JNJiVOATkNL7+x8Y/qwrfbttgP1VqCgaigbAdHTk
+   g==;
+X-CSE-ConnectionGUID: ijbu0a+aS8++7UQjNk+wVw==
+X-CSE-MsgGUID: 6+8lOZDMT5yQe2Zh4hwKwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="73462174"
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="81185483"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 15:09:52 -0800
-X-CSE-ConnectionGUID: yUgXZ58CRTGI0RjtolXkpw==
-X-CSE-MsgGUID: 0K/wPvbCRKWuv6+pB8QwTw==
+   d="scan'208";a="73462174"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 15:15:51 -0800
+X-CSE-ConnectionGUID: MAqeHauTQySHyRfQaJx0Dw==
+X-CSE-MsgGUID: T4qXbDXgQlmuzHVDoM5nkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="239135293"
+   d="scan'208";a="213266490"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 28 Jan 2026 15:09:50 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 28 Jan 2026 15:15:49 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlEfT-0000000027R-1K0G;
-	Wed, 28 Jan 2026 23:09:47 +0000
-Date: Thu, 29 Jan 2026 00:09:19 +0100
+	id 1vlElH-0000000027h-25oJ;
+	Wed, 28 Jan 2026 23:15:47 +0000
+Date: Thu, 29 Jan 2026 00:14:54 +0100
 From: kernel test robot <lkp@intel.com>
-To: Arun Muthusamy <arun.muthusamy@gaisler.com>, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, mkl@pengutronix.de,
-	mailhol@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-can@vger.kernel.org,
-	Arun Muthusamy <arun.muthusamy@gaisler.com>
-Subject: Re: [PATCH v4 02/15] net: can: Convert gaisler,grcan to DT schema
-Message-ID: <202601290045.AC0xSS8q-lkp@intel.com>
-References: <20260128144921.5458-3-arun.muthusamy@gaisler.com>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev
+Subject: [gfs2:bufdata 13/13] Warning: fs/gfs2/log.c:994 function
+ parameter 'sdp' not described in 'trans_drain'
+Message-ID: <202601290029.ITT7Edfu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128144921.5458-3-arun.muthusamy@gaisler.com>
 
-Hi Arun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 4001bda0cc911fcdd3dde36963a17f4eac173d7d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arun-Muthusamy/dt-bindings-Add-vendor-prefix-for-Frontgrade-Gaisler-AB/20260128-230131
-base:   4001bda0cc911fcdd3dde36963a17f4eac173d7d
-patch link:    https://lore.kernel.org/r/20260128144921.5458-3-arun.muthusamy%40gaisler.com
-patch subject: [PATCH v4 02/15] net: can: Convert gaisler,grcan to DT schema
-reproduce: (https://download.01.org/0day-ci/archive/20260129/202601290045.AC0xSS8q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git bufdata
+head:   e4483c611981a48e12166c1b2845773dafd7de52
+commit: e4483c611981a48e12166c1b2845773dafd7de52 [13/13] gfs2: per-filesystem bufdata
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260129/202601290029.ITT7Edfu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601290029.ITT7Edfu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601290045.AC0xSS8q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601290029.ITT7Edfu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/sphinx/parse-headers.pl
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
-   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
->> Warning: drivers/net/can/grcan.c references a file that doesn't exist: Documentation/devicetree/bindings/net/can/grcan.txt
-   Warning: include/rv/da_monitor.h references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Using alabaster theme
-   ERROR: Cannot find file ./include/linux/pci.h
-   WARNING: No kernel-doc for file ./include/linux/pci.h
+>> Warning: fs/gfs2/log.c:994 function parameter 'sdp' not described in 'trans_drain'
+>> Warning: fs/gfs2/log.c:994 function parameter 'sdp' not described in 'trans_drain'
 
 -- 
 0-DAY CI Kernel Test Service
