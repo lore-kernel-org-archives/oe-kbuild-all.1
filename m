@@ -1,162 +1,81 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4EA365A17
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 06:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5660C37998A;
+	Thu, 29 Jan 2026 07:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769669972; cv=none; b=dvhL/04LhgGW8Uh1p9KXjSRsS9Q8dTFdmA94gCg6PgLDrh3jqMuGliAVNhIVQJslcwPUeyoL+OKYEiXC3PA010vCirCU2Zgc4nZXieUh1LVqPB6H7LEzOkW83hh2vlCPpMTdGpSQNWmTW2ZRS3hVtxlwAEFf97CLk3K/9tMyME0=
+	t=1769670462; cv=none; b=KWtmeHY4cccBV7wu4NdmV6Sib4YjNuiHvJtH2MrzrQW+1LGergspfIx+fXLm8fDBR1AFmZb6DGc5I8dbVQSx00dR4+kt1lsOfqkbjHtTQ+qaepanD12qRbGmiE21uM4fDN0QiGCgbfwrVNZQurat1mNhNbZ0bA5wlBvFV6r337k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769669972; c=relaxed/simple;
-	bh=gLEPIN3ZxJ1dsRf66dbZLgFDHqnBT87yg74ODOFhpMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Q0V7s8ULczNhzGQrizKCbvvq3GwDXBp++BaC47Sj5gFhLh6ER3unVdE01mL1NKaGNnnRC4MSSS3LQ7Upuc/Qg2lJsTZTs8n8+Ws4O2TN8Rn6l5xZQExemuK6/wf5CQ8ga43lZma8QaMA1DXRt2ghNlwX3LT0BigjBkXE0JHOZik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pnGaEjXl; arc=none smtp.client-ip=209.85.221.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769670462; c=relaxed/simple;
+	bh=79Ob+0kE12R6Uti0WJjfey0zVs+v9YDo6w38AHHbRwc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tPNa1nddkCdQd3/eONngnPuNuvpsPCI0+/eaPhLLnGDAdgLYp0L5ovww9mSULxAD5OtH9aNVEJs6TVVoOcxbEiTTPoOcp0I63Hd4TH/IH764bnH2wAR19pl6RA3SjuBjWoWQpJblMj4b8f6Lkwq/x02GTEgXFY1Md5P2NnsVD0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZVLzOyB; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pnGaEjXl"
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-42fbc305552so590213f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jan 2026 22:59:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769669970; x=1770274770; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NHNJ1TQ1JR50Y6PheB8gKOVpv/Y5hdmXfj+3AJIB5y4=;
-        b=pnGaEjXl8W+/8ERHeOfBt8P+X4DqQxCHyMXw2NdUfjs8MpXlpzQOMEInpFV6kHGAc0
-         aIPwXYvcVtpyaW2lOjBLKkT0twe7HhDVANgRUwDAmvXN1wKGL11UgG/Q+Nlh7Wznya88
-         dtInT1Mx+JaV1MCi1E2JEA7XRHtO3UE8Wra8Lm8dEcTGIic6w9hFVvx2sr8M1wuP8HzX
-         KUFB9sQkmZIc+dL/8HIZ7h/2VUQ7BB8kPwmfw6G6ISHIFhQnytLxoYVpwfg/nfoejj14
-         jMKs2W7SrO8e1DoLfYO81cTMgke3EsMzUZuMcYPCbPJ2OyRsmAlOWRWowhJn1LZt1rJl
-         P5cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769669970; x=1770274770;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NHNJ1TQ1JR50Y6PheB8gKOVpv/Y5hdmXfj+3AJIB5y4=;
-        b=mqrA61D8vcub9KAe1kGbd0qcAbzI9UFDABc2uIrbtHBxLWa30E7unS8E3Fd78E464Z
-         Htwi4LxFXHw2NEbJKNeTZ/VKduLtRzkm63f5Cmb8UCDA1Xt/H4d2cYvI/qgrTXlHclV0
-         pWHPhYrftkryRnLdEM0dKG0+DcwE+J/zyZc4TkVPc0ZSQNLR8JkyOLg9yB9ka1a8Ug+b
-         eXn+vtjBFlGddm8BwOFUXorh79XDQKLOYPVDxavAonMrHHIaA0acqyJP+Fau0s/tYgqI
-         AdSAu0a2bTI7rd0+L00fjptxgovvyujUpPM7sz/IpUl5MNlqLAwrSiDz8zqoZmite92U
-         fSZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX1AgRQ/IKz4y1lmCOH05SRaHpEOzxJCFodT6KMf52r/6NdIbId/+KZR9Wco57vh419x7KR7DaSocaXX/7R@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3xzoasZDzsNv38xoqpdFR1VhAjC6P2xSkiFlggFgMvdKlH1pk
-	7dQhqEeAoJfwmKTs+cM7x2eMWZ9bXCIvO0XKd2ZCbuK1jYOJPhceN19VTSjyyZZeb3s=
-X-Gm-Gg: AZuq6aIVmfFtBBXlVn1bojOcJmcCC8aUvWTls9mofuY4Ec2c6XZcygsJ0q98kl7b/Hc
-	pmnf97YE/1Dq8Nty0oMzePkceYllNg7Cu3xn8h/CX/D07mGvhEDoJeV6eGfKCT5boNCV7Ogt/2p
-	hyWN3RwN5SFbvahChJOkQNmbYrPFkhwXjQQ7qpEkiFKX+gzHePIrnI+B2TBpdQ1+531BbHACcU4
-	8iOXxivQuKtpPd10/fy7s+ADSYSSOwCaQDm32ZaaNWnoZ5XSFQk6CqIuggxx3CLynX/nVuGXeUc
-	D4+aqTuzV6QJJqO7blWr3ZqzzYvKPPIDnocSSAAsQxDFx757iZsE6VGYmoEiCo3d7Vt3azdPuGM
-	33oPVdLqK6IvfCAeVLjtJWBaOSaT1dFHYPnZCF2LkK4WVh2sqObC2L9cnCBbkFMCxHrfspzYdpW
-	s//bSPuQ8xhC2jrJt6
-X-Received: by 2002:a05:6000:2312:b0:430:ff81:2961 with SMTP id ffacd0b85a97d-435dd1c8f14mr10282615f8f.51.1769669969615;
-        Wed, 28 Jan 2026 22:59:29 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e476dsm12482179f8f.4.2026.01.28.22.59.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 22:59:29 -0800 (PST)
-Date: Thu, 29 Jan 2026 09:59:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Niklas Neronin <niklas.neronin@linux.intel.com>,
-	mathias.nyman@linux.intel.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	raoxu@uniontech.com,
-	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: Re: [PATCH 2/2] usb: xhci: add interrupter type
-Message-ID: <202601290847.Cb6aLduh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZVLzOyB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769670462; x=1801206462;
+  h=date:from:to:cc:subject:message-id;
+  bh=79Ob+0kE12R6Uti0WJjfey0zVs+v9YDo6w38AHHbRwc=;
+  b=FZVLzOyB3aOThmrGNovU05mHtnltU3XR8OzZXqIO1FbXdlVttzIUPRb7
+   SEBsb5TBM5LHB5RmpjJBNn4b2yIXTfrvUu3jMwVwKK2ginbNeX+T2GXWt
+   pvRyeFkgZmksDfGIHT+VS3veuTwO0mglJMFDJaYhBwFlOVou9Mkd4PvE1
+   nvohEDB6AsO23o2hCB/pI/LqrbaUvi+bSReTcv+DELtrnRwoN31qgqAm8
+   f0fV1ig8TcZgGCka6t/yj+uxglvYBhjStzIzeBz35eZAFyBl9qFK9ADQN
+   lP75wOdLfQraiOcvzG8cHWNqDPrKyJI7q9ufgjmCfACzURhoGy4z60k2X
+   A==;
+X-CSE-ConnectionGUID: +EOmDeSiR5isQ9Dkzl09HA==
+X-CSE-MsgGUID: 57cKSwN8R7yh8NUaqaCUBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="88473648"
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
+   d="scan'208";a="88473648"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 23:07:41 -0800
+X-CSE-ConnectionGUID: b4X4BLozTGOkLFmalRY/9Q==
+X-CSE-MsgGUID: 9YNuJtYZS1KoICjPTonDkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
+   d="scan'208";a="208730308"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 28 Jan 2026 23:07:39 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vlM7t-00000000bC6-1dMO;
+	Thu, 29 Jan 2026 07:07:37 +0000
+Date: Thu, 29 Jan 2026 15:06:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev
+Subject: [gfs2:bufdata 13/13] Warning: fs/gfs2/log.c:994 function
+ parameter 'sdp' not described in 'trans_drain'
+Message-ID: <202601291537.4Vu4TCu0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128131504.124322-3-niklas.neronin@linux.intel.com>
 
-Hi Niklas,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Neronin/usb-xhci-move-Primary-Interrupter-IMODI-setup/20260128-211728
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20260128131504.124322-3-niklas.neronin%40linux.intel.com
-patch subject: [PATCH 2/2] usb: xhci: add interrupter type
-config: x86_64-randconfig-161-20260129 (https://download.01.org/0day-ci/archive/20260129/202601290847.Cb6aLduh-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git bufdata
+head:   e4483c611981a48e12166c1b2845773dafd7de52
+commit: e4483c611981a48e12166c1b2845773dafd7de52 [13/13] gfs2: per-filesystem bufdata
+config: parisc-randconfig-002-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291537.4Vu4TCu0-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291537.4Vu4TCu0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601290847.Cb6aLduh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601291537.4Vu4TCu0-lkp@intel.com/
 
-smatch warnings:
-drivers/usb/host/xhci.c:320 xhci_enable_interrupter() warn: variable dereferenced before check 'ir' (see line 317)
-drivers/usb/host/xhci.c:340 xhci_disable_interrupter() warn: variable dereferenced before check 'ir' (see line 337)
+All warnings (new ones prefixed by >>):
 
-vim +/ir +320 drivers/usb/host/xhci.c
-
-bea5892d0ed274 Mathias Nyman  2025-04-10  313  int xhci_enable_interrupter(struct xhci_interrupter *ir)
-52dd0483e822d0 Mathias Nyman  2023-02-02  314  {
-52dd0483e822d0 Mathias Nyman  2023-02-02  315  	u32 iman;
-52dd0483e822d0 Mathias Nyman  2023-02-02  316  
-486b278520fd70 Niklas Neronin 2026-01-28 @317  	if (ir->type == INTR_NOOP)
-                                                    ^^^^^^^^
-Dereferenced.
-
-486b278520fd70 Niklas Neronin 2026-01-28  318  		return 0;
-486b278520fd70 Niklas Neronin 2026-01-28  319  
-52dd0483e822d0 Mathias Nyman  2023-02-02 @320  	if (!ir || !ir->ir_set)
-                                                    ^^^
-Checked too late.
-
-52dd0483e822d0 Mathias Nyman  2023-02-02  321  		return -EINVAL;
-52dd0483e822d0 Mathias Nyman  2023-02-02  322  
-bf9cce90da311a Niklas Neronin 2025-05-15  323  	iman = readl(&ir->ir_set->iman);
-ff9a09b3e09c7b Niklas Neronin 2025-08-19  324  	iman &= ~IMAN_IP;
-9f7f74735ac295 Niklas Neronin 2025-05-15  325  	iman |= IMAN_IE;
-bf9cce90da311a Niklas Neronin 2025-05-15  326  	writel(iman, &ir->ir_set->iman);
-52dd0483e822d0 Mathias Nyman  2023-02-02  327  
-f5bce30ad25e74 Niklas Neronin 2025-05-15  328  	/* Read operation to guarantee the write has been flushed from posted buffers */
-bf9cce90da311a Niklas Neronin 2025-05-15  329  	readl(&ir->ir_set->iman);
-52dd0483e822d0 Mathias Nyman  2023-02-02  330  	return 0;
-52dd0483e822d0 Mathias Nyman  2023-02-02  331  }
-52dd0483e822d0 Mathias Nyman  2023-02-02  332  
-e1db856bd28891 Niklas Neronin 2025-05-15  333  int xhci_disable_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
-52dd0483e822d0 Mathias Nyman  2023-02-02  334  {
-52dd0483e822d0 Mathias Nyman  2023-02-02  335  	u32 iman;
-52dd0483e822d0 Mathias Nyman  2023-02-02  336  
-486b278520fd70 Niklas Neronin 2026-01-28 @337  	if (ir->type == INTR_NOOP)
-                                                    ^^^^^^^^
-
-486b278520fd70 Niklas Neronin 2026-01-28  338  		return 0;
-486b278520fd70 Niklas Neronin 2026-01-28  339  
-52dd0483e822d0 Mathias Nyman  2023-02-02 @340  	if (!ir || !ir->ir_set)
-                                                    ^^^
-Same.
-
-52dd0483e822d0 Mathias Nyman  2023-02-02  341  		return -EINVAL;
-52dd0483e822d0 Mathias Nyman  2023-02-02  342  
-bf9cce90da311a Niklas Neronin 2025-05-15  343  	iman = readl(&ir->ir_set->iman);
-ff9a09b3e09c7b Niklas Neronin 2025-08-19  344  	iman &= ~IMAN_IP;
-9f7f74735ac295 Niklas Neronin 2025-05-15  345  	iman &= ~IMAN_IE;
-bf9cce90da311a Niklas Neronin 2025-05-15  346  	writel(iman, &ir->ir_set->iman);
-52dd0483e822d0 Mathias Nyman  2023-02-02  347  
-bf9cce90da311a Niklas Neronin 2025-05-15  348  	iman = readl(&ir->ir_set->iman);
-e1db856bd28891 Niklas Neronin 2025-05-15  349  	if (iman & IMAN_IP)
-e1db856bd28891 Niklas Neronin 2025-05-15  350  		xhci_dbg(xhci, "%s: Interrupt pending\n", __func__);
-e1db856bd28891 Niklas Neronin 2025-05-15  351  
-52dd0483e822d0 Mathias Nyman  2023-02-02  352  	return 0;
-52dd0483e822d0 Mathias Nyman  2023-02-02  353  }
+>> Warning: fs/gfs2/log.c:994 function parameter 'sdp' not described in 'trans_drain'
+>> Warning: fs/gfs2/log.c:994 function parameter 'sdp' not described in 'trans_drain'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
