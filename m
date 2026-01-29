@@ -1,67 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23836387349
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 11:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F267E38757C;
+	Thu, 29 Jan 2026 11:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769685897; cv=none; b=HTTeMB6bKB6nNI0AeVXD4YMV5LKgJRbGxRAGRCfl3bEeD+1H/woZBlBajFK3587ClvlW1c4vewv/IOQP2PGRuw82awDBHlIt5HRZRS0ClV8iQ2HKwLsGa8ibwXCj8scsYQfizd1ldQe+q5p3D7P31z7YnuAvRPvI/vfDZF523Zs=
+	t=1769686204; cv=none; b=aYHr+7zZ/1uyY/5VtFTlYk3oU8/NWdWCZK641znEKewJJnNEHxEnQonv1IJHU53cHFsgwm0cV9o476EzVIv62pNT3y+BLE7GYEEIk0p3ePRrCUFygX1quHjYKnCU7Jx9oPsMXYMzh2TQwbmO4mXol9EnljNxFuyz/gevCKA4BU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769685897; c=relaxed/simple;
-	bh=vftR1/o4cmK625cN3zhb2Ja114CrtM2i4C9g1yhV1gg=;
+	s=arc-20240116; t=1769686204; c=relaxed/simple;
+	bh=UB4juRatoxAjJ3voumXxgnDhy7jKWgsXK0C2/0Q1LLs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c39ONZHcQ6qgRdnedJTPKLYuvIPqsGaIRRM4jfWJvzm0z2n1xU9KXCfPwtTBSlCmWVyp+Rx1xj/77K1p0IdlJqo0YMxqUlnzbEuP1BAi8g/WB+zhPFGtsk4gmj7Whvtx1kWutKlCL3rkkTrTD3+cWZD821LezoHML/pb/cG7N3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TyRlC8+J; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=BuzX47gxVrmHV2fI9BZ/WbMJ8mjfGrAx6G9CDb0tKifjSKgWe5ipRZ2u23iavNgs96m+sYI49LDs0RF3pmUl+RFWFXFAJ8gKSBJ8KRcLTRlAghjuyyxMplkxGAc9FDOoGnQb1YTRp1mMUV3r5T9HQWyru492qJcsh+PjM3L0+Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cztTyR8w; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TyRlC8+J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cztTyR8w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769685895; x=1801221895;
+  t=1769686201; x=1801222201;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vftR1/o4cmK625cN3zhb2Ja114CrtM2i4C9g1yhV1gg=;
-  b=TyRlC8+JJrgEG8LXtE2IZmKmdkggCJJm15Rtlw7kILAcaeVjytmlGPHo
-   ldzk1R2iS2OmgIHeGdhbjAmXkHutbhHa8U7JLLzjkHhPffCr5r3KV8E52
-   QbZLJe4tXJFCjbyisQdkKMd8BUf40vfYWypDrvlEVfWKlKnvGq6RHVzdG
-   HL15INxwLB1VTjUFrOLXkuqXPB/X3X9gACIHf4g/729a0AwEjVrx7x0ik
-   AhbDOrNUNQyntUC/wLhm7XGlTyMxyqPdAsuzeSJLc7Z3z7g3PzfYHf3rE
-   tCEBJL1vhiGxevozJDMC2Hll1IdWhgwaP8BGeuioGjr3bQOSQdt0wqCoL
-   w==;
-X-CSE-ConnectionGUID: WXlHai+aROWax8hYjwHxUA==
-X-CSE-MsgGUID: RSq2eEV4TWeRqFE9Dqnf3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70816287"
+  bh=UB4juRatoxAjJ3voumXxgnDhy7jKWgsXK0C2/0Q1LLs=;
+  b=cztTyR8wVfTcfO+ZrBtfBdIjhutvvVV8SE8ncfjn0t+Cb2PICLJzwWdc
+   iSM5hqZTZtIAycQ7OQnegR5DpPoA28lv/z26AThnDVkb0/D2tv8wZl6h3
+   xVJTESF8yF0qmAWr7uuACrDNqrec4EV3pPViKu2UXXq9PSVlP9mE9Z0P5
+   DuGgE2Fntv8mcaXBRy/R7VIn2hlnDCq1XMGrcWLdYjlLZHeYmnM65Cz0D
+   9hCTz4s1/TJTmPQvcDbkoS0fTvkG0zy6fk/xV9CKyEU32T9OirLOYTe3v
+   meOjgD8Xbt1aBQaU3DWElj0vX0n/XlPu3N8HfhwLQePoO+nkDvqaKvhPL
+   Q==;
+X-CSE-ConnectionGUID: ulP8ohXMSYijsdyaoVXTRQ==
+X-CSE-MsgGUID: Gw9YkSqUTdy8EGn0KZonfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="58505807"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="70816287"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 03:24:53 -0800
-X-CSE-ConnectionGUID: 53pFctYUQ8GuwrH8YGY37w==
-X-CSE-MsgGUID: HD9j0Xk4RMeCMWEyPglemA==
+   d="scan'208";a="58505807"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 03:29:59 -0800
+X-CSE-ConnectionGUID: gqT750vBQPmTIOB1ggzl9A==
+X-CSE-MsgGUID: l72yiMe7TB2WVPr+qRi90w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="208456944"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Jan 2026 03:24:50 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="213050661"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Jan 2026 03:29:56 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlQ8l-00000000bPU-3DwV;
-	Thu, 29 Jan 2026 11:24:47 +0000
-Date: Thu, 29 Jan 2026 19:24:45 +0800
+	id 1vlQDi-000000002Hd-1NJf;
+	Thu, 29 Jan 2026 11:29:54 +0000
+Date: Thu, 29 Jan 2026 12:29:21 +0100
 From: kernel test robot <lkp@intel.com>
-To: Qiliang Yuan <realwujing@gmail.com>, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Qiliang Yuan <realwujing@gmail.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] sched/fair: Cache NUMA node statistics to avoid O(N)
- scanning
-Message-ID: <202601291924.phVnpnOi-lkp@intel.com>
-References: <20260129031948.2384178-1-realwujing@gmail.com>
+To: Sascha Bischoff <Sascha.Bischoff@arm.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, nd <nd@arm.com>,
+	"maz@kernel.org" <maz@kernel.org>,
+	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+	Joey Gouly <Joey.Gouly@arm.com>,
+	Suzuki Poulose <Suzuki.Poulose@arm.com>,
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+	"peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+	Timothy Hayes <Timothy.Hayes@arm.com>,
+	"jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>
+Subject: Re: [PATCH v4 35/36] KVM: arm64: selftests: Introduce a minimal
+ GICv5 PPI selftest
+Message-ID: <202601291246.oaOq5gRj-lkp@intel.com>
+References: <20260128175919.3828384-36-sascha.bischoff@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,62 +75,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129031948.2384178-1-realwujing@gmail.com>
+In-Reply-To: <20260128175919.3828384-36-sascha.bischoff@arm.com>
 
-Hi Qiliang,
+Hi Sascha,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on tip/master peterz-queue/sched/core linus/master v6.19-rc7 next-20260128]
-[cannot apply to tip/auto-latest]
+[auto build test WARNING on arm64/for-next/core]
+[also build test WARNING on kvm/queue kvm/next]
+[cannot apply to kvmarm/next linus/master kvm/linux-next v6.16-rc1 next-20260128]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qiliang-Yuan/sched-fair-Cache-NUMA-node-statistics-to-avoid-O-N-scanning/20260129-112302
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20260129031948.2384178-1-realwujing%40gmail.com
-patch subject: [PATCH v4] sched/fair: Cache NUMA node statistics to avoid O(N) scanning
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260129/202601291924.phVnpnOi-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291924.phVnpnOi-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Bischoff/KVM-arm64-Account-for-RES1-bits-in-DECLARE_FEAT_MAP-and-co/20260129-022450
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20260128175919.3828384-36-sascha.bischoff%40arm.com
+patch subject: [PATCH v4 35/36] KVM: arm64: selftests: Introduce a minimal GICv5 PPI selftest
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260129/202601291246.oaOq5gRj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291246.oaOq5gRj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601291924.phVnpnOi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601291246.oaOq5gRj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:86:
-   kernel/sched/topology.c: In function 'init_rootdomain':
->> kernel/sched/topology.c:574:1: warning: label 'free_cpupri' defined but not used [-Wunused-label]
-     574 | free_cpupri:
-         | ^~~~~~~~~~~
-
-
-vim +/free_cpupri +574 kernel/sched/topology.c
-
-   571	
-   572		return 0;
-   573	
- > 574	free_cpupri:
-   575		cpupri_cleanup(&rd->cpupri);
-   576	free_cpudl:
-   577		cpudl_cleanup(&rd->cpudl);
-   578	free_rto_mask:
-   579		free_cpumask_var(rd->rto_mask);
-   580	free_dlo_mask:
-   581		free_cpumask_var(rd->dlo_mask);
-   582	free_online:
-   583		free_cpumask_var(rd->online);
-   584	free_span:
-   585		free_cpumask_var(rd->span);
-   586	out:
-   587		return -ENOMEM;
-   588	}
-   589	
+>> arm64/vgic_v5.c:171:11: warning: unused variable 'other' [-Wunused-variable]
+     171 |         uint32_t other;
+         |                  ^~~~~
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
