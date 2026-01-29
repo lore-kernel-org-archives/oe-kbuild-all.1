@@ -1,80 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5660C37998A;
-	Thu, 29 Jan 2026 07:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78109379978
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 07:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769670462; cv=none; b=KWtmeHY4cccBV7wu4NdmV6Sib4YjNuiHvJtH2MrzrQW+1LGergspfIx+fXLm8fDBR1AFmZb6DGc5I8dbVQSx00dR4+kt1lsOfqkbjHtTQ+qaepanD12qRbGmiE21uM4fDN0QiGCgbfwrVNZQurat1mNhNbZ0bA5wlBvFV6r337k=
+	t=1769670464; cv=none; b=bF9JN1u7t/PjWd3oZVTPgwrGfSRCwxIAHBn8fNVQOQzz50LaWw050jeKUgfPGSY2IPaAEZQmU7tNGVWFR+uKMD6JyBTFqmSZuPetq77xTppXPYEqZWvjSwcZtZ9kfcGkSwZiA6Zfq3es8PNvehaO+MOtZwmrWyVejeXLrbwRCCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769670462; c=relaxed/simple;
-	bh=79Ob+0kE12R6Uti0WJjfey0zVs+v9YDo6w38AHHbRwc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tPNa1nddkCdQd3/eONngnPuNuvpsPCI0+/eaPhLLnGDAdgLYp0L5ovww9mSULxAD5OtH9aNVEJs6TVVoOcxbEiTTPoOcp0I63Hd4TH/IH764bnH2wAR19pl6RA3SjuBjWoWQpJblMj4b8f6Lkwq/x02GTEgXFY1Md5P2NnsVD0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZVLzOyB; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1769670464; c=relaxed/simple;
+	bh=q/B7Xv4Frj1COfnRtZPlFut9RqtlSyViLkzTSyN72U4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GN+/CMNoJiY/os9edgGcEHohcqsbDHMAyjjHtCA0iR3f374MB3LeSiEr9sjYbaq4Ro8r8uhuj4TgAOKMnXlLWvOE4DiRD5KZ1LwKULY0IpksWvMU5M7TYjvsmV7sJlbuE0rg5kbjTeLulZmG4lIBCNMMsZMcvblhhtjZQI3Y+C8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ee2I1eWv; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZVLzOyB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ee2I1eWv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1769670462; x=1801206462;
-  h=date:from:to:cc:subject:message-id;
-  bh=79Ob+0kE12R6Uti0WJjfey0zVs+v9YDo6w38AHHbRwc=;
-  b=FZVLzOyB3aOThmrGNovU05mHtnltU3XR8OzZXqIO1FbXdlVttzIUPRb7
-   SEBsb5TBM5LHB5RmpjJBNn4b2yIXTfrvUu3jMwVwKK2ginbNeX+T2GXWt
-   pvRyeFkgZmksDfGIHT+VS3veuTwO0mglJMFDJaYhBwFlOVou9Mkd4PvE1
-   nvohEDB6AsO23o2hCB/pI/LqrbaUvi+bSReTcv+DELtrnRwoN31qgqAm8
-   f0fV1ig8TcZgGCka6t/yj+uxglvYBhjStzIzeBz35eZAFyBl9qFK9ADQN
-   lP75wOdLfQraiOcvzG8cHWNqDPrKyJI7q9ufgjmCfACzURhoGy4z60k2X
-   A==;
-X-CSE-ConnectionGUID: +EOmDeSiR5isQ9Dkzl09HA==
-X-CSE-MsgGUID: 57cKSwN8R7yh8NUaqaCUBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="88473648"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q/B7Xv4Frj1COfnRtZPlFut9RqtlSyViLkzTSyN72U4=;
+  b=ee2I1eWvxKMz7kcNjgc4VP6G/xJ0Ex98fvrJhGG8aBRVc3v8q/aFx656
+   SNoDnayzYhH1kFBeFOA0ap+yX05hFv/loXV0wpuGR4vRZ1zyZg14zSbQZ
+   nQ9RqkN3dVLoC7Lt+7eNCXvQAQbE6cb72dCVO/XG6gLaojn7WjVIfC+5S
+   +6OODo/NW/s59PBSq/8y9NymqFjBlkkWxenIatmaThMBeEvUaqa6Pv5mp
+   zkWJ/ZqoUrMjE0zp28HdR5wj4Y/bLuX6rTMj0EZUzw5gJ6sakgubo10Lk
+   HUa7KF3SGvB420xoDNhl2MURGXDPsJrDvEaWnYlv2/WU9eEsBOoFsU0Ou
+   w==;
+X-CSE-ConnectionGUID: G6G73V/iTPKuMFinRX0LPg==
+X-CSE-MsgGUID: +sDHW3csS6+OQGF3yHxkag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="81535943"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="88473648"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 23:07:41 -0800
-X-CSE-ConnectionGUID: b4X4BLozTGOkLFmalRY/9Q==
-X-CSE-MsgGUID: 9YNuJtYZS1KoICjPTonDkw==
+   d="scan'208";a="81535943"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 23:07:42 -0800
+X-CSE-ConnectionGUID: a+FeyiCHROSCuRKO3w/sXg==
+X-CSE-MsgGUID: pd3W7R02TACkeIi4MaLWRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="208730308"
+   d="scan'208";a="208390423"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Jan 2026 23:07:39 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 28 Jan 2026 23:07:39 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlM7t-00000000bC6-1dMO;
+	id 1vlM7t-00000000bC4-1V8m;
 	Thu, 29 Jan 2026 07:07:37 +0000
-Date: Thu, 29 Jan 2026 15:06:46 +0800
+Date: Thu, 29 Jan 2026 15:06:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev
-Subject: [gfs2:bufdata 13/13] Warning: fs/gfs2/log.c:994 function
- parameter 'sdp' not described in 'trans_drain'
-Message-ID: <202601291537.4Vu4TCu0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Chuck Lever <cel@kernel.org>, NeilBrown <neilb@ownmail.net>,
+	Jeff Layton <jlayton@kernel.org>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <dai.ngo@oracle.com>, Tom Talpey <tom@talpey.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v4 11/14] lockd: Move xdr.h from include/linux/lockd/ to
+ fs/lockd/
+Message-ID: <202601291442.Ys0V3xFD-lkp@intel.com>
+References: <20260128151935.1646063-12-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260128151935.1646063-12-cel@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git bufdata
-head:   e4483c611981a48e12166c1b2845773dafd7de52
-commit: e4483c611981a48e12166c1b2845773dafd7de52 [13/13] gfs2: per-filesystem bufdata
-config: parisc-randconfig-002-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291537.4Vu4TCu0-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291537.4Vu4TCu0-lkp@intel.com/reproduce)
+Hi Chuck,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v6.19-rc7 next-20260128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/lockd-Simplify-cast_status-in-svcproc-c/20260128-232322
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20260128151935.1646063-12-cel%40kernel.org
+patch subject: [PATCH v4 11/14] lockd: Move xdr.h from include/linux/lockd/ to fs/lockd/
+config: arm-randconfig-r112-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291442.Ys0V3xFD-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291442.Ys0V3xFD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601291537.4Vu4TCu0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601291442.Ys0V3xFD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: fs/gfs2/log.c:994 function parameter 'sdp' not described in 'trans_drain'
->> Warning: fs/gfs2/log.c:994 function parameter 'sdp' not described in 'trans_drain'
+   fs/nfs/proc.c: In function 'nfs_lock_check_bounds':
+>> fs/nfs/proc.c:677:26: error: invalid use of undefined type 'const struct file_lock'
+     677 |         start = (__s32)fl->fl_start;
+         |                          ^~
+   fs/nfs/proc.c:678:32: error: invalid use of undefined type 'const struct file_lock'
+     678 |         if ((loff_t)start != fl->fl_start)
+         |                                ^~
+   fs/nfs/proc.c:681:15: error: invalid use of undefined type 'const struct file_lock'
+     681 |         if (fl->fl_end != OFFSET_MAX) {
+         |               ^~
+   fs/nfs/proc.c:682:32: error: invalid use of undefined type 'const struct file_lock'
+     682 |                 end = (__s32)fl->fl_end;
+         |                                ^~
+   fs/nfs/proc.c:683:38: error: invalid use of undefined type 'const struct file_lock'
+     683 |                 if ((loff_t)end != fl->fl_end)
+         |                                      ^~
+
+
+vim +677 fs/nfs/proc.c
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  670  
+2116271a347d11 Trond Myklebust 2008-05-20  671  /* Helper functions for NFS lock bounds checking */
+2116271a347d11 Trond Myklebust 2008-05-20  672  #define NFS_LOCK32_OFFSET_MAX ((__s32)0x7fffffffUL)
+2116271a347d11 Trond Myklebust 2008-05-20  673  static int nfs_lock_check_bounds(const struct file_lock *fl)
+2116271a347d11 Trond Myklebust 2008-05-20  674  {
+2116271a347d11 Trond Myklebust 2008-05-20  675  	__s32 start, end;
+2116271a347d11 Trond Myklebust 2008-05-20  676  
+2116271a347d11 Trond Myklebust 2008-05-20 @677  	start = (__s32)fl->fl_start;
+2116271a347d11 Trond Myklebust 2008-05-20  678  	if ((loff_t)start != fl->fl_start)
+2116271a347d11 Trond Myklebust 2008-05-20  679  		goto out_einval;
+2116271a347d11 Trond Myklebust 2008-05-20  680  
+2116271a347d11 Trond Myklebust 2008-05-20  681  	if (fl->fl_end != OFFSET_MAX) {
+2116271a347d11 Trond Myklebust 2008-05-20  682  		end = (__s32)fl->fl_end;
+2116271a347d11 Trond Myklebust 2008-05-20  683  		if ((loff_t)end != fl->fl_end)
+2116271a347d11 Trond Myklebust 2008-05-20  684  			goto out_einval;
+2116271a347d11 Trond Myklebust 2008-05-20  685  	} else
+2116271a347d11 Trond Myklebust 2008-05-20  686  		end = NFS_LOCK32_OFFSET_MAX;
+2116271a347d11 Trond Myklebust 2008-05-20  687  
+2116271a347d11 Trond Myklebust 2008-05-20  688  	if (start < 0 || start > end)
+2116271a347d11 Trond Myklebust 2008-05-20  689  		goto out_einval;
+2116271a347d11 Trond Myklebust 2008-05-20  690  	return 0;
+2116271a347d11 Trond Myklebust 2008-05-20  691  out_einval:
+2116271a347d11 Trond Myklebust 2008-05-20  692  	return -EINVAL;
+2116271a347d11 Trond Myklebust 2008-05-20  693  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  694  
 
 -- 
 0-DAY CI Kernel Test Service
