@@ -1,171 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504C03859EE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 11:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9518387353
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 11:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769685009; cv=none; b=XrTgir8ObyQaiNV0MkOnWfr1Lzr6v17FWCKPLaYcAsBjZiY8JbQn9nX0ib5Rd1YDtysWrYRvnqPQlJNm66zRGG1kN4B4asLm+OkgVtirUQWpztj/ZYZ+foU3L7ACfzlOXTn3PogHH8BkcPqUYPgwwRiZU73E1yIKYo1I2O6VOLM=
+	t=1769685894; cv=none; b=YqJY2XRtpFGKXtobY3lEgMNMFU2zZQfNke9DcMj0LB7stIA09EmxDgaCSqhNVsKGlgCb/m0lUv5kcLVUm+jKU8/JqwyyqSQ42KGjgEDu0PHP2JbkTVEHC0nZ/vylShMzmclERCp3CRpyCIlUMtnx+t3I6+O3+FLUvAyqxq677ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769685009; c=relaxed/simple;
-	bh=C9SxJOD3elyNjKmtx3XC9cqqV5VfqzbZY9bKNgymUR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hj+8FCvMw6CH+R4MSDK/Qk6J0qDIM0LB9RfK3RrspnstflRHM+Na2Pu/jh1ivehX3Hh2GDNZjgMHmonxLzF8t7AYrj7LbpblUOANGNkNBaZoJdnCUtuGrm3KKir5PYL1SlN2IT3PAZCo/SO+KBCn6NTdFkuYTf2xqvSHKG039HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nnhqsb3g; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1769685894; c=relaxed/simple;
+	bh=QP5WsfsTaChR8XnXpGK0J7p6FIytr5QeHyi3TBnSXQg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rdr7RpHeMl0U32ZV51uaoynZlhoV3zKZqRIm7YFtB2zrpEOckf5KYCNGdYjl7uMD5CW1bDWZI2saysxw6G24hLVAfr1K3mC0a3MVnbreOU06vELCANSd90bN21FM/+b9By6Rq0JXPp/DaJBWFWe2Sga6CEsXcET/m3uYPXyqpUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3lKVUPQ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nnhqsb3g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3lKVUPQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769685006; x=1801221006;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C9SxJOD3elyNjKmtx3XC9cqqV5VfqzbZY9bKNgymUR0=;
-  b=Nnhqsb3gm+QyboGokZR+nKC9DOggVp7LK0tW0whcqXwo49ho5+u+nIv0
-   azMYPKtlhT9YZydpr5OQHMrZ+x6Ozx+jrJqXiOFRKnZvpZo9luo6mykgp
-   j8q0vLtIckBSFGgSLYBKR3ki51jQjaojJ2sYPBdSv8/6Foxd3Afl79v+7
-   ROpFX2kUefUOc5XKy0EJzkloJZnAldt4wtwq8YqJbz8DQ+FIKYg2tgqiT
-   ZBfnClJUrKPCzGDaruY5b2rmeZmIk36V873AfTDVB0CNeJRYnJdUsBtRc
-   +QR/bsrLbCaEoKHjMeh0KZB1JO6t7UB8rGo0nNdypwCvqhyPMpmeQ4+Fz
-   g==;
-X-CSE-ConnectionGUID: fielKsqrSF6xNtlIo9J+WA==
-X-CSE-MsgGUID: x9SG2Ez9QK+PngzfEYpREg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="69935742"
+  t=1769685893; x=1801221893;
+  h=date:from:to:cc:subject:message-id;
+  bh=QP5WsfsTaChR8XnXpGK0J7p6FIytr5QeHyi3TBnSXQg=;
+  b=K3lKVUPQjhWZjNjzHJ3vxr0c5q03Lt3/ROLDXk8fEC0lB0MC37z2c25x
+   Qak75TePgb5fpGeWV0GT4StJYLoTY1LMaVtfB65p8j7zqKilPadXhc1HK
+   85Ji5dK+9y1LY7nT9rWC162FR71vb2OVYgkQWiTPMvv2rIJyflxy9E9O9
+   4Lm4W3yxh84RaasJGfPr9hQn3LDh6FP3UbDdSpEoPdFi7QYidlxbdXauB
+   7DTbeBJ9g7QGxEmcsOF+w1DG1LLoJ4ufPKYkiwJc3sz+oinbMHLXimRZc
+   tBe+jIzM5kpS9lLrxuz1IC77QQWYIaTaW4ZMqOWLEtQH6zhK+wxEgImGN
+   Q==;
+X-CSE-ConnectionGUID: 8CmDRXgzTWGKelLDLt48xA==
+X-CSE-MsgGUID: mzm66wsPR8ifhFlmoOsh+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70816280"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="69935742"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 03:09:57 -0800
-X-CSE-ConnectionGUID: eW8ME4/ATqWLV2zpP7Uc8w==
-X-CSE-MsgGUID: kZOgzKVVRZ2BBvDdpOlZiQ==
+   d="scan'208";a="70816280"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 03:24:52 -0800
+X-CSE-ConnectionGUID: fxAq01PsSVyhFEZww6MG6w==
+X-CSE-MsgGUID: klzeCcRqQEO9rrO1NTXllQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="208154647"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Jan 2026 03:09:56 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="208456953"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 29 Jan 2026 03:24:50 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlPuM-000000002HN-0LRJ;
-	Thu, 29 Jan 2026 11:09:54 +0000
-Date: Thu, 29 Jan 2026 12:09:42 +0100
+	id 1vlQ8l-00000000bPc-3g1i;
+	Thu, 29 Jan 2026 11:24:47 +0000
+Date: Thu, 29 Jan 2026 19:24:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Link Mauve <linkmauve@linkmauve.fr>
+To: Tamir Duberstein <tamird@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/3] rust: nvmem: Add an abstraction for nvmem
- providers
-Message-ID: <202601291212.HAGuOxuH-lkp@intel.com>
-References: <20260128182925.13225-3-linkmauve@linkmauve.fr>
+Subject: [tamird:scanf-break-more 3/3]
+ lib/tests/scanf_kunit.c:755:49: error: too few arguments to function call,
+ expected 3, have 2
+Message-ID: <202601291921.FlI2BG4c-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128182925.13225-3-linkmauve@linkmauve.fr>
 
-Hi Link,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rust/rust-next]
-[also build test WARNING on linus/master v6.19-rc7 next-20260128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Link-Mauve/nvmem-Document-enum-nvmem_type-and-its-variants/20260129-023240
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260128182925.13225-3-linkmauve%40linkmauve.fr
-patch subject: [RFC PATCH 2/3] rust: nvmem: Add an abstraction for nvmem providers
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260129/202601291212.HAGuOxuH-lkp@intel.com/config)
+tree:   https://github.com/tamird/linux scanf-break-more
+head:   c856662203a0a434151a0c56f5c05ebbf20c9770
+commit: c856662203a0a434151a0c56f5c05ebbf20c9770 [3/3] scanf: further break kunit into test cases
+config: x86_64-randconfig-001-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291921.FlI2BG4c-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291212.HAGuOxuH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291921.FlI2BG4c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601291212.HAGuOxuH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601291921.FlI2BG4c-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/nvmem.rs:59:38
-   |
-   59 |             let context = unsafe { &*(context as *mut T::Priv) };
-   |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `context.cast::<T::Priv>()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_as_ptr
-   = note: requested on the command line with `-W clippy::ptr-as-ptr`
---
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/nvmem.rs:60:23
-   |
-   60 |             let val = val as *mut u8;
-   |                       ^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `val.cast::<u8>()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_as_ptr
---
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/nvmem.rs:79:38
-   |
-   79 |             let context = unsafe { &*(context as *mut T::Priv) };
-   |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `context.cast::<T::Priv>()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_as_ptr
---
->> warning: `as` casting between raw pointers while changing only its constness
-   --> rust/kernel/nvmem.rs:80:23
-   |
-   80 |             let val = val as *mut u8 as *const u8;
-   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast_const`, a safer alternative: `(val as *mut u8).cast_const()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_cast_constness
-   = note: requested on the command line with `-W clippy::ptr-cast-constness`
---
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/nvmem.rs:80:23
-   |
-   80 |             let val = val as *mut u8 as *const u8;
-   |                       ^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `val.cast::<u8>()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_as_ptr
---
->> warning: `as` casting between raw pointers while changing only its constness
-   --> rust/kernel/nvmem.rs:90:28
-   |
-   90 |         self.inner.priv_ = priv_ as *const T::Priv as *const c_void as *mut c_void;
-   |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast_mut`, a safer alternative: `(priv_ as *const T::Priv as *const c_void).cast_mut()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_cast_constness
---
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/nvmem.rs:90:28
-   |
-   90 |         self.inner.priv_ = priv_ as *const T::Priv as *const c_void as *mut c_void;
-   |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `(priv_ as *const T::Priv).cast::<c_void>()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_as_ptr
---
->> warning: reference as raw pointer
-   --> rust/kernel/nvmem.rs:90:28
-   |
-   90 |         self.inner.priv_ = priv_ as *const T::Priv as *const c_void as *mut c_void;
-   |                            ^^^^^^^^^^^^^^^^^^^^^^^ help: try: `core::ptr::from_ref::<T::Priv>(priv_)`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ref_as_ptr
-   = note: requested on the command line with `-W clippy::ref-as-ptr`
---
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/nvmem.rs:104:27
-   |
-   104 |         self.inner.name = name.as_ptr() as *const _;
-   |                           ^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `name.as_ptr().cast()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_as_ptr
+>> lib/tests/scanf_kunit.c:755:49: error: too few arguments to function call, expected 3, have 2
+     755 |                 return number_delimiters_gen_params(NULL, desc);
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~           ^
+   lib/tests/scanf_kunit.c:744:1: note: 'number_delimiters_gen_params' declared here
+     744 | KUNIT_ARRAY_PARAM(number_delimiters, number_delimiters, number_delimiter_param_desc);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1729:21: note: expanded from macro 'KUNIT_ARRAY_PARAM'
+    1729 |         static const void *name##_gen_params(struct kunit *test,                                \
+         |                            ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1730 |                                              const void *prev, char *desc)                      \
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:136:1: note: expanded from here
+     136 | number_delimiters_gen_params
+         | ^
+   lib/tests/scanf_kunit.c:756:48: error: too few arguments to function call, expected 3, have 2
+     756 |         return number_delimiters_gen_params(prev, desc);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~           ^
+   lib/tests/scanf_kunit.c:744:1: note: 'number_delimiters_gen_params' declared here
+     744 | KUNIT_ARRAY_PARAM(number_delimiters, number_delimiters, number_delimiter_param_desc);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1729:21: note: expanded from macro 'KUNIT_ARRAY_PARAM'
+    1729 |         static const void *name##_gen_params(struct kunit *test,                                \
+         |                            ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1730 |                                              const void *prev, char *desc)                      \
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:136:1: note: expanded from here
+     136 | number_delimiters_gen_params
+         | ^
+>> lib/tests/scanf_kunit.c:783:52: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
+     783 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_ll, optional_number_delimiters_gen_params),
+         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
+     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+         |                                      ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:784:51: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
+     784 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_l, optional_number_delimiters_gen_params),
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
+     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+         |                                      ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:785:51: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
+     785 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_d, optional_number_delimiters_gen_params),
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
+     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+         |                                      ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:786:51: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
+     786 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_h, optional_number_delimiters_gen_params),
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
+     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+         |                                      ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:787:52: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
+     787 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_hh, optional_number_delimiters_gen_params),
+         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
+     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+         |                                      ^~~~~~~~~~
+   7 errors generated.
+
+
+vim +755 lib/tests/scanf_kunit.c
+
+   745	
+   746	static const void *optional_number_delimiters_gen_params(const void *prev, char *desc)
+   747	{
+   748		static const char * const blank = "";
+   749	
+   750		if (prev == NULL) {
+   751			number_delimiter_param_desc(&blank, desc);
+   752			return &blank;
+   753		}
+   754		if (prev == &blank)
+ > 755			return number_delimiters_gen_params(NULL, desc);
+   756		return number_delimiters_gen_params(prev, desc);
+   757	}
+   758	
+   759	static struct kunit_case scanf_test_cases[] = {
+   760		KUNIT_CASE(numbers_simple),
+   761		/* String with multiple numbers separated by delimiter. */
+   762		KUNIT_CASE_PARAM(numbers_list_ll, number_delimiters_gen_params),
+   763		KUNIT_CASE_PARAM(numbers_list_l, number_delimiters_gen_params),
+   764		KUNIT_CASE_PARAM(numbers_list_d, number_delimiters_gen_params),
+   765		KUNIT_CASE_PARAM(numbers_list_h, number_delimiters_gen_params),
+   766		KUNIT_CASE_PARAM(numbers_list_hh, number_delimiters_gen_params),
+   767	
+   768		/*
+   769		 * Lists of numbers separated by delim. Each field width specifier is the
+   770		 * maximum possible digits for the given type and base.
+   771		 */
+   772		KUNIT_CASE_PARAM(numbers_list_field_width_ll, number_delimiters_gen_params),
+   773		KUNIT_CASE_PARAM(numbers_list_field_width_l, number_delimiters_gen_params),
+   774		KUNIT_CASE_PARAM(numbers_list_field_width_d, number_delimiters_gen_params),
+   775		KUNIT_CASE_PARAM(numbers_list_field_width_h, number_delimiters_gen_params),
+   776		KUNIT_CASE_PARAM(numbers_list_field_width_hh, number_delimiters_gen_params),
+   777	
+   778		/*
+   779		 * Lists of numbers separated by delim. Each field width specifier is the
+   780		 * exact length of the corresponding value digits in the string being scanned.
+   781		 * The empty string is included in the list of delimiters.
+   782		 */
+ > 783		KUNIT_CASE_PARAM(numbers_list_field_width_val_ll, optional_number_delimiters_gen_params),
+   784		KUNIT_CASE_PARAM(numbers_list_field_width_val_l, optional_number_delimiters_gen_params),
+   785		KUNIT_CASE_PARAM(numbers_list_field_width_val_d, optional_number_delimiters_gen_params),
+   786		KUNIT_CASE_PARAM(numbers_list_field_width_val_h, optional_number_delimiters_gen_params),
+   787		KUNIT_CASE_PARAM(numbers_list_field_width_val_hh, optional_number_delimiters_gen_params),
+   788	
+   789		KUNIT_CASE(numbers_prefix_overflow),
+   790	
+   791		KUNIT_CASE(test_simple_strtoull),
+   792		KUNIT_CASE(test_simple_strtoll),
+   793		KUNIT_CASE(test_simple_strtoul),
+   794		KUNIT_CASE(test_simple_strtol),
+   795		{}
+   796	};
+   797	
 
 -- 
 0-DAY CI Kernel Test Service
