@@ -1,112 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F267E38757C;
-	Thu, 29 Jan 2026 11:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEAB2236FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 11:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769686204; cv=none; b=aYHr+7zZ/1uyY/5VtFTlYk3oU8/NWdWCZK641znEKewJJnNEHxEnQonv1IJHU53cHFsgwm0cV9o476EzVIv62pNT3y+BLE7GYEEIk0p3ePRrCUFygX1quHjYKnCU7Jx9oPsMXYMzh2TQwbmO4mXol9EnljNxFuyz/gevCKA4BU4=
+	t=1769686554; cv=none; b=o1nqviT0XPGnpF65Rb0BSK7gHOLjOecsjK+jC1Xcv5Bry7Ju9ljyutYdE/i93dtM3BYlegPN/dbg/bi8L447PYlnmo0CxP7adcpGbS1BwrBiryUMwwnVeWZ+m11bQqzrtli1m6K0yGF9JBPJVmiM6ddx8NTarZZIgJLeIFoMlSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769686204; c=relaxed/simple;
-	bh=UB4juRatoxAjJ3voumXxgnDhy7jKWgsXK0C2/0Q1LLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BuzX47gxVrmHV2fI9BZ/WbMJ8mjfGrAx6G9CDb0tKifjSKgWe5ipRZ2u23iavNgs96m+sYI49LDs0RF3pmUl+RFWFXFAJ8gKSBJ8KRcLTRlAghjuyyxMplkxGAc9FDOoGnQb1YTRp1mMUV3r5T9HQWyru492qJcsh+PjM3L0+Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cztTyR8w; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1769686554; c=relaxed/simple;
+	bh=YHuSGX1BFaXzK5kJjS7TdrX2sFg9kR4wz1HTps2cJh4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GvXlT35dOz0Y39xOXn70lqF2LLtegClw/kvqRm21LlH12v0kNLVEHNTTUFSjktIDmHGHgmiK9fT8Hmw4wIXhM1loK/o3A9PoptXeVMwsNeSRUCGX6Ky8q+zI0Ck1mem/GWPkO/TJSjCaeQ7UHvMy/+qw0hTIi5m8CXaaATUIbaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HULKvtf2; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cztTyR8w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HULKvtf2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769686201; x=1801222201;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UB4juRatoxAjJ3voumXxgnDhy7jKWgsXK0C2/0Q1LLs=;
-  b=cztTyR8wVfTcfO+ZrBtfBdIjhutvvVV8SE8ncfjn0t+Cb2PICLJzwWdc
-   iSM5hqZTZtIAycQ7OQnegR5DpPoA28lv/z26AThnDVkb0/D2tv8wZl6h3
-   xVJTESF8yF0qmAWr7uuACrDNqrec4EV3pPViKu2UXXq9PSVlP9mE9Z0P5
-   DuGgE2Fntv8mcaXBRy/R7VIn2hlnDCq1XMGrcWLdYjlLZHeYmnM65Cz0D
-   9hCTz4s1/TJTmPQvcDbkoS0fTvkG0zy6fk/xV9CKyEU32T9OirLOYTe3v
-   meOjgD8Xbt1aBQaU3DWElj0vX0n/XlPu3N8HfhwLQePoO+nkDvqaKvhPL
-   Q==;
-X-CSE-ConnectionGUID: ulP8ohXMSYijsdyaoVXTRQ==
-X-CSE-MsgGUID: Gw9YkSqUTdy8EGn0KZonfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="58505807"
+  t=1769686552; x=1801222552;
+  h=date:from:to:cc:subject:message-id;
+  bh=YHuSGX1BFaXzK5kJjS7TdrX2sFg9kR4wz1HTps2cJh4=;
+  b=HULKvtf29Y9xDiJFIMVrQCZDJznUfU4Hc6abNkwM9de8loqgny2pubL4
+   2p3ftNlK+7RkUCa9FZwaUHw+iXIq/BcbCD3epSqle9OxxqoWSMEAWYCQT
+   wcyfo3DEeIINS52rlbbyWEJv4j8KwphF29EDMNoAphrxjmg0b57qjGuhj
+   tMHdNRsZxXRVRdN5JP+xn9AP01+rP6jbD2qRg5N0u/8gZWQgCKCEJM+uE
+   r6h7wHL17IcKmM/ErhoAFgZu1aFz6ofyCuHrN3ZfKEKruC6++0B9BT4MJ
+   JaH0joNYJ2tNYia/JI62AVEcBbpU7hUQAjKQg0gYf59xs1S1MOCf2sjnP
+   A==;
+X-CSE-ConnectionGUID: 6nSzLSBdQ1C76CF0hXQENQ==
+X-CSE-MsgGUID: OIX2AG6YS1u+WvJIPNKp/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="82291216"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="58505807"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 03:29:59 -0800
-X-CSE-ConnectionGUID: gqT750vBQPmTIOB1ggzl9A==
-X-CSE-MsgGUID: l72yiMe7TB2WVPr+qRi90w==
+   d="scan'208";a="82291216"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 03:35:52 -0800
+X-CSE-ConnectionGUID: 7dyksbBgQ5Cyz1oodEnelQ==
+X-CSE-MsgGUID: Dw1di5yRR+KnJoeJtAhFVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="213050661"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Jan 2026 03:29:56 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="246181523"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 29 Jan 2026 03:35:51 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlQDi-000000002Hd-1NJf;
-	Thu, 29 Jan 2026 11:29:54 +0000
-Date: Thu, 29 Jan 2026 12:29:21 +0100
+	id 1vlQJQ-00000000bQA-0s93;
+	Thu, 29 Jan 2026 11:35:48 +0000
+Date: Thu, 29 Jan 2026 19:35:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sascha Bischoff <Sascha.Bischoff@arm.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, nd <nd@arm.com>,
-	"maz@kernel.org" <maz@kernel.org>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	Joey Gouly <Joey.Gouly@arm.com>,
-	Suzuki Poulose <Suzuki.Poulose@arm.com>,
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>,
-	"peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-	Timothy Hayes <Timothy.Hayes@arm.com>,
-	"jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH v4 35/36] KVM: arm64: selftests: Introduce a minimal
- GICv5 PPI selftest
-Message-ID: <202601291246.oaOq5gRj-lkp@intel.com>
-References: <20260128175919.3828384-36-sascha.bischoff@arm.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vdubeyko-hfs:for-next 10/10] fs/hfsplus/inode.c:399:31:
+ sparse: sparse: symbol 'hfsplus_symlink_inode_operations' was not declared.
+ Should it be static?
+Message-ID: <202601291957.bunRsD8R-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128175919.3828384-36-sascha.bischoff@arm.com>
 
-Hi Sascha,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on kvm/queue kvm/next]
-[cannot apply to kvmarm/next linus/master kvm/linux-next v6.16-rc1 next-20260128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Bischoff/KVM-arm64-Account-for-RES1-bits-in-DECLARE_FEAT_MAP-and-co/20260129-022450
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20260128175919.3828384-36-sascha.bischoff%40arm.com
-patch subject: [PATCH v4 35/36] KVM: arm64: selftests: Introduce a minimal GICv5 PPI selftest
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260129/202601291246.oaOq5gRj-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291246.oaOq5gRj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/hfs.git for-next
+head:   aef5078471294e7a7a2d6b9da4988a6a3b7aff54
+commit: aef5078471294e7a7a2d6b9da4988a6a3b7aff54 [10/10] hfsplus: fix generic/062 xfstests failure
+config: s390-randconfig-r131-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291957.bunRsD8R-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291957.bunRsD8R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601291246.oaOq5gRj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601291957.bunRsD8R-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/hfsplus/inode.c:399:31: sparse: sparse: symbol 'hfsplus_symlink_inode_operations' was not declared. Should it be static?
+>> fs/hfsplus/inode.c:406:31: sparse: sparse: symbol 'hfsplus_special_inode_operations' was not declared. Should it be static?
 
->> arm64/vgic_v5.c:171:11: warning: unused variable 'other' [-Wunused-variable]
-     171 |         uint32_t other;
-         |                  ^~~~~
-   1 warning generated.
+vim +/hfsplus_symlink_inode_operations +399 fs/hfsplus/inode.c
+
+   398	
+ > 399	const struct inode_operations hfsplus_symlink_inode_operations = {
+   400		.get_link	= page_get_link,
+   401		.setattr	= hfsplus_setattr,
+   402		.getattr	= hfsplus_getattr,
+   403		.listxattr	= hfsplus_listxattr,
+   404	};
+   405	
+ > 406	const struct inode_operations hfsplus_special_inode_operations = {
+   407		.setattr	= hfsplus_setattr,
+   408		.getattr	= hfsplus_getattr,
+   409		.listxattr	= hfsplus_listxattr,
+   410	};
+   411	
 
 -- 
 0-DAY CI Kernel Test Service
