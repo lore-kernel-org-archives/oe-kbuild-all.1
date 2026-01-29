@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9518387353
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 11:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F01387343
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 11:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769685894; cv=none; b=YqJY2XRtpFGKXtobY3lEgMNMFU2zZQfNke9DcMj0LB7stIA09EmxDgaCSqhNVsKGlgCb/m0lUv5kcLVUm+jKU8/JqwyyqSQ42KGjgEDu0PHP2JbkTVEHC0nZ/vylShMzmclERCp3CRpyCIlUMtnx+t3I6+O3+FLUvAyqxq677ss=
+	t=1769685896; cv=none; b=rGZse3+K68d9MzIWX6Gpo1sq8RfDq0GWtDcy0jgkVzX2lDPyEaFe1hXFanvdvRfH5mFnNvDpZ4/ORAw74TXz4w/dHI4h/xrUBxl6h7UaOKnpseIo3c7sxZ4qgIzVhrvPcl3vPB3azjn3bdY2axNpO5U0cVFPkGSn9oWUUPn0TrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769685894; c=relaxed/simple;
-	bh=QP5WsfsTaChR8XnXpGK0J7p6FIytr5QeHyi3TBnSXQg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rdr7RpHeMl0U32ZV51uaoynZlhoV3zKZqRIm7YFtB2zrpEOckf5KYCNGdYjl7uMD5CW1bDWZI2saysxw6G24hLVAfr1K3mC0a3MVnbreOU06vELCANSd90bN21FM/+b9By6Rq0JXPp/DaJBWFWe2Sga6CEsXcET/m3uYPXyqpUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3lKVUPQ; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1769685896; c=relaxed/simple;
+	bh=d+X1eEOxXS/sScnBydp3ZdYRJg8ZARKCclF2+mTfE80=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lBeGroikwciQLDkHKBakDxRZk2U/9Bu/Gbyjsr/3FbqgmaUoovUzLFNfG5WdLFwvcGF13VxPPDlUERkXS141T8zOQfsRFB2lMGbF9+sRe1OfHYZqY/X+TFPOHOpt1WijxG2vWHESsSxt2pQXnJeCTdtQTjuXw/g9oKKqFvH5R/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D0Y82H6e; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3lKVUPQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D0Y82H6e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769685893; x=1801221893;
+  t=1769685894; x=1801221894;
   h=date:from:to:cc:subject:message-id;
-  bh=QP5WsfsTaChR8XnXpGK0J7p6FIytr5QeHyi3TBnSXQg=;
-  b=K3lKVUPQjhWZjNjzHJ3vxr0c5q03Lt3/ROLDXk8fEC0lB0MC37z2c25x
-   Qak75TePgb5fpGeWV0GT4StJYLoTY1LMaVtfB65p8j7zqKilPadXhc1HK
-   85Ji5dK+9y1LY7nT9rWC162FR71vb2OVYgkQWiTPMvv2rIJyflxy9E9O9
-   4Lm4W3yxh84RaasJGfPr9hQn3LDh6FP3UbDdSpEoPdFi7QYidlxbdXauB
-   7DTbeBJ9g7QGxEmcsOF+w1DG1LLoJ4ufPKYkiwJc3sz+oinbMHLXimRZc
-   tBe+jIzM5kpS9lLrxuz1IC77QQWYIaTaW4ZMqOWLEtQH6zhK+wxEgImGN
-   Q==;
-X-CSE-ConnectionGUID: 8CmDRXgzTWGKelLDLt48xA==
-X-CSE-MsgGUID: mzm66wsPR8ifhFlmoOsh+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70816280"
+  bh=d+X1eEOxXS/sScnBydp3ZdYRJg8ZARKCclF2+mTfE80=;
+  b=D0Y82H6eNb+IBAu+maGm0TB1G9uStQSWuuh8xev2ApOedQyVoPTQtzs1
+   njMpsjZE/exNrhg83AiRDwFVlEKd/9krJT2HcCGeSu6dXfXM4svHuXtc1
+   ovV7buICzUW8ThmbrxVFXp1MmDHGURFrGz/8Vdx3U08iVih8VcLEGqdKo
+   5nyTuehrYC7+H2lXAn7W/7aLE271fVUzz7pBjdyH/vl5MfuPLwBuoWX07
+   icPa51O4C/93pU6jG049+J1RarL0gYof6/cZ7M0NfyiGXszCf3+AuPLJJ
+   POFfJNittBRpb+xwIJOkmGVCba010TI6QKipuJy2L4/3ff6moiYaQcC6u
+   A==;
+X-CSE-ConnectionGUID: vuX3K5fXRteAkgid5PhrcQ==
+X-CSE-MsgGUID: BgfCo77YQbajXRElyQsLXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70816284"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="70816280"
+   d="scan'208";a="70816284"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 03:24:52 -0800
-X-CSE-ConnectionGUID: fxAq01PsSVyhFEZww6MG6w==
-X-CSE-MsgGUID: klzeCcRqQEO9rrO1NTXllQ==
+X-CSE-ConnectionGUID: MXCjkO8cS+CvfFUEowMIxw==
+X-CSE-MsgGUID: Gdvjg8B6TPiwVS3/g17vYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="208456953"
+   d="scan'208";a="208456957"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 29 Jan 2026 03:24:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlQ8l-00000000bPc-3g1i;
+	id 1vlQ8l-00000000bPa-3Zje;
 	Thu, 29 Jan 2026 11:24:47 +0000
-Date: Thu, 29 Jan 2026 19:24:45 +0800
+Date: Thu, 29 Jan 2026 19:24:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Tamir Duberstein <tamird@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [tamird:scanf-break-more 3/3]
- lib/tests/scanf_kunit.c:755:49: error: too few arguments to function call,
- expected 3, have 2
-Message-ID: <202601291921.FlI2BG4c-lkp@intel.com>
+ lib/tests/scanf_kunit.c:755:10: error: too few arguments to function
+ 'number_delimiters_gen_params'
+Message-ID: <202601291909.zFDZCrIa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,79 +63,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/tamird/linux scanf-break-more
 head:   c856662203a0a434151a0c56f5c05ebbf20c9770
 commit: c856662203a0a434151a0c56f5c05ebbf20c9770 [3/3] scanf: further break kunit into test cases
-config: x86_64-randconfig-001-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291921.FlI2BG4c-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291921.FlI2BG4c-lkp@intel.com/reproduce)
+config: powerpc-randconfig-001-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291909.zFDZCrIa-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291909.zFDZCrIa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601291921.FlI2BG4c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601291909.zFDZCrIa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> lib/tests/scanf_kunit.c:755:49: error: too few arguments to function call, expected 3, have 2
-     755 |                 return number_delimiters_gen_params(NULL, desc);
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~           ^
-   lib/tests/scanf_kunit.c:744:1: note: 'number_delimiters_gen_params' declared here
-     744 | KUNIT_ARRAY_PARAM(number_delimiters, number_delimiters, number_delimiter_param_desc);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1729:21: note: expanded from macro 'KUNIT_ARRAY_PARAM'
-    1729 |         static const void *name##_gen_params(struct kunit *test,                                \
-         |                            ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1730 |                                              const void *prev, char *desc)                      \
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:136:1: note: expanded from here
-     136 | number_delimiters_gen_params
-         | ^
-   lib/tests/scanf_kunit.c:756:48: error: too few arguments to function call, expected 3, have 2
-     756 |         return number_delimiters_gen_params(prev, desc);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~           ^
-   lib/tests/scanf_kunit.c:744:1: note: 'number_delimiters_gen_params' declared here
-     744 | KUNIT_ARRAY_PARAM(number_delimiters, number_delimiters, number_delimiter_param_desc);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1729:21: note: expanded from macro 'KUNIT_ARRAY_PARAM'
-    1729 |         static const void *name##_gen_params(struct kunit *test,                                \
-         |                            ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1730 |                                              const void *prev, char *desc)                      \
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:136:1: note: expanded from here
-     136 | number_delimiters_gen_params
-         | ^
->> lib/tests/scanf_kunit.c:783:52: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
-     783 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_ll, optional_number_delimiters_gen_params),
-         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
-     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
-         |                                      ^~~~~~~~~~
-   lib/tests/scanf_kunit.c:784:51: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
-     784 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_l, optional_number_delimiters_gen_params),
-         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
-     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
-         |                                      ^~~~~~~~~~
-   lib/tests/scanf_kunit.c:785:51: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
-     785 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_d, optional_number_delimiters_gen_params),
-         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
-     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
-         |                                      ^~~~~~~~~~
-   lib/tests/scanf_kunit.c:786:51: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
-     786 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_h, optional_number_delimiters_gen_params),
-         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
-     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
-         |                                      ^~~~~~~~~~
-   lib/tests/scanf_kunit.c:787:52: error: incompatible function pointer types initializing 'const void *(*)(struct kunit *, const void *, char *)' with an expression of type 'const void *(const void *, char *)' [-Wincompatible-function-pointer-types]
-     787 |         KUNIT_CASE_PARAM(numbers_list_field_width_val_hh, optional_number_delimiters_gen_params),
-         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:210:24: note: expanded from macro 'KUNIT_CASE_PARAM'
-     210 |                   .generate_params = gen_params, .module_name = KBUILD_MODNAME}
-         |                                      ^~~~~~~~~~
-   7 errors generated.
+   lib/tests/scanf_kunit.c: In function 'optional_number_delimiters_gen_params':
+>> lib/tests/scanf_kunit.c:755:10: error: too few arguments to function 'number_delimiters_gen_params'
+      return number_delimiters_gen_params(NULL, desc);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from lib/tests/scanf_kunit.c:6:
+   lib/tests/scanf_kunit.c:744:19: note: declared here
+    KUNIT_ARRAY_PARAM(number_delimiters, number_delimiters, number_delimiter_param_desc);
+                      ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1729:21: note: in definition of macro 'KUNIT_ARRAY_PARAM'
+     static const void *name##_gen_params(struct kunit *test,    \
+                        ^~~~
+>> lib/tests/scanf_kunit.c:756:38: warning: passing argument 1 of 'number_delimiters_gen_params' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     return number_delimiters_gen_params(prev, desc);
+                                         ^~~~
+   In file included from lib/tests/scanf_kunit.c:6:
+   include/kunit/test.h:1729:53: note: expected 'struct kunit *' but argument is of type 'const void *'
+     static const void *name##_gen_params(struct kunit *test,    \
+                                          ~~~~~~~~~~~~~~^~~~
+   lib/tests/scanf_kunit.c:744:1: note: in expansion of macro 'KUNIT_ARRAY_PARAM'
+    KUNIT_ARRAY_PARAM(number_delimiters, number_delimiters, number_delimiter_param_desc);
+    ^~~~~~~~~~~~~~~~~
+   lib/tests/scanf_kunit.c:756:9: error: too few arguments to function 'number_delimiters_gen_params'
+     return number_delimiters_gen_params(prev, desc);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from lib/tests/scanf_kunit.c:6:
+   lib/tests/scanf_kunit.c:744:19: note: declared here
+    KUNIT_ARRAY_PARAM(number_delimiters, number_delimiters, number_delimiter_param_desc);
+                      ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1729:21: note: in definition of macro 'KUNIT_ARRAY_PARAM'
+     static const void *name##_gen_params(struct kunit *test,    \
+                        ^~~~
+   lib/tests/scanf_kunit.c: At top level:
+>> lib/tests/scanf_kunit.c:783:52: error: initialization of 'const void * (*)(struct kunit *, const void *, char *)' from incompatible pointer type 'const void * (*)(const void *, char *)' [-Werror=incompatible-pointer-types]
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_ll, optional_number_delimiters_gen_params),
+                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:783:52: note: (near initialization for 'scanf_test_cases[11].generate_params')
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_ll, optional_number_delimiters_gen_params),
+                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:784:51: error: initialization of 'const void * (*)(struct kunit *, const void *, char *)' from incompatible pointer type 'const void * (*)(const void *, char *)' [-Werror=incompatible-pointer-types]
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_l, optional_number_delimiters_gen_params),
+                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:784:51: note: (near initialization for 'scanf_test_cases[12].generate_params')
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_l, optional_number_delimiters_gen_params),
+                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:785:51: error: initialization of 'const void * (*)(struct kunit *, const void *, char *)' from incompatible pointer type 'const void * (*)(const void *, char *)' [-Werror=incompatible-pointer-types]
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_d, optional_number_delimiters_gen_params),
+                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:785:51: note: (near initialization for 'scanf_test_cases[13].generate_params')
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_d, optional_number_delimiters_gen_params),
+                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:786:51: error: initialization of 'const void * (*)(struct kunit *, const void *, char *)' from incompatible pointer type 'const void * (*)(const void *, char *)' [-Werror=incompatible-pointer-types]
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_h, optional_number_delimiters_gen_params),
+                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:786:51: note: (near initialization for 'scanf_test_cases[14].generate_params')
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_h, optional_number_delimiters_gen_params),
+                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:787:52: error: initialization of 'const void * (*)(struct kunit *, const void *, char *)' from incompatible pointer type 'const void * (*)(const void *, char *)' [-Werror=incompatible-pointer-types]
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_hh, optional_number_delimiters_gen_params),
+                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c:787:52: note: (near initialization for 'scanf_test_cases[15].generate_params')
+     KUNIT_CASE_PARAM(numbers_list_field_width_val_hh, optional_number_delimiters_gen_params),
+                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:210:24: note: in definition of macro 'KUNIT_CASE_PARAM'
+        .generate_params = gen_params, .module_name = KBUILD_MODNAME}
+                           ^~~~~~~~~~
+   lib/tests/scanf_kunit.c: In function 'optional_number_delimiters_gen_params':
+>> lib/tests/scanf_kunit.c:757:1: warning: control reaches end of non-void function [-Wreturn-type]
+    }
+    ^
+   cc1: some warnings being treated as errors
 
 
-vim +755 lib/tests/scanf_kunit.c
+vim +/number_delimiters_gen_params +755 lib/tests/scanf_kunit.c
 
    745	
    746	static const void *optional_number_delimiters_gen_params(const void *prev, char *desc)
@@ -148,8 +186,8 @@ vim +755 lib/tests/scanf_kunit.c
    753		}
    754		if (prev == &blank)
  > 755			return number_delimiters_gen_params(NULL, desc);
-   756		return number_delimiters_gen_params(prev, desc);
-   757	}
+ > 756		return number_delimiters_gen_params(prev, desc);
+ > 757	}
    758	
    759	static struct kunit_case scanf_test_cases[] = {
    760		KUNIT_CASE(numbers_simple),
