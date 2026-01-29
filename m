@@ -1,151 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DA5265CDD;
-	Thu, 29 Jan 2026 06:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEAB3352923
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jan 2026 06:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769666598; cv=none; b=fumF6rKCjEJw7ptPTT+6adtqKxIK1+DKSEqvwfrMbkNunGOaLByZ6J128w7ZtnI+LeoTtWXm+ib9X21DG39pBWotD+WPbmAU9wVhbrIUJQCEHIae9fp7GRSMoQWnqTXBEG4PA6+2vE5q+h/d5r9Zz0+pT4JJBaEMJ06BFlrh6F4=
+	t=1769667213; cv=none; b=WxYUj16jebXibf1RLizTQoqywhNrrlOR2k0+Z7gxHO/05OUSljMoeUclW4jzcJplWvgzKc1gc17QDW/3YDOzklYoHhLFAPfXROYvHaWBljxIPUz3fHQ4tMqgpfGuqZt16JIZZ9XgHpKJNQ715MFSlh4axUDA6UcEme0iIQT9s1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769666598; c=relaxed/simple;
-	bh=1BvSsh83YrmCM1HCtpdrlxUSEkcGbSxzqDyiGRGb3Fs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pot3KqUv2vktIK4NlbCr9ekp87yaMI8tAeo4r2aosbr87i/EGhnj8Y6Wmj3SAscGnh0imRrSO3w0HJ1D6ftet4xbWnnYe6ukx7LfihW3McD7wIXcuShVFe3LoxUzt/7aUs0ebBIwgco59MZwkrqKtAB+RrH1DnQ14SdvpbwGikc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z781McGq; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1769667213; c=relaxed/simple;
+	bh=LJuz1vPPNNozGVlFY+YXvEcmeKRHoE/h0SB40wfH75s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NJqXoeX9lioJrW9YisoKLmW8u/wGXWfqCsVCMV2pI7N0vUbGLeF0+eFlo1GwAEUdTbiZZeHyuZZOutRyEH/EdWo9vYRPlGFe7mV86oGEVQ7aPwYe1/qqN/6Fe0TAfvYIOfyOcEP/TSv6adDFiP/HTw83i2LVP+e3Um4Ob7MaFpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ADXQJ8qM; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z781McGq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ADXQJ8qM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769666596; x=1801202596;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1BvSsh83YrmCM1HCtpdrlxUSEkcGbSxzqDyiGRGb3Fs=;
-  b=Z781McGqOFJfX/ny2QsGtFpihpeCfGcHx+D8GrO0lTNjLrc/0sFHWrlB
-   2H3pKH3XLiZeKizdJy2K6WT/4lzwdEkjrU8BO+4k3j//wbk3u/aOFiR5X
-   TU97LsrH9z+deulwKsxZtOIU/5YpK4sbeZ0S7K7h01Epnzj30yV83wr9B
-   47Mq1kQvKRp+FzZJvBXd2eYrWUnBUBBBAQWUpiWv+XNp9kTUw4pIqmYnA
-   4KKCOseeny729yED1y9Kf1TXUuT5aY+i6zM03WoVwn1OEB78atfi88HX6
-   mcUMe05sU4+S9eks51F0myQ4w0Z4IrFnU/3MCmzBgKB878lYwLEU84fGj
-   w==;
-X-CSE-ConnectionGUID: n5/mqEj5RxmAoSFoxZgMXw==
-X-CSE-MsgGUID: PbuOI7lgS4WqnjjDhGkkRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70947986"
+  t=1769667212; x=1801203212;
+  h=date:from:to:cc:subject:message-id;
+  bh=LJuz1vPPNNozGVlFY+YXvEcmeKRHoE/h0SB40wfH75s=;
+  b=ADXQJ8qMSQM+t0qYAIsxP7lJSfWQ2S/YXUobzjAASxX7krdsDPQDsqvr
+   lvQNHDGqKfmexF4hcv2BHtdNFtPmwj75ZX07DcyhOdKWApJYiOh73QYwt
+   FoanlkDtdI6vJ4UiacJeo6giDOsOVsfGH8CDjfMbdvl+uYDl3GaDHQS61
+   BvGoadsA5X8dUN269gLIERvp9c8wTOJ8XFRRFMpxllzaDOS3UXEtE6/o9
+   xdpsSZzfSEugdRjTHtIdhmCJ51BQn9owpHgvKGN71GhPgNCZTPZRxeRnI
+   9f1Dhq/t6u0fewSjXXFryrvNWA0H8rIqwbk/dMLvY7MZdX7IYtFVIp6I1
+   g==;
+X-CSE-ConnectionGUID: UAQ1okChQVCox3BPFiIX5Q==
+X-CSE-MsgGUID: NxIKr9cJRPC+U/2M/ixDnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="93556247"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="70947986"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 22:03:16 -0800
-X-CSE-ConnectionGUID: eDq6UUxjQOetjQ62QvrtuQ==
-X-CSE-MsgGUID: ojNHspAOTIOGhuo+s14V8g==
+   d="scan'208";a="93556247"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 22:13:31 -0800
+X-CSE-ConnectionGUID: EhwV6dH+Q4ye05dtUGTpOA==
+X-CSE-MsgGUID: TbAdcbC3TdCPJhj5mAR3ig==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="212562580"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Jan 2026 22:03:10 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 28 Jan 2026 22:13:30 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlL7T-00000000b9A-1uvB;
-	Thu, 29 Jan 2026 06:03:07 +0000
-Date: Thu, 29 Jan 2026 14:02:43 +0800
+	id 1vlLHT-00000000b9o-2Jzm;
+	Thu, 29 Jan 2026 06:13:27 +0000
+Date: Thu, 29 Jan 2026 14:13:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre Gondois <pierre.gondois@arm.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jie Zhan <zhanjie9@hisilicon.com>, zhenglifeng1@huawei.com,
-	Ionela Voinescu <ionela.voinescu@arm.com>,
-	Christian Loehle <christian.loehle@arm.com>, sumitg@nvidia.com,
-	Pierre Gondois <pierre.gondois@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Huang Rui <ray.huang@amd.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Len Brown <lenb@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH 5/6] cpufreq: Set policy->min and max as real QoS
- constraints
-Message-ID: <202601291343.bghsD4zH-lkp@intel.com>
-References: <20260126101826.94030-6-pierre.gondois@arm.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg-xen 11/17]
+ net/vmw_vsock/af_vsock.c:2229:2-7: WARNING: NULL check before some freeing
+ functions is not needed.
+Message-ID: <202601291448.40RXZEjy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126101826.94030-6-pierre.gondois@arm.com>
 
-Hi Pierre,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.19-rc7 next-20260128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Gondois/cpufreq-Remove-per-CPU-QoS-constraint/20260126-182440
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260126101826.94030-6-pierre.gondois%40arm.com
-patch subject: [PATCH 5/6] cpufreq: Set policy->min and max as real QoS constraints
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260129/202601291343.bghsD4zH-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601291343.bghsD4zH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
+head:   76427c94d00817c6ba0956ffa50ece35759aa37c
+commit: 08cfd9134af6f556554cdedba40f97c5952d7561 [11/17] vsock: Add shared-memory support for virtio and loopback
+config: alpha-randconfig-r052-20260129 (https://download.01.org/0day-ci/archive/20260129/202601291448.40RXZEjy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601291343.bghsD4zH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601291448.40RXZEjy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> net/vmw_vsock/af_vsock.c:2229:2-7: WARNING: NULL check before some freeing functions is not needed.
 
->> drivers/cpufreq/virtual-cpufreq.c:167:19: warning: expression result unused [-Wunused-value]
-                   policy->cpuinfo.min_freq;
-                   ~~~~~~~~~~~~~~~ ^~~~~~~~
-   drivers/cpufreq/virtual-cpufreq.c:168:19: warning: expression result unused [-Wunused-value]
-                   policy->cpuinfo.max_freq;
-                   ~~~~~~~~~~~~~~~ ^~~~~~~~
-   2 warnings generated.
+vim +2229 net/vmw_vsock/af_vsock.c
 
-
-vim +167 drivers/cpufreq/virtual-cpufreq.c
-
-   155	
-   156	static int virt_cpufreq_get_freq_info(struct cpufreq_policy *policy)
-   157	{
-   158		struct cpufreq_frequency_table *table;
-   159		u32 num_perftbl_entries, idx;
-   160	
-   161		num_perftbl_entries = per_cpu(perftbl_num_entries, policy->cpu);
-   162	
-   163		if (num_perftbl_entries == 1) {
-   164			policy->cpuinfo.min_freq = 1;
-   165			policy->cpuinfo.max_freq = virt_cpufreq_get_perftbl_entry(policy->cpu, 0);
-   166	
- > 167			policy->cpuinfo.min_freq;
-   168			policy->cpuinfo.max_freq;
-   169	
-   170			policy->cur = policy->cpuinfo.max_freq;
-   171			return 0;
-   172		}
-   173	
-   174		table = kcalloc(num_perftbl_entries + 1, sizeof(*table), GFP_KERNEL);
-   175		if (!table)
-   176			return -ENOMEM;
-   177	
-   178		for (idx = 0; idx < num_perftbl_entries; idx++)
-   179			table[idx].frequency = virt_cpufreq_get_perftbl_entry(policy->cpu, idx);
-   180	
-   181		table[idx].frequency = CPUFREQ_TABLE_END;
-   182		policy->freq_table = table;
-   183	
-   184		return 0;
-   185	}
-   186	
+  2160	
+  2161	static int vsock_sendmsg_shmem_dmabuf_map(struct vsock_sock *vsk,
+  2162						  struct vsock_shmem_user_desc *udesc)
+  2163	{
+  2164		struct vsock_shmem_desc_payload_dma_buf *payload;
+  2165		struct vsock_shmem_desc_payload_dma_buf_sg *sgs;
+  2166		struct vsock_shmem_dbuf *data, *old;
+  2167		struct vsock_shmem_desc *desc;
+  2168		struct vsock_dma_buf *vdbuf;
+  2169		struct dma_buf *dmabuf;
+  2170		struct scatterlist *sg;
+  2171		struct sg_table *sgt;
+  2172		int err, plen, i;
+  2173	
+  2174		if (!vsk->transport->map_dma_buf)
+  2175			return -EOPNOTSUPP;
+  2176	
+  2177		/* The fd must belong to a dma-buf */
+  2178		dmabuf = dma_buf_get(udesc->fd);
+  2179		if (IS_ERR(dmabuf))
+  2180			return PTR_ERR(dmabuf);
+  2181	
+  2182		vdbuf = vsk->transport->map_dma_buf(dmabuf);
+  2183		if (IS_ERR(vdbuf)) {
+  2184			err = PTR_ERR(vdbuf);
+  2185			goto free_dmabuf;
+  2186		}
+  2187	
+  2188		sgt = vdbuf->sg_table;
+  2189	
+  2190		if (!sgt->nents) {
+  2191			err = -EINVAL;
+  2192			goto unmap_dma_buf;
+  2193		}
+  2194	
+  2195		plen = sizeof(*payload) + sizeof(*sgs) * sgt->nents;
+  2196	
+  2197		data = kzalloc(sizeof(*data) + plen, GFP_KERNEL);
+  2198		if (!data) {
+  2199			err = -ENOMEM;
+  2200			goto unmap_dma_buf;
+  2201		}
+  2202	
+  2203		data->vdbuf = vdbuf;
+  2204		desc = &data->desc;
+  2205		desc->subop = udesc->subop;
+  2206		desc->type = udesc->type;
+  2207		desc->len = sizeof(*desc) + plen;
+  2208		payload = (struct vsock_shmem_desc_payload_dma_buf *)desc->payload;
+  2209		payload->nents = sgt->nents;
+  2210		sgs = payload->sgs;
+  2211	
+  2212		for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+  2213			sgs[i].addr = sg_dma_address(sg);
+  2214			sgs[i].len = sg_dma_len(sg);
+  2215		}
+  2216	
+  2217		err = vsk->transport->send_shmem(vsk, desc);
+  2218		if (err < 0)
+  2219			goto free_data;
+  2220	
+  2221		old = xa_store(&vsock_shmem_xa, udesc->fd, data, GFP_KERNEL);
+  2222		if (xa_is_err(old)) {
+  2223			err = xa_err(old);
+  2224			goto free_data;
+  2225		}
+  2226	
+  2227		/* Token used previously ? */
+  2228		if (old)
+> 2229			kfree(old);
+  2230	
+  2231		return 0;
+  2232	
+  2233	free_data:
+  2234		kfree(data);
+  2235	unmap_dma_buf:
+  2236		vsk->transport->unmap_dma_buf(vdbuf);
+  2237	free_dmabuf:
+  2238		dma_buf_put(dmabuf);
+  2239		return err;
+  2240	}
+  2241	
 
 -- 
 0-DAY CI Kernel Test Service
