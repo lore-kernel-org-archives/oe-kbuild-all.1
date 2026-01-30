@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED92329E7F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 20:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6422D22541C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 20:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769805455; cv=none; b=eIVG3g4fGI4aVS8jEvVrPDcTExDF6BjrmVkTFGFzkKwx7uFGDUyj8t8jE0TXo2AfHUATNiFpedBb9U05CIh7qa4rc8puoXpSjt+qS7BPlJXPwvHrimKBOt2ZznMybfi7n0G0yE5oZYeFaVABQ99G5hFtG0G3wvYeIiyi2t8SLZU=
+	t=1769805613; cv=none; b=qVSb+dqrGJQT1b8vK3ASSrUcnuMP0ZirVXxGkVmNbr7bccJ5lXTsDfUngLI9ucpVisTsvqc/IcXZ6BDACaQLXaf11IuXtVGIn/BWmZGTM1EBxq3vhQqYzOad/ZhscLiMhmPfC8AAs/BymuA87wXRp5FkVlDyGfCkIr6GXsH4fkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769805455; c=relaxed/simple;
-	bh=oyYyl/3tzRz6bgIlUzjXdXzpWFXNTALSND9eRqESxCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aSvNs8eJsSWhGlFiK0WliPeQy6xWERCbqQAeeKk8O4jgEbEJLRImmdP6moSOA2ItI2KlG5T0q4/R5genaYkEE+WlZkpeIOO+LgNC5HoqiOixvVLebNk/5JlNrGOXdW+SsV+2vfCyluY+wvBjM8B7wlwwdLMZQQt3F4lAQkS2IIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYPkn4rF; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1769805613; c=relaxed/simple;
+	bh=TApBIIbwQZ3K89HEOrwj32kT3wzwI0t64JfoWUjnk7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hEQkuW46sU/ys3DTb6TL57NvxYiE7PJzEK9wPiA+AP3HeXA0/FDE1ukNK6UoddMffesbU3DtSemsQBC1A9g7hzSGEI+tJgLr0mhIaEd0YVQMi8/F7KPIRrk7wotc3b0YGYve+PKAw1dHBRyc9U0Ud3pFwgLq9wd7eqszlJgFCeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N2vH8YD8; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYPkn4rF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2vH8YD8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769805453; x=1801341453;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oyYyl/3tzRz6bgIlUzjXdXzpWFXNTALSND9eRqESxCg=;
-  b=hYPkn4rFtS6KnHRjrvZw/by9mkl2fNAIYFAQ3RsOCp1S9yeU/bBoWZ97
-   zmHKM8L8C8VHfIS+Cp/HPSdj8HCtG4SP7aMTxpHMRUSFN/0VippRBjT3y
-   PQD24IgKZmtr6/AIg67BfkJ2GdCe7iqUUfl3AYY436DU2AownCHT2jv/o
-   OrU/CRybwuAHJTdxLNotttOxR0X2y8BAdBu9hOtpIY76mEjiw/4k7TiMd
-   YmwXKzO+wecej37W+W3Ls+BztbtWKFh/vA5aQJ2SREs3Bqn8t3D2sN2Pt
-   ScVeWoe1YAV/YHh9TNTSy9HT5ud6EfJ3DDgdZ3mALRfaRE4sUmFCtmZC4
-   g==;
-X-CSE-ConnectionGUID: 6bMHSmqSSPO13uoSKoH0Zg==
-X-CSE-MsgGUID: VXE7UGQqQzec6wgzA1TbEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="71098021"
+  t=1769805611; x=1801341611;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TApBIIbwQZ3K89HEOrwj32kT3wzwI0t64JfoWUjnk7E=;
+  b=N2vH8YD8cINqxRYv97oyT7xEly4gH27mtC1piKEd54Cwg+UuVQkOjOZQ
+   wu8NneUw7sLTuz5xYE9eUA0f2cK7Xoe9qqOgCSmANtoaVCR5A3b4OrYDD
+   7RTHIwV9nj4b7rLrssMr0qkTiTX+zOOSCkkUUP5F2IINMxZaeRwMLaOZy
+   CEhMB9LNxMt+E2fV6VNan9IQ5rltWgFYIenWvWhSLAcMozsDoLUOw6nbG
+   7u5OSMeRyxH/su8fc5MfF2byI0HXt5bTnJnFIAeDaAna4HXCUXlsphyoN
+   qz3Uu1978Y8mr9RvGmGZLBjhOCi6+KcEfIO5F7xoE9z3PPjUCtVtguPsR
+   Q==;
+X-CSE-ConnectionGUID: +sQDwk2kTFyiyHT8Ea8mdQ==
+X-CSE-MsgGUID: 7uloex55SN2gUwY3MbR4PQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="82486540"
 X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="71098021"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 12:37:33 -0800
-X-CSE-ConnectionGUID: H+oLySCaRWKJOz7BqmUbuQ==
-X-CSE-MsgGUID: jFCgHKmpRKiD9ohcblL71g==
+   d="scan'208";a="82486540"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 12:40:11 -0800
+X-CSE-ConnectionGUID: TQmPXiY8TKyDyaaHXlGLUg==
+X-CSE-MsgGUID: MoUCmbSvRwizHTwqmKOeuQ==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2026 12:37:30 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
+   d="scan'208";a="213442769"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 30 Jan 2026 12:40:09 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlvF9-00000000dKy-33wx;
-	Fri, 30 Jan 2026 20:37:27 +0000
-Date: Sat, 31 Jan 2026 04:37:06 +0800
+	id 1vlvHi-000000002YD-3044;
+	Fri, 30 Jan 2026 20:40:06 +0000
+Date: Fri, 30 Jan 2026 21:40:04 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sai Sree Kartheek Adivi <s-adivi@ti.com>, peter.ujfalusi@gmail.com,
-	vkoul@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, nm@ti.com, ssantosh@kernel.org,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	vigneshr@ti.com
-Cc: oe-kbuild-all@lists.linux.dev, r-sharma3@ti.com, gehariprasath@ti.com
-Subject: Re: [PATCH v4 19/19] dmaengine: ti: k3-udma: switch to synchronous
- descriptor freeing
-Message-ID: <202601310444.S9H39g4c-lkp@intel.com>
-References: <20260130110159.359501-20-s-adivi@ti.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex@shazbot.org>,
+ "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
+Subject: [leon-rdma:dmabuf-revoke-v7 9/10]
+ drivers/vfio/pci/vfio_pci_dmabuf.c:344:31: warning: unused variable 'wait'
+Message-ID: <202601302136.uoBN7dfZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,63 +62,87 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130110159.359501-20-s-adivi@ti.com>
 
-Hi Sai,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on next-20260130]
-[cannot apply to linus/master v6.19-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Sree-Kartheek-Adivi/dmaengine-ti-k3-udma-move-macros-to-header-file/20260130-191306
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20260130110159.359501-20-s-adivi%40ti.com
-patch subject: [PATCH v4 19/19] dmaengine: ti: k3-udma: switch to synchronous descriptor freeing
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260131/202601310444.S9H39g4c-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310444.S9H39g4c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-revoke-v7
+head:   ec05a8f8037a95ae4080863e79f68dea0e6fbe0b
+commit: 29f7617562d4dfd10f0487facde8c8d16a71f8f3 [9/10] vfio: Permit VFIO to work with pinned importers
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260130/202601302136.uoBN7dfZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601302136.uoBN7dfZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601310444.S9H39g4c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601302136.uoBN7dfZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/dma/ti/k3-udma-common.c: In function 'udma_desc_free':
->> drivers/dma/ti/k3-udma-common.c:103:23: warning: unused variable 'flags' [-Wunused-variable]
-     103 |         unsigned long flags;
-         |                       ^~~~~
->> drivers/dma/ti/k3-udma-common.c:100:26: warning: unused variable 'ud' [-Wunused-variable]
-     100 |         struct udma_dev *ud = to_udma_dev(vd->tx.chan->device);
-         |                          ^~
+   drivers/vfio/pci/vfio_pci_dmabuf.c: In function 'vfio_pci_dma_buf_move':
+>> drivers/vfio/pci/vfio_pci_dmabuf.c:344:31: warning: unused variable 'wait' [-Wunused-variable]
+     344 |                 unsigned long wait;
+         |                               ^~~~
+   drivers/vfio/pci/vfio_pci_dmabuf.c: In function 'vfio_pci_dma_buf_cleanup':
+   drivers/vfio/pci/vfio_pci_dmabuf.c:390:31: warning: unused variable 'wait' [-Wunused-variable]
+     390 |                 unsigned long wait;
+         |                               ^~~~
 
 
-vim +/flags +103 drivers/dma/ti/k3-udma-common.c
+vim +/wait +344 drivers/vfio/pci/vfio_pci_dmabuf.c
 
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30   97  
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30   98  void udma_desc_free(struct virt_dma_desc *vd)
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30   99  {
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30 @100  	struct udma_dev *ud = to_udma_dev(vd->tx.chan->device);
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  101  	struct udma_chan *uc = to_udma_chan(vd->tx.chan);
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  102  	struct udma_desc *d = to_udma_desc(&vd->tx);
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30 @103  	unsigned long flags;
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  104  
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  105  	if (uc->terminated_desc == d)
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  106  		uc->terminated_desc = NULL;
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  107  
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  108  	udma_free_hwdesc(uc, d);
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  109  	kfree(d);
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  110  	return;
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  111  }
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  112  EXPORT_SYMBOL_GPL(udma_desc_free);
-f30a784b467d1f Sai Sree Kartheek Adivi 2026-01-30  113  
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  335  
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  336  void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  337  {
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  338  	struct vfio_pci_dma_buf *priv;
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  339  	struct vfio_pci_dma_buf *tmp;
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  340  
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  341  	lockdep_assert_held_write(&vdev->memory_lock);
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  342  
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  343  	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
+4592582c95df50 Leon Romanovsky 2026-01-19 @344  		unsigned long wait;
+4592582c95df50 Leon Romanovsky 2026-01-19  345  
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  346  		if (!get_file_active(&priv->dmabuf->file))
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  347  			continue;
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  348  
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  349  		if (priv->revoked != revoked) {
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  350  			dma_resv_lock(priv->dmabuf->resv, NULL);
+29f7617562d4df Leon Romanovsky 2026-01-14  351  			if (revoked)
+29f7617562d4df Leon Romanovsky 2026-01-14  352  				priv->revoked = true;
+fc81bff4b62ad8 Leon Romanovsky 2026-01-21  353  			dma_buf_invalidate_mappings(priv->dmabuf);
+4592582c95df50 Leon Romanovsky 2026-01-19  354  			dma_resv_wait_timeout(priv->dmabuf->resv,
+4592582c95df50 Leon Romanovsky 2026-01-19  355  					      DMA_RESV_USAGE_BOOKKEEP, false,
+4592582c95df50 Leon Romanovsky 2026-01-19  356  					      MAX_SCHEDULE_TIMEOUT);
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  357  			dma_resv_unlock(priv->dmabuf->resv);
+4592582c95df50 Leon Romanovsky 2026-01-19  358  			if (revoked) {
+4592582c95df50 Leon Romanovsky 2026-01-19  359  				kref_put(&priv->kref, vfio_pci_dma_buf_done);
+29f7617562d4df Leon Romanovsky 2026-01-14  360  				wait_for_completion(&priv->comp);
+4592582c95df50 Leon Romanovsky 2026-01-19  361  			} else {
+4592582c95df50 Leon Romanovsky 2026-01-19  362  				/*
+4592582c95df50 Leon Romanovsky 2026-01-19  363  				 * Kref is initialize again, because when revoke
+4592582c95df50 Leon Romanovsky 2026-01-19  364  				 * was performed the reference counter was decreased
+4592582c95df50 Leon Romanovsky 2026-01-19  365  				 * to zero to trigger completion.
+4592582c95df50 Leon Romanovsky 2026-01-19  366  				 */
+4592582c95df50 Leon Romanovsky 2026-01-19  367  				kref_init(&priv->kref);
+4592582c95df50 Leon Romanovsky 2026-01-19  368  				/*
+4592582c95df50 Leon Romanovsky 2026-01-19  369  				 * There is no need to wait as no mapping was
+4592582c95df50 Leon Romanovsky 2026-01-19  370  				 * performed when the previous status was
+4592582c95df50 Leon Romanovsky 2026-01-19  371  				 * priv->revoked == true.
+4592582c95df50 Leon Romanovsky 2026-01-19  372  				 */
+4592582c95df50 Leon Romanovsky 2026-01-19  373  				reinit_completion(&priv->comp);
+29f7617562d4df Leon Romanovsky 2026-01-14  374  				dma_resv_lock(priv->dmabuf->resv, NULL);
+29f7617562d4df Leon Romanovsky 2026-01-14  375  				priv->revoked = false;
+29f7617562d4df Leon Romanovsky 2026-01-14  376  				dma_resv_unlock(priv->dmabuf->resv);
+4592582c95df50 Leon Romanovsky 2026-01-19  377  			}
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  378  		}
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  379  		fput(priv->dmabuf->file);
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  380  	}
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  381  }
+5d74781ebc86c5 Leon Romanovsky 2025-11-20  382  
+
+:::::: The code at line 344 was first introduced by commit
+:::::: 4592582c95df50f1252f96a40d1fd8b16fb99d21 vfio: Wait for dma-buf invalidation to complete
+
+:::::: TO: Leon Romanovsky <leonro@nvidia.com>
+:::::: CC: Leon Romanovsky <leonro@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
