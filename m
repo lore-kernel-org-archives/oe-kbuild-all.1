@@ -1,130 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38904330337;
-	Fri, 30 Jan 2026 15:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A043339861
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 15:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769787683; cv=none; b=mafNVu+Gmi1KDtvP3MfwRq6PcJJWJCseaYqjSccEddGI1wSYIHnxLcudi4/K/6Nw2WKcnz1VdHazFHej3l8U62HupiBm+n5MW/GhqVtOoqLXeWKIJXuh1i6RISd44zdPibNZ7M7Lzo3QSAyUfPVB2ZbLXpkZ8sP5ip/3n1koGN8=
+	t=1769788042; cv=none; b=axBNb/Jq0h1xMq/Nbz3xdnOf2kOked3ybg0y1wCXHgwnUHQnyxqH8o4I4u1LQE2TpUE0th+FIkAN1asuiT+oSPJXE1yns7q8VaAbnTxgUNttEcXknLxU2a5tUPwAJv1jPxrMZ54+qNNt+/HzuCHzMS+FFXoQAyUoJbtSr+7Ltlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769787683; c=relaxed/simple;
-	bh=0fUdsb6jhco8U17L+sRji5MQQAjibveGNe+u+9iEdOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RTnfgY4mbNECAgGKd4EDSrq52DwO0TaycYoHQBhKr5rv+pdevv6hzFFYnvZhEG+JyHa9U9z8q5VnCl1FeNmmBA5THjOox4csS6iXjPyjSdwO8YHQ8Yv2ffF3RnTPewsUf+KWSGT/868q/6eGKL0r7PPwikAVzZmdzOjXMXj3JU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c0dDCbXF; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769788042; c=relaxed/simple;
+	bh=BT0q+6gZIPGG8IyhY2pRrZ0/t/cj+TlofEPyFeaQXRU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=h1CmDofDjjWSqOLP3ZZUcY3ROJ1+L6HDJ2NpunHln0bneMMzxta5nOH8CwIMBC/oe2WohD1EkblVPIRuf9uH24uF/cpIfURNC1kPbUJgpCyocYPwpCnJAfCfjyeOlMUV+A1Mbv8L+To2jsd3xq4qMKOTNfqrTbd5J7mb0R7/0Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Cw3UOH+/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JqFgkRcF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Cw3UOH+/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JqFgkRcF; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c0dDCbXF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769787682; x=1801323682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0fUdsb6jhco8U17L+sRji5MQQAjibveGNe+u+9iEdOI=;
-  b=c0dDCbXF0Rj1HcI8PVrKiziyaSfb3yHORtJ1Un9ChP3Fv9yArWK5peK/
-   Ysc3KTUHRbd7h1Y8ql4ueVyiHpu9SE4uKAtE7jRPzPrl5dQBxQtJdQdvR
-   nbiJIjTk/U+AoMbDx1khk/ouvLyV6HOh8lSmJz6z7SO0wdARwRiwS8UXh
-   zC7D4B/7mBszdMRCIkFtdM4RZo/KmwNLStY3Uw82T7Vaf4utihkmT4xWF
-   hhKw/65ZnlKD9yVCi0moU4bsEC9j0w1oc0KrE9eSeNHIc0fjC0WVuWvw0
-   bN+kCwaqnT5zjVL0JC2jD5/CzWKSO1CYzHGfuPLJdsDlcVxn+OQyq/Pc/
-   A==;
-X-CSE-ConnectionGUID: jHbUSz2KQmavACFLZ5jkBQ==
-X-CSE-MsgGUID: /TqV74vrSOKjQEOQPMWLWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="71125049"
-X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="71125049"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 07:41:21 -0800
-X-CSE-ConnectionGUID: noZ1Jk5fQzSqQ6+IGSaHug==
-X-CSE-MsgGUID: Rj9qDFhgQE2Yha4/nq5xzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="208989560"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 Jan 2026 07:41:19 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vlqcV-00000000d5k-2BNW;
-	Fri, 30 Jan 2026 15:41:15 +0000
-Date: Fri, 30 Jan 2026 23:40:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cheng Ming Lin <linchengming884@gmail.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Richard Weinberger <richard@nod.at>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Martin Kurbanov <mmkurbanov@salutedevices.com>,
-	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>,
-	Pratyush Yadav <pratyush@kernel.org>, linux-mtd@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Cheng Ming Lin <chengminglin@mxic.com.tw>
-Subject: Re: [PATCH v3 1/2] mtd: spi-nand: Add support for randomizer
-Message-ID: <202601302312.JXeQH3ao-lkp@intel.com>
-References: <20260130092349.621034-2-linchengming884@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Cw3UOH+/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JqFgkRcF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Cw3UOH+/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JqFgkRcF"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 67FD15BD64;
+	Fri, 30 Jan 2026 15:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769788039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pK0lObbqbQw2n0nbFh4iKLS82/TwVrSfO51QZsG0HBc=;
+	b=Cw3UOH+/2ms7XaX+KU2dyn8olZ5Hrjg+sA91wgglanSC2nFz/sQYEIiR+/AqFD6h/igNrL
+	wAUBe4VYdX2OMMIYxs0h14+xRhntyfX9Ean6tL9oYxTebrD5fgd28MkAJTWU9NQHrwaQ37
+	N+pynTkF5m7A+DBrV7Vv2fLftMK862s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769788039;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pK0lObbqbQw2n0nbFh4iKLS82/TwVrSfO51QZsG0HBc=;
+	b=JqFgkRcFNWULZfVAJNUvh7UbsUYkDLfHad2EKGcoDxLJb/5Za5n6jbUe6Aq8P+rfc4aZNO
+	icitgW7EMonznaDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769788039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pK0lObbqbQw2n0nbFh4iKLS82/TwVrSfO51QZsG0HBc=;
+	b=Cw3UOH+/2ms7XaX+KU2dyn8olZ5Hrjg+sA91wgglanSC2nFz/sQYEIiR+/AqFD6h/igNrL
+	wAUBe4VYdX2OMMIYxs0h14+xRhntyfX9Ean6tL9oYxTebrD5fgd28MkAJTWU9NQHrwaQ37
+	N+pynTkF5m7A+DBrV7Vv2fLftMK862s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769788039;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pK0lObbqbQw2n0nbFh4iKLS82/TwVrSfO51QZsG0HBc=;
+	b=JqFgkRcFNWULZfVAJNUvh7UbsUYkDLfHad2EKGcoDxLJb/5Za5n6jbUe6Aq8P+rfc4aZNO
+	icitgW7EMonznaDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2156D3EA63;
+	Fri, 30 Jan 2026 15:47:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pkRFOobSfGlmHwAAD6G6ig
+	(envelope-from <krisman@suse.de>); Fri, 30 Jan 2026 15:47:18 +0000
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+To: kernel test robot <lkp@intel.com>
+Cc: axboe@kernel.dk,  oe-kbuild-all@lists.linux.dev,
+  io-uring@vger.kernel.org,  Andrew Morton <akpm@linux-foundation.org>,
+  Linux Memory Management List <linux-mm@kvack.org>,  David Hildenbrand
+ <david@kernel.org>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+  Vlastimil Babka <vbabka@suse.cz>,  "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>,  Mike Rapoport <rppt@kernel.org>,  Suren
+ Baghdasaryan <surenb@google.com>,  Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH 2/2] io_uring: introduce IORING_OP_MMAP
+In-Reply-To: <202601301341.PTetVieu-lkp@intel.com> (kernel test robot's
+	message of "Fri, 30 Jan 2026 14:03:20 +0800")
+References: <20260129221138.897715-3-krisman@suse.de>
+	<202601301341.PTetVieu-lkp@intel.com>
+Date: Fri, 30 Jan 2026 10:47:17 -0500
+Message-ID: <87jywz9k6y.fsf@mailhost.krisman.be>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130092349.621034-2-linchengming884@gmail.com>
+Content-Type: text/plain
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,intel.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 
-Hi Cheng,
+kernel test robot <lkp@intel.com> writes:
 
-kernel test robot noticed the following build warnings:
+> Hi Gabriel,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on v6.19-rc7]
+> [also build test WARNING on linus/master]
+> [cannot apply to axboe/for-next next-20260129]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Gabriel-Krisman-Bertazi/io_uring-Support-commands-with-optional-file-descriptors/20260130-061445
+> base:   v6.19-rc7
+> patch link:    https://lore.kernel.org/r/20260129221138.897715-3-krisman%40suse.de
+> patch subject: [PATCH 2/2] io_uring: introduce IORING_OP_MMAP
+> config: m68k-randconfig-r122-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301341.PTetVieu-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301341.PTetVieu-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601301341.PTetVieu-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> io_uring/mmap.c:116:36: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *addr @@     got void * @@
+>    io_uring/mmap.c:116:36: sparse:     expected void [noderef] __user *addr
+>    io_uring/mmap.c:116:36: sparse:     got void *
+>    io_uring/mmap.c:125:44: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *addr @@     got void * @@
+>    io_uring/mmap.c:125:44: sparse:     expected void [noderef] __user *addr
+>    io_uring/mmap.c:125:44: sparse:     got void *
+>    io_uring/mmap.c:130:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *addr @@     got void * @@
+>    io_uring/mmap.c:130:28: sparse:     expected void [noderef] __user *addr
+>    io_uring/mmap.c:130:28: sparse:     got void *
 
-[auto build test WARNING on v6.19-rc7]
-[also build test WARNING on linus/master next-20260129]
-[cannot apply to mtd/nand/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cheng-Ming-Lin/mtd-spi-nand-Add-support-for-randomizer/20260130-173004
-base:   v6.19-rc7
-patch link:    https://lore.kernel.org/r/20260130092349.621034-2-linchengming884%40gmail.com
-patch subject: [PATCH v3 1/2] mtd: spi-nand: Add support for randomizer
-config: s390-randconfig-002-20260130 (https://download.01.org/0day-ci/archive/20260130/202601302312.JXeQH3ao-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601302312.JXeQH3ao-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601302312.JXeQH3ao-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/mtd/nand/spi/core.c:1234:4: warning: void function 'spinand_randomizer_init' should not return a value [-Wreturn-mismatch]
-    1234 |                         return ret;
-         |                         ^      ~~~
-   drivers/mtd/nand/spi/core.c:1237:2: warning: void function 'spinand_randomizer_init' should not return a value [-Wreturn-mismatch]
-    1237 |         return 0;
-         |         ^      ~
-   2 warnings generated.
-
-
-vim +/spinand_randomizer_init +1234 drivers/mtd/nand/spi/core.c
-
-  1226	
-  1227	static void spinand_randomizer_init(struct spinand_device *spinand)
-  1228	{
-  1229		int ret;
-  1230	
-  1231		if (spinand->set_randomizer) {
-  1232			ret = spinand_randomizer_enable(spinand, true);
-  1233			if (ret)
-> 1234				return ret;
-  1235		}
-  1236	
-  1237		return 0;
-  1238	}
-  1239	
+FWIW, for reviewers, these are false positives.  The issue is I'm using
+"void* __user addr" to either return a pointer or the error code to
+user.  It is properly copied back through copy_to_user, but sparse still
+complains.  I'll look into silencing it.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Gabriel Krisman Bertazi
