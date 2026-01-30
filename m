@@ -1,80 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739A82DAFDF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 07:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61B72EC096;
+	Fri, 30 Jan 2026 07:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769758908; cv=none; b=Ql1tzYiCvTN1JtmeX+R7qM1ziVWpBiMi5Jp427cXSgODCHJSBItlBk8Zo0voXCJWLdsARuF1ZfdmllaRW0jRrx9eHY4fCJ/CH0Fb3GRhRIarwGoiIb4SKcQo4m+f5/+/yxfnxuo/Bw3JoLVR7HWAan5FLV9tNhLr4uNFVespDHc=
+	t=1769759566; cv=none; b=FxIReHq2HCrkUi/7nLHKdtIfrxOgHZioRQ8d6e0D0/jvyJ7di0omb1S40A976tuRFHrsygrtmmeb/OA3k40Tznr9GiWxgScxOQT6TrXtINgDajQXWmW/+Extqz7FkpTwKR3TfHdtZ8ZWw3TqvLD0OY6PLBgW57KsUczgEGLxsoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769758908; c=relaxed/simple;
-	bh=cXi0KRzZoV34WeDhHHBqcZR1/JcRSeqxXpA0StBk5vM=;
+	s=arc-20240116; t=1769759566; c=relaxed/simple;
+	bh=aX2gGtLk0RdmVui+gtEWlxTOSd9DpW+YmCX91ZUxfTk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qz0BU2egAoEq3eM3J/vrpZbObrnjq+Y1nVp/tochSKz4e00la1obawjCR4zb9v+ILFpWdGBVG/q70A8j0EGWFNZD3FwlHID/oGPid5hHrnnZVe02RTWPS3g1DY+Uk/4EzzVpIErCwenwqVWp471UwUhjL48lldiRxJzdihskUTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfMgV1Pl; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=CZ9loBi+QhjMUTfhhNKfgBxuiz8DI3NmlyFsASgSGXzyOI6IIP/wkVcMxPPrApw0HGwL1V5dG986PAE3BWmO7l8R0o7GKz2+Zjw8VreirIu4vedycUUMwKdAbqZUWgNkYjLyUxz6OZdJJKWnks+k2q9t/7lniD2Ks1UIxTToZJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfSd0wEN; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfMgV1Pl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfSd0wEN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769758907; x=1801294907;
+  t=1769759564; x=1801295564;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cXi0KRzZoV34WeDhHHBqcZR1/JcRSeqxXpA0StBk5vM=;
-  b=jfMgV1Pleth1hGdOzquRHRKyrsnGEgTUfTHisBmSASa/XJR8P0zY5kDo
-   4RhMu0f6I9ERTndhlcXB7wzopsmIIv+Mea12fA9cplDCN8vxwSVIKRJL2
-   QnUn196t4oOBSuA7ZC8lCYP5NnL5M2WvqUpbFioCdt0V3lwgQIl8ei7CW
-   hlGFfGH6mBCDMMjUhgLAtY0HQrN5gBK3vlj5o3cQjXKaYma0LA6Aw5h3R
-   k4TFr7h3r8ftnFVaNCr9k6IWwzdMdSi2adwD1b6NMhHvwI9DzZa+cPBZk
-   Q6YCHmrpbbWWO522Pre4v3V1XVVKYo0I/IldNg3p+OGRfivOfjgBfOnbo
+  bh=aX2gGtLk0RdmVui+gtEWlxTOSd9DpW+YmCX91ZUxfTk=;
+  b=hfSd0wENHLunpw8oiFSY1SNmvPWg1yKK3ivDj+IoPyEwl+kcqEB2YC+a
+   2X0G2JGf2zoaAbHb8nzaXS8kDGW/Ujm2wivA+8PArxLJP0XMfb7i4aFrl
+   ZGjHvwTHMG9ql9p0gz6zI6d8/FTredf7a2DlqxjGQm2NyQ/Il/zRil4Bu
+   L/4Yn7CLmMNUp5LOIq2ALcZM0TBqkiiJoAJpQze+S2VvHgo5nqEh+i2mJ
+   6P4c9OqP2Kpb2EIqWPsAZSfpirONfWZDwo9BbGqyTTeaS4LCOs2fEvffI
+   IDUJZvNpsKn5P8UPyrO4RTO/kKN3M9IfFtzshRQ5bDXJ5YFywIeM0+Jad
    A==;
-X-CSE-ConnectionGUID: ES+RQQoYSo+Fb+vF2PPWdw==
-X-CSE-MsgGUID: cod5CtafRrSqfcGoBBWTJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="82378409"
+X-CSE-ConnectionGUID: LCGAnsZDTwasYZslb3cgLw==
+X-CSE-MsgGUID: 2Aj8EFGZRSer8PRZcsZMMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="96472142"
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="82378409"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 23:41:46 -0800
-X-CSE-ConnectionGUID: KMnMedBOSHyr8E/b7Ob4jQ==
-X-CSE-MsgGUID: wLknmg+BTlSWpoyN9Da0yw==
+   d="scan'208";a="96472142"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 23:52:44 -0800
+X-CSE-ConnectionGUID: 4lPDyHmuRlCDGd/lYki7Jg==
+X-CSE-MsgGUID: gAwQQt+aTxyOY6vj7lBOxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="246411346"
+   d="scan'208";a="239522017"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Jan 2026 23:41:40 -0800
+  by orviesa002.jf.intel.com with ESMTP; 29 Jan 2026 23:52:40 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlj8L-00000000cKo-1bmS;
-	Fri, 30 Jan 2026 07:41:37 +0000
-Date: Fri, 30 Jan 2026 15:40:42 +0800
+	id 1vljIz-00000000cLg-3aEb;
+	Fri, 30 Jan 2026 07:52:37 +0000
+Date: Fri, 30 Jan 2026 15:51:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Golle <daniel@makrotopia.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Simon Horman <horms@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Frank Wunderlich <frankwu@gmx.de>, Chad Monroe <chad@monroe.io>,
-	Cezary Wilmanski <cezary.wilmanski@adtran.com>,
-	Avinash Jayaraman <ajayaraman@maxlinear.com>,
-	Bing tao Xu <bxu@maxlinear.com>, Liang Xu <lxu@maxlinear.com>,
-	Juraj Povazanec <jpovazanec@maxlinear.com>,
-	"Fanni (Fang-Yi) Chan" <fchan@maxlinear.com>,
-	"Benny (Ying-Tsan) Weng" <yweng@maxlinear.com>,
-	"Livia M. Rosu" <lrosu@maxlinear.com>,
-	John Crispin <john@phrozen.org>
-Subject: Re: [PATCH net-next v10 4/4] net: dsa: add basic initial driver for
- MxL862xx switches
-Message-ID: <202601301504.2pd3tNrg-lkp@intel.com>
-References: <281fd7e777b51849fac9ef5191679586cc2a1b54.1769731630.git.daniel@makrotopia.org>
+To: Andrew Geyko <ageyko0@gmail.com>, linux-staging@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, mripard@kernel.org, paulk@sys-base.io,
+	mchehab@kernel.org, wens@kernel.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Andrew Geyko <ageyko0@gmail.com>
+Subject: Re: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
+Message-ID: <202601301548.SMgNvRPx-lkp@intel.com>
+References: <20260129164341.104155-1-ageyko0@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,100 +66,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <281fd7e777b51849fac9ef5191679586cc2a1b54.1769731630.git.daniel@makrotopia.org>
+In-Reply-To: <20260129164341.104155-1-ageyko0@gmail.com>
 
-Hi Daniel,
+Hi Andrew,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on linus/master v6.19-rc7 next-20260129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/dt-bindings-net-dsa-add-MaxLinear-MxL862xx/20260130-085313
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/281fd7e777b51849fac9ef5191679586cc2a1b54.1769731630.git.daniel%40makrotopia.org
-patch subject: [PATCH net-next v10 4/4] net: dsa: add basic initial driver for MxL862xx switches
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260130/202601301504.2pd3tNrg-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301504.2pd3tNrg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Geyko/cedrus-Convert-bitfield-macros-to-FIELD_PREP-for-clarity/20260130-004554
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20260129164341.104155-1-ageyko0%40gmail.com
+patch subject: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260130/202601301548.SMgNvRPx-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301548.SMgNvRPx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301504.2pd3tNrg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301548.SMgNvRPx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/dsa/mxl862xx/mxl862xx.c: In function 'mxl862xx_port_setup':
->> drivers/net/dsa/mxl862xx/mxl862xx.c:331:32: error: passing argument 1 of 'dsa_port_is_unused' from incompatible pointer type [-Wincompatible-pointer-types]
-     331 |         if (dsa_port_is_unused(ds, port) ||
-         |                                ^~
-         |                                |
-         |                                struct dsa_switch *
-   In file included from drivers/net/dsa/mxl862xx/mxl862xx.c:16:
-   include/net/dsa.h:546:56: note: expected 'struct dsa_port *' but argument is of type 'struct dsa_switch *'
-     546 | static inline bool dsa_port_is_unused(struct dsa_port *dp)
-         |                                       ~~~~~~~~~~~~~~~~~^~
->> drivers/net/dsa/mxl862xx/mxl862xx.c:331:13: error: too many arguments to function 'dsa_port_is_unused'; expected 1, have 2
-     331 |         if (dsa_port_is_unused(ds, port) ||
-         |             ^~~~~~~~~~~~~~~~~~     ~~~~
-   include/net/dsa.h:546:20: note: declared here
-     546 | static inline bool dsa_port_is_unused(struct dsa_port *dp)
-         |                    ^~~~~~~~~~~~~~~~~~
->> drivers/net/dsa/mxl862xx/mxl862xx.c:332:29: error: passing argument 1 of 'dsa_port_is_dsa' from incompatible pointer type [-Wincompatible-pointer-types]
-     332 |             dsa_port_is_dsa(ds, port))
-         |                             ^~
-         |                             |
-         |                             struct dsa_switch *
-   include/net/dsa.h:531:53: note: expected 'struct dsa_port *' but argument is of type 'struct dsa_switch *'
-     531 | static inline bool dsa_port_is_dsa(struct dsa_port *port)
-         |                                    ~~~~~~~~~~~~~~~~~^~~~
->> drivers/net/dsa/mxl862xx/mxl862xx.c:332:13: error: too many arguments to function 'dsa_port_is_dsa'; expected 1, have 2
-     332 |             dsa_port_is_dsa(ds, port))
-         |             ^~~~~~~~~~~~~~~     ~~~~
-   include/net/dsa.h:531:20: note: declared here
-     531 | static inline bool dsa_port_is_dsa(struct dsa_port *port)
-         |                    ^~~~~~~~~~~~~~~
+   In file included from drivers/staging/media/sunxi/cedrus/cedrus_h265.c:17:
+   drivers/staging/media/sunxi/cedrus/cedrus_h265.c: In function 'cedrus_h265_skip_bits':
+>> drivers/staging/media/sunxi/cedrus/cedrus_regs.h:434:40: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     434 | #define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
+         |                                        ^~~~~~~~~~
+   drivers/staging/media/sunxi/cedrus/cedrus_h265.c:248:30: note: in expansion of macro 'VE_DEC_H265_TRIGGER_FLUSH_BITS'
+     248 |                              VE_DEC_H265_TRIGGER_FLUSH_BITS |
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/dsa_port_is_unused +331 drivers/net/dsa/mxl862xx/mxl862xx.c
+vim +/FIELD_PREP +434 drivers/staging/media/sunxi/cedrus/cedrus_regs.h
 
-   317	
-   318	static int mxl862xx_port_setup(struct dsa_switch *ds, int port)
-   319	{
-   320		bool is_cpu_port = dsa_is_cpu_port(ds, port);
-   321		int ret;
-   322	
-   323		/* disable port and flush MAC entries */
-   324		ret = mxl862xx_port_state(ds, port, false);
-   325		if (ret)
-   326			return ret;
-   327	
-   328		mxl862xx_port_fast_age(ds, port);
-   329	
-   330		/* skip setup for unused and DSA ports */
- > 331		if (dsa_port_is_unused(ds, port) ||
- > 332		    dsa_port_is_dsa(ds, port))
-   333			return 0;
-   334	
-   335		/* configure tag protocol */
-   336		ret = mxl862xx_configure_sp_tag_proto(ds, port, is_cpu_port);
-   337		if (ret)
-   338			return ret;
-   339	
-   340		/* assign CTP port IDs */
-   341		ret = mxl862xx_configure_ctp_port(ds, port, port,
-   342						  is_cpu_port ? 32 - port : 1);
-   343		if (ret)
-   344			return ret;
-   345	
-   346		if (is_cpu_port)
-   347			/* assign user ports to CPU port bridge */
-   348			return mxl862xx_setup_cpu_bridge(ds, port);
-   349	
-   350		/* setup single-port bridge for user ports */
-   351		return mxl862xx_add_single_port_bridge(ds, port);
-   352	}
-   353	
+   425	
+   426	#define VE_DEC_H265_TRIGGER_TYPE_N_BITS(x)	(((x) & 0x3f) << 8)
+   427	#define VE_DEC_H265_TRIGGER_STCD_MASK  GENMASK(5, 4)
+   428	#define VE_DEC_H265_TRIGGER_CMD_MASK   GENMASK(3, 0)
+   429	#define VE_DEC_H265_TRIGGER_STCD_HEVC  FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x0)
+   430	#define VE_DEC_H265_TRIGGER_STCD_AVS   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x1)
+   431	#define VE_DEC_H265_TRIGGER_STCD_VC1   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x2)
+   432	#define VE_DEC_H265_TRIGGER_SHOW_BITS  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x1)
+   433	#define VE_DEC_H265_TRIGGER_GET_BITS   FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x2)
+ > 434	#define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
+   435	#define VE_DEC_H265_TRIGGER_GET_VLCSE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x4)
+   436	#define VE_DEC_H265_TRIGGER_GET_VLCUE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x5)
+   437	#define VE_DEC_H265_TRIGGER_BYTE_ALIGN FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x6)
+   438	#define VE_DEC_H265_TRIGGER_INIT_SWDEC FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x7)
+   439	#define VE_DEC_H265_TRIGGER_DEC_SLICE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x8)
+   440	
 
 -- 
 0-DAY CI Kernel Test Service
