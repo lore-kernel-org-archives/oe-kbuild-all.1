@@ -1,205 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F21E3806BD;
-	Fri, 30 Jan 2026 18:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D308238756A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 19:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769798439; cv=none; b=XDB6m31fKFmpEgVczwMfneMfa7UhROXd75RZ/Ftv1DFb3Jh6ykBkzgBZG18vpf4o1EzE+dP4OTpBbh01Kl/TMUs8JX8MXTPt621V67Cc1xhwD4ifIilqRbDvVu2xxrerLq7v3EhY/UYZ6E8iOhCma5sxx3FmVabm3GXvWL/Bk54=
+	t=1769800350; cv=none; b=DO9IglUIf+qdMsP471qNsMu/xsuhBLHIPH0/Bnlox6ehXWJLY9hp3WUxCiS1arkKtLjHjNPJJGp+1UjCU/pZGL4JKRt8wzsF4JqvsHSdob/cO3lVTSYR7JRHnF/1tyvIU169/euBelhfqlUniYmVvDy9TXpCHSmiumNPH4DybsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769798439; c=relaxed/simple;
-	bh=pTzY3pqKQxb+aZ0edQQc0lDTSUa7XikNWWEWjeorMo0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iUVsDShBqTxOdsovmGe4tQB9RSi4qExZWWC/70qIx7xQsVWdndYWTLGrystCeaXrXX2PxVIlCgLx5o2f85stAxfJF3tRMY3hdnOMZMQXQ+90aYYYRo0JbYzmj1RjdFQRJxRAFFgb54f8VMwfW/daFkMl/eV79BXjGiqTqrENnh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6xrKFx/; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1769800350; c=relaxed/simple;
+	bh=ep4W/wizMZBt7WwE4MkxoBjbDPX7D+EDFS/a1OlhO2o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mV6l9nj5U61Dp3szOzsXZF8O7Xvrrf76+K3BDEgkwgaYTSlAYi9v8mCdmJx0Wt0IU03OsSMXnp5bEiPFjmH9yOIV+BFhOFXZRmjF77a3Mu+3xO0N5yVr+lL2LFVCNtbreISOh1obkJ0O4W+oFHK9f2FfBilvBHTXKFdhtETwVUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NG4OsnSj; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6xrKFx/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NG4OsnSj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769798438; x=1801334438;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pTzY3pqKQxb+aZ0edQQc0lDTSUa7XikNWWEWjeorMo0=;
-  b=S6xrKFx/9qtwpmRzPzvRVVKIjZylax2b9KpEYpZc8eFhyUfg0d/8F3Yy
-   8+c794uNrZsNL77yCCPExvgSo/KYjoeo/apjPSbjMrCdhltZwhmgjeU94
-   pSHVQjpC71wm0DmCSccyifXNdT9WFkgJopdRna66honltgb0A4KZGZkah
-   MJp5Te9hnV7AWIHuHmQW9YMIknydKxirnv0RXwyu5VjoVCFbckXOvUhp2
-   sxPa9ggo5xg9na0Sv4l4D+jaNLT1OTOycPkdp/qnPu/gjB2Lhw6/lOAV2
-   IVNREdl2Me5bZ+f+6j0Lij44sc+mDdmwIgTPOIXSaorgqvLcpvQkIuxFd
+  t=1769800348; x=1801336348;
+  h=date:from:to:cc:subject:message-id;
+  bh=ep4W/wizMZBt7WwE4MkxoBjbDPX7D+EDFS/a1OlhO2o=;
+  b=NG4OsnSjZWSot9sD3t5pB6qnW/JbFtvQl1OKo88WRotBLiJ3DxcTUM4o
+   yXibj0lnUp7ms3ZBPIqf58/EQ7bvXj8HftmjCeXtkHDrf1HxetMZ0LRkp
+   BlqoEwRCglCC/pwyFX5s/mRGcgYMq2PMCEmrP7ZWHBz9HGXwDJIRuiXm2
+   k+wsFSGmz31y/UfExuRYql0dmfQF9pEPyCcA2CCia0tbz1Nf2eFeUTufz
+   z+oorBkHEZyePm8A9K2ZCXvBHf9ETzt2k/LwkmKKxzmWXXOsrgKaS51Ou
+   fpmEdWI23TjZWbJA0/MitcG658TeHRqFr4+q55LPIlog47EVPWpTRRLcj
    w==;
-X-CSE-ConnectionGUID: cEm9OCvHSEWwOCNwG8qHYQ==
-X-CSE-MsgGUID: U0jx6pt4SK6P5HpF9Vqv4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="74906569"
+X-CSE-ConnectionGUID: 78YOfJuSRN+1QqD70i4UHw==
+X-CSE-MsgGUID: SKUFmiiXRDq5wbEbmUsZRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="81788185"
 X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="74906569"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 10:40:32 -0800
-X-CSE-ConnectionGUID: Df/BIlV4QGu3l/SNdbt/1A==
-X-CSE-MsgGUID: ENSQz7T/TbK4fNHvDWy15A==
+   d="scan'208";a="81788185"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 11:12:27 -0800
+X-CSE-ConnectionGUID: +ZoiqaFrT7etBFcqembh1A==
+X-CSE-MsgGUID: 8cVbaiB8RnaT7ABw47vt8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="213448805"
+   d="scan'208";a="239649163"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Jan 2026 10:40:25 -0800
+  by orviesa002.jf.intel.com with ESMTP; 30 Jan 2026 11:12:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vltPp-00000000dEG-46DP;
-	Fri, 30 Jan 2026 18:40:21 +0000
-Date: Sat, 31 Jan 2026 02:40:07 +0800
+	id 1vltup-00000000dFc-0NxT;
+	Fri, 30 Jan 2026 19:12:23 +0000
+Date: Sat, 31 Jan 2026 03:12:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sai Sree Kartheek Adivi <s-adivi@ti.com>, peter.ujfalusi@gmail.com,
-	vkoul@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, nm@ti.com, ssantosh@kernel.org,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	vigneshr@ti.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, r-sharma3@ti.com,
-	gehariprasath@ti.com
-Subject: Re: [PATCH v4 11/19] drivers: soc: ti: k3-ringacc: handle absence of
- tisci
-Message-ID: <202601310206.DLRWFXou-lkp@intel.com>
-References: <20260130110159.359501-12-s-adivi@ti.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/riscv/include/asm/syscall_wrapper.h:35:14: warning:
+ '__se_sys_listns' alias between functions of incompatible types 'long
+ int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long
+ int(long unsigned int,  long unsigned int,  long unsigned...
+Message-ID: <202601310340.29sKIzkX-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130110159.359501-12-s-adivi@ti.com>
 
-Hi Sai,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on vkoul-dmaengine/next]
-[also build test ERROR on next-20260129]
-[cannot apply to linus/master v6.19-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Sree-Kartheek-Adivi/dmaengine-ti-k3-udma-move-macros-to-header-file/20260130-191306
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20260130110159.359501-12-s-adivi%40ti.com
-patch subject: [PATCH v4 11/19] drivers: soc: ti: k3-ringacc: handle absence of tisci
-config: arm-randconfig-001-20260131 (https://download.01.org/0day-ci/archive/20260131/202601310206.DLRWFXou-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310206.DLRWFXou-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4d310797262f0ddf129e76c2aad2b950adaf1fda
+commit: 76b6f5dfb3fda76fce1f9990d6fa58adc711122b nstree: add listns()
+date:   3 months ago
+config: riscv-randconfig-001-20260131 (https://download.01.org/0day-ci/archive/20260131/202601310340.29sKIzkX-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310340.29sKIzkX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601310206.DLRWFXou-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601310340.29sKIzkX-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/soc/ti/k3-ringacc.c:17:
->> include/linux/soc/ti/ti_sci_inta_msi.h:17:15: warning: declaration of 'struct msi_domain_info' will not be visible outside of this function [-Wvisibility]
-      17 |                                    struct msi_domain_info *info,
-         |                                           ^
->> drivers/soc/ti/k3-ringacc.c:1506:11: error: no member named 'domain' in 'struct dev_msi_info'
-    1506 |         dev->msi.domain = of_msi_get_domain(dev, dev->of_node,
-         |         ~~~~~~~~ ^
-   drivers/soc/ti/k3-ringacc.c:1508:16: error: no member named 'domain' in 'struct dev_msi_info'
-    1508 |         if (!dev->msi.domain)
-         |              ~~~~~~~~ ^
-   1 warning and 2 errors generated.
+   In file included from include/linux/compat.h:34,
+                    from arch/riscv/include/asm/elf.h:12,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:20,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/static_call.h:135,
+                    from include/linux/tracepoint.h:22,
+                    from include/trace/syscall.h:5,
+                    from include/linux/syscalls.h:96,
+                    from kernel/nstree.c:8:
+>> arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_listns' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int)' [-Wattribute-alias]
+     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
+                 ^~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:237:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:229:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   kernel/nstree.c:729:1: note: in expansion of macro 'SYSCALL_DEFINE4'
+    SYSCALL_DEFINE4(listns, const struct ns_id_req __user *, req,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
+     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+                 ^~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:237:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:229:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   kernel/nstree.c:729:1: note: in expansion of macro 'SYSCALL_DEFINE4'
+    SYSCALL_DEFINE4(listns, const struct ns_id_req __user *, req,
+    ^~~~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=m]
-   Selected by [m]:
-   - CAN [=m] && NET [=y]
 
+vim +35 arch/riscv/include/asm/syscall_wrapper.h
 
-vim +1506 drivers/soc/ti/k3-ringacc.c
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  16  
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  17  #define __SYSCALL_SE_DEFINEx(x, prefix, name, ...)					\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  18  	static long __se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__));		\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  19  	static long __se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  20  
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  21  #define SC_RISCV_REGS_TO_ARGS(x, ...)							\
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  22  	__MAP(x,__SC_ARGS								\
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  23  	      ,,regs->orig_a0,,regs->a1,,regs->a2					\
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  24  	      ,,regs->a3,,regs->a4,,regs->a5,,regs->a6)
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  25  
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  26  #else
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  27  /*
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  28   * Use type aliasing to ensure registers a0-a6 are correctly passed to the syscall
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  29   * implementation when >word-size arguments are used.
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  30   */
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  31  #define __SYSCALL_SE_DEFINEx(x, prefix, name, ...)					\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  32  	__diag_push();									\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  33  	__diag_ignore(GCC, 8, "-Wattribute-alias",					\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  34  			"Type aliasing is used to sanitize syscall arguments");		\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11 @35  	static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong, 	\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  36  					ulong)						\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  37  			__attribute__((alias(__stringify(___se_##prefix##name))));	\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  38  	__diag_pop();									\
+653650c468be21 Sami Tolvanen 2024-03-26  39  	static long noinline ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
+653650c468be21 Sami Tolvanen 2024-03-26  40  			__used;								\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  41  	static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  42  
 
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1497  
-40a2a7c395cf5d9 Grygorii Strashko  2020-07-24  1498  static int k3_ringacc_init(struct platform_device *pdev,
-40a2a7c395cf5d9 Grygorii Strashko  2020-07-24  1499  			   struct k3_ringacc *ringacc)
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1500  {
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1501  	const struct soc_device_attribute *soc;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1502  	void __iomem *base_fifo, *base_rt;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1503  	struct device *dev = &pdev->dev;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1504  	int ret, i;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1505  
-34fff62827b254f Thomas Gleixner    2021-12-10 @1506  	dev->msi.domain = of_msi_get_domain(dev, dev->of_node,
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1507  					    DOMAIN_BUS_TI_SCI_INTA_MSI);
-e50a76355c1d858 Jayesh Choudhary   2023-07-28  1508  	if (!dev->msi.domain)
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1509  		return -EPROBE_DEFER;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1510  
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1511  	ret = k3_ringacc_probe_dt(ringacc);
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1512  	if (ret)
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1513  		return ret;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1514  
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1515  	soc = soc_device_match(k3_ringacc_socinfo);
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1516  	if (soc && soc->data) {
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1517  		const struct k3_ringacc_soc_data *soc_data = soc->data;
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1518  
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1519  		ringacc->dma_ring_reset_quirk = soc_data->dma_ring_reset_quirk;
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1520  	}
-95e7be062aea6d2 Grygorii Strashko  2020-09-11  1521  
-f9dbb99748bab00 Zhang Zekun        2023-08-09  1522  	base_rt = devm_platform_ioremap_resource_byname(pdev, "rt");
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1523  	if (IS_ERR(base_rt))
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1524  		return PTR_ERR(base_rt);
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1525  
-f9dbb99748bab00 Zhang Zekun        2023-08-09  1526  	base_fifo = devm_platform_ioremap_resource_byname(pdev, "fifos");
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1527  	if (IS_ERR(base_fifo))
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1528  		return PTR_ERR(base_fifo);
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1529  
-f9dbb99748bab00 Zhang Zekun        2023-08-09  1530  	ringacc->proxy_gcfg = devm_platform_ioremap_resource_byname(pdev, "proxy_gcfg");
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1531  	if (IS_ERR(ringacc->proxy_gcfg))
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1532  		return PTR_ERR(ringacc->proxy_gcfg);
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1533  
-f9dbb99748bab00 Zhang Zekun        2023-08-09  1534  	ringacc->proxy_target_base = devm_platform_ioremap_resource_byname(pdev,
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1535  									   "proxy_target");
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1536  	if (IS_ERR(ringacc->proxy_target_base))
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1537  		return PTR_ERR(ringacc->proxy_target_base);
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1538  
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1539  	ringacc->num_proxies = readl(&ringacc->proxy_gcfg->config) &
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1540  				     K3_RINGACC_PROXY_CFG_THREADS_MASK;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1541  
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1542  	ringacc->rings = devm_kzalloc(dev,
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1543  				      sizeof(*ringacc->rings) *
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1544  				      ringacc->num_rings,
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1545  				      GFP_KERNEL);
-a8eba8dde5fbf0b Christophe JAILLET 2021-12-23  1546  	ringacc->rings_inuse = devm_bitmap_zalloc(dev, ringacc->num_rings,
-a8eba8dde5fbf0b Christophe JAILLET 2021-12-23  1547  						  GFP_KERNEL);
-a8eba8dde5fbf0b Christophe JAILLET 2021-12-23  1548  	ringacc->proxy_inuse = devm_bitmap_zalloc(dev, ringacc->num_proxies,
-a8eba8dde5fbf0b Christophe JAILLET 2021-12-23  1549  						  GFP_KERNEL);
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1550  
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1551  	if (!ringacc->rings || !ringacc->rings_inuse || !ringacc->proxy_inuse)
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1552  		return -ENOMEM;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1553  
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1554  	for (i = 0; i < ringacc->num_rings; i++) {
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1555  		ringacc->rings[i].rt = base_rt +
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1556  				       K3_RINGACC_RT_REGS_STEP * i;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1557  		ringacc->rings[i].fifos = base_fifo +
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1558  					  K3_RINGACC_FIFO_REGS_STEP * i;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1559  		ringacc->rings[i].parent = ringacc;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1560  		ringacc->rings[i].ring_id = i;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1561  		ringacc->rings[i].proxy_id = K3_RINGACC_PROXY_NOT_USED;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1562  	}
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1563  
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1564  	ringacc->tisci_ring_ops = &ringacc->tisci->ops.rm_ring_ops;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1565  
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1566  	dev_info(dev, "Ring Accelerator probed rings:%u, gp-rings[%u,%u] sci-dev-id:%u\n",
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1567  		 ringacc->num_rings,
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1568  		 ringacc->rm_gp_range->desc[0].start,
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1569  		 ringacc->rm_gp_range->desc[0].num,
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1570  		 ringacc->tisci_dev_id);
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1571  	dev_info(dev, "dma-ring-reset-quirk: %s\n",
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1572  		 ringacc->dma_ring_reset_quirk ? "enabled" : "disabled");
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1573  	dev_info(dev, "RA Proxy rev. %08x, num_proxies:%u\n",
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1574  		 readl(&ringacc->proxy_gcfg->revision), ringacc->num_proxies);
-40a2a7c395cf5d9 Grygorii Strashko  2020-07-24  1575  
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1576  	return 0;
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1577  }
-3277e8aa2504d97 Grygorii Strashko  2020-01-15  1578  
+:::::: The code at line 35 was first introduced by commit
+:::::: a9ad73295cc1e3af0253eee7d08943b2419444c4 riscv: Fix syscall wrapper for >word-size arguments
+
+:::::: TO: Sami Tolvanen <samitolvanen@google.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
