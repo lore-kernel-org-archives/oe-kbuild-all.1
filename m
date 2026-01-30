@@ -1,119 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F142AEE4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 09:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A98A26B764
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 10:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769767072; cv=none; b=JsKT1eDlONhqUx+XkCblHFCRwNGvayPFjb40f0wWvkdI4o6ZHxojpfi7N1cRvwOVI/VGrB2HsLSuZOg++AL4g6P8TcvfWHwZNDfJOVSHdu3AlbQFJUpC40D4CZawV1Xk4RYBSXv0Kmeha6L+BfpZVEsOWDaHw0vrmK/8+oBjuqg=
+	t=1769768952; cv=none; b=L6XGKyYGUmu2bMRICNq3c+fl5MzAd1Sf+516JW1FlxoOmAfoPHveCDcU31DaZBeVfiVUd2LntLcH8kmY7b5CsWOITAHgJ7ygrfyOAtnWaxQOsFXizFcE3juFOQL/2s44FFw328pcIbOhxmjZPpO2Igh95EvDWQP1LwlvhMWdpxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769767072; c=relaxed/simple;
-	bh=uB55hSwyVLXXXKUicpaXM5MYHuel6GNS97SP6rUNuIY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cvLA82ACo0WW/xbK0O7kNLugENOL7jC46YSvE2e3o6IMxlq8QMqbvud0VDFKnzjxAVsrNUAwC7UjV3btBf2iN5m3zptQj0VhDb/URDT4SjHaJN4ZlfOHHGD2OL2eUd+IKtWIt/4sPLQ838QepIBVXe5FAM23gl1ZPxvObX45j2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9+hXmcN; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1769768952; c=relaxed/simple;
+	bh=FHGMwOuDMyqUbdmwF7i7VTLEoZIkyO/zzJwWJ2VhDBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oejzp61lnFAcNNC7VPFuCOQearKBvKqUCnwpg9rexi+2tQ4DI8CWAcjYBQecD0MMkqmatHG5MMAR32mccELOBKNnBn4wKh1d3WY0uQyAFkTS8T4Toh+v0ezflIAD2UYpHLaoMkHSs/+o6wk6+95KQi2faCREF2oBNYNXiCur8kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFzeGrKG; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9+hXmcN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFzeGrKG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769767069; x=1801303069;
-  h=date:from:to:cc:subject:message-id;
-  bh=uB55hSwyVLXXXKUicpaXM5MYHuel6GNS97SP6rUNuIY=;
-  b=i9+hXmcN6qkTUwgsLF0mGzCgvicuPYZaNXO5vwpA3NvzeUqGgHupg/Q3
-   KxXgtzWCaQdH3LWPsQpqfRQzq6RmfrkW5JkSO880jIzvu57lwN4b31gCP
-   hJ+3vcDkuT/T0wIAX43vWoBxnTNhRHQOmFuC36RMPwp06s4POaKIvgZ5W
-   eVIqc5/AP20k0Ik2eVROD3z7Nly26Xl52/LYbTp4Ennv7LxKtfxhJlVNV
-   /82QXcT9YjnSTREdK3sYLxcGR1hVZaB9PfjZO0meAb7tNvUUjgYpPXeQW
-   PSI+DssmgS917AigqF/XU/000hqlVxWJ4cPFxEd6oEIpuJneimBRBoYUh
-   g==;
-X-CSE-ConnectionGUID: /4EWGghnTNaguq9Uzr+gBA==
-X-CSE-MsgGUID: S/vdns4KQ6CdE4qfMrlyaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="93675703"
+  t=1769768950; x=1801304950;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FHGMwOuDMyqUbdmwF7i7VTLEoZIkyO/zzJwWJ2VhDBI=;
+  b=TFzeGrKGmuFJy7j42Sjn8/5eboD9NVWohRy83ZLs+44GF9+5mJpX9Q8b
+   nX0vEajvkAKhcPwWuX05xy8NqC+1iwIvVEZ3jg5cLgQ1+oJwn3hYYif/j
+   cUAdEgxlkNOQAJDOHHNPRkCvK1Kr/4CSQ0Md7CFzUmyHWBAsFG6WyV0vm
+   N5SJPNauZjMxlS4iLHRjV+N5kJ5QxxXSJ4O82SF6q63pvydHQsQ3fPm4b
+   kxIAq1eMNbzmm7GXwbY3L3EokB2ZVQC5hKynSODa/wr5UtFAiT99R+Mnw
+   1Dt2pTy6tBSRq3hicJMtHlgpsVHWBkBrIrHiTuXmqEcXsXCsa9VY8thDP
+   w==;
+X-CSE-ConnectionGUID: S19dmqXeQKW6PlqiUxufJg==
+X-CSE-MsgGUID: /Rmk+SP3Sj2M7aTok2FqZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="70997000"
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="93675703"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 01:57:48 -0800
-X-CSE-ConnectionGUID: 6jvK+CzMTueQUnVtDXZ6Sg==
-X-CSE-MsgGUID: szhtVjYTSOW3+WnTG9pZYw==
+   d="scan'208";a="70997000"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 02:29:09 -0800
+X-CSE-ConnectionGUID: map7TzjeSMuclFBRztNn6Q==
+X-CSE-MsgGUID: vo+SFuKvQPyHGzrU5yiCCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="239541267"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Jan 2026 01:57:47 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="208418862"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Jan 2026 02:29:05 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vllG4-00000000cUG-2i8F;
-	Fri, 30 Jan 2026 09:57:44 +0000
-Date: Fri, 30 Jan 2026 17:57:43 +0800
+	id 1vllkN-000000002Tv-1g7X;
+	Fri, 30 Jan 2026 10:29:03 +0000
+Date: Fri, 30 Jan 2026 11:28:47 +0100
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chao:feature/lock_trace 1/5] fs/f2fs/checkpoint.c:95:67:
- error: expected ')' before 'return'
-Message-ID: <202601301743.d6Nwl4vr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jason Miu <jasonmiu@google.com>, Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>, Changyuan Lyu <changyuanl@google.com>,
+	David Matlack <dmatlack@google.com>,
+	David Rientjes <rientjes@google.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>, kexec@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v8 1/2] kho: Adopt radix tree for preserved memory
+ tracking
+Message-ID: <202601301107.1CQsWeRT-lkp@intel.com>
+References: <20260130005739.3163049-2-jasonmiu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260130005739.3163049-2-jasonmiu@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/lock_trace
-head:   6c41a3391b747e9a5e8c6fe63003d2a8157d2610
-commit: ea581585794290038e10ac4f1343bb1f5013cc60 [1/5] f2fs: fix lock priority inversion issue
-config: nios2-randconfig-r071-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301743.d6Nwl4vr-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301743.d6Nwl4vr-lkp@intel.com/reproduce)
+Hi Jason,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 33a647c659ffa5bdb94abc345c8c86768ff96215]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Miu/kho-Adopt-radix-tree-for-preserved-memory-tracking/20260130-090027
+base:   33a647c659ffa5bdb94abc345c8c86768ff96215
+patch link:    https://lore.kernel.org/r/20260130005739.3163049-2-jasonmiu%40google.com
+patch subject: [PATCH v8 1/2] kho: Adopt radix tree for preserved memory tracking
+reproduce: (https://download.01.org/0day-ci/archive/20260130/202601301107.1CQsWeRT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301743.d6Nwl4vr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301107.1CQsWeRT-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/f2fs/checkpoint.c: In function 'need_uplift_priority':
->> fs/f2fs/checkpoint.c:95:67: error: expected ')' before 'return'
-      95 |         if (!(sem->sbi->adjust_lock_priority & BIT(sem->name - 1))
-         |            ~                                                      ^
-         |                                                                   )
-      96 |                 return false;
-         |                 ~~~~~~                                             
->> fs/f2fs/checkpoint.c:115:1: error: expected expression before '}' token
-     115 | }
-         | ^
->> fs/f2fs/checkpoint.c:115:1: warning: no return statement in function returning non-void [-Wreturn-type]
-
-
-vim +95 fs/f2fs/checkpoint.c
-
-    92	
-    93	static bool need_uplift_priority(struct f2fs_rwsem *sem, bool is_write)
-    94	{
-  > 95		if (!(sem->sbi->adjust_lock_priority & BIT(sem->name - 1))
-    96			return false;
-    97	
-    98		switch (sem->name) {
-    99		/*
-   100		 * writer is checkpoint which has high priority, let's just uplift
-   101		 * priority for reader
-   102		 */
-   103		case LOCK_NAME_CP_RWSEM:
-   104		case LOCK_NAME_NODE_CHANGE:
-   105		case LOCK_NAME_NODE_WRITE:
-   106			return !is_write;
-   107		case LOCK_NAME_GC_LOCK:
-   108		case LOCK_NAME_CP_GLOBAL:
-   109		case LOCK_NAME_IO_RWSEM:
-   110			return true;
-   111		default:
-   112			f2fs_bug_on(sem->sbi, 1);
-   113		}
-   114		return false;
- > 115	}
-   116	
+   WARNING: No kernel-doc for file ./include/linux/kho/abi/kexec_handover.h
+   ERROR: Cannot find file ./include/linux/kho/abi/memblock.h
+   WARNING: No kernel-doc for file ./include/linux/kho/abi/memblock.h
+   ERROR: Cannot find file ./include/linux/kho/abi/kexec_handover.h
+   WARNING: No kernel-doc for file ./include/linux/kho/abi/kexec_handover.h
+>> ERROR: Cannot find file ./include/linux/kho_radix_tree.h
+   WARNING: No kernel-doc for file ./include/linux/kho_radix_tree.h
+   ERROR: Cannot find file ./include/linux/kref.h
+   WARNING: No kernel-doc for file ./include/linux/kref.h
+   ERROR: Cannot find file ./include/linux/rslib.h
+   ERROR: Cannot find file ./include/linux/rslib.h
 
 -- 
 0-DAY CI Kernel Test Service
