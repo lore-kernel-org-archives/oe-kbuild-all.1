@@ -1,66 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045FA2ED15D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 06:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2765B27586C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 06:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769754941; cv=none; b=KROliYHlhoycEQq+4cpx+rzpEG6Hl4/bVZJk6mVSbJgcyGGi8nIzgNLKPUM5i/FC8i6UWPPy8R9VUmfPxkw7vSjxdaepyhqZUvnBl653b3xeeEjmMn1cAhTWu3aYzAreZDpQJIWGbZvgS3YOvieoM22Smq4WWvinzoyxrUPhKd4=
+	t=1769755448; cv=none; b=MnIOLPMeMmpxJTirhryXgvIH6MakyKAaWVWUnKtWgWJLNDJcPm5SNWK4zhkLw25W+mNhFKhHQ4APDwRr9J7NBfscF7rFuO8u1+vazi04JGu2qBfEUHdF8qBEOueHWPhXLKKRK3km2+DPphLB3Ay/W6TNMb9Ju7DLhq5/ZsjQxtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769754941; c=relaxed/simple;
-	bh=Sb2WU//u4SF4h5cOKPWNwwJrlAs7F8kiap7N72HjsJo=;
+	s=arc-20240116; t=1769755448; c=relaxed/simple;
+	bh=wrrzZRomTXxLMU8ISyp2Xzik5/V5pqCs87PE/IqGcVQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ms1jIuL6xI2xrwt7t/wLjKI+VsJCUHsCKwBhFmMFeuxINQcPb9XNhshbCc7fO2QCMPT/KJMYMOcF0KshHeJVfA/Js75cIcRo2CGzB5Ugi3mJjhK/Dl0E0Ano2BSAl99MzT7poTdSgokwAYtbYBkSUFBVjOQFCxpKMvTBE2hcTX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HsEPDLIY; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=AOiXd/YGlhgE4Jj+xRp/ZVHrWNcfOQhpiZW7xv4Cms6k2Rt3omCXtvH40ac6/EvxrFVvW6217EWPDCja/IJuHn2AfinQ9RuHE1eyf6i50QecL9U+QWuZcCVRZgrIEvFekKcTYI3cEd98ZrpIlcLEHylAfwQBMB1qottUzL7/+hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eMlp+gHT; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HsEPDLIY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eMlp+gHT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769754939; x=1801290939;
+  t=1769755446; x=1801291446;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Sb2WU//u4SF4h5cOKPWNwwJrlAs7F8kiap7N72HjsJo=;
-  b=HsEPDLIY65ZiBlIeKvnhAyqYzAR6i1AU1ZkP788YYcWq4MNUa6+tw3YA
-   OxXl96bKBUeLiwmkqJo2IEbr8dSwSswoYPPcsSQrG4XBgHTSHWWQG+2aU
-   CpxLfRv6TLzEtTfsIWRofLXT8/ugloeeI3o+ahhtOTJtLix49dERupcCd
-   v+Jt6PiDSbuCtQ5RHdx3UPSajtWneg/4G7NgunbeImqddfHgsnKHN2YDc
-   WnwuOS0IDkEXHhXQxhivQqZ744tHDaatPzjg37OkRFJyIKLoqr4hhFyW7
-   0FaYeobZ0P1C1udDCWmsYr9/fBdVZhgqLU7d3R+Cx5JlUaaDeomb2VkUn
-   A==;
-X-CSE-ConnectionGUID: ZWlR1Ak3Q6CM8gElCONAIw==
-X-CSE-MsgGUID: /uSonshlRWiLqa0j3z+76Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="74629548"
+  bh=wrrzZRomTXxLMU8ISyp2Xzik5/V5pqCs87PE/IqGcVQ=;
+  b=eMlp+gHTBOqQpyMLKHUI3XV5F+CIxhjjRuLj4Ywh/7OFqqalNdrEYCaW
+   ZGIse18yNQndMaGJSi4FUC857lq61rwu/WFlx2wb7ab1oLFNphqEJ+4gs
+   MHodmpE47FeeH4/iAdBUukJnthtn7uarytNNVaS57zFzRG0VP9rHYtyfS
+   R3oWPzC+orj2GK3D9gfC+7TFX/XM9+Huw5n/ruhGln5gUbctFWyx48ISg
+   RWNwkf9vPTnJDnQo+xlsVgloHx7C88PuETKy8juuGBWs03JZdl1gvSxjF
+   go2KhtbaRdO0GM0EuZvrJ5djyF9E54UDaGSOTUxiyVDwVytrRQdOOYyhg
+   Q==;
+X-CSE-ConnectionGUID: 0ZIYXKyTSKWNo76veHJ48g==
+X-CSE-MsgGUID: he6rM3pVRnC5D3nrbVgahA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="88419705"
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="74629548"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 22:35:39 -0800
-X-CSE-ConnectionGUID: wjQWB7pyTy+QAcYvlvDfNg==
-X-CSE-MsgGUID: tL1/o47kQBCLajUCKYUnsQ==
+   d="scan'208";a="88419705"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 22:44:06 -0800
+X-CSE-ConnectionGUID: VjKh33a3StiQLpQQIfJUgA==
+X-CSE-MsgGUID: F3LW/Y8jQ6Sz+7nhKq+F3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="213682333"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Jan 2026 22:35:35 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="213273923"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Jan 2026 22:44:04 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vli6P-00000000cHE-2CuX;
-	Fri, 30 Jan 2026 06:35:33 +0000
-Date: Fri, 30 Jan 2026 14:35:30 +0800
+	id 1vliEb-000000002Qz-28Tl;
+	Fri, 30 Jan 2026 06:44:01 +0000
+Date: Fri, 30 Jan 2026 07:43:08 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sean Anderson <sean.anderson@linux.dev>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jaroslav Kysela <perex@perex.cz>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>, Takashi Iwai <tiwai@suse.com>,
-	Sean Anderson <sean.anderson@linux.dev>
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
- registers
-Message-ID: <202601301436.qPUffKmd-lkp@intel.com>
-References: <20260129172315.3871602-3-sean.anderson@linux.dev>
+To: Andrii Nakryiko <andrii@kernel.org>, akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org, surenb@google.com, shakeel.butt@linux.dev,
+	Andrii Nakryiko <andrii@kernel.org>,
+	syzbot+4e70c8e0a2017b432f7a@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2 mm-stable] procfs: avoid fetching build ID while
+ holding VMA lock
+Message-ID: <202601300733.c69u3XEU-lkp@intel.com>
+References: <20260129215340.3742283-1-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,105 +67,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129172315.3871602-3-sean.anderson@linux.dev>
+In-Reply-To: <20260129215340.3742283-1-andrii@kernel.org>
 
-Hi Sean,
+Hi Andrii,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on broonie-spi/for-next linus/master v6.19-rc7 next-20260129]
-[cannot apply to xilinx-xlnx/master]
+[auto build test WARNING on bpf-next/net]
+[also build test WARNING on bpf-next/master bpf/master]
+[cannot apply to akpm-mm/mm-everything linus/master v6.16-rc1 next-20260129]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/dt-bindings-sound-xlnx-i2s-Make-discoverable-parameters-optional/20260130-012955
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260129172315.3871602-3-sean.anderson%40linux.dev
-patch subject: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from registers
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260130/202601301436.qPUffKmd-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301436.qPUffKmd-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/procfs-avoid-fetching-build-ID-while-holding-VMA-lock/20260130-055639
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20260129215340.3742283-1-andrii%40kernel.org
+patch subject: [PATCH v2 mm-stable] procfs: avoid fetching build ID while holding VMA lock
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260130/202601300733.c69u3XEU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601300733.c69u3XEU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301436.qPUffKmd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601300733.c69u3XEU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sound/soc/xilinx/xlnx_i2s.c: In function 'xlnx_i2s_probe':
->> sound/soc/xilinx/xlnx_i2s.c:191:30: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     191 |         drv_data->channels = FIELD_GET(I2S_CORE_CFG_CHANNELS, cfg);
-         |                              ^~~~~~~~~
-
-
-vim +/FIELD_GET +191 sound/soc/xilinx/xlnx_i2s.c
-
-   173	
-   174	static int xlnx_i2s_probe(struct platform_device *pdev)
-   175	{
-   176		struct xlnx_i2s_drv_data *drv_data;
-   177		int ret;
-   178		u32 format, cfg;
-   179		struct device *dev = &pdev->dev;
-   180		struct device_node *node = dev->of_node;
-   181	
-   182		drv_data = devm_kzalloc(&pdev->dev, sizeof(*drv_data), GFP_KERNEL);
-   183		if (!drv_data)
-   184			return -ENOMEM;
-   185	
-   186		drv_data->base = devm_platform_ioremap_resource(pdev, 0);
-   187		if (IS_ERR(drv_data->base))
-   188			return PTR_ERR(drv_data->base);
-   189	
-   190		cfg = readl(drv_data->base + I2S_CORE_CFG);
- > 191		drv_data->channels = FIELD_GET(I2S_CORE_CFG_CHANNELS, cfg);
-   192		if (cfg & I2S_CORE_CFG_DATA_24BIT) {
-   193			drv_data->data_width = 24;
-   194			format = SNDRV_PCM_FMTBIT_S24_LE;
-   195		} else {
-   196			drv_data->data_width = 16;
-   197			format = SNDRV_PCM_FMTBIT_S16_LE;
-   198		}
-   199	
-   200		if (of_device_is_compatible(node, "xlnx,i2s-transmitter-1.0")) {
-   201			drv_data->dai_drv.name = "xlnx_i2s_playback";
-   202			drv_data->dai_drv.playback.stream_name = "Playback";
-   203			drv_data->dai_drv.playback.formats = format;
-   204			drv_data->dai_drv.playback.channels_min = drv_data->channels;
-   205			drv_data->dai_drv.playback.channels_max = drv_data->channels;
-   206			drv_data->dai_drv.playback.rates	= SNDRV_PCM_RATE_8000_192000;
-   207			drv_data->dai_drv.ops = &xlnx_i2s_dai_ops;
-   208		} else if (of_device_is_compatible(node, "xlnx,i2s-receiver-1.0")) {
-   209			drv_data->dai_drv.name = "xlnx_i2s_capture";
-   210			drv_data->dai_drv.capture.stream_name = "Capture";
-   211			drv_data->dai_drv.capture.formats = format;
-   212			drv_data->dai_drv.capture.channels_min = drv_data->channels;
-   213			drv_data->dai_drv.capture.channels_max = drv_data->channels;
-   214			drv_data->dai_drv.capture.rates = SNDRV_PCM_RATE_8000_192000;
-   215			drv_data->dai_drv.ops = &xlnx_i2s_dai_ops;
-   216		} else {
-   217			return -ENODEV;
-   218		}
-   219		drv_data->is_32bit_lrclk = readl(drv_data->base + I2S_CORE_CTRL_OFFSET) &
-   220					   I2S_CORE_CTRL_32BIT_LRCLK;
-   221	
-   222		dev_set_drvdata(&pdev->dev, drv_data);
-   223	
-   224		ret = devm_snd_soc_register_component(&pdev->dev, &xlnx_i2s_component,
-   225						      &drv_data->dai_drv, 1);
-   226		if (ret) {
-   227			dev_err(&pdev->dev, "i2s component registration failed\n");
-   228			return ret;
-   229		}
-   230	
-   231		dev_info(&pdev->dev, "%s DAI registered\n", drv_data->dai_drv.name);
-   232	
-   233		return ret;
-   234	}
-   235	
+>> Warning: lib/buildid.c:348 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Parse build ID of ELF file
 
 -- 
 0-DAY CI Kernel Test Service
