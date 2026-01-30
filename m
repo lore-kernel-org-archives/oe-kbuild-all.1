@@ -1,150 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BB3244665;
-	Fri, 30 Jan 2026 09:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F142AEE4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 09:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769764609; cv=none; b=Mi9NvRvzvLKf8pCJeqMgkJwfJMQ+A56limGPeEm2ffGFVz6kSKyKhHjDCH/8b8qwg+wCn4TeahlzRNqID3MrvIJendb+dw+z6Jdo4f498OLj0KzuV8F2uZV6/9sCoAF7shv4yYMCs8JFkWtRU1KeJrvGiK5jlwSG3+ct8hmADn0=
+	t=1769767072; cv=none; b=JsKT1eDlONhqUx+XkCblHFCRwNGvayPFjb40f0wWvkdI4o6ZHxojpfi7N1cRvwOVI/VGrB2HsLSuZOg++AL4g6P8TcvfWHwZNDfJOVSHdu3AlbQFJUpC40D4CZawV1Xk4RYBSXv0Kmeha6L+BfpZVEsOWDaHw0vrmK/8+oBjuqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769764609; c=relaxed/simple;
-	bh=BBsy+STOjQXoX+872fpKKMUeLGy7GrZywVTivm6NlU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1aAYn0Sg1Pv4/EyXnPtzQsaTtxcx4lcpu2M5MstAu0xTLn4kucitE1Z8gaRo1Lp8byowcVbB4id41RwHYrw56iCSK3Mjm/UJrxdRNgmN99WKnN5as22oQmxi133djnfnNa8bk2ka0Hq0T8Z1oFnrrJqyoEHqWFBHiJvmGhBWm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TLeZoEVi; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1769767072; c=relaxed/simple;
+	bh=uB55hSwyVLXXXKUicpaXM5MYHuel6GNS97SP6rUNuIY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cvLA82ACo0WW/xbK0O7kNLugENOL7jC46YSvE2e3o6IMxlq8QMqbvud0VDFKnzjxAVsrNUAwC7UjV3btBf2iN5m3zptQj0VhDb/URDT4SjHaJN4ZlfOHHGD2OL2eUd+IKtWIt/4sPLQ838QepIBVXe5FAM23gl1ZPxvObX45j2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9+hXmcN; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TLeZoEVi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9+hXmcN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769764608; x=1801300608;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BBsy+STOjQXoX+872fpKKMUeLGy7GrZywVTivm6NlU8=;
-  b=TLeZoEViYWUNIgirXw15puSuRy2ImhFcfMapJnEHjyQdlbjnXAXQDB2t
-   BoY/52rHBqi8Gc/XvhnUO9EdT9W0VC5dQjlk17RACoqwCix3hhcQPHHel
-   Zw32uyr6gr/Z7woY79iDzeTS50c1IPotA82SJHrF8PTB+A+Fc1/6HFH2L
-   1Vb9dYwONsjuvb4mUnIzEwb8IrnROGkTfKUBRxvoZz+2isBRmk606rU1b
-   WJIZ4PeXanWfVBCAJPy/JYdXNotRsfOG6r0owi3EDlQDtFaQetvpZ8qIl
-   JR31HViMV+Ujnap791ykzPr2/A2nbzZhJq4hIqNNrzDQB1EhROrI5juCu
-   A==;
-X-CSE-ConnectionGUID: dHU3rrORSBqcWQIq9vYSXA==
-X-CSE-MsgGUID: K6vodLl1SGKkw5xDVYMm6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="70992411"
+  t=1769767069; x=1801303069;
+  h=date:from:to:cc:subject:message-id;
+  bh=uB55hSwyVLXXXKUicpaXM5MYHuel6GNS97SP6rUNuIY=;
+  b=i9+hXmcN6qkTUwgsLF0mGzCgvicuPYZaNXO5vwpA3NvzeUqGgHupg/Q3
+   KxXgtzWCaQdH3LWPsQpqfRQzq6RmfrkW5JkSO880jIzvu57lwN4b31gCP
+   hJ+3vcDkuT/T0wIAX43vWoBxnTNhRHQOmFuC36RMPwp06s4POaKIvgZ5W
+   eVIqc5/AP20k0Ik2eVROD3z7Nly26Xl52/LYbTp4Ennv7LxKtfxhJlVNV
+   /82QXcT9YjnSTREdK3sYLxcGR1hVZaB9PfjZO0meAb7tNvUUjgYpPXeQW
+   PSI+DssmgS917AigqF/XU/000hqlVxWJ4cPFxEd6oEIpuJneimBRBoYUh
+   g==;
+X-CSE-ConnectionGUID: /4EWGghnTNaguq9Uzr+gBA==
+X-CSE-MsgGUID: S/vdns4KQ6CdE4qfMrlyaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="93675703"
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="70992411"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 01:16:47 -0800
-X-CSE-ConnectionGUID: jwbqCRiKSuulYSBh9+RPlg==
-X-CSE-MsgGUID: g6H9NWmVRMeHNXpaXaA9kg==
+   d="scan'208";a="93675703"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 01:57:48 -0800
+X-CSE-ConnectionGUID: 6jvK+CzMTueQUnVtDXZ6Sg==
+X-CSE-MsgGUID: szhtVjYTSOW3+WnTG9pZYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="208407269"
+   d="scan'208";a="239541267"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 30 Jan 2026 01:16:45 -0800
+  by orviesa002.jf.intel.com with ESMTP; 30 Jan 2026 01:57:47 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlkcM-00000000cQm-297A;
-	Fri, 30 Jan 2026 09:16:42 +0000
-Date: Fri, 30 Jan 2026 17:15:43 +0800
+	id 1vllG4-00000000cUG-2i8F;
+	Fri, 30 Jan 2026 09:57:44 +0000
+Date: Fri, 30 Jan 2026 17:57:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, longli@microsoft.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mshv: Add support for integrated scheduler
-Message-ID: <202601301732.2k4q81GI-lkp@intel.com>
-References: <176971725312.67225.3938191771112866951.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chao:feature/lock_trace 1/5] fs/f2fs/checkpoint.c:95:67:
+ error: expected ')' before 'return'
+Message-ID: <202601301743.d6Nwl4vr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <176971725312.67225.3938191771112866951.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 
-Hi Stanislav,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc7 next-20260129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/mshv-Add-support-for-integrated-scheduler/20260130-041014
-base:   linus/master
-patch link:    https://lore.kernel.org/r/176971725312.67225.3938191771112866951.stgit%40skinsburskii-cloud-desktop.internal.cloudapp.net
-patch subject: [PATCH v2] mshv: Add support for integrated scheduler
-config: x86_64-buildonly-randconfig-004-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301732.2k4q81GI-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301732.2k4q81GI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/lock_trace
+head:   6c41a3391b747e9a5e8c6fe63003d2a8157d2610
+commit: ea581585794290038e10ac4f1343bb1f5013cc60 [1/5] f2fs: fix lock priority inversion issue
+config: nios2-randconfig-r071-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301743.d6Nwl4vr-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301743.d6Nwl4vr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301732.2k4q81GI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301743.d6Nwl4vr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/hv/mshv_root_main.c:2260:2: error: expected identifier or '('
-    2260 |         dev_dbg(dev, "vmm_caps = %#llx\n", mshv_root.vmm_caps.as_uint64[0]);
-         |         ^
-   include/linux/dev_printk.h:171:2: note: expanded from macro 'dev_dbg'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^
-   include/linux/dev_printk.h:137:3: note: expanded from macro 'dev_no_printk'
-     137 |         ({                                                              \
-         |          ^
->> drivers/hv/mshv_root_main.c:2260:2: error: expected ')'
-   include/linux/dev_printk.h:171:2: note: expanded from macro 'dev_dbg'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^
-   include/linux/dev_printk.h:137:3: note: expanded from macro 'dev_no_printk'
-     137 |         ({                                                              \
-         |          ^
-   drivers/hv/mshv_root_main.c:2260:2: note: to match this '('
-   include/linux/dev_printk.h:171:2: note: expanded from macro 'dev_dbg'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^
-   include/linux/dev_printk.h:137:2: note: expanded from macro 'dev_no_printk'
-     137 |         ({                                                              \
-         |         ^
-   drivers/hv/mshv_root_main.c:2262:2: error: expected identifier or '('
-    2262 |         return 0;
-         |         ^
->> drivers/hv/mshv_root_main.c:2263:1: error: extraneous closing brace ('}')
-    2263 | }
+   fs/f2fs/checkpoint.c: In function 'need_uplift_priority':
+>> fs/f2fs/checkpoint.c:95:67: error: expected ')' before 'return'
+      95 |         if (!(sem->sbi->adjust_lock_priority & BIT(sem->name - 1))
+         |            ~                                                      ^
+         |                                                                   )
+      96 |                 return false;
+         |                 ~~~~~~                                             
+>> fs/f2fs/checkpoint.c:115:1: error: expected expression before '}' token
+     115 | }
          | ^
-   4 errors generated.
+>> fs/f2fs/checkpoint.c:115:1: warning: no return statement in function returning non-void [-Wreturn-type]
 
 
-vim +2260 drivers/hv/mshv_root_main.c
+vim +95 fs/f2fs/checkpoint.c
 
-621191d709b148 Nuno Das Neves                  2025-03-14  2246  
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2247  static int __init mshv_init_vmm_caps(struct device *dev)
-fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2248  {
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2249  	int ret;
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2250  
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2251  	ret = hv_call_get_partition_property_ex(HV_PARTITION_ID_SELF,
-fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2252  						HV_PARTITION_PROPERTY_VMM_CAPABILITIES,
-fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2253  						0, &mshv_root.vmm_caps,
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2254  						sizeof(mshv_root.vmm_caps));
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2255  	if (ret && hv_l1vh_partition())
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2256  		dev_err(dev, "Failed to get VMM capabilities: %d\n", ret);
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2257  		return ret;
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2258  	}
-fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2259  
-fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10 @2260  	dev_dbg(dev, "vmm_caps = %#llx\n", mshv_root.vmm_caps.as_uint64[0]);
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2261  
-21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2262  	return 0;
-fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10 @2263  }
-fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2264  
+    92	
+    93	static bool need_uplift_priority(struct f2fs_rwsem *sem, bool is_write)
+    94	{
+  > 95		if (!(sem->sbi->adjust_lock_priority & BIT(sem->name - 1))
+    96			return false;
+    97	
+    98		switch (sem->name) {
+    99		/*
+   100		 * writer is checkpoint which has high priority, let's just uplift
+   101		 * priority for reader
+   102		 */
+   103		case LOCK_NAME_CP_RWSEM:
+   104		case LOCK_NAME_NODE_CHANGE:
+   105		case LOCK_NAME_NODE_WRITE:
+   106			return !is_write;
+   107		case LOCK_NAME_GC_LOCK:
+   108		case LOCK_NAME_CP_GLOBAL:
+   109		case LOCK_NAME_IO_RWSEM:
+   110			return true;
+   111		default:
+   112			f2fs_bug_on(sem->sbi, 1);
+   113		}
+   114		return false;
+ > 115	}
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
