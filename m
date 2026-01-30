@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F1134D4E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 22:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB8B302742
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 22:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769810655; cv=none; b=sjX1NVTVGHgUqBIecdLyEHBouKD9uiTj7RIJKU66hWqZ0ixT890o/s3QqfuAM++rSr+4yMYzf8aFq4kNs+nmPPrGeTf9XLz5uQgyFoLRZY9Zl3wpIRvj3tkMr2mHIibYTMv88M2V+RFwY9o3BPpVmler7qZBRZzrFlhmaCdT9yY=
+	t=1769810895; cv=none; b=BCSCsNPUTdEr2phwu7aWvQ7mPo1+F71dS4hYMg9mhv8Qarw76ksgHO0epuFZA6Usn7UqaMmC4jL6EmERvjudZRbvYGi0K1QmLBJ36oyiVSMqMIrQf7Ht3xXp+vyiD7wdy1JlmphMHCm90LPnkmVUIT3QYBuV5gJmnGcCSohIJW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769810655; c=relaxed/simple;
-	bh=PlZcrzyZOeRKsk8nTeHngBdoT7z/2ZOmXHx36skWdCg=;
+	s=arc-20240116; t=1769810895; c=relaxed/simple;
+	bh=4AxjIqvscBzxsPsSN0HE0NqBZ+G8oQmEn6yJ9jl163E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VV1VkTQXr8yTLGmK5kFKOt+tssXiA682cEpiX/UjWBxYbfxTJU5RFuYYPgqAZD31vL0mz00Z0Dh3uzTA1hM2W1TbBitK8JXGGx5XA8ch1HS6hHxo+R2KqK76pHB4DaCyiB+V6gbO/OxTxPW8NmnZhFXBiVKfvNLNvrR5PBYsn4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bav0/dPP; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=nBTumVkMKA9gBbR5TQnoQI4l56yhK151RZjGSRS6NTCl1wN8wX+TizBquBuZJdFP1FuENuI14p156pxnQnE0LZ+TIk6g1f5SdCyzfR6dQl3juv4OtbhfM1tJFs7Z0N+3zYOGGZBaOFdoY8OtVDPVvtLUCiry/1m0nae5MtCzOwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dn+GXskS; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bav0/dPP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dn+GXskS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769810655; x=1801346655;
+  t=1769810894; x=1801346894;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PlZcrzyZOeRKsk8nTeHngBdoT7z/2ZOmXHx36skWdCg=;
-  b=bav0/dPPYV7MNJkogAk/R/VjcPHunVxSzRTIAGn1ZhjVU6E7MyeCBrGF
-   etP+V8g88ve+ElotWIo0Z6e4NmqiiUCqFgT9ln9B/AepzxIAZnqkmffOO
-   MzsHExzEdjlfjbKgGEnCTRPzIcSnUArFb20Kvwxz9N/ne+rw4/hiV8TK2
-   p74e3UskAU6O3Gio+8Y0DVu4+mjSfdrLSBocxd8oiVHjcQRUHVT9vQfs2
-   N1MtqNHe3Fe55kQ47ZP9kFkPOrKVa/FvEN0J+OMk0R9hLXgmAiioMk0O7
-   hTI24LGlr9AMLP2WFKQukXPpIYHpJQ6ujgoh0HAhKFB0xK2qYUXLWKAui
-   w==;
-X-CSE-ConnectionGUID: iB5Lp5r3TPipccalvWTtXA==
-X-CSE-MsgGUID: l8NEM9sFTNGXlqBXgEAapA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70784132"
+  bh=4AxjIqvscBzxsPsSN0HE0NqBZ+G8oQmEn6yJ9jl163E=;
+  b=Dn+GXskShl+pNaUmIP1CCo1IAIeZOKPOVvVKBxouq1XARJx5zHRsbVj3
+   l1hZTUeo5+PrrbTW/CVfHRBhCdXXvVhh+l3OoycmAdfFlwBJ7bzevXkVH
+   GCJPYdsxA5q3rG+1nP7+S71aQJyxoLvOvNwRPdKAJptZ+hjXuyqIRYP0n
+   WX/Lng11QutdFI/myI5nFd5UsYxq7Q5OUL3K0StOyars46t5dQoyHBivo
+   dspx3tXbp+ongNMKIXTzxe+PJ5EqLM5JPkCRtIBWhUM5a5pkqmKp4gY6K
+   9LSdvSTpfUHcv7B+2yE9prPnvRqiEj2LZLN0pxfcjtkb45HIpBK/J99VJ
+   A==;
+X-CSE-ConnectionGUID: /54mNfLiTKGhvN2N3wvsJA==
+X-CSE-MsgGUID: eYd2doy1SXe3kySt7AIzTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="74689500"
 X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="70784132"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 14:04:14 -0800
-X-CSE-ConnectionGUID: 6PSjWHLdQB2h/hu0KwJl3w==
-X-CSE-MsgGUID: 2SuD46HOR2S2E8txMuEtdA==
+   d="scan'208";a="74689500"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 14:08:13 -0800
+X-CSE-ConnectionGUID: N1bBLNjxSlmdLIJDxekE7g==
+X-CSE-MsgGUID: hFXevYttQs2UXVQMAHhw6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="213038285"
+   d="scan'208";a="213896405"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2026 14:04:09 -0800
+  by orviesa005.jf.intel.com with ESMTP; 30 Jan 2026 14:08:10 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlwb1-000000002Yn-0UZV;
-	Fri, 30 Jan 2026 22:04:07 +0000
-Date: Fri, 30 Jan 2026 23:03:15 +0100
+	id 1vlwet-000000002Yr-0iE8;
+	Fri, 30 Jan 2026 22:08:07 +0000
+Date: Fri, 30 Jan 2026 23:07:49 +0100
 From: kernel test robot <lkp@intel.com>
 To: Svyatoslav Ryhel <clamor95@gmail.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -63,9 +63,9 @@ Cc: Paul Gazzillo <paul@pgazz.com>,
 	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 4/4] ASoC: tegra: Support WM8962 by machine driver
-Message-ID: <202601302334.FZthipoJ-lkp@intel.com>
-References: <20260130133434.353353-5-clamor95@gmail.com>
+Subject: Re: [PATCH v1 2/4] ASoC: tegra: Support CPCAP by machine driver
+Message-ID: <202601302320.3lveRyEF-lkp@intel.com>
+References: <20260130133434.353353-3-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,36 +74,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260130133434.353353-5-clamor95@gmail.com>
+In-Reply-To: <20260130133434.353353-3-clamor95@gmail.com>
 
 Hi Svyatoslav,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on tegra/for-next]
-[also build test WARNING on broonie-sound/for-next robh/for-next linus/master v6.16-rc1 next-20260130]
+[also build test WARNING on broonie-sound/for-next robh/for-next linus/master v6.19-rc7 next-20260130]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/ASoC-dt-bindings-nvidia-tegra-audio-document-CPCAP-CODEC/20260130-214002
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260130133434.353353-5-clamor95%40gmail.com
-patch subject: [PATCH v1 4/4] ASoC: tegra: Support WM8962 by machine driver
-config: alpha-kismet-CONFIG_SND_SOC_WM8962-CONFIG_SND_SOC_TEGRA_WM8962-0-0 (https://download.01.org/0day-ci/archive/20260130/202601302334.FZthipoJ-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260130/202601302334.FZthipoJ-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20260130133434.353353-3-clamor95%40gmail.com
+patch subject: [PATCH v1 2/4] ASoC: tegra: Support CPCAP by machine driver
+config: arm-kismet-CONFIG_SND_SOC_CPCAP-CONFIG_SND_SOC_TEGRA_CPCAP-0-0 (https://download.01.org/0day-ci/archive/20260130/202601302320.3lveRyEF-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260130/202601302320.3lveRyEF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601302334.FZthipoJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601302320.3lveRyEF-lkp@intel.com/
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SND_SOC_WM8962 when selected by SND_SOC_TEGRA_WM8962
-   WARNING: unmet direct dependencies detected for SND_SOC_WM8962
-     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=y] && INPUT [=n]
+>> kismet: WARNING: unmet direct dependencies detected for SND_SOC_CPCAP when selected by SND_SOC_TEGRA_CPCAP
+   WARNING: unmet direct dependencies detected for SND_SOC_CPCAP
+     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && (MFD_CPCAP [=n] || COMPILE_TEST [=n])
      Selected by [y]:
-     - SND_SOC_TEGRA_WM8962 [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_TEGRA [=y] && I2C [=y] && GPIOLIB [=y]
+     - SND_SOC_TEGRA_CPCAP [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_TEGRA [=y] && I2C [=y] && GPIOLIB [=y]
 
 -- 
 0-DAY CI Kernel Test Service
