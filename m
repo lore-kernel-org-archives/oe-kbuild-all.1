@@ -1,150 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E9338170A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 20:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A3D329E67
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 22:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769806776; cv=none; b=qXZwh30RVtC75JCB7Vh4ICiEfaTn1s54qNw6fDHs2jmwQqgKla6gISsonHBPZ7oZ9G69ERDHoilMamD3JCtDDW8P76SOsclWQCm8Jj6SISey+FE6OQGJRAIx8J+DDxnupjORTln1iJw5VhUFIUh8EuepVTwNxuWScYgRkU8ENcE=
+	t=1769810498; cv=none; b=Ck5TUW+PkZVmMyZNMSZljhF7iZGoGyv0Rb6jJeaGBLY+WwG8zuIzrQZL5coFH08XZ97F1FnN51jBtP7WnPizTt4MApJ7GNZPCih6iMGK1c9pjqKiJfRHt0irBaicAPzVtfquehL/urLf76Xvf/VgmMufQ7B9o9GlHXYepbGi3eA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769806776; c=relaxed/simple;
-	bh=baKThfj+uFC29r614dW5AycogE14elKtuMG3Rd0W1m4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hxn+1NJpvJNiz2D/QKefVBpF0aWZT1njXLsFAfCmEA89UCG5AZK9pw24/IbCaBU9+ToqJS0YBcJgVWN6Kfc4gaJvv4/8SA9zHNq6eK3Nkm+4KdVyLA0aBgHqhFhvmvi7GegXEZ8bduQ/8I4+f7UJwNjMMzevoGMZjzkxF0Uu3A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWZLZ+Rl; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1769810498; c=relaxed/simple;
+	bh=MCt1p7xz6n+PdDEuqerHWtOx+BqEoOhEHvMSu/ME+LE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dhWBy7hcBgYXvvEqd+LDGai8aENnYN/fxuK64BfmUmYZTmgYVBLN6f5hskqdUPbb1ZvjsaE+upezsH81SzbpwhIDS9NcRyMklEFSdytnxXBMRgY5lr0Vrc1k+aGgApML9cmWUihQBYnqJE8Wc7v7023pluTF0LumNAwASGoLZfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iFBwnXa/; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWZLZ+Rl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iFBwnXa/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769806776; x=1801342776;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=baKThfj+uFC29r614dW5AycogE14elKtuMG3Rd0W1m4=;
-  b=iWZLZ+RlipdUq9IvwVd3rhkrTECBGL9+VG1Du/37aFdXsA+iWVJ5aJ8v
-   Wsw+XGsmhoo9Dy7jO8QmDkDfKR6SAZD1qYuKaL7RdN/5n/omuaf5cgLH/
-   n+Yd//qsQRg4vMCnlK3zoDF9S8LkZGz3J4KWq/ww6qfFNX5Xsa3rk0who
-   GNTzLmRCuZAEn9j9/tCstJi6eeRDJ+dOIGAGf/pe5bQ5smRVHDoj7+PDT
-   3yjIV93E6rupjCfM9HowEA49ghixAvWOnK4+tVwml+aSBnLjiV4CmyEA+
-   7ZXMiUG1/qXRW7VK/s//Uu/XQ4GUy5e6MSIPkZe0QoCTbl5VoHjLrasni
-   w==;
-X-CSE-ConnectionGUID: acyhAwqFTYWIDDxd3bR3Ow==
-X-CSE-MsgGUID: cYYyL2OpSGuEmmbuMWQdlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="88636593"
+  t=1769810495; x=1801346495;
+  h=date:from:to:cc:subject:message-id;
+  bh=MCt1p7xz6n+PdDEuqerHWtOx+BqEoOhEHvMSu/ME+LE=;
+  b=iFBwnXa/PHFNlsvKY5c5KzR5t7aD/fM2vN4MfcIVAPHxwvZFjTbsdsEB
+   n3m6CJNeICOMBUYi1N+H/tb6hKTZMUW8bTYibqQ4KW+LUpijd6kBDkpa3
+   G5I6cp5iZAh64Tw+lf5RG9hm1ff/ZqKpnyAwavPDaG2E7ArRf7vFnZZg2
+   U5FUkyyNoMITGOhTSsmVVhRlTlL4dROwDsHHVFvCXV3oNFE0AmJfylfl5
+   QKQb5NOUhUKciVcFCfY+AY2N8bOO9CY5W2SQN+LsL7Rn64aiXgiW1SwWA
+   ugCV6W+9+19QXEPgSuCO14mdCUmJMF12WRjox/ZftS0W4j7pXr4XVb6SJ
+   A==;
+X-CSE-ConnectionGUID: uM0XSbLJR1i7UHla+LB0YQ==
+X-CSE-MsgGUID: GSycKB30RFOVgD82jEMBtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70967293"
 X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="88636593"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 12:59:35 -0800
-X-CSE-ConnectionGUID: TOvX5lamQxKe+vP8xRY4yQ==
-X-CSE-MsgGUID: MGpvkZjGTruQ+cPX22T0Aw==
+   d="scan'208";a="70967293"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 14:01:34 -0800
+X-CSE-ConnectionGUID: hgnDjy2VSnK7gG3rpObgUA==
+X-CSE-MsgGUID: 04hLnFfGTNaF63exWBhy5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="209351537"
+   d="scan'208";a="208212255"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Jan 2026 12:59:30 -0800
+  by orviesa010.jf.intel.com with ESMTP; 30 Jan 2026 14:01:33 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlvaS-00000000dMG-3LNm;
-	Fri, 30 Jan 2026 20:59:28 +0000
-Date: Sat, 31 Jan 2026 04:59:09 +0800
+	id 1vlwYU-00000000dOi-2A1t;
+	Fri, 30 Jan 2026 22:01:30 +0000
+Date: Sat, 31 Jan 2026 06:01:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	qianfan Zhao <qianfanguijin@163.com>,
-	Adriana Nicolae <adriana@arista.com>,
-	Tim Kryger <tim.kryger@linaro.org>,
-	Matt Porter <matt.porter@linaro.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Markus Mayer <markus.mayer@linaro.org>,
-	Jamie Iles <jamie@jamieiles.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Bandal, Shankar" <shankar.bandal@intel.com>,
-	"Murthy, Shanth" <shanth.murthy@intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] serial: 8250_dw: Ensure BUSY is deasserted
-Message-ID: <202601310404.Rdq0kVXE-lkp@intel.com>
-References: <20260130132857.13124-8-ilpo.jarvinen@linux.intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v4-wip 8/22] kernel/bpf/core.o: warning:
+ objtool: ___bpf_prog_run+0x9: ignoring unreachables due to jump table quirk
+Message-ID: <202601310520.v5Ae5q9k-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130132857.13124-8-ilpo.jarvinen@linux.intel.com>
 
-Hi Ilpo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ilpo-J-rvinen/serial-8250-Protect-LCR-write-in-shutdown/20260130-213314
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20260130132857.13124-8-ilpo.jarvinen%40linux.intel.com
-patch subject: [PATCH v3 7/7] serial: 8250_dw: Ensure BUSY is deasserted
-config: parisc-randconfig-001-20260131 (https://download.01.org/0day-ci/archive/20260131/202601310404.Rdq0kVXE-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310404.Rdq0kVXE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v4-wip
+head:   1857f672aab1ce60b60db9458e7120522a7b5056
+commit: e39422f07828f74b30c30d03632f70a364cb25f0 [8/22] x86: Use PIE codegen for the relocatable 64-bit kernel
+config: x86_64-randconfig-015-20260131 (https://download.01.org/0day-ci/archive/20260131/202601310520.v5Ae5q9k-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310520.v5Ae5q9k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601310404.Rdq0kVXE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601310520.v5Ae5q9k-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_dw.c: In function 'dw8250_check_lcr':
->> drivers/tty/serial/8250/8250_dw.c:267:1: error: label at end of compound statement
-    write_err:
-    ^~~~~~~~~
-
-
-vim +267 drivers/tty/serial/8250/8250_dw.c
-
-   234	
-   235	/*
-   236	 * This function is being called as part of the uart_port::serial_out()
-   237	 * routine. Hence, special care must be taken when serial_port_out() or
-   238	 * serial_out() against the modified registers here, i.e. LCR (d->in_idle is
-   239	 * used to break recursion loop).
-   240	 */
-   241	static void dw8250_check_lcr(struct uart_port *p, unsigned int offset, u32 value)
-   242	{
-   243		struct dw8250_data *d = to_dw8250_data(p->private_data);
-   244		u32 lcr;
-   245		int ret;
-   246	
-   247		if (offset != UART_LCR || d->uart_16550_compatible)
-   248			return;
-   249	
-   250		lcr = serial_port_in(p, UART_LCR);
-   251	
-   252		/* Make sure LCR write wasn't ignored */
-   253		if ((value & ~UART_LCR_SPAR) == (lcr & ~UART_LCR_SPAR))
-   254			return;
-   255	
-   256		if (d->in_idle)
-   257			goto write_err;
-   258	
-   259		ret = dw8250_idle_enter(p);
-   260		if (ret < 0)
-   261			goto write_err;
-   262	
-   263		serial_port_out(p, UART_LCR, value);
-   264		dw8250_idle_exit(p);
-   265		return;
-   266	
- > 267	write_err:
-   268		/*
-   269		 * FIXME: this deadlocks if port->lock is already held
-   270		 * dev_err(p->dev, "Couldn't set LCR to %d\n", value);
-   271		 */
-   272	}
-   273	
+>> kernel/bpf/core.o: warning: objtool: ___bpf_prog_run+0x9: ignoring unreachables due to jump table quirk
 
 -- 
 0-DAY CI Kernel Test Service
