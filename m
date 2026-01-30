@@ -1,171 +1,151 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFFF2EC095
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 20:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769806055; cv=pass; b=fgudk9NMtV4EIGTF0koBbGau7CLH2UAUc0uckSaNDVhoolWKrRHtWY2rQM/M2JMelPqv0w1JE2FoCslAW3ZlbPcsKd/Xw3TsbJXBFuJGUJGKjU/q+K6mkJNtrlLxKzmwjxCDl7+0lNKmulqLmzm3jR1iqWLuPGT522QMU8C+0sg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769806055; c=relaxed/simple;
-	bh=Sq7qKh7EMk48dHWt/Qluz1/8qTKafxCHaQEna2Tz7fA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y/f20cBZhCQsNKnS5QGKU9RvyqLjVXXaEAZTprAXCb15ZEdifYp66Yrw/9a8TcLBgFItrSgmrf4UvmKvwgiIDn/zE+RCvl8LV4VqpakpjKID14/5+wP4ZR/o7POPCas19nq4pj1tFLPl0FgdpXMtRgeuKCH9bMf4yKMtjTeII+g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=meQLPEMk; arc=pass smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E9338170A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 20:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769806776; cv=none; b=qXZwh30RVtC75JCB7Vh4ICiEfaTn1s54qNw6fDHs2jmwQqgKla6gISsonHBPZ7oZ9G69ERDHoilMamD3JCtDDW8P76SOsclWQCm8Jj6SISey+FE6OQGJRAIx8J+DDxnupjORTln1iJw5VhUFIUh8EuepVTwNxuWScYgRkU8ENcE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769806776; c=relaxed/simple;
+	bh=baKThfj+uFC29r614dW5AycogE14elKtuMG3Rd0W1m4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hxn+1NJpvJNiz2D/QKefVBpF0aWZT1njXLsFAfCmEA89UCG5AZK9pw24/IbCaBU9+ToqJS0YBcJgVWN6Kfc4gaJvv4/8SA9zHNq6eK3Nkm+4KdVyLA0aBgHqhFhvmvi7GegXEZ8bduQ/8I4+f7UJwNjMMzevoGMZjzkxF0Uu3A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWZLZ+Rl; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="meQLPEMk"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-bd1ce1b35e7so1446957a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 12:47:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769806053; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KeQCVZVqlvY9h09TYiaK4Ymj5thD6FdR5VlOLAd3AWYTiVZ/bbEaLD7ydWDw2+KiF8
-         bFyg5Tw+NhbJi5DA7JO5fnREgPP48TeQMJzY4TUZY8DeSuXkFRzbzAY0fn8eUPR/wKjI
-         0YsAAErmhEGNhOGaSzSeSvGYZsFGeliGv84CJFlULmqKIG7pnugQzxxHJdF/lnstyECI
-         ZlKRjFaGRB9OPinleBUPNDHMfzsecmSO2WZ+3P/uaM1knATksE6PVbxxdA/bRh1po6NF
-         oCkd6WswAh3r2nZLKde4WSTnX8j/shtC7EXRgNJm1tP3XGUl3n+UqLxCYvr2/2xHFDt2
-         ZU1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kDkPuGg5sHwz7KAxPzT1A9rLAgVe4LnrIU8HnzBCVHo=;
-        fh=dO/DT8FRGyTyeEENM+OTJxaOy8b7Czlw0RL0pVqhNOw=;
-        b=G/oNTDFEkXTFNDd7yIuCRiXla20CsSYuJn1RIyZvWwv227pBwHKTe2NhG3xzoqEp1u
-         IbBAewAw5UmVQbWnBKPEvPliDH6lphDQbUAsX/XnPMG0StjiRu6vL6V7XfB0vg6jCan5
-         81XJCsi/n0quJYagxhO1WlHaJ6v0kNgujWXDlQCkhd2MnxgDhuZrWboXR7W1cjI1Doto
-         UjnIZgx2mEJkhKkJML5j2zbomTvjnpbQgVdUv82RbMw80C8yjw6DuhBFVe1U9z6Ybz8u
-         Y8JnuUKxSitHU8wahbnEZRoAi2hXd+kvQxh6s1/Tr7r/aYODoA9Jmtq36jpxQ2fpkVMB
-         ZsaA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769806053; x=1770410853; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kDkPuGg5sHwz7KAxPzT1A9rLAgVe4LnrIU8HnzBCVHo=;
-        b=meQLPEMkwJwj5ASp6lHxYETjRkjWDuz1z3dXgfF8RUN8trCsjZMkUqgJZxR9vEJGob
-         oJGQgPZq1IMWVHOH6wwrO5M5g1Ihz5XXLTzpZyQTYp100HG7IC8WHzxSnHJJOZ1CraKp
-         +4rRBrxcpm9t4uvP8aOP/N5ciU6Tq/V/osXWvE1nguwCQUbHr8kZsiQlpSaEd+y+9NIU
-         ZFihVNAcN37hTVza22lh6dsYV2wGwQzNahNFQ4KbKdlU3GcR/mdCc5InvKhrCEr9CB9p
-         lDRtJUr+drnewC7h4rEhw68dFWNK5qww/1ewCdtFVPg7kAwKSu31/CxycRzy2X9pRiAP
-         Hs6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769806053; x=1770410853;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kDkPuGg5sHwz7KAxPzT1A9rLAgVe4LnrIU8HnzBCVHo=;
-        b=Icsj5k55Ki8cEwfaPpkVM/HTUVWiiWkwbJYXbghgoqdzaPHnzJnzYF0kU/GDVYrx6z
-         vsg2GPAD+H7pmREcnelm+5lDehDSDCrIc61bG++snbOdof2d1QpDSVwv+a5r2lRN0/k7
-         zc4uw9BnjPUWQ92aCZXX5cwuTe4d6HNgay8fcRxoGY0Lcurpn9CtMC9P9NoIWQW7WMFT
-         r79nLWOT0iQyklWJ0/ahV++MPqGvTNCnXRuJvi1fXoxbIRFsHQ/Xd00c9rsTt5N0h/WL
-         RP4trKGt+1Oc7t75DbF2+GAusILqpXtyDTkF6oG1yUAkTe/Q1M/S2aDLeZEKU6M/SMmC
-         h2Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCXWq0XYI0oXKurmbrSFXBwKClACAY9ZYownHEGIpQeoVvcNSirAq1Yo2fHO+rnMZa17f3wDzaJ82B7iMJX0@lists.linux.dev
-X-Gm-Message-State: AOJu0YywzDr10mBqM3ZQjZW060idc9gYSqjp2Z/NpWyUa98b2wJAfecT
-	6kFeqWP1R5QuZ+cmpIs8bDi5vRhtGHxGrVdDh0a2A4Tx96ggfJRIdxCEFdApikdMq+9zRhn68vW
-	d9ewaSjEZh6GVaGw4ZVTSGwmwADnurMM=
-X-Gm-Gg: AZuq6aKu2c59TO5S9MjXoghIV4A/O+uHKzzuSa5miOB1UQfYLNsk1jKy3e2Iwj588Oc
-	0/XqeSZcIua45BGNfSi5NDgomgHElOHW7x1yFGINMgr35yAefO7pN2uC1pb582+25epfBYPTja2
-	majjbkBvEcWMDEHxung/r3GdV3a6jku9FH+W4CYMvh3RBXN1V1oNWfj/Fo6d6ZP4EPCk9dI9OCt
-	yzmzHtMMiw1vrM8yEJieXbtaU3poLFZbMEkCbrCQL8zwYAqT99/It6Yd3JV6srT4pbBVKym+9Oz
-	PVAIW33R1AE=
-X-Received: by 2002:a17:90b:37c6:b0:349:3fe8:e7df with SMTP id
- 98e67ed59e1d1-3543b38bdbfmr3697730a91.22.1769806052962; Fri, 30 Jan 2026
- 12:47:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWZLZ+Rl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769806776; x=1801342776;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=baKThfj+uFC29r614dW5AycogE14elKtuMG3Rd0W1m4=;
+  b=iWZLZ+RlipdUq9IvwVd3rhkrTECBGL9+VG1Du/37aFdXsA+iWVJ5aJ8v
+   Wsw+XGsmhoo9Dy7jO8QmDkDfKR6SAZD1qYuKaL7RdN/5n/omuaf5cgLH/
+   n+Yd//qsQRg4vMCnlK3zoDF9S8LkZGz3J4KWq/ww6qfFNX5Xsa3rk0who
+   GNTzLmRCuZAEn9j9/tCstJi6eeRDJ+dOIGAGf/pe5bQ5smRVHDoj7+PDT
+   3yjIV93E6rupjCfM9HowEA49ghixAvWOnK4+tVwml+aSBnLjiV4CmyEA+
+   7ZXMiUG1/qXRW7VK/s//Uu/XQ4GUy5e6MSIPkZe0QoCTbl5VoHjLrasni
+   w==;
+X-CSE-ConnectionGUID: acyhAwqFTYWIDDxd3bR3Ow==
+X-CSE-MsgGUID: cYYyL2OpSGuEmmbuMWQdlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="88636593"
+X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
+   d="scan'208";a="88636593"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 12:59:35 -0800
+X-CSE-ConnectionGUID: TOvX5lamQxKe+vP8xRY4yQ==
+X-CSE-MsgGUID: MGpvkZjGTruQ+cPX22T0Aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
+   d="scan'208";a="209351537"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Jan 2026 12:59:30 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vlvaS-00000000dMG-3LNm;
+	Fri, 30 Jan 2026 20:59:28 +0000
+Date: Sat, 31 Jan 2026 04:59:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	qianfan Zhao <qianfanguijin@163.com>,
+	Adriana Nicolae <adriana@arista.com>,
+	Tim Kryger <tim.kryger@linaro.org>,
+	Matt Porter <matt.porter@linaro.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Markus Mayer <markus.mayer@linaro.org>,
+	Jamie Iles <jamie@jamieiles.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Bandal, Shankar" <shankar.bandal@intel.com>,
+	"Murthy, Shanth" <shanth.murthy@intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 7/7] serial: 8250_dw: Ensure BUSY is deasserted
+Message-ID: <202601310404.Rdq0kVXE-lkp@intel.com>
+References: <20260130132857.13124-8-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260129215340.3742283-1-andrii@kernel.org> <202601301121.zr5U6ixA-lkp@intel.com>
- <CAEf4BzZthAONGByqvk3pHRT3GaA8=fNbz+d1V1CY1N8sHEcsjA@mail.gmail.com> <20260130124242.dbb7946b3592ffddac7c316a@linux-foundation.org>
-In-Reply-To: <20260130124242.dbb7946b3592ffddac7c316a@linux-foundation.org>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 30 Jan 2026 12:47:20 -0800
-X-Gm-Features: AZwV_Qg6qiEP4IMJhs-KyomvrbnJXpik5IjgslLpgoiiekMmR439uSsS3HxxEv8
-Message-ID: <CAEf4BzatC6zi2vm=acg7949nBKpb6m+L4ubvLKn6JmRwy8o2Bg@mail.gmail.com>
-Subject: Re: [PATCH v2 mm-stable] procfs: avoid fetching build ID while
- holding VMA lock
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, Andrii Nakryiko <andrii@kernel.org>, linux-mm@kvack.org, 
-	oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	bpf@vger.kernel.org, surenb@google.com, shakeel.butt@linux.dev, 
-	syzbot+4e70c8e0a2017b432f7a@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260130132857.13124-8-ilpo.jarvinen@linux.intel.com>
 
-On Fri, Jan 30, 2026 at 12:42=E2=80=AFPM Andrew Morton
-<akpm@linux-foundation.org> wrote:
->
-> On Fri, 30 Jan 2026 12:11:31 -0800 Andrii Nakryiko <andrii.nakryiko@gmail=
-.com> wrote:
->
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202601301121.zr5U6ixA=
--lkp@intel.com/
-> > >
-> > > All warnings (new ones prefixed by >>):
-> > >
-> > > >> Warning: lib/buildid.c:348 This comment starts with '/**', but isn=
-'t a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-> > >     * Parse build ID of ELF file
-> >
-> > So AI tells me to be a proper kernel-doc comment this should have been:
-> >
-> > * build_id_parse_file() - Parse build ID of ELF file
-> >
-> > Andrew, should I send v3 or you can just patch it up in-place? Thanks!
->
-> No probs.
->
-> The preceding two functions are trying to be kerneldoc but failed.  How
-> about this?
->
->
+Hi Ilpo,
 
-yep, LGTM, thanks!
+kernel test robot noticed the following build errors:
 
-> --- a/lib/buildid.c~procfs-avoid-fetching-build-id-while-holding-vma-lock=
--fix
-> +++ a/lib/buildid.c
-> @@ -315,8 +315,8 @@ out:
->         return ret;
->  }
->
-> -/*
-> - * Parse build ID of ELF file mapped to vma
-> +/**
-> + * build_id_parse_nofault() - Parse build ID of ELF file mapped to vma
->   * @vma:      vma object
->   * @build_id: buffer to store build id, at least BUILD_ID_SIZE long
->   * @size:     returns actual build id size in case of success
-> @@ -334,8 +334,8 @@ int build_id_parse_nofault(struct vm_are
->         return __build_id_parse(vma->vm_file, build_id, size, false /* !m=
-ay_fault */);
->  }
->
-> -/*
-> - * Parse build ID of ELF file mapped to VMA
-> +/**
-> + * build_id_parse() - Parse build ID of ELF file mapped to VMA
->   * @vma:      vma object
->   * @build_id: buffer to store build id, at least BUILD_ID_SIZE long
->   * @size:     returns actual build id size in case of success
-> @@ -354,7 +354,7 @@ int build_id_parse(struct vm_area_struct
->  }
->
->  /**
-> - * Parse build ID of ELF file
-> + * build_id_parse_file() - Parse build ID of ELF file
->   * @file:      file object
->   * @build_id: buffer to store build id, at least BUILD_ID_SIZE long
->   * @size:     returns actual build id size in case of success
-> _
->
+[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ilpo-J-rvinen/serial-8250-Protect-LCR-write-in-shutdown/20260130-213314
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20260130132857.13124-8-ilpo.jarvinen%40linux.intel.com
+patch subject: [PATCH v3 7/7] serial: 8250_dw: Ensure BUSY is deasserted
+config: parisc-randconfig-001-20260131 (https://download.01.org/0day-ci/archive/20260131/202601310404.Rdq0kVXE-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310404.Rdq0kVXE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601310404.Rdq0kVXE-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/tty/serial/8250/8250_dw.c: In function 'dw8250_check_lcr':
+>> drivers/tty/serial/8250/8250_dw.c:267:1: error: label at end of compound statement
+    write_err:
+    ^~~~~~~~~
+
+
+vim +267 drivers/tty/serial/8250/8250_dw.c
+
+   234	
+   235	/*
+   236	 * This function is being called as part of the uart_port::serial_out()
+   237	 * routine. Hence, special care must be taken when serial_port_out() or
+   238	 * serial_out() against the modified registers here, i.e. LCR (d->in_idle is
+   239	 * used to break recursion loop).
+   240	 */
+   241	static void dw8250_check_lcr(struct uart_port *p, unsigned int offset, u32 value)
+   242	{
+   243		struct dw8250_data *d = to_dw8250_data(p->private_data);
+   244		u32 lcr;
+   245		int ret;
+   246	
+   247		if (offset != UART_LCR || d->uart_16550_compatible)
+   248			return;
+   249	
+   250		lcr = serial_port_in(p, UART_LCR);
+   251	
+   252		/* Make sure LCR write wasn't ignored */
+   253		if ((value & ~UART_LCR_SPAR) == (lcr & ~UART_LCR_SPAR))
+   254			return;
+   255	
+   256		if (d->in_idle)
+   257			goto write_err;
+   258	
+   259		ret = dw8250_idle_enter(p);
+   260		if (ret < 0)
+   261			goto write_err;
+   262	
+   263		serial_port_out(p, UART_LCR, value);
+   264		dw8250_idle_exit(p);
+   265		return;
+   266	
+ > 267	write_err:
+   268		/*
+   269		 * FIXME: this deadlocks if port->lock is already held
+   270		 * dev_err(p->dev, "Couldn't set LCR to %d\n", value);
+   271		 */
+   272	}
+   273	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
