@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231F52F7468
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 05:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2981133CEB7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 05:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769749653; cv=none; b=N5tCHg3CvTaBGBpqPIMK4zYcjW/B5xNGqQpkgCU57CTk/ZFXUecPjZGsLuwistFxIf5d0g8qi7qh6CeWrUAEUOX13oB0/opaqpHfOo+NbddmcEhJtE03MFBOH38Zc5gRp816TPlFl+kcg6zLqMgOeaZ0tAntHqo0JJmsqH7Z2k8=
+	t=1769751639; cv=none; b=PqF8p60tOK9VVGISNld4MOXPkc8KXgoUK6cQkGNwPJKrQlkvUJGhfyQ2XqQ44tpvC+BD9rk+8VJXWE37V8cK3K+ERalhCVM4larKDgyODX5I55lgsIgDnVvrNU6BMQ8HtYE/Y9NZKQkNFXp8afAJFtVWULCkf2MeWEWGPdzEUgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769749653; c=relaxed/simple;
-	bh=QBbkh3nRpSoVSB7XKqavd86nZFoZrk2X3PDKZYamDps=;
+	s=arc-20240116; t=1769751639; c=relaxed/simple;
+	bh=O0yrTfM/db7ruCmnkUxHUcsXFLt25Gn8UsW4TJhHR4w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UCDEGpmW6Tf6lFpuCGgIXDjyta9cRR80Vr3Ugl/a+oW50XdkRPE/N5MKYDqdXgn10yAESK/Sdh2W5rHXuxspUj/pE8wXOR3vzevh4Vi1w4+uFfoMHZjyIyIFsk7ZBUEy0/yFhBJz8vvWG2wFKFy3z+B1MnHbCGuz+VauLkiTDbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZ8vRs3t; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=uBW16VvCDcv56NrzpWr8DywBPTxG27pvtH3ip/7DRkCu3fuQzUpsbdzmSTwtNTGz5rHlNHPsTBf3w3Br7rRt4Rm67mbXf/LRpUAuSeabkynXStfUeBYi/4RnRTYBF1mK98jWNDihWnfi4DkV3o9GifdLdDNvhxum3/WI//B7dEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TSn+NuRt; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZ8vRs3t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TSn+NuRt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769749652; x=1801285652;
+  t=1769751637; x=1801287637;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QBbkh3nRpSoVSB7XKqavd86nZFoZrk2X3PDKZYamDps=;
-  b=HZ8vRs3tj3RXpu3UrpLgqpKrSfImmU1KmHr5pC7BYl0R8YEkOtE4ijqj
-   Oc0BeAr/C5tLZ8KpH1/+1RDY4oU7LTWUXXdd2mifVLkzX4cMnb9xtzExH
-   JE0x69nO8oQYuOdSnydg6VpdV7IVX28caTyVeUTsvub9dJ4VqfnBMxNaY
-   N/1+81aNRFTGrI6BJSCj30nHG3J254ZBwcjpT1XdS8QCWgnYk9mZoZaVV
-   ezkhzovBWZmRWT5EUXOhutxfboKwy0qsm6qxlegF8NMmZ9XslWSk9BmHU
-   uaY/Aj/BgoG7reIruqys1fGh7Vp1KOB8nQVSszG+iIC3ebHBSi2BsD6Mc
-   Q==;
-X-CSE-ConnectionGUID: PPl5+HT5QfGA5aUKsWLIVQ==
-X-CSE-MsgGUID: fMYu8LggRkqhjbiWNX/xwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="70898898"
+  bh=O0yrTfM/db7ruCmnkUxHUcsXFLt25Gn8UsW4TJhHR4w=;
+  b=TSn+NuRtw7KmX1SceMaZJyVUlKhfvSv8Ji5D1L6U+oRiUcGB8k34T4Jw
+   Mljv/nQOPnsoavZ1s8l0Si9BoO7LahZGaNsQ5LlfBPMQwHxf66r1zo+7Y
+   NE/Q1BjuRbEfRLywfhQqjOLmk67lv5RJek143Fn+L0oKKL+EC5mTG4NjP
+   eMZCUAqFZWlxx+dGRrBpLjQSCf8yIEBCP/B1kB5cwWxP4qpUG+sRQ5jMr
+   oAzuqmLeO0VyyLXqpRHm6IkjO8cHv3UDS35CIVeCF26K0OwhA5HDrRrLh
+   X/0Ka0BIm5AFLUSWNiS8vboh9v9DiUgXQYE8xM/RVUaaGkVrdc8nNxN+Y
+   w==;
+X-CSE-ConnectionGUID: i5h9GmRsQ5GjDM/SlO/deA==
+X-CSE-MsgGUID: iBH3Ma+BQLmx9U9fRSxTjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="71037448"
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="70898898"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 21:07:32 -0800
-X-CSE-ConnectionGUID: D8UqJkqVSzia7pZdgpY16Q==
-X-CSE-MsgGUID: OaKE98X2TV6TiqoQ411Bgg==
+   d="scan'208";a="71037448"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 21:40:36 -0800
+X-CSE-ConnectionGUID: zoU1rLYHTa6f8aixvlR8nw==
+X-CSE-MsgGUID: a2vdqcYNQAOq6a4llo9v+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="208869549"
+   d="scan'208";a="213299494"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 29 Jan 2026 21:07:31 -0800
+  by orviesa004.jf.intel.com with ESMTP; 29 Jan 2026 21:40:31 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlgjA-00000000cCK-0yv9;
-	Fri, 30 Jan 2026 05:07:28 +0000
-Date: Fri, 30 Jan 2026 13:07:19 +0800
+	id 1vlhF7-00000000cDg-0npS;
+	Fri, 30 Jan 2026 05:40:29 +0000
+Date: Fri, 30 Jan 2026 13:39:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rory Little <rory@candelatech.com>, Enrico Weigelt <info@metux.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH] gpio: amd-fch: Return 0-1 range for get operation
-Message-ID: <202601301318.t7FyBGAS-lkp@intel.com>
-References: <20260129222150.486419-1-rory@candelatech.com>
+To: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>, andersson@kernel.org,
+	mathieu.poirier@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, rui.zhang@intel.com, lukasz.luba@arm.com,
+	konradybcio@kernel.org, mani@kernel.org, casey.connolly@linaro.org,
+	amit.kucheria@oss.qualcomm.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, gaurav.kohli@oss.qualcomm.com,
+	manaf.pallikunhi@oss.qualcomm.com
+Subject: Re: [PATCH v2 1/8] thermal: Add Remote Proc cooling driver
+Message-ID: <202601301354.3ERTn2SC-lkp@intel.com>
+References: <20260127155722.2797783-2-gaurav.kohli@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,58 +69,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129222150.486419-1-rory@candelatech.com>
+In-Reply-To: <20260127155722.2797783-2-gaurav.kohli@oss.qualcomm.com>
 
-Hi Rory,
+Hi Gaurav,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.19-rc7 next-20260129]
+[auto build test WARNING on next-20260126]
+[also build test WARNING on v6.19-rc7]
+[cannot apply to robh/for-next rafael-pm/thermal remoteproc/rproc-next linus/master v6.19-rc7 v6.19-rc6 v6.19-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rory-Little/gpio-amd-fch-Return-0-1-range-for-get-operation/20260130-063318
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20260129222150.486419-1-rory%40candelatech.com
-patch subject: [PATCH] gpio: amd-fch: Return 0-1 range for get operation
-config: sparc-randconfig-002-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301318.t7FyBGAS-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301318.t7FyBGAS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gaurav-Kohli/thermal-Add-Remote-Proc-cooling-driver/20260128-000753
+base:   next-20260126
+patch link:    https://lore.kernel.org/r/20260127155722.2797783-2-gaurav.kohli%40oss.qualcomm.com
+patch subject: [PATCH v2 1/8] thermal: Add Remote Proc cooling driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260130/202601301354.3ERTn2SC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301354.3ERTn2SC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301318.t7FyBGAS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301354.3ERTn2SC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpio/gpio-amd-fch.c: In function 'amd_fch_gpio_get':
->> drivers/gpio/gpio-amd-fch.c:128:8: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     ret = FIELD_GET(AMD_FCH_GPIO_FLAG_READ, readl_relaxed(ptr));
-           ^~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/thermal/remoteproc_cooling.c:87:1: warning: no previous prototype for 'remoteproc_cooling_register' [-Wmissing-prototypes]
+      87 | remoteproc_cooling_register(struct device_node *np,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/thermal/remoteproc_cooling.c:131:6: warning: no previous prototype for 'remoteproc_cooling_unregister' [-Wmissing-prototypes]
+     131 | void remoteproc_cooling_unregister(struct remoteproc_cdev *rproc_cdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/FIELD_GET +128 drivers/gpio/gpio-amd-fch.c
+vim +/remoteproc_cooling_register +87 drivers/thermal/remoteproc_cooling.c
 
-   118	
-   119	static int amd_fch_gpio_get(struct gpio_chip *gc,
-   120				    unsigned int offset)
-   121	{
-   122		unsigned long flags;
-   123		int ret;
-   124		struct amd_fch_gpio_priv *priv = gpiochip_get_data(gc);
-   125		void __iomem *ptr = amd_fch_gpio_addr(priv, offset);
-   126	
-   127		spin_lock_irqsave(&priv->lock, flags);
- > 128		ret = FIELD_GET(AMD_FCH_GPIO_FLAG_READ, readl_relaxed(ptr));
-   129		spin_unlock_irqrestore(&priv->lock, flags);
+    85	
+    86	struct remoteproc_cdev *
+  > 87	remoteproc_cooling_register(struct device_node *np,
+    88				    const char *name, const struct remoteproc_cooling_ops *ops,
+    89				     void *devdata)
+    90	{
+    91		struct remoteproc_cdev *rproc_cdev;
+    92		struct thermal_cooling_device *cdev;
+    93		int ret;
+    94	
+    95		if (!name || !ops)
+    96			return ERR_PTR(-EINVAL);
+    97	
+    98		rproc_cdev = kzalloc(sizeof(*rproc_cdev), GFP_KERNEL);
+    99		if (!rproc_cdev)
+   100			return ERR_PTR(-ENOMEM);
+   101	
+   102		rproc_cdev->ops = ops;
+   103		rproc_cdev->devdata = devdata;
+   104		mutex_init(&rproc_cdev->lock);
+   105	
+   106		char *rproc_name __free(kfree) =
+   107			kasprintf(GFP_KERNEL, REMOTEPROC_PREFIX "%s", name);
+   108		/* Register with thermal framework */
+   109		if (np)
+   110			cdev = thermal_of_cooling_device_register(np, rproc_name, rproc_cdev,
+   111								  &remoteproc_cooling_ops);
+   112		else
+   113			cdev = thermal_cooling_device_register(rproc_name, rproc_cdev,
+   114							       &remoteproc_cooling_ops);
+   115	
+   116		if (IS_ERR(cdev)) {
+   117			ret = PTR_ERR(cdev);
+   118			goto free_rproc_cdev;
+   119		}
+   120	
+   121		rproc_cdev->cdev = cdev;
+   122	
+   123		return rproc_cdev;
+   124	
+   125	free_rproc_cdev:
+   126		kfree(rproc_cdev);
+   127		return ERR_PTR(ret);
+   128	}
+   129	EXPORT_SYMBOL_GPL(remoteproc_cooling_register);
    130	
-   131		return ret;
-   132	}
-   133	
+ > 131	void remoteproc_cooling_unregister(struct remoteproc_cdev *rproc_cdev)
+   132	{
+   133		if (!rproc_cdev)
+   134			return;
+   135	
+   136		thermal_cooling_device_unregister(rproc_cdev->cdev);
+   137		mutex_destroy(&rproc_cdev->lock);
+   138		kfree(rproc_cdev);
+   139	}
+   140	EXPORT_SYMBOL_GPL(remoteproc_cooling_unregister);
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
