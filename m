@@ -1,82 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681572638BA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 02:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AC81DE2A5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 03:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769740950; cv=none; b=Zhc97BVcVLACFuvMBg5vsrTaGS+4jBv1XP/ZUKgs3f25DrCIM819HX0R59sOtSQu1Rj25XmcYpYzfeph5wbnsDoUWwIo4b5aXnYjG+N+jhd12NXw9zsTYdw198MWMomiOjkFmVf1oLQPAvC6buK+GY+2bkatHw/OqIt23/2n0fg=
+	t=1769742274; cv=none; b=Y6koEYP4Wdtf1CdIs6TKC+Uj7xtB1XFo4Y4s589++bIctsugXCIhUzU37+dKUUChCH06nQADwtplfd2wM2TpGToCXaNbFc1RmHRCwmjKj3YmDAfAYxuxqhZ6eVBrwOW5mwzGQA+/RSUWYAtFTpoB01NXtlBghvQmn/v1NakHPeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769740950; c=relaxed/simple;
-	bh=ejGZOYA4RcvU1S7f2ZYEv0K8b+Crmn47/rGvbgfJNhI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tAagZmtr8ruiwoOdSUUQA9/SSOjmM6qg4pN2VfDEOzpd+1XimkxmlEwCIBaWiTnzFN/Gbkprd7uXJU2rORG6K0AYVa6MwhPBlq+cGzfLzazm9X49QZQpTuXosdRsFZ0HCYeB7Vb3P33IYZn3D/p9eqiHd7k38laj91hN3rpLtFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFPyQzta; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1769742274; c=relaxed/simple;
+	bh=bc7u74LVYc9UekDNqOXsly9zkvNuhJqgVW3Ic95fVvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kpPv2gJKA/3NH1EZxXJHXZmiKcjEx3eHGBiDQqOC5nkZvyWfvTBhX5imujau49M9Xr6OvHjHhbW+tsViGCjGmsXMoBvGfmAFArsDCj1h3/NxaFz1YycVX1LLlCUpZULgxzEaYs7gltvB3HXt1/voNhtVg8YNkQVMPMD0ig8nY7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2zhW6RC; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFPyQzta"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2zhW6RC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769740948; x=1801276948;
-  h=date:from:to:cc:subject:message-id;
-  bh=ejGZOYA4RcvU1S7f2ZYEv0K8b+Crmn47/rGvbgfJNhI=;
-  b=YFPyQztanFKytcOfc1jN4TQY9LoGBYiRUfWsOFWJ/IXUYq8hXi99G6Bi
-   7GvVKserg70Xfk/ThdjFrMUVT2PRymSb+UecMKVn7QsZr8hI62Rhb+ICF
-   tIjsBmW1l6JDJeCYbtCYLLm4CFs8y9Yj6C7HYvU3+c9BKDLnEWllTXVJs
-   WuYv0ei25LmlCXEa7av6r5mo7prYj1xB9UKkZxb9ElR0iF2K5M1cxf6o0
-   G/NtxZ5aepQ2N/bNMRSe3c1EXfknkgJEfsitVWSYlXc9+jNZNqJzktS5c
-   bvjPaqmPWS7X1YVsxN212/q64VVtNsavFx8mybCtwmYR/brMAyniNFkMw
-   g==;
-X-CSE-ConnectionGUID: 2Bifi0YXQ1a4U4ODteDsFA==
-X-CSE-MsgGUID: ETF8n95hQsirj0dHfqIMxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="93650234"
+  t=1769742273; x=1801278273;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bc7u74LVYc9UekDNqOXsly9zkvNuhJqgVW3Ic95fVvM=;
+  b=T2zhW6RCBiBF0DkQ6A/hufBZvJpxfYepyBOqsmOSliNgeIHuH0cEFVcl
+   WtZIALnxw0A6mP5u1yg6vzWUdeWmVSV42Dq1gmRFqhpCzn1uwDvdpLJIk
+   8HGXwJ9GdHyw1TErdDHJgMf7PHgsW8wJnmVhx52iH1IQH6X0lBN+yuDhT
+   nHa/2ly3wlJRkyMr8YqABFGtGLXIJ4bLTDotBAem6knHK1gxWOwsTdMON
+   H15SH6mdnARqaiVcLZT1Tl+AiQvFxC6hICh7guSSZX87WOgQtjAe6Bs91
+   vcKoAvTJLq0zePYPuuQh7RFZXzryx7xgxCfaeD6bEPQDYWukFk8uqO8Ip
+   Q==;
+X-CSE-ConnectionGUID: X/80AaS8QvSdJUmWDCPFXQ==
+X-CSE-MsgGUID: dE6Ov22pTtSsVf4fuShLhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="88405912"
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="93650234"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 18:42:27 -0800
-X-CSE-ConnectionGUID: bUu3RbuIQ5yinTzAcN4Eig==
-X-CSE-MsgGUID: 4DVeom0bQg2qrmZZhOpJyw==
+   d="scan'208";a="88405912"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 19:04:32 -0800
+X-CSE-ConnectionGUID: tGDPVXjSRcun43cHIKk5Wg==
+X-CSE-MsgGUID: 2pEfEYMdSAmCuRgbkxja8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="209093906"
+   d="scan'208";a="207872451"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Jan 2026 18:42:26 -0800
+  by orviesa006.jf.intel.com with ESMTP; 29 Jan 2026 19:04:27 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vleSl-00000000c6q-3BdT;
-	Fri, 30 Jan 2026 02:42:23 +0000
-Date: Fri, 30 Jan 2026 10:41:46 +0800
+	id 1vleo4-00000000c7M-1707;
+	Fri, 30 Jan 2026 03:04:24 +0000
+Date: Fri, 30 Jan 2026 11:03:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Guzik <mjguzik@gmail.com>
+To: Abhash Kumar Jha <a-kumar2@ti.com>, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	devarsht@ti.com, u-kumar1@ti.com, sjakhade@cadence.com
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>
-Subject: {standard input}:9314: Error: pcrel offset for branch to
- .LS0042 too far (0x3e)
-Message-ID: <202601301052.ylsFIe7S-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se, jernej.skrabec@gmail.com, s-jain1@ti.com,
+	p-mantena@ti.com, tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH] drm/bridge: cdns-mhdp8546: Add suspend resume support to
+ the bridge driver
+Message-ID: <202601301031.VutflAtp-lkp@intel.com>
+References: <20260129112016.2448037-1-a-kumar2@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129112016.2448037-1-a-kumar2@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4d310797262f0ddf129e76c2aad2b950adaf1fda
-commit: 84654c7f47307692d47ea914d01287c8c54b3532 wait: avoid spurious calls to prepare_to_wait_event() in ___wait_event()
-date:   11 months ago
-config: csky-randconfig-r063-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301052.ylsFIe7S-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301052.ylsFIe7S-lkp@intel.com/reproduce)
+Hi Abhash,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.19-rc7 next-20260129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhash-Kumar-Jha/drm-bridge-cdns-mhdp8546-Add-suspend-resume-support-to-the-bridge-driver/20260129-193145
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260129112016.2448037-1-a-kumar2%40ti.com
+patch subject: [PATCH] drm/bridge: cdns-mhdp8546: Add suspend resume support to the bridge driver
+config: parisc-randconfig-002-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301031.VutflAtp-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301031.VutflAtp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301052.ylsFIe7S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301031.VutflAtp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   {standard input}: Assembler messages:
->> {standard input}:9314: Error: pcrel offset for branch to .LS0042 too far (0x3e)
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2447:12: warning: 'cdns_mhdp_suspend' defined but not used [-Wunused-function]
+    static int cdns_mhdp_suspend(struct device *dev)
+               ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2387:12: warning: 'cdns_mhdp_resume' defined but not used [-Wunused-function]
+    static int cdns_mhdp_resume(struct device *dev)
+               ^~~~~~~~~~~~~~~~
+
+
+vim +/cdns_mhdp_suspend +2447 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+
+  2386	
+> 2387	static int cdns_mhdp_resume(struct device *dev)
+  2388	{
+  2389		struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
+  2390		unsigned long rate;
+  2391		int ret;
+  2392	
+  2393		ret = clk_prepare_enable(mhdp->clk);
+  2394		if (ret)
+  2395			return ret;
+  2396	
+  2397		rate = clk_get_rate(mhdp->clk);
+  2398		writel(rate % 1000000, mhdp->regs + CDNS_SW_CLK_L);
+  2399		writel(rate / 1000000, mhdp->regs + CDNS_SW_CLK_H);
+  2400		writel(~0, mhdp->regs + CDNS_APB_INT_MASK);
+  2401	
+  2402		ret = phy_init(mhdp->phy);
+  2403		if (ret) {
+  2404			dev_err(mhdp->dev, "Failed to initialize PHY: %d\n", ret);
+  2405			goto disable_clk;
+  2406		}
+  2407		ret = phy_power_on(mhdp->phy);
+  2408		if (ret < 0) {
+  2409			dev_err(mhdp->dev, "Failed to power on PHY: %d\n", ret);
+  2410			goto error;
+  2411		}
+  2412	
+  2413		if (mhdp->powered_off) {
+  2414			ret = cdns_mhdp_load_firmware(mhdp);
+  2415			if (ret)
+  2416				goto phy_off;
+  2417	
+  2418			ret = wait_event_timeout(mhdp->fw_load_wq,
+  2419						mhdp->hw_state == MHDP_HW_READY,
+  2420						msecs_to_jiffies(1000));
+  2421			if (ret == 0) {
+  2422				dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
+  2423					__func__);
+  2424				ret = -ETIMEDOUT;
+  2425				goto phy_off;
+  2426			}
+  2427		} else {
+  2428			ret = cdns_mhdp_set_firmware_active(mhdp, true);
+  2429			if (ret) {
+  2430				dev_err(mhdp->dev, "Failed to activate firmware (%pe)\n", ERR_PTR(ret));
+  2431				goto phy_off;
+  2432			}
+  2433		}
+  2434	
+  2435		return 0;
+  2436	
+  2437	phy_off:
+  2438		phy_power_off(mhdp->phy);
+  2439	error:
+  2440		phy_exit(mhdp->phy);
+  2441	disable_clk:
+  2442		clk_disable_unprepare(mhdp->clk);
+  2443	
+  2444		return ret;
+  2445	}
+  2446	
+> 2447	static int cdns_mhdp_suspend(struct device *dev)
+  2448	{
+  2449		struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
+  2450		unsigned long timeout = msecs_to_jiffies(100);
+  2451		int ret = 0;
+  2452	
+  2453		cancel_work_sync(&mhdp->hpd_work);
+  2454		ret = wait_event_timeout(mhdp->fw_load_wq,
+  2455					 mhdp->hw_state == MHDP_HW_READY,
+  2456					 timeout);
+  2457	
+  2458		spin_lock(&mhdp->start_lock);
+  2459		if (mhdp->hw_state != MHDP_HW_READY) {
+  2460			spin_unlock(&mhdp->start_lock);
+  2461			return -EINVAL;
+  2462		}
+  2463		mhdp->hw_state = MHDP_HW_STOPPED;
+  2464		spin_unlock(&mhdp->start_lock);
+  2465	
+  2466		if (ret == 0) {
+  2467			dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n", __func__);
+  2468			ret = -ETIMEDOUT;
+  2469			goto error;
+  2470		} else {
+  2471			ret = cdns_mhdp_set_firmware_active(mhdp, false);
+  2472			if (ret) {
+  2473				dev_err(mhdp->dev, "Failed to stop firmware (%pe)\n", ERR_PTR(ret));
+  2474				goto error;
+  2475			}
+  2476		}
+  2477	
+  2478		phy_power_off(mhdp->phy);
+  2479		phy_exit(mhdp->phy);
+  2480		clk_disable_unprepare(mhdp->clk);
+  2481	
+  2482	error:
+  2483		return ret;
+  2484	}
+  2485	
 
 -- 
 0-DAY CI Kernel Test Service
