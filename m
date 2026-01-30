@@ -1,69 +1,62 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DD529DB65
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 09:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BB3244665;
+	Fri, 30 Jan 2026 09:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769764472; cv=none; b=j7LK1mEWdyh5nzFY1uyuAkzreg9ne5v4zvwN6mm1NRwlzM6dm2RiYTQbWpfl48URY9nx71Y2sl14MiaC0/kVmh6EOEJHVtuRB7e0v6yCWhv2uZvCbC0aenuEeumeh5i7T3/x8CQC4np4bspAuVkuLYsEB+QaKHlIB3ApCQD5X5g=
+	t=1769764609; cv=none; b=Mi9NvRvzvLKf8pCJeqMgkJwfJMQ+A56limGPeEm2ffGFVz6kSKyKhHjDCH/8b8qwg+wCn4TeahlzRNqID3MrvIJendb+dw+z6Jdo4f498OLj0KzuV8F2uZV6/9sCoAF7shv4yYMCs8JFkWtRU1KeJrvGiK5jlwSG3+ct8hmADn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769764472; c=relaxed/simple;
-	bh=ky8xjrcMlC1dyEIuxvproUS95FOvUGSUm57zyLclHxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VQpEku06t35Srzx80vVsfKCPCj5NavkmlkDlOFG71UBrOi1emr+FhT/SV/t1axhmy1+ApfvQTSfA4x6EM+e2VwRlkyZgVKQPMzldP2OF85vG4Lb1VtQLATI76QJhLkxwF8QxCuidSXcujsI90MDz8a0FEayygWjN0SrWHPBmjb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f05utW8l; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769764609; c=relaxed/simple;
+	bh=BBsy+STOjQXoX+872fpKKMUeLGy7GrZywVTivm6NlU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B1aAYn0Sg1Pv4/EyXnPtzQsaTtxcx4lcpu2M5MstAu0xTLn4kucitE1Z8gaRo1Lp8byowcVbB4id41RwHYrw56iCSK3Mjm/UJrxdRNgmN99WKnN5as22oQmxi133djnfnNa8bk2ka0Hq0T8Z1oFnrrJqyoEHqWFBHiJvmGhBWm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TLeZoEVi; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f05utW8l"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48069a48629so19141095e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 01:14:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769764469; x=1770369269; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qk+yhcH5jODQ+QIDUDpsEoOVRwIV+rHwRaM9MGdkL30=;
-        b=f05utW8lTwF/66xzfqZWz2V9voHRh3lcDv0GgpMbLI1W/KctjFFChl+oednbfChlSx
-         h/qU9tr+gVGdNbW5aZY64mI/vsr82rRs2FLdVIBlg77U6qDEgsR91h9dkig/GuXPQwMF
-         uc5NY0RkbMplNWRBLTsWoRqXg1LHxVyrRdpI0cdkz2rhfhuVWC96lH5LwLvXAQ1cAem/
-         A5kzHbG/rbQgOwNttfJ5IQzFwrfqyn0ev8r4D2NN0YdenaxIaZGrGEk0p8YYcVXPfCkQ
-         66KKozGqUnULO0cYDml2TiRj7WgFacQuANYuB1YE/sHLGZP+bVt+0556BnT6gA3r5kod
-         EvLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769764469; x=1770369269;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qk+yhcH5jODQ+QIDUDpsEoOVRwIV+rHwRaM9MGdkL30=;
-        b=XJbsB7NVAd5FDj/+8VF642MZ7pTnAmKxpMRvkCrXFHMECFZiJHtRLPgUiYCYRc4wjQ
-         DRYkn2eFeJhbTqXA1w6W1rEFkfa9sKnUs0dEga+W5TurP7bvDGAaUAV74zuu/V6RrvlY
-         yMw/lg1vqZEN2HN+ZKZqK/faCWW1R6BIZFCBsjDD60Fr0+9vqvz+CER8V0FZAkRIikQ+
-         ibwZpJRCcy4lxE2MzDSI3HjR3oMyZuh+52szIVcTRYo1DM3j71SgF3UrjzORpsZ6ZrpG
-         WJwe2LnyKzqi3UYjS860iEWeUDpgeU4o6E7JeTQMPcqZSTv/s5NqRyjDGKB2ipKQhLTE
-         denw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqzR65yB+e8TN2gXhwZFVFkblq+5tTp7KpNkHuX8Mewsxe6qa6V9fGs01gKVN0g/aQMU4K24vxWgeqEizJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+YXDL2j22/Z4uN379BPaXB92vqekjfE50LzxiTzR+yNUtZuAI
-	AG0u1FsjIcohGYcPW0gdeyd6/ANvcp/O3+3xlNTRN7/FsHtb0A3X1osu3XpSehUHg0w=
-X-Gm-Gg: AZuq6aIkMO6y3g15+FDxBJ1c1RPdGg1DMriJ5FpRGizaDCcddoSRiU+0+uB9mD4SApO
-	HU+vMZTEgkbT4Indr/9Gu1g3oserdHTEykOzTT5f3J+hIECJPswc1CPxjpN3c/GDBQXOBKd5FiU
-	iwrvIK8ezLQAkrBoPFW8zARpZFYMy0J6te5qPuEKzP4mRL2/MVzjd4CoL1eqrTPzdN94aQ8T6Zr
-	GLXOy3G9ldYov8YAiwFDGhcWEpV/r27TL+VXmmEkn3YkQ0zexAEQUmvGdCquzdzwgOPFLzHuFrV
-	ccqW4X29yH8n/WnmyUy4BTyzEH4eLKA6OoMhaSIhqxLelnQnDIPihyyacJil0G/CylBu9NM4Uyu
-	6GVzQ9kqOfrptofGJeLltfBiASsygGbC50CzkywpH3THwtlyoQ3QQHfEDw8NMfSSV7a9vda6tqN
-	NJYMVJuBSVDSgSKEB0
-X-Received: by 2002:a05:600c:4f09:b0:477:755b:5587 with SMTP id 5b1f17b1804b1-482db44d1b1mr21206495e9.8.1769764468953;
-        Fri, 30 Jan 2026 01:14:28 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce56490sm175846615e9.12.2026.01.30.01.14.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 01:14:28 -0800 (PST)
-Date: Fri, 30 Jan 2026 12:14:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:vcam 5/5] drivers/media/vcam.c:2125 vcam_ioc_create()
- warn: missing unwind goto?
-Message-ID: <202601300538.JXMn1pFr-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TLeZoEVi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769764608; x=1801300608;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BBsy+STOjQXoX+872fpKKMUeLGy7GrZywVTivm6NlU8=;
+  b=TLeZoEViYWUNIgirXw15puSuRy2ImhFcfMapJnEHjyQdlbjnXAXQDB2t
+   BoY/52rHBqi8Gc/XvhnUO9EdT9W0VC5dQjlk17RACoqwCix3hhcQPHHel
+   Zw32uyr6gr/Z7woY79iDzeTS50c1IPotA82SJHrF8PTB+A+Fc1/6HFH2L
+   1Vb9dYwONsjuvb4mUnIzEwb8IrnROGkTfKUBRxvoZz+2isBRmk606rU1b
+   WJIZ4PeXanWfVBCAJPy/JYdXNotRsfOG6r0owi3EDlQDtFaQetvpZ8qIl
+   JR31HViMV+Ujnap791ykzPr2/A2nbzZhJq4hIqNNrzDQB1EhROrI5juCu
+   A==;
+X-CSE-ConnectionGUID: dHU3rrORSBqcWQIq9vYSXA==
+X-CSE-MsgGUID: K6vodLl1SGKkw5xDVYMm6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="70992411"
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="70992411"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 01:16:47 -0800
+X-CSE-ConnectionGUID: jwbqCRiKSuulYSBh9+RPlg==
+X-CSE-MsgGUID: g6H9NWmVRMeHNXpaXaA9kg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="208407269"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Jan 2026 01:16:45 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vlkcM-00000000cQm-297A;
+	Fri, 30 Jan 2026 09:16:42 +0000
+Date: Fri, 30 Jan 2026 17:15:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mshv: Add support for integrated scheduler
+Message-ID: <202601301732.2k4q81GI-lkp@intel.com>
+References: <176971725312.67225.3938191771112866951.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,195 +65,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <176971725312.67225.3938191771112866951.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git vcam
-head:   f29b36ecc2e18e1d170008dd2401fea768fac4f0
-commit: f29b36ecc2e18e1d170008dd2401fea768fac4f0 [5/5] media: Virtual camera driver
-config: i386-randconfig-141-20260130 (https://download.01.org/0day-ci/archive/20260130/202601300538.JXMn1pFr-lkp@intel.com/config)
+Hi Stanislav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.19-rc7 next-20260129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/mshv-Add-support-for-integrated-scheduler/20260130-041014
+base:   linus/master
+patch link:    https://lore.kernel.org/r/176971725312.67225.3938191771112866951.stgit%40skinsburskii-cloud-desktop.internal.cloudapp.net
+patch subject: [PATCH v2] mshv: Add support for integrated scheduler
+config: x86_64-buildonly-randconfig-004-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301732.2k4q81GI-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301732.2k4q81GI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601300538.JXMn1pFr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301732.2k4q81GI-lkp@intel.com/
 
-smatch warnings:
-drivers/media/vcam.c:2125 vcam_ioc_create() warn: missing unwind goto?
+All errors (new ones prefixed by >>):
 
-vim +2125 drivers/media/vcam.c
+>> drivers/hv/mshv_root_main.c:2260:2: error: expected identifier or '('
+    2260 |         dev_dbg(dev, "vmm_caps = %#llx\n", mshv_root.vmm_caps.as_uint64[0]);
+         |         ^
+   include/linux/dev_printk.h:171:2: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^
+   include/linux/dev_printk.h:137:3: note: expanded from macro 'dev_no_printk'
+     137 |         ({                                                              \
+         |          ^
+>> drivers/hv/mshv_root_main.c:2260:2: error: expected ')'
+   include/linux/dev_printk.h:171:2: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^
+   include/linux/dev_printk.h:137:3: note: expanded from macro 'dev_no_printk'
+     137 |         ({                                                              \
+         |          ^
+   drivers/hv/mshv_root_main.c:2260:2: note: to match this '('
+   include/linux/dev_printk.h:171:2: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^
+   include/linux/dev_printk.h:137:2: note: expanded from macro 'dev_no_printk'
+     137 |         ({                                                              \
+         |         ^
+   drivers/hv/mshv_root_main.c:2262:2: error: expected identifier or '('
+    2262 |         return 0;
+         |         ^
+>> drivers/hv/mshv_root_main.c:2263:1: error: extraneous closing brace ('}')
+    2263 | }
+         | ^
+   4 errors generated.
 
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2060  static int vcam_ioc_create(struct file *file, struct vcam *dev,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2061  			   struct vcam_ioc_create *config, char *card_label,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2062  			   unsigned int len, struct file **control_file)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2063  {
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2064  	const struct vb2_mem_ops *mem_ops = &vb2_vmalloc_memops;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2065  	struct v4l2_format fmt;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2066  	struct vb2_queue *queue;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2067  	long ret;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2068  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2069  	memset((u8 *)dev + sizeof(dev->flags), 0,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2070  	       sizeof(*dev) - sizeof(dev->flags));
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2071  	kref_init(&dev->ref);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2072  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2073  	dev->device_nr = -1;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2074  	strscpy(dev->v4l2_dev.name, "vcam", sizeof(dev->v4l2_dev.name));
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2075  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2076  	ret = v4l2_device_register(NULL, &dev->v4l2_dev);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2077  	if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2078  		return ret;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2079  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2080  	dev->vdev = vcam_dev_new(dev, card_label, len);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2081  	if (!dev->vdev) {
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2082  		ret = -ENOMEM;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2083  		goto err_unregister;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2084  	}
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2085  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2086  	mutex_init(&dev->lock);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2087  	spin_lock_init(&dev->frame_lock);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2088  	spin_lock_init(&dev->control_lock);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2089  	INIT_LIST_HEAD(&dev->capture_list);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2090  	INIT_LIST_HEAD(&dev->output_list);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2091  	set_bit(VCAM_FLAG_CREATED, &dev->flags);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2092  	dev->out_queue_released = false;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2093  	atomic_set(&dev->sequence, 0);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2094  	dev->capture_control_flags = 0;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2095  	dev->output_control_flags = 0;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2096  	dev->output_memory = VB2_MEMORY_MMAP;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2097  	dev->output_dmabufs = NULL;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2098  	dev->output_dmabuf_count = 0;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2099  	init_waitqueue_head(&dev->control_waitq);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2100  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2101  	dev->vdev->v4l2_dev = &dev->v4l2_dev;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2102  	dev->vdev->queue = &dev->capture_queue;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2103  	dev->vdev->lock = &dev->lock;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2104  	dev->capture.capability = 0;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2105  	dev->capture.capturemode = 0;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2106  	dev->capture.extendedmode = 0;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2107  	dev->capture.readbuffers = VCAM_MIN_FRAMES;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2108  	dev->capture.timeperframe.numerator = 1;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2109  	dev->capture.timeperframe.denominator = 30;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2110  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2111  	if (config->features & VCAM_FEATURE_CONTIG) {
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2112  		ret = dma_set_mask_and_coherent(&dev->vdev->dev,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2113  						DMA_BIT_MASK(64));
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2114  		if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2115  			ret = dma_set_mask_and_coherent(&dev->vdev->dev,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2116  							DMA_BIT_MASK(32));
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2117  		if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2118  			return -EOPNOTSUPP;
 
-Needs cleanup before returning.
+vim +2260 drivers/hv/mshv_root_main.c
 
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2119  		mem_ops = &vb2_dma_contig_memops;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2120  	}
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2121  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2122  	if ((config->features & VCAM_FEATURE_DMABUF) &&
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2123  	    (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER) ||
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2124  	     !mem_ops->attach_dmabuf))
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23 @2125  		return -EOPNOTSUPP;
-
-Here too.
-
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2126  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2127  	fmt = (struct v4l2_format){
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2128  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2129  		.fmt.pix = { .width = config->width,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2130  			     .height = config->height,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2131  			     .pixelformat = config->pixelformat,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2132  			     .colorspace = config->colorspace,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2133  			     .bytesperline = config->bytesperline,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2134  			     .field = V4L2_FIELD_NONE }
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2135  	};
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2136  	{
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2137  		struct v4l2_format try_fmt = fmt;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2138  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2139  		ret = vcam_try_fmt_out(dev, &try_fmt);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2140  		if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2141  			goto err_unregister;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2142  		if (try_fmt.fmt.pix.width != fmt.fmt.pix.width ||
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2143  		    try_fmt.fmt.pix.height != fmt.fmt.pix.height ||
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2144  		    try_fmt.fmt.pix.pixelformat != fmt.fmt.pix.pixelformat ||
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2145  		    (fmt.fmt.pix.colorspace != V4L2_COLORSPACE_DEFAULT &&
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2146  		     try_fmt.fmt.pix.colorspace != fmt.fmt.pix.colorspace) ||
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2147  		    try_fmt.fmt.pix.bytesperline != fmt.fmt.pix.bytesperline) {
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2148  			ret = -EINVAL;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2149  			goto err_unregister;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2150  		}
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2151  	}
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2152  	ret = vcam_s_fmt_out(dev, &fmt);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2153  	if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2154  		goto err_unregister;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2155  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2156  	queue = &dev->capture_queue;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2157  	queue->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2158  	queue->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2159  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2160  	queue->drv_priv = dev;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2161  	queue->buf_struct_size = sizeof(struct vcam_buf);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2162  	queue->ops = &vcam_vb2_ops;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2163  	queue->mem_ops = mem_ops;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2164  	queue->lock = &dev->lock;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2165  	queue->dev = &dev->vdev->dev;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2166  	ret = vb2_queue_init(queue);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2167  	if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2168  		goto err_unregister;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2169  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2170  	queue = &dev->output_queue;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2171  	queue->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2172  	queue->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2173  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2174  	queue->drv_priv = dev;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2175  	queue->buf_struct_size = sizeof(struct vcam_buf);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2176  	queue->ops = &vcam_vb2_ops;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2177  	queue->mem_ops = mem_ops;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2178  	queue->lock = &dev->lock;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2179  	queue->dev = &dev->vdev->dev;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2180  	ret = vb2_queue_init(queue);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2181  	if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2182  		goto err_capture_queue;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2183  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2184  	ret = video_register_device(dev->vdev, VFL_TYPE_VIDEO, -1);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2185  	if (ret < 0)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2186  		goto err_output_queue;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2187  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2188  	ret = vcam_ioc_alloc_priv(file, dev, config->nr_frames,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2189  				  (void __user *)(uintptr_t)config->frames,
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2190  				  (config->features & VCAM_FEATURE_DMABUF) ?
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2191  				  VB2_MEMORY_DMABUF : VB2_MEMORY_MMAP);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2192  	if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2193  		goto err_vdev;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2194  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2195  	dev->device_nr = dev->vdev->num;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2196  	snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name), "vcam-%d",
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2197  		 dev->device_nr);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2198  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2199  	ret = vcam_control_create(dev, config, control_file);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2200  	if (ret)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2201  		goto err_vdev;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2202  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2203  	config->device_nr = dev->vdev->num;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2204  	return 0;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2205  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2206  err_vdev:
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2207  	video_unregister_device(dev->vdev);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2208  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2209  err_output_queue:
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2210  	if (!dev->out_queue_released)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2211  		vb2_queue_release(&dev->output_queue);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2212  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2213  err_capture_queue:
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2214  	vb2_queue_release(&dev->capture_queue);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2215  
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2216  err_unregister:
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2217  	if (dev->vdev)
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2218  		video_device_release(dev->vdev);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2219  	v4l2_device_unregister(&dev->v4l2_dev);
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2220  	return ret;
-f29b36ecc2e18e1 Jarkko Sakkinen 2026-01-23  2221  }
+621191d709b148 Nuno Das Neves                  2025-03-14  2246  
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2247  static int __init mshv_init_vmm_caps(struct device *dev)
+fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2248  {
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2249  	int ret;
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2250  
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2251  	ret = hv_call_get_partition_property_ex(HV_PARTITION_ID_SELF,
+fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2252  						HV_PARTITION_PROPERTY_VMM_CAPABILITIES,
+fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2253  						0, &mshv_root.vmm_caps,
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2254  						sizeof(mshv_root.vmm_caps));
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2255  	if (ret && hv_l1vh_partition())
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2256  		dev_err(dev, "Failed to get VMM capabilities: %d\n", ret);
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2257  		return ret;
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2258  	}
+fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2259  
+fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10 @2260  	dev_dbg(dev, "vmm_caps = %#llx\n", mshv_root.vmm_caps.as_uint64[0]);
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2261  
+21480aa03ff5bc Stanislav Kinsburskii           2026-01-29  2262  	return 0;
+fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10 @2263  }
+fd612d97a458f0 Purna Pavan Chandra Aekkaladevi 2025-10-10  2264  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
