@@ -1,135 +1,83 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978E12222D8;
-	Fri, 30 Jan 2026 01:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681572638BA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jan 2026 02:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769736683; cv=none; b=tX+Ag3aTy677Yfyy1KLovHsAhsz6U5MjdYJqoZ4D6AHMuROpP6oiIbLT53J4GLlB64EDgInKr2h2eSrMTRcd8gCi5jna2BU903wjPn8oD39fpT+tQb4f9cwPg7dLjQlpelF8q+igGMX4MnPsUCKYqMEuLa/cdswbbXt5vnruBbw=
+	t=1769740950; cv=none; b=Zhc97BVcVLACFuvMBg5vsrTaGS+4jBv1XP/ZUKgs3f25DrCIM819HX0R59sOtSQu1Rj25XmcYpYzfeph5wbnsDoUWwIo4b5aXnYjG+N+jhd12NXw9zsTYdw198MWMomiOjkFmVf1oLQPAvC6buK+GY+2bkatHw/OqIt23/2n0fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769736683; c=relaxed/simple;
-	bh=qnsCsZ4iMqFuDReTCZk4V47d3o0OAD2f+z9JaNVIVLo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tpdjpIN4bDd1ll/IlleLM+sKuRdNDLZWtkWMf3aEWxpylgjIFg3kJO2MRYrTjCOoUjIqoeH7g4CXQjfdUbHJYEuLxv7KR1YInJI9sMMXfvyyKn/az7ChQWlYCNHgI0U6CetO4pYyvgTjvDh/5ELKPSqDCkJjHRB/cSJu9N/A75M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 5c9c9f92fd7b11f0b0f03b4cfa9209d1-20260130
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:f96d8ae5-7807-4359-8513-e1f3641a4faa,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:a9d874c,CLOUDID:495220902e48455b3514bc145a626ce2,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
-	50,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
-	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 5c9c9f92fd7b11f0b0f03b4cfa9209d1-20260130
-X-User: jiangfeng@kylinos.cn
-Received: from [10.42.12.56] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <jiangfeng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 2005360995; Fri, 30 Jan 2026 09:31:12 +0800
-Message-ID: <2d711526-3cee-436a-a563-0d70faf537e2@kylinos.cn>
-Date: Fri, 30 Jan 2026 09:31:09 +0800
+	s=arc-20240116; t=1769740950; c=relaxed/simple;
+	bh=ejGZOYA4RcvU1S7f2ZYEv0K8b+Crmn47/rGvbgfJNhI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tAagZmtr8ruiwoOdSUUQA9/SSOjmM6qg4pN2VfDEOzpd+1XimkxmlEwCIBaWiTnzFN/Gbkprd7uXJU2rORG6K0AYVa6MwhPBlq+cGzfLzazm9X49QZQpTuXosdRsFZ0HCYeB7Vb3P33IYZn3D/p9eqiHd7k38laj91hN3rpLtFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFPyQzta; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFPyQzta"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769740948; x=1801276948;
+  h=date:from:to:cc:subject:message-id;
+  bh=ejGZOYA4RcvU1S7f2ZYEv0K8b+Crmn47/rGvbgfJNhI=;
+  b=YFPyQztanFKytcOfc1jN4TQY9LoGBYiRUfWsOFWJ/IXUYq8hXi99G6Bi
+   7GvVKserg70Xfk/ThdjFrMUVT2PRymSb+UecMKVn7QsZr8hI62Rhb+ICF
+   tIjsBmW1l6JDJeCYbtCYLLm4CFs8y9Yj6C7HYvU3+c9BKDLnEWllTXVJs
+   WuYv0ei25LmlCXEa7av6r5mo7prYj1xB9UKkZxb9ElR0iF2K5M1cxf6o0
+   G/NtxZ5aepQ2N/bNMRSe3c1EXfknkgJEfsitVWSYlXc9+jNZNqJzktS5c
+   bvjPaqmPWS7X1YVsxN212/q64VVtNsavFx8mybCtwmYR/brMAyniNFkMw
+   g==;
+X-CSE-ConnectionGUID: 2Bifi0YXQ1a4U4ODteDsFA==
+X-CSE-MsgGUID: ETF8n95hQsirj0dHfqIMxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="93650234"
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="93650234"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 18:42:27 -0800
+X-CSE-ConnectionGUID: bUu3RbuIQ5yinTzAcN4Eig==
+X-CSE-MsgGUID: 4DVeom0bQg2qrmZZhOpJyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="209093906"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 29 Jan 2026 18:42:26 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vleSl-00000000c6q-3BdT;
+	Fri, 30 Jan 2026 02:42:23 +0000
+Date: Fri, 30 Jan 2026 10:41:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>
+Subject: {standard input}:9314: Error: pcrel offset for branch to
+ .LS0042 too far (0x3e)
+Message-ID: <202601301052.ylsFIe7S-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/8] lib/string_kunit: add correctness test for
- strlen()
-To: kernel test robot <lkp@intel.com>, pjw@kernel.org, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, alex@ghiti.fr, akpm@linux-foundation.org,
- kees@kernel.org, andy@kernel.org, ebiggers@kernel.org,
- martin.petersen@oracle.com, herbert@gondor.apana.org.au,
- samuel.holland@sifive.com, ajones@ventanamicro.com, charlie@rivosinc.com,
- conor.dooley@microchip.com, linus.walleij@linaro.org, nathan@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20260129070227.220866-2-jiangfeng@kylinos.cn>
- <202601300014.gbv48Y5D-lkp@intel.com>
-Content-Language: en-US
-From: Feng Jiang <jiangfeng@kylinos.cn>
-In-Reply-To: <202601300014.gbv48Y5D-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 2026/1/30 00:55, kernel test robot wrote:
-> Hi Feng,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on kees/for-next/hardening]
-> [also build test ERROR on akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything linus/master v6.19-rc7 next-20260128]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Jiang/lib-string_kunit-add-correctness-test-for-strlen/20260129-151036
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-> patch link:    https://lore.kernel.org/r/20260129070227.220866-2-jiangfeng%40kylinos.cn
-> patch subject: [PATCH v6 1/8] lib/string_kunit: add correctness test for strlen()
-> config: x86_64-randconfig-001-20260129 (https://download.01.org/0day-ci/archive/20260130/202601300014.gbv48Y5D-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601300014.gbv48Y5D-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601300014.gbv48Y5D-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> lib/tests/string_kunit.c:116:13: error: call to undeclared function 'PAGE_ALIGN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      116 |         buf_size = PAGE_ALIGN(STRING_TEST_MAX_LEN + STRING_TEST_MAX_OFFSET + 1);
->          |                    ^
->    1 error generated.
-> 
-> 
-> vim +/PAGE_ALIGN +116 lib/tests/string_kunit.c
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4d310797262f0ddf129e76c2aad2b950adaf1fda
+commit: 84654c7f47307692d47ea914d01287c8c54b3532 wait: avoid spurious calls to prepare_to_wait_event() in ___wait_event()
+date:   11 months ago
+config: csky-randconfig-r063-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301052.ylsFIe7S-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301052.ylsFIe7S-lkp@intel.com/reproduce)
 
-Thanks for the report.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301052.ylsFIe7S-lkp@intel.com/
 
-I apologize for the build error. This was caused by the missing <linux/mm.h> header
-for the PAGE_ALIGN macro in the new test logic. I will include the necessary header
-and fix this in the v7 patch set.
+All errors (new ones prefixed by >>):
 
->    110	
->    111	static void string_test_strlen(struct kunit *test)
->    112	{
->    113		size_t buf_size;
->    114		char *buf, *s;
->    115	
->  > 116		buf_size = PAGE_ALIGN(STRING_TEST_MAX_LEN + STRING_TEST_MAX_OFFSET + 1);
->    117		buf = vmalloc(buf_size);
->    118		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
->    119	
->    120		memset(buf, 'A', buf_size);
->    121	
->    122		for (size_t offset = 0; offset < STRING_TEST_MAX_OFFSET; offset++) {
->    123			for (size_t len = 0; len <= STRING_TEST_MAX_LEN; len++) {
->    124				s = buf + buf_size - 1 - offset - len;
->    125				s[len] = '\0';
->    126				KUNIT_EXPECT_EQ_MSG(test, strlen(s), len,
->    127					"offset:%zu len:%zu", offset, len);
->    128				s[len] = 'A';
->    129			}
->    130		}
->    131	
->    132		vfree(buf);
->    133	}
->    134	
-> 
+   {standard input}: Assembler messages:
+>> {standard input}:9314: Error: pcrel offset for branch to .LS0042 too far (0x3e)
 
 -- 
-With Best Regards,
-Feng Jiang
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
