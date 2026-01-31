@@ -1,224 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C87A31ED9D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 14:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B8676026
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 15:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769871557; cv=none; b=H5DvuAiDiENYvrE308nWprTIDyjxPmHl/vx8Xq+So79xWjjIbuibueduDVKdpCuwIvygvs4he7zkzQo3+53aoCU9pg/z2zGqgFVTO+g+jvRQIXd5IC8vbQFm3YQpfQpITYsbhog6hcRM9EGgU3PE3okfAE+zEayctiATs6B7MiI=
+	t=1769872099; cv=none; b=rRqSbB2V74op9lPXFNU+rXAyO26CGbM2DwZB9NWNnz/HC4DOVQeU44nHo3rRZjnywfMF6ZWD46qwuRx6T/TaVw6fVFbrSfJjcROjZxt76NRUquvMLyCDTQGMVPyr6Vjlv21VeR5h35oR/JXbgx86Lw6kFs3hDN2Fv2z8rJe3r80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769871557; c=relaxed/simple;
-	bh=FJggnOKJ4M4vVf7I9GTSgy+oWuGJtHrGxB91YuxGsQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HwWJFf+EIhXxDd/lLuDR6V7Rv1zEdKs1Jp10UMVImxiyJmWjoGOUKbCJFcwaUThsGiRS6LJR46ZqDF+kNSQFHAwP4YLK1kglmOYvfsZ0cKLlyzcFaeT6Ssd1HHMyBJpMSQJpgdTi+/b9qMwM25Q4xfTSlDtiLQKMNPHGJz/LDKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d19pDV9r; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1769872099; c=relaxed/simple;
+	bh=O4Wwx5Gh08o96LDdbdkLIU3Zh+Foicgxex47OwKwAZY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RzmmWXl5zBqNfwQLuYD3+WH0bk0ADmv3sVvxmcnvm2S5mnkp8FlqBpIRmVGKCXyT/qgf6CUchPzOT7Uaarn1MOY+1k9ZVZ71nOFn0IdkD4knDkZFgTsfsGgKfEqKnEwVr6SmMY7fBD6W0eC52HqaekpCpexiLqYrcanFvN6N1I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QutPYRCq; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d19pDV9r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QutPYRCq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769871557; x=1801407557;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FJggnOKJ4M4vVf7I9GTSgy+oWuGJtHrGxB91YuxGsQ4=;
-  b=d19pDV9r8vzK71v73KFK0IU6nO8UFxPI5kIwbhgdBCMej555oiDGqx0h
-   5GVxJc4bs8I/mu3sfgzfatgYD5vDIIiVJKsbx07Eih5WO/PJgq2+rhiW+
-   yYRMY1t/OTU5L05FSW/K8e5Cys3QgHrecHKn0+ESz3AOX402MsEIKE56m
-   j4pMPN+dkaHbMJQnaOVNSeU9cYh8Cyh8126LQHg/TWsOp+QfYQIQRsqpQ
-   nXUWA1ZxjgnPni4D+4mPYlcqyHFRuG92kz4lyRHgMyk0uyyY6wwvbHUhG
-   7ICnQrp8ClUOSdIUOeJYH4dcWkOIOQpcixDGN+f8gW7rd/2o9SQPDbznf
-   Q==;
-X-CSE-ConnectionGUID: pmKfK2AhSL2dPoluJbrSVQ==
-X-CSE-MsgGUID: Pi7xy9hfQgycXB8E6hQj+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="82208503"
+  t=1769872099; x=1801408099;
+  h=date:from:to:cc:subject:message-id;
+  bh=O4Wwx5Gh08o96LDdbdkLIU3Zh+Foicgxex47OwKwAZY=;
+  b=QutPYRCqw+npbJ+2W0J2IVvcsBpvZVSjMRLcjP25dzCyw2y8fsEu2AB0
+   3nWIZCie4dvT84YnPb7dRiNTCDdSrTIuzCy7yCQtSSrOUDTZdTdTmVlsc
+   xK+UaAfepQH9LztEBWjY+W9FGqg05YhN824BcP1GQpsQYyjDY4SnMnGsI
+   vt2bVH95yQUM93iOA1H7kHokgh/v3gK3qZVaU+MOAhOmAn8kk6SuY8eQp
+   r8WAGDAS4a5afw35xjNnWLfjUoSHj6v5J4RPNm8JQGomF4W6tj7R0dDIv
+   eMU7qbJJQqjEOolaBqOzP1seZAxaH+meaHN6OEON7PUgKCJIV1emK8c9x
+   A==;
+X-CSE-ConnectionGUID: 382GQLFWSEmyKBTPQssRSQ==
+X-CSE-MsgGUID: ZQp8LexBQzCraGJ6yXDViw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="88673927"
 X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="82208503"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 06:59:16 -0800
-X-CSE-ConnectionGUID: RgIipO5TQQeW+CfDUag4Iw==
-X-CSE-MsgGUID: d6xD7hDbQDGcoIO6zLKf7A==
+   d="scan'208";a="88673927"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 07:08:18 -0800
+X-CSE-ConnectionGUID: L0qOlxbzRVGYbVFkqLVrOA==
+X-CSE-MsgGUID: gVl0zxLGQ6ecmDDi4GlSrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="208346561"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 31 Jan 2026 06:59:13 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="214028272"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 31 Jan 2026 07:08:17 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmCRK-00000000e6O-44F0;
-	Sat, 31 Jan 2026 14:59:10 +0000
-Date: Sat, 31 Jan 2026 22:58:22 +0800
+	id 1vmCa6-000000002iP-0FWL;
+	Sat, 31 Jan 2026 15:08:14 +0000
+Date: Sat, 31 Jan 2026 16:07:59 +0100
 From: kernel test robot <lkp@intel.com>
-To: nspmangalore@gmail.com, linux-cifs@vger.kernel.org, smfrench@gmail.com,
-	pc@manguebit.org, bharathsm@microsoft.com
-Cc: oe-kbuild-all@lists.linux.dev, Shyam Prasad N <sprasad@microsoft.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] cifs: Fix locking usage for tcon fields
-Message-ID: <202601312208.PzE9vcRG-lkp@intel.com>
-References: <20260131080239.943483-2-sprasad@microsoft.com>
+To: Zijing Zhang <zijing.zhang@ry.rs>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: Diff in drivers/gpu/nova-core/vbios.rs:1068:
+Message-ID: <202601311630.eoGwXUug-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260131080239.943483-2-sprasad@microsoft.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cifs/for-next]
-[also build test ERROR on linus/master v6.19-rc7 next-20260130]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/nspmangalore-gmail-com/cifs-Fix-locking-usage-for-tcon-fields/20260131-160419
-base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-patch link:    https://lore.kernel.org/r/20260131080239.943483-2-sprasad%40microsoft.com
-patch subject: [PATCH 2/2] cifs: Fix locking usage for tcon fields
-config: x86_64-randconfig-004-20260131 (https://download.01.org/0day-ci/archive/20260131/202601312208.PzE9vcRG-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601312208.PzE9vcRG-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Zijing-Zhang/gpu-nova-core-vbios-harden-falcon-pointer-parsing/20260131-192421
+head:   ccec3ef022b173ed65b91419e794ff51217326b2
+commit: ccec3ef022b173ed65b91419e794ff51217326b2 gpu: nova-core: vbios: harden falcon pointer parsing
+date:   4 hours ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260131/202601311630.eoGwXUug-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311630.eoGwXUug-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601312208.PzE9vcRG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601311630.eoGwXUug-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/smb/client/smb2ops.c: In function 'smb2_get_dfs_refer':
->> fs/smb/client/smb2ops.c:3178:17: error: too few arguments to function 'cifs_put_tcon'
-    3178 |                 cifs_put_tcon(tcon);
-         |                 ^~~~~~~~~~~~~
-   In file included from fs/smb/client/smb2ops.c:20:
-   fs/smb/client/cifsproto.h:273:6: note: declared here
-     273 | void cifs_put_tcon(struct cifs_tcon *tcon, enum smb3_tcon_ref_trace trace);
-         |      ^~~~~~~~~~~~~
---
-   fs/smb/client/cached_dir.c: In function 'cfids_laundromat_worker':
->> fs/smb/client/cached_dir.c:795:36: error: 'tcon' undeclared (first use in this function)
-     795 |                         spin_lock(&tcon->tc_lock);
-         |                                    ^~~~
-   fs/smb/client/cached_dir.c:795:36: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/cifs_put_tcon +3178 fs/smb/client/smb2ops.c
-
-  3078	
-  3079	static int
-  3080	smb2_get_dfs_refer(const unsigned int xid, struct cifs_ses *ses,
-  3081			   const char *search_name,
-  3082			   struct dfs_info3_param **target_nodes,
-  3083			   unsigned int *num_of_nodes,
-  3084			   const struct nls_table *nls_codepage, int remap)
-  3085	{
-  3086		int rc;
-  3087		__le16 *utf16_path = NULL;
-  3088		int utf16_path_len = 0;
-  3089		struct cifs_tcon *tcon;
-  3090		struct fsctl_get_dfs_referral_req *dfs_req = NULL;
-  3091		struct get_dfs_referral_rsp *dfs_rsp = NULL;
-  3092		u32 dfs_req_size = 0, dfs_rsp_size = 0;
-  3093		int retry_once = 0;
-  3094	
-  3095		cifs_dbg(FYI, "%s: path: %s\n", __func__, search_name);
-  3096	
-  3097		/*
-  3098		 * Try to use the IPC tcon, otherwise just use any
-  3099		 */
-  3100		tcon = ses->tcon_ipc;
-  3101		if (tcon == NULL) {
-  3102			spin_lock(&cifs_tcp_ses_lock);
-  3103			tcon = list_first_entry_or_null(&ses->tcon_list,
-  3104							struct cifs_tcon,
-  3105							tcon_list);
-  3106			if (tcon) {
-  3107				spin_lock(&tcon->tc_lock);
-  3108				tcon->tc_count++;
-  3109				spin_unlock(&tcon->tc_lock);
-  3110				trace_smb3_tcon_ref(tcon->debug_id, tcon->tc_count,
-  3111						    netfs_trace_tcon_ref_get_dfs_refer);
-  3112			}
-  3113			spin_unlock(&cifs_tcp_ses_lock);
-  3114		}
-  3115	
-  3116		if (tcon == NULL) {
-  3117			cifs_dbg(VFS, "session %p has no tcon available for a dfs referral request\n",
-  3118				 ses);
-  3119			rc = -ENOTCONN;
-  3120			goto out;
-  3121		}
-  3122	
-  3123		utf16_path = cifs_strndup_to_utf16(search_name, PATH_MAX,
-  3124						   &utf16_path_len,
-  3125						   nls_codepage, remap);
-  3126		if (!utf16_path) {
-  3127			rc = -ENOMEM;
-  3128			goto out;
-  3129		}
-  3130	
-  3131		dfs_req_size = sizeof(*dfs_req) + utf16_path_len;
-  3132		dfs_req = kzalloc(dfs_req_size, GFP_KERNEL);
-  3133		if (!dfs_req) {
-  3134			rc = -ENOMEM;
-  3135			goto out;
-  3136		}
-  3137	
-  3138		/* Highest DFS referral version understood */
-  3139		dfs_req->MaxReferralLevel = DFS_VERSION;
-  3140	
-  3141		/* Path to resolve in an UTF-16 null-terminated string */
-  3142		memcpy(dfs_req->RequestFileName, utf16_path, utf16_path_len);
-  3143	
-  3144		for (;;) {
-  3145			rc = SMB2_ioctl(xid, tcon, NO_FILE_ID, NO_FILE_ID,
-  3146					FSCTL_DFS_GET_REFERRALS,
-  3147					(char *)dfs_req, dfs_req_size, CIFSMaxBufSize,
-  3148					(char **)&dfs_rsp, &dfs_rsp_size);
-  3149			if (fatal_signal_pending(current)) {
-  3150				rc = -EINTR;
-  3151				break;
-  3152			}
-  3153			if (!is_retryable_error(rc) || retry_once++)
-  3154				break;
-  3155			usleep_range(512, 2048);
-  3156		}
-  3157	
-  3158		if (!rc && !dfs_rsp)
-  3159			rc = smb_EIO(smb_eio_trace_dfsref_no_rsp);
-  3160		if (rc) {
-  3161			if (!is_retryable_error(rc) && rc != -ENOENT && rc != -EOPNOTSUPP)
-  3162				cifs_tcon_dbg(FYI, "%s: ioctl error: rc=%d\n", __func__, rc);
-  3163			goto out;
-  3164		}
-  3165	
-  3166		rc = parse_dfs_referrals(dfs_rsp, dfs_rsp_size,
-  3167					 num_of_nodes, target_nodes,
-  3168					 nls_codepage, remap, search_name,
-  3169					 true /* is_unicode */);
-  3170		if (rc && rc != -ENOENT) {
-  3171			cifs_tcon_dbg(VFS, "%s: failed to parse DFS referral %s: %d\n",
-  3172				      __func__, search_name, rc);
-  3173		}
-  3174	
-  3175	 out:
-  3176		if (tcon && !tcon->ipc) {
-  3177			/* ipc tcons are not refcounted */
-> 3178			cifs_put_tcon(tcon);
-  3179			trace_smb3_tcon_ref(tcon->debug_id, tcon->tc_count,
-  3180					    netfs_trace_tcon_ref_dec_dfs_refer);
-  3181		}
-  3182		kfree(utf16_path);
-  3183		kfree(dfs_req);
-  3184		kfree(dfs_rsp);
-  3185		return rc;
-  3186	}
-  3187	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/vbios.rs:1068:
+            let falcon_ucode_offset = self.falcon_ucode_offset;
+    
+            // The ucode data follows the descriptor.
+   -        let ucode_data_offset = falcon_ucode_offset
+   -            .checked_add(desc.size())
+   -            .ok_or(ERANGE)?;
+   +        let ucode_data_offset = falcon_ucode_offset.checked_add(desc.size()).ok_or(ERANGE)?;
+            let size_u32 = desc
+                .imem_load_size()
+                .checked_add(desc.dmem_load_size())
+>> Diff in drivers/gpu/nova-core/vbios.rs:1068:
+            let falcon_ucode_offset = self.falcon_ucode_offset;
+    
+            // The ucode data follows the descriptor.
+   -        let ucode_data_offset = falcon_ucode_offset
+   -            .checked_add(desc.size())
+   -            .ok_or(ERANGE)?;
+   +        let ucode_data_offset = falcon_ucode_offset.checked_add(desc.size()).ok_or(ERANGE)?;
+            let size_u32 = desc
+                .imem_load_size()
+                .checked_add(desc.dmem_load_size())
+   make[2]: *** [Makefile:1871: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
