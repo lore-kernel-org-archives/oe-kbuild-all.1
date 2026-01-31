@@ -1,114 +1,227 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B8676026
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 15:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926DA3382F3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 15:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769872099; cv=none; b=rRqSbB2V74op9lPXFNU+rXAyO26CGbM2DwZB9NWNnz/HC4DOVQeU44nHo3rRZjnywfMF6ZWD46qwuRx6T/TaVw6fVFbrSfJjcROjZxt76NRUquvMLyCDTQGMVPyr6Vjlv21VeR5h35oR/JXbgx86Lw6kFs3hDN2Fv2z8rJe3r80=
+	t=1769874323; cv=none; b=qwW2vb8WdqY2yThBPdLJsFHU/YfAqu8m6+qCK0cCy8PCpEuB4YIX1+QIOQVQcOKsnQeYImj04FZJFSJe263PEE1dXYUBn4CjpKe67wdCSdnVwRMHqQteNpTq58vLg4AjPASDxIIPrsMnHaQQeAvIN0oY+sJBBH49MOZ3T6dutp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769872099; c=relaxed/simple;
-	bh=O4Wwx5Gh08o96LDdbdkLIU3Zh+Foicgxex47OwKwAZY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RzmmWXl5zBqNfwQLuYD3+WH0bk0ADmv3sVvxmcnvm2S5mnkp8FlqBpIRmVGKCXyT/qgf6CUchPzOT7Uaarn1MOY+1k9ZVZ71nOFn0IdkD4knDkZFgTsfsGgKfEqKnEwVr6SmMY7fBD6W0eC52HqaekpCpexiLqYrcanFvN6N1I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QutPYRCq; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1769874323; c=relaxed/simple;
+	bh=z4mDeCsk3H9uQQF2Mca+22wxYAlmcrWmEXsBJ/Nfwcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=od74VqbgnduHLYVMS4PSmtQojj05Aq+0a7caZ3k/enhxvuoYWNjNMGKy0/FLhuklTbC5Bii9HBSKMBVP3gYQjmTycKTNFH5Nsu71UMQe3kd6uBAqJDS1wpLUOC16fWPD7NH5Yk9czb+BHpnjTGmThffNXJbZqr660ay4r2EMU28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kkkiI1a8; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QutPYRCq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkkiI1a8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769872099; x=1801408099;
-  h=date:from:to:cc:subject:message-id;
-  bh=O4Wwx5Gh08o96LDdbdkLIU3Zh+Foicgxex47OwKwAZY=;
-  b=QutPYRCqw+npbJ+2W0J2IVvcsBpvZVSjMRLcjP25dzCyw2y8fsEu2AB0
-   3nWIZCie4dvT84YnPb7dRiNTCDdSrTIuzCy7yCQtSSrOUDTZdTdTmVlsc
-   xK+UaAfepQH9LztEBWjY+W9FGqg05YhN824BcP1GQpsQYyjDY4SnMnGsI
-   vt2bVH95yQUM93iOA1H7kHokgh/v3gK3qZVaU+MOAhOmAn8kk6SuY8eQp
-   r8WAGDAS4a5afw35xjNnWLfjUoSHj6v5J4RPNm8JQGomF4W6tj7R0dDIv
-   eMU7qbJJQqjEOolaBqOzP1seZAxaH+meaHN6OEON7PUgKCJIV1emK8c9x
-   A==;
-X-CSE-ConnectionGUID: 382GQLFWSEmyKBTPQssRSQ==
-X-CSE-MsgGUID: ZQp8LexBQzCraGJ6yXDViw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="88673927"
+  t=1769874321; x=1801410321;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z4mDeCsk3H9uQQF2Mca+22wxYAlmcrWmEXsBJ/Nfwcg=;
+  b=kkkiI1a8uC+cfX5AuXOABUKdR43gUMk3AbIZDdkoZDizyFQSU1aI3r1z
+   9fwpq2yA0kXc4NcesPEflChn5V0URQFmcd/l/AxWZiCPTCg8rtA9KUi45
+   dxRUeqOOTRpiyuMw8jKNut7c08SRdZQATEce4mfNpNlsNDSY/IeZIdSQM
+   7SOhq4Q95AA0ksKP/FZBelIPGMhmvYlrD5jBbsTE0qY/UX7f1NPXWk9jc
+   5NpzQvkfOb+UXBdZP+mkAUZz9dfdiTdaWfQN6jUQryw0xcJWgInPtPnK+
+   xzAcnVItJwZ68BwIkI2U+yALP/u7J1+9JisDLdLb3KXn6cZs2bE9A+ok8
+   g==;
+X-CSE-ConnectionGUID: DdTxjr0TTcm0lEhBCn9ZgQ==
+X-CSE-MsgGUID: Gaf0Bk+bTISSm/aWx7vdAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="71156747"
 X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="88673927"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 07:08:18 -0800
-X-CSE-ConnectionGUID: L0qOlxbzRVGYbVFkqLVrOA==
-X-CSE-MsgGUID: gVl0zxLGQ6ecmDDi4GlSrQ==
+   d="scan'208";a="71156747"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 07:45:20 -0800
+X-CSE-ConnectionGUID: ADQGpyl5TsqougCezebZxw==
+X-CSE-MsgGUID: YFaECUstSt2+xdAn3DaIZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="214028272"
+   d="scan'208";a="213596685"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 31 Jan 2026 07:08:17 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 31 Jan 2026 07:45:16 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmCa6-000000002iP-0FWL;
-	Sat, 31 Jan 2026 15:08:14 +0000
-Date: Sat, 31 Jan 2026 16:07:59 +0100
+	id 1vmD9u-000000002iT-0UCJ;
+	Sat, 31 Jan 2026 15:45:14 +0000
+Date: Sat, 31 Jan 2026 16:44:56 +0100
 From: kernel test robot <lkp@intel.com>
-To: Zijing Zhang <zijing.zhang@ry.rs>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: Diff in drivers/gpu/nova-core/vbios.rs:1068:
-Message-ID: <202601311630.eoGwXUug-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, daniel@iogearbox.net, magnus.karlsson@intel.com,
+	bjorn@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [Intel-wired-lan] [PATCH v2] i40e: add an error handling path in
+ i40e_xsk_pool_enable()
+Message-ID: <202601311618.xd5faCRh-lkp@intel.com>
+References: <20260131055217.729048-1-lihaoxiang@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260131055217.729048-1-lihaoxiang@isrc.iscas.ac.cn>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Zijing-Zhang/gpu-nova-core-vbios-harden-falcon-pointer-parsing/20260131-192421
-head:   ccec3ef022b173ed65b91419e794ff51217326b2
-commit: ccec3ef022b173ed65b91419e794ff51217326b2 gpu: nova-core: vbios: harden falcon pointer parsing
-date:   4 hours ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260131/202601311630.eoGwXUug-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311630.eoGwXUug-lkp@intel.com/reproduce)
+Hi Haoxiang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tnguy-next-queue/dev-queue]
+[also build test ERROR on tnguy-net-queue/dev-queue linus/master v6.16-rc1 next-20260130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haoxiang-Li/i40e-add-an-error-handling-path-in-i40e_xsk_pool_enable/20260131-135447
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20260131055217.729048-1-lihaoxiang%40isrc.iscas.ac.cn
+patch subject: [Intel-wired-lan] [PATCH v2] i40e: add an error handling path in i40e_xsk_pool_enable()
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260131/202601311618.xd5faCRh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311618.xd5faCRh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601311630.eoGwXUug-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601311618.xd5faCRh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in drivers/gpu/nova-core/vbios.rs:1068:
-            let falcon_ucode_offset = self.falcon_ucode_offset;
-    
-            // The ucode data follows the descriptor.
-   -        let ucode_data_offset = falcon_ucode_offset
-   -            .checked_add(desc.size())
-   -            .ok_or(ERANGE)?;
-   +        let ucode_data_offset = falcon_ucode_offset.checked_add(desc.size()).ok_or(ERANGE)?;
-            let size_u32 = desc
-                .imem_load_size()
-                .checked_add(desc.dmem_load_size())
->> Diff in drivers/gpu/nova-core/vbios.rs:1068:
-            let falcon_ucode_offset = self.falcon_ucode_offset;
-    
-            // The ucode data follows the descriptor.
-   -        let ucode_data_offset = falcon_ucode_offset
-   -            .checked_add(desc.size())
-   -            .ok_or(ERANGE)?;
-   +        let ucode_data_offset = falcon_ucode_offset.checked_add(desc.size()).ok_or(ERANGE)?;
-            let size_u32 = desc
-                .imem_load_size()
-                .checked_add(desc.dmem_load_size())
-   make[2]: *** [Makefile:1871: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   drivers/net/ethernet/intel/i40e/i40e_xsk.c: In function 'i40e_xsk_pool_enable':
+>> drivers/net/ethernet/intel/i40e/i40e_xsk.c:130:9: error: implicit declaration of function 'i40e_xsk_pool_disable'; did you mean 'i40e_xsk_pool_enable'? [-Wimplicit-function-declaration]
+     130 |         i40e_xsk_pool_disable(vsi, qid);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         i40e_xsk_pool_enable
+   drivers/net/ethernet/intel/i40e/i40e_xsk.c: At top level:
+>> drivers/net/ethernet/intel/i40e/i40e_xsk.c:141:12: error: conflicting types for 'i40e_xsk_pool_disable'; have 'int(struct i40e_vsi *, u16)' {aka 'int(struct i40e_vsi *, short unsigned int)'}
+     141 | static int i40e_xsk_pool_disable(struct i40e_vsi *vsi, u16 qid)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_xsk.c:142:1: note: an argument type that has a default promotion cannot match an empty parameter name list declaration
+     142 | {
+         | ^
+   drivers/net/ethernet/intel/i40e/i40e_xsk.c:130:9: note: previous implicit declaration of 'i40e_xsk_pool_disable' with type 'int()'
+     130 |         i40e_xsk_pool_disable(vsi, qid);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_xsk.c: In function 'i40e_xsk_pool_enable':
+>> drivers/net/ethernet/intel/i40e/i40e_xsk.c:131:1: warning: control reaches end of non-void function [-Wreturn-type]
+     131 | }
+         | ^
+
+
+vim +130 drivers/net/ethernet/intel/i40e/i40e_xsk.c
+
+    72	
+    73	/**
+    74	 * i40e_xsk_pool_enable - Enable/associate an AF_XDP buffer pool to a
+    75	 * certain ring/qid
+    76	 * @vsi: Current VSI
+    77	 * @pool: buffer pool
+    78	 * @qid: Rx ring to associate buffer pool with
+    79	 *
+    80	 * Returns 0 on success, <0 on failure
+    81	 **/
+    82	static int i40e_xsk_pool_enable(struct i40e_vsi *vsi,
+    83					struct xsk_buff_pool *pool,
+    84					u16 qid)
+    85	{
+    86		struct net_device *netdev = vsi->netdev;
+    87		bool if_running;
+    88		int err;
+    89	
+    90		if (vsi->type != I40E_VSI_MAIN)
+    91			return -EINVAL;
+    92	
+    93		if (qid >= vsi->num_queue_pairs)
+    94			return -EINVAL;
+    95	
+    96		if (qid >= netdev->real_num_rx_queues ||
+    97		    qid >= netdev->real_num_tx_queues)
+    98			return -EINVAL;
+    99	
+   100		err = xsk_pool_dma_map(pool, &vsi->back->pdev->dev, I40E_RX_DMA_ATTR);
+   101		if (err)
+   102			return err;
+   103	
+   104		set_bit(qid, vsi->af_xdp_zc_qps);
+   105	
+   106		if_running = netif_running(vsi->netdev) && i40e_enabled_xdp_vsi(vsi);
+   107	
+   108		if (if_running) {
+   109			err = i40e_queue_pair_disable(vsi, qid);
+   110			if (err)
+   111				goto err_out;
+   112	
+   113			err = i40e_realloc_rx_xdp_bi(vsi->rx_rings[qid], true);
+   114			if (err)
+   115				goto err_out;
+   116	
+   117			err = i40e_queue_pair_enable(vsi, qid);
+   118			if (err)
+   119				goto err_out;
+   120	
+   121			/* Kick start the NAPI context so that receiving will start */
+   122			err = i40e_xsk_wakeup(vsi->netdev, qid, XDP_WAKEUP_RX);
+   123			if (err)
+   124				goto err_out;
+   125		}
+   126	
+   127		return 0;
+   128	
+   129	err_out:
+ > 130		i40e_xsk_pool_disable(vsi, qid);
+ > 131	}
+   132	
+   133	/**
+   134	 * i40e_xsk_pool_disable - Disassociate an AF_XDP buffer pool from a
+   135	 * certain ring/qid
+   136	 * @vsi: Current VSI
+   137	 * @qid: Rx ring to associate buffer pool with
+   138	 *
+   139	 * Returns 0 on success, <0 on failure
+   140	 **/
+ > 141	static int i40e_xsk_pool_disable(struct i40e_vsi *vsi, u16 qid)
+   142	{
+   143		struct net_device *netdev = vsi->netdev;
+   144		struct xsk_buff_pool *pool;
+   145		bool if_running;
+   146		int err;
+   147	
+   148		pool = xsk_get_pool_from_qid(netdev, qid);
+   149		if (!pool)
+   150			return -EINVAL;
+   151	
+   152		if_running = netif_running(vsi->netdev) && i40e_enabled_xdp_vsi(vsi);
+   153	
+   154		if (if_running) {
+   155			err = i40e_queue_pair_disable(vsi, qid);
+   156			if (err)
+   157				return err;
+   158		}
+   159	
+   160		clear_bit(qid, vsi->af_xdp_zc_qps);
+   161		xsk_pool_dma_unmap(pool, I40E_RX_DMA_ATTR);
+   162	
+   163		if (if_running) {
+   164			err = i40e_realloc_rx_xdp_bi(vsi->rx_rings[qid], false);
+   165			if (err)
+   166				return err;
+   167			err = i40e_queue_pair_enable(vsi, qid);
+   168			if (err)
+   169				return err;
+   170		}
+   171	
+   172		return 0;
+   173	}
+   174	
 
 -- 
 0-DAY CI Kernel Test Service
