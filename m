@@ -1,136 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203692D061B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 09:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C492A2139C9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 09:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769851099; cv=none; b=LWaz5Xs8+FCQDzMxWNDUyMNqOlgIbleauRBms649ILEikVihk+H+3Z6Zn67RK0jBAUZMCAcHwtlzBTKI8BcMBh8biaSar9qI2TEDBqY9gHd6cLPxWnlV3eVQZ1dWDLnhDMa3bX+HFzLRQNlmevQ7irgnOBNKOYmjUbTYXx+KmXs=
+	t=1769852045; cv=none; b=P8kHp5W4ZiY9wZ6PszSvLDf6I+hYmX9nNPxnKP11VlXPcMkAv1rUStU6xH6QpUaM9Fay9GhgCLhaMNxByKN2cy0YHSd5QNIeXTQLGpe6GCNbxt6A5SG2RioAjUl1Xitn/b1F0vHrmmUCXC9dDk8WYnK2L5chiLcp5/yZRct4AA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769851099; c=relaxed/simple;
-	bh=Kb7VjzqM6dLDgKkYTNxquF86NIbpjxv0poCPEvi+eag=;
+	s=arc-20240116; t=1769852045; c=relaxed/simple;
+	bh=MOK5KELkEdNMj7/DAErMkwNt0p3P/4OKafq2pr81fxI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kENRglZ563CV7i2RWpw2tkEJMIEHQ8WmM6DwrpP6h6YkdEEQfyMYc+7FCtPG4i3Lif5d1wYwV7OWq/+YdnVHr+y0IstOxdCIpFMSqhVVzLVz6cJOKELOvU08dt+I4g51i1e2MKQAANQj/0XYY9V6xGBuJzT9BGGV71yWwy7n1Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fErq2rTz; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZoCJJFYVbYTWHIY1D9tG+m6O+Tx9zZHp6um+GGNV5vZj+ZFOAuxqmvMAFvmJzuWXXTTVsmk1lOarWj1a5Ptq6oIrmhmnG+8yNpQF2B1wDfl7/HcQwNg45rZleFOBj1nMeflQVt1/AaZYbx3lMgHA4xWh15vg1dHYcx0SCp01lgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhejUALI; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fErq2rTz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhejUALI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769851098; x=1801387098;
+  t=1769852043; x=1801388043;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Kb7VjzqM6dLDgKkYTNxquF86NIbpjxv0poCPEvi+eag=;
-  b=fErq2rTz1zsKQZisDwZ0EgqiIapuiskJxgoDSK0l0wVE49GSup73ROWE
-   FMd0NJwDM9t2BLr4eWlbg0+4TplsboPeuiHuaNYT4n9NovKCmLHS5otbg
-   F6YudYmt9jLYOZyFxozLQhwQiUr3J2OmP4hE1a0zMGDzIbSPp47QrJuJU
-   LmM/U3aBHTV1Ydaa2LHDMDfHXiOJ8lNcBtQ1Rd16DnexvnorF0YbqNj6X
-   TiXmBH4gX5QXTJSBygyY+Q3TIrd6mQqVEEtAKRl23wWmVdt9S5rHFn+72
-   b/4+MV2K5SkISoLBS14t+UDeUjs+jQtgTPnE1JGQsVzev73ws7b4tYXEP
-   g==;
-X-CSE-ConnectionGUID: x6kCRUaBRbm57+Yg/wMyEw==
-X-CSE-MsgGUID: D50Yb26aR6uQXO9+HmbeAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="71128324"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=MOK5KELkEdNMj7/DAErMkwNt0p3P/4OKafq2pr81fxI=;
+  b=FhejUALIKpMau5DEvSrvAKFqr0JN42fuvnbPPEDjskM9WtctDdLnubFO
+   rxQfhA8xP177uZF/xO6YHa0fxHCJtOkdBtfhYPOD0H6z3CgtFMc8EGAaz
+   s6FeVHD/Y8GhDct4f0dHmrKWriayHxgJmmjoZfylywrEN6Z9rGnhx8pQ9
+   b/KcA5aUx/dV19rBSnHSAdLnmb7lVEPWlRWG8azA8+R85XA4TeBuAnUeI
+   38/yy2BNHQHZKsFc1CqSokbYPPBfR5uLSir3JUUCk3ULTG4FDV323T7m/
+   gC+eeAd3kHFg7WhJTFVn4hK0HBfKIH+K88tzzKzmw2T9DSdiIceR1KJhf
+   w==;
+X-CSE-ConnectionGUID: 6kUwltsfRVeZoV3z0yPsNg==
+X-CSE-MsgGUID: Gm8gAX0ZRQK4D86kaUbr2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="73693217"
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="71128324"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 01:18:17 -0800
-X-CSE-ConnectionGUID: UNC0jd1aRy6u3m9kyjmkvg==
-X-CSE-MsgGUID: xU22GiErSSqETlTsD7eK5w==
+   d="scan'208";a="73693217"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 01:34:02 -0800
+X-CSE-ConnectionGUID: bnVF/D6TQkyFfkdfVnohCg==
+X-CSE-MsgGUID: M0x3ExhIR+Sy1MOEgffxhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="209451089"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Jan 2026 01:18:14 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="209413686"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 31 Jan 2026 01:34:00 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vm77M-000000002ft-0ir8;
-	Sat, 31 Jan 2026 09:18:12 +0000
-Date: Sat, 31 Jan 2026 10:17:30 +0100
+	id 1vm7Mc-00000000dsm-4ALG;
+	Sat, 31 Jan 2026 09:33:58 +0000
+Date: Sat, 31 Jan 2026 17:33:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zijing Zhang <zijing.zhang@ry.rs>, dakr@kernel.org,
-	linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com,
-	kwilczynski@kernel.org, ojeda@kernel.org, gary@garyguo.net,
-	Zijing Zhang <zijing.zhang@ry.rs>
-Subject: Re: [PATCH 2/2] samples: rust: pci: exercise capability lookup
-Message-ID: <202601311056.PVHRBER5-lkp@intel.com>
-References: <20260131040200.1242566-3-zijing.zhang@ry.rs>
+To: Link Mauve <linkmauve@linkmauve.fr>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 3/3] nvmem: =?utf-8?Q?Repla?=
+ =?utf-8?Q?ce_the_Wii_and_Wii=E2=80=AFU?= OTP driver with a Rust one
+Message-ID: <202601311703.Vw1M3xda-lkp@intel.com>
+References: <20260128182925.13225-4-linkmauve@linkmauve.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260131040200.1242566-3-zijing.zhang@ry.rs>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260128182925.13225-4-linkmauve@linkmauve.fr>
 
-Hi Zijing,
+Hi Link,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on next-20260130]
-[cannot apply to pci/next pci/for-linus v6.19-rc7 v6.19-rc6 v6.19-rc5 linus/master v6.16-rc1]
+[auto build test ERROR on rust/rust-next]
+[also build test ERROR on linus/master v6.19-rc7 next-20260130]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zijing-Zhang/rust-pci-add-capability-lookup-helpers/20260131-120935
-base:   next-20260130
-patch link:    https://lore.kernel.org/r/20260131040200.1242566-3-zijing.zhang%40ry.rs
-patch subject: [PATCH 2/2] samples: rust: pci: exercise capability lookup
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260131/202601311056.PVHRBER5-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311056.PVHRBER5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Link-Mauve/nvmem-Document-enum-nvmem_type-and-its-variants/20260129-023240
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260128182925.13225-4-linkmauve%40linkmauve.fr
+patch subject: [RFC PATCH 3/3] nvmem: Replace the Wii and Wii U OTP driver with a Rust one
+config: powerpc64-randconfig-r072-20260131 (https://download.01.org/0day-ci/archive/20260131/202601311703.Vw1M3xda-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311703.Vw1M3xda-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601311056.PVHRBER5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601311703.Vw1M3xda-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in samples/rust/rust_driver_pci.rs:138:
-                ("SR-IOV", bindings::PCI_EXT_CAP_ID_SRIOV as u16),
-            ] {
-                if let Some(pos) = pdev.find_ext_capability(id) {
-   -                dev_info!(pdev.as_ref(), "pci-testdev {name} ext cap @ 0x{:04x}\n", pos);
-   +                dev_info!(
-   +                    pdev.as_ref(),
-   +                    "pci-testdev {name} ext cap @ 0x{:04x}\n",
-   +                    pos
-   +                );
-                } else {
-                    dev_info!(pdev.as_ref(), "pci-testdev has no {name} ext capability\n");
-                }
-   Diff in samples/rust/rust_driver_pci.rs:177:
-                    );
-                }
-            } else {
-   -            dev_info!(pdev.as_ref(), "pci-testdev selfcheck: no ext config space\n");
-   +            dev_info!(
-   +                pdev.as_ref(),
-   +                "pci-testdev selfcheck: no ext config space\n"
-   +            );
-            }
-        }
-    }
-   make[2]: *** [Makefile:1902: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+>> error[E0463]: can't find crate for `core`
+   |
+   = note: the `x86_64-unknown-linux-gnu` target may not be installed
+   = help: consider downloading the target with `rustup target add x86_64-unknown-linux-gnu`
+   = help: consider building the standard library from source with `cargo build -Zbuild-std`
 
 -- 
 0-DAY CI Kernel Test Service
