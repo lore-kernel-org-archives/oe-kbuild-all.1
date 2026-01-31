@@ -1,191 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0842634EF15
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 17:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C1C361665;
+	Sat, 31 Jan 2026 17:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769880385; cv=none; b=LmtVb/kr5G18gFz0qw/sEntRUaL4mhJbdiRXv5BxeD8gcBlI7wigOp+KdlNtnWhU05CStTcwDyFN8mSDyUKiv60E19XdScXE0dUa6vJ3t7/iQZKOXynVLDVhyJ/TWKDqspDkKM5ii7VXTFTnBTGHJ3/TTrSRCNpLSGziBUAbCsY=
+	t=1769881646; cv=none; b=f4ZDitFKR+HwzrVRs7Fyyixc6vIgguSp0XJ8jWVAM0lbxy1mjMqXcZNpNC3IdYgk1LzmVFmU95IRI2Y5xosEQk3JYanp3Yf/eFx0ls7sGUwQm56SaY6S413iq2u/QZ1ZtMp8KXwCilGAMYpAwg+RCldNt6e8iToicuSCZE8Zvxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769880385; c=relaxed/simple;
-	bh=uIWfSCvK68Etb9X3TzeCb76P3tmAfEpNTg90mX9Wfyg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T/bVvhZ7uenH9GxFpzrlynzzAMUAaetXIbQLyqx899nZiRl8AAJBfQBDUc6TXdTHmhROU7jmYITOubxjBHdP5HPOTQU5lQdETIuwUTY0hQDyLyBKECCuEsaIJ5X/+omP9iep9fQeUdJmCn9aDWHK8bUH0/uyTbH3B90zj9zP7aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ViRVfNH6; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1769881646; c=relaxed/simple;
+	bh=TFi+HkgCJRB+N/D0dw21OWQ1iDm+owmKHZcDwMi/lyQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=g3nzL0zMhGg0C/PYkprCWN+lOuMyJFpRKb7BM1IADlbFQKqOtogvL50nSLTQodH4/j1BllkkU9wY55Eko61+eI61IQyP/Bp/IYDQlc0vspNlLqIuCBU7kgF0wLATNxHnE+UKNn5d+HaL6o2qsggue6BYxnLwVs86QhDSTwb+qxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BTB9mYJd; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ViRVfNH6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTB9mYJd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769880384; x=1801416384;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uIWfSCvK68Etb9X3TzeCb76P3tmAfEpNTg90mX9Wfyg=;
-  b=ViRVfNH61926YvSP4IpNwW13r/5E/nB6SG4HgPzX3ISHsz6GcmvqjZnZ
-   GvpaV4KCVs3aYnqKPsQqnaSidxsCtrdVUhoRqhVsCQYrWz1F4dGy9sWdX
-   /UMSDYCNPaMfXX8maASgNo0ixhfNyP2/XcOfqk/RD2BoVlElZ3bhZO50O
-   /Fm9DtdJiAmfHAdrWVRAfc836uxiInFdkuv1j1Jnm5EDVeZA1fcbPMKgY
-   5XNbSsxoebn2FAfWB0Dm1/P7kG5sQcq/cr47K66E5H944MgZJ+I43EOV9
-   GAZJsYedzG2Wk8ZBeI0KxONVNM0VMC4izZeZjTrJ0KvGf/PVCdT/w3TPM
-   Q==;
-X-CSE-ConnectionGUID: E9pBDbf8TTOzPmxgF/nNCQ==
-X-CSE-MsgGUID: r/IThNJBTQSfWR7BwbgkIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="73705121"
+  t=1769881643; x=1801417643;
+  h=date:from:to:cc:subject:message-id;
+  bh=TFi+HkgCJRB+N/D0dw21OWQ1iDm+owmKHZcDwMi/lyQ=;
+  b=BTB9mYJde72sf3UgEoY3b3eMPb4PEBOmIwF9BFMsGNJGwoYUl2oJ8L/L
+   ID5fJaEOYW29t5jwdacULoMB+u/60H+aR3oXYVUJXo2bu6MMX2CR8Q13C
+   cZC/M8v5pcwNoPwkelBpH2qWrI40f6Xuza5iJxqZ99LZCAXwmMVKpoB74
+   nyxKem/zUFCRwnoVflvigwsikyTWljCKrmq062AlebNLQ6G7miDtUuUJE
+   rJnv5B+p9oJK/IHxcyOVXTrEcoJK27iYvim35rAtkhbLAXTGcjCpeuVHc
+   1NcPPFbVuLpwLTNSX68wmL2SfMu/JMypqs8J+m+MPOCUjuS5JtuNcKi0F
+   g==;
+X-CSE-ConnectionGUID: IoEzYYGZRwqGJT9dj7vziQ==
+X-CSE-MsgGUID: UK+CgNilRweBuo6yHf1Zqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="70306536"
 X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="73705121"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 09:26:23 -0800
-X-CSE-ConnectionGUID: PJk2UmUAQg2/JXjYRlChjQ==
-X-CSE-MsgGUID: P3a5X5xzR/mmRtRzFiJGbg==
+   d="scan'208";a="70306536"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 09:47:23 -0800
+X-CSE-ConnectionGUID: d8/YvLVjT3WxbI/ASDgNnQ==
+X-CSE-MsgGUID: akyYNZB+Tw22u08/jkJ0LA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="213607954"
+   d="scan'208";a="214016117"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 31 Jan 2026 09:26:20 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 31 Jan 2026 09:47:21 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmEji-00000000eEO-19A9;
-	Sat, 31 Jan 2026 17:26:18 +0000
-Date: Sun, 1 Feb 2026 01:26:00 +0800
+	id 1vmF43-00000000eFY-0n52;
+	Sat, 31 Jan 2026 17:47:19 +0000
+Date: Sun, 01 Feb 2026 01:46:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Ridong <chenridong@huaweicloud.com>, dev@lankhorst.se,
-	mripard@kernel.org, natalie.vock@gmx.de, tj@kernel.org,
-	hannes@cmpxchg.org, mkoutny@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	lujialin4@huawei.com, chenridong@huaweicloud.com
-Subject: Re: [PATCH -next 1/3] cgroup/dmem: fix NULL pointer dereference when
- setting max
-Message-ID: <202602010100.5CjcoPFh-lkp@intel.com>
-References: <20260131091202.344788-2-chenridong@huaweicloud.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Jesse Zhang <jesse.zhang@amd.com>
+Subject: [agd5f:ib_improvements7 17/17] Warning:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:716 function parameter 'ring' not
+ described in 'amdgpu_ring_set_fence_errors_and_reemit'
+Message-ID: <202602010109.hrbvHAKE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260131091202.344788-2-chenridong@huaweicloud.com>
 
-Hi Chen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20260130]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/cgroup-dmem-fix-NULL-pointer-dereference-when-setting-max/20260131-173002
-base:   next-20260130
-patch link:    https://lore.kernel.org/r/20260131091202.344788-2-chenridong%40huaweicloud.com
-patch subject: [PATCH -next 1/3] cgroup/dmem: fix NULL pointer dereference when setting max
-config: x86_64-randconfig-161-20260131 (https://download.01.org/0day-ci/archive/20260201/202602010100.5CjcoPFh-lkp@intel.com/config)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git ib_improvements7
+head:   d143c0854dc1ee192d8993b3b949dc7288d2f755
+commit: d143c0854dc1ee192d8993b3b949dc7288d2f755 [17/17] drm/amdgpu: rework ring reset backup and reemit v8
+config: x86_64-randconfig-006-20260131 (https://download.01.org/0day-ci/archive/20260201/202602010109.hrbvHAKE-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602010100.5CjcoPFh-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602010109.hrbvHAKE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602010100.5CjcoPFh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602010109.hrbvHAKE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/cgroup/dmem.c:703:7: warning: variable 'region' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     703 |                 if (!options || !*options) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   kernel/cgroup/dmem.c:729:13: note: uninitialized use occurs here
-     729 |                 kref_put(&region->ref, dmemcg_free_region);
-         |                           ^~~~~~
-   kernel/cgroup/dmem.c:703:3: note: remove the 'if' if its condition is always false
-     703 |                 if (!options || !*options) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     704 |                         err = -EINVAL;
-         |                         ~~~~~~~~~~~~~~
-     705 |                         goto out_put;
-         |                         ~~~~~~~~~~~~~
-     706 |                 }
-         |                 ~
->> kernel/cgroup/dmem.c:703:7: warning: variable 'region' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-     703 |                 if (!options || !*options) {
-         |                     ^~~~~~~~
-   kernel/cgroup/dmem.c:729:13: note: uninitialized use occurs here
-     729 |                 kref_put(&region->ref, dmemcg_free_region);
-         |                           ^~~~~~
-   kernel/cgroup/dmem.c:703:7: note: remove the '||' if its condition is always false
-     703 |                 if (!options || !*options) {
-         |                     ^~~~~~~~~~~
-   kernel/cgroup/dmem.c:685:36: note: initialize the variable 'region' to silence this warning
-     685 |                 struct dmem_cgroup_region *region;
-         |                                                  ^
-         |                                                   = NULL
-   2 warnings generated.
-
-
-vim +703 kernel/cgroup/dmem.c
-
-   674	
-   675	static ssize_t dmemcg_limit_write(struct kernfs_open_file *of,
-   676					 char *buf, size_t nbytes, loff_t off,
-   677					 void (*apply)(struct dmem_cgroup_pool_state *, u64))
-   678	{
-   679		struct dmemcg_state *dmemcs = css_to_dmemcs(of_css(of));
-   680		int err = 0;
-   681	
-   682		while (buf && !err) {
-   683			struct dmem_cgroup_pool_state *pool = NULL;
-   684			char *options, *region_name;
-   685			struct dmem_cgroup_region *region;
-   686			u64 new_limit;
-   687	
-   688			options = buf;
-   689			buf = strchr(buf, '\n');
-   690			if (buf)
-   691				*buf++ = '\0';
-   692	
-   693			options = strstrip(options);
-   694	
-   695			/* eat empty lines */
-   696			if (!options[0])
-   697				continue;
-   698	
-   699			region_name = strsep(&options, " \t");
-   700			if (!region_name[0])
-   701				continue;
-   702	
- > 703			if (!options || !*options) {
-   704				err = -EINVAL;
-   705				goto out_put;
-   706			}
-   707	
-   708			rcu_read_lock();
-   709			region = dmemcg_get_region_by_name(region_name);
-   710			rcu_read_unlock();
-   711	
-   712			if (!region)
-   713				return -EINVAL;
-   714	
-   715			err = dmemcg_parse_limit(options, region, &new_limit);
-   716			if (err < 0)
-   717				goto out_put;
-   718	
-   719			pool = get_cg_pool_unlocked(dmemcs, region);
-   720			if (IS_ERR(pool)) {
-   721				err = PTR_ERR(pool);
-   722				goto out_put;
-   723			}
-   724	
-   725			/* And commit */
-   726			apply(pool, new_limit);
-   727	
-   728	out_put:
-   729			kref_put(&region->ref, dmemcg_free_region);
-   730		}
-   731	
-   732	
-   733		return err ?: nbytes;
-   734	}
-   735	
+>> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:716 function parameter 'ring' not described in 'amdgpu_ring_set_fence_errors_and_reemit'
 
 -- 
 0-DAY CI Kernel Test Service
