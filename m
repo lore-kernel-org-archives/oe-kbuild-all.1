@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DF08C1F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 02:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47703C8EB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 03:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769826766; cv=none; b=H+eluGeBO1SAWCGjJ87TBFDv22j/FaOYmZy/ER29+fvI8TZa2iYiPATRg+3RxXvLjFygscK6+U9RjYX/wrDFDnkWn8cH5wj1NV8DGykc4PfOLpKs0RTW8l1fBNPPR4V9mvjU/Ihxr+bGrQ0qzAXNBs5gFnIDcmlabDQP1n2sbrU=
+	t=1769829557; cv=none; b=KfpiTBvjLpRGa1SFn8/lOd4hHyMtSwN+/LW/PH0P/GjxJKEk0hUZiWuZxRdoxlntJbcxGvITmLHO0cCGtzT6ZYsQ6iUjRB1ip/NVkMbDdzZ9S2l4GEF7sKU8HvTdPnFB4YqyIiwLDP1D8V3p0eXxeyAscHJ8CGsUnINZUMfeLi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769826766; c=relaxed/simple;
-	bh=35MUKLtHL1I/u7HxtSTgMnspOms0wmd+3SoMBn9++ZY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HrQOeKzbzqwDWA75czyM6WNuSC5Kw6TE05I1JZVTdW8k4f8mIt5Do9s9HRJPHmnpxxqNG4QQnHdLgrfLcO0jLLDliumJG5ivhQEntcO6oIvqhdOB6t2s4jBkkgKIepJoF6H8qPNsvqhbgEcAs3DDhQqbF7sHIXh3oRvDaPXAhJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UaRKA7r9; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1769829557; c=relaxed/simple;
+	bh=+IKRbWf3rKPlCWeye31pxkfhNpGf5PoY4UTD1HsDTDE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EVDpJ9J6/YvaAJg00WX99k1ue9s4goQZoJocIF91FSlPCocWS137T+bxXXuzMoCzHv70hejmvcPLKTgy4x4/GW7JptLUedNl19ycBi6IHIN1np8DeEQru/fs5wQqRDY4fNjZ04f7kcpxkEOzuSHZqzXSdVcZ53V+pgifkeJ0Y4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mY64gUkG; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UaRKA7r9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mY64gUkG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769826764; x=1801362764;
+  t=1769829555; x=1801365555;
   h=date:from:to:cc:subject:message-id;
-  bh=35MUKLtHL1I/u7HxtSTgMnspOms0wmd+3SoMBn9++ZY=;
-  b=UaRKA7r9Z6CnXtdLtKPaAko9cSFT5NdZcRLSWNg25p5sUd2bMAECdfbP
-   khBHSv4D4TXneTObzjVo8eMA4KrmKb0NY3XCM3lwgtuEL+mI8yeyCz3BG
-   VrhYGJhxXxUQlmKF7fzNoXcrDpSZ0HgjJkV0fyrqILjA6A/5WYYx/7hFQ
-   5GA0NT6AIM3TV9XRuAbT2SVKxtNPnccm+3pT8ngkrqWAmAmvkxXIQXDF9
-   YQ1jr40688Afxur1rTuuXEeagarL8rf1JhsvsFOp1DJaUY8+Z5dLzdQ5L
-   +0vCB6dZgTHyrYvo/6JKAsyQWaK3aG/qZJjeMihCGKPLP7oH+LVWu5+Re
-   w==;
-X-CSE-ConnectionGUID: 2qyC6C9TQyKX7JO02+hVSA==
-X-CSE-MsgGUID: NzMqLbryQrODjJpjjMDqZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70990907"
+  bh=+IKRbWf3rKPlCWeye31pxkfhNpGf5PoY4UTD1HsDTDE=;
+  b=mY64gUkGnslUOJs+FdOYiGEDKxj+MtIFpx6dwZL/mujOephfPcDk6HDZ
+   x/g4QlKj7w25lxtq62UMnejBj/ri8A6QumfecZPMb1vrymsH6s2AgyufR
+   49uFcN/ZLxmzD/UZhO0Dz5kToQID8p4LtSrgy9JdIdnCIMlKrwYIDcsB1
+   GL6FDQ99G7grpPPOEryW1+3H1GtieYqkoc++KohVKdhXOm/qpVFlH/pIt
+   HH2F2lB8TRrz1ummL9+/8UhCOsc3yKb/yvy0rj3PFq6vpWaL6zJo+SWqG
+   kgPx+ZfqI46ZFvPd3ulWHOeAIM/XgvDwczx5YQ5/udPdraEvV8a5JOrqj
+   A==;
+X-CSE-ConnectionGUID: NPTYJr80RxuueSCX5OQpEw==
+X-CSE-MsgGUID: hwSYaty/RRKJVL4fVUMF/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="81396621"
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="70990907"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 18:32:44 -0800
-X-CSE-ConnectionGUID: pCTbhPiyRmmpQfIWUPlHBA==
-X-CSE-MsgGUID: mM3xWsw+St6NHVmFVl47ow==
+   d="scan'208";a="81396621"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 19:19:14 -0800
+X-CSE-ConnectionGUID: Llbov2RRQSCwSx+z9uVjtA==
+X-CSE-MsgGUID: 6qEGbkWgSwaT+dpoycOJOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="246617984"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Jan 2026 18:32:42 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="208587171"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Jan 2026 19:19:12 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vm0mt-00000000da4-3CVr;
-	Sat, 31 Jan 2026 02:32:39 +0000
-Date: Sat, 31 Jan 2026 10:31:42 +0800
+	id 1vm1Vu-000000002dh-1hCi;
+	Sat, 31 Jan 2026 03:19:10 +0000
+Date: Sat, 31 Jan 2026 04:18:25 +0100
 From: kernel test robot <lkp@intel.com>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
- Zhu Yikai <zhuyikai1@h-partners.com>
-Subject: [linux-next:master 6911/11028] hinic3_irq.c:undefined
- reference to `net_dim_get_rx_moderation'
-Message-ID: <202601311021.JXedL0Pm-lkp@intel.com>
+To: Jacob Pan <jacob.pan@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [jgunthorpe:iommufd_noiommu 5/6]
+ drivers/iommu/iommufd/io_pagetable.c:857:23: warning: variable 'offset' set
+ but not used
+Message-ID: <202601310441.TpTsfgVh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,29 +60,74 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4c87cdd0328495759f6e9f9f4e1e53ef8032a76f
-commit: b35a6fd37a00dae184ca1a1f0a587cc1b167d86d [6911/11028] hinic3: Add adaptive IRQ coalescing with DIM
-config: powerpc64-randconfig-002-20260131 (https://download.01.org/0day-ci/archive/20260131/202601311021.JXedL0Pm-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311021.JXedL0Pm-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommufd_noiommu
+head:   7786a2757eb91ada48627ce3c749705507a3cdd3
+commit: 302d355a6e327aa415cb85ed0e5bf021cbb1f5b3 [5/6] iommufd: Add an ioctl IOMMU_IOAS_GET_PA to query PA from IOVA
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260131/202601310441.TpTsfgVh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310441.TpTsfgVh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601311021.JXedL0Pm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601310441.TpTsfgVh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `net_dim_get_rx_moderation'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/net/ethernet/huawei/hinic3/hinic3_irq.o: in function `hinic3_rx_dim_work':
->> hinic3_irq.c:(.text+0x54): undefined reference to `net_dim_get_rx_moderation'
-   powerpc64-linux-ld: drivers/net/ethernet/huawei/hinic3/hinic3_irq.o: in function `hinic3_poll':
->> hinic3_irq.c:(.text+0x3ec): undefined reference to `net_dim'
+   drivers/iommu/iommufd/io_pagetable.c: In function 'iopt_get_phys':
+>> drivers/iommu/iommufd/io_pagetable.c:857:23: warning: variable 'offset' set but not used [-Wunused-but-set-variable]
+     857 |         unsigned long offset;
+         |                       ^~~~~~
+
+
+vim +/offset +857 drivers/iommu/iommufd/io_pagetable.c
+
+   851	
+   852	int iopt_get_phys(struct io_pagetable *iopt, unsigned long iova,
+   853				phys_addr_t *paddr, u64 *length)
+   854	{
+   855		unsigned long area_iova;
+   856		struct iopt_area *area;
+ > 857		unsigned long offset;
+   858		int rc = 0;
+   859	
+   860		if (!IS_ENABLED(CONFIG_VFIO_NOIOMMU))
+   861			return -EOPNOTSUPP;
+   862	
+   863		down_read(&iopt->iova_rwsem);
+   864		area = iopt_area_iter_first(iopt, iova, iova);
+   865		if (!area || !area->pages) {
+   866			rc = -ENOENT;
+   867			goto unlock_exit;
+   868		}
+   869	
+   870		if (!area->storage_domain ||
+   871		    area->storage_domain->owner != &iommufd_noiommu_ops) {
+   872			rc = -EOPNOTSUPP;
+   873			goto unlock_exit;
+   874		}
+   875	
+   876		area_iova = iopt_area_iova(area);
+   877		offset = iova - area_iova;
+   878		*paddr = iommu_iova_to_phys(area->storage_domain, iova);
+   879		if (!*paddr) {
+   880			rc = -EINVAL;
+   881			goto unlock_exit;
+   882		}
+   883		/*
+   884		 * TBD: we can return contiguous IOVA length so that userspace can
+   885		 * keep searching for next physical address.
+   886		 * e.g.
+   887		 * iopt_area_length(area) - offset;
+   888		 */
+   889		*length = PAGE_SIZE;
+   890	
+   891	unlock_exit:
+   892		up_read(&iopt->iova_rwsem);
+   893	
+   894		return rc;
+   895	}
+   896	
 
 -- 
 0-DAY CI Kernel Test Service
