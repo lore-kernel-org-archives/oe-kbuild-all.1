@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545EC2C11C4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 07:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1666C2253EE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 08:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769844359; cv=none; b=e9ODWZROYTrskiZUD9sMkSs2BeNSiDCuycBseSy94yH/uS34ZSTy8KvrAGdQBjuZNOodLuAwsRDo8Y6v4C7stU/GWqXQlLBZXF7sOgwJasjJCKo235OgnTwXvTUFOgev/wVB0exhSsYenWNeBbITv7JPPTBZKN0KvZDgAkUU0KM=
+	t=1769847981; cv=none; b=ldCKMH7wc7MLYKQiVQNf3Pf1SPLTjOnXukMWYQFK+MnXnXVUNwD7ittJBYfdhqF+Om7Bpw2uy85dyOVxu1y0/AYECh5UguF+GBvGdNb7SmqTzzj5Avxd7cKAJuQp4u09cGP3g9FLx3C6vqSGfx7pI7TiEd0L/ojAV9hlfNHe6aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769844359; c=relaxed/simple;
-	bh=TYJvJV1pqGBbAGH8g8IN2Qc79Chmn4P1nxozDTU+CQo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EWvUVXHAR72dNObGl34/VnuJmz6t2u7LCspKnorULmVnDi0HPhYVHKYo8Pl9LHRqBHCFx750orWG0mpEuPvaYTX8Tz9IcFgqtzG0xWBGFHiLmykAIuB0xhenFyk2SRXz1jcP+3lArBjbmp8PCC621EsCUx735Kxr9Zt2Zmiknzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfOIWTx0; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1769847981; c=relaxed/simple;
+	bh=MWpg11IV4+3DKznH3FsSxvtFxO4W30YcDQZ4iY16MRE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bek/MT4+WhoDNpIm9elTE0qMIErWOH/Xgn6cGMCR/sjODLoksh9KM25HJdgrz7KOmHTaXj11FRvZZgu9onfMwVVvxvif8we5IFA48FkJFWNKItRLAij9Zs6I0+f72bmZ7vNWoybduLLqDt093PCmIRr+bTQ8uLsauWnRN0pIy7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIQkblBM; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfOIWTx0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIQkblBM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769844357; x=1801380357;
+  t=1769847977; x=1801383977;
   h=date:from:to:cc:subject:message-id;
-  bh=TYJvJV1pqGBbAGH8g8IN2Qc79Chmn4P1nxozDTU+CQo=;
-  b=cfOIWTx0lE1mwopPu7iDn1cd0INyDDsgXjclsf7y0TXrcK/VfctvR2BO
-   inaDZ3ThBjorv8aJ8X4qaqVhirW1KlzyjAX2T4xI5bYikY45gzsT39ECD
-   HknSdcZMbwYI5WzMTUxqBJ/3ScTpY5fEjPKlbQrjIeHdz0Unj/S9fJy4Z
-   ToZJa7wnwEfUb1UsXNYPVUmtNbHUfXESjL42eP3vCpfjebIggeMvak0qQ
-   eesnwqYQ/1Q+LrbW88Jqa6yjCVE4rqAQMJ/wLG3sy9MVW8BX9Tziece3k
-   ycm/u0VGvpWtump4+YsSimd+UWGNIRVVdHHD9zGUkQ4w/qM1C432ig9Qr
-   A==;
-X-CSE-ConnectionGUID: qLc+MLgGTVKV7sz7sTxegA==
-X-CSE-MsgGUID: P20ZH3QLRAKXBrk+A34tiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="71141006"
+  bh=MWpg11IV4+3DKznH3FsSxvtFxO4W30YcDQZ4iY16MRE=;
+  b=OIQkblBMqyvOYPXi3hNCFnrMSbllAP0TjUA3OmS0ImjzM+n0xCMWET8Z
+   SlBcJqTkx32jPYldK78XMY4GQPb1O6+DvzT4c/Mn94QgapEbB+QHWkcwQ
+   Au0/imFZwpoxR0l67UvmcIcQn6U7KUtgFnUtJBxq0XgrH7DpCNrusFuzW
+   NPqiWr9XqfbhSvQj6yKt8k/MAgrjk8pmGEMrXdPGugZiALZUKO4OaMEO0
+   1pMKHRLUXtotwSsZtU10M21X6WsdtgLNni97UHzx7yYBCfp6H+7izYGG7
+   cxdVTep/6JALCyC0BIDxkU8qdu+gmQ7e8B435xzOZve8wy2d5QpGxDCI0
+   Q==;
+X-CSE-ConnectionGUID: elyz4k7wTnC2IXtL43HpPg==
+X-CSE-MsgGUID: aYpM+LhCQKmUBpP60wMjyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70986582"
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="71141006"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 23:25:55 -0800
-X-CSE-ConnectionGUID: 9J5YipH2Sn6ZoZlE6zezWQ==
-X-CSE-MsgGUID: hS+Db/zaQ9KUaoxXrKVhwA==
+   d="scan'208";a="70986582"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 00:26:16 -0800
+X-CSE-ConnectionGUID: +m9E1MhtTJ2UMPd4HK+EUw==
+X-CSE-MsgGUID: oVQiahtGTjeA1zE2MpGLMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="213124118"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2026 23:25:54 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="208167044"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 31 Jan 2026 00:26:14 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vm5Mc-00000000dli-3pzI;
-	Sat, 31 Jan 2026 07:25:50 +0000
-Date: Sat, 31 Jan 2026 15:25:26 +0800
+	id 1vm6J1-000000002fZ-3xNa;
+	Sat, 31 Jan 2026 08:26:11 +0000
+Date: Sat, 31 Jan 2026 09:25:28 +0100
 From: kernel test robot <lkp@intel.com>
 To: Jiri Olsa <jolsa@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_9 4/12]
- kernel/bpf/syscall.c:2959:15: error: implicit declaration of function
- 'is_tracing_multi'; did you mean 'ptr_ring_full'?
-Message-ID: <202601311536.p4QWlZ1w-lkp@intel.com>
+Subject: [jolsa-perf:bpf/tracing_multi_9 3/12]
+ arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no
+ member named 'cookie'
+Message-ID: <202601310958.uEQmNA4G-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,360 +62,716 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_9
 head:   4a1d38e3df06743886a06b547187aec8023ef27d
-commit: b3f268537d0fe295d4c6d51f203d0928f9493a5f [4/12] bpf: Add multi tracing attach types
-config: arc-randconfig-r072-20260131 (https://download.01.org/0day-ci/archive/20260131/202601311536.p4QWlZ1w-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311536.p4QWlZ1w-lkp@intel.com/reproduce)
+commit: 79e86aac9eaf3b5bdb4db339fb6082022ef69eb9 [3/12] bpf: Add struct bpf_tramp_node object
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260131/202601310958.uEQmNA4G-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310958.uEQmNA4G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601311536.p4QWlZ1w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601310958.uEQmNA4G-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from kernel/bpf/syscall.c:5:
-   include/linux/bpf.h:1544:51: warning: 'struct bpf_tramp_link' declared inside parameter list will not be visible outside of this definition or declaration
-    static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
-                                                      ^~~~~~~~~~~~~~
-   include/linux/bpf.h:1550:53: warning: 'struct bpf_tramp_link' declared inside parameter list will not be visible outside of this definition or declaration
-    static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-                                                        ^~~~~~~~~~~~~~
-   kernel/bpf/syscall.c: In function 'bpf_prog_load':
->> kernel/bpf/syscall.c:2959:15: error: implicit declaration of function 'is_tracing_multi'; did you mean 'ptr_ring_full'? [-Werror=implicit-function-declaration]
-     multi_func = is_tracing_multi(attr->expected_attach_type);
-                  ^~~~~~~~~~~~~~~~
-                  ptr_ring_full
-   In file included from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:11,
-                    from kernel/bpf/syscall.c:5:
-   kernel/bpf/syscall.c: In function 'bpf_tracing_link_release':
-   kernel/bpf/syscall.c:3520:42: error: passing argument 1 of 'bpf_trampoline_unlink_prog' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
-                                             ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:205:25: note: in definition of macro 'WARN_ON'
-     int __ret_warn_on = !!(condition);    \
-                            ^~~~~~~~~
-   kernel/bpf/syscall.c:3520:2: note: in expansion of macro 'WARN_ON_ONCE'
-     WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
-     ^~~~~~~~~~~~
-   In file included from kernel/bpf/syscall.c:5:
-   include/linux/bpf.h:1550:69: note: expected 'struct bpf_tramp_link *' but argument is of type 'struct bpf_tramp_node *'
-    static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-                                                 ~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   kernel/bpf/syscall.c: In function 'bpf_tracing_prog_attach':
-   kernel/bpf/syscall.c:3756:33: error: passing argument 1 of 'bpf_trampoline_link_prog' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     err = bpf_trampoline_link_prog(&link->link.node, tr, tgt_prog);
-                                    ^~~~~~~~~~~~~~~~
-   In file included from kernel/bpf/syscall.c:5:
-   include/linux/bpf.h:1544:67: note: expected 'struct bpf_tramp_link *' but argument is of type 'struct bpf_tramp_node *'
-    static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
-                                               ~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/bpf-cgroup.h:5,
-                    from kernel/bpf/verifier.c:7:
-   include/linux/bpf.h:1544:51: warning: 'struct bpf_tramp_link' declared inside parameter list will not be visible outside of this definition or declaration
-    static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
-                                                      ^~~~~~~~~~~~~~
-   include/linux/bpf.h:1550:53: warning: 'struct bpf_tramp_link' declared inside parameter list will not be visible outside of this definition or declaration
-    static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-                                                        ^~~~~~~~~~~~~~
-   kernel/bpf/verifier.c: In function 'check_attach_btf_id':
->> kernel/bpf/verifier.c:25118:13: error: implicit declaration of function 'is_tracing_multi'; did you mean 'is_tracing_prog_type'? [-Werror=implicit-function-declaration]
-     } else if (is_tracing_multi(prog->expected_attach_type))
-                ^~~~~~~~~~~~~~~~
-                is_tracing_prog_type
-   cc1: some warnings being treated as errors
+   In file included from arch/powerpc/net/bpf_jit_comp.c:23:
+   arch/powerpc/net/bpf_jit_comp.c: In function 'invoke_bpf_prog':
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:80:28: note: in definition of macro 'PPC_LI64'
+      80 |                 if ((long)(i) >= -2147483648 &&                               \
+         |                            ^
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:81:40: note: in definition of macro 'PPC_LI64'
+      81 |                                 (long)(i) < 2147483648)                       \
+         |                                        ^
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:64:38: note: in definition of macro 'PPC_LI32'
+      64 |                 if ((int)(uintptr_t)(i) >= -32768 &&                          \
+         |                                      ^
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:65:50: note: in definition of macro 'PPC_LI32'
+      65 |                                 (int)(uintptr_t)(i) < 32768)                  \
+         |                                                  ^
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:66:25: note: in expansion of macro 'EMIT'
+      66 |                         EMIT(PPC_RAW_LI(d, i));                               \
+         |                         ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
+     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:502:41: note: in expansion of macro 'PPC_RAW_ADDI'
+     502 | #define PPC_RAW_LI(r, i)                PPC_RAW_ADDI(r, 0, i)
+         |                                         ^~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:66:30: note: in expansion of macro 'PPC_RAW_LI'
+      66 |                         EMIT(PPC_RAW_LI(d, i));                               \
+         |                              ^~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:82:25: note: in expansion of macro 'PPC_LI32'
+      82 |                         PPC_LI32(d, i);                                       \
+         |                         ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:68:25: note: in expansion of macro 'EMIT'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                         ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:503:85: note: in expansion of macro 'IMM_L'
+     503 | #define PPC_RAW_ADDIS(d, a, i)          (0x3c000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:506:41: note: in expansion of macro 'PPC_RAW_ADDIS'
+     506 | #define PPC_RAW_LIS(r, i)               PPC_RAW_ADDIS(r, 0, i)
+         |                                         ^~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:68:30: note: in expansion of macro 'PPC_RAW_LIS'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                              ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:68:45: note: in expansion of macro 'IMM_H'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                                             ^~~~~
+   arch/powerpc/net/bpf_jit.h:82:25: note: in expansion of macro 'PPC_LI32'
+      82 |                         PPC_LI32(d, i);                                       \
+         |                         ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+   In file included from ./arch/powerpc/include/asm/barrier.h:11,
+                    from ./include/linux/list.h:11,
+                    from ./include/linux/module.h:12,
+                    from ./include/linux/moduleloader.h:6,
+                    from arch/powerpc/net/bpf_jit_comp.c:10:
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   ./arch/powerpc/include/asm/ppc-opcode.h:113:45: note: in definition of macro 'IMM_L'
+     113 | #define IMM_L(i)               ((uintptr_t)(i) & 0xffff)
+         |                                             ^
+   arch/powerpc/net/bpf_jit.h:82:25: note: in expansion of macro 'PPC_LI32'
+      82 |                         PPC_LI32(d, i);                                       \
+         |                         ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:70:33: note: in expansion of macro 'EMIT'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                 ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:552:85: note: in expansion of macro 'IMM_L'
+     552 | #define PPC_RAW_ORI(d, a, i)            (0x60000000 | ___PPC_RA(d) | ___PPC_RS(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit.h:70:38: note: in expansion of macro 'PPC_RAW_ORI'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                      ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:70:56: note: in expansion of macro 'IMM_L'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                                        ^~~~~
+   arch/powerpc/net/bpf_jit.h:82:25: note: in expansion of macro 'PPC_LI32'
+      82 |                         PPC_LI32(d, i);                                       \
+         |                         ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:84:43: note: in definition of macro 'PPC_LI64'
+      84 |                         if (!((uintptr_t)(i) & 0xffff800000000000ULL))        \
+         |                                           ^
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:85:33: note: in expansion of macro 'EMIT'
+      85 |                                 EMIT(PPC_RAW_LI(d, ((uintptr_t)(i) >> 32) &   \
+         |                                 ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
+     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:502:41: note: in expansion of macro 'PPC_RAW_ADDI'
+     502 | #define PPC_RAW_LI(r, i)                PPC_RAW_ADDI(r, 0, i)
+         |                                         ^~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:85:38: note: in expansion of macro 'PPC_RAW_LI'
+      85 |                                 EMIT(PPC_RAW_LI(d, ((uintptr_t)(i) >> 32) &   \
+         |                                      ^~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:88:33: note: in expansion of macro 'EMIT'
+      88 |                                 EMIT(PPC_RAW_LIS(d, ((uintptr_t)(i) >> 48))); \
+         |                                 ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:503:85: note: in expansion of macro 'IMM_L'
+     503 | #define PPC_RAW_ADDIS(d, a, i)          (0x3c000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:506:41: note: in expansion of macro 'PPC_RAW_ADDIS'
+     506 | #define PPC_RAW_LIS(r, i)               PPC_RAW_ADDIS(r, 0, i)
+         |                                         ^~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:88:38: note: in expansion of macro 'PPC_RAW_LIS'
+      88 |                                 EMIT(PPC_RAW_LIS(d, ((uintptr_t)(i) >> 48))); \
+         |                                      ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:89:49: note: in definition of macro 'PPC_LI64'
+      89 |                                 if ((uintptr_t)(i) & 0x0000ffff00000000ULL)   \
+         |                                                 ^
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:90:41: note: in expansion of macro 'EMIT'
+      90 |                                         EMIT(PPC_RAW_ORI(d, d,                \
+         |                                         ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:552:85: note: in expansion of macro 'IMM_L'
+     552 | #define PPC_RAW_ORI(d, a, i)            (0x60000000 | ___PPC_RA(d) | ___PPC_RS(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit.h:90:46: note: in expansion of macro 'PPC_RAW_ORI'
+      90 |                                         EMIT(PPC_RAW_ORI(d, d,                \
+         |                                              ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:94:41: note: in definition of macro 'PPC_LI64'
+      94 |                         if ((uintptr_t)(i) & 0x00000000ffff0000ULL)           \
+         |                                         ^
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:95:33: note: in expansion of macro 'EMIT'
+      95 |                                 EMIT(PPC_RAW_ORIS(d, d,                       \
+         |                                 ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:553:85: note: in expansion of macro 'IMM_L'
+     553 | #define PPC_RAW_ORIS(d, a, i)           (0x64000000 | ___PPC_RA(d) | ___PPC_RS(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit.h:95:38: note: in expansion of macro 'PPC_RAW_ORIS'
+      95 |                                 EMIT(PPC_RAW_ORIS(d, d,                       \
+         |                                      ^~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:97:41: note: in definition of macro 'PPC_LI64'
+      97 |                         if ((uintptr_t)(i) & 0x000000000000ffffULL)           \
+         |                                         ^
+>> arch/powerpc/net/bpf_jit_comp.c:495:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:98:33: note: in expansion of macro 'EMIT'
+      98 |                                 EMIT(PPC_RAW_ORI(d, d, (uintptr_t)(i) &       \
+         |                                 ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:552:85: note: in expansion of macro 'IMM_L'
+     552 | #define PPC_RAW_ORI(d, a, i)            (0x60000000 | ___PPC_RA(d) | ___PPC_RS(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit.h:98:38: note: in expansion of macro 'PPC_RAW_ORI'
+      98 |                                 EMIT(PPC_RAW_ORI(d, d, (uintptr_t)(i) &       \
+         |                                      ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:495:17: note: in expansion of macro 'PPC_LI64'
+     495 |                 PPC_LI64(_R3, l->cookie);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:499:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:64:38: note: in definition of macro 'PPC_LI32'
+      64 |                 if ((int)(uintptr_t)(i) >= -32768 &&                          \
+         |                                      ^
+   arch/powerpc/net/bpf_jit_comp.c:499:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:65:50: note: in definition of macro 'PPC_LI32'
+      65 |                                 (int)(uintptr_t)(i) < 32768)                  \
+         |                                                  ^
+   arch/powerpc/net/bpf_jit_comp.c:499:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:66:25: note: in expansion of macro 'EMIT'
+      66 |                         EMIT(PPC_RAW_LI(d, i));                               \
+         |                         ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
+     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:502:41: note: in expansion of macro 'PPC_RAW_ADDI'
+     502 | #define PPC_RAW_LI(r, i)                PPC_RAW_ADDI(r, 0, i)
+         |                                         ^~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:66:30: note: in expansion of macro 'PPC_RAW_LI'
+      66 |                         EMIT(PPC_RAW_LI(d, i));                               \
+         |                              ^~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:499:17: note: in expansion of macro 'PPC_LI32'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:499:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:68:25: note: in expansion of macro 'EMIT'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                         ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:503:85: note: in expansion of macro 'IMM_L'
+     503 | #define PPC_RAW_ADDIS(d, a, i)          (0x3c000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:506:41: note: in expansion of macro 'PPC_RAW_ADDIS'
+     506 | #define PPC_RAW_LIS(r, i)               PPC_RAW_ADDIS(r, 0, i)
+         |                                         ^~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:68:30: note: in expansion of macro 'PPC_RAW_LIS'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                              ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:68:45: note: in expansion of macro 'IMM_H'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                                             ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:499:17: note: in expansion of macro 'PPC_LI32'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:499:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                                ^~
+   ./arch/powerpc/include/asm/ppc-opcode.h:113:45: note: in definition of macro 'IMM_L'
+     113 | #define IMM_L(i)               ((uintptr_t)(i) & 0xffff)
+         |                                             ^
+   arch/powerpc/net/bpf_jit_comp.c:499:17: note: in expansion of macro 'PPC_LI32'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:499:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:70:33: note: in expansion of macro 'EMIT'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                 ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:552:85: note: in expansion of macro 'IMM_L'
+     552 | #define PPC_RAW_ORI(d, a, i)            (0x60000000 | ___PPC_RA(d) | ___PPC_RS(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit.h:70:38: note: in expansion of macro 'PPC_RAW_ORI'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                      ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:70:56: note: in expansion of macro 'IMM_L'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                                        ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:499:17: note: in expansion of macro 'PPC_LI32'
+     499 |                 PPC_LI32(_R3, l->cookie >> 32);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:500:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:64:38: note: in definition of macro 'PPC_LI32'
+      64 |                 if ((int)(uintptr_t)(i) >= -32768 &&                          \
+         |                                      ^
+   arch/powerpc/net/bpf_jit_comp.c:500:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:65:50: note: in definition of macro 'PPC_LI32'
+      65 |                                 (int)(uintptr_t)(i) < 32768)                  \
+         |                                                  ^
+   arch/powerpc/net/bpf_jit_comp.c:500:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:66:25: note: in expansion of macro 'EMIT'
+      66 |                         EMIT(PPC_RAW_LI(d, i));                               \
+         |                         ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
+     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:502:41: note: in expansion of macro 'PPC_RAW_ADDI'
+     502 | #define PPC_RAW_LI(r, i)                PPC_RAW_ADDI(r, 0, i)
+         |                                         ^~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:66:30: note: in expansion of macro 'PPC_RAW_LI'
+      66 |                         EMIT(PPC_RAW_LI(d, i));                               \
+         |                              ^~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:500:17: note: in expansion of macro 'PPC_LI32'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:500:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:68:25: note: in expansion of macro 'EMIT'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                         ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:503:85: note: in expansion of macro 'IMM_L'
+     503 | #define PPC_RAW_ADDIS(d, a, i)          (0x3c000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:506:41: note: in expansion of macro 'PPC_RAW_ADDIS'
+     506 | #define PPC_RAW_LIS(r, i)               PPC_RAW_ADDIS(r, 0, i)
+         |                                         ^~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:68:30: note: in expansion of macro 'PPC_RAW_LIS'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                              ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:68:45: note: in expansion of macro 'IMM_H'
+      68 |                         EMIT(PPC_RAW_LIS(d, IMM_H(i)));                       \
+         |                                             ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:500:17: note: in expansion of macro 'PPC_LI32'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:500:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                                ^~
+   ./arch/powerpc/include/asm/ppc-opcode.h:113:45: note: in definition of macro 'IMM_L'
+     113 | #define IMM_L(i)               ((uintptr_t)(i) & 0xffff)
+         |                                             ^
+   arch/powerpc/net/bpf_jit_comp.c:500:17: note: in expansion of macro 'PPC_LI32'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:500:32: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                                ^~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit.h:70:33: note: in expansion of macro 'EMIT'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                 ^~~~
+   ./arch/powerpc/include/asm/ppc-opcode.h:552:85: note: in expansion of macro 'IMM_L'
+     552 | #define PPC_RAW_ORI(d, a, i)            (0x60000000 | ___PPC_RA(d) | ___PPC_RS(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit.h:70:38: note: in expansion of macro 'PPC_RAW_ORI'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                      ^~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:70:56: note: in expansion of macro 'IMM_L'
+      70 |                                 EMIT(PPC_RAW_ORI(d, d, IMM_L(i)));            \
+         |                                                        ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:500:17: note: in expansion of macro 'PPC_LI32'
+     500 |                 PPC_LI32(_R4, l->cookie);
+         |                 ^~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c: At top level:
+>> arch/powerpc/net/bpf_jit_comp.c:567:38: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
+     567 |                               struct bpf_tramp_links *tl, int regs_off, int retval_off,
+         |                                      ^~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c: In function 'invoke_bpf_mod_ret':
+>> arch/powerpc/net/bpf_jit_comp.c:578:27: error: invalid use of undefined type 'struct bpf_tramp_links'
+     578 |         for (i = 0; i < tl->nr_links; i++) {
+         |                           ^~
+   arch/powerpc/net/bpf_jit_comp.c:579:61: error: invalid use of undefined type 'struct bpf_tramp_links'
+     579 |                 if (invoke_bpf_prog(image, ro_image, ctx, tl->links[i], regs_off, retval_off,
+         |                                                             ^~
+   arch/powerpc/net/bpf_jit_comp.c: At top level:
+   arch/powerpc/net/bpf_jit_comp.c:678:49: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
+     678 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c: In function '__arch_prepare_bpf_trampoline':
+   arch/powerpc/net/bpf_jit_comp.c:683:51: error: invalid use of undefined type 'struct bpf_tramp_links'
+     683 |         struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
+         |                                                   ^
+   arch/powerpc/net/bpf_jit_comp.c:684:49: error: invalid use of undefined type 'struct bpf_tramp_links'
+     684 |         struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
+         |                                                 ^
+   arch/powerpc/net/bpf_jit_comp.c:685:48: error: invalid use of undefined type 'struct bpf_tramp_links'
+     685 |         struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
+         |                                                ^
+   arch/powerpc/net/bpf_jit_comp.c:870:31: error: invalid use of undefined type 'struct bpf_tramp_links'
+     870 |         for (i = 0; i < fentry->nr_links; i++)
+         |                               ^~
+   arch/powerpc/net/bpf_jit_comp.c:871:65: error: invalid use of undefined type 'struct bpf_tramp_links'
+     871 |                 if (invoke_bpf_prog(image, ro_image, ctx, fentry->links[i], regs_off, retval_off,
+         |                                                                 ^~
+   arch/powerpc/net/bpf_jit_comp.c:875:21: error: invalid use of undefined type 'struct bpf_tramp_links'
+     875 |         if (fmod_ret->nr_links) {
+         |                     ^~
+   In file included from ./include/linux/workqueue.h:9,
+                    from ./include/linux/mm_types.h:19,
+                    from ./include/linux/mmzone.h:22,
+                    from ./include/linux/gfp.h:7,
+                    from ./include/linux/umh.h:4,
+                    from ./include/linux/kmod.h:9,
+                    from ./include/linux/module.h:18:
+   arch/powerpc/net/bpf_jit_comp.c:876:44: error: invalid use of undefined type 'struct bpf_tramp_links'
+     876 |                 branches = kcalloc(fmod_ret->nr_links, sizeof(u32), GFP_KERNEL);
+         |                                            ^~
+   ./include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
+     251 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   ./include/linux/slab.h:1005:49: note: in expansion of macro 'alloc_hooks'
+    1005 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   ./include/linux/slab.h:1044:41: note: in expansion of macro 'kmalloc_array'
+    1044 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
+         |                                         ^~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:876:28: note: in expansion of macro 'kcalloc'
+     876 |                 branches = kcalloc(fmod_ret->nr_links, sizeof(u32), GFP_KERNEL);
+         |                            ^~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:876:44: error: invalid use of undefined type 'struct bpf_tramp_links'
+     876 |                 branches = kcalloc(fmod_ret->nr_links, sizeof(u32), GFP_KERNEL);
+         |                                            ^~
+   ./include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
+     255 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   ./include/linux/slab.h:1005:49: note: in expansion of macro 'alloc_hooks'
+    1005 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   ./include/linux/slab.h:1044:41: note: in expansion of macro 'kmalloc_array'
+    1044 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
+         |                                         ^~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:876:28: note: in expansion of macro 'kcalloc'
+     876 |                 branches = kcalloc(fmod_ret->nr_links, sizeof(u32), GFP_KERNEL);
+         |                            ^~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:876:44: error: invalid use of undefined type 'struct bpf_tramp_links'
+     876 |                 branches = kcalloc(fmod_ret->nr_links, sizeof(u32), GFP_KERNEL);
+         |                                            ^~
+   ./include/linux/alloc_tag.h:258:24: note: in definition of macro 'alloc_hooks_tag'
+     258 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   ./include/linux/slab.h:1005:49: note: in expansion of macro 'alloc_hooks'
+    1005 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   ./include/linux/slab.h:1044:41: note: in expansion of macro 'kmalloc_array'
+    1044 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
+         |                                         ^~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:876:28: note: in expansion of macro 'kcalloc'
+     876 |                 branches = kcalloc(fmod_ret->nr_links, sizeof(u32), GFP_KERNEL);
+         |                            ^~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:876:26: error: assignment to 'u32 *' {aka 'unsigned int *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     876 |                 branches = kcalloc(fmod_ret->nr_links, sizeof(u32), GFP_KERNEL);
+         |                          ^
+   arch/powerpc/net/bpf_jit_comp.c:880:62: error: passing argument 4 of 'invoke_bpf_mod_ret' from incompatible pointer type [-Wincompatible-pointer-types]
+     880 |                 if (invoke_bpf_mod_ret(image, ro_image, ctx, fmod_ret, regs_off, retval_off,
+         |                                                              ^~~~~~~~
+         |                                                              |
+         |                                                              struct bpf_tramp_links *
+   arch/powerpc/net/bpf_jit_comp.c:567:55: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
+     567 |                               struct bpf_tramp_links *tl, int regs_off, int retval_off,
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~^~
+   arch/powerpc/net/bpf_jit_comp.c:925:33: error: invalid use of undefined type 'struct bpf_tramp_links'
+     925 |         for (i = 0; i < fmod_ret->nr_links && image; i++) {
+         |                                 ^~
+   arch/powerpc/net/bpf_jit_comp.c:935:30: error: invalid use of undefined type 'struct bpf_tramp_links'
+     935 |         for (i = 0; i < fexit->nr_links; i++)
+         |                              ^~
+   arch/powerpc/net/bpf_jit_comp.c:936:64: error: invalid use of undefined type 'struct bpf_tramp_links'
+     936 |                 if (invoke_bpf_prog(image, ro_image, ctx, fexit->links[i], regs_off, retval_off,
+         |                                                                ^~
+   arch/powerpc/net/bpf_jit_comp.c: At top level:
+   arch/powerpc/net/bpf_jit_comp.c:1002:37: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
+    1002 |                              struct bpf_tramp_links *tlinks, void *func_addr)
+         |                                     ^~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:1001:5: error: conflicting types for 'arch_bpf_trampoline_size'; have 'int(const struct btf_func_model *, u32,  struct bpf_tramp_links *, void *)' {aka 'int(const struct btf_func_model *, unsigned int,  struct bpf_tramp_links *, void *)'}
+    1001 | int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from ./include/linux/security.h:35,
+                    from ./include/net/scm.h:9,
+                    from ./include/linux/netlink.h:9,
+                    from ./include/uapi/linux/neighbour.h:6,
+                    from ./include/linux/netdevice.h:44,
+                    from arch/powerpc/net/bpf_jit_comp.c:13:
+   ./include/linux/bpf.h:1270:5: note: previous declaration of 'arch_bpf_trampoline_size' with type 'int(const struct btf_func_model *, u32,  struct bpf_tramp_nodes *, void *)' {aka 'int(const struct btf_func_model *, unsigned int,  struct bpf_tramp_nodes *, void *)'}
+    1270 | int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c: In function 'arch_bpf_trampoline_size':
+   arch/powerpc/net/bpf_jit_comp.c:1007:78: error: passing argument 7 of '__arch_prepare_bpf_trampoline' from incompatible pointer type [-Wincompatible-pointer-types]
+    1007 |         ret = __arch_prepare_bpf_trampoline(&im, NULL, NULL, NULL, m, flags, tlinks, func_addr);
+         |                                                                              ^~~~~~
+         |                                                                              |
+         |                                                                              struct bpf_tramp_links *
+   arch/powerpc/net/bpf_jit_comp.c:678:66: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
+     678 |                                          struct bpf_tramp_links *tlinks,
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   arch/powerpc/net/bpf_jit_comp.c: At top level:
+   arch/powerpc/net/bpf_jit_comp.c:1013:40: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
+    1013 |                                 struct bpf_tramp_links *tlinks,
+         |                                        ^~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:1011:5: error: conflicting types for 'arch_prepare_bpf_trampoline'; have 'int(struct bpf_tramp_image *, void *, void *, const struct btf_func_model *, u32,  struct bpf_tramp_links *, void *)' {aka 'int(struct bpf_tramp_image *, void *, void *, const struct btf_func_model *, unsigned int,  struct bpf_tramp_links *, void *)'}
+    1011 | int arch_prepare_bpf_trampoline(struct bpf_tramp_image *im, void *image, void *image_end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/bpf.h:1263:5: note: previous declaration of 'arch_prepare_bpf_trampoline' with type 'int(struct bpf_tramp_image *, void *, void *, const struct btf_func_model *, u32,  struct bpf_tramp_nodes *, void *)' {aka 'int(struct bpf_tramp_image *, void *, void *, const struct btf_func_model *, unsigned int,  struct bpf_tramp_nodes *, void *)'}
+    1263 | int arch_prepare_bpf_trampoline(struct bpf_tramp_image *im, void *image, void *image_end,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c: In function 'arch_prepare_bpf_trampoline':
+   arch/powerpc/net/bpf_jit_comp.c:1029:52: error: passing argument 7 of '__arch_prepare_bpf_trampoline' from incompatible pointer type [-Wincompatible-pointer-types]
+    1029 |                                             flags, tlinks, func_addr);
+         |                                                    ^~~~~~
+         |                                                    |
+         |                                                    struct bpf_tramp_links *
+   arch/powerpc/net/bpf_jit_comp.c:678:66: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
+     678 |                                          struct bpf_tramp_links *tlinks,
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
 
 
-vim +2959 kernel/bpf/syscall.c
+vim +495 arch/powerpc/net/bpf_jit_comp.c
 
-  2882	
-  2883	static int bpf_prog_load(union bpf_attr *attr, bpfptr_t uattr, u32 uattr_size)
-  2884	{
-  2885		enum bpf_prog_type type = attr->prog_type;
-  2886		struct bpf_prog *prog, *dst_prog = NULL;
-  2887		struct btf *attach_btf = NULL;
-  2888		struct bpf_token *token = NULL;
-  2889		bool bpf_cap;
-  2890		int err;
-  2891		char license[128];
-  2892		bool multi_func;
-  2893	
-  2894		if (CHECK_ATTR(BPF_PROG_LOAD))
-  2895			return -EINVAL;
-  2896	
-  2897		if (attr->prog_flags & ~(BPF_F_STRICT_ALIGNMENT |
-  2898					 BPF_F_ANY_ALIGNMENT |
-  2899					 BPF_F_TEST_STATE_FREQ |
-  2900					 BPF_F_SLEEPABLE |
-  2901					 BPF_F_TEST_RND_HI32 |
-  2902					 BPF_F_XDP_HAS_FRAGS |
-  2903					 BPF_F_XDP_DEV_BOUND_ONLY |
-  2904					 BPF_F_TEST_REG_INVARIANTS |
-  2905					 BPF_F_TOKEN_FD))
-  2906			return -EINVAL;
-  2907	
-  2908		bpf_prog_load_fixup_attach_type(attr);
-  2909	
-  2910		if (attr->prog_flags & BPF_F_TOKEN_FD) {
-  2911			token = bpf_token_get_from_fd(attr->prog_token_fd);
-  2912			if (IS_ERR(token))
-  2913				return PTR_ERR(token);
-  2914			/* if current token doesn't grant prog loading permissions,
-  2915			 * then we can't use this token, so ignore it and rely on
-  2916			 * system-wide capabilities checks
-  2917			 */
-  2918			if (!bpf_token_allow_cmd(token, BPF_PROG_LOAD) ||
-  2919			    !bpf_token_allow_prog_type(token, attr->prog_type,
-  2920						       attr->expected_attach_type)) {
-  2921				bpf_token_put(token);
-  2922				token = NULL;
-  2923			}
-  2924		}
-  2925	
-  2926		bpf_cap = bpf_token_capable(token, CAP_BPF);
-  2927		err = -EPERM;
-  2928	
-  2929		if (!IS_ENABLED(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS) &&
-  2930		    (attr->prog_flags & BPF_F_ANY_ALIGNMENT) &&
-  2931		    !bpf_cap)
-  2932			goto put_token;
-  2933	
-  2934		/* Intent here is for unprivileged_bpf_disabled to block BPF program
-  2935		 * creation for unprivileged users; other actions depend
-  2936		 * on fd availability and access to bpffs, so are dependent on
-  2937		 * object creation success. Even with unprivileged BPF disabled,
-  2938		 * capability checks are still carried out for these
-  2939		 * and other operations.
-  2940		 */
-  2941		if (sysctl_unprivileged_bpf_disabled && !bpf_cap)
-  2942			goto put_token;
-  2943	
-  2944		if (attr->insn_cnt == 0 ||
-  2945		    attr->insn_cnt > (bpf_cap ? BPF_COMPLEXITY_LIMIT_INSNS : BPF_MAXINSNS)) {
-  2946			err = -E2BIG;
-  2947			goto put_token;
-  2948		}
-  2949		if (type != BPF_PROG_TYPE_SOCKET_FILTER &&
-  2950		    type != BPF_PROG_TYPE_CGROUP_SKB &&
-  2951		    !bpf_cap)
-  2952			goto put_token;
-  2953	
-  2954		if (is_net_admin_prog_type(type) && !bpf_token_capable(token, CAP_NET_ADMIN))
-  2955			goto put_token;
-  2956		if (is_perfmon_prog_type(type) && !bpf_token_capable(token, CAP_PERFMON))
-  2957			goto put_token;
-  2958	
-> 2959		multi_func = is_tracing_multi(attr->expected_attach_type);
-  2960	
-  2961		/* attach_prog_fd/attach_btf_obj_fd can specify fd of either bpf_prog
-  2962		 * or btf, we need to check which one it is
-  2963		 */
-  2964		if (attr->attach_prog_fd) {
-  2965			dst_prog = bpf_prog_get(attr->attach_prog_fd);
-  2966			if (IS_ERR(dst_prog)) {
-  2967				dst_prog = NULL;
-  2968				attach_btf = btf_get_by_fd(attr->attach_btf_obj_fd);
-  2969				if (IS_ERR(attach_btf)) {
-  2970					err = -EINVAL;
-  2971					goto put_token;
-  2972				}
-  2973				if (!btf_is_kernel(attach_btf)) {
-  2974					/* attaching through specifying bpf_prog's BTF
-  2975					 * objects directly might be supported eventually
-  2976					 */
-  2977					btf_put(attach_btf);
-  2978					err = -ENOTSUPP;
-  2979					goto put_token;
-  2980				}
-  2981			}
-  2982		} else if (attr->attach_btf_id || multi_func) {
-  2983			/* fall back to vmlinux BTF, if BTF type ID is specified */
-  2984			attach_btf = bpf_get_btf_vmlinux();
-  2985			if (IS_ERR(attach_btf)) {
-  2986				err = PTR_ERR(attach_btf);
-  2987				goto put_token;
-  2988			}
-  2989			if (!attach_btf) {
-  2990				err = -EINVAL;
-  2991				goto put_token;
-  2992			}
-  2993			btf_get(attach_btf);
-  2994		}
-  2995	
-  2996		if (bpf_prog_load_check_attach(type, attr->expected_attach_type,
-  2997					       attach_btf, attr->attach_btf_id,
-  2998					       dst_prog, multi_func)) {
-  2999			if (dst_prog)
-  3000				bpf_prog_put(dst_prog);
-  3001			if (attach_btf)
-  3002				btf_put(attach_btf);
-  3003			err = -EINVAL;
-  3004			goto put_token;
-  3005		}
-  3006	
-  3007		/* plain bpf_prog allocation */
-  3008		prog = bpf_prog_alloc(bpf_prog_size(attr->insn_cnt), GFP_USER);
-  3009		if (!prog) {
-  3010			if (dst_prog)
-  3011				bpf_prog_put(dst_prog);
-  3012			if (attach_btf)
-  3013				btf_put(attach_btf);
-  3014			err = -EINVAL;
-  3015			goto put_token;
-  3016		}
-  3017	
-  3018		prog->expected_attach_type = attr->expected_attach_type;
-  3019		prog->sleepable = !!(attr->prog_flags & BPF_F_SLEEPABLE);
-  3020		prog->aux->attach_btf = attach_btf;
-  3021		prog->aux->attach_btf_id = multi_func ? bpf_multi_func_btf_id[0] : attr->attach_btf_id;
-  3022		prog->aux->dst_prog = dst_prog;
-  3023		prog->aux->dev_bound = !!attr->prog_ifindex;
-  3024		prog->aux->xdp_has_frags = attr->prog_flags & BPF_F_XDP_HAS_FRAGS;
-  3025	
-  3026		/* move token into prog->aux, reuse taken refcnt */
-  3027		prog->aux->token = token;
-  3028		token = NULL;
-  3029	
-  3030		prog->aux->user = get_current_user();
-  3031		prog->len = attr->insn_cnt;
-  3032	
-  3033		err = -EFAULT;
-  3034		if (copy_from_bpfptr(prog->insns,
-  3035				     make_bpfptr(attr->insns, uattr.is_kernel),
-  3036				     bpf_prog_insn_size(prog)) != 0)
-  3037			goto free_prog;
-  3038		/* copy eBPF program license from user space */
-  3039		if (strncpy_from_bpfptr(license,
-  3040					make_bpfptr(attr->license, uattr.is_kernel),
-  3041					sizeof(license) - 1) < 0)
-  3042			goto free_prog;
-  3043		license[sizeof(license) - 1] = 0;
-  3044	
-  3045		/* eBPF programs must be GPL compatible to use GPL-ed functions */
-  3046		prog->gpl_compatible = license_is_gpl_compatible(license) ? 1 : 0;
-  3047	
-  3048		if (attr->signature) {
-  3049			err = bpf_prog_verify_signature(prog, attr, uattr.is_kernel);
-  3050			if (err)
-  3051				goto free_prog;
-  3052		}
-  3053	
-  3054		prog->orig_prog = NULL;
-  3055		prog->jited = 0;
-  3056	
-  3057		atomic64_set(&prog->aux->refcnt, 1);
-  3058	
-  3059		if (bpf_prog_is_dev_bound(prog->aux)) {
-  3060			err = bpf_prog_dev_bound_init(prog, attr);
-  3061			if (err)
-  3062				goto free_prog;
-  3063		}
-  3064	
-  3065		if (type == BPF_PROG_TYPE_EXT && dst_prog &&
-  3066		    bpf_prog_is_dev_bound(dst_prog->aux)) {
-  3067			err = bpf_prog_dev_bound_inherit(prog, dst_prog);
-  3068			if (err)
-  3069				goto free_prog;
-  3070		}
-  3071	
-  3072		/*
-  3073		 * Bookkeeping for managing the program attachment chain.
-  3074		 *
-  3075		 * It might be tempting to set attach_tracing_prog flag at the attachment
-  3076		 * time, but this will not prevent from loading bunch of tracing prog
-  3077		 * first, then attach them one to another.
-  3078		 *
-  3079		 * The flag attach_tracing_prog is set for the whole program lifecycle, and
-  3080		 * doesn't have to be cleared in bpf_tracing_link_release, since tracing
-  3081		 * programs cannot change attachment target.
-  3082		 */
-  3083		if (type == BPF_PROG_TYPE_TRACING && dst_prog &&
-  3084		    dst_prog->type == BPF_PROG_TYPE_TRACING) {
-  3085			prog->aux->attach_tracing_prog = true;
-  3086		}
-  3087	
-  3088		/* find program type: socket_filter vs tracing_filter */
-  3089		err = find_prog_type(type, prog);
-  3090		if (err < 0)
-  3091			goto free_prog;
-  3092	
-  3093		prog->aux->load_time = ktime_get_boottime_ns();
-  3094		err = bpf_obj_name_cpy(prog->aux->name, attr->prog_name,
-  3095				       sizeof(attr->prog_name));
-  3096		if (err < 0)
-  3097			goto free_prog;
-  3098	
-  3099		err = security_bpf_prog_load(prog, attr, token, uattr.is_kernel);
-  3100		if (err)
-  3101			goto free_prog_sec;
-  3102	
-  3103		/* run eBPF verifier */
-  3104		err = bpf_check(&prog, attr, uattr, uattr_size);
-  3105		if (err < 0)
-  3106			goto free_used_maps;
-  3107	
-  3108		prog = bpf_prog_select_runtime(prog, &err);
-  3109		if (err < 0)
-  3110			goto free_used_maps;
-  3111	
-  3112		err = bpf_prog_mark_insn_arrays_ready(prog);
-  3113		if (err < 0)
-  3114			goto free_used_maps;
-  3115	
-  3116		err = bpf_prog_alloc_id(prog);
-  3117		if (err)
-  3118			goto free_used_maps;
-  3119	
-  3120		/* Upon success of bpf_prog_alloc_id(), the BPF prog is
-  3121		 * effectively publicly exposed. However, retrieving via
-  3122		 * bpf_prog_get_fd_by_id() will take another reference,
-  3123		 * therefore it cannot be gone underneath us.
-  3124		 *
-  3125		 * Only for the time /after/ successful bpf_prog_new_fd()
-  3126		 * and before returning to userspace, we might just hold
-  3127		 * one reference and any parallel close on that fd could
-  3128		 * rip everything out. Hence, below notifications must
-  3129		 * happen before bpf_prog_new_fd().
-  3130		 *
-  3131		 * Also, any failure handling from this point onwards must
-  3132		 * be using bpf_prog_put() given the program is exposed.
-  3133		 */
-  3134		bpf_prog_kallsyms_add(prog);
-  3135		perf_event_bpf_event(prog, PERF_BPF_EVENT_PROG_LOAD, 0);
-  3136		bpf_audit_prog(prog, BPF_AUDIT_LOAD);
-  3137	
-  3138		err = bpf_prog_new_fd(prog);
-  3139		if (err < 0)
-  3140			bpf_prog_put(prog);
-  3141		return err;
-  3142	
-  3143	free_used_maps:
-  3144		/* In case we have subprogs, we need to wait for a grace
-  3145		 * period before we can tear down JIT memory since symbols
-  3146		 * are already exposed under kallsyms.
-  3147		 */
-  3148		__bpf_prog_put_noref(prog, prog->aux->real_func_cnt);
-  3149		return err;
-  3150	
-  3151	free_prog_sec:
-  3152		security_bpf_prog_free(prog);
-  3153	free_prog:
-  3154		free_uid(prog->aux->user);
-  3155		if (prog->aux->attach_btf)
-  3156			btf_put(prog->aux->attach_btf);
-  3157		bpf_prog_free(prog);
-  3158	put_token:
-  3159		bpf_token_put(token);
-  3160		return err;
-  3161	}
-  3162	
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  483  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  484  static int invoke_bpf_prog(u32 *image, u32 *ro_image, struct codegen_context *ctx,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  485  			   struct bpf_tramp_link *l, int regs_off, int retval_off,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  486  			   int run_ctx_off, bool save_ret)
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  487  {
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  488  	struct bpf_prog *p = l->link.prog;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  489  	ppc_inst_t branch_insn;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  490  	u32 jmp_idx;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  491  	int ret = 0;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  492  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  493  	/* Save cookie */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  494  	if (IS_ENABLED(CONFIG_PPC64)) {
+d243b62b7bd3d5 Naveen N Rao 2024-10-30 @495  		PPC_LI64(_R3, l->cookie);
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  496  		EMIT(PPC_RAW_STD(_R3, _R1, run_ctx_off + offsetof(struct bpf_tramp_run_ctx,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  497  				 bpf_cookie)));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  498  	} else {
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  499  		PPC_LI32(_R3, l->cookie >> 32);
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  500  		PPC_LI32(_R4, l->cookie);
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  501  		EMIT(PPC_RAW_STW(_R3, _R1,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  502  				 run_ctx_off + offsetof(struct bpf_tramp_run_ctx, bpf_cookie)));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  503  		EMIT(PPC_RAW_STW(_R4, _R1,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  504  				 run_ctx_off + offsetof(struct bpf_tramp_run_ctx, bpf_cookie) + 4));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  505  	}
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  506  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  507  	/* __bpf_prog_enter(p, &bpf_tramp_run_ctx) */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  508  	PPC_LI_ADDR(_R3, p);
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  509  	EMIT(PPC_RAW_MR(_R25, _R3));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  510  	EMIT(PPC_RAW_ADDI(_R4, _R1, run_ctx_off));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  511  	ret = bpf_jit_emit_func_call_rel(image, ro_image, ctx,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  512  					 (unsigned long)bpf_trampoline_enter(p));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  513  	if (ret)
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  514  		return ret;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  515  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  516  	/* Remember prog start time returned by __bpf_prog_enter */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  517  	EMIT(PPC_RAW_MR(_R26, _R3));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  518  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  519  	/*
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  520  	 * if (__bpf_prog_enter(p) == 0)
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  521  	 *	goto skip_exec_of_prog;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  522  	 *
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  523  	 * Emit a nop to be later patched with conditional branch, once offset is known
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  524  	 */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  525  	EMIT(PPC_RAW_CMPLI(_R3, 0));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  526  	jmp_idx = ctx->idx;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  527  	EMIT(PPC_RAW_NOP());
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  528  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  529  	/* p->bpf_func(ctx) */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  530  	EMIT(PPC_RAW_ADDI(_R3, _R1, regs_off));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  531  	if (!p->jited)
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  532  		PPC_LI_ADDR(_R4, (unsigned long)p->insnsi);
+59ba025948be2a Hari Bathini 2025-04-22  533  	/* Account for max possible instructions during dummy pass for size calculation */
+59ba025948be2a Hari Bathini 2025-04-22  534  	if (image && !create_branch(&branch_insn, (u32 *)&ro_image[ctx->idx],
+59ba025948be2a Hari Bathini 2025-04-22  535  				    (unsigned long)p->bpf_func,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  536  				    BRANCH_SET_LINK)) {
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  537  		image[ctx->idx] = ppc_inst_val(branch_insn);
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  538  		ctx->idx++;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  539  	} else {
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  540  		EMIT(PPC_RAW_LL(_R12, _R25, offsetof(struct bpf_prog, bpf_func)));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  541  		EMIT(PPC_RAW_MTCTR(_R12));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  542  		EMIT(PPC_RAW_BCTRL());
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  543  	}
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  544  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  545  	if (save_ret)
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  546  		EMIT(PPC_RAW_STL(_R3, _R1, retval_off));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  547  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  548  	/* Fix up branch */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  549  	if (image) {
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  550  		if (create_cond_branch(&branch_insn, &image[jmp_idx],
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  551  				       (unsigned long)&image[ctx->idx], COND_EQ << 16))
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  552  			return -EINVAL;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  553  		image[jmp_idx] = ppc_inst_val(branch_insn);
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  554  	}
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  555  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  556  	/* __bpf_prog_exit(p, start_time, &bpf_tramp_run_ctx) */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  557  	EMIT(PPC_RAW_MR(_R3, _R25));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  558  	EMIT(PPC_RAW_MR(_R4, _R26));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  559  	EMIT(PPC_RAW_ADDI(_R5, _R1, run_ctx_off));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  560  	ret = bpf_jit_emit_func_call_rel(image, ro_image, ctx,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  561  					 (unsigned long)bpf_trampoline_exit(p));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  562  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  563  	return ret;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  564  }
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  565  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  566  static int invoke_bpf_mod_ret(u32 *image, u32 *ro_image, struct codegen_context *ctx,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30 @567  			      struct bpf_tramp_links *tl, int regs_off, int retval_off,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  568  			      int run_ctx_off, u32 *branches)
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  569  {
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  570  	int i;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  571  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  572  	/*
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  573  	 * The first fmod_ret program will receive a garbage return value.
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  574  	 * Set this to 0 to avoid confusing the program.
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  575  	 */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  576  	EMIT(PPC_RAW_LI(_R3, 0));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  577  	EMIT(PPC_RAW_STL(_R3, _R1, retval_off));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30 @578  	for (i = 0; i < tl->nr_links; i++) {
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  579  		if (invoke_bpf_prog(image, ro_image, ctx, tl->links[i], regs_off, retval_off,
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  580  				    run_ctx_off, true))
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  581  			return -EINVAL;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  582  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  583  		/*
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  584  		 * mod_ret prog stored return value after prog ctx. Emit:
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  585  		 * if (*(u64 *)(ret_val) !=  0)
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  586  		 *	goto do_fexit;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  587  		 */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  588  		EMIT(PPC_RAW_LL(_R3, _R1, retval_off));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  589  		EMIT(PPC_RAW_CMPLI(_R3, 0));
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  590  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  591  		/*
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  592  		 * Save the location of the branch and generate a nop, which is
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  593  		 * replaced with a conditional jump once do_fexit (i.e. the
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  594  		 * start of the fexit invocation) is finalized.
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  595  		 */
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  596  		branches[i] = ctx->idx;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  597  		EMIT(PPC_RAW_NOP());
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  598  	}
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  599  
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  600  	return 0;
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  601  }
+d243b62b7bd3d5 Naveen N Rao 2024-10-30  602  
+
+:::::: The code at line 495 was first introduced by commit
+:::::: d243b62b7bd3d5314382d3b54e4992226245e936 powerpc64/bpf: Add support for bpf trampolines
+
+:::::: TO: Naveen N Rao <naveen@kernel.org>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
