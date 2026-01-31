@@ -1,66 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1214155757;
-	Sat, 31 Jan 2026 14:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F11226861
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 14:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769868317; cv=none; b=j+L/9VLEocdr0FXSz6SI0hCNsTcupEnMzpTOax/H2GxkMVEYuj894TRoUSC5tRaVEcvUYF0dCisF5GHy443lZe3/DYkPzk1+Hnk9Px+7IXG5Iq12neoaPoAEwr5LuhTTsIcJHPWMXaxd7ruj9ayGYH0DCq4u+xvDJyprFUkokoU=
+	t=1769870071; cv=none; b=ggT1Oufi+d/6uCI2glweXGw+j0w17ZypYfX5/X3iqCrLF4sYtHDz40yuG7+bYiF5hFi/+79zQb8AXgadhy9/oqUKGFhNwoVzgA7HztbWlzA9Wqj2a9tkoI6uQV1wRsig/yINpl42x4ZRum1Uc8zjKewWC1WpKTkkCKSphv7w2Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769868317; c=relaxed/simple;
-	bh=Ey+OJhVw2NerzqvbFClDP/9Nqjz+1edbvqlInSXNrUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hVgzJjsRBIIAGXXuhXJmDY77kX8x9z1j/223Zc07j7AMN/Hz91U2dxGE5w9IGmlXGQs0Nd6TrCMLDoQzsUVkrg6umJrZTmRtfH6Y1OPcff8X8MeV3i3eXACXsdwO88RHPhkSbvDkVO7VjZCikJ3EK1hQVJ115bqPnHIaHMrVP/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbVdQdYE; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769870071; c=relaxed/simple;
+	bh=oJe0NcvJMaTyR62mE9pi1Nc8trO4/gp11pDxuMJ7E2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ss90eumVociT/axJZmp5NO04eQ7wywRuwLgr5FCExJSVYt4mO7e8zPpRqHapP34laM8q/KLxdkOZaE0N42MBo9jmGlDQmqcR9wTjH2oIkbH/JtMhjMpVPkRBCxI5XD9fjVKy3XSahJoAbwiua8Yj6Sj1OUYqb0N2E4whPRdal4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zC8diWL2; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbVdQdYE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769868316; x=1801404316;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ey+OJhVw2NerzqvbFClDP/9Nqjz+1edbvqlInSXNrUs=;
-  b=AbVdQdYEql2Ii9Xkf44oVz491v9CNG9987nI5rB/ZR0ue+EMSTMzvxeN
-   UPRa3MSEZzkFF1fCHo8b2CZwrHH7UMvhiquSn4OSW8DfSLoW34U0vjstt
-   +NeQMJZDBxA/l6t0qc86xj7kbpJifRF1UjbJAey+9yjfqTe+VsU/4iwnh
-   cqocinTvCNZz1rQUPRP//4yrlQd99gbE4nnlVuAbSLGjVtUsO7BIUT+K7
-   6JuBWUfWjDncBMQSXaY3igMjL4rofN/ty+9+ilo+Dy+8KTEadBqn9nGZb
-   jUYvnCVo9/8QHvB9Djd4cS/2BtU0fSyRcNHRprKtQwD6V6pLt1x0ZTiZo
-   g==;
-X-CSE-ConnectionGUID: gKoLI8XbT2aGtMX+gqfk1A==
-X-CSE-MsgGUID: HCxHjf9hRguR5oyk5vGG3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="81831487"
-X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="81831487"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 06:05:15 -0800
-X-CSE-ConnectionGUID: rQg+inflTGOkpxo1O2PwwQ==
-X-CSE-MsgGUID: cocOB4sJTBSkIg7M3RhFlg==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Jan 2026 06:05:12 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vmBb3-00000000e5A-3ndo;
-	Sat, 31 Jan 2026 14:05:09 +0000
-Date: Sat, 31 Jan 2026 22:05:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Thomas Gleixner <tglx@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mips@vger.kernel.org, Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Subject: Re: [PATCH 3/8] irqchip/loongson-pch-lpc: extract non-ACPI-related
- code from ACPI init
-Message-ID: <202601312251.S1bOvHGe-lkp@intel.com>
-References: <20260131094547.455916-4-zhengxingda@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zC8diWL2"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48069a48629so31135065e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 06:34:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769870068; x=1770474868; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HGZE/FwI58g7fq6+rZcqOW9r8gwwvwF2Yhf/tTAm3u0=;
+        b=zC8diWL2167EEg/YrFVS5jU1Cu4mtPBDZYddFkLHhJUyMtWduwy458A4ts9ZqqEJ9/
+         dH0GaEJyFUO1ZSq7SVoHwyvo89FbE587SbYUlNixKO/tPTnM3AVdH6mpfsOq0GsR7+yB
+         TUB9CwnqcVYq3FG2CmqGNvKwRU3j/nu3npEyKhsSloZD59u2m1boypLZNw0Hx2Kpyhp1
+         tgWEZFciCrnZycxJfKhwmmKb0Fj6+AProEKKzVXls3epVSmbCw6cwoR6i5Vbjfr1kmTR
+         qVrWXWrEQFBUjlFz76od7NZmnARfA3lbzWpUk9EaEoWLg9jb1zySLWMS8iPtVy+zkQMS
+         Lsyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769870068; x=1770474868;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HGZE/FwI58g7fq6+rZcqOW9r8gwwvwF2Yhf/tTAm3u0=;
+        b=aWYe6ZLYPy+wzPO6HbPkH4mjROITndYp8nRKdC9RA5UQ3t0y+NMg973nApgsPYqfgh
+         /UvAbYIBuUNyT3HjK2xZZTUjuaf9l1Jtn36kFtxH6iNdxd83NY+lWok1XF/i8MJCqzFL
+         5kcl2KpRJYbB0hjWCY+qRT0bFY1Tcyb17v5yAiet2SxBqJXsYu5EFoL3gmleviXmJ1jr
+         b+dX0O5lvCYoGrrg2geBsfbuq23pCAWSfAwGeRPxUhx74TgbCnA99rnHl+dzh0CX0FtH
+         qsBajT3IFEKXvpn0mbQcEWQXrdydxUpkKo+TEfprsw0jl9fTunrw5a+iIuvHG4NeFwaD
+         uxyA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVKtb+orb4BngkjUXFZ7TMvD2FAAhYZAMs6dCTfVaqJSynOT3ybibUGh0k/lflCtrH3ybIeoeVG1GCZLiY@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyyl5pN1WqLEj5wacijkNZz01bYCOFiTcdsTCaSOAJco1QJAY0I
+	FY7uM7UNW+d9b0j59A76j731V7y4PpiHNrxl8S0c7f3YXTkgVMWSu+VE/Bc21qsm18g=
+X-Gm-Gg: AZuq6aI/eHa+x2ty335u2SaxNNDLn4kUK/Rq99yx/cV+rPm7M98+8lNkKW1shCvEp+C
+	LqOVc3fWqMb2W0j07vTSX4sUxAqLPE0QqXB9b2FwDVb0Zt6OjcnT/NrCKTFA5V2CHTAk0G0mHA1
+	2c4zGBs3DGc+FnmwwsjdlyGkg1oavA0m9QjJfiaFsss1TOC0mej3Ge9pqNTU0rxNjUUCd/Pt5IE
+	BSbTqKboPygTbPacQaKu3qfOY0GCfVbni3jxCoD2WVfShd82FJzw7q0w8/NAGIM5Pnzht4yXBvz
+	okT0Hx1r2Bwh/WI2h3MAUSU9ErBBMNAW/3upLkDyC6znq4KAQSaPcYr5FqmaX1vIFgE1S3CZ+Ke
+	bgOaciIzZkOO8pvzV6t8uuCqk5DcEEN9R2sY6ZyFg1TXlHrI7yarQJsEUIfAjGCpB74IQ9Aketc
+	dBrGS9z8ySXK7yv6IX
+X-Received: by 2002:a05:600c:1c26:b0:47e:c562:a41f with SMTP id 5b1f17b1804b1-482db481c92mr84376595e9.18.1769870068280;
+        Sat, 31 Jan 2026 06:34:28 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482e256f639sm39572795e9.13.2026.01.31.06.34.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Jan 2026 06:34:27 -0800 (PST)
+Date: Sat, 31 Jan 2026 17:34:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 100/100]
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1750 a5xx_gpu_init() warn: variable
+ dereferenced before check 'pdev' (see line 1743)
+Message-ID: <202601311507.plKOLxfT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,48 +73,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260131094547.455916-4-zhengxingda@iscas.ac.cn>
 
-Hi Icenowy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on robh/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.19-rc7 next-20260130]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Icenowy-Zheng/genirq-reserve-NR_IRQS_LEGACY-IRQs-in-dynirq-by-default/20260131-175403
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20260131094547.455916-4-zhengxingda%40iscas.ac.cn
-patch subject: [PATCH 3/8] irqchip/loongson-pch-lpc: extract non-ACPI-related code from ACPI init
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260131/202601312251.S1bOvHGe-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601312251.S1bOvHGe-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   33f6e289fb06b4b8ebf1124c1fad6b68aea9d8de
+commit: 154bed0fd609e1c195d582ec3b6f647c5859acaf [100/100] drm/msm/a5xx: really check for A510 in a5xx_gpu_init
+config: arm64-randconfig-r072-20260131 (https://download.01.org/0day-ci/archive/20260131/202601311507.plKOLxfT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601312251.S1bOvHGe-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601311507.plKOLxfT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1750 a5xx_gpu_init() warn: variable dereferenced before check 'pdev' (see line 1743)
 
->> drivers/irqchip/irq-loongson-pch-lpc.c:232:18: warning: unused variable 'priv' [-Wunused-variable]
-     232 |         struct pch_lpc *priv;
-         |                         ^~~~
-   1 warning generated.
+vim +/pdev +1750 drivers/gpu/drm/msm/adreno/a5xx_gpu.c
 
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1739  struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1740  {
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1741  	struct msm_drm_private *priv = dev->dev_private;
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1742  	struct platform_device *pdev = priv->gpu_pdev;
+154bed0fd609e1c Dmitry Baryshkov 2023-04-09 @1743  	struct adreno_platform_config *config = pdev->dev.platform_data;
+                                                                                                ^^^^^^
+Dereferenced
 
-vim +/priv +232 drivers/irqchip/irq-loongson-pch-lpc.c
-
-   227	
-   228	int __init pch_lpc_acpi_init(struct irq_domain *parent,
-   229						struct acpi_madt_lpc_pic *acpi_pchlpc)
-   230	{
-   231		int parent_irq;
- > 232		struct pch_lpc *priv;
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1744  	struct a5xx_gpu *a5xx_gpu = NULL;
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1745  	struct adreno_gpu *adreno_gpu;
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1746  	struct msm_gpu *gpu;
+02891701516b247 Adam Skladowski  2023-03-14  1747  	unsigned int nr_rings;
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1748  	int ret;
+b5f103ab98c77ca Jordan Crouse    2016-11-28  1749  
+b5f103ab98c77ca Jordan Crouse    2016-11-28 @1750  	if (!pdev) {
+                                                            ^^^^^
+Checked too late.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
