@@ -1,218 +1,274 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616793376B8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 15:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5191A0BE0;
+	Sat, 31 Jan 2026 16:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769874880; cv=none; b=Kma/vTm1Km4OffWuqTkCr3ZuBVFMLQ1TbuOeTKqzNJIlEYIYocQEB8r2BNS9onq/BsQfA8OqT0UdyoVpl1kSQlyH2hmX5Y2Zpv8ihKlAPg2GwR8h0KeqZZmIVs1m7h9rafpZ2X7uPxuPpqnsBLltCHp9+tRRVvMc1DQinWFaxiw=
+	t=1769877262; cv=none; b=RtgwEZWSYgFNI5IHC9UJ05/OtkM9XezfcakBiptCUUK4YZzEZJf+Y1q4EILnQv7CwU0ybcaIw11pkBBQBn6E/rTB3ma6WUUtbYWUu1WHGSN9plR+xEMjwkVB2EOptJD/tPx6x0UMIDbG//nACq8xVSwqZifuANRS9aLKN+ca65o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769874880; c=relaxed/simple;
-	bh=yP/+lWu8w6TVpcU/sK04du+syKfA7fdOXqbErdv8SGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OX/e6bAr9LzpVAYmpWDr9Y8WX23aaqBzg4PbX+BlWUX9hlwyGu/ThPF12Fw3kt9euM8alhbF0J9q8SUXEXuhr38QOFExlRWrsRhEJuDRAj9b3tOdVyd6Mz4BNYd/KcERuywFIT+Kr40v7bolu4nrT5jU/7Ol66O0tIx5YO9s5fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f37NOcNy; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1769877262; c=relaxed/simple;
+	bh=bnf95Md76DNgf1cWpsKruqT4lDnFBtUIfSIM1fE+2lI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=C3TEpMoGSSGSNNMw/NRLoLQwRfs2y1DzNVLk1HywRrxXUwjzMydO/a7Y32NiRm0RTS5rrzcWSe0k+SaIfKJ/8X7hYo5eDyUn72lWN68oW9gh/jChLe6qKqiA/ixGiTDNevzkxJBldcZ9OSN19i3nwSLGL78U0qZHsHbaRnRC6x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S2YTPOfM; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f37NOcNy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S2YTPOfM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769874878; x=1801410878;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yP/+lWu8w6TVpcU/sK04du+syKfA7fdOXqbErdv8SGk=;
-  b=f37NOcNyYVKnSTwbctSd3O7TVzwn+GF3zQeo7lLNnGfVkx+ipP8pXdtQ
-   Y8ee44Hxqr3eGHvHIsQJ/z54AMTpftq5v+SYKbawL70IWJ6J5TfldzTHT
-   9pLzzN3rcKdJTlS9ha1YRlFrqHDB4x7ZSwCFmVXP1IEBy99BpmaoIVqdq
-   Jo7u6PGANeg42bkZ+4whbDE79j33fARD5Jt0AB1xsj65pYNn8s2/geXlA
-   cif4rFQxZRF7SRvsDwYyvtL+nqOIYIVIIruA8Blcbub1yPRfHwOK5ZUjq
-   hLt8yaxmSfORHWxWFK8wotuDp6Fw2QLzPhMequke3RxanYQUDZORtH176
-   w==;
-X-CSE-ConnectionGUID: oi5yiAGlSxKb8EiOMt6y6w==
-X-CSE-MsgGUID: Tkog3JSXTje0DQW+nuzt4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70118249"
+  t=1769877260; x=1801413260;
+  h=date:from:to:cc:subject:message-id;
+  bh=bnf95Md76DNgf1cWpsKruqT4lDnFBtUIfSIM1fE+2lI=;
+  b=S2YTPOfMY4r8lPC84S0jWQqk66JZInJg1N0i3zFPhP7ZlRIkBWbalOnH
+   9kTSmxAZuMgR4aNiOOrO9+J/8t5WUDbG0keDoo2Hhyc1wPgd+pNvDxqOq
+   bOkWQZ3F0eGbF3gc+owo2XnhlMmCJgEBIWZ1MaNg9fcfyLjQXRC0/CbJY
+   T19NWeRAMA6vpfL/TRybzr//yKQf+D4uHKU+J8xlt7SPQJfkJeuvE5hEu
+   6NjEXAKZuLeRGXDwYBCZerRlZbsO6YkWwso4pOt9X14d1lr/tR3Uq6cfR
+   9emYVrA7ExuuFsb3BiS0G+luQmggrbm5FCsIxsRL/UVzehvkKlA5CSMoN
+   A==;
+X-CSE-ConnectionGUID: 1h/uSzR1ToqDCaSGrWz1Fg==
+X-CSE-MsgGUID: SYrxLdcGRTyxoMEM3yPGvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="96563080"
 X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="70118249"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 07:54:38 -0800
-X-CSE-ConnectionGUID: mNM1mRCKRvO2CXNfpAHMEg==
-X-CSE-MsgGUID: HLs4j+UdQ/C/xg8xorcjOg==
+   d="scan'208";a="96563080"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 08:34:19 -0800
+X-CSE-ConnectionGUID: xbVLkJF9Q+Ch7YwGHoAnhA==
+X-CSE-MsgGUID: 1EmkD5g4RVCd4zqKMLg9vw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
-   d="scan'208";a="208350889"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 31 Jan 2026 07:54:16 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="214007527"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 31 Jan 2026 08:34:17 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmDIc-000000002iX-0fps;
-	Sat, 31 Jan 2026 15:54:14 +0000
-Date: Sat, 31 Jan 2026 16:54:04 +0100
+	id 1vmDvL-00000000eBL-2NCh;
+	Sat, 31 Jan 2026 16:34:15 +0000
+Date: Sun, 01 Feb 2026 00:34:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: nspmangalore@gmail.com, linux-cifs@vger.kernel.org, smfrench@gmail.com,
-	pc@manguebit.org, bharathsm@microsoft.com
-Cc: oe-kbuild-all@lists.linux.dev, Shyam Prasad N <sprasad@microsoft.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] cifs: Fix locking usage for tcon fields
-Message-ID: <202601311634.9WVpg186-lkp@intel.com>
-References: <20260131080239.943483-2-sprasad@microsoft.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [agd5f:ib_improvements7 8/17]
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4687:3: warning: variable 'ib' is
+ uninitialized when used here
+Message-ID: <202602010017.IVwlmiJb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260131080239.943483-2-sprasad@microsoft.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cifs/for-next]
-[also build test ERROR on linus/master v6.19-rc7 next-20260130]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/nspmangalore-gmail-com/cifs-Fix-locking-usage-for-tcon-fields/20260131-160419
-base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-patch link:    https://lore.kernel.org/r/20260131080239.943483-2-sprasad%40microsoft.com
-patch subject: [PATCH 2/2] cifs: Fix locking usage for tcon fields
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260131/202601311634.9WVpg186-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311634.9WVpg186-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git ib_improvements7
+head:   d143c0854dc1ee192d8993b3b949dc7288d2f755
+commit: 68c2a1121922681ac8d09b43a322bca7e0d634cb [8/17] drm/amdgpu: switch all IPs to using job for IBs
+config: x86_64-randconfig-006-20260131 (https://download.01.org/0day-ci/archive/20260201/202602010017.IVwlmiJb-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602010017.IVwlmiJb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601311634.9WVpg186-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602010017.IVwlmiJb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/smb/client/smb2ops.c: In function 'smb2_get_dfs_refer':
->> fs/smb/client/smb2ops.c:3178:17: error: too few arguments to function 'cifs_put_tcon'; expected 2, have 1
-    3178 |                 cifs_put_tcon(tcon);
-         |                 ^~~~~~~~~~~~~
-   In file included from fs/smb/client/smb2ops.c:20:
-   fs/smb/client/cifsproto.h:273:6: note: declared here
-     273 | void cifs_put_tcon(struct cifs_tcon *tcon, enum smb3_tcon_ref_trace trace);
-         |      ^~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4687:3: warning: variable 'ib' is uninitialized when used here [-Wuninitialized]
+    4687 |                 ib->ptr[i + (vgpr_offset / 4)] = vgpr_init_shader_ptr[i];
+         |                 ^~
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:4631:22: note: initialize the variable 'ib' to silence this warning
+    4631 |         struct amdgpu_ib *ib;
+         |                             ^
+         |                              = NULL
+   1 warning generated.
+--
+>> drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c:374:3: warning: variable 'ib' is uninitialized when used here [-Wuninitialized]
+     374 |                 ib->ptr[i + (shader_offset / 4)] = shader_ptr[i];
+         |                 ^~
+   drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c:354:22: note: initialize the variable 'ib' to silence this warning
+     354 |         struct amdgpu_ib *ib;
+         |                             ^
+         |                              = NULL
+   1 warning generated.
 
 
-vim +/cifs_put_tcon +3178 fs/smb/client/smb2ops.c
+vim +/ib +4687 drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
 
-  3078	
-  3079	static int
-  3080	smb2_get_dfs_refer(const unsigned int xid, struct cifs_ses *ses,
-  3081			   const char *search_name,
-  3082			   struct dfs_info3_param **target_nodes,
-  3083			   unsigned int *num_of_nodes,
-  3084			   const struct nls_table *nls_codepage, int remap)
-  3085	{
-  3086		int rc;
-  3087		__le16 *utf16_path = NULL;
-  3088		int utf16_path_len = 0;
-  3089		struct cifs_tcon *tcon;
-  3090		struct fsctl_get_dfs_referral_req *dfs_req = NULL;
-  3091		struct get_dfs_referral_rsp *dfs_rsp = NULL;
-  3092		u32 dfs_req_size = 0, dfs_rsp_size = 0;
-  3093		int retry_once = 0;
-  3094	
-  3095		cifs_dbg(FYI, "%s: path: %s\n", __func__, search_name);
-  3096	
-  3097		/*
-  3098		 * Try to use the IPC tcon, otherwise just use any
-  3099		 */
-  3100		tcon = ses->tcon_ipc;
-  3101		if (tcon == NULL) {
-  3102			spin_lock(&cifs_tcp_ses_lock);
-  3103			tcon = list_first_entry_or_null(&ses->tcon_list,
-  3104							struct cifs_tcon,
-  3105							tcon_list);
-  3106			if (tcon) {
-  3107				spin_lock(&tcon->tc_lock);
-  3108				tcon->tc_count++;
-  3109				spin_unlock(&tcon->tc_lock);
-  3110				trace_smb3_tcon_ref(tcon->debug_id, tcon->tc_count,
-  3111						    netfs_trace_tcon_ref_get_dfs_refer);
-  3112			}
-  3113			spin_unlock(&cifs_tcp_ses_lock);
-  3114		}
-  3115	
-  3116		if (tcon == NULL) {
-  3117			cifs_dbg(VFS, "session %p has no tcon available for a dfs referral request\n",
-  3118				 ses);
-  3119			rc = -ENOTCONN;
-  3120			goto out;
-  3121		}
-  3122	
-  3123		utf16_path = cifs_strndup_to_utf16(search_name, PATH_MAX,
-  3124						   &utf16_path_len,
-  3125						   nls_codepage, remap);
-  3126		if (!utf16_path) {
-  3127			rc = -ENOMEM;
-  3128			goto out;
-  3129		}
-  3130	
-  3131		dfs_req_size = sizeof(*dfs_req) + utf16_path_len;
-  3132		dfs_req = kzalloc(dfs_req_size, GFP_KERNEL);
-  3133		if (!dfs_req) {
-  3134			rc = -ENOMEM;
-  3135			goto out;
-  3136		}
-  3137	
-  3138		/* Highest DFS referral version understood */
-  3139		dfs_req->MaxReferralLevel = DFS_VERSION;
-  3140	
-  3141		/* Path to resolve in an UTF-16 null-terminated string */
-  3142		memcpy(dfs_req->RequestFileName, utf16_path, utf16_path_len);
-  3143	
-  3144		for (;;) {
-  3145			rc = SMB2_ioctl(xid, tcon, NO_FILE_ID, NO_FILE_ID,
-  3146					FSCTL_DFS_GET_REFERRALS,
-  3147					(char *)dfs_req, dfs_req_size, CIFSMaxBufSize,
-  3148					(char **)&dfs_rsp, &dfs_rsp_size);
-  3149			if (fatal_signal_pending(current)) {
-  3150				rc = -EINTR;
-  3151				break;
-  3152			}
-  3153			if (!is_retryable_error(rc) || retry_once++)
-  3154				break;
-  3155			usleep_range(512, 2048);
-  3156		}
-  3157	
-  3158		if (!rc && !dfs_rsp)
-  3159			rc = smb_EIO(smb_eio_trace_dfsref_no_rsp);
-  3160		if (rc) {
-  3161			if (!is_retryable_error(rc) && rc != -ENOENT && rc != -EOPNOTSUPP)
-  3162				cifs_tcon_dbg(FYI, "%s: ioctl error: rc=%d\n", __func__, rc);
-  3163			goto out;
-  3164		}
-  3165	
-  3166		rc = parse_dfs_referrals(dfs_rsp, dfs_rsp_size,
-  3167					 num_of_nodes, target_nodes,
-  3168					 nls_codepage, remap, search_name,
-  3169					 true /* is_unicode */);
-  3170		if (rc && rc != -ENOENT) {
-  3171			cifs_tcon_dbg(VFS, "%s: failed to parse DFS referral %s: %d\n",
-  3172				      __func__, search_name, rc);
-  3173		}
-  3174	
-  3175	 out:
-  3176		if (tcon && !tcon->ipc) {
-  3177			/* ipc tcons are not refcounted */
-> 3178			cifs_put_tcon(tcon);
-  3179			trace_smb3_tcon_ref(tcon->debug_id, tcon->tc_count,
-  3180					    netfs_trace_tcon_ref_dec_dfs_refer);
-  3181		}
-  3182		kfree(utf16_path);
-  3183		kfree(dfs_req);
-  3184		kfree(dfs_rsp);
-  3185		return rc;
-  3186	}
-  3187	
+  4626	
+  4627	static int gfx_v9_0_do_edc_gpr_workarounds(struct amdgpu_device *adev)
+  4628	{
+  4629		struct amdgpu_ring *ring = &adev->gfx.compute_ring[0];
+  4630		struct amdgpu_job *job;
+  4631		struct amdgpu_ib *ib;
+  4632		struct dma_fence *f = NULL;
+  4633		int r, i;
+  4634		unsigned total_size, vgpr_offset, sgpr_offset;
+  4635		u64 gpu_addr;
+  4636	
+  4637		int compute_dim_x = adev->gfx.config.max_shader_engines *
+  4638							adev->gfx.config.max_cu_per_sh *
+  4639							adev->gfx.config.max_sh_per_se;
+  4640		int sgpr_work_group_size = 5;
+  4641		int gpr_reg_size = adev->gfx.config.max_shader_engines + 6;
+  4642		int vgpr_init_shader_size;
+  4643		const u32 *vgpr_init_shader_ptr;
+  4644		const struct soc15_reg_entry *vgpr_init_regs_ptr;
+  4645	
+  4646		/* only support when RAS is enabled */
+  4647		if (!amdgpu_ras_is_supported(adev, AMDGPU_RAS_BLOCK__GFX))
+  4648			return 0;
+  4649	
+  4650		/* bail if the compute ring is not ready */
+  4651		if (!ring->sched.ready)
+  4652			return 0;
+  4653	
+  4654		if (amdgpu_ip_version(adev, GC_HWIP, 0) == IP_VERSION(9, 4, 1)) {
+  4655			vgpr_init_shader_ptr = vgpr_init_compute_shader_arcturus;
+  4656			vgpr_init_shader_size = sizeof(vgpr_init_compute_shader_arcturus);
+  4657			vgpr_init_regs_ptr = vgpr_init_regs_arcturus;
+  4658		} else {
+  4659			vgpr_init_shader_ptr = vgpr_init_compute_shader;
+  4660			vgpr_init_shader_size = sizeof(vgpr_init_compute_shader);
+  4661			vgpr_init_regs_ptr = vgpr_init_regs;
+  4662		}
+  4663	
+  4664		total_size =
+  4665			(gpr_reg_size * 3 + 4 + 5 + 2) * 4; /* VGPRS */
+  4666		total_size +=
+  4667			(gpr_reg_size * 3 + 4 + 5 + 2) * 4; /* SGPRS1 */
+  4668		total_size +=
+  4669			(gpr_reg_size * 3 + 4 + 5 + 2) * 4; /* SGPRS2 */
+  4670		total_size = ALIGN(total_size, 256);
+  4671		vgpr_offset = total_size;
+  4672		total_size += ALIGN(vgpr_init_shader_size, 256);
+  4673		sgpr_offset = total_size;
+  4674		total_size += sizeof(sgpr_init_compute_shader);
+  4675	
+  4676		/* allocate an indirect buffer to put the commands in */
+  4677		r = amdgpu_job_alloc_with_ib(ring->adev, NULL, NULL, total_size,
+  4678					     AMDGPU_IB_POOL_DIRECT, &job,
+  4679					     AMDGPU_KERNEL_JOB_ID_RUN_SHADER);
+  4680		if (r) {
+  4681			drm_err(adev_to_drm(adev), "failed to get ib (%d).\n", r);
+  4682			return r;
+  4683		}
+  4684	
+  4685		/* load the compute shaders */
+  4686		for (i = 0; i < vgpr_init_shader_size/sizeof(u32); i++)
+> 4687			ib->ptr[i + (vgpr_offset / 4)] = vgpr_init_shader_ptr[i];
+  4688	
+  4689		for (i = 0; i < ARRAY_SIZE(sgpr_init_compute_shader); i++)
+  4690			ib->ptr[i + (sgpr_offset / 4)] = sgpr_init_compute_shader[i];
+  4691	
+  4692		/* init the ib length to 0 */
+  4693		ib->length_dw = 0;
+  4694	
+  4695		/* VGPR */
+  4696		/* write the register state for the compute dispatch */
+  4697		for (i = 0; i < gpr_reg_size; i++) {
+  4698			ib->ptr[ib->length_dw++] = PACKET3(PACKET3_SET_SH_REG, 1);
+  4699			ib->ptr[ib->length_dw++] = SOC15_REG_ENTRY_OFFSET(vgpr_init_regs_ptr[i])
+  4700									- PACKET3_SET_SH_REG_START;
+  4701			ib->ptr[ib->length_dw++] = vgpr_init_regs_ptr[i].reg_value;
+  4702		}
+  4703		/* write the shader start address: mmCOMPUTE_PGM_LO, mmCOMPUTE_PGM_HI */
+  4704		gpu_addr = (ib->gpu_addr + (u64)vgpr_offset) >> 8;
+  4705		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_SET_SH_REG, 2);
+  4706		ib->ptr[ib->length_dw++] = SOC15_REG_OFFSET(GC, 0, mmCOMPUTE_PGM_LO)
+  4707								- PACKET3_SET_SH_REG_START;
+  4708		ib->ptr[ib->length_dw++] = lower_32_bits(gpu_addr);
+  4709		ib->ptr[ib->length_dw++] = upper_32_bits(gpu_addr);
+  4710	
+  4711		/* write dispatch packet */
+  4712		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_DISPATCH_DIRECT, 3);
+  4713		ib->ptr[ib->length_dw++] = compute_dim_x * 2; /* x */
+  4714		ib->ptr[ib->length_dw++] = 1; /* y */
+  4715		ib->ptr[ib->length_dw++] = 1; /* z */
+  4716		ib->ptr[ib->length_dw++] =
+  4717			REG_SET_FIELD(0, COMPUTE_DISPATCH_INITIATOR, COMPUTE_SHADER_EN, 1);
+  4718	
+  4719		/* write CS partial flush packet */
+  4720		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_EVENT_WRITE, 0);
+  4721		ib->ptr[ib->length_dw++] = EVENT_TYPE(7) | EVENT_INDEX(4);
+  4722	
+  4723		/* SGPR1 */
+  4724		/* write the register state for the compute dispatch */
+  4725		for (i = 0; i < gpr_reg_size; i++) {
+  4726			ib->ptr[ib->length_dw++] = PACKET3(PACKET3_SET_SH_REG, 1);
+  4727			ib->ptr[ib->length_dw++] = SOC15_REG_ENTRY_OFFSET(sgpr1_init_regs[i])
+  4728									- PACKET3_SET_SH_REG_START;
+  4729			ib->ptr[ib->length_dw++] = sgpr1_init_regs[i].reg_value;
+  4730		}
+  4731		/* write the shader start address: mmCOMPUTE_PGM_LO, mmCOMPUTE_PGM_HI */
+  4732		gpu_addr = (ib->gpu_addr + (u64)sgpr_offset) >> 8;
+  4733		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_SET_SH_REG, 2);
+  4734		ib->ptr[ib->length_dw++] = SOC15_REG_OFFSET(GC, 0, mmCOMPUTE_PGM_LO)
+  4735								- PACKET3_SET_SH_REG_START;
+  4736		ib->ptr[ib->length_dw++] = lower_32_bits(gpu_addr);
+  4737		ib->ptr[ib->length_dw++] = upper_32_bits(gpu_addr);
+  4738	
+  4739		/* write dispatch packet */
+  4740		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_DISPATCH_DIRECT, 3);
+  4741		ib->ptr[ib->length_dw++] = compute_dim_x / 2 * sgpr_work_group_size; /* x */
+  4742		ib->ptr[ib->length_dw++] = 1; /* y */
+  4743		ib->ptr[ib->length_dw++] = 1; /* z */
+  4744		ib->ptr[ib->length_dw++] =
+  4745			REG_SET_FIELD(0, COMPUTE_DISPATCH_INITIATOR, COMPUTE_SHADER_EN, 1);
+  4746	
+  4747		/* write CS partial flush packet */
+  4748		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_EVENT_WRITE, 0);
+  4749		ib->ptr[ib->length_dw++] = EVENT_TYPE(7) | EVENT_INDEX(4);
+  4750	
+  4751		/* SGPR2 */
+  4752		/* write the register state for the compute dispatch */
+  4753		for (i = 0; i < gpr_reg_size; i++) {
+  4754			ib->ptr[ib->length_dw++] = PACKET3(PACKET3_SET_SH_REG, 1);
+  4755			ib->ptr[ib->length_dw++] = SOC15_REG_ENTRY_OFFSET(sgpr2_init_regs[i])
+  4756									- PACKET3_SET_SH_REG_START;
+  4757			ib->ptr[ib->length_dw++] = sgpr2_init_regs[i].reg_value;
+  4758		}
+  4759		/* write the shader start address: mmCOMPUTE_PGM_LO, mmCOMPUTE_PGM_HI */
+  4760		gpu_addr = (ib->gpu_addr + (u64)sgpr_offset) >> 8;
+  4761		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_SET_SH_REG, 2);
+  4762		ib->ptr[ib->length_dw++] = SOC15_REG_OFFSET(GC, 0, mmCOMPUTE_PGM_LO)
+  4763								- PACKET3_SET_SH_REG_START;
+  4764		ib->ptr[ib->length_dw++] = lower_32_bits(gpu_addr);
+  4765		ib->ptr[ib->length_dw++] = upper_32_bits(gpu_addr);
+  4766	
+  4767		/* write dispatch packet */
+  4768		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_DISPATCH_DIRECT, 3);
+  4769		ib->ptr[ib->length_dw++] = compute_dim_x / 2 * sgpr_work_group_size; /* x */
+  4770		ib->ptr[ib->length_dw++] = 1; /* y */
+  4771		ib->ptr[ib->length_dw++] = 1; /* z */
+  4772		ib->ptr[ib->length_dw++] =
+  4773			REG_SET_FIELD(0, COMPUTE_DISPATCH_INITIATOR, COMPUTE_SHADER_EN, 1);
+  4774	
+  4775		/* write CS partial flush packet */
+  4776		ib->ptr[ib->length_dw++] = PACKET3(PACKET3_EVENT_WRITE, 0);
+  4777		ib->ptr[ib->length_dw++] = EVENT_TYPE(7) | EVENT_INDEX(4);
+  4778	
+  4779		/* shedule the ib on the ring */
+  4780		r = amdgpu_job_submit_direct(job, ring, &f);
+  4781		if (r) {
+  4782			drm_err(adev_to_drm(adev), "ib schedule failed (%d).\n", r);
+  4783			amdgpu_job_free(job);
+  4784			goto fail;
+  4785		}
+  4786	
+  4787		/* wait for the GPU to finish processing the IB */
+  4788		r = dma_fence_wait(f, false);
+  4789		if (r) {
+  4790			drm_err(adev_to_drm(adev), "fence wait failed (%d).\n", r);
+  4791			goto fail;
+  4792		}
+  4793	
+  4794	fail:
+  4795		dma_fence_put(f);
+  4796	
+  4797		return r;
+  4798	}
+  4799	
 
 -- 
 0-DAY CI Kernel Test Service
