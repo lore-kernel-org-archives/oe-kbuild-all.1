@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8297D21B9D2;
-	Sat, 31 Jan 2026 04:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A9B18859B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 05:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769835590; cv=none; b=iNnP+7WsuAhv2Kn3nAEUJVP0kfwIgM7gbt2AHCEzRkFTFZoD50AWxu9EutJZOLCE9LQAzQ6idO/t3ejp/tc48YPWzBkoCnX5NDeIBSNy4WIbgTKMJIN8TfsMwHbUTp4fO77jcqi5pkozEYWqMZlFQAa2byib4zqEkc9jVNZKZbc=
+	t=1769836192; cv=none; b=EGzOGje/jbh7dkj0x2riAySxmQtzj6PJ2C0YHWdhRxbrmUYkRUvI3W069FrmnUkuTKgqellGgpoba2PPrqvGZ8R6L2XwEZlDFeawY20WVCX4wmfYQWGAUWui4J+mOrYqsqxJygHXcQFGggDDNSSAmUu95N5np/lZ7hF5MGkWS34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769835590; c=relaxed/simple;
-	bh=v2F1JgVuufK6gXhn3X6V98ucPa1gw7ZhQmdiNKSHnMI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TycSjvRKSsMuvW1UpNLFhXBXvxjINOZ5feIXLIcDL04bvKEdcClPcHvOn/R8AqoPAyd7+/tw2TaIf1pXzM5BYxApsRcftte/HwlkLY3kGLBV8z4SLfD99nD5lFwZIhIeCM083burXhniRbPCFMSET4SOcYuFA/C5Aj0WpqxsfoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TmKzfQX2; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1769836192; c=relaxed/simple;
+	bh=ztQk+YZ220b504yW4B5Ld0V4wEeGqO1+Z5F414n9M7U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CXPWwqsPVt8tsZleQOEN7LAV7KjDDMAD8JdjjDAoxd4fPvJKgimtaSR9h8RufggWy/lMfQh6WM4jhze3TIH1rki2ZjGUkWRqO6WmaOHJVnmAS8VTmrSnkCWaf3SWFMab+dAWZpy7HXoN2s6SloFkilpjzI8cJwk1E4Ozw5PWkQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CmFRhQoq; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TmKzfQX2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CmFRhQoq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769835588; x=1801371588;
+  t=1769836188; x=1801372188;
   h=date:from:to:cc:subject:message-id;
-  bh=v2F1JgVuufK6gXhn3X6V98ucPa1gw7ZhQmdiNKSHnMI=;
-  b=TmKzfQX2V3t2NtGw6DfuOVYAUPhitKwtoj7FJdd9veHGyU8R6yCoEm3L
-   yJH9QKbnVD3aFhXcVeGpAjdtcrYtDA+mXPrx86QGXmCQ/355RZJiIm1em
-   0nc0gaoFzoL6cHFmoMC/vm5LqgNo1X1tkd3bUfdE1DDq49rz6pqYDQaBo
-   k3olRZZY7j/nXKSZeMHQRAHgpJeW2SjGX/o+lYlCk3pUU0MfCvxjAAyQA
-   3jer7vGZB1f7JWUfP9WI4RZkgAqmo84fO64LaEQS5i3kG3RukZQ+wPSLX
-   6yv1H1q4Hbf8wfoeJUaBmx1AUNCaK4xuy1iHYA/ot1vD6D0Vnn54jqV7s
-   Q==;
-X-CSE-ConnectionGUID: RFVmAlnIQiyktgc887hN2w==
-X-CSE-MsgGUID: so6zxBWYRha4FYCYI0n27Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70979630"
+  bh=ztQk+YZ220b504yW4B5Ld0V4wEeGqO1+Z5F414n9M7U=;
+  b=CmFRhQoqjpUQlBkLkLq9A+qcaqyJsyCOCvzMjl6Vf1C8l/usW9Pm+1p6
+   XGDGIkUgoQLOHcsLlbczzLuYEdl20Ws1GDn11QbnyiipAqBJswS8msYno
+   k4S50ON4WV3C9s/J8MI+pVxOP24tMF8iYY7yFqbAUjUA9qYJMjjBIc7Rq
+   w53oHnxVLM9ZAN0imcy692Zb6KVvBhVM2a07VvjKPIt8+3gqk6AdgCaRB
+   8Wd4njBct2PEsXdAKysCH6+24RlYn/TkFpOe6yfftRlZZjWgDJa03qLdW
+   sAi674DbWHvsic0DX4Hd8WSvvKD1csbLk6CNmkAJQ6uo+mWRbIkmZuVIr
+   A==;
+X-CSE-ConnectionGUID: oVxp+7eqTdKxuON+gRPTmw==
+X-CSE-MsgGUID: IsxIu1fUQZGDiqSqJJeiMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70980137"
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="70979630"
+   d="scan'208";a="70980137"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 20:59:47 -0800
-X-CSE-ConnectionGUID: dZ5XAXVySH+GUU6g9AntCw==
-X-CSE-MsgGUID: ZuIg/L0SQXmuDHLXIBLkMw==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 21:09:48 -0800
+X-CSE-ConnectionGUID: XZT2VqL/Sce5DLeqIRsOcw==
+X-CSE-MsgGUID: 1p1qSV6+SY2U1gK+inqRaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="209256031"
+   d="scan'208";a="209256972"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Jan 2026 20:59:45 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 30 Jan 2026 21:09:45 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vm35D-00000000dee-1mqS;
-	Sat, 31 Jan 2026 04:59:43 +0000
-Date: Sat, 31 Jan 2026 12:59:06 +0800
+	id 1vm3Et-00000000df0-2nHf;
+	Sat, 31 Jan 2026 05:09:43 +0000
+Date: Sat, 31 Jan 2026 13:09:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_9 6/12]
- include/linux/trace_events.h:834:5: warning: no previous prototype for
- function 'bpf_tracing_multi_attach'
-Message-ID: <202601311253.RFAVL9Uf-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_9 1/12]
+ kernel/bpf/trampoline.c:740:12: warning: 'bpf_trampoline_update' defined but
+ not used
+Message-ID: <202601311349.Yr6mO1xp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,122 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_9
 head:   4a1d38e3df06743886a06b547187aec8023ef27d
-commit: 43cf4edef3aa5c2d42fff08ce0a553010aae6a11 [6/12] bpf: Add support to create tracing multi link
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260131/202601311253.RFAVL9Uf-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311253.RFAVL9Uf-lkp@intel.com/reproduce)
+commit: 9ecb3af28fc9354376aac0f9645ff70b637c067b [1/12] bpf: Add struct bpf_trampoline_ops object
+config: x86_64-buildonly-randconfig-002-20260131 (https://download.01.org/0day-ci/archive/20260131/202601311349.Yr6mO1xp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311349.Yr6mO1xp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601311253.RFAVL9Uf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601311349.Yr6mO1xp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:61:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:96:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:53:
-   In file included from include/linux/security.h:35:
-   include/linux/bpf.h:1550:51: warning: declaration of 'struct bpf_tramp_link' will not be visible outside of this function [-Wvisibility]
-    1550 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
-         |                                                   ^
-   include/linux/bpf.h:1556:53: warning: declaration of 'struct bpf_tramp_link' will not be visible outside of this function [-Wvisibility]
-    1556 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-         |                                                     ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:61:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:96:
-   In file included from include/trace/syscall.h:7:
->> include/linux/trace_events.h:834:5: warning: no previous prototype for function 'bpf_tracing_multi_attach' [-Wmissing-prototypes]
-     834 | int bpf_tracing_multi_attach(struct bpf_prog *prog, const union bpf_attr *attr)
-         |     ^
-   include/linux/trace_events.h:834:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     834 | int bpf_tracing_multi_attach(struct bpf_prog *prog, const union bpf_attr *attr)
-         | ^
-         | static 
-   3 warnings generated.
---
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:61:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:96:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:53:
-   In file included from include/linux/security.h:35:
-   include/linux/bpf.h:1550:51: warning: declaration of 'struct bpf_tramp_link' will not be visible outside of this function [-Wvisibility]
-    1550 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
-         |                                                   ^
-   include/linux/bpf.h:1556:53: warning: declaration of 'struct bpf_tramp_link' will not be visible outside of this function [-Wvisibility]
-    1556 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-         |                                                     ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:61:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:96:
-   In file included from include/trace/syscall.h:7:
->> include/linux/trace_events.h:834:5: warning: no previous prototype for function 'bpf_tracing_multi_attach' [-Wmissing-prototypes]
-     834 | int bpf_tracing_multi_attach(struct bpf_prog *prog, const union bpf_attr *attr)
-         |     ^
-   include/linux/trace_events.h:834:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     834 | int bpf_tracing_multi_attach(struct bpf_prog *prog, const union bpf_attr *attr)
-         | ^
-         | static 
-   3 warnings generated.
+   kernel/bpf/trampoline.c:448:15: error: variable 'trampoline_ops' has initializer but incomplete type
+     448 | static struct bpf_trampoline_ops trampoline_ops = {
+         |               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:449:10: error: 'struct bpf_trampoline_ops' has no member named 'register_fentry'
+     449 |         .register_fentry   = register_fentry,
+         |          ^~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:449:30: warning: excess elements in struct initializer
+     449 |         .register_fentry   = register_fentry,
+         |                              ^~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:449:30: note: (near initialization for 'trampoline_ops')
+   kernel/bpf/trampoline.c:450:10: error: 'struct bpf_trampoline_ops' has no member named 'unregister_fentry'
+     450 |         .unregister_fentry = unregister_fentry,
+         |          ^~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:450:30: warning: excess elements in struct initializer
+     450 |         .unregister_fentry = unregister_fentry,
+         |                              ^~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:450:30: note: (near initialization for 'trampoline_ops')
+   kernel/bpf/trampoline.c:451:10: error: 'struct bpf_trampoline_ops' has no member named 'modify_fentry'
+     451 |         .modify_fentry     = modify_fentry,
+         |          ^~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:451:30: warning: excess elements in struct initializer
+     451 |         .modify_fentry     = modify_fentry,
+         |                              ^~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:451:30: note: (near initialization for 'trampoline_ops')
+   kernel/bpf/trampoline.c: In function 'bpf_trampoline_update_ops':
+   kernel/bpf/trampoline.c:710:26: error: invalid use of undefined type 'struct bpf_trampoline_ops'
+     710 |                 err = ops->register_fentry(tr, im->image, data);
+         |                          ^~
+   kernel/bpf/trampoline.c: At top level:
+   kernel/bpf/trampoline.c:448:34: error: storage size of 'trampoline_ops' isn't known
+     448 | static struct bpf_trampoline_ops trampoline_ops = {
+         |                                  ^~~~~~~~~~~~~~
+>> kernel/bpf/trampoline.c:740:12: warning: 'bpf_trampoline_update' defined but not used [-Wunused-function]
+     740 | static int bpf_trampoline_update(struct bpf_trampoline *tr, bool lock_direct_mutex)
+         |            ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/bpf_tracing_multi_attach +834 include/linux/trace_events.h
+vim +/bpf_trampoline_update +740 kernel/bpf/trampoline.c
 
-   795	
-   796	static inline int
-   797	perf_event_query_prog_array(struct perf_event *event, void __user *info)
-   798	{
-   799		return -EOPNOTSUPP;
-   800	}
-   801	struct bpf_raw_tp_link;
-   802	static inline int bpf_probe_register(struct bpf_raw_event_map *btp, struct bpf_raw_tp_link *link)
-   803	{
-   804		return -EOPNOTSUPP;
-   805	}
-   806	static inline int bpf_probe_unregister(struct bpf_raw_event_map *btp, struct bpf_raw_tp_link *link)
-   807	{
-   808		return -EOPNOTSUPP;
-   809	}
-   810	static inline struct bpf_raw_event_map *bpf_get_raw_tracepoint(const char *name)
-   811	{
-   812		return NULL;
-   813	}
-   814	static inline void bpf_put_raw_tracepoint(struct bpf_raw_event_map *btp)
-   815	{
-   816	}
-   817	static inline int bpf_get_perf_event_info(const struct perf_event *event,
-   818						  u32 *prog_id, u32 *fd_type,
-   819						  const char **buf, u64 *probe_offset,
-   820						  u64 *probe_addr, unsigned long *missed)
-   821	{
-   822		return -EOPNOTSUPP;
-   823	}
-   824	static inline int
-   825	bpf_kprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   826	{
-   827		return -EOPNOTSUPP;
-   828	}
-   829	static inline int
-   830	bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-   831	{
-   832		return -EOPNOTSUPP;
-   833	}
- > 834	int bpf_tracing_multi_attach(struct bpf_prog *prog, const union bpf_attr *attr)
-   835	{
-   836		return -EOPNOTSUPP;
-   837	}
-   838	#endif
-   839	
+   739	
+ > 740	static int bpf_trampoline_update(struct bpf_trampoline *tr, bool lock_direct_mutex)
+   741	{
+   742		return bpf_trampoline_update_ops(tr, lock_direct_mutex, &trampoline_ops, NULL);
+   743	}
+   744	
 
 -- 
 0-DAY CI Kernel Test Service
