@@ -1,138 +1,205 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE10356A07
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 14:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31178352C39
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 14:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769870164; cv=none; b=FJTyCKsqlNBqXSB4p8K1oMdXVoyvlRAIRjF//ZkLW1lNrHO4QKCVCM/NeELYyBvMBdFTrQdaiqpWl2jyWqmlXxgb9ndBXpTSS36JKOr8m990GYnOJ+Y+PrlxyocDgrYMxSKB+F5SAZ1Ht3EIPbQ1+w1dlJw1oz1uLn8F5L225ik=
+	t=1769870420; cv=none; b=fv8oa1gfZgqOzOU2bDMJhbsWgCIHj3/j5PKJeEnoOHjbFyaGl3XvTb/HQwAXnB8Efyd0NfWmh7PufkoZHsMXJCcqkibx2R+Z/9+lH8DSLi3ZFn89h5LKq1TlqZI4GU50PEAoFRSCDREz91Bkf9U117LV9iUTBjIc6Pfauc+Zfps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769870164; c=relaxed/simple;
-	bh=zvie+874fTn75a3eXFaIOd8Atel+XaljTeurFJOSLEw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=NZVC9K3eciJDq4LCbH8ETupvRnVS/1YSeOTb488P/n6CY0YtbRx86AwdRXcIBW101e8oYrLlNRF5+5P5SCtInmD6dmIDVf6hQ8nrtr4vqbIOIEJSuG/elu9YEA+Y0Yx/UECkyF4N1nj/vksxFaR2OPykj7XD3eJx4qqUgD/V40o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yJvA5Nk9; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769870420; c=relaxed/simple;
+	bh=tY6m/cTYqnUSw7M0k9lA0ClDLspkEF/46elcqujW95U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=WTHby6Mx53hb3XO5jMyvEZ9Tf0C9Qa6NXDWoDEZldK6THgmHRpMf4soXNtuzS5EXEDWf8YCtrZRLLIysLenjjdVPOEib7ipSE9X9mRk8P0/+PdkmAiri1+wu06F5INsEWCUT0QjDObep6CsSuPgZyNixkd2XTQDMyHHjZvTcjFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oqf98ktD; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yJvA5Nk9"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43601e96f72so35664f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 06:36:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769870161; x=1770474961; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=sVSIbao0S7N2+ApNZzv364LLiL6KFRy4sHA0aE5O/xE=;
-        b=yJvA5Nk9cGMnqpQk/4een8veJepW86hvB/w//F72PBuPIHEgnpe/1EvA20PL7n/nHV
-         nj3EuqSVC1AMeRrCXIWhNAIJwEokOred9I4QpnxZoplaUgxxoSIb41cG+4UqY73NVQ8c
-         6/RXGa/9l1aeUijqdZi7Ye+ZsL7K6GcrOYzROs0aumYeQ+PBrtmT2SLFsrFivsntBhkl
-         J8X85dUZ9i/jQ4MryX3HyyiJan5Cm7a+se7ULWbOTdiTWJnMMB0u8KuPomOs3gSwWRp+
-         EwE2GtCQdgDAKG4e7h01p/DEKz4E++ghpmE0Cndok1jKXPW9EOG9nH+NnJGpc72SK531
-         dItA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769870161; x=1770474961;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sVSIbao0S7N2+ApNZzv364LLiL6KFRy4sHA0aE5O/xE=;
-        b=TSfD242OaHMmLRBxkmYj5xCfMdc0joKKKqpBylwGE1LSBhOnu1j+cJtcOMyWfJcwF6
-         Qvc0mI/hKdN1YO6AyeFvbBLvJYj+kk9kexyHuQi5bj4kqKtu4Tlh/QflM+IoO1+G1w3n
-         k8o1I6h9IX6NPLAg+VqhS6FEArKYuIpH4pb/eaS3Zgfxu/faOdpS9jKJ7NcC+F1rR7xx
-         Unu2+wOXjJrYyK4xTUAF0boqPYRwbVTaqo0XjWDslK2U1YtCf1efpL4yejdbbf7dpBh9
-         NrHOFaNXoVV4BtLm74MtSElPDK0PAQwGgf1aZGq0383YxWW6qWfCSISED2fkeqy3c4jK
-         +pOg==
-X-Forwarded-Encrypted: i=1; AJvYcCVdylwMvoRRE3RF955YOD/JY7hm38ZJrRJv8nID1cVfH129SiAFCdoRB+BLMTfWn/YnddN091MaAN1VhABQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzonMivKu6bmPVcqCuuir2zcao5Bwe+W5OPnKE8GhHrVnC+Nte1
-	Wo6iRGbbNMvyi2Q+trplxai1eqT5yYAoesHBC+eFGxl7uzoh7ruxYwNWO7QHJKZ/8Bg=
-X-Gm-Gg: AZuq6aL1lS68T+M8kGaLTY33n3LX7QalEoaSf08djh7qNpVPM3Wmc+oaWJHaMz4w82f
-	f27Drxfi6qqs0UDZ2aFrpovaA81LtM/TT2PYiNncBzynK4gVXHuzfoCspNVH+g6485O1RqJ56do
-	VKyqcXMjLJGqZlCosZCqprIYYKInk2kqR68bcOlWOA9E+jlOOggXejPSfCkMNgKLBFH6qGvbVj5
-	11s6ur4qun6Fm5ggbR0yA1Q+8hBYSWIU1OjmLefI+qsYqdn9EuI8lg5vsIo0dZFiAOtLJ4+XlyA
-	7YEFNY98+UQxZIuxvpYcU2wfVywIUI9IbtmsoLM5x8DEJ6eCGMwFWxx0uURaQUvOCcFiZPgRg9a
-	3Dd6WRO/B2haDVLRv7bKesWfb+T4C/6yN/7CHuqco44S1e06E3O8mxjAN9yeQy64nsle9LVB2Yn
-	JyAqghlfFqmllMmPl0
-X-Received: by 2002:a05:6000:4382:b0:435:99d5:9d8f with SMTP id ffacd0b85a97d-435f3a742f4mr9016413f8f.19.1769870160665;
-        Sat, 31 Jan 2026 06:36:00 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10ee040sm29840712f8f.11.2026.01.31.06.35.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 06:36:00 -0800 (PST)
-Date: Sat, 31 Jan 2026 17:35:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Abdurrahman Hussain via B4 Relay <devnull+abdurrahman.nexthop.ai@kernel.org>,
-	Michal Simek <monstr@monstr.eu>, Andi Shyti <andi.shyti@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Subject: Re: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-Message-ID: <202601311615.10yziOui-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oqf98ktD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769870418; x=1801406418;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tY6m/cTYqnUSw7M0k9lA0ClDLspkEF/46elcqujW95U=;
+  b=Oqf98ktD9wDLOvOMQsiN1i+A8GluLPXqOPXTIOriB3wy8Rzth0itfsQe
+   5dBekYsdS5DmKagf0JoeqV9U8MSUnGJ6tWuTYnIkAd1Dry5mhEfkSG8i3
+   ndAfg+HKIZAEURyvY7XtHFw27n+nGf0TvdSYhVp/tvXpTR80W7VdgurdK
+   OJO841O3famyCkSZ24St5chg0PfiCGJYvrk/VUoz4Ib5A8enrAaxxQCk3
+   p+Chb8/o+QHe1n/IirQvj7/oNQyzVfs14YpSth3sje1mrd77jDp+H0a2k
+   fxj7JPkFxFBtzg8MNBa4GkLeyxnghWxi8c8g4a/7+10sCZW26iwyDYHxZ
+   g==;
+X-CSE-ConnectionGUID: wHokJ15wRYSWhdZjx0vTvw==
+X-CSE-MsgGUID: oH+YNSG3QDa/MRlorO7nLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="73700120"
+X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
+   d="scan'208";a="73700120"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 06:40:17 -0800
+X-CSE-ConnectionGUID: 01t269l7QIGP537POWYkuQ==
+X-CSE-MsgGUID: LUHQoopKT3a3xt49mmMHdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; 
+   d="scan'208";a="214025615"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 31 Jan 2026 06:40:16 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vmC8z-000000002i9-3PTf;
+	Sat, 31 Jan 2026 14:40:13 +0000
+Date: Sat, 31 Jan 2026 15:39:18 +0100
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 0/3] htmldocs:
+ ./include/drm/drm_client.h:158: warning: Function parameter or member
+ 'CK_KABI_RESERVE(1' not described in 'drm_client_buffer'
+Message-ID: <202601311547.d7sAQWQT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260129-i2c-xiic-v7-5-727e434897ef@nexthop.ai>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Abdurrahman,
+Hi Guixin,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abdurrahman-Hussain-via-B4-Relay/i2c-xiic-skip-input-clock-setup-on-non-OF-systems/20260130-054653
-base:   63804fed149a6750ffd28610c5c1c98cce6bd377
-patch link:    https://lore.kernel.org/r/20260129-i2c-xiic-v7-5-727e434897ef%40nexthop.ai
-patch subject: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-config: i386-randconfig-141-20260130 (https://download.01.org/0day-ci/archive/20260131/202601311615.10yziOui-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   8f3dc34debe1467cc2306963037f0db6b36e1729
+commit: ef314e56b70f4662163f3e1e094bcfa9627674c5 [0/3] anolis: kabi: reserv=
+e some space for kABI
+reproduce: (https://download.01.org/0day-ci/archive/20260131/202601311547.d=
+7sAQWQT-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601311615.10yziOui-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601311547.d7sAQWQT-lkp@i=
+ntel.com/
 
-smatch warnings:
-drivers/i2c/busses/i2c-xiic.c:1539 xiic_i2c_remove() warn: pm_runtime_get_sync() also returns 1 on success
+All warnings (new ones prefixed by >>):
 
-vim +1539 drivers/i2c/busses/i2c-xiic.c
+   ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function par=
+ameter or member 'bottom_inside_gain' not described in 'mpcc_blnd_cfg'
+   ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function par=
+ameter or member 'bottom_outside_gain' not described in 'mpcc_blnd_cfg'
+   ./drivers/gpu/drm/amd/include/amd_shared.h:312: warning: Function parame=
+ter or member 'prepare_suspend' not described in 'amd_ip_funcs'
+   Error: Cannot open file ./include/linux/backlight.h
+   Error: Cannot open file ./include/linux/backlight.h
+>> ./include/drm/drm_client.h:158: warning: Function parameter or member 'C=
+K_KABI_RESERVE(1' not described in 'drm_client_buffer'
+>> ./include/drm/drm_atomic.h:244: warning: Function parameter or member 'C=
+K_KABI_RESERVE(1' not described in 'drm_private_state_funcs'
+>> ./include/drm/drm_atomic.h:345: warning: Function parameter or member 'C=
+K_KABI_RESERVE(1' not described in 'drm_private_state'
+>> ./include/drm/drm_crtc.h:390: warning: Function parameter or member 'CK_=
+KABI_RESERVE(1' not described in 'drm_crtc_state'
+>> ./include/drm/drm_crtc.h:1182: warning: Function parameter or member 'CK=
+_KABI_RESERVE(1' not described in 'drm_crtc'
+>> ./include/drm/drm_plane.h:763: warning: Function parameter or member 'CK=
+_KABI_RESERVE(1' not described in 'drm_plane'
+>> ./include/drm/drm_connector.h:327: warning: Function parameter or member=
+ 'CK_KABI_RESERVE(1' not described in 'drm_hdmi_info'
+>> ./include/drm/drm_connector.h:391: warning: Function parameter or member=
+ 'CK_KABI_RESERVE(1' not described in 'drm_monitor_range_info'
+   ./include/drm/drm_connector.h:532: warning: Enum value 'DRM_MODE_COLORIM=
+ETRY_COUNT' not described in enum 'drm_colorspace'
+>> ./include/drm/drm_connector.h:827: warning: Function parameter or member=
+ 'CK_KABI_RESERVE(1' not described in 'drm_display_info'
+>> ./include/drm/drm_connector.h:1349: warning: Function parameter or membe=
+r 'CK_KABI_RESERVE(1' not described in 'drm_connector_funcs'
+>> ./include/drm/drm_connector.h:1906: warning: Function parameter or membe=
+r 'CK_KABI_RESERVE(1' not described in 'drm_connector'
+>> ./include/drm/drm_writeback.h:100: warning: Function parameter or member=
+ 'CK_KABI_RESERVE(1' not described in 'drm_writeback_connector'
+>> ./include/drm/drm_modeset_lock.h:77: warning: Function parameter or memb=
+er 'CK_KABI_RESERVE(1' not described in 'drm_modeset_acquire_ctx'
+>> ./include/drm/drm_modeset_helper_vtables.h:1514: warning: Function param=
+eter or member 'CK_KABI_RESERVE(1' not described in 'drm_mode_config_helper=
+_funcs'
+   Error: Cannot open file ./include/linux/hdmi.h
+   Error: Cannot open file ./include/linux/hdmi.h
+>> ./include/drm/ttm/ttm_resource.h:180: warning: Function parameter or mem=
+ber 'CK_KABI_RESERVE(1' not described in 'ttm_resource_manager'
+   Error: Cannot open file ./include/linux/host1x.h
+   Error: Cannot open file ./include/linux/vga_switcheroo.h
+   Error: Cannot open file ./include/linux/vga_switcheroo.h
+   Error: Cannot open file ./include/linux/vga_switcheroo.h
+   Error: Cannot open file ./include/linux/vga_switcheroo.h
+--
+   Error: Cannot open file ./include/linux/ethtool.h
+   Error: Cannot open file ./include/linux/net.h
+   Error: Cannot open file ./include/linux/net.h
+   Error: Cannot open file ./include/linux/skbuff.h
+   Error: Cannot open file ./include/linux/skbuff.h
+>> ./include/net/sock.h:557: warning: Function parameter or member 'CK_KABI=
+_RESERVE(1' not described in 'sock'
+   Error: Cannot open file ./include/linux/etherdevice.h
+   Error: Cannot open file ./include/linux/etherdevice.h
+   Error: Cannot open file ./include/linux/netdevice.h
+   Error: Cannot open file ./include/linux/netdevice.h
+   Error: Cannot open file ./include/linux/phy.h
 
-e190a0c389e601 Uwe Kleine-König    2023-05-08  1529  static void xiic_i2c_remove(struct platform_device *pdev)
-e1d5b6598cdc33 Richard Röjfors     2010-02-11  1530  {
-2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1531  	struct device *dev = &pdev->dev;
-e1d5b6598cdc33 Richard Röjfors     2010-02-11  1532  	struct xiic_i2c *i2c = platform_get_drvdata(pdev);
-36ecbcab84d023 Shubhrajyoti Datta  2016-03-02  1533  	int ret;
-e1d5b6598cdc33 Richard Röjfors     2010-02-11  1534  
-e1d5b6598cdc33 Richard Röjfors     2010-02-11  1535  	/* remove adapter & data */
-e1d5b6598cdc33 Richard Röjfors     2010-02-11  1536  	i2c_del_adapter(&i2c->adap);
-e1d5b6598cdc33 Richard Röjfors     2010-02-11  1537  
-2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1538  	ret = pm_runtime_get_sync(dev);
-2557b4ba04df79 Abdurrahman Hussain 2026-01-29 @1539  	if (ret)
-2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1540  		dev_warn(dev, "Failed to activate device for removal (%pe)\n",
-810199f7315604 Uwe Kleine-König    2022-10-19  1541  			 ERR_PTR(ret));
 
+vim +158 ./include/drm/drm_client.h
 
-pm_runtime_get_sync() can return 1 on success.  Perhaps use
-pm_runtime_resume_and_get()?
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  127 =20
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  128  /**
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  129   * struct drm_client=
+_buffer - DRM client buffer
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  130   */
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  131  struct drm_client_bu=
+ffer {
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  132  	/**
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  133  	 * @client: DRM cli=
+ent
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  134  	 */
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  135  	struct drm_client_d=
+ev *client;
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  136 =20
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  137  	/**
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  138  	 * @pitch: Buffer p=
+itch
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  139  	 */
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  140  	u32 pitch;
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  141 =20
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  142  	/**
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  143  	 * @gem: GEM object=
+ backing this buffer
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  144  	 */
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  145  	struct drm_gem_obje=
+ct *gem;
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  146 =20
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  147  	/**
+a85955568939e2 Thomas Zimmermann 2020-11-03  148  	 * @map: Virtual address=
+ for the buffer
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  149  	 */
+7938f4218168ae Lucas De Marchi   2022-02-04  150  	struct iosys_map map;
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  151 =20
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  152  	/**
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  153  	 * @fb: DRM framebu=
+ffer
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  154  	 */
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  155  	struct drm_framebuf=
+fer *fb;
+ef314e56b70f46 Guixin Liu        2024-08-26  156 =20
+ef314e56b70f46 Guixin Liu        2024-08-26  157  	CK_KABI_RESERVE(1)
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03 @158  };
+c76f0f7cb546b6 Noralf Tr=C3=B8nnes    2018-07-03  159 =20
 
-810199f7315604 Uwe Kleine-König    2022-10-19  1542  	else
-e1d5b6598cdc33 Richard Röjfors     2010-02-11  1543  		xiic_deinit(i2c);
-810199f7315604 Uwe Kleine-König    2022-10-19  1544  
-2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1545  	pm_runtime_put_sync(dev);
-2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1546  	pm_runtime_dont_use_autosuspend(dev);
-e1d5b6598cdc33 Richard Röjfors     2010-02-11  1547  }
+:::::: The code at line 158 was first introduced by commit
+:::::: c76f0f7cb546b661b5e0ac769850a5c854927f65 drm: Begin an API for in-ke=
+rnel clients
 
--- 
+:::::: TO: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+:::::: CC: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
