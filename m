@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D3B31986E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 08:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D71E13FEE;
+	Sun,  1 Feb 2026 10:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769935372; cv=none; b=DhvUDX+/K8UsfEMbLbetfg9a7iMajujlq+1CmPYTBLwg4UoFAq+adR8pbeGbAJyFb6dC8dpW9B0tnnPPyJ8KOqYXDwnb2NpFx5JR0vPAQK7A53IbRO7kv5xBuSUdm9IQ0l/tniHFJp2cJkTw+xp9q1xeX2dJt864SqwYbeW/dQ8=
+	t=1769941071; cv=none; b=kZ2Grn6XCNGnMtniVtAJ5ovfBxVg6vPpUsbsF+ROuXGgLSuASKDf37w3pkRKSD5Qm3IJtvoNPxVy8Uyq2rtzDARx2ONJN1AcA63JiZJ2TFwdaQrZXEzGyNJlD7uFHraCER8or4OAisWN9A2pgDRgOww6U267Ewsu36tO3dYO2LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769935372; c=relaxed/simple;
-	bh=HgiWnJM+mf3rUNLbH9B7OKoJ1DgLBVAhG3C+fgLUnUA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=unZksM88C1ln2cjOI/Dg77zxX1VIz89j/LONibkcc/s+KnkfYUduPmBrh03QRaTJG2Qu3Jl4+hZvvCOWOjfe51JQinC6DZBMdF1du985dRBPXEggRLeovwJ4EWkPRH6epcoTR+/xL8IfCBbHYfLX+d+LVIPY5Jiq4G7oBM3Svk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8tf2bj8; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1769941071; c=relaxed/simple;
+	bh=FJNXyL8PUz/xeGfImMPq/+s+MRxuE/dYerDeJdRNWGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lrz9s8PNe4ymetD6kVNlrOLS4mg/CqpB5QrxI2UFamN78hUbLPPDxCksVUIRKPwfquafbTZKAuJ64YdCXzN3D5Hf2+3tD8joOcJMgBHzsIhSSut1C1cj8Ie80lL7KP7RQYnPQact9Bg2QbygDO51p3YPY578jZ2qFTA0Uk+S3BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XPh+tuod; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8tf2bj8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XPh+tuod"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769935370; x=1801471370;
+  t=1769941070; x=1801477070;
   h=date:from:to:cc:subject:message-id;
-  bh=HgiWnJM+mf3rUNLbH9B7OKoJ1DgLBVAhG3C+fgLUnUA=;
-  b=Y8tf2bj8PR3R7hGKNQsji9zyzCfEnCk0W7V/Gdwhvkxg3Rkmb73snJzi
-   cWKJKbS3jzNCTWfyCa3Li66nIzr/2C30A9dzNBsRE/V4sldC8RoNd+X+E
-   4YMYa/AWIOOD43ycDPsbF8qhMGM+yvUdi1ld58hJ8M36/HK605m/gsaX/
-   H99kyMzAYTiVIIMu+knl09x7aBXVpsyJLM2zOBHKMSNrJ8MYcR5w0VS8a
-   lbTJtrWHF6Hwa2c+J3cArjJOmUUOp4zC0FIx4oNM9Az6o4kbC8c83SfUT
-   Vpcd2hZXfHdLS9piQ4J4fe5TzxI65p9y7ZZPKyu1VOWqpQ5W2IxsfG7I5
-   w==;
-X-CSE-ConnectionGUID: YG/+dTqXSvqA9DVPFwBHrw==
-X-CSE-MsgGUID: ++Z5Pyg9QV2V6F757qWI7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="82548852"
+  bh=FJNXyL8PUz/xeGfImMPq/+s+MRxuE/dYerDeJdRNWGQ=;
+  b=XPh+tuodndq+FpZY3Z17ncXdMoVnDtsYgyB6eulkJFJEk3ibOIUJ6kcB
+   JaK6MJtb7iNSqz2Oby5hDJhdhxyYkzPpMj61bQjXyXuJ9smv9Z/sC3uom
+   CAz1g1eIMspYFa4ksSoQd4BMLGPk44J8D0PbuvLbp1/chpJmIjUziQ2T5
+   X+OrVeN/Rs9U4DEmKSbfXbfAOKinDyrY7bV2RwEQUMnXx52ndHy8QCaRG
+   +WzrbO0rIW6UABqFy2sf4dZUYnJnxJhTgLYzJOUPVRPk7nSP7kEKruvZv
+   F2GfCA57SRI9xEQHkTCDHG7RE6QZN8exc9rj+YHLBU1CW9+ZdqYPIVgas
+   Q==;
+X-CSE-ConnectionGUID: zCA+Vyd/TPKCgTVrOnF8EQ==
+X-CSE-MsgGUID: stXSk/baRLetqrxgS0sSXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="82236764"
 X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="82548852"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 00:42:47 -0800
-X-CSE-ConnectionGUID: bU+ffI72Q2+glm+NA4Arig==
-X-CSE-MsgGUID: Q7QH/fMxTwyba/LttpSn7A==
+   d="scan'208";a="82236764"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 02:17:50 -0800
+X-CSE-ConnectionGUID: LID5LypTQXS5NGu1ByPBeQ==
+X-CSE-MsgGUID: ETIzVcd6SVKFUISgrjuUqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="209617697"
+   d="scan'208";a="214135137"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Feb 2026 00:42:46 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 01 Feb 2026 02:17:48 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmT2Z-00000000efq-342X;
-	Sun, 01 Feb 2026 08:42:43 +0000
-Date: Sun, 01 Feb 2026 16:42:16 +0800
+	id 1vmUWX-00000000eiG-3n4w;
+	Sun, 01 Feb 2026 10:17:45 +0000
+Date: Sun, 01 Feb 2026 18:16:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org
 Subject: [viro-vfs:for-wsamuel2 40/40]
- drivers/usb/gadget/function/f_fs.c:660:17: error: implicit declaration of
- function 'ffs_data_reset'; did you mean 'ffs_data_get'?
-Message-ID: <202602011622.nYyDo3kh-lkp@intel.com>
+ drivers/usb/gadget/function/f_fs.c:660:3: error: call to undeclared function
+ 'ffs_data_reset'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202602011830.yKVSsQTY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,34 +65,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git for-wsamuel2
 head:   9a8dd89bd5c65c4189f2bf6291f0f9a3d0df31c5
 commit: 9a8dd89bd5c65c4189f2bf6291f0f9a3d0df31c5 [40/40] serialize ffs_ep0_open() on ffs->mutex, this time without ffs_data_reset() under ->mutex
-config: s390-randconfig-001-20260201 (https://download.01.org/0day-ci/archive/20260201/202602011622.nYyDo3kh-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602011622.nYyDo3kh-lkp@intel.com/reproduce)
+config: x86_64-randconfig-013-20260201 (https://download.01.org/0day-ci/archive/20260201/202602011830.yKVSsQTY-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602011830.yKVSsQTY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602011622.nYyDo3kh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602011830.yKVSsQTY-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/usb/gadget/function/f_fs.c: In function 'ffs_ep0_open':
->> drivers/usb/gadget/function/f_fs.c:660:17: error: implicit declaration of function 'ffs_data_reset'; did you mean 'ffs_data_get'? [-Werror=implicit-function-declaration]
+>> drivers/usb/gadget/function/f_fs.c:660:3: error: call to undeclared function 'ffs_data_reset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      660 |                 ffs_data_reset(ffs);
-         |                 ^~~~~~~~~~~~~~
-         |                 ffs_data_get
-   drivers/usb/gadget/function/f_fs.c: At top level:
->> drivers/usb/gadget/function/f_fs.c:2089:13: warning: conflicting types for 'ffs_data_reset'; have 'void(struct ffs_data *)'
+         |                 ^
+   drivers/usb/gadget/function/f_fs.c:660:3: note: did you mean 'ffs_data_get'?
+   drivers/usb/gadget/function/f_fs.c:55:13: note: 'ffs_data_get' declared here
+      55 | static void ffs_data_get(struct ffs_data *ffs);
+         |             ^
+   drivers/usb/gadget/function/f_fs.c:2089:13: error: static declaration of 'ffs_data_reset' follows non-static declaration
     2089 | static void ffs_data_reset(struct ffs_data *ffs);
-         |             ^~~~~~~~~~~~~~
->> drivers/usb/gadget/function/f_fs.c:2089:13: error: static declaration of 'ffs_data_reset' follows non-static declaration
-   drivers/usb/gadget/function/f_fs.c:660:17: note: previous implicit declaration of 'ffs_data_reset' with type 'void(struct ffs_data *)'
+         |             ^
+   drivers/usb/gadget/function/f_fs.c:660:3: note: previous implicit declaration is here
      660 |                 ffs_data_reset(ffs);
-         |                 ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+         |                 ^
+   2 errors generated.
 
 
-vim +660 drivers/usb/gadget/function/f_fs.c
+vim +/ffs_data_reset +660 drivers/usb/gadget/function/f_fs.c
 
    640	
    641	static int ffs_ep0_open(struct inode *inode, struct file *file)
