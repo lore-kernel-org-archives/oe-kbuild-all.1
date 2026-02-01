@@ -1,96 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392CC1E1024
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 22:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C757E2DA750
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 22:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769985915; cv=none; b=Lg6uYITBZL6cJtiGexf/A7YElVWIIGg4nGolI1Gcko0BMEO+J9xkzwr2hT1QwewbuWdybwjC6BNEz41Fk8IKAKDmvKjPIzBGwKMcgYbnuOfhXsewE7mRbkhlQR2mlOjJI9X/mCr/tRSyhl/gz3GAM5gUzSidHN6glAyQ3cx2CPU=
+	t=1769986515; cv=none; b=KfQxCb4+gVaNDZuyVFM6LqGUP4OgPchMgv/ugt+zGTKDsSjNNHxHQFFcmKxGmJZsQM2gWlyzul1QsQlKv6arewM/hvsL8PiXK0BcH049RiUuByX3gS24alcW9jTQmhIfLOrIObV8K+Jyml+LQXxxbeVM1YGu49M6YkEjaFVFx9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769985915; c=relaxed/simple;
-	bh=xdTkKvfoQbL64hNn8Q6MkGk0/GNrUrhUdCMskkMlI3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xutrwwvbr8RMXbPW+73xsxA7W4bEJxnX/L92CC1T25rd9eCLv5/XzoeM1vgyZk8YeeYZZoINVBme/jHROlYq4/z5Pxn0couaOb2pYen7fVr075lqnsv5E6Q/zCJ7GQ5MNFLmj7lnRPWMr4tv//bJNf/Vhgd4mp9x2bBPf4b+kOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SWBc8hk3; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769986515; c=relaxed/simple;
+	bh=AADVXV62MJdxCLet4QqojGJdxzxqPvcR7wX7Ssri9vo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VYeI7dGHPqzbk+nx+ce25Xelmoy9ry3dRT0LPjKdHUYdJWcviA0cQ4PpUt+VGl7KUPgt9+4UjEnNWiEBWRpE+ZeMCnqzJiWs9lpnSgrUj6GtDx7EDl29nmW+J0Y3ikXgI5gT3h+PlRN1K+0Y2PuuYuQpSuWosWVPujzH4AVItEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OmiHIpZ6; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWBc8hk3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmiHIpZ6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769985913; x=1801521913;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xdTkKvfoQbL64hNn8Q6MkGk0/GNrUrhUdCMskkMlI3E=;
-  b=SWBc8hk3yj2buCp6BBLH2rkWb57waZQeS1ZqwBC+w7Yi9oPLDmvygcWV
-   NMJeVVNsD7iNU892w/UzfEkrmjp1e5OZHDEuiUZTx7CxjI3JN8JbPGCG3
-   7FZ1T7pGOQc2J/Cb+cMdub5/Hv342q1eU3M9uSki0k9aWz8W3isn7aewB
-   Izdxrk8TbK3kLyvWdrm6GK1p31VcrQXAurH+WYUfXHJhdQGMDltGgPIZB
-   xsL+bDLiJ1UZDnaia3aGkl6J6qxrTRmLoeASVMgB3ndWRYeEoTbbB/kDW
-   ZwDP0iwcK3lnpw95MPCcix7s/FVpUbzem5EA6WMUii4KCiyyJ9WhoQqyE
-   w==;
-X-CSE-ConnectionGUID: se7xRM1IQa66HHFJusTjDg==
-X-CSE-MsgGUID: QQ9uE4WBRQW3US6AwcLWOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71051766"
+  t=1769986514; x=1801522514;
+  h=date:from:to:cc:subject:message-id;
+  bh=AADVXV62MJdxCLet4QqojGJdxzxqPvcR7wX7Ssri9vo=;
+  b=OmiHIpZ6MWRcllmYBmMms6Rqy9eHyIcbnr6xDVXMvC95BF7dKg7c9c4d
+   KvNiZsavVsInHaJUa9Rq6gneVuQhFfGZX1PuaTJ5kb5fkXuJ2tYrNOfaT
+   oSS3rj7Z1XriAFeBb48w4L1X0/JazHoPzA0RBL59iJ1VzKwA3DbF3xpWH
+   O/PbqDvAWNjAQQ6IRx6dcdyObEkuCEpi5x+ywEYfOTLDsCkLAoGNLqFdm
+   UrSJCFFbtvJaf8Z7xl5obkIk8PPbP7J8TUVW1dGWxGzH07+jF/b5SBoER
+   wTlZZoAJy4WZYCE8r3POToS++QvTNw1HAIQmupn/2BSBmy5CUGfi5v9oq
+   g==;
+X-CSE-ConnectionGUID: 5pPIuDKHTS23NGpaJCng0w==
+X-CSE-MsgGUID: gugS8CBWT7+pBUXL8lgEqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71205389"
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="71051766"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 14:45:13 -0800
-X-CSE-ConnectionGUID: UaZnamP4Qiyq5S+r3J8Q3g==
-X-CSE-MsgGUID: iVdPDQUHSOyELPwKigKEEQ==
+   d="scan'208";a="71205389"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 14:55:13 -0800
+X-CSE-ConnectionGUID: doKqf15vRTqxx/wJss/xxw==
+X-CSE-MsgGUID: Z4m9iE0NReev7xGF2dOgRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="213893615"
+   d="scan'208";a="209242250"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 01 Feb 2026 14:45:12 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 01 Feb 2026 14:55:11 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmgBp-00000000f5G-1nFs;
-	Sun, 01 Feb 2026 22:45:09 +0000
-Date: Mon, 2 Feb 2026 06:44:25 +0800
+	id 1vmgLV-00000000f5U-2NMZ;
+	Sun, 01 Feb 2026 22:55:09 +0000
+Date: Mon, 02 Feb 2026 06:54:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youngjun Park <youngjun.park@lge.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 3/5] mm: memcontrol: add interface for swap tier
- selection
-Message-ID: <202602020619.cuYdT7eD-lkp@intel.com>
-References: <20260131125454.3187546-4-youngjun.park@lge.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:work.coda 1/4] fs/coda/dir.c:471:1: warning: label
+ 'bad' defined but not used
+Message-ID: <202602020633.nOeExEVJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260131125454.3187546-4-youngjun.park@lge.com>
 
-Hi Youngjun,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 5a3704ed2dce0b54a7f038b765bb752b87ee8cc2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youngjun-Park/mm-swap-introduce-swap-tier-infrastructure/20260201-005914
-base:   5a3704ed2dce0b54a7f038b765bb752b87ee8cc2
-patch link:    https://lore.kernel.org/r/20260131125454.3187546-4-youngjun.park%40lge.com
-patch subject: [RFC PATCH v3 3/5] mm: memcontrol: add interface for swap tier selection
-config: s390-randconfig-002-20260201 (https://download.01.org/0day-ci/archive/20260202/202602020619.cuYdT7eD-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602020619.cuYdT7eD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.coda
+head:   00a1de29cfe3a361a653e043d5277a5d4263b90b
+commit: 59769809e38dc6250c396dd38f95d2ba05be2ced [1/4] coda: is_bad_inode() is always false there
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260202/202602020633.nOeExEVJ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602020633.nOeExEVJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602020619.cuYdT7eD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602020633.nOeExEVJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: mm/memcontrol.o: in function `mem_cgroup_css_free':
->> memcontrol.c:(.text+0x2f2a): undefined reference to `swap_tiers_memcg_sync_mask'
-   s390-linux-ld: mm/memcontrol.o: in function `mem_cgroup_css_alloc':
->> memcontrol.c:(.ref.text+0xfc): undefined reference to `swap_tiers_memcg_inherit_mask'
+   fs/coda/dir.c: In function 'coda_dentry_revalidate':
+>> fs/coda/dir.c:471:1: warning: label 'bad' defined but not used [-Wunused-label]
+     471 | bad:
+         | ^~~
+
+
+vim +/bad +471 fs/coda/dir.c
+
+b625032b10222c Fabian Frederick 2015-02-17  438  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  439  /* called when a cache lookup succeeds */
+5be1fa8abd7b04 Al Viro          2024-12-08  440  static int coda_dentry_revalidate(struct inode *dir, const struct qstr *name,
+5be1fa8abd7b04 Al Viro          2024-12-08  441  				  struct dentry *de, unsigned int flags)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  442  {
+34286d6662308d Nicholas Piggin  2011-01-07  443  	struct inode *inode;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  444  	struct coda_inode_info *cii;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  445  
+0b728e1911cbe6 Al Viro          2012-06-10  446  	if (flags & LOOKUP_RCU)
+34286d6662308d Nicholas Piggin  2011-01-07  447  		return -ECHILD;
+34286d6662308d Nicholas Piggin  2011-01-07  448  
+2b0143b5c986be David Howells    2015-03-17  449  	inode = d_inode(de);
+a7400222e3eb7d Al Viro          2014-10-21  450  	if (!inode || is_root_inode(inode))
+^1da177e4c3f41 Linus Torvalds   2005-04-16  451  		goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  452  
+2b0143b5c986be David Howells    2015-03-17  453  	cii = ITOC(d_inode(de));
+^1da177e4c3f41 Linus Torvalds   2005-04-16  454  	if (!(cii->c_flags & (C_PURGE | C_FLUSH)))
+^1da177e4c3f41 Linus Torvalds   2005-04-16  455  		goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  456  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  457  	shrink_dcache_parent(de);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  458  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  459  	/* propagate for a flush */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  460  	if (cii->c_flags & C_FLUSH) 
+^1da177e4c3f41 Linus Torvalds   2005-04-16  461  		coda_flag_inode_children(inode, C_FLUSH);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  462  
+84d08fa888e7c2 Al Viro          2013-07-05  463  	if (d_count(de) > 1)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  464  		/* pretend it's valid, but don't change the flags */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  465  		goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  466  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  467  	/* clear the flags. */
+b5ce1d83a62fc1 Yoshihisa Abe    2010-10-25  468  	spin_lock(&cii->c_lock);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  469  	cii->c_flags &= ~(C_VATTR | C_PURGE | C_FLUSH);
+b5ce1d83a62fc1 Yoshihisa Abe    2010-10-25  470  	spin_unlock(&cii->c_lock);
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @471  bad:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  472  	return 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  473  out:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  474  	return 1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  475  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  476  
+
+:::::: The code at line 471 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
