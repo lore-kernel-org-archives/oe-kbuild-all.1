@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D71E13FEE;
-	Sun,  1 Feb 2026 10:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A84731AF2C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 10:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769941071; cv=none; b=kZ2Grn6XCNGnMtniVtAJ5ovfBxVg6vPpUsbsF+ROuXGgLSuASKDf37w3pkRKSD5Qm3IJtvoNPxVy8Uyq2rtzDARx2ONJN1AcA63JiZJ2TFwdaQrZXEzGyNJlD7uFHraCER8or4OAisWN9A2pgDRgOww6U267Ewsu36tO3dYO2LE=
+	t=1769942995; cv=none; b=cYJHmU7V3VJ1AdVibmOn6rHeeTptVqP2SXfiMFNwSwOI7RQGdQrDB6ecWdlzPVsWCD5KUKnGQrFNZbCtTtYt70GmBw9Dg2j4+Z1SmrqBBXfN0+Tmi1NCs5jNQmHx8fgQGu9u9DIFY8lEtXavJppz4JF/8vEgJLwTpooKAU8qDnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769941071; c=relaxed/simple;
-	bh=FJNXyL8PUz/xeGfImMPq/+s+MRxuE/dYerDeJdRNWGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lrz9s8PNe4ymetD6kVNlrOLS4mg/CqpB5QrxI2UFamN78hUbLPPDxCksVUIRKPwfquafbTZKAuJ64YdCXzN3D5Hf2+3tD8joOcJMgBHzsIhSSut1C1cj8Ie80lL7KP7RQYnPQact9Bg2QbygDO51p3YPY578jZ2qFTA0Uk+S3BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XPh+tuod; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1769942995; c=relaxed/simple;
+	bh=hwF7xsoarwXyHdUfAwcI9KkJFed7ilfCFoR6gfmJK2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=StlrUXBzsZFw+otWXQTHmQUwad9+EQGmehPpnwMEe24FK/pqzYtDaPDgydhb5sVP9dNxVYr7u++XyYKE1hfcOX/1vv50QQGOi+xBPWiIaWU8NFWIPJABEUT4a18+0XOrdNlNhePioH3HzaipC6PeqiPqYjlqsouIc+4eCXUKys8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGIdQFSV; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XPh+tuod"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGIdQFSV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769941070; x=1801477070;
+  t=1769942992; x=1801478992;
   h=date:from:to:cc:subject:message-id;
-  bh=FJNXyL8PUz/xeGfImMPq/+s+MRxuE/dYerDeJdRNWGQ=;
-  b=XPh+tuodndq+FpZY3Z17ncXdMoVnDtsYgyB6eulkJFJEk3ibOIUJ6kcB
-   JaK6MJtb7iNSqz2Oby5hDJhdhxyYkzPpMj61bQjXyXuJ9smv9Z/sC3uom
-   CAz1g1eIMspYFa4ksSoQd4BMLGPk44J8D0PbuvLbp1/chpJmIjUziQ2T5
-   X+OrVeN/Rs9U4DEmKSbfXbfAOKinDyrY7bV2RwEQUMnXx52ndHy8QCaRG
-   +WzrbO0rIW6UABqFy2sf4dZUYnJnxJhTgLYzJOUPVRPk7nSP7kEKruvZv
-   F2GfCA57SRI9xEQHkTCDHG7RE6QZN8exc9rj+YHLBU1CW9+ZdqYPIVgas
-   Q==;
-X-CSE-ConnectionGUID: zCA+Vyd/TPKCgTVrOnF8EQ==
-X-CSE-MsgGUID: stXSk/baRLetqrxgS0sSXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="82236764"
+  bh=hwF7xsoarwXyHdUfAwcI9KkJFed7ilfCFoR6gfmJK2Y=;
+  b=EGIdQFSVtbUDlr6zGD9R69YRylnVRK/ol1Bj6s+mvk/FxbAWT4ilvzy6
+   tyhj8DKlK2Da+Kj59FyUb+eOT2QkbB3wmxslT+Om5ktd5gsYcSuR0MSEX
+   EnYTxK8QYaej+nRHawRulWx+50394iB+LlYWm9FTpbFXVH6lw+1UgZxgo
+   Qlsbe3gAO72/D5fHdQEK++DtizSiuprzYM1BrIpQWWhQVus9gogZndlGM
+   XUmDuetnB0PIsnJ1EcpIOJTi6EqaUBZ3yKKZnv0KL7NAOLF12M+6mJV+J
+   kXsm6Tuj4a/vaQeUubaZlz9Y7a4fnW3WwDz4sCYTmNGvLovqbt5Ow/8yk
+   g==;
+X-CSE-ConnectionGUID: 0VIodAL2Seumk88Gu9+7ZA==
+X-CSE-MsgGUID: D4sij8AwQgKrZRd9qWHLgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="82497468"
 X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="82236764"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 02:17:50 -0800
-X-CSE-ConnectionGUID: LID5LypTQXS5NGu1ByPBeQ==
-X-CSE-MsgGUID: ETIzVcd6SVKFUISgrjuUqw==
+   d="scan'208";a="82497468"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 02:49:50 -0800
+X-CSE-ConnectionGUID: 9vDZcSsOR22ONdFffuNK0g==
+X-CSE-MsgGUID: /1cunASWTXqjgTi0mJwKZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="214135137"
+   d="scan'208";a="209324260"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Feb 2026 02:17:48 -0800
+  by orviesa007.jf.intel.com with ESMTP; 01 Feb 2026 02:49:49 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmUWX-00000000eiG-3n4w;
-	Sun, 01 Feb 2026 10:17:45 +0000
-Date: Sun, 01 Feb 2026 18:16:47 +0800
+	id 1vmV1W-00000000eii-2BZs;
+	Sun, 01 Feb 2026 10:49:46 +0000
+Date: Sun, 01 Feb 2026 18:49:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:for-wsamuel2 40/40]
- drivers/usb/gadget/function/f_fs.c:660:3: error: call to undeclared function
- 'ffs_data_reset'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202602011830.yKVSsQTY-lkp@intel.com>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [smfrench-smb3:ksmbd-for-next-next 2/2]
+ include/linux/percpu_counter.h:193:undefined reference to `ksmbd_counters'
+Message-ID: <202602011814.Lelk0oBl-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,67 +59,48 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git for-wsamuel2
-head:   9a8dd89bd5c65c4189f2bf6291f0f9a3d0df31c5
-commit: 9a8dd89bd5c65c4189f2bf6291f0f9a3d0df31c5 [40/40] serialize ffs_ep0_open() on ffs->mutex, this time without ffs_data_reset() under ->mutex
-config: x86_64-randconfig-013-20260201 (https://download.01.org/0day-ci/archive/20260201/202602011830.yKVSsQTY-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602011830.yKVSsQTY-lkp@intel.com/reproduce)
+tree:   https://github.com/smfrench/smb3-kernel.git ksmbd-for-next-next
+head:   73d7ed1de29ab0eb647a3017ca192903b064db5b
+commit: 73d7ed1de29ab0eb647a3017ca192903b064db5b [2/2] ksmbd: add procfs interface for runtime monitoring and statistics
+config: x86_64-randconfig-003-20250608 (https://download.01.org/0day-ci/archive/20260201/202602011814.Lelk0oBl-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602011814.Lelk0oBl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602011830.yKVSsQTY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602011814.Lelk0oBl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/gadget/function/f_fs.c:660:3: error: call to undeclared function 'ffs_data_reset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     660 |                 ffs_data_reset(ffs);
-         |                 ^
-   drivers/usb/gadget/function/f_fs.c:660:3: note: did you mean 'ffs_data_get'?
-   drivers/usb/gadget/function/f_fs.c:55:13: note: 'ffs_data_get' declared here
-      55 | static void ffs_data_get(struct ffs_data *ffs);
-         |             ^
-   drivers/usb/gadget/function/f_fs.c:2089:13: error: static declaration of 'ffs_data_reset' follows non-static declaration
-    2089 | static void ffs_data_reset(struct ffs_data *ffs);
-         |             ^
-   drivers/usb/gadget/function/f_fs.c:660:3: note: previous implicit declaration is here
-     660 |                 ffs_data_reset(ffs);
-         |                 ^
-   2 errors generated.
+   ld: vmlinux.o: in function `percpu_counter_add':
+>> include/linux/percpu_counter.h:193:(.text+0xba7780): undefined reference to `ksmbd_counters'
+>> ld: include/linux/percpu_counter.h:193:(.text+0xba778c): undefined reference to `ksmbd_counters'
+   ld: include/linux/percpu_counter.h:193:(.text+0xba7793): undefined reference to `ksmbd_counters'
+   ld: include/linux/percpu_counter.h:193:(.text+0xba779f): undefined reference to `ksmbd_counters'
+   ld: include/linux/percpu_counter.h:193:(.text+0xba7848): undefined reference to `ksmbd_counters'
+   ld: vmlinux.o:include/linux/percpu_counter.h:193: more undefined references to `ksmbd_counters' follow
 
 
-vim +/ffs_data_reset +660 drivers/usb/gadget/function/f_fs.c
+vim +193 include/linux/percpu_counter.h
 
-   640	
-   641	static int ffs_ep0_open(struct inode *inode, struct file *file)
-   642	{
-   643		struct ffs_data *ffs = inode->i_sb->s_fs_info;
-   644		int ret;
-   645	
-   646		/* Acquire mutex */
-   647		ret = ffs_mutex_lock(&ffs->mutex, file->f_flags & O_NONBLOCK);
-   648		if (ret < 0)
-   649			return ret;
-   650	
-   651		if (ffs->state == FFS_CLOSING) {
-   652			mutex_unlock(&ffs->mutex);
-   653			return -EBUSY;
-   654		}
-   655	
-   656		if (atomic_add_return(1, &ffs->opened) == 1 &&
-   657				ffs->state == FFS_DEACTIVATED) {
-   658			ffs->state = FFS_CLOSING;
-   659			mutex_unlock(&ffs->mutex);
- > 660			ffs_data_reset(ffs);
-   661		} else {
-   662			mutex_unlock(&ffs->mutex);
-   663		}
-   664		file->private_data = ffs;
-   665	
-   666		return stream_open(inode, file);
-   667	}
-   668	
+80188b0d77d742 Dave Chinner   2015-05-29  186  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  187  static inline void
+20e89767096392 Peter Zijlstra 2007-10-16  188  percpu_counter_add(struct percpu_counter *fbc, s64 amount)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  189  {
+88ad32a799ddc9 Manfred Spraul 2022-12-16  190  	unsigned long flags;
+88ad32a799ddc9 Manfred Spraul 2022-12-16  191  
+88ad32a799ddc9 Manfred Spraul 2022-12-16  192  	local_irq_save(flags);
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @193  	fbc->count += amount;
+88ad32a799ddc9 Manfred Spraul 2022-12-16  194  	local_irq_restore(flags);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  195  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  196  
+
+:::::: The code at line 193 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
