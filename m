@@ -1,163 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE4533F8D8;
-	Sun,  1 Feb 2026 13:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168C01D6AA
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 14:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769951046; cv=none; b=KwsVyZVeWRitXfKwzklSGqtY3V00IPRiG829L4fFgkCaYs13g7DCQrjzoAZTJ6NhiwbZPKMj/SAQFvrdnak/FdaajR8VQY1N+267iO8kWYve4ofBJo2/+u11brN99kCiFvgHXUbgBrqSQqvv/NJWNH0e6PkmzkVZcDjCdqjXJFg=
+	t=1769955357; cv=none; b=huremZ2dqDvY8qHSMUClb8OVtBF+pvsPdkXM2p0pgbGGj0X214bmmpc7Pl2BC1maNhZWQlQVmcZeDfwXmVqIK5LfYGkV86AaVjLH4V1kvEG9ZRz0ZpeiOFWMMliTxGHBdsRcmvhJoow5FOViYZooVEE/FbtkHdet59+DbLjWqWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769951046; c=relaxed/simple;
-	bh=JxRbL3UiA7chywZx7s/1NhqsSsDE4+0tIBI21pQzhp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iCkG+ZuFdPFXOqux8YH20ihcVM2rG93r+DRkAp7H5zlwhaMEIf/dgXAdNKA87HspLovJejhLM03oxfE+7g57Hp202LZXbkiZpQAN1YxB4G/A8mGJGhfwyLyAOjYtNZbB31NjQMighKqkuPYHAZaVp2/87pP+cY/zFKSB3LWZuxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pea1/fW3; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1769955357; c=relaxed/simple;
+	bh=yoOWkfHdMcCbjW/2U+tJ4O5aXl3gK0mb3lOM8HpgKwk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YZygmGCp00YY4IeVuLWKcrz/S/Th817XEVzu60LChGC+XKekYvbUoEroZzctHsEJvcJMj7l5HFLXCJh0DWt1eN1RhiN+9/aZS4ldgxQOJe3g0rrDTmTjG97y2Fl068+XJEMlwmtduvqFOvwq2M0I8ixxmbBfHb+JQj65Pqdi358=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DohbejyD; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pea1/fW3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DohbejyD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769951042; x=1801487042;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JxRbL3UiA7chywZx7s/1NhqsSsDE4+0tIBI21pQzhp8=;
-  b=Pea1/fW3u05ogm+9/yHX7Vo8cFra9XH1ehfnqz3Co3xqx7RCU3cNDKJs
-   5BAeGXL22leyBWYb+1wTwpuEE9G+XVvAFX75g+m68yUBrB3cgBWjCi/Or
-   dx2q3yrVbmDujxy/SyKlj/uh6kdSa3xSqyJhYH7whoGMSInSj/WDZt+fn
-   yIUUA1Yk/m/6AJbH6OSJ3ZRezRc8hwqbwSeOYyTRU6SYWEEevM6WhulP2
-   6NrW8fpsePrH6y/Pom+waIg46goTyqHTmtkaadNHIzqIEEHmurri7qP20
-   mE2yd00HhWkyKDMct1K+FEZK+WWMulo8aNV8UlIP0KBnu1b8MYHhNee5i
-   g==;
-X-CSE-ConnectionGUID: UA4ecby6S3aCOTr5UyKEpQ==
-X-CSE-MsgGUID: nows1XRMQrWBpF16pg9YoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="70149733"
+  t=1769955355; x=1801491355;
+  h=date:from:to:cc:subject:message-id;
+  bh=yoOWkfHdMcCbjW/2U+tJ4O5aXl3gK0mb3lOM8HpgKwk=;
+  b=DohbejyD1bzWxoAQ9+Obz+30pXB2FFPD+Oh2zCxYuU10oHzePAw3w+AW
+   PTEXsvEqd6Qjf0la3ohUE82Nu17MtURz2QpDPtx4olnjJlPvND3klWIT+
+   4s/MYcCA+mjiwpNzzKXY/QjjkyIJO7BfNyFGZ9QWdbu7fmW7c8Sub1KrG
+   V+7k0GFyXxMkgbm/cmpn9iwijwChBeGeI+8oQOYbclGQ7Atd1DRwaiytr
+   xGrgcHQukZA5+PJelmM/U15ZWUBl9TIBhR8dMXgu3UlPxI748hngO6BBZ
+   xH+gkD4OH9k0mFBwK+SE/ObNRIpr/SHj9nR95qnahZXAWcLjiX/T87WWa
+   w==;
+X-CSE-ConnectionGUID: lCxf51+eTlOpYkCw8pd+Kg==
+X-CSE-MsgGUID: 6/p7d9xnTnq7G232VUahmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="82243541"
 X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="70149733"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 05:03:58 -0800
-X-CSE-ConnectionGUID: 3kWg8PvUTxuKPPw4OIctOQ==
-X-CSE-MsgGUID: TrdnJnaNRvGEGGazG0k4kQ==
+   d="scan'208";a="82243541"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 06:15:54 -0800
+X-CSE-ConnectionGUID: 5zPHCfgBSiyBE8AL2qlQlQ==
+X-CSE-MsgGUID: zTMr/IS0RHq4S/NtBavHrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="209048462"
+   d="scan'208";a="209263989"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Feb 2026 05:03:52 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Feb 2026 06:15:53 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmX7F-00000000elw-1KtL;
-	Sun, 01 Feb 2026 13:03:49 +0000
-Date: Sun, 1 Feb 2026 21:03:02 +0800
+	id 1vmYEw-00000000enU-1oLb;
+	Sun, 01 Feb 2026 14:15:50 +0000
+Date: Sun, 01 Feb 2026 22:15:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, balbirs@nvidia.com,
-	matthew.brost@intel.com, akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
-	lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
-	airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
-	mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
-	linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org,
-	jgg@ziepe.ca, Felix.Kuehling@amd.com, jniethe@nvidia.com,
-	jhubbard@nvidia.com, maddy@linux.ibm.com, mpe@ellerman.id.au
-Subject: Re: [PATCH v5 13/13] mm: Remove device private pages from the
- physical address space
-Message-ID: <202602012037.jpAjBFBa-lkp@intel.com>
-References: <20260130111050.53670-14-jniethe@nvidia.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v4-wip 8/21] vmlinux.o: warning: objtool:
+ kvm_device_mmap+0x17: no-cfi indirect call!
+Message-ID: <202602012228.zsn75WO7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130111050.53670-14-jniethe@nvidia.com>
 
-Hi Jordan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 344db0fba38920be64a429c64a8ca0531572896c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Niethe/mm-migrate_device-Introduce-migrate_pfn_from_page-helper/20260130-191416
-base:   344db0fba38920be64a429c64a8ca0531572896c
-patch link:    https://lore.kernel.org/r/20260130111050.53670-14-jniethe%40nvidia.com
-patch subject: [PATCH v5 13/13] mm: Remove device private pages from the physical address space
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260201/202602012037.jpAjBFBa-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602012037.jpAjBFBa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v4-wip
+head:   d6e2bc7b4238d6041b82e9414254860f4d890164
+commit: 97e1889365cf61110c72c1d25695e378089c9343 [8/21] x86: Use PIE codegen for the relocatable 64-bit kernel
+config: x86_64-randconfig-103-20260201 (https://download.01.org/0day-ci/archive/20260201/202602012228.zsn75WO7-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602012228.zsn75WO7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602012037.jpAjBFBa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602012228.zsn75WO7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_migrate.c:1071:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1071 |                 if (IS_ERR(r))
-         |                     ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_migrate.c:1075:6: note: uninitialized use occurs here
-    1075 |         if (ret) {
-         |             ^~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_migrate.c:1071:3: note: remove the 'if' if its condition is always true
-    1071 |                 if (IS_ERR(r))
-         |                 ^~~~~~~~~~~~~~
-    1072 |                         ret = PTR_ERR(r);
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_migrate.c:1035:9: note: initialize the variable 'ret' to silence this warning
-    1035 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +1071 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_migrate.c
-
-  1028	
-  1029	int kgd2kfd_init_zone_device(struct amdgpu_device *adev)
-  1030	{
-  1031		struct amdgpu_kfd_dev *kfddev = &adev->kfd;
-  1032		struct dev_pagemap *pgmap;
-  1033		unsigned long size;
-  1034		void *r;
-  1035		int ret;
-  1036	
-  1037		/* Page migration works on gfx9 or newer */
-  1038		if (amdgpu_ip_version(adev, GC_HWIP, 0) < IP_VERSION(9, 0, 1))
-  1039			return -EINVAL;
-  1040	
-  1041		if (adev->apu_prefer_gtt)
-  1042			return 0;
-  1043	
-  1044		pgmap = &kfddev->pgmap;
-  1045		memset(pgmap, 0, sizeof(*pgmap));
-  1046	
-  1047		/* TODO: register all vram to HMM for now.
-  1048		 * should remove reserved size
-  1049		 */
-  1050		size = ALIGN(adev->gmc.real_vram_size, 2ULL << 20);
-  1051		if (adev->gmc.xgmi.connected_to_cpu) {
-  1052			pgmap->range.start = adev->gmc.aper_base;
-  1053			pgmap->range.end = adev->gmc.aper_base + adev->gmc.aper_size - 1;
-  1054			pgmap->type = MEMORY_DEVICE_COHERENT;
-  1055		} else {
-  1056			pgmap->nr_pages = size / PAGE_SIZE;
-  1057			pgmap->type = MEMORY_DEVICE_PRIVATE;
-  1058		}
-  1059	
-  1060		pgmap->nr_range = 1;
-  1061		pgmap->ops = &svm_migrate_pgmap_ops;
-  1062		pgmap->owner = SVM_ADEV_PGMAP_OWNER(adev);
-  1063		pgmap->flags = 0;
-  1064		/* Device manager releases device-specific resources, memory region and
-  1065		 * pgmap when driver disconnects from device.
-  1066		 */
-  1067		if (pgmap->type == MEMORY_DEVICE_PRIVATE) {
-  1068			ret = devm_memremap_device_private_pagemap(adev->dev, pgmap);
-  1069		} else {
-  1070			r = devm_memremap_pages(adev->dev, pgmap);
-> 1071			if (IS_ERR(r))
+   vmlinux.o: warning: objtool: perf_check_microcode+0x13: no-cfi indirect call!
+   vmlinux.o: warning: objtool: x86_pmu_aux_output_match+0x1c: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: kvm_device_mmap+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: acpi_unregister_gsi+0x13: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: arch_cpuhp_sync_state_poll+0x13: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: irq_chip_get_parent_state+0x20: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: irq_chip_startup_parent+0x18: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: irq_chip_set_type_parent+0x18: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: irq_chip_retrigger_hierarchy+0x1b: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: irq_chip_set_vcpu_affinity_parent+0x1b: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: irq_chip_request_resources_parent+0x1b: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: irq_domain_alloc_irqs_parent+0x20: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: msi_parent_init_dev_msi_info+0x28: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: msi_domain_translate+0x18: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: clockevents_tick_resume+0x10: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: bpf_map_poll+0x21: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: special_mapping_close+0x1a: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: special_mapping_mremap+0x32: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: vma_kernel_pagesize+0x19: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: vma_mmu_pagesize+0x19: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: vfs_fsync_range+0x1e: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: fscrypt_get_dummy_policy+0x17: no-cfi indirect call!
+>> vmlinux.o: warning: objtool: nfs3_commit_done+0x13: no-cfi indirect call!
+   vmlinux.o: warning: objtool: pin_config_get_for_pin+0x1d: no-cfi indirect call!
+   vmlinux.o: warning: objtool: of_gpiochip_instance_match+0x13: no-cfi indirect call!
+   vmlinux.o: warning: objtool: led_set_brightness_sync+0x41: no-cfi indirect call!
+   vmlinux.o: warning: objtool: pci_pm_runtime_idle+0x2f: no-cfi indirect call!
+   vmlinux.o: warning: objtool: virtio_vdpa_generation+0x1e: no-cfi indirect call!
+   vmlinux.o: warning: objtool: tty_get_tiocm+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: tty_get_icount+0x66: no-cfi indirect call!
+   vmlinux.o: warning: objtool: tty_chars_in_buffer+0x1a: no-cfi indirect call!
+   vmlinux.o: warning: objtool: tty_write_room+0x1a: no-cfi indirect call!
+   vmlinux.o: warning: objtool: tty_ldisc_receive_buf+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: tty_port_carrier_raised+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: device_iommu_capable+0x2b: no-cfi indirect call!
+   vmlinux.o: warning: objtool: iommu_sync_map+0x14: no-cfi indirect call!
+   vmlinux.o: warning: objtool: iommu_set_pgtable_quirks+0x19: no-cfi indirect call!
+   vmlinux.o: warning: objtool: device_namespace+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dev_attr_store+0x10: no-cfi indirect call!
+   vmlinux.o: warning: objtool: container_offline+0x13: no-cfi indirect call!
+   vmlinux.o: warning: objtool: fwnode_get_name+0x30: no-cfi indirect call!
+   vmlinux.o: warning: objtool: fwnode_get_name_prefix+0x2d: no-cfi indirect call!
+   vmlinux.o: warning: objtool: fwnode_get_parent+0x2c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: fwnode_handle_get+0x2d: no-cfi indirect call!
+   vmlinux.o: warning: objtool: fwnode_get_next_child_node+0x2d: no-cfi indirect call!
+   vmlinux.o: warning: objtool: fwnode_get_named_child_node+0x2d: no-cfi indirect call!
+   vmlinux.o: warning: objtool: device_get_named_child_node+0x49: no-cfi indirect call!
+   vmlinux.o: warning: objtool: fwnode_iomap+0x2d: no-cfi indirect call!
+   vmlinux.o: warning: objtool: fwnode_graph_get_remote_endpoint+0x2d: no-cfi indirect call!
+   vmlinux.o: warning: objtool: pm_generic_runtime_suspend+0x22: no-cfi indirect call!
+   vmlinux.o: warning: objtool: pm_generic_runtime_resume+0x22: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dev_pm_domain_start+0x1f: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dev_pm_domain_set_performance_state+0x1f: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dax_recovery_write+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dma_buf_stats_attribute_show+0x19: no-cfi indirect call!
+   vmlinux.o: warning: objtool: __phy_hwtstamp_get+0x26: no-cfi indirect call!
+   vmlinux.o: warning: objtool: __phy_hwtstamp_set+0x26: no-cfi indirect call!
+   vmlinux.o: warning: objtool: phy_inband_caps+0x1f: no-cfi indirect call!
+   vmlinux.o: warning: objtool: phy_disable_interrupts+0x21: no-cfi indirect call!
+   vmlinux.o: warning: objtool: gswip_phylink_mac_select_pcs+0x1f: no-cfi indirect call!
+   vmlinux.o: warning: objtool: ksz_port_vlan_add+0x1e: no-cfi indirect call!
+   vmlinux.o: warning: objtool: ksz_port_mdb_del+0x1e: no-cfi indirect call!
+   vmlinux.o: warning: objtool: ksz_port_fdb_dump+0x1b: no-cfi indirect call!
+   vmlinux.o: warning: objtool: ksz_port_vlan_del+0x1b: no-cfi indirect call!
+   vmlinux.o: warning: objtool: ksz_change_mtu+0x1e: no-cfi indirect call!
+   vmlinux.o: warning: objtool: ksz_port_mdb_add+0x1a: no-cfi indirect call!
+   vmlinux.o: warning: objtool: ksz_set_ageing_time+0x1e: no-cfi indirect call!
+   vmlinux.o: warning: objtool: stmmac_reset+0x26: no-cfi indirect call!
+   vmlinux.o: warning: objtool: i2c_dw_clk_rate+0x13: no-cfi indirect call!
+   vmlinux.o: warning: objtool: cec_error_inj_show+0x2a: no-cfi indirect call!
+   vmlinux.o: warning: objtool: power_supply_set_property_direct+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: show_scaling_setspeed+0x19: no-cfi indirect call!
+   vmlinux.o: warning: objtool: mmc_sd_get_ro+0x22: no-cfi indirect call!
+   vmlinux.o: warning: objtool: ssb_fill_sprom_with_fallback+0x13: no-cfi indirect call!
+   vmlinux.o: warning: objtool: gb_hd_cport_allocate+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: mbox_chan_received_data+0x14: no-cfi indirect call!
+   vmlinux.o: warning: objtool: mbox_client_peek_data+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: hwspin_lock_bust+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpmsg_create_channel+0x21: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpmsg_release_channel+0x21: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpmsg_send+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpmsg_sendto+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpmsg_trysend+0x1b: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpmsg_trysendto+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpmsg_poll+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpmsg_get_mtu+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: nvmem_layout_bus_probe+0x21: no-cfi indirect call!
+   vmlinux.o: warning: objtool: sock_bind_add+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dev_get_iflink+0x1c: no-cfi indirect call!
+   vmlinux.o: warning: objtool: __netif_set_mtu+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dev_get_phys_port_id+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: inet_bind_sk+0x14: no-cfi indirect call!
+   vmlinux.o: warning: objtool: inet_bind+0x18: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dsa_user_get_eeprom_len+0x38: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dsa_user_get_eeprom+0x22: no-cfi indirect call!
+   vmlinux.o: warning: objtool: dsa_user_set_eeprom+0x22: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpcauth_stringify_acceptor+0x14: no-cfi indirect call!
+   vmlinux.o: warning: objtool: rpcauth_xmit_need_reencode+0x27: no-cfi indirect call!
+   vmlinux.o: warning: objtool: svc_auth_flavor+0x17: no-cfi indirect call!
+   vmlinux.o: warning: objtool: pcibios_disable_device+0x13: no-cfi indirect call!
+   vmlinux.o: warning: objtool: kobj_ns_ops+0x1d: no-cfi indirect call!
+   vmlinux.o: warning: objtool: kobj_attr_show+0xb: no-cfi indirect call!
+   vmlinux.o: warning: objtool: kobj_attr_store+0xb: no-cfi indirect call!
+   vmlinux.o: warning: objtool: kobj_child_ns_ops+0x19: no-cfi indirect call!
 
 -- 
 0-DAY CI Kernel Test Service
