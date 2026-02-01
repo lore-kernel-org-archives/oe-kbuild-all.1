@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009D73D3B3
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 18:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0238278753
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 19:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769971445; cv=none; b=BsrRHbaOUxZ7KjtA9Hn/WAYf+f7yXJ8UKdIM61P5IIeemLdizX1IuDPIxezjC/jWa/qg5Gc2kLGNU93L+GbHB5QmpGz6WhVNXQEFnC1a/QlfxPYB9Eep5ctz9KYOh/Z1GUPQ9TpoqUg3pUaTmN8XonD/3Fer03x2Fo+5/yRifp4=
+	t=1769972828; cv=none; b=D+aAcBxgCVSArhlj0qJTIwWayEgxE/nyx4H3vNmw5R6NSVXM+GPSJ9UuD+i6sLVC53kNPDU6XoXPib3U3SLhMnVRDB2+4QKa1BNPKsDf1BoXrUrUEmuYmzECS73XdNodJWUEIEJDPQfulUAp+y73GTdGhvEtB8Ff0ghJAbsYRJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769971445; c=relaxed/simple;
-	bh=zgoHZfkkj0xkhXIu3SUGeGDIU6/8yqR6vkvxzR5nyv8=;
+	s=arc-20240116; t=1769972828; c=relaxed/simple;
+	bh=HDc8MgK94VWVzVgRm9d6Qx3vZrZMN40UDaueJ4l3KF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PIVFz70G1VwFFuZQxF3D0xiKjzkwIQaknhu9uJaILPL6lVpR+7QCxxUIgrTcVO8+Mw9kvC4ScC48RGYIr+sFUPjVpS1oGhkUsPfoxXLQmGbUCly5i2IYWPfwpdRCxL1d8q9R91qHB4HMfVbugHW7sQ0KhOEFYD9p+Ip/e6ToTfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ip6Ave2e; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=jVV9dJCkUWaOg33q1uIMQ/WQyu18TiLI/OvlAX3Q6rpWYveCZQmoOnJwhcZ6jA6drZU0z0RxM2qM8Nr51IOIP3dyEqxmFVMXYK+ZeVH6HGDc3+bz+JlAwbIAlsa7CH84ZpcBzNeOfbbWvCBu19YNU/RWggy/nBmP7KbqUbSUJ6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lT0hLrvm; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ip6Ave2e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lT0hLrvm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769971443; x=1801507443;
+  t=1769972827; x=1801508827;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zgoHZfkkj0xkhXIu3SUGeGDIU6/8yqR6vkvxzR5nyv8=;
-  b=Ip6Ave2elU2KVAduQVWFug83ogdgoGd3T9SJV++u1oS61EHVKrxMlfa8
-   7+XEEimTrLto9l/j/aMjeKq5hschLRwqTpO5CYYj39FNbb8dL2eCLr+ob
-   AFLIHHrrvT4aYVNDC1TJlv1SbnnHBDFNqEmTSP/VqXOS+S0f1ZIk37eUV
-   pHDVksyL8KqwT26A7pkySzVxW0Kr6bvHTH+GiPiynvi9A23G+nSyWGwow
-   iBuP2oCCkgzXgKrcloD2jsHhGefKHnk3zBL5FTBsX1qOs186AhJqxyLvL
-   NvXFatwA1Km4mhQy+64bViSPNW84fbJNAMjACr8Q61Z09bWo/+wtKY6sh
+  bh=HDc8MgK94VWVzVgRm9d6Qx3vZrZMN40UDaueJ4l3KF8=;
+  b=lT0hLrvmzXJPAVX7iY5In7NQfckt7EvraEJz6ryAh+Ek6f98jYy9jFhh
+   XEyd62L63+6I/J8EDftWCtVgc0PBI3bbkHcVFsY8Ecu7wiP9XpmJvWFKx
+   hQwFaEF7prLHYHe0f/BpH/YN8MqDBuZccYeMizAF9PBQZoLKQckklrCol
+   KCxG58Y61ToSrPNolhKjjRR/mwGOtBm38GCVGVeq3+Pzb4YRez9M+3qcj
+   S6xWLrejR6maLQDS6Db8x2ftyHp586w3RA5G0cLiPksAwrlv5YvDjPCXL
+   FLohU6JblOHaP2EiWf97I84rq03pPhEd3sBAMQFCcXre5IV5Y9mi9TbhV
    w==;
-X-CSE-ConnectionGUID: ndBBRMloSFezsFJVkxg8nA==
-X-CSE-MsgGUID: HqoK4TmXQuy0IGW9UDr6/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71199310"
+X-CSE-ConnectionGUID: LszAfS4yTMig5Mm4oNj4wA==
+X-CSE-MsgGUID: P0IBOlVFS0uGISeHbZjoeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="82255927"
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="71199310"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 10:44:02 -0800
-X-CSE-ConnectionGUID: 4wyl5vIdS0eNs5v61rrX3A==
-X-CSE-MsgGUID: AEHOg8mlT2S0n4j/OjqXnw==
+   d="scan'208";a="82255927"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 11:07:07 -0800
+X-CSE-ConnectionGUID: ugA4nLfWSjyZvYiWt2l5kQ==
+X-CSE-MsgGUID: 7tL4sXaqRAS0Y96Yzv4Lsg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
+   d="scan'208";a="209116615"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 01 Feb 2026 10:44:01 -0800
+  by orviesa009.jf.intel.com with ESMTP; 01 Feb 2026 11:07:02 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmcQQ-00000000ewq-0Ua5;
-	Sun, 01 Feb 2026 18:43:58 +0000
-Date: Mon, 2 Feb 2026 02:43:48 +0800
+	id 1vmcmh-00000000eye-2ywo;
+	Sun, 01 Feb 2026 19:06:59 +0000
+Date: Mon, 2 Feb 2026 03:06:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haocheng Yu <yuhaocheng035@gmail.com>, acme@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] perf/core: Fix refcount bug and potential UAF in
- perf_mmap
-Message-ID: <202602020208.m7KIjdzW-lkp@intel.com>
-References: <20260201113446.4328-1-yuhaocheng035@gmail.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	Ion Agorria <ion@agorria.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v1 4/9] mfd: Add driver for Asus Transformer embedded
+ controller
+Message-ID: <202602020344.ZGXToDMx-lkp@intel.com>
+References: <20260201104343.79231-5-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,110 +74,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260201113446.4328-1-yuhaocheng035@gmail.com>
+In-Reply-To: <20260201104343.79231-5-clamor95@gmail.com>
 
-Hi Haocheng,
+Hi Svyatoslav,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on perf-tools-next/perf-tools-next]
-[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master v6.19-rc7 next-20260130]
-[cannot apply to acme/perf/core]
+[auto build test WARNING on next-20260130]
+[also build test WARNING on linus/master v6.19-rc7]
+[cannot apply to lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes dtor-input/next dtor-input/for-linus sre-power-supply/for-next v6.19-rc7 v6.19-rc6 v6.19-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haocheng-Yu/perf-core-Fix-refcount-bug-and-potential-UAF-in-perf_mmap/20260201-193746
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20260201113446.4328-1-yuhaocheng035%40gmail.com
-patch subject: [PATCH] perf/core: Fix refcount bug and potential UAF in perf_mmap
-config: mips-randconfig-r072-20260201 (https://download.01.org/0day-ci/archive/20260202/202602020208.m7KIjdzW-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-smatch version: v0.5.0-8994-gd50c5a4c
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-misc-document-ASUS-Transformers-EC-Dockram/20260201-184740
+base:   next-20260130
+patch link:    https://lore.kernel.org/r/20260201104343.79231-5-clamor95%40gmail.com
+patch subject: [PATCH v1 4/9] mfd: Add driver for Asus Transformer embedded controller
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260202/202602020344.ZGXToDMx-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602020344.ZGXToDMx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602020208.m7KIjdzW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602020344.ZGXToDMx-lkp@intel.com/
 
-smatch warnings:
-kernel/events/core.c:7183 perf_mmap() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +7183 kernel/events/core.c
+   In file included from include/linux/printk.h:620,
+                    from include/asm-generic/bug.h:31,
+                    from arch/alpha/include/asm/bug.h:23,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/alpha/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/delay.h:13,
+                    from drivers/mfd/asus-ec.c:7:
+   drivers/mfd/asus-ec.c: In function 'asus_ec_read':
+>> drivers/mfd/asus-ec.c:107:35: warning: field width specifier '*' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Wformat=]
+     107 |         dev_dbg(&priv->self->dev, "EC read: %*ph, ret = %d%s\n",
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/mfd/asus-ec.c:107:9: note: in expansion of macro 'dev_dbg'
+     107 |         dev_dbg(&priv->self->dev, "EC read: %*ph, ret = %d%s\n",
+         |         ^~~~~~~
+   drivers/mfd/asus-ec.c:107:46: note: format string is defined here
+     107 |         dev_dbg(&priv->self->dev, "EC read: %*ph, ret = %d%s\n",
+         |                                             ~^~
+         |                                              |
+         |                                              int
 
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  7131  
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  7132  static int perf_mmap(struct file *file, struct vm_area_struct *vma)
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  7133  {
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  7134  	struct perf_event *event = file->private_data;
-81e026ca47b386 kernel/events/core.c  Thomas Gleixner         2025-08-12  7135  	unsigned long vma_size, nr_pages;
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7136  	mapped_f mapped;
-5d299897f1e360 kernel/events/core.c  Peter Zijlstra          2025-08-12  7137  	int ret;
-d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28  7138  
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  7139  	/*
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  7140  	 * Don't allow mmap() of inherited per-task counters. This would
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  7141  	 * create a performance issue due to all children writing to the
-76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  7142  	 * same rb.
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  7143  	 */
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  7144  	if (event->cpu == -1 && event->attr.inherit)
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  7145  		return -EINVAL;
-4ec8363dfc1451 kernel/events/core.c  Vince Weaver            2011-06-01  7146  
-43a21ea81a2400 kernel/perf_counter.c Peter Zijlstra          2009-03-25  7147  	if (!(vma->vm_flags & VM_SHARED))
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  7148  		return -EINVAL;
-26cb63ad11e040 kernel/events/core.c  Peter Zijlstra          2013-05-28  7149  
-da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  7150) 	ret = security_perf_event_read(event);
-da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  7151) 	if (ret)
-da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  7152) 		return ret;
-26cb63ad11e040 kernel/events/core.c  Peter Zijlstra          2013-05-28  7153  
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  7154  	vma_size = vma->vm_end - vma->vm_start;
-0c8a4e4139adf0 kernel/events/core.c  Peter Zijlstra          2024-11-04  7155  	nr_pages = vma_size / PAGE_SIZE;
-ac9721f3f54b27 kernel/perf_event.c   Peter Zijlstra          2010-05-27  7156  
-0c8a4e4139adf0 kernel/events/core.c  Peter Zijlstra          2024-11-04  7157  	if (nr_pages > INT_MAX)
-0c8a4e4139adf0 kernel/events/core.c  Peter Zijlstra          2024-11-04  7158  		return -ENOMEM;
-9a0f05cb368885 kernel/events/core.c  Peter Zijlstra          2011-11-21  7159  
-0c8a4e4139adf0 kernel/events/core.c  Peter Zijlstra          2024-11-04  7160  	if (vma_size != PAGE_SIZE * nr_pages)
-0c8a4e4139adf0 kernel/events/core.c  Peter Zijlstra          2024-11-04  7161  		return -EINVAL;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  7162  
-d23a6dbc0a7174 kernel/events/core.c  Peter Zijlstra          2025-08-12  7163  	scoped_guard (mutex, &event->mmap_mutex) {
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7164  		/*
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7165  		 * This relies on __pmu_detach_event() taking mmap_mutex after marking
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7166  		 * the event REVOKED. Either we observe the state, or __pmu_detach_event()
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7167  		 * will detach the rb created here.
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7168  		 */
-d23a6dbc0a7174 kernel/events/core.c  Peter Zijlstra          2025-08-12  7169  		if (event->state <= PERF_EVENT_STATE_REVOKED)
-d23a6dbc0a7174 kernel/events/core.c  Peter Zijlstra          2025-08-12  7170  			return -ENODEV;
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  7171  
-5d299897f1e360 kernel/events/core.c  Peter Zijlstra          2025-08-12  7172  		if (vma->vm_pgoff == 0)
-5d299897f1e360 kernel/events/core.c  Peter Zijlstra          2025-08-12  7173  			ret = perf_mmap_rb(vma, event, nr_pages);
-5d299897f1e360 kernel/events/core.c  Peter Zijlstra          2025-08-12  7174  		else
-2aee3768239133 kernel/events/core.c  Peter Zijlstra          2025-08-12  7175  			ret = perf_mmap_aux(vma, event, nr_pages);
-07091aade394f6 kernel/events/core.c  Thomas Gleixner         2025-08-02  7176  		if (ret)
-07091aade394f6 kernel/events/core.c  Thomas Gleixner         2025-08-02  7177  			return ret;
-07091aade394f6 kernel/events/core.c  Thomas Gleixner         2025-08-02  7178  
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  7179  	/*
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  7180  	 * Since pinned accounting is per vm we cannot allow fork() to copy our
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  7181  	 * vma.
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  7182  	 */
-1c71222e5f2393 kernel/events/core.c  Suren Baghdasaryan      2023-01-26 @7183  	vm_flags_set(vma, VM_DONTCOPY | VM_DONTEXPAND | VM_DONTDUMP);
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  7184  	vma->vm_ops = &perf_mmap_vmops;
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  7185  
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7186  	mapped = get_mapped(event, event_mapped);
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7187  	if (mapped)
-da916e96e2dedc kernel/events/core.c  Peter Zijlstra          2024-10-25  7188  		mapped(event, vma->vm_mm);
-1e0fb9ec679c92 kernel/events/core.c  Andy Lutomirski         2014-10-24  7189  
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7190  	/*
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7191  	 * Try to map it into the page table. On fail, invoke
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7192  	 * perf_mmap_close() to undo the above, as the callsite expects
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7193  	 * full cleanup in this case and therefore does not invoke
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7194  	 * vmops::close().
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7195  	 */
-191759e5ea9f69 kernel/events/core.c  Peter Zijlstra          2025-08-12  7196  	ret = map_range(event->rb, vma);
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7197  	if (ret)
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7198  		perf_mmap_close(vma);
-8f75f689bf8133 kernel/events/core.c  Haocheng Yu             2026-02-01  7199  	}
-f74b9f4ba63ffd kernel/events/core.c  Thomas Gleixner         2025-08-02  7200  
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  7201  	return ret;
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  7202  }
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  7203  
+
+vim +107 drivers/mfd/asus-ec.c
+
+   100	
+   101	static int asus_ec_read(struct asus_ec_data *priv, bool in_irq)
+   102	{
+   103		int ret = i2c_smbus_read_i2c_block_data(priv->self, 0x6A,
+   104							sizeof(priv->ec_data),
+   105							priv->ec_data);
+   106	
+ > 107		dev_dbg(&priv->self->dev, "EC read: %*ph, ret = %d%s\n",
+   108			sizeof(priv->ec_data), priv->ec_data,
+   109			ret, in_irq ? "; in irq" : "");
+   110	
+   111		return ret;
+   112	}
+   113	
 
 -- 
 0-DAY CI Kernel Test Service
