@@ -1,185 +1,132 @@
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC43145B3E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 02:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CCE1D5CD9
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 02:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769912112; cv=none; b=AL9A9skHLqAzUMJO435j49t39y01RjS4yhoReEMSZQOLlUFyMvvf5BIwL8mUVohSBGGFGVLonWm60ehxFwZL50oWv6Z/2CBu2eIrM6AQZJnBiAl2dxneY9e+lTXimSCLzF3h4zmRnUJkYIjFHEfCz1XhGUG3FrQeUtkGoc4xF24=
+	t=1769914528; cv=none; b=Q0IrEnCBdwOkNzQqaxXGs83K6E8yyCiGETr3hap4E6OjW0B3sd69D3AosQiD2kNihoIQYY4OwcQpweQiwZ/rzF9s5MLGPYhXJ3ybAfvBUeTtt+rbeFSn859cHn2bsgBqyCZ9dR38di6ou/G1+Bxn15nUIDtE3sUxonCVLPaOcLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769912112; c=relaxed/simple;
-	bh=aj9lZYh7kNC+5k/nDqMXYXmMyDNkwDg0+SpPugkdyPg=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=diBOZDvnXIHhnEQe5pZVUyEE9eQjzkGHC7fLAgrZ29S0duCw+b+Yq4p11mpFLx2T13+hsZm1f875DwlkyvzmJfgYNMZBMd81p2me2v/Zt9aVSeEsdurJErh0tIYA6GA755fgSAUPTnQHQH9JqDfxrqEyK9qki76bPUa3/m89pa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=bDtxaZpa; arc=none smtp.client-ip=209.85.214.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
+	s=arc-20240116; t=1769914528; c=relaxed/simple;
+	bh=4Xh3bEe5Mawh8BGGhHHsZwcMaf8ur1k1DkvmKvSHBk4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Y6gUn1gZU0MQH6FNOMMByn9zqnpqKcdPmdrdRbG7sAysYy5KEF92fjGZCBIvPXr+NKMa7eucnuVVU3JTZ2k7lkPJri2B6WtJnrFvkk3ktM2sal/MYMZFbCnIDXj1IPOr9CXGHJsttUwJZWR0Y/a8HeaCI9dE43KcJCe9ethBxFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dagorRnC; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="bDtxaZpa"
-Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-29f30233d8aso21425715ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 18:15:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1769912110; x=1770516910; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sX+STYIHVNsNRwCOU5eoDnw7m2xr9Ak+mtAzKnocjoo=;
-        b=bDtxaZpaDA5tmksdqB+IzuCtF+uvTQV8MB03eTf5LdcaYPlewa3Zq0JdNQiipJsvHG
-         8R3WI9nYy6S2mL0wPznHKQK69UPkkYo3m8q9cw2uD8KTMhPpGF9zJtLLWQHv0yLOW27X
-         6L+KOONx8a/zFg8urFLSf9z8LAlcKZBptyWXgFuKAI0iL03B6VU2xJSmyf5cRIJcUTRH
-         4n3LSENE7JvfMvKjUf115w3+w33b6bORMbKGs34h/RpS6BmL6CFSo2Y0y1SWo1LDiUhj
-         AhKH9UQj+z67t9G/rhsGc+az5ueNvtKVw8YzCKG/hK1E+x1ubiuwpteFsRPAg1Cr/z/H
-         UyiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769912110; x=1770516910;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sX+STYIHVNsNRwCOU5eoDnw7m2xr9Ak+mtAzKnocjoo=;
-        b=cvq2wQNW9pqM/ARa0jZ6DdGPqX4D5mvUNk7h2SxUuhwOXUGK1o6LWr9wbFL+YN1CiG
-         PXqMdVnP1U81KcjIwfAbqYHgGFd0g7qnytNEZFrPFxvMpQ7N2vdtngrIp+pDW43KFIIV
-         ju9asYJQwXOOAIWSJtFmptZIM84zA3vH/18/nM1Z2cN2eo3CIMB5uz8hMDouNaeLwBK0
-         i6vNkbImp5SQ4zW1An5sTRMFcHPeplmoypGJoTOIQo7UqjmXDEpKcB5nRv+oEoV8t6Ro
-         HogXGnmI9XX8pA/jXRp7VFbeoV9B8LqiPX8ceKFT+fl90H/qOftjMLP2EW3O7nv1uizr
-         YnCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWDtiQf2y5N4HDb5cgnps2Mr7nGxhsIVWW7KG2bY50N9zkFV1CDdZ50WeH1Yg4QsGJNtpu6wR18Jj3KsR9Q@lists.linux.dev
-X-Gm-Message-State: AOJu0YxgZ24aLdgxQrLrkyl/6fIcmZSXYaaFZL4d/KAnIYDCiOmlHNlf
-	t97S8HFp+sOFBsLi2tatto/1wo6T1jSt7NExoWa/o+JYvs1LXjmCZB0DYDl6rzhbkaejeTyJLAq
-	4QRFslquNMIS2
-X-Gm-Gg: AZuq6aIo5KTJsKioTeCLMT3MkWyIIMx2HT21vAz8ESr39ot/lzbXya0EhI/KQWJ6SDz
-	e+MbqLiIoE1l9pqan/44vG40guVlg2R9UibZJPFWfSmBwXl3P8DW+iFkzmFxdCOOT+mPGoryLyW
-	3sYHn6v+ox5IXLWN+mGX8hLtDaHxNhanbalAdQwxRMXYU+hVkLS1gGm0qk3KmOkabsQKLk/H6at
-	zNOWyuxh1yNp/E/mcO2hdOUA1gL9OMqKwlDWCv7Xhk+GYpF6PAaf90KGIJw+/oJq2xbtF0WnHCI
-	lJ1UJy1xWsO5lmqEtH1OqOMYsQC/fGMa8xw3oa3HOgsIFYhDmVRWfGrorsldETnKezgbCvr4iCl
-	q0RN+q7TxOK1p4rqrNVgftuHl0IJFEfpy4/V1oyMfUpJ26LsfHglBRJjJjhO1k3L4JI9pUrhdMY
-	xU2Al3KlyXHdGTeKsbO08fV9VYRtCXHJr76Mhl4mfaXQHZAy1IRO6coYK6E5TP9h2d0EBzUpo=
-X-Received: by 2002:a17:902:ebc1:b0:2a7:7872:8f52 with SMTP id d9443c01a7336-2a8d7ee6a5dmr71880265ad.26.1769912110101;
-        Sat, 31 Jan 2026 18:15:10 -0800 (PST)
-Received: from smtpclient.apple (c-24-16-26-157.hsd1.wa.comcast.net. [24.16.26.157])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a8ea985c48sm39915685ad.22.2026.01.31.18.15.09
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 31 Jan 2026 18:15:09 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dagorRnC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769914527; x=1801450527;
+  h=date:from:to:cc:subject:message-id;
+  bh=4Xh3bEe5Mawh8BGGhHHsZwcMaf8ur1k1DkvmKvSHBk4=;
+  b=dagorRnCrDHme6pa5QjjjWdm2qfj0SCcfyDCQk3w15Xk7uZYUFrfZXfD
+   SP7v4XxtZkPAv8MZMfdnovDiPNnsd95kfBi2pfQ1rPcZQUJ4lIglZAhBc
+   fp+U1FLKU/PzJHs3ghfzJqUlq9pIIbBFqaF6H1IFovl1aVsb4YQ9ctiJ7
+   QInNQRC4ul7UufRF07xGYP8qimbDePUdUmmSWF+vaiKc+QmRBJ1JhyFtx
+   0MHbXnB2kLPl0jB1O4yUsnoQ1JKhV8FhVs5LSsKl8cCTtnbm7ZoNGRNRp
+   C0W7a4oAXSz5GSaI0S8WqRTK5N5YkkjhAK4nVdgNTm/0wkRLiNgvxVp3z
+   A==;
+X-CSE-ConnectionGUID: 7IWaF30LTsC/JrI9trsKOQ==
+X-CSE-MsgGUID: Ix3Wc81xQfmEe5UxtqU1ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="71013963"
+X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
+   d="scan'208";a="71013963"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 18:55:26 -0800
+X-CSE-ConnectionGUID: z7prH0sLSoW/vO1GlABZ5w==
+X-CSE-MsgGUID: 5RCv0M7TSIy1VXNfZKT2LA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
+   d="scan'208";a="213673267"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 31 Jan 2026 18:55:24 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vmNcQ-000000002u5-2g7t;
+	Sun, 01 Feb 2026 02:55:22 +0000
+Date: Sun, 01 Feb 2026 03:55:04 +0100
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 0/3] htmldocs:
+ Documentation/vm/kidled.rst:48: WARNING: Block quote ends without a blank
+ line; unexpected unindent. [docutils]
+Message-ID: <202602010335.ChqCKLVv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-From: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-In-Reply-To: <202601311615.10yziOui-lkp@intel.com>
-Date: Sat, 31 Jan 2026 18:14:58 -0800
-Cc: oe-kbuild@lists.linux.dev,
- Abdurrahman Hussain via B4 Relay <devnull+abdurrahman.nexthop.ai@kernel.org>,
- Michal Simek <monstr@monstr.eu>,
- Andi Shyti <andi.shyti@kernel.org>,
- Rob Herring <robh@kernel.org>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- lkp@intel.com,
- oe-kbuild-all@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@intel.com>,
- linux-arm-kernel@lists.infradead.org,
- linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <81522270-1703-48E1-B64C-8CF174E1EF94@nexthop.ai>
-References: <202601311615.10yziOui-lkp@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
+
+Hi Gavin,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   8f3dc34debe1467cc2306963037f0db6b36e1729
+commit: 9821d36e632cb7bdae1f1f7affbebf8077b5a516 [0/3] anolis: mm: Support kidled
+reproduce: (https://download.01.org/0day-ci/archive/20260201/202602010335.ChqCKLVv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602010335.ChqCKLVv-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Documentation/power/video.rst:213: WARNING: Footnote [#] is not referenced. [ref.footnote]
+   Documentation/scheduler/sched-bwc.rst:127: ERROR: Unexpected indentation. [docutils]
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/fprobe.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/mutex.h' failed with return code 2
+   Documentation/translations/zh_TW/dev-tools/index.rst:21: WARNING: toctree contains reference to nonexisting document 'translations/zh_TW/dev-tools/sparse' [toc.not_readable]
+>> Documentation/vm/kidled.rst:48: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/vm/kidled.rst:90: ERROR: Unexpected indentation. [docutils]
+   Documentation/vm/kidled.rst:106: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/admin-guide/perf/ampere_cspmu.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/arch/x86/hygon-secure-virtualization.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/device_drivers/ethernet/nebula-matrix/m18120.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/virt/coco/csv-guest.rst: WARNING: document isn't included in any toctree [toc.not_included]
+>> Documentation/vm/kidled.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/vm/memcg_zombie_reaper.rst: WARNING: document isn't included in any toctree [toc.not_included]
 
 
+vim +48 Documentation/vm/kidled.rst
 
-> On Jan 31, 2026, at 6:35=E2=80=AFAM, Dan Carpenter =
-<dan.carpenter@linaro.org> wrote:
->=20
-> Hi Abdurrahman,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> url:    =
-https://github.com/intel-lab-lkp/linux/commits/Abdurrahman-Hussain-via-B4-=
-Relay/i2c-xiic-skip-input-clock-setup-on-non-OF-systems/20260130-054653
-> base:   63804fed149a6750ffd28610c5c1c98cce6bd377
-> patch link:    =
-https://lore.kernel.org/r/20260129-i2c-xiic-v7-5-727e434897ef%40nexthop.ai=
+    31	
+    32	  It controls the scan period for the kernel thread to do the scanning.
+    33	  Higher resolution will be achieved with smaller value, but more CPU
+    34	  cycles will be consumed to do the scanning. The scanning won't be
+    35	  issued if 0 is set for the parameter and it's default setting. Writing
+    36	  to the file clears all statistics collected previously, even the scan
+    37	  period isn't changed.
+    38	
+    39	.. note::
+    40	   A rare race exists! ``scan_period_in_seconds`` is only visible thing to
+    41	   users. duration and sequence number are internal representation for
+    42	   developers, and they'd better not be seen by users to avoid be confused.
+    43	   When user updates ``scan_period_in_seconds`` file, the sequence number
+    44	   is increased and the duration is updated synchronously, as below figure
+    45	   shows:
+    46	
+    47	        OP           |       VALUE OF SCAN_PERIOD
+  > 48	   Initial value     | seq = 0,     duration = 0
+    49	   user update 120s  | seq = 1,     duration = 120 <---- last value kidled sees
+    50	   user update 120s  | seq = 2,     duration = 120 ---+
+    51	   ....              |                                | kidled may miss these
+    52	   ....              |                                | updates because busy
+    53	   user update 300s  | seq = 65536, duration = 300    |
+    54	   user update 300s  | seq = 0,     duration = 300 ---+
+    55	   user update 120s  | seq = 1,     duration = 120 <---- next value kidled sees
+    56	
+    57	   The race happens when ``scan_period_in_seconds`` is updated very fast in a
+    58	   very short period of time and kidled misses just 65536 * N (N = 1,2,3...)
+    59	   updates and the duration keeps the same. kidled won't clear previous
+    60	   statistics, but it won't be very odd due to the duration are the same at
+    61	   least.
+    62	
 
-> patch subject: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
-> config: i386-randconfig-141-20260130 =
-(https://download.01.org/0day-ci/archive/20260131/202601311615.10yziOui-lk=
-p@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project =
-87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> smatch version: v0.5.0-8994-gd50c5a4c
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: =
-https://lore.kernel.org/r/202601311615.10yziOui-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/i2c/busses/i2c-xiic.c:1539 xiic_i2c_remove() warn: =
-pm_runtime_get_sync() also returns 1 on success
->=20
-> vim +1539 drivers/i2c/busses/i2c-xiic.c
->=20
-> e190a0c389e601 Uwe Kleine-K=C3=B6nig    2023-05-08  1529  static void =
-xiic_i2c_remove(struct platform_device *pdev)
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1530  {
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1531   struct device =
-*dev =3D &pdev->dev;
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1532   struct =
-xiic_i2c *i2c =3D platform_get_drvdata(pdev);
-> 36ecbcab84d023 Shubhrajyoti Datta  2016-03-02  1533   int ret;
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1534 =20
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1535   /* remove =
-adapter & data */
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1536   =
-i2c_del_adapter(&i2c->adap);
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1537 =20
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1538   ret =3D =
-pm_runtime_get_sync(dev);
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29 @1539   if (ret)
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1540   dev_warn(dev, =
-"Failed to activate device for removal (%pe)\n",
-> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1541   =
-ERR_PTR(ret));
->=20
->=20
-> pm_runtime_get_sync() can return 1 on success.  Perhaps use
-> pm_runtime_resume_and_get()?
->=20
-> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1542   else
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1543   =
-xiic_deinit(i2c);
-> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1544 =20
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1545   =
-pm_runtime_put_sync(dev);
-> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1546   =
-pm_runtime_dont_use_autosuspend(dev);
-> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1547  }
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->=20
-
-This maybe a false positive.
-
-The following commit switched from pm_runtime_resume_and_get() to
-pm_runtime_get_sync():
-
-commit 810199f7315604b i2c: xiic: Make sure to disable clock on =
-.remove()
-
-Uwe, Michal, can you guys comment on this?
-
-Regards,
-Abdurrahman=
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
