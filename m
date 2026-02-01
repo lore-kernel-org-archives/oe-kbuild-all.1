@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB68F212554
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 15:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC36155389
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 16:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769961393; cv=none; b=WwspcNy9w4GE1HzWpVq/pvWJp52IPJGmG2wYTZIYezvYivFN8aQgCtT/9SUDZcmZSXbPsMSu9NF4kIrHMb+PFVq98l+jQsx1O5czqrNRnwRGjrBaLJ7M0hH0ADOt28jmvLXYtLUcvDPQVpUeeVeKF7JnkRfTs8CVcZOoPPFiqDc=
+	t=1769962139; cv=none; b=NDTrENll+fpgykHEFZ0Kw4VsLkCe3OhshE0OiYQ0gMltWZkkdyj136ylrGrjg/liYF6UMki+QPhFbGC3BoCnSbOmj1IZiee9L+GtznyheOJCgt7Gccqc7nlBlAtQ5KPLMN/4O/k2B/VfkaRWWRbI1S5z3R3WXZ8uF/G1Gi/ZGTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769961393; c=relaxed/simple;
-	bh=l811jADIX/dY2visYhGQcFS/PIqod1TIVe9E6D6O+9M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HZTZLTc0gZKS4Q1oEjtHrqcK6L/yZvkJkQruJKl/6JYzksPG3UASB1v6P7/xf7fgUDYWvjrLe3nQs9biURlCZtkpzmag/DLvaAxTsOT9dvO+mOlF8cGv51HiTKK75hruasseAj77zVdHGF3c6YxIhH84NaEsQqz+RRzUqv19sYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HDS6bV/a; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1769962139; c=relaxed/simple;
+	bh=wbmtGO8d15wcoAlAXZ6gxsSUwrytrBSLJi1rpj09J5s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MLzsMRdSzsiwasPalrg3DDaqgKcdTYQ013ongR7qkSNc8ZefLQRlfcP0NelFGiabA5d6RNDq6Ha+Npa0tbDGyQKSnGo+CKIUQdjGtVAIXsvBOE2EQdOP+twOYTJjrSg8XrFhU3OYti8JRpCur8yccgWjFixhOM90KOWbfZe2zuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hSspCjz/; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDS6bV/a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSspCjz/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769961391; x=1801497391;
+  t=1769962138; x=1801498138;
   h=date:from:to:cc:subject:message-id;
-  bh=l811jADIX/dY2visYhGQcFS/PIqod1TIVe9E6D6O+9M=;
-  b=HDS6bV/aqLcPjAKT5y31lD1jLLyHTyUIO2oksoRgE8NOnMMWM321UmzN
-   dewdYrsmK5pza5RDpKKfRyKb60acFfXpiNAAFjYLdEg7/drBsM0B2zOir
-   q2x8LHciKxgBjN2qwdqdIMw/xKlyWH9aISYkJMkt3KOrDasb9E7aIAJEH
-   B6M6aKrIJfsaX8g3UUAJspM6aYRUnyfrjoz6fRQ4/stCiEPOsYQzunLM5
-   6Q+BoPOH7CUHcTSV5ktLGqjEW8QngkUfnzV6eEYL6ye91rHCL90PZwUur
-   5FQy+RH1Uw/QTwqXZCrJT2JapLSmJ+maH+Y/xC1VdVzrzLTHmTfso9Hj5
-   A==;
-X-CSE-ConnectionGUID: Y+iWnU4yQZGzNLtiaLfdmQ==
-X-CSE-MsgGUID: 4CtBgGe8QBWaJ/11Ks1VBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="71177782"
+  bh=wbmtGO8d15wcoAlAXZ6gxsSUwrytrBSLJi1rpj09J5s=;
+  b=hSspCjz/dR3KWCGqPpPZMZsf6ohGm1WgTDX9NTzwNEJjm9bcD8vtg+/c
+   Eqtur13J8L5M7JPR2Svigx7mOCXMnh/rzpVO6KGdmnkR1KPdfv3JklXxv
+   rIimkOL5FAp2Y48+H8w3gNbYR2LrBuNlC9LU/FdYFw0cxszUKx7Y8cajG
+   aHFZS7wtjGOt12z9NvMUhoickhFdVCoREwzT3DjmiNcWfp4OyfqyctmJQ
+   4agzSLtqYANJBfQGfiJHHVkExZYafMq7ugEAQ8jniTDOiRsI4PkKS/Gm7
+   JbSU2PdmEEg23i6Pf0gk5NooLb9Uc8x8MAVZ4LqD8aHiX+2qIEq1zgTYx
+   g==;
+X-CSE-ConnectionGUID: WhOq8tn3SzGsqX4tPjijDg==
+X-CSE-MsgGUID: /gxt0p9+S+2HogbqQTJL5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="71036356"
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="71177782"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 07:56:30 -0800
-X-CSE-ConnectionGUID: Ur9ID/fWSvKjPpIWzGkHrQ==
-X-CSE-MsgGUID: +Uv72vGyTkuijHreR4Er8g==
+   d="scan'208";a="71036356"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 08:08:57 -0800
+X-CSE-ConnectionGUID: RluDTcc4TEe5GSilDaKgqQ==
+X-CSE-MsgGUID: K92V+aF3SJaR+djTfGolhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="208854747"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Feb 2026 07:56:28 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="213391830"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 01 Feb 2026 08:08:55 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmZoI-000000002xt-1fex;
-	Sun, 01 Feb 2026 15:56:26 +0000
-Date: Sun, 01 Feb 2026 16:55:29 +0100
+	id 1vma0K-00000000eqK-3YEW;
+	Sun, 01 Feb 2026 16:08:52 +0000
+Date: Mon, 02 Feb 2026 00:08:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/3] htmldocs:
- Documentation/admin-guide/hw-vuln/srso.rst:124: WARNING: Block quote ends
- without a blank line; unexpected unindent. [docutils]
-Message-ID: <202602011601.Q24iyvTK-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.19-rc 133/133]
+ include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode'
+ defined but not used
+Message-ID: <202602020015.rqhqrIk3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,101 +60,103 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   8f3dc34debe1467cc2306963037f0db6b36e1729
-commit: 5495294788f667bd4c8799b7b0709d5a75c0711a [0/3] anolis: cpu vulnerabilities: support to flush all types of branches rather than indirect branches type only in the Branch Target Buffer with the IBPB command.
-reproduce: (https://download.01.org/0day-ci/archive/20260201/202602011601.Q24iyvTK-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-rc
+head:   3aa6ba75ca4f9bad60511cef75ec85aacfcf9464
+commit: b4e835e7effb778d4108e9a343ff47a7d80957f0 [133/133] net: phylink: support late PCS provider attach
+config: riscv-randconfig-002-20260201 (https://download.01.org/0day-ci/archive/20260202/202602020015.rqhqrIk3-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602020015.rqhqrIk3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602011601.Q24iyvTK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602020015.rqhqrIk3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   percentage of max limit, default is 50 or 0.5% of max limit.
-   The max value is 1000 or 10% of max limit.
-   ==================================== ========================================== [docutils]
-   Documentation/admin-guide/hw-vuln/srso.rst:119: ERROR: Unexpected indentation. [docutils]
-   Documentation/admin-guide/hw-vuln/srso.rst:122: ERROR: Unexpected indentation. [docutils]
->> Documentation/admin-guide/hw-vuln/srso.rst:124: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/admin-guide/media/ipu3.rst:592: WARNING: Footnote [#] is not referenced. [ref.footnote]
-   Documentation/admin-guide/media/ipu3.rst:598: WARNING: Footnote [#] is not referenced. [ref.footnote]
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/pstore_zone.h' failed with return code 2
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/pstore_blk.h' failed with return code 2
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/rio_drv.h' failed with return code 2
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
+>> include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
+    fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/pcs/pcs.h:78:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
+    static int register_fwnode_pcs_notifier(struct notifier_block *nb)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +124 Documentation/admin-guide/hw-vuln/srso.rst
+vim +/fwnode_phylink_pcs_get_from_fwnode +90 include/linux/pcs/pcs.h
 
+    24	
+    25	/**
+    26	 * fwnode_pcs_get - Retrieves a PCS from a firmware node
+    27	 * @fwnode: firmware node
+    28	 * @index: index fwnode PCS handle in firmware node
+    29	 *
+    30	 * Get a PCS from the firmware node at index.
+    31	 *
+    32	 * Returns a pointer to the phylink_pcs or a negative
+    33	 * error pointer. Can return -EPROBE_DEFER if the PCS is not
+    34	 * present in global providers list (either due to driver
+    35	 * still needs to be probed or it failed to probe/removed)
+    36	 */
+    37	struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
+    38					   int index);
+    39	
+    40	/**
+    41	 * fwnode_phylink_pcs_get_from_fwnode - Retrieves the PCS provided
+    42	 *					by the firmware node from a
+    43	 *					firmware node
+    44	 * @fwnode: firmware node
+    45	 * @pcs_fwnode: PCS firmware node
+    46	 *
+    47	 * Parse 'pcs-handle' in 'fwnode' and get the PCS that match
+    48	 * 'pcs_fwnode' firmware node.
+    49	 *
+    50	 * Returns a pointer to the phylink_pcs or a negative
+    51	 * error pointer. Can return -EPROBE_DEFER if the PCS is not
+    52	 * present in global providers list (either due to driver
+    53	 * still needs to be probed or it failed to probe/removed)
+    54	 */
+    55	struct phylink_pcs *
+    56	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+    57					   struct fwnode_handle *pcs_fwnode);
     58	
-    59	   The processor is vulnerable and no mitigations have been applied.
-    60	
-    61	 * 'Vulnerable: No microcode':
-    62	
-    63	   The processor is vulnerable, no microcode extending IBPB
-    64	   functionality to address the vulnerability has been applied.
-    65	
-    66	 * 'Vulnerable: Safe RET, no microcode':
-    67	
-    68	   The "Safe RET" mitigation (see below) has been applied to protect the
-    69	   kernel, but the IBPB-extending microcode has not been applied.  User
-    70	   space tasks may still be vulnerable.
-    71	
-    72	 * 'Vulnerable: Microcode, no safe RET':
-    73	
-    74	   Extended IBPB functionality microcode patch has been applied. It does
-    75	   not address User->Kernel and Guest->Host transitions protection but it
-    76	   does address User->User and VM->VM attack vectors.
-    77	
-    78	   Note that User->User mitigation is controlled by how the IBPB aspect in
-    79	   the Spectre v2 mitigation is selected:
-    80	
-    81	    * conditional IBPB:
+    59	/**
+    60	 * fwnode_phylink_pcs_parse - generic PCS parse for fwnode PCS provider
+    61	 * @fwnode: firmware node
+    62	 * @available_pcs: pointer to preallocated array of PCS
+    63	 * @num_pcs: where to store count of parsed PCS
+    64	 *
+    65	 * Generic helper function to fill available_pcs array with PCS parsed
+    66	 * from a "pcs-handle" fwnode property defined in firmware node up to
+    67	 * passed num_pcs.
+    68	 *
+    69	 * If available_pcs is NULL, num_pcs is updated with the count of the
+    70	 * parsed PCS.
+    71	 *
+    72	 * Returns 0 or a negative error.
+    73	 */
+    74	int fwnode_phylink_pcs_parse(struct fwnode_handle *fwnode,
+    75				     struct phylink_pcs **available_pcs,
+    76				     unsigned int *num_pcs);
+    77	#else
+  > 78	static int register_fwnode_pcs_notifier(struct notifier_block *nb)
+    79	{
+    80		return -EOPNOTSUPP;
+    81	}
     82	
-    83	      where each process can select whether it needs an IBPB issued
-    84	      around it PR_SPEC_DISABLE/_ENABLE etc, see :doc:`spectre`
-    85	
-    86	    * strict:
-    87	
-    88	      i.e., always on - by supplying spectre_v2_user=on on the kernel
-    89	      command line
-    90	
-    91	   (spec_rstack_overflow=microcode)
-    92	
-    93	 * 'Mitigation: Safe RET':
-    94	
-    95	   Combined microcode/software mitigation. It complements the
-    96	   extended IBPB microcode patch functionality by addressing
-    97	   User->Kernel and Guest->Host transitions protection.
-    98	
-    99	   Selected by default or by spec_rstack_overflow=safe-ret
-   100	
-   101	 * 'Mitigation: IBPB':
-   102	
-   103	   Similar protection as "safe RET" above but employs an IBPB barrier on
-   104	   privilege domain crossings (User->Kernel, Guest->Host).
-   105	
-   106	  (spec_rstack_overflow=ibpb)
-   107	
-   108	 * 'Mitigation: IBPB on VMEXIT':
-   109	
-   110	   Mitigation addressing the cloud provider scenario - the Guest->Host
-   111	   transitions only.
-   112	
-   113	   (spec_rstack_overflow=ibpb-vmexit)
-   114	
-   115	In order to mitigate the attacks to the user space tasks,
-   116	IBPB must be set to flush all types of branches by setting kernel parameter ibpb_brtype.
-   117	The description of kernel parameter ibpb_brtype is as follows:
-   118	ibpb_brtype=     [X86, HYGON only]
- > 119	                IBPB action control flag
-   120	                Format: { ibpb-all | ibpb-ind }
-   121	                ibpb-all -- IBPB flushes all types of branches,
-   122	                            this is the default value if the command line
-   123	                            does not specify the ibpb_brtype value.
- > 124	                ibpb-ind -- IBPB flushes only indirect branches.
-   125	
+    83	static inline struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
+    84							 int index)
+    85	{
+    86		return ERR_PTR(-ENOENT);
+    87	}
+    88	
+    89	static struct phylink_pcs *
+  > 90	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+    91					   struct fwnode_handle *pcs_fwnode)
+    92	{
+    93		return ERR_PTR(-ENOENT);
+    94	}
+    95	
 
 -- 
 0-DAY CI Kernel Test Service
