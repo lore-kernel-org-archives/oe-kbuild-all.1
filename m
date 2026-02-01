@@ -1,117 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E1E28E0F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 01:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC43145B3E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 02:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769910701; cv=none; b=sPsuOIp4QkEANpvis4HBTPlztuPpaCEaDuReO7ZbJOXPuAerAxQMzLtRi2rAtGI29WNbDBRjbLqxFO2wdE5CNMwBeUwyeqj5QrXf7D0ksEvTmKoNL1Rp1vj51+DU1X7aNLRtPmRgdyx0IDnqnubzBZ/C6Iftdg0AZtAzgUNBkms=
+	t=1769912112; cv=none; b=AL9A9skHLqAzUMJO435j49t39y01RjS4yhoReEMSZQOLlUFyMvvf5BIwL8mUVohSBGGFGVLonWm60ehxFwZL50oWv6Z/2CBu2eIrM6AQZJnBiAl2dxneY9e+lTXimSCLzF3h4zmRnUJkYIjFHEfCz1XhGUG3FrQeUtkGoc4xF24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769910701; c=relaxed/simple;
-	bh=KDNPC6unyZCXf6HmUnc/bIRPIxIhQcPF/hjr3xju/XE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JmyumCqvduinDO0MITt3EsCd6DXm644XbXsjsJtNv8ywBe+9gvK+NZdz+M4vIgLZ0j+Gs4hw96oCubine+2B9qtIq02D0u4mD6xgUUBfhqcLc/lHnEBjjKEb1g/pylUKHtlsjOeVMAAGFrCO+tSSfRLee/qSceJ8TYUM41GsCNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l++1tD8w; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769912112; c=relaxed/simple;
+	bh=aj9lZYh7kNC+5k/nDqMXYXmMyDNkwDg0+SpPugkdyPg=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=diBOZDvnXIHhnEQe5pZVUyEE9eQjzkGHC7fLAgrZ29S0duCw+b+Yq4p11mpFLx2T13+hsZm1f875DwlkyvzmJfgYNMZBMd81p2me2v/Zt9aVSeEsdurJErh0tIYA6GA755fgSAUPTnQHQH9JqDfxrqEyK9qki76bPUa3/m89pa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=bDtxaZpa; arc=none smtp.client-ip=209.85.214.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexthop.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l++1tD8w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769910700; x=1801446700;
-  h=date:from:to:cc:subject:message-id;
-  bh=KDNPC6unyZCXf6HmUnc/bIRPIxIhQcPF/hjr3xju/XE=;
-  b=l++1tD8wV4dmAqqX/BzmN4Dgjk624XLiS5SN0CY3OtHYyMepyGZOVtI4
-   gu/PBrLeGF9+/okV4W0XpUKjDkcMQFVA+VkoCCsJJ+gUPFaEL3AKjgjbD
-   Gy0efDCQxuZxWRPuY6pBd2ufIy2Iov0RjhMfGdLW2Iycyhz0vIYyvZCxS
-   Yikwsmfoq1FxFLU38jr5R2WbBK/o0ibrAyHWbsKoFnHNTJCSTSnGKVJg0
-   an2KXbJTvcvSgbQ8Hcu5iR9IYIp5VpIAYBrLij1ISgMonh7wpEouD9oJ0
-   ZhX7e3FdLIZD+gNhAYkCamHqsboiaTOBcmk13qaFJuEySqNt/LFZLGtv5
-   w==;
-X-CSE-ConnectionGUID: LjgrcfzkQ8Ce96fgHJo52A==
-X-CSE-MsgGUID: QOPuAS9UQX6cBbMSGkjAmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="71200430"
-X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="71200430"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2026 17:51:39 -0800
-X-CSE-ConnectionGUID: oVHpIg+nSASzN4RUgUFx3Q==
-X-CSE-MsgGUID: lvE7Phy4QjKEE1s03goMCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,266,1763452800"; 
-   d="scan'208";a="209158294"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 31 Jan 2026 17:51:37 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vmMch-00000000eX2-1IIT;
-	Sun, 01 Feb 2026 01:51:35 +0000
-Date: Sun, 01 Feb 2026 09:50:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>
-Subject: drivers/irqchip/irq-aspeed-scu-ic.c:107:27: warning:
- variable 'mask' set but not used
-Message-ID: <202602010957.9uuKqUkG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="bDtxaZpa"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-29f30233d8aso21425715ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Jan 2026 18:15:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nexthop.ai; s=google; t=1769912110; x=1770516910; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sX+STYIHVNsNRwCOU5eoDnw7m2xr9Ak+mtAzKnocjoo=;
+        b=bDtxaZpaDA5tmksdqB+IzuCtF+uvTQV8MB03eTf5LdcaYPlewa3Zq0JdNQiipJsvHG
+         8R3WI9nYy6S2mL0wPznHKQK69UPkkYo3m8q9cw2uD8KTMhPpGF9zJtLLWQHv0yLOW27X
+         6L+KOONx8a/zFg8urFLSf9z8LAlcKZBptyWXgFuKAI0iL03B6VU2xJSmyf5cRIJcUTRH
+         4n3LSENE7JvfMvKjUf115w3+w33b6bORMbKGs34h/RpS6BmL6CFSo2Y0y1SWo1LDiUhj
+         AhKH9UQj+z67t9G/rhsGc+az5ueNvtKVw8YzCKG/hK1E+x1ubiuwpteFsRPAg1Cr/z/H
+         UyiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769912110; x=1770516910;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sX+STYIHVNsNRwCOU5eoDnw7m2xr9Ak+mtAzKnocjoo=;
+        b=cvq2wQNW9pqM/ARa0jZ6DdGPqX4D5mvUNk7h2SxUuhwOXUGK1o6LWr9wbFL+YN1CiG
+         PXqMdVnP1U81KcjIwfAbqYHgGFd0g7qnytNEZFrPFxvMpQ7N2vdtngrIp+pDW43KFIIV
+         ju9asYJQwXOOAIWSJtFmptZIM84zA3vH/18/nM1Z2cN2eo3CIMB5uz8hMDouNaeLwBK0
+         i6vNkbImp5SQ4zW1An5sTRMFcHPeplmoypGJoTOIQo7UqjmXDEpKcB5nRv+oEoV8t6Ro
+         HogXGnmI9XX8pA/jXRp7VFbeoV9B8LqiPX8ceKFT+fl90H/qOftjMLP2EW3O7nv1uizr
+         YnCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDtiQf2y5N4HDb5cgnps2Mr7nGxhsIVWW7KG2bY50N9zkFV1CDdZ50WeH1Yg4QsGJNtpu6wR18Jj3KsR9Q@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgZ24aLdgxQrLrkyl/6fIcmZSXYaaFZL4d/KAnIYDCiOmlHNlf
+	t97S8HFp+sOFBsLi2tatto/1wo6T1jSt7NExoWa/o+JYvs1LXjmCZB0DYDl6rzhbkaejeTyJLAq
+	4QRFslquNMIS2
+X-Gm-Gg: AZuq6aIo5KTJsKioTeCLMT3MkWyIIMx2HT21vAz8ESr39ot/lzbXya0EhI/KQWJ6SDz
+	e+MbqLiIoE1l9pqan/44vG40guVlg2R9UibZJPFWfSmBwXl3P8DW+iFkzmFxdCOOT+mPGoryLyW
+	3sYHn6v+ox5IXLWN+mGX8hLtDaHxNhanbalAdQwxRMXYU+hVkLS1gGm0qk3KmOkabsQKLk/H6at
+	zNOWyuxh1yNp/E/mcO2hdOUA1gL9OMqKwlDWCv7Xhk+GYpF6PAaf90KGIJw+/oJq2xbtF0WnHCI
+	lJ1UJy1xWsO5lmqEtH1OqOMYsQC/fGMa8xw3oa3HOgsIFYhDmVRWfGrorsldETnKezgbCvr4iCl
+	q0RN+q7TxOK1p4rqrNVgftuHl0IJFEfpy4/V1oyMfUpJ26LsfHglBRJjJjhO1k3L4JI9pUrhdMY
+	xU2Al3KlyXHdGTeKsbO08fV9VYRtCXHJr76Mhl4mfaXQHZAy1IRO6coYK6E5TP9h2d0EBzUpo=
+X-Received: by 2002:a17:902:ebc1:b0:2a7:7872:8f52 with SMTP id d9443c01a7336-2a8d7ee6a5dmr71880265ad.26.1769912110101;
+        Sat, 31 Jan 2026 18:15:10 -0800 (PST)
+Received: from smtpclient.apple (c-24-16-26-157.hsd1.wa.comcast.net. [24.16.26.157])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a8ea985c48sm39915685ad.22.2026.01.31.18.15.09
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 31 Jan 2026 18:15:09 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
+From: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+In-Reply-To: <202601311615.10yziOui-lkp@intel.com>
+Date: Sat, 31 Jan 2026 18:14:58 -0800
+Cc: oe-kbuild@lists.linux.dev,
+ Abdurrahman Hussain via B4 Relay <devnull+abdurrahman.nexthop.ai@kernel.org>,
+ Michal Simek <monstr@monstr.eu>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev,
+ Andy Shevchenko <andriy.shevchenko@intel.com>,
+ linux-arm-kernel@lists.infradead.org,
+ linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <81522270-1703-48E1-B64C-8CF174E1EF94@nexthop.ai>
+References: <202601311615.10yziOui-lkp@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+X-Mailer: Apple Mail (2.3864.300.41.1.7)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   162b42445b585cd89f45475848845db353539605
-commit: b2a0c13f8b4fc3f6c8b279fdc4395a5fa57dda5d irqchip/aspeed-scu-ic: Add support for AST2700 SCU interrupt controllers
-date:   5 months ago
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260201/202602010957.9uuKqUkG-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602010957.9uuKqUkG-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602010957.9uuKqUkG-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/irqchip/irq-aspeed-scu-ic.c: In function 'aspeed_scu_ic_irq_handler_split':
->> drivers/irqchip/irq-aspeed-scu-ic.c:107:27: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
-     107 |         unsigned int sts, mask;
-         |                           ^~~~
 
 
-vim +/mask +107 drivers/irqchip/irq-aspeed-scu-ic.c
+> On Jan 31, 2026, at 6:35=E2=80=AFAM, Dan Carpenter =
+<dan.carpenter@linaro.org> wrote:
+>=20
+> Hi Abdurrahman,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> url:    =
+https://github.com/intel-lab-lkp/linux/commits/Abdurrahman-Hussain-via-B4-=
+Relay/i2c-xiic-skip-input-clock-setup-on-non-OF-systems/20260130-054653
+> base:   63804fed149a6750ffd28610c5c1c98cce6bd377
+> patch link:    =
+https://lore.kernel.org/r/20260129-i2c-xiic-v7-5-727e434897ef%40nexthop.ai=
 
-   101	
-   102	static void aspeed_scu_ic_irq_handler_split(struct irq_desc *desc)
-   103	{
-   104		struct aspeed_scu_ic *scu_ic = irq_desc_get_handler_data(desc);
-   105		struct irq_chip *chip = irq_desc_get_chip(desc);
-   106		unsigned long bit, enabled, max, status;
- > 107		unsigned int sts, mask;
-   108	
-   109		chained_irq_enter(chip, desc);
-   110	
-   111		mask = scu_ic->irq_enable;
-   112		sts = readl(scu_ic->base + scu_ic->isr);
-   113		enabled = sts & scu_ic->irq_enable;
-   114		sts = readl(scu_ic->base + scu_ic->isr);
-   115		status = sts & enabled;
-   116	
-   117		bit = scu_ic->irq_shift;
-   118		max = scu_ic->num_irqs + bit;
-   119	
-   120		for_each_set_bit_from(bit, &status, max) {
-   121			generic_handle_domain_irq(scu_ic->irq_domain, bit - scu_ic->irq_shift);
-   122			/* Clear interrupt */
-   123			writel(BIT(bit), scu_ic->base + scu_ic->isr);
-   124		}
-   125	
-   126		chained_irq_exit(chip, desc);
-   127	}
-   128	
+> patch subject: [PATCH v7 5/6] i2c: xiic: cosmetic cleanup
+> config: i386-randconfig-141-20260130 =
+(https://download.01.org/0day-ci/archive/20260131/202601311615.10yziOui-lk=
+p@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project =
+87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> smatch version: v0.5.0-8994-gd50c5a4c
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: =
+https://lore.kernel.org/r/202601311615.10yziOui-lkp@intel.com/
+>=20
+> smatch warnings:
+> drivers/i2c/busses/i2c-xiic.c:1539 xiic_i2c_remove() warn: =
+pm_runtime_get_sync() also returns 1 on success
+>=20
+> vim +1539 drivers/i2c/busses/i2c-xiic.c
+>=20
+> e190a0c389e601 Uwe Kleine-K=C3=B6nig    2023-05-08  1529  static void =
+xiic_i2c_remove(struct platform_device *pdev)
+> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1530  {
+> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1531   struct device =
+*dev =3D &pdev->dev;
+> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1532   struct =
+xiic_i2c *i2c =3D platform_get_drvdata(pdev);
+> 36ecbcab84d023 Shubhrajyoti Datta  2016-03-02  1533   int ret;
+> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1534 =20
+> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1535   /* remove =
+adapter & data */
+> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1536   =
+i2c_del_adapter(&i2c->adap);
+> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1537 =20
+> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1538   ret =3D =
+pm_runtime_get_sync(dev);
+> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29 @1539   if (ret)
+> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1540   dev_warn(dev, =
+"Failed to activate device for removal (%pe)\n",
+> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1541   =
+ERR_PTR(ret));
+>=20
+>=20
+> pm_runtime_get_sync() can return 1 on success.  Perhaps use
+> pm_runtime_resume_and_get()?
+>=20
+> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1542   else
+> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1543   =
+xiic_deinit(i2c);
+> 810199f7315604 Uwe Kleine-K=C3=B6nig    2022-10-19  1544 =20
+> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1545   =
+pm_runtime_put_sync(dev);
+> 2557b4ba04df79 Abdurrahman Hussain 2026-01-29  1546   =
+pm_runtime_dont_use_autosuspend(dev);
+> e1d5b6598cdc33 Richard R=C3=B6jfors     2010-02-11  1547  }
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>=20
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This maybe a false positive.
+
+The following commit switched from pm_runtime_resume_and_get() to
+pm_runtime_get_sync():
+
+commit 810199f7315604b i2c: xiic: Make sure to disable clock on =
+.remove()
+
+Uwe, Michal, can you guys comment on this?
+
+Regards,
+Abdurrahman=
