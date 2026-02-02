@@ -1,175 +1,241 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D565190462
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 02:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32EE14EC73
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 02:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769998074; cv=none; b=Emwfeg9GQ1YgO4xpFCZgtka06URUwNH7+O56TdWUiyll5KQsQgCf+80g+lErWUNl5VdAFVip+Yym9/NV1VVP3TBjjmGvmy0duPS05eDBszWkubyWo2YyUNgFp1M+eRR8JBg+YmEv8qL89iFFlvBoO1Cq0TIU6JCGxH/JTDzSVxg=
+	t=1770000566; cv=none; b=CPuPHpu6HhV0HFcdHJ7TwiGTE+0LyugWo9ULbu1E77NsWfaOBScbF+iNkQv1LfqMGoWv3rytpKdDWvsh9gCNAIkJociWISNRXJ3AAPr9Aah1YhO80oJQUCe2rQpTmzh+erjqC/2HyItgxB5jvKEDaqW3KnjcPSBaHMSDyZJLNYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769998074; c=relaxed/simple;
-	bh=ROt5gD7XPQjhnIVF5XiuISWsGMVC+6w3Nv1xKT7Yz5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g17yu799eLiRTgSnYOh3CW1T+jK7Gt7j+25LpyQ74D5SBsQliXOThkKJQ7R3h0TkIwmVYBORXPhbjGorpitbN1IXTQTMErGz9HQhCaK9dWUfImMEPT/uuNt1LLieb1Xqcpfc+X9vNz1hCA3snMvNSczPaQeGg1O6O875wPkbJMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bIqSV/Ya; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NO0HEJ7r; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1770000566; c=relaxed/simple;
+	bh=tjC+S0xZXXkoACIPSnSYuEgj6QsqRiwamcS+Ge/8CRM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XVJa3D7lp3J+96E7WhyiDDaEf7Mf5nwfOEi9aE6OCAyuR38V8CH21pSPrAAyQ+JO6XWPH8JnWWfVJW8YgPLRaM++oBUk5odlmtSo+tVgmDJ/sVL1o7PYV1qpHRTjgnR4fup3Cls7W6Zyhw/BcjLO1jBRvruZy9DUdwpL3/jFKno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKKJnw2S; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bIqSV/Ya";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NO0HEJ7r"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 611NlnHe1814689
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 2 Feb 2026 02:07:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=BxpL/CEFN6q71yIP6BqMQzTd
-	ZY/IThsM+HhCgC/mv4I=; b=bIqSV/YalNkdPOlpP/muVM367H5bSW+xY0C9Z2/7
-	kiekDgY4iLkOMExRoy7CltSTpgV2mT5iyhiCdhGwf9W0za8iUFs4UcRLoxYitBhj
-	m8raXV1B872f5MOO+9OZFY/3Df98e+q3hrFk2QXD+iuj2xvBc+CIb64COU7pyih9
-	nOW/5YbUdrcriZQckwnrgQ18uoT0Qaz6Ix6elOZPZy8R98iO9lXv0H5ZJTf+zB1j
-	hI25lhmQpmIhbu05iynSQY5YieY0k3/xVh7kxbHmzAY71vdzTXugGTGpp9yARgKk
-	q/u4TX8Ahwmm+y+yMO2RLR2HiLAchHYKLwn102TACyV18Q==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c23h1h8q8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Feb 2026 02:07:52 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-89467edcd21so234981356d6.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Feb 2026 18:07:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1769998071; x=1770602871; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxpL/CEFN6q71yIP6BqMQzTdZY/IThsM+HhCgC/mv4I=;
-        b=NO0HEJ7rxdFLKqyd4+XSbmspjGu41ZcurnJ5REXyCEqY1spYNWKnz2fNWAC4z9Djom
-         iPtO7zSNkgOzi0h6QUr2wAGErCFVFRV/Ql443zOkcWKUrOD/MbLCHEOgtUmcz0dCR+J5
-         B971fFp+QqbUJnMNvawE0T7ptDVlMIgFz7/T4kihLs1sZoOrd4Q94FcUf7bKMmAsvIbi
-         PEEINoXlg0jxJEXyi6kzGHIuGiDmXp4yBds/H5viYlWURYuU02thfhfr7Wwl87wgYPuA
-         sivIKzNFrns0Ht6tgjU07kKs2fJIVOV8AfYRZVS+iqMXkGq3RzzTZwGAgovu13ysE7kX
-         LbYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769998071; x=1770602871;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BxpL/CEFN6q71yIP6BqMQzTdZY/IThsM+HhCgC/mv4I=;
-        b=vTgyv4h5czZ3WLfI+UonOX1sGsaUgHdPi3hzJP3pdAPTRSC38toRLj/3uSyuc7X4tU
-         7iiqw2SntLwTaJIQQS/m/QVXRie99dtp0EOlmQKxUjTpEV4O+3lm52GpPW6NrVQtbyG+
-         +tAyGRXXXrCWuAvYv+uL4odWU4pukMzb4Eus0rfpDe+niXR2JuNWx/+gNeXE8AaONzhW
-         6upbgNejEVJ0b7Bh8ioEBf+i5LhpIpJ+ocGs6O3rZ6Jzhjlvz0/yML+J3UoEdWBcq8hU
-         dfr7zw/3RLrncg5Mzsy9KJFQLyv351QJkHIwXpqRkpVp+IgTMKsqfoLqoyhdG/O/gj11
-         KX9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWp3Jw0thzcVwV5yQpWlJ9VbYXysoj7bggrVWq8M1nlHYaAkM6v2b0tlC+ONCHYpD25LcTFSSrh7ux2YNyZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzC1iN5XX0sxXpuR5NjlY2PcXyO+x82ClBZZQb4W11gjJ6kf/tt
-	sP6erYpM5j+Uu0Cpave5AbxTB3orDZa9EhugsjcZfXWyZMKZBp/MHLHnfQk2o6QWZ1L9Qg41skz
-	c7DDONTFc0eKcqhw8HB7VQZmBY3sadWxKCAS3EYWN9Q5Bkg0Dc4t6OceuW30k6ulFzVqK
-X-Gm-Gg: AZuq6aIH9SCVaRkjv2JD8eGrgrwOOeCr34psPwuaa2yp8X1iaFiIEySSND8m4ur9C62
-	hjHsC8lTmjys9eM/VEBB8AYQsnICmoeyPneEmR9yBpA3j3UknDwTAmQRZ72A7QBDrJ9LL93YhU0
-	D1kNriCIYjWWANFSd40yWx1OrLqWWWUCe7OC0drtnNw8VqkgdEnPtC/Xy2IJFfJgUNMrGuIH7Sw
-	qM88T+fLFw6Kl3icgWHBg79eAS0QvAg3uvuvcJZWdDKM73TRYvuVT7HL4S5CT8uDI+W2GhAamAh
-	fSE+jOBKm4FX8c6KVLC5QYTUll2DvgD8aI9w05b5Gb4+LwGSd4Q3Bjj3v8s1GiDwDSzRzHwO9Bv
-	kfyUsE+DGFd9LHDwQVnztlVziBqU0UbdVnvKlRjBrYtqKQCuxhOaeBTgL7QW1bixoPnqtY/I=
-X-Received: by 2002:ad4:5dc8:0:b0:880:4054:7edd with SMTP id 6a1803df08f44-894e9fe6b46mr152935696d6.20.1769998071566;
-        Sun, 01 Feb 2026 18:07:51 -0800 (PST)
-X-Received: by 2002:ad4:5dc8:0:b0:880:4054:7edd with SMTP id 6a1803df08f44-894e9fe6b46mr152935476d6.20.1769998071139;
-        Sun, 01 Feb 2026 18:07:51 -0800 (PST)
-Received: from yuanjiey.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711d2845fsm1148516085a.31.2026.02.01.18.07.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 18:07:50 -0800 (PST)
-Date: Mon, 2 Feb 2026 10:07:45 +0800
-From: yuanjiey <yuanjie.yang@oss.qualcomm.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Subject: Re: [linux-next:master 7732/9539]
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c:161
- dpu_hw_sspp_setup_pe_config_v13() warn: variable dereferenced before check
- 'ctx' (see line 159)
-Message-ID: <aYAG8R8nkSNqdR6b@yuanjiey.ap.qualcomm.com>
-References: <202601252214.oEaY3UZM-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKKJnw2S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770000563; x=1801536563;
+  h=date:from:to:cc:subject:message-id;
+  bh=tjC+S0xZXXkoACIPSnSYuEgj6QsqRiwamcS+Ge/8CRM=;
+  b=UKKJnw2SE6741vBBJwPvOPFXLEok3rmgjNpdres0QIA8+jHwauB1hua0
+   e0LtwbE7VW6Z0Cdg3BxbZc2ILVUiY0eKUHkPIxDUEpPHF3J1g4qfu4FYa
+   kCHKrD+SP2XU1/+OTdKM3zEcXObX+iFpZy84eQLCIRNblCjxBWLlpImyw
+   YCJnNmPRF9fsETcyOMZH2sv9NuaoNYWxnIzngCcfQiJ0GaUm2GbckhWi1
+   JkVvTjYLPNU9dyeKFHjsAzJldTl587Z2w4jR1Hg5gFbMlJyhLXG00j70h
+   jP6mGq7T8BMAmy12K1V1k9ATNVBzEAARihXWtsp5qzlAxzFfLaBZKmphD
+   A==;
+X-CSE-ConnectionGUID: zO1UO8rwQdqEyeDR4E0Qzw==
+X-CSE-MsgGUID: WvdHFMrIQwKcw1DxdkpGrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="70358603"
+X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
+   d="scan'208";a="70358603"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 18:49:23 -0800
+X-CSE-ConnectionGUID: KzOUkwmDShO+WfKjz6kjzA==
+X-CSE-MsgGUID: VJxRzyH8T6yWPisaAjKSwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
+   d="scan'208";a="214234810"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 01 Feb 2026 18:49:21 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vmk07-00000000fC6-15hw;
+	Mon, 02 Feb 2026 02:49:19 +0000
+Date: Mon, 02 Feb 2026 10:48:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>
+Subject: drivers/crypto/ccp/sev-dev.c:1496:2-13: opportunity for
+ str_enabled_disabled(data . tio_en)
+Message-ID: <202602021053.UNIk3vsU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202601252214.oEaY3UZM-lkp@intel.com>
-X-Proofpoint-GUID: YJR3B81fXuFckk9PACFFUVHRs6LM5QvG
-X-Proofpoint-ORIG-GUID: YJR3B81fXuFckk9PACFFUVHRs6LM5QvG
-X-Authority-Analysis: v=2.4 cv=Fu8IPmrq c=1 sm=1 tr=0 ts=698006f8 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
- a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8
- a=NEAV23lmAAAA:8 a=KKAkSRfTAAAA:8 a=wTWSiibFJaJYqoySWbQA:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22 a=mmqRlSCDY2ywfjPLJ4af:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDAxNSBTYWx0ZWRfX74Etx58Jp7jB
- KfHwnvXEsGsYq87ivHcboC40PCTRpNhWEWveNT2XBOeXfwiDu87zH1rF5ZmYSU8UR+7AArC96Vj
- THY3OyM1kHTXO8daoyT3ITk22aG08J7fefmEBBVWQe/Jw5XORuVS+wEbkq14haP+v71/pyhaBh5
- 00VGb+n3/LDcmQCsCwL1j2DHezz+OI6iGswxsq0B4yzHAfh69nssqrDXtlgXzktHB9TH/xnsMpD
- iSRwjsaDOtgige7DhKquzsSXFqkl8GvF+V8TBs+oXCJQyjBPpUHzADdr1Wu0pIPi+Dcl/AZNMZC
- ak61f2rpxKlOm4LpZzlF/LUmuvU7hong4zDgtD4dTGY3PeYNmKeleLfNBNI7BCg168KufSXg4qc
- UQMGlC4DOY9IFdGezt/jfVRksZchJhKN0tjeU3Ql1zs1bRaNOizNKpqZQJmotMoL9QwOPilVh+7
- EepxFSe1PzxwXwa7gQQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-01_08,2026-01-30_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- clxscore=1011 suspectscore=0 bulkscore=0 malwarescore=0 adultscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602020015
 
-On Wed, Jan 28, 2026 at 01:04:39PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
-> commit: 688c7734002a1ee6f50a28ba9bd7aa380edbe12d [7732/9539] drm/msm/dpu: Add Kaanapali SSPP sub-block support
-> config: mips-randconfig-r071-20260125 (https://download.01.org/0day-ci/archive/20260125/202601252214.oEaY3UZM-lkp@intel.com/config)
-> compiler: mips64-linux-gcc (GCC) 15.2.0
-> smatch version: v0.5.0-8994-gd50c5a4c
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202601252214.oEaY3UZM-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c:161 dpu_hw_sspp_setup_pe_config_v13() warn: variable dereferenced before check 'ctx' (see line 159)
-> 
-> vim +/ctx +161 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp_v13.c
-> 
-> 688c7734002a1e Yuanjie Yang 2026-01-15  152  static void dpu_hw_sspp_setup_pe_config_v13(struct dpu_hw_sspp *ctx,
-> 688c7734002a1e Yuanjie Yang 2026-01-15  153  					    struct dpu_hw_pixel_ext *pe_ext)
-> 688c7734002a1e Yuanjie Yang 2026-01-15  154  {
-> 688c7734002a1e Yuanjie Yang 2026-01-15  155  	struct dpu_hw_blk_reg_map *c;
-> 688c7734002a1e Yuanjie Yang 2026-01-15  156  	u8 color;
-> 688c7734002a1e Yuanjie Yang 2026-01-15  157  	u32 lr_pe[4], tb_pe[4];
-> 688c7734002a1e Yuanjie Yang 2026-01-15  158  	const u32 bytemask = 0xff;
-> 688c7734002a1e Yuanjie Yang 2026-01-15 @159  	u32 offset = ctx->cap->sblk->sspp_rec0_blk.base;
->                                                              ^^^^^
-> Dereference
-> 
-> 688c7734002a1e Yuanjie Yang 2026-01-15  160  
-> 688c7734002a1e Yuanjie Yang 2026-01-15 @161  	if (!ctx || !pe_ext)
->                                                      ^^^
-> NULL check is too late.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18f7fcd5e69a04df57b563360b88be72471d6b62
+commit: 4be423572da1f4c11f45168e3fafda870ddac9f8 crypto/ccp: Implement SEV-TIO PCIe IDE (phase1)
+date:   9 weeks ago
+config: x86_64-randconfig-103-20260202 (https://download.01.org/0day-ci/archive/20260202/202602021053.UNIk3vsU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-Ok, will fix it in a new patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602021053.UNIk3vsU-lkp@intel.com/
 
-Thanks,
-Yuanjie
+cocci warnings: (new ones prefixed by >>)
+>> drivers/crypto/ccp/sev-dev.c:1496:2-13: opportunity for str_enabled_disabled(data . tio_en)
 
-> 688c7734002a1e Yuanjie Yang 2026-01-15  162  		return;
-> 688c7734002a1e Yuanjie Yang 2026-01-15  163  
-> 688c7734002a1e Yuanjie Yang 2026-01-15  164  	c = &ctx->hw;
-> 688c7734002a1e Yuanjie Yang 2026-01-15  165  	/* program SW pixel extension override for all pipes*/
-> 688c7734002a1e Yuanjie Yang 2026-01-15  166  	for (color = 0; color < DPU_MAX_PLANES; color++) {
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+vim +1496 drivers/crypto/ccp/sev-dev.c
+
+  1368	
+  1369	static int __sev_snp_init_locked(int *error, unsigned int max_snp_asid)
+  1370	{
+  1371		struct psp_device *psp = psp_master;
+  1372		struct sev_data_snp_init_ex data;
+  1373		struct sev_device *sev;
+  1374		void *arg = &data;
+  1375		int cmd, rc = 0;
+  1376	
+  1377		if (!cc_platform_has(CC_ATTR_HOST_SEV_SNP))
+  1378			return -ENODEV;
+  1379	
+  1380		sev = psp->sev_data;
+  1381	
+  1382		if (sev->snp_initialized)
+  1383			return 0;
+  1384	
+  1385		if (!sev_version_greater_or_equal(SNP_MIN_API_MAJOR, SNP_MIN_API_MINOR)) {
+  1386			dev_dbg(sev->dev, "SEV-SNP support requires firmware version >= %d:%d\n",
+  1387				SNP_MIN_API_MAJOR, SNP_MIN_API_MINOR);
+  1388			return -EOPNOTSUPP;
+  1389		}
+  1390	
+  1391		/* SNP_INIT requires MSR_VM_HSAVE_PA to be cleared on all CPUs. */
+  1392		on_each_cpu(snp_set_hsave_pa, NULL, 1);
+  1393	
+  1394		/*
+  1395		 * Starting in SNP firmware v1.52, the SNP_INIT_EX command takes a list
+  1396		 * of system physical address ranges to convert into HV-fixed page
+  1397		 * states during the RMP initialization.  For instance, the memory that
+  1398		 * UEFI reserves should be included in the that list. This allows system
+  1399		 * components that occasionally write to memory (e.g. logging to UEFI
+  1400		 * reserved regions) to not fail due to RMP initialization and SNP
+  1401		 * enablement.
+  1402		 *
+  1403		 */
+  1404		if (sev_version_greater_or_equal(SNP_MIN_API_MAJOR, 52)) {
+  1405			bool tio_supp = !!(sev->snp_feat_info_0.ebx & SNP_SEV_TIO_SUPPORTED);
+  1406	
+  1407			/*
+  1408			 * Firmware checks that the pages containing the ranges enumerated
+  1409			 * in the RANGES structure are either in the default page state or in the
+  1410			 * firmware page state.
+  1411			 */
+  1412			snp_range_list = kzalloc(PAGE_SIZE, GFP_KERNEL);
+  1413			if (!snp_range_list) {
+  1414				dev_err(sev->dev,
+  1415					"SEV: SNP_INIT_EX range list memory allocation failed\n");
+  1416				return -ENOMEM;
+  1417			}
+  1418	
+  1419			/*
+  1420			 * Retrieve all reserved memory regions from the e820 memory map
+  1421			 * to be setup as HV-fixed pages.
+  1422			 */
+  1423			rc = walk_iomem_res_desc(IORES_DESC_NONE, IORESOURCE_MEM, 0, ~0,
+  1424						 snp_range_list, snp_filter_reserved_mem_regions);
+  1425			if (rc) {
+  1426				dev_err(sev->dev,
+  1427					"SEV: SNP_INIT_EX walk_iomem_res_desc failed rc = %d\n", rc);
+  1428				return rc;
+  1429			}
+  1430	
+  1431			/*
+  1432			 * Add HV_Fixed pages from other PSP sub-devices, such as SFS to the
+  1433			 * HV_Fixed page list.
+  1434			 */
+  1435			snp_add_hv_fixed_pages(sev, snp_range_list);
+  1436	
+  1437			memset(&data, 0, sizeof(data));
+  1438	
+  1439			if (max_snp_asid) {
+  1440				data.ciphertext_hiding_en = 1;
+  1441				data.max_snp_asid = max_snp_asid;
+  1442			}
+  1443	
+  1444			data.init_rmp = 1;
+  1445			data.list_paddr_en = 1;
+  1446			data.list_paddr = __psp_pa(snp_range_list);
+  1447	
+  1448			data.tio_en = tio_supp && sev_tio_enabled && amd_iommu_sev_tio_supported();
+  1449	
+  1450			/*
+  1451			 * When psp_init_on_probe is disabled, the userspace calling
+  1452			 * SEV ioctl can inadvertently shut down SNP and SEV-TIO causing
+  1453			 * unexpected state loss.
+  1454			 */
+  1455			if (data.tio_en && !psp_init_on_probe)
+  1456				dev_warn(sev->dev, "SEV-TIO as incompatible with psp_init_on_probe=0\n");
+  1457	
+  1458			cmd = SEV_CMD_SNP_INIT_EX;
+  1459		} else {
+  1460			cmd = SEV_CMD_SNP_INIT;
+  1461			arg = NULL;
+  1462		}
+  1463	
+  1464		/*
+  1465		 * The following sequence must be issued before launching the first SNP
+  1466		 * guest to ensure all dirty cache lines are flushed, including from
+  1467		 * updates to the RMP table itself via the RMPUPDATE instruction:
+  1468		 *
+  1469		 * - WBINVD on all running CPUs
+  1470		 * - SEV_CMD_SNP_INIT[_EX] firmware command
+  1471		 * - WBINVD on all running CPUs
+  1472		 * - SEV_CMD_SNP_DF_FLUSH firmware command
+  1473		 */
+  1474		wbinvd_on_all_cpus();
+  1475	
+  1476		rc = __sev_do_cmd_locked(cmd, arg, error);
+  1477		if (rc) {
+  1478			dev_err(sev->dev, "SEV-SNP: %s failed rc %d, error %#x\n",
+  1479				cmd == SEV_CMD_SNP_INIT_EX ? "SNP_INIT_EX" : "SNP_INIT",
+  1480				rc, *error);
+  1481			return rc;
+  1482		}
+  1483	
+  1484		/* Prepare for first SNP guest launch after INIT. */
+  1485		wbinvd_on_all_cpus();
+  1486		rc = __sev_do_cmd_locked(SEV_CMD_SNP_DF_FLUSH, NULL, error);
+  1487		if (rc) {
+  1488			dev_err(sev->dev, "SEV-SNP: SNP_DF_FLUSH failed rc %d, error %#x\n",
+  1489				rc, *error);
+  1490			return rc;
+  1491		}
+  1492	
+  1493		snp_hv_fixed_pages_state_update(sev, HV_FIXED);
+  1494		sev->snp_initialized = true;
+  1495		dev_dbg(sev->dev, "SEV-SNP firmware initialized, SEV-TIO is %s\n",
+> 1496			data.tio_en ? "enabled" : "disabled");
+  1497	
+  1498		dev_info(sev->dev, "SEV-SNP API:%d.%d build:%d\n", sev->api_major,
+  1499			 sev->api_minor, sev->build);
+  1500	
+  1501		atomic_notifier_chain_register(&panic_notifier_list,
+  1502					       &snp_panic_notifier);
+  1503	
+  1504		if (data.tio_en) {
+  1505			/*
+  1506			 * This executes with the sev_cmd_mutex held so down the stack
+  1507			 * snp_reclaim_pages(locked=false) might be needed (which is extremely
+  1508			 * unlikely) but will cause a deadlock.
+  1509			 * Instead of exporting __snp_alloc_firmware_pages(), allocate a page
+  1510			 * for this one call here.
+  1511			 */
+  1512			void *tio_status = page_address(__snp_alloc_firmware_pages(
+  1513				GFP_KERNEL_ACCOUNT | __GFP_ZERO, 0, true));
+  1514	
+  1515			if (tio_status) {
+  1516				sev_tsm_init_locked(sev, tio_status);
+  1517				__snp_free_firmware_pages(virt_to_page(tio_status), 0, true);
+  1518			}
+  1519		}
+  1520	
+  1521		sev_es_tmr_size = SNP_TMR_SIZE;
+  1522	
+  1523		return 0;
+  1524	}
+  1525	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
