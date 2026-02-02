@@ -1,83 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90367371058;
-	Mon,  2 Feb 2026 15:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDC837F107
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 17:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770044589; cv=none; b=thUb8X4dE2w6bzgeplfw3Pgl8vNou01PIuPk/m3Hngk+99S0Rbj5X3dsVS8aZm/IfwVPmgGevjuKsTbeRPUYLz+8mzslU2po9ix/RGtzeliNZHuDtZ5m7KgfzOEyo2H2tXhESZbsqNmfipAbUU730Bvsw9c0lZIyqaDglGWorHc=
+	t=1770053838; cv=none; b=NSivbiANeUKH9QAyy0bHiWhx48raS6ZfR2fZjbv/O/aPfljcj3BtlRKTYvaMldvlUXcm3EeP3hn0G8GHT/4l7nVrXVzy3jpiUoneZHWYDDVUQva/SF9z7b02c1bYxOCJhuRi1SMofkfyHBVlq2qjujEgvEhr6P2x+UDuru21QI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770044589; c=relaxed/simple;
-	bh=f4jiSWaAUMy80OsaVE6o84JI4KEEK5M17ot8dH2cPts=;
+	s=arc-20240116; t=1770053838; c=relaxed/simple;
+	bh=qnUdp0fecZJL9WMPJ0BhqY7uIDclw68asQkR5FLPZ6A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxnjH2Pvx5aAAr8cf8EjtkocTZfw0NFTLL2sPzGXsJDfI1ElKLYiZrqaouYk68jhTNlWjnCBDVunSR1WTA7pah1PWSdm0gfOpdgQ2NvYGQ62RFZ6BFBknTi80MCGNE6m1gUrkRA0PIhSar0L+n9oKTlqzwajEr+w6CeuNtslrO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKJj06CP; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=MrBmQx7mtCfq4HsZJUDqGbrXbR1ai1RzDfp3alc9hjSFxibux+4efLfaiivcMs+YUBzGoI8qndoOWye/9UR0OwHBOajxkKRC13sMCSIgGfPExokXuojo0Ki2EhEuP6uBvVKMZF0PFXUTUy3Z8haYUEiPYB8N9I0XRaphz/LXjxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=irt5izqA; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKJj06CP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irt5izqA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770044587; x=1801580587;
+  t=1770053836; x=1801589836;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f4jiSWaAUMy80OsaVE6o84JI4KEEK5M17ot8dH2cPts=;
-  b=jKJj06CPv+ezALh2mBlTbMnJoPB1sy3SbWh8JCRhDhurYymgQUePITGV
-   h8GQx/Qf0FR8z1RWlEA5oElZ4B/HYCyBINzP4myqR4g+E1Gce4PEmum5M
-   FSzRL5PbwG6cot3ECjtklMaoukzc4uvYq6G9LHMg8gW33YkSrmZ8iNz8O
-   h3cacoszZR/hWHUv2pgWFOpn3S8Z/0l5sM/IfoPoS9dXNfRMx+eNhmM1w
-   hT6vR6AqGuotCmm4TRpMXdva3rqayH6bfXTfsRpfTTUFgMyL26/QRp6Dw
-   fIUjmylWvU9fVc7J7qaKdmBRwieOrP+pucZwa0zFPYM7YGGSUFb627awN
-   w==;
-X-CSE-ConnectionGUID: pN6tubccS9eU/yGir1rN6g==
-X-CSE-MsgGUID: WtoZcdRUQ/qCoZixPn0P9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71099602"
+  bh=qnUdp0fecZJL9WMPJ0BhqY7uIDclw68asQkR5FLPZ6A=;
+  b=irt5izqAZbxl/s7FFehFDSP7akpXSEiVyawPf1BCGtn0Z8etkrJFTGtP
+   DveWUBmZQGwcGnt0ZiC/ic/sYepEC5zxiV/Db3m0DC4ABmo4j5ZEHjrBR
+   tB/Kz/VryaYmdJI5+zmU2Rdh0S6/FoE7ng68geMqzTbqB3hJ5sWS2jOpm
+   ltJZ6deEcmcuTtF2RCk6J9qC3iYU3Hv6y+2BG0J3OrNhh1W7TOwoSUTQK
+   /n5CuF190LINnd/KyooDN218kFY7IR8cMgWTEi7EmFR/dDVdeVUb0fKX2
+   7wLwb2I1FrFD4ZlNgZtEmjKYX5AtrWmKAnH3Bps7zszcPcKeN9ZsJFlpA
+   Q==;
+X-CSE-ConnectionGUID: 9Pf+LHZfSrKGJBeG4YCMtA==
+X-CSE-MsgGUID: 52wno3J6RF6E+QwS0cCTvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="82584536"
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="71099602"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 07:03:06 -0800
-X-CSE-ConnectionGUID: 1Sm55USrTViCYi6oLwwXlg==
-X-CSE-MsgGUID: ZhozEz8UQCq9wlrljDbqsQ==
+   d="scan'208";a="82584536"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 09:37:15 -0800
+X-CSE-ConnectionGUID: mNWRr4kkTkKaw6XHoiHtJA==
+X-CSE-MsgGUID: /VpVgHcER1S748B3+00oVw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="209698373"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Feb 2026 07:03:00 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 02 Feb 2026 09:37:13 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmvS4-00000000ffw-49bj;
-	Mon, 02 Feb 2026 15:02:56 +0000
-Date: Mon, 2 Feb 2026 23:02:50 +0800
+	id 1vmxrK-00000000foG-3J1S;
+	Mon, 02 Feb 2026 17:37:10 +0000
+Date: Tue, 3 Feb 2026 01:37:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Suresh Siddha <suresh.b.siddha@intel.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
-	jailhouse-dev@googlegroups.com, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, Rahul Bukte <rahul.bukte@sony.com>,
-	Shashank Balaji <shashank.mahadasyam@sony.com>,
-	Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>
-Subject: Re: [PATCH 1/3] x86/x2apic: disable x2apic on resume if the kernel
- expects so
-Message-ID: <202602022242.iSdFHMDI-lkp@intel.com>
-References: <20260202-x2apic-fix-v1-1-71c8f488a88b@sony.com>
+To: Vladimir Moravcevic <vmoravcevic@axiado.com>,
+	Krutik Shah <krutikshah@axiado.com>,
+	Prasad Bolisetty <pbolisetty@axiado.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+	Vladimir Moravcevic <vmoravcevic@axiado.com>
+Subject: Re: [PATCH 2/3] usb: gadget: udc: Add UDC driver for Axiado Device
+ controller IP Corigine
+Message-ID: <202602030131.VCTzZ4me-lkp@intel.com>
+References: <20260202-axiado-ax3000-usb-device-controller-v1-2-45ce0a8b014f@axiado.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,115 +70,197 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202-x2apic-fix-v1-1-71c8f488a88b@sony.com>
+In-Reply-To: <20260202-axiado-ax3000-usb-device-controller-v1-2-45ce0a8b014f@axiado.com>
 
-Hi Shashank,
+Hi Vladimir,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 18f7fcd5e69a04df57b563360b88be72471d6b62]
+[auto build test WARNING on 63804fed149a6750ffd28610c5c1c98cce6bd377]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shashank-Balaji/x86-x2apic-disable-x2apic-on-resume-if-the-kernel-expects-so/20260202-181147
-base:   18f7fcd5e69a04df57b563360b88be72471d6b62
-patch link:    https://lore.kernel.org/r/20260202-x2apic-fix-v1-1-71c8f488a88b%40sony.com
-patch subject: [PATCH 1/3] x86/x2apic: disable x2apic on resume if the kernel expects so
-config: x86_64-buildonly-randconfig-001-20260202 (https://download.01.org/0day-ci/archive/20260202/202602022242.iSdFHMDI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602022242.iSdFHMDI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Moravcevic/dt-bindings-usb-axiado-ax3000-udc-Add-Axiado-UDC/20260202-211951
+base:   63804fed149a6750ffd28610c5c1c98cce6bd377
+patch link:    https://lore.kernel.org/r/20260202-axiado-ax3000-usb-device-controller-v1-2-45ce0a8b014f%40axiado.com
+patch subject: [PATCH 2/3] usb: gadget: udc: Add UDC driver for Axiado Device controller IP Corigine
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260203/202602030131.VCTzZ4me-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030131.VCTzZ4me-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602022242.iSdFHMDI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602030131.VCTzZ4me-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/apic/apic.c: In function 'lapic_resume':
->> arch/x86/kernel/apic/apic.c:2463:17: error: implicit declaration of function '__x2apic_disable'; did you mean '__x2apic_enable'? [-Wimplicit-function-declaration]
-    2463 |                 __x2apic_disable();
-         |                 ^~~~~~~~~~~~~~~~
-         |                 __x2apic_enable
+   drivers/usb/gadget/udc/crg_udc.c: In function 'crg_udc_queue_trbs':
+>> drivers/usb/gadget/udc/crg_udc.c:881:13: warning: variable 'num_sgs' set but not used [-Wunused-but-set-variable]
+     881 |         u32 num_sgs = 0;
+         |             ^~~~~~~
+   drivers/usb/gadget/udc/crg_udc.c: In function 'crg_udc_ep_enable':
+>> drivers/usb/gadget/udc/crg_udc.c:1812:26: warning: variable 'uccr' set but not used [-Wunused-but-set-variable]
+    1812 |         struct crg_uccr *uccr;
+         |                          ^~~~
+>> drivers/usb/gadget/udc/crg_udc.c:1811:25: warning: variable 'epcx' set but not used [-Wunused-but-set-variable]
+    1811 |         struct ep_cx_s *epcx;
+         |                         ^~~~
+   drivers/usb/gadget/udc/crg_udc.c: In function 'crg_udc_common_irq':
+>> drivers/usb/gadget/udc/crg_udc.c:4250:13: warning: variable 'retval' set but not used [-Wunused-but-set-variable]
+    4250 |         int retval = 0;
+         |             ^~~~~~
+   drivers/usb/gadget/udc/crg_udc.c: At top level:
+>> drivers/usb/gadget/udc/crg_udc.c:126:19: warning: 'driver_name' defined but not used [-Wunused-const-variable=]
+     126 | static const char driver_name[] = "crg_udc";
+         |                   ^~~~~~~~~~~
+--
+>> Warning: drivers/usb/gadget/udc/crg_udc.c:4325 cannot understand function prototype: 'const struct of_device_id of_crg_udc_match[] ='
 
 
-vim +2463 arch/x86/kernel/apic/apic.c
+vim +/num_sgs +881 drivers/usb/gadget/udc/crg_udc.c
 
-  2435	
-  2436	static void lapic_resume(void *data)
-  2437	{
-  2438		unsigned int l, h;
-  2439		unsigned long flags;
-  2440		int maxlvt;
-  2441	
-  2442		if (!apic_pm_state.active)
-  2443			return;
-  2444	
-  2445		local_irq_save(flags);
-  2446	
-  2447		/*
-  2448		 * IO-APIC and PIC have their own resume routines.
-  2449		 * We just mask them here to make sure the interrupt
-  2450		 * subsystem is completely quiet while we enable x2apic
-  2451		 * and interrupt-remapping.
-  2452		 */
-  2453		mask_ioapic_entries();
-  2454		legacy_pic->mask_all();
-  2455	
-  2456		if (x2apic_mode) {
-  2457			__x2apic_enable();
-  2458		} else {
-  2459			/*
-  2460			 * x2apic may have been re-enabled by the
-  2461			 * firmware on resuming from s2ram
-  2462			 */
-> 2463			__x2apic_disable();
-  2464	
-  2465			/*
-  2466			 * Make sure the APICBASE points to the right address
-  2467			 *
-  2468			 * FIXME! This will be wrong if we ever support suspend on
-  2469			 * SMP! We'll need to do this as part of the CPU restore!
-  2470			 */
-  2471			if (boot_cpu_data.x86 >= 6) {
-  2472				rdmsr(MSR_IA32_APICBASE, l, h);
-  2473				l &= ~MSR_IA32_APICBASE_BASE;
-  2474				l |= MSR_IA32_APICBASE_ENABLE | mp_lapic_addr;
-  2475				wrmsr(MSR_IA32_APICBASE, l, h);
-  2476			}
-  2477		}
-  2478	
-  2479		maxlvt = lapic_get_maxlvt();
-  2480		apic_write(APIC_LVTERR, ERROR_APIC_VECTOR | APIC_LVT_MASKED);
-  2481		apic_write(APIC_ID, apic_pm_state.apic_id);
-  2482		apic_write(APIC_DFR, apic_pm_state.apic_dfr);
-  2483		apic_write(APIC_LDR, apic_pm_state.apic_ldr);
-  2484		apic_write(APIC_TASKPRI, apic_pm_state.apic_taskpri);
-  2485		apic_write(APIC_SPIV, apic_pm_state.apic_spiv);
-  2486		apic_write(APIC_LVT0, apic_pm_state.apic_lvt0);
-  2487		apic_write(APIC_LVT1, apic_pm_state.apic_lvt1);
-  2488	#ifdef CONFIG_X86_THERMAL_VECTOR
-  2489		if (maxlvt >= 5)
-  2490			apic_write(APIC_LVTTHMR, apic_pm_state.apic_thmr);
-  2491	#endif
-  2492	#ifdef CONFIG_X86_MCE_INTEL
-  2493		if (maxlvt >= 6)
-  2494			apic_write(APIC_LVTCMCI, apic_pm_state.apic_cmci);
-  2495	#endif
-  2496		if (maxlvt >= 4)
-  2497			apic_write(APIC_LVTPC, apic_pm_state.apic_lvtpc);
-  2498		apic_write(APIC_LVTT, apic_pm_state.apic_lvtt);
-  2499		apic_write(APIC_TDCR, apic_pm_state.apic_tdcr);
-  2500		apic_write(APIC_TMICT, apic_pm_state.apic_tmict);
-  2501		apic_write(APIC_ESR, 0);
-  2502		apic_read(APIC_ESR);
-  2503		apic_write(APIC_LVTERR, apic_pm_state.apic_lvterr);
-  2504		apic_write(APIC_ESR, 0);
-  2505		apic_read(APIC_ESR);
-  2506	
-  2507		irq_remapping_reenable(x2apic_mode);
-  2508	
-  2509		local_irq_restore(flags);
-  2510	}
-  2511	
+   858	
+   859	static int crg_udc_queue_trbs(struct crg_udc_ep *udc_ep_ptr,
+   860			struct crg_udc_request *udc_req_ptr,  bool b_isoc,
+   861			u32 xfer_ring_size,
+   862			u32 num_trbs_needed, u64 buffer_length)
+   863	{
+   864		struct crg_gadget_dev *crg_udc = udc_ep_ptr->crg_udc;
+   865		struct transfer_trb_s *p_xfer_ring = udc_ep_ptr->first_trb;
+   866		u32 num_trbs_ava = 0;
+   867		struct usb_request *usb_req = &udc_req_ptr->usb_req;
+   868		u64 buff_len_temp = 0;
+   869		u32 i, j = 1;
+   870		struct transfer_trb_s *enq_pt = udc_ep_ptr->enq_pt;
+   871		u8 td_size;
+   872		u8 chain_bit = 1;
+   873		u8 short_pkt = 0;
+   874		u8 intr_on_compl = 0;
+   875		u32 count;
+   876		bool full_td = true;
+   877		u32 intr_rate;
+   878		dma_addr_t trb_buf_addr;
+   879		bool need_zlp = false;
+   880		struct scatterlist *sg = NULL;
+ > 881		u32 num_sgs = 0;
+   882		u64 sg_addr = 0;
+   883	
+   884		dev_dbg(crg_udc->dev, "%s %s\n", __func__, udc_ep_ptr->usb_ep.name);
+   885		if (udc_req_ptr->usb_req.num_sgs) {
+   886			num_sgs = udc_req_ptr->usb_req.num_sgs;
+   887			sg = udc_req_ptr->usb_req.sg;
+   888			sg_addr = (u64) sg_dma_address(sg);
+   889			buffer_length = sg_dma_len(sg);
+   890	
+   891			dev_dbg(crg_udc->dev, "num_sgs = %d, num_mapped_sgs = %d\n",
+   892				udc_req_ptr->usb_req.num_sgs,
+   893				udc_req_ptr->usb_req.num_mapped_sgs);
+   894			dev_dbg(crg_udc->dev,
+   895				"sg_addr = %p, buffer_length = %llu, num_trbs = %d\n",
+   896				(void *)sg_addr, buffer_length, num_trbs_needed);
+   897		}
+   898	
+   899		if (!b_isoc) {
+   900			if (udc_req_ptr->usb_req.zero == 1 &&
+   901				udc_req_ptr->usb_req.length != 0 &&
+   902				((udc_req_ptr->usb_req.length %
+   903				  udc_ep_ptr->usb_ep.maxpacket) == 0)) {
+   904				need_zlp = true;
+   905			}
+   906		}
+   907	
+   908		td_size = num_trbs_needed;
+   909	
+   910		num_trbs_ava = room_on_ring(crg_udc, xfer_ring_size,
+   911			p_xfer_ring, udc_ep_ptr->enq_pt, udc_ep_ptr->deq_pt);
+   912	
+   913		/* trb_buf_addr points to the addr of the buffer that we write in
+   914		 * each TRB. If this function is called to complete the pending TRB
+   915		 * transfers of a previous request, point it to the buffer that is
+   916		 * not transferred, or else point it to the starting address of the
+   917		 * buffer received in usb_request
+   918		 */
+   919		if (udc_req_ptr->trbs_needed) {
+   920			/* Here udc_req_ptr->trbs_needed is used to indicate if we
+   921			 * are completing a previous req
+   922			 */
+   923			trb_buf_addr = usb_req->dma +
+   924				(usb_req->length - udc_req_ptr->buff_len_left);
+   925		} else {
+   926			if (sg_addr)
+   927				trb_buf_addr = sg_addr;
+   928			else
+   929				trb_buf_addr = usb_req->dma;
+   930		}
+   931	
+   932		if (num_trbs_ava >= num_trbs_needed) {
+   933			count = num_trbs_needed;
+   934		} else {
+   935			if (b_isoc) {
+   936				struct crg_udc_request *udc_req_ptr_temp;
+   937				u8 temp = 0;
+   938	
+   939				list_for_each_entry(udc_req_ptr_temp,
+   940						&udc_ep_ptr->queue, queue) {
+   941					temp++;
+   942				}
+   943	
+   944				if (temp >= 2) {
+   945					dev_err(crg_udc->dev, "%s don't do isoc discard\n", __func__);
+   946					/*  we already scheduled two mfi in advance. */
+   947					return 0;
+   948				}
+   949			}
+   950	
+   951			/* always keep one trb for zlp. */
+   952			count = num_trbs_ava;
+   953			full_td = false;
+   954			dev_dbg(crg_udc->dev, "TRB Ring Full. Avail: 0x%x Req: 0x%x\n",
+   955					num_trbs_ava, num_trbs_needed);
+   956			udc_ep_ptr->tran_ring_full = true;
+   957	
+   958			/*if there is still some trb not queued,
+   959			 *it means last queued
+   960			 *trb is not the last trb of TD, so no need zlp
+   961			 */
+   962			need_zlp = false;
+   963		}
+   964	
+   965		for (i = 0; i < count; i++) {
+   966			if ((udc_req_ptr->usb_req.num_sgs) && (buffer_length == 0)) {
+   967				sg = sg_next(sg);
+   968				if (sg) {
+   969					trb_buf_addr = (u64) sg_dma_address(sg);
+   970					buffer_length = sg_dma_len(sg);
+   971					dev_dbg(crg_udc->dev,
+   972						"trb_buf_addr = %p, num_trbs = %d\n",
+   973						(void *)trb_buf_addr, num_trbs_needed);
+   974					dev_dbg(crg_udc->dev, "buffer_length = %llu\n",
+   975						buffer_length);
+   976				} else {
+   977					dev_err(crg_udc->dev,
+   978						"scatterlist ended unexpectedly (i=%d, count=%d)\n",
+   979						i, count);
+   980					return -EINVAL;
+   981				}
+   982			}
+   983	
+   984			if (buffer_length > TRB_MAX_BUFFER_SIZE)
+   985				buff_len_temp = TRB_MAX_BUFFER_SIZE;
+   986			else
+   987				buff_len_temp = buffer_length;
+   988	
+   989			buffer_length -= buff_len_temp;
+   990	
+   991			if (usb_endpoint_dir_out(udc_ep_ptr->desc))
+   992				short_pkt = 1;
+   993	
+   994			if ((buffer_length == 0) && (i == (count - 1))) {
+   995				chain_bit = 0;
+   996				intr_on_compl = 1;
+   997				udc_req_ptr->all_trbs_queued = 1;
+   998			}
+   999	
+  1000	
 
 -- 
 0-DAY CI Kernel Test Service
