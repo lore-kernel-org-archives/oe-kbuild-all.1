@@ -1,127 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33ECF2BEFF1
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 21:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0DB30BF70;
+	Mon,  2 Feb 2026 21:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770068972; cv=none; b=jBT1dsdjx/iSgE2IItfHA4G3s6BgHR2LLCBlGm+rVbynppTyZNMIPhWfsI/9FnxO3ByqppVS+MA2trGiN62bLpcZm+KmBb2leyZyULbB0GzDBn2fnFy5eE9lujnx5LqNHZ8Cw5BrfwjO0mVfYIn3BShw5pJ3kYY560ypXkJL1hU=
+	t=1770069470; cv=none; b=pPACSSn2MJJoyF7pOpMVcx2IHxLgY1ARK3XQabVeUrjOSe1FWWbSduCWFvGP0wRU7cgeXW6JursvFUyAf/DVp9PwhuCVXPYBOCHnB5jKhi/leUJWaxwGfT89cb6EdE8CKRlLlFYQy+hBFtoJKlHFhk+K6J+uvekDbzyk6Lb6uBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770068972; c=relaxed/simple;
-	bh=EY2CrS28kRVeb7uWnMWJfY8xjXKXRdCHiuTKy5sQkoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BhUd6JJ1bx97T3jXMyI80u4O8IHCHQJPKglNn78RQWfl9XAighO1EFcwhAn7UbYZU74CwD7AUT5jMeHHkLYuvY0aGt94x/lqy8Uiv2Us1U904UK+wjro89bMVuiNiu6t731lZ8j2N07zjbERXCqo4e2jGQbUNC41mvCONTkRZbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKYcQ3L1; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770069470; c=relaxed/simple;
+	bh=P56i96NRuYLl+79Mae849MLDf3tpfWekmMXgt9RJ3Mc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mwUd3YsoNcMYdBba2bC/qYNNov9WdDc/tbCiO3kkZEWDEemK6XWPktc2zyBgEO4Zz+GJ/cw6NnoWjQ0bYhdRK/BD2UUnsbY88HtJjJzYBf/7w3p1YW9Ps6E2Y5zOkjBLW4pdcL5PtTn3UwHCK+LLEv7mVxl8Pltn6XrUpbyDNlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=StVsix6b; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKYcQ3L1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770068970; x=1801604970;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EY2CrS28kRVeb7uWnMWJfY8xjXKXRdCHiuTKy5sQkoY=;
-  b=bKYcQ3L1AlHtTx3aL3vINnmlrJcTWTV6JnNoVpMC3EQsPEtmRHmHWAJB
-   dgptjY9N5Kot5pOko6ts1ab6b8O44jrgbtqZXhhnr5iRaSPPWc/iMVD2X
-   6n59WqhjMpg0CZy84KMj4SarOsZZcISyRMzpwIB96B+9PgLOo0DylPFEX
-   ah1kQP7GvM/X7AOAHCfVeQySIts0XkZ8d5Jik7jszVh4rHjXB+n1dxBKJ
-   R62cBqbpYYSjEeJuWV+rbTr7+UGvHFEeraMEWgFKIXD5HdvRPx2Y7ndib
-   OJWa5XTPbHXhjsE/pn9ZAAMjRX/rcjS9BRsU67ibRnLlU/x5Ft0GWFAuA
-   Q==;
-X-CSE-ConnectionGUID: Z1aHHp96T22ZQyFlsSQJoQ==
-X-CSE-MsgGUID: tiOZqDZgRfKUfs/Xgb6+Fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71317555"
-X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="71317555"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 13:49:29 -0800
-X-CSE-ConnectionGUID: 1mLhGU+kRviswRU3MKb1ZA==
-X-CSE-MsgGUID: 3/hN4atiQQuJCR8s9tAfFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="208743963"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 Feb 2026 13:49:24 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vn1nN-00000000fzM-1pxx;
-	Mon, 02 Feb 2026 21:49:21 +0000
-Date: Tue, 3 Feb 2026 05:48:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	linux-rdma@vger.kernel.org,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	intel-wired-lan@lists.osuosl.org, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Mark Bloch <mbloch@nvidia.com>, linux-kernel@vger.kernel.org,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>
-Subject: Re: [Intel-wired-lan] [PATCH net-next v4 7/9] dpll: Add reference
- count tracking support
-Message-ID: <202602030538.6ok1xugA-lkp@intel.com>
-References: <20260202171638.17427-8-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="StVsix6b"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OAFAKZ+dErA1HvBk9m+TneK1sY+noADf94ivapgmRWo=; b=StVsix6bfK9GPsxlABYwBkEIWA
+	J3hNaUSzrxCOv8YfWalpwuA3eDxo+YehVRmRaoDwia7pEnmFcI40ld6we10c0UUIN5YRkhGsr2DbF
+	YERRctAvOGtyET4nS/wjVD3j4AXWUniGW+qW0Rh3r1A2IK34+e/WJ8Fxa3//m05bJ+nMNqCUXmF9R
+	xPGRMh9Sf+VwxqBRTe7BTe60eXhJkiHVaaBq2Bz996+rxQMzigN8Vc3NjSLAT3KkPKr54MLrjGEhW
+	IfHVMNHetLjU2K1+uEcOdEabcLib3TOVYl6vkLvVlqMuOLsPvemCypDtX+NQZecF9iAgp1zKiUT1N
+	zKYVVGDw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vn1vW-00000005gDL-3kCW;
+	Mon, 02 Feb 2026 21:57:46 +0000
+Message-ID: <0d0b90c1-db32-4eab-98c2-9bb46cea7a8d@infradead.org>
+Date: Mon, 2 Feb 2026 13:57:46 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202171638.17427-8-ivecera@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: htmldocs: Documentation/driver-api/tty/tty_port.rst:65: WARNING:
+ Document or section may not begin with a transition. [docutils]
+To: kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <202602022007.fALe9bGB-lkp@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202602022007.fALe9bGB-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Ivan,
+Hi k.t.r.,
 
-kernel test robot noticed the following build errors:
+On 2/2/26 11:45 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   18f7fcd5e69a04df57b563360b88be72471d6b62
+> commit: 00d95fcc4dee66dfb6980de6f2973b32f973a1eb docs: kdoc: handle the obsolescensce of docutils.ErrorString()
+> date:   5 months ago
+> reproduce: (https://download.01.org/0day-ci/archive/20260202/202602022007.fALe9bGB-lkp@intel.com/reproduce)
 
-[auto build test ERROR on net-next/main]
+I cannot reproduce this warning.
+What version of docutils do you use?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-Allow-associating-dpll-pin-with-a-firmware-node/20260203-012705
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260202171638.17427-8-ivecera%40redhat.com
-patch subject: [Intel-wired-lan] [PATCH net-next v4 7/9] dpll: Add reference count tracking support
-config: i386-randconfig-141-20260203 (https://download.01.org/0day-ci/archive/20260203/202602030538.6ok1xugA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030538.6ok1xugA-lkp@intel.com/reproduce)
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602022007.fALe9bGB-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    WARNING: No kernel-doc for file ./include/linux/tty_port.h
+>    ERROR: Cannot find file ./include/linux/tty_port.h
+>    WARNING: No kernel-doc for file ./include/linux/tty_port.h
+>    ERROR: Cannot find file ./include/linux/tty_port.h
+>    WARNING: No kernel-doc for file ./include/linux/tty_port.h
+>>> Documentation/driver-api/tty/tty_port.rst:65: WARNING: Document or section may not begin with a transition. [docutils]
+>    ERROR: Cannot find file ./include/linux/tty.h
+>    WARNING: No kernel-doc for file ./include/linux/tty.h
+>    ERROR: Cannot find file ./include/linux/tty.h
+>    WARNING: No kernel-doc for file ./include/linux/tty.h
+>    ERROR: Cannot find file ./include/linux/tty.h
+> 
+> 
+> vim +65 Documentation/driver-api/tty/tty_port.rst
+> 
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  61  
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  62  .. kernel-doc:: include/linux/tty_port.h
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  63     :identifiers: tty_port
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  64  
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26 @65  ----
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  66  
+> 
+> :::::: The code at line 65 was first introduced by commit
+> :::::: 3f19fed8d0daed6e0e04b130d203d4333b757901 Documentation: add TTY chapter
+> 
+> :::::: TO: Jiri Slaby <jslaby@suse.cz>
+> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602030538.6ok1xugA-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from net/core/rtnetlink.c:61:
->> include/linux/dpll.h:235:1: error: expected identifier or '('
-     235 | {
-         | ^
-   1 error generated.
-
-
-vim +235 include/linux/dpll.h
-
-877c40367bc8a7 Ivan Vecera 2026-02-02  232  
-877c40367bc8a7 Ivan Vecera 2026-02-02  233  static inline struct dpll_pin *
-bed78c2008cb37 Ivan Vecera 2026-02-02  234  fwnode_dpll_pin_find(struct fwnode_handle *fwnode, dpll_tracker *tracker);
-877c40367bc8a7 Ivan Vecera 2026-02-02 @235  {
-877c40367bc8a7 Ivan Vecera 2026-02-02  236  	return NULL;
-877c40367bc8a7 Ivan Vecera 2026-02-02  237  }
-5f18426928800c Jiri Pirko  2023-09-13  238  #endif
-5f18426928800c Jiri Pirko  2023-09-13  239  
-
+thanks.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
+
