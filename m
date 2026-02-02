@@ -1,105 +1,144 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0DB30BF70;
-	Mon,  2 Feb 2026 21:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DA8355045;
+	Mon,  2 Feb 2026 22:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770069470; cv=none; b=pPACSSn2MJJoyF7pOpMVcx2IHxLgY1ARK3XQabVeUrjOSe1FWWbSduCWFvGP0wRU7cgeXW6JursvFUyAf/DVp9PwhuCVXPYBOCHnB5jKhi/leUJWaxwGfT89cb6EdE8CKRlLlFYQy+hBFtoJKlHFhk+K6J+uvekDbzyk6Lb6uBs=
+	t=1770071553; cv=none; b=DEXpbeQXwRY4vM5tL+bqocTGMRE0S2FVJ4CodCfZEDF31U49lAn5XEk+HtFtcLYMfa9dre8JuTFdw3qY1vtrfH3uoONJAJ1KyAWADj5lS6xXIKejMaVk8Xrb0GhiXBiOoaDErNRL+dG5Esttlg0HWBiPSzRzY6UO8RCw7rLht2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770069470; c=relaxed/simple;
-	bh=P56i96NRuYLl+79Mae849MLDf3tpfWekmMXgt9RJ3Mc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mwUd3YsoNcMYdBba2bC/qYNNov9WdDc/tbCiO3kkZEWDEemK6XWPktc2zyBgEO4Zz+GJ/cw6NnoWjQ0bYhdRK/BD2UUnsbY88HtJjJzYBf/7w3p1YW9Ps6E2Y5zOkjBLW4pdcL5PtTn3UwHCK+LLEv7mVxl8Pltn6XrUpbyDNlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=StVsix6b; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1770071553; c=relaxed/simple;
+	bh=RkwvJ/eaG/ubSf4GeTmV9ctxLTvA9ARikKcdQA5n5PA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TrlUGtY/rHOE4QKCzdM7X0IQdLBMBjZLvr7x9Njcb2jyFoi1iUQWjaxaLfrRHXU+XeGzXjRNb9/Sq7hOHT+F1PlbO048Ipmk4frcerfs0klzA+TPpEZphCY+qNj1GtRulq5tlOQ+WX8O0Sbb6YC7/rI6v2kYioL4+q/IXki3y9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wwo3Yrxf; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="StVsix6b"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=OAFAKZ+dErA1HvBk9m+TneK1sY+noADf94ivapgmRWo=; b=StVsix6bfK9GPsxlABYwBkEIWA
-	J3hNaUSzrxCOv8YfWalpwuA3eDxo+YehVRmRaoDwia7pEnmFcI40ld6we10c0UUIN5YRkhGsr2DbF
-	YERRctAvOGtyET4nS/wjVD3j4AXWUniGW+qW0Rh3r1A2IK34+e/WJ8Fxa3//m05bJ+nMNqCUXmF9R
-	xPGRMh9Sf+VwxqBRTe7BTe60eXhJkiHVaaBq2Bz996+rxQMzigN8Vc3NjSLAT3KkPKr54MLrjGEhW
-	IfHVMNHetLjU2K1+uEcOdEabcLib3TOVYl6vkLvVlqMuOLsPvemCypDtX+NQZecF9iAgp1zKiUT1N
-	zKYVVGDw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vn1vW-00000005gDL-3kCW;
-	Mon, 02 Feb 2026 21:57:46 +0000
-Message-ID: <0d0b90c1-db32-4eab-98c2-9bb46cea7a8d@infradead.org>
-Date: Mon, 2 Feb 2026 13:57:46 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wwo3Yrxf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770071551; x=1801607551;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RkwvJ/eaG/ubSf4GeTmV9ctxLTvA9ARikKcdQA5n5PA=;
+  b=Wwo3Yrxf+7RnT7YVLqPmFJVkmyK5vM4YmLhWMgJgimZAbXV4bElJDHO5
+   unZ5JSV8/MUx4N3bT4Lw4TC9sXg3d7aFkKf/vLq1CBk1Hn4sSkS1hm3kO
+   E6s9/SCiuFfLlcQzsZ8LmU57j/VQUMlXN2o6o40R36VscHJOlcqKlY/a1
+   7F0fyQ+ClJE6ExZcNfOdcY8fnhs3NyHelQ73uiT93pghAUQZk6PO3uFUS
+   kQDo+d41opkJ6qGUNDhPUBsJifIgj+fiUBglvUGwxqVvyYO6njlqGEcsU
+   zx0QYg1pS1cVwErVhLS8V5dsx40JNr/OUcDqhE1vSXF3EqFT3ykq6iDVN
+   A==;
+X-CSE-ConnectionGUID: iSDmxwd5S3Sskh9efNUp2w==
+X-CSE-MsgGUID: npKc4e3ZSLOcbbj/2pdO6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71276591"
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="71276591"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 14:32:31 -0800
+X-CSE-ConnectionGUID: Hbxrtp+LSiCoLVQlQdZWyA==
+X-CSE-MsgGUID: Ek3RB598Quy6MtEbEFKVDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="208938576"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 02 Feb 2026 14:32:28 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vn2T3-00000000g1O-13HM;
+	Mon, 02 Feb 2026 22:32:25 +0000
+Date: Tue, 3 Feb 2026 06:31:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Benjamin Coddington <bcodding@hammerspace.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Rick Macklem <rick.macklem@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] NFSD: Add a key for signing filehandles
+Message-ID: <202602030619.d8NUY35L-lkp@intel.com>
+References: <e3806f53c351c03725ecb12fb7ad100786df04f6.1770046529.git.bcodding@hammerspace.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: htmldocs: Documentation/driver-api/tty/tty_port.rst:65: WARNING:
- Document or section may not begin with a transition. [docutils]
-To: kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <202602022007.fALe9bGB-lkp@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202602022007.fALe9bGB-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e3806f53c351c03725ecb12fb7ad100786df04f6.1770046529.git.bcodding@hammerspace.com>
 
-Hi k.t.r.,
+Hi Benjamin,
 
-On 2/2/26 11:45 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   18f7fcd5e69a04df57b563360b88be72471d6b62
-> commit: 00d95fcc4dee66dfb6980de6f2973b32f973a1eb docs: kdoc: handle the obsolescensce of docutils.ErrorString()
-> date:   5 months ago
-> reproduce: (https://download.01.org/0day-ci/archive/20260202/202602022007.fALe9bGB-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
 
-I cannot reproduce this warning.
-What version of docutils do you use?
+[auto build test WARNING on dabff11003f9aaf293bd8f907a62f3366bd5e65f]
 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602022007.fALe9bGB-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    WARNING: No kernel-doc for file ./include/linux/tty_port.h
->    ERROR: Cannot find file ./include/linux/tty_port.h
->    WARNING: No kernel-doc for file ./include/linux/tty_port.h
->    ERROR: Cannot find file ./include/linux/tty_port.h
->    WARNING: No kernel-doc for file ./include/linux/tty_port.h
->>> Documentation/driver-api/tty/tty_port.rst:65: WARNING: Document or section may not begin with a transition. [docutils]
->    ERROR: Cannot find file ./include/linux/tty.h
->    WARNING: No kernel-doc for file ./include/linux/tty.h
->    ERROR: Cannot find file ./include/linux/tty.h
->    WARNING: No kernel-doc for file ./include/linux/tty.h
->    ERROR: Cannot find file ./include/linux/tty.h
-> 
-> 
-> vim +65 Documentation/driver-api/tty/tty_port.rst
-> 
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  61  
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  62  .. kernel-doc:: include/linux/tty_port.h
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  63     :identifiers: tty_port
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  64  
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26 @65  ----
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  66  
-> 
-> :::::: The code at line 65 was first introduced by commit
-> :::::: 3f19fed8d0daed6e0e04b130d203d4333b757901 Documentation: add TTY chapter
-> 
-> :::::: TO: Jiri Slaby <jslaby@suse.cz>
-> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/NFSD-Add-a-key-for-signing-filehandles/20260203-002703
+base:   dabff11003f9aaf293bd8f907a62f3366bd5e65f
+patch link:    https://lore.kernel.org/r/e3806f53c351c03725ecb12fb7ad100786df04f6.1770046529.git.bcodding%40hammerspace.com
+patch subject: [PATCH v3 1/3] NFSD: Add a key for signing filehandles
+config: x86_64-buildonly-randconfig-003-20260203 (https://download.01.org/0day-ci/archive/20260203/202602030619.d8NUY35L-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030619.d8NUY35L-lkp@intel.com/reproduce)
 
-thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602030619.d8NUY35L-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/nfsd/nfsctl.c:1588:6: warning: variable 'fh_key' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1588 |         if (!nn->fh_key) {
+         |             ^~~~~~~~~~~
+   fs/nfsd/nfsctl.c:1594:9: note: uninitialized use occurs here
+    1594 |         memcpy(fh_key, nla_data(attr), sizeof(siphash_key_t));
+         |                ^~~~~~
+   fs/nfsd/nfsctl.c:1588:2: note: remove the 'if' if its condition is always true
+    1588 |         if (!nn->fh_key) {
+         |         ^~~~~~~~~~~~~~~~
+   fs/nfsd/nfsctl.c:1583:23: note: initialize the variable 'fh_key' to silence this warning
+    1583 |         siphash_key_t *fh_key;
+         |                              ^
+         |                               = NULL
+   1 warning generated.
+
+
+vim +1588 fs/nfsd/nfsctl.c
+
+  1573	
+  1574	/**
+  1575	 * nfsd_nl_fh_key_set - helper to copy fh_key from userspace
+  1576	 * @attr: nlattr NFSD_A_SERVER_FH_KEY
+  1577	 * @nn: nfsd_net
+  1578	 *
+  1579	 * Callers should hold nfsd_mutex, returns 0 on success or negative errno.
+  1580	 */
+  1581	static int nfsd_nl_fh_key_set(const struct nlattr *attr, struct nfsd_net *nn)
+  1582	{
+  1583		siphash_key_t *fh_key;
+  1584	
+  1585		if (nla_len(attr) != sizeof(siphash_key_t))
+  1586			return -EINVAL;
+  1587	
+> 1588		if (!nn->fh_key) {
+  1589			fh_key = kmalloc(sizeof(siphash_key_t), GFP_KERNEL);
+  1590			if (!fh_key)
+  1591				return -ENOMEM;
+  1592		}
+  1593	
+  1594		memcpy(fh_key, nla_data(attr), sizeof(siphash_key_t));
+  1595		nn->fh_key = fh_key;
+  1596		return 0;
+  1597	}
+  1598	
+
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
