@@ -1,344 +1,648 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE90224234
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 18:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5B82ED17C;
+	Mon,  2 Feb 2026 19:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770058341; cv=none; b=hX/3fAeWUUytHwuzcr+yg0QrbgidHdzCRZ2Bca0fdTf2f+eLC6VweIG8d86C5mYqU+MurcKx9b3+D12Idd7Hr0WyXmKefy2kNZ2MZpEjHg5MlFYtFkuE0jXw73QBk9wFRAd/Pd2tC+IpiaUg3OI8KHpIrtFqJyxTBWmL6zAgbFY=
+	t=1770060925; cv=none; b=cELqJ3oh331XiE146tLRoDJmYA87qfxaT3W1V6UkOH7JS2xw5e1hTy2E/TzazJRVP0UHcGKw7pPjnKn9Eeg0K3YOX19pf1pa2cwILiG4NJc1GYpfmVyc1FuoFZxT9gA9F7KicVfAJBgZLRjVoI3q/7Uca0HO8pl9JYaN0J0zPWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770058341; c=relaxed/simple;
-	bh=GOleOZSLCybPgY9oOZzzYC/StizP9hr+mQ/CEpKf2Ds=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lBA7W/2hKzg3xLuV7XIOl12CzVQ4+IfYC+bnLON8ZksZKFScr84HMsVN+yY4JAZwHiTP6jeli5nakeSGshOXktwyqWuzgBI5y0U+yBN9SLbLa8FA2YkFA2Pv+nvnls94qMYZZomohHuJHYHhjprbdu9zMyjhKGbzK/m31IV8qHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ldg7hxrq; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1770060925; c=relaxed/simple;
+	bh=ZJM1SJQvDAxftZmXHF4lFyFrCVLTJ3CN2WY9GrAvCp0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ah+Nrim60Tvr69vGFU72J0Z97X537ck5R9G7eTpnUB8Nwr8GA6/FUmR+VOmajr1Y29y9sGFdfo1bXijF2bwe1nuKBXQvpu22FONpcbsiBOfNYcQBRF3b18QfthEvpJpGIv0Xu0U3wCNR4syhU2aQwt5qbLCnRCzJb7kKuLrbZMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LbG8ILIp; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ldg7hxrq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LbG8ILIp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770058340; x=1801594340;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GOleOZSLCybPgY9oOZzzYC/StizP9hr+mQ/CEpKf2Ds=;
-  b=Ldg7hxrq0/9k+0oCOQ+0JWcnOsbfCTaFG5WR6IZiFrQ8mCxnYOPKaVmI
-   s51b1Ed5F9Z67ZOjtb5Y3mrPoJ6WDH2Yy8TPRUTUBcOqL1O9HPG13B2py
-   LYiLXkVLGaD1D3hh6Oq4ErPvpKz268VmWcLUEEtvykR71t3VhFjxJD5gx
-   8Ubk21/qWxHkU+cL6QRTQa7Hb1WSBceaRyUimwIsztG3BitN4KuqJRpM+
-   KZ/jqJXJ6OmO8tDJGnUQ8ZRtUwcng7gbgJ9Ue+KKFrFWV6WExHQOxpX7C
-   l9nLtoOso8GDR4O+bBchJqa00LgH50+dYVPWim3LHALwx9cF4jD3K6f0s
+  t=1770060922; x=1801596922;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZJM1SJQvDAxftZmXHF4lFyFrCVLTJ3CN2WY9GrAvCp0=;
+  b=LbG8ILIpaVDH5ex76XHgEvTjUSJTIiW8aFOf+vlM81Cx9nV/wIqiENF/
+   hOyhWXFJs+t/jA5cAWWZo8Gzo5zHbjpJ3o/0vNwxnkwkO01sT1Ikj10rm
+   G1G1k9n+As178/jIwpJFPzY7f0WnqyeTArbOVw15ZdKTKgFCURtmmuYUN
+   bIKx0TP0RBi1Qy4LM5dZBIZAO8U87x5doqRNgL3s6s2odsVb5SFTE9muR
+   RDN+oAa20KgFlY08t/0erf3ezMDvKDxmtS0VzIb4KXE3JtDjuJ8QK1Crn
+   wM6pMue+eP7GO3hwBudWv6Rsy1/9qHudRhPGMLGrg0BUf0chry1RLUnbJ
    w==;
-X-CSE-ConnectionGUID: gJ30I3OmSvu5hgEUgOTH6A==
-X-CSE-MsgGUID: bK+CfmciQo2+nAujvDohzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71122711"
+X-CSE-ConnectionGUID: /RpYfgZjQ9uxOPy/7+Rx/w==
+X-CSE-MsgGUID: UaQEcEShTXS2OjPaiJ3KmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="82653265"
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="71122711"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 10:52:19 -0800
-X-CSE-ConnectionGUID: HjFsASBvQMqUt8EGl/maaA==
-X-CSE-MsgGUID: dF/rH+jIQvO2Oa9y8nWB3Q==
+   d="scan'208";a="82653265"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 11:35:22 -0800
+X-CSE-ConnectionGUID: Ym8xUcs+SeGAH8aJ3XBm1Q==
+X-CSE-MsgGUID: ZX4pICyXSGmHTt0J/I5Mew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="247200893"
+   d="scan'208";a="214095497"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 02 Feb 2026 10:52:15 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 02 Feb 2026 11:35:19 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmz1x-00000000frs-2POJ;
-	Mon, 02 Feb 2026 18:52:13 +0000
-Date: Tue, 3 Feb 2026 02:51:37 +0800
+	id 1vmzhc-00000000fts-40dV;
+	Mon, 02 Feb 2026 19:35:16 +0000
+Date: Tue, 03 Feb 2026 03:34:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Menglong Dong <menglong8.dong@gmail.com>,
-	Song Liu <song@kernel.org>
-Subject: Re: [PATCH bpf-next] ftrace: Fix direct_functions leak in
- update_ftrace_direct_del
-Message-ID: <202602030237.Ze7K6UoS-lkp@intel.com>
-References: <20260202075849.1684369-1-jolsa@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Subject: kernel/futex/core.c:604:23: error: cannot jump from this asm
+ goto statement to one of its possible targets
+Message-ID: <202602030343.HVSlSqJ1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202075849.1684369-1-jolsa@kernel.org>
 
-Hi Jiri,
+Hi Thomas,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/ftrace-Fix-direct_functions-leak-in-update_ftrace_direct_del/20260202-160850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260202075849.1684369-1-jolsa%40kernel.org
-patch subject: [PATCH bpf-next] ftrace: Fix direct_functions leak in update_ftrace_direct_del
-config: i386-randconfig-r123-20260202 (https://download.01.org/0day-ci/archive/20260203/202602030237.Ze7K6UoS-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030237.Ze7K6UoS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18f7fcd5e69a04df57b563360b88be72471d6b62
+commit: e4e28fd6986e8cf963ec4137e6c0b95403f636ab futex: Convert to get/put_user_inline()
+date:   3 months ago
+config: powerpc64-randconfig-001-20260203 (https://download.01.org/0day-ci/archive/20260203/202602030343.HVSlSqJ1-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030343.HVSlSqJ1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602030237.Ze7K6UoS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602030343.HVSlSqJ1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/ftrace.c:1094:43: sparse:     got struct ftrace_hash *
-   kernel/trace/ftrace.c:1326:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:1326:40: sparse:     expected struct ftrace_hash *hash
-   kernel/trace/ftrace.c:1326:40: sparse:     got struct ftrace_hash [noderef] __rcu *filter_hash
-   kernel/trace/ftrace.c:1327:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:1327:40: sparse:     expected struct ftrace_hash *hash
-   kernel/trace/ftrace.c:1327:40: sparse:     got struct ftrace_hash [noderef] __rcu *notrace_hash
-   kernel/trace/ftrace.c:1328:37: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:1328:37: sparse:     expected struct ftrace_hash [noderef] __rcu *filter_hash
-   kernel/trace/ftrace.c:1328:37: sparse:     got struct ftrace_hash *
-   kernel/trace/ftrace.c:1329:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *notrace_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:1329:38: sparse:     expected struct ftrace_hash [noderef] __rcu *notrace_hash
-   kernel/trace/ftrace.c:1329:38: sparse:     got struct ftrace_hash *
-   kernel/trace/ftrace.c:2141:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ftrace_hash *old_hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:2141:54: sparse:     expected struct ftrace_hash *old_hash
-   kernel/trace/ftrace.c:2141:54: sparse:     got struct ftrace_hash [noderef] __rcu *filter_hash
-   kernel/trace/ftrace.c:1533:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/trace/ftrace.c:1533:9: sparse:    struct ftrace_hash [noderef] __rcu *
-   kernel/trace/ftrace.c:1533:9: sparse:    struct ftrace_hash *
-   kernel/trace/ftrace.c:1549:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:1550:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:1551:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:1552:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:1723:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_ops *ops @@     got struct ftrace_ops [noderef] __rcu *[addressable] [toplevel] ftrace_ops_list @@
-   kernel/trace/ftrace.c:1724:43: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_ops *ops @@     got struct ftrace_ops [noderef] __rcu *next @@
-   kernel/trace/ftrace.c:1785:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:1786:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *notrace_hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:2119:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:2130:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:2613:53: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *static [toplevel] direct_functions @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:2624:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *static [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:3425:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *B @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3426:66: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:3432:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *B @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3433:66: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:3446:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3447:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *src @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3450:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *notrace_hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3454:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *src @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3469:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3470:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3478:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3484:81: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3488:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *notrace_hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3490:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *new_hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3520:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *new_hash1 @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3521:49: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct ftrace_hash *new_hash2 @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3560:45: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3562:46: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *notrace_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3564:48: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3566:49: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *notrace_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3572:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3573:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3579:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *save_filter_hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3580:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *save_notrace_hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3582:45: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash *[addressable] filter_hash @@
-   kernel/trace/ftrace.c:3583:46: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *notrace_hash @@     got struct ftrace_hash *[addressable] notrace_hash @@
-   kernel/trace/ftrace.c:3588:53: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash *save_filter_hash @@
-   kernel/trace/ftrace.c:3589:54: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *notrace_hash @@     got struct ftrace_hash *save_notrace_hash @@
-   kernel/trace/ftrace.c:3636:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3637:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *notrace_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3652:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *[addressable] filter_hash @@
-   kernel/trace/ftrace.c:3653:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *[addressable] notrace_hash @@
-   kernel/trace/ftrace.c:3658:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *[addressable] filter_hash @@
-   kernel/trace/ftrace.c:3659:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *[addressable] notrace_hash @@
-   kernel/trace/ftrace.c:3661:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *[addressable] filter_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3662:40: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *[addressable] notrace_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3704:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3705:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3706:45: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3707:46: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *notrace_hash @@     got struct ftrace_hash * @@
-   kernel/trace/ftrace.c:3993:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:4010:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:4699:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:4702:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:5113:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:5115:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:5495:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:5639:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:5645:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash *[assigned] old_hash @@
-   kernel/trace/ftrace.c:5910:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:5912:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:5993:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *static [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:5996:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *static [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:6012:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:6056:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:6106:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *free_hash @@     got struct ftrace_hash [noderef] __rcu *static [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:6171:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:6209:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *static [addressable] [assigned] [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:6357:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *static [addressable] [assigned] [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:6362:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *old_filter_hash @@     got struct ftrace_hash [noderef] __rcu * @@
-   kernel/trace/ftrace.c:6378:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *a @@     got struct ftrace_hash [noderef] __rcu *static [addressable] [assigned] [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:6382:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *old_direct_functions @@     got struct ftrace_hash [noderef] __rcu *static [addressable] [assigned] [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:6389:45: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash *[assigned] new_filter_hash @@
-   kernel/trace/ftrace.c:6394:53: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash [noderef] __rcu *filter_hash @@     got struct ftrace_hash *old_filter_hash @@
-   kernel/trace/ftrace.c:6489:30: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/trace/ftrace.c:6489:30: sparse:    struct ftrace_hash [noderef] __rcu *
-   kernel/trace/ftrace.c:6489:30: sparse:    struct ftrace_hash *
-   kernel/trace/ftrace.c:6503:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *static [addressable] [assigned] [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:6514:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *a @@     got struct ftrace_hash [noderef] __rcu *static [addressable] [assigned] [toplevel] direct_functions @@
->> kernel/trace/ftrace.c:6540:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *[assigned] old_direct_functions @@     got struct ftrace_hash [noderef] __rcu *static [addressable] [assigned] [toplevel] direct_functions @@
-   kernel/trace/ftrace.c:6589:30: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/trace/ftrace.c:6589:30: sparse:    struct ftrace_hash [noderef] __rcu *
-   kernel/trace/ftrace.c:6589:30: sparse:    struct ftrace_hash *
-   kernel/trace/ftrace.c:6969:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:6977:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash **orig_hash @@     got struct ftrace_hash [noderef] __rcu ** @@
-   kernel/trace/ftrace.c:7762:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:7763:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:7767:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:7785:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_ops *ops @@     got struct ftrace_ops [noderef] __rcu *[addressable] [toplevel] ftrace_ops_list @@
-   kernel/trace/ftrace.c:7785:66: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_ops *ops @@     got struct ftrace_ops [noderef] __rcu *next @@
-   kernel/trace/ftrace.c:7837:59: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:7838:59: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:8227:62: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:8228:62: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:8272:36: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/trace/ftrace.c:8272:36: sparse:    struct ftrace_ops [noderef] __rcu *
-   kernel/trace/ftrace.c:8272:36: sparse:    struct ftrace_ops *
-   kernel/trace/ftrace.c:9048:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:9048:14: sparse:     expected struct ftrace_hash *hash
-   kernel/trace/ftrace.c:9048:14: sparse:     got struct ftrace_hash [noderef] __rcu *filter_hash
-   kernel/trace/ftrace.c:9097:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:9097:14: sparse:     expected struct ftrace_hash *hash
-   kernel/trace/ftrace.c:9097:14: sparse:     got struct ftrace_hash [noderef] __rcu *filter_hash
-   kernel/trace/ftrace.c:230:20: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:230:20: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:230:20: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3480:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3480:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3480:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3480:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3480:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3480:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3514:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3514:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3514:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3514:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3514:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3514:29: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:6074:30: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:6083:21: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:6085:17: sparse: sparse: dereference of noderef expression
-   kernel/trace/ftrace.c:3785:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *filter_hash @@
-   kernel/trace/ftrace.c:3785:48: sparse:     expected struct ftrace_hash *hash
-   kernel/trace/ftrace.c:3785:48: sparse:     got struct ftrace_hash [noderef] __rcu *filter_hash
-   kernel/trace/ftrace.c:3786:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ftrace_hash *hash @@     got struct ftrace_hash [noderef] __rcu *notrace_hash @@
-   kernel/trace/ftrace.c:3786:49: sparse:     expected struct ftrace_hash *hash
-   kernel/trace/ftrace.c:3786:49: sparse:     got struct ftrace_hash [noderef] __rcu *notrace_hash
+All errors (new ones prefixed by >>):
 
-vim +6540 kernel/trace/ftrace.c
+>> kernel/futex/core.c:604:23: error: cannot jump from this asm goto statement to one of its possible targets
+                   if (node_updated && put_user_inline(node, naddr))
+                                       ^
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
+           arch_unsafe_put_user(x, ptr, local_label);      \
+           ^
+   arch/powerpc/include/asm/uaccess.h:463:2: note: expanded from macro 'arch_unsafe_put_user'
+           __put_user_size_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+           ^
+   arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
+           case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+                   ^
+   arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
+           asm goto(                                       \
+           ^
+   kernel/futex/core.c:604:23: note: possible target of asm goto statement
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
+           local_label:                                    \
+           ^
+   kernel/futex/core.c:604:23: note: jump exits scope of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+   kernel/futex/core.c:604:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+>> kernel/futex/core.c:604:23: error: cannot jump from this asm goto statement to one of its possible targets
+                   if (node_updated && put_user_inline(node, naddr))
+                                       ^
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
+           arch_unsafe_put_user(x, ptr, local_label);      \
+           ^
+   arch/powerpc/include/asm/uaccess.h:463:2: note: expanded from macro 'arch_unsafe_put_user'
+           __put_user_size_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+           ^
+   arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
+           case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+                   ^
+   arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
+           asm goto(                                       \
+           ^
+   kernel/futex/core.c:604:23: note: possible target of asm goto statement
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
+           local_label:                                    \
+           ^
+   kernel/futex/core.c:604:23: note: jump exits scope of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+   kernel/futex/core.c:604:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+>> kernel/futex/core.c:604:23: error: cannot jump from this asm goto statement to one of its possible targets
+                   if (node_updated && put_user_inline(node, naddr))
+                                       ^
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
+           arch_unsafe_put_user(x, ptr, local_label);      \
+           ^
+   arch/powerpc/include/asm/uaccess.h:463:2: note: expanded from macro 'arch_unsafe_put_user'
+           __put_user_size_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+           ^
+   arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
+           case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+                   ^
+   arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
+           asm goto(                                       \
+           ^
+   kernel/futex/core.c:604:23: note: possible target of asm goto statement
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
+           local_label:                                    \
+           ^
+   kernel/futex/core.c:604:23: note: jump exits scope of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+   kernel/futex/core.c:604:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+>> kernel/futex/core.c:604:23: error: cannot jump from this asm goto statement to one of its possible targets
+                   if (node_updated && put_user_inline(node, naddr))
+                                       ^
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
+           arch_unsafe_put_user(x, ptr, local_label);      \
+           ^
+   arch/powerpc/include/asm/uaccess.h:463:2: note: expanded from macro 'arch_unsafe_put_user'
+           __put_user_size_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+           ^
+   arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
+           case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+                   ^
+   arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
+           asm goto(                                       \
+           ^
+   kernel/futex/core.c:604:23: note: possible target of asm goto statement
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
+           local_label:                                    \
+           ^
+   kernel/futex/core.c:604:23: note: jump exits scope of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+   kernel/futex/core.c:604:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+>> kernel/futex/core.c:604:23: error: cannot jump from this asm goto statement to one of its possible targets
+                   if (node_updated && put_user_inline(node, naddr))
+                                       ^
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
+           arch_unsafe_put_user(x, ptr, local_label);      \
+           ^
+   arch/powerpc/include/asm/uaccess.h:463:2: note: expanded from macro 'arch_unsafe_put_user'
+           __put_user_size_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+           ^
+   arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
+           case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+                   ^
+   arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
+           asm goto(                                       \
+           ^
+   kernel/futex/core.c:604:23: note: possible target of asm goto statement
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
+           local_label:                                    \
+           ^
+   kernel/futex/core.c:604:23: note: jump exits scope of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+   kernel/futex/core.c:604:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+>> kernel/futex/core.c:604:23: error: cannot jump from this asm goto statement to one of its possible targets
+                   if (node_updated && put_user_inline(node, naddr))
+                                       ^
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
+           arch_unsafe_put_user(x, ptr, local_label);      \
+           ^
+   arch/powerpc/include/asm/uaccess.h:463:2: note: expanded from macro 'arch_unsafe_put_user'
+           __put_user_size_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+           ^
+   arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
+           case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+                   ^
+   arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
+           asm goto(                                       \
+           ^
+   kernel/futex/core.c:604:23: note: possible target of asm goto statement
+   include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+                   unsafe_put_user(val, _tmpdst, efault);          \
+                   ^
+   include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
+           local_label:                                    \
+           ^
+   kernel/futex/core.c:604:23: note: jump exits scope of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+   kernel/futex/core.c:604:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+           scoped_user_write_access(_tmpdst, efault)               \
+           ^
+   include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+           scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+           ^
+   include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+           __scoped_user_access(write, udst, size, elbl)
+           ^
+   include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+                   for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+                                                    ^
+   6 errors generated.
 
-  6457	
-  6458	/**
-  6459	 * update_ftrace_direct_del - Updates @ops by removing its direct
-  6460	 * callers provided in @hash
-  6461	 * @ops: The address of the struct ftrace_ops object
-  6462	 * @hash: The address of the struct ftrace_hash object
-  6463	 *
-  6464	 * This is used to delete custom direct callers (ip -> addr) in
-  6465	 * @ops specified via @hash. The @ops will be either unregistered
-  6466	 * updated.
-  6467	 *
-  6468	 * Returns: zero on success. Non zero on error, which includes:
-  6469	 *  -EINVAL - The @hash is empty
-  6470	 *  -EINVAL - The @ops is not registered
-  6471	 */
-  6472	int update_ftrace_direct_del(struct ftrace_ops *ops, struct ftrace_hash *hash)
-  6473	{
-  6474		struct ftrace_hash *old_direct_functions = NULL;
-  6475		struct ftrace_hash *new_direct_functions;
-  6476		struct ftrace_hash *new_filter_hash = NULL;
-  6477		struct ftrace_hash *old_filter_hash;
-  6478		struct ftrace_func_entry *entry;
-  6479		struct ftrace_func_entry *del;
-  6480		unsigned long size;
-  6481		int err = -EINVAL;
-  6482	
-  6483		if (!hash_count(hash))
-  6484			return -EINVAL;
-  6485		if (check_direct_multi(ops))
-  6486			return -EINVAL;
-  6487		if (!(ops->flags & FTRACE_OPS_FL_ENABLED))
-  6488			return -EINVAL;
-  6489		if (direct_functions == EMPTY_HASH)
-  6490			return -EINVAL;
-  6491	
-  6492		mutex_lock(&direct_mutex);
-  6493	
-  6494		old_filter_hash = ops->func_hash ? ops->func_hash->filter_hash : NULL;
-  6495	
-  6496		if (!hash_count(old_filter_hash))
-  6497			goto out_unlock;
-  6498	
-  6499		/* Make sure requested entries are already registered. */
-  6500		size = 1 << hash->size_bits;
-  6501		for (int i = 0; i < size; i++) {
-  6502			hlist_for_each_entry(entry, &hash->buckets[i], hlist) {
-  6503				del = __ftrace_lookup_ip(direct_functions, entry->ip);
-  6504				if (!del || del->direct != entry->direct)
-  6505					goto out_unlock;
-  6506			}
-  6507		}
-  6508	
-  6509		err = -ENOMEM;
-  6510		new_filter_hash = hash_sub(old_filter_hash, hash);
-  6511		if (!new_filter_hash)
-  6512			goto out_unlock;
-  6513	
-  6514		new_direct_functions = hash_sub(direct_functions, hash);
-  6515		if (!new_direct_functions)
-  6516			goto out_unlock;
-  6517	
-  6518		/* If there's nothing left, we need to unregister the ops. */
-  6519		if (ftrace_hash_empty(new_filter_hash)) {
-  6520			err = unregister_ftrace_function(ops);
-  6521			if (!err) {
-  6522				/* cleanup for possible another register call */
-  6523				ops->func = NULL;
-  6524				ops->trampoline = 0;
-  6525				ftrace_free_filter(ops);
-  6526				ops->func_hash->filter_hash = NULL;
-  6527			}
-  6528		} else {
-  6529			err = ftrace_update_ops(ops, new_filter_hash, EMPTY_HASH);
-  6530			/*
-  6531			 * new_filter_hash is dup-ed, so we need to release it anyway,
-  6532			 * old_filter_hash either stays on error or is already released
-  6533			 */
-  6534		}
-  6535	
-  6536		if (err) {
-  6537			/* free the new_direct_functions */
-  6538			old_direct_functions = new_direct_functions;
-  6539		} else {
-> 6540			old_direct_functions = direct_functions;
-  6541			rcu_assign_pointer(direct_functions, new_direct_functions);
-  6542		}
-  6543	
-  6544	 out_unlock:
-  6545		mutex_unlock(&direct_mutex);
-  6546	
-  6547		if (old_direct_functions && old_direct_functions != EMPTY_HASH)
-  6548			call_rcu_tasks(&old_direct_functions->rcu, register_ftrace_direct_cb);
-  6549		free_ftrace_hash(new_filter_hash);
-  6550	
-  6551		return err;
-  6552	}
-  6553	
+
+vim +604 kernel/futex/core.c
+
+   520	
+   521	/**
+   522	 * get_futex_key() - Get parameters which are the keys for a futex
+   523	 * @uaddr:	virtual address of the futex
+   524	 * @flags:	FLAGS_*
+   525	 * @key:	address where result is stored.
+   526	 * @rw:		mapping needs to be read/write (values: FUTEX_READ,
+   527	 *              FUTEX_WRITE)
+   528	 *
+   529	 * Return: a negative error code or 0
+   530	 *
+   531	 * The key words are stored in @key on success.
+   532	 *
+   533	 * For shared mappings (when @fshared), the key is:
+   534	 *
+   535	 *   ( inode->i_sequence, page offset within mapping, offset_within_page )
+   536	 *
+   537	 * [ also see get_inode_sequence_number() ]
+   538	 *
+   539	 * For private mappings (or when !@fshared), the key is:
+   540	 *
+   541	 *   ( current->mm, address, 0 )
+   542	 *
+   543	 * This allows (cross process, where applicable) identification of the futex
+   544	 * without keeping the page pinned for the duration of the FUTEX_WAIT.
+   545	 *
+   546	 * lock_page() might sleep, the caller should not hold a spinlock.
+   547	 */
+   548	int get_futex_key(u32 __user *uaddr, unsigned int flags, union futex_key *key,
+   549			  enum futex_access rw)
+   550	{
+   551		unsigned long address = (unsigned long)uaddr;
+   552		struct mm_struct *mm = current->mm;
+   553		struct page *page;
+   554		struct folio *folio;
+   555		struct address_space *mapping;
+   556		int node, err, size, ro = 0;
+   557		bool node_updated = false;
+   558		bool fshared;
+   559	
+   560		fshared = flags & FLAGS_SHARED;
+   561		size = futex_size(flags);
+   562		if (flags & FLAGS_NUMA)
+   563			size *= 2;
+   564	
+   565		/*
+   566		 * The futex address must be "naturally" aligned.
+   567		 */
+   568		key->both.offset = address % PAGE_SIZE;
+   569		if (unlikely((address % size) != 0))
+   570			return -EINVAL;
+   571		address -= key->both.offset;
+   572	
+   573		if (unlikely(!access_ok(uaddr, size)))
+   574			return -EFAULT;
+   575	
+   576		if (unlikely(should_fail_futex(fshared)))
+   577			return -EFAULT;
+   578	
+   579		node = FUTEX_NO_NODE;
+   580	
+   581		if (flags & FLAGS_NUMA) {
+   582			u32 __user *naddr = (void *)uaddr + size / 2;
+   583	
+   584			if (get_user_inline(node, naddr))
+   585				return -EFAULT;
+   586	
+   587			if ((node != FUTEX_NO_NODE) &&
+   588			    ((unsigned int)node >= MAX_NUMNODES || !node_possible(node)))
+   589				return -EINVAL;
+   590		}
+   591	
+   592		if (node == FUTEX_NO_NODE && (flags & FLAGS_MPOL)) {
+   593			node = futex_mpol(mm, address);
+   594			node_updated = true;
+   595		}
+   596	
+   597		if (flags & FLAGS_NUMA) {
+   598			u32 __user *naddr = (void *)uaddr + size / 2;
+   599	
+   600			if (node == FUTEX_NO_NODE) {
+   601				node = numa_node_id();
+   602				node_updated = true;
+   603			}
+ > 604			if (node_updated && put_user_inline(node, naddr))
+   605				return -EFAULT;
+   606		}
+   607	
+   608		key->both.node = node;
+   609	
+   610		/*
+   611		 * PROCESS_PRIVATE futexes are fast.
+   612		 * As the mm cannot disappear under us and the 'key' only needs
+   613		 * virtual address, we dont even have to find the underlying vma.
+   614		 * Note : We do have to check 'uaddr' is a valid user address,
+   615		 *        but access_ok() should be faster than find_vma()
+   616		 */
+   617		if (!fshared) {
+   618			/*
+   619			 * On no-MMU, shared futexes are treated as private, therefore
+   620			 * we must not include the current process in the key. Since
+   621			 * there is only one address space, the address is a unique key
+   622			 * on its own.
+   623			 */
+   624			if (IS_ENABLED(CONFIG_MMU))
+   625				key->private.mm = mm;
+   626			else
+   627				key->private.mm = NULL;
+   628	
+   629			key->private.address = address;
+   630			return 0;
+   631		}
+   632	
+   633	again:
+   634		/* Ignore any VERIFY_READ mapping (futex common case) */
+   635		if (unlikely(should_fail_futex(true)))
+   636			return -EFAULT;
+   637	
+   638		err = get_user_pages_fast(address, 1, FOLL_WRITE, &page);
+   639		/*
+   640		 * If write access is not required (eg. FUTEX_WAIT), try
+   641		 * and get read-only access.
+   642		 */
+   643		if (err == -EFAULT && rw == FUTEX_READ) {
+   644			err = get_user_pages_fast(address, 1, 0, &page);
+   645			ro = 1;
+   646		}
+   647		if (err < 0)
+   648			return err;
+   649		else
+   650			err = 0;
+   651	
+   652		/*
+   653		 * The treatment of mapping from this point on is critical. The folio
+   654		 * lock protects many things but in this context the folio lock
+   655		 * stabilizes mapping, prevents inode freeing in the shared
+   656		 * file-backed region case and guards against movement to swap cache.
+   657		 *
+   658		 * Strictly speaking the folio lock is not needed in all cases being
+   659		 * considered here and folio lock forces unnecessarily serialization.
+   660		 * From this point on, mapping will be re-verified if necessary and
+   661		 * folio lock will be acquired only if it is unavoidable
+   662		 *
+   663		 * Mapping checks require the folio so it is looked up now. For
+   664		 * anonymous pages, it does not matter if the folio is split
+   665		 * in the future as the key is based on the address. For
+   666		 * filesystem-backed pages, the precise page is required as the
+   667		 * index of the page determines the key.
+   668		 */
+   669		folio = page_folio(page);
+   670		mapping = READ_ONCE(folio->mapping);
+   671	
+   672		/*
+   673		 * If folio->mapping is NULL, then it cannot be an anonymous
+   674		 * page; but it might be the ZERO_PAGE or in the gate area or
+   675		 * in a special mapping (all cases which we are happy to fail);
+   676		 * or it may have been a good file page when get_user_pages_fast
+   677		 * found it, but truncated or holepunched or subjected to
+   678		 * invalidate_complete_page2 before we got the folio lock (also
+   679		 * cases which we are happy to fail).  And we hold a reference,
+   680		 * so refcount care in invalidate_inode_page's remove_mapping
+   681		 * prevents drop_caches from setting mapping to NULL beneath us.
+   682		 *
+   683		 * The case we do have to guard against is when memory pressure made
+   684		 * shmem_writepage move it from filecache to swapcache beneath us:
+   685		 * an unlikely race, but we do need to retry for folio->mapping.
+   686		 */
+   687		if (unlikely(!mapping)) {
+   688			int shmem_swizzled;
+   689	
+   690			/*
+   691			 * Folio lock is required to identify which special case above
+   692			 * applies. If this is really a shmem page then the folio lock
+   693			 * will prevent unexpected transitions.
+   694			 */
+   695			folio_lock(folio);
+   696			shmem_swizzled = folio_test_swapcache(folio) || folio->mapping;
+   697			folio_unlock(folio);
+   698			folio_put(folio);
+   699	
+   700			if (shmem_swizzled)
+   701				goto again;
+   702	
+   703			return -EFAULT;
+   704		}
+   705	
+   706		/*
+   707		 * Private mappings are handled in a simple way.
+   708		 *
+   709		 * If the futex key is stored in anonymous memory, then the associated
+   710		 * object is the mm which is implicitly pinned by the calling process.
+   711		 *
+   712		 * NOTE: When userspace waits on a MAP_SHARED mapping, even if
+   713		 * it's a read-only handle, it's expected that futexes attach to
+   714		 * the object not the particular process.
+   715		 */
+   716		if (folio_test_anon(folio)) {
+   717			/*
+   718			 * A RO anonymous page will never change and thus doesn't make
+   719			 * sense for futex operations.
+   720			 */
+   721			if (unlikely(should_fail_futex(true)) || ro) {
+   722				err = -EFAULT;
+   723				goto out;
+   724			}
+   725	
+   726			key->both.offset |= FUT_OFF_MMSHARED; /* ref taken on mm */
+   727			key->private.mm = mm;
+   728			key->private.address = address;
+   729	
+   730		} else {
+   731			struct inode *inode;
+   732	
+   733			/*
+   734			 * The associated futex object in this case is the inode and
+   735			 * the folio->mapping must be traversed. Ordinarily this should
+   736			 * be stabilised under folio lock but it's not strictly
+   737			 * necessary in this case as we just want to pin the inode, not
+   738			 * update i_pages or anything like that.
+   739			 *
+   740			 * The RCU read lock is taken as the inode is finally freed
+   741			 * under RCU. If the mapping still matches expectations then the
+   742			 * mapping->host can be safely accessed as being a valid inode.
+   743			 */
+   744			rcu_read_lock();
+   745	
+   746			if (READ_ONCE(folio->mapping) != mapping) {
+   747				rcu_read_unlock();
+   748				folio_put(folio);
+   749	
+   750				goto again;
+   751			}
+   752	
+   753			inode = READ_ONCE(mapping->host);
+   754			if (!inode) {
+   755				rcu_read_unlock();
+   756				folio_put(folio);
+   757	
+   758				goto again;
+   759			}
+   760	
+   761			key->both.offset |= FUT_OFF_INODE; /* inode-based key */
+   762			key->shared.i_seq = get_inode_sequence_number(inode);
+   763			key->shared.pgoff = page_pgoff(folio, page);
+   764			rcu_read_unlock();
+   765		}
+   766	
+   767	out:
+   768		folio_put(folio);
+   769		return err;
+   770	}
+   771	
 
 -- 
 0-DAY CI Kernel Test Service
