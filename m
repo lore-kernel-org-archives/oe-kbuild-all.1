@@ -1,133 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A370F13B7AE;
-	Mon,  2 Feb 2026 00:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA4E7262E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 00:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769991619; cv=none; b=EkWm36iUrhe+OLCoGJm65szjkds9Fb9eGQt1NbPLirvH35rs2oMLCQUhKgaooy/MdCmfCL4jYppAiFKDeSU4/88faLV0Ks9mRgllGi+0pGK9sEYzqEez6spu/M3Di5bk9zAcq4QR2NO8wxv+N7+uzo7bYapNidDomm4/Tdr+XL4=
+	t=1769993428; cv=none; b=eN4b1ydC7XTkLXJNaFGEYzgUT6G55xgOzpQZJpGA57+VOEgRmTPOQv0cE22KY7zv6Yhf1zHmmnLejN+1yUri19/8s+boLBaYDg6k979hYIZ2PNNefxejtBtIBBi/TuwzEV7fxGinPAxtvWTL7udjeu0nL2hMTatVDV7qdNCBH5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769991619; c=relaxed/simple;
-	bh=7AlHNqOd+boo1iYYNHvXoLG3MGSH+Iw9k7O2hAc+xiU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l+cIlLeG/gMgFKxLLUX9cWju0QHKCipt9p+ByS+PgglqcRTsjyCLw7nZWQJttRcpI9ixRZRo6IbHqJgfPe+1/XCLYv4YG4xH52pRIQoQnPb3iXsXnaWm6k3V2DjuVT58N/Z8aikecGed2jnCtEEL7mko40/0NY8EOg+Wl73F8+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5IqcbA7; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5IqcbA7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769991617; x=1801527617;
-  h=date:from:to:cc:subject:message-id;
-  bh=7AlHNqOd+boo1iYYNHvXoLG3MGSH+Iw9k7O2hAc+xiU=;
-  b=B5IqcbA7h06smOem55+u+3RKf++VCJWZRI51Qne5wpUxEDU91GYVz0Ng
-   4ytkoIpDXRFKiowWgMmhyaR3HIv238jzGr0Tg+wrCaq1PXZJ/CJQoq8TR
-   70KxL9E4RZ3aEtRYTAJyWnfXzXeKG3NUvwuNnm4XUf4GpCEJiuceBWj43
-   DQSpDFkHtcdGJcNhcKekIVlc9f9bUxpqshLj0EeevNwApIpuqFQnT3+zG
-   CY2E3tlKSOXIHi5BT/5SyoSLBej8cD4TeYnc3fROGNzlxnEZAiqpdqMRA
-   XDBPBkJE34RpPtCyd2x49G0b/QB96jiNn/GpLJ4oLU8BVKHUCPVOcnm0z
-   w==;
-X-CSE-ConnectionGUID: nvqKbDuFRVeBq1Ro+BUJqg==
-X-CSE-MsgGUID: aDrS2OIdQDukvCs6PN9sKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71064141"
-X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="71064141"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 16:20:17 -0800
-X-CSE-ConnectionGUID: Y9bJsDcoRY+Cdf0qsI7/uA==
-X-CSE-MsgGUID: bc0dIpXnRUafn0B/g7qs+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="246978077"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 Feb 2026 16:20:16 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vmhfp-00000000f8J-15n0;
-	Mon, 02 Feb 2026 00:20:13 +0000
-Date: Mon, 02 Feb 2026 08:19:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.coda 1/4] fs/coda/dir.c:471:1: warning:
- unused label 'bad'
-Message-ID: <202602020838.i1jbfynn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1769993428; c=relaxed/simple;
+	bh=8krE+cPVT1dJGrSZRNIWVo5bnyd5Uyeps2g4ImC0rB4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TIOZFct5s2rmsH9HYgk7oygTrbrIXo4ZHhZGfBsJlRnDveYl6J7WPwjd2FRGOBFGdG5nVlKRnw2R7itlJJGGtGsvKn6xHIPpxK4nQBg4YltP1CbRrCOZV4W+pQW5fvaxoRfYqRRzcivXrrzhOftBgM0BzdBDQM+393iGoTaGxG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4f47LR49lXzKHMNS
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 08:49:51 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 05AC64058A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 08:50:11 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP4 (Coremail) with SMTP id gCh0CgCXQvO99H9pvgrJFw--.27306S2;
+	Mon, 02 Feb 2026 08:50:06 +0800 (CST)
+Message-ID: <9c7d1cc5-a462-4524-9e1c-f5d94575dc73@huaweicloud.com>
+Date: Mon, 2 Feb 2026 08:50:05 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next 1/3] cgroup/dmem: fix NULL pointer dereference when
+ setting max
+To: kernel test robot <lkp@intel.com>, dev@lankhorst.se, mripard@kernel.org,
+ natalie.vock@gmx.de, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lujialin4@huawei.com
+References: <20260131091202.344788-2-chenridong@huaweicloud.com>
+ <202602010100.5CjcoPFh-lkp@intel.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <202602010100.5CjcoPFh-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgCXQvO99H9pvgrJFw--.27306S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXr43XF4xGw13GF4xKFyxAFb_yoWrCF13pa
+	yru3yYgryrWr10qw4qy340vr9Yyw1kJa17C3y8Jw4UWr4Iv3s0yF4xKr4agryakr97KrWY
+	qF90vFnaq3yjvw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
+	v3UUUUU
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.coda
-head:   00a1de29cfe3a361a653e043d5277a5d4263b90b
-commit: 59769809e38dc6250c396dd38f95d2ba05be2ced [1/4] coda: is_bad_inode() is always false there
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260202/202602020838.i1jbfynn-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602020838.i1jbfynn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602020838.i1jbfynn-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/coda/dir.c:471:1: warning: unused label 'bad' [-Wunused-label]
-     471 | bad:
-         | ^~~~
-   1 warning generated.
 
 
-vim +/bad +471 fs/coda/dir.c
+On 2026/2/1 1:26, kernel test robot wrote:
+> Hi Chen,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on next-20260130]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/cgroup-dmem-fix-NULL-pointer-dereference-when-setting-max/20260131-173002
+> base:   next-20260130
+> patch link:    https://lore.kernel.org/r/20260131091202.344788-2-chenridong%40huaweicloud.com
+> patch subject: [PATCH -next 1/3] cgroup/dmem: fix NULL pointer dereference when setting max
+> config: x86_64-randconfig-161-20260131 (https://download.01.org/0day-ci/archive/20260201/202602010100.5CjcoPFh-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> smatch version: v0.5.0-8994-gd50c5a4c
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602010100.5CjcoPFh-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602010100.5CjcoPFh-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> kernel/cgroup/dmem.c:703:7: warning: variable 'region' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>      703 |                 if (!options || !*options) {
+>          |                     ^~~~~~~~~~~~~~~~~~~~~
+>    kernel/cgroup/dmem.c:729:13: note: uninitialized use occurs here
+>      729 |                 kref_put(&region->ref, dmemcg_free_region);
+>          |                           ^~~~~~
+>    kernel/cgroup/dmem.c:703:3: note: remove the 'if' if its condition is always false
+>      703 |                 if (!options || !*options) {
+>          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      704 |                         err = -EINVAL;
+>          |                         ~~~~~~~~~~~~~~
+>      705 |                         goto out_put;
+>          |                         ~~~~~~~~~~~~~
+>      706 |                 }
+>          |                 ~
+>>> kernel/cgroup/dmem.c:703:7: warning: variable 'region' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
+>      703 |                 if (!options || !*options) {
+>          |                     ^~~~~~~~
+>    kernel/cgroup/dmem.c:729:13: note: uninitialized use occurs here
+>      729 |                 kref_put(&region->ref, dmemcg_free_region);
+>          |                           ^~~~~~
+>    kernel/cgroup/dmem.c:703:7: note: remove the '||' if its condition is always false
+>      703 |                 if (!options || !*options) {
+>          |                     ^~~~~~~~~~~
+>    kernel/cgroup/dmem.c:685:36: note: initialize the variable 'region' to silence this warning
+>      685 |                 struct dmem_cgroup_region *region;
+>          |                                                  ^
+>          |                                                   = NULL
+>    2 warnings generated.
+> 
+> 
+> vim +703 kernel/cgroup/dmem.c
+> 
+>    674	
+>    675	static ssize_t dmemcg_limit_write(struct kernfs_open_file *of,
+>    676					 char *buf, size_t nbytes, loff_t off,
+>    677					 void (*apply)(struct dmem_cgroup_pool_state *, u64))
+>    678	{
+>    679		struct dmemcg_state *dmemcs = css_to_dmemcs(of_css(of));
+>    680		int err = 0;
+>    681	
+>    682		while (buf && !err) {
+>    683			struct dmem_cgroup_pool_state *pool = NULL;
+>    684			char *options, *region_name;
+>    685			struct dmem_cgroup_region *region;
+>    686			u64 new_limit;
+>    687	
+>    688			options = buf;
+>    689			buf = strchr(buf, '\n');
+>    690			if (buf)
+>    691				*buf++ = '\0';
+>    692	
+>    693			options = strstrip(options);
+>    694	
+>    695			/* eat empty lines */
+>    696			if (!options[0])
+>    697				continue;
+>    698	
+>    699			region_name = strsep(&options, " \t");
+>    700			if (!region_name[0])
+>    701				continue;
+>    702	
+>  > 703			if (!options || !*options) {
+>    704				err = -EINVAL;
+>    705				goto out_put;
+>    706			}
+>    707	
 
-b625032b10222c Fabian Frederick 2015-02-17  438  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  439  /* called when a cache lookup succeeds */
-5be1fa8abd7b04 Al Viro          2024-12-08  440  static int coda_dentry_revalidate(struct inode *dir, const struct qstr *name,
-5be1fa8abd7b04 Al Viro          2024-12-08  441  				  struct dentry *de, unsigned int flags)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  442  {
-34286d6662308d Nicholas Piggin  2011-01-07  443  	struct inode *inode;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  444  	struct coda_inode_info *cii;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  445  
-0b728e1911cbe6 Al Viro          2012-06-10  446  	if (flags & LOOKUP_RCU)
-34286d6662308d Nicholas Piggin  2011-01-07  447  		return -ECHILD;
-34286d6662308d Nicholas Piggin  2011-01-07  448  
-2b0143b5c986be David Howells    2015-03-17  449  	inode = d_inode(de);
-a7400222e3eb7d Al Viro          2014-10-21  450  	if (!inode || is_root_inode(inode))
-^1da177e4c3f41 Linus Torvalds   2005-04-16  451  		goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  452  
-2b0143b5c986be David Howells    2015-03-17  453  	cii = ITOC(d_inode(de));
-^1da177e4c3f41 Linus Torvalds   2005-04-16  454  	if (!(cii->c_flags & (C_PURGE | C_FLUSH)))
-^1da177e4c3f41 Linus Torvalds   2005-04-16  455  		goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  456  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  457  	shrink_dcache_parent(de);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  458  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  459  	/* propagate for a flush */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  460  	if (cii->c_flags & C_FLUSH) 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  461  		coda_flag_inode_children(inode, C_FLUSH);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  462  
-84d08fa888e7c2 Al Viro          2013-07-05  463  	if (d_count(de) > 1)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  464  		/* pretend it's valid, but don't change the flags */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  465  		goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  466  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  467  	/* clear the flags. */
-b5ce1d83a62fc1 Yoshihisa Abe    2010-10-25  468  	spin_lock(&cii->c_lock);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  469  	cii->c_flags &= ~(C_VATTR | C_PURGE | C_FLUSH);
-b5ce1d83a62fc1 Yoshihisa Abe    2010-10-25  470  	spin_unlock(&cii->c_lock);
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @471  bad:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  472  	return 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  473  out:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  474  	return 1;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  475  }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  476  
+Thanks.
 
-:::::: The code at line 471 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+I missed that region is uninitialized. It could just return -EINVAL.
+I'll fix it in the next version. If anyone has other opinions, I would like to
+update together.
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+>    708			rcu_read_lock();
+>    709			region = dmemcg_get_region_by_name(region_name);
+>    710			rcu_read_unlock();
+>    711	
+>    712			if (!region)
+>    713				return -EINVAL;
+>    714	
+>    715			err = dmemcg_parse_limit(options, region, &new_limit);
+>    716			if (err < 0)
+>    717				goto out_put;
+>    718	
+>    719			pool = get_cg_pool_unlocked(dmemcs, region);
+>    720			if (IS_ERR(pool)) {
+>    721				err = PTR_ERR(pool);
+>    722				goto out_put;
+>    723			}
+>    724	
+>    725			/* And commit */
+>    726			apply(pool, new_limit);
+>    727	
+>    728	out_put:
+>    729			kref_put(&region->ref, dmemcg_free_region);
+>    730		}
+>    731	
+>    732	
+>    733		return err ?: nbytes;
+>    734	}
+>    735	
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Ridong
+
