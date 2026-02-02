@@ -1,262 +1,127 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3201308F35
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 20:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770064787; cv=fail; b=bPSML6hDivGyuHLh3RNFEJp9zk0GRPt8TdERpefIgqHWdSnSugeN6mIT6usKXBOp+WaupaIaeh4UZakgIdlTX1RtRl/nLk0IwonRSqD0cDW7k2+ewQMeobOnWUpUmhfEvZdaSwuAz0NsoqTbyBA8TpFdoym611CivM4dlK90BOQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770064787; c=relaxed/simple;
-	bh=QRd6TSoJ173KolYETLpvjKjygGAwVjjekjwkv54Jtcs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=BeHDB/HDWmfUPv4bEkpjYtfB5ldbQoba8IxvPP+bemY08HFmxgMF3ocQHeNiXnd14abuZ3WUEsIlJQB7vVi231jq8SAU6YR9F8YgU3WOzYc0P9xQMy51LqmQXdmtfwU+dis9HuHbCXW8ML0xgdvgTcSggK+GcMI+wCdeeJHxOFs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=hYVfzcps; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=MEIe39bP; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33ECF2BEFF1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 21:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770068972; cv=none; b=jBT1dsdjx/iSgE2IItfHA4G3s6BgHR2LLCBlGm+rVbynppTyZNMIPhWfsI/9FnxO3ByqppVS+MA2trGiN62bLpcZm+KmBb2leyZyULbB0GzDBn2fnFy5eE9lujnx5LqNHZ8Cw5BrfwjO0mVfYIn3BShw5pJ3kYY560ypXkJL1hU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770068972; c=relaxed/simple;
+	bh=EY2CrS28kRVeb7uWnMWJfY8xjXKXRdCHiuTKy5sQkoY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BhUd6JJ1bx97T3jXMyI80u4O8IHCHQJPKglNn78RQWfl9XAighO1EFcwhAn7UbYZU74CwD7AUT5jMeHHkLYuvY0aGt94x/lqy8Uiv2Us1U904UK+wjro89bMVuiNiu6t731lZ8j2N07zjbERXCqo4e2jGQbUNC41mvCONTkRZbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKYcQ3L1; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hYVfzcps";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="MEIe39bP"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 612J44Rx769172;
-	Mon, 2 Feb 2026 20:39:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=iu+CITfqzicBGlLMmA
-	WQj7cuNNshLdPAGTYb7UMtdqY=; b=hYVfzcpsJGP1O4/3KjI58sMEmevcqeqaKO
-	iFmKqYhcWB8exFwT/qnIl90vv6I7lZ11jeyymt067lbnp9yQJ5VMTv9VGD9uTrmU
-	KhZjAfY99dpaawFvmkxpmQZi8zpKlCcJVdQ+zOJt01MzgOAGpeI35pOhH6xlPSKq
-	Yb/Nv0osbPvf16LO3iqqs1bhYUpMhoJeS3aCGL3jQKyT4VoHK8AJUi9q8boLq2x1
-	G+cbBVI1skIEvGyuebCY1JCo3XwJXp19b4WbIpeJMpwBcweOFBs908Lqgn+MI/k6
-	UXObs7N0dwz/21H22iG9PP3UIxtZgpXZVW1qS3K108kc0MiMQfCg==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c1atak03x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 02 Feb 2026 20:39:38 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 612JUuhY025362;
-	Mon, 2 Feb 2026 20:39:38 GMT
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012066.outbound.protection.outlook.com [52.101.53.66])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4c1868wstd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 02 Feb 2026 20:39:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vK42eE1o+YPgieRvz7OqcULxS7Ty5dbKDq3TE8o535wFOs2FRtSnCcVadbfUbwq/x2DDACcV7ioCPCos11r4RndMG6Q4YBVcRXPptxdGQcNO5rDcp1YhN8LC1twRJkF63ZuL6RBXb0kAndFVPsbsfZlxS1eZ9lmKmwOI+sdP7yzq5MAWT+IX1wOspXxDP1cNAb7KDs3lTLv9jmRMUMBrcn11Z0WHc8/C/kGK1IgJVCaYyS3lXo9mejIiUnWPqJbeJfZllbLq0MvfQIgwV0BkGrrM/OX2rTkntLslyGcMlwh9aoUfBhOomqpIKNbaBmky3zVgDIvn4viBy/qRdFXULQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iu+CITfqzicBGlLMmAWQj7cuNNshLdPAGTYb7UMtdqY=;
- b=DVKyf7AoLAgbfpfRoDN+GeN9P3XFhwwZqEPGGIQAbjAKxSSVx2fUNVns/Nfjt4NOdUWQm9/bcoSGieX7DDYo97DDpUoQ3ogZC1p5f/k5PXdxCz89mD5SgOi7HCPlhm+4GaN4ZE0z4iUbsDZxyLrnGf+/QEZMYk7FjTWjrJZbx5oHBZ6vb6p3twAA7ggDZsJ3f3JDsEYy4g8yNc4MyJVb6avNvO1cfyDLKEeqno9rUCXw5p90gVX5Cj3WUUW1Tf0ZEFsfka2QLsmjKvGeaFn6zQU8S07wzr8joT7Eo+Nlflubhmix2gHwOTsB8yTiICF0q6EWwYPb1zj1U/+A4N8L8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iu+CITfqzicBGlLMmAWQj7cuNNshLdPAGTYb7UMtdqY=;
- b=MEIe39bPjx6lNORDigez3zoBa8ba1ceF1+FbxN8tm0Ho7A2TN8toUpNW/W51dj3DWDtoLE4rQgBY9nGw/ncnmIAEzTC0HGsDJEs2EXNAwjQeWoUGxO4irQ0icfbZUAd3020/DDA31rai+WPFujZQzMHe67yrIZgwIjj7dzH0bis=
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
- by DS0PR10MB6055.namprd10.prod.outlook.com (2603:10b6:8:cc::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
- 2026 20:39:32 +0000
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::4b84:e58d:c708:c8ce]) by PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::4b84:e58d:c708:c8ce%4]) with mapi id 15.20.9564.016; Mon, 2 Feb 2026
- 20:39:32 +0000
-Date: Mon, 2 Feb 2026 15:39:29 -0500
-From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 10788/11220] include/linux/rcupdate.h:555:36:
- error: dereferencing pointer to incomplete type 'struct maple_enode'
-Message-ID: <mmslqkujsf3epkowgd4wr75wi6jd47m7lpcwbwtv4ppsyppclu@lpy4azhk624r>
-Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List <linux-mm@kvack.org>
-References: <202602030233.gZQAuAMc-lkp@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202602030233.gZQAuAMc-lkp@intel.com>
-User-Agent: NeoMutt/20250905
-X-ClientProxiedBy: YT4PR01CA0334.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10a::16) To PH0PR10MB5777.namprd10.prod.outlook.com
- (2603:10b6:510:128::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKYcQ3L1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770068970; x=1801604970;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EY2CrS28kRVeb7uWnMWJfY8xjXKXRdCHiuTKy5sQkoY=;
+  b=bKYcQ3L1AlHtTx3aL3vINnmlrJcTWTV6JnNoVpMC3EQsPEtmRHmHWAJB
+   dgptjY9N5Kot5pOko6ts1ab6b8O44jrgbtqZXhhnr5iRaSPPWc/iMVD2X
+   6n59WqhjMpg0CZy84KMj4SarOsZZcISyRMzpwIB96B+9PgLOo0DylPFEX
+   ah1kQP7GvM/X7AOAHCfVeQySIts0XkZ8d5Jik7jszVh4rHjXB+n1dxBKJ
+   R62cBqbpYYSjEeJuWV+rbTr7+UGvHFEeraMEWgFKIXD5HdvRPx2Y7ndib
+   OJWa5XTPbHXhjsE/pn9ZAAMjRX/rcjS9BRsU67ibRnLlU/x5Ft0GWFAuA
+   Q==;
+X-CSE-ConnectionGUID: Z1aHHp96T22ZQyFlsSQJoQ==
+X-CSE-MsgGUID: tiOZqDZgRfKUfs/Xgb6+Fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71317555"
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="71317555"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 13:49:29 -0800
+X-CSE-ConnectionGUID: 1mLhGU+kRviswRU3MKb1ZA==
+X-CSE-MsgGUID: 3/hN4atiQQuJCR8s9tAfFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="208743963"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 02 Feb 2026 13:49:24 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vn1nN-00000000fzM-1pxx;
+	Mon, 02 Feb 2026 21:49:21 +0000
+Date: Tue, 3 Feb 2026 05:48:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	linux-rdma@vger.kernel.org,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	intel-wired-lan@lists.osuosl.org, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Mark Bloch <mbloch@nvidia.com>, linux-kernel@vger.kernel.org,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Saeed Mahameed <saeedm@nvidia.com>
+Subject: Re: [Intel-wired-lan] [PATCH net-next v4 7/9] dpll: Add reference
+ count tracking support
+Message-ID: <202602030538.6ok1xugA-lkp@intel.com>
+References: <20260202171638.17427-8-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|DS0PR10MB6055:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2cef5ce7-6ec1-4f83-17c3-08de629b2b49
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?w/+Tqwb/6gnm5i6Y60JHMRJtkiAQkEcfjrpfUrTP/DaLCkW8MnRx4yY96mvY?=
- =?us-ascii?Q?h73p/a4v2AYqQjUFVFwTG7VbJF2HVGOYpUiTOOC6lg1He8jI7lYM/NHrraz6?=
- =?us-ascii?Q?HwlokyogYdT2/EznOhj/NkzHXrT+fS3vylhUAAq9vzJUB/pfxS/LqNXuL4d1?=
- =?us-ascii?Q?ThiG/d7Ri070vj1pE3CynylkD/KFODpFrNjysYpXTAzJgAlOZtkBCXMPKVDR?=
- =?us-ascii?Q?rAxWdNGLx2KfNKE7NxXQMx/wUSkwqx6GKx2WuSl0gNe4VVdIuycyzn1/fee/?=
- =?us-ascii?Q?o7i8hVb3+TXE8J/Hymxs4oGETRjbg/FtUhnOk0r+ySwDtMWZgbl7W3CCj2xW?=
- =?us-ascii?Q?DageLuyUe9YmffRRzsp7dw15IpbgY0u4/uYskgaM3z4UThQ3u84V43B7VC1a?=
- =?us-ascii?Q?/MAS7OUsE+o8bUSce4h3JODs8Jda6Zm/Mq/pIpmOBo0y5ks3+sR7/7Sb8Xhk?=
- =?us-ascii?Q?x3foNmxDuwqZ0w6xfq7b5eoNl+otWt9Yosl/92wXf1A1IKrjtlW/TW9jx7vO?=
- =?us-ascii?Q?y1ylLZIp6wnAN9V/uLJ+dDa9q0C9W7oRumgRkWK0BJylPhimTkK+6haMkTnC?=
- =?us-ascii?Q?rJzlEuVvslj3BnC8eilyZlYUfIFp14scCNn4sAC9RQThw/yeWW0q6OfrooD+?=
- =?us-ascii?Q?3zGWjTTZVfWztzrvTTv7NpZ8RSKqTkf6tWdRw7kTxvE7BooNcFt3pi1MSyP0?=
- =?us-ascii?Q?onV3tZeaj6KbVoyI+UXyX46aNRGImLz6lHO5g9mgoDR2H1PQ1iiSxvM7md3S?=
- =?us-ascii?Q?gZArzkP7W3XNTJOqHEMaUf79JGN2bXdPgo8RG6YQxOGwkHMgXX+gNoq/It7U?=
- =?us-ascii?Q?Bz2j/WxFKJLumddWjuZUUU1FuyH2lxCLDyvGfLFinIFgwrBJu/pLGs/Y/4eN?=
- =?us-ascii?Q?48VV4oo6LecMjbmyFNm5CkUfikvTW2NMvRdUkR5S+MYz6MDThzORAeRa7Q2t?=
- =?us-ascii?Q?q3cLz2uhRmzCUY5utVkH/XtEHnbb6R0Ac6hyEKnSvbRMBnXQ6VJZ+H0lghA8?=
- =?us-ascii?Q?bh1Z745TvHhBxccqhGtRfYMgyBviE9l+7oh9J82zcOdoyslTd1ig/tdSY8JC?=
- =?us-ascii?Q?/m1sKEbIcEPlJ13HPsXmzq8lOlWOw9OOwPude/LCbCQgL1nCi/tWwJtpdG5M?=
- =?us-ascii?Q?6BWcjDdb5aCnwSEAoUyKi/ikfs2JqdsGde7SIDhHTg58kyqIYDkZxkKu6AG/?=
- =?us-ascii?Q?UP709tyd1Q/8X+7DpbWpX29zakWurp14uEGCpxAiOrAo9hrYRaqopCe7t0SH?=
- =?us-ascii?Q?mX2+MWtN3l7PKdJjrq6K2pVeTSPuFyvyqpNqg3BnEUfbnVkvXju7C63MolJB?=
- =?us-ascii?Q?0IHuDHgFXOWtdWAQ+9hll5gChV8XvHC9zvR2wskbr8HoXTTXx/DwEJJJwMmH?=
- =?us-ascii?Q?/ZZrnMDojkli6Q73hpQMsuqxqTbGNAkWE/a1SrasUZtSMsvOFM2vLJMgvxj4?=
- =?us-ascii?Q?auhY35a7g2B5oefe2LzTe+Y4kUNjfo+B9SbUaUYQxeGid4kx5LZ95ziQpB9N?=
- =?us-ascii?Q?akQeZpsdEiWM0JMqRxdwIg1fkw6Vv3OQq904aDxNSbZOvyVD+m0n4PvjMdF2?=
- =?us-ascii?Q?mZXlYRmfQUUMjQqQZL1za1BLGILeYm+OL8JHAMEh?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?W+triJjqlmuEG/LB++dga5k1L79FrlNAMqhFQAbo8ucO5mLgeYNcLuC0m/u+?=
- =?us-ascii?Q?H3tHJcZunC8F5wB3NU5qzNGC8sRZd5p8bhqyuBFy7xXLFghhoD6u9mNJqR8r?=
- =?us-ascii?Q?CNqN51eOG6erKY9mPobBROQxxXbdJ29i0ONhM2zKQjgrs8KCqUANHTUBKkvE?=
- =?us-ascii?Q?Tz7zUnopzAWdL0FWfqamloAGHtb5zLCBVko8ZTwO3I5oVO8btt/nEc6rXnWX?=
- =?us-ascii?Q?w1wec0RmIpV1yjIxFPadoiOOJtemu1BVeL3vRO5wwgwBq+pPjQKP79QFQZRa?=
- =?us-ascii?Q?WisxCEtetj7Dupyd7mhnpwdYdRWz505vq6BE0KSAc5X1iHAUaflYf/QJ9Qa8?=
- =?us-ascii?Q?HZ+ByMHzc7qVZOyoQG0VivhAaMhnqTCAWwu3jqc0V9wg/TAaZCb/8krQlfqL?=
- =?us-ascii?Q?B8LYqZlokC2uHeHz6b931QPJeNPJQfFX028VbTjDqzr4X14Zy8aVGm4x6W+O?=
- =?us-ascii?Q?YJqDlEHDGbWKkaa/CVrZQ2s+7Oglw0Z53dg9YluTQ03x4f+wONN1LudAx7MQ?=
- =?us-ascii?Q?jRr59ncJIdV7n7I1sIoGoXh05BpOUeogL15SxzizmKrJXLMg1/kO/BRWa4kL?=
- =?us-ascii?Q?FBRdbL8TuMvla0Hv80PW/giF9umeLA04CA3I15hk4dFn7SQqnc/QXPOjmlUc?=
- =?us-ascii?Q?vMlmkKlZd0HGck2PY1Htwwm8UPes5El6osBwZzqBtgvAx7r84/5olUn/kTF1?=
- =?us-ascii?Q?Qw2ZRrR8Vqt1U7QE0k9dqJk0WRaq1MPxwpz+/eh1pY5ERktrXk6bv7kyzAyu?=
- =?us-ascii?Q?Nh3fqbqv/7NubW2ZkVx2jO6DebhNV0dhjemwK7cVg8cd1b1acsparH4kUt7A?=
- =?us-ascii?Q?XYHQ1rmGo9syxg/qNwAVTPcDZxzBczNXKpq4gEhhDi7/nmuxByfhOVNGpv8p?=
- =?us-ascii?Q?VJrJkNp9mwCD1kYy95Vz/gG3VR7pikZ4dgXk6ahGuVj7kzLp+JFsoiNswe+z?=
- =?us-ascii?Q?QVKt63jlpd3HoknOI8uXacHH+zv3/Bgxo/jcrwnuVOCO5dH0GBj7aZmGEqhU?=
- =?us-ascii?Q?ZIwWvZqTOs9hQuPC0IFMGoRmmuhdWOitPlim04bJMwrTwZMB+I5zHbeVa3US?=
- =?us-ascii?Q?pcSUE+JwMemDTPLvvH+lYrQvmjFNxKRStM20yN65LsLjcut8Hov4HJXT42vU?=
- =?us-ascii?Q?ziSXMfmWN1Rr0aQ/Bf/n7M2nJTAE1FSGTpFpsW5R1HQw4q08PSRpd/3jNSVR?=
- =?us-ascii?Q?PL7wN/DN3PXgAw11RpQsZi/RDYHt32qNoIXk+wgNeUxTi0CJpOrSU/Gv8JLg?=
- =?us-ascii?Q?TKgvXrrFFv+wxSYTwOdyVg5A9PW30EfhBRG+MoTBtW0C5lz2CaFDSdUTTE9c?=
- =?us-ascii?Q?XKInfU3M0B+Lso4VBBMfIwFPyH2gs3Q4rzqHfwK3XQTirFlEdjGfa+QBNd5L?=
- =?us-ascii?Q?b+ML2WNqnZoroywdch4j3AYoIwSIzPRHOLqdVnbrfM+nMPGMA2tj1FRHSFIl?=
- =?us-ascii?Q?MbsdtN98v5JCPdGaj97BYBr1pupB+HnFXmxuoIeNPYU1J/N2Ac0VvWz6f3AA?=
- =?us-ascii?Q?kSWxROsOnLfKlQDY3VRJanXkyUObRxyRyD0tk+n9k/lw0ME4WJoUkGkzuDSt?=
- =?us-ascii?Q?sVQcyKry3auFUL89AMcIVPCu8/Sjqbn5QDDvHlosQ5E4y+teKqJEhxdlqb0d?=
- =?us-ascii?Q?aujAMakE0A/6YNkcRtLJl9fUjpg6H1fP/pU8QCfpSxAyJ2cHMkeBFvwKZCLU?=
- =?us-ascii?Q?XaZkCadkmFI8p9Z7WRJdCnjyqrvlagWZ9oXKZLdY6iBCfA8dHXFN95VwP2my?=
- =?us-ascii?Q?A1MlP1BspA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	UnD1gVTlKxcwlQjisqbyfrGX+QCyX3xKqmJt6iTXBOOy5CMRbkj+bns5N68GhsJYOn6GzbCE6sPLLDJmsf9THbFUqL2S+E779p+bl8aUZ/qY6orQJNbFgoKVEpIh3IX7y2/9o7Cm364dsz1Xh9U9KQPP4Y8mFVLToyOWCwNLfPc7DksU1WV3Tx4o/GdRzv+26DATlxA8Kagt/zUOdtT5gGtt4aztw2Srh95882TWESTB2qkDmVdv3LUn0KgjDVAvI115X8exOd8ZW03v1XW95uOF3g3iKYetpPTDoZj7IEmTeDuvQn6BDspHu9DIXJLGQwOgZNjDJPkYjW9s09uuLEuoPSyPqb1VYL4oAKx8iHs+vFnddL0XSladC4Kl8HkV19Hn1yjlTGTLMRhJkeoLfGDYcN7sWB/S2HIwbFsQQFiJbpWsLkFvzz7lx9lTXc6PQfmkPbbzrcg+YM8yAdwGcXVwxB9WaUDi8r90eHMmMpUQkCEyG7J9tg88fZhwGZR91RIbE1srs16yw9Y0Am7SrYHS4UWv6UNYKOKc9MoZf8jd37FkAvedDY8HQLVvuHTG6rGKXij83Q8drSQ+VXd750Nx1KIWQ3+TEnihY4t3N0Q=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cef5ce7-6ec1-4f83-17c3-08de629b2b49
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 20:39:32.0133
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KgEe+bzCMMZF/jxTh98GSGLJ8tLL81euVfEba8+PnuN7BS5+9Yy0zSNPQlRj3M7e9fYEmOj584JPQ18SG5CHJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6055
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-02_05,2026-02-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
- adultscore=0 suspectscore=0 mlxscore=0 phishscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2601150000 definitions=main-2602020161
-X-Proofpoint-GUID: OHNOSVW8RS1mc4GUrtyElHYVu4vAGIuC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDE2MSBTYWx0ZWRfXyI914ZsXiTfM
- Oa3j89fI24uxmZRVkWka0T8XAspd3/tyTAaxz3j0YXcMKSkzNtvlS6U6U0RIhuan4VIsddh/xCK
- H/wnlTb+D7nvADQ4syxtiEY0aoMp57j6XFWgTPiYSu4sgpXhmgeTUXxUh7IVfHQIZtuEvqgmY71
- NkGwMzcv+foBg6ONUiMiFKJgl2AuS+axWXN2wJWK8KhocHUL9C0q3vAqQC3YX1u1cS59V87sfWk
- lR8/mBECBNtyzF5kaJ+8Hr8C31yZXcW6QUC6jHseVRMfPzWLMdft/9w9jBI/oaQ3y43PmWNN4ys
- Ex7hOLLk95mdk9jpCbozjVCZkiprm+fuWUJdv8cBsL4I/TtxJC/KOhuUexwdvONh5/7fXhmv6wR
- n4P33+IXJI2+eGTXirJd8SznprRTOMkJ8ZQ7PUMWulxOJmi5AMcibPJItAenD6fFYPEKd1c22Q1
- 9nbj2/25WuziBcjjagw==
-X-Proofpoint-ORIG-GUID: OHNOSVW8RS1mc4GUrtyElHYVu4vAGIuC
-X-Authority-Analysis: v=2.4 cv=IaqKmGqa c=1 sm=1 tr=0 ts=69810b8b cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8
- a=VnNF1IyMAAAA:8 a=nnLJXsDTHIVA3IG6T44A:9 a=CjuIK1q_8ugA:10
- a=mmqRlSCDY2ywfjPLJ4af:22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202171638.17427-8-ivecera@redhat.com>
 
-* kernel test robot <lkp@intel.com> [260202 13:31]:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   193579fe01389bc21aff0051d13f24e8ea95b47d
-> commit: 60d8a8eb080e2f6927add49f47625574b39d3072 [10788/11220] maple_tree: add cp_is_new_root() helper
-> config: parisc-randconfig-002-20260202 (https://download.01.org/0day-ci/archive/20260203/202602030233.gZQAuAMc-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030233.gZQAuAMc-lkp@intel.com/reproduce)
+Hi Ivan,
 
-Thanks, as predicted by SK.
+kernel test robot noticed the following build errors:
 
-I will have to build the kernel with a lot more gcc versions, I guess.
+[auto build test ERROR on net-next/main]
 
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602030233.gZQAuAMc-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from ./arch/parisc/include/generated/asm/rwonce.h:1,
->                     from include/linux/compiler.h:380,
->                     from include/linux/array_size.h:5,
->                     from include/linux/kernel.h:16,
->                     from include/linux/maple_tree.h:11,
->                     from lib/maple_tree.c:56:
->    lib/maple_tree.c: In function 'cp_is_new_root':
-> >> include/linux/rcupdate.h:555:36: error: dereferencing pointer to incomplete type 'struct maple_enode'
->     #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
->                                        ^~~~
->    include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
->      *(volatile typeof(x) *)&(x) = (val);    \
->                                     ^~~
->    include/linux/rcupdate.h:1046:3: note: in expansion of macro 'WRITE_ONCE'
->       WRITE_ONCE(p, RCU_INITIALIZER(v)); \
->       ^~~~~~~~~~
->    include/linux/rcupdate.h:1046:17: note: in expansion of macro 'RCU_INITIALIZER'
->       WRITE_ONCE(p, RCU_INITIALIZER(v)); \
->                     ^~~~~~~~~~~~~~~
->    lib/maple_tree.c:3364:3: note: in expansion of macro 'RCU_INIT_POINTER'
->       RCU_INIT_POINTER(cp->slot[0], mt_mk_node(cp->dst[0].node, mt));
->       ^~~~~~~~~~~~~~~~
-> 
-> 
-> vim +555 include/linux/rcupdate.h
-> 
-> ca5ecddfa8fcbd Paul E. McKenney 2010-04-28  550  
-> 462225ae47d717 Paul E. McKenney 2013-11-11  551  /**
-> 462225ae47d717 Paul E. McKenney 2013-11-11  552   * RCU_INITIALIZER() - statically initialize an RCU-protected global variable
-> 462225ae47d717 Paul E. McKenney 2013-11-11  553   * @v: The value to statically initialize with.
-> 462225ae47d717 Paul E. McKenney 2013-11-11  554   */
-> 462225ae47d717 Paul E. McKenney 2013-11-11 @555  #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
-> 462225ae47d717 Paul E. McKenney 2013-11-11  556  
-> 
-> :::::: The code at line 555 was first introduced by commit
-> :::::: 462225ae47d7175f886281d8a91708550cd5178c rcu: Add an RCU_INITIALIZER for global RCU-protected pointers
-> 
-> :::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> :::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-Allow-associating-dpll-pin-with-a-firmware-node/20260203-012705
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260202171638.17427-8-ivecera%40redhat.com
+patch subject: [Intel-wired-lan] [PATCH net-next v4 7/9] dpll: Add reference count tracking support
+config: i386-randconfig-141-20260203 (https://download.01.org/0day-ci/archive/20260203/202602030538.6ok1xugA-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030538.6ok1xugA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602030538.6ok1xugA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from net/core/rtnetlink.c:61:
+>> include/linux/dpll.h:235:1: error: expected identifier or '('
+     235 | {
+         | ^
+   1 error generated.
+
+
+vim +235 include/linux/dpll.h
+
+877c40367bc8a7 Ivan Vecera 2026-02-02  232  
+877c40367bc8a7 Ivan Vecera 2026-02-02  233  static inline struct dpll_pin *
+bed78c2008cb37 Ivan Vecera 2026-02-02  234  fwnode_dpll_pin_find(struct fwnode_handle *fwnode, dpll_tracker *tracker);
+877c40367bc8a7 Ivan Vecera 2026-02-02 @235  {
+877c40367bc8a7 Ivan Vecera 2026-02-02  236  	return NULL;
+877c40367bc8a7 Ivan Vecera 2026-02-02  237  }
+5f18426928800c Jiri Pirko  2023-09-13  238  #endif
+5f18426928800c Jiri Pirko  2023-09-13  239  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
