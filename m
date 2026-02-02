@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB5120C00A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 03:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25712156F45
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 04:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770001826; cv=none; b=ixWh3/CbmNZC5zzK7Rv2JPcJUyWNkg1FoBsoyMj+cKnFG1kd82TcsgH0Bj15DYvzrr/+LLAkTbseA45E4Vzs8v1TUIWpa5li0jW+L1JE6bZLM782d/Jl/Nv5dSmvYTZCjAGhl4pPMDMYDKP9StJYjpJwrZmg5MC8M1n6u9ggmYQ=
+	t=1770007469; cv=none; b=GpotsnCgNkm5PnH195nARxbHK2QQoE+XibbgWidLsnUgRzsBbGXWYdN7x/7BFVC3CLuis6JNeOG8mo8zn13Xq0UHqfc2i9WFUsOWdTCijlqsg2bMtFS+6ZAuDzkcj6TOCxoiHD3ZDE8AqvHH+383QWzfqvTeZDk3jDiqUfLiOYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770001826; c=relaxed/simple;
-	bh=OJ6x+8p7RS3p1oOyWD9XlLYDeF3QIp9n1oIbQWGI4GA=;
+	s=arc-20240116; t=1770007469; c=relaxed/simple;
+	bh=wUHY84hZcBG/VlIMhvJDVxPwfDngXL9lpd9T/wQwpQ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rXz2vOQIYUOJKrsRGmuykiqwwzslCAPKi4eDRLc3IfnxOJz+z8kOI8f1Jg5nIY6TJQH6oXEPA5DmLzkNYD+EnjclbRzI4KGyquc9wgud5LlztOwxWcOdJcQsYp7PZ2GluEBCpD08FkJNnQD0AS+wi3QyRBQMAmUrFlg2WmfQ+RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkgsSaI/; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=sbNGaX7P/PtJ41jQ+OrxYfTIKaiOTOy/LVDyH8JUOWdewhcMv/nAATzPil/f05WGjrzWut314LUZMV9TiqCMT1WaLNBEoIPGbrBbEcHqmF7CGPSzCwV+ii6+eyW2grIuXYtV1BqTtpCmq+3WBTd4HXLoRnH0TbcTez+/lriciOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j1IqmmmY; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkgsSaI/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j1IqmmmY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770001824; x=1801537824;
+  t=1770007466; x=1801543466;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OJ6x+8p7RS3p1oOyWD9XlLYDeF3QIp9n1oIbQWGI4GA=;
-  b=OkgsSaI/Rm+dtk3zUWtxbbDQQF6IoF4lQrZ22yXRb9/N8GnftXL4gnO3
-   8x5oLJZRD4VC/muuYFhjVl0yTfARVRKMPfTzkct3jvBncnfIj2him/B2l
-   csFFh0XoJ1B6OTARPD/69YufEbjBa+M2rmEq73SxjNVkwkLLfqQPC93bO
-   jk/iJ+jYmUhiUmmbb/I0gHqc+5KVkh0USuGU8nEm9S/bCdIuOqB56Qmpz
-   kR2oRQBQc97vsjUEyimMPQ40emN1Ed7YriePNJEZfDeO9DDxYq8TT9PHv
-   EuK+TlXSZ9k532ON4eSXDn3rrA2fyebCVP0iBGJeXbMPb106QYg6i9KWh
-   A==;
-X-CSE-ConnectionGUID: R+GVNnC8RleXhIee8ekSjQ==
-X-CSE-MsgGUID: 74MjmqXTQza+5WVBBkTpZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="88735732"
-X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="88735732"
+  bh=wUHY84hZcBG/VlIMhvJDVxPwfDngXL9lpd9T/wQwpQ0=;
+  b=j1IqmmmYBAdybIm9PFFQFJyBLPvs922YUlbPiFwJbeNADG7laUjUvO4i
+   NWhwLvb+nIudeGKK3yubdfMM6+QWRrbGdiOTY3q3QbKqUOhD+HHfKuvQL
+   L4SsHmFO5xHXtljyphcsaFaICL19QzQmwmUzR+JCcn3vKuAdPlrDI/kAx
+   8/ItVgFhe2W0cTsiJltKPU9LN8oPNdsBN9PUdKxN8ucKfO+MpPOZ7/eKU
+   58GmVagPXvabMv5mfMQ4fLotYswsYWrkmd7relsZz9V0aG3AjsWEYxkeR
+   AmBy11Eg2GI6pwX2f3Gw/gVy/Cyds3+2vtgWIan/+lN1vXhmsBlp2CmNW
+   g==;
+X-CSE-ConnectionGUID: w4Y1LPCTSdmlZ+sFCOZCjw==
+X-CSE-MsgGUID: RnxXUYB6RKeDLvkuhvA6+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71246615"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; 
+   d="scan'208";a="71246615"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 19:10:23 -0800
-X-CSE-ConnectionGUID: 8hbuZs0qQHqows2VRa0CGA==
-X-CSE-MsgGUID: 0hNUKyXBTciP47pymgRmNw==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 20:44:25 -0800
+X-CSE-ConnectionGUID: y103CyBwS4OJ2Tboi/4q5A==
+X-CSE-MsgGUID: Ll7QYtNkQiKtYJkw5YjjQg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="209707515"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; 
+   d="scan'208";a="209718312"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 Feb 2026 19:10:22 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 01 Feb 2026 20:44:24 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmkKR-00000000fCm-3Lah;
-	Mon, 02 Feb 2026 03:10:19 +0000
-Date: Mon, 2 Feb 2026 11:10:16 +0800
+	id 1vmlnR-00000000fEm-2lPO;
+	Mon, 02 Feb 2026 04:44:21 +0000
+Date: Mon, 2 Feb 2026 12:44:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: Usama Arif <usamaarif642@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 01/12] mm: add PUD THP ptdesc and rmap support
-Message-ID: <202602021158.RvuFv8Nm-lkp@intel.com>
-References: <20260202005451.774496-2-usamaarif642@gmail.com>
+Subject: Re: [RFC 05/12] mm: thp: add reclaim and migration support for PUD
+ THP
+Message-ID: <202602021257.pz4igUG7-lkp@intel.com>
+References: <20260202005451.774496-6-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,7 +63,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202005451.774496-2-usamaarif642@gmail.com>
+In-Reply-To: <20260202005451.774496-6-usamaarif642@gmail.com>
 
 Hi Usama,
 
@@ -73,434 +74,572 @@ kernel test robot noticed the following build errors:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/mm-add-PUD-THP-ptdesc-and-rmap-support/20260202-085725
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260202005451.774496-2-usamaarif642%40gmail.com
-patch subject: [RFC 01/12] mm: add PUD THP ptdesc and rmap support
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260202/202602021158.RvuFv8Nm-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20260202005451.774496-6-usamaarif642%40gmail.com
+patch subject: [RFC 05/12] mm: thp: add reclaim and migration support for PUD THP
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260202/202602021257.pz4igUG7-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602021158.RvuFv8Nm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602021257.pz4igUG7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602021158.RvuFv8Nm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602021257.pz4igUG7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/rmap.c: In function 'try_to_unmap_one':
->> mm/rmap.c:2106:41: error: implicit declaration of function 'split_huge_pud_locked'; did you mean 'split_huge_pmd_locked'? [-Werror=implicit-function-declaration]
-    2106 |                                         split_huge_pud_locked(vma, pvmw.pud, pvmw.address);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-         |                                         split_huge_pmd_locked
+   mm/vmscan.c: In function 'shrink_folio_list':
+>> mm/vmscan.c:1358:29: error: implicit declaration of function 'folio_test_pud_mappable'; did you mean 'folio_test_pmd_mappable'? [-Werror=implicit-function-declaration]
+    1358 |                         if (folio_test_pud_mappable(folio))
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~
+         |                             folio_test_pmd_mappable
    cc1: some warnings being treated as errors
 
 
-vim +2106 mm/rmap.c
+vim +1358 mm/vmscan.c
 
-  2010	
-  2011	/*
-  2012	 * @arg: enum ttu_flags will be passed to this argument
-  2013	 */
-  2014	static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
-  2015			     unsigned long address, void *arg)
-  2016	{
-  2017		struct mm_struct *mm = vma->vm_mm;
-  2018		DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, 0);
-  2019		bool anon_exclusive, ret = true;
-  2020		pte_t pteval;
-  2021		struct page *subpage;
-  2022		struct mmu_notifier_range range;
-  2023		enum ttu_flags flags = (enum ttu_flags)(long)arg;
-  2024		unsigned long nr_pages = 1, end_addr;
-  2025		unsigned long pfn;
-  2026		unsigned long hsz = 0;
-  2027		int ptes = 0;
-  2028	
-  2029		/*
-  2030		 * When racing against e.g. zap_pte_range() on another cpu,
-  2031		 * in between its ptep_get_and_clear_full() and folio_remove_rmap_*(),
-  2032		 * try_to_unmap() may return before page_mapped() has become false,
-  2033		 * if page table locking is skipped: use TTU_SYNC to wait for that.
-  2034		 */
-  2035		if (flags & TTU_SYNC)
-  2036			pvmw.flags = PVMW_SYNC;
-  2037	
-  2038		/*
-  2039		 * For THP, we have to assume the worse case ie pmd for invalidation.
-  2040		 * For hugetlb, it could be much worse if we need to do pud
-  2041		 * invalidation in the case of pmd sharing.
-  2042		 *
-  2043		 * Note that the folio can not be freed in this function as call of
-  2044		 * try_to_unmap() must hold a reference on the folio.
-  2045		 */
-  2046		range.end = vma_address_end(&pvmw);
-  2047		mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma->vm_mm,
-  2048					address, range.end);
-  2049		if (folio_test_hugetlb(folio)) {
-  2050			/*
-  2051			 * If sharing is possible, start and end will be adjusted
-  2052			 * accordingly.
-  2053			 */
-  2054			adjust_range_if_pmd_sharing_possible(vma, &range.start,
-  2055							     &range.end);
-  2056	
-  2057			/* We need the huge page size for set_huge_pte_at() */
-  2058			hsz = huge_page_size(hstate_vma(vma));
-  2059		}
-  2060		mmu_notifier_invalidate_range_start(&range);
-  2061	
-  2062		while (page_vma_mapped_walk(&pvmw)) {
-  2063			/*
-  2064			 * If the folio is in an mlock()d vma, we must not swap it out.
-  2065			 */
-  2066			if (!(flags & TTU_IGNORE_MLOCK) &&
-  2067			    (vma->vm_flags & VM_LOCKED)) {
-  2068				ptes++;
-  2069	
-  2070				/*
-  2071				 * Set 'ret' to indicate the page cannot be unmapped.
-  2072				 *
-  2073				 * Do not jump to walk_abort immediately as additional
-  2074				 * iteration might be required to detect fully mapped
-  2075				 * folio an mlock it.
-  2076				 */
-  2077				ret = false;
-  2078	
-  2079				/* Only mlock fully mapped pages */
-  2080				if (pvmw.pte && ptes != pvmw.nr_pages)
-  2081					continue;
-  2082	
-  2083				/*
-  2084				 * All PTEs must be protected by page table lock in
-  2085				 * order to mlock the page.
-  2086				 *
-  2087				 * If page table boundary has been cross, current ptl
-  2088				 * only protect part of ptes.
-  2089				 */
-  2090				if (pvmw.flags & PVMW_PGTABLE_CROSSED)
-  2091					goto walk_done;
-  2092	
-  2093				/* Restore the mlock which got missed */
-  2094				mlock_vma_folio(folio, vma);
-  2095				goto walk_done;
-  2096			}
-  2097	
-  2098			if (!pvmw.pte) {
-  2099				/*
-  2100				 * Check for PUD-mapped THP first.
-  2101				 * If we have a PUD mapping and TTU_SPLIT_HUGE_PUD is set,
-  2102				 * split the PUD to PMD level and restart the walk.
-  2103				 */
-  2104				if (pvmw.pud && pud_trans_huge(*pvmw.pud)) {
-  2105					if (flags & TTU_SPLIT_HUGE_PUD) {
-> 2106						split_huge_pud_locked(vma, pvmw.pud, pvmw.address);
-  2107						flags &= ~TTU_SPLIT_HUGE_PUD;
-  2108						page_vma_mapped_walk_restart(&pvmw);
-  2109						continue;
-  2110					}
-  2111				}
-  2112	
-  2113				if (folio_test_anon(folio) && !folio_test_swapbacked(folio)) {
-  2114					if (unmap_huge_pmd_locked(vma, pvmw.address, pvmw.pmd, folio))
-  2115						goto walk_done;
-  2116					/*
-  2117					 * unmap_huge_pmd_locked has either already marked
-  2118					 * the folio as swap-backed or decided to retain it
-  2119					 * due to GUP or speculative references.
-  2120					 */
-  2121					goto walk_abort;
-  2122				}
-  2123	
-  2124				if (flags & TTU_SPLIT_HUGE_PMD) {
-  2125					/*
-  2126					 * We temporarily have to drop the PTL and
-  2127					 * restart so we can process the PTE-mapped THP.
-  2128					 */
-  2129					split_huge_pmd_locked(vma, pvmw.address,
-  2130							      pvmw.pmd, false);
-  2131					flags &= ~TTU_SPLIT_HUGE_PMD;
-  2132					page_vma_mapped_walk_restart(&pvmw);
-  2133					continue;
-  2134				}
-  2135			}
-  2136	
-  2137			/* Unexpected PMD-mapped THP? */
-  2138			VM_BUG_ON_FOLIO(!pvmw.pte, folio);
-  2139	
-  2140			/*
-  2141			 * Handle PFN swap PTEs, such as device-exclusive ones, that
-  2142			 * actually map pages.
-  2143			 */
-  2144			pteval = ptep_get(pvmw.pte);
-  2145			if (likely(pte_present(pteval))) {
-  2146				pfn = pte_pfn(pteval);
-  2147			} else {
-  2148				const softleaf_t entry = softleaf_from_pte(pteval);
-  2149	
-  2150				pfn = softleaf_to_pfn(entry);
-  2151				VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
-  2152			}
-  2153	
-  2154			subpage = folio_page(folio, pfn - folio_pfn(folio));
-  2155			address = pvmw.address;
-  2156			anon_exclusive = folio_test_anon(folio) &&
-  2157					 PageAnonExclusive(subpage);
-  2158	
-  2159			if (folio_test_hugetlb(folio)) {
-  2160				bool anon = folio_test_anon(folio);
-  2161	
-  2162				/*
-  2163				 * The try_to_unmap() is only passed a hugetlb page
-  2164				 * in the case where the hugetlb page is poisoned.
-  2165				 */
-  2166				VM_BUG_ON_PAGE(!PageHWPoison(subpage), subpage);
-  2167				/*
-  2168				 * huge_pmd_unshare may unmap an entire PMD page.
-  2169				 * There is no way of knowing exactly which PMDs may
-  2170				 * be cached for this mm, so we must flush them all.
-  2171				 * start/end were already adjusted above to cover this
-  2172				 * range.
-  2173				 */
-  2174				flush_cache_range(vma, range.start, range.end);
-  2175	
-  2176				/*
-  2177				 * To call huge_pmd_unshare, i_mmap_rwsem must be
-  2178				 * held in write mode.  Caller needs to explicitly
-  2179				 * do this outside rmap routines.
-  2180				 *
-  2181				 * We also must hold hugetlb vma_lock in write mode.
-  2182				 * Lock order dictates acquiring vma_lock BEFORE
-  2183				 * i_mmap_rwsem.  We can only try lock here and fail
-  2184				 * if unsuccessful.
-  2185				 */
-  2186				if (!anon) {
-  2187					struct mmu_gather tlb;
-  2188	
-  2189					VM_BUG_ON(!(flags & TTU_RMAP_LOCKED));
-  2190					if (!hugetlb_vma_trylock_write(vma))
-  2191						goto walk_abort;
-  2192	
-  2193					tlb_gather_mmu_vma(&tlb, vma);
-  2194					if (huge_pmd_unshare(&tlb, vma, address, pvmw.pte)) {
-  2195						hugetlb_vma_unlock_write(vma);
-  2196						huge_pmd_unshare_flush(&tlb, vma);
-  2197						tlb_finish_mmu(&tlb);
-  2198						/*
-  2199						 * The PMD table was unmapped,
-  2200						 * consequently unmapping the folio.
-  2201						 */
-  2202						goto walk_done;
-  2203					}
-  2204					hugetlb_vma_unlock_write(vma);
-  2205					tlb_finish_mmu(&tlb);
-  2206				}
-  2207				pteval = huge_ptep_clear_flush(vma, address, pvmw.pte);
-  2208				if (pte_dirty(pteval))
-  2209					folio_mark_dirty(folio);
-  2210			} else if (likely(pte_present(pteval))) {
-  2211				nr_pages = folio_unmap_pte_batch(folio, &pvmw, flags, pteval);
-  2212				end_addr = address + nr_pages * PAGE_SIZE;
-  2213				flush_cache_range(vma, address, end_addr);
-  2214	
-  2215				/* Nuke the page table entry. */
-  2216				pteval = get_and_clear_ptes(mm, address, pvmw.pte, nr_pages);
-  2217				/*
-  2218				 * We clear the PTE but do not flush so potentially
-  2219				 * a remote CPU could still be writing to the folio.
-  2220				 * If the entry was previously clean then the
-  2221				 * architecture must guarantee that a clear->dirty
-  2222				 * transition on a cached TLB entry is written through
-  2223				 * and traps if the PTE is unmapped.
-  2224				 */
-  2225				if (should_defer_flush(mm, flags))
-  2226					set_tlb_ubc_flush_pending(mm, pteval, address, end_addr);
-  2227				else
-  2228					flush_tlb_range(vma, address, end_addr);
-  2229				if (pte_dirty(pteval))
-  2230					folio_mark_dirty(folio);
-  2231			} else {
-  2232				pte_clear(mm, address, pvmw.pte);
-  2233			}
-  2234	
-  2235			/*
-  2236			 * Now the pte is cleared. If this pte was uffd-wp armed,
-  2237			 * we may want to replace a none pte with a marker pte if
-  2238			 * it's file-backed, so we don't lose the tracking info.
-  2239			 */
-  2240			pte_install_uffd_wp_if_needed(vma, address, pvmw.pte, pteval);
-  2241	
-  2242			/* Update high watermark before we lower rss */
-  2243			update_hiwater_rss(mm);
-  2244	
-  2245			if (PageHWPoison(subpage) && (flags & TTU_HWPOISON)) {
-  2246				pteval = swp_entry_to_pte(make_hwpoison_entry(subpage));
-  2247				if (folio_test_hugetlb(folio)) {
-  2248					hugetlb_count_sub(folio_nr_pages(folio), mm);
-  2249					set_huge_pte_at(mm, address, pvmw.pte, pteval,
-  2250							hsz);
-  2251				} else {
-  2252					dec_mm_counter(mm, mm_counter(folio));
-  2253					set_pte_at(mm, address, pvmw.pte, pteval);
-  2254				}
-  2255			} else if (likely(pte_present(pteval)) && pte_unused(pteval) &&
-  2256				   !userfaultfd_armed(vma)) {
-  2257				/*
-  2258				 * The guest indicated that the page content is of no
-  2259				 * interest anymore. Simply discard the pte, vmscan
-  2260				 * will take care of the rest.
-  2261				 * A future reference will then fault in a new zero
-  2262				 * page. When userfaultfd is active, we must not drop
-  2263				 * this page though, as its main user (postcopy
-  2264				 * migration) will not expect userfaults on already
-  2265				 * copied pages.
-  2266				 */
-  2267				dec_mm_counter(mm, mm_counter(folio));
-  2268			} else if (folio_test_anon(folio)) {
-  2269				swp_entry_t entry = page_swap_entry(subpage);
-  2270				pte_t swp_pte;
-  2271				/*
-  2272				 * Store the swap location in the pte.
-  2273				 * See handle_pte_fault() ...
-  2274				 */
-  2275				if (unlikely(folio_test_swapbacked(folio) !=
-  2276						folio_test_swapcache(folio))) {
-  2277					WARN_ON_ONCE(1);
-  2278					goto walk_abort;
-  2279				}
-  2280	
-  2281				/* MADV_FREE page check */
-  2282				if (!folio_test_swapbacked(folio)) {
-  2283					int ref_count, map_count;
-  2284	
-  2285					/*
-  2286					 * Synchronize with gup_pte_range():
-  2287					 * - clear PTE; barrier; read refcount
-  2288					 * - inc refcount; barrier; read PTE
-  2289					 */
-  2290					smp_mb();
-  2291	
-  2292					ref_count = folio_ref_count(folio);
-  2293					map_count = folio_mapcount(folio);
-  2294	
-  2295					/*
-  2296					 * Order reads for page refcount and dirty flag
-  2297					 * (see comments in __remove_mapping()).
-  2298					 */
-  2299					smp_rmb();
-  2300	
-  2301					if (folio_test_dirty(folio) && !(vma->vm_flags & VM_DROPPABLE)) {
-  2302						/*
-  2303						 * redirtied either using the page table or a previously
-  2304						 * obtained GUP reference.
-  2305						 */
-  2306						set_ptes(mm, address, pvmw.pte, pteval, nr_pages);
-  2307						folio_set_swapbacked(folio);
-  2308						goto walk_abort;
-  2309					} else if (ref_count != 1 + map_count) {
-  2310						/*
-  2311						 * Additional reference. Could be a GUP reference or any
-  2312						 * speculative reference. GUP users must mark the folio
-  2313						 * dirty if there was a modification. This folio cannot be
-  2314						 * reclaimed right now either way, so act just like nothing
-  2315						 * happened.
-  2316						 * We'll come back here later and detect if the folio was
-  2317						 * dirtied when the additional reference is gone.
-  2318						 */
-  2319						set_ptes(mm, address, pvmw.pte, pteval, nr_pages);
-  2320						goto walk_abort;
-  2321					}
-  2322					add_mm_counter(mm, MM_ANONPAGES, -nr_pages);
-  2323					goto discard;
-  2324				}
-  2325	
-  2326				if (folio_dup_swap(folio, subpage) < 0) {
-  2327					set_pte_at(mm, address, pvmw.pte, pteval);
-  2328					goto walk_abort;
-  2329				}
-  2330	
-  2331				/*
-  2332				 * arch_unmap_one() is expected to be a NOP on
-  2333				 * architectures where we could have PFN swap PTEs,
-  2334				 * so we'll not check/care.
-  2335				 */
-  2336				if (arch_unmap_one(mm, vma, address, pteval) < 0) {
-  2337					folio_put_swap(folio, subpage);
-  2338					set_pte_at(mm, address, pvmw.pte, pteval);
-  2339					goto walk_abort;
-  2340				}
-  2341	
-  2342				/* See folio_try_share_anon_rmap(): clear PTE first. */
-  2343				if (anon_exclusive &&
-  2344				    folio_try_share_anon_rmap_pte(folio, subpage)) {
-  2345					folio_put_swap(folio, subpage);
-  2346					set_pte_at(mm, address, pvmw.pte, pteval);
-  2347					goto walk_abort;
-  2348				}
-  2349				if (list_empty(&mm->mmlist)) {
-  2350					spin_lock(&mmlist_lock);
-  2351					if (list_empty(&mm->mmlist))
-  2352						list_add(&mm->mmlist, &init_mm.mmlist);
-  2353					spin_unlock(&mmlist_lock);
-  2354				}
-  2355				dec_mm_counter(mm, MM_ANONPAGES);
-  2356				inc_mm_counter(mm, MM_SWAPENTS);
-  2357				swp_pte = swp_entry_to_pte(entry);
-  2358				if (anon_exclusive)
-  2359					swp_pte = pte_swp_mkexclusive(swp_pte);
-  2360				if (likely(pte_present(pteval))) {
-  2361					if (pte_soft_dirty(pteval))
-  2362						swp_pte = pte_swp_mksoft_dirty(swp_pte);
-  2363					if (pte_uffd_wp(pteval))
-  2364						swp_pte = pte_swp_mkuffd_wp(swp_pte);
-  2365				} else {
-  2366					if (pte_swp_soft_dirty(pteval))
-  2367						swp_pte = pte_swp_mksoft_dirty(swp_pte);
-  2368					if (pte_swp_uffd_wp(pteval))
-  2369						swp_pte = pte_swp_mkuffd_wp(swp_pte);
-  2370				}
-  2371				set_pte_at(mm, address, pvmw.pte, swp_pte);
-  2372			} else {
-  2373				/*
-  2374				 * This is a locked file-backed folio,
-  2375				 * so it cannot be removed from the page
-  2376				 * cache and replaced by a new folio before
-  2377				 * mmu_notifier_invalidate_range_end, so no
-  2378				 * concurrent thread might update its page table
-  2379				 * to point at a new folio while a device is
-  2380				 * still using this folio.
-  2381				 *
-  2382				 * See Documentation/mm/mmu_notifier.rst
-  2383				 */
-  2384				add_mm_counter(mm, mm_counter_file(folio), -nr_pages);
-  2385			}
-  2386	discard:
-  2387			if (unlikely(folio_test_hugetlb(folio))) {
-  2388				hugetlb_remove_rmap(folio);
-  2389			} else {
-  2390				folio_remove_rmap_ptes(folio, subpage, nr_pages, vma);
-  2391			}
-  2392			if (vma->vm_flags & VM_LOCKED)
-  2393				mlock_drain_local();
-  2394			folio_put_refs(folio, nr_pages);
-  2395	
-  2396			/*
-  2397			 * If we are sure that we batched the entire folio and cleared
-  2398			 * all PTEs, we can just optimize and stop right here.
-  2399			 */
-  2400			if (nr_pages == folio_nr_pages(folio))
-  2401				goto walk_done;
-  2402			continue;
-  2403	walk_abort:
-  2404			ret = false;
-  2405	walk_done:
-  2406			page_vma_mapped_walk_done(&pvmw);
-  2407			break;
-  2408		}
-  2409	
-  2410		mmu_notifier_invalidate_range_end(&range);
-  2411	
-  2412		return ret;
-  2413	}
-  2414	
+  1079	
+  1080	/*
+  1081	 * shrink_folio_list() returns the number of reclaimed pages
+  1082	 */
+  1083	static unsigned int shrink_folio_list(struct list_head *folio_list,
+  1084			struct pglist_data *pgdat, struct scan_control *sc,
+  1085			struct reclaim_stat *stat, bool ignore_references,
+  1086			struct mem_cgroup *memcg)
+  1087	{
+  1088		struct folio_batch free_folios;
+  1089		LIST_HEAD(ret_folios);
+  1090		LIST_HEAD(demote_folios);
+  1091		unsigned int nr_reclaimed = 0, nr_demoted = 0;
+  1092		unsigned int pgactivate = 0;
+  1093		bool do_demote_pass;
+  1094		struct swap_iocb *plug = NULL;
+  1095	
+  1096		folio_batch_init(&free_folios);
+  1097		memset(stat, 0, sizeof(*stat));
+  1098		cond_resched();
+  1099		do_demote_pass = can_demote(pgdat->node_id, sc, memcg);
+  1100	
+  1101	retry:
+  1102		while (!list_empty(folio_list)) {
+  1103			struct address_space *mapping;
+  1104			struct folio *folio;
+  1105			enum folio_references references = FOLIOREF_RECLAIM;
+  1106			bool dirty, writeback;
+  1107			unsigned int nr_pages;
+  1108	
+  1109			cond_resched();
+  1110	
+  1111			folio = lru_to_folio(folio_list);
+  1112			list_del(&folio->lru);
+  1113	
+  1114			if (!folio_trylock(folio))
+  1115				goto keep;
+  1116	
+  1117			if (folio_contain_hwpoisoned_page(folio)) {
+  1118				/*
+  1119				 * unmap_poisoned_folio() can't handle large
+  1120				 * folio, just skip it. memory_failure() will
+  1121				 * handle it if the UCE is triggered again.
+  1122				 */
+  1123				if (folio_test_large(folio))
+  1124					goto keep_locked;
+  1125	
+  1126				unmap_poisoned_folio(folio, folio_pfn(folio), false);
+  1127				folio_unlock(folio);
+  1128				folio_put(folio);
+  1129				continue;
+  1130			}
+  1131	
+  1132			VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
+  1133	
+  1134			nr_pages = folio_nr_pages(folio);
+  1135	
+  1136			/* Account the number of base pages */
+  1137			sc->nr_scanned += nr_pages;
+  1138	
+  1139			if (unlikely(!folio_evictable(folio)))
+  1140				goto activate_locked;
+  1141	
+  1142			if (!sc->may_unmap && folio_mapped(folio))
+  1143				goto keep_locked;
+  1144	
+  1145			/*
+  1146			 * The number of dirty pages determines if a node is marked
+  1147			 * reclaim_congested. kswapd will stall and start writing
+  1148			 * folios if the tail of the LRU is all dirty unqueued folios.
+  1149			 */
+  1150			folio_check_dirty_writeback(folio, &dirty, &writeback);
+  1151			if (dirty || writeback)
+  1152				stat->nr_dirty += nr_pages;
+  1153	
+  1154			if (dirty && !writeback)
+  1155				stat->nr_unqueued_dirty += nr_pages;
+  1156	
+  1157			/*
+  1158			 * Treat this folio as congested if folios are cycling
+  1159			 * through the LRU so quickly that the folios marked
+  1160			 * for immediate reclaim are making it to the end of
+  1161			 * the LRU a second time.
+  1162			 */
+  1163			if (writeback && folio_test_reclaim(folio))
+  1164				stat->nr_congested += nr_pages;
+  1165	
+  1166			/*
+  1167			 * If a folio at the tail of the LRU is under writeback, there
+  1168			 * are three cases to consider.
+  1169			 *
+  1170			 * 1) If reclaim is encountering an excessive number
+  1171			 *    of folios under writeback and this folio has both
+  1172			 *    the writeback and reclaim flags set, then it
+  1173			 *    indicates that folios are being queued for I/O but
+  1174			 *    are being recycled through the LRU before the I/O
+  1175			 *    can complete. Waiting on the folio itself risks an
+  1176			 *    indefinite stall if it is impossible to writeback
+  1177			 *    the folio due to I/O error or disconnected storage
+  1178			 *    so instead note that the LRU is being scanned too
+  1179			 *    quickly and the caller can stall after the folio
+  1180			 *    list has been processed.
+  1181			 *
+  1182			 * 2) Global or new memcg reclaim encounters a folio that is
+  1183			 *    not marked for immediate reclaim, or the caller does not
+  1184			 *    have __GFP_FS (or __GFP_IO if it's simply going to swap,
+  1185			 *    not to fs), or the folio belongs to a mapping where
+  1186			 *    waiting on writeback during reclaim may lead to a deadlock.
+  1187			 *    In this case mark the folio for immediate reclaim and
+  1188			 *    continue scanning.
+  1189			 *
+  1190			 *    Require may_enter_fs() because we would wait on fs, which
+  1191			 *    may not have submitted I/O yet. And the loop driver might
+  1192			 *    enter reclaim, and deadlock if it waits on a folio for
+  1193			 *    which it is needed to do the write (loop masks off
+  1194			 *    __GFP_IO|__GFP_FS for this reason); but more thought
+  1195			 *    would probably show more reasons.
+  1196			 *
+  1197			 * 3) Legacy memcg encounters a folio that already has the
+  1198			 *    reclaim flag set. memcg does not have any dirty folio
+  1199			 *    throttling so we could easily OOM just because too many
+  1200			 *    folios are in writeback and there is nothing else to
+  1201			 *    reclaim. Wait for the writeback to complete.
+  1202			 *
+  1203			 * In cases 1) and 2) we activate the folios to get them out of
+  1204			 * the way while we continue scanning for clean folios on the
+  1205			 * inactive list and refilling from the active list. The
+  1206			 * observation here is that waiting for disk writes is more
+  1207			 * expensive than potentially causing reloads down the line.
+  1208			 * Since they're marked for immediate reclaim, they won't put
+  1209			 * memory pressure on the cache working set any longer than it
+  1210			 * takes to write them to disk.
+  1211			 */
+  1212			if (folio_test_writeback(folio)) {
+  1213				mapping = folio_mapping(folio);
+  1214	
+  1215				/* Case 1 above */
+  1216				if (current_is_kswapd() &&
+  1217				    folio_test_reclaim(folio) &&
+  1218				    test_bit(PGDAT_WRITEBACK, &pgdat->flags)) {
+  1219					stat->nr_immediate += nr_pages;
+  1220					goto activate_locked;
+  1221	
+  1222				/* Case 2 above */
+  1223				} else if (writeback_throttling_sane(sc) ||
+  1224				    !folio_test_reclaim(folio) ||
+  1225				    !may_enter_fs(folio, sc->gfp_mask) ||
+  1226				    (mapping &&
+  1227				     mapping_writeback_may_deadlock_on_reclaim(mapping))) {
+  1228					/*
+  1229					 * This is slightly racy -
+  1230					 * folio_end_writeback() might have
+  1231					 * just cleared the reclaim flag, then
+  1232					 * setting the reclaim flag here ends up
+  1233					 * interpreted as the readahead flag - but
+  1234					 * that does not matter enough to care.
+  1235					 * What we do want is for this folio to
+  1236					 * have the reclaim flag set next time
+  1237					 * memcg reclaim reaches the tests above,
+  1238					 * so it will then wait for writeback to
+  1239					 * avoid OOM; and it's also appropriate
+  1240					 * in global reclaim.
+  1241					 */
+  1242					folio_set_reclaim(folio);
+  1243					stat->nr_writeback += nr_pages;
+  1244					goto activate_locked;
+  1245	
+  1246				/* Case 3 above */
+  1247				} else {
+  1248					folio_unlock(folio);
+  1249					folio_wait_writeback(folio);
+  1250					/* then go back and try same folio again */
+  1251					list_add_tail(&folio->lru, folio_list);
+  1252					continue;
+  1253				}
+  1254			}
+  1255	
+  1256			if (!ignore_references)
+  1257				references = folio_check_references(folio, sc);
+  1258	
+  1259			switch (references) {
+  1260			case FOLIOREF_ACTIVATE:
+  1261				goto activate_locked;
+  1262			case FOLIOREF_KEEP:
+  1263				stat->nr_ref_keep += nr_pages;
+  1264				goto keep_locked;
+  1265			case FOLIOREF_RECLAIM:
+  1266			case FOLIOREF_RECLAIM_CLEAN:
+  1267				; /* try to reclaim the folio below */
+  1268			}
+  1269	
+  1270			/*
+  1271			 * Before reclaiming the folio, try to relocate
+  1272			 * its contents to another node.
+  1273			 */
+  1274			if (do_demote_pass &&
+  1275			    (thp_migration_supported() || !folio_test_large(folio))) {
+  1276				list_add(&folio->lru, &demote_folios);
+  1277				folio_unlock(folio);
+  1278				continue;
+  1279			}
+  1280	
+  1281			/*
+  1282			 * Anonymous process memory has backing store?
+  1283			 * Try to allocate it some swap space here.
+  1284			 * Lazyfree folio could be freed directly
+  1285			 */
+  1286			if (folio_test_anon(folio) && folio_test_swapbacked(folio) &&
+  1287					!folio_test_swapcache(folio)) {
+  1288				if (!(sc->gfp_mask & __GFP_IO))
+  1289					goto keep_locked;
+  1290				if (folio_maybe_dma_pinned(folio))
+  1291					goto keep_locked;
+  1292				if (folio_test_large(folio)) {
+  1293					/* cannot split folio, skip it */
+  1294					if (folio_expected_ref_count(folio) !=
+  1295					    folio_ref_count(folio) - 1)
+  1296						goto activate_locked;
+  1297					/*
+  1298					 * Split partially mapped folios right away.
+  1299					 * We can free the unmapped pages without IO.
+  1300					 */
+  1301					if (data_race(!list_empty(&folio->_deferred_list) &&
+  1302					    folio_test_partially_mapped(folio)) &&
+  1303					    split_folio_to_list(folio, folio_list))
+  1304						goto activate_locked;
+  1305				}
+  1306				if (folio_alloc_swap(folio)) {
+  1307					int __maybe_unused order = folio_order(folio);
+  1308	
+  1309					if (!folio_test_large(folio))
+  1310						goto activate_locked_split;
+  1311					/* Fallback to swap normal pages */
+  1312					if (split_folio_to_list(folio, folio_list))
+  1313						goto activate_locked;
+  1314	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+  1315					if (nr_pages >= HPAGE_PMD_NR) {
+  1316						count_memcg_folio_events(folio,
+  1317							THP_SWPOUT_FALLBACK, 1);
+  1318						count_vm_event(THP_SWPOUT_FALLBACK);
+  1319					}
+  1320	#endif
+  1321					count_mthp_stat(order, MTHP_STAT_SWPOUT_FALLBACK);
+  1322					if (folio_alloc_swap(folio))
+  1323						goto activate_locked_split;
+  1324				}
+  1325				/*
+  1326				 * Normally the folio will be dirtied in unmap because
+  1327				 * its pte should be dirty. A special case is MADV_FREE
+  1328				 * page. The page's pte could have dirty bit cleared but
+  1329				 * the folio's SwapBacked flag is still set because
+  1330				 * clearing the dirty bit and SwapBacked flag has no
+  1331				 * lock protected. For such folio, unmap will not set
+  1332				 * dirty bit for it, so folio reclaim will not write the
+  1333				 * folio out. This can cause data corruption when the
+  1334				 * folio is swapped in later. Always setting the dirty
+  1335				 * flag for the folio solves the problem.
+  1336				 */
+  1337				folio_mark_dirty(folio);
+  1338			}
+  1339	
+  1340			/*
+  1341			 * If the folio was split above, the tail pages will make
+  1342			 * their own pass through this function and be accounted
+  1343			 * then.
+  1344			 */
+  1345			if ((nr_pages > 1) && !folio_test_large(folio)) {
+  1346				sc->nr_scanned -= (nr_pages - 1);
+  1347				nr_pages = 1;
+  1348			}
+  1349	
+  1350			/*
+  1351			 * The folio is mapped into the page tables of one or more
+  1352			 * processes. Try to unmap it here.
+  1353			 */
+  1354			if (folio_mapped(folio)) {
+  1355				enum ttu_flags flags = TTU_BATCH_FLUSH;
+  1356				bool was_swapbacked = folio_test_swapbacked(folio);
+  1357	
+> 1358				if (folio_test_pud_mappable(folio))
+  1359					flags |= TTU_SPLIT_HUGE_PUD;
+  1360				if (folio_test_pmd_mappable(folio))
+  1361					flags |= TTU_SPLIT_HUGE_PMD;
+  1362				/*
+  1363				 * Without TTU_SYNC, try_to_unmap will only begin to
+  1364				 * hold PTL from the first present PTE within a large
+  1365				 * folio. Some initial PTEs might be skipped due to
+  1366				 * races with parallel PTE writes in which PTEs can be
+  1367				 * cleared temporarily before being written new present
+  1368				 * values. This will lead to a large folio is still
+  1369				 * mapped while some subpages have been partially
+  1370				 * unmapped after try_to_unmap; TTU_SYNC helps
+  1371				 * try_to_unmap acquire PTL from the first PTE,
+  1372				 * eliminating the influence of temporary PTE values.
+  1373				 */
+  1374				if (folio_test_large(folio))
+  1375					flags |= TTU_SYNC;
+  1376	
+  1377				try_to_unmap(folio, flags);
+  1378				if (folio_mapped(folio)) {
+  1379					stat->nr_unmap_fail += nr_pages;
+  1380					if (!was_swapbacked &&
+  1381					    folio_test_swapbacked(folio))
+  1382						stat->nr_lazyfree_fail += nr_pages;
+  1383					goto activate_locked;
+  1384				}
+  1385			}
+  1386	
+  1387			/*
+  1388			 * Folio is unmapped now so it cannot be newly pinned anymore.
+  1389			 * No point in trying to reclaim folio if it is pinned.
+  1390			 * Furthermore we don't want to reclaim underlying fs metadata
+  1391			 * if the folio is pinned and thus potentially modified by the
+  1392			 * pinning process as that may upset the filesystem.
+  1393			 */
+  1394			if (folio_maybe_dma_pinned(folio))
+  1395				goto activate_locked;
+  1396	
+  1397			mapping = folio_mapping(folio);
+  1398			if (folio_test_dirty(folio)) {
+  1399				if (folio_is_file_lru(folio)) {
+  1400					/*
+  1401					 * Immediately reclaim when written back.
+  1402					 * Similar in principle to folio_deactivate()
+  1403					 * except we already have the folio isolated
+  1404					 * and know it's dirty
+  1405					 */
+  1406					node_stat_mod_folio(folio, NR_VMSCAN_IMMEDIATE,
+  1407							nr_pages);
+  1408					if (!folio_test_reclaim(folio))
+  1409						folio_set_reclaim(folio);
+  1410	
+  1411					goto activate_locked;
+  1412				}
+  1413	
+  1414				if (references == FOLIOREF_RECLAIM_CLEAN)
+  1415					goto keep_locked;
+  1416				if (!may_enter_fs(folio, sc->gfp_mask))
+  1417					goto keep_locked;
+  1418				if (!sc->may_writepage)
+  1419					goto keep_locked;
+  1420	
+  1421				/*
+  1422				 * Folio is dirty. Flush the TLB if a writable entry
+  1423				 * potentially exists to avoid CPU writes after I/O
+  1424				 * starts and then write it out here.
+  1425				 */
+  1426				try_to_unmap_flush_dirty();
+  1427				switch (pageout(folio, mapping, &plug, folio_list)) {
+  1428				case PAGE_KEEP:
+  1429					goto keep_locked;
+  1430				case PAGE_ACTIVATE:
+  1431					/*
+  1432					 * If shmem folio is split when writeback to swap,
+  1433					 * the tail pages will make their own pass through
+  1434					 * this function and be accounted then.
+  1435					 */
+  1436					if (nr_pages > 1 && !folio_test_large(folio)) {
+  1437						sc->nr_scanned -= (nr_pages - 1);
+  1438						nr_pages = 1;
+  1439					}
+  1440					goto activate_locked;
+  1441				case PAGE_SUCCESS:
+  1442					if (nr_pages > 1 && !folio_test_large(folio)) {
+  1443						sc->nr_scanned -= (nr_pages - 1);
+  1444						nr_pages = 1;
+  1445					}
+  1446					stat->nr_pageout += nr_pages;
+  1447	
+  1448					if (folio_test_writeback(folio))
+  1449						goto keep;
+  1450					if (folio_test_dirty(folio))
+  1451						goto keep;
+  1452	
+  1453					/*
+  1454					 * A synchronous write - probably a ramdisk.  Go
+  1455					 * ahead and try to reclaim the folio.
+  1456					 */
+  1457					if (!folio_trylock(folio))
+  1458						goto keep;
+  1459					if (folio_test_dirty(folio) ||
+  1460					    folio_test_writeback(folio))
+  1461						goto keep_locked;
+  1462					mapping = folio_mapping(folio);
+  1463					fallthrough;
+  1464				case PAGE_CLEAN:
+  1465					; /* try to free the folio below */
+  1466				}
+  1467			}
+  1468	
+  1469			/*
+  1470			 * If the folio has buffers, try to free the buffer
+  1471			 * mappings associated with this folio. If we succeed
+  1472			 * we try to free the folio as well.
+  1473			 *
+  1474			 * We do this even if the folio is dirty.
+  1475			 * filemap_release_folio() does not perform I/O, but it
+  1476			 * is possible for a folio to have the dirty flag set,
+  1477			 * but it is actually clean (all its buffers are clean).
+  1478			 * This happens if the buffers were written out directly,
+  1479			 * with submit_bh(). ext3 will do this, as well as
+  1480			 * the blockdev mapping.  filemap_release_folio() will
+  1481			 * discover that cleanness and will drop the buffers
+  1482			 * and mark the folio clean - it can be freed.
+  1483			 *
+  1484			 * Rarely, folios can have buffers and no ->mapping.
+  1485			 * These are the folios which were not successfully
+  1486			 * invalidated in truncate_cleanup_folio().  We try to
+  1487			 * drop those buffers here and if that worked, and the
+  1488			 * folio is no longer mapped into process address space
+  1489			 * (refcount == 1) it can be freed.  Otherwise, leave
+  1490			 * the folio on the LRU so it is swappable.
+  1491			 */
+  1492			if (folio_needs_release(folio)) {
+  1493				if (!filemap_release_folio(folio, sc->gfp_mask))
+  1494					goto activate_locked;
+  1495				if (!mapping && folio_ref_count(folio) == 1) {
+  1496					folio_unlock(folio);
+  1497					if (folio_put_testzero(folio))
+  1498						goto free_it;
+  1499					else {
+  1500						/*
+  1501						 * rare race with speculative reference.
+  1502						 * the speculative reference will free
+  1503						 * this folio shortly, so we may
+  1504						 * increment nr_reclaimed here (and
+  1505						 * leave it off the LRU).
+  1506						 */
+  1507						nr_reclaimed += nr_pages;
+  1508						continue;
+  1509					}
+  1510				}
+  1511			}
+  1512	
+  1513			if (folio_test_anon(folio) && !folio_test_swapbacked(folio)) {
+  1514				/* follow __remove_mapping for reference */
+  1515				if (!folio_ref_freeze(folio, 1))
+  1516					goto keep_locked;
+  1517				/*
+  1518				 * The folio has only one reference left, which is
+  1519				 * from the isolation. After the caller puts the
+  1520				 * folio back on the lru and drops the reference, the
+  1521				 * folio will be freed anyway. It doesn't matter
+  1522				 * which lru it goes on. So we don't bother checking
+  1523				 * the dirty flag here.
+  1524				 */
+  1525				count_vm_events(PGLAZYFREED, nr_pages);
+  1526				count_memcg_folio_events(folio, PGLAZYFREED, nr_pages);
+  1527			} else if (!mapping || !__remove_mapping(mapping, folio, true,
+  1528								 sc->target_mem_cgroup))
+  1529				goto keep_locked;
+  1530	
+  1531			folio_unlock(folio);
+  1532	free_it:
+  1533			/*
+  1534			 * Folio may get swapped out as a whole, need to account
+  1535			 * all pages in it.
+  1536			 */
+  1537			nr_reclaimed += nr_pages;
+  1538	
+  1539			folio_unqueue_deferred_split(folio);
+  1540			if (folio_batch_add(&free_folios, folio) == 0) {
+  1541				mem_cgroup_uncharge_folios(&free_folios);
+  1542				try_to_unmap_flush();
+  1543				free_unref_folios(&free_folios);
+  1544			}
+  1545			continue;
+  1546	
+  1547	activate_locked_split:
+  1548			/*
+  1549			 * The tail pages that are failed to add into swap cache
+  1550			 * reach here.  Fixup nr_scanned and nr_pages.
+  1551			 */
+  1552			if (nr_pages > 1) {
+  1553				sc->nr_scanned -= (nr_pages - 1);
+  1554				nr_pages = 1;
+  1555			}
+  1556	activate_locked:
+  1557			/* Not a candidate for swapping, so reclaim swap space. */
+  1558			if (folio_test_swapcache(folio) &&
+  1559			    (mem_cgroup_swap_full(folio) || folio_test_mlocked(folio)))
+  1560				folio_free_swap(folio);
+  1561			VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
+  1562			if (!folio_test_mlocked(folio)) {
+  1563				int type = folio_is_file_lru(folio);
+  1564				folio_set_active(folio);
+  1565				stat->nr_activate[type] += nr_pages;
+  1566				count_memcg_folio_events(folio, PGACTIVATE, nr_pages);
+  1567			}
+  1568	keep_locked:
+  1569			folio_unlock(folio);
+  1570	keep:
+  1571			list_add(&folio->lru, &ret_folios);
+  1572			VM_BUG_ON_FOLIO(folio_test_lru(folio) ||
+  1573					folio_test_unevictable(folio), folio);
+  1574		}
+  1575		/* 'folio_list' is always empty here */
+  1576	
+  1577		/* Migrate folios selected for demotion */
+  1578		nr_demoted = demote_folio_list(&demote_folios, pgdat, memcg);
+  1579		nr_reclaimed += nr_demoted;
+  1580		stat->nr_demoted += nr_demoted;
+  1581		/* Folios that could not be demoted are still in @demote_folios */
+  1582		if (!list_empty(&demote_folios)) {
+  1583			/* Folios which weren't demoted go back on @folio_list */
+  1584			list_splice_init(&demote_folios, folio_list);
+  1585	
+  1586			/*
+  1587			 * goto retry to reclaim the undemoted folios in folio_list if
+  1588			 * desired.
+  1589			 *
+  1590			 * Reclaiming directly from top tier nodes is not often desired
+  1591			 * due to it breaking the LRU ordering: in general memory
+  1592			 * should be reclaimed from lower tier nodes and demoted from
+  1593			 * top tier nodes.
+  1594			 *
+  1595			 * However, disabling reclaim from top tier nodes entirely
+  1596			 * would cause ooms in edge scenarios where lower tier memory
+  1597			 * is unreclaimable for whatever reason, eg memory being
+  1598			 * mlocked or too hot to reclaim. We can disable reclaim
+  1599			 * from top tier nodes in proactive reclaim though as that is
+  1600			 * not real memory pressure.
+  1601			 */
+  1602			if (!sc->proactive) {
+  1603				do_demote_pass = false;
+  1604				goto retry;
+  1605			}
+  1606		}
+  1607	
+  1608		pgactivate = stat->nr_activate[0] + stat->nr_activate[1];
+  1609	
+  1610		mem_cgroup_uncharge_folios(&free_folios);
+  1611		try_to_unmap_flush();
+  1612		free_unref_folios(&free_folios);
+  1613	
+  1614		list_splice(&ret_folios, folio_list);
+  1615		count_vm_events(PGACTIVATE, pgactivate);
+  1616	
+  1617		if (plug)
+  1618			swap_write_unplug(plug);
+  1619		return nr_reclaimed;
+  1620	}
+  1621	
 
 -- 
 0-DAY CI Kernel Test Service
