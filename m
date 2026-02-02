@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C757E2DA750
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Feb 2026 22:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891BE1C01
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 00:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769986515; cv=none; b=KfQxCb4+gVaNDZuyVFM6LqGUP4OgPchMgv/ugt+zGTKDsSjNNHxHQFFcmKxGmJZsQM2gWlyzul1QsQlKv6arewM/hvsL8PiXK0BcH049RiUuByX3gS24alcW9jTQmhIfLOrIObV8K+Jyml+LQXxxbeVM1YGu49M6YkEjaFVFx9Y=
+	t=1769990958; cv=none; b=g7C3c2IE1zUGkEp7IWyqRs3gTGeYhcGk+ojV4EgmtGIyf6v7sMaxFVB5zC7emTYecqSM+Ojyyl8JLZMAmju8KiVX2CothQYhwE1XlSoHlZvDL52kAgxS0sj/49/wzFtGWoyOcpRjmvzAgbMwz5Fy35pSP8Z713rcTQsncid1hgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769986515; c=relaxed/simple;
-	bh=AADVXV62MJdxCLet4QqojGJdxzxqPvcR7wX7Ssri9vo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VYeI7dGHPqzbk+nx+ce25Xelmoy9ry3dRT0LPjKdHUYdJWcviA0cQ4PpUt+VGl7KUPgt9+4UjEnNWiEBWRpE+ZeMCnqzJiWs9lpnSgrUj6GtDx7EDl29nmW+J0Y3ikXgI5gT3h+PlRN1K+0Y2PuuYuQpSuWosWVPujzH4AVItEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OmiHIpZ6; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1769990958; c=relaxed/simple;
+	bh=9HcfVib4Vby2jmrM8iiMK9Ms34HRxMg6+zW51JNrlfM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jkg7UxG55g46JT29yBKPUbCT77ATVj5D6yp439DrgeLUqZrITVkY6wDDU8ABDFI3dEZBqHHKYn1bFPnE3LGzzM9NzWU0hd0KWsotVQNv18dsSkSYoCp8WUQp6KVVWyjE6/N6ahbxUwiT1kWSM75JCLxDnrl4+ULfgtaxRaiVISw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grXgKOid; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmiHIpZ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grXgKOid"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769986514; x=1801522514;
+  t=1769990956; x=1801526956;
   h=date:from:to:cc:subject:message-id;
-  bh=AADVXV62MJdxCLet4QqojGJdxzxqPvcR7wX7Ssri9vo=;
-  b=OmiHIpZ6MWRcllmYBmMms6Rqy9eHyIcbnr6xDVXMvC95BF7dKg7c9c4d
-   KvNiZsavVsInHaJUa9Rq6gneVuQhFfGZX1PuaTJ5kb5fkXuJ2tYrNOfaT
-   oSS3rj7Z1XriAFeBb48w4L1X0/JazHoPzA0RBL59iJ1VzKwA3DbF3xpWH
-   O/PbqDvAWNjAQQ6IRx6dcdyObEkuCEpi5x+ywEYfOTLDsCkLAoGNLqFdm
-   UrSJCFFbtvJaf8Z7xl5obkIk8PPbP7J8TUVW1dGWxGzH07+jF/b5SBoER
-   wTlZZoAJy4WZYCE8r3POToS++QvTNw1HAIQmupn/2BSBmy5CUGfi5v9oq
+  bh=9HcfVib4Vby2jmrM8iiMK9Ms34HRxMg6+zW51JNrlfM=;
+  b=grXgKOid0H/k8ah5neo1K/I8RGkcGrFBK9VevhVVvhrmius4BwFx2jCv
+   ovMtMfWfMS8OHOkjsoOJ5lDqDv/HcKeU1NQ3rjUxbG9Q5L1G2tPtnIzSx
+   iwvDkixHDomsvE4mgHMnArRQh36jlk3ClVzodBt3V8mqC1A04vgrhxRc2
+   x8mWr7o1rRjl7URt+FhcSU8j7XhwhI9h29TtOFO8XXx6hsT7a2SY1dfZe
+   oST6rIJjZ0d0AV6mO8onHzd7t3AhRJbB44vz/pKXx5WLDStnD+cLT8bi9
+   DXo+suhG3/N7KuJDg0Vl0F6D0ZufGEkFAIyT6QyZkATxfDLe+0JkLDBLP
    g==;
-X-CSE-ConnectionGUID: 5pPIuDKHTS23NGpaJCng0w==
-X-CSE-MsgGUID: gugS8CBWT7+pBUXL8lgEqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71205389"
+X-CSE-ConnectionGUID: ivswyP6oTZ+G+8Qgfs7tlg==
+X-CSE-MsgGUID: 4keKopt/TR2VlKi9bC4leQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="73753597"
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="71205389"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 14:55:13 -0800
-X-CSE-ConnectionGUID: doKqf15vRTqxx/wJss/xxw==
-X-CSE-MsgGUID: Z4m9iE0NReev7xGF2dOgRg==
+   d="scan'208";a="73753597"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2026 16:09:15 -0800
+X-CSE-ConnectionGUID: nPG6c5JmQSupGT4HjwxL+A==
+X-CSE-MsgGUID: 4vcPMg2IScmTZBD8shM2QA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="209242250"
+   d="scan'208";a="209361303"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Feb 2026 14:55:11 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Feb 2026 16:09:14 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vmgLV-00000000f5U-2NMZ;
-	Sun, 01 Feb 2026 22:55:09 +0000
-Date: Mon, 02 Feb 2026 06:54:51 +0800
+	id 1vmhVA-00000000f7Y-0FFw;
+	Mon, 02 Feb 2026 00:09:12 +0000
+Date: Mon, 02 Feb 2026 08:08:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.coda 1/4] fs/coda/dir.c:471:1: warning: label
- 'bad' defined but not used
-Message-ID: <202602020633.nOeExEVJ-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.18/prjc 583/598] kernel/sched/alt_core.c:1949:19:
+ warning: stack frame size (2104) exceeds limit (2048) in 'select_task_rq'
+Message-ID: <202602020819.yM7bmEEO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,73 +59,56 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.coda
-head:   00a1de29cfe3a361a653e043d5277a5d4263b90b
-commit: 59769809e38dc6250c396dd38f95d2ba05be2ced [1/4] coda: is_bad_inode() is always false there
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260202/202602020633.nOeExEVJ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602020633.nOeExEVJ-lkp@intel.com/reproduce)
+Hi Alfred,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/zen-kernel/zen-kernel 6.18/prjc
+head:   e2ff5de4ddea9af7483ba312272b6c4ddc9f1e8c
+commit: e4b255e7df335060384f25467dd358d002112e24 [583/598] sched/alt: [Sync] 378b7708194f sched: Make migrate_{en,dis}able() inline
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260202/202602020819.yM7bmEEO-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260202/202602020819.yM7bmEEO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602020633.nOeExEVJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602020819.yM7bmEEO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/coda/dir.c: In function 'coda_dentry_revalidate':
->> fs/coda/dir.c:471:1: warning: label 'bad' defined but not used [-Wunused-label]
-     471 | bad:
-         | ^~~
+>> kernel/sched/alt_core.c:1949:19: warning: stack frame size (2104) exceeds limit (2048) in 'select_task_rq' [-Wframe-larger-than]
+    1949 | static inline int select_task_rq(struct task_struct *p)
+         |                   ^
+>> kernel/sched/alt_core.c:4413:20: warning: stack frame size (2232) exceeds limit (2048) in 'prio_balance' [-Wframe-larger-than]
+    4413 | static inline void prio_balance(struct rq *rq, const int cpu)
+         |                    ^
+   2 warnings generated.
 
 
-vim +/bad +471 fs/coda/dir.c
+vim +/select_task_rq +1949 kernel/sched/alt_core.c
 
-b625032b10222c Fabian Frederick 2015-02-17  438  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  439  /* called when a cache lookup succeeds */
-5be1fa8abd7b04 Al Viro          2024-12-08  440  static int coda_dentry_revalidate(struct inode *dir, const struct qstr *name,
-5be1fa8abd7b04 Al Viro          2024-12-08  441  				  struct dentry *de, unsigned int flags)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  442  {
-34286d6662308d Nicholas Piggin  2011-01-07  443  	struct inode *inode;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  444  	struct coda_inode_info *cii;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  445  
-0b728e1911cbe6 Al Viro          2012-06-10  446  	if (flags & LOOKUP_RCU)
-34286d6662308d Nicholas Piggin  2011-01-07  447  		return -ECHILD;
-34286d6662308d Nicholas Piggin  2011-01-07  448  
-2b0143b5c986be David Howells    2015-03-17  449  	inode = d_inode(de);
-a7400222e3eb7d Al Viro          2014-10-21  450  	if (!inode || is_root_inode(inode))
-^1da177e4c3f41 Linus Torvalds   2005-04-16  451  		goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  452  
-2b0143b5c986be David Howells    2015-03-17  453  	cii = ITOC(d_inode(de));
-^1da177e4c3f41 Linus Torvalds   2005-04-16  454  	if (!(cii->c_flags & (C_PURGE | C_FLUSH)))
-^1da177e4c3f41 Linus Torvalds   2005-04-16  455  		goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  456  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  457  	shrink_dcache_parent(de);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  458  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  459  	/* propagate for a flush */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  460  	if (cii->c_flags & C_FLUSH) 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  461  		coda_flag_inode_children(inode, C_FLUSH);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  462  
-84d08fa888e7c2 Al Viro          2013-07-05  463  	if (d_count(de) > 1)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  464  		/* pretend it's valid, but don't change the flags */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  465  		goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  466  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  467  	/* clear the flags. */
-b5ce1d83a62fc1 Yoshihisa Abe    2010-10-25  468  	spin_lock(&cii->c_lock);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  469  	cii->c_flags &= ~(C_VATTR | C_PURGE | C_FLUSH);
-b5ce1d83a62fc1 Yoshihisa Abe    2010-10-25  470  	spin_unlock(&cii->c_lock);
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @471  bad:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  472  	return 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  473  out:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  474  	return 1;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  475  }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  476  
+58ffb66740ab33 Alfred Chen 2024-04-24  1948  
+32856cbc88b1e2 Alfred Chen 2021-05-24 @1949  static inline int select_task_rq(struct task_struct *p)
+fca81e904e9c3d Alfred Chen 2019-08-19  1950  {
+096a4d19a3939b Alfred Chen 2022-12-21  1951  	cpumask_t allow_mask, mask;
+fca81e904e9c3d Alfred Chen 2019-08-19  1952  
+096a4d19a3939b Alfred Chen 2022-12-21  1953  	if (unlikely(!cpumask_and(&allow_mask, p->cpus_ptr, cpu_active_mask)))
+fca81e904e9c3d Alfred Chen 2019-08-19  1954  		return select_fallback_rq(task_cpu(p), p);
+fca81e904e9c3d Alfred Chen 2019-08-19  1955  
+619e1a6679fece Alfred Chen 2025-08-28  1956  	if (static_call(sched_idle_select_func)(&mask, &allow_mask, sched_idle_mask)	||
+f7b3698aa5b69d Alfred Chen 2024-01-31  1957  	    preempt_mask_check(&mask, &allow_mask, task_sched_prio(p)))
+096a4d19a3939b Alfred Chen 2022-12-21  1958  		return best_mask_cpu(task_cpu(p), &mask);
+fca81e904e9c3d Alfred Chen 2019-08-19  1959  
+096a4d19a3939b Alfred Chen 2022-12-21  1960  	return best_mask_cpu(task_cpu(p), &allow_mask);
+fca81e904e9c3d Alfred Chen 2019-08-19  1961  }
+fca81e904e9c3d Alfred Chen 2019-08-19  1962  
 
-:::::: The code at line 471 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 1949 was first introduced by commit
+:::::: 32856cbc88b1e292fd444507690983bcb3ba43b2 sched/pds: Fix unexpected larger delta in task_sched_prio_normal()
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
