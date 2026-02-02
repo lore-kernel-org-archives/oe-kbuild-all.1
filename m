@@ -1,256 +1,262 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162D13093D2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 20:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770062585; cv=none; b=LQyQSmaicNaIN5JfYYy2IzKm+SPiNT6rXmP+FUp/gVmjX0XxO805TnKvl9/GyWYmd8wvO1pzUfTMalX7/GHzLbJ6fIQxhzEDBBlWPNUiJ/MzaGNYNgOB1RDihTDYyu45HPeMWvLkkpbr1lxazxIui96w8m6hn9AoiQUzM7ZXaDY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770062585; c=relaxed/simple;
-	bh=beSF1ghm/k/d7sn97ZIunuVmMGK6yUo+MZWszgLbW5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iTzuIEXxAkDS3W3OP8Z8x0z8xX3UPMkRbByL0HnOP32g1250Q74zhaIEqSjBJv9eTF3r2C6vm8d/pn0wlXpF/DCQuRUFAua/3BtdBpxCFPLpHMSyZoDm47quLfgfu1BG7xoBcCEN32g5wEuc6OyrH+1jYgcAjDzMMyEqhpEmM7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QGfbvU9r; arc=none smtp.client-ip=209.85.128.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3201308F35
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Feb 2026 20:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770064787; cv=fail; b=bPSML6hDivGyuHLh3RNFEJp9zk0GRPt8TdERpefIgqHWdSnSugeN6mIT6usKXBOp+WaupaIaeh4UZakgIdlTX1RtRl/nLk0IwonRSqD0cDW7k2+ewQMeobOnWUpUmhfEvZdaSwuAz0NsoqTbyBA8TpFdoym611CivM4dlK90BOQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770064787; c=relaxed/simple;
+	bh=QRd6TSoJ173KolYETLpvjKjygGAwVjjekjwkv54Jtcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=BeHDB/HDWmfUPv4bEkpjYtfB5ldbQoba8IxvPP+bemY08HFmxgMF3ocQHeNiXnd14abuZ3WUEsIlJQB7vVi231jq8SAU6YR9F8YgU3WOzYc0P9xQMy51LqmQXdmtfwU+dis9HuHbCXW8ML0xgdvgTcSggK+GcMI+wCdeeJHxOFs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=hYVfzcps; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=MEIe39bP; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QGfbvU9r"
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-47d6a1f08bbso23211105e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Feb 2026 12:03:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hYVfzcps";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="MEIe39bP"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 612J44Rx769172;
+	Mon, 2 Feb 2026 20:39:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=iu+CITfqzicBGlLMmA
+	WQj7cuNNshLdPAGTYb7UMtdqY=; b=hYVfzcpsJGP1O4/3KjI58sMEmevcqeqaKO
+	iFmKqYhcWB8exFwT/qnIl90vv6I7lZ11jeyymt067lbnp9yQJ5VMTv9VGD9uTrmU
+	KhZjAfY99dpaawFvmkxpmQZi8zpKlCcJVdQ+zOJt01MzgOAGpeI35pOhH6xlPSKq
+	Yb/Nv0osbPvf16LO3iqqs1bhYUpMhoJeS3aCGL3jQKyT4VoHK8AJUi9q8boLq2x1
+	G+cbBVI1skIEvGyuebCY1JCo3XwJXp19b4WbIpeJMpwBcweOFBs908Lqgn+MI/k6
+	UXObs7N0dwz/21H22iG9PP3UIxtZgpXZVW1qS3K108kc0MiMQfCg==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c1atak03x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 02 Feb 2026 20:39:38 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 612JUuhY025362;
+	Mon, 2 Feb 2026 20:39:38 GMT
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012066.outbound.protection.outlook.com [52.101.53.66])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4c1868wstd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 02 Feb 2026 20:39:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vK42eE1o+YPgieRvz7OqcULxS7Ty5dbKDq3TE8o535wFOs2FRtSnCcVadbfUbwq/x2DDACcV7ioCPCos11r4RndMG6Q4YBVcRXPptxdGQcNO5rDcp1YhN8LC1twRJkF63ZuL6RBXb0kAndFVPsbsfZlxS1eZ9lmKmwOI+sdP7yzq5MAWT+IX1wOspXxDP1cNAb7KDs3lTLv9jmRMUMBrcn11Z0WHc8/C/kGK1IgJVCaYyS3lXo9mejIiUnWPqJbeJfZllbLq0MvfQIgwV0BkGrrM/OX2rTkntLslyGcMlwh9aoUfBhOomqpIKNbaBmky3zVgDIvn4viBy/qRdFXULQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iu+CITfqzicBGlLMmAWQj7cuNNshLdPAGTYb7UMtdqY=;
+ b=DVKyf7AoLAgbfpfRoDN+GeN9P3XFhwwZqEPGGIQAbjAKxSSVx2fUNVns/Nfjt4NOdUWQm9/bcoSGieX7DDYo97DDpUoQ3ogZC1p5f/k5PXdxCz89mD5SgOi7HCPlhm+4GaN4ZE0z4iUbsDZxyLrnGf+/QEZMYk7FjTWjrJZbx5oHBZ6vb6p3twAA7ggDZsJ3f3JDsEYy4g8yNc4MyJVb6avNvO1cfyDLKEeqno9rUCXw5p90gVX5Cj3WUUW1Tf0ZEFsfka2QLsmjKvGeaFn6zQU8S07wzr8joT7Eo+Nlflubhmix2gHwOTsB8yTiICF0q6EWwYPb1zj1U/+A4N8L8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770062581; x=1770667381; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gcQYqRCcN1yqD7owjOy2nXZGx7IMFXVRkBXg6zDJMq4=;
-        b=QGfbvU9r9jRzSP8/J75nIpt1OmhBhqnmmgivBNGjXj7nXDIdm3ny769vo0+UsQ5j/p
-         nDxmh2mOQ/F/4cj06jvrcDwzHXSwlTnpjuidOVMzg5xE7VVBPBIOjZyLd3aFSo9+rHu7
-         ntWkY8MuQ23oj2uPoZjsbWL4v7p5qOzrhVjgHYEmiBQhbaISf95GIYs0g2RxzvKoSePS
-         +5flW/R+yC3rzx9hToZDG7ZkJWCUSNjxfuDdcYd0G/4Q3UTtrabMPHtp3fvmG3SfY/3V
-         BG6tWsi5a3aj22Rm5RqCD5mT6g/1bKfcnH1NrpzuEp2YpV2DCs36WUr6cTLVxwKPGqj8
-         tGgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770062581; x=1770667381;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gcQYqRCcN1yqD7owjOy2nXZGx7IMFXVRkBXg6zDJMq4=;
-        b=AjOkiY4nnEUcVFYUEqBc9y2GbwRBkNkXBJusXvaR8LWpiPx7u5SrCjsJNazWaXdTr2
-         Xy/IoUv23kElMj87lgpHtLhrItZ53TmYYgnQhAOgn2vYDaoPRfCmC535xW2XTdaslcZ1
-         lmkYpZe2Hc4nqlyxIt5LTL0zRI2u2kcQohhRdJVOYe8jAldzC9XrD3At/nXe7NZ9ZiKX
-         JK6bUtn4hTzKMseaWmLBIDsNH777JULCf++5mIyXbCWgrx8fqoxAovyWs7cjTSOpPLhR
-         umoTSA/buU9Gcm28rsyWZPSaJ8rT7AeUHuR5lkDgZ4rHofMvkZtZEQmxHrWF5MxUQTt1
-         woAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDHqopI9oX5FhXRqjnfbz5bcHg9On9fx55ylx7TIraGzfBAeq+snyDtt57wEtqiKBeVuvWjAF4Z7w5X5NF@lists.linux.dev
-X-Gm-Message-State: AOJu0YzUqXHoUdsaOlbu00PwIwexMuyTLwrNpg+RQ7MgzfkjmkAAO+cm
-	K59DcGcMe3j4PGUR+SWJr3Wavne882NM6cuqvNt1fshA+qoypABRnkebIJ4qCf7U4JQ=
-X-Gm-Gg: AZuq6aIjt6jUX0gKIagmUQp82Og3wGGkSRpUkIZ3meXa3UNdU9S/wl09KUv3faKV0KL
-	jQ2hftjmOov7DhFcqaIXlg/lb0lsdtbr8oV5ODXOjPfoXtnc8p15ICn8h7zJeFhbf1Sp+ogK9R/
-	+umBuC1pqhCpch9vywXQxhyTDDHYGIIzpmWEts3Y1O8xZcRapAb53edXVeSTGBNSROM4LUjiERU
-	z5Mvevu4MBsgFUb2uJ5Oi+z4QZHdpaQs62tRikGnjSVAVgJ26MmOxp40mmhejgk2zSgOYLIX4S1
-	ARb6ozQShpp165SOb/x4v5eMWjiACqdDOVvupxEDOp290RumEr3PlGovVC7xzO82f9xy69udTtX
-	BGG/klQje6LXplrAxmBRKRL37/777aj/F5wDIENf32UJlJFlF/J5AbGryf9cCDVapEb4Bj4oc45
-	8ETvr6PcnX1gAloMelUtpgCNVR4iU=
-X-Received: by 2002:a05:600c:1d0b:b0:477:b734:8c41 with SMTP id 5b1f17b1804b1-482db49414bmr165819945e9.1.1770062581316;
-        Mon, 02 Feb 2026 12:03:01 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830513352csm10844965e9.10.2026.02.02.12.03.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 12:03:00 -0800 (PST)
-Date: Mon, 2 Feb 2026 23:02:58 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sunil Khatri <sunil.khatri@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1003 amdgpu_cs_parser_bos()
- warn: inconsistent returns '&p->bo_list->bo_list_mutex'.
-Message-ID: <202602030017.7E0xShmH-lkp@intel.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iu+CITfqzicBGlLMmAWQj7cuNNshLdPAGTYb7UMtdqY=;
+ b=MEIe39bPjx6lNORDigez3zoBa8ba1ceF1+FbxN8tm0Ho7A2TN8toUpNW/W51dj3DWDtoLE4rQgBY9nGw/ncnmIAEzTC0HGsDJEs2EXNAwjQeWoUGxO4irQ0icfbZUAd3020/DDA31rai+WPFujZQzMHe67yrIZgwIjj7dzH0bis=
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
+ by DS0PR10MB6055.namprd10.prod.outlook.com (2603:10b6:8:cc::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
+ 2026 20:39:32 +0000
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::4b84:e58d:c708:c8ce]) by PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::4b84:e58d:c708:c8ce%4]) with mapi id 15.20.9564.016; Mon, 2 Feb 2026
+ 20:39:32 +0000
+Date: Mon, 2 Feb 2026 15:39:29 -0500
+From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 10788/11220] include/linux/rcupdate.h:555:36:
+ error: dereferencing pointer to incomplete type 'struct maple_enode'
+Message-ID: <mmslqkujsf3epkowgd4wr75wi6jd47m7lpcwbwtv4ppsyppclu@lpy4azhk624r>
+Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List <linux-mm@kvack.org>
+References: <202602030233.gZQAuAMc-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202602030233.gZQAuAMc-lkp@intel.com>
+User-Agent: NeoMutt/20250905
+X-ClientProxiedBy: YT4PR01CA0334.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10a::16) To PH0PR10MB5777.namprd10.prod.outlook.com
+ (2603:10b6:510:128::16)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|DS0PR10MB6055:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2cef5ce7-6ec1-4f83-17c3-08de629b2b49
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?w/+Tqwb/6gnm5i6Y60JHMRJtkiAQkEcfjrpfUrTP/DaLCkW8MnRx4yY96mvY?=
+ =?us-ascii?Q?h73p/a4v2AYqQjUFVFwTG7VbJF2HVGOYpUiTOOC6lg1He8jI7lYM/NHrraz6?=
+ =?us-ascii?Q?HwlokyogYdT2/EznOhj/NkzHXrT+fS3vylhUAAq9vzJUB/pfxS/LqNXuL4d1?=
+ =?us-ascii?Q?ThiG/d7Ri070vj1pE3CynylkD/KFODpFrNjysYpXTAzJgAlOZtkBCXMPKVDR?=
+ =?us-ascii?Q?rAxWdNGLx2KfNKE7NxXQMx/wUSkwqx6GKx2WuSl0gNe4VVdIuycyzn1/fee/?=
+ =?us-ascii?Q?o7i8hVb3+TXE8J/Hymxs4oGETRjbg/FtUhnOk0r+ySwDtMWZgbl7W3CCj2xW?=
+ =?us-ascii?Q?DageLuyUe9YmffRRzsp7dw15IpbgY0u4/uYskgaM3z4UThQ3u84V43B7VC1a?=
+ =?us-ascii?Q?/MAS7OUsE+o8bUSce4h3JODs8Jda6Zm/Mq/pIpmOBo0y5ks3+sR7/7Sb8Xhk?=
+ =?us-ascii?Q?x3foNmxDuwqZ0w6xfq7b5eoNl+otWt9Yosl/92wXf1A1IKrjtlW/TW9jx7vO?=
+ =?us-ascii?Q?y1ylLZIp6wnAN9V/uLJ+dDa9q0C9W7oRumgRkWK0BJylPhimTkK+6haMkTnC?=
+ =?us-ascii?Q?rJzlEuVvslj3BnC8eilyZlYUfIFp14scCNn4sAC9RQThw/yeWW0q6OfrooD+?=
+ =?us-ascii?Q?3zGWjTTZVfWztzrvTTv7NpZ8RSKqTkf6tWdRw7kTxvE7BooNcFt3pi1MSyP0?=
+ =?us-ascii?Q?onV3tZeaj6KbVoyI+UXyX46aNRGImLz6lHO5g9mgoDR2H1PQ1iiSxvM7md3S?=
+ =?us-ascii?Q?gZArzkP7W3XNTJOqHEMaUf79JGN2bXdPgo8RG6YQxOGwkHMgXX+gNoq/It7U?=
+ =?us-ascii?Q?Bz2j/WxFKJLumddWjuZUUU1FuyH2lxCLDyvGfLFinIFgwrBJu/pLGs/Y/4eN?=
+ =?us-ascii?Q?48VV4oo6LecMjbmyFNm5CkUfikvTW2NMvRdUkR5S+MYz6MDThzORAeRa7Q2t?=
+ =?us-ascii?Q?q3cLz2uhRmzCUY5utVkH/XtEHnbb6R0Ac6hyEKnSvbRMBnXQ6VJZ+H0lghA8?=
+ =?us-ascii?Q?bh1Z745TvHhBxccqhGtRfYMgyBviE9l+7oh9J82zcOdoyslTd1ig/tdSY8JC?=
+ =?us-ascii?Q?/m1sKEbIcEPlJ13HPsXmzq8lOlWOw9OOwPude/LCbCQgL1nCi/tWwJtpdG5M?=
+ =?us-ascii?Q?6BWcjDdb5aCnwSEAoUyKi/ikfs2JqdsGde7SIDhHTg58kyqIYDkZxkKu6AG/?=
+ =?us-ascii?Q?UP709tyd1Q/8X+7DpbWpX29zakWurp14uEGCpxAiOrAo9hrYRaqopCe7t0SH?=
+ =?us-ascii?Q?mX2+MWtN3l7PKdJjrq6K2pVeTSPuFyvyqpNqg3BnEUfbnVkvXju7C63MolJB?=
+ =?us-ascii?Q?0IHuDHgFXOWtdWAQ+9hll5gChV8XvHC9zvR2wskbr8HoXTTXx/DwEJJJwMmH?=
+ =?us-ascii?Q?/ZZrnMDojkli6Q73hpQMsuqxqTbGNAkWE/a1SrasUZtSMsvOFM2vLJMgvxj4?=
+ =?us-ascii?Q?auhY35a7g2B5oefe2LzTe+Y4kUNjfo+B9SbUaUYQxeGid4kx5LZ95ziQpB9N?=
+ =?us-ascii?Q?akQeZpsdEiWM0JMqRxdwIg1fkw6Vv3OQq904aDxNSbZOvyVD+m0n4PvjMdF2?=
+ =?us-ascii?Q?mZXlYRmfQUUMjQqQZL1za1BLGILeYm+OL8JHAMEh?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?W+triJjqlmuEG/LB++dga5k1L79FrlNAMqhFQAbo8ucO5mLgeYNcLuC0m/u+?=
+ =?us-ascii?Q?H3tHJcZunC8F5wB3NU5qzNGC8sRZd5p8bhqyuBFy7xXLFghhoD6u9mNJqR8r?=
+ =?us-ascii?Q?CNqN51eOG6erKY9mPobBROQxxXbdJ29i0ONhM2zKQjgrs8KCqUANHTUBKkvE?=
+ =?us-ascii?Q?Tz7zUnopzAWdL0FWfqamloAGHtb5zLCBVko8ZTwO3I5oVO8btt/nEc6rXnWX?=
+ =?us-ascii?Q?w1wec0RmIpV1yjIxFPadoiOOJtemu1BVeL3vRO5wwgwBq+pPjQKP79QFQZRa?=
+ =?us-ascii?Q?WisxCEtetj7Dupyd7mhnpwdYdRWz505vq6BE0KSAc5X1iHAUaflYf/QJ9Qa8?=
+ =?us-ascii?Q?HZ+ByMHzc7qVZOyoQG0VivhAaMhnqTCAWwu3jqc0V9wg/TAaZCb/8krQlfqL?=
+ =?us-ascii?Q?B8LYqZlokC2uHeHz6b931QPJeNPJQfFX028VbTjDqzr4X14Zy8aVGm4x6W+O?=
+ =?us-ascii?Q?YJqDlEHDGbWKkaa/CVrZQ2s+7Oglw0Z53dg9YluTQ03x4f+wONN1LudAx7MQ?=
+ =?us-ascii?Q?jRr59ncJIdV7n7I1sIoGoXh05BpOUeogL15SxzizmKrJXLMg1/kO/BRWa4kL?=
+ =?us-ascii?Q?FBRdbL8TuMvla0Hv80PW/giF9umeLA04CA3I15hk4dFn7SQqnc/QXPOjmlUc?=
+ =?us-ascii?Q?vMlmkKlZd0HGck2PY1Htwwm8UPes5El6osBwZzqBtgvAx7r84/5olUn/kTF1?=
+ =?us-ascii?Q?Qw2ZRrR8Vqt1U7QE0k9dqJk0WRaq1MPxwpz+/eh1pY5ERktrXk6bv7kyzAyu?=
+ =?us-ascii?Q?Nh3fqbqv/7NubW2ZkVx2jO6DebhNV0dhjemwK7cVg8cd1b1acsparH4kUt7A?=
+ =?us-ascii?Q?XYHQ1rmGo9syxg/qNwAVTPcDZxzBczNXKpq4gEhhDi7/nmuxByfhOVNGpv8p?=
+ =?us-ascii?Q?VJrJkNp9mwCD1kYy95Vz/gG3VR7pikZ4dgXk6ahGuVj7kzLp+JFsoiNswe+z?=
+ =?us-ascii?Q?QVKt63jlpd3HoknOI8uXacHH+zv3/Bgxo/jcrwnuVOCO5dH0GBj7aZmGEqhU?=
+ =?us-ascii?Q?ZIwWvZqTOs9hQuPC0IFMGoRmmuhdWOitPlim04bJMwrTwZMB+I5zHbeVa3US?=
+ =?us-ascii?Q?pcSUE+JwMemDTPLvvH+lYrQvmjFNxKRStM20yN65LsLjcut8Hov4HJXT42vU?=
+ =?us-ascii?Q?ziSXMfmWN1Rr0aQ/Bf/n7M2nJTAE1FSGTpFpsW5R1HQw4q08PSRpd/3jNSVR?=
+ =?us-ascii?Q?PL7wN/DN3PXgAw11RpQsZi/RDYHt32qNoIXk+wgNeUxTi0CJpOrSU/Gv8JLg?=
+ =?us-ascii?Q?TKgvXrrFFv+wxSYTwOdyVg5A9PW30EfhBRG+MoTBtW0C5lz2CaFDSdUTTE9c?=
+ =?us-ascii?Q?XKInfU3M0B+Lso4VBBMfIwFPyH2gs3Q4rzqHfwK3XQTirFlEdjGfa+QBNd5L?=
+ =?us-ascii?Q?b+ML2WNqnZoroywdch4j3AYoIwSIzPRHOLqdVnbrfM+nMPGMA2tj1FRHSFIl?=
+ =?us-ascii?Q?MbsdtN98v5JCPdGaj97BYBr1pupB+HnFXmxuoIeNPYU1J/N2Ac0VvWz6f3AA?=
+ =?us-ascii?Q?kSWxROsOnLfKlQDY3VRJanXkyUObRxyRyD0tk+n9k/lw0ME4WJoUkGkzuDSt?=
+ =?us-ascii?Q?sVQcyKry3auFUL89AMcIVPCu8/Sjqbn5QDDvHlosQ5E4y+teKqJEhxdlqb0d?=
+ =?us-ascii?Q?aujAMakE0A/6YNkcRtLJl9fUjpg6H1fP/pU8QCfpSxAyJ2cHMkeBFvwKZCLU?=
+ =?us-ascii?Q?XaZkCadkmFI8p9Z7WRJdCnjyqrvlagWZ9oXKZLdY6iBCfA8dHXFN95VwP2my?=
+ =?us-ascii?Q?A1MlP1BspA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	UnD1gVTlKxcwlQjisqbyfrGX+QCyX3xKqmJt6iTXBOOy5CMRbkj+bns5N68GhsJYOn6GzbCE6sPLLDJmsf9THbFUqL2S+E779p+bl8aUZ/qY6orQJNbFgoKVEpIh3IX7y2/9o7Cm364dsz1Xh9U9KQPP4Y8mFVLToyOWCwNLfPc7DksU1WV3Tx4o/GdRzv+26DATlxA8Kagt/zUOdtT5gGtt4aztw2Srh95882TWESTB2qkDmVdv3LUn0KgjDVAvI115X8exOd8ZW03v1XW95uOF3g3iKYetpPTDoZj7IEmTeDuvQn6BDspHu9DIXJLGQwOgZNjDJPkYjW9s09uuLEuoPSyPqb1VYL4oAKx8iHs+vFnddL0XSladC4Kl8HkV19Hn1yjlTGTLMRhJkeoLfGDYcN7sWB/S2HIwbFsQQFiJbpWsLkFvzz7lx9lTXc6PQfmkPbbzrcg+YM8yAdwGcXVwxB9WaUDi8r90eHMmMpUQkCEyG7J9tg88fZhwGZR91RIbE1srs16yw9Y0Am7SrYHS4UWv6UNYKOKc9MoZf8jd37FkAvedDY8HQLVvuHTG6rGKXij83Q8drSQ+VXd750Nx1KIWQ3+TEnihY4t3N0Q=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cef5ce7-6ec1-4f83-17c3-08de629b2b49
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 20:39:32.0133
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KgEe+bzCMMZF/jxTh98GSGLJ8tLL81euVfEba8+PnuN7BS5+9Yy0zSNPQlRj3M7e9fYEmOj584JPQ18SG5CHJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6055
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-02_05,2026-02-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
+ adultscore=0 suspectscore=0 mlxscore=0 phishscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2602020161
+X-Proofpoint-GUID: OHNOSVW8RS1mc4GUrtyElHYVu4vAGIuC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDE2MSBTYWx0ZWRfXyI914ZsXiTfM
+ Oa3j89fI24uxmZRVkWka0T8XAspd3/tyTAaxz3j0YXcMKSkzNtvlS6U6U0RIhuan4VIsddh/xCK
+ H/wnlTb+D7nvADQ4syxtiEY0aoMp57j6XFWgTPiYSu4sgpXhmgeTUXxUh7IVfHQIZtuEvqgmY71
+ NkGwMzcv+foBg6ONUiMiFKJgl2AuS+axWXN2wJWK8KhocHUL9C0q3vAqQC3YX1u1cS59V87sfWk
+ lR8/mBECBNtyzF5kaJ+8Hr8C31yZXcW6QUC6jHseVRMfPzWLMdft/9w9jBI/oaQ3y43PmWNN4ys
+ Ex7hOLLk95mdk9jpCbozjVCZkiprm+fuWUJdv8cBsL4I/TtxJC/KOhuUexwdvONh5/7fXhmv6wR
+ n4P33+IXJI2+eGTXirJd8SznprRTOMkJ8ZQ7PUMWulxOJmi5AMcibPJItAenD6fFYPEKd1c22Q1
+ 9nbj2/25WuziBcjjagw==
+X-Proofpoint-ORIG-GUID: OHNOSVW8RS1mc4GUrtyElHYVu4vAGIuC
+X-Authority-Analysis: v=2.4 cv=IaqKmGqa c=1 sm=1 tr=0 ts=69810b8b cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8
+ a=VnNF1IyMAAAA:8 a=nnLJXsDTHIVA3IG6T44A:9 a=CjuIK1q_8ugA:10
+ a=mmqRlSCDY2ywfjPLJ4af:22
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   18f7fcd5e69a04df57b563360b88be72471d6b62
-commit: e095b55155ef69a8ae0eb114a7fd2a381c012f33 drm/amdgpu: use user provided hmm_range buffer in amdgpu_ttm_tt_get_user_pages
-config: s390-randconfig-r072-20260202 (https://download.01.org/0day-ci/archive/20260203/202602030017.7E0xShmH-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 10.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
+* kernel test robot <lkp@intel.com> [260202 13:31]:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   193579fe01389bc21aff0051d13f24e8ea95b47d
+> commit: 60d8a8eb080e2f6927add49f47625574b39d3072 [10788/11220] maple_tree: add cp_is_new_root() helper
+> config: parisc-randconfig-002-20260202 (https://download.01.org/0day-ci/archive/20260203/202602030233.gZQAuAMc-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030233.gZQAuAMc-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202602030017.7E0xShmH-lkp@intel.com/
+Thanks, as predicted by SK.
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1003 amdgpu_cs_parser_bos() warn: inconsistent returns '&p->bo_list->bo_list_mutex'.
+I will have to build the kernel with a lot more gcc versions, I guess.
 
-vim +1003 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-
-d4e8ad908b2095 Christian König   2022-09-08   855  static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
-d4e8ad908b2095 Christian König   2022-09-08   856  				union drm_amdgpu_cs *cs)
-d4e8ad908b2095 Christian König   2022-09-08   857  {
-d4e8ad908b2095 Christian König   2022-09-08   858  	struct amdgpu_fpriv *fpriv = p->filp->driver_priv;
-ca6c1e210aa7d7 Christian König   2022-04-16   859  	struct ttm_operation_ctx ctx = { true, false };
-d4e8ad908b2095 Christian König   2022-09-08   860  	struct amdgpu_vm *vm = &fpriv->vm;
-d4e8ad908b2095 Christian König   2022-09-08   861  	struct amdgpu_bo_list_entry *e;
-ca6c1e210aa7d7 Christian König   2022-04-16   862  	struct drm_gem_object *obj;
-ca6c1e210aa7d7 Christian König   2022-04-16   863  	unsigned long index;
-4624459c84d71e Christian König   2022-03-02   864  	unsigned int i;
-d4e8ad908b2095 Christian König   2022-09-08   865  	int r;
-d4e8ad908b2095 Christian König   2022-09-08   866  
-d4e8ad908b2095 Christian König   2022-09-08   867  	/* p->bo_list could already be assigned if AMDGPU_CHUNK_ID_BO_HANDLES is present */
-d4e8ad908b2095 Christian König   2022-09-08   868  	if (cs->in.bo_list_handle) {
-d4e8ad908b2095 Christian König   2022-09-08   869  		if (p->bo_list)
-d4e8ad908b2095 Christian König   2022-09-08   870  			return -EINVAL;
-d38ceaf99ed015 Alex Deucher      2015-04-20   871  
-d4e8ad908b2095 Christian König   2022-09-08   872  		r = amdgpu_bo_list_get(fpriv, cs->in.bo_list_handle,
-d4e8ad908b2095 Christian König   2022-09-08   873  				       &p->bo_list);
-bbca24d0a3c111 Maíra Canal       2022-08-15   874  		if (r)
-d38ceaf99ed015 Alex Deucher      2015-04-20   875  			return r;
-d4e8ad908b2095 Christian König   2022-09-08   876  	} else if (!p->bo_list) {
-d4e8ad908b2095 Christian König   2022-09-08   877  		/* Create a empty bo_list when no handle is provided */
-d4e8ad908b2095 Christian König   2022-09-08   878  		r = amdgpu_bo_list_create(p->adev, p->filp, NULL, 0,
-d4e8ad908b2095 Christian König   2022-09-08   879  					  &p->bo_list);
-bbca24d0a3c111 Maíra Canal       2022-08-15   880  		if (r)
-91e1a5207edec9 Christian König   2015-07-06   881  			return r;
-d38ceaf99ed015 Alex Deucher      2015-04-20   882  	}
-b495bd3a54e732 Christian König   2015-09-10   883  
-d4e8ad908b2095 Christian König   2022-09-08   884  	mutex_lock(&p->bo_list->bo_list_mutex);
-d5884513a31df0 Christian König   2017-09-08   885  
-d4e8ad908b2095 Christian König   2022-09-08   886  	/* Get userptr backing pages. If pages are updated after registered
-d4e8ad908b2095 Christian König   2022-09-08   887  	 * in amdgpu_gem_userptr_ioctl(), amdgpu_cs_list_validate() will do
-d4e8ad908b2095 Christian König   2022-09-08   888  	 * amdgpu_ttm_backend_bind() to flush and invalidate new pages
-d4e8ad908b2095 Christian König   2022-09-08   889  	 */
-d4e8ad908b2095 Christian König   2022-09-08   890  	amdgpu_bo_list_for_each_userptr_entry(e, p->bo_list) {
-d4e8ad908b2095 Christian König   2022-09-08   891  		bool userpage_invalidated = false;
-ca6c1e210aa7d7 Christian König   2022-04-16   892  		struct amdgpu_bo *bo = e->bo;
-ad864d243826ce Andrey Grodzovsky 2017-10-10   893  
-e095b55155ef69 Sunil Khatri      2025-09-24   894  		e->range = kzalloc(sizeof(*e->range), GFP_KERNEL);
-e095b55155ef69 Sunil Khatri      2025-09-24   895  		if (unlikely(!e->range))
-e095b55155ef69 Sunil Khatri      2025-09-24   896  			return -ENOMEM;
-
-Need to cleanup and unlock before returning.
-
-e095b55155ef69 Sunil Khatri      2025-09-24   897  
-e095b55155ef69 Sunil Khatri      2025-09-24   898  		r = amdgpu_ttm_tt_get_user_pages(bo, e->range);
-c5b3cc417b0260 Sunil Khatri      2025-09-17   899  		if (r)
-d4e8ad908b2095 Christian König   2022-09-08   900  			goto out_free_user_pages;
-d38ceaf99ed015 Alex Deucher      2015-04-20   901  
-d4e8ad908b2095 Christian König   2022-09-08   902  		for (i = 0; i < bo->tbo.ttm->num_pages; i++) {
-c5b3cc417b0260 Sunil Khatri      2025-09-17   903  			if (bo->tbo.ttm->pages[i] != hmm_pfn_to_page(e->range->hmm_pfns[i])) {
-d4e8ad908b2095 Christian König   2022-09-08   904  				userpage_invalidated = true;
-d4e8ad908b2095 Christian König   2022-09-08   905  				break;
-d4e8ad908b2095 Christian König   2022-09-08   906  			}
-d4e8ad908b2095 Christian König   2022-09-08   907  		}
-d4e8ad908b2095 Christian König   2022-09-08   908  		e->user_invalidated = userpage_invalidated;
-9a79588c42bf89 Christian König   2016-06-22   909  	}
-9a79588c42bf89 Christian König   2016-06-22   910  
-ca6c1e210aa7d7 Christian König   2022-04-16   911  	drm_exec_until_all_locked(&p->exec) {
-ca6c1e210aa7d7 Christian König   2022-04-16   912  		r = amdgpu_vm_lock_pd(&fpriv->vm, &p->exec, 1 + p->gang_size);
-ca6c1e210aa7d7 Christian König   2022-04-16   913  		drm_exec_retry_on_contention(&p->exec);
-ca6c1e210aa7d7 Christian König   2022-04-16   914  		if (unlikely(r))
-d4e8ad908b2095 Christian König   2022-09-08   915  			goto out_free_user_pages;
-d38ceaf99ed015 Alex Deucher      2015-04-20   916  
-d4e8ad908b2095 Christian König   2022-09-08   917  		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
-ca6c1e210aa7d7 Christian König   2022-04-16   918  			/* One fence for TTM and one for each CS job */
-ca6c1e210aa7d7 Christian König   2022-04-16   919  			r = drm_exec_prepare_obj(&p->exec, &e->bo->tbo.base,
-ca6c1e210aa7d7 Christian König   2022-04-16   920  						 1 + p->gang_size);
-ca6c1e210aa7d7 Christian König   2022-04-16   921  			drm_exec_retry_on_contention(&p->exec);
-ca6c1e210aa7d7 Christian König   2022-04-16   922  			if (unlikely(r))
-ca6c1e210aa7d7 Christian König   2022-04-16   923  				goto out_free_user_pages;
-d38ceaf99ed015 Alex Deucher      2015-04-20   924  
-ca6c1e210aa7d7 Christian König   2022-04-16   925  			e->bo_va = amdgpu_vm_bo_find(vm, e->bo);
-ca6c1e210aa7d7 Christian König   2022-04-16   926  		}
-ca6c1e210aa7d7 Christian König   2022-04-16   927  
-ca6c1e210aa7d7 Christian König   2022-04-16   928  		if (p->uf_bo) {
-ca6c1e210aa7d7 Christian König   2022-04-16   929  			r = drm_exec_prepare_obj(&p->exec, &p->uf_bo->tbo.base,
-ca6c1e210aa7d7 Christian König   2022-04-16   930  						 1 + p->gang_size);
-ca6c1e210aa7d7 Christian König   2022-04-16   931  			drm_exec_retry_on_contention(&p->exec);
-ca6c1e210aa7d7 Christian König   2022-04-16   932  			if (unlikely(r))
-ca6c1e210aa7d7 Christian König   2022-04-16   933  				goto out_free_user_pages;
-ca6c1e210aa7d7 Christian König   2022-04-16   934  		}
-ca6c1e210aa7d7 Christian König   2022-04-16   935  	}
-ca6c1e210aa7d7 Christian König   2022-04-16   936  
-ca6c1e210aa7d7 Christian König   2022-04-16   937  	amdgpu_bo_list_for_each_userptr_entry(e, p->bo_list) {
-ca6c1e210aa7d7 Christian König   2022-04-16   938  		struct mm_struct *usermm;
-ca6c1e210aa7d7 Christian König   2022-04-16   939  
-ca6c1e210aa7d7 Christian König   2022-04-16   940  		usermm = amdgpu_ttm_tt_get_usermm(e->bo->tbo.ttm);
-ca6c1e210aa7d7 Christian König   2022-04-16   941  		if (usermm && usermm != current->mm) {
-ca6c1e210aa7d7 Christian König   2022-04-16   942  			r = -EPERM;
-ca6c1e210aa7d7 Christian König   2022-04-16   943  			goto out_free_user_pages;
-ca6c1e210aa7d7 Christian König   2022-04-16   944  		}
-ca6c1e210aa7d7 Christian König   2022-04-16   945  
-ca6c1e210aa7d7 Christian König   2022-04-16   946  		if (amdgpu_ttm_tt_is_userptr(e->bo->tbo.ttm) &&
-c5b3cc417b0260 Sunil Khatri      2025-09-17   947  		    e->user_invalidated) {
-ca6c1e210aa7d7 Christian König   2022-04-16   948  			amdgpu_bo_placement_from_domain(e->bo,
-ca6c1e210aa7d7 Christian König   2022-04-16   949  							AMDGPU_GEM_DOMAIN_CPU);
-ca6c1e210aa7d7 Christian König   2022-04-16   950  			r = ttm_bo_validate(&e->bo->tbo, &e->bo->placement,
-ca6c1e210aa7d7 Christian König   2022-04-16   951  					    &ctx);
-ca6c1e210aa7d7 Christian König   2022-04-16   952  			if (r)
-ca6c1e210aa7d7 Christian König   2022-04-16   953  				goto out_free_user_pages;
-ca6c1e210aa7d7 Christian König   2022-04-16   954  
-ca6c1e210aa7d7 Christian König   2022-04-16   955  			amdgpu_ttm_tt_set_user_pages(e->bo->tbo.ttm,
-c5b3cc417b0260 Sunil Khatri      2025-09-17   956  						     e->range);
-ca6c1e210aa7d7 Christian König   2022-04-16   957  		}
-d4e8ad908b2095 Christian König   2022-09-08   958  	}
-d38ceaf99ed015 Alex Deucher      2015-04-20   959  
-d4e8ad908b2095 Christian König   2022-09-08   960  	amdgpu_cs_get_threshold_for_moves(p->adev, &p->bytes_moved_threshold,
-d4e8ad908b2095 Christian König   2022-09-08   961  					  &p->bytes_moved_vis_threshold);
-d4e8ad908b2095 Christian König   2022-09-08   962  	p->bytes_moved = 0;
-d4e8ad908b2095 Christian König   2022-09-08   963  	p->bytes_moved_vis = 0;
-9a1b3af10d6268 Monk Liu          2017-03-08   964  
-50661eb1a2c88c Felix Kuehling    2024-01-03   965  	r = amdgpu_vm_validate(p->adev, &fpriv->vm, NULL,
-d4e8ad908b2095 Christian König   2022-09-08   966  			       amdgpu_cs_bo_validate, p);
-d4e8ad908b2095 Christian König   2022-09-08   967  	if (r) {
-cc51bbc7d7a7ff Mario Limonciello 2025-07-15   968  		drm_err(adev_to_drm(p->adev), "amdgpu_vm_validate() failed.\n");
-ca6c1e210aa7d7 Christian König   2022-04-16   969  		goto out_free_user_pages;
-65333e4429c60b Monk Liu          2017-03-27   970  	}
-9a1b3af10d6268 Monk Liu          2017-03-08   971  
-ca6c1e210aa7d7 Christian König   2022-04-16   972  	drm_exec_for_each_locked_object(&p->exec, index, obj) {
-ca6c1e210aa7d7 Christian König   2022-04-16   973  		r = amdgpu_cs_bo_validate(p, gem_to_amdgpu_bo(obj));
-ca6c1e210aa7d7 Christian König   2022-04-16   974  		if (unlikely(r))
-ca6c1e210aa7d7 Christian König   2022-04-16   975  			goto out_free_user_pages;
-ca6c1e210aa7d7 Christian König   2022-04-16   976  	}
-b07c60c0652c49 Christian König   2016-01-31   977  
-ca6c1e210aa7d7 Christian König   2022-04-16   978  	if (p->uf_bo) {
-ca6c1e210aa7d7 Christian König   2022-04-16   979  		r = amdgpu_ttm_alloc_gart(&p->uf_bo->tbo);
-ca6c1e210aa7d7 Christian König   2022-04-16   980  		if (unlikely(r))
-ca6c1e210aa7d7 Christian König   2022-04-16   981  			goto out_free_user_pages;
-4953b6b22ab9d7 Christian König   2022-09-13   982  
-ca6c1e210aa7d7 Christian König   2022-04-16   983  		p->gang_leader->uf_addr += amdgpu_bo_gpu_offset(p->uf_bo);
-d38ceaf99ed015 Alex Deucher      2015-04-20   984  	}
-d38ceaf99ed015 Alex Deucher      2015-04-20   985  
-4953b6b22ab9d7 Christian König   2022-09-13   986  	amdgpu_cs_report_moved_bytes(p->adev, p->bytes_moved,
-4953b6b22ab9d7 Christian König   2022-09-13   987  				     p->bytes_moved_vis);
-4624459c84d71e Christian König   2022-03-02   988  
-4624459c84d71e Christian König   2022-03-02   989  	for (i = 0; i < p->gang_size; ++i)
-4624459c84d71e Christian König   2022-03-02   990  		amdgpu_job_set_resources(p->jobs[i], p->bo_list->gds_obj,
-4624459c84d71e Christian König   2022-03-02   991  					 p->bo_list->gws_obj,
-4624459c84d71e Christian König   2022-03-02   992  					 p->bo_list->oa_obj);
-4953b6b22ab9d7 Christian König   2022-09-13   993  	return 0;
-4953b6b22ab9d7 Christian König   2022-09-13   994  
-d4e8ad908b2095 Christian König   2022-09-08   995  out_free_user_pages:
-d4e8ad908b2095 Christian König   2022-09-08   996  	amdgpu_bo_list_for_each_userptr_entry(e, p->bo_list) {
-ca6c1e210aa7d7 Christian König   2022-04-16   997  		struct amdgpu_bo *bo = e->bo;
-d38ceaf99ed015 Alex Deucher      2015-04-20   998  
-fec8fdb54e8f74 Christian König   2022-11-10   999  		amdgpu_ttm_tt_get_user_pages_done(bo->tbo.ttm, e->range);
-fec8fdb54e8f74 Christian König   2022-11-10  1000  		e->range = NULL;
-d4e8ad908b2095 Christian König   2022-09-08  1001  	}
-c70e2166967dc4 Philip Yang       2022-11-03  1002  	mutex_unlock(&p->bo_list->bo_list_mutex);
-d4e8ad908b2095 Christian König   2022-09-08 @1003  	return r;
-d38ceaf99ed015 Alex Deucher      2015-04-20  1004  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602030233.gZQAuAMc-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from ./arch/parisc/include/generated/asm/rwonce.h:1,
+>                     from include/linux/compiler.h:380,
+>                     from include/linux/array_size.h:5,
+>                     from include/linux/kernel.h:16,
+>                     from include/linux/maple_tree.h:11,
+>                     from lib/maple_tree.c:56:
+>    lib/maple_tree.c: In function 'cp_is_new_root':
+> >> include/linux/rcupdate.h:555:36: error: dereferencing pointer to incomplete type 'struct maple_enode'
+>     #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
+>                                        ^~~~
+>    include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
+>      *(volatile typeof(x) *)&(x) = (val);    \
+>                                     ^~~
+>    include/linux/rcupdate.h:1046:3: note: in expansion of macro 'WRITE_ONCE'
+>       WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+>       ^~~~~~~~~~
+>    include/linux/rcupdate.h:1046:17: note: in expansion of macro 'RCU_INITIALIZER'
+>       WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+>                     ^~~~~~~~~~~~~~~
+>    lib/maple_tree.c:3364:3: note: in expansion of macro 'RCU_INIT_POINTER'
+>       RCU_INIT_POINTER(cp->slot[0], mt_mk_node(cp->dst[0].node, mt));
+>       ^~~~~~~~~~~~~~~~
+> 
+> 
+> vim +555 include/linux/rcupdate.h
+> 
+> ca5ecddfa8fcbd Paul E. McKenney 2010-04-28  550  
+> 462225ae47d717 Paul E. McKenney 2013-11-11  551  /**
+> 462225ae47d717 Paul E. McKenney 2013-11-11  552   * RCU_INITIALIZER() - statically initialize an RCU-protected global variable
+> 462225ae47d717 Paul E. McKenney 2013-11-11  553   * @v: The value to statically initialize with.
+> 462225ae47d717 Paul E. McKenney 2013-11-11  554   */
+> 462225ae47d717 Paul E. McKenney 2013-11-11 @555  #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
+> 462225ae47d717 Paul E. McKenney 2013-11-11  556  
+> 
+> :::::: The code at line 555 was first introduced by commit
+> :::::: 462225ae47d7175f886281d8a91708550cd5178c rcu: Add an RCU_INITIALIZER for global RCU-protected pointers
+> 
+> :::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+> :::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
