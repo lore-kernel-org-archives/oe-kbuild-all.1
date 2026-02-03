@@ -1,42 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3091509AB;
-	Tue,  3 Feb 2026 03:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBBB21B9D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 04:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770090968; cv=none; b=o0Mp8S3Zb1X9kyajZBSMzPU54qkGTgtj9UF7WEWPOpvAgU0UdyGPdq9WxA3vjshCyy4rG0wVe9iJaeni8QKv2eS3u1szHhHoipbugOP814xSO05RndeI7WMWtGgbz9tii6/H9ys7ZwbVsZaysZWl3HM3KVuGSYcSI0dbXAtb8ME=
+	t=1770091606; cv=none; b=o0wO5TLcCMIEfpLslPc4n78y/4ztUwdxsMAdWPTDNGmLdhpdwOfr+Tw8kQ5PiLJ0btQdcEF9aoeuUIhx/7NTHFaJoUV5Gl8veXaJSIom7S66PBynitJIQxrCnwel6SUEq57+uteJDbBzR6Ao81owTBKkkm4QN2iOKdoWPnarWNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770090968; c=relaxed/simple;
-	bh=eA+hkGu1GKtp/CM+ELiCEta8OruAjZJBV29cs/fedSM=;
+	s=arc-20240116; t=1770091606; c=relaxed/simple;
+	bh=1Fusn8F3ZQ41oFOiUxvQbehOpvikJ/VqiSSVTS8Ut0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RUhtj1SD0dEuDLhr9Q6e63h1RJmmXFUmDvSttAIGy7Va0V+TTzyyxlF9W0xRJE9Gn7ZinOnLShuqFus9FiZFk6C/zJ1fn2VsfMcS7baSaxuFUprkUQWw0F1kUB0a2kOPK9eIVevs1RhdivsNC5WGsCDRUAHTY+H0L36Px8jVjqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BoB+dEKh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=IBYXNGkjRKPA1L1zYJs5dYihM0y1rcmmS2MZCpOyhLYF7Z0Tj2TKRU6OS8lzYLxz6+aJVJwCpDbO/2JubGJzAuSEiQtloLzgEcKMmbUel2YBKG72aF7pRXpO3m/qkKPcP7yytkpoHlVTR576+/jNTmcpoYJbRfGSp0Kn+KtR1Q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JCkf8082; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BoB+dEKh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F13C116D0;
-	Tue,  3 Feb 2026 03:56:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770090967;
-	bh=eA+hkGu1GKtp/CM+ELiCEta8OruAjZJBV29cs/fedSM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BoB+dEKhynBTcCBBOJQbRFe4J+IXQE+sPqp47Okc6wTh4BXUxwyZLpniIlcXopb0B
-	 DfRxXrJ93vGqaEk4str64mMdpXTgPza1nSefK09O/NegIQuZNOEXyoUNIA0/HL1RLf
-	 sNTPBGr2O1QoH7DYFzeeu62uMj+QuEAtb1zBGsuV3pp/w4PV4CQ6JyaeJQV8NsRPq8
-	 E9ilWdrmLP4GMQNtjNqTPZjI/aGt1ptiKQUgQ1aRlOE6XPDp0rUcVJp/IH9Y8x53pU
-	 QKjaxJRFo4xMqAI6Y9zksCoZmgisoB56ZP7MpoBhN3GTfSruTkEfThKG6x6K0NMu2A
-	 ZopWV+lPpvKzw==
-Date: Mon, 2 Feb 2026 20:56:03 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>
-Subject: Re: kernel/futex/core.c:604:23: error: cannot jump from this asm
- goto statement to one of its possible targets
-Message-ID: <20260203035603.GC52989@ax162>
-References: <202602030343.HVSlSqJ1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCkf8082"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770091604; x=1801627604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1Fusn8F3ZQ41oFOiUxvQbehOpvikJ/VqiSSVTS8Ut0Y=;
+  b=JCkf8082iVQqNuCRhybnOU8rb0qO/ug7QV8s65rT3R8IsGbWmG6pr/AR
+   SfkJfaHryHBXpIDIpxP6aIEi7dcGSOABNNTmX7318YFTug7dS3rDOzHEk
+   JDETL+h6LFD6F09P9wUfXMxtlbAqq6/qPAYyiMeibqclK241kKY0t9gTv
+   1QfJCNNSskjroHy5mTvcLfggfYGQ2B7R8qtycaxofh2FdKRRQ1TuR9sol
+   uvJArwjqXJeg2XzE7zE6H/uOT1xjDdIG4qenPuP9xKHvz53s9m/0gr04V
+   vOZS7wteLQ7PKB9ZvnoZ3lGHeWGhYm7WMhDpcRo1f9WFz9cr3c2wZK0pA
+   g==;
+X-CSE-ConnectionGUID: icnXy7BzSoC2ZFcXo91Viw==
+X-CSE-MsgGUID: NSRIugb7TvaRrVdXoiKBWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="70274048"
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="70274048"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 20:06:44 -0800
+X-CSE-ConnectionGUID: XjR/6+SgS82PCkDq72YJ+g==
+X-CSE-MsgGUID: HI82SjdYRGquSLqqWQAa3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="209166509"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 02 Feb 2026 20:06:42 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vn7gV-00000000gEC-2cSa;
+	Tue, 03 Feb 2026 04:06:39 +0000
+Date: Tue, 3 Feb 2026 12:06:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: "jempty.liang" <imntjempty@163.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, mark.rutland@arm.com,
+	mathieu.desnoyers@efficios.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	"jempty.liang" <imntjempty@163.com>
+Subject: Re: [PATCH v2] tracing: Fix funcgraph_exit calltime/rettime offset
+ for 32-bit ARM
+Message-ID: <202602031142.uHVfwxw3-lkp@intel.com>
+References: <20260202123342.2544795-1-imntjempty@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,92 +67,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202602030343.HVSlSqJ1-lkp@intel.com>
+In-Reply-To: <20260202123342.2544795-1-imntjempty@163.com>
 
-On Tue, Feb 03, 2026 at 03:34:29AM +0800, kernel test robot wrote:
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   18f7fcd5e69a04df57b563360b88be72471d6b62
-> commit: e4e28fd6986e8cf963ec4137e6c0b95403f636ab futex: Convert to get/put_user_inline()
-> date:   3 months ago
-> config: powerpc64-randconfig-001-20260203 (https://download.01.org/0day-ci/archive/20260203/202602030343.HVSlSqJ1-lkp@intel.com/config)
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030343.HVSlSqJ1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602030343.HVSlSqJ1-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> kernel/futex/core.c:604:23: error: cannot jump from this asm goto statement to one of its possible targets
->                    if (node_updated && put_user_inline(node, naddr))
->                                        ^
->    include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
->                    unsafe_put_user(val, _tmpdst, efault);          \
->                    ^
->    include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
->            arch_unsafe_put_user(x, ptr, local_label);      \
->            ^
->    arch/powerpc/include/asm/uaccess.h:463:2: note: expanded from macro 'arch_unsafe_put_user'
->            __put_user_size_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
->            ^
->    arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
->            case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
->                    ^
->    arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
->            asm goto(                                       \
->            ^
->    kernel/futex/core.c:604:23: note: possible target of asm goto statement
->    include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
->                    unsafe_put_user(val, _tmpdst, efault);          \
->                    ^
->    include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
->            local_label:                                    \
->            ^
->    kernel/futex/core.c:604:23: note: jump exits scope of variable with __attribute__((cleanup))
->    include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
->            scoped_user_write_access(_tmpdst, efault)               \
->            ^
->    include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
->            scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
->            ^
->    include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
->            __scoped_user_access(write, udst, size, elbl)
->            ^
->    include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
->                    for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
->                                                     ^
->    kernel/futex/core.c:604:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
->    include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
->            scoped_user_write_access(_tmpdst, efault)               \
->            ^
->    include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
->            scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
->            ^
->    include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
->            __scoped_user_access(write, udst, size, elbl)
->            ^
->    include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
->                    for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
->                                                     ^
+Hi jempty.liang,
 
-This appears to be the same error that necessitated e2ffa15b9baa ("kbuild:
-Disable CC_HAS_ASM_GOTO_OUTPUT on clang < 17") upstream but this is just
-regular 'asm goto', not 'asm goto' with outputs. I had noted during
-review that change might not be sufficient to avoid the error in all
-cases:
+kernel test robot noticed the following build warnings:
 
-  https://lore.kernel.org/20250916184440.GA1245207@ax162/
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v6.19-rc8 next-20260202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This is not the only recent instance of this error because cleanup
-macros are becoming quite popular so I think it is getting to the point
-where we will need to raise the minimum supported version of LLVM for
-building the kernel to 17.0.1 or newer to ensure that we have this
-fixed. LLVM 22.1.0 should be released in a month or so, so I can look at
-crafting a series for 7.1/7.2 that does this bump.
+url:    https://github.com/intel-lab-lkp/linux/commits/jempty-liang/tracing-Fix-funcgraph_exit-calltime-rettime-offset-for-32-bit-ARM/20260202-203926
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20260202123342.2544795-1-imntjempty%40163.com
+patch subject: [PATCH v2] tracing: Fix funcgraph_exit calltime/rettime offset for 32-bit ARM
+config: x86_64-buildonly-randconfig-004-20260203 (https://download.01.org/0day-ci/archive/20260203/202602031142.uHVfwxw3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031142.uHVfwxw3-lkp@intel.com/reproduce)
 
-Cheers,
-Nathan
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602031142.uHVfwxw3-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/trace/trace_irqsoff.c: In function 'irqsoff_graph_return':
+>> kernel/trace/trace_irqsoff.c:224:13: warning: unused variable 'rettime' [-Wunused-variable]
+     224 |         u64 rettime;
+         |             ^~~~~~~
+
+
+vim +/rettime +224 kernel/trace/trace_irqsoff.c
+
+62b915f1060996 Jiri Olsa                 2010-04-02  214  
+37238abe3cb47b Steven Rostedt (VMware    2024-06-03  215) static void irqsoff_graph_return(struct ftrace_graph_ret *trace,
+2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  216) 				 struct fgraph_ops *gops,
+2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  217) 				 struct ftrace_regs *fregs)
+62b915f1060996 Jiri Olsa                 2010-04-02  218  {
+62b915f1060996 Jiri Olsa                 2010-04-02  219  	struct trace_array *tr = irqsoff_trace;
+62b915f1060996 Jiri Olsa                 2010-04-02  220  	struct trace_array_cpu *data;
+62b915f1060996 Jiri Olsa                 2010-04-02  221  	unsigned long flags;
+36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  222  	unsigned int trace_ctx;
+a485ea9e3ef31a Steven Rostedt            2025-01-13  223  	u64 *calltime;
+66611c04757096 Steven Rostedt            2025-01-21 @224  	u64 rettime;
+a485ea9e3ef31a Steven Rostedt            2025-01-13  225  	int size;
+62b915f1060996 Jiri Olsa                 2010-04-02  226  
+12117f3307b63f Steven Rostedt (VMware    2024-06-03  227) 	ftrace_graph_addr_finish(gops, trace);
+5cf99a0f3161bc Steven Rostedt (VMware    2018-11-29  228) 
+5e6d2b9cfa3a6e Steven Rostedt            2010-10-05  229  	if (!func_prolog_dec(tr, &data, &flags))
+62b915f1060996 Jiri Olsa                 2010-04-02  230  		return;
+62b915f1060996 Jiri Olsa                 2010-04-02  231  
+77a67833e830fd jempty.liang              2026-02-02  232  	trace->rettime = trace_clock_local();
+a485ea9e3ef31a Steven Rostedt            2025-01-13  233  	calltime = fgraph_retrieve_data(gops->idx, &size);
+c834a97962c708 Steven Rostedt            2025-10-08  234  	if (calltime) {
+77a67833e830fd jempty.liang              2026-02-02  235  		trace->calltime = *calltime;
+36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  236  		trace_ctx = tracing_gen_ctx_flags(flags);
+77a67833e830fd jempty.liang              2026-02-02  237  		__trace_graph_return(tr, trace, trace_ctx);
+c834a97962c708 Steven Rostedt            2025-10-08  238  	}
+90633c34c36d0c Steven Rostedt            2025-05-05  239  	local_dec(&data->disabled);
+62b915f1060996 Jiri Olsa                 2010-04-02  240  }
+62b915f1060996 Jiri Olsa                 2010-04-02  241  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
