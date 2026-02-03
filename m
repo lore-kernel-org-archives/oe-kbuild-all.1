@@ -1,169 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A8D163
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 22:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770159361; cv=none; b=HRscY5FV3JdiqZb/P6sAWKPsL8J2vDGg9p9Cq0rNChtWchG58LMohusGceYgk17XUa8FKnc8x5CZbZWFMfjMcOVfvrKgliVu/TD/zUIH7Qv0OKDkctRAod5+Opp7n2EkX3uN8ezqcauxpEwyNx42GLWnJeBy49o8KGjGyNPlV8Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770159361; c=relaxed/simple;
-	bh=EpGvoxDrKuv7hIK1fCK6uHMFVNI2vX0KggMpEgCxAwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MZK1d8j81G2LKBDmcVgjSUeahV8pK+YuY5oQaQt+3oGrlWYDKgcb00VBcDSUODO6QXjeFfSG5YLANUZNLDTm+LYqO3evsQ+LdO7jiPD/xVdfHJHF+M12ZI50EFKWpOBZe6YWOInkiGgC7Y+kE0fuSSw+5MtUfMgCoe9VNFcnauc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3vbZbXC; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D92C36CDF7
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 22:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770159580; cv=pass; b=UF+B/rMpIKUVNM/7d/s++usICuPa60MhdfxGZWn7QuliZrXdI72CUFuTi5rOk0/Xza1caX0H3U+/JXhQAPIf6OESDha/qFi+BzJx+3vXY4x9noAcNPexXGhwOQG5pA8bylIUBR2M/xNXfixs9jV2kZkECS2QjAPRrUqfeWBA6Oc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770159580; c=relaxed/simple;
+	bh=qIL9fF6THfh6d3EYllL8+79oZt2gf/G1X5WQxRkyDT0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p7GTECMvMRidvC+bjeszhvZv0TjBrlqxRy2JvX1f6b9bxRe+8VusbzbmuxyJery9P0sKNvchGYdjMkA2U+Ps6zQgqoLfjelKsEQNVV5Mbz/Hn/OCkPUPCI5lYypoYiiHGNi6pxnA69Io1+bzpOrmE+GvFj9ZwtsW+TEVPTKFp4o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lTXKjSeH; arc=pass smtp.client-ip=74.125.82.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3vbZbXC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770159360; x=1801695360;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EpGvoxDrKuv7hIK1fCK6uHMFVNI2vX0KggMpEgCxAwY=;
-  b=I3vbZbXCd86/reSBcjIBcOa3Qv8FT8V8+5pL8PRaKD3mJG8f0oroEdyM
-   r3DiyTHK08sW3p29RJTwk4D7y9YDUY12flwczh8qfBS3VWVHAKLcttBTs
-   BK5ZzfXaICiKgtJiJ2LB6g0RTWdEs39/kkq/cObgD6PkXVBqZP8+tfNC+
-   WNlZ/7d33Fkh1zItGUt3ETyDkZLWVE9rmaiJV346i3vFigjpvUBqDkBeA
-   538ffg1EB4DsgMO/Q6OxPygp3y0XmRENv8WuHGCERFDGHZCDfOYV3ainQ
-   JsM9/8WfLacKaAET97RfNR+hyb1YgSfGCdUifDYsO4Rd9hPkk25IvD/vv
-   Q==;
-X-CSE-ConnectionGUID: uhRPO41mS2i1PZEXsjCDcg==
-X-CSE-MsgGUID: lv9IfTLISg+RDyWUKDo1aA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71402298"
-X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="71402298"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 14:55:59 -0800
-X-CSE-ConnectionGUID: GQiDoYA+Qam4UgwOSktzIQ==
-X-CSE-MsgGUID: C6nqfGIRQr21qCll8mjDRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="214138905"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2026 14:55:56 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vnPJJ-00000000hFi-1tvB;
-	Tue, 03 Feb 2026 22:55:53 +0000
-Date: Wed, 4 Feb 2026 06:55:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alain Volmat <alain.volmat@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH 08/13] media: stm32: dcmipp: add pixel pipes helper
- functions
-Message-ID: <202602040608.vLI553iq-lkp@intel.com>
-References: <20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014@foss.st.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lTXKjSeH"
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1248d27f2b9so7694131c88.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Feb 2026 14:59:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770159578; cv=none;
+        d=google.com; s=arc-20240605;
+        b=K1F/jPxYlkVgM43wewu5y3ddKIs+OcjEhnEXUU5Y+A03V93hBdKz97z6dfUvx9KUE9
+         dYkoZRsAhyz4N871Io+faReCekgOMpdPYU6Y7ZiX+JU4PrvxQAR9jM6sEOXtg4xIihwX
+         BtaDH/H3itMbm3anKGb0/ArvhiuScV9E6X33S2rYB5xTbnkdUE9kbG2BJCscULg2CgUL
+         rFwnHuHDIJ1pdjAILEo54n+yk1CYtgKDhDETREZ3u26uG345vHFG0btRfBqkBf2KXB5G
+         ejbii9f5EjeASe3k+VZb2gu0z+utjUzrt1UV9ZXD6BWJlTjP2dLvAUHAmDQS31dc2GTO
+         NYMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=V0WywR8lqfGgOoec3bx0jqpIWLj40R7e4eAn55JBiPo=;
+        fh=oBEgOeAtJaOZ9LCmk758GqKWyehMpcXy/2rtcoXjxQk=;
+        b=cDm/LspL66rgaOQujF4qibWXG0N7vCM3tuvQrlAGnFqN/nCBkimuuK4bZ/woQBD11L
+         ZXkqyMUo+7PvtPr3MHdt3nOc7Hy8AkjakmKVF+AAscnkaiwBaGwtKMVh20/N4lq7YaWw
+         a9ioC9T+uP9X0B5HV2PZz54O/PdQkBlqccOkigNhf2i9Iw1a/+ax+KAnT1Fsvkajn3Yd
+         Dya2hikpzQHLKdPCH6xCgRHVkyXywpzBolOy0xrR8+auDGb0SprpTGpCyOwhvi37NyLw
+         RJtFBW/S2tasmmrUq0+msbX4RHd9prlCaLjZg2NoRdHo3BPMiokunq6nUHJ15Ysd9zOc
+         Mg1Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770159578; x=1770764378; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=V0WywR8lqfGgOoec3bx0jqpIWLj40R7e4eAn55JBiPo=;
+        b=lTXKjSeHQOMvVuYL8zQEk/ahc59z9Kgfs2vjszAh5Lk9gFdfC+WIDBByaIPwG6bf+y
+         ytbgrr6dKmLdWP2sYI1EKpe3gIvgGDrX00VmeZzxkNYWXmmC6028yvhJs1iioMv1KCv6
+         jYCCYkHWbUr1OYW7ol9hPbbcc3r+/vF2sHvljUJqibt1SjupyJR2t06iPAW6lXxl16F7
+         sDoMysW8ax1ipvnEZ4mXKI7/ezYDEVzTrzAPZEtn9EDg8SIXPArq6VC6oE1T3aC1D12s
+         q4tgjuft3BSE3/XHeTDSX1IVyCFs2d9iERUoX6zDwJtmfxHDe6tlqPpY8BTebNoNdlSH
+         K/YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770159578; x=1770764378;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V0WywR8lqfGgOoec3bx0jqpIWLj40R7e4eAn55JBiPo=;
+        b=CzfV7Coarx66F7KymZ50CHXGsJUamDIiHXLd78NLI7wIQlX4vDEFSK51OKOMeMMbo2
+         W4067qWMcf4SCzL6Zs61TFunnP9/pyElhTmXTQD0kI+H4XohE7IO+IZJ9b8lFFSyhtKS
+         fhVDpMtAihuYFgVwMAJDniTq139CpgLFQIqLtEPDR27gB3v9gifv0Q/TsPOdvxEwk+ET
+         xK1wB4HV7ylX10VYypgN3Cwn9vMsjlUe7s2IY4hI42n66j+z4XmHsTqN6ESCMW/2jxP1
+         u2Wg/K/kcYNQWtgzhCb8ZEmRui1/HLJJGWpA96RPKAYilVSzu/RPgA2Yvs71VEOPw8lO
+         nOuA==
+X-Gm-Message-State: AOJu0YzpfX3pf3nmyr35czR+KTdI3K0JNffj48OUTnqsT21wshzdcKie
+	sgemHAeu61MtIE9UnKkyWWvPVEVxNfMpHWZnBkh7FsKK1uwgWi3C6llgNBvwH+PLm1TFB/6OS3s
+	tniOejGoWHLG/4s4JcLVmloFc1AZrX4/t/m36nLJc
+X-Gm-Gg: AZuq6aJXFaFAvd0iu2cWUaCjWQdYIIkLV+HgbbIWMuDi/4XltuOB3FtW1ySffryA3c7
+	7FHN/XR+fgtgFPApI+XLG607Z+dQfFvJNjYk5dYc2ZLgRDgf1xTPJX+8Gj1sFF1br//OeVZa3rQ
+	OcWys/o3tn6QsbhaEct6Rs4HXYyoxMZUhV4HLt6o5PTfV2Ed7JYlReSgD95QYWaHXG65+VeHDBg
+	oNCNJ449B6m2z/zmTpPVVGASn0H+Gr+zJQJj+eGFThjURlWXOySFriCxPnAkafj7B7kw57E3nGx
+	l3Q42fLGzcyOHqXRNHzh02ARRg==
+X-Received: by 2002:a05:7022:606:b0:122:8d:3680 with SMTP id
+ a92af1059eb24-126f47d9c22mr505674c88.40.1770159577822; Tue, 03 Feb 2026
+ 14:59:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014@foss.st.com>
+References: <202602032101.dbxRfsWO-lkp@intel.com>
+In-Reply-To: <202602032101.dbxRfsWO-lkp@intel.com>
+From: Marco Elver <elver@google.com>
+Date: Tue, 3 Feb 2026 23:59:00 +0100
+X-Gm-Features: AZwV_Qhnf6dGIsZejmAJjt_tmFiQBt0Oa5pt5BzpSrKLnwWCR_KfLYzSvOyhLrs
+Message-ID: <CANpmjNNsYagL4eoZFFrcFzgXgVy6TXAJ2FNQP5JW6_vLL5rXUg@mail.gmail.com>
+Subject: Re: [tip:locking/core 27/43] ld.lld: error: undefined symbol: _raw_write_trylock
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Alain,
+On Tue, 3 Feb 2026 at 14:27, kernel test robot <lkp@intel.com> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
+> head:   451c3a0356099483218535aed17fcf94ab5764a3
+> commit: e4588c25c9d122b5847b88e18b184404b6959160 [27/43] compiler-context-analysis: Remove __cond_lock() function-like helper
+> config: s390-randconfig-r051-20260203 (https://download.01.org/0day-ci/archive/20260203/202602032101.dbxRfsWO-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032101.dbxRfsWO-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602032101.dbxRfsWO-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> ld.lld: error: undefined symbol: _raw_write_trylock
+>    >>> referenced by rwlock_api_smp.h:48 (include/linux/rwlock_api_smp.h:48)
+>    >>>               lib/test_context-analysis.o:(test_write_trylock_extra) in archive vmlinux.a
+>    >>> referenced by rwlock_api_smp.h:48 (include/linux/rwlock_api_smp.h:48)
+>    >>>               lib/test_context-analysis.o:(test_write_trylock_extra) in archive vmlinux.a
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on eb4ee870747c3a77a9c3c84d84efb64bd481013a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/media-stm32-dcmipp-share-struct-dcmipp_device-among-subdevs/20260202-220852
-base:   eb4ee870747c3a77a9c3c84d84efb64bd481013a
-patch link:    https://lore.kernel.org/r/20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014%40foss.st.com
-patch subject: [PATCH 08/13] media: stm32: dcmipp: add pixel pipes helper functions
-config: riscv-randconfig-r122-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040608.vLI553iq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040608.vLI553iq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040608.vLI553iq-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c:41:1: sparse: sparse: symbol 'dcmipp_pixel_formats_list' was not declared. Should it be static?
-
-vim +/dcmipp_pixel_formats_list +41 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c
-
-    17	
-    18	#define DCMIPP_ENT(id, pad) (1 << (2 * (id) + (pad)))
-    19	#define DCMIPP_ISP_SINK			(DCMIPP_ENT(DCMIPP_ISP, 0))
-    20	#define DCMIPP_ISP_SRC			(DCMIPP_ENT(DCMIPP_ISP, 1))
-    21	#define DCMIPP_ISP_INOUT		(DCMIPP_ISP_SINK | DCMIPP_ISP_SRC)
-    22	#define DCMIPP_MAIN_POSTPROC_SINK	(DCMIPP_ENT(DCMIPP_MAIN, 0))
-    23	#define DCMIPP_MAIN_POSTPROC_SRC	(DCMIPP_ENT(DCMIPP_MAIN, 1))
-    24	#define DCMIPP_MAIN_POSTPROC_INOUT					\
-    25		(DCMIPP_MAIN_POSTPROC_SINK | DCMIPP_MAIN_POSTPROC_SRC)
-    26	#define DCMIPP_AUX_POSTPROC_SINK	(DCMIPP_ENT(DCMIPP_AUX, 0))
-    27	#define DCMIPP_AUX_POSTPROC_SRC	(DCMIPP_ENT(DCMIPP_AUX, 1))
-    28	#define DCMIPP_AUX_POSTPROC_INOUT					\
-    29		(DCMIPP_AUX_POSTPROC_SINK | DCMIPP_AUX_POSTPROC_SRC)
-    30	#define DCMIPP_ALL_POSTPROC_SINK					\
-    31		(DCMIPP_MAIN_POSTPROC_SINK | DCMIPP_AUX_POSTPROC_SINK)
-    32	#define DCMIPP_ALL_POSTPROC_INOUT					\
-    33		(DCMIPP_MAIN_POSTPROC_INOUT | DCMIPP_AUX_POSTPROC_INOUT)
-    34	
-    35	#define PIXMAP_MBUS(mbus, applicable_pipes)		\
-    36		{						\
-    37			.code = MEDIA_BUS_FMT_##mbus,		\
-    38			.pipes = applicable_pipes,		\
-    39		}
-    40	const struct dcmipp_pixelpipe_pix_map
-  > 41	dcmipp_pixel_formats_list[] = {
-    42		/* RGB formats */
-    43		/* RGB565 / RGB888 */
-    44		PIXMAP_MBUS(RGB565_2X8_LE, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    45		PIXMAP_MBUS(RGB565_1X16, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    46		PIXMAP_MBUS(RGB888_3X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    47		PIXMAP_MBUS(RGB888_1X24, DCMIPP_ALL_POSTPROC_INOUT | DCMIPP_ISP_INOUT),
-    48		/* YUV formats */
-    49		PIXMAP_MBUS(YUYV8_2X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    50		PIXMAP_MBUS(UYVY8_1X16, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    51		PIXMAP_MBUS(YUV8_1X24, DCMIPP_ALL_POSTPROC_INOUT | DCMIPP_ISP_SRC),
-    52		/* GREY */
-    53		PIXMAP_MBUS(Y8_1X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    54		PIXMAP_MBUS(Y10_1X10, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    55		PIXMAP_MBUS(Y12_1X12, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    56		PIXMAP_MBUS(Y14_1X14, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    57		/* Raw Bayer */
-    58		/* Raw 8 */
-    59		PIXMAP_MBUS(SBGGR8_1X8, DCMIPP_ISP_SINK),
-    60		PIXMAP_MBUS(SGBRG8_1X8, DCMIPP_ISP_SINK),
-    61		PIXMAP_MBUS(SGRBG8_1X8, DCMIPP_ISP_SINK),
-    62		PIXMAP_MBUS(SRGGB8_1X8, DCMIPP_ISP_SINK),
-    63		/* Raw 10 */
-    64		PIXMAP_MBUS(SBGGR10_1X10, DCMIPP_ISP_SINK),
-    65		PIXMAP_MBUS(SGBRG10_1X10, DCMIPP_ISP_SINK),
-    66		PIXMAP_MBUS(SGRBG10_1X10, DCMIPP_ISP_SINK),
-    67		PIXMAP_MBUS(SRGGB10_1X10, DCMIPP_ISP_SINK),
-    68		/* Raw 12 */
-    69		PIXMAP_MBUS(SBGGR12_1X12, DCMIPP_ISP_SINK),
-    70		PIXMAP_MBUS(SGBRG12_1X12, DCMIPP_ISP_SINK),
-    71		PIXMAP_MBUS(SGRBG12_1X12, DCMIPP_ISP_SINK),
-    72		PIXMAP_MBUS(SRGGB12_1X12, DCMIPP_ISP_SINK),
-    73		/* Raw 14 */
-    74		PIXMAP_MBUS(SBGGR14_1X14, DCMIPP_ISP_SINK),
-    75		PIXMAP_MBUS(SGBRG14_1X14, DCMIPP_ISP_SINK),
-    76		PIXMAP_MBUS(SGRBG14_1X14, DCMIPP_ISP_SINK),
-    77		PIXMAP_MBUS(SRGGB14_1X14, DCMIPP_ISP_SINK),
-    78	};
-    79	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I think this should fix it (and hopefully not break anything else):
+https://lore.kernel.org/all/20260203225114.3493538-1-elver@google.com/
