@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9091A08BC
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 21:09:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1DA3242D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 22:11:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770152996; cv=none; b=Jh+OdIHxL4O1skQapezsYVKPc73tiBfp3Jy+Py11c0x1sUE/E8oaHjouRyj/FIaV9uahxsLKY3fv82+Z0pqyzwFKFZTKreQ8MBeQIpTiIL9V2QW+nO/D1P/3eBsnsV4Jc7JPGOmY3qoTdwwIJ4F++zp8I16kQ/msKofqoc/wU+M=
+	t=1770156717; cv=none; b=bXYPgki27xGpJBneG8q3k6vwsKx+AoK9GiESP1+CXswT9RBjWxEfcF21lfqouyq+gxFDIZktSSGezgLUbZK+GVdtWR9hbwbuGswLesDOlzWSpsuxwYMtUy5pIyiWIcwetTqwmWFA7du2cspyl6cWfYXlNLmd0+sfA2xI1d5T4sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770152996; c=relaxed/simple;
-	bh=dV0bUe4m9XMxcS91TdZPtwfePXR53y+4uKoJadksJHY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AWYOlwuSpfv3N1lz/W57kCqbrcIrIOBVEONXnKJ/bxzSqzL+9259q5gIGRXZBwsVF1HrfVOgqdATDD2v/8T0OhSho9XD9xeIBJb0dtbbImLZ+qu6WZw6BWBrcMrz3sq1EwjKiQ5AIpTAdWj2hR5ytbbpHgwi1wUAUj6PDo5GiVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XliG2Q+F; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1770156717; c=relaxed/simple;
+	bh=nyTXJD9m2dzjQ8RSTzIkyAOotwVjMEIZXaTRh3E3qkk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tHtD3o+/ICOUB+GOtoUsiAmuW1TbDjpzS3272rb3xw+wk2HnVFVNKzFJk/noW+hbSjglQ6ky/WnSk0T01QQF1VH/YoTAuPJ8teVJYbk7cAfOZWYAHx0eTELQo8uHQtIzp12+70ZYo9DuoLdhD/Z0H+Ybk/Z7EO5lXNE8fHwKsKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NxGp/Jtp; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XliG2Q+F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NxGp/Jtp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770152995; x=1801688995;
+  t=1770156716; x=1801692716;
   h=date:from:to:cc:subject:message-id;
-  bh=dV0bUe4m9XMxcS91TdZPtwfePXR53y+4uKoJadksJHY=;
-  b=XliG2Q+Fzeb78eCSzp8Y5i4/Ln6q+NwLA/Iy1QT2ygISusUP92mhi4pF
-   fLWJIJRc68QpjpDRIZITdhu9MRVAoMvo2cgN+lcRFIobpOWLnKlFreMNO
-   K8m/6aZDH+yIOmB2aU1fn7DRjM0xLKOfRLfYl1M1XU9ajP+RPvaUxJT1u
-   uD7jsY7n3DUVDuLUAwtBwRT9LyeWwVoqWStJRESSiiVxjnZpDBBk7gfvC
-   zhxZu8beGtYom94ZDTg2rbf8E+lOvX3O+rGjdR7D23ktrj2ZlVQ1oqwE+
-   7dU27Vaa5oVFpa3JkhI4i2B4VgSNDmoRJHyOmUkjnBuc/tKQk9s5ETCGH
-   w==;
-X-CSE-ConnectionGUID: Bf198asXQgSfPjW2ogzsZA==
-X-CSE-MsgGUID: RIn1D7FVRmadaK3kskjRDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71234206"
+  bh=nyTXJD9m2dzjQ8RSTzIkyAOotwVjMEIZXaTRh3E3qkk=;
+  b=NxGp/JtpbO2PW19bxiEfS2F4qjLsKB05qhPPPR+qmG8035hBhr0NOUS+
+   YfrfU6Cs6W8U58rC2EmJHeQJdF7L6IIDQINoKp1k9x7tcvlE8p3zmY1So
+   mGjFcw5TVQUoGHVXh+U71SEWhdqpnzStpWeBNhomPReNKpQKppOlFUk1E
+   itQlIqJJfkRh18PgI9vY1zBrdf4wY7ExeHwebmJfFxylw9CHqaNMQdVae
+   RYONO9IaHqhy+wap4Ds7F9FRTncr4oJBuZh1hdBAAOZ42lxkAT78QJg7Y
+   fyHwBuqWPEAmqPh1MLrI5fgR+QwONaErwp4ev6zYgwozddSuQZrdmp2mQ
+   Q==;
+X-CSE-ConnectionGUID: 2aY6RZ0qR2+SDSVhuEEqaw==
+X-CSE-MsgGUID: 9wwHpR2GSUas6bLvr7Z75w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="82079875"
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="71234206"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 13:09:54 -0800
-X-CSE-ConnectionGUID: eFC61E+YS1eE+ZB4cBcTQQ==
-X-CSE-MsgGUID: DJ4NsKGdT566CSGQ3diSGw==
+   d="scan'208";a="82079875"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 14:11:55 -0800
+X-CSE-ConnectionGUID: AB73R/jlSBKQ0L+RmDNpuw==
+X-CSE-MsgGUID: AM226+iNQOykd9haG9wZDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="214116598"
+   d="scan'208";a="210013125"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2026 13:09:53 -0800
+  by orviesa008.jf.intel.com with ESMTP; 03 Feb 2026 14:11:54 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnNeg-000000003TF-28Kh;
-	Tue, 03 Feb 2026 21:09:50 +0000
-Date: Tue, 03 Feb 2026 22:09:04 +0100
+	id 1vnOcg-000000003Tl-42Hq;
+	Tue, 03 Feb 2026 22:11:50 +0000
+Date: Tue, 03 Feb 2026 23:11:32 +0100
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: net/ipv4/tcp_output.c:1482:13: warning: 'tcp_v4_send_check'
- defined but not used
-Message-ID: <202602032233.JaVYcsqF-lkp@intel.com>
+To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_sbi_dbtr_v2 62/62]
+ breakpoint_test_riscv.c:126:1: warning: non-void function does not return a
+ value in all control paths
+Message-ID: <202602032303.tUShEdfv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,37 +60,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/tcp-inline-__tcp_v4_send_check/20260203-224938
-head:   b44f2c807084fe7b385668a4e7e54449f3a046de
-commit: b44f2c807084fe7b385668a4e7e54449f3a046de tcp: make tcp_v{4,6}_send_check() static
-date:   6 hours ago
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260203/202602032233.JaVYcsqF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032233.JaVYcsqF-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_sbi_dbtr_v2
+head:   922a4bdf735544d2054881e7a06eefbeaf243aac
+commit: 922a4bdf735544d2054881e7a06eefbeaf243aac [62/62] riscv: Add breakpoint and watchpoint test for riscv
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260203/202602032303.tUShEdfv-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032303.tUShEdfv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602032233.JaVYcsqF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602032303.tUShEdfv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/ipv4/tcp_output.c:1482:13: warning: 'tcp_v4_send_check' defined but not used [-Wunused-function]
-    1482 | static void tcp_v4_send_check(struct sock *sk, struct sk_buff *skb)
-         |             ^~~~~~~~~~~~~~~~~
-
-
-vim +/tcp_v4_send_check +1482 net/ipv4/tcp_output.c
-
-  1480	
-  1481	/* This routine computes an IPv4 TCP checksum. */
-> 1482	static void tcp_v4_send_check(struct sock *sk, struct sk_buff *skb)
-  1483	{
-  1484		const struct inet_sock *inet = inet_sk(sk);
-  1485	
-  1486		__tcp_v4_send_check(skb, inet->inet_saddr, inet->inet_daddr);
-  1487	}
-  1488	
+>> breakpoint_test_riscv.c:126:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+     126 | }
+         | ^
+   breakpoint_test_riscv.c:151:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+     151 | }
+         | ^
+   2 warnings generated.
 
 -- 
 0-DAY CI Kernel Test Service
