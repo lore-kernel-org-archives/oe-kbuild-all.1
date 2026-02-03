@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A09627B353
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 01:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345B62DB7A7;
+	Tue,  3 Feb 2026 02:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770083439; cv=none; b=qONOQobMOq8PEfmnPrfwRqUszRHG2Dwz6IBd4gE67eSg/bOM7yOkh+3RdGoGudOKp2P1qS8xOynfWShKZVtF4nZSLDq8O7S/MmtB6DcVP2rtG1McQQ0URpnirmyqLIfWdZSqX2bK88WK3UECbrnd0NmWaN0WojiTOvhqty76TuE=
+	t=1770084100; cv=none; b=Us7tyBLDnpQOPVZ9iv1kVXlbRAmS6eRBsYSvvh58+rUlezedyMKmimhO4+/cvJ2V/uNsGJ3xiVcK0ocgB51yd/M9xKvdroapjCMD84LX+h5Nnn1V9I54BjZkYCT9LClaJg6LA6cAWUN7Z4yxP9zLIi+CNlYhu36I8bXaDnQrSOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770083439; c=relaxed/simple;
-	bh=0JVgXH0JjJMgAXaeWJ9eB1U6t8TXejIpdihJraDWmJc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lk5oPerr8m9D1ILZpcw8BsHku+7gmC7jFqEFXJr4xqNdkU18z6hROo/OdDeZ8z/BXB4RXN3mTDMPoskSNWh+TyECjx8EiScHnIUkgnIsqj3HTqtXCaN2q0WoxNfDOxU7IO4DhIvzbJS032cU9n7v8KwOaTvJIUKYj0Qb8DaB0O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xkc3fw+y; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1770084100; c=relaxed/simple;
+	bh=0/F0Q6VxLD/CwtBHXGBoWzfJ29ElsDgYnGFeBji2yoE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Onlp6i1UNqO5oOUs+Z4/xU9/hRDzY/sLgL+mmIDcgu25aIXQnHfUygmpM+llmuZbJ8MCl0nJizdWCa+wGYWrVW91U0O/MT2omicTDvhW1Wxzbv/NhC95KWAbUeqzQO7dZbMLRXkxzS0rSk/0JpnYgADZ0gq6Lw5BIgdKRTOIfYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMQ3QPyu; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xkc3fw+y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMQ3QPyu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770083437; x=1801619437;
+  t=1770084098; x=1801620098;
   h=date:from:to:cc:subject:message-id;
-  bh=0JVgXH0JjJMgAXaeWJ9eB1U6t8TXejIpdihJraDWmJc=;
-  b=Xkc3fw+ywMNreJReVCzJON4Oh1l/TYcGJR1a/l19yyoScTWq/68Su4Tf
-   aXTzPJ0LRZcWU9a72bnbL/F/gOOw2PzQR05T6V6OAZRdOMg8tV1mJSmxb
-   ys3xhVWSke5hMUwEcaZO+QnmH4rRyQVkt7LQF9zVn+92oN8/t+I87zT92
-   Gu7Sp4aZbl11wLUDWdybAY1vic9Ga7rcJQY1HZvbdUT2XaqddrMO6UfCy
-   4iwUzu59gjLu24Gn0UgnP1Jy7HhXfRGeGA8oHasWb+qRmpyMzb6yXCZVK
-   WWr1rSu6kCtnv0gBam1ZJROlPPZE28lzWtuO8I/urtktoCZJZ4+sOWW6r
+  bh=0/F0Q6VxLD/CwtBHXGBoWzfJ29ElsDgYnGFeBji2yoE=;
+  b=AMQ3QPyuVCr3DzvT5JhFVq1reGUmVolywB9fTqfjsR8U8lnkVH7A7shX
+   nDf281rDdWTcrx5XbtD6z6VEJpuJaRdxgp9va/EWzwouY+1oVLs/8/cSw
+   3c+C9s/pljzk5pN5zOGfxvCTHADXh7Fe5TmNToerJUlzQEiK6PkYjvgi1
+   ZM7MzbOkyI5thww53FM7ytyyULVTxj524rUPOhJ5N3cK9LmTXwJ5WbYmG
+   fw1fjeEAy1l/HJ4HBUbBJ5rP947vi8OOYcRuG9kIfzIQpDojxmqxqUisa
+   LjUy96EZptR5pLIOTfFzmJJuSE0TvTzRilnEN1uWw9pGOBYYAThOcCpGB
    Q==;
-X-CSE-ConnectionGUID: n++GBQLiSheK3B3/fdXpbw==
-X-CSE-MsgGUID: pHEEEO2PTRaxtoeIXR0POg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="70972307"
+X-CSE-ConnectionGUID: 70sGTj67StuYuJRWBpropQ==
+X-CSE-MsgGUID: /NaK5N5SRtmgDQLWarYWqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71150690"
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="70972307"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 17:50:36 -0800
-X-CSE-ConnectionGUID: zTzWFbi5SwGE8KdgnDh0wQ==
-X-CSE-MsgGUID: zbJVYEe0S0OxJ3aaezCh7g==
+   d="scan'208";a="71150690"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 18:01:38 -0800
+X-CSE-ConnectionGUID: HS9ruX3ATTq3iNQmolj0yA==
+X-CSE-MsgGUID: I/DF07wpTtSU5iBa80GD3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="214468310"
+   d="scan'208";a="240368931"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Feb 2026 17:50:34 -0800
+  by orviesa002.jf.intel.com with ESMTP; 02 Feb 2026 18:01:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vn5Ym-00000000g7w-1LJw;
-	Tue, 03 Feb 2026 01:50:32 +0000
-Date: Tue, 03 Feb 2026 09:50:08 +0800
+	id 1vn5jR-00000000g8k-0PUn;
+	Tue, 03 Feb 2026 02:01:33 +0000
+Date: Tue, 03 Feb 2026 10:00:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
-Subject: [linkinjeon-ntfs:ntfs-next 15/16] fs/ntfs/mft.c:2889:1:
- warning: the frame size of 2192 bytes is larger than 2048 bytes
-Message-ID: <202602030912.Ed0XABcN-lkp@intel.com>
+To: Alice Mikityanska <alice@isovalent.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:alice/vxlan-bigtcp-part1 11/11]
+ drivers/net/ethernet/broadcom/bnge/bnge_txrx.c:1466:15: error: call to
+ undeclared function 'ipv6_hopopt_jumbo_remove'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202602031000.qJXkT65Q-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,244 +62,225 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Namjae,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git ntfs-next
-head:   fa25a4cfebdf4edefd48fa36bdd71f6b1886ced3
-commit: a9769422dcfc76cf0834755d75b2535ff95948dd [15/16] ntfs: add Kconfig and Makefile
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260203/202602030912.Ed0XABcN-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030912.Ed0XABcN-lkp@intel.com/reproduce)
+tree:   https://github.com/cilium/linux.git alice/vxlan-bigtcp-part1
+head:   62d00a11d3571396b90e03bd46e5b3b6655dcf57
+commit: 62d00a11d3571396b90e03bd46e5b3b6655dcf57 [11/11] net/ipv6: Remove HBH helpers
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260203/202602031000.qJXkT65Q-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031000.qJXkT65Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602030912.Ed0XABcN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602031000.qJXkT65Q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/ntfs/mft.c: In function 'ntfs_write_mft_block.isra':
->> fs/ntfs/mft.c:2889:1: warning: the frame size of 2192 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-    2889 | }
-         | ^
+>> drivers/net/ethernet/broadcom/bnge/bnge_txrx.c:1466:15: error: call to undeclared function 'ipv6_hopopt_jumbo_remove'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1466 |         if (unlikely(ipv6_hopopt_jumbo_remove(skb)))
+         |                      ^
+   1 error generated.
 
 
-vim +2889 fs/ntfs/mft.c
+vim +/ipv6_hopopt_jumbo_remove +1466 drivers/net/ethernet/broadcom/bnge/bnge_txrx.c
 
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2685  
-c093359b6a6994b Namjae Jeon 2025-12-30  2686  /*
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2687   * ntfs_write_mft_block - Write back a folio containing MFT records
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2688   * @folio:	The folio to write back (contains one or more MFT records)
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2689   * @wbc:	Writeback control structure
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2690   *
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2691   * This function is called as part of the address_space_operations
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2692   * .writepages implementation for the $MFT inode (or $MFTMirr).
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2693   * It handles writing one folio (normally 4KiB page) worth of MFT records
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2694   * to the underlying block device.
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2695   *
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2696   * Return: 0 on success, or -errno on error.
-c093359b6a6994b Namjae Jeon 2025-12-30  2697   */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2698  static int ntfs_write_mft_block(struct folio *folio, struct writeback_control *wbc)
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2699  {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2700  	struct address_space *mapping = folio->mapping;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2701  	struct inode *vi = mapping->host;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2702  	struct ntfs_inode *ni = NTFS_I(vi);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2703  	struct ntfs_volume *vol = ni->vol;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2704  	u8 *kaddr;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2705  	struct ntfs_inode *locked_nis[PAGE_SIZE / NTFS_BLOCK_SIZE];
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2706  	int nr_locked_nis = 0, err = 0, mft_ofs, prev_mft_ofs;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2707  	struct inode *ref_inos[PAGE_SIZE / NTFS_BLOCK_SIZE];
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2708  	int nr_ref_inos = 0;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2709  	struct bio *bio = NULL;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2710  	unsigned long mft_no;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2711  	struct ntfs_inode *tni;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2712  	s64 lcn;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2713  	s64 vcn = ntfs_pidx_to_cluster(vol, folio->index);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2714  	s64 end_vcn = ntfs_bytes_to_cluster(vol, ni->allocated_size);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2715  	unsigned int folio_sz;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2716  	struct runlist_element *rl;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2717  	loff_t i_size = i_size_read(vi);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2718  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2719  	ntfs_debug("Entering for inode 0x%lx, attribute type 0x%x, folio index 0x%lx.",
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2720  			vi->i_ino, ni->type, folio->index);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2721  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2722  	/* We have to zero every time due to mmap-at-end-of-file. */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2723  	if (folio->index >= (i_size >> folio_shift(folio)))
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2724  		/* The page straddles i_size. */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2725  		folio_zero_segment(folio,
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2726  				   offset_in_folio(folio, i_size),
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2727  				   folio_size(folio));
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2728  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2729  	lcn = lcn_from_index(vol, ni, folio->index);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2730  	if (lcn <= LCN_HOLE) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2731  		folio_start_writeback(folio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2732  		folio_unlock(folio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2733  		folio_end_writeback(folio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2734  		return -EIO;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2735  	}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2736  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2737  	/* Map folio so we can access its contents. */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2738  	kaddr = kmap_local_folio(folio, 0);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2739  	/* Clear the page uptodate flag whilst the mst fixups are applied. */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2740  	folio_clear_uptodate(folio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2741  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2742  	for (mft_ofs = 0; mft_ofs < PAGE_SIZE && vcn < end_vcn;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2743  	     mft_ofs += vol->mft_record_size) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2744  		/* Get the mft record number. */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2745  		mft_no = (((s64)folio->index << PAGE_SHIFT) + mft_ofs) >>
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2746  			vol->mft_record_size_bits;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2747  		vcn = ntfs_mft_no_to_cluster(vol, mft_no);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2748  		/* Check whether to write this mft record. */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2749  		tni = NULL;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2750  		if (ntfs_may_write_mft_record(vol, mft_no,
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2751  					(struct mft_record *)(kaddr + mft_ofs),
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2752  					&tni, &ref_inos[nr_ref_inos])) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2753  			unsigned int mft_record_off = 0;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2754  			s64 vcn_off = vcn;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2755  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2756  			/*
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2757  			 * Skip $MFT extent mft records and let them being written
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2758  			 * by writeback to avioid deadlocks. the $MFT runlist
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2759  			 * lock must be taken before $MFT extent mrec_lock is taken.
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2760  			 */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2761  			if (tni && tni->nr_extents < 0 &&
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2762  				tni->ext.base_ntfs_ino == NTFS_I(vol->mft_ino)) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2763  				mutex_unlock(&tni->mrec_lock);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2764  				atomic_dec(&tni->count);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2765  				iput(vol->mft_ino);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2766  				continue;
-c093359b6a6994b Namjae Jeon 2025-12-30  2767  			}
-c093359b6a6994b Namjae Jeon 2025-12-30  2768  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2769  			/*
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2770  			 * The record should be written.  If a locked ntfs
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2771  			 * inode was returned, add it to the array of locked
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2772  			 * ntfs inodes.
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2773  			 */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2774  			if (tni)
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2775  				locked_nis[nr_locked_nis++] = tni;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2776  			else if (ref_inos[nr_ref_inos])
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2777  				nr_ref_inos++;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2778  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2779  			if (bio && (mft_ofs != prev_mft_ofs + vol->mft_record_size)) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2780  flush_bio:
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2781  				bio->bi_end_io = ntfs_bio_end_io;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2782  				submit_bio(bio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2783  				bio = NULL;
-c093359b6a6994b Namjae Jeon 2025-12-30  2784  			}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2785  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2786  			if (vol->cluster_size < folio_size(folio)) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2787  				down_write(&ni->runlist.lock);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2788  				rl = ntfs_attr_vcn_to_rl(ni, vcn_off, &lcn);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2789  				up_write(&ni->runlist.lock);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2790  				if (IS_ERR(rl) || lcn < 0) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2791  					err = -EIO;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2792  					goto unm_done;
-c093359b6a6994b Namjae Jeon 2025-12-30  2793  				}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2794  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2795  				if (bio &&
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2796  				   (bio_end_sector(bio) >> (vol->cluster_size_bits - 9)) !=
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2797  				    lcn) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2798  					bio->bi_end_io = ntfs_bio_end_io;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2799  					submit_bio(bio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2800  					bio = NULL;
-c093359b6a6994b Namjae Jeon 2025-12-30  2801  				}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2802  			}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2803  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2804  			if (!bio) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2805  				unsigned int off;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2806  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2807  				off = ((mft_no << vol->mft_record_size_bits) +
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2808  				       mft_record_off) & vol->cluster_size_mask;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2809  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2810  				bio = bio_alloc(vol->sb->s_bdev, 1, REQ_OP_WRITE,
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2811  						GFP_NOIO);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2812  				bio->bi_iter.bi_sector =
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2813  					ntfs_bytes_to_sector(vol,
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2814  							ntfs_cluster_to_bytes(vol, lcn) + off);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2815  			}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2816  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2817  			if (vol->cluster_size == NTFS_BLOCK_SIZE &&
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2818  			    (mft_record_off ||
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2819  			     rl->length - (vcn_off - rl->vcn) == 1 ||
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2820  			     mft_ofs + NTFS_BLOCK_SIZE >= PAGE_SIZE))
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2821  				folio_sz = NTFS_BLOCK_SIZE;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2822  			else
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2823  				folio_sz = vol->mft_record_size;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2824  			if (!bio_add_folio(bio, folio, folio_sz,
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2825  					   mft_ofs + mft_record_off)) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2826  				err = -EIO;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2827  				bio_put(bio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2828  				goto unm_done;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2829  			}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2830  			mft_record_off += folio_sz;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2831  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2832  			if (mft_record_off != vol->mft_record_size) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2833  				vcn_off++;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2834  				goto flush_bio;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2835  			}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2836  			prev_mft_ofs = mft_ofs;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2837  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2838  			if (mft_no < vol->mftmirr_size)
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2839  				ntfs_sync_mft_mirror(vol, mft_no,
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2840  						(struct mft_record *)(kaddr + mft_ofs));
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2841  		} else if (ref_inos[nr_ref_inos])
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2842  			nr_ref_inos++;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2843  	}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2844  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2845  	if (bio) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2846  		bio->bi_end_io = ntfs_bio_end_io;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2847  		submit_bio(bio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2848  	}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2849  unm_done:
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2850  	folio_mark_uptodate(folio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2851  	kunmap_local(kaddr);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2852  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2853  	folio_start_writeback(folio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2854  	folio_unlock(folio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2855  	folio_end_writeback(folio);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2856  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2857  	/* Unlock any locked inodes. */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2858  	while (nr_locked_nis-- > 0) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2859  		struct ntfs_inode *base_tni;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2860  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2861  		tni = locked_nis[nr_locked_nis];
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2862  		mutex_unlock(&tni->mrec_lock);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2863  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2864  		/* Get the base inode. */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2865  		mutex_lock(&tni->extent_lock);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2866  		if (tni->nr_extents >= 0)
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2867  			base_tni = tni;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2868  		else
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2869  			base_tni = tni->ext.base_ntfs_ino;
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2870  		mutex_unlock(&tni->extent_lock);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2871  		ntfs_debug("Unlocking %s inode 0x%lx.",
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2872  				tni == base_tni ? "base" : "extent",
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2873  				tni->mft_no);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2874  		atomic_dec(&tni->count);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2875  		iput(VFS_I(base_tni));
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2876  	}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2877  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2878  	/* Dropping deferred references */
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2879  	while (nr_ref_inos-- > 0) {
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2880  		if (ref_inos[nr_ref_inos])
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2881  			iput(ref_inos[nr_ref_inos]);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2882  	}
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2883  
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2884  	if (unlikely(err && err != -ENOMEM))
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2885  		NVolSetErrors(vol);
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2886  	if (likely(!err))
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2887  		ntfs_debug("Done.");
-c093359b6a6994b Namjae Jeon 2025-12-30  2888  	return err;
-c093359b6a6994b Namjae Jeon 2025-12-30 @2889  }
-6e95d0998f454e9 Namjae Jeon 2026-02-02  2890  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1432  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1433  netdev_tx_t bnge_start_xmit(struct sk_buff *skb, struct net_device *dev)
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1434  {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1435  	u32 len, free_size, vlan_tag_flags, cfa_action, flags;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1436  	struct bnge_net *bn = netdev_priv(dev);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1437  	struct bnge_tx_ring_info *txr;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1438  	struct bnge_dev *bd = bn->bd;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1439  	struct bnge_sw_tx_bd *tx_buf;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1440  	struct tx_bd *txbd, *txbd0;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1441  	struct netdev_queue *txq;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1442  	struct tx_bd_ext *txbd1;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1443  	u16 prod, last_frag;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1444  	unsigned int length;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1445  	dma_addr_t mapping;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1446  	__le32 lflags = 0;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1447  	skb_frag_t *frag;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1448  	int i;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1449  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1450  	i = skb_get_queue_mapping(skb);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1451  	txq = netdev_get_tx_queue(dev, i);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1452  	txr = &bn->tx_ring[bn->tx_ring_map[i]];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1453  	prod = txr->tx_prod;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1454  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1455  	free_size = bnge_tx_avail(bn, txr);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1456  	if (unlikely(free_size < skb_shinfo(skb)->nr_frags + 2)) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1457  		/* We must have raced with NAPI cleanup */
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1458  		if (net_ratelimit() && txr->kick_pending)
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1459  			netif_warn(bn, tx_err, dev,
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1460  				   "bnge: ring busy w/ flush pending!\n");
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1461  		if (!netif_txq_try_stop(txq, bnge_tx_avail(bn, txr),
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1462  					bn->tx_wake_thresh))
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1463  			return NETDEV_TX_BUSY;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1464  	}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1465  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29 @1466  	if (unlikely(ipv6_hopopt_jumbo_remove(skb)))
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1467  		goto tx_free;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1468  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1469  	last_frag = skb_shinfo(skb)->nr_frags;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1470  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1471  	txbd = &txr->tx_desc_ring[TX_RING(bn, prod)][TX_IDX(prod)];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1472  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1473  	tx_buf = &txr->tx_buf_ring[SW_TX_RING(bn, prod)];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1474  	tx_buf->skb = skb;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1475  	tx_buf->nr_frags = last_frag;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1476  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1477  	vlan_tag_flags = 0;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1478  	cfa_action = bnge_xmit_get_cfa_action(skb);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1479  	if (skb_vlan_tag_present(skb)) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1480  		vlan_tag_flags = TX_BD_CFA_META_KEY_VLAN |
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1481  				 skb_vlan_tag_get(skb);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1482  		/* Currently supports 8021Q, 8021AD vlan offloads
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1483  		 * QINQ1, QINQ2, QINQ3 vlan headers are deprecated
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1484  		 */
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1485  		if (skb->vlan_proto == htons(ETH_P_8021Q))
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1486  			vlan_tag_flags |= 1 << TX_BD_CFA_META_TPID_SHIFT;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1487  	}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1488  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1489  	if (unlikely(skb->no_fcs))
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1490  		lflags |= cpu_to_le32(TX_BD_FLAGS_NO_CRC);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1491  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1492  	if (eth_skb_pad(skb))
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1493  		goto tx_kick_pending;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1494  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1495  	len = skb_headlen(skb);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1496  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1497  	mapping = dma_map_single(bd->dev, skb->data, len, DMA_TO_DEVICE);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1498  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1499  	if (unlikely(dma_mapping_error(bd->dev, mapping)))
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1500  		goto tx_free;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1501  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1502  	dma_unmap_addr_set(tx_buf, mapping, mapping);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1503  	flags = (len << TX_BD_LEN_SHIFT) | TX_BD_TYPE_LONG_TX_BD |
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1504  		TX_BD_CNT(last_frag + 2);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1505  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1506  	txbd->tx_bd_haddr = cpu_to_le64(mapping);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1507  	txbd->tx_bd_opaque = SET_TX_OPAQUE(bn, txr, prod, 2 + last_frag);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1508  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1509  	prod = NEXT_TX(prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1510  	txbd1 = (struct tx_bd_ext *)
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1511  		&txr->tx_desc_ring[TX_RING(bn, prod)][TX_IDX(prod)];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1512  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1513  	if (skb_is_gso(skb)) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1514  		u32 hdr_len = bnge_get_gso_hdr_len(skb);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1515  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1516  		lflags |= cpu_to_le32(TX_BD_FLAGS_LSO | TX_BD_FLAGS_T_IPID |
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1517  				      (hdr_len << (TX_BD_HSIZE_SHIFT - 1)));
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1518  		length = skb_shinfo(skb)->gso_size;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1519  		txbd1->tx_bd_mss = cpu_to_le32(length);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1520  		length += hdr_len;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1521  	} else {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1522  		length = skb->len;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1523  		if (skb->ip_summed == CHECKSUM_PARTIAL) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1524  			lflags |= cpu_to_le32(TX_BD_FLAGS_TCP_UDP_CHKSUM);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1525  			txbd1->tx_bd_mss = 0;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1526  		}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1527  	}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1528  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1529  	flags |= bnge_lhint_arr[length >> 9];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1530  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1531  	txbd->tx_bd_len_flags_type = cpu_to_le32(flags);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1532  	txbd1->tx_bd_hsize_lflags = lflags;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1533  	txbd1->tx_bd_cfa_meta = cpu_to_le32(vlan_tag_flags);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1534  	txbd1->tx_bd_cfa_action =
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1535  			cpu_to_le32(cfa_action << TX_BD_CFA_ACTION_SHIFT);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1536  	txbd0 = txbd;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1537  	for (i = 0; i < last_frag; i++) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1538  		frag = &skb_shinfo(skb)->frags[i];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1539  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1540  		prod = NEXT_TX(prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1541  		txbd = &txr->tx_desc_ring[TX_RING(bn, prod)][TX_IDX(prod)];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1542  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1543  		len = skb_frag_size(frag);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1544  		mapping = skb_frag_dma_map(bd->dev, frag, 0, len,
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1545  					   DMA_TO_DEVICE);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1546  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1547  		if (unlikely(dma_mapping_error(bd->dev, mapping)))
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1548  			goto tx_dma_error;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1549  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1550  		tx_buf = &txr->tx_buf_ring[SW_TX_RING(bn, prod)];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1551  		netmem_dma_unmap_addr_set(skb_frag_netmem(frag), tx_buf,
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1552  					  mapping, mapping);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1553  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1554  		txbd->tx_bd_haddr = cpu_to_le64(mapping);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1555  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1556  		flags = len << TX_BD_LEN_SHIFT;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1557  		txbd->tx_bd_len_flags_type = cpu_to_le32(flags);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1558  	}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1559  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1560  	flags &= ~TX_BD_LEN;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1561  	txbd->tx_bd_len_flags_type =
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1562  		cpu_to_le32(((len) << TX_BD_LEN_SHIFT) | flags |
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1563  			    TX_BD_FLAGS_PACKET_END);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1564  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1565  	netdev_tx_sent_queue(txq, skb->len);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1566  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1567  	prod = NEXT_TX(prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1568  	WRITE_ONCE(txr->tx_prod, prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1569  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1570  	if (!netdev_xmit_more() || netif_xmit_stopped(txq)) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1571  		bnge_txr_db_kick(bn, txr, prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1572  	} else {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1573  		if (free_size >= bn->tx_wake_thresh)
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1574  			txbd0->tx_bd_len_flags_type |=
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1575  				cpu_to_le32(TX_BD_FLAGS_NO_CMPL);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1576  		txr->kick_pending = 1;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1577  	}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1578  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1579  	if (unlikely(bnge_tx_avail(bn, txr) <= MAX_SKB_FRAGS + 1)) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1580  		if (netdev_xmit_more()) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1581  			txbd0->tx_bd_len_flags_type &=
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1582  				cpu_to_le32(~TX_BD_FLAGS_NO_CMPL);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1583  			bnge_txr_db_kick(bn, txr, prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1584  		}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1585  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1586  		netif_txq_try_stop(txq, bnge_tx_avail(bn, txr),
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1587  				   bn->tx_wake_thresh);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1588  	}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1589  	return NETDEV_TX_OK;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1590  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1591  tx_dma_error:
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1592  	last_frag = i;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1593  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1594  	/* start back at beginning and unmap skb */
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1595  	prod = txr->tx_prod;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1596  	tx_buf = &txr->tx_buf_ring[SW_TX_RING(bn, prod)];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1597  	dma_unmap_single(bd->dev, dma_unmap_addr(tx_buf, mapping),
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1598  			 skb_headlen(skb), DMA_TO_DEVICE);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1599  	prod = NEXT_TX(prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1600  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1601  	/* unmap remaining mapped pages */
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1602  	for (i = 0; i < last_frag; i++) {
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1603  		prod = NEXT_TX(prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1604  		tx_buf = &txr->tx_buf_ring[SW_TX_RING(bn, prod)];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1605  		frag = &skb_shinfo(skb)->frags[i];
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1606  		netmem_dma_unmap_page_attrs(bd->dev,
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1607  					    dma_unmap_addr(tx_buf, mapping),
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1608  					    skb_frag_size(frag),
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1609  					    DMA_TO_DEVICE, 0);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1610  	}
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1611  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1612  tx_free:
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1613  	dev_kfree_skb_any(skb);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1614  
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1615  tx_kick_pending:
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1616  	if (txr->kick_pending)
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1617  		bnge_txr_db_kick(bn, txr, txr->tx_prod);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1618  	txr->tx_buf_ring[SW_TX_RING(bn, txr->tx_prod)].skb = NULL;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1619  	dev_core_stats_tx_dropped_inc(dev);
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1620  	return NETDEV_TX_OK;
+bd5ad9c052c855 Bhargava Marreddy 2026-01-29  1621  }
+5deaeae186b4e3 Bhargava Marreddy 2026-01-29  1622  
 
-:::::: The code at line 2889 was first introduced by commit
-:::::: c093359b6a6994b38d32680e64674aeb21bbe9ef Revert "fs: Remove NTFS classic"
+:::::: The code at line 1466 was first introduced by commit
+:::::: bd5ad9c052c855c0c8a0e98f5405a22f5887b298 bng_en: Add TX support
 
-:::::: TO: Namjae Jeon <linkinjeon@kernel.org>
-:::::: CC: Namjae Jeon <linkinjeon@kernel.org>
+:::::: TO: Bhargava Marreddy <bhargava.marreddy@broadcom.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
