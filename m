@@ -1,135 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBBB21B9D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 04:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4262F872
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 04:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770091606; cv=none; b=o0wO5TLcCMIEfpLslPc4n78y/4ztUwdxsMAdWPTDNGmLdhpdwOfr+Tw8kQ5PiLJ0btQdcEF9aoeuUIhx/7NTHFaJoUV5Gl8veXaJSIom7S66PBynitJIQxrCnwel6SUEq57+uteJDbBzR6Ao81owTBKkkm4QN2iOKdoWPnarWNw=
+	t=1770092205; cv=none; b=piLB4GAanlupx+Vd3iou4nbfy3V3kjhPF8mLSkmWjEiu2vCi8P3HqrLd1cpEfjPC/UYePupVS88CSN8QH42AIMiRgPM9FatGKGZnycGlKigCYOP7pEsb2309pg17DGK9LeiejScLmIpLUCCWM9aWtMWY/mLYy43hUa6XIC9EmFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770091606; c=relaxed/simple;
-	bh=1Fusn8F3ZQ41oFOiUxvQbehOpvikJ/VqiSSVTS8Ut0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IBYXNGkjRKPA1L1zYJs5dYihM0y1rcmmS2MZCpOyhLYF7Z0Tj2TKRU6OS8lzYLxz6+aJVJwCpDbO/2JubGJzAuSEiQtloLzgEcKMmbUel2YBKG72aF7pRXpO3m/qkKPcP7yytkpoHlVTR576+/jNTmcpoYJbRfGSp0Kn+KtR1Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JCkf8082; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1770092205; c=relaxed/simple;
+	bh=WUTc9fXobazENJzhuYWwyw1ug3qmq36ckDjDqpXgQYE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Mbs1RTS4rZAF5wmV6m6XZWhpKUXzyDlbHO1FcLLvWkzfkkorJVkf661dBwO29U2OPiC5NJNgRobBLymNkwiqchAcqsBu5FJhUJRSTanC85x/cNQx3ae2fiioQP2hU5PYimjoz0mqyKN5sX7lReuJv5QprI3b+GRQkiYFEjzaIKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5O2jKYj; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCkf8082"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5O2jKYj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770091604; x=1801627604;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1Fusn8F3ZQ41oFOiUxvQbehOpvikJ/VqiSSVTS8Ut0Y=;
-  b=JCkf8082iVQqNuCRhybnOU8rb0qO/ug7QV8s65rT3R8IsGbWmG6pr/AR
-   SfkJfaHryHBXpIDIpxP6aIEi7dcGSOABNNTmX7318YFTug7dS3rDOzHEk
-   JDETL+h6LFD6F09P9wUfXMxtlbAqq6/qPAYyiMeibqclK241kKY0t9gTv
-   1QfJCNNSskjroHy5mTvcLfggfYGQ2B7R8qtycaxofh2FdKRRQ1TuR9sol
-   uvJArwjqXJeg2XzE7zE6H/uOT1xjDdIG4qenPuP9xKHvz53s9m/0gr04V
-   vOZS7wteLQ7PKB9ZvnoZ3lGHeWGhYm7WMhDpcRo1f9WFz9cr3c2wZK0pA
-   g==;
-X-CSE-ConnectionGUID: icnXy7BzSoC2ZFcXo91Viw==
-X-CSE-MsgGUID: NSRIugb7TvaRrVdXoiKBWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="70274048"
+  t=1770092204; x=1801628204;
+  h=date:from:to:cc:subject:message-id;
+  bh=WUTc9fXobazENJzhuYWwyw1ug3qmq36ckDjDqpXgQYE=;
+  b=D5O2jKYjI0/jWA5ONIh/a/9n/KOJ1RfDe7U0l1ZshOnCGQbqtK9tKsMk
+   5/z0XKOnbJnLQ5BJREH/SvVGw10NDgAU+EVfFZxLXakxRjDGVgSi/L4Rd
+   uuEUdhwaPMRn0R5DsK/uYMAHzr9Yzkk1ruxKX7JBDL/xpjFMyWWePSk+t
+   PWt1tSrkfC3bz/+d2OJ5BVw9GkRY7yv6750YmBGjezjcEucgo2bgiyemI
+   1svQ+ilQoYs6R3AwOt5nJ09shQpKMf/9CngHnw6zanM/aMc08oPE3q6mF
+   Q3HmA/mvQyGk+v053rguRhQFeYwlU5th09Ypi1J2mTl5IoPvZLnAFz460
+   Q==;
+X-CSE-ConnectionGUID: ZZexWv26R1uKRh8nSUkreQ==
+X-CSE-MsgGUID: MGvPdg9jQRy3mRRQNhua4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="96713024"
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="70274048"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 20:06:44 -0800
-X-CSE-ConnectionGUID: XjR/6+SgS82PCkDq72YJ+g==
-X-CSE-MsgGUID: HI82SjdYRGquSLqqWQAa3A==
+   d="scan'208";a="96713024"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 20:16:43 -0800
+X-CSE-ConnectionGUID: fxVoAzitQTWYRzgIFPUPIA==
+X-CSE-MsgGUID: O+v6llfZR3qQuuQPpD+Qyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="209166509"
+   d="scan'208";a="209842986"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 02 Feb 2026 20:06:42 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 02 Feb 2026 20:16:42 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vn7gV-00000000gEC-2cSa;
-	Tue, 03 Feb 2026 04:06:39 +0000
-Date: Tue, 3 Feb 2026 12:06:03 +0800
+	id 1vn7qC-00000000gEV-0bsL;
+	Tue, 03 Feb 2026 04:16:40 +0000
+Date: Tue, 03 Feb 2026 12:16:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "jempty.liang" <imntjempty@163.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, mark.rutland@arm.com,
-	mathieu.desnoyers@efficios.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	"jempty.liang" <imntjempty@163.com>
-Subject: Re: [PATCH v2] tracing: Fix funcgraph_exit calltime/rettime offset
- for 32-bit ARM
-Message-ID: <202602031142.uHVfwxw3-lkp@intel.com>
-References: <20260202123342.2544795-1-imntjempty@163.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 0/6]
+ kernel/trace/power-traces.c:20:1: error: use of undeclared identifier
+ '__tracepoint_device_pm_callback_start'
+Message-ID: <202602031255.i0FVUUQN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202123342.2544795-1-imntjempty@163.com>
 
-Hi jempty.liang,
+Hi Carlos,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on linus/master v6.19-rc8 next-20260202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/jempty-liang/tracing-Fix-funcgraph_exit-calltime-rettime-offset-for-32-bit-ARM/20260202-203926
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20260202123342.2544795-1-imntjempty%40163.com
-patch subject: [PATCH v2] tracing: Fix funcgraph_exit calltime/rettime offset for 32-bit ARM
-config: x86_64-buildonly-randconfig-004-20260203 (https://download.01.org/0day-ci/archive/20260203/202602031142.uHVfwxw3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031142.uHVfwxw3-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   367aa148ad18ea2d6d56373b83d5895390195cdd
+commit: 380603d5f29a2265cb058a9ce5f2171f096ccca1 [0/6] Merge 2be6a7503d32 ("Merge tag 'trace-unused-v6.17' of git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace") into android-mainline
+config: i386-randconfig-012-20260203 (https://download.01.org/0day-ci/archive/20260203/202602031255.i0FVUUQN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031255.i0FVUUQN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031142.uHVfwxw3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602031255.i0FVUUQN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/trace/trace_irqsoff.c: In function 'irqsoff_graph_return':
->> kernel/trace/trace_irqsoff.c:224:13: warning: unused variable 'rettime' [-Wunused-variable]
-     224 |         u64 rettime;
-         |             ^~~~~~~
+>> kernel/trace/power-traces.c:20:1: error: use of undeclared identifier '__tracepoint_device_pm_callback_start'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:52:1: note: expanded from here
+      52 | __tracepoint_device_pm_callback_start
+         | ^
+>> kernel/trace/power-traces.c:20:1: error: use of undeclared identifier '__traceiter_device_pm_callback_start'
+   include/linux/tracepoint.h:375:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^
+   <scratch space>:59:1: note: expanded from here
+      59 | __traceiter_device_pm_callback_start
+         | ^
+>> kernel/trace/power-traces.c:20:1: error: use of undeclared identifier '__SCK__tp_func_device_pm_callback_start'
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^
+   include/linux/static_call.h:277:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     277 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:67:1: note: expanded from here
+      67 | __SCK__tp_func_device_pm_callback_start
+         | ^
+>> kernel/trace/power-traces.c:20:1: error: use of undeclared identifier '__SCT__tp_func_device_pm_callback_start'
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^
+   include/linux/static_call.h:278:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     278 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^
+   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:5:1: note: expanded from here
+       5 | __SCT__tp_func_device_pm_callback_start
+         | ^
+>> kernel/trace/power-traces.c:21:1: error: use of undeclared identifier '__tracepoint_device_pm_callback_end'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:12:1: note: expanded from here
+      12 | __tracepoint_device_pm_callback_end
+         | ^
+>> kernel/trace/power-traces.c:21:1: error: use of undeclared identifier '__traceiter_device_pm_callback_end'
+   include/linux/tracepoint.h:375:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^
+   <scratch space>:19:1: note: expanded from here
+      19 | __traceiter_device_pm_callback_end
+         | ^
+>> kernel/trace/power-traces.c:21:1: error: use of undeclared identifier '__SCK__tp_func_device_pm_callback_end'
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^
+   include/linux/static_call.h:277:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     277 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:27:1: note: expanded from here
+      27 | __SCK__tp_func_device_pm_callback_end
+         | ^
+>> kernel/trace/power-traces.c:21:1: error: use of undeclared identifier '__SCT__tp_func_device_pm_callback_end'
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^
+   include/linux/static_call.h:278:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     278 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^
+   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:34:1: note: expanded from here
+      34 | __SCT__tp_func_device_pm_callback_end
+         | ^
+   8 errors generated.
 
 
-vim +/rettime +224 kernel/trace/trace_irqsoff.c
+vim +/__tracepoint_device_pm_callback_start +20 kernel/trace/power-traces.c
 
-62b915f1060996 Jiri Olsa                 2010-04-02  214  
-37238abe3cb47b Steven Rostedt (VMware    2024-06-03  215) static void irqsoff_graph_return(struct ftrace_graph_ret *trace,
-2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  216) 				 struct fgraph_ops *gops,
-2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  217) 				 struct ftrace_regs *fregs)
-62b915f1060996 Jiri Olsa                 2010-04-02  218  {
-62b915f1060996 Jiri Olsa                 2010-04-02  219  	struct trace_array *tr = irqsoff_trace;
-62b915f1060996 Jiri Olsa                 2010-04-02  220  	struct trace_array_cpu *data;
-62b915f1060996 Jiri Olsa                 2010-04-02  221  	unsigned long flags;
-36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  222  	unsigned int trace_ctx;
-a485ea9e3ef31a Steven Rostedt            2025-01-13  223  	u64 *calltime;
-66611c04757096 Steven Rostedt            2025-01-21 @224  	u64 rettime;
-a485ea9e3ef31a Steven Rostedt            2025-01-13  225  	int size;
-62b915f1060996 Jiri Olsa                 2010-04-02  226  
-12117f3307b63f Steven Rostedt (VMware    2024-06-03  227) 	ftrace_graph_addr_finish(gops, trace);
-5cf99a0f3161bc Steven Rostedt (VMware    2018-11-29  228) 
-5e6d2b9cfa3a6e Steven Rostedt            2010-10-05  229  	if (!func_prolog_dec(tr, &data, &flags))
-62b915f1060996 Jiri Olsa                 2010-04-02  230  		return;
-62b915f1060996 Jiri Olsa                 2010-04-02  231  
-77a67833e830fd jempty.liang              2026-02-02  232  	trace->rettime = trace_clock_local();
-a485ea9e3ef31a Steven Rostedt            2025-01-13  233  	calltime = fgraph_retrieve_data(gops->idx, &size);
-c834a97962c708 Steven Rostedt            2025-10-08  234  	if (calltime) {
-77a67833e830fd jempty.liang              2026-02-02  235  		trace->calltime = *calltime;
-36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  236  		trace_ctx = tracing_gen_ctx_flags(flags);
-77a67833e830fd jempty.liang              2026-02-02  237  		__trace_graph_return(tr, trace, trace_ctx);
-c834a97962c708 Steven Rostedt            2025-10-08  238  	}
-90633c34c36d0c Steven Rostedt            2025-05-05  239  	local_dec(&data->disabled);
-62b915f1060996 Jiri Olsa                 2010-04-02  240  }
-62b915f1060996 Jiri Olsa                 2010-04-02  241  
+6161352142d5fe Arjan van de Ven  2009-09-17  16  
+c9257f78b4f785 Todd E Brandt     2014-12-12  17  EXPORT_TRACEPOINT_SYMBOL_GPL(suspend_resume);
+25e41933b58777 Thomas Renninger  2011-01-03  18  EXPORT_TRACEPOINT_SYMBOL_GPL(cpu_idle);
+9bdcb44e391da5 Rafael J. Wysocki 2016-04-02  19  EXPORT_TRACEPOINT_SYMBOL_GPL(cpu_frequency);
+c1e2c674005c75 Changki Kim       2020-07-02 @20  EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+c1e2c674005c75 Changki Kim       2020-07-02 @21  EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+
+:::::: The code at line 20 was first introduced by commit
+:::::: c1e2c674005c758817710ba1714d35185f6fa8b6 ANDROID: PM: sleep: export device_pm_callback_start/end trace event
+
+:::::: TO: Changki Kim <changki.kim@samsung.com>
+:::::: CC: Jonglin Lee <jonglin@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
