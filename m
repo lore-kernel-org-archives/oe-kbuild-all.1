@@ -1,64 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9FE207A0B;
-	Tue,  3 Feb 2026 05:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596A837C105
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 06:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770097854; cv=none; b=S+1DlrSjGEMScYjiImf3DtTV1uw1OB4oJee2tVIm9NetYIHxeDLQKdrR1RvEUqrOCOnYAjOjubmb1Dgc0w+2WH3JqPMYKpIJF9hm9B9tY1OqdrCLw8RA/YY+TxtLDHI6KsoRw85vhtzYbJzqOWo7u4UG8EOMcIjKAV1FjR+TGAY=
+	t=1770100375; cv=none; b=OQ7xQ/Fro0UfB9XXyiWm/FQc+PeQkFFnHhRsCu8rBLs1KVhj9ffuous9EDgSBo9sD/d4CtPUPFL0IuYiXPPq0hae1Nr01uyOoNLPbgibaDeuEhJhuQyfXewWB1UZLNocfJH1vRrX6cQsPeEyOpWbEfzImJuZFaYwGe+TBOClyH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770097854; c=relaxed/simple;
-	bh=Zp/I4tq7PmVu8AEefnGEYnwMC+UxpEbspw5PwEbwvBQ=;
+	s=arc-20240116; t=1770100375; c=relaxed/simple;
+	bh=dMKe25fzE9CiDCqS/4d/lX4jKHP3taTEZegImZXrpDg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JaSrixf8zMe7l5AIdroqkNtSOU4zXVuibUtO5fo7fetFD2R01uClUjmPJUi5FufeoHFcu12Md45oWJij4NDrWJlEmWEhnkVzuRp4L0ScZHVvT67vEqlvFTkWkqlwdzypOsJqG6Q6DLZKq+EnoiXRSJeZWSt8T/SKz/aLAf7Pvxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cV5Pa8eQ; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbFjsJo61kox+tSiIS0/5xrEGIyOe+J8AvQNHxvgu1jUHagP2idZKy71XX0V+OXOtkL3LSuqWFIok2ChwEmKCPjiM2q71GnxThh8IzdrrULp9KeuTEYPzVpIhUetvQEg7XMQqEVaoUc8e74o/63n7Lv+fi8/jDCBfzpW3x0BewU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BxdJG8UM; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cV5Pa8eQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BxdJG8UM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770097853; x=1801633853;
+  t=1770100373; x=1801636373;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Zp/I4tq7PmVu8AEefnGEYnwMC+UxpEbspw5PwEbwvBQ=;
-  b=cV5Pa8eQzvrXf3Za20rOaumRJ8w/u29yVpwue1iq3B1sBuoaU+Ej5PfV
-   mrQf0o6EgaobVufh/WF2XqomnblAWu1CBIYlJB/hge7jjZgJsjGGRu2En
-   HpbyMzqJdy6ZUXMUUTTE0qI5vfkPdFsHLR8M77GUUwgK5mLc8LFG3TGU9
-   f7lNhVvOyZnXM64iPdc43Tye/rg2fA8cMH4cqplkxheaxvcyolU+2ZwRk
-   uRtjsiGrdKD/yYJoesEeDxgFt/nL0nkhHa1/XsHeL7MvoCatG3wDmqfvK
-   QH8g9fExrVG0SOT2hdVuRfWm9fEcp6DnwOolYnEqalrctlRF3BMUuDfzG
-   Q==;
-X-CSE-ConnectionGUID: Mdte/6KkRDyUTKhjcH20AA==
-X-CSE-MsgGUID: NNw4YyAcQwmVRwovn0sapQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71169010"
+  bh=dMKe25fzE9CiDCqS/4d/lX4jKHP3taTEZegImZXrpDg=;
+  b=BxdJG8UMnnIJsnCKNFZPnRDd9RPHTot+s4uqrxOYaILvm2nkmcogunMv
+   eB7dPYldLz5sxWxTiDCg+0JAG9h0rH0wAgmJbWV29TxKNrNfQpVvtSzXX
+   XSC/JJiHbiOp4PUfCbWmYsVlFkBAK/EpxhHkSH5d32uCq/aKPMYDSqJbt
+   qKn/9vWAZJ1f+GnmE6AWTcSMZdiqetP2hPE7tnXfm3bqCBo26C+IIZvAn
+   zq8yczDnCw0I8O6TTuncS9hRg69YwV6QId8T3s8AICYszNEsKAzRA8cAa
+   Ob8kAXrT5jhrZXkeCYClnoHJ57AnTsulsjfClxx2t61hH8m4bmFA/yhFb
+   g==;
+X-CSE-ConnectionGUID: 8+jiHaxOSBa5mqDJZZ0orQ==
+X-CSE-MsgGUID: 4Kl7EqZgQwaLIrTQHyMtmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="73861097"
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="71169010"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 21:50:51 -0800
-X-CSE-ConnectionGUID: fsiNm8pNQf+nPhe0uZZHfg==
-X-CSE-MsgGUID: ULtznsatRl+eC8T2cDHcig==
+   d="scan'208";a="73861097"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 22:32:52 -0800
+X-CSE-ConnectionGUID: vjJVegRrTVu2MW4my0qypg==
+X-CSE-MsgGUID: a0JWM/USR+mA+gkLoArtYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="208840768"
+   d="scan'208";a="214289265"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 Feb 2026 21:50:49 -0800
+  by orviesa004.jf.intel.com with ESMTP; 02 Feb 2026 22:32:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vn9JG-00000000gIm-0Kpt;
-	Tue, 03 Feb 2026 05:50:46 +0000
-Date: Tue, 3 Feb 2026 13:50:05 +0800
+	id 1vn9xw-00000000gLY-0PL9;
+	Tue, 03 Feb 2026 06:32:48 +0000
+Date: Tue, 3 Feb 2026 14:32:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Murari Prasad Samal <murariprasadsamal57@gmail.com>,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com,
-	Murari Prasad Samal <murariprasadsamal57@gmail.com>
-Subject: Re: [PATCH] net: ifb: record drop reason when redirect device is
- missing
-Message-ID: <202602031317.D3Pw6418-lkp@intel.com>
-References: <20260202191135.7668-1-murariprasadsamal57@gmail.com>
+To: Faizel K B <faizel.kb@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	libcamera-devel@lists.libcamera.org,
+	Faizel K B <faizel.kb@gmail.com>
+Subject: Re: [PATCH v2 2/3] media: vimc: sensor: Add pixel_rate,vblank and
+ hblank configuration
+Message-ID: <202602031452.JzAaJ8BU-lkp@intel.com>
+References: <20260202194645.1287757-3-faizel.kb@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,109 +70,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202191135.7668-1-murariprasadsamal57@gmail.com>
+In-Reply-To: <20260202194645.1287757-3-faizel.kb@gmail.com>
 
-Hi Murari,
+Hi Faizel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net/main]
-[also build test ERROR on net-next/main linus/master horms-ipvs/master v6.19-rc8 next-20260202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on c824345288d11e269ce41b36c105715bc2286050]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Murari-Prasad-Samal/net-ifb-record-drop-reason-when-redirect-device-is-missing/20260203-031526
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260202191135.7668-1-murariprasadsamal57%40gmail.com
-patch subject: [PATCH] net: ifb: record drop reason when redirect device is missing
-config: i386-randconfig-012-20260203 (https://download.01.org/0day-ci/archive/20260203/202602031317.D3Pw6418-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031317.D3Pw6418-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Faizel-K-B/media-vimc-sensor-Move-vimc_sensor_device-to-common-header/20260203-035653
+base:   c824345288d11e269ce41b36c105715bc2286050
+patch link:    https://lore.kernel.org/r/20260202194645.1287757-3-faizel.kb%40gmail.com
+patch subject: [PATCH v2 2/3] media: vimc: sensor: Add pixel_rate,vblank and hblank configuration
+config: m68k-randconfig-r054-20260203 (https://download.01.org/0day-ci/archive/20260203/202602031452.JzAaJ8BU-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031452.JzAaJ8BU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031317.D3Pw6418-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602031452.JzAaJ8BU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ifb.c:118:26: error: use of undeclared identifier 'SKB_DROP_REASON_NO_DEV'; did you mean 'SKB_DROP_REASON_NOMEM'?
-     118 |                         kfree_skb_reason(skb, SKB_DROP_REASON_NO_DEV);
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~
-         |                                               SKB_DROP_REASON_NOMEM
-   include/net/dropreason-core.h:446:2: note: 'SKB_DROP_REASON_NOMEM' declared here
-     446 |         SKB_DROP_REASON_NOMEM,
-         |         ^
-   1 error generated.
+   m68k-linux-ld: drivers/net/phy/air_en8811h.o: in function `en8811h_resume':
+   drivers/net/phy/air_en8811h.c:1175:(.text+0x722): undefined reference to `clk_restore_context'
+   m68k-linux-ld: drivers/net/phy/air_en8811h.o: in function `en8811h_suspend':
+   drivers/net/phy/air_en8811h.c:1182:(.text+0x73a): undefined reference to `clk_save_context'
+   m68k-linux-ld: drivers/media/test-drivers/vimc/vimc-sensor.o: in function `vimc_calc_vblank':
+>> drivers/media/test-drivers/vimc/vimc-sensor.c:144:(.text+0x376): undefined reference to `__divdi3'
 
 
-vim +118 drivers/net/ifb.c
+vim +144 drivers/media/test-drivers/vimc/vimc-sensor.c
 
-    88	
-    89	static void ifb_ri_tasklet(struct tasklet_struct *t)
-    90	{
-    91		struct ifb_q_private *txp = from_tasklet(txp, t, ifb_tasklet);
-    92		struct netdev_queue *txq;
-    93		struct sk_buff *skb;
-    94	
-    95		txq = netdev_get_tx_queue(txp->dev, txp->txqnum);
-    96		skb = skb_peek(&txp->tq);
-    97		if (!skb) {
-    98			if (!__netif_tx_trylock(txq))
-    99				goto resched;
-   100			skb_queue_splice_tail_init(&txp->rq, &txp->tq);
-   101			__netif_tx_unlock(txq);
-   102		}
-   103	
-   104		while ((skb = __skb_dequeue(&txp->tq)) != NULL) {
-   105			/* Skip tc and netfilter to prevent redirection loop. */
-   106			skb->redirected = 0;
-   107	#ifdef CONFIG_NET_CLS_ACT
-   108			skb->tc_skip_classify = 1;
-   109	#endif
-   110			nf_skip_egress(skb, true);
-   111	
-   112			ifb_update_q_stats(&txp->tx_stats, skb->len);
-   113	
-   114			rcu_read_lock();
-   115			skb->dev = dev_get_by_index_rcu(dev_net(txp->dev), skb->skb_iif);
-   116			if (!skb->dev) {
-   117				rcu_read_unlock();
- > 118				kfree_skb_reason(skb, SKB_DROP_REASON_NO_DEV);
-   119				txp->dev->stats.tx_dropped++;
-   120				if (skb_queue_len(&txp->tq) != 0)
-   121					goto resched;
-   122				break;
-   123			}
-   124			rcu_read_unlock();
-   125			skb->skb_iif = txp->dev->ifindex;
-   126	
-   127			if (!skb->from_ingress) {
-   128				dev_queue_xmit(skb);
-   129			} else {
-   130				skb_pull_rcsum(skb, skb->mac_len);
-   131				netif_receive_skb(skb);
-   132			}
-   133		}
-   134	
-   135		if (__netif_tx_trylock(txq)) {
-   136			skb = skb_peek(&txp->rq);
-   137			if (!skb) {
-   138				txp->tasklet_pending = 0;
-   139				if (netif_tx_queue_stopped(txq))
-   140					netif_tx_wake_queue(txq);
-   141			} else {
-   142				__netif_tx_unlock(txq);
-   143				goto resched;
-   144			}
-   145			__netif_tx_unlock(txq);
-   146		} else {
-   147	resched:
-   148			txp->tasklet_pending = 1;
-   149			tasklet_schedule(&txp->ifb_tasklet);
-   150		}
-   151	
+   135	
+   136	static u32 vimc_calc_vblank(u32 width, u32 height,
+   137				    s64 pixel_rate, s32 hblank)
+   138	{
+   139		u32 hts = width + hblank;
+   140		u32 target_fps;
+   141		u32 vblank_def;
+   142	
+   143		target_fps = (width * height <= VIMC_PIXELS_THRESHOLD_30FPS) ? 30 : 10;
+ > 144		vblank_def = (pixel_rate / (target_fps * hts)) - height;
+   145		return clamp(vblank_def, VIMC_VBLANK_MIN, VIMC_VBLANK_MAX);
+   146	}
+   147	
 
 -- 
 0-DAY CI Kernel Test Service
