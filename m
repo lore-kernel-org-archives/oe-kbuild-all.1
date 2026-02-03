@@ -1,108 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499CE233D69
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 23:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADFB34E74B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 23:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770162606; cv=none; b=TPvS8EjEzCK3aEnl5NFOYY76QBbM3D1jyqe2uSC3J+N/UUH0Vsrmh6NPB7edHO7yZWv+iO5CgpPKWNIpkGMZ8iVrV+ScBd+k7Y9EGQEuTDTueECLRsUayHRkPe3HK4xVIOn+EUXp4A4hYCHkDp0PstdL3+Tutz76Cbf6Gfji+mk=
+	t=1770163146; cv=none; b=aD2NsBdxH1TJ7rzkL/zzCfY3+Wx3DMcdjiwarVn1zUPpdXbAD28REGdDhPST7AZkETv8q1Vu6bWFb/xxGSi5luKmxARMbXqwKH/224zBCAUZzF+fM0TnlpNinXkofjMvVPC9wB+VCufddXw2eYa87nyN6eeZJEyVYuWyK7fvmmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770162606; c=relaxed/simple;
-	bh=lW/DhY9GFJrtPF9xoYO9z3EZ8dViSfffQZsDTDTwHX4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tLs8kOx7ar+IRCq7diIv3+nMUgG8+bAoXN106KUaIQc02oIPTELza+LbGsoRM7nrWXJLCoiVR/+IMEpKhXfOdnXzff3f46Y4Tb/0yAWkd6m1oVZM73zi9BjzxZTn+BL8poMRX1M8R7U59vmE30OC6Ev8lI6cyMLQzrfp/XEetEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jGbgo84c; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770163146; c=relaxed/simple;
+	bh=c/X2XJ/CyW+pJEphZsV9Marg9EA/Tmbv0iSdpPMCTmw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cFrCgSHUN0fOFodWzi8TuQbiN6vokA1V/JsKOk9LpM0zEjjAqKFW1ufoRxlUE8OzoBmf2Hp7jEqgx9KAh5V7i7qW8Tc/AXV0YrndVok4hjzOxXZiNP1YniHWNpwqsfc+JkXzz7O0SVwWTLOiSuj2aBSbSTbHsvetLExTAaUOTpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D17PoiLq; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGbgo84c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770162606; x=1801698606;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lW/DhY9GFJrtPF9xoYO9z3EZ8dViSfffQZsDTDTwHX4=;
-  b=jGbgo84csyeW8TKLnQMPxcJctk46u+/RsvANcRgn0y9jhHkKM77M1JLc
-   I0y8wkYkEMwAMHP/jQkpywTMARoeCAhJXPduouhuroFGkDYG2o8Bv8JZE
-   n9OT9bWX2uQ0lE1cfhwaXrR4wLjT6XT38tiZMXlkHL55l5ftKSlVRcEea
-   QfekK4+0bvlZtZ4Iynxboe2QidHMtk69pMTsNJ8XskXIgXrybVIwZ2FKu
-   63RIktEHnwo+74OVfMggANZ9BTjjKVsNmvdk/G98sLWrlgCnbRVey5hEv
-   ZjgEhzHdustYe4EHk8F4nKk221ne+9rJdxh+v9KwD6vbLPEj9ZwQwoKft
-   w==;
-X-CSE-ConnectionGUID: wmS7+0YBS5WPfusfvs9NaA==
-X-CSE-MsgGUID: jWL9Y+8wTLuq4vLVGMPLjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="82456184"
-X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="82456184"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 15:50:05 -0800
-X-CSE-ConnectionGUID: yE1z5WFmSNGWBzAM6FIyjA==
-X-CSE-MsgGUID: 2HKzhuT3T+aSuWOHqvlnwg==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Feb 2026 15:49:58 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vnQ9b-00000000hJ8-3lM2;
-	Tue, 03 Feb 2026 23:49:55 +0000
-Date: Wed, 4 Feb 2026 07:49:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lance Yang <lance.yang@linux.dev>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, david@kernel.org, dave.hansen@intel.com,
-	dave.hansen@linux.intel.com, ypodemsk@redhat.com, hughd@google.com,
-	will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com,
-	peterz@infradead.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, x86@kernel.org, hpa@zytor.com, arnd@arndb.de,
-	lorenzo.stoakes@oracle.com, ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	baohua@kernel.org, shy828301@gmail.com, riel@surriel.com,
-	jannh@google.com, jgross@suse.com, seanjc@google.com,
-	pbonzini@redhat.com
-Subject: Re: [PATCH v4 1/3] mm: use targeted IPIs for TLB sync with lockless
- page table walkers
-Message-ID: <202602040751.TGypHk92-lkp@intel.com>
-References: <20260202074557.16544-2-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D17PoiLq"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-382fb535b73so57591741fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Feb 2026 15:59:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770163143; x=1770767943; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hblut01cg4liiCBRWjvcMFZ79KDKqattRzEpdMr9QyI=;
+        b=D17PoiLqfm8YY2SSPkNRutZI8GF3Dfn0FSDxpCZq++Wup0QTLJ8mA6+/LfgfLqxFpz
+         JxQIGSCSKMiviB6SqIjTPX9YgO9LdkMeDqxTK1+56CS1dRNhH+nQe8IFYaRkFh0uLnw/
+         CqXazbEQLIGB71GcY+QKQehWsNSj8adr4TVQit1K22jAIU2jvOkMobiUY+4sVbnsZ1cz
+         ZPxNfqH58hZjSdLkrpRuXuoDx8EyYsHxBP2hChc3DirTZllOUYpd92LreB+b+U2rFZ3y
+         BVp45bYQtvXDVHoXLn974YGHBpTe3iQg9SWjTAOJK1pWveVAtLeIALxKsQMAyZcutP5e
+         D6nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770163143; x=1770767943;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Hblut01cg4liiCBRWjvcMFZ79KDKqattRzEpdMr9QyI=;
+        b=AvLlOjyNSV2ysev7xUlRcSrBn484agp0Dttpyf7RiS9rPw8P8px2LPsyRYS5Huvu+N
+         DYMl49D8yBe3Ks+JZ3PjPh+zyMBW7Cg1uUMQi745Wchd397KF0GdE+6+EE6m8bdsk15w
+         XS6CMt5RFWuzkzUzijLWtaMPT1O36qn8FAM0NLmi6Ig9xhXhela1zCvoW3IOx7vrWITK
+         ggYUHMJS53RJreSUra5avE6wlHxtSmTLTuhg/mBSQ1r59WIIESq5tMCBeO6/pwuN2oHg
+         euOZbFGG42CMfsjNW/n1fNk1+GDBPNRC9WGIGaxqOZHjL1qfroCWVPzBLPkMWnEU+dUA
+         o5VA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0RruJ60fdPW1ziy/fPTUakt+AwDEIGiT8RZ1AsmIt79eLhY/zCg+MdubqHrAI7yOAN5BcAKH//j8OMxDQ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzu1ONxY2S0xn8rNO6zLFmPjGO6jtZW0PC5v1lYNR9x3r4df5VI
+	MPDXMe0y8au4GS4PfC8m5VratmxOBpKf3F9okMOkkBHO3tgC3H894Q+iq4p6Uw==
+X-Gm-Gg: AZuq6aLin8f1FC6cCLOkm4BkY1b0rtT5zQU2HBTnhD7RtRayTTjCH2tijle6j53FZK2
+	b9WA9S/E0nptUTcDjYx1ZXsrs4Af7ENQhDIk+oXXYG1adsDleTJXWSuAgQh6nK0/E2+iJjCIUkR
+	x5Rk0x8gicvkvks/63Gk1RJ8QLyd2m7Xh4yubssu2vgV5Q7szlnaFQ1y27QrGvm//Nm7kz9M8KN
+	P7dTMBXmZLgiF7pslIfbNw5CzEud6ETleXeGGmsTyC8EFzS8qLMvQiyMJmZPitbOrzyEXBOGwsw
+	3XTIrgmJITQZj+PJBrJRDAU10TE0GFtsF+0HbMusPUI7qL98K2dV8IoKrPRI/QIjvm2rEpQtgYN
+	f9ZIdQBeexkidVFGLf9Bt0TZk4IAlCNDixeywxPrrR6qz4Uui6KsnFzptYwpVUyisaO3l13XpVq
+	zonvs2bBdWPxnho74iehR6dDFFlRXRYkBd4wormuxlIaXHqjKzYRBe
+X-Received: by 2002:a5d:5f85:0:b0:435:e57a:9082 with SMTP id ffacd0b85a97d-4361805836fmr1231517f8f.46.1770156314379;
+        Tue, 03 Feb 2026 14:05:14 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43617e250bdsm1637638f8f.2.2026.02.03.14.05.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Feb 2026 14:05:14 -0800 (PST)
+Date: Tue, 3 Feb 2026 22:05:12 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Willy Tarreau <w@1wt.eu>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
+ <linux@weissschuh.net>, linux-kernel@vger.kernel.org, Cheng Li
+ <lechain@gmail.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 11/12] selftests/nolibc: Increase coverage of printf
+ format tests
+Message-ID: <20260203220512.56d71f75@pumpkin>
+In-Reply-To: <202602031944.7j98nfRE-lkp@intel.com>
+References: <20260203103000.20206-12-david.laight.linux@gmail.com>
+	<202602031944.7j98nfRE-lkp@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202074557.16544-2-lance.yang@linux.dev>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Lance,
+On Tue, 3 Feb 2026 19:22:28 +0100
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+> Hi,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on next-20260202]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/tools-nolibc-printf-Move-length-check-to-snprintf-callback/20260203-183919
+> base:   next-20260202
+> patch link:    https://lore.kernel.org/r/20260203103000.20206-12-david.laight.linux%40gmail.com
+> patch subject: [PATCH 11/12] selftests/nolibc: Increase coverage of printf format tests
+> config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260203/202602031944.7j98nfRE-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031944.7j98nfRE-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602031944.7j98nfRE-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    nolibc-test.c: In function 'test_dirent':
+>    nolibc-test.c:784:17: warning: 'readdir_r' is deprecated [-Wdeprecated-declarations]
+>      784 |                 ret = readdir_r(dir, &dirent, &result);
+>          |                 ^~~
+>    In file included from nolibc-test.c:32:
+>    /usr/include/dirent.h:185:12: note: declared here
+>      185 | extern int readdir_r (DIR *__restrict __dirp,
+>          |            ^~~~~~~~~
+>    nolibc-test.c: At top level:
+> >> nolibc-test.c:1654:1: warning: 'mat' attribute directive ignored [-Wattributes]  
+>     1654 | {
+>          | ^
+> --
+> >> nolibc-test.c:1654:1: warning: 'mat' attribute directive ignored [-Wattributes]  
+>     1654 | {
+>          | ^
+> 
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on tip/x86/core arnd-asm-generic/master linus/master v6.19-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Ah, a line I spotted reading the patches that shouldn't have been there.
+Changed it expecting an error when I test-built the next 'round'.
+For some reason it didn't fail for me (maybe it needs W=1?).
+The line is just before expect_vfprintf() and I was looking into why the
+tests weren't getting printf format errors and then thinking I could stop
+gcc bleating about a missing format attribute - but that doesn't work
+because the code is testing invalid formats.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lance-Yang/mm-use-targeted-IPIs-for-TLB-sync-with-lockless-page-table-walkers/20260202-154938
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260202074557.16544-2-lance.yang%40linux.dev
-patch subject: [PATCH v4 1/3] mm: use targeted IPIs for TLB sync with lockless page table walkers
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260204/202602040751.TGypHk92-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040751.TGypHk92-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040751.TGypHk92-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: kernel/events/core.o: in function `pt_walk_lockless_end':
->> core.c:(.text.pt_walk_lockless_end+0x368): undefined reference to `active_lockless_pt_walk_mm'
-   arm-linux-gnueabi-ld: kernel/events/core.o: in function `pt_walk_lockless_start':
->> core.c:(.text.pt_walk_lockless_start+0x370): undefined reference to `active_lockless_pt_walk_mm'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	David
