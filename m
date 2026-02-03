@@ -1,220 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85EE2E543B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A8D163
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 22:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770159361; cv=none; b=FdVEyDd/jdZnFhQra3PjFS0YythdxQ/wGh6hTeGOB17hJje7fO7H3pSnD7Hnp3l3DSNeAtkCb4iW6xLcm56aOvSh/IA69L1f0W+qRz84Zb9DdGPU72g1//ZUhF/BU5vZZ78KzkL+/tbmcZrq1NgEYbM1WuxzASPuJaEI0J+em+k=
+	t=1770159361; cv=none; b=HRscY5FV3JdiqZb/P6sAWKPsL8J2vDGg9p9Cq0rNChtWchG58LMohusGceYgk17XUa8FKnc8x5CZbZWFMfjMcOVfvrKgliVu/TD/zUIH7Qv0OKDkctRAod5+Opp7n2EkX3uN8ezqcauxpEwyNx42GLWnJeBy49o8KGjGyNPlV8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770159361; c=relaxed/simple;
-	bh=8JYJNf8FUxr6JC2s4ACvqiCwWPg4h2KqMWyCPOrI0nw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MFBv3sZOXTL3B+gvzac6x3QA9lblarChEbzncRcW0l17enpuhzjURKyEHJC7nYGd6NHJ3zZWwMCjvCYlUQOB9uBvafpbfnEnqQe6S7WmByzjBvZPPDYazzdR2zepqCGwBcqgxXOR8RAf2jJKjgEmkthc5OzA5BmPYbt9BBFT4MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VccK0RTk; arc=none smtp.client-ip=192.198.163.16
+	bh=EpGvoxDrKuv7hIK1fCK6uHMFVNI2vX0KggMpEgCxAwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MZK1d8j81G2LKBDmcVgjSUeahV8pK+YuY5oQaQt+3oGrlWYDKgcb00VBcDSUODO6QXjeFfSG5YLANUZNLDTm+LYqO3evsQ+LdO7jiPD/xVdfHJHF+M12ZI50EFKWpOBZe6YWOInkiGgC7Y+kE0fuSSw+5MtUfMgCoe9VNFcnauc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3vbZbXC; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VccK0RTk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3vbZbXC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1770159360; x=1801695360;
-  h=date:from:to:cc:subject:message-id;
-  bh=8JYJNf8FUxr6JC2s4ACvqiCwWPg4h2KqMWyCPOrI0nw=;
-  b=VccK0RTkxZCP258/Cw8rmr1hpKv+VSkmtJOkwvZsYI7DPOy+amMkkG2W
-   50mkOWiFCLYoWNXQvCHZjXGyt8/zwOFQwDZshCHFayVohOM2ViAODQTul
-   JnQPzymLqfKHj831mOJ/6IoKSPd7LQtYKH99SCx79EqaFBuC/JEksaRHJ
-   CW//nexhXde9Bc8wBQzdlSPSF43SHsPFNz9jrkN0G5VpczRCu0X0vV1qE
-   JrE4IhdDSmwgZxESjK8D79rDRuDI4BD3NSiGrIQUHJDkKpouG1paP7g5o
-   WMx3LGHULl9iMra2jsiUNZjTMpLh7nCs5E4dGGfa4dWRJavKRawq8y0Ut
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EpGvoxDrKuv7hIK1fCK6uHMFVNI2vX0KggMpEgCxAwY=;
+  b=I3vbZbXCd86/reSBcjIBcOa3Qv8FT8V8+5pL8PRaKD3mJG8f0oroEdyM
+   r3DiyTHK08sW3p29RJTwk4D7y9YDUY12flwczh8qfBS3VWVHAKLcttBTs
+   BK5ZzfXaICiKgtJiJ2LB6g0RTWdEs39/kkq/cObgD6PkXVBqZP8+tfNC+
+   WNlZ/7d33Fkh1zItGUt3ETyDkZLWVE9rmaiJV346i3vFigjpvUBqDkBeA
+   538ffg1EB4DsgMO/Q6OxPygp3y0XmRENv8WuHGCERFDGHZCDfOYV3ainQ
+   JsM9/8WfLacKaAET97RfNR+hyb1YgSfGCdUifDYsO4Rd9hPkk25IvD/vv
    Q==;
-X-CSE-ConnectionGUID: ldCkO7qfTdyMFKMQlzLBIQ==
-X-CSE-MsgGUID: qDoqCGxeTWOoa9XK6+NQPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="58919905"
+X-CSE-ConnectionGUID: uhRPO41mS2i1PZEXsjCDcg==
+X-CSE-MsgGUID: lv9IfTLISg+RDyWUKDo1aA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71402298"
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="58919905"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 14:55:57 -0800
-X-CSE-ConnectionGUID: QhxqILHkQZm8mwuCu+PiHA==
-X-CSE-MsgGUID: /va1HdWPSfarglLgT99t7Q==
+   d="scan'208";a="71402298"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 14:55:59 -0800
+X-CSE-ConnectionGUID: GQiDoYA+Qam4UgwOSktzIQ==
+X-CSE-MsgGUID: C6nqfGIRQr21qCll8mjDRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="210064214"
+   d="scan'208";a="214138905"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Feb 2026 14:55:55 -0800
+  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2026 14:55:56 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnPJJ-00000000hFk-209f;
+	id 1vnPJJ-00000000hFi-1tvB;
 	Tue, 03 Feb 2026 22:55:53 +0000
-Date: Wed, 04 Feb 2026 06:55:45 +0800
+Date: Wed, 4 Feb 2026 06:55:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi 4/12]
- arch/loongarch/net/bpf_jit.c:1464:60: warning: 'struct bpf_tramp_links'
- declared inside parameter list will not be visible outside of this definition
- or declaration
-Message-ID: <202602040658.TXCnC0hT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Alain Volmat <alain.volmat@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH 08/13] media: stm32: dcmipp: add pixel pipes helper
+ functions
+Message-ID: <202602040608.vLI553iq-lkp@intel.com>
+References: <20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014@foss.st.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
-head:   ae091d7daa68f465679351da2b52a948a8beab4b
-commit: f784ae726944f8a55e19ec83043b5d951c9f2cba [4/12] bpf: Add struct bpf_tramp_node object
-config: loongarch-randconfig-r063-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040658.TXCnC0hT-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040658.TXCnC0hT-lkp@intel.com/reproduce)
+Hi Alain,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on eb4ee870747c3a77a9c3c84d84efb64bd481013a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/media-stm32-dcmipp-share-struct-dcmipp_device-among-subdevs/20260202-220852
+base:   eb4ee870747c3a77a9c3c84d84efb64bd481013a
+patch link:    https://lore.kernel.org/r/20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014%40foss.st.com
+patch subject: [PATCH 08/13] media: stm32: dcmipp: add pixel pipes helper functions
+config: riscv-randconfig-r122-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040608.vLI553iq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040608.vLI553iq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040658.TXCnC0hT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040608.vLI553iq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c:41:1: sparse: sparse: symbol 'dcmipp_pixel_formats_list' was not declared. Should it be static?
 
-   arch/loongarch/net/bpf_jit.c: In function 'invoke_bpf_prog':
-   arch/loongarch/net/bpf_jit.c:1408:14: error: 'struct bpf_tramp_link' has no member named 'cookie'
-    1408 |         if (l->cookie) {
-         |              ^~
-   arch/loongarch/net/bpf_jit.c:1409:50: error: 'struct bpf_tramp_link' has no member named 'cookie'
-    1409 |                 move_imm(ctx, LOONGARCH_GPR_T1, l->cookie, false);
-         |                                                  ^~
-   arch/loongarch/net/bpf_jit.c: At top level:
->> arch/loongarch/net/bpf_jit.c:1464:60: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-    1464 | static void invoke_bpf_mod_ret(struct jit_ctx *ctx, struct bpf_tramp_links *tl,
-         |                                                            ^~~~~~~~~~~~~~~
-   arch/loongarch/net/bpf_jit.c: In function 'invoke_bpf_mod_ret':
-   arch/loongarch/net/bpf_jit.c:1470:27: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1470 |         for (i = 0; i < tl->nr_links; i++) {
-         |                           ^~
-   arch/loongarch/net/bpf_jit.c:1471:40: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1471 |                 invoke_bpf_prog(ctx, tl->links[i], args_off, retval_off, run_ctx_off, true);
-         |                                        ^~
-   arch/loongarch/net/bpf_jit.c: At top level:
-   arch/loongarch/net/bpf_jit.c:1520:81: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-    1520 |                                          const struct btf_func_model *m, struct bpf_tramp_links *tlinks,
-         |                                                                                 ^~~~~~~~~~~~~~~
-   arch/loongarch/net/bpf_jit.c: In function '__arch_prepare_bpf_trampoline':
-   arch/loongarch/net/bpf_jit.c:1528:49: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1528 |         struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
-         |                                                 ^
-   arch/loongarch/net/bpf_jit.c:1529:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1529 |         struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
-         |                                                ^
-   arch/loongarch/net/bpf_jit.c:1530:51: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1530 |         struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
-         |                                                   ^
-   arch/loongarch/net/bpf_jit.c:1673:31: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1673 |         for (i = 0; i < fentry->nr_links; i++) {
-         |                               ^~
-   arch/loongarch/net/bpf_jit.c:1674:50: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1674 |                 ret = invoke_bpf_prog(ctx, fentry->links[i], args_off, retval_off,
-         |                                                  ^~
-   arch/loongarch/net/bpf_jit.c:1679:21: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1679 |         if (fmod_ret->nr_links) {
-         |                     ^~
-   In file included from include/linux/percpu.h:5,
-                    from include/linux/radix-tree.h:16,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16,
-                    from include/linux/node.h:18,
-                    from include/linux/memory.h:19,
-                    from arch/loongarch/net/bpf_jit.c:7:
-   arch/loongarch/net/bpf_jit.c:1680:45: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1680 |                 branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
-         |                                             ^~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:1005:49: note: in expansion of macro 'alloc_hooks'
-    1005 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1044:41: note: in expansion of macro 'kmalloc_array'
-    1044 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/loongarch/net/bpf_jit.c:1680:29: note: in expansion of macro 'kcalloc'
-    1680 |                 branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
-         |                             ^~~~~~~
-   arch/loongarch/net/bpf_jit.c:1680:45: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1680 |                 branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
-         |                                             ^~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:1005:49: note: in expansion of macro 'alloc_hooks'
-    1005 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1044:41: note: in expansion of macro 'kmalloc_array'
-    1044 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/loongarch/net/bpf_jit.c:1680:29: note: in expansion of macro 'kcalloc'
-    1680 |                 branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
-         |                             ^~~~~~~
-   arch/loongarch/net/bpf_jit.c:1680:45: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1680 |                 branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
-         |                                             ^~
-   include/linux/alloc_tag.h:258:24: note: in definition of macro 'alloc_hooks_tag'
-     258 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:1005:49: note: in expansion of macro 'alloc_hooks'
-    1005 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:1044:41: note: in expansion of macro 'kmalloc_array'
-    1044 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/loongarch/net/bpf_jit.c:1680:29: note: in expansion of macro 'kcalloc'
-    1680 |                 branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
-         |                             ^~~~~~~
-   arch/loongarch/net/bpf_jit.c:1680:27: error: assignment to 'u32 **' {aka 'unsigned int **'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1680 |                 branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
-         |                           ^
-   arch/loongarch/net/bpf_jit.c:1684:41: error: passing argument 2 of 'invoke_bpf_mod_ret' from incompatible pointer type [-Wincompatible-pointer-types]
-    1684 |                 invoke_bpf_mod_ret(ctx, fmod_ret, args_off, retval_off, run_ctx_off, branches);
-         |                                         ^~~~~~~~
-         |                                         |
-         |                                         struct bpf_tramp_links *
-   arch/loongarch/net/bpf_jit.c:1464:77: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
-    1464 | static void invoke_bpf_mod_ret(struct jit_ctx *ctx, struct bpf_tramp_links *tl,
-         |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~^~
-   arch/loongarch/net/bpf_jit.c:1704:47: error: invalid use of undefined type 'struct bpf_tramp_links'
+vim +/dcmipp_pixel_formats_list +41 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for NET_SELFTESTS
-   Depends on [n]: NET [=y] && PHYLIB [=y] && INET [=n]
-   Selected by [y]:
-   - AMD_XGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_AMD [=y] && (OF_ADDRESS [=y] || ACPI [=y] || PCI [=y]) && HAS_IOMEM [=y] && (X86 || ARM64 || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=y]
-
-
-vim +1464 arch/loongarch/net/bpf_jit.c
-
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1463  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05 @1464  static void invoke_bpf_mod_ret(struct jit_ctx *ctx, struct bpf_tramp_links *tl,
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1465  			       int args_off, int retval_off, int run_ctx_off, u32 **branches)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1466  {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1467  	int i;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1468  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1469  	emit_insn(ctx, std, LOONGARCH_GPR_ZERO, LOONGARCH_GPR_FP, -retval_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1470  	for (i = 0; i < tl->nr_links; i++) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1471  		invoke_bpf_prog(ctx, tl->links[i], args_off, retval_off, run_ctx_off, true);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1472  		emit_insn(ctx, ldd, LOONGARCH_GPR_T1, LOONGARCH_GPR_FP, -retval_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1473  		branches[i] = (u32 *)ctx->image + ctx->idx;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1474  		emit_insn(ctx, nop);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1475  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1476  }
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1477  
-
-:::::: The code at line 1464 was first introduced by commit
-:::::: f9b6b41f0cf31791541cea9644ddbedb46465801 LoongArch: BPF: Add basic bpf trampoline support
-
-:::::: TO: Chenghao Duan <duanchenghao@kylinos.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+    17	
+    18	#define DCMIPP_ENT(id, pad) (1 << (2 * (id) + (pad)))
+    19	#define DCMIPP_ISP_SINK			(DCMIPP_ENT(DCMIPP_ISP, 0))
+    20	#define DCMIPP_ISP_SRC			(DCMIPP_ENT(DCMIPP_ISP, 1))
+    21	#define DCMIPP_ISP_INOUT		(DCMIPP_ISP_SINK | DCMIPP_ISP_SRC)
+    22	#define DCMIPP_MAIN_POSTPROC_SINK	(DCMIPP_ENT(DCMIPP_MAIN, 0))
+    23	#define DCMIPP_MAIN_POSTPROC_SRC	(DCMIPP_ENT(DCMIPP_MAIN, 1))
+    24	#define DCMIPP_MAIN_POSTPROC_INOUT					\
+    25		(DCMIPP_MAIN_POSTPROC_SINK | DCMIPP_MAIN_POSTPROC_SRC)
+    26	#define DCMIPP_AUX_POSTPROC_SINK	(DCMIPP_ENT(DCMIPP_AUX, 0))
+    27	#define DCMIPP_AUX_POSTPROC_SRC	(DCMIPP_ENT(DCMIPP_AUX, 1))
+    28	#define DCMIPP_AUX_POSTPROC_INOUT					\
+    29		(DCMIPP_AUX_POSTPROC_SINK | DCMIPP_AUX_POSTPROC_SRC)
+    30	#define DCMIPP_ALL_POSTPROC_SINK					\
+    31		(DCMIPP_MAIN_POSTPROC_SINK | DCMIPP_AUX_POSTPROC_SINK)
+    32	#define DCMIPP_ALL_POSTPROC_INOUT					\
+    33		(DCMIPP_MAIN_POSTPROC_INOUT | DCMIPP_AUX_POSTPROC_INOUT)
+    34	
+    35	#define PIXMAP_MBUS(mbus, applicable_pipes)		\
+    36		{						\
+    37			.code = MEDIA_BUS_FMT_##mbus,		\
+    38			.pipes = applicable_pipes,		\
+    39		}
+    40	const struct dcmipp_pixelpipe_pix_map
+  > 41	dcmipp_pixel_formats_list[] = {
+    42		/* RGB formats */
+    43		/* RGB565 / RGB888 */
+    44		PIXMAP_MBUS(RGB565_2X8_LE, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    45		PIXMAP_MBUS(RGB565_1X16, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    46		PIXMAP_MBUS(RGB888_3X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    47		PIXMAP_MBUS(RGB888_1X24, DCMIPP_ALL_POSTPROC_INOUT | DCMIPP_ISP_INOUT),
+    48		/* YUV formats */
+    49		PIXMAP_MBUS(YUYV8_2X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    50		PIXMAP_MBUS(UYVY8_1X16, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    51		PIXMAP_MBUS(YUV8_1X24, DCMIPP_ALL_POSTPROC_INOUT | DCMIPP_ISP_SRC),
+    52		/* GREY */
+    53		PIXMAP_MBUS(Y8_1X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    54		PIXMAP_MBUS(Y10_1X10, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    55		PIXMAP_MBUS(Y12_1X12, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    56		PIXMAP_MBUS(Y14_1X14, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    57		/* Raw Bayer */
+    58		/* Raw 8 */
+    59		PIXMAP_MBUS(SBGGR8_1X8, DCMIPP_ISP_SINK),
+    60		PIXMAP_MBUS(SGBRG8_1X8, DCMIPP_ISP_SINK),
+    61		PIXMAP_MBUS(SGRBG8_1X8, DCMIPP_ISP_SINK),
+    62		PIXMAP_MBUS(SRGGB8_1X8, DCMIPP_ISP_SINK),
+    63		/* Raw 10 */
+    64		PIXMAP_MBUS(SBGGR10_1X10, DCMIPP_ISP_SINK),
+    65		PIXMAP_MBUS(SGBRG10_1X10, DCMIPP_ISP_SINK),
+    66		PIXMAP_MBUS(SGRBG10_1X10, DCMIPP_ISP_SINK),
+    67		PIXMAP_MBUS(SRGGB10_1X10, DCMIPP_ISP_SINK),
+    68		/* Raw 12 */
+    69		PIXMAP_MBUS(SBGGR12_1X12, DCMIPP_ISP_SINK),
+    70		PIXMAP_MBUS(SGBRG12_1X12, DCMIPP_ISP_SINK),
+    71		PIXMAP_MBUS(SGRBG12_1X12, DCMIPP_ISP_SINK),
+    72		PIXMAP_MBUS(SRGGB12_1X12, DCMIPP_ISP_SINK),
+    73		/* Raw 14 */
+    74		PIXMAP_MBUS(SBGGR14_1X14, DCMIPP_ISP_SINK),
+    75		PIXMAP_MBUS(SGBRG14_1X14, DCMIPP_ISP_SINK),
+    76		PIXMAP_MBUS(SGRBG14_1X14, DCMIPP_ISP_SINK),
+    77		PIXMAP_MBUS(SRGGB14_1X14, DCMIPP_ISP_SINK),
+    78	};
+    79	
 
 -- 
 0-DAY CI Kernel Test Service
