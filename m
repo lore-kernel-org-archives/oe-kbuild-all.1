@@ -1,216 +1,133 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5422BF3DB;
-	Tue,  3 Feb 2026 23:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2C42FD694
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 23:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770160682; cv=none; b=nieIxjGr/hf3N2gGHmyqyjbVnWalT2zEMJ0q2XnXYlEc8oQg8iRoc71pdwI3MvOduODMRZV6jyuw1eALQ7mUOlaLO7K+pijzW4+CsS+YLgAVO2p0cT+ic/b+KQONT1bq7gA3UPXuWDRnBuyHi3dyaebapR5xIXj4835hgk57XLE=
+	t=1770161038; cv=none; b=Q2VF3IM9YdB5DeOWrWqDy5+OTZYvNoVdp0GpDPEoZFJTV0xoqwZLeVIBwUNjldWAQlwSCnhD4N8G/Z5XHwXyVpOELLSOsOkNYap+9OcOmbWqzDihizPR6xijdxJIBe2Ahfp97O1uDK/CE6uajalLHoXGmFDD2F8iTHQqrE/hLwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770160682; c=relaxed/simple;
-	bh=ZrhBvuzMUNGplqDfvLCt8fDb1ymywRU65XznOfCRezU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U+EbD50Wh26m4JEpV7xtJSxupKKxD0pnm/ecGebu724OUYrbmXGguXfsHetkUL55MAIsf20XZ+tBQPu3PPP2Up3mKb6gMr/onw9iW/ixX3mcmWZMeUZU1qlmH8x0gQ5Gb6nG2Sqiigr2PhyKDkIgwzg8XQZ3w2gP9mZT0iAbGgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZx0CZTN; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1770161038; c=relaxed/simple;
+	bh=hXvjwpsb5Kx4Gwier2ixb/L20wUqXoNekqnrFTTQWPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LDCj03DJDiLtd/bT1CaqDe2B4cWSCoF+YlstIQPf6E0GzrEMXbeyXmcuDTYVHLpJpSk+YjG95ICcqX20TOax8wJ5mwOQm2VVn1GAruDGdt7gTJHVIabQNXbXi4XF6iOf7m1AyOGUFLvMPIaTbF7nBfzTSlovZnaZH/wZLbNQo2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTKoxDva; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZx0CZTN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTKoxDva"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770160679; x=1801696679;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZrhBvuzMUNGplqDfvLCt8fDb1ymywRU65XznOfCRezU=;
-  b=UZx0CZTNNLr1hscclKHuJKXxgkxTqAUNW1Z2oOEWOuRquLy5AamF/2t9
-   Pt4WryRmuC3r0opx2CSGjsggwkPks6u2MGtRTUW7StEZHrcCMIKGKzhMT
-   vsBfhKAvYSLQxStX+C4kAu1CG0ag/nI6EDP3PiF3aKTbvj+dC5xNLuNE3
-   FCRrruRVBgLDdsdED/r0llmodOg/fTBXjYQ5P3truZbUSbbWZf3pmuZWk
-   iFLIOOdffq/FIoPM3GkOhyyhxRH6sJZ8SKQSyNlU5xlXyHc2LYvvzS6R8
-   GEsrynYPEfO+/yKYQ59Cx06wtGbOWWvnWB+Rez24CZDyMyIXbEua1G0iK
-   Q==;
-X-CSE-ConnectionGUID: o1Lpk92IS7yLIwxTennzQw==
-X-CSE-MsgGUID: v5bI1sMDQY2wE4KHofRwhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75196032"
+  t=1770161035; x=1801697035;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hXvjwpsb5Kx4Gwier2ixb/L20wUqXoNekqnrFTTQWPs=;
+  b=OTKoxDvaFvyR3hwlLdp/2FG3NusklOFkEWXaGlJR19D3W2FrG72P9/xz
+   8K7JqZ/0CViuMkxrz2rePbkzkY/Gdf7MVhDpl2pbMvn3FfQpK+9DzFO2S
+   YUq+FqnixvI7Tr/z5qic5km/1A9ouiA6eDTxnZ5CoQLLZNx+fqZP0dV6K
+   gcQQmSY8Amwo3lsSVFUZeEmVBdDbDuyrievCg7IEZo6wM1m+6HMr4Tv1w
+   a75TAO5rxa49Og1jP+34A/4qrPxyQgCYuuM4lEqjfYaOJ+By3IQO1xD6e
+   qVx+vDOT0qG01ll03Ck0knS8RHh9zF8TvfPEUdGRVFPaaU+lM/4t1SVmV
+   A==;
+X-CSE-ConnectionGUID: YNO70+cQRBCeQot1fqTBAw==
+X-CSE-MsgGUID: BVkqie6vQVW7kaRr3RY5Pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75196449"
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="75196032"
+   d="scan'208";a="75196449"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 15:17:59 -0800
-X-CSE-ConnectionGUID: T0OUfz7eTDCui+Txn2rdXA==
-X-CSE-MsgGUID: DGNJgk5WSAmk7pv7vWw2zw==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 15:23:55 -0800
+X-CSE-ConnectionGUID: CUAbGf2XQoiEsIXl0JWcyQ==
+X-CSE-MsgGUID: loozeLVSQ6+GqyIqchnzlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="209648023"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Feb 2026 15:17:56 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="209648920"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 03 Feb 2026 15:23:53 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnPec-00000000hHq-43sa;
-	Tue, 03 Feb 2026 23:17:54 +0000
-Date: Wed, 04 Feb 2026 07:17:09 +0800
+	id 1vnPkN-000000003UL-1gbK;
+	Tue, 03 Feb 2026 23:23:51 +0000
+Date: Wed, 4 Feb 2026 00:23:15 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi 4/12]
- kernel/bpf/syscall.c:3497:42: error: incompatible pointer types passing
- 'struct bpf_tramp_node *' to parameter of type 'struct bpf_tramp_link *'
-Message-ID: <202602040714.dGWXGkW1-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: david.laight.linux@gmail.com, Willy Tarreau <w@1wt.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org, Cheng Li <lechain@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	David Laight <david.laight.linux@gmail.com>
+Subject: Re: [PATCH 11/12] selftests/nolibc: Increase coverage of printf
+ format tests
+Message-ID: <202602040045.wtyCVh2h-lkp@intel.com>
+References: <20260203103000.20206-12-david.laight.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260203103000.20206-12-david.laight.linux@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
-head:   ae091d7daa68f465679351da2b52a948a8beab4b
-commit: f784ae726944f8a55e19ec83043b5d951c9f2cba [4/12] bpf: Add struct bpf_tramp_node object
-config: riscv-randconfig-002-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040714.dGWXGkW1-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040714.dGWXGkW1-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20260202]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/tools-nolibc-printf-Move-length-check-to-snprintf-callback/20260203-183919
+base:   next-20260202
+patch link:    https://lore.kernel.org/r/20260203103000.20206-12-david.laight.linux%40gmail.com
+patch subject: [PATCH 11/12] selftests/nolibc: Increase coverage of printf format tests
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260204/202602040045.wtyCVh2h-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040045.wtyCVh2h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040714.dGWXGkW1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040045.wtyCVh2h-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   include/asm-generic/io.h:846:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     846 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:109:53: note: expanded from macro 'insw'
-     109 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/bpf/syscall.c:5:
-   In file included from include/linux/bpf.h:32:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:854:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     854 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:110:53: note: expanded from macro 'insl'
-     110 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/bpf/syscall.c:5:
-   In file included from include/linux/bpf.h:32:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:863:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     863 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:122:55: note: expanded from macro 'outsb'
-     122 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/bpf/syscall.c:5:
-   In file included from include/linux/bpf.h:32:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:872:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     872 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:123:55: note: expanded from macro 'outsw'
-     123 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/bpf/syscall.c:5:
-   In file included from include/linux/bpf.h:32:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:881:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     881 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:124:55: note: expanded from macro 'outsl'
-     124 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/bpf/syscall.c:5:
-   In file included from include/linux/bpf.h:32:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   In file included from kernel/bpf/syscall.c:5:
-   include/linux/bpf.h:1545:51: warning: declaration of 'struct bpf_tramp_link' will not be visible outside of this function [-Wvisibility]
-    1545 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
+   nolibc-test.c:784:9: warning: 'readdir_r' is deprecated [-Wdeprecated-declarations]
+     784 |                 ret = readdir_r(dir, &dirent, &result);
+         |                       ^
+   /usr/include/dirent.h:188:28: note: 'readdir_r' has been explicitly marked deprecated here
+     188 |      __nonnull ((1, 2, 3)) __attribute_deprecated__;
+         |                            ^
+   /usr/include/s390x-linux-gnu/sys/cdefs.h:510:51: note: expanded from macro '__attribute_deprecated__'
+     510 | # define __attribute_deprecated__ __attribute__ ((__deprecated__))
          |                                                   ^
-   include/linux/bpf.h:1551:53: warning: declaration of 'struct bpf_tramp_link' will not be visible outside of this function [-Wvisibility]
-    1551 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-         |                                                     ^
->> kernel/bpf/syscall.c:3497:42: error: incompatible pointer types passing 'struct bpf_tramp_node *' to parameter of type 'struct bpf_tramp_link *' [-Wincompatible-pointer-types]
-    3497 |         WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
-         |                                                 ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/bpf.h:1551:69: note: passing argument to parameter 'link' here
-    1551 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-         |                                                                     ^
-   kernel/bpf/syscall.c:3732:33: error: incompatible pointer types passing 'struct bpf_tramp_node *' to parameter of type 'struct bpf_tramp_link *' [-Wincompatible-pointer-types]
-    3732 |         err = bpf_trampoline_link_prog(&link->link.node, tr, tgt_prog);
-         |                                        ^~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1545:67: note: passing argument to parameter 'link' here
-    1545 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
-         |                                                                   ^
-   9 warnings and 2 errors generated.
-
-
-vim +3497 kernel/bpf/syscall.c
-
-  3491	
-  3492	static void bpf_tracing_link_release(struct bpf_link *link)
-  3493	{
-  3494		struct bpf_tracing_link *tr_link =
-  3495			container_of(link, struct bpf_tracing_link, link.link);
-  3496	
-> 3497		WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
-  3498							tr_link->trampoline,
-  3499							tr_link->tgt_prog));
-  3500	
-  3501		bpf_trampoline_put(tr_link->trampoline);
-  3502	
-  3503		/* tgt_prog is NULL if target is a kernel function */
-  3504		if (tr_link->tgt_prog)
-  3505			bpf_prog_put(tr_link->tgt_prog);
-  3506	}
-  3507	
+   nolibc-test.c:982:24: warning: self-comparison always evaluates to false [-Wtautological-compare]
+     982 |         if (st.st_atim.tv_sec != st.st_atime || st.st_atim.tv_nsec > 1000000000)
+         |                               ^
+   nolibc-test.c:985:24: warning: self-comparison always evaluates to false [-Wtautological-compare]
+     985 |         if (st.st_mtim.tv_sec != st.st_mtime || st.st_mtim.tv_nsec > 1000000000)
+         |                               ^
+   nolibc-test.c:988:24: warning: self-comparison always evaluates to false [-Wtautological-compare]
+     988 |         if (st.st_ctim.tv_sec != st.st_ctime || st.st_ctim.tv_nsec > 1000000000)
+         |                               ^
+   nolibc-test.c:1444:54: warning: null passed to a callee that requires a non-null argument [-Wnonnull]
+    1444 |                 CASE_TEST(stat_fault);        EXPECT_SYSER(1, stat(NULL, &stat_buf), -1, EFAULT); break;
+         |                                                                    ^~~~
+   /opt/cross/clang-f43d683409/lib/clang/22/include/__stddef_null.h:26:14: note: expanded from macro 'NULL'
+      26 | #define NULL ((void*)0)
+         |              ^~~~~~~~~~
+   nolibc-test.c:369:22: note: expanded from macro 'EXPECT_SYSER'
+     369 |         EXPECT_SYSER2(cond, expr, expret, experr, 0)
+         |                             ^~~~
+   nolibc-test.c:366:70: note: expanded from macro 'EXPECT_SYSER2'
+     366 |         do { if (!(cond)) result(llen, SKIPPED); else ret += expect_syserr2(expr, expret, experr1, experr2, llen); } while (0)
+         |                                                                             ^~~~
+>> nolibc-test.c:1652:16: warning: unknown attribute 'mat' ignored [-Wunknown-attributes]
+    1652 | __attribute__((mat(printf, 3, 0)))
+         |                ^~~~~~~~~~~~~~~~~
+   6 warnings generated.
+--
+>> nolibc-test.c:1652:16: warning: unknown attribute 'mat' ignored [-Wunknown-attributes]
+    1652 | __attribute__((mat(printf, 3, 0)))
+         |                ^~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
