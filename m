@@ -1,77 +1,69 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2083AA1B9
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 14:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473FD2E6CAA;
+	Tue,  3 Feb 2026 14:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770129901; cv=none; b=Z1mF6ArB15kiUcmJWFfnr2hFTtrxBGbgEXKEEBjnamdzNKX6teAXlcQfvYDdb07U2BwbU1suTlV+JRetPQ93YcFi1SLnz+X+WCyLGloI5YRbrMTciZC8PowzhhixQ4hSQ8Ry87KSFNBYXoOsWtsVr/AQXJhaa4Tdbkzt2Nj94xk=
+	t=1770130711; cv=none; b=JSGzmiAQXgOsYjjRzkuuTT0z38mZlM4cf7ApdL2oLPW60RMC1yB7bQTalNbK/R5jw/RYjOa8SDbNJRDyfc30T2Iiwqb13eS5Ly47WVtxjifUDedeyG+7E0G9e4T97+C53thB6xNGqRcvRMdyA7aUkZnbgUCMIBGq61fZOvw6Gp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770129901; c=relaxed/simple;
-	bh=rgrNsEhFZmqqZxIfpCwbCJV/Khr2lLXP6RzrKt4aUwY=;
+	s=arc-20240116; t=1770130711; c=relaxed/simple;
+	bh=3OqK9oTeVR5lGSXtaWyFd41ZMpY3Io7T1BufEaZUCaQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oBz8dWz4rG7Qxo6uUusn2ykllgRMI76K9BhbcKKXVtDHxmyG0bO4ALbbITc1ViFMWopFUUz+S8k5b8NmKQOk7T9y6D94bQ2nOm1Wvf+cHkjfriRuabZztv+4V07MUm9wZXHX8U8I9xmZMzzIZAsqJE4y3rkPZQ7T/wSaZK4NwhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aMRgju3Q; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=l7gm5hdIln2CPNfqXBWVyroN+VdKXqjFgSAHpCA9JkdK2STD75TdidMPERPsKwv4IU6QpwDJrSFXtMvCQzWfHDW2GLF4Xj/WSehmpXCOP5ulZTbaWpvuwfLG8yZjam+x5LoAvYg3ixAfYz9NoAUNNeCfFbwal6sRwKXZ1/cZVto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7Hn9MCV; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aMRgju3Q"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47fedb7c68dso58455115e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Feb 2026 06:44:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770129898; x=1770734698; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hs7V6SWbek2ZeyeUQeiTszpmbvycBMvjXv7GzQyLNVk=;
-        b=aMRgju3QYvfvwH9Yqs0gTep+sV/fbZFUmwDmqnsQvCUWC7GQweZ9qBNLTWebGiN0l0
-         Hf5eGp1D4jJMywcj+OxjUSeia8R1zhEBl0Hq8ASY1CSBrq1/twMQB96KS3TPNI6x1YKc
-         To6g4iyO2MjBZ89g8BrMDDO4OqcSTJ+EzkO2DrmU6OIoOvE1UOPMjwO8F9BPEVwur19W
-         fCpXu485ek4JUl2LTFtsxwLbwxJP0G3jvO4dpueTMCLfeiAbu2mvvnQP3kFwXUw4WDkZ
-         lk57nlE+fbTFUj2VDsPCJ9vpIM2zaHEotZheBmOtID3kp2zyQ7bY2L1uhtXpeM5p+IbT
-         2FnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770129898; x=1770734698;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Hs7V6SWbek2ZeyeUQeiTszpmbvycBMvjXv7GzQyLNVk=;
-        b=tUK1OVCd8x18eOYd/r3kbpAkqNsyUJZ0vp2t40nUBHLUsdS6uKba4ROan7VJy0meea
-         BQOUfrdxkTCUx0lY/HTLUKjlWDpe63rvhaI8Z5JlQEgmNrV/gdXgn9jim48YoVK5lRHC
-         /B0iSo0YUBAAQ79RESr2RpPnmOSzQlhiOIEm/DkWtPOK62z6DaaVEBT+kvVrua4Hylpl
-         THYVD5Xug4WcbtAkDvrmAuw6KSMDjUQHf8vhVVanVaJqMWZb6bTYzrB5jALtGi7d8B3K
-         EnHxtB3ZIoMOlcwjwOtEMBDx5WOuXI5rim9vt02N4z1tZVg848U2sljKEvwr7VERVPR8
-         o/ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1RUnM+R43hnhuXotdh1QX6tgXsAtcb/NS06AyOFA7h3OI+SMMHb7gwy8JMG6si5IgHdR1RbyAGuJ+inRo@lists.linux.dev
-X-Gm-Message-State: AOJu0YwR6Mz8UewzRt/KCxB8eE8/thpCi2N1sf4acrp8A4bkzN59EslW
-	JlobIX99Cl6peciNajPacF+WAD4XH9djvEKTAgDuf1Rk51wUv/lrBrb/2D13cYk/UPk=
-X-Gm-Gg: AZuq6aKP85aiN9jj3G78l0ADoF5dYJrIA0JHyzveOADxdkUX5IZsqHwdfiTsU9YJUkj
-	AOO8LaGUXdXKod9OWtDNo2ShcvLe3f9qf/7ta80c4b9k3B68T3DDLU63JsvqboscbM9n+H9evKd
-	ROzO5myBKmaXcHCrv7sVxeMu2eQWB1zXdRp5yGsbNFnojjjQZqKL5VvlQRtpE3LjOTlSlNLaLrZ
-	nM9vr4RCL4OVfe+NJtgnIGte5D+SYXe36Nuj+KxJYjFUfqXrfPRepORXeqxF7JpIZIGs5YkJwbA
-	l0imKZ4Z9veY5/FvV0ymEGHHQtvdfRiwozHIhPIR2azoR24ShqPtwdegw6ZFocy55FyBTYtuH9B
-	QlzfQciUuy++HchUje/ZpmASxoNT3hpNdolljG1ns9Vn6A+ecs+D5MW490kR5AAgd1LYRmi5CeG
-	FvWD76NFNnpSFP51Ob
-X-Received: by 2002:a05:600c:818f:b0:480:49ce:42cc with SMTP id 5b1f17b1804b1-482db45f4b7mr193577785e9.9.1770129898159;
-        Tue, 03 Feb 2026 06:44:58 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482e04ed4d2sm121274235e9.7.2026.02.03.06.44.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 06:44:57 -0800 (PST)
-Date: Tue, 3 Feb 2026 17:44:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: oe-kbuild@lists.linux.dev, Alistair Popple <apopple@nvidia.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7Hn9MCV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770130710; x=1801666710;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3OqK9oTeVR5lGSXtaWyFd41ZMpY3Io7T1BufEaZUCaQ=;
+  b=K7Hn9MCViXijX0fol+g7gtaMz13pGFswsk6woNyAyqzh4sl3bSK8H0PZ
+   47SDJH73xge9tf5jKlqdo0oB8CCgbe+0rWuDZDFYr9kxoXzM3v+quLXBE
+   sT2pmLcLuKvuFqvElrPKXtlQsFvk5/0b1/5H6v/RiHHAJN6cZtsbzG4Bc
+   0we6DL2SuhjB0Nfz7sfBROVlRZtd941v1rUEXAHgZcAaRRXfxemWH5+B9
+   z6uedy5b0RVi7t2yRXng8GvPHr8Cm3KllosbEqgrV2zcm5Cet3tcL3BJO
+   Fbmk7SBxFbFDkzoTZtbJOTXjgSVTcyXMTAMnF5ibpyhi+0/orOyFXkQwi
+   w==;
+X-CSE-ConnectionGUID: imTcosciSV2yEuWgaflQOQ==
+X-CSE-MsgGUID: MOIEsOD2SAWE1KSGKOFJsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="70319512"
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="70319512"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 06:58:16 -0800
+X-CSE-ConnectionGUID: TEiuhvuxRciWAcrGKGfvVQ==
+X-CSE-MsgGUID: pMj6s6SHTVauTS8hT+TbVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="209901413"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 06:58:10 -0800
+Date: Tue, 3 Feb 2026 16:58:08 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Arnd Bergmann <arnd@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Simon Horman <horms@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	Anna Schumaker <anna.schumaker@oracle.com>,
+	Chuck Lever <chuck.lever@oracle.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: lib/test_hmm.c:932 dmirror_migrate_to_system() error:
- uninitialized symbol 'ret'.
-Message-ID: <aYIJ5qttFNmL_Roq@stanley.mountain>
-References: <202601152125.McLpiKxS-lkp@intel.com>
- <ba7dea85-4bd4-42f7-be04-c23afff5b34b@nvidia.com>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Yury Norov <ynorov@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH] tracing: remove __printf() attribute on
+ __ftrace_vbprintk()
+Message-ID: <aYINAPJS9zXlUGCw@smile.fi.intel.com>
+References: <20260202095834.1328352-1-arnd@kernel.org>
+ <202602032036.FQK7gJvV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,23 +72,20 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ba7dea85-4bd4-42f7-be04-c23afff5b34b@nvidia.com>
+In-Reply-To: <202602032036.FQK7gJvV-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Feb 03, 2026 at 09:34:40PM +1100, Balbir Singh wrote:
-> > 4c2e0f764eb4444 Alex Sierra     2022-07-15  928  out:
-> > 4c2e0f764eb4444 Alex Sierra     2022-07-15  929  	mmap_read_unlock(mm);
-> > 4c2e0f764eb4444 Alex Sierra     2022-07-15  930  	mmput(mm);
-> > 4c2e0f764eb4444 Alex Sierra     2022-07-15  931  
-> > 4c2e0f764eb4444 Alex Sierra     2022-07-15 @932  	return ret;
-> > 4c2e0f764eb4444 Alex Sierra     2022-07-15  933  }
-> > 
-> 
-> The code looks older than the current top of master? The smatch warning is still valid though. I was wondering
-> did smatch get new heuristics to catch this?
+On Tue, Feb 03, 2026 at 08:12:57PM +0800, kernel test robot wrote:
 
-Sorry, I can't explain what happened here.  I had seen the warning before
-years ago and not reported it.  :(  I don't know why the zero-day bot is
-only complaining now though, or why it blames that specific commit.
+> kernel test robot noticed the following build warnings:
 
-regards,
-dan carpenter
+Yeah, you need to go for the full stack of these calls and mark the bottom one
+with __diag() to avoid these warnings. That's my understanding and what BPF people
+required. Chasing this one-by-one would produce unneeded churn.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
