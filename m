@@ -1,123 +1,130 @@
-Received: from jpms-ob02.noc.sony.co.jp (jpms-ob02.noc.sony.co.jp [211.125.140.165])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CB9946C;
-	Tue,  3 Feb 2026 00:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C453B1BD
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 01:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770078305; cv=none; b=nR7nuBhlWuwns7ERxDwuz5/6CNdRctCfiYXvyXidHQxvXeQk6ReMAujGc/sK2Xdb/Qze+Pijn2spSSzmuCkswUtRlErwvP0KQiwqmjpamRyCPHXdD6DVhXhSla9YUPjZseO0szeSnK7BndgjKhCO5+qcbApF0rh5xxJeYI4LyFY=
+	t=1770081648; cv=none; b=MY9o8Paee5nyzBs0j9xoHLzbtBqyA+VuJLcJvVPI7if/l+15l0PTFm72RxUIDQLoz6/Ya4GsVdzi+f6SNhnmE29D68t7FAmy2oU5Q4RdFY7q5UbskO8/NG9oQgN1HSRGBzoudNWVn9DqUQB2k+voYvAAb46/XuyLjTOEaq+/wsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770078305; c=relaxed/simple;
-	bh=BntylBVVgecoypzFquKfaO5D5v56DcVhmxm/iNQxf4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S/nIazeC5S1C/XDvdisLDZLExqNgtBiiJbuf6Kk1JO7H1jQkm9kp4KpuxJjFUzSUjOdKS0HK2kZbfch6IfvwjbYKPijqR1muG6n3Jbkf86jJECgnxmAoGyFnomJ7/pleWrMDveT1fyfpwyhyR9W4SlaeH0ngWWmJ0NgWQfmwDo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=fHO3w0XQ; arc=none smtp.client-ip=211.125.140.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	s=arc-20240116; t=1770081648; c=relaxed/simple;
+	bh=oc2LTeX1fYJSOgdqCJ+v4RwLUsHhb1atRqAhTsK5aaM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LIAB2YHDmhkgLFuKbGBOG+oHenDOvSgFHt8h+vYKSTMB6DZX0Wx/USLNLFq9jZEo4XSseJsG6n6GCfA9FY/nzWNhfm4/Eq8/sqfqVbj5x8wCZtmpeob2ShAOn7shBxBdjRYOMaZOfTKsRuy34IUKbbCUy7vI0nYrzHqfvHwRhrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XbWANKce; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="fHO3w0XQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1770078304; x=1801614304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+mESz147mY99AmYLlTyE/1U+z38Cj71ObLjn1oYbbso=;
-  b=fHO3w0XQoI2WqF5YgUqMWB6VZaa9/Q4IyTO664iYoU3Wv6rkTfcG/qph
-   7KHt9QrDJHUAQyH1CscG11pVElrEWVAQY2swJNooFFtOQmu3PYDsd/c7M
-   XYpNsXh+CHmYy2mQ3N+SqtbQlim7rXCCIMvKVHxDv35QALZjG3HgUBhYd
-   RjAD/tcdq9Tb07xnD1ocB9HvUkZAh+KMYFPrN5d2v22vOBVZyasbsDH3N
-   7tdXESbiPT4ikX34kGM+9T7tV2GnqxIlw07DJ3NBJX90rQx+b/nBKkvTQ
-   ugUnPryVOIizL6CNWWCZWToWLu62aprcG7U2xO/BE+3IfYmGfGR6XR/mh
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbWANKce"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770081646; x=1801617646;
+  h=date:from:to:cc:subject:message-id;
+  bh=oc2LTeX1fYJSOgdqCJ+v4RwLUsHhb1atRqAhTsK5aaM=;
+  b=XbWANKcecaynNpD+uMf4W/W920aWfyvt6+oM+1Jv0VlmQdNK9SUhORPG
+   832z8nhETY4DmMBDHxcp0rNyr402PBv8rjDPV0Hr5m5KMGskPgVrVUMRy
+   lUsRpAEFK6fgEH35pSbON8F2e1q7TukvPrh4Wm/1Ehd2RFtKMqAQEIaC0
+   1wxjevjXmH5gnblWmm+zFKy2VDFsDfnLDPjibeeNT2Kg7kCj1vTPIi1Ob
+   gLnx7c+AfDMx7wKEfG8Lh2THTUwTOYNRi0OYXqWDLJCJl34Tm7jcUzl35
+   DEO8867tUaUAYpJignS2mwyOLKz//Pqfxt5ibEcg55Jp3gsq96/w+xWOn
    g==;
-Received: from unknown (HELO jpmta-ob1.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::6])
-  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 09:25:02 +0900
-X-IronPort-AV: E=Sophos;i="6.21,269,1763391600"; 
-   d="scan'208";a="607577797"
-Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
-  by jpmta-ob1.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 09:25:02 +0900
-Date: Tue, 3 Feb 2026 09:24:56 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Suresh Siddha <suresh.b.siddha@intel.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
-	jailhouse-dev@googlegroups.com, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, Rahul Bukte <rahul.bukte@sony.com>,
-	Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>
-Subject: Re: [PATCH 1/3] x86/x2apic: disable x2apic on resume if the kernel
- expects so
-Message-ID: <aYFAWPRTx7RqZn32@JPC00244420>
-References: <20260202-x2apic-fix-v1-1-71c8f488a88b@sony.com>
- <202602030600.jFhsJyEC-lkp@intel.com>
+X-CSE-ConnectionGUID: srKmrASqSJOUvEddf7FBDw==
+X-CSE-MsgGUID: Lyooct+wRy+35xSaV62Neg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="82357492"
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="82357492"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 17:20:43 -0800
+X-CSE-ConnectionGUID: +0wiMAjURFKhzDA+gqibtQ==
+X-CSE-MsgGUID: 2GkmB5I2SqKR000heq+oJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="209145097"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 02 Feb 2026 17:20:41 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vn55r-000000003F7-1Nfm;
+	Tue, 03 Feb 2026 01:20:39 +0000
+Date: Tue, 03 Feb 2026 02:19:40 +0100
+From: kernel test robot <lkp@intel.com>
+To: Jacob Pan <jacob.pan@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [jgunthorpe:iommufd_noiommu 5/6]
+ drivers/iommu/iommufd/io_pagetable.c:855:23: warning: variable 'area_iova'
+ set but not used
+Message-ID: <202602030211.fCQFe9Ar-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202602030600.jFhsJyEC-lkp@intel.com>
 
-On Tue, Feb 03, 2026 at 06:31:40AM +0800, kernel test robot wrote:
-> Hi Shashank,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 18f7fcd5e69a04df57b563360b88be72471d6b62]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Shashank-Balaji/x86-x2apic-disable-x2apic-on-resume-if-the-kernel-expects-so/20260202-181147
-> base:   18f7fcd5e69a04df57b563360b88be72471d6b62
-> patch link:    https://lore.kernel.org/r/20260202-x2apic-fix-v1-1-71c8f488a88b%40sony.com
-> patch subject: [PATCH 1/3] x86/x2apic: disable x2apic on resume if the kernel expects so
-> config: i386-randconfig-001-20260202 (https://download.01.org/0day-ci/archive/20260203/202602030600.jFhsJyEC-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030600.jFhsJyEC-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602030600.jFhsJyEC-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> arch/x86/kernel/apic/apic.c:2463:3: error: call to undeclared function '__x2apic_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     2463 |                 __x2apic_disable();
->          |                 ^
->    arch/x86/kernel/apic/apic.c:2463:3: note: did you mean '__x2apic_enable'?
->    arch/x86/kernel/apic/apic.c:1896:20: note: '__x2apic_enable' declared here
->     1896 | static inline void __x2apic_enable(void) { }
->          |                    ^
->    1 error generated.
+tree:   https://github.com/jgunthorpe/linux iommufd_noiommu
+head:   5259d5e34eb7da1c96802e79113ccca538730d5e
+commit: ca213f193f2c2aa9b43a653bc6466e1216f6e767 [5/6] iommufd: Add an ioctl IOMMU_IOAS_GET_PA to query PA from IOVA
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260203/202602030211.fCQFe9Ar-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030211.fCQFe9Ar-lkp@intel.com/reproduce)
 
-This happens when CONFIG_X86_X2APIC is disabled. This patch fixes it,
-which I'll include in v2:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602030211.fCQFe9Ar-lkp@intel.com/
 
-diff --git i/arch/x86/kernel/apic/apic.c w/arch/x86/kernel/apic/apic.c
-index 8820b631f8a2..06cce23b89c1 100644
---- i/arch/x86/kernel/apic/apic.c
-+++ w/arch/x86/kernel/apic/apic.c
-@@ -1894,6 +1894,7 @@ void __init check_x2apic(void)
+All warnings (new ones prefixed by >>):
 
- static inline void try_to_enable_x2apic(int remap_mode) { }
- static inline void __x2apic_enable(void) { }
-+static inline void __x2apic_disable(void) {}
- #endif /* !CONFIG_X86_X2APIC */
+   drivers/iommu/iommufd/io_pagetable.c: In function 'iopt_get_phys':
+>> drivers/iommu/iommufd/io_pagetable.c:855:23: warning: variable 'area_iova' set but not used [-Wunused-but-set-variable]
+     855 |         unsigned long area_iova;
+         |                       ^~~~~~~~~
 
- void __init enable_IR_x2apic(void)
+
+vim +/area_iova +855 drivers/iommu/iommufd/io_pagetable.c
+
+   851	
+   852	int iopt_get_phys(struct io_pagetable *iopt, unsigned long iova, u64 *paddr,
+   853			  u64 *length)
+   854	{
+ > 855		unsigned long area_iova;
+   856		struct iopt_area *area;
+   857		int rc = 0;
+   858	
+   859		if (!IS_ENABLED(CONFIG_VFIO_NOIOMMU))
+   860			return -EOPNOTSUPP;
+   861	
+   862		down_read(&iopt->iova_rwsem);
+   863		area = iopt_area_iter_first(iopt, iova, iova);
+   864		if (!area || !area->pages) {
+   865			rc = -ENOENT;
+   866			goto unlock_exit;
+   867		}
+   868	
+   869		if (!area->storage_domain ||
+   870		    area->storage_domain->owner != &iommufd_noiommu_ops) {
+   871			rc = -EOPNOTSUPP;
+   872			goto unlock_exit;
+   873		}
+   874	
+   875		area_iova = iopt_area_iova(area);
+   876		*paddr = iommu_iova_to_phys(area->storage_domain, iova);
+   877		if (!*paddr) {
+   878			rc = -EINVAL;
+   879			goto unlock_exit;
+   880		}
+   881		/*
+   882		 * TBD: we can return contiguous IOVA length so that userspace can
+   883		 * keep searching for next physical address.
+   884		 */
+   885		*length = PAGE_SIZE;
+   886	
+   887	unlock_exit:
+   888		up_read(&iopt->iova_rwsem);
+   889	
+   890		return rc;
+   891	}
+   892	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
