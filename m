@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE5134B18F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 13:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E1534B697;
+	Tue,  3 Feb 2026 13:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770123916; cv=none; b=NhNATN6pvm9Mm0JAOrImHHEvxl/XKin03/wYrUdZ31DGFDCowXBPZkQH7B//rCu+wQmMZhXVJzljYnN8MyY0qx8iu4qg+xP1dcau6WJ9LLpPDgRHmfA1dILNn1cXJ7Zy5jttjT9T5UPSob8NEY0ffcG9dd6Hy4bCO06DeBPd21A=
+	t=1770123918; cv=none; b=KQxHk+Ib6uILJerdwMmWWEI0EIbokKimDIK5xs8QKMV4C1rx56Xk4kivX7DfaQdaumdH5QS7XPJ9Y0UsPQ+ZpL4OdU20fFvZnoLcwZyTCzEHvhWYHYxODEzL/nG5l+zTjgBfM7jUm5Xp3azwBE7dms21yfx9jSqMBdjG5VwPjTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770123916; c=relaxed/simple;
-	bh=kn3C6M/TSejjaUN/E6ZMHb6KaBqL5MF8BD7HrMgd0CI=;
+	s=arc-20240116; t=1770123918; c=relaxed/simple;
+	bh=eAOTahntRImrik38mnsnViDi0PjENZgxrqEs53AMudI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MIpBXCqcLevOjyxL7JZV8eIs6PRxFQeWEu1LXPqyzENzKy0JyALRGkDQiGCAavS5CqiuxWDb27mWCKAvYcZvF78iv8XfdeTKHVN3YM8QSdImZoMXb93j/s9HaXxlqx87suxxMmQM4BzS/sNQOFBpTdzUsu2rN8GzzIuCcX19+d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7ddkYkK; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=OBcYY5wozhLO2auRoCt2XDB8ftWKVYnjwrvkLiRjTs2e4jcqJ4rZtKHsxIhC3JokD29e5PoOI8ClRc9yFGiAj2rzdIgHAWaLWK4M6qGCyW3jVu+Ws0342xjHN97+/+KgkMwMXHdN6n8ULF7CzI/F7Zx64/fGVkenOgzfv++f6j0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1qKW4Aw; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7ddkYkK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1qKW4Aw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770123914; x=1801659914;
+  t=1770123917; x=1801659917;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kn3C6M/TSejjaUN/E6ZMHb6KaBqL5MF8BD7HrMgd0CI=;
-  b=Q7ddkYkKzBvmqg0J0BpVnpsvButshlE0ecEKDIEPAhLtGJuYwq5X9+rs
-   /ZDnh4mYb6zFtRBQH6/Lx01xtr16p4nYBlMwyry9t3Ubey1dbmjPTgP1/
-   mh6ojPdt1gQ2ABjDU6lOWGVTP1xWL4Urz3gA8WLTRE7q0zb25YzE5HLSg
-   nGIiC9PeCEVL/9+S4/uF6qHCYX/6CkxsT7OzIt2vjhfQwcXYwE36YPl5w
-   kYkRQHel40xA5GGoty8OpkEO/8Q+W9dxFuWEOsRV9bsqn0TA0O9Fjcwbk
-   RNIYjLwPxzkk1Sjk0JLNPVXLx0J2CwyMcpxRnHHlKO3R4ax6ehjg1Ks8k
-   g==;
-X-CSE-ConnectionGUID: TGYP6d2WTyGmebxXrjM/RA==
-X-CSE-MsgGUID: Dxbr1lXPQE2BmH/pkAv+gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="93945549"
+  bh=eAOTahntRImrik38mnsnViDi0PjENZgxrqEs53AMudI=;
+  b=C1qKW4AwCHJpFSQ4Wvgm4hvMZ26Re2CLG6LOfJI8HknYhki7RhEhqORV
+   jw49N7EOEXlSJmf+jH9w3wpvbqy0u8cQJASYIex0iGJISi+aos9MuPrbi
+   qEvGEeqCQgcUMeQRgIohvkytCns/ByoCPDygMIT0S13XBTBU7XwuarDN7
+   30oEGAvyZWXnyldIdwcpwTpEi2iYdvgMJGxkBLd8/0xaL/FCQAX7mYHak
+   sjJHQPWCtWM3SkILdmWnr+K9qsd+rIr7tJzCpK6kPkVwb3Toqws3QdjKL
+   DT697yLpBMgqWxjrL0prphl+yF+OrIboM7xvaWFbEiVeWrLDMHHsB6QRt
+   A==;
+X-CSE-ConnectionGUID: UmQiPWaFQUyEmMInRdnmhQ==
+X-CSE-MsgGUID: YZHAVRtnStC2N6HOIrzLIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="93945559"
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="93945549"
+   d="scan'208";a="93945559"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 05:05:13 -0800
-X-CSE-ConnectionGUID: kNfuwGaxQDib9rOdY46bLw==
-X-CSE-MsgGUID: R3noAhp2TNytBWA9/xTLwQ==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 05:05:14 -0800
+X-CSE-ConnectionGUID: NUmFSuM4RTG8P55q95+ARw==
+X-CSE-MsgGUID: nLLd4nr8TfSH1xmlM01hPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="240516119"
+   d="scan'208";a="240516124"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 03 Feb 2026 05:05:10 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnG5b-00000000gfc-1XXY;
+	id 1vnG5b-00000000gfe-1dla;
 	Tue, 03 Feb 2026 13:05:07 +0000
 Date: Tue, 3 Feb 2026 21:04:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
 	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
 	Alistair Popple <apopple@nvidia.com>,
 	Ralph Campbell <rcampbell@nvidia.com>,
@@ -64,7 +64,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	stable@vger.kernel.org
 Subject: Re: [PATCH v2] mm: Fix a hmm_range_fault() livelock / starvation
  problem
-Message-ID: <202602032021.bgMlVqDp-lkp@intel.com>
+Message-ID: <202602032123.zvKd7G8W-lkp@intel.com>
 References: <20260203104532.98534-1-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -86,25 +86,28 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/mm-Fix-a
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20260203104532.98534-1-thomas.hellstrom%40linux.intel.com
 patch subject: [PATCH v2] mm: Fix a hmm_range_fault() livelock / starvation problem
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260203/202602032021.bgMlVqDp-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032021.bgMlVqDp-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260203/202602032123.zvKd7G8W-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032123.zvKd7G8W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602032021.bgMlVqDp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602032123.zvKd7G8W-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'do_swap_page':
->> mm/memory.c:4769:33: error: implicit declaration of function 'migration_entry_wait_on_locked'; did you mean 'migration_entry_wait_huge'? [-Wimplicit-function-declaration]
+>> mm/memory.c:4769:5: error: call to undeclared function 'migration_entry_wait_on_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     4769 |                                 migration_entry_wait_on_locked(entry, vmf->ptl);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                 migration_entry_wait_huge
+         |                                 ^
+   mm/memory.c:4769:5: note: did you mean 'migration_entry_wait_huge'?
+   include/linux/swapops.h:237:20: note: 'migration_entry_wait_huge' declared here
+     237 | static inline void migration_entry_wait_huge(struct vm_area_struct *vma,
+         |                    ^
+   1 error generated.
 
 
-vim +4769 mm/memory.c
+vim +/migration_entry_wait_on_locked +4769 mm/memory.c
 
   4699	
   4700	/*
