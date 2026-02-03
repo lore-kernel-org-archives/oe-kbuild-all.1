@@ -1,65 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BD81C84BB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 05:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A49D1EFF8D;
+	Tue,  3 Feb 2026 05:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770097852; cv=none; b=GLp6Ycccz/qO6fQpqD4YlzxuAV1Q3SJImI7WB6yHduTtvnijX6KmiybDKMEtykDNKfnselo+/Tto965LbYDXnGuu+fr2ysv1xYAH6W2qwJMKRckfypeJSXnWxyTjbIQsEgb+jjm1wljwGwZjqbWKlvCqhTZ4z29qW4tZ+CBv4xw=
+	t=1770097854; cv=none; b=ehXFPUKhbSxtuc4dK/ZGbk9mSizOmVVhV11uu/6frqcnANqYSfafN/JdpqJ1V1SrFe467K8/g2X4OKSQ1u7RnLX1J7YJIYZVtl+k/yGXabzswjcRjQhm5AS4xS86MlXxOtfLAkQKHyTGUPJ+mIZ5ag6xtxD6Gx6AOUaVke+RrWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770097852; c=relaxed/simple;
-	bh=k+OwphlbuupRKVPYLdqHf38u/vmQSVGDl+2cvGtkL+8=;
+	s=arc-20240116; t=1770097854; c=relaxed/simple;
+	bh=R4/T1JPDNssUWxQKWrMIA1gEXisPdKvlM4Lnu1iKzUA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SXT3eFk8ATEcvtXd+h6OV1OsQfsp0bvddwb3OGVkD3v3M8suct89V7pNjaUya5k6gBLGvrzPB9z3St43N/m3PVAmZSkzK9D2oFzHF2Suj9xY74ISahRXwbP38IhgJ9/RRAST8WovxW1oOVS+DETPZHWcO/eNn3kAwOKBAqIV1dA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKk/FeKr; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=tqRbP757Jr4t++oCXk0RWhOwYqOgnuyQhkYLRGVI7H1ieX5jFNeH1/8A7A8LKdmZCJ1Rd84l/vWEBrhmaSPGqJcsx3Dmo9gXIDwEoqEXfwZuhdsfAa5UugTLWBCYRSTIwdTu+b6v01D/ktzLxvAaVvWjbrTDJ6b6DJc83Y2jGz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DuDhit+7; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKk/FeKr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DuDhit+7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770097851; x=1801633851;
+  t=1770097853; x=1801633853;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=k+OwphlbuupRKVPYLdqHf38u/vmQSVGDl+2cvGtkL+8=;
-  b=YKk/FeKrC+V85Ex0YXg9D67x+OmCsNuBZxpUFhjrLpINlcfGBzLLkvrJ
-   IhGNSNlBHDadzgvE+LOiHtcpBBb2zDAmiTAbkcgKrwyYQvnT+9eClpALB
-   lplrUg9wC0e1P/vUC513KT7oCfMp+mTsWiYegKLyOdOYcvx6t8lB3/z2x
-   7Bx1KERd8fUjyZ95jIWZIvhxie3iXtLq7Sn6muV6MC4RRbBHPMaypfm06
-   YWHqhSKokYNQSfwC79t4Ent+5sI8vMJPhtH8Xp+72YcteS4QkFRGlI0dg
-   FrKfU+KP1aDASp3wPQHkNgMlftOcsTGDjau6GuryZ+2b4sqgwfSXTPTjF
-   w==;
-X-CSE-ConnectionGUID: jCj6Hni/SEOKuEjDrLSIaQ==
-X-CSE-MsgGUID: lUl/7QetR0ujDB4p5zXiIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71168998"
+  bh=R4/T1JPDNssUWxQKWrMIA1gEXisPdKvlM4Lnu1iKzUA=;
+  b=DuDhit+77M6OG2QJMAOSLqrY5y+3C6/2aHMKD2axV4XsYEbYMKSkUN1W
+   FRlTVdjZb9P8d54POXwTuBzV6jf4b365uWjonT+X+wwcidc8GcHv75gZZ
+   pt07Xc8CEe65kt9gR+3ojpKzslOBf8xaX6tnphn9RwmGRcORBYizRyOfD
+   eGmECAIcObyJC1pfLXry7/UbojhJxT0RU7m6sI0rB1XchNmAF2HX67TKl
+   FtkHzKOa4WOR7Caj7XblHc6Z2nYO7jKwjtl182MUUw96fQ4aPvaf5psTt
+   Dc74JfcpEGO1V+C8tRY16S8BbRxPnG8Y8SFU05RljG/Qp+AHLU91idaQM
+   g==;
+X-CSE-ConnectionGUID: 7u67pWibRPm64ei7oY8WZQ==
+X-CSE-MsgGUID: tMY6rUTERL2dyhwNsZA8vA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71169004"
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="71168998"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+   d="scan'208";a="71169004"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 21:50:51 -0800
-X-CSE-ConnectionGUID: f80bBftaQWC68Y8bbCCudw==
-X-CSE-MsgGUID: X/wHmXYqQ9yaXkecq/cAjQ==
+X-CSE-ConnectionGUID: HnwoMS9cQoaZHOsMClvWrg==
+X-CSE-MsgGUID: nSx1lPSWQMWdqkOhq05T+w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="208840769"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Feb 2026 21:50:48 -0800
+  by orviesa006.jf.intel.com with ESMTP; 02 Feb 2026 21:50:49 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vn9JG-00000000gIo-0T3q;
+	id 1vn9JG-00000000gIq-0Zgx;
 	Tue, 03 Feb 2026 05:50:46 +0000
-Date: Tue, 3 Feb 2026 13:50:04 +0800
+Date: Tue, 3 Feb 2026 13:50:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Faizel K B <faizel.kb@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	libcamera-devel@lists.libcamera.org,
-	Faizel K B <faizel.kb@gmail.com>
-Subject: Re: [PATCH v2 2/3] media: vimc: sensor: Add pixel_rate,vblank and
- hblank configuration
-Message-ID: <202602031319.6Nd13RwV-lkp@intel.com>
-References: <20260202194645.1287757-3-faizel.kb@gmail.com>
+To: "jempty.liang" <imntjempty@163.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, mark.rutland@arm.com,
+	mathieu.desnoyers@efficios.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	"jempty.liang" <imntjempty@163.com>
+Subject: Re: [PATCH v2] tracing: Fix funcgraph_exit calltime/rettime offset
+ for 32-bit ARM
+Message-ID: <202602031332.eQ1Jm69n-lkp@intel.com>
+References: <20260202123342.2544795-1-imntjempty@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,40 +67,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202194645.1287757-3-faizel.kb@gmail.com>
+In-Reply-To: <20260202123342.2544795-1-imntjempty@163.com>
 
-Hi Faizel,
+Hi jempty.liang,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on c824345288d11e269ce41b36c105715bc2286050]
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.19-rc8 next-20260202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Faizel-K-B/media-vimc-sensor-Move-vimc_sensor_device-to-common-header/20260203-035653
-base:   c824345288d11e269ce41b36c105715bc2286050
-patch link:    https://lore.kernel.org/r/20260202194645.1287757-3-faizel.kb%40gmail.com
-patch subject: [PATCH v2 2/3] media: vimc: sensor: Add pixel_rate,vblank and hblank configuration
-config: powerpc-randconfig-002-20260203 (https://download.01.org/0day-ci/archive/20260203/202602031319.6Nd13RwV-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031319.6Nd13RwV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/jempty-liang/tracing-Fix-funcgraph_exit-calltime-rettime-offset-for-32-bit-ARM/20260202-203926
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20260202123342.2544795-1-imntjempty%40163.com
+patch subject: [PATCH v2] tracing: Fix funcgraph_exit calltime/rettime offset for 32-bit ARM
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260203/202602031332.eQ1Jm69n-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031332.eQ1Jm69n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031319.6Nd13RwV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602031332.eQ1Jm69n-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "__divdi3" [drivers/media/test-drivers/vimc/vimc.ko] undefined!
+>> kernel/trace/trace_sched_wakeup.c:172:46: error: too many arguments to function call, expected 3, have 5
+     172 |                 __trace_graph_return(tr, trace, trace_ctx, *calltime, rettime);
+         |                 ~~~~~~~~~~~~~~~~~~~~                       ^~~~~~~~~~~~~~~~~~
+   kernel/trace/trace.h:969:13: note: '__trace_graph_return' declared here
+     969 | extern void __trace_graph_return(struct trace_array *tr,
+         |             ^                    ~~~~~~~~~~~~~~~~~~~~~~~
+     970 |                                  struct ftrace_graph_ret *trace,
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     971 |                                  unsigned int trace_ctx);
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
-   WARNING: unmet direct dependencies detected for NET_SELFTESTS
-   Depends on [n]: NET [=y] && PHYLIB [=y] && INET [=n]
-   Selected by [y]:
-   - AMD_XGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_AMD [=y] && (OF_ADDRESS [=y] || ACPI || PCI [=n]) && HAS_IOMEM [=y] && (X86 || ARM64 || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=y]
+
+vim +172 kernel/trace/trace_sched_wakeup.c
+
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  150  
+37238abe3cb47b Steven Rostedt (VMware    2024-06-03  151) static void wakeup_graph_return(struct ftrace_graph_ret *trace,
+2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  152) 				struct fgraph_ops *gops,
+2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  153) 				struct ftrace_regs *fregs)
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  154  {
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  155  	struct trace_array *tr = wakeup_trace;
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  156  	struct trace_array_cpu *data;
+36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  157  	unsigned int trace_ctx;
+a485ea9e3ef31a Steven Rostedt            2025-01-13  158  	u64 *calltime;
+66611c04757096 Steven Rostedt            2025-01-21  159  	u64 rettime;
+a485ea9e3ef31a Steven Rostedt            2025-01-13  160  	int size;
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  161  
+12117f3307b63f Steven Rostedt (VMware    2024-06-03  162) 	ftrace_graph_addr_finish(gops, trace);
+5cf99a0f3161bc Steven Rostedt (VMware    2018-11-29  163) 
+36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  164  	if (!func_prolog_preempt_disable(tr, &data, &trace_ctx))
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  165  		return;
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  166  
+77a67833e830fd jempty.liang              2026-02-02  167  	trace->rettime = trace_clock_local();
+66611c04757096 Steven Rostedt            2025-01-21  168  
+a485ea9e3ef31a Steven Rostedt            2025-01-13  169  	calltime = fgraph_retrieve_data(gops->idx, &size);
+77a67833e830fd jempty.liang              2026-02-02  170  	if (calltime) {
+77a67833e830fd jempty.liang              2026-02-02  171  		trace->calltime = *calltime;
+66611c04757096 Steven Rostedt            2025-01-21 @172  		__trace_graph_return(tr, trace, trace_ctx, *calltime, rettime);
+77a67833e830fd jempty.liang              2026-02-02  173  	}
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  174  
+4f7bf54b07e5ac Steven Rostedt            2025-10-08  175  	local_dec(&data->disabled);
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  176  	preempt_enable_notrace();
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  177  	return;
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  178  }
+7495a5beaa22f1 Jiri Olsa                 2010-09-23  179  
 
 -- 
 0-DAY CI Kernel Test Service
