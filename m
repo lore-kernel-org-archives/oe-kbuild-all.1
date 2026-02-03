@@ -1,241 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BFA2EB866
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 02:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3091509AB;
+	Tue,  3 Feb 2026 03:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770086572; cv=none; b=iHVL6VOBXRyHPL8ydDU/AEcTYKABConOyKZcc/IP0cVMwvMZecE8Y4VSTDdhCLkGxIeGzwf4TAGOs/T5o2CQ3Mhj2kJEi6OHsDulnn/10yJzitjCpQftaicM4OJ2RNX+unwp6Pe/rEY6ZbwfMFYAr1gfrcrQdJjbpZzkWqgjXO4=
+	t=1770090968; cv=none; b=o0Mp8S3Zb1X9kyajZBSMzPU54qkGTgtj9UF7WEWPOpvAgU0UdyGPdq9WxA3vjshCyy4rG0wVe9iJaeni8QKv2eS3u1szHhHoipbugOP814xSO05RndeI7WMWtGgbz9tii6/H9ys7ZwbVsZaysZWl3HM3KVuGSYcSI0dbXAtb8ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770086572; c=relaxed/simple;
-	bh=KHdZXoISlEderqMBJs31tnuGnP8/PqgMKz42u/Wg+Cw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oUXN6fA64z9f0/TdBX9mo+KEDCiSx65Lp7JVMDwqzpAMPxo9TUJiiQMe0hGfzgYmtcBSwtNXvcOKD1PDa+pXqwrx1lK5mB8HSfdCG70wcQSWLELWF0/6iCMvymQ8vk8PQJV4yo9Y5WWeD++OB/O+e2mj9XsDI9RzdoctjimqPXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIr1MbMa; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770090968; c=relaxed/simple;
+	bh=eA+hkGu1GKtp/CM+ELiCEta8OruAjZJBV29cs/fedSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RUhtj1SD0dEuDLhr9Q6e63h1RJmmXFUmDvSttAIGy7Va0V+TTzyyxlF9W0xRJE9Gn7ZinOnLShuqFus9FiZFk6C/zJ1fn2VsfMcS7baSaxuFUprkUQWw0F1kUB0a2kOPK9eIVevs1RhdivsNC5WGsCDRUAHTY+H0L36Px8jVjqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BoB+dEKh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIr1MbMa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770086570; x=1801622570;
-  h=date:from:to:cc:subject:message-id;
-  bh=KHdZXoISlEderqMBJs31tnuGnP8/PqgMKz42u/Wg+Cw=;
-  b=AIr1MbMaM2nuOOjEBtAsI2ZPupl29fzzuYjwq5otkuOReolYCir7wy5y
-   r8IYo4mdqgSzk1rOEBUAuxBmRIgMg99wtoJP7wdOL5b2vHZNrYV3Aeqm0
-   kQ8o9Li6KBxGio4+0HdqqLD6oLXhJn3gr4U+y8HOloprpbfe/CjTPU8ma
-   ppuPXZAeEUoC+k8equsqdJcedheZ4/8rlHbcevEHc+MKk6guCiYxICd88
-   pofEk2kdw8l2HRFxD1Bk9Us/UVXHLyzgGTBA3N3fBNjGajZrVWWi7ERMH
-   hjcjr/1RJEnYxujgCt3ndegx8WTt4a+TD/YTwkWdW6/SLDhd288utDewY
-   g==;
-X-CSE-ConnectionGUID: kCLup+OsTE+GLeR14iijSA==
-X-CSE-MsgGUID: btnUv4VDSmWJOeAYlkuFcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="70456941"
-X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="70456941"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 18:42:50 -0800
-X-CSE-ConnectionGUID: bJkk1pZCRCKmc05CDTIAUw==
-X-CSE-MsgGUID: I63NAgPdQX+GJcjRXVXdLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="232610328"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Feb 2026 18:42:37 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vn6N9-00000000gBY-1TIh;
-	Tue, 03 Feb 2026 02:42:35 +0000
-Date: Tue, 03 Feb 2026 10:41:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Johansen <john.johansen@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jj-apparmor:apparmor-next 31/32]
- security/apparmor/policy_unpack.c:549:43: error: 'unsigned_long' undeclared;
- did you mean 'unsigned int'?
-Message-ID: <202602031030.GZ62qLbQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BoB+dEKh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F13C116D0;
+	Tue,  3 Feb 2026 03:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770090967;
+	bh=eA+hkGu1GKtp/CM+ELiCEta8OruAjZJBV29cs/fedSM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BoB+dEKhynBTcCBBOJQbRFe4J+IXQE+sPqp47Okc6wTh4BXUxwyZLpniIlcXopb0B
+	 DfRxXrJ93vGqaEk4str64mMdpXTgPza1nSefK09O/NegIQuZNOEXyoUNIA0/HL1RLf
+	 sNTPBGr2O1QoH7DYFzeeu62uMj+QuEAtb1zBGsuV3pp/w4PV4CQ6JyaeJQV8NsRPq8
+	 E9ilWdrmLP4GMQNtjNqTPZjI/aGt1ptiKQUgQ1aRlOE6XPDp0rUcVJp/IH9Y8x53pU
+	 QKjaxJRFo4xMqAI6Y9zksCoZmgisoB56ZP7MpoBhN3GTfSruTkEfThKG6x6K0NMu2A
+	 ZopWV+lPpvKzw==
+Date: Mon, 2 Feb 2026 20:56:03 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>
+Subject: Re: kernel/futex/core.c:604:23: error: cannot jump from this asm
+ goto statement to one of its possible targets
+Message-ID: <20260203035603.GC52989@ax162>
+References: <202602030343.HVSlSqJ1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202602030343.HVSlSqJ1-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
-head:   9058798652c8bc0584ed1fb0766a1015046c06e8
-commit: 102ada7ca37ed8358bd70c6f8e6475ebacf6f76d [31/32] apparmor: fix fmt string type error in process_strs_entry
-config: x86_64-randconfig-004-20260202 (https://download.01.org/0day-ci/archive/20260203/202602031030.GZ62qLbQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031030.GZ62qLbQ-lkp@intel.com/reproduce)
+On Tue, Feb 03, 2026 at 03:34:29AM +0800, kernel test robot wrote:
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   18f7fcd5e69a04df57b563360b88be72471d6b62
+> commit: e4e28fd6986e8cf963ec4137e6c0b95403f636ab futex: Convert to get/put_user_inline()
+> date:   3 months ago
+> config: powerpc64-randconfig-001-20260203 (https://download.01.org/0day-ci/archive/20260203/202602030343.HVSlSqJ1-lkp@intel.com/config)
+> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030343.HVSlSqJ1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602030343.HVSlSqJ1-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> kernel/futex/core.c:604:23: error: cannot jump from this asm goto statement to one of its possible targets
+>                    if (node_updated && put_user_inline(node, naddr))
+>                                        ^
+>    include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+>                    unsafe_put_user(val, _tmpdst, efault);          \
+>                    ^
+>    include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
+>            arch_unsafe_put_user(x, ptr, local_label);      \
+>            ^
+>    arch/powerpc/include/asm/uaccess.h:463:2: note: expanded from macro 'arch_unsafe_put_user'
+>            __put_user_size_goto((__typeof__(*(p)))(x), (p), sizeof(*(p)), e)
+>            ^
+>    arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
+>            case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+>                    ^
+>    arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
+>            asm goto(                                       \
+>            ^
+>    kernel/futex/core.c:604:23: note: possible target of asm goto statement
+>    include/linux/uaccess.h:870:3: note: expanded from macro 'put_user_inline'
+>                    unsafe_put_user(val, _tmpdst, efault);          \
+>                    ^
+>    include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
+>            local_label:                                    \
+>            ^
+>    kernel/futex/core.c:604:23: note: jump exits scope of variable with __attribute__((cleanup))
+>    include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+>            scoped_user_write_access(_tmpdst, efault)               \
+>            ^
+>    include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+>            scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+>            ^
+>    include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+>            __scoped_user_access(write, udst, size, elbl)
+>            ^
+>    include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+>                    for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+>                                                     ^
+>    kernel/futex/core.c:604:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
+>    include/linux/uaccess.h:869:2: note: expanded from macro 'put_user_inline'
+>            scoped_user_write_access(_tmpdst, efault)               \
+>            ^
+>    include/linux/uaccess.h:803:2: note: expanded from macro 'scoped_user_write_access'
+>            scoped_user_write_access_size(udst, sizeof(*(udst)), elbl)
+>            ^
+>    include/linux/uaccess.h:791:2: note: expanded from macro 'scoped_user_write_access_size'
+>            __scoped_user_access(write, udst, size, elbl)
+>            ^
+>    include/linux/uaccess.h:755:36: note: expanded from macro '__scoped_user_access'
+>                    for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)   \
+>                                                     ^
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031030.GZ62qLbQ-lkp@intel.com/
+This appears to be the same error that necessitated e2ffa15b9baa ("kbuild:
+Disable CC_HAS_ASM_GOTO_OUTPUT on clang < 17") upstream but this is just
+regular 'asm goto', not 'asm goto' with outputs. I had noted during
+review that change might not be sufficient to avoid the error in all
+cases:
 
-All errors (new ones prefixed by >>):
+  https://lore.kernel.org/20250916184440.GA1245207@ax162/
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from include/linux/sched.h:13,
-                    from include/linux/audit.h:12,
-                    from security/apparmor/include/audit.h:14,
-                    from security/apparmor/policy_unpack.c:23:
-   security/apparmor/policy_unpack.c: In function 'unpack_strs_table':
->> security/apparmor/policy_unpack.c:549:43: error: 'unsigned_long' undeclared (first use in this function); did you mean 'unsigned int'?
-     549 |                                          (unsigned_long) e->pos - saved_pos);
-         |                                           ^~~~~~~~~~~~~
-   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:706:17: note: in expansion of macro 'printk'
-     706 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
-     722 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~
-   security/apparmor/include/lib.h:45:25: note: in expansion of macro 'pr_warn_ratelimited'
-      45 |                         pr_warn_ratelimited("%s: " fmt, __func__, ##args); \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   security/apparmor/policy_unpack.c:547:33: note: in expansion of macro 'AA_DEBUG'
-     547 |                                 AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
-         |                                 ^~~~~~~~
-   security/apparmor/policy_unpack.c:549:43: note: each undeclared identifier is reported only once for each function it appears in
-     549 |                                          (unsigned_long) e->pos - saved_pos);
-         |                                           ^~~~~~~~~~~~~
-   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:706:17: note: in expansion of macro 'printk'
-     706 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
-     722 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~
-   security/apparmor/include/lib.h:45:25: note: in expansion of macro 'pr_warn_ratelimited'
-      45 |                         pr_warn_ratelimited("%s: " fmt, __func__, ##args); \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   security/apparmor/policy_unpack.c:547:33: note: in expansion of macro 'AA_DEBUG'
-     547 |                                 AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
-         |                                 ^~~~~~~~
->> security/apparmor/policy_unpack.c:549:58: error: expected ')' before 'e'
-     549 |                                          (unsigned_long) e->pos - saved_pos);
-         |                                                          ^
-   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:706:17: note: in expansion of macro 'printk'
-     706 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
-     722 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~
-   security/apparmor/include/lib.h:45:25: note: in expansion of macro 'pr_warn_ratelimited'
-      45 |                         pr_warn_ratelimited("%s: " fmt, __func__, ##args); \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   security/apparmor/policy_unpack.c:547:33: note: in expansion of macro 'AA_DEBUG'
-     547 |                                 AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
-         |                                 ^~~~~~~~
-   include/linux/printk.h:484:24: note: to match this '('
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                        ^
-   include/linux/printk.h:512:26: note: in expansion of macro 'printk_index_wrap'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ^~~~~~~~~~~~~~~~~
-   include/linux/printk.h:706:17: note: in expansion of macro 'printk'
-     706 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
-     722 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~
-   security/apparmor/include/lib.h:45:25: note: in expansion of macro 'pr_warn_ratelimited'
-      45 |                         pr_warn_ratelimited("%s: " fmt, __func__, ##args); \
-         |                         ^~~~~~~~~~~~~~~~~~~
-   security/apparmor/policy_unpack.c:547:33: note: in expansion of macro 'AA_DEBUG'
-     547 |                                 AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
-         |                                 ^~~~~~~~
+This is not the only recent instance of this error because cleanup
+macros are becoming quite popular so I think it is getting to the point
+where we will need to raise the minimum supported version of LLVM for
+building the kernel to 17.0.1 or newer to ensure that we have this
+fixed. LLVM 22.1.0 should be released in a month or so, so I can look at
+crafting a series for 7.1/7.2 that does this bump.
 
-
-vim +549 security/apparmor/policy_unpack.c
-
-   501	
-   502	/**
-   503	 * unpack_strs_table - unpack a profile transition table
-   504	 * @e: serialized data extent information  (NOT NULL)
-   505	 * @name: name of table (MAY BE NULL)
-   506	 * @multi: allow multiple strings on a single entry
-   507	 * @strs: str table to unpack to (NOT NULL)
-   508	 *
-   509	 * Returns: 0 if table successfully unpacked or not present, else error
-   510	 */
-   511	static int unpack_strs_table(struct aa_ext *e, const char *name, bool multi,
-   512				      struct aa_str_table *strs)
-   513	{
-   514		void *saved_pos = e->pos;
-   515		struct aa_str_table_ent *table = NULL;
-   516		int error = -EPROTO;
-   517	
-   518		/* exec table is optional */
-   519		if (aa_unpack_nameX(e, AA_STRUCT, name)) {
-   520			u16 size;
-   521			int i;
-   522	
-   523			if (!aa_unpack_array(e, NULL, &size))
-   524				/*
-   525				 * Note: index into trans table array is a max
-   526				 * of 2^24, but unpack array can only unpack
-   527				 * an array of 2^16 in size atm so no need
-   528				 * for size check here
-   529				 */
-   530				goto fail;
-   531			table = kcalloc(size, sizeof(struct aa_str_table_ent),
-   532					GFP_KERNEL);
-   533			if (!table) {
-   534				error = -ENOMEM;
-   535				goto fail;
-   536			}
-   537			strs->table = table;
-   538			strs->size = size;
-   539			for (i = 0; i < size; i++) {
-   540				char *str;
-   541				int c, size2 = aa_unpack_strdup(e, &str, NULL);
-   542				/* aa_unpack_strdup verifies that the last character is
-   543				 * null termination byte.
-   544				 */
-   545				c = process_strs_entry(str, size2, multi);
-   546				if (c <= 0) {
- > 547					AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
-   548						 c, i,
- > 549						 (unsigned_long) e->pos - saved_pos);
-   550					goto fail;
-   551				}
-   552				if (!multi && c > 1) {
-   553					AA_DEBUG(DEBUG_UNPACK, "!multi && c > 1");
-   554					/* fail - all other cases with embedded \0 */
-   555					goto fail;
-   556				}
-   557				table[i].strs = str;
-   558				table[i].count = c;
-   559				table[i].size = size2;
-   560			}
-   561			if (!aa_unpack_nameX(e, AA_ARRAYEND, NULL))
-   562				goto fail;
-   563			if (!aa_unpack_nameX(e, AA_STRUCTEND, NULL))
-   564				goto fail;
-   565		}
-   566		return 0;
-   567	
-   568	fail:
-   569		aa_destroy_str_table(strs);
-   570		e->pos = saved_pos;
-   571		return error;
-   572	}
-   573	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
