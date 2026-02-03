@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3792820AC;
-	Tue,  3 Feb 2026 20:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9091A08BC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 21:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770151846; cv=none; b=KGp5i/a9u6mi9mpamvlcwDag0+nGX1bcC91U4nuSUrMaW5BCGCQykd2s3o/orqhB4zkKIBckyBy0WPLKzr+ATWewZ9uDHla+gShrSpj6jijpMCk8EzXQcf4dlrwiWmJJmQ/bBq1KhHDDJvUEFVlTrCufQ7bWoV6YduwUlHoQuSc=
+	t=1770152996; cv=none; b=Jh+OdIHxL4O1skQapezsYVKPc73tiBfp3Jy+Py11c0x1sUE/E8oaHjouRyj/FIaV9uahxsLKY3fv82+Z0pqyzwFKFZTKreQ8MBeQIpTiIL9V2QW+nO/D1P/3eBsnsV4Jc7JPGOmY3qoTdwwIJ4F++zp8I16kQ/msKofqoc/wU+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770151846; c=relaxed/simple;
-	bh=4ST4A18aqszU2Nr+2SWuqlUjzybC/A7BQuZGLQp8oMo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JBom7yQw3buSYhuGIZ0G1/g3WO+OEav/PcUjuvBf2kNpUz+DJ977D25H287p1cMnwJB/oBaAIl4AaF7iUgObRpf0iZplzxVxozlRvp3QmjuZpOo/+FvPmUW7TB3T4bYfGZboCfMTCH89AvsVjnvZtsS9v25btbGrefdcZbQMftE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPscGOK1; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1770152996; c=relaxed/simple;
+	bh=dV0bUe4m9XMxcS91TdZPtwfePXR53y+4uKoJadksJHY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AWYOlwuSpfv3N1lz/W57kCqbrcIrIOBVEONXnKJ/bxzSqzL+9259q5gIGRXZBwsVF1HrfVOgqdATDD2v/8T0OhSho9XD9xeIBJb0dtbbImLZ+qu6WZw6BWBrcMrz3sq1EwjKiQ5AIpTAdWj2hR5ytbbpHgwi1wUAUj6PDo5GiVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XliG2Q+F; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPscGOK1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XliG2Q+F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770151844; x=1801687844;
+  t=1770152995; x=1801688995;
   h=date:from:to:cc:subject:message-id;
-  bh=4ST4A18aqszU2Nr+2SWuqlUjzybC/A7BQuZGLQp8oMo=;
-  b=NPscGOK15HXkB2v2+Ia0wO6akJVlU0421QPrjlm35eOsr8c8HX3tTiLj
-   4DSgufx7Jzl3eFRx7CH3btCGkzSJWL7fCKpvGzg5GomDebFpuv3fFYNAe
-   0WrsRecmldA4vVS2MM2DlrPKOY62gNs+/AAi//+rYCiJKRE+Uv1Wx73oI
-   EmCR38gWE7Jq0xmCCzy0fmTP6bKYTkBGFlfbC1f8ge/2x4PS6Zovpaagq
-   18jghofj0gX08CPemRditeLYjk8iGelQ5u32B8jvpr+CYhO11SXBaCdme
-   C8DyCCFwerQwMXPQgZh80xYVGs68Cb0DO/Dk7cSNe+UiDgubp82NQoJOz
-   A==;
-X-CSE-ConnectionGUID: 5atPHzM6TE6dkS6VG8Hv9w==
-X-CSE-MsgGUID: wF2AWDj/Q4OLk4VEmmeI9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75191397"
+  bh=dV0bUe4m9XMxcS91TdZPtwfePXR53y+4uKoJadksJHY=;
+  b=XliG2Q+Fzeb78eCSzp8Y5i4/Ln6q+NwLA/Iy1QT2ygISusUP92mhi4pF
+   fLWJIJRc68QpjpDRIZITdhu9MRVAoMvo2cgN+lcRFIobpOWLnKlFreMNO
+   K8m/6aZDH+yIOmB2aU1fn7DRjM0xLKOfRLfYl1M1XU9ajP+RPvaUxJT1u
+   uD7jsY7n3DUVDuLUAwtBwRT9LyeWwVoqWStJRESSiiVxjnZpDBBk7gfvC
+   zhxZu8beGtYom94ZDTg2rbf8E+lOvX3O+rGjdR7D23ktrj2ZlVQ1oqwE+
+   7dU27Vaa5oVFpa3JkhI4i2B4VgSNDmoRJHyOmUkjnBuc/tKQk9s5ETCGH
+   w==;
+X-CSE-ConnectionGUID: Bf198asXQgSfPjW2ogzsZA==
+X-CSE-MsgGUID: RIn1D7FVRmadaK3kskjRDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71234206"
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="75191397"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 12:50:44 -0800
-X-CSE-ConnectionGUID: NXvDqlwjQMWUh75vy3XN8A==
-X-CSE-MsgGUID: cjUH/u8CQtmbrF2rzCSYFw==
+   d="scan'208";a="71234206"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 13:09:54 -0800
+X-CSE-ConnectionGUID: eFC61E+YS1eE+ZB4cBcTQQ==
+X-CSE-MsgGUID: DJ4NsKGdT566CSGQ3diSGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="214926806"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 03 Feb 2026 12:50:43 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="214116598"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2026 13:09:53 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnNM8-00000000h3w-0hpX;
-	Tue, 03 Feb 2026 20:50:40 +0000
-Date: Wed, 04 Feb 2026 04:49:46 +0800
+	id 1vnNeg-000000003TF-28Kh;
+	Tue, 03 Feb 2026 21:09:50 +0000
+Date: Tue, 03 Feb 2026 22:09:04 +0100
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:timers/core-v2 4/15]
- arch/powerpc/kernel/time.c:393:32: error: use of undeclared identifier 'now'
-Message-ID: <202602040443.wI8RI6Wx-lkp@intel.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: net/ipv4/tcp_output.c:1482:13: warning: 'tcp_v4_send_check'
+ defined but not used
+Message-ID: <202602032233.JaVYcsqF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,46 +59,37 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core-v2
-head:   81a308913f624d7f0c0bed9430b00d1a285e1346
-commit: 3121063df11a9ea312a4e72c4ac8b85e5c24f10c [4/15] powerpc/time: Prepare to stop elapsing in dynticks-idle
-config: powerpc64-randconfig-001-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040443.wI8RI6Wx-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040443.wI8RI6Wx-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/tcp-inline-__tcp_v4_send_check/20260203-224938
+head:   b44f2c807084fe7b385668a4e7e54449f3a046de
+commit: b44f2c807084fe7b385668a4e7e54449f3a046de tcp: make tcp_v{4,6}_send_check() static
+date:   6 hours ago
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260203/202602032233.JaVYcsqF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032233.JaVYcsqF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040443.wI8RI6Wx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602032233.JaVYcsqF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/powerpc/kernel/time.c:393:32: error: use of undeclared identifier 'now'
-     393 |         acct->startspurr = read_spurr(now);
-         |                                       ^
-   1 error generated.
+>> net/ipv4/tcp_output.c:1482:13: warning: 'tcp_v4_send_check' defined but not used [-Wunused-function]
+    1482 | static void tcp_v4_send_check(struct sock *sk, struct sk_buff *skb)
+         |             ^~~~~~~~~~~~~~~~~
 
 
-vim +/now +393 arch/powerpc/kernel/time.c
+vim +/tcp_v4_send_check +1482 net/ipv4/tcp_output.c
 
-   379	
-   380	#ifdef CONFIG_NO_HZ_COMMON
-   381	/**
-   382	 * vtime_reset - Fast forward vtime entry clocks
-   383	 *
-   384	 * Called from dynticks idle IRQ entry to fast-forward the clocks to current time
-   385	 * so that the IRQ time is still accounted by vtime while nohz cputime is paused.
-   386	 */
-   387	void vtime_reset(void)
-   388	{
-   389		struct cpu_accounting_data *acct = get_accounting(current);
-   390	
-   391		acct->starttime = mftb();
-   392	#ifdef CONFIG_ARCH_HAS_SCALED_CPUTIME
- > 393		acct->startspurr = read_spurr(now);
-   394	#endif
-   395	}
-   396	
+  1480	
+  1481	/* This routine computes an IPv4 TCP checksum. */
+> 1482	static void tcp_v4_send_check(struct sock *sk, struct sk_buff *skb)
+  1483	{
+  1484		const struct inet_sock *inet = inet_sk(sk);
+  1485	
+  1486		__tcp_v4_send_check(skb, inet->inet_saddr, inet->inet_daddr);
+  1487	}
+  1488	
 
 -- 
 0-DAY CI Kernel Test Service
