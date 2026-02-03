@@ -1,107 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E063D3333
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 16:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0DE3D1CAA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 16:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770135714; cv=none; b=srB9QOBgWOovlmEwdgB+9j9b6uGyjzpiluhtHGqtrJ+TiIDlWT5SgXSZ+HwI9KVbehHi7iYikB9x6/lXl50xdhkHKN9UE5EBriZTxfyQtmBGOFC9MdvC//EJgKMBZ/J6ytFPsbja82Do4q4P32z5khY8zbcKdtuT76oZfnRKAuk=
+	t=1770136110; cv=none; b=EPiOsQvp+vutsGHdA3lzHoEwroSHO+11SNxraTDG+yVITjSqIbQDWfrT7AAbvshkNkhN6epKA+UM2EEicVEOPY+5kZobcsQAjdDRyByQxzp80XggY7ZBqGpnLOXu7LnE8Oosk2oXauZP+E/QvDyonUUOkbcugzjhm6O6OMZjEAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770135714; c=relaxed/simple;
-	bh=7Y2gy7hhsFI0b40ji/v+SoBFAiAx+y6+IF76XFVeOaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ujiJUVV8VDMXghnudlsAx10oV42LwyZQiD+ayrjPeolEF0j03Utz3sz/wM/lELlNEhe7K5F6xYu49v95V0mpmXHY2zDUy0XbXQU5tn9pGGPgwPyFipZYQeqpta4elZ2DMzPHAX+Q5xxik3j1LVtnAAdilH+CkW6fRtZlOrIyN04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EtZMFPpS; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1770136110; c=relaxed/simple;
+	bh=g5pd+jLCMsy5FPeIV7swUZIp+JESazvhGDwclbIZKyE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Xjx/goIlThm1saOYYxwMb017Wc6/+6z4syk6FHemfu1iaKbQwBy7k9MRwPSM2v0ROj+BUSRIKhAVYyGt0O7zeUnR9ndgd/y5XQt68OpHrUFj+vUPuhXnjGXJCKJn4GDJcTrDID4WRBSBgWAsP1rdKWSBnMU7lxV2yADLzckmLcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpEDQO/K; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EtZMFPpS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpEDQO/K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770135713; x=1801671713;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7Y2gy7hhsFI0b40ji/v+SoBFAiAx+y6+IF76XFVeOaA=;
-  b=EtZMFPpSU75a4zlmvewkaQQi/h07Zikfbkal1R6Pl//BYZK5x/RdnUep
-   t46NB18OnNBjNSwIXgYSlIHEtZW9BDkhSmMK/TC6Ig6Eq09QWS3jjdEdc
-   gYe7y/ZsUl/0jm7DzOgGCIhqU8tkB3sDa35nlheuIlTYmzmE8nL/ftYWs
-   kweYzOL3DF1Qo/FXE0MidC7GEcWoxqAfDjSn2mklQ64cJs0ZPkNzdViil
-   esMTkSryeMYdRUhtxDNpGOXMfdVMjvShDLHdMFilElM+FX0MD0vRVwu3J
-   fX7zbBUcoJjzEdCwN7IYr1dX7xWPO5hPRs6j0FxbLw7BN8tw4F5barSzB
-   A==;
-X-CSE-ConnectionGUID: Xey7gSoaQ6yfPnrS7q23KQ==
-X-CSE-MsgGUID: lXk2C3rSRT6LAA4C5MiNfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="82682272"
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="82682272"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 08:21:53 -0800
-X-CSE-ConnectionGUID: LTnIiRNtQk6GtvTntW1wqg==
-X-CSE-MsgGUID: g+qqdzp9SKCInIWgj3S9GQ==
+  t=1770136109; x=1801672109;
+  h=date:from:to:cc:subject:message-id;
+  bh=g5pd+jLCMsy5FPeIV7swUZIp+JESazvhGDwclbIZKyE=;
+  b=YpEDQO/KjUUH4GEQsSFuANxpuNsDTehQtz6gmNEyACwr0kddc/0+qDgv
+   HuW0JnXVxXhp2SJraUb/tT6wld5gGFl+NbU/td0oN40k6llCAV4xK3ZFo
+   gMo5odZQF1+wQIVh7VD2MzDit+gZyBsb02kMeS+JAHwTXzTMA7B0VPW3d
+   WtnugOGcUbFoOj+U41u3zXbSrRM0NXnLXPP2fyu0weKhAL7Jbp2xBPy7C
+   jobHL+SoaupyMuz2z00bCajRtqMGxdZgZI6LyQhnKbpZE7zeVmVH2Mhlv
+   Ykge7kCEgINuh7KzrJf0O+GZjgjB+1kQkvPCfM/TGdIct0UyjUBl4ggxB
+   g==;
+X-CSE-ConnectionGUID: xHBwDUOaQJeRBLNg5QqzcQ==
+X-CSE-MsgGUID: DA3G54fJR86ojXyjdH31tA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="73910553"
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
+   d="scan'208";a="73910553"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 08:28:28 -0800
+X-CSE-ConnectionGUID: AC90CuapRHm2hMnsNs/bYA==
+X-CSE-MsgGUID: Q5WYN3xFTwixaX/EU5PcBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="232804399"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2026 08:21:49 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="209182659"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 03 Feb 2026 08:28:27 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnJ9u-000000003Nx-3Omr;
-	Tue, 03 Feb 2026 16:21:46 +0000
-Date: Tue, 3 Feb 2026 17:21:30 +0100
+	id 1vnJGK-00000000gqS-0O0m;
+	Tue, 03 Feb 2026 16:28:24 +0000
+Date: Wed, 04 Feb 2026 00:27:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	linux-kernel@vger.kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	David Airlie <airlied@gmail.com>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Walle <mwalle@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 2/4] drm/panel: ilitek-ili9806e: split core and DSI
- logic
-Message-ID: <202602031753.CjqWRWVT-lkp@intel.com>
-References: <20260203075548.14907-3-dario.binacchi@amarulasolutions.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 2/2] ld.lld: error: undefined
+ symbol: iommu_free_pages
+Message-ID: <202602040025.dNDWTwwv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260203075548.14907-3-dario.binacchi@amarulasolutions.com>
 
-Hi Dario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6bd9ed02871f22beb0e50690b0c3caf457104f7c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/drm-panel-ilitek-ili9806e-rename-to-specific-DSI-driver/20260203-155721
-base:   6bd9ed02871f22beb0e50690b0c3caf457104f7c
-patch link:    https://lore.kernel.org/r/20260203075548.14907-3-dario.binacchi%40amarulasolutions.com
-patch subject: [PATCH v3 2/4] drm/panel: ilitek-ili9806e: split core and DSI logic
-config: hexagon-kismet-CONFIG_DRM_PANEL_ILITEK_ILI9806E_CORE-CONFIG_DRM_PANEL_ILITEK_ILI9806E_DSI-0-0 (https://download.01.org/0day-ci/archive/20260203/202602031753.CjqWRWVT-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260203/202602031753.CjqWRWVT-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   367aa148ad18ea2d6d56373b83d5895390195cdd
+commit: 6ace5be5937cc205a98e4738d000581686a7c3d9 [2/2] ANDROID: KVM: arm64: iommu: Implement IOMMU subsystem accounting
+config: arm64-randconfig-003-20260203 (https://download.01.org/0day-ci/archive/20260204/202602040025.dNDWTwwv-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040025.dNDWTwwv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031753.CjqWRWVT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040025.dNDWTwwv-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_PANEL_ILITEK_ILI9806E_CORE when selected by DRM_PANEL_ILITEK_ILI9806E_DSI
-   WARNING: unmet direct dependencies detected for DRM_PANEL_ILITEK_ILI9806E_CORE
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && BACKLIGHT_CLASS_DEVICE [=n]
-     Selected by [y]:
-     - DRM_PANEL_ILITEK_ILI9806E_DSI [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && DRM_MIPI_DSI [=y]
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: iommu_free_pages
+   >>> referenced by iommu.c
+   >>>               arch/arm64/kvm/iommu.o:(__pkvm_free_iommu_hyp_memcache) in archive vmlinux.a
+   >>> referenced by iommu.c
+   >>>               arch/arm64/kvm/iommu.o:(__free_hyp_memcache) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: iommu_alloc_pages_node_sz
+   >>> referenced by iommu.c
+   >>>               arch/arm64/kvm/iommu.o:(__pkvm_topup_hyp_iommu) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
