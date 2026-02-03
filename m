@@ -1,111 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C276935EDB3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 19:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B1E2F5311;
+	Tue,  3 Feb 2026 20:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770148605; cv=none; b=MpT8p2B+dqm2J133dUBaO3V8tH+1YGuV2pgIKdHBy9uaDtVW5tHax3WaDasPJ5+WNAo07wnQ00fIrhxEWiPddf+t4HPgGqPOZD7thu+nYgD9xQWyRqlQnsdvMv7GG0Zbx1nMEm8zo/RObDLNgM8TIKT2SrLlvip+1lk5RhlJVzo=
+	t=1770149205; cv=none; b=b8ANcieapWrrf7ABDkx1cDYInFyXgXyX0GiW5rHkDP0DN6QgfjYe1Yi5El+f0wi+qEnt9P7GXhuEbwFPwiSDJgeQs7ro5i+VmTyQIJmszHoXloNd//nawdQzzOPpiusDrGIpXBmTwUajdWUq1u0GbMRZN2vtM5ewHchXnlFHW8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770148605; c=relaxed/simple;
-	bh=3DAmJvymplUSG8aFnz2n3IcxS57MankGaOrbX7ux0vc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fv5XdgkFNTztR/IozdziGKIJh8xQWKvwJom0EF+C3d4LakROx7065avSsTlhmv7ciZqSr5uldDCgzTr0rzNtUJkZWQcTomM/Y2cmn19mjN6St7YVsTu5r8SrtFvYuNXM3RiuX44JKhYe9doqhGcKk7ItW3WYG4opGuyavV39/50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHkJp5yV; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1770149205; c=relaxed/simple;
+	bh=oTUttBJTQNeAcl8FyFeDmAbW7EwLrgPcBhqsx+D+0pI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Aermttc9PSL78FF6z/GYITt7K9r58NEuxW0T0rU/L59aNu2BMQatcaqBYeeph53OyO787q2nJYA4UUHWZ21WDq1rXrSu/bBlvU3y73QY7vqp7RctywuqxAU5+wkKYfb1LwOufoeHPMHCifUBMSiaU7OhZWSTVODwYiyYttpKYs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhggE5i3; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHkJp5yV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhggE5i3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770148604; x=1801684604;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3DAmJvymplUSG8aFnz2n3IcxS57MankGaOrbX7ux0vc=;
-  b=fHkJp5yVOG+sFmVixejmOZL/kmGya96CdlISoQzdvCCnAu7u6OhQBjX2
-   4GjAsCl6dP0XOPFKw9hLkOnujGKgeuOY/7IT8+B9o1JzTB12vf3/5OFB9
-   p4fb8TIzD9lyHaTsyw4JE8kr1Ut8p3+voM2gpSRhxIpWIml9gOsCVxyjh
-   lbc6/ifgj4vsQ6+4yZkl2T0x7LNy5gqCxJv1ImuV1NdJ4Hvy0VhwFKSZJ
-   g1LaQBGWXw0buMv413lpTI4nkfPh3TtXxhZAPDZ845p99NCM2WKjqH48Y
-   X6+Tmz2hR1E2yAd0hoIzMJwnU+KVf9nKlpLBqEA5SxyQ0ZXK4bmAdr8Hk
-   g==;
-X-CSE-ConnectionGUID: ZRKobzwQQeyG1DZZeowobg==
-X-CSE-MsgGUID: 99bQnAX/Q06r9/jxeY8TJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="58908423"
+  t=1770149205; x=1801685205;
+  h=date:from:to:cc:subject:message-id;
+  bh=oTUttBJTQNeAcl8FyFeDmAbW7EwLrgPcBhqsx+D+0pI=;
+  b=mhggE5i3qBCDg3zA7Sn8CI91dOgCUBKgAckYV7IBhhTkdkTVfHghTzQh
+   yhnlvUwl6L/2UWgoyehbZL+lrvB9uB1jo62VCj/NYbAgx8gKn72QEEibL
+   wDszj2oIHZC8TIf8BWfEz7bChyg0ALGHcXXpSL9uQDcvQmuXtn58T8WM+
+   E5Q6RiFGOExtkBQTCLRuWYUIHy68USlsusb/PHRzPvbGJXC/KEoNffiZV
+   ytymULQHWbCuA9SZ9E5FI7XKMF0AjVXk90BnSVWMLx9+TOwqNCs0kWiKG
+   NFm/TDQZCaXcmIlJMpsHZnfI/QtDiByLBbVTFZZT3fYGDp69unmlG0Wey
+   w==;
+X-CSE-ConnectionGUID: 1ZLXeEj2Qp+ct7IzmL0x1g==
+X-CSE-MsgGUID: O0RC8NT1Tv61TJD160cVqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71052637"
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="58908423"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 11:56:43 -0800
-X-CSE-ConnectionGUID: SyQrICe4TtOXIje4E+inhw==
-X-CSE-MsgGUID: Se+NOMuwSwOP7HfAbn5Utg==
+   d="scan'208";a="71052637"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 12:06:44 -0800
+X-CSE-ConnectionGUID: 4dKkNWvJRM6kQHyGVEMZtw==
+X-CSE-MsgGUID: 8FzvLQIuQnmWkoInWr1ogQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="210068125"
+   d="scan'208";a="210043902"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Feb 2026 11:56:41 -0800
+  by orviesa007.jf.intel.com with ESMTP; 03 Feb 2026 12:06:41 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnMVq-00000000h2S-3VsN;
-	Tue, 03 Feb 2026 19:56:38 +0000
-Date: Wed, 4 Feb 2026 03:55:58 +0800
+	id 1vnMfX-00000000h2q-1Dlw;
+	Tue, 03 Feb 2026 20:06:39 +0000
+Date: Wed, 04 Feb 2026 04:06:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>, netdev@vger.kernel.org,
-	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH net-next 3/3] tcp: make tcp_v{4,6}_send_check() static
-Message-ID: <202602040323.jUZrgY0y-lkp@intel.com>
-References: <20260203144053.83193-4-edumazet@google.com>
+To: Christian Schrrefl <chrisi.schrefl@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+ Alice Ryhl <aliceryhl@google.com>
+Subject: error: kernel-address sanitizer is not supported for this
+ target
+Message-ID: <202602040358.gVbDUXXQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260203144053.83193-4-edumazet@google.com>
 
-Hi Eric,
+Hi Christian,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/tcp-inline-__tcp_v4_send_check/20260203-224938
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260203144053.83193-4-edumazet%40google.com
-patch subject: [PATCH net-next 3/3] tcp: make tcp_v{4,6}_send_check() static
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260204/202602040323.jUZrgY0y-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040323.jUZrgY0y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de0674d9bc69699c497477d45172493393ae9007
+commit: ccb8ce526807fcbd4578d6619100d8ec48769ea8 ARM: 9441/1: rust: Enable Rust support for ARMv7
+date:   10 months ago
+config: arm-randconfig-001-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040358.gVbDUXXQ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040358.gVbDUXXQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040323.jUZrgY0y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040358.gVbDUXXQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/ipv4/tcp_output.c:1482:13: warning: 'tcp_v4_send_check' defined but not used [-Wunused-function]
-    1482 | static void tcp_v4_send_check(struct sock *sk, struct sk_buff *skb)
-         |             ^~~~~~~~~~~~~~~~~
-
-
-vim +/tcp_v4_send_check +1482 net/ipv4/tcp_output.c
-
-  1480	
-  1481	/* This routine computes an IPv4 TCP checksum. */
-> 1482	static void tcp_v4_send_check(struct sock *sk, struct sk_buff *skb)
-  1483	{
-  1484		const struct inet_sock *inet = inet_sk(sk);
-  1485	
-  1486		__tcp_v4_send_check(skb, inet->inet_saddr, inet->inet_daddr);
-  1487	}
-  1488	
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+   28 | #define __SANITIZE_ADDRESS__
+   |         ^
+   <built-in>:367:9: note: previous definition is here
+   367 | #define __SANITIZE_ADDRESS__ 1
+   |         ^
+>> error: kernel-address sanitizer is not supported for this target
 
 -- 
 0-DAY CI Kernel Test Service
