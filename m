@@ -1,93 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC0B27057D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 10:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EBD31812F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 10:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770113751; cv=none; b=iNjE09fJR5E/91j26aJYqJJf8W74fY3eP3UJ1XoWQ/ir3PEQPWTEvq2EbSMGAXBcca9OGxco+qMvP5Lct/W3evIftA8QXOZTPU62MJr9slor2KbwdNYoNNlqz+UlVKBfNzU0D0a4M9IS2eZthq+KJDBEwSgWIDmvsLmxAkEXb80=
+	t=1770114094; cv=none; b=USFGEa3x7isx9y+ClkmF/L2ja3kZud1Kfw6rUHIeUxrlLOzcfAGzKNOt0G7uSt2wMKM1ipYJqBry3zELSsosC6Jz9L485lyNx2cjvZhYuPRtW3GTTjt+XPgXipH3bG4kN7J1FLOaWsMf9sIcdalQ+M0b90R/mqO67FOe0HG7/1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770113751; c=relaxed/simple;
-	bh=6T4SMekW5RI699xQich8QNOmbvG/+dzS9ourHpnTSF4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mnicuqoGa04D9dx3fJRM+CxM3Y230dDvejfwhYOQG0rZ9EZ0zsvTmEFMjyKXUTxazMdQxabNtnG27nYCj48Q4JXBMj8PITZEuPwJOZlsZFFS6IKwHrOrtqv8I7jWo3bU5OeaM2bvEnv809byp8jsRg+MOeXcQtLT7Miiv8Ytuyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AHP5UOo9; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770114094; c=relaxed/simple;
+	bh=0Hu+pjWVxKbUbi+crAMHRsxu5tpPF1ZHW4DwTDxug1k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X1koc9V18mbbh6mkabh4YggIutIF3vAVcCi+x8dS7oio9QlsdQElMmsLaP9vFjvTwdLguZwd0XHgT8pUnupmYOpJuDZ3bIxy4D28pqrqmybC4UKQz+O8uIktRFD3gvVHvjNNZ3GMDqBOvEkBdnW3pxLf7fLpwyXP35VmGcV6ayA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ia1qoDPC; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHP5UOo9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770113749; x=1801649749;
-  h=date:from:to:cc:subject:message-id;
-  bh=6T4SMekW5RI699xQich8QNOmbvG/+dzS9ourHpnTSF4=;
-  b=AHP5UOo9KmZGBqRJHHzq0GED3GQUaJ5CMTnumCJwu5Hs4XhpoICKkXeE
-   L7TdwHRpcY9onizTH8KQpkNah38f3lAeHRE54vAmcL4zrLPXumY9K5+Un
-   HCkhc0YNgbP3pQ9M5akFgFjSKtyGXUybfAhpZFOYIEkSQygqzosV3gqv7
-   b3hlDdheM4ocVLrnCnfZbsW6P7pIkW8RKIuqJRXY+CDraVFIlRS51o/I8
-   W+m6sJkP1OXIfqePOttkrbmid7hgI+Ropa5XwvRIUfjYODdEV6XXM3vz7
-   N7Ar+9LsW1TJmLKQKIWywoDY+lcVXuskAiiYfULO5DnaXS3xmtUZSmz2t
-   Q==;
-X-CSE-ConnectionGUID: XFmuQyObShqt7zzw1fd1Ew==
-X-CSE-MsgGUID: KDW1QI8VSxSTWnySALXjMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="75137372"
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="75137372"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 02:15:49 -0800
-X-CSE-ConnectionGUID: FxR7OwuaR/qZtdR7BAHf+w==
-X-CSE-MsgGUID: RFA4ZW4oQ9mG9C6kymL0ZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="214578344"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Feb 2026 02:15:47 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vnDRh-000000003Lx-1NC5;
-	Tue, 03 Feb 2026 10:15:45 +0000
-Date: Tue, 03 Feb 2026 11:14:57 +0100
-From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>
-Subject: [sashal-linus-next:linus-next 10891/11193]
- lib/kvm_util.c:362:7: error: no member named 'pgtable_levels' in 'struct
- kvm_vm'
-Message-ID: <202602031126.7yg4Gpjh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ia1qoDPC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1770114091;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TblGRIK+EVqQkPbymIqDvw5SKo5IqX4mHjR+G3bgeLc=;
+	b=ia1qoDPCTze9Boyb6Luxbrsl8AHbkLeTKTCfF6bah8CwTZ2lRBPEwYzYCjgAiHFFzx2XaX
+	H/5ECQq6udwYXWeSokFHCmIdGFzXRb5hlrwNQEuQ1HPLLY6LIzIXdDtAmBW1VV0kEXIA2t
+	2SUBkxkDv8CwEGVQjIE2DnPHCUJgG/k=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-318-kB-9cYPYMlGiKlMTHqtflw-1; Tue,
+ 03 Feb 2026 05:21:26 -0500
+X-MC-Unique: kB-9cYPYMlGiKlMTHqtflw-1
+X-Mimecast-MFC-AGG-ID: kB-9cYPYMlGiKlMTHqtflw_1770114083
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 01CE7195605F;
+	Tue,  3 Feb 2026 10:21:23 +0000 (UTC)
+Received: from [10.43.3.114] (unknown [10.43.3.114])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8883619560B2;
+	Tue,  3 Feb 2026 10:21:17 +0000 (UTC)
+Message-ID: <67478aa2-54f5-4a3f-8063-ab6e877693e4@redhat.com>
+Date: Tue, 3 Feb 2026 11:21:16 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-wired-lan] [PATCH net-next v4 7/9] dpll: Add reference
+ count tracking support
+To: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-rdma@vger.kernel.org, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+ intel-wired-lan@lists.osuosl.org, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
+ Richard Cochran <richardcochran@gmail.com>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, Mark Bloch <mbloch@nvidia.com>,
+ linux-kernel@vger.kernel.org, Tariq Toukan <tariqt@nvidia.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>, Saeed Mahameed <saeedm@nvidia.com>
+References: <20260202171638.17427-8-ivecera@redhat.com>
+ <202602030538.6ok1xugA-lkp@intel.com>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <202602030538.6ok1xugA-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linus-next.git linus-next
-head:   3e0a859f3459ea4f76bcfa5d6f67b3594fa37cd1
-commit: a21f297ade6d48400877cd20b893b13d310c071c [10891/11193] Merge 'kvm-x86' from https://github.com/kvm-x86/linux.git (next)
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260203/202602031126.7yg4Gpjh-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031126.7yg4Gpjh-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031126.7yg4Gpjh-lkp@intel.com/
 
-Note: the sashal-linus-next/linus-next HEAD 3e0a859f3459ea4f76bcfa5d6f67b3594fa37cd1 builds fine.
-      It only hurts bisectability.
+On 2/2/26 10:48 PM, kernel test robot wrote:
+> Hi Ivan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-Allow-associating-dpll-pin-with-a-firmware-node/20260203-012705
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20260202171638.17427-8-ivecera%40redhat.com
+> patch subject: [Intel-wired-lan] [PATCH net-next v4 7/9] dpll: Add reference count tracking support
+> config: i386-randconfig-141-20260203 (https://download.01.org/0day-ci/archive/20260203/202602030538.6ok1xugA-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> smatch version: v0.5.0-8994-gd50c5a4c
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030538.6ok1xugA-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602030538.6ok1xugA-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from net/core/rtnetlink.c:61:
+>>> include/linux/dpll.h:235:1: error: expected identifier or '('
+>       235 | {
+>           | ^
+>     1 error generated.
+> 
+> 
+> vim +235 include/linux/dpll.h
+> 
+> 877c40367bc8a7 Ivan Vecera 2026-02-02  232
+> 877c40367bc8a7 Ivan Vecera 2026-02-02  233  static inline struct dpll_pin *
+> bed78c2008cb37 Ivan Vecera 2026-02-02  234  fwnode_dpll_pin_find(struct fwnode_handle *fwnode, dpll_tracker *tracker);
 
-All errors (new ones prefixed by >>):
+Oh god, extra semicolon in this stub :-(
 
->> lib/kvm_util.c:362:7: error: no member named 'pgtable_levels' in 'struct kvm_vm'
-     362 |                 vm->pgtable_levels = 5;
-         |                 ~~  ^
-   lib/kvm_util.c:367:7: error: no member named 'pgtable_levels' in 'struct kvm_vm'
-     367 |                 vm->pgtable_levels = 4;
-         |                 ~~  ^
-   lib/kvm_util.c:372:7: error: no member named 'pgtable_levels' in 'struct kvm_vm'
-     372 |                 vm->pgtable_levels = 3;
-         |                 ~~  ^
-   3 errors generated.
+Will submit the fix after 24h grace period.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I.
+> 877c40367bc8a7 Ivan Vecera 2026-02-02 @235  {
+> 877c40367bc8a7 Ivan Vecera 2026-02-02  236  	return NULL;
+> 877c40367bc8a7 Ivan Vecera 2026-02-02  237  }
+> 5f18426928800c Jiri Pirko  2023-09-13  238  #endif
+> 5f18426928800c Jiri Pirko  2023-09-13  239
+
+
+
