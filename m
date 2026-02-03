@@ -1,62 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD02921B9FD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 11:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB96833D502;
+	Tue,  3 Feb 2026 12:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770118432; cv=none; b=dLQgyUffkLaeiei+RNq4OcFblHoowDtnOtCazCBoXwpsH6PWEr2ig5YiPck/pS5lbpLuVmuL8kKWOTHfr4nesTfV2uI4v/JP6G894wwv4/VQKm2aaSSy/9ir/MI6K3r2n2adsvTjn+inbttxnWf2cdzpo7UyJ89uHsKgq1iMsEY=
+	t=1770120795; cv=none; b=ZD5Ya22vpgw2VKvhP2NeJNwSch9QyyR25GJP6HT1d9Soz7+W1bHlf1xz/Ai08g87SFeZvFenU5jmboN+P+9V8Am1VBq5SRndqhQ/aRxAa+KqC3NQ9ReUolUVUxSNkTMBcnpMVI66r7XOT0POMjifdy+KHtfamNQDDs46KRYqDlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770118432; c=relaxed/simple;
-	bh=xlu7LoTEstWjiNJRTJ9vJS+ZSAuiYIavZPr2kG3hUWk=;
+	s=arc-20240116; t=1770120795; c=relaxed/simple;
+	bh=EJ3LnE8q3TaYue/6JRSSE8ScZ+X65Vqv7A3J1Op26pU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u60PD3W2HUSTYyX+PlAiFQHjNth1XuJxQhmNaI8TDMoRe+s8nNkNNhnZx3aaRf1qpTFjReSuH9mvfKPotKcbZZKHWYPnDg+DISGfH2e+nDz+xVPX++itxL9YhfWSJwi/9HAdHky3Bi6I91c667RbQo/Iey38YUhXm3mZxUM67Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvyTNAoE; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=KTxN1JAK7sN6kjdUMmasceaagdu2OXVt0nL3w0b4z84PqMIM95OTbSfYPWBR9RrNkGICQ6VU0Jee3u4RPFn6KIBQec6Vx70PQkSJqAWJBvarhNOTP5t9wvRL35OCIgGrNSaXfrQRN6QYd/g2ufopreFlnvajBog2myfVMIv698A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hbRIJimc; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvyTNAoE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hbRIJimc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770118430; x=1801654430;
+  t=1770120792; x=1801656792;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xlu7LoTEstWjiNJRTJ9vJS+ZSAuiYIavZPr2kG3hUWk=;
-  b=jvyTNAoE9xYMgDBQ3pFYAmVkocvw3HUzhkH4WUlFFmxNohG0Z6DHfS0n
-   8l/UnAjgbKBZiBeCfvWRfTOC5i9zlg526I/a1FOx6TDlDKEPTl5nUc5TS
-   Ec9AxpEt3045XZTjpLMk/32cJtT+1sajNLTWkx165yGsKXc53WPZWSHIP
-   kRoey7rX7i1+kioPIhWvPIKfyv64Ft5Vs/xjVADVvWY/2CarC+qYT2snS
-   JCNCu2Mo35w+U9GE7TozllxxcXdZrFvsSlPZvZx0EIzf/Hi1zqtbi/dgF
-   c/C31Ze+fC/lMCzCxgYev2m+F4/bE3P4mwmDlOJz2IhqAogcUB0N96J5/
-   g==;
-X-CSE-ConnectionGUID: h3yqVJwTRXWfnqkivfMP6Q==
-X-CSE-MsgGUID: Zx+WwN1MQ76bPUOT/Qr3Ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="88862046"
+  bh=EJ3LnE8q3TaYue/6JRSSE8ScZ+X65Vqv7A3J1Op26pU=;
+  b=hbRIJimcQ3ZBWA59OdbggXsaAb370HFA/MDeLxfTkVPFpXbx0TcPyuWW
+   T9Uqa3UsvChP9+hbFlkRoHLk7WV6QlnP8YM51VVZGP26Y7VY4MX2bV9hS
+   hs5gGayk6iz3e8wDT13HAppmXEQJq18SewOIRGe+qadzxjqtMokzVO2aq
+   qP2xDbuJQdeLybkuA40BYGyp4NPHwnPi0FHtqrD+6bHxLlTht5+5vyLBX
+   HVoR1v/i6oWWEMyYEbWFn+VLibq+thQ5PN1i5SaQuAgKl4SlG5DtZQpVM
+   7VJgcxcS2j+Xv3C6wXoCgktNbUW4GKzLtA+mkauiaSIOGsoIWRrTLKZRP
+   A==;
+X-CSE-ConnectionGUID: AORVjIcATcugiCLbJk/ewA==
+X-CSE-MsgGUID: S0nzdlXZQ4OwJAEnKeBFLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="58869528"
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="88862046"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 03:33:50 -0800
-X-CSE-ConnectionGUID: DjpZi5DRQvyoB426zvZieQ==
-X-CSE-MsgGUID: Qvqb8fTsQSG2xQtlUdgghA==
+   d="scan'208";a="58869528"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 04:13:11 -0800
+X-CSE-ConnectionGUID: fQ0yhWwURwO+qWpT5qZTOA==
+X-CSE-MsgGUID: 6CdExaoMTyel01JhIX6pkA==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Feb 2026 03:33:49 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="209250856"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 03 Feb 2026 04:13:07 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnEfB-000000003Mf-3Mda;
-	Tue, 03 Feb 2026 11:33:45 +0000
-Date: Tue, 3 Feb 2026 12:33:19 +0100
+	id 1vnFHE-00000000gcK-1HST;
+	Tue, 03 Feb 2026 12:13:04 +0000
+Date: Tue, 3 Feb 2026 20:12:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Murari Prasad Samal <murariprasadsamal57@gmail.com>,
-	netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com,
-	Murari Prasad Samal <murariprasadsamal57@gmail.com>
-Subject: Re: [PATCH] net: ifb: record drop reason when redirect device is
- missing
-Message-ID: <202602031242.kPM0xECv-lkp@intel.com>
-References: <20260202191135.7668-1-murariprasadsamal57@gmail.com>
+To: Arnd Bergmann <arnd@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Simon Horman <horms@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	Anna Schumaker <anna.schumaker@oracle.com>,
+	Chuck Lever <chuck.lever@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Arnd Bergmann <arnd@arndb.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Yury Norov <ynorov@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH] tracing: remove __printf() attribute on
+ __ftrace_vbprintk()
+Message-ID: <202602032036.FQK7gJvV-lkp@intel.com>
+References: <20260202095834.1328352-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,109 +76,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202191135.7668-1-murariprasadsamal57@gmail.com>
+In-Reply-To: <20260202095834.1328352-1-arnd@kernel.org>
 
-Hi Murari,
+Hi Arnd,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net/main]
-[also build test ERROR on net-next/main linus/master v6.19-rc8 next-20260202]
+[auto build test WARNING on next-20260130]
+[cannot apply to trace/for-next linus/master v6.19-rc8 v6.19-rc7 v6.19-rc6 v6.19-rc8]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Murari-Prasad-Samal/net-ifb-record-drop-reason-when-redirect-device-is-missing/20260203-031526
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260202191135.7668-1-murariprasadsamal57%40gmail.com
-patch subject: [PATCH] net: ifb: record drop reason when redirect device is missing
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260203/202602031242.kPM0xECv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031242.kPM0xECv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/tracing-remove-__printf-attribute-on-__ftrace_vbprintk/20260202-180958
+base:   next-20260130
+patch link:    https://lore.kernel.org/r/20260202095834.1328352-1-arnd%40kernel.org
+patch subject: [PATCH] tracing: remove __printf() attribute on __ftrace_vbprintk()
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260203/202602032036.FQK7gJvV-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032036.FQK7gJvV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031242.kPM0xECv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602032036.FQK7gJvV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ifb.c:118:26: error: use of undeclared identifier 'SKB_DROP_REASON_NO_DEV'; did you mean 'SKB_DROP_REASON_NOMEM'?
-     118 |                         kfree_skb_reason(skb, SKB_DROP_REASON_NO_DEV);
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~
-         |                                               SKB_DROP_REASON_NOMEM
-   ./include/net/dropreason-core.h:446:2: note: 'SKB_DROP_REASON_NOMEM' declared here
-     446 |         SKB_DROP_REASON_NOMEM,
-         |         ^
-   1 error generated.
+>> kernel/trace/trace_printk.c:212:34: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of '__trace_bprintk' [-Wmissing-format-attribute]
+     212 |         ret = trace_vbprintk(ip, fmt, ap);
+         |                                         ^
+   include/linux/trace_printk.h:110:5: note: '__trace_bprintk' declared here
+     110 | int __trace_bprintk(unsigned long ip, const char *fmt, ...);
+         |     ^
+   1 warning generated.
 
 
-vim +118 drivers/net/ifb.c
+vim +212 kernel/trace/trace_printk.c
 
-    88	
-    89	static void ifb_ri_tasklet(struct tasklet_struct *t)
-    90	{
-    91		struct ifb_q_private *txp = from_tasklet(txp, t, ifb_tasklet);
-    92		struct netdev_queue *txq;
-    93		struct sk_buff *skb;
-    94	
-    95		txq = netdev_get_tx_queue(txp->dev, txp->txqnum);
-    96		skb = skb_peek(&txp->tq);
-    97		if (!skb) {
-    98			if (!__netif_tx_trylock(txq))
-    99				goto resched;
-   100			skb_queue_splice_tail_init(&txp->rq, &txp->tq);
-   101			__netif_tx_unlock(txq);
-   102		}
-   103	
-   104		while ((skb = __skb_dequeue(&txp->tq)) != NULL) {
-   105			/* Skip tc and netfilter to prevent redirection loop. */
-   106			skb->redirected = 0;
-   107	#ifdef CONFIG_NET_CLS_ACT
-   108			skb->tc_skip_classify = 1;
-   109	#endif
-   110			nf_skip_egress(skb, true);
-   111	
-   112			ifb_update_q_stats(&txp->tx_stats, skb->len);
-   113	
-   114			rcu_read_lock();
-   115			skb->dev = dev_get_by_index_rcu(dev_net(txp->dev), skb->skb_iif);
-   116			if (!skb->dev) {
-   117				rcu_read_unlock();
- > 118				kfree_skb_reason(skb, SKB_DROP_REASON_NO_DEV);
-   119				txp->dev->stats.tx_dropped++;
-   120				if (skb_queue_len(&txp->tq) != 0)
-   121					goto resched;
-   122				break;
-   123			}
-   124			rcu_read_unlock();
-   125			skb->skb_iif = txp->dev->ifindex;
-   126	
-   127			if (!skb->from_ingress) {
-   128				dev_queue_xmit(skb);
-   129			} else {
-   130				skb_pull_rcsum(skb, skb->mac_len);
-   131				netif_receive_skb(skb);
-   132			}
-   133		}
-   134	
-   135		if (__netif_tx_trylock(txq)) {
-   136			skb = skb_peek(&txp->rq);
-   137			if (!skb) {
-   138				txp->tasklet_pending = 0;
-   139				if (netif_tx_queue_stopped(txq))
-   140					netif_tx_wake_queue(txq);
-   141			} else {
-   142				__netif_tx_unlock(txq);
-   143				goto resched;
-   144			}
-   145			__netif_tx_unlock(txq);
-   146		} else {
-   147	resched:
-   148			txp->tasklet_pending = 1;
-   149			tasklet_schedule(&txp->ifb_tasklet);
-   150		}
-   151	
+1ba28e02a18cbd kernel/trace/trace_bprintk.c Lai Jiangshan            2009-03-06  199  
+48ead02030f849 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-12  200  int __trace_bprintk(unsigned long ip, const char *fmt, ...)
+1427cdf0592368 kernel/trace/trace_bprintk.c Lai Jiangshan            2009-03-06  201  {
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  202  	int ret;
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  203  	va_list ap;
+1427cdf0592368 kernel/trace/trace_bprintk.c Lai Jiangshan            2009-03-06  204  
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  205  	if (unlikely(!fmt))
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  206  		return 0;
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  207  
+b9f9108cad3998 kernel/trace/trace_printk.c  Steven Rostedt (Red Hat  2015-09-29  208) 	if (!trace_printk_enabled)
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  209  		return 0;
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  210  
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  211  	va_start(ap, fmt);
+40ce74f19c2807 kernel/trace/trace_printk.c  Steven Rostedt           2009-03-19 @212  	ret = trace_vbprintk(ip, fmt, ap);
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  213  	va_end(ap);
+769b0441f438c4 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-06  214  	return ret;
+1427cdf0592368 kernel/trace/trace_bprintk.c Lai Jiangshan            2009-03-06  215  }
+48ead02030f849 kernel/trace/trace_printk.c  Frederic Weisbecker      2009-03-12  216  EXPORT_SYMBOL_GPL(__trace_bprintk);
+1427cdf0592368 kernel/trace/trace_bprintk.c Lai Jiangshan            2009-03-06  217  
 
 -- 
 0-DAY CI Kernel Test Service
