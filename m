@@ -1,191 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CABE2F12C3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 02:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BFA2EB866
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 02:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770084101; cv=none; b=TdjJukUmV254+6n60O6MyChtJjvoadytIzXXSFtv6RLQOVzXHZcLgVLpJkywQmrUDJxeijArD5xfYv9gTnawdmRy9myABO8xrAVnxF2tArpZ86CJGl1V8uZgmhbn7DCE2wBBxsKmtc8Fn/koVjXTDwBD77dDgWJgPOXvifWWLSA=
+	t=1770086572; cv=none; b=iHVL6VOBXRyHPL8ydDU/AEcTYKABConOyKZcc/IP0cVMwvMZecE8Y4VSTDdhCLkGxIeGzwf4TAGOs/T5o2CQ3Mhj2kJEi6OHsDulnn/10yJzitjCpQftaicM4OJ2RNX+unwp6Pe/rEY6ZbwfMFYAr1gfrcrQdJjbpZzkWqgjXO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770084101; c=relaxed/simple;
-	bh=/go1/gIN+rKkRetNSo+qi6KG2NfbHky2ufZfgC40C0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N3DmkjFO9q9x+DDZZPikRjzD86y4JE9AtBo24S0TDIxa6YUtQ5h4sn+L9yScgQH+jMh7zZNjLnhgPVGtQFReTJ3BkqaTlWoQsSOw6SSm4ZWPlY+fbp86cLmb/EsBXD0idH9NXpYl4uxE2rbyhgNBW0F2QdheWFWtg5QVJOxDEHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIepjBf9; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1770086572; c=relaxed/simple;
+	bh=KHdZXoISlEderqMBJs31tnuGnP8/PqgMKz42u/Wg+Cw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oUXN6fA64z9f0/TdBX9mo+KEDCiSx65Lp7JVMDwqzpAMPxo9TUJiiQMe0hGfzgYmtcBSwtNXvcOKD1PDa+pXqwrx1lK5mB8HSfdCG70wcQSWLELWF0/6iCMvymQ8vk8PQJV4yo9Y5WWeD++OB/O+e2mj9XsDI9RzdoctjimqPXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIr1MbMa; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIepjBf9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIr1MbMa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770084100; x=1801620100;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/go1/gIN+rKkRetNSo+qi6KG2NfbHky2ufZfgC40C0k=;
-  b=oIepjBf9nYeICDjH40D+CMNlf0cQjKjWCREY2TWJ2TmMeYG7OxTwp4rd
-   5wpkoQNFoxcOifzSRmzSI35YEIzYwvEJ/Fz9WDCr+n+4nv5RrrLBe7KoO
-   xlCn9TyjNI7JxKWHLbeojQ2IcXpfJzyYGtXtZ7G82uKRFA5vizB4gPb5W
-   7ItP+auY1PHMWm2+7TFtQioBwnxBXknDdK5FaMvbrO9R50uARPs/xb3Xh
-   NgPQ28EH4LDkwuE8W3JOZldE1vwiYDFmTJ3L/R2HzNOm+JrpmbaRxscO+
-   PqkEvmdUd6fJNi1PRfEXmHe+oGgx2Ej6TIZsh7zAEiJmenYSZNSKn68GJ
-   A==;
-X-CSE-ConnectionGUID: 499PRapgSLKVxEBmF9/D6A==
-X-CSE-MsgGUID: Gd7FFh3fTquPsAwEvAy+uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71150692"
+  t=1770086570; x=1801622570;
+  h=date:from:to:cc:subject:message-id;
+  bh=KHdZXoISlEderqMBJs31tnuGnP8/PqgMKz42u/Wg+Cw=;
+  b=AIr1MbMaM2nuOOjEBtAsI2ZPupl29fzzuYjwq5otkuOReolYCir7wy5y
+   r8IYo4mdqgSzk1rOEBUAuxBmRIgMg99wtoJP7wdOL5b2vHZNrYV3Aeqm0
+   kQ8o9Li6KBxGio4+0HdqqLD6oLXhJn3gr4U+y8HOloprpbfe/CjTPU8ma
+   ppuPXZAeEUoC+k8equsqdJcedheZ4/8rlHbcevEHc+MKk6guCiYxICd88
+   pofEk2kdw8l2HRFxD1Bk9Us/UVXHLyzgGTBA3N3fBNjGajZrVWWi7ERMH
+   hjcjr/1RJEnYxujgCt3ndegx8WTt4a+TD/YTwkWdW6/SLDhd288utDewY
+   g==;
+X-CSE-ConnectionGUID: kCLup+OsTE+GLeR14iijSA==
+X-CSE-MsgGUID: btnUv4VDSmWJOeAYlkuFcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="70456941"
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="71150692"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 18:01:39 -0800
-X-CSE-ConnectionGUID: Eltt1B2NSvefwS8+Ki2Yjg==
-X-CSE-MsgGUID: JOoMF02DSHqvtYY0HIDQ/w==
+   d="scan'208";a="70456941"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 18:42:50 -0800
+X-CSE-ConnectionGUID: bJkk1pZCRCKmc05CDTIAUw==
+X-CSE-MsgGUID: I63NAgPdQX+GJcjRXVXdLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
-   d="scan'208";a="240368922"
+   d="scan'208";a="232610328"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 02 Feb 2026 18:01:36 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 02 Feb 2026 18:42:37 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vn5jR-00000000g8i-0IeS;
-	Tue, 03 Feb 2026 02:01:33 +0000
-Date: Tue, 3 Feb 2026 10:00:48 +0800
+	id 1vn6N9-00000000gBY-1TIh;
+	Tue, 03 Feb 2026 02:42:35 +0000
+Date: Tue, 03 Feb 2026 10:41:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raju Rangoju <Raju.Rangoju@amd.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, horms@kernel.org, pabeni@redhat.com,
-	kuba@kernel.org, edumazet@google.com, davem@davemloft.net,
-	andrew+netdev@lunn.ch, linux-kernel@vger.kernel.org,
-	Shyam-sundar.S-k@amd.com, Raju Rangoju <Raju.Rangoju@amd.com>
-Subject: Re: [PATCH 2/3] net: amd-xgbe: add ARP offload ethtool self-test
-Message-ID: <202602030920.SWN7cwzT-lkp@intel.com>
-References: <20260202153542.1727429-3-Raju.Rangoju@amd.com>
+To: John Johansen <john.johansen@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jj-apparmor:apparmor-next 31/32]
+ security/apparmor/policy_unpack.c:549:43: error: 'unsigned_long' undeclared;
+ did you mean 'unsigned int'?
+Message-ID: <202602031030.GZ62qLbQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202153542.1727429-3-Raju.Rangoju@amd.com>
 
-Hi Raju,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-[also build test ERROR on net-next/main linus/master v6.19-rc8 next-20260202]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/net-amd-xgbe-add-hardware-ARP-offload-support/20260202-235023
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260202153542.1727429-3-Raju.Rangoju%40amd.com
-patch subject: [PATCH 2/3] net: amd-xgbe: add ARP offload ethtool self-test
-config: powerpc-randconfig-002-20260203 (https://download.01.org/0day-ci/archive/20260203/202602030920.SWN7cwzT-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602030920.SWN7cwzT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
+head:   9058798652c8bc0584ed1fb0766a1015046c06e8
+commit: 102ada7ca37ed8358bd70c6f8e6475ebacf6f76d [31/32] apparmor: fix fmt string type error in process_strs_entry
+config: x86_64-randconfig-004-20260202 (https://download.01.org/0day-ci/archive/20260203/202602031030.GZ62qLbQ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031030.GZ62qLbQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602030920.SWN7cwzT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602031030.GZ62qLbQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: drivers/net/ethernet/amd/xgbe/xgbe-selftest.o: in function `xgbe_test_arpoffload':
->> drivers/net/ethernet/amd/xgbe/xgbe-selftest.c:230: undefined reference to `arp_create'
-   powerpc-linux-ld: net/core/selftests.o: in function `net_test_get_skb':
-   net/core/selftests.c:104: undefined reference to `ip_send_check'
-   powerpc-linux-ld: net/core/selftests.c:148: undefined reference to `udp4_hwcsum'
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/x86/include/asm/bug.h:193,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/segment.h:6,
+                    from arch/x86/include/asm/ptrace.h:5,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from include/linux/sched.h:13,
+                    from include/linux/audit.h:12,
+                    from security/apparmor/include/audit.h:14,
+                    from security/apparmor/policy_unpack.c:23:
+   security/apparmor/policy_unpack.c: In function 'unpack_strs_table':
+>> security/apparmor/policy_unpack.c:549:43: error: 'unsigned_long' undeclared (first use in this function); did you mean 'unsigned int'?
+     549 |                                          (unsigned_long) e->pos - saved_pos);
+         |                                           ^~~~~~~~~~~~~
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:706:17: note: in expansion of macro 'printk'
+     706 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
+     722 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   security/apparmor/include/lib.h:45:25: note: in expansion of macro 'pr_warn_ratelimited'
+      45 |                         pr_warn_ratelimited("%s: " fmt, __func__, ##args); \
+         |                         ^~~~~~~~~~~~~~~~~~~
+   security/apparmor/policy_unpack.c:547:33: note: in expansion of macro 'AA_DEBUG'
+     547 |                                 AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
+         |                                 ^~~~~~~~
+   security/apparmor/policy_unpack.c:549:43: note: each undeclared identifier is reported only once for each function it appears in
+     549 |                                          (unsigned_long) e->pos - saved_pos);
+         |                                           ^~~~~~~~~~~~~
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:706:17: note: in expansion of macro 'printk'
+     706 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
+     722 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   security/apparmor/include/lib.h:45:25: note: in expansion of macro 'pr_warn_ratelimited'
+      45 |                         pr_warn_ratelimited("%s: " fmt, __func__, ##args); \
+         |                         ^~~~~~~~~~~~~~~~~~~
+   security/apparmor/policy_unpack.c:547:33: note: in expansion of macro 'AA_DEBUG'
+     547 |                                 AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
+         |                                 ^~~~~~~~
+>> security/apparmor/policy_unpack.c:549:58: error: expected ')' before 'e'
+     549 |                                          (unsigned_long) e->pos - saved_pos);
+         |                                                          ^
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:706:17: note: in expansion of macro 'printk'
+     706 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
+     722 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   security/apparmor/include/lib.h:45:25: note: in expansion of macro 'pr_warn_ratelimited'
+      45 |                         pr_warn_ratelimited("%s: " fmt, __func__, ##args); \
+         |                         ^~~~~~~~~~~~~~~~~~~
+   security/apparmor/policy_unpack.c:547:33: note: in expansion of macro 'AA_DEBUG'
+     547 |                                 AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
+         |                                 ^~~~~~~~
+   include/linux/printk.h:484:24: note: to match this '('
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                        ^
+   include/linux/printk.h:512:26: note: in expansion of macro 'printk_index_wrap'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                          ^~~~~~~~~~~~~~~~~
+   include/linux/printk.h:706:17: note: in expansion of macro 'printk'
+     706 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
+     722 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   security/apparmor/include/lib.h:45:25: note: in expansion of macro 'pr_warn_ratelimited'
+      45 |                         pr_warn_ratelimited("%s: " fmt, __func__, ##args); \
+         |                         ^~~~~~~~~~~~~~~~~~~
+   security/apparmor/policy_unpack.c:547:33: note: in expansion of macro 'AA_DEBUG'
+     547 |                                 AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
+         |                                 ^~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
-   WARNING: unmet direct dependencies detected for NET_SELFTESTS
-   Depends on [n]: NET [=y] && PHYLIB [=y] && INET [=n]
-   Selected by [y]:
-   - AMD_XGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_AMD [=y] && (OF_ADDRESS [=y] || ACPI || PCI [=n]) && HAS_IOMEM [=y] && (X86 || ARM64 || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=y]
 
+vim +549 security/apparmor/policy_unpack.c
 
-vim +230 drivers/net/ethernet/amd/xgbe/xgbe-selftest.c
-
-   194	
-   195	static int xgbe_test_arpoffload(struct xgbe_prv_data *pdata)
-   196	{
-   197		unsigned char src[ETH_ALEN] = {0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
-   198		unsigned char bcast[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-   199		struct net_packet_attrs attr = {};
-   200		struct net_test_priv *tdata;
-   201		struct sk_buff *skb = NULL;
-   202		u32 dst_ip = 0xabcdefab;
-   203		u32 src_ip = 0xefdcbaef;
-   204		int ret;
-   205	
-   206		/* Check if ARP offload is supported */
-   207		if (!pdata->hw_feat.aoe)
-   208			return -EOPNOTSUPP;
-   209	
-   210		tdata = kzalloc(sizeof(*tdata), GFP_KERNEL);
-   211		if (!tdata)
-   212			return -ENOMEM;
-   213	
-   214		tdata->ok = false;
-   215		init_completion(&tdata->comp);
-   216	
-   217		tdata->pt.type = htons(ETH_P_ARP);
-   218		tdata->pt.func = xgbe_test_arp_validate;
-   219		tdata->pt.dev = pdata->netdev;
-   220		tdata->pt.af_packet_priv = tdata;
-   221		tdata->packet = &attr;
-   222		dev_add_pack(&tdata->pt);
-   223	
-   224		attr.src = src;
-   225		attr.ip_src = src_ip;
-   226		attr.dst = bcast;
-   227		attr.ip_dst = dst_ip;
-   228	
-   229		/* Create ARP request packet */
- > 230		skb = arp_create(ARPOP_REQUEST, ETH_P_ARP, htonl(dst_ip),
-   231				 pdata->netdev,	htonl(src_ip), NULL, src, bcast);
-   232		if (!skb) {
-   233			ret = -ENOMEM;
-   234			goto free;
-   235		}
-   236	
-   237		skb->pkt_type = PACKET_HOST;
-   238		skb->dev = pdata->netdev;
-   239		skb->protocol = htons(ETH_P_ARP);
-   240	
-   241		/* Enable ARP offload */
-   242		xgbe_enable_arp_offload(pdata, dst_ip);
-   243	
-   244		ret = dev_set_promiscuity(pdata->netdev, 1);
-   245		if (ret) {
-   246			kfree_skb(skb);
-   247			goto cleanup;
-   248		}
-   249	
-   250		ret = dev_direct_xmit(skb, 0);
-   251		if (ret)
-   252			goto cleanup_promisc;
-   253	
-   254		/* Wait for ARP reply */
-   255		wait_for_completion_timeout(&tdata->comp, NET_LB_TIMEOUT);
-   256		ret = tdata->ok ? 0 : -ETIMEDOUT;
-   257	
-   258	cleanup_promisc:
-   259		dev_set_promiscuity(pdata->netdev, -1);
-   260	cleanup:
-   261		xgbe_disable_arp_offload(pdata);
-   262		dev_remove_pack(&tdata->pt);
-   263	free:
-   264		kfree(tdata);
-   265		return ret;
-   266	}
-   267	
+   501	
+   502	/**
+   503	 * unpack_strs_table - unpack a profile transition table
+   504	 * @e: serialized data extent information  (NOT NULL)
+   505	 * @name: name of table (MAY BE NULL)
+   506	 * @multi: allow multiple strings on a single entry
+   507	 * @strs: str table to unpack to (NOT NULL)
+   508	 *
+   509	 * Returns: 0 if table successfully unpacked or not present, else error
+   510	 */
+   511	static int unpack_strs_table(struct aa_ext *e, const char *name, bool multi,
+   512				      struct aa_str_table *strs)
+   513	{
+   514		void *saved_pos = e->pos;
+   515		struct aa_str_table_ent *table = NULL;
+   516		int error = -EPROTO;
+   517	
+   518		/* exec table is optional */
+   519		if (aa_unpack_nameX(e, AA_STRUCT, name)) {
+   520			u16 size;
+   521			int i;
+   522	
+   523			if (!aa_unpack_array(e, NULL, &size))
+   524				/*
+   525				 * Note: index into trans table array is a max
+   526				 * of 2^24, but unpack array can only unpack
+   527				 * an array of 2^16 in size atm so no need
+   528				 * for size check here
+   529				 */
+   530				goto fail;
+   531			table = kcalloc(size, sizeof(struct aa_str_table_ent),
+   532					GFP_KERNEL);
+   533			if (!table) {
+   534				error = -ENOMEM;
+   535				goto fail;
+   536			}
+   537			strs->table = table;
+   538			strs->size = size;
+   539			for (i = 0; i < size; i++) {
+   540				char *str;
+   541				int c, size2 = aa_unpack_strdup(e, &str, NULL);
+   542				/* aa_unpack_strdup verifies that the last character is
+   543				 * null termination byte.
+   544				 */
+   545				c = process_strs_entry(str, size2, multi);
+   546				if (c <= 0) {
+ > 547					AA_DEBUG(DEBUG_UNPACK, "process_strs %d i %d pos %ld",
+   548						 c, i,
+ > 549						 (unsigned_long) e->pos - saved_pos);
+   550					goto fail;
+   551				}
+   552				if (!multi && c > 1) {
+   553					AA_DEBUG(DEBUG_UNPACK, "!multi && c > 1");
+   554					/* fail - all other cases with embedded \0 */
+   555					goto fail;
+   556				}
+   557				table[i].strs = str;
+   558				table[i].count = c;
+   559				table[i].size = size2;
+   560			}
+   561			if (!aa_unpack_nameX(e, AA_ARRAYEND, NULL))
+   562				goto fail;
+   563			if (!aa_unpack_nameX(e, AA_STRUCTEND, NULL))
+   564				goto fail;
+   565		}
+   566		return 0;
+   567	
+   568	fail:
+   569		aa_destroy_str_table(strs);
+   570		e->pos = saved_pos;
+   571		return error;
+   572	}
+   573	
 
 -- 
 0-DAY CI Kernel Test Service
