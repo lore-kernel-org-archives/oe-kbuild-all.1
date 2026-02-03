@@ -1,89 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374FD31987D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 10:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD02921B9FD
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 11:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770115491; cv=none; b=KiSfkV40/3nqVdWr2zwHO5/h2Hcd+wzxS8jECNMG5maqB/LifMNMJ/JMIblrQ5QZkLEIphv2lMn2gLoul+eEgPG3me3NkkFd60Gz7YaxLYp8qt++HW5/VQsRR+IBr47fLzfrLrIB1zX5xQHEfCdRKm4xOEa2wk1n3tYtfSgLuhQ=
+	t=1770118432; cv=none; b=dLQgyUffkLaeiei+RNq4OcFblHoowDtnOtCazCBoXwpsH6PWEr2ig5YiPck/pS5lbpLuVmuL8kKWOTHfr4nesTfV2uI4v/JP6G894wwv4/VQKm2aaSSy/9ir/MI6K3r2n2adsvTjn+inbttxnWf2cdzpo7UyJ89uHsKgq1iMsEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770115491; c=relaxed/simple;
-	bh=ANjKinJIvWojB90sqitT/kZQ535Vtb3783STbuL6p1g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hmfgoH6i47azXiPb62rZwdpP+CCg/LQ6Tx3d4IsVlkgvV6a4dmvwOR4zWxwKFaWIrshj7bNL+S35jns7KsmN1+AAmIh59f9ZtTNBMrmZ1CWLPs7KwbeICWb9VA51tC+r/57xplSOsoIDJ9TsNyzsYFrlSq5TNzKYryBeQg+7mBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VfoGMjTZ; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1770118432; c=relaxed/simple;
+	bh=xlu7LoTEstWjiNJRTJ9vJS+ZSAuiYIavZPr2kG3hUWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u60PD3W2HUSTYyX+PlAiFQHjNth1XuJxQhmNaI8TDMoRe+s8nNkNNhnZx3aaRf1qpTFjReSuH9mvfKPotKcbZZKHWYPnDg+DISGfH2e+nDz+xVPX++itxL9YhfWSJwi/9HAdHky3Bi6I91c667RbQo/Iey38YUhXm3mZxUM67Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvyTNAoE; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfoGMjTZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvyTNAoE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770115490; x=1801651490;
-  h=date:from:to:cc:subject:message-id;
-  bh=ANjKinJIvWojB90sqitT/kZQ535Vtb3783STbuL6p1g=;
-  b=VfoGMjTZWM15N0Yfa202NGmJ+FzczSfvOgvur7rNS0g9OXHe0x6NDuBq
-   tmPUjJoY74vScV252u96MVRNI2Hy5tkBv54D13CGCUytH+yXjnGHo4NIM
-   /0gA81xxq5NirSdo1y+7xJSYW9+ArumBXtGIX0O3HuE+i0iJm4V6NG7qa
-   eJ5e2YBI26c0mNKZZRyEHt3AQoJy3PZjdEDt3Bwo3aQflD4mchsmYVy08
-   DtN1Ai8AenpeOWcHRu1IKTDxXa8BjWv6iJDoXOOEK7g1SPszm7ZrPMg1z
-   l2YYj603fmvVhqnnzLIPKot/HuDm7/xeU41JQ8itFkq25+7d2SPCeLecg
-   Q==;
-X-CSE-ConnectionGUID: ua96xr+wQUC2pE5jtSQDlQ==
-X-CSE-MsgGUID: 79w5c91sQtGhliNCT0i3sQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="75140462"
+  t=1770118430; x=1801654430;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xlu7LoTEstWjiNJRTJ9vJS+ZSAuiYIavZPr2kG3hUWk=;
+  b=jvyTNAoE9xYMgDBQ3pFYAmVkocvw3HUzhkH4WUlFFmxNohG0Z6DHfS0n
+   8l/UnAjgbKBZiBeCfvWRfTOC5i9zlg526I/a1FOx6TDlDKEPTl5nUc5TS
+   Ec9AxpEt3045XZTjpLMk/32cJtT+1sajNLTWkx165yGsKXc53WPZWSHIP
+   kRoey7rX7i1+kioPIhWvPIKfyv64Ft5Vs/xjVADVvWY/2CarC+qYT2snS
+   JCNCu2Mo35w+U9GE7TozllxxcXdZrFvsSlPZvZx0EIzf/Hi1zqtbi/dgF
+   c/C31Ze+fC/lMCzCxgYev2m+F4/bE3P4mwmDlOJz2IhqAogcUB0N96J5/
+   g==;
+X-CSE-ConnectionGUID: h3yqVJwTRXWfnqkivfMP6Q==
+X-CSE-MsgGUID: Zx+WwN1MQ76bPUOT/Qr3Ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="88862046"
 X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="75140462"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 02:44:49 -0800
-X-CSE-ConnectionGUID: uhpvQCpIR9SccmpwQKO1DA==
-X-CSE-MsgGUID: o6zlqJc5Tv25nTrqWKrpKw==
+   d="scan'208";a="88862046"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 03:33:50 -0800
+X-CSE-ConnectionGUID: DjpZi5DRQvyoB426zvZieQ==
+X-CSE-MsgGUID: Qvqb8fTsQSG2xQtlUdgghA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="209236724"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Feb 2026 02:44:47 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 03 Feb 2026 03:33:49 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnDtl-000000003M5-1jPW;
-	Tue, 03 Feb 2026 10:44:45 +0000
-Date: Tue, 03 Feb 2026 11:44:19 +0100
+	id 1vnEfB-000000003Mf-3Mda;
+	Tue, 03 Feb 2026 11:33:45 +0000
+Date: Tue, 3 Feb 2026 12:33:19 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:vcam 5/5] htmldocs:
- Documentation/driver-api/media/drivers/vcam:16:
- ./include/uapi/linux/vcam.h:115: WARNING: Definition list ends without a
- blank line; unexpected unindent. [docutils]
-Message-ID: <202602031156.UVpGYCR7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Murari Prasad Samal <murariprasadsamal57@gmail.com>,
+	netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com,
+	Murari Prasad Samal <murariprasadsamal57@gmail.com>
+Subject: Re: [PATCH] net: ifb: record drop reason when redirect device is
+ missing
+Message-ID: <202602031242.kPM0xECv-lkp@intel.com>
+References: <20260202191135.7668-1-murariprasadsamal57@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202191135.7668-1-murariprasadsamal57@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git vcam
-head:   9ac202884d39519107d153eae44036236a6f28b5
-commit: 5af3f279ab07c2046cf7236c56e79ec2597e5b13 [5/5] media: Virtual camera driver
-reproduce: (https://download.01.org/0day-ci/archive/20260203/202602031156.UVpGYCR7-lkp@intel.com/reproduce)
+Hi Murari,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+[also build test ERROR on net-next/main linus/master v6.19-rc8 next-20260202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Murari-Prasad-Samal/net-ifb-record-drop-reason-when-redirect-device-is-missing/20260203-031526
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260202191135.7668-1-murariprasadsamal57%40gmail.com
+patch subject: [PATCH] net: ifb: record drop reason when redirect device is missing
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260203/202602031242.kPM0xECv-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031242.kPM0xECv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031156.UVpGYCR7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602031242.kPM0xECv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   ERROR: Cannot find file ./include/linux/libps2.h
-   ERROR: Cannot find file ./include/linux/libps2.h
-   WARNING: No kernel-doc for file ./include/linux/libps2.h
-   ERROR: Cannot find file ./include/linux/interconnect-provider.h
-   WARNING: No kernel-doc for file ./include/linux/interconnect-provider.h
->> Documentation/driver-api/media/drivers/vcam:16: ./include/uapi/linux/vcam.h:115: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/media/drivers/vcam:16: ./include/uapi/linux/vcam.h:118: ERROR: Unexpected indentation. [docutils]
-   ERROR: Cannot find file ./include/linux/parport.h
-   ERROR: Cannot find file ./include/linux/parport.h
-   WARNING: No kernel-doc for file ./include/linux/parport.h
-   ERROR: Cannot find file ./include/linux/pwm.h
+>> drivers/net/ifb.c:118:26: error: use of undeclared identifier 'SKB_DROP_REASON_NO_DEV'; did you mean 'SKB_DROP_REASON_NOMEM'?
+     118 |                         kfree_skb_reason(skb, SKB_DROP_REASON_NO_DEV);
+         |                                               ^~~~~~~~~~~~~~~~~~~~~~
+         |                                               SKB_DROP_REASON_NOMEM
+   ./include/net/dropreason-core.h:446:2: note: 'SKB_DROP_REASON_NOMEM' declared here
+     446 |         SKB_DROP_REASON_NOMEM,
+         |         ^
+   1 error generated.
+
+
+vim +118 drivers/net/ifb.c
+
+    88	
+    89	static void ifb_ri_tasklet(struct tasklet_struct *t)
+    90	{
+    91		struct ifb_q_private *txp = from_tasklet(txp, t, ifb_tasklet);
+    92		struct netdev_queue *txq;
+    93		struct sk_buff *skb;
+    94	
+    95		txq = netdev_get_tx_queue(txp->dev, txp->txqnum);
+    96		skb = skb_peek(&txp->tq);
+    97		if (!skb) {
+    98			if (!__netif_tx_trylock(txq))
+    99				goto resched;
+   100			skb_queue_splice_tail_init(&txp->rq, &txp->tq);
+   101			__netif_tx_unlock(txq);
+   102		}
+   103	
+   104		while ((skb = __skb_dequeue(&txp->tq)) != NULL) {
+   105			/* Skip tc and netfilter to prevent redirection loop. */
+   106			skb->redirected = 0;
+   107	#ifdef CONFIG_NET_CLS_ACT
+   108			skb->tc_skip_classify = 1;
+   109	#endif
+   110			nf_skip_egress(skb, true);
+   111	
+   112			ifb_update_q_stats(&txp->tx_stats, skb->len);
+   113	
+   114			rcu_read_lock();
+   115			skb->dev = dev_get_by_index_rcu(dev_net(txp->dev), skb->skb_iif);
+   116			if (!skb->dev) {
+   117				rcu_read_unlock();
+ > 118				kfree_skb_reason(skb, SKB_DROP_REASON_NO_DEV);
+   119				txp->dev->stats.tx_dropped++;
+   120				if (skb_queue_len(&txp->tq) != 0)
+   121					goto resched;
+   122				break;
+   123			}
+   124			rcu_read_unlock();
+   125			skb->skb_iif = txp->dev->ifindex;
+   126	
+   127			if (!skb->from_ingress) {
+   128				dev_queue_xmit(skb);
+   129			} else {
+   130				skb_pull_rcsum(skb, skb->mac_len);
+   131				netif_receive_skb(skb);
+   132			}
+   133		}
+   134	
+   135		if (__netif_tx_trylock(txq)) {
+   136			skb = skb_peek(&txp->rq);
+   137			if (!skb) {
+   138				txp->tasklet_pending = 0;
+   139				if (netif_tx_queue_stopped(txq))
+   140					netif_tx_wake_queue(txq);
+   141			} else {
+   142				__netif_tx_unlock(txq);
+   143				goto resched;
+   144			}
+   145			__netif_tx_unlock(txq);
+   146		} else {
+   147	resched:
+   148			txp->tasklet_pending = 1;
+   149			tasklet_schedule(&txp->ifb_tasklet);
+   150		}
+   151	
 
 -- 
 0-DAY CI Kernel Test Service
