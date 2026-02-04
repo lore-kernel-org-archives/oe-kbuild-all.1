@@ -1,68 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517BA1509AB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 01:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAD5275870
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 01:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770168600; cv=none; b=Na6oFWcqozp7xNjcz6jTsTss//bMzGtm0sV9OETpOlRxiWArt0ZtAJbILCkQaPNuAvmrVTObK6T2zkowQi83n+r956zRzGxD4/EKnWULGhegw6YriNFAbYuuf1ibfHchmBRPeRSIN9J+Ko0sJI6IzcX2r58W56sxHACN4NDviMI=
+	t=1770168904; cv=none; b=UGIAQG2kijZ4lZw3X/Cw1/z3hzIxas0s7UIKYQGYU8kW8jhxwjXIggsO/ktXZRb6jDU/Xc5vu4EpF7hDtuZ9bmui15FMJ1LAa02bvPoW6eJU7qvsxRGk/Qa1rd+b/A15cbVYMAUW8ZFxxXA4MJmRIFQSP22B2mQ055mBjQ/SnCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770168600; c=relaxed/simple;
-	bh=u/jt1gP45GYTKBsxoFdKtcIAe07q+cy2OeR9mP6AGTQ=;
+	s=arc-20240116; t=1770168904; c=relaxed/simple;
+	bh=XfDSA7ng4gefVzIjNPb0N3L0Mpadew0WbaCjjHTqRc0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lu44C892Cqed73zjGgaPwJUm9E/pN+ZPkU/A0kJhDY8I96bmWWlck0nVvAg8fHvpuAMTt7qKlUBtpM3XhJ0QaVLTIvVo+zHxGqUQlup1bi7TmnYXvaqBSSJ4Q2g4CWR5eIDX3/Htj/L/OPPQx/EolrO61VOCkggPUm7F/KEOdyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kO3FS1iZ; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fh6gJEuxiJJGkH6aSv6vyjYHbjDnKSMmJyYO2VKIVqAvs2jdqsgom3NK6rblVF9PPmyAOYphH5D55qH8By/yETGoNnmuHRF7r81SZzoJypGIYNemzMDamLn4yPc1ahwcO6mb50r5L6QofeuLhcvhzxRp3PEzttscmE2rMZxKY8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DNhfXzVU; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kO3FS1iZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DNhfXzVU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770168598; x=1801704598;
+  t=1770168903; x=1801704903;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=u/jt1gP45GYTKBsxoFdKtcIAe07q+cy2OeR9mP6AGTQ=;
-  b=kO3FS1iZ8YgKms6PolVwfX5SkN8Hhpkef/xO6/E++l0yhIKnEFQyWanE
-   /kzDctgxNO1u2aGAa50qivM45wXnH7VSqVh568mMU2jsQ2Ng0tVZ0+xHv
-   ULb9axkUFuVFDED/gZbw1WRHOFqjd2t9mnc36i73uW76MJjb2aiSFeZf4
-   75d58nqNzyetG9tXdKMplx6/0O4sYm70YmvS8KP5yJsp7f8poXy4+3NZw
-   mVMXfQNglUcvWszcteHC9JE//ixxXzKArhzBe7ycbwhMTyER9D1a51REV
-   A2x59aCs8TyZS4a4fWhFV2sZA/qUDqwIDtuSZB9i1ZQB9GmfFYqle++4i
-   g==;
-X-CSE-ConnectionGUID: Z/XWGbNETUKVQaG3/EUcvw==
-X-CSE-MsgGUID: m7DXXgzOQPSGzBN9/CGC0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71249772"
+  bh=XfDSA7ng4gefVzIjNPb0N3L0Mpadew0WbaCjjHTqRc0=;
+  b=DNhfXzVUe0OmR5dnPa5KyGSv3u9DWHtkGBnCCij0AejjNZ6ZCX2haLPQ
+   GGDw4lc3rIptQtBmIV3WwXM4NZmAFgtAcVuB2y+I386V3k8j0OZ6abWz1
+   +cBGWAyaGEw2VWDEr2CYHQFDgf/LHk1+6nQt7RO3LHYQRbhNf/x/vMUy5
+   itZJ1uUSwGoKQn7jOxpRWpVgMeuiyX3HS9StKh/XWRvgsE9L4o6wnDgAl
+   YJXmsJZmwRgl8ZrYGFeIepeC0Y8qeu123AN6JihoEqfmmn+NzbeES5KCO
+   oNXks3PoeP7mEUCQVg2ebF8Sz0aYbVlfBm9Fzbz/QU7TQex2i7ih3MesX
+   w==;
+X-CSE-ConnectionGUID: LLhnpIpWRniU2V8mCjelDw==
+X-CSE-MsgGUID: 0/yobXD7QdKSIAzdoUTzgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="88927885"
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="71249772"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 17:29:58 -0800
-X-CSE-ConnectionGUID: KXAnQvUaTh6PDWMy/k44Cg==
-X-CSE-MsgGUID: /kd6mY5DSkuQzCK/as7Pqg==
+   d="scan'208";a="88927885"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 17:35:02 -0800
+X-CSE-ConnectionGUID: LdsauzWkQAiBfdHRfpxv9g==
+X-CSE-MsgGUID: lH8GZpWpQtC8n9cuhnpqMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="214497132"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Feb 2026 17:29:55 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="214735234"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 03 Feb 2026 17:35:00 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnRiK-000000003WX-3lwK;
-	Wed, 04 Feb 2026 01:29:52 +0000
-Date: Wed, 4 Feb 2026 02:29:42 +0100
+	id 1vnRnG-00000000hM8-0OsY;
+	Wed, 04 Feb 2026 01:34:58 +0000
+Date: Wed, 4 Feb 2026 09:34:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Crivellari <marco.crivellari@suse.com>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH v4 2/2] rust: add system_percpu() and per-cpu enqueue
- functions
-Message-ID: <202602040208.hNcu9QEl-lkp@intel.com>
-References: <20260203152818.317806-3-marco.crivellari@suse.com>
+To: Jiawen Wu <jiawenwu@trustnetic.com>, netdev@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mengyuan Lou <mengyuanlou@net-swift.com>,
+	Jiawen Wu <jiawenwu@trustnetic.com>
+Subject: Re: [PATCH net-next v1 7/7] net: wangxun: add pcie error handler
+Message-ID: <202602040920.UKsVMKFG-lkp@intel.com>
+References: <20260203075759.5852-8-jiawenwu@trustnetic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,110 +68,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203152818.317806-3-marco.crivellari@suse.com>
+In-Reply-To: <20260203075759.5852-8-jiawenwu@trustnetic.com>
 
-Hi Marco,
+Hi Jiawen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on linus/master v6.19-rc8 next-20260203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Crivellari/rust-add-system_dfl-around-the-new-system_dfl_wq/20260203-233415
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260203152818.317806-3-marco.crivellari%40suse.com
-patch subject: [PATCH v4 2/2] rust: add system_percpu() and per-cpu enqueue functions
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260204/202602040208.hNcu9QEl-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040208.hNcu9QEl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiawen-Wu/net-ngbe-move-the-WOL-functions-to-libwx/20260203-160343
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260203075759.5852-8-jiawenwu%40trustnetic.com
+patch subject: [PATCH net-next v1 7/7] net: wangxun: add pcie error handler
+config: sparc64-randconfig-r051-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040920.UKsVMKFG-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040920.UKsVMKFG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040208.hNcu9QEl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040920.UKsVMKFG-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/workqueue.rs:316:
-            // stay valid until we call the function pointer in the `work_struct`, so the access is ok.
-            unsafe {
-                w.__enqueue(move |work_ptr| {
-   -                bindings::queue_work_on(
-   -                    cpu_id as ffi::c_int,
-   -                    queue_ptr,
-   -                    work_ptr,
-   -                )
-   +                bindings::queue_work_on(cpu_id as ffi::c_int, queue_ptr, work_ptr)
-                })
-            }
-        }
-   Diff in rust/kernel/workqueue.rs:366:
-        /// This may fail if the work item is already enqueued in a workqueue.
-        ///
-        /// The work item will be submitted on cpu_id.
-   -    pub fn enqueue_delayed_cpu<W, const ID: u64>(&self, w: W, delay: Jiffies, cpu_id: u32) -> W::EnqueueOutput
-   +    pub fn enqueue_delayed_cpu<W, const ID: u64>(
-   +        &self,
-   +        w: W,
-   +        delay: Jiffies,
-   +        cpu_id: u32,
-   +    ) -> W::EnqueueOutput
-        where
-            W: RawDelayedWorkItem<ID> + Send + 'static,
-        {
->> Diff in rust/kernel/workqueue.rs:316:
-            // stay valid until we call the function pointer in the `work_struct`, so the access is ok.
-            unsafe {
-                w.__enqueue(move |work_ptr| {
-   -                bindings::queue_work_on(
-   -                    cpu_id as ffi::c_int,
-   -                    queue_ptr,
-   -                    work_ptr,
-   -                )
-   +                bindings::queue_work_on(cpu_id as ffi::c_int, queue_ptr, work_ptr)
-                })
-            }
-        }
-   Diff in rust/kernel/workqueue.rs:366:
-        /// This may fail if the work item is already enqueued in a workqueue.
-        ///
-        /// The work item will be submitted on cpu_id.
-   -    pub fn enqueue_delayed_cpu<W, const ID: u64>(&self, w: W, delay: Jiffies, cpu_id: u32) -> W::EnqueueOutput
-   +    pub fn enqueue_delayed_cpu<W, const ID: u64>(
-   +        &self,
-   +        w: W,
-   +        delay: Jiffies,
-   +        cpu_id: u32,
-   +    ) -> W::EnqueueOutput
-        where
-            W: RawDelayedWorkItem<ID> + Send + 'static,
-        {
-   make[2]: *** [Makefile:1871: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
---
->> warning: unresolved link to `system_percpu_wq`
-   --> rust/kernel/workqueue.rs:1013:72
-   |
-   1013 | /// Note: `system_wq` will be removed in a future release cycle. Use [`system_percpu_wq`] instead.
-   |                                                                        ^^^^^^^^^^^^^^^^ no item named `system_percpu_wq` in scope
-   |
-   = help: to escape `[` and `]` characters, add '\' before them like `\[` or `\]`
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+   sparc64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_err.o: in function `wx_handle_errors_subtask':
+>> wx_err.c:(.text+0x4a0): undefined reference to `aer_recover_queue'
 
 -- 
 0-DAY CI Kernel Test Service
