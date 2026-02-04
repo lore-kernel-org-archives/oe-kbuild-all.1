@@ -1,133 +1,86 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADFB34E74B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Feb 2026 23:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B95286A4;
+	Wed,  4 Feb 2026 00:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770163146; cv=none; b=aD2NsBdxH1TJ7rzkL/zzCfY3+Wx3DMcdjiwarVn1zUPpdXbAD28REGdDhPST7AZkETv8q1Vu6bWFb/xxGSi5luKmxARMbXqwKH/224zBCAUZzF+fM0TnlpNinXkofjMvVPC9wB+VCufddXw2eYa87nyN6eeZJEyVYuWyK7fvmmE=
+	t=1770163924; cv=none; b=L4pFYGbzoU4b86fekzsz6vP+jeqrVq0XGqkzMMGMs6JhB4CdTRmLnBDaVGqhVa2r4rNtfqOl+eWV7HVEZ2/I3sSdCZ2WjC56IcuVyV6A2WjQl0Ew6zsoH03dBPGoVcB2KYMJPImITfCuQj9f/mpKehybdFKeHSMSm81EWzHoldA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770163146; c=relaxed/simple;
-	bh=c/X2XJ/CyW+pJEphZsV9Marg9EA/Tmbv0iSdpPMCTmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cFrCgSHUN0fOFodWzi8TuQbiN6vokA1V/JsKOk9LpM0zEjjAqKFW1ufoRxlUE8OzoBmf2Hp7jEqgx9KAh5V7i7qW8Tc/AXV0YrndVok4hjzOxXZiNP1YniHWNpwqsfc+JkXzz7O0SVwWTLOiSuj2aBSbSTbHsvetLExTAaUOTpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D17PoiLq; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770163924; c=relaxed/simple;
+	bh=fAzvCF2oTHcWD4Et395ZiguCf24azv7afztDly9G4gk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Kv44nBmCFybAhmJdFkYFB0ajaHP/7fj9yN0tU40kAjqlUJPe4izkOaqMPAVxPk/33ubhqzeYNC20WmIy6baQjOICbST0J4StbTDe4yiWJR48co6NMAnmYfuJ9/BXpiZGLeer7ewai0tXv69L1xf4+X6lWqbMkyC03tJeq5b858Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y2ejfkpG; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D17PoiLq"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-382fb535b73so57591741fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Feb 2026 15:59:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770163143; x=1770767943; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hblut01cg4liiCBRWjvcMFZ79KDKqattRzEpdMr9QyI=;
-        b=D17PoiLqfm8YY2SSPkNRutZI8GF3Dfn0FSDxpCZq++Wup0QTLJ8mA6+/LfgfLqxFpz
-         JxQIGSCSKMiviB6SqIjTPX9YgO9LdkMeDqxTK1+56CS1dRNhH+nQe8IFYaRkFh0uLnw/
-         CqXazbEQLIGB71GcY+QKQehWsNSj8adr4TVQit1K22jAIU2jvOkMobiUY+4sVbnsZ1cz
-         ZPxNfqH58hZjSdLkrpRuXuoDx8EyYsHxBP2hChc3DirTZllOUYpd92LreB+b+U2rFZ3y
-         BVp45bYQtvXDVHoXLn974YGHBpTe3iQg9SWjTAOJK1pWveVAtLeIALxKsQMAyZcutP5e
-         D6nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770163143; x=1770767943;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Hblut01cg4liiCBRWjvcMFZ79KDKqattRzEpdMr9QyI=;
-        b=AvLlOjyNSV2ysev7xUlRcSrBn484agp0Dttpyf7RiS9rPw8P8px2LPsyRYS5Huvu+N
-         DYMl49D8yBe3Ks+JZ3PjPh+zyMBW7Cg1uUMQi745Wchd397KF0GdE+6+EE6m8bdsk15w
-         XS6CMt5RFWuzkzUzijLWtaMPT1O36qn8FAM0NLmi6Ig9xhXhela1zCvoW3IOx7vrWITK
-         ggYUHMJS53RJreSUra5avE6wlHxtSmTLTuhg/mBSQ1r59WIIESq5tMCBeO6/pwuN2oHg
-         euOZbFGG42CMfsjNW/n1fNk1+GDBPNRC9WGIGaxqOZHjL1qfroCWVPzBLPkMWnEU+dUA
-         o5VA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0RruJ60fdPW1ziy/fPTUakt+AwDEIGiT8RZ1AsmIt79eLhY/zCg+MdubqHrAI7yOAN5BcAKH//j8OMxDQ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzu1ONxY2S0xn8rNO6zLFmPjGO6jtZW0PC5v1lYNR9x3r4df5VI
-	MPDXMe0y8au4GS4PfC8m5VratmxOBpKf3F9okMOkkBHO3tgC3H894Q+iq4p6Uw==
-X-Gm-Gg: AZuq6aLin8f1FC6cCLOkm4BkY1b0rtT5zQU2HBTnhD7RtRayTTjCH2tijle6j53FZK2
-	b9WA9S/E0nptUTcDjYx1ZXsrs4Af7ENQhDIk+oXXYG1adsDleTJXWSuAgQh6nK0/E2+iJjCIUkR
-	x5Rk0x8gicvkvks/63Gk1RJ8QLyd2m7Xh4yubssu2vgV5Q7szlnaFQ1y27QrGvm//Nm7kz9M8KN
-	P7dTMBXmZLgiF7pslIfbNw5CzEud6ETleXeGGmsTyC8EFzS8qLMvQiyMJmZPitbOrzyEXBOGwsw
-	3XTIrgmJITQZj+PJBrJRDAU10TE0GFtsF+0HbMusPUI7qL98K2dV8IoKrPRI/QIjvm2rEpQtgYN
-	f9ZIdQBeexkidVFGLf9Bt0TZk4IAlCNDixeywxPrrR6qz4Uui6KsnFzptYwpVUyisaO3l13XpVq
-	zonvs2bBdWPxnho74iehR6dDFFlRXRYkBd4wormuxlIaXHqjKzYRBe
-X-Received: by 2002:a5d:5f85:0:b0:435:e57a:9082 with SMTP id ffacd0b85a97d-4361805836fmr1231517f8f.46.1770156314379;
-        Tue, 03 Feb 2026 14:05:14 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43617e250bdsm1637638f8f.2.2026.02.03.14.05.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 14:05:14 -0800 (PST)
-Date: Tue, 3 Feb 2026 22:05:12 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Willy Tarreau <w@1wt.eu>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <linux@weissschuh.net>, linux-kernel@vger.kernel.org, Cheng Li
- <lechain@gmail.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 11/12] selftests/nolibc: Increase coverage of printf
- format tests
-Message-ID: <20260203220512.56d71f75@pumpkin>
-In-Reply-To: <202602031944.7j98nfRE-lkp@intel.com>
-References: <20260203103000.20206-12-david.laight.linux@gmail.com>
-	<202602031944.7j98nfRE-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2ejfkpG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770163923; x=1801699923;
+  h=date:from:to:cc:subject:message-id;
+  bh=fAzvCF2oTHcWD4Et395ZiguCf24azv7afztDly9G4gk=;
+  b=Y2ejfkpGZMvyc/3ppybQlSRKL+8I7SxUueJC35WQiNv9fFcW94PsxFAD
+   OvVSc2bVEbZFyuvDXW+T2td3Kc0InvCCgIj+qne6CGgCY1+41rLA3jTOM
+   qW8pDD9rg+oFTrEdVi03i9WxqFB7APHuCsTg0R1ZIcOAUqX7T9IZEjHQC
+   Q+7sSmNsqGAH7pqm4pFLV5e2dy/Z+cjKRDXYVWp6JthbLD0wMcG28qptH
+   EXTStdWJbRtesyjCgkC3H2KGqw34ufjaOTx2/Bh78EJZjQX+pXNVjf+Y1
+   gLisAHtPIcZY6YzrywHKSPR9WdhnynCttdUf2Xb+qNsCwfN77ruspp8NI
+   A==;
+X-CSE-ConnectionGUID: hqopGtOITo2dytNpJVIn/A==
+X-CSE-MsgGUID: /1+t9w4NSEybjQBwqS0yEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="58924454"
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
+   d="scan'208";a="58924454"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 16:12:00 -0800
+X-CSE-ConnectionGUID: fzftN4RZT6eXsRC4shPrfA==
+X-CSE-MsgGUID: fTYNxzWRT2SVkxgrq8luxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
+   d="scan'208";a="209801802"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 03 Feb 2026 16:11:59 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vnQUu-00000000hJg-1Qzx;
+	Wed, 04 Feb 2026 00:11:56 +0000
+Date: Wed, 04 Feb 2026 08:11:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi 6/12] ld.lld: error: undefined
+ symbol: bpf_check_attach_target
+Message-ID: <202602040833.jRDsHtWK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Tue, 3 Feb 2026 19:22:28 +0100
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
+head:   ae091d7daa68f465679351da2b52a948a8beab4b
+commit: 892424c1e07f243e850e0611bf3e2b990a684a1d [6/12] bpf: Add bpf_trampoline_multi_attach/detach functions
+config: x86_64-randconfig-006-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040833.jRDsHtWK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040833.jRDsHtWK-lkp@intel.com/reproduce)
 
-> Hi,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on next-20260202]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/tools-nolibc-printf-Move-length-check-to-snprintf-callback/20260203-183919
-> base:   next-20260202
-> patch link:    https://lore.kernel.org/r/20260203103000.20206-12-david.laight.linux%40gmail.com
-> patch subject: [PATCH 11/12] selftests/nolibc: Increase coverage of printf format tests
-> config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260203/202602031944.7j98nfRE-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602031944.7j98nfRE-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602031944.7j98nfRE-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    nolibc-test.c: In function 'test_dirent':
->    nolibc-test.c:784:17: warning: 'readdir_r' is deprecated [-Wdeprecated-declarations]
->      784 |                 ret = readdir_r(dir, &dirent, &result);
->          |                 ^~~
->    In file included from nolibc-test.c:32:
->    /usr/include/dirent.h:185:12: note: declared here
->      185 | extern int readdir_r (DIR *__restrict __dirp,
->          |            ^~~~~~~~~
->    nolibc-test.c: At top level:
-> >> nolibc-test.c:1654:1: warning: 'mat' attribute directive ignored [-Wattributes]  
->     1654 | {
->          | ^
-> --
-> >> nolibc-test.c:1654:1: warning: 'mat' attribute directive ignored [-Wattributes]  
->     1654 | {
->          | ^
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040833.jRDsHtWK-lkp@intel.com/
 
-Ah, a line I spotted reading the patches that shouldn't have been there.
-Changed it expecting an error when I test-built the next 'round'.
-For some reason it didn't fail for me (maybe it needs W=1?).
-The line is just before expect_vfprintf() and I was looking into why the
-tests weren't getting printf format errors and then thinking I could stop
-gcc bleating about a missing format attribute - but that doesn't work
-because the code is testing invalid formats.
+All errors (new ones prefixed by >>):
 
-	David
+>> ld.lld: error: undefined symbol: bpf_check_attach_target
+   >>> referenced by trampoline.c:1478 (kernel/bpf/trampoline.c:1478)
+   >>>               kernel/bpf/trampoline.o:(bpf_trampoline_multi_attach) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: btf_obj_id
+   >>> referenced by bpf_verifier.h:916 (include/linux/bpf_verifier.h:916)
+   >>>               kernel/bpf/trampoline.o:(bpf_trampoline_multi_attach) in archive vmlinux.a
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
