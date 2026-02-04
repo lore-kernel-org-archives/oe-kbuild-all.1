@@ -1,124 +1,361 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AFE272E6A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 10:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A021B3D300F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 10:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770199579; cv=none; b=ooMGqpYYs3nZqDQcbaIXwS+SprH7w+Jh617OPgsuZMl0YKpVcWCR4cBXfH9YRypIzRmAxoyCTUzs4Fd8nxRspNV9h01zmOAz5tSq7cslzkTlnwjrGwvqmiEDf+UDdw6CYgF3Yt1LJb93iESs9UDTR2eDH0NtnwZK8eS3RTyVuSg=
+	t=1770200733; cv=none; b=pIs1TK2+IRicQuD+L84QH2Fw+A5xuPT6Eq+HilpKsB1gIdqUCvi66LzTxCtzoRcocM7iPbqUp8VHPKT/VbMGikhLj4T+knKD7Q9yp2MQLH+93uUw07EIGxw1HiHuCdzhnfcbfhpl3r7f2E1QAUYhtTl+R/ZCRgAf1RtVt2fpyCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770199579; c=relaxed/simple;
-	bh=2EDTZrfHuRej4wOgRYjVsCkOS7HIHmRDyJymP4OlmCM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=B3lhs/p+f1YiHBkt3AGaBV2nJfp7mr62BFi/yj7IhaCo8VThvS0N3TH7q6ZhGDgKDD5ZRIkWU+7RKBNRnXotmIsG9Vo1e8psZypwNiW2YSS0otAiTyKTvDb7n4ZqyBkA9JEs0ECURCEnGKdKzZQsWCV0q1YTH9HO9mc9qEJU0kA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RsZSn+5y; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770200733; c=relaxed/simple;
+	bh=N4M8hqg9OqWFgVss8E/CoKnXGuO4lMxUozWFy04r9Xo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vC5ESaFQuGkB1JJz/DbCCUQqkIEbtWDIMq09n2uZXE/49ZWC34a6/HYKLrCDmkMpMo8yEH+qsc1b8XCsYGbYKk+7rJBPA9QnP1r8M3kht0JubFWkYIhJ1VrOu9OBV4HrA49epBTQKCKJNSU1+qe23nQFK/8HlEy5+Qg5Q4VrkC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DQ0i0zXj; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RsZSn+5y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770199579; x=1801735579;
-  h=date:from:to:cc:subject:message-id;
-  bh=2EDTZrfHuRej4wOgRYjVsCkOS7HIHmRDyJymP4OlmCM=;
-  b=RsZSn+5yz/Om1M8o13tsdGbyGaf1GGhpPvnt1HdewUPHHdfe7Bqfjo+X
-   en+4QnBpCK/+5YP9DVz7aLslwWpEGJ/2i5Hn5QiQgAJR8Gu2Ub32yTVVo
-   Q+i72A655ijMbLww2nX1ZicPHH4LZEg+sjp3crE+wfNsq/1qVUjEyCGPK
-   dIs6ivFQoJ8BPyA6abgIamJzOksXlAn+hYD6vc8Gdt5vNMpXsCJ+WOOS3
-   ZhLrHbQKbTSPFDYOLjPRqX74mmOgbs75j1zqqQLc6XVfZmIlNDpNSq0mr
-   g6BGb0eZpmuPD2Y+VWXteZ2+khxwQJNUE42aI0SIaD5qU5EOgnXojPSPN
-   w==;
-X-CSE-ConnectionGUID: fMZhoQE8S0adCHzQhVkrmQ==
-X-CSE-MsgGUID: hXCoaYkaTTC21iKKK8bvcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71280973"
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="71280973"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 02:06:19 -0800
-X-CSE-ConnectionGUID: 6lVpEMlETViWPFgtDkPMLQ==
-X-CSE-MsgGUID: 4CVukEYgQzanFSMXOMLMVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="214601410"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Feb 2026 02:06:15 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vnZm1-00000000hfU-0VQo;
-	Wed, 04 Feb 2026 10:06:13 +0000
-Date: Wed, 04 Feb 2026 18:05:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 102/124] lib/maple_tree.c:3364:38: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202602041809.nfXcWI84-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DQ0i0zXj"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-432d2c96215so6225679f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Feb 2026 02:25:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770200731; x=1770805531; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XmJYm5ByN8BcQLUPY53VS+5oHFqm+miXhLBsXTLeQ08=;
+        b=DQ0i0zXjs8roKoPVnfmBjfz2IwuuxSKje+SxTF7YOFsXyPthe1ccNBgYRi6Wt+Zpmw
+         SKRkz0EUe1KF8Hv5wv3vzMAc58zKkG4+A25Sh/wtyM1h8Qqa7gUDOxJaULU8dayvORIL
+         gO8D6GGZ5Va8NyUUc7+vaJREUa1wllv8508rhlew0cOi0KJqo5XbqKEG+4NqxY2VDiyq
+         f0JAFEMlHFhtlZkH1NnM5Ihor0Ol27j19UNalDMWxftnP+fyRiAnDUnINKQfWU77S56J
+         GVO1RHhMsZyrHfEuhFJlzB1LXF7ZFDn11aZBR2hagKQ6yreNSI0BVFfT5QL3iP6c1Z5y
+         CBnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770200731; x=1770805531;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XmJYm5ByN8BcQLUPY53VS+5oHFqm+miXhLBsXTLeQ08=;
+        b=k+kOo+B8XSmlR6MyXIDu+WzYxj19KveQSE9uKnmTAc6ZH49sbpA2wppAr/3B7t2VDm
+         wSCybye07ngAbEGkh5CQBPEiMCYsAZ11ce3wZXYyFo9xkacBIl/jEef73jMwKlPyKPa5
+         XZUTs3t3zOKSwnhynqbLd6WcVAtZqXvgCTRRawGisafpAZbk7ccra9YCGOeK0s08y8GG
+         YaUG5lJObSCjHAG/7uBOj9fKunGymHmQMqkLugsKIbvpDjagCVMWr27BAFSBXZLdboom
+         wJ80qi/KkKADUlsBRX1VR54HD3fkO52FfX/TgDRRuW44G0D0/1V/eK6hC2C8PAJqR2uA
+         BJ5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXzaC5RBj4IHWAhsK8XZfkRSTqq7O/gxgn2YXms26hytTJvn5tJGd+lWWHeDKaiaLLcicJ0gYin9CZ094Bm@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvQbOImchHrItWbe2ldh3zYc19fBpI41/OT+tuQrgSQVS4iuIW
+	L8RkxkhqjwITEZFvnRwd154lOyGbaqSGQ4mecxhDiSMe9lQ/6cIX4aNqrAOo9I6PCS8=
+X-Gm-Gg: AZuq6aLS2Yra1Rsgl2m8XADilNF8c/eHegzWg2bXkECeY6ClUOSvau8aLnaF1jbOXov
+	+sKIAevpzuIXlloOVRw9BhQqb3UH2dHxiRx6Topz3zvusgdMod2sSvlARVxr2VUCSEofAj4tVWq
+	7gNTGvxtti7Sz5ojoDqUZTYbMvl4p8eSePR2F6WnAv8lsMtndvI2l9ZHpAqlA0A3Oo4uVVg/0/f
+	NjnBbkxY8a+wvhZNZ+tfFlvj4bJyU4eGUMV0c170GGLik0aQETS1h7+6+ATtFeuSEb/FTf+Isvl
+	17NQ5Ye6bVEnSkF56UMijuw5Rkbnaj+uzd+3wODlpfuL+KB+eFB2PE+iOBxhwXgnJRShyu5Rs92
+	fYt8375B8o4PcEQaY6gx3tN9KSu4oIxiHQbuF3m9ALt+yD1jgXpnm4gQBW4fz9iWoKlGtcqE/HL
+	S9DvEDnH6aQOITbjB1
+X-Received: by 2002:a05:6000:4027:b0:435:94c1:3714 with SMTP id ffacd0b85a97d-43617cce061mr3296861f8f.0.1770200730612;
+        Wed, 04 Feb 2026 02:25:30 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43617e387b9sm5607952f8f.12.2026.02.04.02.25.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 02:25:30 -0800 (PST)
+Date: Wed, 4 Feb 2026 13:25:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:vcam 5/5] drivers/media/swcam.c:1954
+ swcam_ioc_create() error: double free of 'frame_rates' (line 1875)
+Message-ID: <202602041717.HUkAFTTl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   3b688128ee79df55807d8b3e60e9d0ed62db009d
-commit: 8b56f4dfdf0a4aa460fde0212eb270c943288bfa [102/124] maple_tree-add-cp_is_new_root-helper-fix
-config: csky-randconfig-r122-20260204 (https://download.01.org/0day-ci/archive/20260204/202602041809.nfXcWI84-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602041809.nfXcWI84-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git vcam
+head:   2ad939d7a72b6d8166199e95dcffe000d3a6401e
+commit: 2ad939d7a72b6d8166199e95dcffe000d3a6401e [5/5] media: Software-defined camera driver
+config: sparc-randconfig-r072-20260204 (https://download.01.org/0day-ci/archive/20260204/202602041717.HUkAFTTl-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.3.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602041809.nfXcWI84-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202602041717.HUkAFTTl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/maple_tree.c:3364:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void [noderef] __rcu * @@
-   lib/maple_tree.c:3364:38: sparse:     expected void [noderef] __rcu **slot
-   lib/maple_tree.c:3364:38: sparse:     got void [noderef] __rcu *
+smatch warnings:
+drivers/media/swcam.c:1954 swcam_ioc_create() error: double free of 'frame_rates' (line 1875)
+drivers/media/swcam.c:1956 swcam_ioc_create() error: double free of 'pix_formats' (line 1876)
 
-vim +3364 lib/maple_tree.c
+vim +/frame_rates +1954 drivers/media/swcam.c
 
-  3339	
-  3340	static inline bool cp_is_new_root(struct maple_copy *cp, struct ma_state *mas)
-  3341	{
-  3342		if (cp->min || cp->max != ULONG_MAX)
-  3343			return false;
-  3344	
-  3345		if (cp->d_count != 1) {
-  3346			enum maple_type mt = maple_arange_64;
-  3347	
-  3348			if (!mt_is_alloc(mas->tree))
-  3349				mt = maple_range_64;
-  3350	
-  3351			cp->data = cp->d_count;
-  3352			cp->s_count = 0;
-  3353			dst_setup(cp, mas, mt);
-  3354			init_cp_src(cp);
-  3355			node_copy(mas, cp->src[0].node, 0, cp->data, cp->max, maple_copy,
-  3356				  cp->dst[0].node, 0, mt);
-  3357			node_finalise(cp->dst[0].node, mt, cp->end + 1);
-  3358			/*
-  3359			 * Warning, see cp_leaf_init() comment and rcu_assign_pointer()
-  3360			 * documentation.  Since this is a new root, there are no
-  3361			 * read-side operations that can view it until it is insert into
-  3362			 * the tree after an rcu_assign_pointer() call.
-  3363			 */
-> 3364			ma_init_slot(cp->slot[0], cp->dst[0].node, mt);
-  3365			cp->height++;
-  3366		}
-  3367		WARN_ON_ONCE(cp->dst[0].node != mte_to_node(
-  3368					mt_slot_locked(mas->tree, cp->slot, 0)));
-  3369		cp->dst[0].node->parent = ma_parent_ptr(mas_tree_parent(mas));
-  3370		mas->min = 0;
-  3371		mas->max = ULONG_MAX;
-  3372		mas->depth = 0;
-  3373		mas->node = mas_root_locked(mas);
-  3374		return true;
-  3375	}
-  3376	
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1706  static int swcam_ioc_create(struct file *file, struct swcam *dev,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1707  			    struct swcam_ioc_create *config, char *card_label,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1708  			    unsigned int len)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1709  {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1710  	u32 first_mode_sorted = config->nr_modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1711  	struct swcam_mode *modes = NULL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1712  	struct swcam_mode first_mode;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1713  	struct v4l2_pix_format *pix_formats = NULL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1714  	u32 *frame_rates = NULL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1715  	struct v4l2_format try_fmt;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1716  	struct video_device *vdev;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1717  	struct vb2_queue *queue;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1718  	struct v4l2_format fmt;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1719  	long ret;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1720  	u32 i;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1721  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1722  	strscpy(dev->v4l2_dev.name, "swcam", sizeof(dev->v4l2_dev.name));
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1723  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1724  	ret = v4l2_device_register(NULL, &dev->v4l2_dev);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1725  	if (ret)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1726  		return ret;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1727  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1728  	vdev = video_device_alloc();
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1729  	if (!vdev) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1730  		ret = -ENOMEM;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1731  		goto err_unregister;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1732  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1733  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1734  	dev->vdev = vdev;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1735  	video_set_drvdata(vdev, dev);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1736  	memcpy(vdev->name, card_label, len);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1737  	vdev->name[len] = '\0';
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1738  	vdev->vfl_type = VFL_TYPE_VIDEO;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1739  	vdev->fops = &swcam_vdev_fops;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1740  	vdev->ioctl_ops = &swcam_ioctl_ops;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1741  	vdev->release = &video_device_release;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1742  	vdev->minor = -1;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1743  	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1744  	vdev->vfl_dir = VFL_DIR_RX;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1745  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1746  	mutex_init(&dev->lock);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1747  	spin_lock_init(&dev->frame_lock);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1748  	spin_lock_init(&dev->status_lock);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1749  	INIT_LIST_HEAD(&dev->capture_list);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1750  	INIT_LIST_HEAD(&dev->output_list);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1751  	dev->status = SWCAM_STATUS_IDLE;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1752  	init_waitqueue_head(&dev->status_waitq);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1753  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1754  	dev->vdev->v4l2_dev = &dev->v4l2_dev;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1755  	dev->vdev->queue = &dev->capture_queue;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1756  	dev->vdev->lock = &dev->lock;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1757  	dev->capture.capability = 0;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1758  	dev->capture.capturemode = 0;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1759  	dev->capture.extendedmode = 0;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1760  	dev->capture.readbuffers = SWCAM_MIN_FRAMES;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1761  	dev->capture.timeperframe.numerator = 1;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1762  	dev->capture.timeperframe.denominator = 30;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1763  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1764  	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER) ||
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1765  	    !vb2_vmalloc_memops.attach_dmabuf) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1766  		ret = -EOPNOTSUPP;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1767  		goto err_unregister;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1768  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1769  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1770  	pix_formats = kcalloc(config->nr_modes, sizeof(*pix_formats), GFP_KERNEL);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1771  	if (!pix_formats) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1772  		ret = -ENOMEM;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1773  		goto err_unregister;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1774  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1775  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1776  	frame_rates = kcalloc(config->nr_modes, sizeof(*frame_rates), GFP_KERNEL);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1777  	if (!frame_rates) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1778  		ret = -ENOMEM;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1779  		goto err_pix_formats;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1780  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1781  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1782  	if (copy_from_user(pix_formats, u64_to_user_ptr(config->pix_formats),
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1783  			   config->nr_modes * sizeof(*pix_formats))) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1784  		ret = -EFAULT;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1785  		goto err_frame_rates;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1786  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1787  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1788  	if (copy_from_user(frame_rates, u64_to_user_ptr(config->frame_rates),
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1789  			   config->nr_modes * sizeof(*frame_rates))) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1790  		ret = -EFAULT;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1791  		goto err_frame_rates;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1792  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1793  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1794  	modes = kcalloc(config->nr_modes, sizeof(*modes), GFP_KERNEL);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1795  	if (!modes) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1796  		ret = -ENOMEM;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1797  		goto err_frame_rates;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1798  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1799  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1800  	for (i = 0; i < config->nr_modes; i++) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1801  		struct swcam_mode *mode = &modes[i];
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1802  		struct v4l2_pix_format *pix = &pix_formats[i];
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1803  		u32 frame_rate = frame_rates[i];
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1804  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1805  		if (!pix->width || !pix->height || !pix->pixelformat) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1806  			ret = -EINVAL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1807  			goto err_modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1808  		}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1809  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1810  		if (frame_rate && !swcam_frame_rate_valid(frame_rate)) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1811  			ret = -EINVAL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1812  			goto err_modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1813  		}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1814  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1815  		fmt = (struct v4l2_format){
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1816  			.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1817  			.fmt.pix = { .width = pix->width,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1818  				     .height = pix->height,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1819  				     .pixelformat = pix->pixelformat,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1820  				     .bytesperline = pix->bytesperline,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1821  				     .colorspace = pix->colorspace,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1822  				     .xfer_func = pix->xfer_func,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1823  				     .ycbcr_enc = pix->ycbcr_enc,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1824  				     .quantization = pix->quantization,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1825  				     .field = V4L2_FIELD_NONE }
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1826  		};
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1827  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1828  		try_fmt = fmt;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1829  		ret = swcam_set_format(&try_fmt);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1830  		if (ret)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1831  			goto err_modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1832  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1833  		if (try_fmt.fmt.pix.width != pix->width ||
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1834  		    try_fmt.fmt.pix.height != pix->height ||
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1835  		    try_fmt.fmt.pix.pixelformat != pix->pixelformat ||
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1836  		    (pix->bytesperline &&
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1837  		     try_fmt.fmt.pix.bytesperline != pix->bytesperline)) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1838  			ret = -EINVAL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1839  			goto err_modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1840  		}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1841  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1842  		mode->width = try_fmt.fmt.pix.width;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1843  		mode->height = try_fmt.fmt.pix.height;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1844  		mode->pixelformat = try_fmt.fmt.pix.pixelformat;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1845  		mode->stride = try_fmt.fmt.pix.bytesperline;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1846  		mode->colorspace = try_fmt.fmt.pix.colorspace;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1847  		mode->xfer_func = try_fmt.fmt.pix.xfer_func;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1848  		mode->ycbcr_enc = try_fmt.fmt.pix.ycbcr_enc;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1849  		mode->quantization = try_fmt.fmt.pix.quantization;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1850  		if (!frame_rate)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1851  			frame_rate = dev->capture.timeperframe.denominator;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1852  		mode->frame_rate = clamp_t(u32, frame_rate, SWCAM_FPS_MIN,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1853  					   SWCAM_FPS_MAX);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1854  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1855  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1856  	first_mode = modes[config->first_mode];
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1857  	sort(modes, config->nr_modes, sizeof(*modes), swcam_mode_cmp, NULL);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1858  	for (i = 0; i < config->nr_modes; i++) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1859  		if (i && swcam_mode_equal(&modes[i - 1], &modes[i])) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1860  			ret = -EINVAL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1861  			goto err_modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1862  		}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1863  		if (swcam_mode_equal(&modes[i], &first_mode))
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1864  			first_mode_sorted = i;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1865  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1866  	if (first_mode_sorted == config->nr_modes) {
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1867  		ret = -EINVAL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1868  		goto err_modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1869  	}
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1870  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1871  	dev->modes = modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1872  	dev->nr_modes = config->nr_modes;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1873  	dev->nr_frames = config->nr_frames;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1874  	modes = NULL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23 @1875  	kfree(frame_rates);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23 @1876  	kfree(pix_formats);
+
+Freed here
+
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1877  	dev->pix_format = (struct v4l2_pix_format){
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1878  		.width = dev->modes[first_mode_sorted].width,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1879  		.height = dev->modes[first_mode_sorted].height,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1880  		.pixelformat = dev->modes[first_mode_sorted].pixelformat,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1881  		.bytesperline = dev->modes[first_mode_sorted].stride,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1882  		.field = V4L2_FIELD_NONE,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1883  	};
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1884  	dev->capture.timeperframe.numerator = 1;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1885  	dev->capture.timeperframe.denominator =
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1886  		dev->modes[first_mode_sorted].frame_rate;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1887  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1888  	fmt = (struct v4l2_format){
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1889  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1890  		.fmt.pix = dev->pix_format,
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1891  	};
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1892  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1893  	ret = swcam_set_format(&fmt);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1894  	if (ret)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1895  		goto err_unregister;
+
+And again on the error handling paths
+
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1896  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1897  	dev->pix_format = fmt.fmt.pix;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1898  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1899  	queue = &dev->capture_queue;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1900  	queue->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1901  	queue->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1902  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1903  	queue->drv_priv = dev;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1904  	queue->buf_struct_size = sizeof(struct swcam_buf);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1905  	queue->ops = &swcam_vb2_ops;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1906  	queue->mem_ops = &vb2_vmalloc_memops;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1907  	queue->lock = &dev->lock;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1908  	queue->dev = &dev->vdev->dev;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1909  	ret = vb2_queue_init(queue);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1910  	if (ret)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1911  		goto err_unregister;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1912  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1913  	queue = &dev->output_queue;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1914  	queue->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1915  	queue->io_modes = VB2_DMABUF;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1916  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1917  	queue->drv_priv = dev;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1918  	queue->buf_struct_size = sizeof(struct swcam_buf);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1919  	queue->ops = &swcam_vb2_ops;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1920  	queue->mem_ops = &vb2_vmalloc_memops;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1921  	queue->lock = &dev->lock;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1922  	queue->dev = &dev->vdev->dev;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1923  	ret = vb2_queue_init(queue);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1924  	if (ret)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1925  		goto err_capture_queue;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1926  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1927  	ret = __swcam_ioc_alloc(dev, config->nr_frames, file->private_data);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1928  	if (ret)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1929  		goto err_output_queue;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1930  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1931  	ret = video_register_device(dev->vdev, VFL_TYPE_VIDEO, -1);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1932  	if (ret < 0)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1933  		goto err_output_queue;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1934  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1935  	config->device_nr = dev->vdev->num;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1936  	return 0;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1937  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1938  err_output_queue:
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1939  	vb2_queue_release(&dev->output_queue);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1940  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1941  err_capture_queue:
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1942  	vb2_queue_release(&dev->capture_queue);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1943  
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1944  err_unregister:
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1945  	if (dev->vdev)
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1946  		video_device_release(dev->vdev);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1947  	v4l2_device_unregister(&dev->v4l2_dev);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1948  err_modes:
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1949  	kfree(dev->modes);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1950  	dev->modes = NULL;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1951  	dev->nr_modes = 0;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1952  	kfree(modes);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1953  err_frame_rates:
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23 @1954  	kfree(frame_rates);
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1955  err_pix_formats:
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23 @1956  	kfree(pix_formats);
+
+Here.
+
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1957  	return ret;
+2ad939d7a72b6d Jarkko Sakkinen 2026-01-23  1958  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
