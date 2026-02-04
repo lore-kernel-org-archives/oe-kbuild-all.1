@@ -1,65 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAD5275870
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 01:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E84728CF76
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 02:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770168904; cv=none; b=UGIAQG2kijZ4lZw3X/Cw1/z3hzIxas0s7UIKYQGYU8kW8jhxwjXIggsO/ktXZRb6jDU/Xc5vu4EpF7hDtuZ9bmui15FMJ1LAa02bvPoW6eJU7qvsxRGk/Qa1rd+b/A15cbVYMAUW8ZFxxXA4MJmRIFQSP22B2mQ055mBjQ/SnCU=
+	t=1770170821; cv=none; b=u8yxylWgPZVf2fmywKWGJ/mLjiARzrwAx9DYLoiVQzCPKxCwCgwSjiOSzUGewKSDEtEw1dbo9vHZMNkm9b85eH1odWo+c0NQMfe9jA2akm7BYUfBzA7W0P3PUYrmXpMcVLz7h4tIQUYsUuZPJ8jxuDUNBdXS9xjMeRJ+NsPanhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770168904; c=relaxed/simple;
-	bh=XfDSA7ng4gefVzIjNPb0N3L0Mpadew0WbaCjjHTqRc0=;
+	s=arc-20240116; t=1770170821; c=relaxed/simple;
+	bh=OmadtR8LX8+TtK7CAHoBlD5U8CMSVir0JGVYr3z2zKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fh6gJEuxiJJGkH6aSv6vyjYHbjDnKSMmJyYO2VKIVqAvs2jdqsgom3NK6rblVF9PPmyAOYphH5D55qH8By/yETGoNnmuHRF7r81SZzoJypGIYNemzMDamLn4yPc1ahwcO6mb50r5L6QofeuLhcvhzxRp3PEzttscmE2rMZxKY8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DNhfXzVU; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=sYinpRsnCZtKPqpfvC0crLE5IPANqg+2PENnsLc4QbshxiAG3Nbdx4rKrv8Bl03En4GPKK2oyMbA7NPyrBkwujYMsTt39eAATA8o4t5ktQ9CM3vcoWM1a9p/84TCSdqmjRgwNtoqJJFOuKQOr5t3iNHKZeElhDpyFCqHvZOHcK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AY+3hqDh; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DNhfXzVU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AY+3hqDh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770168903; x=1801704903;
+  t=1770170821; x=1801706821;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XfDSA7ng4gefVzIjNPb0N3L0Mpadew0WbaCjjHTqRc0=;
-  b=DNhfXzVUe0OmR5dnPa5KyGSv3u9DWHtkGBnCCij0AejjNZ6ZCX2haLPQ
-   GGDw4lc3rIptQtBmIV3WwXM4NZmAFgtAcVuB2y+I386V3k8j0OZ6abWz1
-   +cBGWAyaGEw2VWDEr2CYHQFDgf/LHk1+6nQt7RO3LHYQRbhNf/x/vMUy5
-   itZJ1uUSwGoKQn7jOxpRWpVgMeuiyX3HS9StKh/XWRvgsE9L4o6wnDgAl
-   YJXmsJZmwRgl8ZrYGFeIepeC0Y8qeu123AN6JihoEqfmmn+NzbeES5KCO
-   oNXks3PoeP7mEUCQVg2ebF8Sz0aYbVlfBm9Fzbz/QU7TQex2i7ih3MesX
-   w==;
-X-CSE-ConnectionGUID: LLhnpIpWRniU2V8mCjelDw==
-X-CSE-MsgGUID: 0/yobXD7QdKSIAzdoUTzgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="88927885"
+  bh=OmadtR8LX8+TtK7CAHoBlD5U8CMSVir0JGVYr3z2zKU=;
+  b=AY+3hqDhtZZMZ4Oxr1NlKt3ktdQUQGbFxsqucO8T7FY46vbU6HHPaaaO
+   8++jnaQhaXABvoyrh6por6eCvo0gEUso8pinNtIpUQUNkaviaz9Tfaplz
+   TH71O4Xv2Qp6874Yh8ogkn6vv8PFzOm8Ksc3HxA82pt3JCUpgwhQq9e9a
+   Tg7KNTOGyEjsEIQJ7OgWXwdHHYtSUD++qD8z5RVvcNj5cDOtSuBdMjEKF
+   eyN/I1qywPpxG4ZzK7hFJ36CugcmYYCwa9fn9dVw+XVkxVzmHk9O7N5cw
+   v9pkuMs+EPGqZjdEXNcWJc/DnOLamCg8b5LtBihAq2DM7qM/PIZMLo6JU
+   g==;
+X-CSE-ConnectionGUID: rjlIliSBQxWYby+30zbCuQ==
+X-CSE-MsgGUID: alCeg43hTcyYjksd/NjtDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="82465250"
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="88927885"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 17:35:02 -0800
-X-CSE-ConnectionGUID: LdsauzWkQAiBfdHRfpxv9g==
-X-CSE-MsgGUID: lH8GZpWpQtC8n9cuhnpqMA==
+   d="scan'208";a="82465250"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 18:07:00 -0800
+X-CSE-ConnectionGUID: k2IXUSdOQUGl1mM2blfv+g==
+X-CSE-MsgGUID: 94/gl3siSvqat+fDqmgjvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="214735234"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Feb 2026 17:35:00 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="214181742"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2026 18:06:57 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnRnG-00000000hM8-0OsY;
-	Wed, 04 Feb 2026 01:34:58 +0000
-Date: Wed, 4 Feb 2026 09:34:47 +0800
+	id 1vnSIA-000000003Xh-09Br;
+	Wed, 04 Feb 2026 02:06:54 +0000
+Date: Wed, 4 Feb 2026 03:06:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jiawen Wu <jiawenwu@trustnetic.com>, netdev@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mengyuan Lou <mengyuanlou@net-swift.com>,
-	Jiawen Wu <jiawenwu@trustnetic.com>
-Subject: Re: [PATCH net-next v1 7/7] net: wangxun: add pcie error handler
-Message-ID: <202602040920.UKsVMKFG-lkp@intel.com>
-References: <20260203075759.5852-8-jiawenwu@trustnetic.com>
+To: Timur Tabi <ttabi@nvidia.com>, Gary Guo <gary@garyguo.net>,
+	Alice Ryhl <aliceryhl@google.com>, mmaurer@google.com,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v7 2/7] rust: uaccess: add write_dma() for copying from
+ DMA buffers to userspace
+Message-ID: <202602040350.sw6i2Sp2-lkp@intel.com>
+References: <20260203224757.871729-3-ttabi@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,31 +69,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203075759.5852-8-jiawenwu@trustnetic.com>
+In-Reply-To: <20260203224757.871729-3-ttabi@nvidia.com>
 
-Hi Jiawen,
+Hi Timur,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on cea7b66a80412e2a5b74627b89ae25f1d0110a4b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiawen-Wu/net-ngbe-move-the-WOL-functions-to-libwx/20260203-160343
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260203075759.5852-8-jiawenwu%40trustnetic.com
-patch subject: [PATCH net-next v1 7/7] net: wangxun: add pcie error handler
-config: sparc64-randconfig-r051-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040920.UKsVMKFG-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040920.UKsVMKFG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Timur-Tabi/rust-device-add-device-name-method/20260204-065057
+base:   cea7b66a80412e2a5b74627b89ae25f1d0110a4b
+patch link:    https://lore.kernel.org/r/20260203224757.871729-3-ttabi%40nvidia.com
+patch subject: [PATCH v7 2/7] rust: uaccess: add write_dma() for copying from DMA buffers to userspace
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260204/202602040350.sw6i2Sp2-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040350.sw6i2Sp2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040920.UKsVMKFG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040350.sw6i2Sp2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sparc64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_err.o: in function `wx_handle_errors_subtask':
->> wx_err.c:(.text+0x4a0): undefined reference to `aer_recover_queue'
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/uaccess.rs:471:
+            // - `ptr` is valid for reading `len` bytes as required by this function's safety contract.
+            // - `copy_to_user` validates the userspace address at runtime and returns non-zero on
+            //   failure (e.g., bad address or unmapped memory).
+   -        let res = unsafe {
+   -            bindings::copy_to_user(self.ptr.as_mut_ptr(), ptr.cast::<c_void>(), len)
+   -        };
+   +        let res =
+   +            unsafe { bindings::copy_to_user(self.ptr.as_mut_ptr(), ptr.cast::<c_void>(), len) };
+            if res != 0 {
+                return Err(EFAULT);
+            }
+>> Diff in rust/kernel/uaccess.rs:471:
+            // - `ptr` is valid for reading `len` bytes as required by this function's safety contract.
+            // - `copy_to_user` validates the userspace address at runtime and returns non-zero on
+            //   failure (e.g., bad address or unmapped memory).
+   -        let res = unsafe {
+   -            bindings::copy_to_user(self.ptr.as_mut_ptr(), ptr.cast::<c_void>(), len)
+   -        };
+   +        let res =
+   +            unsafe { bindings::copy_to_user(self.ptr.as_mut_ptr(), ptr.cast::<c_void>(), len) };
+            if res != 0 {
+                return Err(EFAULT);
+            }
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[2]: *** [Makefile:1871: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
