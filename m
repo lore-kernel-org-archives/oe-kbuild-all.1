@@ -1,65 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE6734C124
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 04:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD39D34F469
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 04:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770178933; cv=none; b=PL/RCmCAAEvKWeKsS7tm2Wlg38OwFyH1sB7wX+obJmVxOX+3QD3t4oNvsgyCv0q4TA9GUYfDxU7Q4PKVbV5jGRJlAMZgEvvPm2cBQz63EZTK28S1A9iIX2sjZwLDTSwNfedCFB9YHn6h9U693IBnCYfgy2A+8rDd/9Phth8cR+o=
+	t=1770180904; cv=none; b=MiwueRimBuLQWqpUiv25JPZHLNF9Otr1dxNugSH2mubqQmyUaz/+apIg/Z6nF8W7TI5xdOXY/EBih9u4xgGsdEpBvp9GwgqI939SicVrmP5I9QmxjCt7dfM1sJBtg+dLJF5Hn1oHa4Qhf4J1gxFmoqQglSF2MDjoFgVLo8ZSplQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770178933; c=relaxed/simple;
-	bh=xAr1MaLBjTmJh1EIvHVY9qAFaejUI/5HqFZckEJcElM=;
+	s=arc-20240116; t=1770180904; c=relaxed/simple;
+	bh=1Nwm7gBX7S9HdvZbxKueVgPT9oxK2NzjXtkYV1/Owhg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oPBy2ymAhyLk0SfQCjQ73Qi2SIUPlScteYpycBwTdiA4q2bzVr+1pZJBnxQLIETE9wdDRKtFRYGHw4h+tQFRoFu8wUfxLaokHe6HpGBdoiDJA7xh23ESVBm+iCM2mj8cXePLvmxp25WTkVRHZLca9o/b5V/QJ1FgLNRvLvVLMII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mjK4iycE; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=bl6HXeoG02lVKYwOmukJoXBZH9lW9IALtkfb16zEHXdUFU99UUYpJI1RztkKC5So1qeQc7U3dfPp4+5/05btpUz0MgZnI2Y/Uk3zFwnbX3/iFD9lmYNDM5wMFc2JLHtqLpPz33KnMsq4zL0Im0asDsCC1O8GOao/D/CcIaCTNDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5ZLmSDS; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mjK4iycE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5ZLmSDS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770178930; x=1801714930;
+  t=1770180903; x=1801716903;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xAr1MaLBjTmJh1EIvHVY9qAFaejUI/5HqFZckEJcElM=;
-  b=mjK4iycElGTEwlgjfamlOsJBDp/oloBHiy57a9XRIQpbX5MDz8ufH/Dj
-   za0nr23jg6o2b9Y7Mrj6XhPnuvBRHZJllY9oWiF6+N26F4cOqLQspSRoX
-   N4Oe2Y/EC+HPm+18vUkuIGyL4JyVpNyPKvT1+EDVOyG7NkPS1UjFjstpy
-   x0n9Y3wWQd82Ak+HOzNZW/oJkCBUw4lm9iZCPRe1duoVg6uZH3DutB9sP
-   hSJY3dVL8QjqpdYWT8EnIdBN7BFg19+FldAIq6pxHrw2ov1SnvI+ulP1w
-   dWNP1hFtFfzixjOm/8mfdRN0ZWNbLAJ4i+PCoArViXR9PjKB3blGoL7pD
-   Q==;
-X-CSE-ConnectionGUID: Sy2ZtUSrRGeusrjttWQVCg==
-X-CSE-MsgGUID: Fi7nYeWvQaasQyGQMbGgug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="74979363"
+  bh=1Nwm7gBX7S9HdvZbxKueVgPT9oxK2NzjXtkYV1/Owhg=;
+  b=a5ZLmSDSPLI7unKx3VL9qpDq4gDa4qfFSi1a7EuQigFubbmZDjmFDLgZ
+   CzNSGnd0FZDP4QZOz6IeSoZXMAnOEuZY3SJJA/pkvxtMYPfTJwBvtqTDz
+   nkAqK9YxWM4T5TbNDYW7avRnb/kouHATbTaJm08oIGN2EpbMLj2Scgf/Y
+   5V1Zblc2OsNOKTP/762l3BC5+KTV/sirNCLQOu8ETKOP4m3+MY8vcXo83
+   wtU5chT1guSznRDtuU2buQ3bmPqusELlNvyzEFI1ccDVWCpLgR7EEn4HP
+   YcP0XtR90M3a0WCiUfVVHfH2KRat+eQhrzZaUmybaUatOAdnPe5+knQZB
+   A==;
+X-CSE-ConnectionGUID: rvYU+OcsT0aDTE2C09oM7A==
+X-CSE-MsgGUID: /QgC9i9pT42p8/Gjf65mJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71445534"
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="74979363"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 20:22:09 -0800
-X-CSE-ConnectionGUID: K9a77kKNQlCvpvsT37pm5Q==
-X-CSE-MsgGUID: U0IMYBoYTtGKmJ6qBBepqg==
+   d="scan'208";a="71445534"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 20:55:03 -0800
+X-CSE-ConnectionGUID: Go9oiR6cRXOHvtdjzaDvsw==
+X-CSE-MsgGUID: o4DANno4SB6DfMLmTjiedA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="214753861"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Feb 2026 20:22:05 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="214216972"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2026 20:54:59 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnUOw-00000000hRg-4B3c;
-	Wed, 04 Feb 2026 04:22:02 +0000
-Date: Wed, 4 Feb 2026 12:21:41 +0800
+	id 1vnUum-000000003aX-1MGq;
+	Wed, 04 Feb 2026 04:54:56 +0000
+Date: Wed, 4 Feb 2026 05:54:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: Zhang Yi <yi.zhang@huawei.com>, linux-ext4@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tytso@mit.edu,
-	adilger.kernel@dilger.ca, jack@suse.cz, ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com, hch@infradead.org, djwong@kernel.org,
-	yi.zhang@huawei.com, yi.zhang@huaweicloud.com, yizhang089@gmail.com,
-	libaokun1@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH -next v2 03/22] ext4: only order data when partially
- block truncating down
-Message-ID: <202602041239.JFyNwVcg-lkp@intel.com>
-References: <20260203062523.3869120-4-yi.zhang@huawei.com>
+To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>,
+	rust-for-linux@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Tamir Duberstein <tamird@gmail.com>, Alban Kurti <kurti@invicto.ai>,
+	linux-kernel@vger.kernel.org,
+	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+Subject: Re: [PATCH] workqueue: rust: add work item runtime modification
+ support
+Message-ID: <202602040543.4ixOmzHo-lkp@intel.com>
+References: <20260203215555.832171-1-hamzamahfooz@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,185 +73,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203062523.3869120-4-yi.zhang@huawei.com>
+In-Reply-To: <20260203215555.832171-1-hamzamahfooz@linux.microsoft.com>
 
-Hi Zhang,
+Hi Hamza,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20260202]
+[auto build test WARNING on rust/rust-next]
+[also build test WARNING on next-20260203]
+[cannot apply to linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yi/ext4-make-ext4_block_zero_page_range-pass-out-did_zero/20260203-144244
-base:   next-20260202
-patch link:    https://lore.kernel.org/r/20260203062523.3869120-4-yi.zhang%40huawei.com
-patch subject: [PATCH -next v2 03/22] ext4: only order data when partially block truncating down
-config: riscv-randconfig-r071-20260204 (https://download.01.org/0day-ci/archive/20260204/202602041239.JFyNwVcg-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-smatch version: v0.5.0-8994-gd50c5a4c
+url:    https://github.com/intel-lab-lkp/linux/commits/Hamza-Mahfooz/workqueue-rust-add-work-item-runtime-modification-support/20260204-060728
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260203215555.832171-1-hamzamahfooz%40linux.microsoft.com
+patch subject: [PATCH] workqueue: rust: add work item runtime modification support
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260204/202602040543.4ixOmzHo-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040543.4ixOmzHo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602041239.JFyNwVcg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040543.4ixOmzHo-lkp@intel.com/
 
-New smatch warnings:
-fs/ext4/inode.c:4577 ext4_truncate() warn: unsigned 'zero_len' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-fs/ext4/inode.c:2651 mpage_prepare_extent_to_map() warn: missing error code 'err'
-fs/ext4/inode.c:5129 check_igot_inode() warn: missing unwind goto?
-
-vim +/zero_len +4577 fs/ext4/inode.c
-
-  4494	
-  4495	/*
-  4496	 * ext4_truncate()
-  4497	 *
-  4498	 * We block out ext4_get_block() block instantiations across the entire
-  4499	 * transaction, and VFS/VM ensures that ext4_truncate() cannot run
-  4500	 * simultaneously on behalf of the same inode.
-  4501	 *
-  4502	 * As we work through the truncate and commit bits of it to the journal there
-  4503	 * is one core, guiding principle: the file's tree must always be consistent on
-  4504	 * disk.  We must be able to restart the truncate after a crash.
-  4505	 *
-  4506	 * The file's tree may be transiently inconsistent in memory (although it
-  4507	 * probably isn't), but whenever we close off and commit a journal transaction,
-  4508	 * the contents of (the filesystem + the journal) must be consistent and
-  4509	 * restartable.  It's pretty simple, really: bottom up, right to left (although
-  4510	 * left-to-right works OK too).
-  4511	 *
-  4512	 * Note that at recovery time, journal replay occurs *before* the restart of
-  4513	 * truncate against the orphan inode list.
-  4514	 *
-  4515	 * The committed inode has the new, desired i_size (which is the same as
-  4516	 * i_disksize in this case).  After a crash, ext4_orphan_cleanup() will see
-  4517	 * that this inode's truncate did not complete and it will again call
-  4518	 * ext4_truncate() to have another go.  So there will be instantiated blocks
-  4519	 * to the right of the truncation point in a crashed ext4 filesystem.  But
-  4520	 * that's fine - as long as they are linked from the inode, the post-crash
-  4521	 * ext4_truncate() run will find them and release them.
-  4522	 */
-  4523	int ext4_truncate(struct inode *inode)
-  4524	{
-  4525		struct ext4_inode_info *ei = EXT4_I(inode);
-  4526		unsigned int credits;
-  4527		int err = 0, err2;
-  4528		handle_t *handle;
-  4529		struct address_space *mapping = inode->i_mapping;
-  4530	
-  4531		/*
-  4532		 * There is a possibility that we're either freeing the inode
-  4533		 * or it's a completely new inode. In those cases we might not
-  4534		 * have i_rwsem locked because it's not necessary.
-  4535		 */
-  4536		if (!(inode_state_read_once(inode) & (I_NEW | I_FREEING)))
-  4537			WARN_ON(!inode_is_locked(inode));
-  4538		trace_ext4_truncate_enter(inode);
-  4539	
-  4540		if (!ext4_can_truncate(inode))
-  4541			goto out_trace;
-  4542	
-  4543		if (inode->i_size == 0 && !test_opt(inode->i_sb, NO_AUTO_DA_ALLOC))
-  4544			ext4_set_inode_state(inode, EXT4_STATE_DA_ALLOC_CLOSE);
-  4545	
-  4546		if (ext4_has_inline_data(inode)) {
-  4547			int has_inline = 1;
-  4548	
-  4549			err = ext4_inline_data_truncate(inode, &has_inline);
-  4550			if (err || has_inline)
-  4551				goto out_trace;
-  4552		}
-  4553	
-  4554		/* If we zero-out tail of the page, we have to create jinode for jbd2 */
-  4555		if (inode->i_size & (inode->i_sb->s_blocksize - 1)) {
-  4556			err = ext4_inode_attach_jinode(inode);
-  4557			if (err)
-  4558				goto out_trace;
-  4559		}
-  4560	
-  4561		if (ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
-  4562			credits = ext4_chunk_trans_extent(inode, 1);
-  4563		else
-  4564			credits = ext4_blocks_for_truncate(inode);
-  4565	
-  4566		handle = ext4_journal_start(inode, EXT4_HT_TRUNCATE, credits);
-  4567		if (IS_ERR(handle)) {
-  4568			err = PTR_ERR(handle);
-  4569			goto out_trace;
-  4570		}
-  4571	
-  4572		if (inode->i_size & (inode->i_sb->s_blocksize - 1)) {
-  4573			unsigned int zero_len;
-  4574	
-  4575			zero_len = ext4_block_truncate_page(handle, mapping,
-  4576							    inode->i_size);
-> 4577			if (zero_len < 0) {
-  4578				err = zero_len;
-  4579				goto out_stop;
-  4580			}
-  4581			if (zero_len && !IS_DAX(inode) &&
-  4582			    ext4_should_order_data(inode)) {
-  4583				err = ext4_jbd2_inode_add_write(handle, inode,
-  4584						inode->i_size, zero_len);
-  4585				if (err)
-  4586					goto out_stop;
-  4587			}
-  4588		}
-  4589	
-  4590		/*
-  4591		 * We add the inode to the orphan list, so that if this
-  4592		 * truncate spans multiple transactions, and we crash, we will
-  4593		 * resume the truncate when the filesystem recovers.  It also
-  4594		 * marks the inode dirty, to catch the new size.
-  4595		 *
-  4596		 * Implication: the file must always be in a sane, consistent
-  4597		 * truncatable state while each transaction commits.
-  4598		 */
-  4599		err = ext4_orphan_add(handle, inode);
-  4600		if (err)
-  4601			goto out_stop;
-  4602	
-  4603		ext4_fc_track_inode(handle, inode);
-  4604		ext4_check_map_extents_env(inode);
-  4605	
-  4606		down_write(&EXT4_I(inode)->i_data_sem);
-  4607		ext4_discard_preallocations(inode);
-  4608	
-  4609		if (ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
-  4610			err = ext4_ext_truncate(handle, inode);
-  4611		else
-  4612			ext4_ind_truncate(handle, inode);
-  4613	
-  4614		up_write(&ei->i_data_sem);
-  4615		if (err)
-  4616			goto out_stop;
-  4617	
-  4618		if (IS_SYNC(inode))
-  4619			ext4_handle_sync(handle);
-  4620	
-  4621	out_stop:
-  4622		/*
-  4623		 * If this was a simple ftruncate() and the file will remain alive,
-  4624		 * then we need to clear up the orphan record which we created above.
-  4625		 * However, if this was a real unlink then we were called by
-  4626		 * ext4_evict_inode(), and we allow that function to clean up the
-  4627		 * orphan info for us.
-  4628		 */
-  4629		if (inode->i_nlink)
-  4630			ext4_orphan_del(handle, inode);
-  4631	
-  4632		inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
-  4633		err2 = ext4_mark_inode_dirty(handle, inode);
-  4634		if (unlikely(err2 && !err))
-  4635			err = err2;
-  4636		ext4_journal_stop(handle);
-  4637	
-  4638	out_trace:
-  4639		trace_ext4_truncate_exit(inode);
-  4640		return err;
-  4641	}
-  4642	
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:443:5
+   |
+   443 | /     unsafe fn __enqueue_delayed<F>(self, queue_work_on: F) -> Self::EnqueueDelayedOutput
+   444 | |     where
+   445 | |         F: FnOnce(*mut bindings::work_struct) -> bool;
+   | |______________________________________________________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+   = note: `-W clippy::missing-safety-doc` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::missing_safety_doc)]`
+--
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:558:5
+   |
+   558 |     pub unsafe fn raw_enable(this: *const Self) -> bool {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+--
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:582:5
+   |
+   582 |     pub unsafe fn raw_disable_sync(this: *const Self) -> bool {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+--
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:588:5
+   |
+   588 |     pub unsafe fn raw_disable_delayed_sync(this: *const Self) -> bool {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+--
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:594:5
+   |
+   594 |     pub unsafe fn raw_cancel(this: *const Self) -> bool {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+--
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:600:5
+   |
+   600 |     pub unsafe fn raw_cancel_delayed(this: *const Self) -> bool {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+--
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:606:5
+   |
+   606 |     pub unsafe fn raw_cancel_sync(this: *const Self) -> bool {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+--
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:612:5
+   |
+   612 |     pub unsafe fn raw_cancel_delayed_sync(this: *const Self) -> bool {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+--
+>> warning: docs for unsafe trait missing `# Safety` section
+   --> rust/kernel/workqueue.rs:664:1
+   |
+   664 | pub unsafe trait WorkHandle {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+--
+>> warning: unsafe impl missing a safety comment
+   --> rust/kernel/workqueue.rs:702:1
+   |
+   702 | unsafe impl<T, const ID: u64> WorkHandle for ArcWorkHandle<T, ID>
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks
+--
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/workqueue.rs:564:5
+   |
+   564 |     pub unsafe fn raw_disable(this: *const Self) -> bool {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+..
 
 -- 
 0-DAY CI Kernel Test Service
