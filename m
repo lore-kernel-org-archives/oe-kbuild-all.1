@@ -1,163 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4155286A7;
-	Wed,  4 Feb 2026 06:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3C02D191C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 06:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770187695; cv=none; b=haHMNueKrH1YCvotMQpTRVCmllC1JI0hrEfhnYrDqmH5p3GBIO/DDYho/5ME2U0I9ryvpdS43uZlMRNLmZNfAEaDq7aP7+99nbKs9PPmlyB0y9Yv4sV8eAkeHz0QogtMTFjXIgLhW/BKvwWfNNPKGBq4FEtETAzy88Ob9gXW3gE=
+	t=1770188353; cv=none; b=PV6iFzY3j4JZ4zFPZbgS38J16in1ne+uKdMMRCBGCgs030CSIbddeqQrKlDwH0SIHAZmHQ8A89Hl2aUe1JYEPgb8OwKDI+FS2/UXkBqqCjF8pRSsCDF5GzLG9yIiGREe68a++kdR5nlSRHYeMRu4KZ9pt3roIcXxLDZe5Gp+kJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770187695; c=relaxed/simple;
-	bh=eytSjQEfJS2BR7JXneGwEakI7L9aPPxzFGImmVRbu00=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n6cv977gvBQbjm390BgPwRiQgF8zQsoSj0+E/r8RyE4MO8uM1NpNCKY/JESUM0+V31hz9Tru7478LBbmJUb+ScaZdaHgQNKTMU76gCkUj1dxfSqPaZtbZ1NqrShk0CMcyr58+JinNQqiShJNrsPgqHX7Bm4zW6g60cAUEa+oj8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NjlHxljS; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1770188353; c=relaxed/simple;
+	bh=I7H+ZFZMUOq67XOVsPgnvDILLXa/Tj6eKb08vWGOdIE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Hf05wLogHYg8lMzRZl2wBDebglMAQGTTCR4rpsq7hz3e1O/s5oyKUeNTXOqK7SPAefscpUoSwHWTkUrFfWKSLcfBzaZInOr3PL7ZPLH+nfq8y8fAiYGpNErOMB3gpncgk1TTRo76rG80xLiW/+jJSDAjrzDPHIfdQT8Tjzd+dYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAoxRFa/; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NjlHxljS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAoxRFa/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770187695; x=1801723695;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eytSjQEfJS2BR7JXneGwEakI7L9aPPxzFGImmVRbu00=;
-  b=NjlHxljScijMNJuB2e3lVehPSIG5CqoAQ2/XdzabQ2wc4y+mgggXK2DL
-   kugADza4QXx5FX1aInN0wS4ZLWrX5j2ZIg4QW5YekYNBe5iuU6Yh5ZoeN
-   wiIUQYyFxgbTyfn2EGIc6f8T3Q+M6/W6ThzsspoL5SRPSaEcc5tNaiX7D
-   17WrrtAFhULK3Id4sy/KnH3aW/vOffRxUOH+R00HnjqlnYaAWZQtaqgth
-   CXml1ZZARI/VMU9vy/7BtUdiWdWlc+WuKFUOhApHeRXAANqBlH4zW/Z1d
-   kodwUoWsCzDYCtuPILgIZ3IaoeEWQoIlsyxAmE1C1WuY3QC8PUpFGz8MR
-   g==;
-X-CSE-ConnectionGUID: ITNWibCrQpu8ETY4tGqoIw==
-X-CSE-MsgGUID: 5sUy5HA7QRmeSsNF4cFPNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="82000544"
+  t=1770188353; x=1801724353;
+  h=date:from:to:cc:subject:message-id;
+  bh=I7H+ZFZMUOq67XOVsPgnvDILLXa/Tj6eKb08vWGOdIE=;
+  b=EAoxRFa/9kxHKjX/SWvtykg6eomt8VDD3vTtdm1/vwuuO/WBHA8X2nzo
+   33cH7UVb+pgPGgR3z41YhF9tDKsYeccb+MbFRldvVjS2SUkhJMQ1mhkW5
+   y+JSuTWb+rIGn+FAhw8msbEjorBaOHb1QTRbzmwAG/b235xb/GCCSnMNe
+   eXlxiLVCgSh4TuvDcM5SJO8M/EvyIogCLJXhCthcShB/jGKUY/MytwvnF
+   hNG+NiUnWf5wmdpx/0inQQdj0pgdoRWukec5DIfeCXhUbATmNm1Q0T8Zq
+   FXrgAJafl+ksWsyxAh8dE2h+6LRcwE4nuaUrbb4vWahLfJSpwjUwZKy3G
+   A==;
+X-CSE-ConnectionGUID: yKSRemDaSxqHU6CVcrosiw==
+X-CSE-MsgGUID: 31ZWp5yNTry51KyTpe9ohQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71095096"
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="82000544"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 22:48:14 -0800
-X-CSE-ConnectionGUID: c3DbAFxLQ5qLBZdkxtyp9w==
-X-CSE-MsgGUID: QQmNdES5TvauQATEWcQWAQ==
+   d="scan'208";a="71095096"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 22:59:13 -0800
+X-CSE-ConnectionGUID: sGiwzgeNRLGYj+1r8EqFNA==
+X-CSE-MsgGUID: CvA5TD0UR2yOUKV2lPj/qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="247674423"
+   d="scan'208";a="214620750"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Feb 2026 22:48:11 -0800
+  by orviesa004.jf.intel.com with ESMTP; 03 Feb 2026 22:59:10 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnWgJ-00000000hX2-2ior;
-	Wed, 04 Feb 2026 06:48:07 +0000
-Date: Wed, 4 Feb 2026 14:48:00 +0800
+	id 1vnWqy-00000000hXW-0I5A;
+	Wed, 04 Feb 2026 06:59:08 +0000
+Date: Wed, 04 Feb 2026 14:58:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
-	Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] sunrpc: Fix compilation error (`make W=1`) when
- dprintk() is no-op
-Message-ID: <202602041401.iqlBqvkr-lkp@intel.com>
-References: <20260204010415.2149607-1-andriy.shevchenko@linux.intel.com>
+To: Carsten Stollmaier <stollmc@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Woodhouse <dwmw@amazon.co.uk>,
+ Lilit Janpoladyan <lilitj@amazon.de>,
+ Sebastian Biemueller <sbiemue@amazon.de>
+Subject: [dwmw2:gpc-stealtime 1/1] arch/x86/kvm/x86.c:5242:9: error:
+ implicit declaration of function 'kvm_gpc_mark_dirty'; did you mean
+ 'kvm_register_mark_dirty'?
+Message-ID: <202602041415.gcyoENry-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260204010415.2149607-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on linus/master v6.19-rc8 next-20260203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/sunrpc-Fix-compilation-error-make-W-1-when-dprintk-is-no-op/20260204-091033
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260204010415.2149607-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] sunrpc: Fix compilation error (`make W=1`) when dprintk() is no-op
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20260204/202602041401.iqlBqvkr-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602041401.iqlBqvkr-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux gpc-stealtime
+head:   34c3f2e56cbf5d6b03946d531e66a91566d90db6
+commit: 34c3f2e56cbf5d6b03946d531e66a91566d90db6 [1/1] KVM: x86: Use gfn_to_pfn_cache for record_steal_time
+config: i386-buildonly-randconfig-002-20260204 (https://download.01.org/0day-ci/archive/20260204/202602041415.gcyoENry-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602041415.gcyoENry-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602041401.iqlBqvkr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602041415.gcyoENry-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from arch/m68k/include/asm/processor.h:11,
-                    from include/linux/sched.h:13,
-                    from include/linux/sunrpc/svcauth_gss.h:12,
-                    from fs/nfsd/nfsfh.c:13:
-   fs/nfsd/nfsfh.c: In function 'nfsd_setuser_and_check_port':
->> fs/nfsd/nfsfh.c:110:47: error: 'buf' undeclared (first use in this function); did you mean 'btf'?
-     110 |                         svc_print_addr(rqstp, buf, sizeof(buf)));
-         |                                               ^~~
-   include/linux/printk.h:135:32: note: in definition of macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                                ^~~~~~~~~~~
-   include/linux/sunrpc/debug.h:25:9: note: in expansion of macro 'dfprintk'
-      25 |         dfprintk(FACILITY, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~
-   fs/nfsd/nfsfh.c:109:17: note: in expansion of macro 'dprintk'
-     109 |                 dprintk("nfsd: request from insecure port %s!\n",
-         |                 ^~~~~~~
-   fs/nfsd/nfsfh.c:110:47: note: each undeclared identifier is reported only once for each function it appears in
-     110 |                         svc_print_addr(rqstp, buf, sizeof(buf)));
-         |                                               ^~~
-   include/linux/printk.h:135:32: note: in definition of macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                                ^~~~~~~~~~~
-   include/linux/sunrpc/debug.h:25:9: note: in expansion of macro 'dfprintk'
-      25 |         dfprintk(FACILITY, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~
-   fs/nfsd/nfsfh.c:109:17: note: in expansion of macro 'dprintk'
-     109 |                 dprintk("nfsd: request from insecure port %s!\n",
-         |                 ^~~~~~~
+   arch/x86/kvm/x86.c: In function 'kvm_steal_time_set_preempted':
+>> arch/x86/kvm/x86.c:5242:9: error: implicit declaration of function 'kvm_gpc_mark_dirty'; did you mean 'kvm_register_mark_dirty'? [-Wimplicit-function-declaration]
+    5242 |         kvm_gpc_mark_dirty(gpc);
+         |         ^~~~~~~~~~~~~~~~~~
+         |         kvm_register_mark_dirty
 
 
-vim +110 fs/nfsd/nfsfh.c
+vim +5242 arch/x86/kvm/x86.c
 
-9d7ed1355db5b00 J. Bruce Fields 2018-03-08  101  
-6fa02839bf9412e J. Bruce Fields 2007-11-12  102  static __be32 nfsd_setuser_and_check_port(struct svc_rqst *rqstp,
-b0d87dbd8bd311d NeilBrown       2024-09-05  103  					  struct svc_cred *cred,
-6fa02839bf9412e J. Bruce Fields 2007-11-12  104  					  struct svc_export *exp)
-6fa02839bf9412e J. Bruce Fields 2007-11-12  105  {
-6fa02839bf9412e J. Bruce Fields 2007-11-12  106  	/* Check if the request originated from a secure port. */
-b0d87dbd8bd311d NeilBrown       2024-09-05  107  	if (rqstp && !nfsd_originating_port_ok(rqstp, cred, exp)) {
-5216a8e70e25b01 Pavel Emelyanov 2008-02-21  108  		RPC_IFDEBUG(char buf[RPC_MAX_ADDRBUFLEN]);
-a48fd0f9f77b6e1 Kinglong Mee    2014-05-29  109  		dprintk("nfsd: request from insecure port %s!\n",
-6fa02839bf9412e J. Bruce Fields 2007-11-12 @110  		        svc_print_addr(rqstp, buf, sizeof(buf)));
-6fa02839bf9412e J. Bruce Fields 2007-11-12  111  		return nfserr_perm;
-6fa02839bf9412e J. Bruce Fields 2007-11-12  112  	}
-6fa02839bf9412e J. Bruce Fields 2007-11-12  113  
-6fa02839bf9412e J. Bruce Fields 2007-11-12  114  	/* Set user creds for this exportpoint */
-b0d87dbd8bd311d NeilBrown       2024-09-05  115  	return nfserrno(nfsd_setuser(cred, exp));
-6fa02839bf9412e J. Bruce Fields 2007-11-12  116  }
-6fa02839bf9412e J. Bruce Fields 2007-11-12  117  
+  5201	
+  5202	static void kvm_steal_time_set_preempted(struct kvm_vcpu *vcpu)
+  5203	{
+  5204		struct gfn_to_pfn_cache *gpc = &vcpu->arch.st.cache;
+  5205		struct kvm_steal_time *st;
+  5206		static const u8 preempted = KVM_VCPU_PREEMPTED;
+  5207		unsigned long flags;
+  5208	
+  5209		/*
+  5210		 * The vCPU can be marked preempted if and only if the VM-Exit was on
+  5211		 * an instruction boundary and will not trigger guest emulation of any
+  5212		 * kind (see vcpu_run).  Vendor specific code controls (conservatively)
+  5213		 * when this is true, for example allowing the vCPU to be marked
+  5214		 * preempted if and only if the VM-Exit was due to a host interrupt.
+  5215		 */
+  5216		if (!vcpu->arch.at_instruction_boundary) {
+  5217			vcpu->stat.preemption_other++;
+  5218			return;
+  5219		}
+  5220	
+  5221		vcpu->stat.preemption_reported++;
+  5222		if (!(vcpu->arch.st.msr_val & KVM_MSR_ENABLED))
+  5223			return;
+  5224	
+  5225		if (vcpu->arch.st.preempted)
+  5226			return;
+  5227	
+  5228		/* This happens on process exit */
+  5229		if (unlikely(current->mm != vcpu->kvm->mm))
+  5230			return;
+  5231	
+  5232		read_lock_irqsave(&gpc->lock, flags);
+  5233		if (!kvm_gpc_check(gpc, sizeof(*st)))
+  5234			goto out_unlock_gpc;
+  5235	
+  5236		st = (struct kvm_steal_time *)gpc->khva;
+  5237		BUILD_BUG_ON(sizeof(st->preempted) != sizeof(preempted));
+  5238	
+  5239		st->preempted = preempted;
+  5240		vcpu->arch.st.preempted = KVM_VCPU_PREEMPTED;
+  5241	
+> 5242		kvm_gpc_mark_dirty(gpc);
+  5243	
+  5244	out_unlock_gpc:
+  5245		read_unlock_irqrestore(&gpc->lock, flags);
+  5246	}
+  5247	
 
 -- 
 0-DAY CI Kernel Test Service
