@@ -1,62 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF95A2BD012
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 15:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA306349B10
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 17:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770218213; cv=none; b=TUUFjCTOzWrEVoAWSXMH/5uXfLRm1Q1UmVWXDRIU9LH1B0mcbsVq5zQhVrnUOli6IWwFGHNj0XAgZLYtJP0CEABximPFUnVQNcMvXmN4P55fReQAvPvqJebVeKccj9olsy+SS7a47NMIUlZmC8N3UOyXgzhHjt+ztqZdAS5ch8s=
+	t=1770226774; cv=none; b=TbcRyaWV+zEN9mRZybqX0JNr1wyKKA+UOOMVb+/5hveE/aNbKG/4ZZ8E4W/hjhzmNt233TQtB30wiLauka66gddC0dROTrWKUcK0exaFhjSsFL1jEYlJJubecdFtcRCb5wLT/NyXwcXWI2WdHQyvFwmQOfD5Bp0FXm+zsUWsnF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770218213; c=relaxed/simple;
-	bh=LAS0EkVBgtrNL60SSrA5BOjIsofdR08gLvcrjcrN/r0=;
+	s=arc-20240116; t=1770226774; c=relaxed/simple;
+	bh=20wE3V0NZ7OcLhBcviVaSvBz9Ju7uQObH903A5xByBI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ilUbkakqrFdtCSvnx8f8DFxpXgJStk3Na3Zo8fVNNaDydJ9IgP/sgIrWTjSFiSGqhqIRZvm3zXkNq624YmnDJMa2IFhcaYCHxDK123sqjwtBJnmrasslPUQmU+sOo8q4GM2kj3ObMMY1vEOT7KOGllubKYLI08O6Zp+XijpgR0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caItZR+n; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=P4R80nu1ikDQbj1hcmgD3tuPzSZcwQmXONkzkRftlcY35on6b0bhhGHQ/zsa+ZXzZHbJXzieLkmzO1I+m/bFnCAOcPCIEBSjCCXKeLYKsbGJ9rvuL7N3Xcat61ZKA9ZCQXdy5YV0J09aPVIzB1BNiIVlZJBsOtkXd1mxhz1KHLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjVtyzs5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caItZR+n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjVtyzs5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770218213; x=1801754213;
+  t=1770226774; x=1801762774;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LAS0EkVBgtrNL60SSrA5BOjIsofdR08gLvcrjcrN/r0=;
-  b=caItZR+nAk+LdmkjMi2l0RSWfXrVhlbXNG5pjjGBWML+I1qYcUs7r9Fw
-   JbOYj5Aaxb6RgRA8bHOujzsEuWBK9Ib81Wz7w1Vi1LrkJ/d3mRTd1OrI2
-   gpC4yxY8ZAZD7ZdNz6lG/KTTuNN83gKLtS6NZPqmPr5e5NYBDc0NZiMx4
-   L5F8fcqFVM7z4y2HRf+J3wFLeQnQi2aWweOPEbhXYrzmiLGoBTgGoUlPv
-   akTUcYTrZVMN75xtpWAjNwI5XB22YcHav9gTfLIm5s9kgWsy2DFLvpcV6
-   2owCtxN5G4H5+FUjYXQHRXf+LousvRwVqF7t/t6CELe7FMLx8rID/6iHG
+  bh=20wE3V0NZ7OcLhBcviVaSvBz9Ju7uQObH903A5xByBI=;
+  b=OjVtyzs5hxZ9txwjBxnv1WBF01dkXSFKBu8H3jRT6b2VkRRHOktnTXRy
+   XidLS+V10cgHQc5Y11APcY/gKwtl/ujMEN9RvR8r/QWBTmhLpNdXkg1wD
+   ZX2RB9O/4Jg9K68wyZtkL/RHFlLOPo87J+nfYkkne7WFqLz+6o5QL1A7s
+   aFAAlrzfLVKaBNX+1AqU0vtI8J40kmjrAKdk3IQyzBc4LEVeMAf6mQZM5
+   QRxuSDpmLb49JXKrfo6FKeK4TgvwtAAo9XGWhIRIeB3pC44b2nNtSVY61
+   rs4SRSlEQlnve5W2jCtXh40FoyDSU2rGqzIlO1JOfwTxD+fc2lvJv45y+
    w==;
-X-CSE-ConnectionGUID: BMEHxWQtTACo6csZXJU7Xw==
-X-CSE-MsgGUID: w8Kz3L9lTpmJ52yu3NBNDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71391217"
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="71391217"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 07:16:52 -0800
-X-CSE-ConnectionGUID: YsXuTrHrR5OvoMFxxH70BQ==
-X-CSE-MsgGUID: d1cXLsZCSf2uiD2pONH8ng==
+X-CSE-ConnectionGUID: HjyTfEmDR26pHkirfBi50Q==
+X-CSE-MsgGUID: OIf30lqSScSZqxbD+azkhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71315590"
+X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
+   d="scan'208";a="71315590"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 09:39:33 -0800
+X-CSE-ConnectionGUID: h62gMYhtROSWnZc66OjUHw==
+X-CSE-MsgGUID: mOs4kMELQCmS6itbcUF5Rw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="240967509"
+X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
+   d="scan'208";a="214756247"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Feb 2026 07:16:50 -0800
+  by orviesa004.jf.intel.com with ESMTP; 04 Feb 2026 09:39:30 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vneca-00000000iLA-25QB;
-	Wed, 04 Feb 2026 15:16:48 +0000
-Date: Wed, 4 Feb 2026 23:16:23 +0800
+	id 1vngqe-00000000j3q-1Mv8;
+	Wed, 04 Feb 2026 17:39:28 +0000
+Date: Thu, 5 Feb 2026 01:39:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, Chen Ni <nichen@iscas.ac.cn>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 2/3] fbdev: au1100fb: Make driver compilable on
- non-mips platforms
-Message-ID: <202602042342.RXu7sDV7-lkp@intel.com>
-References: <474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig@baylibre.com>
+To: Mark Brown <broonie@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build failure after merge of the fsverity tree
+Message-ID: <202602050113.5EtCPNU4-lkp@intel.com>
+References: <aYH54qJee85qLLkN@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,73 +67,223 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <aYH54qJee85qLLkN@sirena.org.uk>
 
-Hi Uwe,
+Hi Mark,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 0636e6205beed850d985276dc56fd73d785bea5c]
+[auto build test ERROR on jaegeuk-f2fs/dev-test]
+[also build test ERROR on jaegeuk-f2fs/dev]
+[cannot apply to linus/master v6.19-rc8 next-20260204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/fbdev-au1100fb-Mark-several-local-functions-as-static/20260204-171704
-base:   0636e6205beed850d985276dc56fd73d785bea5c
-patch link:    https://lore.kernel.org/r/474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig%40baylibre.com
-patch subject: [PATCH v1 2/3] fbdev: au1100fb: Make driver compilable on non-mips platforms
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260204/202602042342.RXu7sDV7-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602042342.RXu7sDV7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Brown/linux-next-build-failure-after-merge-of-the-fsverity-tree/20260203-214224
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/aYH54qJee85qLLkN%40sirena.org.uk
+patch subject: linux-next: build failure after merge of the fsverity tree
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260205/202602050113.5EtCPNU4-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602050113.5EtCPNU4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602042342.RXu7sDV7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602050113.5EtCPNU4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/video/fbdev/au1100fb.c: In function 'au1100fb_fb_mmap':
-   drivers/video/fbdev/au1100fb.c:354:39: error: lvalue required as left operand of assignment
-     354 |         pgprot_val(vma->vm_page_prot) |= (6 << 9); //CCA=6
-         |                                       ^~
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/s390/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from arch/s390/include/asm/cmpxchg.h:11,
-                    from arch/s390/include/asm/atomic.h:16,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/s390/include/asm/bitops.h:75,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23,
-                    from include/linux/clk.h:13,
-                    from drivers/video/fbdev/au1100fb.c:44:
-   drivers/video/fbdev/au1100fb.c: In function 'au1100fb_drv_probe':
->> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 2 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   drivers/video/fbdev/au1100fb.h:33:30: note: in expansion of macro 'printk'
-      33 | #define print_err(f, arg...) printk(KERN_ERR DRIVER_NAME ": " f "\n", ## arg)
-         |                              ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   drivers/video/fbdev/au1100fb.h:33:37: note: in expansion of macro 'KERN_ERR'
-      33 | #define print_err(f, arg...) printk(KERN_ERR DRIVER_NAME ": " f "\n", ## arg)
-         |                                     ^~~~~~~~
-   drivers/video/fbdev/au1100fb.c:472:17: note: in expansion of macro 'print_err'
-     472 |                 print_err("fail to allocate framebuffer (size: %dK))",
-         |                 ^~~~~~~~~
+   fs/f2fs/data.c: In function 'f2fs_read_data_large_folio':
+   fs/f2fs/data.c:2523:51: error: passing argument 1 of 'fsverity_verify_page' from incompatible pointer type [-Wincompatible-pointer-types]
+    2523 |                             !fsverity_verify_page(vi, folio_file_page(folio,
+         |                                                   ^~
+         |                                                   |
+         |                                                   struct fsverity_info *
+   In file included from fs/f2fs/f2fs.h:29,
+                    from fs/f2fs/data.c:24:
+   include/linux/fsverity.h:298:54: note: expected 'struct page *' but argument is of type 'struct fsverity_info *'
+     298 | static inline bool fsverity_verify_page(struct page *page)
+         |                                         ~~~~~~~~~~~~~^~~~
+>> fs/f2fs/data.c:2523:30: error: too many arguments to function 'fsverity_verify_page'
+    2523 |                             !fsverity_verify_page(vi, folio_file_page(folio,
+         |                              ^~~~~~~~~~~~~~~~~~~~
+   include/linux/fsverity.h:298:20: note: declared here
+     298 | static inline bool fsverity_verify_page(struct page *page)
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/data.c:2555:57: error: passing argument 2 of 'f2fs_grab_read_bio' makes integer from pointer without a cast [-Wint-conversion]
+    2555 |                         bio = f2fs_grab_read_bio(inode, vi, block_nr,
+         |                                                         ^~
+         |                                                         |
+         |                                                         struct fsverity_info *
+   fs/f2fs/data.c:1097:68: note: expected 'block_t' {aka 'unsigned int'} but argument is of type 'struct fsverity_info *'
+    1097 | static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
+         |                                                            ~~~~~~~~^~~~~~~
+>> fs/f2fs/data.c:2555:31: error: too many arguments to function 'f2fs_grab_read_bio'
+    2555 |                         bio = f2fs_grab_read_bio(inode, vi, block_nr,
+         |                               ^~~~~~~~~~~~~~~~~~
+   fs/f2fs/data.c:1097:20: note: declared here
+    1097 | static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
+         |                    ^~~~~~~~~~~~~~~~~~
+   fs/f2fs/data.c: In function 'f2fs_mpage_readpages':
+   fs/f2fs/data.c:2629:58: error: 'vi' undeclared (first use in this function)
+    2629 |                 return f2fs_read_data_large_folio(inode, vi, rac, folio);
+         |                                                          ^~
+   fs/f2fs/data.c:2629:58: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +5 include/linux/kern_levels.h
+vim +/fsverity_verify_page +2523 fs/f2fs/data.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+  2449	
+  2450	static int f2fs_read_data_large_folio(struct inode *inode,
+  2451			struct fsverity_info *vi,
+  2452			struct readahead_control *rac, struct folio *folio)
+  2453	{
+  2454		struct bio *bio = NULL;
+  2455		sector_t last_block_in_bio = 0;
+  2456		struct f2fs_map_blocks map = {0, };
+  2457		pgoff_t index, offset, next_pgofs = 0;
+  2458		unsigned max_nr_pages = rac ? readahead_count(rac) :
+  2459					folio_nr_pages(folio);
+  2460		unsigned nrpages;
+  2461		struct f2fs_folio_state *ffs;
+  2462		int ret = 0;
+  2463		bool folio_in_bio;
+  2464	
+  2465		if (!IS_IMMUTABLE(inode) || f2fs_compressed_file(inode)) {
+  2466			if (folio)
+  2467				folio_unlock(folio);
+  2468			return -EOPNOTSUPP;
+  2469		}
+  2470	
+  2471		map.m_seg_type = NO_CHECK_TYPE;
+  2472	
+  2473		if (rac)
+  2474			folio = readahead_folio(rac);
+  2475	next_folio:
+  2476		if (!folio)
+  2477			goto out;
+  2478	
+  2479		folio_in_bio = false;
+  2480		index = folio->index;
+  2481		offset = 0;
+  2482		ffs = NULL;
+  2483		nrpages = folio_nr_pages(folio);
+  2484	
+  2485		for (; nrpages; nrpages--, max_nr_pages--, index++, offset++) {
+  2486			sector_t block_nr;
+  2487			/*
+  2488			 * Map blocks using the previous result first.
+  2489			 */
+  2490			if (map.m_flags & F2FS_MAP_MAPPED) {
+  2491				if (index > map.m_lblk &&
+  2492					index < (map.m_lblk + map.m_len))
+  2493					goto got_it;
+  2494			} else if (index < next_pgofs) {
+  2495				/* hole case */
+  2496				goto got_it;
+  2497			}
+  2498	
+  2499			/*
+  2500			 * Then do more f2fs_map_blocks() calls until we are
+  2501			 * done with this page.
+  2502			 */
+  2503			memset(&map, 0, sizeof(map));
+  2504			map.m_next_pgofs = &next_pgofs;
+  2505			map.m_seg_type = NO_CHECK_TYPE;
+  2506			map.m_lblk = index;
+  2507			map.m_len = max_nr_pages;
+  2508	
+  2509			ret = f2fs_map_blocks(inode, &map, F2FS_GET_BLOCK_DEFAULT);
+  2510			if (ret)
+  2511				goto err_out;
+  2512	got_it:
+  2513			if ((map.m_flags & F2FS_MAP_MAPPED)) {
+  2514				block_nr = map.m_pblk + index - map.m_lblk;
+  2515				if (!f2fs_is_valid_blkaddr(F2FS_I_SB(inode), block_nr,
+  2516							DATA_GENERIC_ENHANCE_READ)) {
+  2517					ret = -EFSCORRUPTED;
+  2518					goto err_out;
+  2519				}
+  2520			} else {
+  2521				folio_zero_range(folio, offset << PAGE_SHIFT, PAGE_SIZE);
+  2522				if (f2fs_need_verity(inode, index) &&
+> 2523				    !fsverity_verify_page(vi, folio_file_page(folio,
+  2524									index))) {
+  2525					ret = -EIO;
+  2526					goto err_out;
+  2527				}
+  2528				continue;
+  2529			}
+  2530	
+  2531			/* We must increment read_pages_pending before possible BIOs submitting
+  2532			 * to prevent from premature folio_end_read() call on folio
+  2533			 */
+  2534			if (folio_test_large(folio)) {
+  2535				ffs = ffs_find_or_alloc(folio);
+  2536	
+  2537				/* set the bitmap to wait */
+  2538				spin_lock_irq(&ffs->state_lock);
+  2539				ffs->read_pages_pending++;
+  2540				spin_unlock_irq(&ffs->state_lock);
+  2541			}
+  2542	
+  2543			/*
+  2544			 * This page will go to BIO.  Do we need to send this
+  2545			 * BIO off first?
+  2546			 */
+  2547			if (bio && (!page_is_mergeable(F2FS_I_SB(inode), bio,
+  2548							last_block_in_bio, block_nr) ||
+  2549				!f2fs_crypt_mergeable_bio(bio, inode, index, NULL))) {
+  2550	submit_and_realloc:
+  2551				f2fs_submit_read_bio(F2FS_I_SB(inode), bio, DATA);
+  2552				bio = NULL;
+  2553			}
+  2554			if (bio == NULL)
+> 2555				bio = f2fs_grab_read_bio(inode, vi, block_nr,
+  2556						max_nr_pages,
+  2557						f2fs_ra_op_flags(rac),
+  2558						index, false);
+  2559	
+  2560			/*
+  2561			 * If the page is under writeback, we need to wait for
+  2562			 * its completion to see the correct decrypted data.
+  2563			 */
+  2564			f2fs_wait_on_block_writeback(inode, block_nr);
+  2565	
+  2566			if (!bio_add_folio(bio, folio, F2FS_BLKSIZE,
+  2567						offset << PAGE_SHIFT))
+  2568				goto submit_and_realloc;
+  2569	
+  2570			folio_in_bio = true;
+  2571			inc_page_count(F2FS_I_SB(inode), F2FS_RD_DATA);
+  2572			f2fs_update_iostat(F2FS_I_SB(inode), NULL, FS_DATA_READ_IO,
+  2573					F2FS_BLKSIZE);
+  2574			last_block_in_bio = block_nr;
+  2575		}
+  2576		trace_f2fs_read_folio(folio, DATA);
+  2577	err_out:
+  2578		if (!folio_in_bio) {
+  2579			folio_end_read(folio, !ret);
+  2580			if (ret)
+  2581				return ret;
+  2582		}
+  2583		if (rac) {
+  2584			folio = readahead_folio(rac);
+  2585			goto next_folio;
+  2586		}
+  2587	out:
+  2588		f2fs_submit_read_bio(F2FS_I_SB(inode), bio, DATA);
+  2589		if (ret) {
+  2590			/* Wait bios and clear uptodate. */
+  2591			folio_lock(folio);
+  2592			folio_clear_uptodate(folio);
+  2593			folio_unlock(folio);
+  2594		}
+  2595		return ret;
+  2596	}
+  2597	
 
 -- 
 0-DAY CI Kernel Test Service
