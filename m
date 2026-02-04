@@ -1,69 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFBA43C04D;
-	Wed,  4 Feb 2026 20:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B039C27464F;
+	Wed,  4 Feb 2026 21:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770238722; cv=none; b=bJ2ZSKXLqF+psij40ByfQ8pv1EgOQkYhjQHUbUNedSboud5wXZs1o/xkQ3URdZk4el0CeR/FZUyW/H59NdaFCAJetmEOcYNmXBEErJF9LTu5KEG93ZGJH4trFxl7HvR57rxXRqKPfmxtwTrp17iGsc+Sp1c3PaVsXdfv7RnBdOs=
+	t=1770239319; cv=none; b=eEMr24hFaP9MxY+j8YdNvlUH30d9iQcecczZzEMS1eS3Zh88MRm8GO3m4ItwrE+blRSQa5VTYrBQ/G1R9NBExE4w73Ft6PuVA/j70ztqhckS5lmcOvHm5KzNKMZlhMr+2FLFcXVfZ6pTjQGw8UziLeNc+kJx1F55w2ri5qpe+90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770238722; c=relaxed/simple;
-	bh=CN9YO0PgY9VI+ArnyPEylWMxEb/sOXmyT3jzqAtcOVc=;
+	s=arc-20240116; t=1770239319; c=relaxed/simple;
+	bh=ykZMW0n/OymBHp4Vhbjxh3NXA724SdAeQAxdcV/9Jl8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h25YiSI3gRUVeu4x/KZ3lpqagDD9YK3opwLtdebjbJVVaOcrqHZcf7LfgmV1OporJyuTN4ANW4ZYuDCKmGUgI81x+iXEpyyPBNUolUbm3a+HcLzqiXg/Ce2QN79v/SfxpwBV4j3GHLqQag9cW9mreAM//LmccBRkCxqqYS9kpzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oo4R8HDp; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=dF6JJoorZm9w0LSAnCYjzSteTxqUnU2XVTTjaxgedKsALo9sv4mpZbPMVGWTCTe44isI29Hjhvlm/qL2S/1GUWz06c62EJRLTrrCcK2nn5iJFOW7wWxdhxmHfn9r2HM1RdLW11cWqqm/asDPWJwzKcMtr+nR6q+FVTgh5/2DKP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fA3Q1R38; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oo4R8HDp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fA3Q1R38"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770238722; x=1801774722;
+  t=1770239319; x=1801775319;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CN9YO0PgY9VI+ArnyPEylWMxEb/sOXmyT3jzqAtcOVc=;
-  b=Oo4R8HDpnzOqF2fOwRtYOdF3IYlAhpb7LUoRF+ntQCQt7iCQ+HWauF7S
-   Csam/lHS60M9vrY4M1MYF3rFU4nRS6UD/KgUlLZ1Yjyn5HMqipChznMRo
-   PonMuvEMdngUgdXxcsKDhjWnAj51YmKNq0WvqmBoCTkmntXwOpF3j4NAB
-   xhHd6atjy4rsxXbJseWeD/DUUJHEk3u6y2ODCHn6LkgQgZt1Tvj6Amsbz
-   6uZt0x8Z4EtromBVZYUzGbuhYgMoNF80w2IF9eIo1jmP2SklMcdA9uZfr
-   f49dQlgCa1GVCsGkohI+sEFkXDdK43bGqm81uTCth8xkAa6+HOBnmalan
-   w==;
-X-CSE-ConnectionGUID: 3q8ce7cITeGeE5+asIJqsQ==
-X-CSE-MsgGUID: +CiJ3wZoSGexXuGBm5ryyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="59010628"
+  bh=ykZMW0n/OymBHp4Vhbjxh3NXA724SdAeQAxdcV/9Jl8=;
+  b=fA3Q1R38rXOmqWUimUO0hC9A1a2CfwQ0gh3VQlxOY3mi6YVRySokH3W3
+   BkeSioUV0bSOieq9ryk6uOQkjVbEJk/XBwGJTYbRfg4Jn5mSiDSx3hjAv
+   PLXZOMoXtcNyGcKWTS5aQbN4krRIAK9rLX5g27p71wBBE2KD1wAWY9aJD
+   t5bkgH7XkIUciKU8pJ8zrivO6XDG7t95uJ/OYuO4BqLEh4VSBo5PzX7fe
+   KY/TmGDOTCuOZTgba0+SpissByeb0iBZnTXnGAneWr2jG1IvjNLVnoxnY
+   SQzuJRCwSxQBreFmaonLI1cPlaAGMJSeETOeBPemHMjf0ewrXqvecKOMI
+   A==;
+X-CSE-ConnectionGUID: quW1IGm9Q5yvcRr2s/9UMA==
+X-CSE-MsgGUID: pFgT2hfyTY+r+/ho6THQoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71163734"
 X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
-   d="scan'208";a="59010628"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 12:58:41 -0800
-X-CSE-ConnectionGUID: Gm0rRqvATbeCSULMVTyJrw==
-X-CSE-MsgGUID: CsULfVJxTu2u8gi1KxvG6A==
+   d="scan'208";a="71163734"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 13:08:39 -0800
+X-CSE-ConnectionGUID: eloDUkoTT361vrMnJFHHRg==
+X-CSE-MsgGUID: 5vO55lB4Sz6ut1vF9qqyNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
-   d="scan'208";a="210058685"
+   d="scan'208";a="210375458"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Feb 2026 12:58:36 -0800
+  by orviesa007.jf.intel.com with ESMTP; 04 Feb 2026 13:08:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnjxJ-00000000jAa-24qd;
-	Wed, 04 Feb 2026 20:58:33 +0000
-Date: Thu, 5 Feb 2026 04:57:33 +0800
+	id 1vnk6z-00000000jAm-2oW6;
+	Wed, 04 Feb 2026 21:08:33 +0000
+Date: Thu, 5 Feb 2026 05:07:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zixing Liu <liushuyu@aosc.io>, WANG Xuerui <kernel@xen0n.name>,
-	Huacai Chen <chenhuacai@kernel.org>, Bibo Mao <maobibo@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, Kexy Biscuit <kexybiscuit@aosc.io>,
-	Mingcong Bai <jeffbai@aosc.io>, Zixing Liu <liushuyu@aosc.io>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tianrui Zhao <zhaotianrui@loongson.cn>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
-Message-ID: <202602050419.lwzj2i73-lkp@intel.com>
-References: <20260204113601.912413-1-liushuyu@aosc.io>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	jikos@kernel.org, bentiss@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, oleg@makarenk.ooo,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tomasz.pakula.oficjalny@gmail.com
+Subject: Re: [PATCH v2] HID: pidff: Fix condition effect bit clearing
+Message-ID: <202602050440.e5LEMod6-lkp@intel.com>
+References: <20260204133138.475880-1-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,311 +65,143 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260204113601.912413-1-liushuyu@aosc.io>
+In-Reply-To: <20260204133138.475880-1-tomasz.pakula.oficjalny@gmail.com>
 
-Hi Zixing,
+Hi Tomasz,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on kvm/next linus/master v6.19-rc8]
-[cannot apply to kvm/linux-next next-20260204]
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.19-rc8 next-20260204]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zixing-Liu/KVM-Add-KVM_GET_REG_LIST-ioctl-for-LoongArch/20260204-193844
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20260204113601.912413-1-liushuyu%40aosc.io
-patch subject: [PATCH v4] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
-config: loongarch-randconfig-002-20260204 (https://download.01.org/0day-ci/archive/20260205/202602050419.lwzj2i73-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602050419.lwzj2i73-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Paku-a/HID-pidff-Fix-condition-effect-bit-clearing/20260204-213418
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20260204133138.475880-1-tomasz.pakula.oficjalny%40gmail.com
+patch subject: [PATCH v2] HID: pidff: Fix condition effect bit clearing
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260205/202602050440.e5LEMod6-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602050440.e5LEMod6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602050419.lwzj2i73-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602050440.e5LEMod6-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/loongarch/include/asm/kvm_mmu.h:9,
-                    from arch/loongarch/include/asm/kvm_host.h:21,
-                    from arch/loongarch/kvm/vcpu.c:6:
->> include/linux/kvm_host.h:389:30: error: field 'arch' has incomplete type
-     389 |         struct kvm_vcpu_arch arch;
-         |                              ^~~~
->> include/linux/kvm_host.h:390:30: error: field 'stat' has incomplete type
-     390 |         struct kvm_vcpu_stat stat;
-         |                              ^~~~
-   include/linux/kvm_host.h:601:37: error: field 'arch' has incomplete type
-     601 |         struct kvm_arch_memory_slot arch;
-         |                                     ^~~~
-   include/linux/kvm_host.h:831:28: error: field 'stat' has incomplete type
-     831 |         struct kvm_vm_stat stat;
-         |                            ^~~~
-   include/linux/kvm_host.h:832:25: error: field 'arch' has incomplete type
-     832 |         struct kvm_arch arch;
-         |                         ^~~~
-   include/linux/kvm_host.h: In function 'kvm_get_vcpu_by_id':
->> include/linux/kvm_host.h:1023:18: error: 'KVM_MAX_VCPUS' undeclared (first use in this function); did you mean 'KVM_MAX_VCPU_IDS'?
-    1023 |         if (id < KVM_MAX_VCPUS)
-         |                  ^~~~~~~~~~~~~
-         |                  KVM_MAX_VCPU_IDS
-   include/linux/kvm_host.h:1023:18: note: each undeclared identifier is reported only once for each function it appears in
-   arch/loongarch/include/asm/kvm_host.h: At top level:
->> arch/loongarch/include/asm/kvm_host.h:46:9: warning: 'KVM_DIRTY_LOG_MANUAL_CAPS' redefined
-      46 | #define KVM_DIRTY_LOG_MANUAL_CAPS       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:643:9: note: this is the location of the previous definition
-     643 | #define KVM_DIRTY_LOG_MANUAL_CAPS KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/kvm_host.h:337:20: error: static declaration of 'kvm_arch_memslots_updated' follows non-static declaration
-     337 | static inline void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1237:6: note: previous declaration of 'kvm_arch_memslots_updated' with type 'void(struct kvm *, u64)' {aka 'void(struct kvm *, long long unsigned int)'}
-    1237 | void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/kvm_host.h:338:20: error: static declaration of 'kvm_arch_vcpu_blocking' follows non-static declaration
-     338 | static inline void kvm_arch_vcpu_blocking(struct kvm_vcpu *vcpu) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1522:6: note: previous declaration of 'kvm_arch_vcpu_blocking' with type 'void(struct kvm_vcpu *)'
-    1522 | void kvm_arch_vcpu_blocking(struct kvm_vcpu *vcpu);
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/kvm_host.h:339:20: error: static declaration of 'kvm_arch_vcpu_unblocking' follows non-static declaration
-     339 | static inline void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1523:6: note: previous declaration of 'kvm_arch_vcpu_unblocking' with type 'void(struct kvm_vcpu *)'
-    1523 | void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/kvm_host.h:341:20: error: static declaration of 'kvm_arch_free_memslot' follows non-static declaration
-     341 | static inline void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1236:6: note: previous declaration of 'kvm_arch_free_memslot' with type 'void(struct kvm *, struct kvm_memory_slot *)'
-    1236 | void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot);
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/loongarch/include/asm/kvm_csr.h:12,
-                    from arch/loongarch/kvm/trace.h:10,
-                    from arch/loongarch/kvm/vcpu.c:16:
-   arch/loongarch/include/asm/kvm_vcpu.h: In function 'kvm_read_reg':
->> arch/loongarch/include/asm/kvm_vcpu.h:120:69: warning: parameter 'num' set but not used [-Wunused-but-set-parameter]
-     120 | static inline unsigned long kvm_read_reg(struct kvm_vcpu *vcpu, int num)
-         |                                                                 ~~~~^~~
-   arch/loongarch/include/asm/kvm_vcpu.h: In function 'kvm_write_reg':
-   arch/loongarch/include/asm/kvm_vcpu.h:125:61: warning: parameter 'num' set but not used [-Wunused-but-set-parameter]
-     125 | static inline void kvm_write_reg(struct kvm_vcpu *vcpu, int num, unsigned long val)
-         |                                                         ~~~~^~~
-   In file included from include/linux/string.h:386,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:11,
-                    from arch/loongarch/include/asm/kvm_host.h:9:
-   arch/loongarch/kvm/vcpu.c: In function 'kvm_set_one_reg':
-   include/linux/fortify-string.h:503:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     503 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
-         |                                                                 ^
-   include/linux/fortify-string.h:512:25: note: in expansion of macro '__fortify_memset_chk'
-     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kvm/vcpu.c:920:25: note: in expansion of macro 'memset'
-     920 |                         memset(&vcpu->arch.irq_pending, 0, sizeof(vcpu->arch.irq_pending));
-         |                         ^~~~~~
-   include/linux/fortify-string.h:503:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     503 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
-         |                                                                 ^
-   include/linux/fortify-string.h:512:25: note: in expansion of macro '__fortify_memset_chk'
-     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kvm/vcpu.c:921:25: note: in expansion of macro 'memset'
-     921 |                         memset(&vcpu->arch.irq_clear, 0, sizeof(vcpu->arch.irq_clear));
-         |                         ^~~~~~
-   In file included from include/asm-generic/barrier.h:16,
-                    from arch/loongarch/include/asm/barrier.h:137,
-                    from arch/loongarch/include/asm/atomic.h:11,
-                    from include/linux/atomic.h:7,
-                    from include/linux/cpumask.h:10:
-   arch/loongarch/kvm/vcpu.c: In function 'kvm_arch_vcpu_ioctl_get_regs':
->> include/linux/compiler.h:201:82: error: expression in static assertion is not an integer
-     201 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:206:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     206 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   arch/loongarch/kvm/vcpu.c:975:25: note: in expansion of macro 'ARRAY_SIZE'
-     975 |         for (i = 0; i < ARRAY_SIZE(vcpu->arch.gprs); i++)
-         |                         ^~~~~~~~~~
-   arch/loongarch/kvm/vcpu.c: In function 'kvm_arch_vcpu_ioctl_set_regs':
->> include/linux/compiler.h:201:82: error: expression in static assertion is not an integer
-     201 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:206:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     206 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   arch/loongarch/kvm/vcpu.c:987:25: note: in expansion of macro 'ARRAY_SIZE'
-     987 |         for (i = 1; i < ARRAY_SIZE(vcpu->arch.gprs); i++)
-         |                         ^~~~~~~~~~
---
-   In file included from arch/loongarch/include/asm/kvm_mmu.h:9,
-                    from arch/loongarch/include/asm/kvm_host.h:21,
-                    from vcpu.c:6:
->> include/linux/kvm_host.h:389:30: error: field 'arch' has incomplete type
-     389 |         struct kvm_vcpu_arch arch;
-         |                              ^~~~
->> include/linux/kvm_host.h:390:30: error: field 'stat' has incomplete type
-     390 |         struct kvm_vcpu_stat stat;
-         |                              ^~~~
-   include/linux/kvm_host.h:601:37: error: field 'arch' has incomplete type
-     601 |         struct kvm_arch_memory_slot arch;
-         |                                     ^~~~
-   include/linux/kvm_host.h:831:28: error: field 'stat' has incomplete type
-     831 |         struct kvm_vm_stat stat;
-         |                            ^~~~
-   include/linux/kvm_host.h:832:25: error: field 'arch' has incomplete type
-     832 |         struct kvm_arch arch;
-         |                         ^~~~
-   include/linux/kvm_host.h: In function 'kvm_get_vcpu_by_id':
->> include/linux/kvm_host.h:1023:18: error: 'KVM_MAX_VCPUS' undeclared (first use in this function); did you mean 'KVM_MAX_VCPU_IDS'?
-    1023 |         if (id < KVM_MAX_VCPUS)
-         |                  ^~~~~~~~~~~~~
-         |                  KVM_MAX_VCPU_IDS
-   include/linux/kvm_host.h:1023:18: note: each undeclared identifier is reported only once for each function it appears in
-   arch/loongarch/include/asm/kvm_host.h: At top level:
->> arch/loongarch/include/asm/kvm_host.h:46:9: warning: 'KVM_DIRTY_LOG_MANUAL_CAPS' redefined
-      46 | #define KVM_DIRTY_LOG_MANUAL_CAPS       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:643:9: note: this is the location of the previous definition
-     643 | #define KVM_DIRTY_LOG_MANUAL_CAPS KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/kvm_host.h:337:20: error: static declaration of 'kvm_arch_memslots_updated' follows non-static declaration
-     337 | static inline void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1237:6: note: previous declaration of 'kvm_arch_memslots_updated' with type 'void(struct kvm *, u64)' {aka 'void(struct kvm *, long long unsigned int)'}
-    1237 | void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/kvm_host.h:338:20: error: static declaration of 'kvm_arch_vcpu_blocking' follows non-static declaration
-     338 | static inline void kvm_arch_vcpu_blocking(struct kvm_vcpu *vcpu) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1522:6: note: previous declaration of 'kvm_arch_vcpu_blocking' with type 'void(struct kvm_vcpu *)'
-    1522 | void kvm_arch_vcpu_blocking(struct kvm_vcpu *vcpu);
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/kvm_host.h:339:20: error: static declaration of 'kvm_arch_vcpu_unblocking' follows non-static declaration
-     339 | static inline void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1523:6: note: previous declaration of 'kvm_arch_vcpu_unblocking' with type 'void(struct kvm_vcpu *)'
-    1523 | void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/kvm_host.h:341:20: error: static declaration of 'kvm_arch_free_memslot' follows non-static declaration
-     341 | static inline void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1236:6: note: previous declaration of 'kvm_arch_free_memslot' with type 'void(struct kvm *, struct kvm_memory_slot *)'
-    1236 | void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot);
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/loongarch/include/asm/kvm_csr.h:12,
-                    from trace.h:10,
-                    from vcpu.c:16:
-   arch/loongarch/include/asm/kvm_vcpu.h: In function 'kvm_read_reg':
->> arch/loongarch/include/asm/kvm_vcpu.h:120:69: warning: parameter 'num' set but not used [-Wunused-but-set-parameter]
-     120 | static inline unsigned long kvm_read_reg(struct kvm_vcpu *vcpu, int num)
-         |                                                                 ~~~~^~~
-   arch/loongarch/include/asm/kvm_vcpu.h: In function 'kvm_write_reg':
-   arch/loongarch/include/asm/kvm_vcpu.h:125:61: warning: parameter 'num' set but not used [-Wunused-but-set-parameter]
-     125 | static inline void kvm_write_reg(struct kvm_vcpu *vcpu, int num, unsigned long val)
-         |                                                         ~~~~^~~
-   In file included from include/linux/string.h:386,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:11,
-                    from arch/loongarch/include/asm/kvm_host.h:9:
-   vcpu.c: In function 'kvm_set_one_reg':
-   include/linux/fortify-string.h:503:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     503 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
-         |                                                                 ^
-   include/linux/fortify-string.h:512:25: note: in expansion of macro '__fortify_memset_chk'
-     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   vcpu.c:920:25: note: in expansion of macro 'memset'
-     920 |                         memset(&vcpu->arch.irq_pending, 0, sizeof(vcpu->arch.irq_pending));
-         |                         ^~~~~~
-   include/linux/fortify-string.h:503:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     503 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
-         |                                                                 ^
-   include/linux/fortify-string.h:512:25: note: in expansion of macro '__fortify_memset_chk'
-     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   vcpu.c:921:25: note: in expansion of macro 'memset'
-     921 |                         memset(&vcpu->arch.irq_clear, 0, sizeof(vcpu->arch.irq_clear));
-         |                         ^~~~~~
-   In file included from include/asm-generic/barrier.h:16,
-                    from arch/loongarch/include/asm/barrier.h:137,
-                    from arch/loongarch/include/asm/atomic.h:11,
-                    from include/linux/atomic.h:7,
-                    from include/linux/cpumask.h:10:
-   vcpu.c: In function 'kvm_arch_vcpu_ioctl_get_regs':
->> include/linux/compiler.h:201:82: error: expression in static assertion is not an integer
-     201 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:206:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     206 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   vcpu.c:975:25: note: in expansion of macro 'ARRAY_SIZE'
-     975 |         for (i = 0; i < ARRAY_SIZE(vcpu->arch.gprs); i++)
-         |                         ^~~~~~~~~~
-   vcpu.c: In function 'kvm_arch_vcpu_ioctl_set_regs':
->> include/linux/compiler.h:201:82: error: expression in static assertion is not an integer
-     201 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:206:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     206 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   vcpu.c:987:25: note: in expansion of macro 'ARRAY_SIZE'
-     987 |         for (i = 1; i < ARRAY_SIZE(vcpu->arch.gprs); i++)
-         |                         ^~~~~~~~~~
+>> drivers/hid/usbhid/hid-pidff.c:1456:7: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
+    1456 |                 if (test_and_clear_bit(FF_SPRING, dev->ffbit)   |
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1457 |                     test_and_clear_bit(FF_DAMPER, dev->ffbit)   |
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1458 |                     test_and_clear_bit(FF_FRICTION, dev->ffbit) |
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                 ||
+    1459 |                     test_and_clear_bit(FF_INERTIA, dev->ffbit))
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/usbhid/hid-pidff.c:1456:7: note: cast one or both operands to int to silence this warning
+>> drivers/hid/usbhid/hid-pidff.c:1456:7: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
+    1456 |                 if (test_and_clear_bit(FF_SPRING, dev->ffbit)   |
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1457 |                     test_and_clear_bit(FF_DAMPER, dev->ffbit)   |
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                 ||
+    1458 |                     test_and_clear_bit(FF_FRICTION, dev->ffbit) |
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/usbhid/hid-pidff.c:1456:7: note: cast one or both operands to int to silence this warning
+>> drivers/hid/usbhid/hid-pidff.c:1456:7: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
+    1456 |                 if (test_and_clear_bit(FF_SPRING, dev->ffbit)   |
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                 ||
+    1457 |                     test_and_clear_bit(FF_DAMPER, dev->ffbit)   |
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/usbhid/hid-pidff.c:1456:7: note: cast one or both operands to int to silence this warning
+   3 warnings generated.
 
 
-vim +/arch +389 include/linux/kvm_host.h
+vim +1456 drivers/hid/usbhid/hid-pidff.c
 
-af585b921e5d1e9 include/linux/kvm_host.h Gleb Natapov        2010-10-14  372  
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  373  #ifdef CONFIG_HAVE_KVM_CPU_RELAX_INTERCEPT
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  374  	/*
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  375  	 * Cpu relax intercept or pause loop exit optimization
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  376  	 * in_spin_loop: set when a vcpu does a pause loop exit
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  377  	 *  or cpu relax intercepted.
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  378  	 * dy_eligible: indicates whether vcpu is eligible for directed yield.
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  379  	 */
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  380  	struct {
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  381  		bool in_spin_loop;
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  382  		bool dy_eligible;
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  383  	} spin_loop;
-4c088493c8d07e4 include/linux/kvm_host.h Raghavendra K T     2012-07-18  384  #endif
-a6816314af5749c include/linux/kvm_host.h David Matlack       2024-05-03  385  	bool wants_to_run;
-3a08a8f9f0936e1 include/linux/kvm_host.h Raghavendra K T     2013-03-04  386  	bool preempted;
-d73eb57b80b98ae include/linux/kvm_host.h Wanpeng Li          2019-07-18  387  	bool ready;
-d1ae567fb8b5594 include/linux/kvm_host.h Sean Christopherson 2024-05-21  388  	bool scheduled_out;
-d657a98e3c20537 drivers/kvm/kvm.h        Zhang Xiantao       2007-12-14 @389  	struct kvm_vcpu_arch arch;
-ce55c049459cff0 include/linux/kvm_host.h Jing Zhang          2021-06-18 @390  	struct kvm_vcpu_stat stat;
-ce55c049459cff0 include/linux/kvm_host.h Jing Zhang          2021-06-18  391  	char stats_id[KVM_STATS_NAME_SIZE];
-fb04a1eddb1a65b include/linux/kvm_host.h Peter Xu            2020-09-30  392  	struct kvm_dirty_ring dirty_ring;
-fe22ed827c5b60b include/linux/kvm_host.h David Matlack       2021-08-04  393  
-fe22ed827c5b60b include/linux/kvm_host.h David Matlack       2021-08-04  394  	/*
-a54d806688fe1e4 include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  395  	 * The most recently used memslot by this vCPU and the slots generation
-a54d806688fe1e4 include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  396  	 * for which it is valid.
-a54d806688fe1e4 include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  397  	 * No wraparound protection is needed since generations won't overflow in
-a54d806688fe1e4 include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  398  	 * thousands of years, even assuming 1M memslot operations per second.
-fe22ed827c5b60b include/linux/kvm_host.h David Matlack       2021-08-04  399  	 */
-a54d806688fe1e4 include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  400  	struct kvm_memory_slot *last_used_slot;
-a54d806688fe1e4 include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  401  	u64 last_used_slot_gen;
-d657a98e3c20537 drivers/kvm/kvm.h        Zhang Xiantao       2007-12-14  402  };
-d657a98e3c20537 drivers/kvm/kvm.h        Zhang Xiantao       2007-12-14  403  
+  1398	
+  1399	#define PIDFF_FIND_FIELDS(name, report, strict) \
+  1400		pidff_find_fields(pidff->name, pidff_ ## name, \
+  1401			pidff->reports[report], \
+  1402			ARRAY_SIZE(pidff_ ## name), strict, &pidff->quirks)
+  1403	
+  1404	/*
+  1405	 * Fill and check the pidff_usages
+  1406	 */
+  1407	static int pidff_init_fields(struct pidff_device *pidff, struct input_dev *dev)
+  1408	{
+  1409		if (PIDFF_FIND_FIELDS(set_effect, PID_SET_EFFECT, 1)) {
+  1410			hid_err(pidff->hid, "unknown set_effect report layout\n");
+  1411			return -ENODEV;
+  1412		}
+  1413	
+  1414		PIDFF_FIND_FIELDS(block_load, PID_BLOCK_LOAD, 0);
+  1415		if (!pidff->block_load[PID_EFFECT_BLOCK_INDEX].value) {
+  1416			hid_err(pidff->hid, "unknown pid_block_load report layout\n");
+  1417			return -ENODEV;
+  1418		}
+  1419	
+  1420		if (PIDFF_FIND_FIELDS(effect_operation, PID_EFFECT_OPERATION, 1)) {
+  1421			hid_err(pidff->hid, "unknown effect_operation report layout\n");
+  1422			return -ENODEV;
+  1423		}
+  1424	
+  1425		if (PIDFF_FIND_FIELDS(block_free, PID_BLOCK_FREE, 1)) {
+  1426			hid_err(pidff->hid, "unknown pid_block_free report layout\n");
+  1427			return -ENODEV;
+  1428		}
+  1429	
+  1430		if (pidff_find_special_fields(pidff) || pidff_find_effects(pidff, dev))
+  1431			return -ENODEV;
+  1432	
+  1433		if (PIDFF_FIND_FIELDS(set_envelope, PID_SET_ENVELOPE, 1)) {
+  1434			if (test_and_clear_bit(FF_CONSTANT, dev->ffbit))
+  1435				hid_warn(pidff->hid,
+  1436					 "has constant effect but no envelope\n");
+  1437			if (test_and_clear_bit(FF_RAMP, dev->ffbit))
+  1438				hid_warn(pidff->hid,
+  1439					 "has ramp effect but no envelope\n");
+  1440	
+  1441			if (test_and_clear_bit(FF_PERIODIC, dev->ffbit))
+  1442				hid_warn(pidff->hid,
+  1443					 "has periodic effect but no envelope\n");
+  1444		}
+  1445	
+  1446		if (PIDFF_FIND_FIELDS(set_constant, PID_SET_CONSTANT, 1) &&
+  1447		    test_and_clear_bit(FF_CONSTANT, dev->ffbit))
+  1448			hid_warn(pidff->hid, "unknown constant effect layout\n");
+  1449	
+  1450		if (PIDFF_FIND_FIELDS(set_ramp, PID_SET_RAMP, 1) &&
+  1451		    test_and_clear_bit(FF_RAMP, dev->ffbit))
+  1452			hid_warn(pidff->hid, "unknown ramp effect layout\n");
+  1453	
+  1454		if (PIDFF_FIND_FIELDS(set_condition, PID_SET_CONDITION, 1)) {
+  1455			/* Bitwise to ensure all the bits will be cleared */
+> 1456			if (test_and_clear_bit(FF_SPRING, dev->ffbit)   |
+  1457			    test_and_clear_bit(FF_DAMPER, dev->ffbit)   |
+  1458			    test_and_clear_bit(FF_FRICTION, dev->ffbit) |
+  1459			    test_and_clear_bit(FF_INERTIA, dev->ffbit))
+  1460				hid_warn(pidff->hid, "unknown condition effect layout\n");
+  1461		}
+  1462	
+  1463		if (PIDFF_FIND_FIELDS(set_periodic, PID_SET_PERIODIC, 1) &&
+  1464		    test_and_clear_bit(FF_PERIODIC, dev->ffbit))
+  1465			hid_warn(pidff->hid, "unknown periodic effect layout\n");
+  1466	
+  1467		PIDFF_FIND_FIELDS(pool, PID_POOL, 0);
+  1468	
+  1469		if (!PIDFF_FIND_FIELDS(device_gain, PID_DEVICE_GAIN, 1))
+  1470			set_bit(FF_GAIN, dev->ffbit);
+  1471	
+  1472		return 0;
+  1473	}
+  1474	
 
 -- 
 0-DAY CI Kernel Test Service
