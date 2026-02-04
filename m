@@ -1,76 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C132BE639;
-	Wed,  4 Feb 2026 12:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7D040FD89;
+	Wed,  4 Feb 2026 14:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770207026; cv=none; b=ZSZg3mtrQZebwZsmW3eCLXBNPNIUu1pe93ijXxPriYZ4J2XC7utm7gYdzPxP9hcBNU25AN2DmKU6u5jjbtYrTLhVfC/SxJZKlWEfLd6qHW1CHyYQYeLG9cXAg64uj0lEWgP+nOqfhvZcy76WTOo1G6kRugQMewkLKXyao6isyvA=
+	t=1770214470; cv=none; b=BQ7kTsSwplEfwRh06fE1Mnylo2olheI0fnlaIcp8yr+/ThvN6pvTseJrvGoGClsla6V01JVjgeXNmTtuEZomQEno67o08ANztl/FIGPsAA2PkoTqMiLMp/FXeXoTS+4YnO/PeMZj42D2/y+KwnJNRtY7x4pfVozgxWXoEQ3nCr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770207026; c=relaxed/simple;
-	bh=+PD9kPlOhiNRJ5eVE2tCAKpwL+HFCmAsSnc7GfEb0C8=;
+	s=arc-20240116; t=1770214470; c=relaxed/simple;
+	bh=vNG6ARJZgbFZvKIMXWp25KFOFGI5Gomnhn0D1Aq+Bms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hWkdt7a0Piu65FrKzypBpqlsFU2fnujs7P28H9h1VBwrIUoODPYwiQs1wa4iR0efB//cz7KrNMhsFhrvZRnHB7lcNQAbCtZEXid1CUpw/2Q44OMtHlmarvhWLIxZJjao37lOdb2jBDpxGWSi2AVjbvIGzP6HZQ68m/5YgNJd/tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jzEUtJeF; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=WJAcySZXSvJNQhEHc5LqD6JdOBG7jvvr+eBPjTmrTPZPLQqJNkuqzDto/k1uuHrb0tlSUR9c4ykmGq2Zj+l61PJOq3roCTRuSvWr++rh/1NdDo3CNvATrd3xaPHigEuC+Y8briq4Di0aRSBpdYwkpHPL+dnLIXsUIzKmSmarqWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NerKYCeT; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jzEUtJeF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NerKYCeT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770207027; x=1801743027;
+  t=1770214469; x=1801750469;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+PD9kPlOhiNRJ5eVE2tCAKpwL+HFCmAsSnc7GfEb0C8=;
-  b=jzEUtJeFQLf5ajBHeeXaLLx06oXVRJbvyp+2bHxcSmyoS5bYOt0+l9pA
-   eo/B001UBR2tinpyBmAScLY2z5N9irWLQUX2UPhvQXnZc6ZVGESPz7leB
-   egUrPyV6Stvw2K8Cd0bvs2DNdmphVnoIJ5AggQogYqte1TGZXTn1uksJD
-   1N5uBNDXbPRVVPqSp7sFQNjSk3Mm/Cdn6XdAwNaW8wZDWpwyiiA6JQe16
-   2hOpKF/PU6pdYJWzMbS3E0jggGn2cgGKJrfwPvomLt7Bk6pUucCeWkZ9t
-   XeILeII+mVuG2rdkqlcwO0ZGx40jiX3LngAw9HPevRDgzwSa/ZHmK1EOt
-   A==;
-X-CSE-ConnectionGUID: 6Vw9f8y4Ss2W7LsBsjgW8A==
-X-CSE-MsgGUID: +4GvfqYlQYOpK22htfUHIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71425504"
+  bh=vNG6ARJZgbFZvKIMXWp25KFOFGI5Gomnhn0D1Aq+Bms=;
+  b=NerKYCeTBGSFu4osev8ypRHX6f/amAjwNFY+gjy1YMAmiwwwAJI1cuPs
+   NTbxTavauMeYMoh3I/FgW2YS5pgBn4eINgZHvK7aNRicJxg9fGlb54QlU
+   PvPrAQqwyX0WitlP5ebu/y0+BB2Ru2x27o6AaznwCNFA/QYHEbVzr2O+L
+   p617JBAVNS3Xwsmh8Y1RfRVe6U9561EXt2uf5REuVt3xeP68JLssiZS79
+   gOEu3piq8F1iP+IOeczW4KzAWcH1ilzof5230en8rubKNiaPJwMI7WHPv
+   9ZFDD7kcHnsucIn7+xkP50aO1JYta1VhFfA6baSEVQy35n0hspKWQQ7Kq
+   w==;
+X-CSE-ConnectionGUID: Kvvy66XBRUmaTy1MSTjLMw==
+X-CSE-MsgGUID: FGulIpBITAGuBNVvnnGPaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75252192"
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="71425504"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 04:10:27 -0800
-X-CSE-ConnectionGUID: jMqUk0dMRq+vKyxseg0bNg==
-X-CSE-MsgGUID: L6+UxEbmTEq/Tlho+El/GA==
+   d="scan'208";a="75252192"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 06:14:29 -0800
+X-CSE-ConnectionGUID: TjrIJITCRLyB58L6mPSOHQ==
+X-CSE-MsgGUID: cdPnF5UoSFOIW22jxtp4Hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="209244113"
+   d="scan'208";a="214348983"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Feb 2026 04:10:21 -0800
+  by orviesa003.jf.intel.com with ESMTP; 04 Feb 2026 06:14:27 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnbi5-00000000hlQ-20h9;
-	Wed, 04 Feb 2026 12:10:17 +0000
-Date: Wed, 4 Feb 2026 20:10:14 +0800
+	id 1vndeC-00000000htA-1VOo;
+	Wed, 04 Feb 2026 14:14:24 +0000
+Date: Wed, 4 Feb 2026 22:13:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	=?iso-8859-1?Q?J=E9r=E9mie?= Dautheribes <jeremie.dautheribes@bootlin.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-watchdog@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	"Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>
-Subject: Re: [PATCH v3 4/5] gpio: aaeon: Add GPIO driver for SRG-IMX8P MCU
-Message-ID: <202602042017.bULyWOXm-lkp@intel.com>
-References: <20260203-dev-b4-aaeon-mcu-driver-v3-4-0a19432076ac@bootlin.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Helge Deller <deller@gmx.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 2/3] fbdev: au1100fb: Make driver compilable on
+ non-mips platforms
+Message-ID: <202602042233.GXk79AnA-lkp@intel.com>
+References: <474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,36 +66,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203-dev-b4-aaeon-mcu-driver-v3-4-0a19432076ac@bootlin.com>
+In-Reply-To: <474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig@baylibre.com>
 
-Hi Thomas,
+Hi Uwe,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on d358e5254674b70f34c847715ca509e46eb81e6f]
+[auto build test WARNING on 0636e6205beed850d985276dc56fd73d785bea5c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Perrot-Schneider-Electric/dt-bindings-vendor-prefixes-Add-AAEON-vendor-prefix/20260204-004221
-base:   d358e5254674b70f34c847715ca509e46eb81e6f
-patch link:    https://lore.kernel.org/r/20260203-dev-b4-aaeon-mcu-driver-v3-4-0a19432076ac%40bootlin.com
-patch subject: [PATCH v3 4/5] gpio: aaeon: Add GPIO driver for SRG-IMX8P MCU
-config: mips-randconfig-r113-20260204 (https://download.01.org/0day-ci/archive/20260204/202602042017.bULyWOXm-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602042017.bULyWOXm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/fbdev-au1100fb-Mark-several-local-functions-as-static/20260204-171704
+base:   0636e6205beed850d985276dc56fd73d785bea5c
+patch link:    https://lore.kernel.org/r/474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig%40baylibre.com
+patch subject: [PATCH v1 2/3] fbdev: au1100fb: Make driver compilable on non-mips platforms
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260204/202602042233.GXk79AnA-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602042233.GXk79AnA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602042017.bULyWOXm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602042233.GXk79AnA-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "aaeon_mcu_i2c_xfer" [drivers/gpio/gpio-aaeon-mcu.ko] undefined!
+>> drivers/video/fbdev/au1100fb.c:473:6: warning: format specifies type 'int' but the argument has type 'size_t' (aka 'unsigned long') [-Wformat]
+     472 |                 print_err("fail to allocate framebuffer (size: %dK))",
+         |                                                                ~~
+         |                                                                %zu
+     473 |                           fbdev->fb_len / 1024);
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/au1100fb.h:33:74: note: expanded from macro 'print_err'
+      33 | #define print_err(f, arg...) printk(KERN_ERR DRIVER_NAME ": " f "\n", ## arg)
+         |                                                               ~          ^~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=m]
-   Selected by [m]:
-   - CAN [=m] && NET [=y]
+
+vim +473 drivers/video/fbdev/au1100fb.c
+
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  415  
+48c68c4f1b5424 drivers/video/au1100fb.c       Greg Kroah-Hartman 2012-12-21  416  static int au1100fb_drv_probe(struct platform_device *dev)
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  417  {
+46953e6aab262d drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28  418  	struct au1100fb_device *fbdev;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  419  	struct resource *regs_res;
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  420  	struct clk *c;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  421  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  422  	/* Allocate new device private */
+db66f0252e2f17 drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28  423  	fbdev = devm_kzalloc(&dev->dev, sizeof(*fbdev), GFP_KERNEL);
+29914badc59b23 drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28  424  	if (!fbdev)
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  425  		return -ENOMEM;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  426  
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  427  	if (au1100fb_setup(fbdev))
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  428  		goto failed;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  429  
+7a192ec334cab9 drivers/video/au1100fb.c       Ming Lei           2009-02-06  430  	platform_set_drvdata(dev, (void *)fbdev);
+67f30ad19c4b32 drivers/video/fbdev/au1100fb.c Christoph Hellwig  2019-04-28  431  	fbdev->dev = &dev->dev;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  432  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  433  	/* Allocate region for our registers and map them */
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  434  	regs_res = platform_get_resource(dev, IORESOURCE_MEM, 0);
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  435  	if (!regs_res) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  436  		print_err("fail to retrieve registers resource");
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  437  		return -EFAULT;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  438  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  439  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  440  	au1100fb_fix.mmio_start = regs_res->start;
+28f65c11f2ffb3 drivers/video/au1100fb.c       Joe Perches        2011-06-09  441  	au1100fb_fix.mmio_len = resource_size(regs_res);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  442  
+93019734555f8d drivers/video/au1100fb.c       Manuel Lauss       2012-03-24  443  	if (!devm_request_mem_region(&dev->dev,
+93019734555f8d drivers/video/au1100fb.c       Manuel Lauss       2012-03-24  444  				     au1100fb_fix.mmio_start,
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  445  				     au1100fb_fix.mmio_len,
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  446  				     DRIVER_NAME)) {
+c05b7f3d12b945 drivers/video/au1100fb.c       Rodolfo Giometti   2006-05-30  447  		print_err("fail to lock memory region at 0x%08lx",
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  448  				au1100fb_fix.mmio_start);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  449  		return -EBUSY;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  450  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  451  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  452  	fbdev->regs = (struct au1100fb_regs*)KSEG1ADDR(au1100fb_fix.mmio_start);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  453  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  454  	print_dbg("Register memory map at %p", fbdev->regs);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  455  	print_dbg("phys=0x%08x, size=%d", fbdev->regs_phys, fbdev->regs_len);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  456  
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  457  	c = clk_get(NULL, "lcd_intclk");
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  458  	if (!IS_ERR(c)) {
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  459  		fbdev->lcdclk = c;
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  460  		clk_set_rate(c, 48000000);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  461  		clk_prepare_enable(c);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  462  	}
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  463  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  464  	/* Allocate the framebuffer to the maximum screen size * nbr of video buffers */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  465  	fbdev->fb_len = fbdev->panel->xres * fbdev->panel->yres *
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  466  		  	(fbdev->panel->bpp >> 3) * AU1100FB_NBR_VIDEO_BUFFERS;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  467  
+93019734555f8d drivers/video/au1100fb.c       Manuel Lauss       2012-03-24  468  	fbdev->fb_mem = dmam_alloc_coherent(&dev->dev,
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  469  					    PAGE_ALIGN(fbdev->fb_len),
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  470  					    &fbdev->fb_phys, GFP_KERNEL);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  471  	if (!fbdev->fb_mem) {
+3879490f3a9765 drivers/video/fbdev/au1100fb.c Colin Ian King     2018-05-15  472  		print_err("fail to allocate framebuffer (size: %dK))",
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04 @473  			  fbdev->fb_len / 1024);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  474  		return -ENOMEM;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  475  	}
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  476  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  477  	au1100fb_fix.smem_start = fbdev->fb_phys;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  478  	au1100fb_fix.smem_len = fbdev->fb_len;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  479  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  480  	print_dbg("Framebuffer memory map at %p", fbdev->fb_mem);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  481  	print_dbg("phys=0x%08x, size=%dK", fbdev->fb_phys, fbdev->fb_len / 1024);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  482  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  483  	/* load the panel info into the var struct */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  484  	au1100fb_var.bits_per_pixel = fbdev->panel->bpp;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  485  	au1100fb_var.xres = fbdev->panel->xres;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  486  	au1100fb_var.xres_virtual = au1100fb_var.xres;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  487  	au1100fb_var.yres = fbdev->panel->yres;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  488  	au1100fb_var.yres_virtual = au1100fb_var.yres;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  489  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  490  	fbdev->info.screen_base = fbdev->fb_mem;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  491  	fbdev->info.fbops = &au1100fb_ops;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  492  	fbdev->info.fix = au1100fb_fix;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  493  
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  494  	fbdev->info.pseudo_palette =
+a86854d0c599b3 drivers/video/fbdev/au1100fb.c Kees Cook          2018-06-12  495  		devm_kcalloc(&dev->dev, 16, sizeof(u32), GFP_KERNEL);
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  496  	if (!fbdev->info.pseudo_palette)
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  497  		return -ENOMEM;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  498  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  499  	if (fb_alloc_cmap(&fbdev->info.cmap, AU1100_LCD_NBR_PALETTE_ENTRIES, 0) < 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  500  		print_err("Fail to allocate colormap (%d entries)",
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  501  			   AU1100_LCD_NBR_PALETTE_ENTRIES);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  502  		return -EFAULT;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  503  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  504  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  505  	fbdev->info.var = au1100fb_var;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  506  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  507  	/* Set h/w registers */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  508  	au1100fb_setmode(fbdev);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  509  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  510  	/* Register new framebuffer */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  511  	if (register_framebuffer(&fbdev->info) < 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  512  		print_err("cannot register new framebuffer");
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  513  		goto failed;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  514  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  515  
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  516  	return 0;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  517  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  518  failed:
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  519  	if (fbdev->lcdclk) {
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  520  		clk_disable_unprepare(fbdev->lcdclk);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  521  		clk_put(fbdev->lcdclk);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  522  	}
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  523  	if (fbdev->info.cmap.len != 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  524  		fb_dealloc_cmap(&fbdev->info.cmap);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  525  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  526  
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  527  	return -ENODEV;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  528  }
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  529  
 
 -- 
 0-DAY CI Kernel Test Service
