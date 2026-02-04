@@ -1,61 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2716F2772D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 23:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A4039E171
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 23:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770246920; cv=none; b=pd0j69lLz/L0i5YtVTaS3Px82iL2CDGLxkm1TAQ9aPpo/xXaJxD1clKK9IBDx62BmVjVP/GJMtSjqgoDbkkRcZ/TvAA3ZkRbr384n1fUkI3Qbtbm9OEl3prFcx8cBvZhrtN18O/6pvongERejYiKcHWiUjqukJVGTR7AGNNoyiw=
+	t=1770247753; cv=none; b=FtRBAUHNnXdR025fp+d9NlSDYgP+LH/pdvStSI26TiQAZIS43KBhnUTzBUYPu1ZQZmi0oTxkfFMyR3H9TgQkiG4CuTZb9d8Bb1rx9WRwAs1EBM6XqR3JBPMeSo1T1j7806l7F3SIv/kMi5vGGjdWSk4gN/jP2TCXs111jGUxrE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770246920; c=relaxed/simple;
-	bh=j8BgoxPgsROjmMWoLnl1NFM2Afyr+Io119eLM+/vyaU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TnBSZvyixPHhqW4s+RTDXrscyKUGlfxPhXClWVma/0u2fic1ltR6Mel7Co/8f7vgknSTJijQH9k5Jo/i9JS7KpFrI+fZZ+r5AZifeJ6RurRL6Oa6ZWxVfNN4buoycTzJeFPz0Ea/Khdx2q5g+S3f91dCZyqp8dRXyY4qtlGYRYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7qfhp37; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1770247753; c=relaxed/simple;
+	bh=qLNOmpSiSTucBQwJVEKZYv+eMMBop1Ac0W9+Q2RmAp4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MdTrtVdJWdlzz0qvk/H4fq0hhiQO76is8tn64y1uM/hdmWElBFZp2Xl6h75f2TwbC72zXIsQ5qmYzxHAsS1pKpo+XcUV82Y5H+SCcQZc/BKYzhxJtVcPTaHFEGIMaUrpb0we+N28gysYJ72SUwTQAzYPWsQgv39S1EOCQxRv+7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IdpySZid; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7qfhp37"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IdpySZid"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770246919; x=1801782919;
+  t=1770247753; x=1801783753;
   h=date:from:to:cc:subject:message-id;
-  bh=j8BgoxPgsROjmMWoLnl1NFM2Afyr+Io119eLM+/vyaU=;
-  b=A7qfhp37j78yVsW8q5NvaNCfuSDkqOxcbysSNqIVnZ3kohfMiIn4IQA1
-   JNJLjRnUM8FwXwaUUgXr/O/Z+s3bOI2hsv09JNH3C1KGtOQgXXdwepyPv
-   xLIBATBwac8vO58Izu5+XOeKrEX8vCKXqRPimTEIf0Itr46nML8X50h04
-   wE9VmSW1ZHCjOAIVs8DeTkIiCdf9TN48gl1jWbbCSrH2WeBzyx55cDLx6
-   kEMFUkdq0RV4zgcFK8xbrDw8NNj18sropPaZr6zGu9fdgNZNfZVwuV/sr
-   A22CjJnVQGW/+O6+EWnQrRpYFblY3jPEKNM6KAmq3CBmGn1puU9I9RGOy
-   w==;
-X-CSE-ConnectionGUID: wTrSMRbbT6ul8RbB7DBYmw==
-X-CSE-MsgGUID: mWyE5M76RnSq+7NS70LSsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="82181740"
+  bh=qLNOmpSiSTucBQwJVEKZYv+eMMBop1Ac0W9+Q2RmAp4=;
+  b=IdpySZidBiYrtxFMU++iPPNccXska4+Q5t6nnFdNYyvK74ELO9s7afHu
+   uD4iLrrxA9lyi34Pz7ob7UOd/NtRPr7VZiG5SjwTE4wnMpPmlLU6YTG1t
+   WBOlK0J/8agroIMRnGEsriaLLb8qEfYgNe+h3cZhxA+1nkNmJXzp2BsP0
+   qaxaHq8DnGsnmyXWR4Ru76DuD+wV1D2gfTbkgbEIo27rIzLuTEEsMXGnw
+   KOA68yjEEfqJxt6poatXnB8noBjZZARZga+9CwSOGdPFbAw/PSuGK194a
+   2U5MRdbmQfMgJHXqdd3QtfjWMslVZUN2vbNu5wDYcKjt8SouuyeJw2sg0
+   Q==;
+X-CSE-ConnectionGUID: CPGkQYKNSLqQmTGay39Djw==
+X-CSE-MsgGUID: dnk8WGiDSgm80FMQvre6GQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="89023504"
 X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
-   d="scan'208";a="82181740"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 15:15:13 -0800
-X-CSE-ConnectionGUID: 0b907HlPR5Odz1EJirK9xQ==
-X-CSE-MsgGUID: hlHs2vwzTzK866No0mMtlw==
+   d="scan'208";a="89023504"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 15:29:12 -0800
+X-CSE-ConnectionGUID: PxrEf8YPTHSPgDgMkm7aog==
+X-CSE-MsgGUID: h7f5dsTDTxOhGWsEaN2LoA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
-   d="scan'208";a="214799755"
 Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Feb 2026 15:15:11 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 04 Feb 2026 15:29:10 -0800
 Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnm5U-000000003qr-3MEa;
-	Wed, 04 Feb 2026 23:15:08 +0000
-Date: Thu, 05 Feb 2026 00:15:02 +0100
+	id 1vnmJ3-000000003r7-08IK;
+	Wed, 04 Feb 2026 23:29:09 +0000
+Date: Thu, 05 Feb 2026 00:28:53 +0100
 From: kernel test robot <lkp@intel.com>
-To: tianci yin <tianci.yin@amd.com>
+To: Yifan Zhang <yifan1.zhang@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, Bob Zhou <bob.zhou@amd.com>,
- Slava Grigorev <slava.grigorev@amd.com>,
- Kevin Wang <Kevin1.Wang@amd.com>, Jack Gui <Jack.Gui@amd.com>,
- changzhu <Changfeng.Zhu@amd.com>, Junwei Zhang <Jerry.Zhang@amd.com>,
- Flora Cui <flora.cui@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>
-Subject: [agd5f:baseline0 1785/3826] versioncheck:
- ./drivers/gpu/drm/amd/amdkcl/kcl_pci.c: 21 linux/version.h not needed.
-Message-ID: <202602050032.6IKBya2T-lkp@intel.com>
+ Flora Cui <flora.cui@amd.com>
+Subject: [agd5f:baseline0 1792/3826] versioncheck:
+ ./include/kcl/kcl_fence.h: 15 linux/version.h not needed.
+Message-ID: <202602050025.UWXmHaF9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,13 +60,13 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://gitlab.freedesktop.org/agd5f/linux.git baseline0
 head:   b6a8211a7821bf70201912b493ab705f423700c7
-commit: bb65300bcc409aeb6c4b0f5a53c378bd7cb5854d [1785/3826] drm/amdkcl: Test whether pcie_get_{speed/width}_cap() are available
-reproduce: (https://download.01.org/0day-ci/archive/20260205/202602050032.6IKBya2T-lkp@intel.com/reproduce)
+commit: 356bec656eaedc2424af63ecf4fa08d8aaf7a757 [1792/3826] drm/amdkcl: add AC_AMDGPU_DMA_FENCE_HEADERS
+reproduce: (https://download.01.org/0day-ci/archive/20260205/202602050025.UWXmHaF9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602050032.6IKBya2T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602050025.UWXmHaF9-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -81,12 +76,13 @@ versioncheck warnings: (new ones prefixed by >>)
    	| xargs perl -w ./scripts/checkversion.pl
    ./drivers/gpu/drm/amd/amdkcl/kcl_common.h: 6 linux/version.h not needed.
    ./drivers/gpu/drm/amd/amdkcl/kcl_kthread.c: 15 linux/version.h not needed.
->> ./drivers/gpu/drm/amd/amdkcl/kcl_pci.c: 21 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/amdkcl/kcl_pci.c: 21 linux/version.h not needed.
    ./drivers/gpu/drm/amd/backport/backport.h: 5 linux/version.h not needed.
    ./drivers/gpu/drm/scheduler/backport/backport.h: 5 linux/version.h not needed.
    ./drivers/gpu/drm/ttm/backport/backport.h: 5 linux/version.h not needed.
    ./include/kcl/backport/kcl_pci_backport.h: 6 linux/version.h not needed.
->> ./include/kcl/kcl_pci.h: 27 linux/version.h not needed.
+>> ./include/kcl/kcl_fence.h: 15 linux/version.h not needed.
+   ./include/kcl/kcl_pci.h: 27 linux/version.h not needed.
    ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
    ./tools/lib/bpf/bpf_helpers.h: 449: need linux/version.h
    ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
