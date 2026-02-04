@@ -1,75 +1,76 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC8A3ED104
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 11:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C132BE639;
+	Wed,  4 Feb 2026 12:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770206279; cv=none; b=RknrYft1uMd/acgSXODo5vgGRTLBA12DuXamZCppfNqqM6rdF4rXO6HGlotWo9PXPmlVG4XX19ydYQLbtCC8sv3UM14G1lmcOHTJOSya73gwFST1L48T+cz/35yYbDgjPUV58IL0zhOGohTrecsgOnRuIuC3cT06ONVpXBtrR3g=
+	t=1770207026; cv=none; b=ZSZg3mtrQZebwZsmW3eCLXBNPNIUu1pe93ijXxPriYZ4J2XC7utm7gYdzPxP9hcBNU25AN2DmKU6u5jjbtYrTLhVfC/SxJZKlWEfLd6qHW1CHyYQYeLG9cXAg64uj0lEWgP+nOqfhvZcy76WTOo1G6kRugQMewkLKXyao6isyvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770206279; c=relaxed/simple;
-	bh=rPIn+Mra4o1bR6EHRdELYXEUCRMxJ4FKYJobQW4iQuY=;
+	s=arc-20240116; t=1770207026; c=relaxed/simple;
+	bh=+PD9kPlOhiNRJ5eVE2tCAKpwL+HFCmAsSnc7GfEb0C8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ol1mpleIWdw8/9hSk0BULYDwN2kZY0Zbo6UbcD9HAjzBfKrvi4S+mrYvgWpyB3iGtrdyCvuvlEj3cr7yRsZJAfIpEiDTn9CJS9tnoQYFcNO43K/R+/7xFEl9KJ0HrkTNltHcxtQjErJF+5dZFFd/r3vI+mg3ycz/HOL/gOZ6Z8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YpHMRirH; arc=none smtp.client-ip=209.85.221.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=hWkdt7a0Piu65FrKzypBpqlsFU2fnujs7P28H9h1VBwrIUoODPYwiQs1wa4iR0efB//cz7KrNMhsFhrvZRnHB7lcNQAbCtZEXid1CUpw/2Q44OMtHlmarvhWLIxZJjao37lOdb2jBDpxGWSi2AVjbvIGzP6HZQ68m/5YgNJd/tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jzEUtJeF; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YpHMRirH"
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-4359228b7c6so4753239f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Feb 2026 03:57:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770206277; x=1770811077; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pfxMamMtxLHcw6K0Fqk6/zfs3lYEE3ZNz2eLveiTn0g=;
-        b=YpHMRirHobbTWQYSPWwfxkgFkOdHfBFgU8YJLbs7SVmqvfyM6/CNwuFbsq9BV5tTxO
-         KE+jtwHJgJthgwNMBWY9iUHNgLFbYp6goiKNcaG6ra0+5wdqy74uXKbSe6N7dTiEwn8n
-         gvmTafJyVynHHwSUm5RdKnAW4FKNP/bEWFS0Zeuk29YnJqeAaDuiJCY27XzoEW56jy5J
-         7TFz0o6uOm5loGQJs8WkvC98iz5b6dJjsXAfRYKb/9moGd/UB9SH0uSFOL6bQ48Y5Xzr
-         /CQ7+DuWcOV0Ha4+c5yW0749vHJ0dRoUy6+f5Nx765Ul5JgU+001KZT5AO2hZjOrC6KL
-         Azwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770206277; x=1770811077;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pfxMamMtxLHcw6K0Fqk6/zfs3lYEE3ZNz2eLveiTn0g=;
-        b=brKvOies1Fsr30Mqqs8BSCReapEVKMuQgVLnGsAd6gej9oQxoHh8E/p9ZoKXwtwwlX
-         dyiFeOSFi9v8NRpVr2bWkxrYyNMa2F2neTCq4GfXa9f5kYebdYT9zmsL6zyvjma/ZkeE
-         4kKa0o5ma2acia9lB8tvMcNe3KLQbqPRBjJ+VKdY81b/12htTl7m+cnRWGetAxXdV8gI
-         1oEdVQDiL/7nwDDMnG3g4eTiD7KBY4GK/OoDMKVvZ+J6R9Bxp18StumbReHMw7GUrRHH
-         rZCYWNCLdBtQyAMl6Ss8mODACBoUfpecSQUSSRZKwG1KKq+HSsFKJHW0SNMmP1P1j7Gk
-         p1vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWN5xQudcvbAwgKfsM3E/693gS96pMn++D3jkbvv+HOWeaSaxgSykosOHUpgnwsADxilLsO/QOpU5FXxhog@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzQa+6YDHkAY6i+4H1PvjhMiVO5x64mitQii0eD3vjYest+FKE
-	HaN9/TecXttZL64Hx8lv4lMGvsvzUoHpnF0JCXbEQURoOSVOjJxey8U39R5+uqgdpzM=
-X-Gm-Gg: AZuq6aL5RS4lI5MtfOlpfl97XVmIIFchG9wfaYtqHm2sSbNi6HG850dvG+38Mo+60P0
-	1OqpMOj4Mfoh75uZz0yYH484d7tfIXZ1HtEgPuIlZvFOIyUH9LnC4+ydhHihNfAALieynnaauwn
-	8iQiwuqIB9LrOyn7hNcVpNq04k9smLVStgvlXiiMucVnT9ftN6hxInIIolII1dRzQ82AIe8ZP/h
-	KP2QPSf8Z8nMHl1n9Qd8gK2fPdTPdvGVKfmzP/2eDQ/edcEtgHwSxINPyKaZwObjbtfXpGu6zRS
-	0IOXP4DU48Asan/6WRkZbQ2DqcL9fYUEotGB3sCNyUPzhc0/vbLGzxsYW8jZSprldGqe4hd+ZV9
-	vM8uzKx7huDLeCS4VFjDGl2qdPKnLu/n06FvhnVfouPnS0rLMLxU/o+7SXO+c6DWDGG0z7TyXYJ
-	ovz5+TOlawWxVUzSK1
-X-Received: by 2002:a5d:5f45:0:b0:435:b0e7:ea1 with SMTP id ffacd0b85a97d-43617e400f6mr3907970f8f.19.1770206277324;
-        Wed, 04 Feb 2026 03:57:57 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43618058473sm6252472f8f.22.2026.02.04.03.57.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 03:57:56 -0800 (PST)
-Date: Wed, 4 Feb 2026 14:57:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-Cc: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>,
-	"lkp@intel.com" <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>
-Subject: Re: [linux-next:master 11349/11582] net/ipv4/tcp_output.c:754
- tcp_options_write() error: we previously assumed 'tp' could be null (see
- line 722)
-Message-ID: <aYM0QV6sdOpDAU45@stanley.mountain>
-References: <202602041310.ZBuXDXC5-lkp@intel.com>
- <PAXPR07MB7984753C52676A18C4CC9C07A398A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jzEUtJeF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770207027; x=1801743027;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+PD9kPlOhiNRJ5eVE2tCAKpwL+HFCmAsSnc7GfEb0C8=;
+  b=jzEUtJeFQLf5ajBHeeXaLLx06oXVRJbvyp+2bHxcSmyoS5bYOt0+l9pA
+   eo/B001UBR2tinpyBmAScLY2z5N9irWLQUX2UPhvQXnZc6ZVGESPz7leB
+   egUrPyV6Stvw2K8Cd0bvs2DNdmphVnoIJ5AggQogYqte1TGZXTn1uksJD
+   1N5uBNDXbPRVVPqSp7sFQNjSk3Mm/Cdn6XdAwNaW8wZDWpwyiiA6JQe16
+   2hOpKF/PU6pdYJWzMbS3E0jggGn2cgGKJrfwPvomLt7Bk6pUucCeWkZ9t
+   XeILeII+mVuG2rdkqlcwO0ZGx40jiX3LngAw9HPevRDgzwSa/ZHmK1EOt
+   A==;
+X-CSE-ConnectionGUID: 6Vw9f8y4Ss2W7LsBsjgW8A==
+X-CSE-MsgGUID: +4GvfqYlQYOpK22htfUHIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71425504"
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="71425504"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 04:10:27 -0800
+X-CSE-ConnectionGUID: jMqUk0dMRq+vKyxseg0bNg==
+X-CSE-MsgGUID: L6+UxEbmTEq/Tlho+El/GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="209244113"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 04 Feb 2026 04:10:21 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vnbi5-00000000hlQ-20h9;
+	Wed, 04 Feb 2026 12:10:17 +0000
+Date: Wed, 4 Feb 2026 20:10:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	=?iso-8859-1?Q?J=E9r=E9mie?= Dautheribes <jeremie.dautheribes@bootlin.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	"Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>
+Subject: Re: [PATCH v3 4/5] gpio: aaeon: Add GPIO driver for SRG-IMX8P MCU
+Message-ID: <202602042017.bULyWOXm-lkp@intel.com>
+References: <20260203-dev-b4-aaeon-mcu-driver-v3-4-0a19432076ac@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,18 +79,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR07MB7984753C52676A18C4CC9C07A398A@PAXPR07MB7984.eurprd07.prod.outlook.com>
+In-Reply-To: <20260203-dev-b4-aaeon-mcu-driver-v3-4-0a19432076ac@bootlin.com>
 
-These are automated emails based on static analysis.  The NULL checking
-in this function is weird because there are a bunch of unchecked
-dereferences followed by a couple NULL checks and then followed by
-several unchecked dereferences.
+Hi Thomas,
 
-I've actually sent this warning before and the code was explained.  :(
-https://lore.kernel.org/all/fce974f0-cea9-fa92-ecfc-4f7cc4fc95e2@arista.com/
+kernel test robot noticed the following build errors:
 
-Sorry, I should have been more careful before sending duplicates.  :(
+[auto build test ERROR on d358e5254674b70f34c847715ca509e46eb81e6f]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Perrot-Schneider-Electric/dt-bindings-vendor-prefixes-Add-AAEON-vendor-prefix/20260204-004221
+base:   d358e5254674b70f34c847715ca509e46eb81e6f
+patch link:    https://lore.kernel.org/r/20260203-dev-b4-aaeon-mcu-driver-v3-4-0a19432076ac%40bootlin.com
+patch subject: [PATCH v3 4/5] gpio: aaeon: Add GPIO driver for SRG-IMX8P MCU
+config: mips-randconfig-r113-20260204 (https://download.01.org/0day-ci/archive/20260204/202602042017.bULyWOXm-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602042017.bULyWOXm-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602042017.bULyWOXm-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "aaeon_mcu_i2c_xfer" [drivers/gpio/gpio-aaeon-mcu.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=m]
+   Selected by [m]:
+   - CAN [=m] && NET [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
