@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4265C36CE04
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 06:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792DD360735
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 06:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770185230; cv=none; b=TfQcSECdHbGfzHkZA94jgeLWmVyn7DgIIEjjBtscaBJ5jjNCIZhCSSFrASEzgJuM16mQ6aS2J3j4IRJQuAmpocwTWUz31eChlJZcOWsKUPOrDnR6q3V+FZAVQAK+wkEKu6fLkbE44yHGgbO7NNujA7vem2ep9r8wEgPw1yKhPV0=
+	t=1770186490; cv=none; b=XO1Ahk18QtP9bKcURlY7m9NrCTdN2QxvQIDoniZ+6eIR7XUpRPlL+djeZFdD+RpAGeQYnFZHTtjeu4HV+QZKZTBRQ9h+cTxywQmbTCHA93IAb/yGtWJc/C3q6W5Kac/2s5I6dBq5dbL7mP3DLAoiLTTmANCgBF5gL5SuwjfMyKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770185230; c=relaxed/simple;
-	bh=3xuCoxByeQ3SuTCoJojgMndCffUKnpLj9GdoHrEJCtg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=X0T194pBclqSfpUQfqTqbmWyJKM6aFb8dsxO83JpwA/RKD6dSbQMG9CA5cgaRIQ5SMyfQelZ/u7ZCeHp1QyPoc1kx/ebFM0EjyIiWX8gR48lX/UdVeyP0DMdSoTQMBiDrsE9WhgxJIA8qHpFwWQGrJ8B6fajgYyOvh9TsD0xRU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+HWkxsK; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1770186490; c=relaxed/simple;
+	bh=MRR/LMO82nqnv12nAILYJUk5qPxGpRhQAGa9nall85o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MtJjleh5VCrHeaP1BmaJ087lfGJ+iib8k78QsVPdFc1zotQrY1ef/kdc81/rYvjtnVx1Bsk/kNZu7SD791qmGBn8rGGBqkA7ouT1a51LrfozTHgpHeV8O/EoFTAbpzWru45y30L8EpEi6VCIjWNvGwcc+GhAZtReBvqpod0NiQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hRTO6dqG; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+HWkxsK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hRTO6dqG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770185230; x=1801721230;
+  t=1770186489; x=1801722489;
   h=date:from:to:cc:subject:message-id;
-  bh=3xuCoxByeQ3SuTCoJojgMndCffUKnpLj9GdoHrEJCtg=;
-  b=i+HWkxsKBmcDK3+kkaF5LaAlAhuOlF9VXtEJBtaYZWTXzYbGF0FQhG63
-   mI+SvLY8jnVzySUDdnsR3OeNg4Wc73gCjJdf/ptYeAAzOay22mDZEZuqu
-   Na9Fqh4QSZ1kTdAJh+oESMVQvGPTrV2IKkQoZL/YK56RqErJscSJjiThQ
-   vTOYRjalG2OIE4W7sDaWkfcLE23205ljzHRz1YJDOUXB51rR+QqtDHRUJ
-   sySvI6VKU17O6ar7wG0Rd+AQC0dXOuM7JEiPO21TVhI0upxs+oQ/F+5Gc
-   pGiMFPgz0zL8esjyFfJQiZ19Wa7K81w6ZPvdDWN3ETzfGdcEodBWV606W
+  bh=MRR/LMO82nqnv12nAILYJUk5qPxGpRhQAGa9nall85o=;
+  b=hRTO6dqGIh6hI0oYmntVWHAg8y/1UFuyMacF99URjCkOhmKw5fSLSOVa
+   jeaktpN+jYekR+K3xBg7qzy9O2ZveermGUJHlJjMDfXNZlUNXDV1nknc+
+   R5geOww0mYHniQRKjO/JTpe83i1faF7TsnXRXGyQZeTWnvpaZuV+IScbM
+   1m600dP8LnTbs3NHwjR/I+i+A/5Vy4OxtjwspdfHH4h9VFLOqjzfnJixW
+   Ajt2uaC9lQHoGVO8B46aa4rU9SKkfNpjY0shNGiR3mIVcZkmki1ZdUDKr
+   mkMHFw/j8f1YuljW7BXm9WiJpArGcBQwT2K6CEtX4ZtXavnNydZrKaHiv
    w==;
-X-CSE-ConnectionGUID: ODNhFdjXTk6qHnBknPcXMQ==
-X-CSE-MsgGUID: BGR/uvSlT8KSm4/akku/tQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71265034"
+X-CSE-ConnectionGUID: VOhhCNSoRP+EROuHkIkgQQ==
+X-CSE-MsgGUID: HSuUraZ0QJW9rpy+AU6x3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71271266"
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="71265034"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 22:07:09 -0800
-X-CSE-ConnectionGUID: lHwMJt/mQ06W4ib/Y02omg==
-X-CSE-MsgGUID: i2wC/uUQSTSFMclfCRxCKA==
+   d="scan'208";a="71271266"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 22:28:09 -0800
+X-CSE-ConnectionGUID: 4+ep6+P1TZSI9HI3dAKQ4Q==
+X-CSE-MsgGUID: 6sthg4WBRdu5lad2vK3/MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="214612643"
+   d="scan'208";a="209367560"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 03 Feb 2026 22:07:08 -0800
+  by orviesa010.jf.intel.com with ESMTP; 03 Feb 2026 22:28:08 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnW2a-00000000hUm-4B8j;
-	Wed, 04 Feb 2026 06:07:05 +0000
-Date: Wed, 04 Feb 2026 14:06:19 +0800
+	id 1vnWMv-00000000hVI-1f3d;
+	Wed, 04 Feb 2026 06:28:05 +0000
+Date: Wed, 04 Feb 2026 14:27:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:prtpbf 9/12]
- drivers/fpga/intel-m10-bmc-sec-update.c:186:31: error: implicit declaration
- of function 'rest_of_page'
-Message-ID: <202602041400.qxnlM12c-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-DMR-APX-ANBZ29353 29/29]
+ setup.c:undefined reference to `topology_apply_cmdline_limits_early'
+Message-ID: <202602041451.orT6B6kT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,53 +59,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/norov/linux prtpbf
-head:   7ce80be35d0b91a2cf3294261a9482f668394edc
-commit: e5419ab54092eb719d6a817698572b46fef4c05a [9/12] fpga: m10bmc-sec: switch show_canceled_csk() to using scnprintf()
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260204/202602041400.qxnlM12c-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602041400.qxnlM12c-lkp@intel.com/reproduce)
+Hi Thomas,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-DMR-APX-ANBZ29353
+head:   45bafd656145fec57975dd36e97ecda524ed6dbf
+commit: 958a42aeddf62f2857c597e278636e6b389927c9 [29/29] x86/cpu/topology: Rework possible CPU management
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260204/202602041451.orT6B6kT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602041451.orT6B6kT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602041400.qxnlM12c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602041451.orT6B6kT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/fpga/intel-m10-bmc-sec-update.c: In function 'show_canceled_csk':
->> drivers/fpga/intel-m10-bmc-sec-update.c:186:31: error: implicit declaration of function 'rest_of_page' [-Wimplicit-function-declaration]
-     186 |         return scnprintf(buf, rest_of_page(buf), "%*pbl\n", CSK_BIT_LEN, csk_map);
-         |                               ^~~~~~~~~~~~
-
-
-vim +/rest_of_page +186 drivers/fpga/intel-m10-bmc-sec-update.c
-
-   164	
-   165	static ssize_t
-   166	show_canceled_csk(struct device *dev, u32 addr, char *buf)
-   167	{
-   168		unsigned int i, size = CSK_32ARRAY_SIZE * sizeof(u32);
-   169		struct m10bmc_sec *sec = dev_get_drvdata(dev);
-   170		DECLARE_BITMAP(csk_map, CSK_BIT_LEN);
-   171		__le32 csk_le32[CSK_32ARRAY_SIZE];
-   172		u32 csk32[CSK_32ARRAY_SIZE];
-   173		int ret;
-   174	
-   175		ret = m10bmc_sec_read(sec, (u8 *)&csk_le32, addr, size);
-   176		if (ret) {
-   177			dev_err(sec->dev, "failed to read CSK vector\n");
-   178			return ret;
-   179		}
-   180	
-   181		for (i = 0; i < CSK_32ARRAY_SIZE; i++)
-   182			csk32[i] = le32_to_cpu(((csk_le32[i])));
-   183	
-   184		bitmap_from_arr32(csk_map, csk32, CSK_BIT_LEN);
-   185		bitmap_complement(csk_map, csk_map, CSK_BIT_LEN);
- > 186		return scnprintf(buf, rest_of_page(buf), "%*pbl\n", CSK_BIT_LEN, csk_map);
-   187	}
-   188	
+   ld: arch/x86/kernel/setup.o: in function `setup_arch':
+>> setup.c:(.init.text+0x7dc): undefined reference to `topology_apply_cmdline_limits_early'
+>> ld: setup.c:(.init.text+0x7ec): undefined reference to `topology_init_possible_cpus'
 
 -- 
 0-DAY CI Kernel Test Service
