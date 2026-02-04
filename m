@@ -1,63 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA306349B10
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 17:39:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D82034B661;
+	Wed,  4 Feb 2026 17:39:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770226774; cv=none; b=TbcRyaWV+zEN9mRZybqX0JNr1wyKKA+UOOMVb+/5hveE/aNbKG/4ZZ8E4W/hjhzmNt233TQtB30wiLauka66gddC0dROTrWKUcK0exaFhjSsFL1jEYlJJubecdFtcRCb5wLT/NyXwcXWI2WdHQyvFwmQOfD5Bp0FXm+zsUWsnF4=
+	t=1770226775; cv=none; b=lWtgT6TQ3JW/u6OIdBwHHnjr7QBJOc47ueipLItMM/bFZ1eWArfVKkJgaHBjnRvBsGccbAqZmCPslOf/88j+leLEAf0n+/dxZRdECPdlI2ZvwkArSCVwesRuvz6PaRgeTtS7MXsca88/Bl6wW6cEEysAIj5pmtSdpk6PKF907No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770226774; c=relaxed/simple;
-	bh=20wE3V0NZ7OcLhBcviVaSvBz9Ju7uQObH903A5xByBI=;
+	s=arc-20240116; t=1770226775; c=relaxed/simple;
+	bh=9EeruU/E3pFcRhaPNPuK2egLsVQDjOlIcPs4vn+OxnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P4R80nu1ikDQbj1hcmgD3tuPzSZcwQmXONkzkRftlcY35on6b0bhhGHQ/zsa+ZXzZHbJXzieLkmzO1I+m/bFnCAOcPCIEBSjCCXKeLYKsbGJ9rvuL7N3Xcat61ZKA9ZCQXdy5YV0J09aPVIzB1BNiIVlZJBsOtkXd1mxhz1KHLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjVtyzs5; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=pqNK5d02GkAFhX2qjVwp5uNfS2uyVarygCZOik+4jMS/jHDVcjxQW5YvRwC6L7dY/LpEKIbEbOjliKoHWjZiV0g08/C2oEm/Ci0sBzdQG79QVbNlK9UilHDph0n1AOWU2n+x1I006/oiQVQP5H+40LKxgxEVlnAE5X+RhDffXFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEp4CAqG; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjVtyzs5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEp4CAqG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1770226774; x=1801762774;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=20wE3V0NZ7OcLhBcviVaSvBz9Ju7uQObH903A5xByBI=;
-  b=OjVtyzs5hxZ9txwjBxnv1WBF01dkXSFKBu8H3jRT6b2VkRRHOktnTXRy
-   XidLS+V10cgHQc5Y11APcY/gKwtl/ujMEN9RvR8r/QWBTmhLpNdXkg1wD
-   ZX2RB9O/4Jg9K68wyZtkL/RHFlLOPo87J+nfYkkne7WFqLz+6o5QL1A7s
-   aFAAlrzfLVKaBNX+1AqU0vtI8J40kmjrAKdk3IQyzBc4LEVeMAf6mQZM5
-   QRxuSDpmLb49JXKrfo6FKeK4TgvwtAAo9XGWhIRIeB3pC44b2nNtSVY61
-   rs4SRSlEQlnve5W2jCtXh40FoyDSU2rGqzIlO1JOfwTxD+fc2lvJv45y+
-   w==;
-X-CSE-ConnectionGUID: HjyTfEmDR26pHkirfBi50Q==
-X-CSE-MsgGUID: OIf30lqSScSZqxbD+azkhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71315590"
+  bh=9EeruU/E3pFcRhaPNPuK2egLsVQDjOlIcPs4vn+OxnQ=;
+  b=LEp4CAqG+2LQgqk+P+U/L/ssCtGATuv/tF8vmgI1NyqaeZ3IFkcmOM+u
+   fbPVpLKw10wVrg/mx67C+e2GrdMxooPlCpQiPOhEjZRdkQCjL4EfR09N0
+   JfS1a5lSrW9oyGMVmL84ifc5/dMUikhqZz8Nm5opPImCnyq0MNjjoTjDX
+   GL7PmF2bQeKWmMEL3CIyOcMuPHazCsSNQjCzdSJpZINrfd/e6/DgB1/RG
+   4LzZCShsn4+XTtmYcRlzH9XuBAobkN/lZ4+/xL5Orvx/Gzsay3iYno+cZ
+   R4HKvIyu4bjSdpMPsSWCEN8FIjxa6vl4w8Zigxw8Dy1c4/N6PJZJtO6mW
+   g==;
+X-CSE-ConnectionGUID: ApdEzV/MRlWzfFDgJX6KMA==
+X-CSE-MsgGUID: JnYTAL4uRm6b9e23nfm49A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71315595"
 X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
-   d="scan'208";a="71315590"
+   d="scan'208";a="71315595"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 09:39:33 -0800
-X-CSE-ConnectionGUID: h62gMYhtROSWnZc66OjUHw==
-X-CSE-MsgGUID: mOs4kMELQCmS6itbcUF5Rw==
+X-CSE-ConnectionGUID: dW5c26LURVKDXlhxNPP56A==
+X-CSE-MsgGUID: lkzJNtSQSmuoRlYuMc7WKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
-   d="scan'208";a="214756247"
+   d="scan'208";a="214756248"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 04 Feb 2026 09:39:30 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vngqe-00000000j3q-1Mv8;
+	id 1vngqe-00000000j3o-1GF3;
 	Wed, 04 Feb 2026 17:39:28 +0000
-Date: Thu, 5 Feb 2026 01:39:21 +0800
+Date: Thu, 5 Feb 2026 01:39:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Mark Brown <broonie@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
 	"Theodore Y. Ts'o" <tytso@mit.edu>,
 	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Next Mailing List <linux-next@vger.kernel.org>
 Subject: Re: linux-next: build failure after merge of the fsverity tree
-Message-ID: <202602050113.5EtCPNU4-lkp@intel.com>
+Message-ID: <202602050150.l5k1WBpY-lkp@intel.com>
 References: <aYH54qJee85qLLkN@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,56 +84,46 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Brown/linux-next-bui
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
 patch link:    https://lore.kernel.org/r/aYH54qJee85qLLkN%40sirena.org.uk
 patch subject: linux-next: build failure after merge of the fsverity tree
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260205/202602050113.5EtCPNU4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602050113.5EtCPNU4-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260205/202602050150.l5k1WBpY-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602050150.l5k1WBpY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602050113.5EtCPNU4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602050150.l5k1WBpY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/f2fs/data.c: In function 'f2fs_read_data_large_folio':
-   fs/f2fs/data.c:2523:51: error: passing argument 1 of 'fsverity_verify_page' from incompatible pointer type [-Wincompatible-pointer-types]
+>> fs/f2fs/data.c:2523:34: error: too many arguments to function call, expected single argument 'page', have 2 arguments
     2523 |                             !fsverity_verify_page(vi, folio_file_page(folio,
-         |                                                   ^~
-         |                                                   |
-         |                                                   struct fsverity_info *
-   In file included from fs/f2fs/f2fs.h:29,
-                    from fs/f2fs/data.c:24:
-   include/linux/fsverity.h:298:54: note: expected 'struct page *' but argument is of type 'struct fsverity_info *'
+         |                              ~~~~~~~~~~~~~~~~~~~~     ^~~~~~~~~~~~~~~~~~~~~~
+    2524 |                                                                 index))) {
+         |                                                                 ~~~~~~
+   include/linux/fsverity.h:298:20: note: 'fsverity_verify_page' declared here
      298 | static inline bool fsverity_verify_page(struct page *page)
-         |                                         ~~~~~~~~~~~~~^~~~
->> fs/f2fs/data.c:2523:30: error: too many arguments to function 'fsverity_verify_page'
-    2523 |                             !fsverity_verify_page(vi, folio_file_page(folio,
-         |                              ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fsverity.h:298:20: note: declared here
-     298 | static inline bool fsverity_verify_page(struct page *page)
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/data.c:2555:57: error: passing argument 2 of 'f2fs_grab_read_bio' makes integer from pointer without a cast [-Wint-conversion]
+         |                    ^                    ~~~~~~~~~~~~~~~~~
+>> fs/f2fs/data.c:2558:13: error: too many arguments to function call, expected 6, have 7
     2555 |                         bio = f2fs_grab_read_bio(inode, vi, block_nr,
-         |                                                         ^~
-         |                                                         |
-         |                                                         struct fsverity_info *
-   fs/f2fs/data.c:1097:68: note: expected 'block_t' {aka 'unsigned int'} but argument is of type 'struct fsverity_info *'
+         |                               ~~~~~~~~~~~~~~~~~~
+    2556 |                                         max_nr_pages,
+    2557 |                                         f2fs_ra_op_flags(rac),
+    2558 |                                         index, false);
+         |                                                ^~~~~
+   fs/f2fs/data.c:1097:20: note: 'f2fs_grab_read_bio' declared here
     1097 | static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
-         |                                                            ~~~~~~~~^~~~~~~
->> fs/f2fs/data.c:2555:31: error: too many arguments to function 'f2fs_grab_read_bio'
-    2555 |                         bio = f2fs_grab_read_bio(inode, vi, block_nr,
-         |                               ^~~~~~~~~~~~~~~~~~
-   fs/f2fs/data.c:1097:20: note: declared here
-    1097 | static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
-         |                    ^~~~~~~~~~~~~~~~~~
-   fs/f2fs/data.c: In function 'f2fs_mpage_readpages':
-   fs/f2fs/data.c:2629:58: error: 'vi' undeclared (first use in this function)
+         |                    ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1098 |                                       unsigned nr_pages, blk_opf_t op_flag,
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1099 |                                       pgoff_t first_idx, bool for_write)
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/f2fs/data.c:2629:44: error: use of undeclared identifier 'vi'
     2629 |                 return f2fs_read_data_large_folio(inode, vi, rac, folio);
-         |                                                          ^~
-   fs/f2fs/data.c:2629:58: note: each undeclared identifier is reported only once for each function it appears in
+         |                                                          ^
+   3 errors generated.
 
 
-vim +/fsverity_verify_page +2523 fs/f2fs/data.c
+vim +/page +2523 fs/f2fs/data.c
 
   2449	
   2450	static int f2fs_read_data_large_folio(struct inode *inode,
@@ -241,10 +231,10 @@ vim +/fsverity_verify_page +2523 fs/f2fs/data.c
   2552				bio = NULL;
   2553			}
   2554			if (bio == NULL)
-> 2555				bio = f2fs_grab_read_bio(inode, vi, block_nr,
+  2555				bio = f2fs_grab_read_bio(inode, vi, block_nr,
   2556						max_nr_pages,
   2557						f2fs_ra_op_flags(rac),
-  2558						index, false);
+> 2558						index, false);
   2559	
   2560			/*
   2561			 * If the page is under writeback, we need to wait for
@@ -284,6 +274,39 @@ vim +/fsverity_verify_page +2523 fs/f2fs/data.c
   2595		return ret;
   2596	}
   2597	
+  2598	/*
+  2599	 * This function was originally taken from fs/mpage.c, and customized for f2fs.
+  2600	 * Major change was from block_size == page_size in f2fs by default.
+  2601	 */
+  2602	static int f2fs_mpage_readpages(struct inode *inode,
+  2603			struct readahead_control *rac, struct folio *folio)
+  2604	{
+  2605		struct bio *bio = NULL;
+  2606		sector_t last_block_in_bio = 0;
+  2607		struct f2fs_map_blocks map;
+  2608	#ifdef CONFIG_F2FS_FS_COMPRESSION
+  2609		struct compress_ctx cc = {
+  2610			.inode = inode,
+  2611			.log_cluster_size = F2FS_I(inode)->i_log_cluster_size,
+  2612			.cluster_size = F2FS_I(inode)->i_cluster_size,
+  2613			.cluster_idx = NULL_CLUSTER,
+  2614			.rpages = NULL,
+  2615			.cpages = NULL,
+  2616			.nr_rpages = 0,
+  2617			.nr_cpages = 0,
+  2618		};
+  2619		pgoff_t nc_cluster_idx = NULL_CLUSTER;
+  2620		pgoff_t index;
+  2621	#endif
+  2622		pgoff_t next_pgofs = 0;
+  2623		unsigned nr_pages = rac ? readahead_count(rac) : 1;
+  2624		struct address_space *mapping = rac ? rac->mapping : folio->mapping;
+  2625		unsigned max_nr_pages = nr_pages;
+  2626		int ret = 0;
+  2627	
+  2628		if (mapping_large_folio_support(mapping))
+> 2629			return f2fs_read_data_large_folio(inode, vi, rac, folio);
+  2630	
 
 -- 
 0-DAY CI Kernel Test Service
