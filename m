@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78163242DE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 20:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E53B27B4FA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 20:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770236198; cv=none; b=oiEIrmuKXA7avGt8EKYH01wk57VVLj5h0g1I+LesnwErDdLIvIfAR3HsPSCl8H6FNP7pj/QbMS+CtG+e1yw+rYjUF0pGssBAMWoNWARG0BQ7sEfaf+npQSHprDjbDXsqwaRaPsU+kFRkFLGJINWTTf9IXDkC+5kMfdPYDNy0pTY=
+	t=1770237457; cv=none; b=JSi/zEQCs1XoH1GOqjO2vo3nSrq1DiIXHG95YvxMx+83XQkwtFk4E34LC5PrrgADeMixBXLwUbZOxdPPWcNqwoPq+XUWEfkCN0qUw3ZUGPs2QfdluQ0DQm0ystQPvyCTExUPNR3XEGzEiO/DSMvUH80y+yXKmiRSHd95E7oua2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770236198; c=relaxed/simple;
-	bh=12AuCJjZSMO7wbodmuH1bL/X9g2sgeNkuwFUCNz+SKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZS0X8ykAzEhAenS8KpC3o0m2iiZ0M4Qcjz2o6V6k5iBBGvkECNjFmfkKpBAWrKfLkOlBelqWz7A2uH0Cfp+SuDl4VHnDTWOysBxyDe1Zu5YfYp+yqGzbDZ97JNFM2MqPI2+7RKq9eyFVXDYjHDL0K73PlTHUzY6A2n2U9dI9gA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YvBhALvB; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1770237457; c=relaxed/simple;
+	bh=KQ332KGp0t+OA7V6Miplj4l+dawu0Vq7o9uqU0CQ3Rw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iJBixyN1zWpKY+zzK1Gva+kJbvWFi1JnMHXYE06IFmKmR9bCVFMi0dVpiMkWgCb3HyTsM/fPv6esI+LM9jQW14USh2MjMLc2E1P4k/6/+g+UcdRCkzucGspX67No8kcAMrT7pQ+P0M+U6TTsQaFEXgG1autr/+SsrHtXYlqMzFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eS/+45hT; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YvBhALvB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eS/+45hT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770236197; x=1801772197;
+  t=1770237458; x=1801773458;
   h=date:from:to:cc:subject:message-id;
-  bh=12AuCJjZSMO7wbodmuH1bL/X9g2sgeNkuwFUCNz+SKQ=;
-  b=YvBhALvBlniHDAMOSXI7RXDhXf8zr+sQAkAWGUGkNIJssvzluRLYG2vE
-   xIpO9klqSAxT2aQomYpkMOd7E5XWiPKK/A5mWuyvk/snQFB3dt+R5ZBOx
-   A+KWHPpK1oVv9/hHHCuK5nQm7a+E+LEXAJAGRDabIBELi65FNczFn4EVA
-   ok8e11A5UHlQ7nE52xN+Wi+w1rtma5wrw/nNzzM/qK+t7ajjtfXxcWC1J
-   jHDNQikrQdEa2m3Viik16fNHK2ODNBll9LPhTnduHynk7EAbb10s3MkAE
-   agvhpwLkOEIHhCDguw81CRmBxohYcTflvFznTOkbM/jJCP5xnmzUXKOsD
-   w==;
-X-CSE-ConnectionGUID: pXqaRL1UQuulzGUEpmIk2Q==
-X-CSE-MsgGUID: 57yA9MbxR/6383RIKlNWdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75285164"
+  bh=KQ332KGp0t+OA7V6Miplj4l+dawu0Vq7o9uqU0CQ3Rw=;
+  b=eS/+45hTBrL3h85TOQXIYVUbfcdiyuru639GuXTcYVoHYz/IhOwT07XG
+   dzFhq278yBmTFyN/yJP2LImOPp3UEUx8gTo6q+utvcKYQul4k+W/7o3vT
+   wKFoLYlXOYoZqpBio8MhHWklyZZlDk2yjiHlu7oQ5/v7DSeiaoKdqVApX
+   O/+TDfBN0eHYjf8iIkrIt0hKG1Q1KOp6GL15HsjYlNOguliDZsYMlR+Qw
+   NzY1RH9tDJrTqZarSEzANxM8Tw57M2+ADJQbJ9P1JPQDftqQXAP/VSzg7
+   4kFaaKBKZixGGEowp5P9Se6H+6l7EeevE5WFifaV3t/HMmIf/C9ndOJqX
+   A==;
+X-CSE-ConnectionGUID: jlm+XJ5CS5CJnVKdZbrwnQ==
+X-CSE-MsgGUID: FQQnH/A/Syi1rDuknImerg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="94084570"
 X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
-   d="scan'208";a="75285164"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 12:16:36 -0800
-X-CSE-ConnectionGUID: 3hi/j1lDRfynCRs0jE/Y/g==
-X-CSE-MsgGUID: NDXcfXw6QgioyS1Rm/PqfQ==
+   d="scan'208";a="94084570"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 12:37:37 -0800
+X-CSE-ConnectionGUID: Zg7MJyBPR8isZidbWlNXGg==
+X-CSE-MsgGUID: 0TZbzA6ASHOQB1iKv5MKng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
-   d="scan'208";a="214442038"
+   d="scan'208";a="210366654"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Feb 2026 12:16:35 -0800
+  by orviesa007.jf.intel.com with ESMTP; 04 Feb 2026 12:37:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnjIe-00000000j9M-2GwW;
-	Wed, 04 Feb 2026 20:16:32 +0000
-Date: Thu, 05 Feb 2026 04:15:53 +0800
+	id 1vnjcz-00000000jA4-0FjE;
+	Wed, 04 Feb 2026 20:37:33 +0000
+Date: Thu, 05 Feb 2026 04:36:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 4/4]
- drivers/iommu/pkvm-pviommu.c:461:12: warning: no previous prototype for
- '__pviommu_selftest'
-Message-ID: <202602050411.C9M9mwwz-lkp@intel.com>
+Subject: [android-common:android17-6.18 7/7]
+ arch/arm64/kvm/hyp/nvhe/pkvm.c:1887:7: warning: assignment to 'const uuid_t
+ *' {aka 'const struct <anonymous> *'} from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202602050432.4Fdhj5aG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,98 +61,90 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Mostafa,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   8f60c9387a776ba5eb6f81394cac00de069250a9
-commit: e516a71a453c76bb298c8a5f53027c7a943f1132 [4/4] ANDROID: drivers: iommu: pviommu: Add selftest
-config: arm64-randconfig-002-20260205 (https://download.01.org/0day-ci/archive/20260205/202602050411.C9M9mwwz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602050411.C9M9mwwz-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   58a6dbc28186dd4bc9d1957f87b158b0f7837c82
+commit: eff36ac2fe9748dfe31b22d00b62f6eaf7323732 [7/7] ANDROID: KVM: arm64: Add TRNG handling for protected guests
+config: arm64-randconfig-r063-20260204 (https://download.01.org/0day-ci/archive/20260205/202602050432.4Fdhj5aG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602050432.4Fdhj5aG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602050411.C9M9mwwz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602050432.4Fdhj5aG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/pkvm-pviommu.c:461:12: warning: no previous prototype for '__pviommu_selftest' [-Wmissing-prototypes]
-     461 | int __init __pviommu_selftest(void)
-         |            ^~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+   In file included from arch/arm64/kvm/hyp/nvhe/pkvm.c:23:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:40:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:41:6: warning: no previous prototype for 'module_handle_host_smc' [-Wmissing-prototypes]
+    bool module_handle_host_smc(struct user_pt_regs *regs) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:42:6: warning: no previous prototype for 'module_handle_guest_smc' [-Wmissing-prototypes]
+    bool module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/pkvm.c: In function 'module_handle_guest_trng_rng':
+   arch/arm64/kvm/hyp/nvhe/pkvm.c:1868:8: error: implicit declaration of function 'module_get_guest_trng_rng'; did you mean 'module_handle_guest_trng_rng'? [-Werror=implicit-function-declaration]
+     ret = module_get_guest_trng_rng(entropy, nbits);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+           module_handle_guest_trng_rng
+   arch/arm64/kvm/hyp/nvhe/pkvm.c: In function 'module_handle_guest_trng':
+   arch/arm64/kvm/hyp/nvhe/pkvm.c:1887:9: error: implicit declaration of function 'module_get_guest_trng_uuid'; did you mean 'module_handle_guest_trng_rng'? [-Werror=implicit-function-declaration]
+     uuid = module_get_guest_trng_uuid();
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+            module_handle_guest_trng_rng
+>> arch/arm64/kvm/hyp/nvhe/pkvm.c:1887:7: warning: assignment to 'const uuid_t *' {aka 'const struct <anonymous> *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     uuid = module_get_guest_trng_uuid();
+          ^
+   cc1: some warnings being treated as errors
 
 
-vim +/__pviommu_selftest +461 drivers/iommu/pkvm-pviommu.c
+vim +1887 arch/arm64/kvm/hyp/nvhe/pkvm.c
 
-   458	
-   459	#if IS_ENABLED(CONFIG_PKVM_PVIOMMU_SELFTEST) && !defined(MODULE)
-   460	/* Mainly test iova_to_phys and not hypervisor interface. */
- > 461	int __init __pviommu_selftest(void)
-   462	{
-   463		struct pviommu_domain domain;
-   464	
-   465		pr_info("pviommu selftest starting\n");
-   466	
-   467		mt_init(&domain.mappings);
-   468	
-   469		pviommu_domain_insert_map(&domain, 0x10000, 0xFEFFF, 0xE0000, GFP_KERNEL);
-   470		pviommu_domain_insert_map(&domain, 0xFFF0000, 0x1EDBFFFF, 0xDEAD0000, GFP_KERNEL);
-   471		ASSERT(pviommu_domain_find(&domain, 0x10000) == 0xE0000);
-   472		ASSERT(pviommu_domain_find(&domain, 0x10F00) == 0xE0F00);
-   473		ASSERT(pviommu_domain_find(&domain, 0x1EDBFFFF) == 0xED89FFFF);
-   474		ASSERT(pviommu_domain_find(&domain, 0x10000000) == 0xDEAE0000);
-   475		ASSERT(pviommu_domain_find(&domain, 0x1FF000) == 0);
-   476		pviommu_domain_remove_map(&domain, 0x12000, 0x19FFF);
-   477		ASSERT(pviommu_domain_find(&domain, 0x11000) == 0xE1000);
-   478		ASSERT(pviommu_domain_find(&domain, 0x1B000) == 0xEB000);
-   479		ASSERT(pviommu_domain_find(&domain, 0x14000) == 0);
-   480	
-   481		pviommu_domain_insert_map(&domain, 0xC00000, 0xCFFFFF, 0xABCD000, GFP_KERNEL);
-   482		pviommu_domain_insert_map(&domain, 0xD00000, 0xDFFFFF, 0x1000, GFP_KERNEL);
-   483		pviommu_domain_insert_map(&domain, 0xE00000, 0xEFFFFF, 0xC0FE00000, GFP_KERNEL);
-   484		ASSERT(pviommu_domain_find(&domain, 0xD00000) == 0x1000);
-   485		pviommu_domain_remove_map(&domain, 0xC50000, 0xE5FFFF);
-   486		ASSERT(pviommu_domain_find(&domain, 0xC50000) == 0);
-   487		ASSERT(pviommu_domain_find(&domain, 0xD10000) == 0);
-   488		ASSERT(pviommu_domain_find(&domain, 0xE60000) == 0xC0FE60000);
-   489		ASSERT(pviommu_domain_find(&domain, 0xC10000) == 0xABDD000);
-   490	
-   491		mtree_destroy(&domain.mappings);
-   492		return 0;
-   493	}
-   494	
+  1879	
+  1880	static bool module_handle_guest_trng(struct kvm_vcpu *vcpu)
+  1881	{
+  1882		u32 fn;
+  1883		u64 ret = SMCCC_RET_NOT_SUPPORTED;
+  1884		const uuid_t *uuid;
+  1885	
+  1886		fn = smccc_get_function(vcpu);
+> 1887		uuid = module_get_guest_trng_uuid();
+  1888		if (!uuid)
+  1889			return false;
+  1890	
+  1891		switch (fn) {
+  1892		case ARM_SMCCC_TRNG_VERSION:
+  1893			ret = ARM_SMCCC_TRNG_VER_1_0;
+  1894			break;
+  1895		case ARM_SMCCC_TRNG_FEATURES:
+  1896			switch (smccc_get_arg1(vcpu)) {
+  1897			case ARM_SMCCC_TRNG_VERSION:
+  1898			case ARM_SMCCC_TRNG_FEATURES:
+  1899			case ARM_SMCCC_TRNG_GET_UUID:
+  1900			case ARM_SMCCC_TRNG_RND64:
+  1901				ret = SMCCC_RET_SUCCESS;
+  1902				break;
+  1903			}
+  1904			break;
+  1905		case ARM_SMCCC_TRNG_GET_UUID:
+  1906			smccc_set_retval(vcpu, le32_to_cpu(((u32 *)uuid->b)[0]),
+  1907					 le32_to_cpu(((u32 *)uuid->b)[1]),
+  1908					 le32_to_cpu(((u32 *)uuid->b)[2]),
+  1909					 le32_to_cpu(((u32 *)uuid->b)[3]));
+  1910			return true;
+  1911		case ARM_SMCCC_TRNG_RND64:
+  1912			return module_handle_guest_trng_rng(vcpu);
+  1913		default:
+  1914			return false;
+  1915		}
+  1916	
+  1917		smccc_set_retval(vcpu, ret, 0, 0, 0);
+  1918		return true;
+  1919	}
+  1920	
 
 -- 
 0-DAY CI Kernel Test Service
