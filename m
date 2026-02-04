@@ -1,85 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B95286A4;
-	Wed,  4 Feb 2026 00:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF66D1A840A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 00:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770163924; cv=none; b=L4pFYGbzoU4b86fekzsz6vP+jeqrVq0XGqkzMMGMs6JhB4CdTRmLnBDaVGqhVa2r4rNtfqOl+eWV7HVEZ2/I3sSdCZ2WjC56IcuVyV6A2WjQl0Ew6zsoH03dBPGoVcB2KYMJPImITfCuQj9f/mpKehybdFKeHSMSm81EWzHoldA=
+	t=1770164525; cv=none; b=TIHIbdzV2zghlzLhkvaLXxu8NCRpHYw3TiwDplBrHDR2mGvkLBxfaigbR04WtkII6wh4d+SPchdPekbsAMjAHqWcYAjexW1/gMq4UaNAkz2wMbF/wtnAzf3DVrMSiGDSjrsyyU+l2hF27tJ7JgVmxFClB/hmBnmiAYkPKooVBNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770163924; c=relaxed/simple;
-	bh=fAzvCF2oTHcWD4Et395ZiguCf24azv7afztDly9G4gk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Kv44nBmCFybAhmJdFkYFB0ajaHP/7fj9yN0tU40kAjqlUJPe4izkOaqMPAVxPk/33ubhqzeYNC20WmIy6baQjOICbST0J4StbTDe4yiWJR48co6NMAnmYfuJ9/BXpiZGLeer7ewai0tXv69L1xf4+X6lWqbMkyC03tJeq5b858Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y2ejfkpG; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1770164525; c=relaxed/simple;
+	bh=vJqaIkkGQQvB0y2jKpAyCZtx6W0Oi8NhwX7gnDSzPQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jqDrfimoRKGKUGeULy1BkTvw0fZQYBJLG8OnJ0GgI9y5tlhv1uRQ/GW98ZaxZTraTop6dlFoHN4piLcFalyageagxiaqSRu1e8Vo0fSuvJ0ZKYrWSabim8cCo5SjudIpZicSELp1z0gCt8vsyRrVyGheZBTEpXDILLn6DXZcqzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MIByiWK8; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2ejfkpG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIByiWK8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770163923; x=1801699923;
-  h=date:from:to:cc:subject:message-id;
-  bh=fAzvCF2oTHcWD4Et395ZiguCf24azv7afztDly9G4gk=;
-  b=Y2ejfkpGZMvyc/3ppybQlSRKL+8I7SxUueJC35WQiNv9fFcW94PsxFAD
-   OvVSc2bVEbZFyuvDXW+T2td3Kc0InvCCgIj+qne6CGgCY1+41rLA3jTOM
-   qW8pDD9rg+oFTrEdVi03i9WxqFB7APHuCsTg0R1ZIcOAUqX7T9IZEjHQC
-   Q+7sSmNsqGAH7pqm4pFLV5e2dy/Z+cjKRDXYVWp6JthbLD0wMcG28qptH
-   EXTStdWJbRtesyjCgkC3H2KGqw34ufjaOTx2/Bh78EJZjQX+pXNVjf+Y1
-   gLisAHtPIcZY6YzrywHKSPR9WdhnynCttdUf2Xb+qNsCwfN77ruspp8NI
-   A==;
-X-CSE-ConnectionGUID: hqopGtOITo2dytNpJVIn/A==
-X-CSE-MsgGUID: /1+t9w4NSEybjQBwqS0yEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="58924454"
+  t=1770164522; x=1801700522;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vJqaIkkGQQvB0y2jKpAyCZtx6W0Oi8NhwX7gnDSzPQM=;
+  b=MIByiWK8s3SilpcI5zPKPEthr/Fz9Jag5F/IVkB/fXs5QkocwIO2cz79
+   K34XRuV2T8e1RUVNweAvqeOCWO2UwI5bnU/VytXj2z4ZnMLAQtQ4kUEH4
+   tfoe16yZStRMFLisJjwpBSprTbDRylPuJxycmS4u09Cf4DaLjSdlU+P6b
+   nDYzfdW1xOMHqmUwAq8kMTSc3mfyHZmpyo4jE0nW9mvyRGzWogT0y7k3g
+   hE4lAPPEJQcw3MpTzvNSVT0oD0JVQtp8kM9+/iOR0enc2Rh38IL2c/dN+
+   0hglGzRCXMKSicjPu8/C/xYPn6VtEqSLe8bwLWKX+tsp9k3gUu1fojBIp
+   w==;
+X-CSE-ConnectionGUID: 590mE4h9TQqOJryW/u9zmA==
+X-CSE-MsgGUID: MkdhsarETs+jbazbrr7z6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71428554"
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="58924454"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 16:12:00 -0800
-X-CSE-ConnectionGUID: fzftN4RZT6eXsRC4shPrfA==
-X-CSE-MsgGUID: fTYNxzWRT2SVkxgrq8luxQ==
+   d="scan'208";a="71428554"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 16:22:01 -0800
+X-CSE-ConnectionGUID: t5rIKQ7vT8mNAM1G04i7VQ==
+X-CSE-MsgGUID: gWaNtIfiRWSd5iEDpjxA8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="209801802"
+   d="scan'208";a="214548021"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Feb 2026 16:11:59 -0800
+  by orviesa004.jf.intel.com with ESMTP; 03 Feb 2026 16:22:00 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnQUu-00000000hJg-1Qzx;
-	Wed, 04 Feb 2026 00:11:56 +0000
-Date: Wed, 04 Feb 2026 08:11:31 +0800
+	id 1vnQea-00000000hK0-2QDh;
+	Wed, 04 Feb 2026 00:21:56 +0000
+Date: Wed, 4 Feb 2026 08:21:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi 6/12] ld.lld: error: undefined
- symbol: bpf_check_attach_target
-Message-ID: <202602040833.jRDsHtWK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Zhang Yi <yi.zhang@huawei.com>, linux-ext4@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tytso@mit.edu,
+	adilger.kernel@dilger.ca, jack@suse.cz, ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com, hch@infradead.org, djwong@kernel.org,
+	yi.zhang@huawei.com, yi.zhang@huaweicloud.com, yizhang089@gmail.com,
+	libaokun1@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH -next v2 17/22] ext4: implement partial block zero range
+ iomap path
+Message-ID: <202602040854.1tmFmFGB-lkp@intel.com>
+References: <20260203062523.3869120-18-yi.zhang@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260203062523.3869120-18-yi.zhang@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
-head:   ae091d7daa68f465679351da2b52a948a8beab4b
-commit: 892424c1e07f243e850e0611bf3e2b990a684a1d [6/12] bpf: Add bpf_trampoline_multi_attach/detach functions
-config: x86_64-randconfig-006-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040833.jRDsHtWK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040833.jRDsHtWK-lkp@intel.com/reproduce)
+Hi Zhang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20260202]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yi/ext4-make-ext4_block_zero_page_range-pass-out-did_zero/20260203-144244
+base:   next-20260202
+patch link:    https://lore.kernel.org/r/20260203062523.3869120-18-yi.zhang%40huawei.com
+patch subject: [PATCH -next v2 17/22] ext4: implement partial block zero range iomap path
+config: m68k-randconfig-r123-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040854.1tmFmFGB-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040854.1tmFmFGB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040833.jRDsHtWK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040854.1tmFmFGB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ext4/inode.c:4151:24: sparse: sparse: symbol 'ext4_iomap_zero_ops' was not declared. Should it be static?
+   fs/ext4/inode.c:4164:24: sparse: sparse: symbol 'ext4_iomap_buffered_read_ops' was not declared. Should it be static?
+   fs/ext4/inode.c:5135:32: sparse: sparse: unsigned value that used to be signed checked against zero?
+   fs/ext4/inode.c:5134:52: sparse: signed value source
 
->> ld.lld: error: undefined symbol: bpf_check_attach_target
-   >>> referenced by trampoline.c:1478 (kernel/bpf/trampoline.c:1478)
-   >>>               kernel/bpf/trampoline.o:(bpf_trampoline_multi_attach) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: btf_obj_id
-   >>> referenced by bpf_verifier.h:916 (include/linux/bpf_verifier.h:916)
-   >>>               kernel/bpf/trampoline.o:(bpf_trampoline_multi_attach) in archive vmlinux.a
+vim +/ext4_iomap_zero_ops +4151 fs/ext4/inode.c
+
+  4150	
+> 4151	const struct iomap_ops ext4_iomap_zero_ops = {
+  4152		.iomap_begin = ext4_iomap_zero_begin,
+  4153	};
+  4154	
 
 -- 
 0-DAY CI Kernel Test Service
