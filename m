@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B84A3B9608;
-	Wed,  4 Feb 2026 14:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF95A2BD012
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Feb 2026 15:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770215731; cv=none; b=mCu2/Se/puwlDWv6aawce8CMud2JmxQIeWHqW4zGAXgz7qtGgr711dg4iD1IyBIfRX98pe2kEP48Cu/0hh9lw2GKO0fy/EU+KE1SwLuTMswdEgdNuusO/MjUJrJUpDSt3FdQ4WyFAJeqbAdV2iZ+NlkVKqy/Zf9qJRDjrvfjL6s=
+	t=1770218213; cv=none; b=TUUFjCTOzWrEVoAWSXMH/5uXfLRm1Q1UmVWXDRIU9LH1B0mcbsVq5zQhVrnUOli6IWwFGHNj0XAgZLYtJP0CEABximPFUnVQNcMvXmN4P55fReQAvPvqJebVeKccj9olsy+SS7a47NMIUlZmC8N3UOyXgzhHjt+ztqZdAS5ch8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770215731; c=relaxed/simple;
-	bh=S51Eo1kvBp2wy/E4Bblmv7YBpm0aNIOY3/VX+4k/fKI=;
+	s=arc-20240116; t=1770218213; c=relaxed/simple;
+	bh=LAS0EkVBgtrNL60SSrA5BOjIsofdR08gLvcrjcrN/r0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=reXydTb9z32DFj0wFPaysbCy5Crs5NofaNUHE2nHvdFe708CA/36kaGNuJY+3FmlbcNqAxku7UQz6mYpkfNFeForBLC1bmYGH2EVFEMscg6uLz+ODESMfaPwxlbx578FS0zvlOcUtFtlKhnlyUZ87/YpejUYB0XKegbZmgheJqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=La/bKhVv; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ilUbkakqrFdtCSvnx8f8DFxpXgJStk3Na3Zo8fVNNaDydJ9IgP/sgIrWTjSFiSGqhqIRZvm3zXkNq624YmnDJMa2IFhcaYCHxDK123sqjwtBJnmrasslPUQmU+sOo8q4GM2kj3ObMMY1vEOT7KOGllubKYLI08O6Zp+XijpgR0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caItZR+n; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="La/bKhVv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caItZR+n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770215730; x=1801751730;
+  t=1770218213; x=1801754213;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=S51Eo1kvBp2wy/E4Bblmv7YBpm0aNIOY3/VX+4k/fKI=;
-  b=La/bKhVvTKG+MBJfkKc/DyOEtCuStDFf7/ulOCCW1dKV12jxPv3gU/k/
-   4RC/SbYZ4OWtFQNGdbeb61CL0jIFtfusjepRkTInHF57uVOSkpe0y8Bma
-   J6qIBUbuBIJZxXkQx23IxWj6Mr/4+XD5NPMo+C4lmghRDVl9rI/e5uuIg
-   y6irenCV72F2Avx6S957XE/txU7petgxEySBV00nCEX955s1/9JPQWUSD
-   A9/dDfzy+yInLcwz2U73o0qwTHzpIf+Pp8qO8srg59nzlHYKN6FW5EKNj
-   pQQfN2xpi+pCtK6Cb8QsRWiobh3eeqrzVrPGXiMoit+D6WgrXvUX8uh04
-   Q==;
-X-CSE-ConnectionGUID: ilVVwcwBRm68LNoo4cHUCA==
-X-CSE-MsgGUID: PwYi4W4xScaaYNNAkZXdRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71437067"
+   mime-version:in-reply-to;
+  bh=LAS0EkVBgtrNL60SSrA5BOjIsofdR08gLvcrjcrN/r0=;
+  b=caItZR+nAk+LdmkjMi2l0RSWfXrVhlbXNG5pjjGBWML+I1qYcUs7r9Fw
+   JbOYj5Aaxb6RgRA8bHOujzsEuWBK9Ib81Wz7w1Vi1LrkJ/d3mRTd1OrI2
+   gpC4yxY8ZAZD7ZdNz6lG/KTTuNN83gKLtS6NZPqmPr5e5NYBDc0NZiMx4
+   L5F8fcqFVM7z4y2HRf+J3wFLeQnQi2aWweOPEbhXYrzmiLGoBTgGoUlPv
+   akTUcYTrZVMN75xtpWAjNwI5XB22YcHav9gTfLIm5s9kgWsy2DFLvpcV6
+   2owCtxN5G4H5+FUjYXQHRXf+LousvRwVqF7t/t6CELe7FMLx8rID/6iHG
+   w==;
+X-CSE-ConnectionGUID: BMEHxWQtTACo6csZXJU7Xw==
+X-CSE-MsgGUID: w8Kz3L9lTpmJ52yu3NBNDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71391217"
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="71437067"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 06:35:29 -0800
-X-CSE-ConnectionGUID: SyvXr0fbSH+kd4UCZRcVRQ==
-X-CSE-MsgGUID: hrhRM+DnT8Wy939zJfiStA==
+   d="scan'208";a="71391217"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 07:16:52 -0800
+X-CSE-ConnectionGUID: YsXuTrHrR5OvoMFxxH70BQ==
+X-CSE-MsgGUID: d1cXLsZCSf2uiD2pONH8ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="209472705"
+   d="scan'208";a="240967509"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 04 Feb 2026 06:35:28 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 04 Feb 2026 07:16:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vndyX-00000000huS-2DtK;
-	Wed, 04 Feb 2026 14:35:25 +0000
-Date: Wed, 4 Feb 2026 22:34:28 +0800
+	id 1vneca-00000000iLA-25QB;
+	Wed, 04 Feb 2026 15:16:48 +0000
+Date: Wed, 4 Feb 2026 23:16:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
 	Helge Deller <deller@gmx.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Chen Ni <nichen@iscas.ac.cn>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH v1 2/3] fbdev: au1100fb: Make driver compilable on
  non-mips platforms
-Message-ID: <202602042224.CY8SSh3n-lkp@intel.com>
+Message-ID: <202602042342.RXu7sDV7-lkp@intel.com>
 References: <474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,72 +63,75 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig@baylibre.com>
 
 Hi Uwe,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 0636e6205beed850d985276dc56fd73d785bea5c]
+[auto build test WARNING on 0636e6205beed850d985276dc56fd73d785bea5c]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/fbdev-au1100fb-Mark-several-local-functions-as-static/20260204-171704
 base:   0636e6205beed850d985276dc56fd73d785bea5c
 patch link:    https://lore.kernel.org/r/474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig%40baylibre.com
 patch subject: [PATCH v1 2/3] fbdev: au1100fb: Make driver compilable on non-mips platforms
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260204/202602042224.CY8SSh3n-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602042224.CY8SSh3n-lkp@intel.com/reproduce)
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260204/202602042342.RXu7sDV7-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602042342.RXu7sDV7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602042224.CY8SSh3n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602042342.RXu7sDV7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/video/fbdev/au1100fb.c:354:32: error: expression is not assignable
+   drivers/video/fbdev/au1100fb.c: In function 'au1100fb_fb_mmap':
+   drivers/video/fbdev/au1100fb.c:354:39: error: lvalue required as left operand of assignment
      354 |         pgprot_val(vma->vm_page_prot) |= (6 << 9); //CCA=6
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/video/fbdev/au1100fb.c:473:6: warning: format specifies type 'int' but the argument has type 'size_t' (aka 'unsigned long') [-Wformat]
-     472 |                 print_err("fail to allocate framebuffer (size: %dK))",
-         |                                                                ~~
-         |                                                                %zu
-     473 |                           fbdev->fb_len / 1024);
-         |                           ^~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/au1100fb.h:33:74: note: expanded from macro 'print_err'
-      33 | #define print_err(f, arg...) printk(KERN_ERR DRIVER_NAME ": " f "\n", ## arg)
-         |                                                               ~          ^~~
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+         |                                       ^~
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/s390/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from arch/s390/include/asm/cmpxchg.h:11,
+                    from arch/s390/include/asm/atomic.h:16,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/s390/include/asm/bitops.h:75,
+                    from include/linux/bitops.h:67,
+                    from include/linux/kernel.h:23,
+                    from include/linux/clk.h:13,
+                    from drivers/video/fbdev/au1100fb.c:44:
+   drivers/video/fbdev/au1100fb.c: In function 'au1100fb_drv_probe':
+>> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 2 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
      484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning and 1 error generated.
+         |                         ^~~~
+   drivers/video/fbdev/au1100fb.h:33:30: note: in expansion of macro 'printk'
+      33 | #define print_err(f, arg...) printk(KERN_ERR DRIVER_NAME ": " f "\n", ## arg)
+         |                              ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   drivers/video/fbdev/au1100fb.h:33:37: note: in expansion of macro 'KERN_ERR'
+      33 | #define print_err(f, arg...) printk(KERN_ERR DRIVER_NAME ": " f "\n", ## arg)
+         |                                     ^~~~~~~~
+   drivers/video/fbdev/au1100fb.c:472:17: note: in expansion of macro 'print_err'
+     472 |                 print_err("fail to allocate framebuffer (size: %dK))",
+         |                 ^~~~~~~~~
 
 
-vim +354 drivers/video/fbdev/au1100fb.c
+vim +5 include/linux/kern_levels.h
 
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  343  
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  344  /* fb_mmap
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  345   * Map video memory in user space. We don't use the generic fb_mmap method mainly
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  346   * to allow the use of the TLB streaming flag (CCA=6)
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  347   */
-0238b447706a72c drivers/video/fbdev/au1100fb.c Uwe Kleine-König  2026-02-04  348  static int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  349  {
-67f30ad19c4b329 drivers/video/fbdev/au1100fb.c Christoph Hellwig 2019-04-28  350  	struct au1100fb_device *fbdev = to_au1100fb_device(fbi);
-c05b7f3d12b9455 drivers/video/au1100fb.c       Rodolfo Giometti  2006-05-30  351  
-76f92201b821dd2 drivers/video/fbdev/au1100fb.c Thomas Zimmermann 2023-11-27  352  	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
-76f92201b821dd2 drivers/video/fbdev/au1100fb.c Thomas Zimmermann 2023-11-27  353  
-^1da177e4c3f415 drivers/video/au1100fb.c       Linus Torvalds    2005-04-16 @354  	pgprot_val(vma->vm_page_prot) |= (6 << 9); //CCA=6
-^1da177e4c3f415 drivers/video/au1100fb.c       Linus Torvalds    2005-04-16  355  
-67f30ad19c4b329 drivers/video/fbdev/au1100fb.c Christoph Hellwig 2019-04-28  356  	return dma_mmap_coherent(fbdev->dev, vma, fbdev->fb_mem, fbdev->fb_phys,
-67f30ad19c4b329 drivers/video/fbdev/au1100fb.c Christoph Hellwig 2019-04-28  357  			fbdev->fb_len);
-^1da177e4c3f415 drivers/video/au1100fb.c       Linus Torvalds    2005-04-16  358  }
-^1da177e4c3f415 drivers/video/au1100fb.c       Linus Torvalds    2005-04-16  359  
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
 -- 
 0-DAY CI Kernel Test Service
