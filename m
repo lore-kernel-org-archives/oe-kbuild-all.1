@@ -1,227 +1,334 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AAE3002D7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 17:59:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688E23002D7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 17:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770314367; cv=none; b=KJr4LovUgO+wweqCObS6ZtgKrf9x4XBIQAYhSYTCe30A/qPPA/04JpgK4sw+06SdSTmm3BOuQVen7Oy/VCRrViQkaJrrwIEXXfRKePuoXUbfr1SJ8ymOIWwkIdkzJ+1lRvUOAJ7r7+9vDRHEsm1Z5rgB67j081DytjUkIxcCFms=
+	t=1770314367; cv=none; b=BZe+PImY4LU9ljgqSga+PSbc4+e1DEYS28AdKWgQQ3B7fx2JmXPjekPr07BCu7W/91Iq4+W/JINcR6vkkwkTXnD+dwb6vdAToi00t91QjkQVALT7pmW4nCxBvxRImIgy4/GUP8naiQaUFh0IdUNOEn/aLz/jGHzCxwOTXSSeH+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770314367; c=relaxed/simple;
-	bh=BWsEYzfoVGS2aZH6wLlprpMOw6Auc5lQ1EEnep+ut7I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dQrAsbQKYw0TEde/yTP8NZiamGHvB3dL9WoC8zVxieMzGMM1g1fBl8ifyFLGK8FZ5uh62gUa7gbNaAI/PQxmaZFfFf4OgDAkHrZsU6Qz2phn+NAlyf/47gf8obMD4+DYmT8XQiCjHTMKddsjfWhaWVnKthuvksX4mQ8pEz8Zz/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CKq5FTLl; arc=none smtp.client-ip=192.198.163.18
+	bh=NhzhwITI9ZBOqgCkCO1eRGUL4UGRqOM83DHf5ZgY1ds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rHtYOuUNRffBgohQe9sv0Vw3c+n/LZijqqG7fQWMTXhpoawqX/IPX6stm0qYDa+1ChsB4fAQobMCnCkPbhFHQnmPVP4wNrIhx01Ytl8NYhQqUc+HY8spEZIAhrvirKyYlHVnsFoIeucOkZz/43qMuRViZiLGA2fXhC2D4E979f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KqOA4nsX; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CKq5FTLl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KqOA4nsX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1770314367; x=1801850367;
-  h=date:from:to:cc:subject:message-id;
-  bh=BWsEYzfoVGS2aZH6wLlprpMOw6Auc5lQ1EEnep+ut7I=;
-  b=CKq5FTLlQVs0EX24Xr+kByR8Y4ta7H3SB9pOEoZ8lGHIcBjVdk7k0pHk
-   0//D5jSLj8CxY7wR8rCppLenl0yQhfcwUoVNdQmzs1eqbPbFJOtQ4OJvy
-   7nMizq0EkBAkhS1/RT4ZoIgoCxfMg5XcYVPrNb46cxLlOblQJgk26mr2M
-   SzmQ4lPF6WuCrnhyOA/ge6Oc2pHiOWB/2ijtXZUgDSlA7pP7v9cfN9YGD
-   ovdU0EuPb8fYP+Xggu5sLIc40XQQ9On0KLc2V0NpJPjl2p0Ua8bCD0Y89
-   1ah7CVSHaN0g0Mu9pszXjkwnC+qZHiwM0LmpmmZKOFwwpMVJG6NlV+1xA
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NhzhwITI9ZBOqgCkCO1eRGUL4UGRqOM83DHf5ZgY1ds=;
+  b=KqOA4nsXwrdydNjeV1bzvm1l/NZ7NZQUU7RfCr86ivwXD6IdVpb2RIW1
+   afevpCqmk9Bs/AHmCTj3WWlOX27W6USZe8cFmNkn1jr9OMyGFfVwOGxGJ
+   +Wo3wrdAho9hQ6OKaaemu5PDbW+oLv5gy0QDy803yOAkvLdtovvwEkv9w
+   UZk4w0sXghi/UcMqUH4KoaNLXtAlzKy6xyzvRHlYZC0e2lLy0yQnC+L1K
+   TZBSzVFMvpg1k02VEo6A1nUkt8PSCBdgvfFokOlCaIXoiOP38T+ZKVz68
+   ROvTqNERdhw12MJDKvYKWJgwPWU2f+x4GRlptD0ySqjUMpx4wcfDNeM5v
    g==;
-X-CSE-ConnectionGUID: A9NcIM5WRRKKzPV93srhlw==
-X-CSE-MsgGUID: 4TBHqdQaSVuzSeMPanjiIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="70714603"
+X-CSE-ConnectionGUID: Z5sSQsMXQSCqgPWcWTPBEg==
+X-CSE-MsgGUID: 08cvlK9hTk6wKhwPIdBtHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="70714606"
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="70714603"
+   d="scan'208";a="70714606"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 09:59:26 -0800
-X-CSE-ConnectionGUID: TsD8UibkQgufUL1PXmQvxg==
-X-CSE-MsgGUID: ewUC/+paRh+KJ8UeG1wNJg==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 09:59:27 -0800
+X-CSE-ConnectionGUID: AMadNLnoR8imejMCY6honQ==
+X-CSE-MsgGUID: MjlpLEqHQce48LJ0uGeHOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="210569214"
+   d="scan'208";a="210569208"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 05 Feb 2026 09:59:24 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vo3dS-00000000k5E-1JsY;
+	id 1vo3dS-00000000k5C-1E0r;
 	Thu, 05 Feb 2026 17:59:22 +0000
-Date: Fri, 06 Feb 2026 01:58:30 +0800
+Date: Fri, 6 Feb 2026 01:58:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [drm-misc:drm-misc-next 3/5]
- drivers/gpu/drm/verisilicon/vs_dc.c:146:64: warning: '%u' directive output
- may be truncated writing between 1 and 10 bytes into a region of size 2
-Message-ID: <202602060154.ONBYvM9m-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Feng Yang <yangfeng59949@163.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] bpf: test_run: Fix the null pointer dereference issue
+ in bpf_lwt_xmit_push_encap
+Message-ID: <202602060101.PefMJeTB-lkp@intel.com>
+References: <20260205092227.126665-1-yangfeng59949@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205092227.126665-1-yangfeng59949@163.com>
 
-tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-head:   779ec12c85c9e4547519e3903a371a3b26a289de
-commit: dbf21777caa8b8c88c12f7f036b01208fec0d55a [3/5] drm: verisilicon: add a driver for Verisilicon display controllers
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260206/202602060154.ONBYvM9m-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060154.ONBYvM9m-lkp@intel.com/reproduce)
+Hi Feng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/net]
+[also build test WARNING on bpf-next/master bpf/master net-next/main net/main linus/master v6.19-rc8 next-20260205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Yang/bpf-test_run-Fix-the-null-pointer-dereference-issue-in-bpf_lwt_xmit_push_encap/20260205-172527
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20260205092227.126665-1-yangfeng59949%40163.com
+patch subject: [PATCH v2] bpf: test_run: Fix the null pointer dereference issue in bpf_lwt_xmit_push_encap
+config: hexagon-randconfig-r132-20260205 (https://download.01.org/0day-ci/archive/20260206/202602060101.PefMJeTB-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060101.PefMJeTB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602060154.ONBYvM9m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602060101.PefMJeTB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/bpf/test_run.c:617:18: sparse: sparse: symbol 'bpf_kfunc_call_test_release_dtor' was not declared. Should it be static?
+   net/bpf/test_run.c:627:18: sparse: sparse: symbol 'bpf_kfunc_call_memb_release_dtor' was not declared. Should it be static?
+>> net/bpf/test_run.c:984:18: sparse: sparse: symbol 'bpf_test_run_lwt_xmit_dst' was not declared. Should it be static?
 
-   drivers/gpu/drm/verisilicon/vs_dc.c: In function 'vs_dc_probe':
->> drivers/gpu/drm/verisilicon/vs_dc.c:146:64: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-     146 |                 snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
-         |                                                                ^~
-   drivers/gpu/drm/verisilicon/vs_dc.c:146:60: note: directive argument in the range [0, 4294967294]
-     146 |                 snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
-         |                                                            ^~~~~~~
-   drivers/gpu/drm/verisilicon/vs_dc.c:146:17: note: 'snprintf' output between 5 and 14 bytes into a destination of size 5
-     146 |                 snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/bpf_test_run_lwt_xmit_dst +984 net/bpf/test_run.c
 
-
-vim +146 drivers/gpu/drm/verisilicon/vs_dc.c
-
-    42	
-    43	static int vs_dc_probe(struct platform_device *pdev)
-    44	{
-    45		struct device *dev = &pdev->dev;
-    46		struct vs_dc *dc;
-    47		void __iomem *regs;
-    48		unsigned int port_count, i;
-    49		/* pix0/pix1 */
-    50		char pixclk_name[5];
-    51		int irq, ret;
-    52	
-    53		if (!dev->of_node) {
-    54			dev_err(dev, "can't find DC devices\n");
-    55			return -ENODEV;
-    56		}
-    57	
-    58		port_count = of_graph_get_port_count(dev->of_node);
-    59		if (!port_count) {
-    60			dev_err(dev, "can't find DC downstream ports\n");
-    61			return -ENODEV;
-    62		}
-    63		if (port_count > VSDC_MAX_OUTPUTS) {
-    64			dev_err(dev, "too many DC downstream ports than possible\n");
-    65			return -EINVAL;
-    66		}
-    67	
-    68		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-    69		if (ret) {
-    70			dev_err(dev, "No suitable DMA available\n");
-    71			return ret;
-    72		}
-    73	
-    74		dc = devm_kzalloc(dev, sizeof(*dc), GFP_KERNEL);
-    75		if (!dc)
-    76			return -ENOMEM;
-    77	
-    78		dc->rsts[0].id = "core";
-    79		dc->rsts[1].id = "axi";
-    80		dc->rsts[2].id = "ahb";
-    81	
-    82		ret = devm_reset_control_bulk_get_optional_shared(dev, VSDC_RESET_COUNT,
-    83								  dc->rsts);
-    84		if (ret) {
-    85			dev_err(dev, "can't get reset lines\n");
-    86			return ret;
-    87		}
-    88	
-    89		dc->core_clk = devm_clk_get_enabled(dev, "core");
-    90		if (IS_ERR(dc->core_clk)) {
-    91			dev_err(dev, "can't get core clock\n");
-    92			return PTR_ERR(dc->core_clk);
-    93		}
-    94	
-    95		dc->axi_clk = devm_clk_get_enabled(dev, "axi");
-    96		if (IS_ERR(dc->axi_clk)) {
-    97			dev_err(dev, "can't get axi clock\n");
-    98			return PTR_ERR(dc->axi_clk);
-    99		}
-   100	
-   101		dc->ahb_clk = devm_clk_get_enabled(dev, "ahb");
-   102		if (IS_ERR(dc->ahb_clk)) {
-   103			dev_err(dev, "can't get ahb clock\n");
-   104			return PTR_ERR(dc->ahb_clk);
-   105		}
-   106	
-   107		irq = platform_get_irq(pdev, 0);
-   108		if (irq < 0) {
-   109			dev_err(dev, "can't get irq\n");
-   110			return irq;
-   111		}
-   112	
-   113		ret = reset_control_bulk_deassert(VSDC_RESET_COUNT, dc->rsts);
-   114		if (ret) {
-   115			dev_err(dev, "can't deassert reset lines\n");
-   116			return ret;
-   117		}
-   118	
-   119		regs = devm_platform_ioremap_resource(pdev, 0);
-   120		if (IS_ERR(regs)) {
-   121			dev_err(dev, "can't map registers");
-   122			ret = PTR_ERR(regs);
-   123			goto err_rst_assert;
-   124		}
-   125	
-   126		dc->regs = devm_regmap_init_mmio(dev, regs, &vs_dc_regmap_cfg);
-   127		if (IS_ERR(dc->regs)) {
-   128			ret = PTR_ERR(dc->regs);
-   129			goto err_rst_assert;
-   130		}
-   131	
-   132		ret = vs_fill_chip_identity(dc->regs, &dc->identity);
-   133		if (ret)
-   134			goto err_rst_assert;
-   135	
-   136		dev_info(dev, "Found DC%x rev %x customer %x\n", dc->identity.model,
-   137			 dc->identity.revision, dc->identity.customer_id);
-   138	
-   139		if (port_count > dc->identity.display_count) {
-   140			dev_err(dev, "too many downstream ports than HW capability\n");
-   141			ret = -EINVAL;
-   142			goto err_rst_assert;
-   143		}
-   144	
-   145		for (i = 0; i < dc->identity.display_count; i++) {
- > 146			snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
-   147			dc->pix_clk[i] = devm_clk_get(dev, pixclk_name);
-   148			if (IS_ERR(dc->pix_clk[i])) {
-   149				dev_err(dev, "can't get pixel clk %u\n", i);
-   150				ret = PTR_ERR(dc->pix_clk[i]);
-   151				goto err_rst_assert;
-   152			}
-   153		}
-   154	
-   155		ret = devm_request_irq(dev, irq, vs_dc_irq_handler, 0,
-   156				       dev_name(dev), dc);
-   157		if (ret) {
-   158			dev_err(dev, "can't request irq\n");
-   159			goto err_rst_assert;
-   160		}
-   161	
-   162		dev_set_drvdata(dev, dc);
-   163	
-   164		ret = vs_drm_initialize(dc, pdev);
-   165		if (ret)
-   166			goto err_rst_assert;
-   167	
-   168		return 0;
-   169	
-   170	err_rst_assert:
-   171		reset_control_bulk_assert(VSDC_RESET_COUNT, dc->rsts);
-   172		return ret;
-   173	}
-   174	
+   983	
+ > 984	struct dst_entry bpf_test_run_lwt_xmit_dst;
+   985	int bpf_prog_test_run_skb(struct bpf_prog *prog, const union bpf_attr *kattr,
+   986				  union bpf_attr __user *uattr)
+   987	{
+   988		bool is_l2 = false, is_direct_pkt_access = false, is_lwt = false;
+   989		u32 tailroom = SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+   990		struct net *net = current->nsproxy->net_ns;
+   991		struct net_device *dev = net->loopback_dev;
+   992		u32 headroom = NET_SKB_PAD + NET_IP_ALIGN;
+   993		u32 linear_sz = kattr->test.data_size_in;
+   994		u32 repeat = kattr->test.repeat;
+   995		struct __sk_buff *ctx = NULL;
+   996		struct sk_buff *skb = NULL;
+   997		struct sock *sk = NULL;
+   998		u32 retval, duration;
+   999		int hh_len = ETH_HLEN;
+  1000		void *data = NULL;
+  1001		int ret;
+  1002	
+  1003		if ((kattr->test.flags & ~BPF_F_TEST_SKB_CHECKSUM_COMPLETE) ||
+  1004		    kattr->test.cpu || kattr->test.batch_size)
+  1005			return -EINVAL;
+  1006	
+  1007		if (kattr->test.data_size_in < ETH_HLEN)
+  1008			return -EINVAL;
+  1009	
+  1010		switch (prog->type) {
+  1011		case BPF_PROG_TYPE_SCHED_CLS:
+  1012		case BPF_PROG_TYPE_SCHED_ACT:
+  1013			is_direct_pkt_access = true;
+  1014			is_l2 = true;
+  1015			break;
+  1016		case BPF_PROG_TYPE_LWT_IN:
+  1017		case BPF_PROG_TYPE_LWT_OUT:
+  1018		case BPF_PROG_TYPE_LWT_XMIT:
+  1019			is_lwt = true;
+  1020			fallthrough;
+  1021		case BPF_PROG_TYPE_CGROUP_SKB:
+  1022			is_direct_pkt_access = true;
+  1023			break;
+  1024		default:
+  1025			break;
+  1026		}
+  1027	
+  1028		ctx = bpf_ctx_init(kattr, sizeof(struct __sk_buff));
+  1029		if (IS_ERR(ctx))
+  1030			return PTR_ERR(ctx);
+  1031	
+  1032		if (ctx) {
+  1033			if (ctx->data_end > kattr->test.data_size_in || ctx->data || ctx->data_meta) {
+  1034				ret = -EINVAL;
+  1035				goto out;
+  1036			}
+  1037			if (ctx->data_end) {
+  1038				/* Non-linear LWT test_run is unsupported for now. */
+  1039				if (is_lwt) {
+  1040					ret = -EINVAL;
+  1041					goto out;
+  1042				}
+  1043				linear_sz = max(ETH_HLEN, ctx->data_end);
+  1044			}
+  1045		}
+  1046	
+  1047		linear_sz = min_t(u32, linear_sz, PAGE_SIZE - headroom - tailroom);
+  1048	
+  1049		data = bpf_test_init(kattr, linear_sz, linear_sz, headroom, tailroom);
+  1050		if (IS_ERR(data)) {
+  1051			ret = PTR_ERR(data);
+  1052			data = NULL;
+  1053			goto out;
+  1054		}
+  1055	
+  1056		sk = sk_alloc(net, AF_UNSPEC, GFP_USER, &bpf_dummy_proto, 1);
+  1057		if (!sk) {
+  1058			ret = -ENOMEM;
+  1059			goto out;
+  1060		}
+  1061		sock_init_data(NULL, sk);
+  1062	
+  1063		skb = slab_build_skb(data);
+  1064		if (!skb) {
+  1065			ret = -ENOMEM;
+  1066			goto out;
+  1067		}
+  1068		skb->sk = sk;
+  1069	
+  1070		data = NULL; /* data released via kfree_skb */
+  1071	
+  1072		skb_reserve(skb, NET_SKB_PAD + NET_IP_ALIGN);
+  1073		__skb_put(skb, linear_sz);
+  1074	
+  1075		if (unlikely(kattr->test.data_size_in > linear_sz)) {
+  1076			void __user *data_in = u64_to_user_ptr(kattr->test.data_in);
+  1077			struct skb_shared_info *sinfo = skb_shinfo(skb);
+  1078			u32 copied = linear_sz;
+  1079	
+  1080			while (copied < kattr->test.data_size_in) {
+  1081				struct page *page;
+  1082				u32 data_len;
+  1083	
+  1084				if (sinfo->nr_frags == MAX_SKB_FRAGS) {
+  1085					ret = -ENOMEM;
+  1086					goto out;
+  1087				}
+  1088	
+  1089				page = alloc_page(GFP_KERNEL);
+  1090				if (!page) {
+  1091					ret = -ENOMEM;
+  1092					goto out;
+  1093				}
+  1094	
+  1095				data_len = min_t(u32, kattr->test.data_size_in - copied,
+  1096						 PAGE_SIZE);
+  1097				skb_fill_page_desc(skb, sinfo->nr_frags, page, 0, data_len);
+  1098	
+  1099				if (copy_from_user(page_address(page), data_in + copied,
+  1100						   data_len)) {
+  1101					ret = -EFAULT;
+  1102					goto out;
+  1103				}
+  1104				skb->data_len += data_len;
+  1105				skb->truesize += PAGE_SIZE;
+  1106				skb->len += data_len;
+  1107				copied += data_len;
+  1108			}
+  1109		}
+  1110	
+  1111		if (ctx && ctx->ifindex > 1) {
+  1112			dev = dev_get_by_index(net, ctx->ifindex);
+  1113			if (!dev) {
+  1114				ret = -ENODEV;
+  1115				goto out;
+  1116			}
+  1117		}
+  1118		skb->protocol = eth_type_trans(skb, dev);
+  1119		skb_reset_network_header(skb);
+  1120	
+  1121		switch (skb->protocol) {
+  1122		case htons(ETH_P_IP):
+  1123			sk->sk_family = AF_INET;
+  1124			if (sizeof(struct iphdr) <= skb_headlen(skb)) {
+  1125				sk->sk_rcv_saddr = ip_hdr(skb)->saddr;
+  1126				sk->sk_daddr = ip_hdr(skb)->daddr;
+  1127			}
+  1128			break;
+  1129	#if IS_ENABLED(CONFIG_IPV6)
+  1130		case htons(ETH_P_IPV6):
+  1131			sk->sk_family = AF_INET6;
+  1132			if (sizeof(struct ipv6hdr) <= skb_headlen(skb)) {
+  1133				sk->sk_v6_rcv_saddr = ipv6_hdr(skb)->saddr;
+  1134				sk->sk_v6_daddr = ipv6_hdr(skb)->daddr;
+  1135			}
+  1136			break;
+  1137	#endif
+  1138		default:
+  1139			break;
+  1140		}
+  1141	
+  1142		if (is_l2)
+  1143			__skb_push(skb, hh_len);
+  1144		if (is_direct_pkt_access)
+  1145			bpf_compute_data_pointers(skb);
+  1146	
+  1147		ret = convert___skb_to_skb(skb, ctx);
+  1148		if (ret)
+  1149			goto out;
+  1150	
+  1151		if (kattr->test.flags & BPF_F_TEST_SKB_CHECKSUM_COMPLETE) {
+  1152			const int off = skb_network_offset(skb);
+  1153			int len = skb->len - off;
+  1154	
+  1155			skb->csum = skb_checksum(skb, off, len, 0);
+  1156			skb->ip_summed = CHECKSUM_COMPLETE;
+  1157		}
+  1158	
+  1159		if (prog->type == BPF_PROG_TYPE_LWT_XMIT) {
+  1160			bpf_test_run_lwt_xmit_dst.dev = dev;
+  1161			skb_dst_set(skb, &bpf_test_run_lwt_xmit_dst);
+  1162		}
+  1163		ret = bpf_test_run(prog, skb, repeat, &retval, &duration, false);
+  1164		if (prog->type == BPF_PROG_TYPE_LWT_XMIT)
+  1165			skb_dst_set(skb, NULL);
+  1166		if (ret)
+  1167			goto out;
+  1168		if (!is_l2) {
+  1169			if (skb_headroom(skb) < hh_len) {
+  1170				int nhead = HH_DATA_ALIGN(hh_len - skb_headroom(skb));
+  1171	
+  1172				if (pskb_expand_head(skb, nhead, 0, GFP_USER)) {
+  1173					ret = -ENOMEM;
+  1174					goto out;
+  1175				}
+  1176			}
+  1177			memset(__skb_push(skb, hh_len), 0, hh_len);
+  1178		}
+  1179	
+  1180		if (kattr->test.flags & BPF_F_TEST_SKB_CHECKSUM_COMPLETE) {
+  1181			const int off = skb_network_offset(skb);
+  1182			int len = skb->len - off;
+  1183			__wsum csum;
+  1184	
+  1185			csum = skb_checksum(skb, off, len, 0);
+  1186	
+  1187			if (csum_fold(skb->csum) != csum_fold(csum)) {
+  1188				ret = -EBADMSG;
+  1189				goto out;
+  1190			}
+  1191		}
+  1192	
+  1193		convert_skb_to___skb(skb, ctx);
+  1194	
+  1195		if (skb_is_nonlinear(skb))
+  1196			/* bpf program can never convert linear skb to non-linear */
+  1197			WARN_ON_ONCE(linear_sz == kattr->test.data_size_in);
+  1198		ret = bpf_test_finish(kattr, uattr, skb->data, skb_shinfo(skb), skb->len,
+  1199				      skb->data_len, retval, duration);
+  1200		if (!ret)
+  1201			ret = bpf_ctx_finish(kattr, uattr, ctx,
+  1202					     sizeof(struct __sk_buff));
+  1203	out:
+  1204		if (dev && dev != net->loopback_dev)
+  1205			dev_put(dev);
+  1206		kfree_skb(skb);
+  1207		kfree(data);
+  1208		if (sk)
+  1209			sk_free(sk);
+  1210		kfree(ctx);
+  1211		return ret;
+  1212	}
+  1213	
 
 -- 
 0-DAY CI Kernel Test Service
