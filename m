@@ -1,118 +1,611 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B48C305E10
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 18:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E77830B52B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 20:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770314611; cv=none; b=C9R3KOIuNQidAaZKio7ypEEe4flS4iWIjECFXGoIvTjy4zPTm/hh5aM4Iinlp0XHHEwhYNOBZcvBBfF+2n4p2gaC1wN2th8GAMLHRdTgxqQIlsolKz9K+9iaJSPajO70Ah8XlEc9LaCweWBseUpqFCdplKZv6s/AuwVAX12KjaY=
+	t=1770323074; cv=none; b=qc+czpR2ZytcOsw4rVh+pnXjdhWEKi+6Tv8YpqhdM8hmhTd5mfquHcHf5eEY+jFGzaR9UfqI4KvVOftP+3md9Jr5e9hdTboyweMf1Evp20YFmNjt+LOxv3Br78KF1xBwFJqSD4KYFL2IvbELadICGlZ2O0gKEkKDdWptNypDPpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770314611; c=relaxed/simple;
-	bh=5NtoODkKCCVjOPYzWrQzbJ6AYgdGm0luLnL1NkDQaMk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lW07U5RUGbweIjDxTDjVS/td45RYMf3/P8LvbTc+GyHr7JRqny4y2ZvmpJpujYHC/rMNG9Y9VeXuxlkqInJYPYBy8fa3zh3wenb6qxfv5xIGulz5nbsGRQvx/U+KUXbzlI+kYhQlb10bumtbWihgSI90CqfS0vyqYx80j7RXTTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTaYSFCJ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1770323074; c=relaxed/simple;
+	bh=T2jnkyWWuqioV6t/kCCn5puLUJ00J5tUGKaRnZFTciU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bUMaZ10hSrXCzj4A+h3vBh56Sw5o0ennfGfi9NSwzOJ6r2vJr15eFOL/JAgELOXsHv/xtBSigkTw3zagIY4yCbK0Oe23FcEvKTm4GtNj77r2wCa+GnxLxXtEbu3qEj3E0TGjWpuP4HOqMdz/znxcCBhTLEm3eIHpDuwTEzjEtAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b51reOe5; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTaYSFCJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b51reOe5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770314610; x=1801850610;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5NtoODkKCCVjOPYzWrQzbJ6AYgdGm0luLnL1NkDQaMk=;
-  b=YTaYSFCJdGHqZdee0jwVmnpNAOWalQJ3SEr66hTBhkv8sMz34ROtdSSR
-   CJp75LDJnTysd2j09hf+RagGArJRPA8M1//Ar++07PtqyglyUaVfzqaM9
-   mHB7QLlT3HKE7CySJr90KGQ9vQqCkpd+5k6C5PUHyq2b0iHRALA9Mfpia
-   9pH8qs8h+1njTyZD2slHpyLEV6hHKFF5xRWU0rDpQ+DfDcURnlto/Ebgf
-   UIzfIU3CpT/SrQ3SInxmarzQLlxl7TxHnk5IfhypT3yzR5ApSNGL5mzyB
-   Q30j59zuGTwToD6r33qSflduzMWFxFt6fRqc/xMcjws3+0VgAOu5RuQym
-   Q==;
-X-CSE-ConnectionGUID: n9818Pt5TCKUFzdsj7NQbw==
-X-CSE-MsgGUID: C/JYStqtSDmefUB7hHiy0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71412708"
+  t=1770323073; x=1801859073;
+  h=date:from:to:cc:subject:message-id;
+  bh=T2jnkyWWuqioV6t/kCCn5puLUJ00J5tUGKaRnZFTciU=;
+  b=b51reOe5fyj6myWWM/F6hzpJQ82c+uTGiAccXuxt37IU6usSyom1NNui
+   BDmUZ64WDb6TBqM9a3QhEzWVp26CSlFl0Dg/kvxdM8Y5XfFSQtlWgJgF/
+   zxV23P/SRt6fppZg0+FH1S064h05EKO2pIA3z2IGaUEj5wjMOgAH54ukK
+   4RYMRlBplw0qsaupv2z+fbXL6A8ATCjDIfoLxPA4WCPJe3pxw2423pWld
+   Y5m6SL5+seKVnUdgd6A/hmyFnJl9VQkVTBihQQ4DTuDSTc/ZVP9KmNC6D
+   dQOt1Ouw/bNplKTlTOSzYqFmA6U3sgfqCjaLgfsmyZg3xs4jYz2kkg4jw
+   g==;
+X-CSE-ConnectionGUID: DE8WzU06SzmrkBcfCxXbqQ==
+X-CSE-MsgGUID: ecpdPwZRRvumQg6Cr1auFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71258995"
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="71412708"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 10:03:30 -0800
-X-CSE-ConnectionGUID: juxLIeDVQvqxqoQDCy6p1Q==
-X-CSE-MsgGUID: J8WbRXcuQK20IRwrSG2eXA==
+   d="scan'208";a="71258995"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 12:24:32 -0800
+X-CSE-ConnectionGUID: nhdjAp/nRQGkoKUdGPUzig==
+X-CSE-MsgGUID: dTggF4aoRDG6tuOaKkjmNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="209940800"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Feb 2026 10:03:27 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="209764423"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 05 Feb 2026 12:24:31 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vo3hN-000000004DJ-1SwO;
-	Thu, 05 Feb 2026 18:03:25 +0000
-Date: Thu, 5 Feb 2026 19:03:20 +0100
+	id 1vo5ts-00000000kBE-1fHL;
+	Thu, 05 Feb 2026 20:24:28 +0000
+Date: Fri, 06 Feb 2026 04:23:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sean Young <sean@mess.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCHv7 1/3] docs: media: update maintainer-entry-profile for
- multi-committers
-Message-ID: <202602051948.uPjQl80E-lkp@intel.com>
-References: <4478ae7ad952117a76b648ee2db7f8f92775ddf7.1769511207.git.hverkuil+cisco@kernel.org>
+To: Ido Schimmel <idosch@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
+Subject: [jpirko-mlxsw:combined_queue 10/10]
+ drivers/net/ethernet/aeroflex/greth.c:363:9: sparse: sparse: incorrect type
+ in argument 1 (different base types)
+Message-ID: <202602060400.PEriLecu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4478ae7ad952117a76b648ee2db7f8f92775ddf7.1769511207.git.hverkuil+cisco@kernel.org>
 
-Hi Hans,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linuxtv-media-pending/master media-tree/master linus/master v6.19-rc8 next-20260205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Verkuil/docs-media-update-maintainer-entry-profile-for-multi-committers/20260205-024420
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/4478ae7ad952117a76b648ee2db7f8f92775ddf7.1769511207.git.hverkuil%2Bcisco%40kernel.org
-patch subject: [PATCHv7 1/3] docs: media: update maintainer-entry-profile for multi-committers
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260205/202602051948.uPjQl80E-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   6b1c42d783637b473efce598dce9deab5c10ed42
+commit: 9e61ba55c416e3551523e3f77305e88155bf8c16 [10/10] TMP: Revert "module: Add compile-time check for embedded NUL characters"
+config: sparc-randconfig-r122-20260205 (https://download.01.org/0day-ci/archive/20260206/202602060400.PEriLecu-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060400.PEriLecu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602051948.uPjQl80E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602060400.PEriLecu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/aeroflex/greth.c:363:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:363:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:363:9: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:363:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:363:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:363:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:407:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:407:24: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:407:24: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:407:24: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:410:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:410:25: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:410:25: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:410:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:410:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:410:25: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:754:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:754:17: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:754:17: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:754:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:754:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:754:17: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:871:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:871:17: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:871:17: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:871:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:871:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:871:17: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:629:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:629:17: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:629:17: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:629:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:629:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:629:17: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:694:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:694:17: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:694:17: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:694:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:694:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:694:17: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:596:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:596:18: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:596:18: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:596:18: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:602:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:602:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:602:16: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:602:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1031:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1031:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1031:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1031:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1031:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1031:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1032:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1032:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1032:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1032:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1032:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1032:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1068:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1068:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1068:15: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1068:15: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1076:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1076:25: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1076:25: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1076:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1076:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1076:25: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1077:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1077:25: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1077:25: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1077:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1077:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1077:25: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1079:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1079:25: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1079:25: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1079:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1079:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1079:25: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1085:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1085:25: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1085:25: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1085:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1085:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1085:25: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1093:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1093:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1093:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1093:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1093:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1093:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:329:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:329:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:329:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:329:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:329:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:329:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:330:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:330:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:330:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:330:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+--
+   drivers/net/ethernet/aeroflex/greth.c:1175:15: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1175:15: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1176:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1176:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1176:25: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1176:25: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1191:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1191:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1191:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1191:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1191:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1191:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1213:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1213:32: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1213:32: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1213:32: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1224:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1224:25: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1224:25: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1224:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1224:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1224:25: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1370:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct greth_regs *regs @@     got void [noderef] __iomem * @@
+   drivers/net/ethernet/aeroflex/greth.c:1370:21: sparse:     expected struct greth_regs *regs
+   drivers/net/ethernet/aeroflex/greth.c:1370:21: sparse:     got void [noderef] __iomem *
+   drivers/net/ethernet/aeroflex/greth.c:1391:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1391:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1391:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1391:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1391:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1391:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1395:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1395:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1395:16: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1395:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1405:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1405:27: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1405:27: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1405:27: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1408:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1408:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1408:15: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1408:15: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1419:17: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1480:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1480:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1480:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1480:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1480:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1480:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1481:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1481:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1481:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1481:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1481:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1481:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1485:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:1485:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:1485:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:1485:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1485:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1485:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1523:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct greth_regs *regs @@
+   drivers/net/ethernet/aeroflex/greth.c:1523:46: sparse:     expected void [noderef] __iomem *base
+   drivers/net/ethernet/aeroflex/greth.c:1523:46: sparse:     got struct greth_regs *regs
+   drivers/net/ethernet/aeroflex/greth.c:1545:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct greth_regs *regs @@
+   drivers/net/ethernet/aeroflex/greth.c:1545:47: sparse:     expected void [noderef] __iomem *base
+   drivers/net/ethernet/aeroflex/greth.c:1545:47: sparse:     got struct greth_regs *regs
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:147:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:131:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:142:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:120:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:126:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:152:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:157:22: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/aeroflex/greth.c:157:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:157:40: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected unsigned int [usertype] value
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:137:9: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *bd @@
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse:     got unsigned int [usertype] *bd
+   drivers/net/ethernet/aeroflex/greth.c:162:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse:     got unsigned int *
+   drivers/net/ethernet/aeroflex/greth.c:1155:16: sparse: sparse: cast to restricted __be32
 
-   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:462: ./include/uapi/linux/landlock.h:153: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:462: ./include/uapi/linux/landlock.h:176: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/driver-api/media/maintainer-entry-profile.rst:340: WARNING: undefined label: 'kernel_org_trust_repository' [ref.ref]
+vim +363 drivers/net/ethernet/aeroflex/greth.c
 
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  338  
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  339  static int greth_open(struct net_device *dev)
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  340  {
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  341  	struct greth_private *greth = netdev_priv(dev);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  342  	int err;
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  343  
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  344  	err = greth_init_rings(greth);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  345  	if (err) {
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  346  		if (netif_msg_ifup(greth))
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  347  			dev_err(&dev->dev, "Could not allocate memory for DMA rings\n");
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  348  		return err;
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  349  	}
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  350  
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  351  	err = request_irq(greth->irq, greth_interrupt, 0, "eth", (void *) dev);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  352  	if (err) {
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  353  		if (netif_msg_ifup(greth))
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  354  			dev_err(&dev->dev, "Could not allocate interrupt %d\n", dev->irq);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  355  		greth_clean_rings(greth);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  356  		return err;
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  357  	}
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  358  
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  359  	if (netif_msg_ifup(greth))
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  360  		dev_dbg(&dev->dev, " starting queue\n");
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  361  	netif_start_queue(dev);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  362  
+bbe9e637330abe5 drivers/net/greth.c Daniel Hellstrom  2011-01-14 @363  	GRETH_REGSAVE(greth->regs->status, 0xFF);
+bbe9e637330abe5 drivers/net/greth.c Daniel Hellstrom  2011-01-14  364  
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  365  	napi_enable(&greth->napi);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  366  
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  367  	greth_enable_irqs(greth);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  368  	greth_enable_tx(greth);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  369  	greth_enable_rx(greth);
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  370  	return 0;
+d4c41139df6e74c drivers/net/greth.c Kristoffer Glembo 2010-02-15  371  
 
-vim +/kernel_org_trust_repository +340 Documentation/driver-api/media/maintainer-entry-profile.rst
+:::::: The code at line 363 was first introduced by commit
+:::::: bbe9e637330abe55442aebe799425e224086959f GRETH: fix opening/closing
 
-   339	
- > 340	The authenticity of developers submitting pull requests and merge requests
-   341	shall be validated by using PGP signing at some moment.
-   342	See: :ref:`kernel_org_trust_repository`.
-   343	
+:::::: TO: Daniel Hellstrom <daniel@gaisler.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
