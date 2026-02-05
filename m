@@ -1,93 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A93A22339
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 17:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387622EAB8E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 17:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770311186; cv=none; b=FBEUNBVZDRacqtmzkwvK8gk5WwJ0Nd/eSKZhSpCtcp4wwsnRJpaoqDqswBdcwRWVMxHUJCTUCJ+sQPazkOyj/azIafHk6VuDrkodzf3uGEuQNJKrm1fisVOlU1FFeY0sPfY0n092ydgqTwYMISd/jz2VkbioMdSCSkxHk3uKA6g=
+	t=1770313707; cv=none; b=I20wnzPf4oc1JyieK3FXcDIuptk+r/P+Vgi+GO9A0r9cpiKhLDu3VRoWBBqvnPSonnaTuGFQ0RofZLJ9Ovacwt4lYmqivMgfLceYp9BhtnPtrT5Ai5avJn5SSKkjc1/pduYUc4Av1F9MFp1ctHll25ZOMhZW47z66w0zOiafddo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770311186; c=relaxed/simple;
-	bh=BtERxkLlgQOeHOfqxSbze3GOEo4aGTDLvhYilC6BWtY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DrAfGq3s3lujHF9LsJSEoCYPiOzioUgeXgMOfsBsB2nk3iiF0lcWNKOfzvkpzcuYSXtD1QcX+r5rNcHQLSNT3k1iLvoHwMKGIRqzRZoFJCPmJtehRe4w2efDn5FQuXVL5itXMHCsMj0HKEtmlFv7GSkmhXar1g7HuvGANry/9Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XkoV7ET4; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1770313707; c=relaxed/simple;
+	bh=G40LrUIb+mkM87n0wkvUIvUGq5sI4wqIiUUGvPYKsv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uSTTunhRdg4h2Qx9Hf9EkAv6ErO0MLyYFp62lffCteVFrge8xTl58Qgn4ea/oee9/oca04fm6sUsqvklXeGWQuzqqdLL27n33FMgvjKRL9EDmYXrxcoQdt5l58HM8s8dE9UXGZDCx68IRsXoa2ImRGyzYtyrM5NxC+VvJgtzRXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QMWVpBWt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XkoV7ET4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QMWVpBWt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770311185; x=1801847185;
-  h=date:from:to:cc:subject:message-id;
-  bh=BtERxkLlgQOeHOfqxSbze3GOEo4aGTDLvhYilC6BWtY=;
-  b=XkoV7ET44+4sR1AFRK2trIHcEJLGZIRQ+W+bwCxaOEwXadwVOKatGVkk
-   wYLSJVI0KtJtXyoFrYmDUf5qTn7RH5jQNU5OOOgTwVTzfSTyot4AlS4Sk
-   qx9zXkhVAJ3UDcDsM8RQkk/UYu6VkEsIiguJXjyLqW7fgEtA69IYLe1QR
-   WyjHFz+JFDclXT5PchuQVDS9sU9V7lzv1Vpxor8QTMJrRUsmGKoub/u6Z
-   c5WgWDw4AyKU9RbMtnhHbK5pouYkhicnl+6KuThTghC+TjFeskT96+9A/
-   afBCqAb4ZY83oQ4RO0bW+S+NZHH2Mo8G+66SRrhn0QmuvkjSezPS8BXQP
-   A==;
-X-CSE-ConnectionGUID: fevwc+/qSt63is9evofvTw==
-X-CSE-MsgGUID: vZU/r4wjR92pwKUCsoZoEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="70535650"
+  t=1770313707; x=1801849707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G40LrUIb+mkM87n0wkvUIvUGq5sI4wqIiUUGvPYKsv0=;
+  b=QMWVpBWt5PsN5RrM/VeaLHG6tIH+UcOdbV2e37mjimpjzCPexwR/7E9g
+   t++doB40vAiy7pGunUGkTPEMSq+vajn3Ep1Hlv/JvzVOiDyJfT0728FW/
+   xgPAqbcdmMI+SuJs2NrMByiPgvCsb19kyJtSDLFVH8p1SSPgFFPQUk36T
+   rZw3TKTF9JXYYI4tXgW4jQZX/+oBsW5vRDV8LoJgrCwcJ0WldAFOMUNCt
+   Js1KgZjQX1x9AJi2M362ntbjnWeeJXqUQEq5sXkRSxNQawUOKNsISTNXh
+   zeu3Awp4pvG05OEQnoK/SDH0NPX7+2r44mJTfY7/AW7QBIo447r4/jaSL
+   w==;
+X-CSE-ConnectionGUID: oXg7a2oyRoGUywuoqXbo+Q==
+X-CSE-MsgGUID: cf8HrNsQQeeC55DF/xS5ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="82887861"
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="70535650"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 09:06:23 -0800
-X-CSE-ConnectionGUID: Lp+7Ck60QRqtzG52dEaQWg==
-X-CSE-MsgGUID: /ymExG8bTbW7IIBlDx6lDA==
+   d="scan'208";a="82887861"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 09:48:26 -0800
+X-CSE-ConnectionGUID: 7jnQ61z4TjeZJB9NyDfWXQ==
+X-CSE-MsgGUID: iy3SFgTnS2O48tThf46k4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="210027820"
+   d="scan'208";a="215578736"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Feb 2026 09:06:22 -0800
+  by orviesa005.jf.intel.com with ESMTP; 05 Feb 2026 09:48:24 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vo2o8-00000000k2O-07f2;
-	Thu, 05 Feb 2026 17:06:20 +0000
-Date: Fri, 06 Feb 2026 01:05:40 +0800
+	id 1vo3Sn-00000000k4W-3kl0;
+	Thu, 05 Feb 2026 17:48:21 +0000
+Date: Fri, 6 Feb 2026 01:47:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:fuse-iomap-bpf 102/103]
- fs/fuse/fuse_iomap_bpf.c:193:1: sparse: sparse: symbol
- 'btf_fuse_iomap_bpf_ops_id' was not declared. Should it be static?
-Message-ID: <202602060016.ZbAIHixg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Dave Jiang <dave.jiang@intel.com>, linux-cxl@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dave@stgolabs.net,
+	jonathan.cameron@huawei.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com,
+	dan.j.williams@intel.com
+Subject: Re: [PATCH 2/2] cxl: Fix race of nvdimm_bus for the nvdimm_bridge
+ object
+Message-ID: <202602060104.uSyuffEI-lkp@intel.com>
+References: <20260205001633.1813643-3-dave.jiang@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205001633.1813643-3-dave.jiang@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-iomap-bpf
-head:   92d07c9947216ee03cbfd2835d5f96c1530cb1c2
-commit: 18d872ec03f998f61034ab6229b213ea7884e28f [102/103] fuse: enable fuse servers to upload BPF programs to handle iomap requests
-config: x86_64-randconfig-123-20260205 (https://download.01.org/0day-ci/archive/20260206/202602060016.ZbAIHixg-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060016.ZbAIHixg-lkp@intel.com/reproduce)
+Hi Dave,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 18f7fcd5e69a04df57b563360b88be72471d6b62]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Jiang/cxl-test-Removal-of-nvdimm_bus_register-wrapper-in-cxl_test/20260205-081838
+base:   18f7fcd5e69a04df57b563360b88be72471d6b62
+patch link:    https://lore.kernel.org/r/20260205001633.1813643-3-dave.jiang%40intel.com
+patch subject: [PATCH 2/2] cxl: Fix race of nvdimm_bus for the nvdimm_bridge object
+config: parisc-randconfig-r061-20260205 (https://download.01.org/0day-ci/archive/20260206/202602060104.uSyuffEI-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060104.uSyuffEI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602060016.ZbAIHixg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602060104.uSyuffEI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/fuse/fuse_iomap_bpf.c:193:1: sparse: sparse: symbol 'btf_fuse_iomap_bpf_ops_id' was not declared. Should it be static?
->> fs/fuse/fuse_iomap_bpf.c:195:1: sparse: sparse: symbol 'btf_fuse_iomap_begin_out_id' was not declared. Should it be static?
->> fs/fuse/fuse_iomap_bpf.c:197:1: sparse: sparse: symbol 'btf_fuse_iomap_ioend_out_id' was not declared. Should it be static?
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/btf_fuse_iomap_bpf_ops_id +193 fs/fuse/fuse_iomap_bpf.c
-
-   191	
-   192	/* Register key structures with BTF so that BPF programs can use structs */
- > 193	BTF_ID_LIST_GLOBAL_SINGLE(btf_fuse_iomap_bpf_ops_id,
-   194			struct, fuse_iomap_bpf_ops)
- > 195	BTF_ID_LIST_GLOBAL_SINGLE(btf_fuse_iomap_begin_out_id,
-   196			struct, fuse_iomap_begin_out)
- > 197	BTF_ID_LIST_GLOBAL_SINGLE(btf_fuse_iomap_ioend_out_id,
-   198			struct, fuse_iomap_ioend_out)
-   199	
+>> ERROR: modpost: "nvdimm_bus_unregister" [drivers/cxl/core/cxl_core.ko] undefined!
+>> ERROR: modpost: "nvdimm_provider_data" [drivers/cxl/core/cxl_core.ko] undefined!
+>> ERROR: modpost: "nvdimm_bus_register" [drivers/cxl/core/cxl_core.ko] undefined!
+>> ERROR: modpost: "nvdimm_cmd_mask" [drivers/cxl/core/cxl_core.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
