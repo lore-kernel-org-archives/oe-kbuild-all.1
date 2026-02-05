@@ -1,71 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5F23043B5;
-	Thu,  5 Feb 2026 17:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B48C305E10
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 18:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770314369; cv=none; b=FmExe6TQhS/7KflFMM2fG27rx9JILXgxlkVIZvnQtqAxtA3jHJZdjwkYqt4oLHO2eG5+axD1D1dbCFCoQ8MTPP+YboZDhPmJk8WZiNYRKV2ibCyLtlHiGVXSDG8ByGaFMjoMtTC8g0wtG1tK+JX9/BXW7cTHUKMKUqnAX7c9fbw=
+	t=1770314611; cv=none; b=C9R3KOIuNQidAaZKio7ypEEe4flS4iWIjECFXGoIvTjy4zPTm/hh5aM4Iinlp0XHHEwhYNOBZcvBBfF+2n4p2gaC1wN2th8GAMLHRdTgxqQIlsolKz9K+9iaJSPajO70Ah8XlEc9LaCweWBseUpqFCdplKZv6s/AuwVAX12KjaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770314369; c=relaxed/simple;
-	bh=QPnMGMiiqKGmwJXq9xUjekruFfRDSmqjNebQDbWjscg=;
+	s=arc-20240116; t=1770314611; c=relaxed/simple;
+	bh=5NtoODkKCCVjOPYzWrQzbJ6AYgdGm0luLnL1NkDQaMk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P0E8BWdX6nMEaXzHje8D6+o1qyZgPmLoCcsVx0qVhatb5u0BY9TdyrVe2TGdNNYK9Gf89mvEAELNkQ7bebeCP4+83xPagGs/vavDavzk3HfIe77MF8cCLl/yEaSvfRqs/RPHOlWjr9Yv5y49RGkoNcPHS4EGsRuBXR3GAu7/n6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxKGDeJz; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=lW07U5RUGbweIjDxTDjVS/td45RYMf3/P8LvbTc+GyHr7JRqny4y2ZvmpJpujYHC/rMNG9Y9VeXuxlkqInJYPYBy8fa3zh3wenb6qxfv5xIGulz5nbsGRQvx/U+KUXbzlI+kYhQlb10bumtbWihgSI90CqfS0vyqYx80j7RXTTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTaYSFCJ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxKGDeJz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTaYSFCJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770314370; x=1801850370;
+  t=1770314610; x=1801850610;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QPnMGMiiqKGmwJXq9xUjekruFfRDSmqjNebQDbWjscg=;
-  b=DxKGDeJzHFWs8z1oBdM38Nw4cYlVyBYOQlmURJZ07uC7UcckyITyHs5D
-   yW9rMkAZeMGyr8AyZv7RR6QWj9LJpZpHOPJgMnsRmBhlmReWNB1XpqGDu
-   gWF1fTQDZGIm9xGNEDkgylHJyVEXiJD21OWGFDHo6SYTior7U4wOTT1lM
-   yhQxl+AiKRXeuOYVjSzzG2wHxocQoty5qlzSkfq3bomofiMAudHdmb+4a
-   La1m4PWOG+hc5Xbn984UvOQ3vI3q1vyvmMKYJBNYS3E9TzKywb+smih+X
-   E+hyQnriTiK/dQZ97wZBcjq09t8QsJKs5D9PhdWQsy8SNqTxKR+cophtW
+  bh=5NtoODkKCCVjOPYzWrQzbJ6AYgdGm0luLnL1NkDQaMk=;
+  b=YTaYSFCJdGHqZdee0jwVmnpNAOWalQJ3SEr66hTBhkv8sMz34ROtdSSR
+   CJp75LDJnTysd2j09hf+RagGArJRPA8M1//Ar++07PtqyglyUaVfzqaM9
+   mHB7QLlT3HKE7CySJr90KGQ9vQqCkpd+5k6C5PUHyq2b0iHRALA9Mfpia
+   9pH8qs8h+1njTyZD2slHpyLEV6hHKFF5xRWU0rDpQ+DfDcURnlto/Ebgf
+   UIzfIU3CpT/SrQ3SInxmarzQLlxl7TxHnk5IfhypT3yzR5ApSNGL5mzyB
+   Q30j59zuGTwToD6r33qSflduzMWFxFt6fRqc/xMcjws3+0VgAOu5RuQym
    Q==;
-X-CSE-ConnectionGUID: Nzh0lb3HTJW+FqaE7DDvJQ==
-X-CSE-MsgGUID: mrK/BFBnTLK1V1bXBRUV1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="82957298"
+X-CSE-ConnectionGUID: n9818Pt5TCKUFzdsj7NQbw==
+X-CSE-MsgGUID: C/JYStqtSDmefUB7hHiy0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71412708"
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="82957298"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 09:59:29 -0800
-X-CSE-ConnectionGUID: 1Qo+LnH2Rw2K6QGdWD9sPg==
-X-CSE-MsgGUID: DNX37lliSDuSAIS8oirMcw==
+   d="scan'208";a="71412708"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 10:03:30 -0800
+X-CSE-ConnectionGUID: juxLIeDVQvqxqoQDCy6p1Q==
+X-CSE-MsgGUID: J8WbRXcuQK20IRwrSG2eXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="233552840"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Feb 2026 09:59:25 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="209940800"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 05 Feb 2026 10:03:27 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vo3dS-00000000k5A-16zC;
-	Thu, 05 Feb 2026 17:59:22 +0000
-Date: Fri, 6 Feb 2026 01:58:31 +0800
+	id 1vo3hN-000000004DJ-1SwO;
+	Thu, 05 Feb 2026 18:03:25 +0000
+Date: Thu, 5 Feb 2026 19:03:20 +0100
 From: kernel test robot <lkp@intel.com>
-To: Alexander Mikhalitsyn <alexander@mihalicyn.com>, ast@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Christian Brauner <brauner@kernel.org>, bpf@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
-Subject: Re: [PATCH] bpf: use FS_USERNS_DELEGATABLE for bpffs
-Message-ID: <202602060128.qfggT7Pd-lkp@intel.com>
-References: <20260205104541.171034-1-alexander@mihalicyn.com>
+To: Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sean Young <sean@mess.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Hans Verkuil <hverkuil@kernel.org>
+Subject: Re: [PATCHv7 1/3] docs: media: update maintainer-entry-profile for
+ multi-committers
+Message-ID: <202602051948.uPjQl80E-lkp@intel.com>
+References: <4478ae7ad952117a76b648ee2db7f8f92775ddf7.1769511207.git.hverkuil+cisco@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,55 +71,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260205104541.171034-1-alexander@mihalicyn.com>
+In-Reply-To: <4478ae7ad952117a76b648ee2db7f8f92775ddf7.1769511207.git.hverkuil+cisco@kernel.org>
 
-Hi Alexander,
+Hi Hans,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/net]
-[also build test ERROR on bpf-next/master bpf/master brauner-vfs/vfs.all linus/master v6.19-rc8 next-20260205]
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linuxtv-media-pending/master media-tree/master linus/master v6.19-rc8 next-20260205]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Mikhalitsyn/bpf-use-FS_USERNS_DELEGATABLE-for-bpffs/20260205-184845
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20260205104541.171034-1-alexander%40mihalicyn.com
-patch subject: [PATCH] bpf: use FS_USERNS_DELEGATABLE for bpffs
-config: i386-buildonly-randconfig-002-20260205 (https://download.01.org/0day-ci/archive/20260206/202602060128.qfggT7Pd-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Verkuil/docs-media-update-maintainer-entry-profile-for-multi-committers/20260205-024420
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/4478ae7ad952117a76b648ee2db7f8f92775ddf7.1769511207.git.hverkuil%2Bcisco%40kernel.org
+patch subject: [PATCHv7 1/3] docs: media: update maintainer-entry-profile for multi-committers
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060128.qfggT7Pd-lkp@intel.com/reproduce)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260205/202602051948.uPjQl80E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602060128.qfggT7Pd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602051948.uPjQl80E-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/bpf/inode.c:1084:14: error: use of undeclared identifier 'FS_USERNS_DELEGATABLE'; did you mean 'CFTYPE_NS_DELEGATABLE'?
-    1084 |         .fs_flags       = FS_USERNS_DELEGATABLE,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-         |                           CFTYPE_NS_DELEGATABLE
-   include/linux/cgroup-defs.h:137:2: note: 'CFTYPE_NS_DELEGATABLE' declared here
-     137 |         CFTYPE_NS_DELEGATABLE   = (1 << 2),     /* writeable beyond delegation boundaries */
-         |         ^
-   1 error generated.
+   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:462: ./include/uapi/linux/landlock.h:153: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:462: ./include/uapi/linux/landlock.h:176: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/driver-api/media/maintainer-entry-profile.rst:340: WARNING: undefined label: 'kernel_org_trust_repository' [ref.ref]
 
 
-vim +1084 kernel/bpf/inode.c
+vim +/kernel_org_trust_repository +340 Documentation/driver-api/media/maintainer-entry-profile.rst
 
-  1077	
-  1078	static struct file_system_type bpf_fs_type = {
-  1079		.owner		= THIS_MODULE,
-  1080		.name		= "bpf",
-  1081		.init_fs_context = bpf_init_fs_context,
-  1082		.parameters	= bpf_fs_parameters,
-  1083		.kill_sb	= bpf_kill_super,
-> 1084		.fs_flags	= FS_USERNS_DELEGATABLE,
-  1085	};
-  1086	
+   339	
+ > 340	The authenticity of developers submitting pull requests and merge requests
+   341	shall be validated by using PGP signing at some moment.
+   342	See: :ref:`kernel_org_trust_repository`.
+   343	
 
 -- 
 0-DAY CI Kernel Test Service
