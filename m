@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E70820DD75
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 11:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0543AE702
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 11:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770289388; cv=none; b=nrekKSI2YPjV8IJhgC1STUZNeFGQMs1oMzVP8KDuuChbjxwEB92YY4FkOUp1dT08VaAZ+4YYKpWJieP4IqHAxcs1v7r01dtvlgt3hHCd6qiUQNjvNW+BVxuyD16up/bJ0lMdrQP+v9TIen3Zqjful4tdbEZGlWJF4daHkFQllZA=
+	t=1770291787; cv=none; b=GCocZj3h7c1zAWO+Tc7WbLHIT3UTClbezsh/RZSWxGyZXCO8ddzHgIZ6eY4dJHx8Ra96laUhaQ6oy6h7F7mOtSTBiO0aXAGYddXru40rTO3saX2uwxPepSeejkOkGBQdWHZHjphuuJR3rqt3U7q6xX3qyHqh9UudWl8ABlRtGno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770289388; c=relaxed/simple;
-	bh=1Xh0JGjLXXuW4oaPhumGh9N0Rl0W3j1zpaUB6jrCvsM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AqbDQ4HzGO28LwRbdfaqZAyPZe71OTmCcqzQ7L1oWzQ/LcHjTNdNOx/41YuO7bL72367L52pAyJIbXHRfsvP4QfNNCLA+7nQ7E29guUQwq5ovQVHyi90XpdEm6DqBM5delgiDYq5cTrYBvMkHiffwyUR5Jv+rDF52HnMmJF6+K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jz4L087r; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1770291787; c=relaxed/simple;
+	bh=dyvnEFLL2TB3p/orYqYBF+jZ8F5kSnOuy5qLzAr52c4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Chhc1MutCtbyLQgYCeqGl/gV6AkOlMudil88BUTcsvMlclUSVFbOEIP245nT3xcSyZQkn8bGNN60qwMzuFGQGT1h+zYuYU0L/7GXw8JjQdR36+ZyVcARDilxd5KCr25jlJ8gbnzumdFip9N+edbjwEpY7GDfngTsUf/61XG5P94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JA15FGrb; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jz4L087r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JA15FGrb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770289387; x=1801825387;
+  t=1770291787; x=1801827787;
   h=date:from:to:cc:subject:message-id;
-  bh=1Xh0JGjLXXuW4oaPhumGh9N0Rl0W3j1zpaUB6jrCvsM=;
-  b=jz4L087rFzc6Na+AkthrpYu6zlgzXXZEwMxO6GKeJD9DbhGOYEa5aPGn
-   c1LXieyFXG9LCPognd86NOVguyGuWmypocZ1c0jKH9Yxnaf+4yYs0lTWK
-   t2qEEbQc0RV1rWQgW59vNAPRH0HH3Q0WjGV7huAsxUA2xjrg0H+bAw6aO
-   HCyBWoqDfzBYFx2jEiN6o8G7H5egc6H6HLKmoDv2QRZ+flOw/uqZr5rNT
-   JGqMzx7607bGZk1pHWGr+rVHf8vQWclnm72YOl7ffExe16gTYDmZNiPGH
-   A7D/WZxg4d0KtAY5tT7c22chYggYfvlQP9Jm2xg4eOeXu7IqwgcG5KlDS
-   w==;
-X-CSE-ConnectionGUID: PaDHcq5qQB6yYOB4j285og==
-X-CSE-MsgGUID: uGHtK7SHRF66pwH74zJrKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="74086312"
+  bh=dyvnEFLL2TB3p/orYqYBF+jZ8F5kSnOuy5qLzAr52c4=;
+  b=JA15FGrbEelaNuGC1j08PoPTQ2h0sJiwCta8L8tcxttQPE3lotBhE9pS
+   EMsByFgFtIRX8Bj0ZPe+V5xo8VpixtG9zUabJkrCAv9SUPKYaeBUqTYH5
+   uv/+6UleixQeOURcX0qZ0+wOtOa/FBPRnxYju+nSNYTGlqSIiDSZmKILQ
+   ZSnsMZaykQocijHyhI/fWwDytPOcuRLz4v9m/2nXU9mX6/P8eBICpbrJp
+   2DCiRDrV9HiPJIo1BjwZGuU9Q2ye4d4TETW7Anc8uXFi4pEL5Cb963F7F
+   rkzBl2ixpOTRJ82JfqW8KkyntJ8MJvAvDx/DSvQgKIoVCfh9YKOqKZfHI
+   A==;
+X-CSE-ConnectionGUID: 5dckeq26Se2PY218EBZnOA==
+X-CSE-MsgGUID: 704vqy0ORH+CCGmU9ev74Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71583732"
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="74086312"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 03:03:07 -0800
-X-CSE-ConnectionGUID: CcFOnB/2Sry72WADhTqRew==
-X-CSE-MsgGUID: 4roe9zUeT+2EEE7KxXnY8g==
+   d="scan'208";a="71583732"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 03:43:07 -0800
+X-CSE-ConnectionGUID: yWM41HA6ROW2Ug0KjVP/Kg==
+X-CSE-MsgGUID: VUPXRNvHSYeDV51cK+iEFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="214644285"
+   d="scan'208";a="241121248"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 05 Feb 2026 03:03:05 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 05 Feb 2026 03:43:05 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnx8Y-00000000jkC-0d4W;
-	Thu, 05 Feb 2026 11:03:02 +0000
-Date: Thu, 05 Feb 2026 19:02:11 +0800
+	id 1vnxlH-00000000jlY-0Ieh;
+	Thu, 05 Feb 2026 11:43:03 +0000
+Date: Thu, 05 Feb 2026 19:42:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bahubali B Gumaji <bahubali.bg@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>,
- Hyunchul Lee <hyc.lee@gmail.com>,
- "Sang-Soo Lee" <constant.lee@samsung.com>,
- Steve French <stfrench@microsoft.com>
-Subject: [samba-ksmbd:ksmbd-for-next-next 2/3]
- fs/smb/server/connection.c:47:37: error: no member named 'inet6_addr' in
- 'struct ksmbd_conn'; did you mean 'inet_addr'?
-Message-ID: <202602051819.W2by0xyk-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 1/1]
+ drivers/usb/typec/mode_selection.c:261:7: warning: assignment makes pointer
+ from integer without a cast
+Message-ID: <202602051953.BUpMsZsW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,72 +60,71 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-head:   75980cde65ad415e73b209881ce2c4f35ed98e64
-commit: 2a8f08c96daee642eef136db2995dd20da7480fa [2/3] ksmbd: add procfs interface for runtime monitoring and statistics
-config: i386-randconfig-051-20260205 (https://download.01.org/0day-ci/archive/20260205/202602051819.W2by0xyk-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051819.W2by0xyk-lkp@intel.com/reproduce)
+Hi Andrei,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   7fa33ba90b34f99e816cb1719d346f70b5be0627
+commit: f49f8d90b43e2a0aa7a011c88529f38c409fbf0b [1/1] ANDROID: usb: typec: Implement mode selection
+config: arm-randconfig-004-20260205 (https://download.01.org/0day-ci/archive/20260205/202602051953.BUpMsZsW-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051953.BUpMsZsW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602051819.W2by0xyk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602051953.BUpMsZsW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/smb/server/connection.c:47:37: error: no member named 'inet6_addr' in 'struct ksmbd_conn'; did you mean 'inet_addr'?
-      47 |                         seq_printf(m, "%-20pI6c", &conn->inet6_addr);
-         |                                                          ^~~~~~~~~~
-         |                                                          inet_addr
-   fs/smb/server/connection.h:53:12: note: 'inet_addr' declared here
-      53 |                 __be32                  inet_addr;
-         |                                         ^
-   1 error generated.
---
->> fs/smb/server/mgmt/user_session.c:215:44: error: no member named 'inet6_addr' in 'struct ksmbd_conn'; did you mean 'inet_addr'?
-     215 |                         seq_printf(m, " %-40pI6c", &chan->conn->inet6_addr);
-         |                                                                 ^~~~~~~~~~
-         |                                                                 inet_addr
-   fs/smb/server/mgmt/../connection.h:53:12: note: 'inet_addr' declared here
-      53 |                 __be32                  inet_addr;
-         |                                         ^
-   1 error generated.
+   drivers/usb/typec/mode_selection.c: In function 'mode_list_clean':
+   drivers/usb/typec/mode_selection.c:110:3: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+      kfree(ms);
+      ^~~~~
+      kvfree
+   drivers/usb/typec/mode_selection.c: In function 'mode_add_to_list':
+   drivers/usb/typec/mode_selection.c:261:9: error: implicit declaration of function 'kzalloc'; did you mean 'xa_alloc'? [-Werror=implicit-function-declaration]
+       ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+            ^~~~~~~
+            xa_alloc
+>> drivers/usb/typec/mode_selection.c:261:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+       ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+          ^
+   drivers/usb/typec/mode_selection.c: In function 'typec_mode_selection_start':
+   drivers/usb/typec/mode_selection.c:292:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     sel = kzalloc(sizeof(struct altmode_selection), GFP_KERNEL);
+         ^
+   cc1: some warnings being treated as errors
 
 
-vim +47 fs/smb/server/connection.c
+vim +261 drivers/usb/typec/mode_selection.c
 
-    28	
-    29	static int proc_show_clients(struct seq_file *m, void *v)
-    30	{
-    31		struct ksmbd_conn *conn;
-    32		struct timespec64 now, t;
-    33		int i;
-    34	
-    35		seq_printf(m, "#%-20s %-10s %-10s %-10s %-10s %-10s\n",
-    36				"<name>", "<dialect>", "<credits>", "<open files>",
-    37				"<requests>", "<last active>");
-    38	
-    39		down_read(&conn_list_lock);
-    40		hash_for_each(conn_list, i, conn, hlist) {
-    41			jiffies_to_timespec64(jiffies - conn->last_active, &t);
-    42			ktime_get_real_ts64(&now);
-    43			t = timespec64_sub(now, t);
-    44			if (conn->inet_addr)
-    45				seq_printf(m, "%-20pI4", &conn->inet_addr);
-    46			else
-  > 47				seq_printf(m, "%-20pI6c", &conn->inet6_addr);
-    48			seq_printf(m, "   0x%-10x %-10u %-12d %-10d %ptT\n",
-    49				   conn->dialect,
-    50				   conn->total_credits,
-    51				   atomic_read(&conn->stats.open_files_count),
-    52				   atomic_read(&conn->req_running),
-    53				   &t);
-    54		}
-    55		up_read(&conn_list_lock);
-    56		return 0;
-    57	}
-    58	
+   250	
+   251	static int mode_add_to_list(struct device *dev, void *data)
+   252	{
+   253		struct list_head *list = (struct list_head *)data;
+   254		struct mode_state *ms;
+   255	
+   256		if (is_typec_altmode(dev)) {
+   257			struct typec_altmode *altmode = to_typec_altmode(dev);
+   258			const struct typec_altmode *pdev = typec_altmode_get_partner(altmode);
+   259	
+   260			if (pdev && altmode->ops && altmode->ops->activate) {
+ > 261				ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+   262				if (!ms)
+   263					return -ENOMEM;
+   264	
+   265				ms->altmode = altmode;
+   266				ms->priority = pdev->priority;
+   267				INIT_LIST_HEAD(&ms->list);
+   268				list_add_tail(&ms->list, list);
+   269			}
+   270		}
+   271	
+   272		return 0;
+   273	}
+   274	
 
 -- 
 0-DAY CI Kernel Test Service
