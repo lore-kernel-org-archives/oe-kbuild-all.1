@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E07258CD0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 21:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C5632AAC0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 21:15:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770326134; cv=none; b=KPjvPVzu+SZh1slGRp4rcS0Cr1hEN5v0+N/uXffKozRsVFou7XjeZ+g6oDNBZPJJcYUo1D546FhVh/0c7wxIxIbOdsSc9If6PlZ3C1XOA39MbKTSyhRvdpvARRxuao7bKux6C+EumrBi7THk6z68igahHG6j4QflnYCk+KGLWi4=
+	t=1770326135; cv=none; b=Ud+/eDauJDvZxHvqkbu4a2i+2w7mnoshvUI1LpTbRn+3HdqU+TS4ApuHpPGDjcoPsqoVRX93fl3BY9a1NdqlTnGouXg8VxGz7Up37KwEq/fl3zKniN0Y6NDOqeDTDJdjcBnRlGsKrZ1ZqH5Y8Y3hKPG+A1Pr2U86PF1lDWmKyds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770326134; c=relaxed/simple;
-	bh=WyWN1XtCgIX2L3Hbw4IoK/UpK6RaziII8yWbHp6orA0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E27NOpX0uDtRY4M6LSHXbGdwUZFpiFOz7gvJsnyIrZpHHs/3S1d9Hf5R7/znmcSRzgd3H+pxv/bBfJ/CpF8h6DH768+LSsdkZ4MKn0DBMpPJ74L57Pj+zMzciJLDmbugFBI4DDDpFG0YNGTxFQrgA88Ur4avO8mcQF3WTrZFsy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dg5CccSF; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1770326135; c=relaxed/simple;
+	bh=i81azPGahTzOgw/5qfc77hGy/Ut0mm6mQ6LSKeBkoBc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aowGnyfV5ST3XR/WrNUZEFTe5Ke5dXYuYD952HE6+xbb149pDBp+U5q12qePrl0HqVQ4xHoxo3hvTsKtGpOuUt3ZUOr1odnM+nx1nX5mO09JOHS70j3OySiI9qS800gSXR8dSgtuYG1Aq955ZRIX+xntFsejIhxFyB4SdXskLZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kSinqR51; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dg5CccSF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kSinqR51"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1770326134; x=1801862134;
   h=date:from:to:cc:subject:message-id;
-  bh=WyWN1XtCgIX2L3Hbw4IoK/UpK6RaziII8yWbHp6orA0=;
-  b=dg5CccSFMbBz0llsswNO7ItG7oY8MFAVGSDrVdOE2MtboDOzwFIqmDkL
-   IlaNAyA9zDry5RFCHK4yQrQuKaERqU8c0kUaAh0OWFxCSG1QeyVjSLx3J
-   oDd0Y/lYzk0gC6lYs0kOnw+qrqay++Eh57SF8YTjhG9mTRHBBhqpPgneg
-   vhYNI8cTNZXhofeG55qd6h1Lu6w/norZ6WO9fy/UgctUb6Alob39WyWhH
-   QOYdkveyduC4+zWGyY0O39IuogPTb6n9C6g5/QuvNjZ79mpculRrY2BQA
-   R2PyZeBo1K2KStCex11wS///XX6YhFt5ckuFYh1hs8+X2Ga3bcshpae7U
-   A==;
-X-CSE-ConnectionGUID: 5V+LdC6VSWmLs4H/r7GxnA==
-X-CSE-MsgGUID: P3yPP2nsSWGie0P6HO4J+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="74135954"
+  bh=i81azPGahTzOgw/5qfc77hGy/Ut0mm6mQ6LSKeBkoBc=;
+  b=kSinqR51UeP/LP0tG9o9aHJ1BSLHc9cxhnmFnD2HQE6JJybirRF+r9/v
+   LINNl94MwyQEED5fyNU8jrtf6RF7It+VlAdhi5Ycw4SDMnyvZcxEA5THF
+   toW7+OMC5ivGICB6inBCVWWZAg72rfdb05ITGz+yu5OfrUXAC+1OMw2En
+   skvxhlAEMlKZ7oEN48uydHJ7idwB9yQ36qTCqFplAcSBr1Efr/HEkonLL
+   THrp8aG/ASBSwETJC6mrEYdC3Oy4hrZ4jHjN+EGbQrBKwSdvzGk4XCo3y
+   UPL0z5yg9Nz6eB4WgRgYmGgyklD77jBfrw4rW18T/3a1jCLol3kR24LqA
+   g==;
+X-CSE-ConnectionGUID: lEhq/94NTtWp8Ir3rG1EzQ==
+X-CSE-MsgGUID: dFGrUl1YQHSUKXuIfbesbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="74135955"
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="74135954"
+   d="scan'208";a="74135955"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 13:15:33 -0800
-X-CSE-ConnectionGUID: S1mKv9DkSlm6PpT42rXRPg==
-X-CSE-MsgGUID: Vw+XDBwNQVCFaOzvk98eHA==
+X-CSE-ConnectionGUID: SMkI4XM0QaeIxQ5DwOByKw==
+X-CSE-MsgGUID: HwWHEQDbQQm6gJErxufrkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="241233282"
+   d="scan'208";a="241233285"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 05 Feb 2026 13:15:32 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vo6hF-00000000kDQ-41cP;
+	id 1vo6hF-00000000kDS-48yp;
 	Thu, 05 Feb 2026 21:15:29 +0000
-Date: Fri, 06 Feb 2026 05:14:43 +0800
+Date: Fri, 06 Feb 2026 05:14:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- arch/arm64/kvm/hyp/nvhe/pkvm.c:238:1: sparse: sparse: symbol 'vm_table_lock'
- was not declared. Should it be static?
-Message-ID: <202602060552.R9rtCNB0-lkp@intel.com>
+To: Ido Schimmel <idosch@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
+Subject: [jpirko-mlxsw:combined_queue 10/10]
+ drivers/ptp/ptp_vmclock.c:448:24: sparse: sparse: incorrect type in return
+ expression (different base types)
+Message-ID: <202602060513.O7T8iVNH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,33 +60,57 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   876b4b17abb486d9dc2805798495e0fccbde8d29
-commit: 71a9fd9aad9776fed5877c6f50633b92cc6193fe [1/1] ANDROID: KVM: arm64: Handle guest FF-A share/lend/reclaim
-config: arm64-randconfig-r134-20260205 (https://download.01.org/0day-ci/archive/20260206/202602060552.R9rtCNB0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060552.R9rtCNB0-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   6b1c42d783637b473efce598dce9deab5c10ed42
+commit: 9e61ba55c416e3551523e3f77305e88155bf8c16 [10/10] TMP: Revert "module: Add compile-time check for embedded NUL characters"
+config: x86_64-randconfig-r121-20260205 (https://download.01.org/0day-ci/archive/20260206/202602060513.O7T8iVNH-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060513.O7T8iVNH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602060552.R9rtCNB0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602060513.O7T8iVNH-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/nvhe/pkvm.c:238:1: sparse: sparse: symbol 'vm_table_lock' was not declared. Should it be static?
+>> drivers/ptp/ptp_vmclock.c:448:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   drivers/ptp/ptp_vmclock.c:448:24: sparse:     expected restricted __poll_t
+   drivers/ptp/ptp_vmclock.c:448:24: sparse:     got int
+   drivers/ptp/ptp_vmclock.c:454:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   drivers/ptp/ptp_vmclock.c:454:31: sparse:     expected restricted __poll_t
+   drivers/ptp/ptp_vmclock.c:454:31: sparse:     got int
 
-vim +/vm_table_lock +238 arch/arm64/kvm/hyp/nvhe/pkvm.c
+vim +448 drivers/ptp/ptp_vmclock.c
 
-a1ec5c70d3f63d Fuad Tabba  2022-11-10  236  
-4f1b201bef3e4d Will Deacon 2023-06-30  237  /* Rwlock for protecting state related to the VM table. */
-4f1b201bef3e4d Will Deacon 2023-06-30 @238  DEFINE_HYP_RWLOCK(vm_table_lock);
-a1ec5c70d3f63d Fuad Tabba  2022-11-10  239  
+20503272422693 David Woodhouse 2024-10-06  436  
+3b1526ddb25452 Babis Chalios   2026-01-30  437  static __poll_t vmclock_miscdev_poll(struct file *fp, poll_table *wait)
+3b1526ddb25452 Babis Chalios   2026-01-30  438  {
+3b1526ddb25452 Babis Chalios   2026-01-30  439  	struct vmclock_file_state *fst = fp->private_data;
+3b1526ddb25452 Babis Chalios   2026-01-30  440  	struct vmclock_state *st = fst->st;
+3b1526ddb25452 Babis Chalios   2026-01-30  441  	uint32_t seq;
+3b1526ddb25452 Babis Chalios   2026-01-30  442  
+3b1526ddb25452 Babis Chalios   2026-01-30  443  	/*
+3b1526ddb25452 Babis Chalios   2026-01-30  444  	 * Hypervisor will not send us any notifications, so fail immediately
+3b1526ddb25452 Babis Chalios   2026-01-30  445  	 * to avoid having caller sleeping for ever.
+3b1526ddb25452 Babis Chalios   2026-01-30  446  	 */
+3b1526ddb25452 Babis Chalios   2026-01-30  447  	if (!(le64_to_cpu(st->clk->flags) & VMCLOCK_FLAG_NOTIFICATION_PRESENT))
+3b1526ddb25452 Babis Chalios   2026-01-30 @448  		return POLLHUP;
+3b1526ddb25452 Babis Chalios   2026-01-30  449  
+3b1526ddb25452 Babis Chalios   2026-01-30  450  	poll_wait(fp, &st->disrupt_wait, wait);
+3b1526ddb25452 Babis Chalios   2026-01-30  451  
+3b1526ddb25452 Babis Chalios   2026-01-30  452  	seq = le32_to_cpu(st->clk->seq_count);
+3b1526ddb25452 Babis Chalios   2026-01-30  453  	if (atomic_read(&fst->seq) != seq)
+3b1526ddb25452 Babis Chalios   2026-01-30  454  		return POLLIN | POLLRDNORM;
+3b1526ddb25452 Babis Chalios   2026-01-30  455  
+3b1526ddb25452 Babis Chalios   2026-01-30  456  	return 0;
+3b1526ddb25452 Babis Chalios   2026-01-30  457  }
+3b1526ddb25452 Babis Chalios   2026-01-30  458  
 
-:::::: The code at line 238 was first introduced by commit
-:::::: 4f1b201bef3e4dbb6be6e30fb7f74ca90a0545fb ANDROID: KVM: arm64: Convert pKVM 'vm_table_lock' to an rwlock
+:::::: The code at line 448 was first introduced by commit
+:::::: 3b1526ddb25452385b52f2588b655f524a57070b ptp: vmclock: support device notifications
 
-:::::: TO: Will Deacon <willdeacon@google.com>
-:::::: CC: Fuad Tabba <tabba@google.com>
+:::::: TO: Babis Chalios <bchalios@amazon.es>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
