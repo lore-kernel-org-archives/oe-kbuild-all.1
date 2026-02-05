@@ -1,137 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466B038E5DF;
-	Thu,  5 Feb 2026 09:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8005134C12B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 09:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770282448; cv=none; b=V0+dwHlh8I2xY0XOf7QcXAZJd7d7cQxdAerq97a7hs7husw7Xu+1h/57BzRq9MuBSjYi1wtB2rz8OMRB+IkYqKA06gVfBKcYGj5jDCQEqqwp1WZ+d4sVEM8HZDNpxk2x+loY6DSBR7nYEwNfmBEpWY1uw1UnTtqBZWLayBH+3aA=
+	t=1770283744; cv=none; b=A8g/yTyyxAGgRnCxFXKFsgL5gPHnlwxKqE+wIordNqViFoQfJIC0bxv+6be0KqEXWB7CbsMdprTHMTEaa1tFxysNYb12WGvozYj8OsOmJsrZ8NTikPH+UhxQ4BjTNJ1L3dqyFjXsUwchNuioI7wVp6FATo/9K8MtepTTch9MqCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770282448; c=relaxed/simple;
-	bh=uql8uFgoiXEVuMriDZhY2MyB/tFenhOYYTPRh/UgmtQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pkp/3OGBuJGRyltwtiZ9hru0yhCIMJxPwYHWQM2y4SBbVUr+6fmpBZ/d59ipp8hlqMGwx6GyRJIWN5LXiVDOaqDDP97RbQfqUVFDe+28mKIhajSO8yG4PwqNw0Bf+mzm9Ibvtd+0SEkzkTc5o8JfNaU8I1h6Ptv2ulZWGJyVXQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dov8lyKP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770283744; c=relaxed/simple;
+	bh=w6nbP2PwYj07RChntj1mSAJ0DeW4Siy9rhGIob2an+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TmL4wPt8IXg+AGcvOIZBfVgYXk+Xof3ZWLviBfLJ6cdVyzKCN0Q8YNj8ACfOA5+bxMPNZppGgojDg58rgQydlb4dw+9WNEY7MuFyvOAouWfmF/xqnNNtTzEb1caIsDgDOlSHUWgsn5xhNjdgv/STLr/qAVcf/S5ia2viwWu6NnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kl2CUnR6; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dov8lyKP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4551C4CEF7;
-	Thu,  5 Feb 2026 09:07:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770282448;
-	bh=uql8uFgoiXEVuMriDZhY2MyB/tFenhOYYTPRh/UgmtQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Dov8lyKPG8Mc1zgjrnm5kABTVAfnFlbW4CQ04XJaxop/1jZNnlkSuVR3BkkhTJrxA
-	 9bK00A/5ps2vVzXahXH1LmHTrIIb+YA+nwpe6BowvQVVJwa5R4y4xDNGI5p91v+x9D
-	 ZaL+9JzGD2MvX9Og7xrJJZ4WVkRjdrxSuMOfmI2kgWBJjgTNvBjtHaJ9wJ05TP5Zbb
-	 u0JWLLTN8TfZ6zinNXgHJEEkhYgcLL3eg8UfqAVCRKU7XBXGRNMhZhg6PTWkycbEEF
-	 35nq9f1cLS5FBgXx0pAD5UBWEf459huCxNtYGPt5yrSZ9Iye8vCWu47591NQuZ1jt4
-	 0JKSSJt3teNXA==
-Message-ID: <2b9edee7-cfca-4476-839c-b1b1e903c14f@kernel.org>
-Date: Thu, 5 Feb 2026 10:07:19 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kl2CUnR6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770283743; x=1801819743;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w6nbP2PwYj07RChntj1mSAJ0DeW4Siy9rhGIob2an+k=;
+  b=kl2CUnR69d5l40fNR+yktv65Du52BJew/LlV9T8VmKB39mLuIqWNr5lw
+   5P2qos9nx2b72s0gp7oWjedDp0ZnWK1TD30zbhhWlbP+IlAvqTvQdw7zP
+   Jqnpyh86dKYUFLnsg1W8ARE9MI+ibE/ZoIDjkwL7MNPcozPS5u3QHQo1h
+   NXAyLC0Utd2hqmWNF8xx0NfpGWmUEc5dZy6rnyzSWg2i461FYO5GNYwmA
+   aT867poCtqI75TzRKgRWd/ggeL9eDtEMktqXoEzTAW/JnMKnV/SeX1RDN
+   bx0kx+r8E6CgaDWbilC5cRz4LhsLx+qSzxii5QXpmxJfvbOageiiDqH1F
+   Q==;
+X-CSE-ConnectionGUID: 1LmXnUQ1QceGlzaxoK3jBg==
+X-CSE-MsgGUID: 5StQb4TuSw6uwbsC6ibrAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71518194"
+X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
+   d="scan'208";a="71518194"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 01:29:03 -0800
+X-CSE-ConnectionGUID: aSCF9iKZTo2jBEQexOE1aQ==
+X-CSE-MsgGUID: wFTXJgwRSCOCiIjNfaV7xQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
+   d="scan'208";a="214974740"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 05 Feb 2026 01:29:01 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vnvfW-00000000jfQ-0PhL;
+	Thu, 05 Feb 2026 09:28:58 +0000
+Date: Thu, 5 Feb 2026 17:28:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Nikhil P. Rao" <nikhil.rao@amd.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, nikhil.rao@amd.com,
+	magnus.karlsson@intel.com, maciej.fijalkowski@intel.com,
+	sdf@fomichev.me, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org
+Subject: Re: [PATCH net 2/2] xsk: Fix zero-copy AF_XDP fragment drop
+Message-ID: <202602051720.YfZO23pZ-lkp@intel.com>
+References: <20260205001935.11562-3-nikhil.rao@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 19/19] dmaengine: ti: k3-udma: switch to synchronous
- descriptor freeing
-To: kernel test robot <lkp@intel.com>,
- Sai Sree Kartheek Adivi <s-adivi@ti.com>, peter.ujfalusi@gmail.com,
- vkoul@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- nm@ti.com, ssantosh@kernel.org, dmaengine@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, vigneshr@ti.com
-Cc: oe-kbuild-all@lists.linux.dev, r-sharma3@ti.com, gehariprasath@ti.com
-References: <20260130110159.359501-20-s-adivi@ti.com>
- <202601310444.S9H39g4c-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <202601310444.S9H39g4c-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205001935.11562-3-nikhil.rao@amd.com>
 
-On 30/01/2026 21:37, kernel test robot wrote:
-> Hi Sai,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on vkoul-dmaengine/next]
-> [also build test WARNING on next-20260130]
-> [cannot apply to linus/master v6.19-rc7]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Sree-Kartheek-Adivi/dmaengine-ti-k3-udma-move-macros-to-header-file/20260130-191306
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-> patch link:    https://lore.kernel.org/r/20260130110159.359501-20-s-adivi%40ti.com
-> patch subject: [PATCH v4 19/19] dmaengine: ti: k3-udma: switch to synchronous descriptor freeing
-> config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260131/202601310444.S9H39g4c-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601310444.S9H39g4c-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601310444.S9H39g4c-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/dma/ti/k3-udma-common.c: In function 'udma_desc_free':
->>> drivers/dma/ti/k3-udma-common.c:103:23: warning: unused variable 'flags' [-Wunused-variable]
->      103 |         unsigned long flags;
->          |                       ^~~~~
->>> drivers/dma/ti/k3-udma-common.c:100:26: warning: unused variable 'ud' [-Wunused-variable]
->      100 |         struct udma_dev *ud = to_udma_dev(vd->tx.chan->device);
->          |                          ^~
-> 
+Hi Nikhil,
 
-Did you compile test your own code before sending?
+kernel test robot noticed the following build warnings:
 
-Best regards,
-Krzysztof
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikhil-P-Rao/xsk-Fix-fragment-node-deletion-to-prevent-buffer-leak/20260205-082128
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260205001935.11562-3-nikhil.rao%40amd.com
+patch subject: [PATCH net 2/2] xsk: Fix zero-copy AF_XDP fragment drop
+config: xtensa-randconfig-r072-20260205 (https://download.01.org/0day-ci/archive/20260205/202602051720.YfZO23pZ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602051720.YfZO23pZ-lkp@intel.com/
+
+New smatch warnings:
+net/xdp/xsk.c:191 xsk_rcv_zc() warn: inconsistent indenting
+
+Old smatch warnings:
+arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+
+vim +191 net/xdp/xsk.c
+
+   162	
+   163	static int xsk_rcv_zc(struct xdp_sock *xs, struct xdp_buff *xdp, u32 len)
+   164	{
+   165		struct xdp_buff_xsk *xskb = container_of(xdp, struct xdp_buff_xsk, xdp);
+   166		u32 frags = xdp_buff_has_frags(xdp);
+   167		struct xdp_buff_xsk *pos, *tmp;
+   168		struct list_head *xskb_list;
+   169		u32 num_desc = 1;
+   170		u32 contd = 0;
+   171	
+   172		if (frags) {
+   173			num_desc = xdp_get_shared_info_from_buff(xdp)->nr_frags + 1;
+   174			contd = XDP_PKT_CONTD;
+   175		}
+   176	
+   177		if (xskq_prod_nb_free(xs->rx, num_desc) < num_desc) {
+   178			xs->rx_queue_full++;
+   179			return -ENOBUFS;
+   180		}
+   181	
+   182		__xsk_rcv_zc(xs, xskb, len, contd);
+   183		if (likely(!frags))
+   184			return 0;
+   185	
+   186		xskb_list = &xskb->pool->xskb_list;
+   187		list_for_each_entry_safe(pos, tmp, xskb_list, list_node) {
+   188			if (list_is_singular(xskb_list))
+   189				contd = 0;
+   190			len = pos->xdp.data_end - pos->xdp.data;
+ > 191			 __xsk_rcv_zc(xs, pos, len, contd);
+   192			list_del_init(&pos->list_node);
+   193		}
+   194	
+   195		return 0;
+   196	}
+   197	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
