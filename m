@@ -1,64 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6703A7F79;
-	Thu,  5 Feb 2026 12:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02A6283FDB;
+	Thu,  5 Feb 2026 13:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770294971; cv=none; b=iCrZxyshR/Hhn+rcfgTwXAH0FuKftwEDu1ehB/jWF/CzpKyi04NgQ8AcRZzHAZSMuMC0n+GHJlKu6xslGWC8Ben2UM4WSQNObF7PhSJmbwrgi+BK9Abyqc7/qoh4OzC1N4gLAzrd2/cmCNg6ShLJUZhSIqsEOHhyv7nmTRVaq0Y=
+	t=1770299069; cv=none; b=ASUfIA1N5ER/nr0dBdkLH+xn7Tc+EK/bjzSRdQCV95Fg/kbmIpPYPDgGdJPnYdCFBgvzDqBsJ+8mIUooRndm9L65DtNxYJ8efbp3s4Oq+zVwKbXBuoF09jasDd3iiNB09NFBuykGeZ3ZANGKVqQKzj9JTULKNifXj3N5MoH+9MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770294971; c=relaxed/simple;
-	bh=1o9nRoYrT4ZxuzQQkQs5GnNFnEpSrWQvVQNAVYT0lkI=;
+	s=arc-20240116; t=1770299069; c=relaxed/simple;
+	bh=+XcJc4Y73NCfrZTD+9DmarCzXkV9jJFSlBeo5lqiIaQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OwaWJ905PQMcK+dxERwXoWigqMUUH0wSPwQqo6uPtaUJjgxS1iI6KACStIdjHH2bUHwJ3bQGCenhIa/9mug+RRN+dfscbRdN39e+v7i89NwR2/DvqdsY3eNuQYyuZYALFsub6aex+weo7b5KNq0Bpt7CXdY9sYGjzBgo+ryFNek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+zuAFEh; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=nX95S2RKJqnJSH5hd4d6Z2mNCvgNMlTObJBDD4AepB9NuFRZRpQsPAjVXt2GMAk6W5b1UWflolzKTNBWp0RBrYc9R/MB/+8KGFUMfXLAAeEis/bHYKU4+ZPKXn3H6uhS82uYdc32j8uYg9cJ9vEueSnGkzKSMQk6j+/dR1bTu7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JEIT2Fba; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+zuAFEh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JEIT2Fba"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770294972; x=1801830972;
+  t=1770299070; x=1801835070;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1o9nRoYrT4ZxuzQQkQs5GnNFnEpSrWQvVQNAVYT0lkI=;
-  b=T+zuAFEhrM4SRDM/kHQODHH49yc+we2li4YhG53J7hHdRs2HDDseWp/3
-   r2KHu+nLgDW18WcG7DKzysSIVhXonMPNAdcjMvl07vZ0hsGbIBwySX+Ob
-   q8nZwFOGQZDFrcDJdeHpvdi8kcIRkvUapuB/YNP71mXOhgGK6W0ITYEjO
-   eyupKSRAfH10SSNY1uVshMvwyZuKB+YeEV+yW7dC6OYCNKfz1f8i726oY
-   YuCg7YV4JX4BWEkfo4O4+InOzyoXVvNzC32H+KmlqqcVljpX0zc5XgPoo
-   4ALTG3Q7wbo27ZxU3QXuL2CTuuqJYdF6W8xgsu+1Sk7aWBsPopdK6J16T
+  bh=+XcJc4Y73NCfrZTD+9DmarCzXkV9jJFSlBeo5lqiIaQ=;
+  b=JEIT2Fbaq8bXxyxrXlbX4lMvZcI1nUfLYWVLaP/Yud7bB09r+78xZUwf
+   hbIgL8ZKlEgmwKVdS+VHRdwVfgJyuxQJjYw58ax57AGBolUDc23DxmC0o
+   wrvZaOoZ/YEhxwhaYN6RykK2TkY0qgCplk/MTu/Bf3EfpGgzSBUuOTWdA
+   MKviERMshIeKTKvFPLQ+O5ffYd1HtKn4DnzLI68VsXRfQah1PthIQEXD5
+   t2ENIoDFi5YULVJeqEr5yaqz1pWumvW/DYPnac1L60O9cEONJwW/RcXIL
+   9BD0Y3JdRDVAeG2k494JO1QheDKHXM/TprWkdo3VP6Big83U8jJSgFuaW
    w==;
-X-CSE-ConnectionGUID: o7NiqtpSSvOy2NNHV/Hpzw==
-X-CSE-MsgGUID: Q/mwtKtCTs+nZ0vnXqtbrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="94141597"
+X-CSE-ConnectionGUID: QG+FmJKBTluNrRmMo/Ku7g==
+X-CSE-MsgGUID: odmQMJa9QeieIk3s1v24uQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71486684"
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="94141597"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 04:36:12 -0800
-X-CSE-ConnectionGUID: A9sE/6y9RFW99Xw8YfOSuw==
-X-CSE-MsgGUID: Jplz5ri8SsqM+aIDTkHy8g==
+   d="scan'208";a="71486684"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 05:44:30 -0800
+X-CSE-ConnectionGUID: 0DTb0rsKSWCJcU79gSaarA==
+X-CSE-MsgGUID: JGiF1l+eR8WFw1aLLheqoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="209789179"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Feb 2026 04:36:08 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="215048553"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 05 Feb 2026 05:44:26 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnyab-00000000joW-0WB7;
-	Thu, 05 Feb 2026 12:36:05 +0000
-Date: Thu, 5 Feb 2026 20:35:25 +0800
+	id 1vnzeh-000000004B3-2wHq;
+	Thu, 05 Feb 2026 13:44:23 +0000
+Date: Thu, 5 Feb 2026 14:43:58 +0100
 From: kernel test robot <lkp@intel.com>
-To: Nikunj A Dadhania <nikunj@amd.com>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, bp@alien8.de, thomas.lendacky@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tglx@kernel.org,
-	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
-	xin@zytor.com, seanjc@google.com, pbonzini@redhat.com,
-	x86@kernel.org, jon.grimm@amd.com, nikunj@amd.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] x86/fred: Fix early boot failures on SEV-ES/SNP guests
-Message-ID: <202602052054.J3CEkmKB-lkp@intel.com>
-References: <20260205051030.1225975-1-nikunj@amd.com>
+To: Amery Hung <ameryhung@gmail.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, alexei.starovoitov@gmail.com,
+	andrii@kernel.org, daniel@iogearbox.net, memxor@gmail.com,
+	martin.lau@kernel.org, kpsingh@kernel.org, yonghong.song@linux.dev,
+	song@kernel.org, haoluo@google.com, ameryhung@gmail.com,
+	kernel-team@meta.com
+Subject: Re: [PATCH bpf-next v6 09/17] bpf: Prepare for
+ bpf_selem_unlink_nofail()
+Message-ID: <202602051417.ebnQFUul-lkp@intel.com>
+References: <20260205070208.186382-10-ameryhung@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,85 +68,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260205051030.1225975-1-nikunj@amd.com>
+In-Reply-To: <20260205070208.186382-10-ameryhung@gmail.com>
 
-Hi Nikunj,
+Hi Amery,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 3c2ca964f75460093a8aad6b314a6cd558e80e66]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikunj-A-Dadhania/x86-fred-Fix-early-boot-failures-on-SEV-ES-SNP-guests/20260205-131359
-base:   3c2ca964f75460093a8aad6b314a6cd558e80e66
-patch link:    https://lore.kernel.org/r/20260205051030.1225975-1-nikunj%40amd.com
-patch subject: [PATCH] x86/fred: Fix early boot failures on SEV-ES/SNP guests
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260205/202602052054.J3CEkmKB-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Amery-Hung/bpf-Select-bpf_local_storage_map_bucket-based-on-bpf_local_storage/20260205-150959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260205070208.186382-10-ameryhung%40gmail.com
+patch subject: [PATCH bpf-next v6 09/17] bpf: Prepare for bpf_selem_unlink_nofail()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260205/202602051417.ebnQFUul-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602052054.J3CEkmKB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051417.ebnQFUul-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602052054.J3CEkmKB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602051417.ebnQFUul-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/entry/entry_fred.c:213:11: error: call to undeclared function 'user_exc_vmm_communication'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     213 |                         return user_exc_vmm_communication(regs, error_code);
-         |                                ^
-   arch/x86/entry/entry_fred.c:213:4: warning: void function 'fred_hwexc' should not return a value [-Wreturn-mismatch]
-     213 |                         return user_exc_vmm_communication(regs, error_code);
-         |                         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/entry/entry_fred.c:215:11: error: call to undeclared function 'kernel_exc_vmm_communication'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     215 |                         return kernel_exc_vmm_communication(regs, error_code);
-         |                                ^
-   arch/x86/entry/entry_fred.c:215:4: warning: void function 'fred_hwexc' should not return a value [-Wreturn-mismatch]
-     215 |                         return kernel_exc_vmm_communication(regs, error_code);
-         |                         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings and 2 errors generated.
+>> kernel/bpf/bpf_local_storage.c:289:8: warning: variable 'owner' set but not used [-Wunused-but-set-variable]
+     289 |         void *owner;
+         |               ^
+   kernel/bpf/bpf_local_storage.c:64:13: warning: unused function 'selem_linked_to_map' [-Wunused-function]
+      64 | static bool selem_linked_to_map(const struct bpf_local_storage_elem *selem)
+         |             ^~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +/user_exc_vmm_communication +213 arch/x86/entry/entry_fred.c
+vim +/owner +289 kernel/bpf/bpf_local_storage.c
 
-   180	
-   181	static noinstr void fred_hwexc(struct pt_regs *regs, unsigned long error_code)
-   182	{
-   183		/* Optimize for #PF. That's the only exception which matters performance wise */
-   184		if (likely(regs->fred_ss.vector == X86_TRAP_PF))
-   185			return exc_page_fault(regs, error_code);
-   186	
-   187		switch (regs->fred_ss.vector) {
-   188		case X86_TRAP_DE: return exc_divide_error(regs);
-   189		case X86_TRAP_DB: return fred_exc_debug(regs);
-   190		case X86_TRAP_BR: return exc_bounds(regs);
-   191		case X86_TRAP_UD: return exc_invalid_op(regs);
-   192		case X86_TRAP_NM: return exc_device_not_available(regs);
-   193		case X86_TRAP_DF: return exc_double_fault(regs, error_code);
-   194		case X86_TRAP_TS: return exc_invalid_tss(regs, error_code);
-   195		case X86_TRAP_NP: return exc_segment_not_present(regs, error_code);
-   196		case X86_TRAP_SS: return exc_stack_segment(regs, error_code);
-   197		case X86_TRAP_GP: return exc_general_protection(regs, error_code);
-   198		case X86_TRAP_MF: return exc_coprocessor_error(regs);
-   199		case X86_TRAP_AC: return exc_alignment_check(regs, error_code);
-   200		case X86_TRAP_XF: return exc_simd_coprocessor_error(regs);
-   201	
-   202	#ifdef CONFIG_X86_MCE
-   203		case X86_TRAP_MC: return fred_exc_machine_check(regs);
-   204	#endif
-   205	#ifdef CONFIG_INTEL_TDX_GUEST
-   206		case X86_TRAP_VE: return exc_virtualization_exception(regs);
-   207	#endif
-   208	#ifdef CONFIG_X86_CET
-   209		case X86_TRAP_CP: return exc_control_protection(regs, error_code);
-   210	#endif
-   211		case X86_TRAP_VC:
-   212			if (user_mode(regs))
- > 213				return user_exc_vmm_communication(regs, error_code);
-   214			else
- > 215				return kernel_exc_vmm_communication(regs, error_code);
-   216		default: return fred_bad_type(regs, error_code);
-   217		}
-   218	
+588d80f1d996ea9 Amery Hung       2026-02-04  278  
+450af8d0f6be2e7 KP Singh         2020-08-25  279  /* local_storage->lock must be held and selem->local_storage == local_storage.
+450af8d0f6be2e7 KP Singh         2020-08-25  280   * The caller must ensure selem->smap is still valid to be
+450af8d0f6be2e7 KP Singh         2020-08-25  281   * dereferenced for its smap->elem_size and smap->cache_idx.
+450af8d0f6be2e7 KP Singh         2020-08-25  282   */
+c83597fa5dc6b32 Yonghong Song    2022-10-25  283  static bool bpf_selem_unlink_storage_nolock(struct bpf_local_storage *local_storage,
+450af8d0f6be2e7 KP Singh         2020-08-25  284  					    struct bpf_local_storage_elem *selem,
+0e854e553569083 Amery Hung       2025-11-14  285  					    struct hlist_head *free_selem_list)
+450af8d0f6be2e7 KP Singh         2020-08-25  286  {
+450af8d0f6be2e7 KP Singh         2020-08-25  287  	struct bpf_local_storage_map *smap;
+450af8d0f6be2e7 KP Singh         2020-08-25  288  	bool free_local_storage;
+450af8d0f6be2e7 KP Singh         2020-08-25 @289  	void *owner;
+450af8d0f6be2e7 KP Singh         2020-08-25  290  
+0fe4b381a59ebc5 KP Singh         2021-12-24  291  	smap = rcu_dereference_check(SDATA(selem)->smap, bpf_rcu_lock_held());
+450af8d0f6be2e7 KP Singh         2020-08-25  292  	owner = local_storage->owner;
+450af8d0f6be2e7 KP Singh         2020-08-25  293  
+450af8d0f6be2e7 KP Singh         2020-08-25  294  	free_local_storage = hlist_is_singular_node(&selem->snode,
+450af8d0f6be2e7 KP Singh         2020-08-25  295  						    &local_storage->list);
+450af8d0f6be2e7 KP Singh         2020-08-25  296  
+588d80f1d996ea9 Amery Hung       2026-02-04  297  	bpf_selem_unlink_storage_nolock_misc(selem, smap, local_storage,
+588d80f1d996ea9 Amery Hung       2026-02-04  298  					     free_local_storage);
+450af8d0f6be2e7 KP Singh         2020-08-25  299  
+450af8d0f6be2e7 KP Singh         2020-08-25  300  	hlist_del_init_rcu(&selem->snode);
+450af8d0f6be2e7 KP Singh         2020-08-25  301  
+5bd5bab76669b1e Martin KaFai Lau 2024-10-23  302  	hlist_add_head(&selem->free_node, free_selem_list);
+dcf456c9a095a6e KP Singh         2022-04-18  303  
+450af8d0f6be2e7 KP Singh         2020-08-25  304  	return free_local_storage;
+450af8d0f6be2e7 KP Singh         2020-08-25  305  }
+450af8d0f6be2e7 KP Singh         2020-08-25  306  
 
 -- 
 0-DAY CI Kernel Test Service
