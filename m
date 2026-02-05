@@ -1,56 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BDB38F95F;
-	Thu,  5 Feb 2026 10:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E70820DD75
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 11:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770288204; cv=none; b=s8LxbFfvpyD5LlAImgDTYiP9ndcUbsQqZcSVd5ZCQ+hoQ9U9Ue1R++F8I2Hcrq6fOl859mIJh8Y0t/L8OP9xZZfUUSEwswaYJCNDvU9tJYci8IiHQJF53Y4OGxp/rn12ABqvuzwaFoEPx5+vsPJTuLQ8t+WhEFtu0oe1qgvgo4I=
+	t=1770289388; cv=none; b=nrekKSI2YPjV8IJhgC1STUZNeFGQMs1oMzVP8KDuuChbjxwEB92YY4FkOUp1dT08VaAZ+4YYKpWJieP4IqHAxcs1v7r01dtvlgt3hHCd6qiUQNjvNW+BVxuyD16up/bJ0lMdrQP+v9TIen3Zqjful4tdbEZGlWJF4daHkFQllZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770288204; c=relaxed/simple;
-	bh=BE8F0GydfAG/noqHSNUEnAw/4ShuYxswS09rOIxyawE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Aa7D/uV12RsRN1CJmyXaOPA/vvL7qWuDGkbZZ84d8KtJ4+rhxMU/C5gngShIKBVrMxB3Surh9es0oTo/vLCRXCOyA8o66sYwNnWXQ1Msk34A+2ESFezpJlM/MU0aKFq69fFZIexOu0ndXthSCOTkhIM3L8VT+VE8qSZeuCHgkas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+fIRBeL; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1770289388; c=relaxed/simple;
+	bh=1Xh0JGjLXXuW4oaPhumGh9N0Rl0W3j1zpaUB6jrCvsM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AqbDQ4HzGO28LwRbdfaqZAyPZe71OTmCcqzQ7L1oWzQ/LcHjTNdNOx/41YuO7bL72367L52pAyJIbXHRfsvP4QfNNCLA+7nQ7E29guUQwq5ovQVHyi90XpdEm6DqBM5delgiDYq5cTrYBvMkHiffwyUR5Jv+rDF52HnMmJF6+K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jz4L087r; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+fIRBeL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jz4L087r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770288204; x=1801824204;
+  t=1770289387; x=1801825387;
   h=date:from:to:cc:subject:message-id;
-  bh=BE8F0GydfAG/noqHSNUEnAw/4ShuYxswS09rOIxyawE=;
-  b=i+fIRBeLbWnsGjLAdJdRmSML8VmeqG3Y3c+0N/zFuQ2bau14OEDMNfgm
-   1NInWD1ybPW0hwrA3Yd8yPlxPXjqhIyPfVfDrVJ4IwRnur9RVhu550GpY
-   VR+dPdAVhn6EVykLbPJLqeJ5Wsn9gWCRARu3j39JP+3z092szUaXUD5EZ
-   +FlMefwSTQE3TQF2Dcw0unl2ILLnPeGIeKZw9tXMI3SqA3OpwAX9LAame
-   urd32Lbl+RW+Bm7sV6fgAwN6vd51+RR2joU3q+3zCgQ0PHQTdGZNkUlu6
-   +dtxxLp/FGXKA8F2Zn/Ut30nxPxlV75a/e+w+PMEXOsaR8bUL0Zc6aFeb
-   g==;
-X-CSE-ConnectionGUID: vEWvzozpSMyecO9/YxEqBg==
-X-CSE-MsgGUID: Pe8JVmVaQ76w2f3ek3Db2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71547070"
+  bh=1Xh0JGjLXXuW4oaPhumGh9N0Rl0W3j1zpaUB6jrCvsM=;
+  b=jz4L087rFzc6Na+AkthrpYu6zlgzXXZEwMxO6GKeJD9DbhGOYEa5aPGn
+   c1LXieyFXG9LCPognd86NOVguyGuWmypocZ1c0jKH9Yxnaf+4yYs0lTWK
+   t2qEEbQc0RV1rWQgW59vNAPRH0HH3Q0WjGV7huAsxUA2xjrg0H+bAw6aO
+   HCyBWoqDfzBYFx2jEiN6o8G7H5egc6H6HLKmoDv2QRZ+flOw/uqZr5rNT
+   JGqMzx7607bGZk1pHWGr+rVHf8vQWclnm72YOl7ffExe16gTYDmZNiPGH
+   A7D/WZxg4d0KtAY5tT7c22chYggYfvlQP9Jm2xg4eOeXu7IqwgcG5KlDS
+   w==;
+X-CSE-ConnectionGUID: PaDHcq5qQB6yYOB4j285og==
+X-CSE-MsgGUID: uGHtK7SHRF66pwH74zJrKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="74086312"
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="71547070"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 02:43:23 -0800
-X-CSE-ConnectionGUID: Ob7nh1nTQP28WoluBu8o/g==
-X-CSE-MsgGUID: usKHl4l2Q6aojH+ehL/6aQ==
+   d="scan'208";a="74086312"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 03:03:07 -0800
+X-CSE-ConnectionGUID: CcFOnB/2Sry72WADhTqRew==
+X-CSE-MsgGUID: 4roe9zUeT+2EEE7KxXnY8g==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Feb 2026 02:43:22 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
+   d="scan'208";a="214644285"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 05 Feb 2026 03:03:05 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnwpU-00000000461-0AMS;
-	Thu, 05 Feb 2026 10:43:20 +0000
-Date: Thu, 05 Feb 2026 11:42:53 +0100
+	id 1vnx8Y-00000000jkC-0d4W;
+	Thu, 05 Feb 2026 11:03:02 +0000
+Date: Thu, 05 Feb 2026 19:02:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikunj A Dadhania <nikunj@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: arch/x86/entry/entry_fred.c:213:4: warning: void function
- 'fred_hwexc' should not return a value
-Message-ID: <202602051128.AqkhZu86-lkp@intel.com>
+To: Bahubali B Gumaji <bahubali.bg@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>,
+ Hyunchul Lee <hyc.lee@gmail.com>,
+ "Sang-Soo Lee" <constant.lee@samsung.com>,
+ Steve French <stfrench@microsoft.com>
+Subject: [samba-ksmbd:ksmbd-for-next-next 2/3]
+ fs/smb/server/connection.c:47:37: error: no member named 'inet6_addr' in
+ 'struct ksmbd_conn'; did you mean 'inet_addr'?
+Message-ID: <202602051819.W2by0xyk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,77 +63,72 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Nikunj-A-Dadhania/x86-fred-Fix-early-boot-failures-on-SEV-ES-SNP-guests/20260205-131359
-head:   920b1b000ee3a4bf7dd6fde28bd4211cf29cb06b
-commit: 920b1b000ee3a4bf7dd6fde28bd4211cf29cb06b x86/fred: Fix early boot failures on SEV-ES/SNP guests
-date:   5 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260205/202602051128.AqkhZu86-lkp@intel.com/config)
+tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
+head:   75980cde65ad415e73b209881ce2c4f35ed98e64
+commit: 2a8f08c96daee642eef136db2995dd20da7480fa [2/3] ksmbd: add procfs interface for runtime monitoring and statistics
+config: i386-randconfig-051-20260205 (https://download.01.org/0day-ci/archive/20260205/202602051819.W2by0xyk-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051128.AqkhZu86-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051819.W2by0xyk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602051128.AqkhZu86-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602051819.W2by0xyk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/entry/entry_fred.c:213:11: error: call to undeclared function 'user_exc_vmm_communication'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     213 |                         return user_exc_vmm_communication(regs, error_code);
-         |                                ^
->> arch/x86/entry/entry_fred.c:213:4: warning: void function 'fred_hwexc' should not return a value [-Wreturn-mismatch]
-     213 |                         return user_exc_vmm_communication(regs, error_code);
-         |                         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/entry/entry_fred.c:215:11: error: call to undeclared function 'kernel_exc_vmm_communication'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     215 |                         return kernel_exc_vmm_communication(regs, error_code);
-         |                                ^
-   arch/x86/entry/entry_fred.c:215:4: warning: void function 'fred_hwexc' should not return a value [-Wreturn-mismatch]
-     215 |                         return kernel_exc_vmm_communication(regs, error_code);
-         |                         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings and 2 errors generated.
+>> fs/smb/server/connection.c:47:37: error: no member named 'inet6_addr' in 'struct ksmbd_conn'; did you mean 'inet_addr'?
+      47 |                         seq_printf(m, "%-20pI6c", &conn->inet6_addr);
+         |                                                          ^~~~~~~~~~
+         |                                                          inet_addr
+   fs/smb/server/connection.h:53:12: note: 'inet_addr' declared here
+      53 |                 __be32                  inet_addr;
+         |                                         ^
+   1 error generated.
+--
+>> fs/smb/server/mgmt/user_session.c:215:44: error: no member named 'inet6_addr' in 'struct ksmbd_conn'; did you mean 'inet_addr'?
+     215 |                         seq_printf(m, " %-40pI6c", &chan->conn->inet6_addr);
+         |                                                                 ^~~~~~~~~~
+         |                                                                 inet_addr
+   fs/smb/server/mgmt/../connection.h:53:12: note: 'inet_addr' declared here
+      53 |                 __be32                  inet_addr;
+         |                                         ^
+   1 error generated.
 
 
-vim +/fred_hwexc +213 arch/x86/entry/entry_fred.c
+vim +47 fs/smb/server/connection.c
 
-   180	
-   181	static noinstr void fred_hwexc(struct pt_regs *regs, unsigned long error_code)
-   182	{
-   183		/* Optimize for #PF. That's the only exception which matters performance wise */
-   184		if (likely(regs->fred_ss.vector == X86_TRAP_PF))
-   185			return exc_page_fault(regs, error_code);
-   186	
-   187		switch (regs->fred_ss.vector) {
-   188		case X86_TRAP_DE: return exc_divide_error(regs);
-   189		case X86_TRAP_DB: return fred_exc_debug(regs);
-   190		case X86_TRAP_BR: return exc_bounds(regs);
-   191		case X86_TRAP_UD: return exc_invalid_op(regs);
-   192		case X86_TRAP_NM: return exc_device_not_available(regs);
-   193		case X86_TRAP_DF: return exc_double_fault(regs, error_code);
-   194		case X86_TRAP_TS: return exc_invalid_tss(regs, error_code);
-   195		case X86_TRAP_NP: return exc_segment_not_present(regs, error_code);
-   196		case X86_TRAP_SS: return exc_stack_segment(regs, error_code);
-   197		case X86_TRAP_GP: return exc_general_protection(regs, error_code);
-   198		case X86_TRAP_MF: return exc_coprocessor_error(regs);
-   199		case X86_TRAP_AC: return exc_alignment_check(regs, error_code);
-   200		case X86_TRAP_XF: return exc_simd_coprocessor_error(regs);
-   201	
-   202	#ifdef CONFIG_X86_MCE
-   203		case X86_TRAP_MC: return fred_exc_machine_check(regs);
-   204	#endif
-   205	#ifdef CONFIG_INTEL_TDX_GUEST
-   206		case X86_TRAP_VE: return exc_virtualization_exception(regs);
-   207	#endif
-   208	#ifdef CONFIG_X86_CET
-   209		case X86_TRAP_CP: return exc_control_protection(regs, error_code);
-   210	#endif
-   211		case X86_TRAP_VC:
-   212			if (user_mode(regs))
- > 213				return user_exc_vmm_communication(regs, error_code);
-   214			else
-   215				return kernel_exc_vmm_communication(regs, error_code);
-   216		default: return fred_bad_type(regs, error_code);
-   217		}
-   218	
+    28	
+    29	static int proc_show_clients(struct seq_file *m, void *v)
+    30	{
+    31		struct ksmbd_conn *conn;
+    32		struct timespec64 now, t;
+    33		int i;
+    34	
+    35		seq_printf(m, "#%-20s %-10s %-10s %-10s %-10s %-10s\n",
+    36				"<name>", "<dialect>", "<credits>", "<open files>",
+    37				"<requests>", "<last active>");
+    38	
+    39		down_read(&conn_list_lock);
+    40		hash_for_each(conn_list, i, conn, hlist) {
+    41			jiffies_to_timespec64(jiffies - conn->last_active, &t);
+    42			ktime_get_real_ts64(&now);
+    43			t = timespec64_sub(now, t);
+    44			if (conn->inet_addr)
+    45				seq_printf(m, "%-20pI4", &conn->inet_addr);
+    46			else
+  > 47				seq_printf(m, "%-20pI6c", &conn->inet6_addr);
+    48			seq_printf(m, "   0x%-10x %-10u %-12d %-10d %ptT\n",
+    49				   conn->dialect,
+    50				   conn->total_credits,
+    51				   atomic_read(&conn->stats.open_files_count),
+    52				   atomic_read(&conn->req_running),
+    53				   &t);
+    54		}
+    55		up_read(&conn_list_lock);
+    56		return 0;
+    57	}
+    58	
 
 -- 
 0-DAY CI Kernel Test Service
