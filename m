@@ -1,228 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770153A4F5C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 10:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33ACE3A9629;
+	Thu,  5 Feb 2026 10:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770286866; cv=none; b=FgQD3GfyTNkklbdfzMeg+ckIjV6w0eyhLKv2a3NJSHcQ7zWrqFUjQfE3AWzVXfmT3uP8FmkjcSF+1nWP8F+AKIRm9l4v6EuVIE9kIftnWRS5RSPqpPdfWvzN0Dyfr1rPRwofVBs0EaURg/mMO/WBMgi3gypm69Rir+peLLqw+2g=
+	t=1770288128; cv=none; b=k8wsFtD4izMBA+5MxQ7fFWXEJRiECi4niDRzgoruQJ0TERa2wnr8D1zACoLT9+7rW5zCcr/3DsOmX3DLb7iQRQfK4XE9goi72nrcUAX0RJFUB3wYfDZ7iw/rqw3dtrrPinQY26i6f2dGvEBE9ZondwpNKNn0D1l+p6VEk2R7DhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770286866; c=relaxed/simple;
-	bh=OUmMLpXOrJfcNuvtwWhSY/N8UXGykLQBjuqITvt+fOU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hZ25RXecTHwY1kr5dpkv68Fy3vB9wRrFXA6C/Ok5mjZziP99U0zNXRduJBm0m/o9gGbWsDphT25+CmanS4h3FY+8IATvXBUf+uGKZ6cd4jpq6oVVg7X2AL3S5X6A+pRjVcAjcN4jBptOaWN99j9Lf8mZ3NsHjMlnDQe0aCbxyCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KtzHiCeK; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1770288128; c=relaxed/simple;
+	bh=NGjS2W/fPan80cD9RMH4Y/pXk5yggvLWzpNgN5tKX14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bgplK/PaLo2ZKVQPKOguLtZdaq69PEGV5tRMnZQ9X+qyYEO/5Gy0Aw0+2xbDaXCEf+GgsotBND0muyGcuhpFsp24rT8WZ/cCkjI6GZxoaU3/Mm+xpYKk/5AZpWxpeu+v6KCZ0K6CV4h3ILVNqJt8vH5tCSyz/N2Q2UIOb8LDcZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cosisSUp; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KtzHiCeK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cosisSUp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770286866; x=1801822866;
-  h=date:from:to:cc:subject:message-id;
-  bh=OUmMLpXOrJfcNuvtwWhSY/N8UXGykLQBjuqITvt+fOU=;
-  b=KtzHiCeKJz2BRloiUNnuZcxvEHzWbfT+jr5GUReGWvgchhzG6jo2EaBY
-   /VmQx5MGgI41Bw3GbolZFTRzem3/SFdKQmXDjRggUsLUqRMuYB56LT/gZ
-   VgWV8uXMlHHKP0d92tbt40AEOr7WalP7AHr3osGTak+BxHcb2FleLkVt+
-   sG5mPhut6SNdimNmjaqL2QGCilonol8wpEZAE7xbrjLE1UOoCscGk7LgA
-   IBBMY9KNlgbaAZ40XqkSDB157kDmp9jdaSPrH1CeaZvw1yGaHfmu2wkbc
-   D1yKZqT68I2CE/817a/gkWhOFsEZASWg6JVBTusygye9/mPsFtzSM99La
-   w==;
-X-CSE-ConnectionGUID: X01KFM0SR0e7i1a8e0xJJA==
-X-CSE-MsgGUID: gUeA1z3tSsiBc93mBV84iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="88906004"
+  t=1770288128; x=1801824128;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NGjS2W/fPan80cD9RMH4Y/pXk5yggvLWzpNgN5tKX14=;
+  b=cosisSUpxyzypsPulOR8kwAbBPTFSkXJ0XBps8mUweAkFD/K3etg7GBY
+   qS7OJs0s2RywH6S1TtmU8aGw0Zulv4dvmJDtGOyI4w5YuRqZxnBMhZj4U
+   rIu6T7D1BPnaLMKqnleOYZO35/A/zHlClm9x7CFgH5P1foiLTcK7Yb1px
+   LQxkqVtQeC+ol+/F1oQ+fdV6l2BmaMMqXka5hk0eRn+cgRut0aPYkMIQ8
+   rmo8PZGFbrGrzpDWVe4rUbAChAu9SlyngUvZkMDTULEAs58PaBl5zW0mz
+   5jta/I66NeL2peSslWbR4Dio6xoX1Jld+XpVZXI/sKgdOWzpos8KXmO/0
+   Q==;
+X-CSE-ConnectionGUID: 7fQgQ2DlQXCwQycJ4Ca4tw==
+X-CSE-MsgGUID: z4SzzcmpSSyfU0FQiKip8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="82221834"
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="88906004"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 02:21:05 -0800
-X-CSE-ConnectionGUID: PVx1tvbTR56fOy6TgnPQMQ==
-X-CSE-MsgGUID: V6n28+EZRWqdaLj89N5JQQ==
+   d="scan'208";a="82221834"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 02:42:07 -0800
+X-CSE-ConnectionGUID: ozeke08AS5Sc90Vx7mUNMw==
+X-CSE-MsgGUID: V3W2IP7WRoqI5oG+Ju4Iqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="209564904"
+   d="scan'208";a="248079118"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 05 Feb 2026 02:21:03 -0800
+  by orviesa001.jf.intel.com with ESMTP; 05 Feb 2026 02:42:04 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnwTs-00000000jiS-3pPV;
-	Thu, 05 Feb 2026 10:21:00 +0000
-Date: Thu, 05 Feb 2026 18:20:12 +0800
+	id 1vnwoD-00000000jjA-0ysQ;
+	Thu, 05 Feb 2026 10:42:01 +0000
+Date: Thu, 5 Feb 2026 18:41:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
- Michal Simek <monstr@monstr.eu>, Frank Li <Frank.Li@nxp.com>
-Subject: [xilinx-xlnx:master 96/176] include/asm-generic/io.h:304:18:
- error: redefinition of 'readw_be'
-Message-ID: <202602051808.ujLEiIDB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Nikunj A Dadhania <nikunj@amd.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, bp@alien8.de, thomas.lendacky@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tglx@kernel.org,
+	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+	xin@zytor.com, seanjc@google.com, pbonzini@redhat.com,
+	x86@kernel.org, jon.grimm@amd.com, nikunj@amd.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] x86/fred: Fix early boot failures on SEV-ES/SNP guests
+Message-ID: <202602051859.vGTf24Nk-lkp@intel.com>
+References: <20260205051030.1225975-1-nikunj@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205051030.1225975-1-nikunj@amd.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx master
-head:   865e73109750d465f06dee019396406a354eb9d2
-commit: bf04a97202b1b3cf81cfbfcb93ddf253572499ff [96/176] asm-generic/io.h: Add big-endian MMIO accessors
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20260205/202602051808.ujLEiIDB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051808.ujLEiIDB-lkp@intel.com/reproduce)
+Hi Nikunj,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3c2ca964f75460093a8aad6b314a6cd558e80e66]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikunj-A-Dadhania/x86-fred-Fix-early-boot-failures-on-SEV-ES-SNP-guests/20260205-131359
+base:   3c2ca964f75460093a8aad6b314a6cd558e80e66
+patch link:    https://lore.kernel.org/r/20260205051030.1225975-1-nikunj%40amd.com
+patch subject: [PATCH] x86/fred: Fix early boot failures on SEV-ES/SNP guests
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260205/202602051859.vGTf24Nk-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051859.vGTf24Nk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602051808.ujLEiIDB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602051859.vGTf24Nk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/powerpc/include/asm/io.h:1043,
-                    from include/linux/io.h:14,
-                    from include/linux/irq.h:20,
-                    from arch/powerpc/include/asm/hardirq.h:6,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:8,
-                    from include/linux/cgroup.h:26,
-                    from include/linux/memcontrol.h:13,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/powerpc/kernel/asm-offsets.c:21:
->> include/asm-generic/io.h:304:18: error: redefinition of 'readw_be'
-     304 | #define readw_be readw_be
-         |                  ^~~~~~~~
-   include/asm-generic/io.h:305:19: note: in expansion of macro 'readw_be'
-     305 | static inline u16 readw_be(const volatile void __iomem *addr)
-         |                   ^~~~~~~~
-   arch/powerpc/include/asm/io-defs.h:8:16: note: previous definition of 'readw_be' with type 'u16(const volatile void *)' {aka 'short unsigned int(const volatile void *)'}
-       8 | DEF_PCI_AC_RET(readw_be, u16, (const PCI_IO_ADDR addr), (addr), mem, addr)
-         |                ^~~~~~~~
-   arch/powerpc/include/asm/io.h:656:19: note: in definition of macro 'DEF_PCI_AC_RET'
-     656 | static inline ret name at                                       \
-         |                   ^~~~
->> include/asm-generic/io.h:319:18: error: redefinition of 'readl_be'
-     319 | #define readl_be readl_be
-         |                  ^~~~~~~~
-   include/asm-generic/io.h:320:19: note: in expansion of macro 'readl_be'
-     320 | static inline u32 readl_be(const volatile void __iomem *addr)
-         |                   ^~~~~~~~
-   arch/powerpc/include/asm/io-defs.h:9:16: note: previous definition of 'readl_be' with type 'u32(const volatile void *)' {aka 'unsigned int(const volatile void *)'}
-       9 | DEF_PCI_AC_RET(readl_be, u32, (const PCI_IO_ADDR addr), (addr), mem, addr)
-         |                ^~~~~~~~
-   arch/powerpc/include/asm/io.h:656:19: note: in definition of macro 'DEF_PCI_AC_RET'
-     656 | static inline ret name at                                       \
-         |                   ^~~~
->> include/asm-generic/io.h:351:19: error: redefinition of 'writew_be'
-     351 | #define writew_be writew_be
-         |                   ^~~~~~~~~
-   include/asm-generic/io.h:352:20: note: in expansion of macro 'writew_be'
-     352 | static inline void writew_be(u16 value, volatile void __iomem *addr)
-         |                    ^~~~~~~~~
-   arch/powerpc/include/asm/io-defs.h:13:18: note: previous definition of 'writew_be' with type 'void(u16,  volatile void *)' {aka 'void(short unsigned int,  volatile void *)'}
-      13 | DEF_PCI_AC_NORET(writew_be, (u16 val, PCI_IO_ADDR addr), (val, addr), mem, addr)
-         |                  ^~~~~~~~~
-   arch/powerpc/include/asm/io.h:664:20: note: in definition of macro 'DEF_PCI_AC_NORET'
-     664 | static inline void name at                                      \
-         |                    ^~~~
->> include/asm-generic/io.h:363:19: error: redefinition of 'writel_be'
-     363 | #define writel_be writel_be
-         |                   ^~~~~~~~~
-   include/asm-generic/io.h:364:20: note: in expansion of macro 'writel_be'
-     364 | static inline void writel_be(u32 value, volatile void __iomem *addr)
-         |                    ^~~~~~~~~
-   arch/powerpc/include/asm/io-defs.h:14:18: note: previous definition of 'writel_be' with type 'void(u32,  volatile void *)' {aka 'void(unsigned int,  volatile void *)'}
-      14 | DEF_PCI_AC_NORET(writel_be, (u32 val, PCI_IO_ADDR addr), (val, addr), mem, addr)
-         |                  ^~~~~~~~~
-   arch/powerpc/include/asm/io.h:664:20: note: in definition of macro 'DEF_PCI_AC_NORET'
-     664 | static inline void name at                                      \
-         |                    ^~~~
-   make[3]: *** [scripts/Makefile.build:102: arch/powerpc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1203: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   arch/x86/entry/entry_fred.c:213:11: error: call to undeclared function 'user_exc_vmm_communication'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     213 |                         return user_exc_vmm_communication(regs, error_code);
+         |                                ^
+>> arch/x86/entry/entry_fred.c:213:4: warning: void function 'fred_hwexc' should not return a value [-Wreturn-mismatch]
+     213 |                         return user_exc_vmm_communication(regs, error_code);
+         |                         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/entry/entry_fred.c:215:11: error: call to undeclared function 'kernel_exc_vmm_communication'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     215 |                         return kernel_exc_vmm_communication(regs, error_code);
+         |                                ^
+   arch/x86/entry/entry_fred.c:215:4: warning: void function 'fred_hwexc' should not return a value [-Wreturn-mismatch]
+     215 |                         return kernel_exc_vmm_communication(regs, error_code);
+         |                         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings and 2 errors generated.
 
 
-vim +/readw_be +304 include/asm-generic/io.h
+vim +/fred_hwexc +213 arch/x86/entry/entry_fred.c
 
-   297	
-   298	/*
-   299	 * {read,write}{w,l,q}_be() access big endian memory and return result
-   300	 * in native endianness.
-   301	 */
-   302	
-   303	#ifndef readw_be
- > 304	#define readw_be readw_be
-   305	static inline u16 readw_be(const volatile void __iomem *addr)
-   306	{
-   307		u16 val;
-   308	
-   309		log_read_mmio(16, addr, _THIS_IP_, _RET_IP_);
-   310		__io_br();
-   311		val = __be16_to_cpu((__be16 __force)__raw_readw(addr));
-   312		__io_ar(val);
-   313		log_post_read_mmio(val, 16, addr, _THIS_IP_, _RET_IP_);
-   314		return val;
-   315	}
-   316	#endif
-   317	
-   318	#ifndef readl_be
- > 319	#define readl_be readl_be
-   320	static inline u32 readl_be(const volatile void __iomem *addr)
-   321	{
-   322		u32 val;
-   323	
-   324		log_read_mmio(32, addr, _THIS_IP_, _RET_IP_);
-   325		__io_br();
-   326		val = __be32_to_cpu((__be32 __force)__raw_readl(addr));
-   327		__io_ar(val);
-   328		log_post_read_mmio(val, 32, addr, _THIS_IP_, _RET_IP_);
-   329		return val;
-   330	}
-   331	#endif
-   332	
-   333	#ifdef CONFIG_64BIT
-   334	#ifndef readq_be
-   335	#define readq_be readq_be
-   336	static inline u64 readq_be(const volatile void __iomem *addr)
-   337	{
-   338		u64 val;
-   339	
-   340		log_read_mmio(64, addr, _THIS_IP_, _RET_IP_);
-   341		__io_br();
-   342		val = __be64_to_cpu((__be64 __force)__raw_readq(addr));
-   343		__io_ar(val);
-   344		log_post_read_mmio(val, 64, addr, _THIS_IP_, _RET_IP_);
-   345		return val;
-   346	}
-   347	#endif
-   348	#endif /* CONFIG_64BIT */
-   349	
-   350	#ifndef writew_be
- > 351	#define writew_be writew_be
-   352	static inline void writew_be(u16 value, volatile void __iomem *addr)
-   353	{
-   354		log_write_mmio(value, 16, addr, _THIS_IP_, _RET_IP_);
-   355		__io_bw();
-   356		__raw_writew((u16 __force)__cpu_to_be16(value), addr);
-   357		__io_aw();
-   358		log_post_write_mmio(value, 16, addr, _THIS_IP_, _RET_IP_);
-   359	}
-   360	#endif
-   361	
-   362	#ifndef writel_be
- > 363	#define writel_be writel_be
-   364	static inline void writel_be(u32 value, volatile void __iomem *addr)
-   365	{
-   366		log_write_mmio(value, 32, addr, _THIS_IP_, _RET_IP_);
-   367		__io_bw();
-   368		__raw_writel((u32 __force)__cpu_to_be32(value), addr);
-   369		__io_aw();
-   370		log_post_write_mmio(value, 32, addr, _THIS_IP_, _RET_IP_);
-   371	}
-   372	#endif
-   373	
+   180	
+   181	static noinstr void fred_hwexc(struct pt_regs *regs, unsigned long error_code)
+   182	{
+   183		/* Optimize for #PF. That's the only exception which matters performance wise */
+   184		if (likely(regs->fred_ss.vector == X86_TRAP_PF))
+   185			return exc_page_fault(regs, error_code);
+   186	
+   187		switch (regs->fred_ss.vector) {
+   188		case X86_TRAP_DE: return exc_divide_error(regs);
+   189		case X86_TRAP_DB: return fred_exc_debug(regs);
+   190		case X86_TRAP_BR: return exc_bounds(regs);
+   191		case X86_TRAP_UD: return exc_invalid_op(regs);
+   192		case X86_TRAP_NM: return exc_device_not_available(regs);
+   193		case X86_TRAP_DF: return exc_double_fault(regs, error_code);
+   194		case X86_TRAP_TS: return exc_invalid_tss(regs, error_code);
+   195		case X86_TRAP_NP: return exc_segment_not_present(regs, error_code);
+   196		case X86_TRAP_SS: return exc_stack_segment(regs, error_code);
+   197		case X86_TRAP_GP: return exc_general_protection(regs, error_code);
+   198		case X86_TRAP_MF: return exc_coprocessor_error(regs);
+   199		case X86_TRAP_AC: return exc_alignment_check(regs, error_code);
+   200		case X86_TRAP_XF: return exc_simd_coprocessor_error(regs);
+   201	
+   202	#ifdef CONFIG_X86_MCE
+   203		case X86_TRAP_MC: return fred_exc_machine_check(regs);
+   204	#endif
+   205	#ifdef CONFIG_INTEL_TDX_GUEST
+   206		case X86_TRAP_VE: return exc_virtualization_exception(regs);
+   207	#endif
+   208	#ifdef CONFIG_X86_CET
+   209		case X86_TRAP_CP: return exc_control_protection(regs, error_code);
+   210	#endif
+   211		case X86_TRAP_VC:
+   212			if (user_mode(regs))
+ > 213				return user_exc_vmm_communication(regs, error_code);
+   214			else
+   215				return kernel_exc_vmm_communication(regs, error_code);
+   216		default: return fred_bad_type(regs, error_code);
+   217		}
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
