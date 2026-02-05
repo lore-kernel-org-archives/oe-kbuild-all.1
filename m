@@ -1,130 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0543AE702
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 11:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854D06F2F2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Feb 2026 12:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770291787; cv=none; b=GCocZj3h7c1zAWO+Tc7WbLHIT3UTClbezsh/RZSWxGyZXCO8ddzHgIZ6eY4dJHx8Ra96laUhaQ6oy6h7F7mOtSTBiO0aXAGYddXru40rTO3saX2uwxPepSeejkOkGBQdWHZHjphuuJR3rqt3U7q6xX3qyHqh9UudWl8ABlRtGno=
+	t=1770293126; cv=none; b=J0lXJh17PDo0vyYgm9aJpcXxiNWh8/RLy4c/A4A2dQC/MSwNL/GPFjnamx4MV1O8wuaElEMHFEv16ouyqlnYnI+lwzzHx8wYQ0FaZdSqbHO1VLO+iHYyqsgCetYJd5IoIei3C/UsZ63ougzj3RxpriTwdMX5H8VUC5yyYK/21gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770291787; c=relaxed/simple;
-	bh=dyvnEFLL2TB3p/orYqYBF+jZ8F5kSnOuy5qLzAr52c4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Chhc1MutCtbyLQgYCeqGl/gV6AkOlMudil88BUTcsvMlclUSVFbOEIP245nT3xcSyZQkn8bGNN60qwMzuFGQGT1h+zYuYU0L/7GXw8JjQdR36+ZyVcARDilxd5KCr25jlJ8gbnzumdFip9N+edbjwEpY7GDfngTsUf/61XG5P94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JA15FGrb; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1770293126; c=relaxed/simple;
+	bh=PvpEIflrI3jube+dof3G46lnAM3qwdqpt5PMLsDqQqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=elD3UT+skUOWiyAncSq+HZYZE/kycgbaZq+Dv+S43jyhzFnl6rs0RpTm3FyzDWNTm0BQMJ8e8yItxyogOtbZi23P5jtl18ShIP8RI0Zpsfg2yn/8KBYkiyX63Vlq3Mu59ELfLNyOAl8y6Osq8bvhS/LnWK6CX1yjSygHuJhfoOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BYvcrMZo; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JA15FGrb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BYvcrMZo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770291787; x=1801827787;
-  h=date:from:to:cc:subject:message-id;
-  bh=dyvnEFLL2TB3p/orYqYBF+jZ8F5kSnOuy5qLzAr52c4=;
-  b=JA15FGrbEelaNuGC1j08PoPTQ2h0sJiwCta8L8tcxttQPE3lotBhE9pS
-   EMsByFgFtIRX8Bj0ZPe+V5xo8VpixtG9zUabJkrCAv9SUPKYaeBUqTYH5
-   uv/+6UleixQeOURcX0qZ0+wOtOa/FBPRnxYju+nSNYTGlqSIiDSZmKILQ
-   ZSnsMZaykQocijHyhI/fWwDytPOcuRLz4v9m/2nXU9mX6/P8eBICpbrJp
-   2DCiRDrV9HiPJIo1BjwZGuU9Q2ye4d4TETW7Anc8uXFi4pEL5Cb963F7F
-   rkzBl2ixpOTRJ82JfqW8KkyntJ8MJvAvDx/DSvQgKIoVCfh9YKOqKZfHI
-   A==;
-X-CSE-ConnectionGUID: 5dckeq26Se2PY218EBZnOA==
-X-CSE-MsgGUID: 704vqy0ORH+CCGmU9ev74Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71583732"
+  t=1770293127; x=1801829127;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PvpEIflrI3jube+dof3G46lnAM3qwdqpt5PMLsDqQqU=;
+  b=BYvcrMZo4byp3G6FdBZLXocIvGXeeCuUxSVYAHGOq5VmJVvdiY56IuX0
+   AQPvOGkbivmt7T0HvPIzvKxpn9SDOX38JXyh7Hrss/nLkQBb75WULQtLM
+   EO+I/moyqO2pf2VvGz+omo8K9/k0+UYFs1i6oUu9t7ksUVoRzPU9kYp7x
+   J7ioDP8QAwxDDpI6pJsEofK47kCBFS/COFyt76rFqSHxkOho6NM/4tDjH
+   2yOaii4hnbOfzIRfR+3RxGLMVAf8fRRkX7O6I7vYtGhafvaxlfaVZfWsQ
+   JlvKF5FwRj7VoRQ0GCejWbqLBBh1zVzHiwT+gy9BDhAAhheVEwxg1dDAe
+   Q==;
+X-CSE-ConnectionGUID: +UGnoiihTkiUUh+cjDHV1w==
+X-CSE-MsgGUID: YzQDFwxxT9qIcwFG3hMfKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71217131"
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="71583732"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 03:43:07 -0800
-X-CSE-ConnectionGUID: yWM41HA6ROW2Ug0KjVP/Kg==
-X-CSE-MsgGUID: VUPXRNvHSYeDV51cK+iEFg==
+   d="scan'208";a="71217131"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 04:05:26 -0800
+X-CSE-ConnectionGUID: YwZjDSiARdSewJfp1dwIrA==
+X-CSE-MsgGUID: UaKJHZ5MQVCI/xGY89Dt9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="241121248"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Feb 2026 03:43:05 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="241174396"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 05 Feb 2026 04:05:23 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vnxlH-00000000jlY-0Ieh;
-	Thu, 05 Feb 2026 11:43:03 +0000
-Date: Thu, 05 Feb 2026 19:42:50 +0800
+	id 1vny6q-00000000473-43Of;
+	Thu, 05 Feb 2026 12:05:20 +0000
+Date: Thu, 5 Feb 2026 13:05:12 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- drivers/usb/typec/mode_selection.c:261:7: warning: assignment makes pointer
- from integer without a cast
-Message-ID: <202602051953.BUpMsZsW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sasha Levin <sashal@kernel.org>, pasha.tatashin@soleen.com,
+	rppt@kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, pratyush@kernel.org,
+	linux-kernel@vger.kernel.org, surenb@google.com,
+	Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH] kexec: allow KEXEC_HANDOVER to build with COMPILE_TEST
+Message-ID: <202602051345.Yz2vgJHk-lkp@intel.com>
+References: <20260204182816.2463931-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260204182816.2463931-1-sashal@kernel.org>
 
-Hi Andrei,
+Hi Sasha,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   7fa33ba90b34f99e816cb1719d346f70b5be0627
-commit: f49f8d90b43e2a0aa7a011c88529f38c409fbf0b [1/1] ANDROID: usb: typec: Implement mode selection
-config: arm-randconfig-004-20260205 (https://download.01.org/0day-ci/archive/20260205/202602051953.BUpMsZsW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051953.BUpMsZsW-lkp@intel.com/reproduce)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.19-rc8 next-20260204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sasha-Levin/kexec-allow-KEXEC_HANDOVER-to-build-with-COMPILE_TEST/20260205-023202
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260204182816.2463931-1-sashal%40kernel.org
+patch subject: [PATCH] kexec: allow KEXEC_HANDOVER to build with COMPILE_TEST
+config: sh-kismet-CONFIG_CMA-CONFIG_KEXEC_HANDOVER-0-0 (https://download.01.org/0day-ci/archive/20260205/202602051345.Yz2vgJHk-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260205/202602051345.Yz2vgJHk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602051953.BUpMsZsW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602051345.Yz2vgJHk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/usb/typec/mode_selection.c: In function 'mode_list_clean':
-   drivers/usb/typec/mode_selection.c:110:3: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-      kfree(ms);
-      ^~~~~
-      kvfree
-   drivers/usb/typec/mode_selection.c: In function 'mode_add_to_list':
-   drivers/usb/typec/mode_selection.c:261:9: error: implicit declaration of function 'kzalloc'; did you mean 'xa_alloc'? [-Werror=implicit-function-declaration]
-       ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
-            ^~~~~~~
-            xa_alloc
->> drivers/usb/typec/mode_selection.c:261:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-       ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
-          ^
-   drivers/usb/typec/mode_selection.c: In function 'typec_mode_selection_start':
-   drivers/usb/typec/mode_selection.c:292:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     sel = kzalloc(sizeof(struct altmode_selection), GFP_KERNEL);
-         ^
-   cc1: some warnings being treated as errors
-
-
-vim +261 drivers/usb/typec/mode_selection.c
-
-   250	
-   251	static int mode_add_to_list(struct device *dev, void *data)
-   252	{
-   253		struct list_head *list = (struct list_head *)data;
-   254		struct mode_state *ms;
-   255	
-   256		if (is_typec_altmode(dev)) {
-   257			struct typec_altmode *altmode = to_typec_altmode(dev);
-   258			const struct typec_altmode *pdev = typec_altmode_get_partner(altmode);
-   259	
-   260			if (pdev && altmode->ops && altmode->ops->activate) {
- > 261				ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
-   262				if (!ms)
-   263					return -ENOMEM;
-   264	
-   265				ms->altmode = altmode;
-   266				ms->priority = pdev->priority;
-   267				INIT_LIST_HEAD(&ms->list);
-   268				list_add_tail(&ms->list, list);
-   269			}
-   270		}
-   271	
-   272		return 0;
-   273	}
-   274	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CMA when selected by KEXEC_HANDOVER
+   WARNING: unmet direct dependencies detected for CMA
+     Depends on [n]: MMU [=n]
+     Selected by [y]:
+     - KEXEC_HANDOVER [=y] && (ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE || COMPILE_TEST [=y]) && (!DEFERRED_STRUCT_PAGE_INIT [=n] || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
