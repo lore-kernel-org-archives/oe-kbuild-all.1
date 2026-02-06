@@ -1,142 +1,158 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96528395D80
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 11:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7272DEA9D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 12:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770378901; cv=none; b=c27rA7c1ZJcBP13PiGb9eG+VeujLr0+IgNvBi/GvFSYoThd2HjZ7mFeCu42tJobRjCUYbWGkiYCkG2f1PWpJU98igcuC2jqtLEIBMJPXA9V/VLu40NY0iIQw/Rc3TNDpIX5ovzFDG4K4el2Fo3bCu6F5vpFdoK2mP24oQQFd3Gc=
+	t=1770380986; cv=none; b=WW3Kf5A9gLQZpVVtOvr0tZjmrTM7GKOA4/lAJSqctMnR7w8/rTE5dbKlkh6FSvujUNQlbFImKoMOBAUzxA2p5cHP2/p0bE2Sg5bnH+CBt9SMwm2Q4lHGBD9qHVvCcPjeBjzU0q0JxdZ9198Oyr9qAj4sjMm2DJwGagRbkncTD5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770378901; c=relaxed/simple;
-	bh=bbViN2U7h/+Su9XQ6MU3JMmds/6oPuarh1vuIvQbH70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qu9BbSEGkdhx5ImIY6mTcciAdgdjDECBY8iDMN9EBH1SNa0NP0lxfiImSeA1FNAeA5IT5UB8etVgHNLcCh1cjuW9uS2Acl/TI9m/V8CSWMLpyKu87Pl28HbQ/VZgBZeSlD2Ut22zH31JXmjYlrIdrUxxtGSva5xOyWH3aqpxAEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Yjzbf/S9; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1770380986; c=relaxed/simple;
+	bh=Ljv9s+KVRNKdsd0LppYSlG66ZabVcpQAS+zSz1+ogQc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=l8QYQCVpukfm48zLFVYZv7q0a0zZQmHtRK5vdlTmH2FXp/boIJr5HSvBN2uD1OAR/hdQZSOi5QEoyGnOZlKYAUcqzYXRx2DaILTUnvVPmzI6OmFpqgnpjWENjauBEbBFEJaTiYkCElvBX8e3+WgCHufjQ95xLGyNsWBb5/LcN4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cALyXcX+; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Yjzbf/S9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=z/uH5SzR9TtIyGxU/2v1+r7sLHVDqIOshdknRKc5HA8=; b=Yjzbf/S9Np1ofyWZ8g/Qya+6x3
-	dBdX3/1/5VTBBLlv3cU/BqLA0JeiPJ28OCDEgatx6dDNKIlXR9dcfBf3Av6vBrhlIvtsaMcJ10W3h
-	cLPbUOUOdlRfb3085m/34DkvE5K2EPnzDcdSSY0kB1WQEf1vgGOb3YpJ29NYjC1kRrg/PT+5ZqONi
-	9qawB9pgZTD8mXnWRw4LsrV67ttTiYP7JEmDgm2Gu97kKW5xCDWaTSTZEm6cLcVHI57v2Wj6mS7oo
-	Aiz5p2ErQQcPkVPfc/ahDJH0O4YRlJkLyXPY6Sb3rg9m11s46kz/6CRKI/eqp6hlkKtyNFkqrSuPg
-	SXo8AoMw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1voKQH-00000003kIm-40o4;
-	Fri, 06 Feb 2026 11:54:55 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 7678E301142; Fri, 06 Feb 2026 12:54:52 +0100 (CET)
-Date: Fri, 6 Feb 2026 12:54:52 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cALyXcX+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770380986; x=1801916986;
+  h=date:from:to:cc:subject:message-id;
+  bh=Ljv9s+KVRNKdsd0LppYSlG66ZabVcpQAS+zSz1+ogQc=;
+  b=cALyXcX+fp1XXNjwQJSqLDtc+tU7rdt5bsaSjqdiXCH+eyEw92UwE99H
+   ovE6BdbJ+vyEJzSqsmkoTMcejSamtj5sGd6myv7kZgQsLDaH9WQ+DnoQ3
+   cWIDRKuWnagB6gEkV+/nwfd1Yr+5vSeq1BPb/psMKSri/H3S8qE3UjlHO
+   2dFcBq7UAclUJJUgPhePRtY6vbtQVFoy8/SRPXeGyBKmg44M/bVbLj5xS
+   lAKrk/Wj5oDpGJ38kEKidjTUALNxpGdNVUj5GMl7Mp5iBonkReG9zxumZ
+   HKBSo3FY/THMHbL8uuDucRq7mlW1UYBBmxN9JMyCFeG/Udez/2KrJj374
+   A==;
+X-CSE-ConnectionGUID: ovNFEkj2QDexpgbbeBLCEw==
+X-CSE-MsgGUID: 8jYB0de+Rm2AeRi6OBRziw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71487565"
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="71487565"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 04:29:46 -0800
+X-CSE-ConnectionGUID: u+WYn4kMTCaV3DHulDow6A==
+X-CSE-MsgGUID: 29iiS2rFSRe7odPMEVFkaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="210137766"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 06 Feb 2026 04:29:44 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1voKxx-000000004Z7-3Xpo;
+	Fri, 06 Feb 2026 12:29:41 +0000
+Date: Fri, 06 Feb 2026 13:29:12 +0100
+From: kernel test robot <lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun@kernel.org>,
-	Lyude Paul <lyude@redhat.com>
-Subject: Re: [boqun:rust-sync 12/17] kernel/time/timer.c:1754:30: warning:
- format '%x' expects argument of type 'unsigned int', but argument 6 has type
- 'long int'
-Message-ID: <20260206115452.GS1282955@noisy.programming.kicks-ass.net>
-References: <202602060923.uRfnJm0i-lkp@intel.com>
+ Lyude Paul <lyude@redhat.com>
+Subject: [boqun:rust-sync 12/17] kernel/sched/core.c:8867:6: error:
+ conflicting types for '__cant_sleep'
+Message-ID: <202602061342.QHPWZ2nN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202602060923.uRfnJm0i-lkp@intel.com>
 
-On Fri, Feb 06, 2026 at 09:33:23AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
-> head:   3ef437b5dd8b13bd88b1512531391ad30c26d539
-> commit: 6969095afa2073e65ecc958bb5064ddf808309b3 [12/17] preempt: Introduce HARDIRQ_DISABLE_BITS and PREEMPT_LONG
-> config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260206/202602060923.uRfnJm0i-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060923.uRfnJm0i-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602060923.uRfnJm0i-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/asm-generic/bug.h:31,
->                     from arch/alpha/include/asm/bug.h:23,
->                     from include/linux/bug.h:5,
->                     from include/linux/random.h:6,
->                     from include/linux/nodemask.h:94,
->                     from include/linux/numa.h:6,
->                     from include/linux/cpumask.h:15,
->                     from include/linux/smp.h:13,
->                     from include/linux/kernel_stat.h:5,
->                     from kernel/softirq.c:13:
->    kernel/softirq.c: In function 'handle_softirqs':
-> >> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'long int' [-Wformat=]
->        5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
->          |                         ^~~~~~
->    include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
->      484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->          |                         ^~~~
->    include/linux/printk.h:555:9: note: in expansion of macro 'printk'
->      555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->          |         ^~~~~~
->    include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
->       11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
->          |                         ^~~~~~~~
->    include/linux/printk.h:555:16: note: in expansion of macro 'KERN_ERR'
->      555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->          |                ^~~~~~~~
->    kernel/softirq.c:633:25: note: in expansion of macro 'pr_err'
->      633 |                         pr_err("huh, entered softirq %u %s %p with preempt_count %08x, exited with %08x?\n",
->          |                         ^~~~~~
-> --
->    In file included from arch/alpha/include/asm/bug.h:23,
->                     from include/linux/bug.h:5,
->                     from include/linux/random.h:6,
->                     from include/linux/nodemask.h:94,
->                     from include/linux/numa.h:6,
->                     from include/linux/cpumask.h:15,
->                     from include/linux/smp.h:13,
->                     from include/linux/kernel_stat.h:5,
->                     from kernel/time/timer.c:21:
->    kernel/time/timer.c: In function 'call_timer_fn':
-> >> kernel/time/timer.c:1754:30: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'long int' [-Wformat=]
->     1754 |                 WARN_ONCE(1, "timer: %pS preempt leak: %08x -> %08x\n",
->          |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     1755 |                           fn, count, preempt_count());
->          |                               ~~~~~
->          |                               |
->          |                               long int
->    include/asm-generic/bug.h:142:62: note: in definition of macro '__WARN_printf'
->      142 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
->          |                                                              ^~~
->    include/linux/once_lite.h:31:25: note: in expansion of macro 'WARN'
->       31 |                         func(__VA_ARGS__);                              \
->          |                         ^~~~
->    include/asm-generic/bug.h:185:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
->      185 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
->          |         ^~~~~~~~~~~~~~~
->    kernel/time/timer.c:1754:17: note: in expansion of macro 'WARN_ONCE'
->     1754 |                 WARN_ONCE(1, "timer: %pS preempt leak: %08x -> %08x\n",
->          |                 ^~~~~~~~~
->    kernel/time/timer.c:1754:59: note: format string is defined here
->     1754 |                 WARN_ONCE(1, "timer: %pS preempt leak: %08x -> %08x\n",
->          |                                                        ~~~^
->          |                                                           |
->          |                                                           unsigned int
->          |                                                        %08lx
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
+head:   3ef437b5dd8b13bd88b1512531391ad30c26d539
+commit: 6969095afa2073e65ecc958bb5064ddf808309b3 [12/17] preempt: Introduce HARDIRQ_DISABLE_BITS and PREEMPT_LONG
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260206/202602061342.QHPWZ2nN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061342.QHPWZ2nN-lkp@intel.com/reproduce)
 
-Yeah, that's what I said :/ C format stuff sucks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602061342.QHPWZ2nN-lkp@intel.com/
 
-Perhaps the sanest solution is something like:
+All error/warnings (new ones prefixed by >>):
 
-	"...%lx...", (long)preempt_count()
+>> kernel/softirq.c:635:11: warning: format specifies type 'unsigned int' but the argument has type 'long' [-Wformat]
+     633 |                         pr_err("huh, entered softirq %u %s %p with preempt_count %08x, exited with %08x?\n",
+         |                                                                                  ~~~~
+         |                                                                                  %08lx
+     634 |                                vec_nr, softirq_to_name[vec_nr], h->action,
+     635 |                                prev_count, preempt_count());
+         |                                ^~~~~~~~~~
+   ./include/linux/printk.h:555:33: note: expanded from macro 'pr_err'
+     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   ./include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   ./include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning generated.
+--
+>> kernel/sched/core.c:8867:6: error: conflicting types for '__cant_sleep'
+    8867 | void __cant_sleep(const char *file, int line, long preempt_offset)
+         |      ^
+   ./include/linux/kernel.h:78:13: note: previous declaration is here
+      78 | extern void __cant_sleep(const char *file, int line, int preempt_offset);
+         |             ^
+   1 error generated.
+--
+>> kernel/time/timer.c:1755:10: warning: format specifies type 'unsigned int' but the argument has type 'long' [-Wformat]
+    1754 |                 WARN_ONCE(1, "timer: %pS preempt leak: %08x -> %08x\n",
+         |                                                        ~~~~
+         |                                                        %08lx
+    1755 |                           fn, count, preempt_count());
+         |                               ^~~~~
+   ./include/asm-generic/bug.h:185:38: note: expanded from macro 'WARN_ONCE'
+     185 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |                                             ^~~~~~
+   ./include/linux/once_lite.h:31:9: note: expanded from macro 'DO_ONCE_LITE_IF'
+      31 |                         func(__VA_ARGS__);                              \
+         |                              ^~~~~~~~~~~
+   ./include/asm-generic/bug.h:166:29: note: expanded from macro 'WARN'
+     166 |                 __WARN_printf(TAINT_WARN, format);                      \
+         |                                           ^~~~~~
+   ./include/asm-generic/bug.h:133:17: note: expanded from macro '__WARN_printf'
+     133 |                 __warn_printk(arg);                                     \
+         |                               ^~~
+   1 warning generated.
 
+
+vim +/__cant_sleep +8867 kernel/sched/core.c
+
+  8866	
+> 8867	void __cant_sleep(const char *file, int line, long preempt_offset)
+  8868	{
+  8869		static unsigned long prev_jiffy;
+  8870	
+  8871		if (irqs_disabled())
+  8872			return;
+  8873	
+  8874		if (!IS_ENABLED(CONFIG_PREEMPT_COUNT))
+  8875			return;
+  8876	
+  8877		if (preempt_count() > preempt_offset)
+  8878			return;
+  8879	
+  8880		if (time_before(jiffies, prev_jiffy + HZ) && prev_jiffy)
+  8881			return;
+  8882		prev_jiffy = jiffies;
+  8883	
+  8884		printk(KERN_ERR "BUG: assuming atomic context at %s:%d\n", file, line);
+  8885		printk(KERN_ERR "in_atomic(): %d, irqs_disabled(): %d, pid: %d, name: %s\n",
+  8886				in_atomic(), irqs_disabled(),
+  8887				current->pid, current->comm);
+  8888	
+  8889		debug_show_held_locks(current);
+  8890		dump_stack();
+  8891		add_taint(TAINT_WARN, LOCKDEP_STILL_OK);
+  8892	}
+  8893	EXPORT_SYMBOL_GPL(__cant_sleep);
+  8894	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
