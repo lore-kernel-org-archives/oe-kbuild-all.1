@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC18D24B28
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 00:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2DD22652D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 01:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770338853; cv=none; b=R7s6QN/nXXrbwU+TicFHTQjeqNclpQHuoJ08A+8VjcpmotNufVRv/zrNnN71dYS2q/UveZlMUL+NhLdQl3uNZjF0cPqIzNxpzl/iHShf4SaMQ4dt3x4mGHMoRCYPE8QnySuRJzULDm6U7EwzNThitXfwDAvlu3fKNPIqlyV2/CE=
+	t=1770340301; cv=none; b=XiCZcSIUaj15S3IOwuEO1btxRKDRVGKiQHIwP/RCHI6iDjJipqYnqcXboC0NNcS7FOq0B8WwCLHwVw8/dvRWnE87JE6wjavIETnOkYVVEYvNVeV2TP5Dy8lrXBHABI/4/Ck/bPy5wRlZLDFyLUqW6lSO9+gKgdQ8pfxUvuPBnzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770338853; c=relaxed/simple;
-	bh=Oe9meYR24Myu3MAkbBPCR6OX4BEoDuCk5njQm6tnnd4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=u/PWqL+FS+AqAnVfOb0Gp4F7PBdBMqhdf5htSHKiiceAMbAZ01Ja/+6tQ6MAZKNICNmdujHvLWTLVzKobseviM3qu3obks1XADwyKR526eSx9Qujo0ExzcBFc3wBfzfHwv3wrlyRLN2frpKIHmt35xUuyCKSiwQ2OFX54C2uocM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtgBuZGE; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1770340301; c=relaxed/simple;
+	bh=HFlABrmHq3Spf6ueBFfSIZEq7M+AMpMdM+Gi/bJK2fw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=e3MZsKIo72jC+bv4R17aK0PeL0UP43N+3pW0xszye74Qy33c9v2kp7WkY3AAHkznro8gHXn3sV97TZvjrLWsvyxt7gEmsufk8mNM/ryguE/LSIyfRcOhbe///H9UxI6tvENaK9KiAIQ9HrWclrpM+QDRtgD9uJVz3Y3hySeWJKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhSProag; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtgBuZGE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhSProag"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770338853; x=1801874853;
+  t=1770340301; x=1801876301;
   h=date:from:to:cc:subject:message-id;
-  bh=Oe9meYR24Myu3MAkbBPCR6OX4BEoDuCk5njQm6tnnd4=;
-  b=DtgBuZGETCOby5XYlvsNKoKhpBVf0aJFx4dEDqbgD8JdO7P0L+UdM+gC
-   uI7KYMD6zq2zif1Q3BfHfLXhzxffBZOBAGNNOce16vQLV+DzGR3WossvM
-   3JpbcRl6wqz+fG+KJ4fZRZoRwf5g1j/Ab2/anfD0iCFrFcsHVOElj+Iy2
-   EyE5T5Mv6QIJri6tX5Gouamk3NWgrkOzRFOgYcRAWCw0m+5DL5wmdzEXu
-   kwfSUWPPzDS+ZB66+mckOsDeNI127HewDWpetJIQhNDFzJzLRbN0n7EPo
-   mIi+Fkd6rWHdBMcJ4WUW8OFulGOeBm7YwDcrplNXHy8GWYF8hGdtvW8NZ
+  bh=HFlABrmHq3Spf6ueBFfSIZEq7M+AMpMdM+Gi/bJK2fw=;
+  b=mhSProagSaSJQsxdPmZiraCM34+Jd83LpC9EG3+qoVxr028xJyoyxAb5
+   3hFzqP3YcMd0QyROEpX1+tIeTN2anMTUX1XIr6xSaTTvDANai934rIwkO
+   Dknb5eEp0XhiN1/X2cdiNkBEOMDSXVYxcvmw2KwuUVKxKDQ4QBhuO6K1/
+   LKEmY4uwkoa7z02l41rGKZV+xDF5LTTibqxCQE8K7EoAJp7M4I3Yj3IDM
+   sU847trLgMYNsxLmyk1zNbiGJzZWhg9hW3fWMzNntEdH89AI474brNWj4
+   rncOVeoGFjWb8JCVSqVlMjekSHsK3+Z9dyX2MkTbXepr1fjLT91Hdvy2N
    g==;
-X-CSE-ConnectionGUID: wGurULBKRdSI8yLpPgDjfg==
-X-CSE-MsgGUID: D2zL4nK5Q+iYrOoORnHL2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71541111"
+X-CSE-ConnectionGUID: 8T6lPHWhT4ObZYheS8QzyQ==
+X-CSE-MsgGUID: xLkLcuijQiGgRUTEAzdjcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71542669"
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="71541111"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 16:47:32 -0800
-X-CSE-ConnectionGUID: e7raaSKiS4G1q/Z4D1MFag==
-X-CSE-MsgGUID: 3+XqcaTJS/GI+6Ad1OygFw==
+   d="scan'208";a="71542669"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 17:11:40 -0800
+X-CSE-ConnectionGUID: MDHOuRBHSNmW9qNv8Lh3iA==
+X-CSE-MsgGUID: mca4p+D7Tu+0sAYuJthacg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="215687753"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 05 Feb 2026 16:47:31 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 05 Feb 2026 17:11:38 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voA0P-000000004Hp-0tJY;
-	Fri, 06 Feb 2026 00:47:29 +0000
-Date: Fri, 06 Feb 2026 01:47:06 +0100
+	id 1voANk-00000000kLA-1ZaS;
+	Fri, 06 Feb 2026 01:11:36 +0000
+Date: Fri, 06 Feb 2026 09:11:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [nbdd0121:io_projection 2/4] warning: current MSRV (Minimum
- Supported Rust Version) is `1.78.0` but this item is stable since `1.79.0`
-Message-ID: <202602060123.Y1h6N2X8-lkp@intel.com>
+To: Michael Tretter <m.tretter@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+ Lee Jones <lee@kernel.org>
+Subject: [lee-leds:for-leds-next-next 19/19]
+ include/linux/compiler_types.h:630:45: error: call to
+ '__compiletime_assert_186' declared with attribute error:
+ min(intensity_value[i], led_cdev->max_brightness) signedness error
+Message-ID: <202602060923.xIgdQXjI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,38 +60,72 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/nbdd0121/linux io_projection
-head:   2c9cf695647e3347134a18354fc3bda43b501979
-commit: 54d8e6a820741a82b2bdec15bc360ec8d3143fac [2/4] rust: dma: generalize `dma_{read,write}` macro
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260206/202602060123.Y1h6N2X8-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060123.Y1h6N2X8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next-next
+head:   129f82752bcecd554936209aac4dbdd888e92224
+commit: 129f82752bcecd554936209aac4dbdd888e92224 [19/19] leds: multicolor: Limit intensity to max_brightness of LED
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260206/202602060923.xIgdQXjI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060923.xIgdQXjI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602060123.Y1h6N2X8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602060923.xIgdQXjI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: current MSRV (Minimum Supported Rust Version) is `1.78.0` but this item is stable since `1.79.0`
-   --> rust/kernel/io.rs:48:11
-   |
-   48 |         p.len() * core::mem::size_of::<T>()
-   |           ^^^^^
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#incompatible_msrv
-   = note: `-W clippy::incompatible-msrv` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::incompatible_msrv)]`
---
->> warning: missing documentation for a type alias
-   --> rust/kernel/dma.rs:457:1
-   |
-   457 | pub type CoherentAllocation<T> = Coherent<[T]>;
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: requested on the command line with `-W missing-docs`
+   In file included from <command-line>:
+   drivers/leds/led-class-multicolor.c: In function 'multi_intensity_store':
+>> include/linux/compiler_types.h:630:45: error: call to '__compiletime_assert_186' declared with attribute error: min(intensity_value[i], led_cdev->max_brightness) signedness error
+     630 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:611:25: note: in definition of macro '__compiletime_assert'
+     611 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:630:9: note: in expansion of macro '_compiletime_assert'
+     630 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/leds/led-class-multicolor.c:51:38: note: in expansion of macro 'min'
+      51 |                 intensity_value[i] = min(intensity_value[i],
+         |                                      ^~~
+
+
+vim +/__compiletime_assert_186 +630 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  616  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  621   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  629  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @630  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  631  
+
+:::::: The code at line 630 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
