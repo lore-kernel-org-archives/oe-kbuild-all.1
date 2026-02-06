@@ -1,133 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D53396B72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96528395D80
 	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 11:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770378899; cv=none; b=oaMk+1jBATSRBK5WSuuP3OOniR/JgLxfj216+aSH5SHkMQNVJaVPiGXyb9HJ5i+kbC0PBWRIVXn0hydL9x9fA8FrGMCUy38tQizGF0s+wQ1UqM01GbwfAAoznAxHC8BKWVu9T5RGyC8y2Xnf8zZWcidrMRBj9i2Y4blYvNF9LKQ=
+	t=1770378901; cv=none; b=c27rA7c1ZJcBP13PiGb9eG+VeujLr0+IgNvBi/GvFSYoThd2HjZ7mFeCu42tJobRjCUYbWGkiYCkG2f1PWpJU98igcuC2jqtLEIBMJPXA9V/VLu40NY0iIQw/Rc3TNDpIX5ovzFDG4K4el2Fo3bCu6F5vpFdoK2mP24oQQFd3Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770378899; c=relaxed/simple;
-	bh=h2VuUVKlDV4jAZxEPd2lvx3rurC5dt2iKxf6GP6j/58=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qC2GN+DYg1K895eJosag6bFoXTRQipeL2oaMQ2/U6UHQNge5zG1VVb257dnglkNL+jqu8+nlpLVHNIRz55/i0Ng2gg98KTGrO8QewpxeXs3Qs98nc4qSOh46+Vd1pYkwjPo+WQs52ts8YVtc5ukPiW4AsFqbY7t++Te/PaJd57Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S5Y2i9mb; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770378901; c=relaxed/simple;
+	bh=bbViN2U7h/+Su9XQ6MU3JMmds/6oPuarh1vuIvQbH70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qu9BbSEGkdhx5ImIY6mTcciAdgdjDECBY8iDMN9EBH1SNa0NP0lxfiImSeA1FNAeA5IT5UB8etVgHNLcCh1cjuW9uS2Acl/TI9m/V8CSWMLpyKu87Pl28HbQ/VZgBZeSlD2Ut22zH31JXmjYlrIdrUxxtGSva5xOyWH3aqpxAEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Yjzbf/S9; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S5Y2i9mb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770378898; x=1801914898;
-  h=date:from:to:cc:subject:message-id;
-  bh=h2VuUVKlDV4jAZxEPd2lvx3rurC5dt2iKxf6GP6j/58=;
-  b=S5Y2i9mbFpQLuyW2UqHmu5J/k+zUV1INhu0TEVcl6piTkIUbsEWnkA2U
-   4ztAgBhRB+E5lXPGYJVqJ6c64fct0yp6qecIgzwuAU2Rfm2k5l9DAHFZF
-   KTupoBsWm6YU/qriv9xcfLIEOyTEvv+y2+iLg8Tbi3I3Pshh/RSwVsPQC
-   WVIoYWXk8dkhgrrcWQ8Zk4uOYGXA4Gwt+OkW0XfRaSKFailZJvi8W1Y0r
-   ZqOIdvH/Gs9cs/NGI++bpUzKQvpGtqTmx2g6/4HQZiWRtZske4zRzmstk
-   HW8wG1mt2KLJ7C9rj7IkbAL/Mbwo+zqQtC9e+ESoAsiji5Co8I1Vs+lb7
-   w==;
-X-CSE-ConnectionGUID: 0pq1GEeVR6ioTXAPVY/06g==
-X-CSE-MsgGUID: haCD6BirSiy+jSaq666DNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71477519"
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="71477519"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 03:54:57 -0800
-X-CSE-ConnectionGUID: jrUXA3S7QP+Q+SzwAB2qiA==
-X-CSE-MsgGUID: 359qtXgzT0Crxfe+8qonFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="209944919"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 06 Feb 2026 03:54:56 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1voKQH-00000000ki6-2aYU;
-	Fri, 06 Feb 2026 11:54:53 +0000
-Date: Fri, 06 Feb 2026 19:54:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ido Schimmel <idosch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 12/12]
- drivers/macintosh/windfarm_lm75_sensor.c:70:21: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202602061945.ZOOQ49cV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Yjzbf/S9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=z/uH5SzR9TtIyGxU/2v1+r7sLHVDqIOshdknRKc5HA8=; b=Yjzbf/S9Np1ofyWZ8g/Qya+6x3
+	dBdX3/1/5VTBBLlv3cU/BqLA0JeiPJ28OCDEgatx6dDNKIlXR9dcfBf3Av6vBrhlIvtsaMcJ10W3h
+	cLPbUOUOdlRfb3085m/34DkvE5K2EPnzDcdSSY0kB1WQEf1vgGOb3YpJ29NYjC1kRrg/PT+5ZqONi
+	9qawB9pgZTD8mXnWRw4LsrV67ttTiYP7JEmDgm2Gu97kKW5xCDWaTSTZEm6cLcVHI57v2Wj6mS7oo
+	Aiz5p2ErQQcPkVPfc/ahDJH0O4YRlJkLyXPY6Sb3rg9m11s46kz/6CRKI/eqp6hlkKtyNFkqrSuPg
+	SXo8AoMw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1voKQH-00000003kIm-40o4;
+	Fri, 06 Feb 2026 11:54:55 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 7678E301142; Fri, 06 Feb 2026 12:54:52 +0100 (CET)
+Date: Fri, 6 Feb 2026 12:54:52 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun@kernel.org>,
+	Lyude Paul <lyude@redhat.com>
+Subject: Re: [boqun:rust-sync 12/17] kernel/time/timer.c:1754:30: warning:
+ format '%x' expects argument of type 'unsigned int', but argument 6 has type
+ 'long int'
+Message-ID: <20260206115452.GS1282955@noisy.programming.kicks-ass.net>
+References: <202602060923.uRfnJm0i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202602060923.uRfnJm0i-lkp@intel.com>
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   6b1c42d783637b473efce598dce9deab5c10ed42
-commit: 6b1c42d783637b473efce598dce9deab5c10ed42 [12/12] TMP: Revert "module: Add compile-time check for embedded NUL characters"
-config: powerpc64-randconfig-r133-20260206 (https://download.01.org/0day-ci/archive/20260206/202602061945.ZOOQ49cV-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061945.ZOOQ49cV-lkp@intel.com/reproduce)
+On Fri, Feb 06, 2026 at 09:33:23AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
+> head:   3ef437b5dd8b13bd88b1512531391ad30c26d539
+> commit: 6969095afa2073e65ecc958bb5064ddf808309b3 [12/17] preempt: Introduce HARDIRQ_DISABLE_BITS and PREEMPT_LONG
+> config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260206/202602060923.uRfnJm0i-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060923.uRfnJm0i-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602060923.uRfnJm0i-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from include/asm-generic/bug.h:31,
+>                     from arch/alpha/include/asm/bug.h:23,
+>                     from include/linux/bug.h:5,
+>                     from include/linux/random.h:6,
+>                     from include/linux/nodemask.h:94,
+>                     from include/linux/numa.h:6,
+>                     from include/linux/cpumask.h:15,
+>                     from include/linux/smp.h:13,
+>                     from include/linux/kernel_stat.h:5,
+>                     from kernel/softirq.c:13:
+>    kernel/softirq.c: In function 'handle_softirqs':
+> >> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'long int' [-Wformat=]
+>        5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+>          |                         ^~~~~~
+>    include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
+>      484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+>          |                         ^~~~
+>    include/linux/printk.h:555:9: note: in expansion of macro 'printk'
+>      555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+>          |         ^~~~~~
+>    include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+>       11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+>          |                         ^~~~~~~~
+>    include/linux/printk.h:555:16: note: in expansion of macro 'KERN_ERR'
+>      555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+>          |                ^~~~~~~~
+>    kernel/softirq.c:633:25: note: in expansion of macro 'pr_err'
+>      633 |                         pr_err("huh, entered softirq %u %s %p with preempt_count %08x, exited with %08x?\n",
+>          |                         ^~~~~~
+> --
+>    In file included from arch/alpha/include/asm/bug.h:23,
+>                     from include/linux/bug.h:5,
+>                     from include/linux/random.h:6,
+>                     from include/linux/nodemask.h:94,
+>                     from include/linux/numa.h:6,
+>                     from include/linux/cpumask.h:15,
+>                     from include/linux/smp.h:13,
+>                     from include/linux/kernel_stat.h:5,
+>                     from kernel/time/timer.c:21:
+>    kernel/time/timer.c: In function 'call_timer_fn':
+> >> kernel/time/timer.c:1754:30: warning: format '%x' expects argument of type 'unsigned int', but argument 6 has type 'long int' [-Wformat=]
+>     1754 |                 WARN_ONCE(1, "timer: %pS preempt leak: %08x -> %08x\n",
+>          |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     1755 |                           fn, count, preempt_count());
+>          |                               ~~~~~
+>          |                               |
+>          |                               long int
+>    include/asm-generic/bug.h:142:62: note: in definition of macro '__WARN_printf'
+>      142 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
+>          |                                                              ^~~
+>    include/linux/once_lite.h:31:25: note: in expansion of macro 'WARN'
+>       31 |                         func(__VA_ARGS__);                              \
+>          |                         ^~~~
+>    include/asm-generic/bug.h:185:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+>      185 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+>          |         ^~~~~~~~~~~~~~~
+>    kernel/time/timer.c:1754:17: note: in expansion of macro 'WARN_ONCE'
+>     1754 |                 WARN_ONCE(1, "timer: %pS preempt leak: %08x -> %08x\n",
+>          |                 ^~~~~~~~~
+>    kernel/time/timer.c:1754:59: note: format string is defined here
+>     1754 |                 WARN_ONCE(1, "timer: %pS preempt leak: %08x -> %08x\n",
+>          |                                                        ~~~^
+>          |                                                           |
+>          |                                                           unsigned int
+>          |                                                        %08lx
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602061945.ZOOQ49cV-lkp@intel.com/
+Yeah, that's what I said :/ C format stuff sucks.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/macintosh/windfarm_lm75_sensor.c:70:21: sparse: sparse: cast to restricted __le16
---
->> drivers/macintosh/windfarm_smu_sat.c:82:15: sparse: sparse: cast to restricted __le16
---
->> drivers/rpmsg/qcom_glink_smem.c:108:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *s @@     got void * @@
-   drivers/rpmsg/qcom_glink_smem.c:108:48: sparse:     expected void const volatile [noderef] __iomem *s
-   drivers/rpmsg/qcom_glink_smem.c:108:48: sparse:     got void *
->> drivers/rpmsg/qcom_glink_smem.c:111:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *s @@     got void *fifo @@
-   drivers/rpmsg/qcom_glink_smem.c:111:47: sparse:     expected void const volatile [noderef] __iomem *s
-   drivers/rpmsg/qcom_glink_smem.c:111:47: sparse:     got void *fifo
+Perhaps the sanest solution is something like:
 
-vim +70 drivers/macintosh/windfarm_lm75_sensor.c
+	"...%lx...", (long)preempt_count()
 
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  42  
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  43  static int wf_lm75_get(struct wf_sensor *sr, s32 *value)
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  44  {
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  45  	struct wf_lm75_sensor *lm = wf_to_lm75(sr);
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  46  	s32 data;
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  47  
-351ca3e3119792 Jean Delvare           2009-06-15  48  	if (lm->i2c == NULL)
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  49  		return -ENODEV;
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  50  
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  51  	/* Init chip if necessary */
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  52  	if (!lm->inited) {
-351ca3e3119792 Jean Delvare           2009-06-15  53  		u8 cfg_new, cfg = (u8)i2c_smbus_read_byte_data(lm->i2c, 1);
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  54  
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  55  		DBG("wf_lm75: Initializing %s, cfg was: %02x\n",
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  56  		    sr->name, cfg);
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  57  
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  58  		/* clear shutdown bit, keep other settings as left by
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  59  		 * the firmware for now
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  60  		 */
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  61  		cfg_new = cfg & ~0x01;
-351ca3e3119792 Jean Delvare           2009-06-15  62  		i2c_smbus_write_byte_data(lm->i2c, 1, cfg_new);
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  63  		lm->inited = 1;
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  64  
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  65  		/* If we just powered it up, let's wait 200 ms */
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  66  		msleep(200);
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  67  	}
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  68  
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  69  	/* Read temperature register */
-351ca3e3119792 Jean Delvare           2009-06-15 @70  	data = (s32)le16_to_cpu(i2c_smbus_read_word_data(lm->i2c, 0));
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  71  	data <<= 8;
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  72  	*value = data;
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  73  
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  74  	return 0;
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  75  }
-75722d3992f573 Benjamin Herrenschmidt 2005-11-07  76  
-
-:::::: The code at line 70 was first introduced by commit
-:::::: 351ca3e31197929535418f5affc761cd9fb07428 windfarm: Convert to new-style i2c drivers
-
-:::::: TO: Jean Delvare <khali@linux-fr.org>
-:::::: CC: Jean Delvare <khali@linux-fr.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
