@@ -1,68 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6318D428487
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 18:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E84426D23
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 19:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770404295; cv=none; b=G4F/fImWNQLGn+OZ7GZFez0U8BtefNnzUrEDqCupB0hG+4qdlkqmJ8FjyAkGwbK1pYMZ2tmBwBsibrd7vBBw52dklBMfwUD6cMAi4PZ/+NLARhPuXRkaz6Bzvvkg8G6SooFWyAcwGRKYSIhgAzqK18nWn07YmkIF4QfIC+DCUzc=
+	t=1770404895; cv=none; b=ZmHTXbb9wX7SuPvvuHfXdBG5KLFsqLy1x9VnOAxkQBqphzSoKNjS8vyox2bU9bDM5c+4tHQNuPZkWgrJ2bATnw1BXgpaXCBjAPp046Tjw7PeaZy8YFlxtMTEgknS4LgloQaufdYv9rIzdjAJzroDKUfs3d9CLdnUy1YoeqL1ULk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770404295; c=relaxed/simple;
-	bh=kdhHn1aU+LGwtdk0F6OxFjBYYCvDJR0wDI8x9Ze6Xws=;
+	s=arc-20240116; t=1770404895; c=relaxed/simple;
+	bh=rD12jZNWPdLcwK9Chg3S5oef/etzrdqixcbLXgsH0rQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e+9V2jMrUfKEsIdKFpcn6kVUcnY0y8DthURDX8hPVfqu8Xb+Io7bvaCIjG1D8fNzUJNVPqZ6P4qv1CGLWcJa0IsVy1Slxa3rZNYg82spdz6XutVird4y5BifxOQmpFVUzK80+F8YnvqHLuvsSGjqnICMMFFTQMt2hPCHFOGNqE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gLHUOXi0; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yp0O90tovIDFhaDim21F4wQBl1N/fbwL5KEcnpPEgN/E5945TlFpE4s7Vb5n/9FeLgAdx4p1bgZklPvtuR8v/c+eyoQiy9shH4jrzQijdvs3eYSdA5/9RpX1ACek1IRVGrPikAr23Uk6tLNvC885G4OS5jowIqPCihS4UW9C7rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MPr3oF03; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gLHUOXi0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MPr3oF03"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770404295; x=1801940295;
+  t=1770404895; x=1801940895;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kdhHn1aU+LGwtdk0F6OxFjBYYCvDJR0wDI8x9Ze6Xws=;
-  b=gLHUOXi0YR+vD3SY9eXMvC1zOd+CMSU31H0l5+L/BeWoEYB1C/TQgzDp
-   sJKzWunBqgLsZconXZyXS4PkuFML4GY4Mq6bGnaYXDvsvX0hUMCB6Jrst
-   lDeihAsjSzG9gJMF9T698vZvMUhb+ppkNp+HFv0RJEIXAiqSGNHLY817r
-   6mCHj98RO6g1BiuJLWF2SFCinScJJ7aOMfVUmLWUHhsO+TaE1S5DpGzMk
-   0x0OapJMTRs95s8V9+Wmts/UMusG0aaLGill8wr5pAtg+bRUBRAz5xLSj
-   UhuqSOZ6URkO7MGJvLvofad387t1zsnNZ6G17ZcdG1z/y4UbWagdSEheP
+  bh=rD12jZNWPdLcwK9Chg3S5oef/etzrdqixcbLXgsH0rQ=;
+  b=MPr3oF03yJPg+cb3Gu2oFU1BmvPN3Zu7j9ipSetbsukruzIdLEPkAe+F
+   Ik+5aQFYp2OtKFcr1v55/as567JVTwIETFZg2Xs0x1eFvK45y5uqyKJ4e
+   Z0vZuoKirZV7pSPWHLSteHxTx9FzRWTRPrj1hQVr64JgWT0O/PCd1n9Fu
+   UwOS3PlB6qf6ixR9XAt/At2tzr4A4/EwMcHMyVX4e51H8sZAwirGu5W0M
+   v6CA0BgBoWcvCUkyp2eTV9s4aThclprGx8wnhRydwj3Xub1F1boPparl2
+   Tzm9EeC25H6HLX0OGmfp9i+wNG0p4p0VeilvXu1ABfburi/Qtfpkq005a
    Q==;
-X-CSE-ConnectionGUID: E2UxpkezQoStRp7kERnsRw==
-X-CSE-MsgGUID: jnYbgfRCTTqSccA2Ng40zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="59185942"
+X-CSE-ConnectionGUID: s+ec4bACQHyo6anH+RlsWQ==
+X-CSE-MsgGUID: dT6AlxQBRBO9cuBdOntSdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="75239313"
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="59185942"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 10:58:15 -0800
-X-CSE-ConnectionGUID: ix9tU7lSS4SEwZI4qGpqTg==
-X-CSE-MsgGUID: dAHJ53QVQPmPJDh0ZGYBLg==
+   d="scan'208";a="75239313"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 11:08:15 -0800
+X-CSE-ConnectionGUID: 5AXItfbKTdefetpi8q88Cw==
+X-CSE-MsgGUID: 3Xh8yCxSS/STtLkwnSHfFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="215128465"
+   d="scan'208";a="210819971"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Feb 2026 10:58:11 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2026 11:08:11 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voR1t-00000000l2e-0gvE;
-	Fri, 06 Feb 2026 18:58:09 +0000
-Date: Sat, 7 Feb 2026 02:57:38 +0800
+	id 1voRBZ-00000000l32-1kjn;
+	Fri, 06 Feb 2026 19:08:09 +0000
+Date: Sat, 7 Feb 2026 03:08:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matt Coster <matt.coster@imgtec.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Frank Binns <frank.binns@imgtec.com>,
-	Brajesh Gupta <brajesh.gupta@imgtec.com>,
-	Alessio Belle <alessio.belle@imgtec.com>,
-	Alexandru Dadu <alexandru.dadu@imgtec.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Matt Coster <matt.coster@imgtec.com>
-Subject: Re: [PATCH 1/2] drm/imagination: Define packed BVNCs in the uapi
-Message-ID: <202602070204.PjaKNSpZ-lkp@intel.com>
-References: <20260206-bvnc-cleanup-v1-1-f3c818541fbe@imgtec.com>
+To: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>
+Subject: Re: [PATCH v3 2/3] dma: amlogic: Add general DMA driver for A9
+Message-ID: <202602070253.hZ9PqUeB-lkp@intel.com>
+References: <20260206-amlogic-dma-v3-2-56fb9f59ed22@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,60 +69,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260206-bvnc-cleanup-v1-1-f3c818541fbe@imgtec.com>
+In-Reply-To: <20260206-amlogic-dma-v3-2-56fb9f59ed22@amlogic.com>
 
-Hi Matt,
+Hi Xianwei,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 55473b60178060a4fdb4631bd0c91879cc7d18d8]
+[auto build test WARNING on 3c8a86ed002ab8fb287ee4ec92f0fd6ac5b291d2]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Coster/drm-imagination-Define-packed-BVNCs-in-the-uapi/20260206-175844
-base:   55473b60178060a4fdb4631bd0c91879cc7d18d8
-patch link:    https://lore.kernel.org/r/20260206-bvnc-cleanup-v1-1-f3c818541fbe%40imgtec.com
-patch subject: [PATCH 1/2] drm/imagination: Define packed BVNCs in the uapi
-config: riscv-randconfig-r112-20260206 (https://download.01.org/0day-ci/archive/20260207/202602070204.PjaKNSpZ-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070204.PjaKNSpZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-dma-Add-Amlogic-A9-SoC-DMA/20260206-170903
+base:   3c8a86ed002ab8fb287ee4ec92f0fd6ac5b291d2
+patch link:    https://lore.kernel.org/r/20260206-amlogic-dma-v3-2-56fb9f59ed22%40amlogic.com
+patch subject: [PATCH v3 2/3] dma: amlogic: Add general DMA driver for A9
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260207/202602070253.hZ9PqUeB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070253.hZ9PqUeB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070204.PjaKNSpZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602070253.hZ9PqUeB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/imagination/pvr_device.c: In function 'pvr_gpu_support_level':
->> drivers/gpu/drm/imagination/pvr_device.c:550:2: error: case label does not reduce to an integer constant
-     550 |  case PVR_PACKED_BVNC(33, 15, 11, 3):
-         |  ^~~~
-   drivers/gpu/drm/imagination/pvr_device.c:551:2: error: case label does not reduce to an integer constant
-     551 |  case PVR_PACKED_BVNC(36, 53, 104, 796):
-         |  ^~~~
-   drivers/gpu/drm/imagination/pvr_device.c:554:2: error: case label does not reduce to an integer constant
-     554 |  case PVR_PACKED_BVNC(36, 52, 104, 182):
-         |  ^~~~
+   In file included from drivers/dma/amlogic-dma.c:7:
+>> arch/x86/include/asm/irq.h:39:56: warning: 'struct pt_regs' declared inside parameter list will not be visible outside of this definition or declaration
+      39 | extern void __handle_irq(struct irq_desc *desc, struct pt_regs *regs);
+         |                                                        ^~~~~~~
+>> arch/x86/include/asm/irq.h:44:50: warning: 'struct cpumask' declared inside parameter list will not be visible outside of this definition or declaration
+      44 | void arch_trigger_cpumask_backtrace(const struct cpumask *mask,
+         |                                                  ^~~~~~~
 
 
-vim +550 drivers/gpu/drm/imagination/pvr_device.c
+vim +39 arch/x86/include/asm/irq.h
 
-1c21f240fbc1e4 Matt Coster 2026-01-13  545  
-1c21f240fbc1e4 Matt Coster 2026-01-13  546  static enum pvr_gpu_support_level
-1c21f240fbc1e4 Matt Coster 2026-01-13  547  pvr_gpu_support_level(const struct pvr_gpu_id *gpu_id)
-1c21f240fbc1e4 Matt Coster 2026-01-13  548  {
-1c21f240fbc1e4 Matt Coster 2026-01-13  549  	switch (pvr_gpu_id_to_packed_bvnc(gpu_id)) {
-1c21f240fbc1e4 Matt Coster 2026-01-13 @550  	case PVR_PACKED_BVNC(33, 15, 11, 3):
-1c21f240fbc1e4 Matt Coster 2026-01-13  551  	case PVR_PACKED_BVNC(36, 53, 104, 796):
-1c21f240fbc1e4 Matt Coster 2026-01-13  552  		return PVR_GPU_SUPPORTED;
-1c21f240fbc1e4 Matt Coster 2026-01-13  553  
-1c21f240fbc1e4 Matt Coster 2026-01-13  554  	case PVR_PACKED_BVNC(36, 52, 104, 182):
-1c21f240fbc1e4 Matt Coster 2026-01-13  555  		return PVR_GPU_EXPERIMENTAL;
-1c21f240fbc1e4 Matt Coster 2026-01-13  556  
-1c21f240fbc1e4 Matt Coster 2026-01-13  557  	default:
-1c21f240fbc1e4 Matt Coster 2026-01-13  558  		return PVR_GPU_UNKNOWN;
-1c21f240fbc1e4 Matt Coster 2026-01-13  559  	}
-1c21f240fbc1e4 Matt Coster 2026-01-13  560  }
-1c21f240fbc1e4 Matt Coster 2026-01-13  561  
+a782a7e46bb508 arch/x86/include/asm/irq.h Thomas Gleixner   2015-08-02  38  
+7c2a57364cae0f arch/x86/include/asm/irq.h Thomas Gleixner   2020-05-21 @39  extern void __handle_irq(struct irq_desc *desc, struct pt_regs *regs);
+22067d4501bfb4 include/asm-x86/irq.h      Thomas Gleixner   2008-05-02  40  
+d9112f43021554 arch/x86/include/asm/irq.h Thomas Gleixner   2009-08-20  41  extern void init_ISA_irqs(void);
+d9112f43021554 arch/x86/include/asm/irq.h Thomas Gleixner   2009-08-20  42  
+b52e0a7c4e4100 arch/x86/include/asm/irq.h Michel Lespinasse 2013-06-06  43  #ifdef CONFIG_X86_LOCAL_APIC
+9a01c3ed5cdb35 arch/x86/include/asm/irq.h Chris Metcalf     2016-10-07 @44  void arch_trigger_cpumask_backtrace(const struct cpumask *mask,
+8d539b84f1e347 arch/x86/include/asm/irq.h Douglas Anderson  2023-08-04  45  				    int exclude_cpu);
+89f579ce99f7e0 arch/x86/include/asm/irq.h Yi Wang           2018-11-22  46  
 
 -- 
 0-DAY CI Kernel Test Service
