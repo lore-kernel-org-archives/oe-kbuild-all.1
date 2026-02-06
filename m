@@ -1,68 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB5B26A1B9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 20:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9252F6184;
+	Fri,  6 Feb 2026 20:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770409402; cv=none; b=gwnz9yFPk4nXe9Di2cHabnThfFDmojp6xaYAs+4Dc1EEqcTDYxSpdwumRMnbUZJg1+HNAeQJtJ6JPXADSqqzu2Ose8ULvM90U+sBX49/3PpNZbTPvWtgqgKE4EaQAwodK6PTlbEY4tg69biBsK51XkDoSV7u6oDoXGVWoCyUFHM=
+	t=1770410060; cv=none; b=NfO74nxibnt+IvRU3KFNdaU57dTjfCTXjmwa8ApxfgzaOa1rK3BQG+2kjbHkhZGWUHF/KuGYwCPyatFq9nsDqaJIdrWLLNrqblA6nljTHcr4sOfd2ZnqEOOX/uj/IHK8JAuvehHEb/dYCk7+PKOcwBwJdp9WYg57HZafSp//rTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770409402; c=relaxed/simple;
-	bh=ZWMzhVSsuFWA8/ih7p2SAqQIt6FnkD+vZqt/ciGixAc=;
+	s=arc-20240116; t=1770410060; c=relaxed/simple;
+	bh=cHEh53/ktr4DOFZLnEwI3MqaHj/xZvem+tB575M2M1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MStWQg/XKMo1MPlqb3PmGTJ+zUXB+74SR/bCtp6cC6nucPI/JN9yA+s6qiJywCceTa7vLc0ZeylXlMgJFGxWzVlg8aJPYI5CmEN1XzE+DiXSX90VAJlXjOoEYfxUlvPtoNMdaTlbvp0uorHvhHjdvXjccICnpq+3hggEwSpw6dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZFlEr49; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=jbr44rvnvgAY2KSA01eznX919cu7hD7SxMx63Xvo8gMJRz9tG3jVgEk9tZrx79fjAaTucj88I6uodGdVw3X9eKNtG1eQspxQ+xXiWLzYh++MSkdXwI4o+4xtEoYgjr1Pe3ZZQ1oCvYhIY2gO/vTBT7oSvcD65/hNGAf2Ugn7QYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2Z8zoPy; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZFlEr49"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2Z8zoPy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770409401; x=1801945401;
+  t=1770410060; x=1801946060;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZWMzhVSsuFWA8/ih7p2SAqQIt6FnkD+vZqt/ciGixAc=;
-  b=nZFlEr49+EV4IL3X7A7ZBtlxdlf/WzKH9YArjAZf3o5K6j0uN+xMOjHB
-   4crPC8BfUQzNfFNwvrsXn9nAn3zXWCCNQBmP6fIFbElt7PImT2QiP2OpD
-   opFUj3l+9S8v600FElwAv6MkVU7/kk4mafHQvSsTWCdJr+UAoaYUlUOjs
-   vMKraqq97WMx5oJYBxuv9RZ5gId/m3SYBS7knwpQniqPGhXXXw+OD15ro
-   415orpUOyrxkkeHoRhq3LsOv3BeqECz5hAwFZEnJd+A+/Lw8tSJe+ucOl
-   70xFfBEwJp/BMX8E8MyKtgM1XRa8yANlcfGrsATdmMFq+Y8qW8mgIXFoT
-   g==;
-X-CSE-ConnectionGUID: gL6G7+NNTZ+GPnTMZ2p8bw==
-X-CSE-MsgGUID: RI+PJm/hTgWVDWdZEAOffg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="83062522"
+  bh=cHEh53/ktr4DOFZLnEwI3MqaHj/xZvem+tB575M2M1U=;
+  b=B2Z8zoPyn3ctIBneejP/FA5C0fheLThiMWrp/FC8FZAVS1peK3285jUy
+   krPq8JzI9/F0eIxyy8/4rI5wcTNs/53UUDE+U4ETCHQthgKWN6TpkEJd1
+   +l+ggfxngPAwuz9sXxr/gsf3pR2yCfnr5lbUDdXM4MajOAYsvF1PLqw81
+   4Qa1y0SAQijVe204EjzYeRxFPDktCjB+CAMPwED+4nDErBEgstayJh8Ca
+   0MrbaUrrRCEJPitKhKnshngTZlN0sZzcFKXqyabVoMIG2kkMApL6V3lnN
+   kLb33bQVURF5TY9b2PUZBh14BlfrMkDfMi+pRZzBpUdBWL+28xHpzv8Y+
+   Q==;
+X-CSE-ConnectionGUID: zMsmrDjLTDuPA3ru8/mwNw==
+X-CSE-MsgGUID: q0ukJKR1RJSC88VONfOtfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="97080980"
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="83062522"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 12:23:20 -0800
-X-CSE-ConnectionGUID: 6yKFI4BGS2KXCCJIJN6sBQ==
-X-CSE-MsgGUID: h7YTw79iTb+WMmdilYntNQ==
+   d="scan'208";a="97080980"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 12:34:19 -0800
+X-CSE-ConnectionGUID: XtsNt/lmSTqAjTkKm0geLw==
+X-CSE-MsgGUID: mMMetEEoSaeK5NPx/J9RbA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="210253095"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 06 Feb 2026 12:23:15 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 06 Feb 2026 12:34:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voSMC-00000000l6i-4C6F;
-	Fri, 06 Feb 2026 20:23:13 +0000
-Date: Sat, 7 Feb 2026 04:22:42 +0800
+	id 1voSWr-00000000l7Q-26gA;
+	Fri, 06 Feb 2026 20:34:13 +0000
+Date: Sat, 7 Feb 2026 04:33:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Menglong Dong <menglong8.dong@gmail.com>, ast@kernel.org,
-	bjorn@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
-	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
-	yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, pulehui@huawei.com, puranjay@kernel.org,
-	pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	alex@ghiti.fr, bpf@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, jiang.biao@linux.dev
-Subject: Re: [PATCH bpf-next v3 2/3] bpf, riscv: add fsession support for
- trampolines
-Message-ID: <202602070435.BuX0TvvF-lkp@intel.com>
-References: <20260206122002.1494125-3-dongml2@chinatelecom.cn>
+To: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-amlogic@lists.infradead.org, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>
+Subject: Re: [PATCH v3 2/3] dma: amlogic: Add general DMA driver for A9
+Message-ID: <202602070404.wKMJf0YW-lkp@intel.com>
+References: <20260206-amlogic-dma-v3-2-56fb9f59ed22@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,68 +68,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260206122002.1494125-3-dongml2@chinatelecom.cn>
+In-Reply-To: <20260206-amlogic-dma-v3-2-56fb9f59ed22@amlogic.com>
 
-Hi Menglong,
+Hi Xianwei,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on 3c8a86ed002ab8fb287ee4ec92f0fd6ac5b291d2]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/bpf-riscv-introduce-emit_store_stack_imm64-for-trampoline/20260206-202356
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260206122002.1494125-3-dongml2%40chinatelecom.cn
-patch subject: [PATCH bpf-next v3 2/3] bpf, riscv: add fsession support for trampolines
-config: riscv-randconfig-r112-20260206 (https://download.01.org/0day-ci/archive/20260207/202602070435.BuX0TvvF-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070435.BuX0TvvF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-dma-Add-Amlogic-A9-SoC-DMA/20260206-170903
+base:   3c8a86ed002ab8fb287ee4ec92f0fd6ac5b291d2
+patch link:    https://lore.kernel.org/r/20260206-amlogic-dma-v3-2-56fb9f59ed22%40amlogic.com
+patch subject: [PATCH v3 2/3] dma: amlogic: Add general DMA driver for A9
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260207/202602070404.wKMJf0YW-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070404.wKMJf0YW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070435.BuX0TvvF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602070404.wKMJf0YW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/riscv/net/bpf_jit_comp64.c: In function 'invoke_bpf':
->> arch/riscv/net/bpf_jit_comp64.c:1008:37: error: passing argument 1 of 'bpf_prog_calls_session_cookie' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1008 |   if (bpf_prog_calls_session_cookie(&tl->links[i])) {
-         |                                     ^~~~~~~~~~~~~
-         |                                     |
-         |                                     struct bpf_tramp_link **
-   In file included from arch/riscv/net/bpf_jit_comp64.c:9:
-   include/linux/bpf.h:2199:73: note: expected 'struct bpf_tramp_link *' but argument is of type 'struct bpf_tramp_link **'
-    2199 | static inline bool bpf_prog_calls_session_cookie(struct bpf_tramp_link *link)
-         |                                                  ~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/dma/amlogic-dma.c:7:
+>> arch/x86/include/asm/irq.h:39:56: warning: declaration of 'struct pt_regs' will not be visible outside of this function [-Wvisibility]
+      39 | extern void __handle_irq(struct irq_desc *desc, struct pt_regs *regs);
+         |                                                        ^
+>> arch/x86/include/asm/irq.h:44:50: warning: declaration of 'struct cpumask' will not be visible outside of this function [-Wvisibility]
+      44 | void arch_trigger_cpumask_backtrace(const struct cpumask *mask,
+         |                                                  ^
+   2 warnings generated.
 
 
-vim +/bpf_prog_calls_session_cookie +1008 arch/riscv/net/bpf_jit_comp64.c
+vim +39 arch/x86/include/asm/irq.h
 
-   998	
-   999	static int invoke_bpf(struct bpf_tramp_links *tl, int args_off, int retval_off,
-  1000			      int run_ctx_off, int func_meta_off, bool save_ret, u64 func_meta,
-  1001			      int cookie_off, struct rv_jit_context *ctx)
-  1002	{
-  1003		int i, cur_cookie = (cookie_off - args_off) / 8;
-  1004	
-  1005		for (i = 0; i < tl->nr_links; i++) {
-  1006			int err;
-  1007	
-> 1008			if (bpf_prog_calls_session_cookie(&tl->links[i])) {
-  1009				u64 meta = func_meta | ((u64)cur_cookie << BPF_TRAMP_COOKIE_INDEX_SHIFT);
-  1010	
-  1011				emit_store_stack_imm64(RV_REG_T1, -func_meta_off, meta, ctx);
-  1012				cur_cookie--;
-  1013			}
-  1014			err = invoke_bpf_prog(tl->links[i], args_off, retval_off, run_ctx_off,
-  1015					      save_ret, ctx);
-  1016			if (err)
-  1017				return err;
-  1018		}
-  1019		return 0;
-  1020	}
-  1021	
+a782a7e46bb508 arch/x86/include/asm/irq.h Thomas Gleixner   2015-08-02  38  
+7c2a57364cae0f arch/x86/include/asm/irq.h Thomas Gleixner   2020-05-21 @39  extern void __handle_irq(struct irq_desc *desc, struct pt_regs *regs);
+22067d4501bfb4 include/asm-x86/irq.h      Thomas Gleixner   2008-05-02  40  
+d9112f43021554 arch/x86/include/asm/irq.h Thomas Gleixner   2009-08-20  41  extern void init_ISA_irqs(void);
+d9112f43021554 arch/x86/include/asm/irq.h Thomas Gleixner   2009-08-20  42  
+b52e0a7c4e4100 arch/x86/include/asm/irq.h Michel Lespinasse 2013-06-06  43  #ifdef CONFIG_X86_LOCAL_APIC
+9a01c3ed5cdb35 arch/x86/include/asm/irq.h Chris Metcalf     2016-10-07 @44  void arch_trigger_cpumask_backtrace(const struct cpumask *mask,
+8d539b84f1e347 arch/x86/include/asm/irq.h Douglas Anderson  2023-08-04  45  				    int exclude_cpu);
+89f579ce99f7e0 arch/x86/include/asm/irq.h Yi Wang           2018-11-22  46  
 
 -- 
 0-DAY CI Kernel Test Service
