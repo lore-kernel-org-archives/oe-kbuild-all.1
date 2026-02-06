@@ -1,145 +1,158 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9232223C8A0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 23:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE3523C8A0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 23:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770420875; cv=none; b=gB+/riStYbnvejf8igZMPsTUQdweI7B/vLNIaR9rk1I/vktO6ujHhmRnU02qSPidLggJ/dgSkjI2SeXGaLxuqtmnmUWYLGIIKrQ36O9iw/vhV/DPXB40xk/q2GDva0ChKqRTi7kqYPVWj9BKvWrZ0vWVFORz1tvJRMF4e5v87uo=
+	t=1770421074; cv=none; b=H6SrldutiMv43EJvLQ09Ht03G1Ez0CoafKlChsJjmI91cIbuOUYLAm1BxHA38FoyNtroCDJX+m6t3RKjC2TWcj2UCsLa39AyOE6KiC0/Ni6GqdHKlGc2fs5mpF+Z74GTGLUYUYgfClw1fUEiJ9GENeuJQb9r/o8BiYNmMErJDls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770420875; c=relaxed/simple;
-	bh=pt1gW3EwtCjeyEcc4JRb95CY67YKCerkoRsDTy2gRUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Af+kzFeasZAcdK+pcW6BXHafgjWz0jvpNpacl3VFlcrvAd+7/0Gpoo1Z7aUQv5HvY+0Er86mTHH+HDeLjPdFoOyF96PN9QRW/5C+6+wrPmL7562dXI0udV/LJ4vSykvrvwmk1TcCKCQZJzL8W6yWrLUmzmy/5A80esUlGDbpZsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UfeA1jSy; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1770421074; c=relaxed/simple;
+	bh=isOYdIvd6zZQP17E1pyU1M2/Fw1Ax66MUjSh61ztUkY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H8PIglxNPoq53GzqZ/9GQnsS24jITPCjOoAq4xP2qVVLe30MEMFBL0Rv2ODNx1z900mMklVM0ZqILp1bX7l6fSZLdh2jt86UWETD04YmrTtDC6Pp/WZIaAs0LiwZacLmj04UuUtomaAfjbeWS+V12u0b8nCpgNhz4wxuXLpmxvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oj2G08mw; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UfeA1jSy"
-Date: Fri, 6 Feb 2026 15:34:16 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770420863;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A/95J67fXqSWtWPcMB6TuDp3d6eu7CAewNBLcn/8dhY=;
-	b=UfeA1jSyV+OqIfwBh0CAxmexGOP9K7hGF9UiD7EqHITc68VhZE8JBYzCyE3Z1tXBTGs9m+
-	tPTk66jat6OESVZQjq6oEK+ewBXmonqtlxK8P/fZm/Tr5lhiz/6l+2FHg7++359oEQDrVD
-	V37sykWOiA8qulJHzJAyipLGHm06vRk=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Qi Zheng <qi.zheng@linux.dev>
-Cc: kernel test robot <lkp@intel.com>, hannes@cmpxchg.org, 
-	hughd@google.com, mhocko@suse.com, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	david@kernel.org, lorenzo.stoakes@oracle.com, ziy@nvidia.com, harry.yoo@oracle.com, 
-	yosry.ahmed@linux.dev, imran.f.khan@oracle.com, kamalesh.babulal@oracle.com, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	chenridong@huaweicloud.com, mkoutny@suse.com, akpm@linux-foundation.org, 
-	hamzamahfooz@linux.microsoft.com, apais@linux.microsoft.com, lance.yang@linux.dev, bhe@redhat.com, 
-	oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>, 
-	Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH v4 24/31] mm: memcontrol: prepare for reparenting LRU
- pages for lruvec lock
-Message-ID: <aYZ6PxkkLj3aNGuk@linux.dev>
-References: <e27edb311dda624751cb41860237f290de8c16ae.1770279888.git.zhengqi.arch@bytedance.com>
- <202602052203.U8hxsh2N-lkp@intel.com>
- <cbb1ba53-134b-487f-87c0-85ca4791773e@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oj2G08mw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770421074; x=1801957074;
+  h=date:from:to:cc:subject:message-id;
+  bh=isOYdIvd6zZQP17E1pyU1M2/Fw1Ax66MUjSh61ztUkY=;
+  b=Oj2G08mw5a0tf+CIfhViZPvjAws7dYkPryr86EngCId8B5rAlLgau66Q
+   2mup9C5rHzU43pauwlqxHJzyUKZybxMg/NBSnIcQAJu1GCC7ABgnpn2sW
+   mkYn6mJZ3rNanM69Ag4gJkc1g3uuEROWiOZ/ujqzY527kPjqji9/nX2uV
+   HUtOixcIqUYASDs8FvK/vkoLtVrwEnSlSa8Mi9B6gwRiNln61lNy355jm
+   Af37n+Z85KSE8U0AXgbhxcB6oZ6ntRBg+1kw4rsrrV/V8T+y0H/2Et5cY
+   DDX3Q1Y/qCL++/HBBx7Mpw2f7+IkVjGGjXhyy3WcnW2fXYdABH5MdQSwR
+   Q==;
+X-CSE-ConnectionGUID: W6JtBJWHQeS6zemA8NmjPw==
+X-CSE-MsgGUID: yiEKruIjQq6XzjO8oB41uA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="82744876"
+X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
+   d="scan'208";a="82744876"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 15:37:54 -0800
+X-CSE-ConnectionGUID: kifW2YHlRT2eGvTjNhgZlA==
+X-CSE-MsgGUID: CpExK9RgTWG8cMq6339Obg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
+   d="scan'208";a="215978511"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2026 15:37:53 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1voVOY-000000004kD-2UUT;
+	Fri, 06 Feb 2026 23:37:50 +0000
+Date: Sat, 07 Feb 2026 00:37:14 +0100
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:exportd-netlink 2/3] fs/nfsd/nfsctl.c:2270:40:
+ error: 'exportd_nl_family' undeclared; did you mean 'nfsd_nl_family'?
+Message-ID: <202602070057.GG6uf0W3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cbb1ba53-134b-487f-87c0-85ca4791773e@linux.dev>
-X-Migadu-Flow: FLOW_OUT
 
-On Fri, Feb 06, 2026 at 02:13:32PM +0800, Qi Zheng wrote:
-> 
-> 
-> On 2/5/26 11:02 PM, kernel test robot wrote:
-> > Hi Qi,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on next-20260204]
-> > [cannot apply to akpm-mm/mm-everything brauner-vfs/vfs.all trace/for-next tj-cgroup/for-next linus/master dennis-percpu/for-next v6.19-rc8 v6.19-rc7 v6.19-rc6 v6.19-rc8]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-memcontrol-remove-dead-code-of-checking-parent-memory-cgroup/20260205-170812
-> > base:   next-20260204
-> > patch link:    https://lore.kernel.org/r/e27edb311dda624751cb41860237f290de8c16ae.1770279888.git.zhengqi.arch%40bytedance.com
-> > patch subject: [PATCH v4 24/31] mm: memcontrol: prepare for reparenting LRU pages for lruvec lock
-> > config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260205/202602052203.U8hxsh2N-lkp@intel.com/config)
-> > compiler: nios2-linux-gcc (GCC) 11.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602052203.U8hxsh2N-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202602052203.U8hxsh2N-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >     nios2-linux-ld: mm/swap.o: in function `__page_cache_release.part.0':
-> >     swap.c:(.text+0x4c): undefined reference to `lruvec_unlock_irqrestore'
-> > > > swap.c:(.text+0x4c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
-> >     nios2-linux-ld: mm/swap.o: in function `__folio_put':
-> >     swap.c:(.text+0x2ac): undefined reference to `lruvec_unlock_irqrestore'
-> >     swap.c:(.text+0x2ac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
-> >     nios2-linux-ld: mm/swap.o: in function `folios_put_refs':
-> >     swap.c:(.text+0x384): undefined reference to `lruvec_unlock_irqrestore'
-> >     swap.c:(.text+0x384): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
-> >     nios2-linux-ld: mm/swap.o: in function `folio_batch_move_lru':
-> >     swap.c:(.text+0x4ac): undefined reference to `lruvec_unlock_irqrestore'
-> >     swap.c:(.text+0x4ac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
-> > > > nios2-linux-ld: swap.c:(.text+0x50c): undefined reference to `lruvec_unlock_irqrestore'
-> >     swap.c:(.text+0x50c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
-> >     nios2-linux-ld: mm/swap.o: in function `folio_activate':
-> >     swap.c:(.text+0x21d8): undefined reference to `lruvec_unlock_irq'
-> > > > swap.c:(.text+0x21d8): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
-> >     nios2-linux-ld: mm/vmscan.o: in function `move_folios_to_lru':
-> >     vmscan.c:(.text+0xa4c): undefined reference to `lruvec_unlock_irq'
-> > > > vmscan.c:(.text+0xa4c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
-> > > > nios2-linux-ld: vmscan.c:(.text+0xaa4): undefined reference to `lruvec_unlock_irq'
-> >     vmscan.c:(.text+0xaa4): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
-> >     nios2-linux-ld: vmscan.c:(.text+0xcac): undefined reference to `lruvec_unlock_irq'
-> >     vmscan.c:(.text+0xcac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
-> >     nios2-linux-ld: vmscan.c:(.text+0xd8c): undefined reference to `lruvec_unlock_irq'
-> >     vmscan.c:(.text+0xd8c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
-> >     nios2-linux-ld: mm/vmscan.o: in function `shrink_active_list':
-> >     vmscan.c:(.text+0x11e0): undefined reference to `lruvec_lock_irq'
-> >     vmscan.c:(.text+0x11e0): additional relocation overflows omitted from the output
-> >     nios2-linux-ld: vmscan.c:(.text+0x12a0): undefined reference to `lruvec_unlock_irq'
-> > > > nios2-linux-ld: vmscan.c:(.text+0x144c): undefined reference to `lruvec_lock_irq'
-> >     nios2-linux-ld: mm/vmscan.o: in function `check_move_unevictable_folios':
-> >     vmscan.c:(.text+0x15d4): undefined reference to `lruvec_unlock_irq'
-> >     nios2-linux-ld: vmscan.c:(.text+0x1958): undefined reference to `lruvec_unlock_irq'
-> >     nios2-linux-ld: mm/vmscan.o: in function `shrink_inactive_list':
-> >     vmscan.c:(.text+0x2f8c): undefined reference to `lruvec_lock_irq'
-> >     nios2-linux-ld: vmscan.c:(.text+0x307c): undefined reference to `lruvec_unlock_irq'
-> >     nios2-linux-ld: vmscan.c:(.text+0x31dc): undefined reference to `lruvec_lock_irq'
-> >     nios2-linux-ld: mm/vmscan.o: in function `folio_isolate_lru':
-> >     vmscan.c:(.text+0x48a4): undefined reference to `lruvec_unlock_irq'
-> >     nios2-linux-ld: mm/mlock.o: in function `__munlock_folio':
-> >     mlock.c:(.text+0x968): undefined reference to `lruvec_unlock_irq'
-> >     nios2-linux-ld: mm/mlock.o: in function `__mlock_folio':
-> >     mlock.c:(.text+0xe5c): undefined reference to `lruvec_unlock_irq'
-> >     nios2-linux-ld: mm/mlock.o: in function `mlock_folio_batch.constprop.0':
-> >     mlock.c:(.text+0x158c): undefined reference to `lruvec_unlock_irq'
-> > > > nios2-linux-ld: mlock.c:(.text+0x1808): undefined reference to `lruvec_unlock_irq'
-> 
-> Ouch, I move lruvec_lock_irq() and its firends to memcontrol.c to fix
-> the compilation errors related to __acquires/__releases, but I forgot
-> that memcontrol.c will only be compiled under CONFIG_MEMCG.
-> 
-> Hi Shakeel, for simplicity, perhaps keeping lruvec_lock_irq() and its
-> firends in memcontrol.h and drop __acquires/__releases would be a
-> better option?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git exportd-netlink
+head:   aef82be579c01a1995f0e0c98313f23e7e4893a0
+commit: c282986480c6eb27e2330e62a435fdba93b42f32 [2/3] nfsd: register new netlink family for exportd
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260207/202602070057.GG6uf0W3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070057.GG6uf0W3-lkp@intel.com/reproduce)
 
-Yes, let's proceed with that for now. We can always improve this later.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602070057.GG6uf0W3-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   fs/nfsd/nfsctl.c: In function 'init_nfsd':
+>> fs/nfsd/nfsctl.c:2270:40: error: 'exportd_nl_family' undeclared (first use in this function); did you mean 'nfsd_nl_family'?
+    2270 |         retval = genl_register_family(&exportd_nl_family);
+         |                                        ^~~~~~~~~~~~~~~~~
+         |                                        nfsd_nl_family
+   fs/nfsd/nfsctl.c:2270:40: note: each undeclared identifier is reported only once for each function it appears in
+   fs/nfsd/nfsctl.c: In function 'exit_nfsd':
+   fs/nfsd/nfsctl.c:2306:33: error: 'exportd_nl_family' undeclared (first use in this function); did you mean 'nfsd_nl_family'?
+    2306 |         genl_unregister_family(&exportd_nl_family);
+         |                                 ^~~~~~~~~~~~~~~~~
+         |                                 nfsd_nl_family
+
+
+vim +2270 fs/nfsd/nfsctl.c
+
+  2238	
+  2239	static int __init init_nfsd(void)
+  2240	{
+  2241		int retval;
+  2242	
+  2243		nfsd_debugfs_init();
+  2244	
+  2245		retval = nfsd4_init_slabs();
+  2246		if (retval)
+  2247			return retval;
+  2248		retval = nfsd4_init_pnfs();
+  2249		if (retval)
+  2250			goto out_free_slabs;
+  2251		retval = nfsd_drc_slab_create();
+  2252		if (retval)
+  2253			goto out_free_pnfs;
+  2254		nfsd_lockd_init();	/* lockd->nfsd callbacks */
+  2255		retval = register_pernet_subsys(&nfsd_net_ops);
+  2256		if (retval < 0)
+  2257			goto out_free_lockd;
+  2258		retval = register_cld_notifier();
+  2259		if (retval)
+  2260			goto out_free_subsys;
+  2261		retval = nfsd4_create_laundry_wq();
+  2262		if (retval)
+  2263			goto out_free_cld;
+  2264		retval = register_filesystem(&nfsd_fs_type);
+  2265		if (retval)
+  2266			goto out_free_nfsd4;
+  2267		retval = genl_register_family(&nfsd_nl_family);
+  2268		if (retval)
+  2269			goto out_free_filesystem;
+> 2270		retval = genl_register_family(&exportd_nl_family);
+  2271		if (retval)
+  2272			goto out_free_nfsd_nl;
+  2273		retval = create_proc_exports_entry();
+  2274		if (retval)
+  2275			goto out_free_all;
+  2276		nfsd_localio_ops_init();
+  2277	
+  2278		return 0;
+  2279	out_free_all:
+  2280		genl_unregister_family(&exportd_nl_family);
+  2281	out_free_nfsd_nl:
+  2282		genl_unregister_family(&nfsd_nl_family);
+  2283	out_free_filesystem:
+  2284		unregister_filesystem(&nfsd_fs_type);
+  2285	out_free_nfsd4:
+  2286		nfsd4_destroy_laundry_wq();
+  2287	out_free_cld:
+  2288		unregister_cld_notifier();
+  2289	out_free_subsys:
+  2290		unregister_pernet_subsys(&nfsd_net_ops);
+  2291	out_free_lockd:
+  2292		nfsd_lockd_shutdown();
+  2293		nfsd_drc_slab_free();
+  2294	out_free_pnfs:
+  2295		nfsd4_exit_pnfs();
+  2296	out_free_slabs:
+  2297		nfsd4_free_slabs();
+  2298		nfsd_debugfs_exit();
+  2299		return retval;
+  2300	}
+  2301	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
