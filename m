@@ -1,102 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237FB2D837C;
-	Fri,  6 Feb 2026 06:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBFD86353
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 08:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770360231; cv=none; b=OasbAYMfkVRAL+FcbxvBhr5qx7o7rFS2VbQq+Zoc7A6c5PaKGI+aLceA5GrjpdBv+MoJnKztuO4WC8kBU6J7IToNrqmFw50tiYhYJzegInCBC1jMEj+WYrlt1HXsQ/oGIT/2SluIXzAB8rqJMs0WsEY3QZfnwQ7s2/HJTnUa4UY=
+	t=1770367677; cv=none; b=kMtL0Vlx7Ivdxfv/SwJ5LvdV7x9/1zZHFQw2Gd5Q55LuvI38RvwzpLlxAYfrj6ySgas94GnC0VQBAw4hfIG9c+z7gh3HQ1Dwr7B1SvoljMhjHCLplHu250eOs0hNDvF6ADPZoceH8YLXGKpV0z9daLyzc121zmUo7U0GlpX79Uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770360231; c=relaxed/simple;
-	bh=/JWP8MF5qF7SIJnI8qbIfcSi4SrL1bMOyFdN2GUdhK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fThNIQ5ZuwwavOASII7/mULApE+L833NI8EVPB18DqhUv+XdQTDDNGzWkWnp21M74ZTLA3sc/ZPeKUEKA7+jS8Dm3osxiSUqiExmlb91UcUsfn9jJk9FoX3S64KjK7XMDBT9+8L58FUcFPpv0B8958IPo9MIlwizc7bStQBxZi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CzIchnlM; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1770367677; c=relaxed/simple;
+	bh=O+3Ph7kSejZU8/SGiiLpBCMD8gUJxSDKfGkKWkVOw4U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nBSw69UwAarNVD1CrPLQ+AqHnsO8iqaUFbIp896NeFHHkZPjk+G/jmQW/Sty+9+kf3sHiTu6s4uuC6TYthsKppn8RSPJUYcjbdGJKiQczMpwuZ9D+RYoOwf/nEF21ezCqpdOcrR1eWmdyaBkMWSvggXNVWFehSuYZZY2ec2NqjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GO/8Yz5B; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CzIchnlM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GO/8Yz5B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770360231; x=1801896231;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/JWP8MF5qF7SIJnI8qbIfcSi4SrL1bMOyFdN2GUdhK4=;
-  b=CzIchnlMoX7Ow4NwS3LnOttidSK7yZ7K+oXkiUW8/NiYRLtx31m01HAo
-   ztgk/Tyq1dtJpJOBZPInss0TLZPok5hUrvS2GSE/nCjiaKmLxWvoP51qa
-   mG9hbwvCCU5w4lEKqCqCLnmi2JxEN2UxQYiJ4YkeznKiR1c4rVpiNBGZb
-   h536Zp9At9ysF4lxzwJDp2lPf1UNt427ukCvzJV2QBG+unJ4XjU/L5Bzw
-   itR4iUBXbDD1X3BYUc9Fusu9pA+djUepGEvEifI1ZfWEo25KN9nJeWegd
-   EvoKPhB6bzC6ksZKwBtXDUFF+TN/ilWOLEdZvQplH9OHanX+1C1nMnKcu
-   g==;
-X-CSE-ConnectionGUID: NrrFGVotRbS5w/Vys6m3TQ==
-X-CSE-MsgGUID: hi1gAPYJR8Cz9qTOuSavhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="82304804"
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="82304804"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 22:43:50 -0800
-X-CSE-ConnectionGUID: ipUoCHChTBKsww9tNlWH3w==
-X-CSE-MsgGUID: V+H+I/KqTpmb/7VwfJNTiA==
+  t=1770367677; x=1801903677;
+  h=date:from:to:cc:subject:message-id;
+  bh=O+3Ph7kSejZU8/SGiiLpBCMD8gUJxSDKfGkKWkVOw4U=;
+  b=GO/8Yz5BeIr2vkAn43zcfIFLQ+KgKPWohLInyX0/nZIiEpsdnxaIqfgH
+   Ibq5xXF5BEfssNfJ1fyujDtwUuPUP+tnN6MQRu3QIvqcsh1anbN8y5n13
+   H1G8O1HvU1+BSV0UDYwGI0HEraOgOBk7cgofZga6+RSP+QI12/jMO1Dc8
+   EvVNcAxrudV0ubxpS2KWKuX9BnzFPka3qKBxQimHOLrrfreyrl5NwbBNl
+   PIBIQkv8YUc21hmhdPUWPl/vELL48JjZ4jV+zQQzPGpq28T4KX/wVStBj
+   5TBPK0nU+5Pa8i0FsrBgEJQM2Y7l9IgeU2hpWJKOtOv+YbyOOSg3dfqwJ
+   Q==;
+X-CSE-ConnectionGUID: 0ZlEDHQ8Q0K8hqALLKz3QQ==
+X-CSE-MsgGUID: jAIMcQSzR7SSwgGv9S9QFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71298369"
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="71298369"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 00:47:52 -0800
+X-CSE-ConnectionGUID: ihrKt4u3RSqP3bbFw7uOGQ==
+X-CSE-MsgGUID: kUZltu9DRFSq72QdB7v5nw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="214951233"
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="210859439"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 05 Feb 2026 22:43:46 -0800
+  by orviesa008.jf.intel.com with ESMTP; 06 Feb 2026 00:47:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voFZ9-00000000kUU-3CAV;
-	Fri, 06 Feb 2026 06:43:43 +0000
-Date: Fri, 6 Feb 2026 14:43:21 +0800
+	id 1voHVD-00000000kaK-3B2j;
+	Fri, 06 Feb 2026 08:47:47 +0000
+Date: Fri, 06 Feb 2026 16:47:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Jurgens <danielj@nvidia.com>, netdev@vger.kernel.org,
-	mst@redhat.com, jasowang@redhat.com, pabeni@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	virtualization@lists.linux.dev, parav@nvidia.com,
-	shshitrit@nvidia.com, yohadt@nvidia.com, xuanzhuo@linux.alibaba.com,
-	eperezma@redhat.com, jgg@ziepe.ca, kevin.tian@intel.com,
-	kuba@kernel.org, andrew+netdev@lunn.ch, edumazet@google.com,
-	Daniel Jurgens <danielj@nvidia.com>
-Subject: Re: [PATCH net-next v20 05/12] virtio_net: Query and set flow filter
- caps
-Message-ID: <202602061444.jFWR3roe-lkp@intel.com>
-References: <20260205224707.16995-6-danielj@nvidia.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 1/1]
+ arch/arm64/kvm/hyp/nvhe/pkvm.c:1906:40: sparse: sparse: cast to restricted
+ __le32
+Message-ID: <202602061656.HTIBEG7j-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260205224707.16995-6-danielj@nvidia.com>
 
-Hi Daniel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Jurgens/virtio_pci-Remove-supported_cap-size-build-assert/20260206-065356
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260205224707.16995-6-danielj%40nvidia.com
-patch subject: [PATCH net-next v20 05/12] virtio_net: Query and set flow filter caps
-config: arm64-randconfig-002-20260206 (https://download.01.org/0day-ci/archive/20260206/202602061444.jFWR3roe-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061444.jFWR3roe-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   367ce0597211847ec0f62618e0a515f37cc84dd6
+commit: eff36ac2fe9748dfe31b22d00b62f6eaf7323732 [1/1] ANDROID: KVM: arm64: Add TRNG handling for protected guests
+config: arm64-randconfig-r134-20260205 (https://download.01.org/0day-ci/archive/20260206/202602061656.HTIBEG7j-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061656.HTIBEG7j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602061444.jFWR3roe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602061656.HTIBEG7j-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/arm64/kvm/hyp/nvhe/pkvm.c:248:1: sparse: sparse: symbol 'vm_table_lock' was not declared. Should it be static?
+>> arch/arm64/kvm/hyp/nvhe/pkvm.c:1906:40: sparse: sparse: cast to restricted __le32
+   arch/arm64/kvm/hyp/nvhe/pkvm.c:1907:34: sparse: sparse: cast to restricted __le32
+   arch/arm64/kvm/hyp/nvhe/pkvm.c:1908:34: sparse: sparse: cast to restricted __le32
+   arch/arm64/kvm/hyp/nvhe/pkvm.c:1909:34: sparse: sparse: cast to restricted __le32
 
-   In file included from <built-in>:1:
->> ./usr/include/linux/virtio_net_ff.h:9:10: fatal error: 'uapi/linux/stddef.h' file not found
-       9 | #include <uapi/linux/stddef.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+vim +1906 arch/arm64/kvm/hyp/nvhe/pkvm.c
+
+  1879	
+  1880	static bool module_handle_guest_trng(struct kvm_vcpu *vcpu)
+  1881	{
+  1882		u32 fn;
+  1883		u64 ret = SMCCC_RET_NOT_SUPPORTED;
+  1884		const uuid_t *uuid;
+  1885	
+  1886		fn = smccc_get_function(vcpu);
+  1887		uuid = module_get_guest_trng_uuid();
+  1888		if (!uuid)
+  1889			return false;
+  1890	
+  1891		switch (fn) {
+  1892		case ARM_SMCCC_TRNG_VERSION:
+  1893			ret = ARM_SMCCC_TRNG_VER_1_0;
+  1894			break;
+  1895		case ARM_SMCCC_TRNG_FEATURES:
+  1896			switch (smccc_get_arg1(vcpu)) {
+  1897			case ARM_SMCCC_TRNG_VERSION:
+  1898			case ARM_SMCCC_TRNG_FEATURES:
+  1899			case ARM_SMCCC_TRNG_GET_UUID:
+  1900			case ARM_SMCCC_TRNG_RND64:
+  1901				ret = SMCCC_RET_SUCCESS;
+  1902				break;
+  1903			}
+  1904			break;
+  1905		case ARM_SMCCC_TRNG_GET_UUID:
+> 1906			smccc_set_retval(vcpu, le32_to_cpu(((u32 *)uuid->b)[0]),
+  1907					 le32_to_cpu(((u32 *)uuid->b)[1]),
+  1908					 le32_to_cpu(((u32 *)uuid->b)[2]),
+  1909					 le32_to_cpu(((u32 *)uuid->b)[3]));
+  1910			return true;
+  1911		case ARM_SMCCC_TRNG_RND64:
+  1912			return module_handle_guest_trng_rng(vcpu);
+  1913		default:
+  1914			return false;
+  1915		}
+  1916	
+  1917		smccc_set_retval(vcpu, ret, 0, 0, 0);
+  1918		return true;
+  1919	}
+  1920	
 
 -- 
 0-DAY CI Kernel Test Service
