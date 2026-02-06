@@ -1,158 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012044.outbound.protection.outlook.com [40.107.200.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAA932FA3D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 03:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770348534; cv=none; b=kDQ65iEvu1bmaQ3Y7hl7Vq9Muhw88/eDvy2v4cajS9zhyFmZoPNC21rQWHj9UWs3h6zc5otCrXXw+SQZyrkzXXAw0khyXH6sEmC7t4EL0ubFKj8cqNM2/cN7MOGKdcYnmrmflm7uZgJ+XauzlXJV1OkS6OBkoDixAxhhqrsRR4o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770348534; c=relaxed/simple;
-	bh=bCZqQAyl7eg2lSpGjd6RT6eXFmsXMIqqb1A7kHhJFNs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ca19YNi70IUoA4NwNMzbVEoBtLjlVoeAuwmEYE9vvXEVewUAWwfYFiyLGQdPieXvrqTY4BjvRs9ZQNO4kBAJlDDVQ67poE7dJvgc7zC9KkTcveWeLrHkWvrRzj3idnXq/PgqvTpPlGV6qYJtfuq4kFfeuSJwejHa2/yu6DCRpVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EoFWz3Me; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7FE2F60BC;
+	Fri,  6 Feb 2026 03:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770348730; cv=fail; b=gvqsy/HIIOqHrZ6aA4VZqilb9A9xwxAHuZZbW83cs+p23abs1vlUsxE7ZwhxOF4R0F4sUTYoKvjg/rNexnKM/zvoBSaIDEAyob1xuSLBAOig687glDqzgcvrpIYlKB37AQxJna8TiJiU5h3kPNTMd3EQoiFoGV7gDFY+KBXyHPM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770348730; c=relaxed/simple;
+	bh=P1FaZ577ooEd7JIEWdpZArRwgx1JEw7KEkAgUd06U7M=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=tS1s/8suxjviw4CxYfIl7m+DstnL9Wk3elU52sTW3+bIgo4RM3jwfRzMOx56up/yRoFxwMKHu6pPtrIPNHU50psQmgDWtmE6KCPFN9XcjhadwPrw+2dUinutZuqOsfHrnu06OQ1jen+JXnK5TvDCXrORApQLaJmZBUrEuBVTDic=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=47K71oHy; arc=fail smtp.client-ip=40.107.200.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EoFWz3Me"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770348535; x=1801884535;
-  h=date:from:to:cc:subject:message-id;
-  bh=bCZqQAyl7eg2lSpGjd6RT6eXFmsXMIqqb1A7kHhJFNs=;
-  b=EoFWz3Med+eiFT87zmk8wfuTLRwQ0FMM26AheUm8pERE+OvRNL6ccQD4
-   gpzQvymn8zVpW+Z17/OlwZuVGaf42qdaM7djbHoTubeuVR04m5wixZBCO
-   V//adrCFXhAx5d8m3qMpw37b0Nyi26qRLB4/4vcdOlMB4SMC+p1nsnN3G
-   gZCPg0UPZrOlCZAUCvQ+6BF4fsPe2bnXXRo10BCWVMJ/Ax84MXbIT6EV8
-   zrJ4U6qUAzBZ7Bd3/XcHfRqg1DRsGytdnS+9dZC5skAUZlDDf1vhz8RsY
-   yieZUR2AZcou35+vFtkkr7iQOYF8tvCmyzdt4qWpjTp5yD2F53AeGC9vo
-   A==;
-X-CSE-ConnectionGUID: Wsjqy0iVR2mKBkZYH8zt0w==
-X-CSE-MsgGUID: 3OlQ9zSjStGEUqOn1h4L9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="94204713"
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="94204713"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 19:28:44 -0800
-X-CSE-ConnectionGUID: ZwAgx3abR8qDuHToarYrgw==
-X-CSE-MsgGUID: gKa7gVlrRn6mRhAV7ezwYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="210131778"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Feb 2026 19:28:42 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1voCWN-00000000kP2-3BIA;
-	Fri, 06 Feb 2026 03:28:39 +0000
-Date: Fri, 06 Feb 2026 11:28:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun@kernel.org>,
- Lyude Paul <lyude@redhat.com>
-Subject: [boqun:rust-sync 12/17] kernel/sched/core.c:8867:6: error:
- conflicting types for '__cant_sleep'; have 'void(const char *, int,  long
- int)'
-Message-ID: <202602061130.vvWbm7SS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="47K71oHy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OU+nOyLfRWF+ir4fRDVr7UBXd1luqEYejgfu+YRD0jU7mg1RaMcjG4RLqr2n/dMa/ekKKwQSYHuCDi3PngGZ9jeXTGaTGZQDLkqiVhn1UjjcpUJ0Mx/L+Zoaj9Es0Gg1IkIB1Q7e/D7DnwzT7GT5BmCS5LG/37fxQ0zfKXcxlmF/Pc+aHQg1742XeOl8CmxSQ9DgmKEjaFuF13QPXtCyPGPbVhwb12bd0j0D2+2pGGlUW9J0BtlGYpi+5t38v5kkWWI6rhrILadoDhB3PX9cQIoEbEp9wwfrR+BsB1UR5cbHFFXFurG0zKFE4vLqYmWM+bhLXz1VBemaLlRCc9ZhoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IXkmrSzhrpqMw92dPVBpQfTQO+3shRMa/PMhr408ZG0=;
+ b=wvG9V7DjMx46gp4XNIiBsaZv0KM4eyn08u9FH13AeV/TVRPX29S6Gu/w27sSSYBPflas+mXhNvpS2eC6GZMMmRUo6/NyTEulgs5kRmkn7mZ9FZBKSx77Os5MkxqtOSVYVd9NUfa8uzURgSunjp+z1qS740Czhfat0rod7qwlmbFFO5qdAV/V6Foh1eeqsnoq52SX52xPbmleTTYaXcRNKLuJJUWbU6Yfsg671fxIv7qWJMVZfqvqagGqAtb/QAfLY3qEupIzElE7YqSRWPOxIiCLyyXO1MKgydVkdrEqfHWRKZrqPjRc8ujh6eP0C/Nyrylmcj27AJESdImXzj19dA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IXkmrSzhrpqMw92dPVBpQfTQO+3shRMa/PMhr408ZG0=;
+ b=47K71oHyP++/5znCd+aftPN8KxkFi1Q61OluYWZT2m13dpNnmGMcQURzeDI3eu6TqByYEb6RDdtT3HR09EFemIm86zSIrfzYkSyrAS+H/TRshiaQcEEo9kpJLSyvFxJq1uaV6ygTuduXzyWgP900WF5AFt6w51MDAZz8oXF911k=
+Received: from SJ0PR05CA0003.namprd05.prod.outlook.com (2603:10b6:a03:33b::8)
+ by DS2PR12MB9589.namprd12.prod.outlook.com (2603:10b6:8:279::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Fri, 6 Feb
+ 2026 03:32:05 +0000
+Received: from SJ1PEPF00001CDC.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b:cafe::1e) by SJ0PR05CA0003.outlook.office365.com
+ (2603:10b6:a03:33b::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.14 via Frontend Transport; Fri,
+ 6 Feb 2026 03:32:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF00001CDC.mail.protection.outlook.com (10.167.242.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.10 via Frontend Transport; Fri, 6 Feb 2026 03:32:04 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 5 Feb
+ 2026 21:32:04 -0600
+Received: from [10.136.35.67] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 5 Feb 2026 21:32:00 -0600
+Message-ID: <37d4fd07-02e4-4492-b5e0-3618208b5e5c@amd.com>
+Date: Fri, 6 Feb 2026 09:01:59 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: "Nikunj A. Dadhania" <nikunj@amd.com>
+Subject: Re: [PATCH] x86/fred: Fix early boot failures on SEV-ES/SNP guests
+To: kernel test robot <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
+	<kvm@vger.kernel.org>, <bp@alien8.de>, <thomas.lendacky@amd.com>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <xin@zytor.com>, <seanjc@google.com>, <pbonzini@redhat.com>,
+	<x86@kernel.org>, <jon.grimm@amd.com>, <stable@vger.kernel.org>
+References: <20260205051030.1225975-1-nikunj@amd.com>
+ <202602051859.vGTf24Nk-lkp@intel.com>
+Content-Language: en-US
+In-Reply-To: <202602051859.vGTf24Nk-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDC:EE_|DS2PR12MB9589:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0f0b5f7-f819-472d-e5e1-08de65304c83
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|7416014|1800799024|36860700013|13003099007|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?U0JOd3YwNXp4MEJDeElrQTcwVExHcjJJRFQ0YkdTU3ZscTBIbDBlRVhCaTBS?=
+ =?utf-8?B?R2o2N1pxeEgybE1HR2c5SFkrd0RSbzY3R0hBZXJTTVR5azFLZktPM2ZFTXlT?=
+ =?utf-8?B?SFNTVGl6Sk9iV25uTWIrd2p1TGdMYU9DNERnd0IyRGttVW9adWNuZjBZZ3Za?=
+ =?utf-8?B?bUR1Mjdacmt5NnFhTlZtYVpSTzBjY0JTaHRRR1NjU2owL3dRNzNqY3lwb1NB?=
+ =?utf-8?B?ZzZ3dTVGR3dVSTEvWlNVRENtZVR1cngrQXNxSHY3Mzl3R2JNeTZObUcvL1hi?=
+ =?utf-8?B?VXg4aDVlZEFhWktQWmh3TXF5OU1xdE45S1F6cmlodWZvRXRSckpkQUFzUGYy?=
+ =?utf-8?B?aWJFdkpRYTVUMnY3c3k0VjNxYUtINDIvekN0a1kxUk5rSUJCQ0RrYS9NOGlN?=
+ =?utf-8?B?dXZVYmRUTDZzT244SFI0RHo5YUliN1BEek1UWDUxZlpydEZRcG1LTlRYeUtW?=
+ =?utf-8?B?NklwWm9uSTJ1MTluRWtjNVQzdnpZL2JmWlY3c1Z4T00zbVVLVWtkTFUxcEd3?=
+ =?utf-8?B?OG1CK0paZUl6aWViTEhOL1gxa29kS21pczR6eThpQzdRMTNpK1BsWmVKdVVz?=
+ =?utf-8?B?RXAxWXYxYjk5Y0JDTW52ZktEOTZseG9WZ3R2b2Nndm16SUJHeVMvc1RGdVE1?=
+ =?utf-8?B?VnM4TDJtRFNCeVNNWEhKU3Q1c0lTNGZ0ejk5RDJVb1gvdUZ3dFFDdmg3Q3Zt?=
+ =?utf-8?B?a0VKRWdXR01FQXl4aHZUeHBuTHNFUlJGS0gxU3B1aytrakZXSjVzdjFBN0I2?=
+ =?utf-8?B?SmxETmJrMk4xblhCRHhhM1dLaWxCNW1qUHpac2VBVE14N0VmRmg3cEFRdUwy?=
+ =?utf-8?B?czVHR2RUMDhaT3ZYUUk1VWJBeTI1YllNbitPR0QwWFdReVQyQnFLK1RmaE9i?=
+ =?utf-8?B?aHJDblF1TEJGMkdoeFoxM09oczVDelM2VlM4YS9NalpQYWo0OE1uS0REUjFS?=
+ =?utf-8?B?WHZyQ21Sd0tmOUhQQzBlSnZCZGlSS1o5aG9uMFdMUE85Q3hnbS8vNi9QRzN5?=
+ =?utf-8?B?bkFZeXJYOW4zN0FQOXNLbUtINEpKbm13cFEybkdyQ29acWJ0MXpLZXg2aHRI?=
+ =?utf-8?B?d1pIbm5SOS9DU2lkMFZVM3R6bWd6WFh3aFc2U21kVjdFalorZEtpeWVraUc4?=
+ =?utf-8?B?VEdKOWZsWWxpbFh2aEFSdG91VldhV1ZtTUNZcVptdng1ZmNYU1c3UXRPZ0d4?=
+ =?utf-8?B?OUFVWkpPYk1qMmFYc29HVC9vZEQzTU5iRU5kT2xmZUh1WHVOeGc2VnRtMlRm?=
+ =?utf-8?B?TmdjMytNVXJ5U2NXZGxNcm1aSW95M3JaTVo5SUFpRjdSN2lrQ3JRa1h4S2tj?=
+ =?utf-8?B?U3k1eklpaXRxbmtLL1RPa3hPRmJuMk9pbUduL0IwNndxQUppODN2UExaZ3Bp?=
+ =?utf-8?B?UlJOLzNCdmxDQkVmQlQvZWFZMGV3SUFvRjh0ek8wWm1pMFNXNjVWL2lXOUVn?=
+ =?utf-8?B?UHhxREJuVXBaTVZ2ZmplbG04QVZOMVNYYWJWWmNiQWo0MnNsUko1OWNCcFpM?=
+ =?utf-8?B?dTJDbm1oZ1NIc00rTUZ1RXBXL1AvNjA3Q0FJcGRzL3JiMnExZVNHY0VvcHRp?=
+ =?utf-8?B?M2hrekZlSTBFQnRTdVpqbjhZWCt5aGFYYlZNKzlKdnF0UVlkRkNGT0h4YUlr?=
+ =?utf-8?B?aHlvcGI1QUJXdVBpd0VjMndFbGVwc2VHdnlPZ2NGMFVORllMYUVRYnloRVNQ?=
+ =?utf-8?B?VmtucHBmSVp4Vnp3ZzRsNzBWV3QzaHFZWWwvdHZxck5ZeEdPc0d4RlR6R3Fa?=
+ =?utf-8?B?b1hmYzZicVhJUnQ2My9SODEyc1ZpZnZSRVZxWTVUNnZaVWJIZ3VUTTFKcWxx?=
+ =?utf-8?B?SGNwMjA0UXVJV2RZeVdSRVQwTlhLZ21RNk52dW53SkRKUCtRSjNIK1F5TVd2?=
+ =?utf-8?B?NU5tS3FFam5hR0s2UHV1eXhWb21ldXl2SXRIeGRhN1lNMHFpeGUwU053Si82?=
+ =?utf-8?B?cUFaLyt4R01MdkJsUDJJN0xYNlIxK3JzeTY0N2ZVVkNrOUloWEFiZGZNMkNy?=
+ =?utf-8?B?dS9BM0tOWU5sT0QwOFBXek5Kblo1akVPYUZ6Y2UxcXYzaDhPdzNvTmpmUzlP?=
+ =?utf-8?B?RFlqY3l1Zmw0VXBmT2xjcE5ZU3Q4ZGJqU0lvVldzWlk4NVNuVlZDK21TU0Mw?=
+ =?utf-8?B?aDNOeHVDYUZxT0pMSHlYWGxHanA4TXVlYjU5bXcySlI0dU1WR05KdSsrZmVC?=
+ =?utf-8?B?dEFLY2FNaFZQc0c2dHREYWFob2NNWHo1TXRMRW5uNlpBQmdSU1ErYVpsemk1?=
+ =?utf-8?Q?aBwXTxGdx39Iy1cAHJc72JlQefiXfu7B73vWl6iMI8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(1800799024)(36860700013)(13003099007)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	7MHUTv2z7uHKurumrPmc5a4bVnqvu3CNi51OToCxvUpCXJPcOpBp27JQd5lj1IIrfuoM1c5jvHrkZ1rEUCQXZKfRTMVy2TVD/m7j9P6lcnDnxrsjGBH7O4EWyo2AKkXL3mUL+XPOG1bK/8kbNSe1xcOcQXXPYVxEM/PIsxwXvb9Kcxema/aNsUCd9TICHNydNdAxEVi2O7L7uCkyG6X2YNnhBeGF7+CmLmU6nRzTJTkS2Y4RembH9+bY2HcCR1eTjJ8tEuAkpHYaHbFdH8wfmSPHVwnCgLTiGA5zQQSFOwI2BQEaOLCXd1VleHL/Ogdd3D4csTb8d0HwAM0Q2TOnN+l2B2OfEATJH/0davnW6PANsOsf9Rawj9tfpKAh98XaR80V0hu6rTiIuTrwaggdKSkzIajU3uKUxKuzEaxUUOTuEKbiPkZRHjo6+PWazVqJ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 03:32:04.8626
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0f0b5f7-f819-472d-e5e1-08de65304c83
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CDC.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9589
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
-head:   3ef437b5dd8b13bd88b1512531391ad30c26d539
-commit: 6969095afa2073e65ecc958bb5064ddf808309b3 [12/17] preempt: Introduce HARDIRQ_DISABLE_BITS and PREEMPT_LONG
-config: sparc-randconfig-002-20260206 (https://download.01.org/0day-ci/archive/20260206/202602061130.vvWbm7SS-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061130.vvWbm7SS-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602061130.vvWbm7SS-lkp@intel.com/
+On 2/5/2026 4:11 PM, kernel test robot wrote:
+> Hi Nikunj,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 3c2ca964f75460093a8aad6b314a6cd558e80e66]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Nikunj-A-Dadhania/x86-fred-Fix-early-boot-failures-on-SEV-ES-SNP-guests/20260205-131359
+> base:   3c2ca964f75460093a8aad6b314a6cd558e80e66
+> patch link:    https://lore.kernel.org/r/20260205051030.1225975-1-nikunj%40amd.com
+> patch subject: [PATCH] x86/fred: Fix early boot failures on SEV-ES/SNP guests
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260205/202602051859.vGTf24Nk-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602051859.vGTf24Nk-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602051859.vGTf24Nk-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    arch/x86/entry/entry_fred.c:213:11: error: call to undeclared function 'user_exc_vmm_communication'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>      213 |                         return user_exc_vmm_communication(regs, error_code);
+>          |                                ^
+>>> arch/x86/entry/entry_fred.c:213:4: warning: void function 'fred_hwexc' should not return a value [-Wreturn-mismatch]
+>      213 |                         return user_exc_vmm_communication(regs, error_code);
+>          |                         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/x86/entry/entry_fred.c:215:11: error: call to undeclared function 'kernel_exc_vmm_communication'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>      215 |                         return kernel_exc_vmm_communication(regs, error_code);
+>          |                                ^
+>    arch/x86/entry/entry_fred.c:215:4: warning: void function 'fred_hwexc' should not return a value [-Wreturn-mismatch]
+>      215 |                         return kernel_exc_vmm_communication(regs, error_code);
+>          |                         ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    2 warnings and 2 errors generated.
+> 
+> 
 
-All errors (new ones prefixed by >>):
+Thanks for the report, below patch should solve the problem:
 
->> kernel/sched/core.c:8867:6: error: conflicting types for '__cant_sleep'; have 'void(const char *, int,  long int)'
-    8867 | void __cant_sleep(const char *file, int line, long preempt_offset)
-         |      ^~~~~~~~~~~~
-   In file included from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/sched.h:37,
-                    from kernel/sched/core.c:11:
-   include/linux/kernel.h:78:13: note: previous declaration of '__cant_sleep' with type 'void(const char *, int,  int)'
-      78 | extern void __cant_sleep(const char *file, int line, int preempt_offset);
-         |             ^~~~~~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/printk.h:8,
-                    from include/asm-generic/bug.h:31,
-                    from arch/sparc/include/asm/bug.h:25,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/sparc/include/asm/current.h:15,
-                    from include/linux/sched.h:12:
-   kernel/sched/core.c:8893:19: error: conflicting types for '__cant_sleep'; have 'void(const char *, int,  long int)'
-    8893 | EXPORT_SYMBOL_GPL(__cant_sleep);
-         |                   ^~~~~~~~~~~~
-   include/linux/export.h:76:28: note: in definition of macro '__EXPORT_SYMBOL'
-      76 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/core.c:8893:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-    8893 | EXPORT_SYMBOL_GPL(__cant_sleep);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:78:13: note: previous declaration of '__cant_sleep' with type 'void(const char *, int,  int)'
-      78 | extern void __cant_sleep(const char *file, int line, int preempt_offset);
-         |             ^~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=y]
-   Selected by [y]:
-   - CAN [=y] && NET [=y]
+diff --git a/arch/x86/entry/entry_fred.c b/arch/x86/entry/entry_fred.c
+index 7a8659f19441..9946b9e96692 100644
+--- a/arch/x86/entry/entry_fred.c
++++ b/arch/x86/entry/entry_fred.c
+@@ -208,11 +208,15 @@ static noinstr void fred_hwexc(struct pt_regs *regs, unsigned long error_code)
+ #ifdef CONFIG_X86_CET
+ 	case X86_TRAP_CP: return exc_control_protection(regs, error_code);
+ #endif
++
++#ifdef CONFIG_AMD_MEM_ENCRYPT
+ 	case X86_TRAP_VC:
+ 		if (user_mode(regs))
+ 			return user_exc_vmm_communication(regs, error_code);
+ 		else
+ 			return kernel_exc_vmm_communication(regs, error_code);
++#endif
++
+ 	default: return fred_bad_type(regs, error_code);
+ 	}
+ 
 
 
-vim +8867 kernel/sched/core.c
-
-  8866	
-> 8867	void __cant_sleep(const char *file, int line, long preempt_offset)
-  8868	{
-  8869		static unsigned long prev_jiffy;
-  8870	
-  8871		if (irqs_disabled())
-  8872			return;
-  8873	
-  8874		if (!IS_ENABLED(CONFIG_PREEMPT_COUNT))
-  8875			return;
-  8876	
-  8877		if (preempt_count() > preempt_offset)
-  8878			return;
-  8879	
-  8880		if (time_before(jiffies, prev_jiffy + HZ) && prev_jiffy)
-  8881			return;
-  8882		prev_jiffy = jiffies;
-  8883	
-  8884		printk(KERN_ERR "BUG: assuming atomic context at %s:%d\n", file, line);
-  8885		printk(KERN_ERR "in_atomic(): %d, irqs_disabled(): %d, pid: %d, name: %s\n",
-  8886				in_atomic(), irqs_disabled(),
-  8887				current->pid, current->comm);
-  8888	
-  8889		debug_show_held_locks(current);
-  8890		dump_stack();
-  8891		add_taint(TAINT_WARN, LOCKDEP_STILL_OK);
-  8892	}
-  8893	EXPORT_SYMBOL_GPL(__cant_sleep);
-  8894	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards
+Nikunj
