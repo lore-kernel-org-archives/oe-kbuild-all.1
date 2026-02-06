@@ -1,149 +1,103 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959633EBF05
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 06:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237FB2D837C;
+	Fri,  6 Feb 2026 06:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770358429; cv=none; b=jjXRSSWVFVy6pRREX7lzDqVO+wBmjnWt4HeZy9XJShVqmPYV+AS8JQF9YcFKgMrgdZDQK7HuCPMG/IrcXWCTAP7arsqbPg9E9iu9JPCAq3XiiV+ZJeCnh/WryG9w72FciFRO/JVqh7I98SMVxlnC6AUzBMaYoIgVKk1ckYMyCMY=
+	t=1770360231; cv=none; b=OasbAYMfkVRAL+FcbxvBhr5qx7o7rFS2VbQq+Zoc7A6c5PaKGI+aLceA5GrjpdBv+MoJnKztuO4WC8kBU6J7IToNrqmFw50tiYhYJzegInCBC1jMEj+WYrlt1HXsQ/oGIT/2SluIXzAB8rqJMs0WsEY3QZfnwQ7s2/HJTnUa4UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770358429; c=relaxed/simple;
-	bh=YQZcsbIkMDeeqlGN/DppM+neQzqtF6hjMnlLeBiLaI0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tZnfMcOMEhX1tFkyyVJ4CTazkdmrGO54ZLLiancmS84yLWKiIyV1uwP4tBSRVcYy+vwtejGTVy9QNKzCEHAE+NAPTvR9I3/xFnBQEsWE5MuuwN7bULYXiPo1x9dql4RTTsgh8S68+wimesuclkvXAliO+aawT4efDl0hAYI4Ap4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dC/jcKtH; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1770360231; c=relaxed/simple;
+	bh=/JWP8MF5qF7SIJnI8qbIfcSi4SrL1bMOyFdN2GUdhK4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fThNIQ5ZuwwavOASII7/mULApE+L833NI8EVPB18DqhUv+XdQTDDNGzWkWnp21M74ZTLA3sc/ZPeKUEKA7+jS8Dm3osxiSUqiExmlb91UcUsfn9jJk9FoX3S64KjK7XMDBT9+8L58FUcFPpv0B8958IPo9MIlwizc7bStQBxZi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CzIchnlM; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dC/jcKtH"
-Message-ID: <cbb1ba53-134b-487f-87c0-85ca4791773e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770358426;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f4dJ2KwSmRisMZ/4xd6+bG4Q7esCOyMfca25PcWP+cI=;
-	b=dC/jcKtHfNMquOXuvapGfNJT6W1nn2qqoibSINRKajvM0TW82x5ygrDaisDNQCL1sOpKRb
-	2Iek+94Q6nTAH410kB+pam/JhF6U0VU9rOG6KsRRZh90nRYs6AGKXl7HpvTUhbSIzEJOTi
-	PqcAcaDs4RZo9IVv8sPt/yUhOLquyhE=
-Date: Fri, 6 Feb 2026 14:13:32 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CzIchnlM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770360231; x=1801896231;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/JWP8MF5qF7SIJnI8qbIfcSi4SrL1bMOyFdN2GUdhK4=;
+  b=CzIchnlMoX7Ow4NwS3LnOttidSK7yZ7K+oXkiUW8/NiYRLtx31m01HAo
+   ztgk/Tyq1dtJpJOBZPInss0TLZPok5hUrvS2GSE/nCjiaKmLxWvoP51qa
+   mG9hbwvCCU5w4lEKqCqCLnmi2JxEN2UxQYiJ4YkeznKiR1c4rVpiNBGZb
+   h536Zp9At9ysF4lxzwJDp2lPf1UNt427ukCvzJV2QBG+unJ4XjU/L5Bzw
+   itR4iUBXbDD1X3BYUc9Fusu9pA+djUepGEvEifI1ZfWEo25KN9nJeWegd
+   EvoKPhB6bzC6ksZKwBtXDUFF+TN/ilWOLEdZvQplH9OHanX+1C1nMnKcu
+   g==;
+X-CSE-ConnectionGUID: NrrFGVotRbS5w/Vys6m3TQ==
+X-CSE-MsgGUID: hi1gAPYJR8Cz9qTOuSavhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="82304804"
+X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
+   d="scan'208";a="82304804"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 22:43:50 -0800
+X-CSE-ConnectionGUID: ipUoCHChTBKsww9tNlWH3w==
+X-CSE-MsgGUID: V+H+I/KqTpmb/7VwfJNTiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
+   d="scan'208";a="214951233"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 05 Feb 2026 22:43:46 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1voFZ9-00000000kUU-3CAV;
+	Fri, 06 Feb 2026 06:43:43 +0000
+Date: Fri, 6 Feb 2026 14:43:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Jurgens <danielj@nvidia.com>, netdev@vger.kernel.org,
+	mst@redhat.com, jasowang@redhat.com, pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	virtualization@lists.linux.dev, parav@nvidia.com,
+	shshitrit@nvidia.com, yohadt@nvidia.com, xuanzhuo@linux.alibaba.com,
+	eperezma@redhat.com, jgg@ziepe.ca, kevin.tian@intel.com,
+	kuba@kernel.org, andrew+netdev@lunn.ch, edumazet@google.com,
+	Daniel Jurgens <danielj@nvidia.com>
+Subject: Re: [PATCH net-next v20 05/12] virtio_net: Query and set flow filter
+ caps
+Message-ID: <202602061444.jFWR3roe-lkp@intel.com>
+References: <20260205224707.16995-6-danielj@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 24/31] mm: memcontrol: prepare for reparenting LRU
- pages for lruvec lock
-To: kernel test robot <lkp@intel.com>, hannes@cmpxchg.org, hughd@google.com,
- mhocko@suse.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, david@kernel.org, lorenzo.stoakes@oracle.com,
- ziy@nvidia.com, harry.yoo@oracle.com, yosry.ahmed@linux.dev,
- imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
- axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
- chenridong@huaweicloud.com, mkoutny@suse.com, akpm@linux-foundation.org,
- hamzamahfooz@linux.microsoft.com, apais@linux.microsoft.com,
- lance.yang@linux.dev, bhe@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- Muchun Song <songmuchun@bytedance.com>, Qi Zheng <zhengqi.arch@bytedance.com>
-References: <e27edb311dda624751cb41860237f290de8c16ae.1770279888.git.zhengqi.arch@bytedance.com>
- <202602052203.U8hxsh2N-lkp@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <202602052203.U8hxsh2N-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205224707.16995-6-danielj@nvidia.com>
 
+Hi Daniel,
 
+kernel test robot noticed the following build errors:
 
-On 2/5/26 11:02 PM, kernel test robot wrote:
-> Hi Qi,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on next-20260204]
-> [cannot apply to akpm-mm/mm-everything brauner-vfs/vfs.all trace/for-next tj-cgroup/for-next linus/master dennis-percpu/for-next v6.19-rc8 v6.19-rc7 v6.19-rc6 v6.19-rc8]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-memcontrol-remove-dead-code-of-checking-parent-memory-cgroup/20260205-170812
-> base:   next-20260204
-> patch link:    https://lore.kernel.org/r/e27edb311dda624751cb41860237f290de8c16ae.1770279888.git.zhengqi.arch%40bytedance.com
-> patch subject: [PATCH v4 24/31] mm: memcontrol: prepare for reparenting LRU pages for lruvec lock
-> config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260205/202602052203.U8hxsh2N-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602052203.U8hxsh2N-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602052203.U8hxsh2N-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     nios2-linux-ld: mm/swap.o: in function `__page_cache_release.part.0':
->     swap.c:(.text+0x4c): undefined reference to `lruvec_unlock_irqrestore'
->>> swap.c:(.text+0x4c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
->     nios2-linux-ld: mm/swap.o: in function `__folio_put':
->     swap.c:(.text+0x2ac): undefined reference to `lruvec_unlock_irqrestore'
->     swap.c:(.text+0x2ac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
->     nios2-linux-ld: mm/swap.o: in function `folios_put_refs':
->     swap.c:(.text+0x384): undefined reference to `lruvec_unlock_irqrestore'
->     swap.c:(.text+0x384): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
->     nios2-linux-ld: mm/swap.o: in function `folio_batch_move_lru':
->     swap.c:(.text+0x4ac): undefined reference to `lruvec_unlock_irqrestore'
->     swap.c:(.text+0x4ac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
->>> nios2-linux-ld: swap.c:(.text+0x50c): undefined reference to `lruvec_unlock_irqrestore'
->     swap.c:(.text+0x50c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
->     nios2-linux-ld: mm/swap.o: in function `folio_activate':
->     swap.c:(.text+0x21d8): undefined reference to `lruvec_unlock_irq'
->>> swap.c:(.text+0x21d8): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
->     nios2-linux-ld: mm/vmscan.o: in function `move_folios_to_lru':
->     vmscan.c:(.text+0xa4c): undefined reference to `lruvec_unlock_irq'
->>> vmscan.c:(.text+0xa4c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
->>> nios2-linux-ld: vmscan.c:(.text+0xaa4): undefined reference to `lruvec_unlock_irq'
->     vmscan.c:(.text+0xaa4): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
->     nios2-linux-ld: vmscan.c:(.text+0xcac): undefined reference to `lruvec_unlock_irq'
->     vmscan.c:(.text+0xcac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
->     nios2-linux-ld: vmscan.c:(.text+0xd8c): undefined reference to `lruvec_unlock_irq'
->     vmscan.c:(.text+0xd8c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
->     nios2-linux-ld: mm/vmscan.o: in function `shrink_active_list':
->     vmscan.c:(.text+0x11e0): undefined reference to `lruvec_lock_irq'
->     vmscan.c:(.text+0x11e0): additional relocation overflows omitted from the output
->     nios2-linux-ld: vmscan.c:(.text+0x12a0): undefined reference to `lruvec_unlock_irq'
->>> nios2-linux-ld: vmscan.c:(.text+0x144c): undefined reference to `lruvec_lock_irq'
->     nios2-linux-ld: mm/vmscan.o: in function `check_move_unevictable_folios':
->     vmscan.c:(.text+0x15d4): undefined reference to `lruvec_unlock_irq'
->     nios2-linux-ld: vmscan.c:(.text+0x1958): undefined reference to `lruvec_unlock_irq'
->     nios2-linux-ld: mm/vmscan.o: in function `shrink_inactive_list':
->     vmscan.c:(.text+0x2f8c): undefined reference to `lruvec_lock_irq'
->     nios2-linux-ld: vmscan.c:(.text+0x307c): undefined reference to `lruvec_unlock_irq'
->     nios2-linux-ld: vmscan.c:(.text+0x31dc): undefined reference to `lruvec_lock_irq'
->     nios2-linux-ld: mm/vmscan.o: in function `folio_isolate_lru':
->     vmscan.c:(.text+0x48a4): undefined reference to `lruvec_unlock_irq'
->     nios2-linux-ld: mm/mlock.o: in function `__munlock_folio':
->     mlock.c:(.text+0x968): undefined reference to `lruvec_unlock_irq'
->     nios2-linux-ld: mm/mlock.o: in function `__mlock_folio':
->     mlock.c:(.text+0xe5c): undefined reference to `lruvec_unlock_irq'
->     nios2-linux-ld: mm/mlock.o: in function `mlock_folio_batch.constprop.0':
->     mlock.c:(.text+0x158c): undefined reference to `lruvec_unlock_irq'
->>> nios2-linux-ld: mlock.c:(.text+0x1808): undefined reference to `lruvec_unlock_irq'
+[auto build test ERROR on net-next/main]
 
-Ouch, I move lruvec_lock_irq() and its firends to memcontrol.c to fix
-the compilation errors related to __acquires/__releases, but I forgot
-that memcontrol.c will only be compiled under CONFIG_MEMCG.
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Jurgens/virtio_pci-Remove-supported_cap-size-build-assert/20260206-065356
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260205224707.16995-6-danielj%40nvidia.com
+patch subject: [PATCH net-next v20 05/12] virtio_net: Query and set flow filter caps
+config: arm64-randconfig-002-20260206 (https://download.01.org/0day-ci/archive/20260206/202602061444.jFWR3roe-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061444.jFWR3roe-lkp@intel.com/reproduce)
 
-Hi Shakeel, for simplicity, perhaps keeping lruvec_lock_irq() and its
-firends in memcontrol.h and drop __acquires/__releases would be a
-better option?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602061444.jFWR3roe-lkp@intel.com/
 
-Thanks,
-Qi
+All errors (new ones prefixed by >>):
 
+   In file included from <built-in>:1:
+>> ./usr/include/linux/virtio_net_ff.h:9:10: fatal error: 'uapi/linux/stddef.h' file not found
+       9 | #include <uapi/linux/stddef.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
