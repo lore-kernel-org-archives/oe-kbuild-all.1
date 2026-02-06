@@ -1,243 +1,648 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD75323B61E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 02:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21A8279917
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 02:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770344994; cv=fail; b=cV/QQVoFCitTzzYRcgs8Jj1qupvJ/J/UGa5N0OEdF1E+AaIBpU7UYIryIMyCfGpF/RLL4Hiq2l6V3eA4mp21DXIXgsgvMDC1pjWN68mrguws0yrM2LusQsXhTFBOJukHi7xLfKXcOAZZn/lvjo6grZwnsxWX9bKArV8nDfxY8Eg=
+	t=1770345562; cv=fail; b=krga/UFZlK4sRzBGZzOtfmMv5v9ia6cSzZ6aWSRBlfjl6xripc03faXbsKM7iNkwkBa7VLBTioDHi30HIZZGfO/06c9LRenZwNU9KBFNQUNo3dTvfgQsFSnzRwCV8qVKiyiVEoMBF3E3OGsTUhF9giwFSRpxj2d5RibGTcsSyVg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770344994; c=relaxed/simple;
-	bh=5OWIoa9iVhhPaefnJ8KQQxX21DdaFz67jdWFM6i8xO4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=X2cy6OiH6gFu3o2g+TcK0oETyZcm7368S06m4K78pGo4CSQ0WQP32iCQmNjrObf9r8fdcx9OV1PfFoyeYEN+mOaFaRJVWzHPyQHKT9esJnucggZmKsejZZcdVeqDE3IuEQ5OTiwK78xZ+pepu0qmy6qaXBvhvVK1Co5bOquPOfw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eOQAVcbq; arc=fail smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1770345562; c=relaxed/simple;
+	bh=1VWGuTglCbMAnlSqlbNTiuxle8UCVeUIocuLVHI5r9s=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=k69c+3hcdEzuVE7ycQ+P2tle7dlbqUR5/Y5UtpwJHXAvRZdtqJSoLrbUM77IXEjAgQB4Zx39pncQLoOfh/3rlfxU52GWKuVeBb3qNWZ5h9k4i72RphU4ccnjO3G3r+9a1pV8r17fw1XhlYTcuax1k1d5jVb0v6EmCABdKgNbfHc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvLg5PnU; arc=fail smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eOQAVcbq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvLg5PnU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770344994; x=1801880994;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=5OWIoa9iVhhPaefnJ8KQQxX21DdaFz67jdWFM6i8xO4=;
-  b=eOQAVcbqHntHxO3ZKf6d5em9+xIV1SbFkWIG0YYY7kLGLi47n3aC0WH5
-   DTUY8ixEgBWtS/D5qdevIMCCv9JxqJzFHHrvwSWH/I9tvhOUDY+rK/KgW
-   db2kGNnL2Orb7vLXoJ7nSnHAQ5RmiFNOkox0HinffMkX5MX8bXQlfzjAr
-   bvQMOjH8B7yJOg5/vIVrTLfs88GakgKJG8et9yOv+mdzQVSHt7hcqLyc7
-   FRwr3hpdYbtffPihMu2h2TzSLm1es1YDax1GUqJWD2ncis3n0q/Wju5j5
-   Pqj5nUms1F2s900FLNlPFdXGfYbPj3C0oBDiB5RDXlgT0N34ad0eVnSrh
+  t=1770345562; x=1801881562;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1VWGuTglCbMAnlSqlbNTiuxle8UCVeUIocuLVHI5r9s=;
+  b=JvLg5PnU0GJNhBc8hVmw3UdVmaFYLIHWKC4rHxTwWrb38OKQKqF/ieWp
+   DK3eQvbHn8guWVG5+X6IWh1sBdErFMbT6lSgpEa92WmsJCXQgBiZg3MIH
+   uBj4EB9U1WPFT0W6hhlhhFv5gcqXwKRzHOmopnWZRAntjX0kuYLnKbbV4
+   kHBRfoR6wkD5R0NyQ4tRoAsZFtZ7O9juKm3jgnuFs0VkLMv9dnN7FwzOI
+   5BhhMHw+4YzL8h3bbxshPTJr+L7I7fmkRdGzfslZAQfBPE/bqgb95x0Lf
+   AmaLAiW3WJ6Rc/cqX82wIvFrHSwDRVfs8ERXSnlYzwALlbE3maOqLzs0/
    w==;
-X-CSE-ConnectionGUID: xOeHg5F9R0C5NblxOzB0Jw==
-X-CSE-MsgGUID: Vz++9M9GQTmBg9pDSG+1EA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71280282"
+X-CSE-ConnectionGUID: 8ETUJuFRQX+XfgFtMtn4JA==
+X-CSE-MsgGUID: 3mYx1yqRQfO9Ap2j1Z5evw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71455654"
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="71280282"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 18:29:53 -0800
-X-CSE-ConnectionGUID: pvx6dEETQAK9qUWfVThnOA==
-X-CSE-MsgGUID: tcpkiF5JQtqjU88YIEpPMg==
+   d="scan'208";a="71455654"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 18:39:21 -0800
+X-CSE-ConnectionGUID: mwtKkVE5S6yrPBse0H+guw==
+X-CSE-MsgGUID: 49uNqASZTiOfjGSbmmnu7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="215705330"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 18:29:53 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+   d="scan'208";a="215263453"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 18:39:21 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 5 Feb 2026 18:29:53 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.2.2562.35; Thu, 5 Feb 2026 18:39:20 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Thu, 5 Feb 2026 18:29:53 -0800
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.37) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.35 via Frontend Transport; Thu, 5 Feb 2026 18:39:20 -0800
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.3) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 5 Feb 2026 18:29:52 -0800
+ 15.2.2562.35; Thu, 5 Feb 2026 18:39:20 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uDmsTLRS26wogDfoDlH5ETl5iMTn4pJjr48qX+LXHVsB+Fl3Vhd2hMcJmbbP74fc9A7RiOFy1g5yV0To64UufCCBDcjNStdsvbEdhSo51IPiZ8O/oF2cPgG5f1wxrSlGNorYYiKIgzdmD8qnOnzKMW/5O5iIU8SWjhDoY/El62blf2Qpj+Xz+ibdE9G7bTtIJVcSR9eSGUbg0xecJicmIbnLas9SuRbhsmrpDBEAAo7tJrG4FfGo6CMXjWfOcJ4LhyUVJELMB9KDbbT6db3Ntu9J5QTNzyNfi6E3jZrGdUzPZc4d0GEg5o2E1b86Q4zWDk7bZFiJ9rTblw2QKcjuhw==
+ b=xX4VeX7zzo5K0QMPG9zhh0IsTFA0Ud5gaqItexa5zWOwP9L3oAsjUhc2BM3aM8nF4YQWGt6WJs2f68cu3qAysHDlxZT8FoDBrCxV2/5CghvEsTIiLcBnubOzYJwd0ZsGYaRCNiQ4eUfh+HsFc3omAqIWaTMaBkAdsjPVPD6xgHYqLe1Qz0bDeKRl3UBSZFP8JrtRxT/ZDwzwHurvhlb6bmxeDGQoNNqFhhKeW4anSLewB6mycLbZNxKz5w0kDdtkckZi8n2f3Ham08Ss70zDa/2JjTmkCrgIo5P/Yj9toZK3FOn8oHAoN0F3CRCCuDC/l/n+aEsXCJkki5rgfSyvJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nlSHhYe9AGXPo7YFqVegsRNJ+LWgigIK8KwN6lvGeN0=;
- b=HA8QWoGH+iziQs7zMVERbppLZ9xXelhxTGVcKFy72vhVuy3QDHXzQreMMIU5+bPfKq/8YLtDwABGnOdQpuuQGs8kcRydxydbSBWT9Qz5XUsQvmu5X3RSdtq6z9K5trQhMn7YPspE+0XGMbyP52w2hL1mBYuBJ2nP4jej6ipD+m6CXV70ngWNcswry8V2rekvwLQ1fjEjNlj5leWWuTMZJANjf7JbKqJ5SJ2uwpLopVEmbIYCBC7aUn5ifS9mHUsHqpPV0OsLmIz7Mkfn3dVEh0v2L1YQ+zhf2DKXxjSAUmGC5pMroX/Vsb01K1u2oXCSGjJTvO8SDJpS6lj1zh69sg==
+ bh=rdkNmWS3xZWsynygtaPoqm0kqOgJ8V6T5Jbk0g65ztw=;
+ b=duRigonq8VfoXslyKzHEIlYSvicaIvVlXB/LdGQEcdFLfYvDYRvcuCCbAfa+7L+0Eb8Ol/yvb2nuHQ9NFq6X9BcZVRI+k3qErJumUjIKVqQjj9TD7gx4qDZm4tGXywxr5NDL3zizbE5GeFo3aDKi85hHJqCo/xk62EQwGGUepcMo3Yy+iugdDBlQXVsybt3cSfKLbDv2+/d742C6JT4O7v7p6pmJV4o7YePlSZSzMuRGC5o8tRyGLiSJ9Ddv5W3viCi1h6pxxUPivnvqSOtMTnjIjy70FoXcN8YtFmzrJrf74xgfFVEChshR9qng1pmpF2QEOEVjd4mySV5e0A0iMQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by SJ1PR11MB6274.namprd11.prod.outlook.com (2603:10b6:a03:457::20) with
+Received: from CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
+ by SJ1PR11MB6156.namprd11.prod.outlook.com (2603:10b6:a03:45d::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Fri, 6 Feb
- 2026 02:29:45 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::e4de:b1d:5557:7257]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::e4de:b1d:5557:7257%5]) with mapi id 15.20.9587.010; Fri, 6 Feb 2026
- 02:29:45 +0000
-Date: Fri, 6 Feb 2026 10:29:36 +0800
-From: Oliver Sang <oliver.sang@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <oliver.sang@intel.com>
-Subject: Re: htmldocs: Documentation/driver-api/tty/tty_port.rst:65: WARNING:
- Document or section may not begin with a transition. [docutils]
-Message-ID: <aYVSEOnbqsdc3Rha@xsang-OptiPlex-9020>
-References: <202602022007.fALe9bGB-lkp@intel.com>
- <0d0b90c1-db32-4eab-98c2-9bb46cea7a8d@infradead.org>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Fri, 6 Feb
+ 2026 02:39:17 +0000
+Received: from CH3PR11MB8468.namprd11.prod.outlook.com
+ ([fe80::8188:d688:bbca:2394]) by CH3PR11MB8468.namprd11.prod.outlook.com
+ ([fe80::8188:d688:bbca:2394%5]) with mapi id 15.20.9587.010; Fri, 6 Feb 2026
+ 02:39:17 +0000
+Date: Fri, 6 Feb 2026 10:39:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: <cros-kernel-buildreports@googlegroups.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [android-common:android14-kiwi-6.1 105/105]
+ ../../../lib/maple_tree.c:921:17: error: 'fallthrough' undeclared
+Message-ID: <aYVUTcn0iL8RT/b7@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <0d0b90c1-db32-4eab-98c2-9bb46cea7a8d@infradead.org>
-X-ClientProxiedBy: KUZPR04CA0003.apcprd04.prod.outlook.com
- (2603:1096:d10:32::15) To SJ2PR11MB8587.namprd11.prod.outlook.com
- (2603:10b6:a03:568::21)
+X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
+ To CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SJ1PR11MB6274:EE_
-X-MS-Office365-Filtering-Correlation-Id: b92673be-e4b8-4dce-a996-08de652796a6
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8468:EE_|SJ1PR11MB6156:EE_
+X-MS-Office365-Filtering-Correlation-Id: 38869c06-149a-4588-6b99-08de6528ebf4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?f9eYg5gEABBTRWyjCVregEO99+LvPYP/KarRZfnwNyt4UtOj6ScEv1M3LWIO?=
- =?us-ascii?Q?2X6R8STzfZF0+W9eSKOvn/fU0j0+S0J5d3HuWBKJ0yKPtKORO547hh3JbNH+?=
- =?us-ascii?Q?d3KYsge1lr5q2/ErqtCzVA8SkRuGdGmQpyXmx/9reZCiDCHs6x1FpbH+8r4y?=
- =?us-ascii?Q?4JR2D3bWuoY2zbKKf5rweHtDHPZQ4OiV6HXxXu+QF4eNn2uBza1g2H/ZMqKj?=
- =?us-ascii?Q?CNwCBwcDOkHKl5+hsuzXU883waec3VpIN6kVoCkrDx/Ayp+pyPywauTeIBhw?=
- =?us-ascii?Q?tlNJl40w+pEvd6rkjpcAmBWt9JJSS6172y+WW/9zYdBdKMIZ+jxi93DPQkBf?=
- =?us-ascii?Q?mI2NySmie9jWMNIFXDnPWjN7Zi2LTe97ZFJXSjMA5qWihi33IRimz6x1aeUD?=
- =?us-ascii?Q?5ZB800U6WQcmfwCHfDsRxNRgYKOEW/f26NcQDTP9yRlJdDEPawrORSyAwgJ4?=
- =?us-ascii?Q?Qg/PRtMUMkt/9LAAppIIQuW2vJBzGYxMBYHGBp9Y4MZBdmfpQ/DjGiBduKXQ?=
- =?us-ascii?Q?jBRlYXt9akzCM93ne36vVJVkHZ1MySX8V+pRZl+jZevPUfYhX6wXqM+AHsCY?=
- =?us-ascii?Q?jMTKc9bkdbawPf2rjPG5Oj0OkZwlybQ/9pHRSJ9VP29ZSKs/Zh5rHRkg2kgj?=
- =?us-ascii?Q?n6Pw0uF3NhUnfropcao5bq9E0DyfNQjFJiX+Ajkd6+M+6HTl4S9GdTC3/mW8?=
- =?us-ascii?Q?i3r9Al39PTNxTbe3jCcOp466WsGj54Xb2eyi6EQ86qFy6RygZiDz5V9dEJhN?=
- =?us-ascii?Q?hSLDxcLs4XV+BQi5IEs9LbXJnJCko/9Fkbw5UQnxtzPjegL0MEfPhG5C7Oe/?=
- =?us-ascii?Q?4bUjLvxTRl1mTs/l2Wo9alzxSZD86U5Aq2nAufXpoaRrpLC2vpuv17B7uN/e?=
- =?us-ascii?Q?qYXVcrXKjKguUgGa6RCKQ4MicW8gQ6KIq5LYjFl4kRv5exvUL81BIGcxhmVP?=
- =?us-ascii?Q?9rlWhXFHll3nurrxSVj56zVL3B6wqW04F2h26a3wY4GSIzFZvKSbQlU0LzjY?=
- =?us-ascii?Q?unIj0xdCgw6XISqxpg8w1aOVHV3uGYa5yBe1BIY+b+cQl5tAqpJuVbDkGeIe?=
- =?us-ascii?Q?ONxhSR2shboXVoAzM+f58neP+DjJtRc9Zoq/W/dfTBVmumxCOl9AeOi3bWhg?=
- =?us-ascii?Q?65gpC/rfa90ZZD6uAKULYljU0Op5qnm0C9rOO+EsTevjZgyth1mjdKM+HMpP?=
- =?us-ascii?Q?ezhxsb+X42XOWwEW8+qnst++GxYWs5iL+h7oCNeugO10cU+cQOx3W2Q1aLZn?=
- =?us-ascii?Q?Y0BiD7qYzFKRfRPG1qXEzXcnu8T2htaDCQyUQG3IKFjl1IBq4iaNH6+yFR3N?=
- =?us-ascii?Q?6W8ZfIqae+uWOZcXXHOOeJ3Mo5geJZ4N09HtSnFSiDXVhC7noiK88fDU1WbI?=
- =?us-ascii?Q?x4Tveva2ECMATpujMZMvIFY6+w96x0B2UWX3PWWuV7p/TWv62SddvVJXvPw1?=
- =?us-ascii?Q?h4ZImpoM4YzUDof1ECzm1QEdkcGpuWMKWTjvzZQBl5UFh2jscd4ig/rt6khp?=
- =?us-ascii?Q?fQ9OkO46mcEh0NrXTe5iwNjR9wyOs6f8rdwsDVm7jLUoKg+Z+68r+sgyovhh?=
- =?us-ascii?Q?13/QzCc8mUjJLjjSGimPlGAeHQO4W0mgslmhcA5G?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?RoemQvldZlwh998ogp2JtVMuROWHcZRw0mGWRnGeQGtR0GIhn6btq4fvDGXa?=
+ =?us-ascii?Q?u1EKgBZHVU/gGYSC3drvRTeX4GiXOvMLQ3IwcseRrkMrsXbkPDqGVrOug8Yr?=
+ =?us-ascii?Q?zE0XVAsp9EbBDOZVlauhA17eM5M0WEvWaG9rbYSRIwpopPyeYjf8t47v5IlI?=
+ =?us-ascii?Q?QufefNkxG/g7h/cS3phSpDP1SNnj9VfYPvWKEP4OgMTx734vLdE9vsAr4DdE?=
+ =?us-ascii?Q?h4yLHAYLWDsm4oNSJu+Xv4e+rWoR6uqagozMYirgTHYBX+XzKqGGGIrHmuIF?=
+ =?us-ascii?Q?+gpqf23Q17Ee6VF5m5CWBnQcClMIoxo8NnJMzLdH5a8TvGBn3NNWi9vfPOu3?=
+ =?us-ascii?Q?pSKVjkgkglxZiSvGZb2GKodwC9CCWAGJq7InxiF4dLhrO16p/DGXjizp7uKH?=
+ =?us-ascii?Q?SQdQfyDhBGuxt203+xq/N94B9IF1nnCK5B0V28ESuOFFIVl4IeQyY/blWuXf?=
+ =?us-ascii?Q?KjnirQadDSlsNz/xmibjU2IkQs+swkRaoQ+DgfQnTVM63nvwhz+HmUXs3h9M?=
+ =?us-ascii?Q?CbL01satWIJ+HcyXQ61renkvku3e6ScpvrUxPB1wJHEOgzcVh905vJeSTv+q?=
+ =?us-ascii?Q?Fep0rRGcPGjXoOtSX2bEiCrSR46FLYybt+29cJ6d91y0bsV5VeiSkda4nz2W?=
+ =?us-ascii?Q?SbXrwkC7d7oIcEfmN2qj2GZorpCYvPvt0V/OeB3LNRGayoXTPRwVnP2yNnAk?=
+ =?us-ascii?Q?tFma5ATFceD8T657VfFsTl7WAqRuHtucxju7BihKmeM9xRg3aIqRt6mIml7p?=
+ =?us-ascii?Q?i2QEcSTQrGoLTFj5aVUtD3X4mfTiuVVXHLqbASx7pyATQtTBQrvaIxxOuET/?=
+ =?us-ascii?Q?0tNC8vkLzAGJB26Y+REvmG02mMNFJ0o8fDgILbkV8tvdktPCX6JFmvxAC+cQ?=
+ =?us-ascii?Q?N2XMknCdolqKjehJgDNeoDVSerrDsJnaRMCyBoAQsEE/xjDRemZGCGxaiiOu?=
+ =?us-ascii?Q?2mnOXubrwTtKgVYNaVMsOL9jGhqHBl8PuQWVJMNhgTKgP2VT73EsnpurIuxN?=
+ =?us-ascii?Q?P4y28YVpIh29bcGrLXxyXMo9uZUWzXMR1b+69QA7yvKev4dUESjGFBf3H2vp?=
+ =?us-ascii?Q?mcQb7ZwrmFsY4gYFqhGaabJfJgG8TVD98LEfJbksiG+5HraIpK+V3DAW5RyK?=
+ =?us-ascii?Q?G7yUrlDFhdq1MYcfEE7dUVBgkwcOVsAGbpj0k12RTxfhulzz+q/DXMHG/Zlp?=
+ =?us-ascii?Q?8OmLXNz3cF+E0P9rhRyNt08gP6k3ZF+OCHIwRiZbppur9OGlZi26OaSQJ6K/?=
+ =?us-ascii?Q?bQUiGrqRPRj+wWr+YIRkBaRCyFv/ObD7JWWm+BFmVntz+GYyFlDYij0Dunlq?=
+ =?us-ascii?Q?2LGp4rJLgvDDFQiMr5ztEjlv4Z8uX3smoBtzSr+WJ7/2NTDjP34sYPUf1P+z?=
+ =?us-ascii?Q?Hytk7UIeGXX52ICOskl21T2hf1LUuI9YCBmhiOqVuAKKJ3WSGS2N7Y1+zgnI?=
+ =?us-ascii?Q?4iAQsM5Dd0/5pWIQYJL9XAvVjPOtb4leRmEGZTY1f2VjhKdFaaHPnBn6MEcD?=
+ =?us-ascii?Q?a4g47j3zDN1Ga/Cgw/smvw2fHgWdetvwDHFH3guPt76BpvfEz0BZ784Mr7Di?=
+ =?us-ascii?Q?a9WDMXBw16a1m1TsipMk38CXTYGoejE3BlH1Vum5?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8468.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?W1g/Fz/oYjDLrJz77hBYLoJOBcTJBWT+3IZtnzxs0knzGs228mlFLctpIELW?=
- =?us-ascii?Q?tKr/YmbAi61VHkL9VxJYwTC8RPfsvkIAKZwvGwAZ9Dc6pLnwg3fdAmg7SPH2?=
- =?us-ascii?Q?7366NWKZ+9+2Gt85StpYTonOYsbN+02ip+F2mcw7oA5qh8Jx0vnZOQIGh5vz?=
- =?us-ascii?Q?eAn0ZjDWRdk8fRJJKhSceMa6ANdyreLBp53fB+2yMOp4MNJz2o9Yhr6Tpqef?=
- =?us-ascii?Q?05kqJ+yscciV9K+hfY1c+BKtmU6H/OscAf30mVkvWPBqga3GrmVRVvdji5lX?=
- =?us-ascii?Q?kHoKj6cBTMUUmDFQGrfXRx1NUyn0lw7u+paYMOIdQqNcNx5NzwgmAXkyOkcX?=
- =?us-ascii?Q?G8RWncfdQ8dlGsEbePKpdKz8rSCXDSrpNIag9TVFPg+bg+VW2LpkztxUwupX?=
- =?us-ascii?Q?3pQN3cPYQG7bXF+N8youzDLS4CsX6jFVTegPs+kAPr5CkNWQYfNnAtYT1tOg?=
- =?us-ascii?Q?0GKGHOHbJX+fpaIp5pUFQvy5UEJyNncYvMPYfGl2qn7SCjj2pf2LzAbmvWt/?=
- =?us-ascii?Q?fLsW/wRlVESXp3KmtnslkhMBiycMZmPFgLubyAhN+a4ZoaGq4i5nMCQCc2C4?=
- =?us-ascii?Q?zr4dzqWBQ1gC9/y9+Mw03iMmbcsQ63/BW6nGLKKtkA8SR40W9LjHOUFZ7anX?=
- =?us-ascii?Q?D00EIveGFkdC5DpPvlEv1/qSfvnB3k3Ct19drnsB3oswqW5TWw6Asm7uo/DG?=
- =?us-ascii?Q?lAGRyVmc071F7LMufdnU6j2jbmFwiSP2l5RjCxAVLifW1Ve+BeF3riP5LiA6?=
- =?us-ascii?Q?TQVEf+KhgxibsAwY4MLewaRTBCbxdy8+I3mGaNcVPzsOfQa/OkIvM5L6F1vW?=
- =?us-ascii?Q?elQ6ZbbwpeExCgr1Mp4Mn14hF9hCgJskNMpXdGj96+e6a2JURFRTi2fXoH8/?=
- =?us-ascii?Q?RPzIJXEuLexla0zuk8hwaqRGcP6G/5IHrzva8ZXl1f9c3rHuczoE9vN6S2GB?=
- =?us-ascii?Q?bbrj7LYGu3soE8Dwp8VIO8WND4xa2ir9RTzwnckivPpMhs6BdZ3MPZTm3O/9?=
- =?us-ascii?Q?0jbHJY/8r2sNwC0K7a5LNiCBCEYtRt5s7p3lQX1kOfJNeWikeM3Z0fyXx8T1?=
- =?us-ascii?Q?vszXCb7bOa0vs1XHr+3y3NWYKZIGbKph6A3Q81EkDavPbst8yvdR+5K9tOp3?=
- =?us-ascii?Q?57MK0KbQdjhNutpd9wYmpS5vNwwJd8ZDbG29MizKc6ds7oaUNRt9+7CsCNPF?=
- =?us-ascii?Q?j0tkQ7cAy6njJxqk7pcNWs6ePP52wL3YDYD9zMbXsXABxm5CeWGKs8PRPcvz?=
- =?us-ascii?Q?x774AwTRQvEz73bxdBP+lUu0oLw4P4ZAiqnJBSp2kLFHCQ7jepI0RdKdxy9M?=
- =?us-ascii?Q?k1i8gx6yWHQhZ640mjGC0071fuQ3CPezhIQBXagYbPGexkSNt4ajlsIKG2Oh?=
- =?us-ascii?Q?sELZczHP5/ayI4ZL9jBg89GfKAIthZubtAlBvy4bTKpf28Qw2C6Vokm78RBX?=
- =?us-ascii?Q?Rhg8SHM+KMNtrPK97Bpnvro3jTKpMB5R+j5MbBqB8oqMq3VSuQwRiU2NF7c5?=
- =?us-ascii?Q?AjYFmrn+47u2s8vsvVnE10p+H5V3xELlDzLAFoIRgpQhjdFqc8p5WhXKbqJ3?=
- =?us-ascii?Q?n8anMPbmUTc8eCstN0OS8RTOw9zQ++8B1OgHCNXN1GrkBAOa1nCnYyka80+s?=
- =?us-ascii?Q?Dg6zkB7QKH2zlfRVeAhW722Nm6kmtYfZHTklmIZsSCJyvFYjq9dKCp6wiJXo?=
- =?us-ascii?Q?1dPFRaL/GzpIEy8Q/xP9UWIGwnsnQmo8X7PIAkV9iiL+qKVrtvTVu/YQv15O?=
- =?us-ascii?Q?PNOeIEbnRw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b92673be-e4b8-4dce-a996-08de652796a6
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8587.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Cps1PHcE3LDN1OuC/jfG327fG8fro6KuArvur5FpGWuE7wkqWU9m17weSRWo?=
+ =?us-ascii?Q?PE50gJESb93ZmZZQxGsLn4pVSLeq+PJ2vosvB19DrEhSl9RlUnK+Bm6yj7gH?=
+ =?us-ascii?Q?6JJwpUZyH68dozfRBnwvbIRgGUKW5UmiRwhRDGpCjqQJsCGVmtiqgL2qbsuk?=
+ =?us-ascii?Q?aDY8I++2VxoimbW1fT9ZHDyfElGCOtx2NS7X7tUBVxv0RSqjjgp+q9tDRmKg?=
+ =?us-ascii?Q?vE0xYvq3Hw9jt3mZVfHNOwMhYEIzSkAtO51aBeUvBWA9ec67HyPOxIjqqd9i?=
+ =?us-ascii?Q?fI6q4hEnoAeBga1fMyohWnMu6XDGT59QHgb9gAJPM2VQjaLN3n1oupx6WrhD?=
+ =?us-ascii?Q?fYWI4u1LNjoKRmi1R2uRwl6jkPGuPDnuHBsxQPqmZ1rP4mtFcb3KCqnC9004?=
+ =?us-ascii?Q?+9rb1TeYwRqoyzShBLmA7lHZs+JEmqrWMhlflVcMvaY6TzZWQYycc+AWfRiH?=
+ =?us-ascii?Q?GKp9AjiZ/9P0zEeJ03xBoQqGBZMS6Q3a6UucJRHVzMcUYKIrZnXIeDjY3olH?=
+ =?us-ascii?Q?CRqMqvHd7eEENx1yioOc72H6BVJdB2/1qm016heP5u1BQCOuyBoudafPiBHu?=
+ =?us-ascii?Q?g16RyiRHQ55Y7NWzK7eCOEUx8ad9pRQvI+5L1ijjJEk5B5m7u34h4U+3I0JQ?=
+ =?us-ascii?Q?wuBLkEUM2Z/Lt7N5c7D5vjEWM0J05JmVgCT98bgh0u7SAQxRCP/svjEpBcPs?=
+ =?us-ascii?Q?Z8gRiqBijoEbIV4Yni37x1YiW3NTxDJAr3R109P+0uW47Rs1v5migZJCDPBA?=
+ =?us-ascii?Q?QGYFEeh/ynBM3N1qGqS7+YJbUwrFRL8vKwxYtKmRnrEFNghAnhEICoSOkzMZ?=
+ =?us-ascii?Q?6v0fX3dyl90Bi/kul8tw+QFR3ilKDGapkdrDkZrbUEImjQ1WyIY/PITV7nNL?=
+ =?us-ascii?Q?v0DG+88HrhDY5BuKPmzN0vSzkR4by4jOzC6UOwyndEwiKJ00vUsPJT4ycVns?=
+ =?us-ascii?Q?0vtW6urnYUjWVZYYjLhTWz35kFAb+hsb+fWjx7uEQaJM10bw9ROt2T2BcVHx?=
+ =?us-ascii?Q?9h4br0LAAkoAsr/g+SSyzMX0R/X52+6SDqfSMi3WsN8MBxXjF2UCKURX8jM3?=
+ =?us-ascii?Q?TLI0mqZNF+fUporvvFor4nieFsMcX2EwPHQHqqJyqiDael7vgmbhKZz6z7nE?=
+ =?us-ascii?Q?YcMJaNPZcVbyWnMmgfYSdELTjBRIEHAcZnKN3POLp2GuHt4fSLKi5Ze+pv1K?=
+ =?us-ascii?Q?eYmxqD4lDy+yISxDcBikqwazEAzRS25NklsJQiGRKz9xYsoBtZCZ+DuKb5Uk?=
+ =?us-ascii?Q?nMseDqYZmp5L5Ylxe4UiFzlN2PowhTIzzI0fP6bgZRTinAv3jegzOm8vR+DE?=
+ =?us-ascii?Q?ep/szNrbvkjCVIF0Mhq0Ubbq0naFap+TkEDQ4qkCG9GgOytoLlvy2kyvitil?=
+ =?us-ascii?Q?mQQP1EqtbvJ3IwxG66pJtyInMavhBswhZpMbdvv0Cad5OxVH1T21ZYb+f2XY?=
+ =?us-ascii?Q?h6OyYNKkj94dVKcT4OPmoSTSBTdVWqV9TnSXiuNUGCZB36o8M2Jb4h2uUZwB?=
+ =?us-ascii?Q?nnWj/3UEZsxhf/2acG85NusGd0yBb4Wx5xS6PwvfiGh9pFcZB7o/Rwfqn4Ll?=
+ =?us-ascii?Q?PsvU4LpueF6jv67I4XK1lnC02E9l1aVbwQXHXwSDro/ur4VR9k7Fjme3RD0G?=
+ =?us-ascii?Q?aBAotyR1d5JCybLOl0a4dTJ8V8lU2LLvUA1CTIshrJsQBLmsxy7fFJwF8rkS?=
+ =?us-ascii?Q?Fm8DhwseAzKjIesDCWT53fZidL1xdQtPlIoRfgaJyhQFMe55Bh6zhNLOLm2O?=
+ =?us-ascii?Q?TwAb4Tg3EA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38869c06-149a-4588-6b99-08de6528ebf4
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8468.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 02:29:45.6950
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 02:39:16.8862
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Udq3+fi0QR+x1diPFdfaam5o5X8Y831sptzURqkHUR3YLk0WpuY1aIe63WDuV0JKidNRkaS8mCHgWSSbtsCnQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6274
+X-MS-Exchange-CrossTenant-UserPrincipalName: kcA1B5YYpci2jKYGaDX048plHNlA0ouousf4jyCb5dMrPMaUiQMD4pCY64vXeoXrDlXuRkPSlz9FV6P6gtPlQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6156
 X-OriginatorOrg: intel.com
 
-hi, Randy Dunlap,
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   d9208b34f28d2b57c8c195fd5e1a9d0688f7eb78
+commit: cc2f2507f3f05612c61c4b8f11bb91efbb9ad495 [105/105] maple_tree: fix freeing of nodes in rcu mode
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260206/202602060216.tkRq9Wj7-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060216.tkRq9Wj7-lkp@intel.com/reproduce)
 
-On Mon, Feb 02, 2026 at 01:57:46PM -0800, Randy Dunlap wrote:
-> Hi k.t.r.,
-> 
-> On 2/2/26 11:45 AM, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   18f7fcd5e69a04df57b563360b88be72471d6b62
-> > commit: 00d95fcc4dee66dfb6980de6f2973b32f973a1eb docs: kdoc: handle the obsolescensce of docutils.ErrorString()
-> > date:   5 months ago
-> > reproduce: (https://download.01.org/0day-ci/archive/20260202/202602022007.fALe9bGB-lkp@intel.com/reproduce)
-> 
-> I cannot reproduce this warning.
-> What version of docutils do you use?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202602060216.tkRq9Wj7-lkp@intel.com/
 
-Python version: 3.13.5
-Docutils version: 0.21.2
-Running Sphinx v8.2.3
+All error/warnings (new ones prefixed by >>):
 
-BTW, though it's persistently reproduced by bot process, now we also run into
-problems that it cannot be reproduced manually in a separate env.
+   In file included from maple.c:23:
+   ../../../lib/maple_tree.c: In function 'mas_clear_meta':
+>> ../../../lib/maple_tree.c:921:17: error: 'fallthrough' undeclared (first use in this function)
+     921 |                 fallthrough;
+         |                 ^~~~~~~~~~~
+   ../../../lib/maple_tree.c:921:17: note: each undeclared identifier is reported only once for each function it appears in
+--
+   In file included from ./linux/scatterlist.h:8,
+                    from scatterlist.c:9:
+   ./linux/mm.h:113:21: error: conflicting types for 'kmalloc'; have 'void *(unsigned int,  unsigned int)'
+     113 | static inline void *kmalloc(unsigned int size, unsigned int flags)
+         |                     ^~~~~~~
+   In file included from scatterlist.c:8:
+   ../../include/linux/slab.h:13:7: note: previous declaration of 'kmalloc' with type 'void *(size_t,  gfp_t)' {aka 'void *(long unsigned int,  gfp_t)'}
+      13 | void *kmalloc(size_t size, gfp_t gfp);
+         |       ^~~~~~~
+   ./linux/scatterlist.h:317:1: error: unterminated comment
+     317 | /**
+         | ^
+   ./linux/scatterlist.h:2: error: unterminated #ifndef
+       2 | #ifndef _LINUX_SCATTERLIST_H
+   scatterlist.c: In function 'sg_init_table':
+>> scatterlist.c:127:9: error: implicit declaration of function 'sg_init_marker'; did you mean 'sg_init_table'? [-Wimplicit-function-declaration]
+     127 |         sg_init_marker(sgl, nents);
+         |         ^~~~~~~~~~~~~~
+         |         sg_init_table
+   scatterlist.c: In function 'sg_kmalloc':
+>> scatterlist.c:151:22: error: 'SG_MAX_SINGLE_ALLOC' undeclared (first use in this function)
+     151 |         if (nents == SG_MAX_SINGLE_ALLOC) {
+         |                      ^~~~~~~~~~~~~~~~~~~
+   scatterlist.c:151:22: note: each undeclared identifier is reported only once for each function it appears in
+   scatterlist.c: In function 'sg_kfree':
+   scatterlist.c:171:22: error: 'SG_MAX_SINGLE_ALLOC' undeclared (first use in this function)
+     171 |         if (nents == SG_MAX_SINGLE_ALLOC) {
+         |                      ^~~~~~~~~~~~~~~~~~~
+   scatterlist.c: At top level:
+>> scatterlist.c:194:54: error: unknown type name 'sg_free_fn'
+     194 |                      unsigned int nents_first_chunk, sg_free_fn *free_fn,
+         |                                                      ^~~~~~~~~~
+   scatterlist.c: In function 'sg_free_append_table':
+>> scatterlist.c:243:9: error: implicit declaration of function '__sg_free_table' [-Wimplicit-function-declaration]
+     243 |         __sg_free_table(&table->sgt, SG_MAX_SINGLE_ALLOC, 0, sg_kfree,
+         |         ^~~~~~~~~~~~~~~
+   scatterlist.c:243:38: error: 'SG_MAX_SINGLE_ALLOC' undeclared (first use in this function)
+     243 |         __sg_free_table(&table->sgt, SG_MAX_SINGLE_ALLOC, 0, sg_kfree,
+         |                                      ^~~~~~~~~~~~~~~~~~~
+   scatterlist.c: In function 'sg_free_table':
+   scatterlist.c:256:32: error: 'SG_MAX_SINGLE_ALLOC' undeclared (first use in this function)
+     256 |         __sg_free_table(table, SG_MAX_SINGLE_ALLOC, 0, sg_kfree,
+         |                                ^~~~~~~~~~~~~~~~~~~
+   scatterlist.c: At top level:
+>> scatterlist.c:285:22: error: unknown type name 'sg_alloc_fn'
+     285 |                      sg_alloc_fn *alloc_fn)
+         |                      ^~~~~~~~~~~
+   scatterlist.c: In function 'sg_alloc_table':
+>> scatterlist.c:375:15: error: implicit declaration of function '__sg_alloc_table'; did you mean 'sg_alloc_table'? [-Wimplicit-function-declaration]
+     375 |         ret = __sg_alloc_table(table, nents, SG_MAX_SINGLE_ALLOC,
+         |               ^~~~~~~~~~~~~~~~
+         |               sg_alloc_table
+   scatterlist.c:375:46: error: 'SG_MAX_SINGLE_ALLOC' undeclared (first use in this function)
+     375 |         ret = __sg_alloc_table(table, nents, SG_MAX_SINGLE_ALLOC,
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   scatterlist.c: In function 'get_next_sg':
+   scatterlist.c:398:56: error: 'SG_MAX_SINGLE_ALLOC' undeclared (first use in this function)
+     398 |         alloc_size = min_t(unsigned long, needed_sges, SG_MAX_SINGLE_ALLOC);
+         |                                                        ^~~~~~~~~~~~~~~~~~~
+   ./linux/mm.h:58:20: note: in definition of macro '__min'
+      58 |         t2 min2 = (y);                                  \
+         |                    ^
+   scatterlist.c:398:22: note: in expansion of macro 'min_t'
+     398 |         alloc_size = min_t(unsigned long, needed_sges, SG_MAX_SINGLE_ALLOC);
+         |                      ^~~~~
+   scatterlist.c: At top level:
+>> scatterlist.c:712:34: warning: 'struct sg_page_iter' declared inside parameter list will not be visible outside of this definition or declaration
+     712 | void __sg_page_iter_start(struct sg_page_iter *piter,
+         |                                  ^~~~~~~~~~~~
+   scatterlist.c: In function '__sg_page_iter_start':
+>> scatterlist.c:716:14: error: invalid use of undefined type 'struct sg_page_iter'
+     716 |         piter->__pg_advance = 0;
+         |              ^~
+   scatterlist.c:717:14: error: invalid use of undefined type 'struct sg_page_iter'
+     717 |         piter->__nents = nents;
+         |              ^~
+   scatterlist.c:719:14: error: invalid use of undefined type 'struct sg_page_iter'
+     719 |         piter->sg = sglist;
+         |              ^~
+   scatterlist.c:720:14: error: invalid use of undefined type 'struct sg_page_iter'
+     720 |         piter->sg_pgoffset = pgoffset;
+         |              ^~
+   scatterlist.c: At top level:
+   scatterlist.c:729:33: warning: 'struct sg_page_iter' declared inside parameter list will not be visible outside of this definition or declaration
+     729 | bool __sg_page_iter_next(struct sg_page_iter *piter)
+         |                                 ^~~~~~~~~~~~
+   scatterlist.c: In function '__sg_page_iter_next':
+   scatterlist.c:731:19: error: invalid use of undefined type 'struct sg_page_iter'
+     731 |         if (!piter->__nents || !piter->sg)
+         |                   ^~
+   scatterlist.c:731:38: error: invalid use of undefined type 'struct sg_page_iter'
+     731 |         if (!piter->__nents || !piter->sg)
+         |                                      ^~
+   scatterlist.c:734:14: error: invalid use of undefined type 'struct sg_page_iter'
+     734 |         piter->sg_pgoffset += piter->__pg_advance;
+         |              ^~
+   scatterlist.c:734:36: error: invalid use of undefined type 'struct sg_page_iter'
+     734 |         piter->sg_pgoffset += piter->__pg_advance;
+         |                                    ^~
+   scatterlist.c:735:14: error: invalid use of undefined type 'struct sg_page_iter'
+     735 |         piter->__pg_advance = 1;
+         |              ^~
+   scatterlist.c:737:21: error: invalid use of undefined type 'struct sg_page_iter'
+     737 |         while (piter->sg_pgoffset >= sg_page_count(piter->sg)) {
+         |                     ^~
+   scatterlist.c:737:57: error: invalid use of undefined type 'struct sg_page_iter'
+     737 |         while (piter->sg_pgoffset >= sg_page_count(piter->sg)) {
+         |                                                         ^~
+   scatterlist.c:738:22: error: invalid use of undefined type 'struct sg_page_iter'
+     738 |                 piter->sg_pgoffset -= sg_page_count(piter->sg);
+         |                      ^~
+   scatterlist.c:738:58: error: invalid use of undefined type 'struct sg_page_iter'
+     738 |                 piter->sg_pgoffset -= sg_page_count(piter->sg);
+         |                                                          ^~
+   scatterlist.c:739:22: error: invalid use of undefined type 'struct sg_page_iter'
+     739 |                 piter->sg = sg_next(piter->sg);
+         |                      ^~
+   scatterlist.c:739:42: error: invalid use of undefined type 'struct sg_page_iter'
+     739 |                 piter->sg = sg_next(piter->sg);
+         |                                          ^~
+   scatterlist.c:740:29: error: invalid use of undefined type 'struct sg_page_iter'
+     740 |                 if (!--piter->__nents || !piter->sg)
+         |                             ^~
+   scatterlist.c:740:48: error: invalid use of undefined type 'struct sg_page_iter'
+     740 |                 if (!--piter->__nents || !piter->sg)
+         |                                                ^~
+   scatterlist.c: At top level:
+>> scatterlist.c:753:37: warning: 'struct sg_dma_page_iter' declared inside parameter list will not be visible outside of this definition or declaration
+     753 | bool __sg_page_iter_dma_next(struct sg_dma_page_iter *dma_iter)
+         |                                     ^~~~~~~~~~~~~~~~
+   scatterlist.c: In function '__sg_page_iter_dma_next':
+>> scatterlist.c:755:47: error: invalid use of undefined type 'struct sg_dma_page_iter'
+     755 |         struct sg_page_iter *piter = &dma_iter->base;
+         |                                               ^~
+   scatterlist.c:757:19: error: invalid use of undefined type 'struct sg_page_iter'
+     757 |         if (!piter->__nents || !piter->sg)
+         |                   ^~
+   scatterlist.c:757:38: error: invalid use of undefined type 'struct sg_page_iter'
+     757 |         if (!piter->__nents || !piter->sg)
+         |                                      ^~
+   scatterlist.c:760:14: error: invalid use of undefined type 'struct sg_page_iter'
+     760 |         piter->sg_pgoffset += piter->__pg_advance;
+         |              ^~
+   scatterlist.c:760:36: error: invalid use of undefined type 'struct sg_page_iter'
+     760 |         piter->sg_pgoffset += piter->__pg_advance;
+         |                                    ^~
+   scatterlist.c:761:14: error: invalid use of undefined type 'struct sg_page_iter'
+     761 |         piter->__pg_advance = 1;
+         |              ^~
+   scatterlist.c:763:21: error: invalid use of undefined type 'struct sg_page_iter'
+     763 |         while (piter->sg_pgoffset >= sg_dma_page_count(piter->sg)) {
+         |                     ^~
+   scatterlist.c:763:61: error: invalid use of undefined type 'struct sg_page_iter'
+     763 |         while (piter->sg_pgoffset >= sg_dma_page_count(piter->sg)) {
+         |                                                             ^~
+   scatterlist.c:764:22: error: invalid use of undefined type 'struct sg_page_iter'
+     764 |                 piter->sg_pgoffset -= sg_dma_page_count(piter->sg);
+         |                      ^~
+   scatterlist.c:764:62: error: invalid use of undefined type 'struct sg_page_iter'
+     764 |                 piter->sg_pgoffset -= sg_dma_page_count(piter->sg);
+         |                                                              ^~
+   scatterlist.c:765:22: error: invalid use of undefined type 'struct sg_page_iter'
+     765 |                 piter->sg = sg_next(piter->sg);
+         |                      ^~
+   scatterlist.c:765:42: error: invalid use of undefined type 'struct sg_page_iter'
+     765 |                 piter->sg = sg_next(piter->sg);
+         |                                          ^~
+   scatterlist.c:766:29: error: invalid use of undefined type 'struct sg_page_iter'
+     766 |                 if (!--piter->__nents || !piter->sg)
+         |                             ^~
+   scatterlist.c:766:48: error: invalid use of undefined type 'struct sg_page_iter'
+     766 |                 if (!--piter->__nents || !piter->sg)
+         |                                                ^~
+   scatterlist.c: At top level:
+>> scatterlist.c:786:28: warning: 'struct sg_mapping_iter' declared inside parameter list will not be visible outside of this definition or declaration
+     786 | void sg_miter_start(struct sg_mapping_iter *miter, struct scatterlist *sgl,
+         |                            ^~~~~~~~~~~~~~~
+   scatterlist.c: In function 'sg_miter_start':
+>> scatterlist.c:789:33: error: invalid application of 'sizeof' to incomplete type 'struct sg_mapping_iter'
+     789 |         memset(miter, 0, sizeof(struct sg_mapping_iter));
+         |                                 ^~~~~~
+>> scatterlist.c:791:36: error: invalid use of undefined type 'struct sg_mapping_iter'
+     791 |         __sg_page_iter_start(&miter->piter, sgl, nents, 0);
+         |                                    ^~
+>> scatterlist.c:792:28: error: 'SG_MITER_TO_SG' undeclared (first use in this function)
+     792 |         WARN_ON(!(flags & (SG_MITER_TO_SG | SG_MITER_FROM_SG)));
+         |                            ^~~~~~~~~~~~~~
+   ./linux/mm.h:18:32: note: in definition of macro 'WARN_ON'
+      18 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+>> scatterlist.c:792:45: error: 'SG_MITER_FROM_SG' undeclared (first use in this function)
+     792 |         WARN_ON(!(flags & (SG_MITER_TO_SG | SG_MITER_FROM_SG)));
+         |                                             ^~~~~~~~~~~~~~~~
+   ./linux/mm.h:18:32: note: in definition of macro 'WARN_ON'
+      18 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   scatterlist.c:793:14: error: invalid use of undefined type 'struct sg_mapping_iter'
+     793 |         miter->__flags = flags;
+         |              ^~
+   scatterlist.c: At top level:
+   scatterlist.c:797:36: warning: 'struct sg_mapping_iter' declared inside parameter list will not be visible outside of this definition or declaration
+     797 | bool sg_miter_get_next_page(struct sg_mapping_iter *miter)
+         |                                    ^~~~~~~~~~~~~~~
+   scatterlist.c: In function 'sg_miter_get_next_page':
+   scatterlist.c:799:19: error: invalid use of undefined type 'struct sg_mapping_iter'
+     799 |         if (!miter->__remaining) {
+         |                   ^~
+   scatterlist.c:802:48: error: invalid use of undefined type 'struct sg_mapping_iter'
+     802 |                 if (!__sg_page_iter_next(&miter->piter))
+         |                                                ^~
+   scatterlist.c:805:27: error: invalid use of undefined type 'struct sg_mapping_iter'
+     805 |                 sg = miter->piter.sg;
+         |                           ^~
+   scatterlist.c:807:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     807 |                 miter->__offset = miter->piter.sg_pgoffset ? 0 : sg->offset;
+         |                      ^~
+   scatterlist.c:807:40: error: invalid use of undefined type 'struct sg_mapping_iter'
+     807 |                 miter->__offset = miter->piter.sg_pgoffset ? 0 : sg->offset;
+         |                                        ^~
+   scatterlist.c:808:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     808 |                 miter->piter.sg_pgoffset += miter->__offset >> PAGE_SHIFT;
+         |                      ^~
+   scatterlist.c:808:50: error: invalid use of undefined type 'struct sg_mapping_iter'
+     808 |                 miter->piter.sg_pgoffset += miter->__offset >> PAGE_SHIFT;
+         |                                                  ^~
+   scatterlist.c:809:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     809 |                 miter->__offset &= PAGE_SIZE - 1;
+         |                      ^~
+   scatterlist.c:810:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     810 |                 miter->__remaining = sg->offset + sg->length -
+         |                      ^~
+   scatterlist.c:811:44: error: invalid use of undefined type 'struct sg_mapping_iter'
+     811 |                                      (miter->piter.sg_pgoffset << PAGE_SHIFT) -
+         |                                            ^~
+   scatterlist.c:812:43: error: invalid use of undefined type 'struct sg_mapping_iter'
+     812 |                                      miter->__offset;
+         |                                           ^~
+   scatterlist.c:813:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     813 |                 miter->__remaining = min_t(unsigned long, miter->__remaining,
+         |                      ^~
+   scatterlist.c:813:64: error: invalid use of undefined type 'struct sg_mapping_iter'
+     813 |                 miter->__remaining = min_t(unsigned long, miter->__remaining,
+         |                                                                ^~
+   ./linux/mm.h:57:20: note: in definition of macro '__min'
+      57 |         t1 min1 = (x);                                  \
+         |                    ^
+   scatterlist.c:813:38: note: in expansion of macro 'min_t'
+     813 |                 miter->__remaining = min_t(unsigned long, miter->__remaining,
+         |                                      ^~~~~
+   scatterlist.c:814:61: error: invalid use of undefined type 'struct sg_mapping_iter'
+     814 |                                            PAGE_SIZE - miter->__offset);
+         |                                                             ^~
+   ./linux/mm.h:58:20: note: in definition of macro '__min'
+      58 |         t2 min2 = (y);                                  \
+         |                    ^
+   scatterlist.c:813:38: note: in expansion of macro 'min_t'
+     813 |                 miter->__remaining = min_t(unsigned long, miter->__remaining,
+         |                                      ^~~~~
+   scatterlist.c: At top level:
+   scatterlist.c:837:27: warning: 'struct sg_mapping_iter' declared inside parameter list will not be visible outside of this definition or declaration
+     837 | bool sg_miter_skip(struct sg_mapping_iter *miter, off_t offset)
+         |                           ^~~~~~~~~~~~~~~
+   scatterlist.c: In function 'sg_miter_skip':
+>> scatterlist.c:839:9: error: implicit declaration of function 'sg_miter_stop'; did you mean 'sg_miter_skip'? [-Wimplicit-function-declaration]
+     839 |         sg_miter_stop(miter);
+         |         ^~~~~~~~~~~~~
+         |         sg_miter_skip
+>> scatterlist.c:844:45: error: passing argument 1 of 'sg_miter_get_next_page' from incompatible pointer type [-Wincompatible-pointer-types]
+     844 |                 if (!sg_miter_get_next_page(miter))
+         |                                             ^~~~~
+         |                                             |
+         |                                             struct sg_mapping_iter *
+   scatterlist.c:797:53: note: expected 'struct sg_mapping_iter *' but argument is of type 'struct sg_mapping_iter *'
+     797 | bool sg_miter_get_next_page(struct sg_mapping_iter *miter)
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   scatterlist.c:847:54: error: invalid use of undefined type 'struct sg_mapping_iter'
+     847 |                 consumed = min_t(off_t, offset, miter->__remaining);
+         |                                                      ^~
+   ./linux/mm.h:58:20: note: in definition of macro '__min'
+      58 |         t2 min2 = (y);                                  \
+         |                    ^
+   scatterlist.c:847:28: note: in expansion of macro 'min_t'
+     847 |                 consumed = min_t(off_t, offset, miter->__remaining);
+         |                            ^~~~~
+   scatterlist.c:848:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     848 |                 miter->__offset += consumed;
+         |                      ^~
+   scatterlist.c:849:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     849 |                 miter->__remaining -= consumed;
+         |                      ^~
+   scatterlist.c: At top level:
+   scatterlist.c:873:27: warning: 'struct sg_mapping_iter' declared inside parameter list will not be visible outside of this definition or declaration
+     873 | bool sg_miter_next(struct sg_mapping_iter *miter)
+         |                           ^~~~~~~~~~~~~~~
+   scatterlist.c: In function 'sg_miter_next':
+   scatterlist.c:881:37: error: passing argument 1 of 'sg_miter_get_next_page' from incompatible pointer type [-Wincompatible-pointer-types]
+     881 |         if (!sg_miter_get_next_page(miter))
+         |                                     ^~~~~
+         |                                     |
+         |                                     struct sg_mapping_iter *
+   scatterlist.c:797:53: note: expected 'struct sg_mapping_iter *' but argument is of type 'struct sg_mapping_iter *'
+     797 | bool sg_miter_get_next_page(struct sg_mapping_iter *miter)
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   scatterlist.c:884:14: error: invalid use of undefined type 'struct sg_mapping_iter'
+     884 |         miter->page = sg_page_iter_page(&miter->piter);
+         |              ^~
+>> scatterlist.c:884:23: error: implicit declaration of function 'sg_page_iter_page' [-Wimplicit-function-declaration]
+     884 |         miter->page = sg_page_iter_page(&miter->piter);
+         |                       ^~~~~~~~~~~~~~~~~
+   scatterlist.c:884:47: error: invalid use of undefined type 'struct sg_mapping_iter'
+     884 |         miter->page = sg_page_iter_page(&miter->piter);
+         |                                               ^~
+   scatterlist.c:885:14: error: invalid use of undefined type 'struct sg_mapping_iter'
+     885 |         miter->consumed = miter->length = miter->__remaining;
+         |              ^~
+   scatterlist.c:885:32: error: invalid use of undefined type 'struct sg_mapping_iter'
+     885 |         miter->consumed = miter->length = miter->__remaining;
+         |                                ^~
+   scatterlist.c:885:48: error: invalid use of undefined type 'struct sg_mapping_iter'
+     885 |         miter->consumed = miter->length = miter->__remaining;
+         |                                                ^~
+   scatterlist.c:887:18: error: invalid use of undefined type 'struct sg_mapping_iter'
+     887 |         if (miter->__flags & SG_MITER_ATOMIC)
+         |                  ^~
+>> scatterlist.c:887:30: error: 'SG_MITER_ATOMIC' undeclared (first use in this function)
+     887 |         if (miter->__flags & SG_MITER_ATOMIC)
+         |                              ^~~~~~~~~~~~~~~
+   scatterlist.c:888:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     888 |                 miter->addr = kmap_atomic(miter->page) + miter->__offset;
+         |                      ^~
+   scatterlist.c:888:48: error: invalid use of undefined type 'struct sg_mapping_iter'
+     888 |                 miter->addr = kmap_atomic(miter->page) + miter->__offset;
+         |                                                ^~
+   scatterlist.c:888:63: error: invalid use of undefined type 'struct sg_mapping_iter'
+     888 |                 miter->addr = kmap_atomic(miter->page) + miter->__offset;
+         |                                                               ^~
+   scatterlist.c:890:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     890 |                 miter->addr = kmap(miter->page) + miter->__offset;
+         |                      ^~
+   scatterlist.c:890:41: error: invalid use of undefined type 'struct sg_mapping_iter'
+     890 |                 miter->addr = kmap(miter->page) + miter->__offset;
+         |                                         ^~
+   scatterlist.c:890:56: error: invalid use of undefined type 'struct sg_mapping_iter'
+     890 |                 miter->addr = kmap(miter->page) + miter->__offset;
+         |                                                        ^~
+   scatterlist.c: At top level:
+   scatterlist.c:909:27: warning: 'struct sg_mapping_iter' declared inside parameter list will not be visible outside of this definition or declaration
+     909 | void sg_miter_stop(struct sg_mapping_iter *miter)
+         |                           ^~~~~~~~~~~~~~~
+>> scatterlist.c:909:6: warning: conflicting types for 'sg_miter_stop'; have 'void(struct sg_mapping_iter *)'
+     909 | void sg_miter_stop(struct sg_mapping_iter *miter)
+         |      ^~~~~~~~~~~~~
+   scatterlist.c:839:9: note: previous implicit declaration of 'sg_miter_stop' with type 'void(struct sg_mapping_iter *)'
+     839 |         sg_miter_stop(miter);
+         |         ^~~~~~~~~~~~~
+   scatterlist.c: In function 'sg_miter_stop':
+   scatterlist.c:911:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     911 |         WARN_ON(miter->consumed > miter->length);
+         |                      ^~
+   ./linux/mm.h:18:32: note: in definition of macro 'WARN_ON'
+      18 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   scatterlist.c:911:40: error: invalid use of undefined type 'struct sg_mapping_iter'
+     911 |         WARN_ON(miter->consumed > miter->length);
+         |                                        ^~
+   ./linux/mm.h:18:32: note: in definition of macro 'WARN_ON'
+      18 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   scatterlist.c:914:18: error: invalid use of undefined type 'struct sg_mapping_iter'
+     914 |         if (miter->addr) {
+         |                  ^~
+   scatterlist.c:915:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     915 |                 miter->__offset += miter->consumed;
+         |                      ^~
+   scatterlist.c:915:41: error: invalid use of undefined type 'struct sg_mapping_iter'
+     915 |                 miter->__offset += miter->consumed;
+         |                                         ^~
+   scatterlist.c:916:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     916 |                 miter->__remaining -= miter->consumed;
+         |                      ^~
+   scatterlist.c:916:44: error: invalid use of undefined type 'struct sg_mapping_iter'
+     916 |                 miter->__remaining -= miter->consumed;
+         |                                            ^~
+   scatterlist.c:918:26: error: invalid use of undefined type 'struct sg_mapping_iter'
+     918 |                 if (miter->__flags & SG_MITER_TO_SG)
+         |                          ^~
+   scatterlist.c:918:38: error: 'SG_MITER_TO_SG' undeclared (first use in this function)
+     918 |                 if (miter->__flags & SG_MITER_TO_SG)
+         |                                      ^~~~~~~~~~~~~~
+   scatterlist.c:921:26: error: invalid use of undefined type 'struct sg_mapping_iter'
+     921 |                 if (miter->__flags & SG_MITER_ATOMIC) {
+         |                          ^~
+   scatterlist.c:921:38: error: 'SG_MITER_ATOMIC' undeclared (first use in this function)
+     921 |                 if (miter->__flags & SG_MITER_ATOMIC) {
+         |                                      ^~~~~~~~~~~~~~~
+   scatterlist.c:923:44: error: invalid use of undefined type 'struct sg_mapping_iter'
+     923 |                         kunmap_atomic(miter->addr);
+         |                                            ^~
+   scatterlist.c:925:37: error: invalid use of undefined type 'struct sg_mapping_iter'
+     925 |                         kunmap(miter->page);
+         |                                     ^~
+   scatterlist.c:927:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     927 |                 miter->page = NULL;
+         |                      ^~
+   scatterlist.c:928:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     928 |                 miter->addr = NULL;
+         |                      ^~
+   scatterlist.c:929:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     929 |                 miter->length = 0;
+         |                      ^~
+   scatterlist.c:930:22: error: invalid use of undefined type 'struct sg_mapping_iter'
+     930 |                 miter->consumed = 0;
+         |                      ^~
+   scatterlist.c: In function 'sg_copy_buffer':
+   scatterlist.c:952:32: error: storage size of 'miter' isn't known
+     952 |         struct sg_mapping_iter miter;
+         |                                ^~~~~
+   scatterlist.c:953:33: error: 'SG_MITER_ATOMIC' undeclared (first use in this function)
+     953 |         unsigned int sg_flags = SG_MITER_ATOMIC;
+         |                                 ^~~~~~~~~~~~~~~
+   scatterlist.c:956:29: error: 'SG_MITER_FROM_SG' undeclared (first use in this function)
+     956 |                 sg_flags |= SG_MITER_FROM_SG;
+         |                             ^~~~~~~~~~~~~~~~
+   scatterlist.c:958:29: error: 'SG_MITER_TO_SG' undeclared (first use in this function)
+     958 |                 sg_flags |= SG_MITER_TO_SG;
+         |                             ^~~~~~~~~~~~~~
+   ./linux/mm.h:59:23: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+      59 |         (void) (&min1 == &min2);                        \
+         |                       ^~
+   ./linux/mm.h:68:9: note: in expansion of macro '__min'
+      68 |         __min(typeof(x), typeof(y),                     \
+         |         ^~~~~
+   scatterlist.c:968:23: note: in expansion of macro 'min'
+     968 |                 len = min(miter.length, buflen - offset);
+         |                       ^~~
+   scatterlist.c:952:32: warning: unused variable 'miter' [-Wunused-variable]
+     952 |         struct sg_mapping_iter miter;
+         |                                ^~~~~
+   scatterlist.c: In function 'sg_zero_buffer':
+   scatterlist.c:1067:32: error: storage size of 'miter' isn't known
+    1067 |         struct sg_mapping_iter miter;
+         |                                ^~~~~
+   scatterlist.c:1068:33: error: 'SG_MITER_ATOMIC' undeclared (first use in this function)
+    1068 |         unsigned int sg_flags = SG_MITER_ATOMIC | SG_MITER_TO_SG;
+         |                                 ^~~~~~~~~~~~~~~
+   scatterlist.c:1068:51: error: 'SG_MITER_TO_SG' undeclared (first use in this function)
+    1068 |         unsigned int sg_flags = SG_MITER_ATOMIC | SG_MITER_TO_SG;
+         |                                                   ^~~~~~~~~~~~~~
+   ./linux/mm.h:59:23: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+      59 |         (void) (&min1 == &min2);                        \
 
-now we're investigating the env difference. thanks
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-> 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202602022007.fALe9bGB-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    WARNING: No kernel-doc for file ./include/linux/tty_port.h
-> >    ERROR: Cannot find file ./include/linux/tty_port.h
-> >    WARNING: No kernel-doc for file ./include/linux/tty_port.h
-> >    ERROR: Cannot find file ./include/linux/tty_port.h
-> >    WARNING: No kernel-doc for file ./include/linux/tty_port.h
-> >>> Documentation/driver-api/tty/tty_port.rst:65: WARNING: Document or section may not begin with a transition. [docutils]
-> >    ERROR: Cannot find file ./include/linux/tty.h
-> >    WARNING: No kernel-doc for file ./include/linux/tty.h
-> >    ERROR: Cannot find file ./include/linux/tty.h
-> >    WARNING: No kernel-doc for file ./include/linux/tty.h
-> >    ERROR: Cannot find file ./include/linux/tty.h
-> > 
-> > 
-> > vim +65 Documentation/driver-api/tty/tty_port.rst
-> > 
-> > 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  61  
-> > 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  62  .. kernel-doc:: include/linux/tty_port.h
-> > 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  63     :identifiers: tty_port
-> > 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  64  
-> > 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26 @65  ----
-> > 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  66  
-> > 
-> > :::::: The code at line 65 was first introduced by commit
-> > :::::: 3f19fed8d0daed6e0e04b130d203d4333b757901 Documentation: add TTY chapter
-> > 
-> > :::::: TO: Jiri Slaby <jslaby@suse.cz>
-> > :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> 
-> thanks.
-> -- 
-> ~Randy
-> 
