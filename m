@@ -1,147 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EF82E62C3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 04:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959633EBF05
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 06:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770353508; cv=none; b=BiAFgMYQkEoSeCmdO515MKfKj+IWwbJ3/9Kto/9W+YctE7n9ixc39QPXaZI3kK4fvRzGrdkSF9EG3qT6W8NFHijoQgeVsLRzGZevQt8AxuEEkkPGt0/erBl9zzCQtqPEVGKBv7kntWcsgdQlHxE+qjbPBtp/4/ThQC4v8735o5g=
+	t=1770358429; cv=none; b=jjXRSSWVFVy6pRREX7lzDqVO+wBmjnWt4HeZy9XJShVqmPYV+AS8JQF9YcFKgMrgdZDQK7HuCPMG/IrcXWCTAP7arsqbPg9E9iu9JPCAq3XiiV+ZJeCnh/WryG9w72FciFRO/JVqh7I98SMVxlnC6AUzBMaYoIgVKk1ckYMyCMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770353508; c=relaxed/simple;
-	bh=XoYD41piRQAsj7drwNYcIFc+f2x2sYboM5dSb+18cPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WYJkFORKA4cCRbgvr6gaPmIR+B6uKz3N4/ah4nhKbxb4lIe9o2HSGzR0baxtvJojB8d518bCEikPsERcM4ObODMkqMZHQId9Srfjr30M2sTLi4aShDvA8bVrX3Q5UbLCzgunJptjV3TJa3LQBfGPHjoyg52oYoSH/pFPyflc3Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U8d5VD1D; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770358429; c=relaxed/simple;
+	bh=YQZcsbIkMDeeqlGN/DppM+neQzqtF6hjMnlLeBiLaI0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tZnfMcOMEhX1tFkyyVJ4CTazkdmrGO54ZLLiancmS84yLWKiIyV1uwP4tBSRVcYy+vwtejGTVy9QNKzCEHAE+NAPTvR9I3/xFnBQEsWE5MuuwN7bULYXiPo1x9dql4RTTsgh8S68+wimesuclkvXAliO+aawT4efDl0hAYI4Ap4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dC/jcKtH; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U8d5VD1D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770353507; x=1801889507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XoYD41piRQAsj7drwNYcIFc+f2x2sYboM5dSb+18cPQ=;
-  b=U8d5VD1DitNGdQdNPKWX1tIRNKrXiJjXNLk+6hMeyy0RR2fUBYYYmatC
-   uKw6wLoThtB8FsjxoECNz6pegFuUUwnjesfdPLGsZ+T7EduOX+uo/fwB8
-   T7/vL+lbzoLeLF6/a8O+q/iYStbNPWgirrg1TPOfQmryioKABacbFmFk/
-   At7MMunwxVfpINREpvT2/sGnZkgMBJ3XSGga9VrcUN5ywVGpj7WX8fSum
-   mMCK2edq/tsdRiuUL0w3MpAaf9YDHdLDZNfAdYtX30FxbWvPEKYNs0AyM
-   gkOs7kWsue2Hvbz3O2dSYdL0sqJBELz/CdrCHCdZsvjc7H1nsUhYZzyn5
-   g==;
-X-CSE-ConnectionGUID: xQVmXUK7Rjyb7KJjNYMTjA==
-X-CSE-MsgGUID: qULDA2zlSR6FEY9+vcH4lA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="82999966"
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="82999966"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2026 20:51:47 -0800
-X-CSE-ConnectionGUID: v2AKH+1DSfuVfv26FuZ+jA==
-X-CSE-MsgGUID: 4CWYJQDOSvSACue4p6WBSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; 
-   d="scan'208";a="210690212"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Feb 2026 20:51:43 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1voDoj-00000000kQu-0Zkp;
-	Fri, 06 Feb 2026 04:51:41 +0000
-Date: Fri, 6 Feb 2026 12:50:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jesper Dangaard Brouer <hawk@kernel.org>, netdev@vger.kernel.org,
-	Eric Dumazet <eric.dumazet@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>
-Cc: oe-kbuild-all@lists.linux.dev, Jesper Dangaard Brouer <hawk@kernel.org>,
-	bpf@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-	horms@kernel.org, jiri@resnulli.us, edumazet@google.com,
-	xiyou.wangcong@gmail.com, jhs@mojatatu.com, atenart@redhat.com,
-	carges@cloudflare.com, kernel-team@cloudflare.com
-Subject: Re: [PATCH net-next v2 6/6] net: sched: sch_dualpi2: use
- qdisc_dequeue_drop() for dequeue drops
-Message-ID: <202602061245.hvInrQwP-lkp@intel.com>
-References: <177032652354.1975497.2269771162710918590.stgit@firesoul>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dC/jcKtH"
+Message-ID: <cbb1ba53-134b-487f-87c0-85ca4791773e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1770358426;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f4dJ2KwSmRisMZ/4xd6+bG4Q7esCOyMfca25PcWP+cI=;
+	b=dC/jcKtHfNMquOXuvapGfNJT6W1nn2qqoibSINRKajvM0TW82x5ygrDaisDNQCL1sOpKRb
+	2Iek+94Q6nTAH410kB+pam/JhF6U0VU9rOG6KsRRZh90nRYs6AGKXl7HpvTUhbSIzEJOTi
+	PqcAcaDs4RZo9IVv8sPt/yUhOLquyhE=
+Date: Fri, 6 Feb 2026 14:13:32 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177032652354.1975497.2269771162710918590.stgit@firesoul>
-
-Hi Jesper,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jesper-Dangaard-Brouer/net-sched-introduce-qdisc-specific-drop-reason-tracing/20260206-052816
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/177032652354.1975497.2269771162710918590.stgit%40firesoul
-patch subject: [PATCH net-next v2 6/6] net: sched: sch_dualpi2: use qdisc_dequeue_drop() for dequeue drops
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260206/202602061245.hvInrQwP-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061245.hvInrQwP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602061245.hvInrQwP-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   net/sched/sch_dualpi2.c: In function 'dualpi2_qdisc_dequeue':
->> net/sched/sch_dualpi2.c:600:53: error: 'QDISC_DROP_STEP_DROP' undeclared (first use in this function); did you mean 'QDISC_DROP_GENERIC'?
-     600 |                         drop_and_retry(q, skb, sch, QDISC_DROP_STEP_DROP);
-         |                                                     ^~~~~~~~~~~~~~~~~~~~
-         |                                                     QDISC_DROP_GENERIC
-   net/sched/sch_dualpi2.c:600:53: note: each undeclared identifier is reported only once for each function it appears in
+Subject: Re: [PATCH v4 24/31] mm: memcontrol: prepare for reparenting LRU
+ pages for lruvec lock
+To: kernel test robot <lkp@intel.com>, hannes@cmpxchg.org, hughd@google.com,
+ mhocko@suse.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+ muchun.song@linux.dev, david@kernel.org, lorenzo.stoakes@oracle.com,
+ ziy@nvidia.com, harry.yoo@oracle.com, yosry.ahmed@linux.dev,
+ imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
+ axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+ chenridong@huaweicloud.com, mkoutny@suse.com, akpm@linux-foundation.org,
+ hamzamahfooz@linux.microsoft.com, apais@linux.microsoft.com,
+ lance.yang@linux.dev, bhe@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ Muchun Song <songmuchun@bytedance.com>, Qi Zheng <zhengqi.arch@bytedance.com>
+References: <e27edb311dda624751cb41860237f290de8c16ae.1770279888.git.zhengqi.arch@bytedance.com>
+ <202602052203.U8hxsh2N-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Qi Zheng <qi.zheng@linux.dev>
+In-Reply-To: <202602052203.U8hxsh2N-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
-vim +600 net/sched/sch_dualpi2.c
 
-   581	
-   582	static struct sk_buff *dualpi2_qdisc_dequeue(struct Qdisc *sch)
-   583	{
-   584		struct dualpi2_sched_data *q = qdisc_priv(sch);
-   585		struct sk_buff *skb;
-   586		int credit_change;
-   587		u64 now;
-   588	
-   589		now = ktime_get_ns();
-   590	
-   591		while ((skb = dequeue_packet(sch, q, &credit_change, now))) {
-   592			if (!q->drop_early && must_drop(sch, q, skb)) {
-   593				drop_and_retry(q, skb, sch,
-   594					       QDISC_DROP_CONGESTED);
-   595				continue;
-   596			}
-   597	
-   598			if (skb_in_l_queue(skb) && do_step_aqm(q, skb, now)) {
-   599				qdisc_qstats_drop(q->l_queue);
- > 600				drop_and_retry(q, skb, sch, QDISC_DROP_STEP_DROP);
-   601				continue;
-   602			}
-   603	
-   604			q->c_protection_credit += credit_change;
-   605			qdisc_bstats_update(sch, skb);
-   606			break;
-   607		}
-   608	
-   609		if (q->deferred_drops_cnt) {
-   610			qdisc_tree_reduce_backlog(sch, q->deferred_drops_cnt,
-   611						  q->deferred_drops_len);
-   612			q->deferred_drops_cnt = 0;
-   613			q->deferred_drops_len = 0;
-   614		}
-   615		return skb;
-   616	}
-   617	
+On 2/5/26 11:02 PM, kernel test robot wrote:
+> Hi Qi,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on next-20260204]
+> [cannot apply to akpm-mm/mm-everything brauner-vfs/vfs.all trace/for-next tj-cgroup/for-next linus/master dennis-percpu/for-next v6.19-rc8 v6.19-rc7 v6.19-rc6 v6.19-rc8]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-memcontrol-remove-dead-code-of-checking-parent-memory-cgroup/20260205-170812
+> base:   next-20260204
+> patch link:    https://lore.kernel.org/r/e27edb311dda624751cb41860237f290de8c16ae.1770279888.git.zhengqi.arch%40bytedance.com
+> patch subject: [PATCH v4 24/31] mm: memcontrol: prepare for reparenting LRU pages for lruvec lock
+> config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260205/202602052203.U8hxsh2N-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602052203.U8hxsh2N-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602052203.U8hxsh2N-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     nios2-linux-ld: mm/swap.o: in function `__page_cache_release.part.0':
+>     swap.c:(.text+0x4c): undefined reference to `lruvec_unlock_irqrestore'
+>>> swap.c:(.text+0x4c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
+>     nios2-linux-ld: mm/swap.o: in function `__folio_put':
+>     swap.c:(.text+0x2ac): undefined reference to `lruvec_unlock_irqrestore'
+>     swap.c:(.text+0x2ac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
+>     nios2-linux-ld: mm/swap.o: in function `folios_put_refs':
+>     swap.c:(.text+0x384): undefined reference to `lruvec_unlock_irqrestore'
+>     swap.c:(.text+0x384): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
+>     nios2-linux-ld: mm/swap.o: in function `folio_batch_move_lru':
+>     swap.c:(.text+0x4ac): undefined reference to `lruvec_unlock_irqrestore'
+>     swap.c:(.text+0x4ac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
+>>> nios2-linux-ld: swap.c:(.text+0x50c): undefined reference to `lruvec_unlock_irqrestore'
+>     swap.c:(.text+0x50c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irqrestore'
+>     nios2-linux-ld: mm/swap.o: in function `folio_activate':
+>     swap.c:(.text+0x21d8): undefined reference to `lruvec_unlock_irq'
+>>> swap.c:(.text+0x21d8): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
+>     nios2-linux-ld: mm/vmscan.o: in function `move_folios_to_lru':
+>     vmscan.c:(.text+0xa4c): undefined reference to `lruvec_unlock_irq'
+>>> vmscan.c:(.text+0xa4c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
+>>> nios2-linux-ld: vmscan.c:(.text+0xaa4): undefined reference to `lruvec_unlock_irq'
+>     vmscan.c:(.text+0xaa4): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
+>     nios2-linux-ld: vmscan.c:(.text+0xcac): undefined reference to `lruvec_unlock_irq'
+>     vmscan.c:(.text+0xcac): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
+>     nios2-linux-ld: vmscan.c:(.text+0xd8c): undefined reference to `lruvec_unlock_irq'
+>     vmscan.c:(.text+0xd8c): relocation truncated to fit: R_NIOS2_CALL26 against `lruvec_unlock_irq'
+>     nios2-linux-ld: mm/vmscan.o: in function `shrink_active_list':
+>     vmscan.c:(.text+0x11e0): undefined reference to `lruvec_lock_irq'
+>     vmscan.c:(.text+0x11e0): additional relocation overflows omitted from the output
+>     nios2-linux-ld: vmscan.c:(.text+0x12a0): undefined reference to `lruvec_unlock_irq'
+>>> nios2-linux-ld: vmscan.c:(.text+0x144c): undefined reference to `lruvec_lock_irq'
+>     nios2-linux-ld: mm/vmscan.o: in function `check_move_unevictable_folios':
+>     vmscan.c:(.text+0x15d4): undefined reference to `lruvec_unlock_irq'
+>     nios2-linux-ld: vmscan.c:(.text+0x1958): undefined reference to `lruvec_unlock_irq'
+>     nios2-linux-ld: mm/vmscan.o: in function `shrink_inactive_list':
+>     vmscan.c:(.text+0x2f8c): undefined reference to `lruvec_lock_irq'
+>     nios2-linux-ld: vmscan.c:(.text+0x307c): undefined reference to `lruvec_unlock_irq'
+>     nios2-linux-ld: vmscan.c:(.text+0x31dc): undefined reference to `lruvec_lock_irq'
+>     nios2-linux-ld: mm/vmscan.o: in function `folio_isolate_lru':
+>     vmscan.c:(.text+0x48a4): undefined reference to `lruvec_unlock_irq'
+>     nios2-linux-ld: mm/mlock.o: in function `__munlock_folio':
+>     mlock.c:(.text+0x968): undefined reference to `lruvec_unlock_irq'
+>     nios2-linux-ld: mm/mlock.o: in function `__mlock_folio':
+>     mlock.c:(.text+0xe5c): undefined reference to `lruvec_unlock_irq'
+>     nios2-linux-ld: mm/mlock.o: in function `mlock_folio_batch.constprop.0':
+>     mlock.c:(.text+0x158c): undefined reference to `lruvec_unlock_irq'
+>>> nios2-linux-ld: mlock.c:(.text+0x1808): undefined reference to `lruvec_unlock_irq'
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ouch, I move lruvec_lock_irq() and its firends to memcontrol.c to fix
+the compilation errors related to __acquires/__releases, but I forgot
+that memcontrol.c will only be compiled under CONFIG_MEMCG.
+
+Hi Shakeel, for simplicity, perhaps keeping lruvec_lock_irq() and its
+firends in memcontrol.h and drop __acquires/__releases would be a
+better option?
+
+Thanks,
+Qi
+
+
+> 
+
