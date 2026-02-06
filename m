@@ -1,256 +1,231 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8279B34BA56
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 09:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFCD36E484
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 10:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770370854; cv=none; b=gc/eq5j1ZxUPqXxQmVEyKFj3gU+/BjC7aXg4hhrZp+WXO08qCm3WnT4hV9a85OpJmtRh93XZMkveZArWGgW8Ku6bE+IwOCcRyDcOmReDb/BJnJE71AgK3EeymEkLfLyY3STLIBQZc555fUtplsFNwHSaCefU7qkZDHHjaxjTrGM=
+	t=1770375121; cv=none; b=Q1uogBJUYuaFlvHUnjDqDxMRMco9ER8oheFQ50k1GNlEUDaERgqt1o/wUNrEzru32g/1dfSxCUXy6UmgJ4S7zMisq24kghCKx/FMr1ECgUP2vlZnHiPFHMl3lloByCln34c0jt/eOitKhmjnC188oDRJZKl2b1SYSdVXwJ0ivks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770370854; c=relaxed/simple;
-	bh=fC0bZIWHVa85gQm485t6OL57fPmerIVuB3ioec0wM+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AcCtA7Ru972WUM9D+YFfVX9HJID3KceaNgD26jcyoD66sywwcu4dxRBVBi8meE9Lm+qelQk+YcFG6U2i5B/G002hYlcJUPBqReMkg1L2pr7Y4BC5SS6I6+2zddl6HmmgO4FbaF97/zjSzbF6QCTLxEA1DuWNZdb1lTdNo0jXKbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+iSRACW; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1770375121; c=relaxed/simple;
+	bh=HYpjMG2Yqcy7siqf670QtImQKdhzUEf5CDlkr90hpq8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oSpNYuwcln1RyoOYKTryn15gpnm4a9Hd4JdHWajiSsQJeyquO7L4Xxw1sL1I3dJgcefLZFa4McF3ikJyC5aMTi5DT7APDnReoGzP/F/4Fv5We22C38ASwaj9JCjEC62uY6hHlWD7+LPQraiyai3baMcMedzPpvCgdWMu9U3waT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mftTE0eK; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+iSRACW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mftTE0eK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770370854; x=1801906854;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fC0bZIWHVa85gQm485t6OL57fPmerIVuB3ioec0wM+0=;
-  b=D+iSRACWopvz7D/s7g9J5ODeuFmcQ3rgzx4b+HtiCcMiSImXqBXiB5hN
-   zVooZwGNGLn13CY0ViWag+j/+rwWIoqWH/T+Nj3Bc5x8cQiBOSXwnsuJG
-   CpFYcKrbk2ZaH0E8WRfL9EtgDSTtUNDzEK/dluXtT+3B4iIavD9pWvycx
-   PuDadLJ9ThWZWLN4q2L1vtX3tYW7MS+RgZlUi5JUlU8ydUEpV5Vwt5Dtb
-   M3PvBcn5IZ8f5EbtBkN9v1t5er2syrcWetlgW9XjS5vaXCUAjOi2BFFZe
-   1037cEU5X4uXzeYFXSDU02eYtLJUwnS3sfzw10VjRNtykP5uCLq7lvL6Y
-   g==;
-X-CSE-ConnectionGUID: aoZwkHfmSm6rjkZIIJbO1A==
-X-CSE-MsgGUID: shhXehxNSDWQUOI07FvzvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="70772768"
+  t=1770375120; x=1801911120;
+  h=date:from:to:cc:subject:message-id;
+  bh=HYpjMG2Yqcy7siqf670QtImQKdhzUEf5CDlkr90hpq8=;
+  b=mftTE0eK6zgemQxb5lHYfCMGdHC3cv6I1zkFPIUSPZ870Ua9j1BQ5GHf
+   AgRX5uHvOcprmL0FgFwqmO9DwZKz4f1jvhJ1AaB/486vjLG3+LalpJZe0
+   YRV1EPcsolIk/Ml3BzaeSNK4uY3jXc/e1qi3BulQNCslVo+J+TaPwreQm
+   dag1JyhtqeD16zEHrlcEY829dN+vKBkWTdWFqoc/cdHbTA/m12WRn4csG
+   59FiLFxbnboH8PmO0x3ySPTend46gDrmH1EzXkVFLP1TRB7EDIvMJeALa
+   SOiZGpxBlLryVeTcVzXjQ69J6umVhJ7aebpnNbc4HCOOgaaKCjISz1sOb
+   A==;
+X-CSE-ConnectionGUID: iezbUVAvQ/WAONAbKaYViQ==
+X-CSE-MsgGUID: RgYliry1SDyjbIvPk3F7Ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="97037011"
 X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="70772768"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 01:40:54 -0800
-X-CSE-ConnectionGUID: bx4xuHGASRyNDscEi8vz+Q==
-X-CSE-MsgGUID: q/RPj8O1ToOaz+/Bgqq4Xg==
+   d="scan'208";a="97037011"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 02:51:56 -0800
+X-CSE-ConnectionGUID: 5cV+jwE9RU+aOSnADDXhVg==
+X-CSE-MsgGUID: r6TUqyOoRia7CmyFEMQb9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="215794011"
+   d="scan'208";a="210194368"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2026 01:40:51 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Feb 2026 02:51:54 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voIKX-00000000kcS-1Gud;
-	Fri, 06 Feb 2026 09:40:49 +0000
-Date: Fri, 6 Feb 2026 17:39:54 +0800
+	id 1voJRH-00000000kfg-4Bkz;
+	Fri, 06 Feb 2026 10:51:51 +0000
+Date: Fri, 06 Feb 2026 18:51:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wilfred Mallawa <wilfred.opensource@gmail.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: Re: [PATCH] xfs: add static size checks for structures in xfs_fs.h
-Message-ID: <202602061752.Okg2N6tw-lkp@intel.com>
-References: <20260206030557.1201204-2-wilfred.opensource@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 2/2]
+ crypto/fips140-generated-testvecs.h:14:47: warning: initializer-string for
+ character array is too long, array size is 16 but initializer has size 17
+ (including the null terminating character); did you mean to use the
+ 'nonstring' attribute?
+Message-ID: <202602061808.LDJjQX9n-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260206030557.1201204-2-wilfred.opensource@gmail.com>
 
-Hi Wilfred,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on xfs-linux/for-next]
-[also build test ERROR on linus/master v6.19-rc8 next-20260205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wilfred-Mallawa/xfs-add-static-size-checks-for-structures-in-xfs_fs-h/20260206-111013
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20260206030557.1201204-2-wilfred.opensource%40gmail.com
-patch subject: [PATCH] xfs: add static size checks for structures in xfs_fs.h
-config: m68k-hp300_defconfig (https://download.01.org/0day-ci/archive/20260206/202602061752.Okg2N6tw-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061752.Okg2N6tw-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   c9e2710a7bd01bbb73280dfe37937d5b6e24eb0b
+commit: c6d5a767217ce93403528e99f1a1eb401a26eeb3 [2/2] ANDROID: fips140: add kernel crypto module
+config: arm64-randconfig-r112-20260206 (https://download.01.org/0day-ci/archive/20260206/202602061808.LDJjQX9n-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602061808.LDJjQX9n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602061752.Okg2N6tw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602061808.LDJjQX9n-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/semaphore.h:11,
-                    from fs/xfs/xfs_platform.h:11,
-                    from fs/xfs/xfs_super.c:7:
-   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_flock64) is wrong, expected 48"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:230:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     230 |         XFS_CHECK_STRUCT_SIZE(struct xfs_flock64,               48);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_fsop_geom_v1) is wrong, expected 112"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:231:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     231 |         XFS_CHECK_STRUCT_SIZE(struct xfs_fsop_geom_v1,          112);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(xfs_growfs_data_t) is wrong, expected 16"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:236:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     236 |         XFS_CHECK_STRUCT_SIZE(xfs_growfs_data_t,                16);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(xfs_growfs_rt_t) is wrong, expected 16"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:238:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     238 |         XFS_CHECK_STRUCT_SIZE(xfs_growfs_rt_t,                  16);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_inogrp) is wrong, expected 24"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:239:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     239 |         XFS_CHECK_STRUCT_SIZE(struct xfs_inogrp,                24);
-         |         ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/semaphore.h:11,
-                    from xfs_platform.h:11,
-                    from xfs_super.c:7:
-   ././libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_flock64) is wrong, expected 48"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:230:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     230 |         XFS_CHECK_STRUCT_SIZE(struct xfs_flock64,               48);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_fsop_geom_v1) is wrong, expected 112"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:231:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     231 |         XFS_CHECK_STRUCT_SIZE(struct xfs_fsop_geom_v1,          112);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(xfs_growfs_data_t) is wrong, expected 16"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:236:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     236 |         XFS_CHECK_STRUCT_SIZE(xfs_growfs_data_t,                16);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(xfs_growfs_rt_t) is wrong, expected 16"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:238:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     238 |         XFS_CHECK_STRUCT_SIZE(xfs_growfs_rt_t,                  16);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_inogrp) is wrong, expected 24"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   ././libxfs/xfs_ondisk.h:239:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     239 |         XFS_CHECK_STRUCT_SIZE(struct xfs_inogrp,                24);
-         |         ^~~~~~~~~~~~~~~~~~~~~
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:94:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:368:9: note: previous definition is here
+     368 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   In file included from crypto/fips140-selftests.c:550:
+>> crypto/fips140-generated-testvecs.h:14:47: warning: initializer-string for character array is too long, array size is 16 but initializer has size 17 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      14 | static const u8 fips_aes_iv[16] __initconst = "ABCDEFGHIJKLMNOP";
+         |                                               ^~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:17:2: warning: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      17 |         "\x4c\x3e\xeb\x38\x8d\x1f\x28\xfd\xa2\x3b\xa9\xda\x36\xf2\x99\xe2"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      18 |         "\x84\x84\x66\x37\x0a\x53\x68\x2f\x17\x95\x8d\x7f\xca\x5a\x68\x4e";
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:21:2: warning: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      21 |         "\xc1\x9d\xe6\xb8\xb2\x90\xff\xfe\xf2\x77\x18\xb0\x55\xd3\xee\xa9"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      22 |         "\xe2\x6f\x4a\x32\x67\xfd\xb7\xa5\x2f\x4b\x6e\x1a\x86\x2b\x6e\x3a";
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:25:2: warning: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      25 |         "\xed\x06\x2c\xd0\xbc\x48\xd1\x2e\x6a\x4e\x13\xe9\xaa\x17\x40\xca"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      26 |         "\x00\xb4\xaf\x3b\x4f\xee\x73\xd6\x6c\x41\xf6\x4c\x8b\x0d\x6a\x0f";
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:28:54: warning: initializer-string for character array is too long, array size is 22 but initializer has size 23 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      28 | static const u8 fips_aes_gcm_assoc[22] __initconst = "associated data string";
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:31:2: warning: initializer-string for character array is too long, array size is 48 but initializer has size 49 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      31 |         "\x37\x88\x3e\x1d\x58\x50\xda\x10\x07\xeb\x52\xdf\xea\x0a\x54\xd4"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      32 |         "\x44\xbf\x88\x2a\xf3\x03\x03\x84\xaf\x8b\x96\xbd\xea\x65\x60\x6f"
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      33 |         "\x82\xfa\x51\xf4\x28\xad\x0c\xf1\xce\x0f\x91\xdd\x1a\x4c\x77\x5f";
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:39:2: warning: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      39 |         "\x4f\xf7\x9f\x6c\x00\xa8\x30\xdf\xff\xf3\x25\x9c\xf6\x0b\x1b\xfd"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      40 |         "\x3b\x34\x5e\x67\x7c\xf8\x8b\x68\x9a\xb9\x5a\x89\x51\x51\xbd\x35";
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:43:2: warning: initializer-string for character array is too long, array size is 16 but initializer has size 17 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      43 |         "\x0c\x05\xda\x64\x51\x0c\x8e\x6c\x86\x52\x46\xa8\x2d\xb1\xfe\x0f";
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:45:49: warning: initializer-string for character array is too long, array size is 16 but initializer has size 17 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      45 | static const u8 fips_hmac_key[16] __initconst = "128-bit HMAC key";
+         |                                                 ^~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:48:2: warning: initializer-string for character array is too long, array size is 20 but initializer has size 21 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      48 |         "\x1b\x78\xc7\x4b\xd5\xd4\x83\xb1\x58\xc5\x96\x83\x4f\x16\x8d\x15"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      49 |         "\xb4\xaa\x22\x8c";
+         |         ~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:52:2: warning: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      52 |         "\x4e\x11\x83\x0c\x53\x80\x1e\x5f\x9b\x38\x33\x38\xe8\x74\x43\xb0"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      53 |         "\xc1\x3a\xbe\xbf\x75\xf0\x12\x0f\x21\x33\xf5\x16\x33\xf1\xb0\x81";
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:56:2: warning: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      56 |         "\x63\x0e\xb5\x73\x79\xfc\xaf\x5f\x86\xe3\xaf\xf0\xc8\x36\xef\xd5"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      57 |         "\x35\x8d\x40\x25\x38\xb3\x65\x72\x98\xf3\x59\xd8\x1e\x54\x4c\xa1";
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/fips140-generated-testvecs.h:60:2: warning: initializer-string for character array is too long, array size is 64 but initializer has size 65 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
+      60 |         "\x32\xe0\x44\x23\xbd\xe3\xec\x28\xbf\xf1\x34\x11\xd5\xae\xbf\xd5"
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      61 |         "\xc0\x8e\xb5\xa1\x04\xef\x2f\x07\x84\xf1\xd9\x83\x0f\x6c\x31\xab"
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      62 |         "\xf7\xe7\x57\xfa\xf7\xae\xf0\x6f\xb2\x16\x08\x32\xcf\xc7\xef\x35"
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      63 |         "\xb3\x3b\x51\xb9\xfd\xe7\xff\x5e\xb2\x8b\xc6\x79\xe6\x14\x04\xb4";
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   14 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
 
 
-vim +78 include/linux/build_bug.h
+vim +/nonstring +14 crypto/fips140-generated-testvecs.h
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+    13	
+  > 14	static const u8 fips_aes_iv[16] __initconst = "ABCDEFGHIJKLMNOP";
+    15	
 
 -- 
 0-DAY CI Kernel Test Service
