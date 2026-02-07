@@ -1,122 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A6F1EB1AA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 01:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5D323E356;
+	Sat,  7 Feb 2026 01:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770428848; cv=none; b=C62MVEydlD1e7nI+QiB1ow0SrGFXNt2AGGqe1do+Ds+SEprfjXiGDRaU90/jpxg76a+XgnhSbdGm5Q3RJ50K734JqGvyJ+w3bsTpz4hcgVnrfOuHu5s2Uv0iCOrRnCG5lHHHY9m0CBCcJia7wwWLM+XisWvmpJu0Esn4ht+pb+U=
+	t=1770428850; cv=none; b=JrsfoGcbJcZTaxjwkha4au4WyQMCSdT8BieQEzjYFdAoIVJkG4PxRDkge6zmLkJ4kyzpEob/EQ4litWHcthyCbsNLNc0ew6Wb+YEhYGtUV8lR5W2Fj6VbtRzGYKQBYiWqhCA3Mff5mM81rvx71pT1q2xct/ZyDKKNBJVW8iurrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770428848; c=relaxed/simple;
-	bh=moz+8kVk8RJx6KM5MCRA0Ss0quLK/1slgnIPNM+t4No=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hM8blVZlH3L8dbH8JKy1UC24Vg8K93/+1vKZ1jcLxMRuBcrkm/aHkit7pWX0kPIHa8yNPCMi6SknGqlSUIWdHhD0/kGHMxnhV5woZZekAgUDB6gya7CxXaKRYKtlyNichSnf55oo+Uia48bJgBN5aCD99SeCC+P0WUEbkbiVQDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MbZOm4SN; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1770428850; c=relaxed/simple;
+	bh=JhehRN6NuQP7bpV2yNg0BgzdHgdYsrMp5h3s/bhNviY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JbkgzYVJQ/fo2tfix9aRgttj5wVykh55fb2KnrVDMeizRkk0o/0u89iDjkJ7mvt70YfGS0NFSRjc/7GlB+JQ0vTUNaDmoTHrWpw0jp8JEbDad6B746RJHP8zd4JLBOVilEZItGfMrNs5vStA0aif5EgemLJmtIZKWcnLOZJqzmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AhCtg6UY; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MbZOm4SN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhCtg6UY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770428847; x=1801964847;
-  h=date:from:to:cc:subject:message-id;
-  bh=moz+8kVk8RJx6KM5MCRA0Ss0quLK/1slgnIPNM+t4No=;
-  b=MbZOm4SN8tNjHDklGK1hshX287n1/xgDF0q86uG13K+7zH5iOs+KXBl2
-   ODumEUNUMfrRDrtxZO//SH9W0XN+L+DcmZmg+bl3zj0mnVv2anCLwVJsx
-   RkwL87qAsp0tOPdHTnupdBt1ckFMXLd5ZpV6Gh15Uiu4z+hFEQ8GFelf/
-   +KhKWK9jSM24NudmkajvGr9SC5UtOGlTOc8+LRY5OuNzCqWSyFRI0mQ5M
-   L1zxIP4V4XVIZTleGH4go9NvEu8Y8GNgwUO25B9Vsx3LigZCyPHSfp6CM
-   8lbi+IhvhksgtSdTwsiIm1zCg4LtN4ztvEh17wOz5QTZ2OfNXd2Fxzh5w
-   Q==;
-X-CSE-ConnectionGUID: etRqr/eWTnSjjbaLGsgL9w==
-X-CSE-MsgGUID: ddTzvdVlRcSvBj/Mzxie7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="89057756"
+  t=1770428851; x=1801964851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JhehRN6NuQP7bpV2yNg0BgzdHgdYsrMp5h3s/bhNviY=;
+  b=AhCtg6UYRi1ZBtH7C9jGoheesxsYFNczAD6UskLR0NmZsNIwotOhYdYa
+   LLmRWhnjjuCZjjygQFQkZMYLusldlzGvNm+FaftOA9SOeNSTxNqXbRm6s
+   6H6EUDjLB916E1Y2bdTTexI4prWcAzpzCGvMmWa8/ZuEFJ22l58xTYbqZ
+   zjGYbokg8ahsfkiV8iHMYzNeZ0vqfWhotGeXmOnqfkQ7AuAwkH5dt49sN
+   LVgGabGH0jba+l3Tw31u0aGCS3NJGsfpOLlIG/ckomEYJk4+/I9Mzi5u3
+   sIaH3VqWdD5juOzBZZMWYtTJ3J2xFSZvB6BE1Iry1MBqp0DCNlqNP5x62
+   g==;
+X-CSE-ConnectionGUID: YJm4ZXu9SU+RIhWt+U4Uvw==
+X-CSE-MsgGUID: 1TQmY2jDTlS01wq5tspXLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="71676319"
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="89057756"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 17:47:27 -0800
-X-CSE-ConnectionGUID: gS//r9ZbQzqLzNFceZPtnA==
-X-CSE-MsgGUID: HP8fBgkETXGjc/0kuKiFXw==
+   d="scan'208";a="71676319"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 17:47:30 -0800
+X-CSE-ConnectionGUID: kMLUEI3jQ4OB7yC5pWeUhA==
+X-CSE-MsgGUID: Fj7PwwsyR3eQ4jqVQNlkrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="210786432"
+   d="scan'208";a="210872881"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Feb 2026 17:47:26 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2026 17:47:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voXPv-00000000lKA-39R8;
+	id 1voXPv-00000000lK8-33QX;
 	Sat, 07 Feb 2026 01:47:23 +0000
-Date: Sat, 07 Feb 2026 09:46:27 +0800
+Date: Sat, 7 Feb 2026 09:46:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:exportd-netlink 3/3] fs/nfsd/export.c:381:14:
- error: implicit declaration of function 'genl_has_listeners'; did you mean
- 'rtnl_has_listeners'?
-Message-ID: <202602070956.auPKS6xU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jie Zhang <jzhang918@gmail.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jzhang918@gmail.com, jie.zhang@analog.com, horms@kernel.org,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Jose Abreu <Jose.Abreu@synopsys.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v2] net: stmmac: fix oops when split header is enabled
+Message-ID: <202602070944.47xACYer-lkp@intel.com>
+References: <20260206195643.11333-1-jie.zhang@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206195643.11333-1-jie.zhang@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git exportd-netlink
-head:   aef82be579c01a1995f0e0c98313f23e7e4893a0
-commit: aef82be579c01a1995f0e0c98313f23e7e4893a0 [3/3] nfsd: send nl_notfiy when a svc_export upcall is queued
-config: m68k-amiga_defconfig (https://download.01.org/0day-ci/archive/20260207/202602070956.auPKS6xU-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070956.auPKS6xU-lkp@intel.com/reproduce)
+Hi Jie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jie-Zhang/net-stmmac-fix-oops-when-split-header-is-enabled/20260207-035916
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260206195643.11333-1-jie.zhang%40analog.com
+patch subject: [PATCH net v2] net: stmmac: fix oops when split header is enabled
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260207/202602070944.47xACYer-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070944.47xACYer-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070956.auPKS6xU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602070944.47xACYer-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/nfsd/export.c: In function 'svc_export_genl_notify':
->> fs/nfsd/export.c:381:14: error: implicit declaration of function 'genl_has_listeners'; did you mean 'rtnl_has_listeners'? [-Wimplicit-function-declaration]
-     381 |         if (!genl_has_listeners(&exportd_nl_family, cd->net, EXPORTD_NLGRP_EXPORTD))
-         |              ^~~~~~~~~~~~~~~~~~
-         |              rtnl_has_listeners
->> fs/nfsd/export.c:381:34: error: 'exportd_nl_family' undeclared (first use in this function)
-     381 |         if (!genl_has_listeners(&exportd_nl_family, cd->net, EXPORTD_NLGRP_EXPORTD))
-         |                                  ^~~~~~~~~~~~~~~~~
-   fs/nfsd/export.c:381:34: note: each undeclared identifier is reported only once for each function it appears in
->> fs/nfsd/export.c:381:62: error: 'EXPORTD_NLGRP_EXPORTD' undeclared (first use in this function)
-     381 |         if (!genl_has_listeners(&exportd_nl_family, cd->net, EXPORTD_NLGRP_EXPORTD))
-         |                                                              ^~~~~~~~~~~~~~~~~~~~~
->> fs/nfsd/export.c:384:15: error: implicit declaration of function 'genlmsg_new'; did you mean 'nlmsg_new'? [-Wimplicit-function-declaration]
-     384 |         msg = genlmsg_new(GENLMSG_DEFAULT_SIZE, flags);
-         |               ^~~~~~~~~~~
-         |               nlmsg_new
->> fs/nfsd/export.c:384:27: error: 'GENLMSG_DEFAULT_SIZE' undeclared (first use in this function); did you mean 'NLMSG_DEFAULT_SIZE'?
-     384 |         msg = genlmsg_new(GENLMSG_DEFAULT_SIZE, flags);
-         |                           ^~~~~~~~~~~~~~~~~~~~
-         |                           NLMSG_DEFAULT_SIZE
->> fs/nfsd/export.c:384:49: error: 'flags' undeclared (first use in this function)
-     384 |         msg = genlmsg_new(GENLMSG_DEFAULT_SIZE, flags);
-         |                                                 ^~~~~
-   fs/nfsd/export.c: At top level:
->> fs/nfsd/export.c:377:12: warning: 'svc_export_genl_notify' defined but not used [-Wunused-function]
-     377 | static int svc_export_genl_notify(struct cache_detail *cd, struct cache_head *h)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5041:19: error: no member named 'has_gmac4' in 'struct plat_stmmacenet_data'
+    5041 |         if (!priv->plat->has_gmac4 && (status & rx_not_ls))
+         |              ~~~~~~~~~~  ^
+   1 error generated.
 
 
-vim +381 fs/nfsd/export.c
+vim +5041 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
-   376	
- > 377	static int svc_export_genl_notify(struct cache_detail *cd, struct cache_head *h)
-   378	{
-   379		struct sk_buff *msg;
-   380	
- > 381		if (!genl_has_listeners(&exportd_nl_family, cd->net, EXPORTD_NLGRP_EXPORTD))
-   382			return -ESRCH;
-   383	
- > 384		msg = genlmsg_new(GENLMSG_DEFAULT_SIZE, flags);
-   385		if (!msg)
-   386			return -ENOMEM;
-   387	
+  5014	
+  5015	static unsigned int stmmac_rx_buf2_len(struct stmmac_priv *priv,
+  5016					       struct dma_desc *p,
+  5017					       int status, unsigned int len)
+  5018	{
+  5019		int coe = priv->hw->rx_csum;
+  5020		unsigned int plen = 0;
+  5021	
+  5022		/* Not split header, buffer is not available */
+  5023		if (!priv->sph_active)
+  5024			return 0;
+  5025	
+  5026		/* For GMAC4, when split header is enabled, in some rare cases, the
+  5027		 * hardware does not fill buf2 of the first descriptor with payload.
+  5028		 * Thus we cannot assume buf2 is always fully filled if it is not
+  5029		 * the last descriptor. Otherwise, the length of buf2 of the second
+  5030		 * descriptor will be calculated wrong and cause an oops.
+  5031		 *
+  5032		 * If this is the last descriptor, 'plen' is the length of the
+  5033		 * received packet that was transferred to system memory.
+  5034		 * Otherwise, it is the accumulated number of bytes that have been
+  5035		 * transferred for the current packet.
+  5036		 *
+  5037		 * Thus 'plen - len' always gives the correct length of buf2.
+  5038		 */
+  5039	
+  5040		/* Not GMAC4 and not last descriptor */
+> 5041		if (!priv->plat->has_gmac4 && (status & rx_not_ls))
+  5042			return priv->dma_conf.dma_buf_sz;
+  5043	
+  5044		/* GMAC4 or last descriptor */
+  5045		plen = stmmac_get_rx_frame_len(priv, p, coe);
+  5046	
+  5047		return plen - len;
+  5048	}
+  5049	
 
 -- 
 0-DAY CI Kernel Test Service
