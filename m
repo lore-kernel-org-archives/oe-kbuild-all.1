@@ -1,162 +1,130 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F60254841
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 13:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E428D2367D1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 14:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770471619; cv=none; b=eS4xaphqixXRNf3ref+6R1f4fXAwIK3alZ5uAf9oVHb/nUW6OBzMLeX1vYQXHkkWXgYY6F4tunAieyEYs4mH0pjX+CZlez74J7AbN+qmNt99wt1YJJKRzYG4Cch/PuaFCVKr65AJ65Cc3XOnMk5mFKcr9zDMPEqZJwldZw03QIU=
+	t=1770474468; cv=none; b=JaWFeoi+ij0Q1tzAYYUf+LtDzH+ukC3kYsl6I7k/F2lU4thJgtYvks1L+l4Swp5iuuZKz0QYPjpTf3O3GID9x/fgLeyCzcSH8rB7O9mc78bLQM46MDMGAONWQhBFF44K0RSvxUtwKjcldUeyJD1D656CRZx1k8Hne+NUaKwFG6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770471619; c=relaxed/simple;
-	bh=t+P2p5AZ3zokf9Tb/JhbATjX3cwpg0al8e35UWr22wg=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=Lvzwtl34ituDdbet+Wog/h0JosHftFL0urfjEAq+qdtQMn8Q5v5oAKp3VgWqoIBA3fNKhlx2NeiiitnUmXHixZ7cPNnhQzxNrIXjqtd0X3nH/QGNHczcgEJHWgzN87zRpkZhp6+X7A4SagKKRF9sLXjHocoyVLWAotz5upmkTJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=pRNYiroG; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1770474468; c=relaxed/simple;
+	bh=nCwQFGy7ugdX0Ca2RSLV4r7LijKAjYssocRp5QxTP1E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=V2Kxt1/RFNGIL3zPv0Q4O85bOCQ3k98llMyshGp2VOsnJXBY5dONrzMoWfvDhqzMIOm13mjIzGsprnRX7IPtl5gThUBtU8512BdkPx1gHChG5YniCrUj09FPbn6qK4IHpg8tXYoIASbfIrqfiRVRHpNsQmvWhDEm6hG55HGsfz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtv9hClq; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="pRNYiroG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uELjYpu6nRS7xMx+Us7D0TLtb9ceba2XSz09ZJ52uJ0=;
-  b=pRNYiroGQsdFyqW6XF/3+N0FPJRNFgf8jCqbvqm+oOhGjkLpe/bRZKkg
-   34iQyaC6YvigOMv/WjcAMVYMbRRWhSeTvc/SvXcVSVGVgKLPOxyVFxxGM
-   AMVmsXJHweIeBhL3nkjGHpM3WX1Lmly+WE+cmcFa5PpIbRGM719qK7F1N
-   c=;
-X-CSE-ConnectionGUID: DfCv1uhPT2KsjRX15yPdng==
-X-CSE-MsgGUID: gdFgYHFFTBy6n0hAKbRstQ==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.21,278,1763420400"; 
-   d="scan'208";a="262387685"
-Received: from c-76-123-3-53.hsd1.va.comcast.net (HELO hadrien) ([76.123.3.53])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 14:40:16 +0100
-Date: Sat, 7 Feb 2026 08:40:15 -0500 (EST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Pawel Czarnecki <pczarnecki@internships.antmicro.com>, 
-    Gabriel Somlo <gsomlo@gmail.com>, Mateusz Holenko <mholenko@antmicro.com>, 
-    Geert Uytterhoeven <geert@linux-m68k.org>
-cc: oe-kbuild-all@lists.linux.dev
-Subject: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:1579:1-23:
- WARNING: Function "for_each_child_of_node" should have of_node_put() before
- return around line 1592. (fwd)
-Message-ID: <ffa6cd9e-db1a-2e7d-a02b-3e7417789cf0@inria.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtv9hClq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770474468; x=1802010468;
+  h=date:from:to:cc:subject:message-id;
+  bh=nCwQFGy7ugdX0Ca2RSLV4r7LijKAjYssocRp5QxTP1E=;
+  b=gtv9hClqrqoTqTtXINT2CxBWOD3SWPfh9944OzIL+CSw7AM94z2beDU7
+   2GukT/TtF3OuD00NWhhhwAU7rq6RJH7gjWoa2yH1RX9QgPTXigyYfy0Ed
+   gWLFkWPVzqUC1NIoyolEx4U5xL2q2YMEVGoEfz47dLMo6gpe6XGk1s+d/
+   1bOfAvddNHe4b2Z/X0Zit5Eqr0z0vPnaXJlZOhORx5ASBYI5X3gWeR0s+
+   vrcmlkNZJj9qXCMcYcNUVUOubQcrrefSDmvJoi0/FJlTRhukFa9Q9dEdw
+   sy4aKJOG949mHUeFyIrtoiyTkm6N6ScZuZrHkhgxP9XFnaFrbvCCyN2jC
+   w==;
+X-CSE-ConnectionGUID: 1m4+CQchSEWep+CusM5eSA==
+X-CSE-MsgGUID: xFe1S+kBSd+ynh7IGvNiWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="70852865"
+X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
+   d="scan'208";a="70852865"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 06:27:47 -0800
+X-CSE-ConnectionGUID: +94dhXh2SjKWdGogEXltPg==
+X-CSE-MsgGUID: GPTu+2dZRSOmQ97khkargA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
+   d="scan'208";a="210372650"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 07 Feb 2026 06:27:45 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vojHj-00000000lge-2Dl7;
+	Sat, 07 Feb 2026 14:27:43 +0000
+Date: Sat, 07 Feb 2026 22:27:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Flora Cui <flora.cui@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bob Zhou <bob.zhou@amd.com>
+Subject: [agd5f:baseline0 1810/3826]
+ include/asm-generic/mm_hooks.h:20:53: warning: 'struct vm_area_struct'
+ declared inside parameter list will not be visible outside of this definition
+ or declaration
+Message-ID: <202602072214.PqXZewoT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-
-
----------- Forwarded message ----------
-Date: Sat, 07 Feb 2026 17:49:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:1579:1-23:
-    WARNING: Function "for_each_child_of_node" should have of_node_put() before
-    return around line 1592.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Pawel Czarnecki <pczarnecki@internships.antmicro.com>
-CC: Gabriel Somlo <gsomlo@gmail.com>
-CC: Mateusz Holenko <mholenko@antmicro.com>
-CC: Geert Uytterhoeven <geert@linux-m68k.org>
-
-tree:   https://github.com/litex-hub/linux litex-rebase
-head:   09ab312cebb66737cf7dc5c3c448b282dc937e16
-commit: 6767f577aa05c563cba3399f2383b60f59a67806 [14/15] LiteX: driver for MMCM
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: alpha-randconfig-r053-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071733.Nf6w84P8-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.5.0
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git baseline0
+head:   b6a8211a7821bf70201912b493ab705f423700c7
+commit: b4b83fff12280856b628855c225d6f897695329b [1810/3826] drm/amdkcl: test kthread_{use,unuse}_mm()
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260207/202602072214.PqXZewoT-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602072214.PqXZewoT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202602071733.Nf6w84P8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602072214.PqXZewoT-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/clk-litex.c:1579:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 1592.
-   drivers/clk/clk-litex.c:1579:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 1611.
-   drivers/clk/clk-litex.c:1579:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 1621.
-   drivers/clk/clk-litex.c:1579:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 1627.
+All warnings (new ones prefixed by >>):
 
-vim +/for_each_child_of_node +1579 drivers/clk/clk-litex.c
+   In file included from arch/m68k/include/asm/mmu_context.h:5,
+                    from include/linux/mmu_context.h:5,
+                    from include/kcl/kcl_kthread.h:8,
+                    from include/kcl/backport/kcl_kthread_backport.h:6,
+                    from drivers/gpu/drm/scheduler/backport/backport.h:6,
+                    from <command-line>:
+>> include/asm-generic/mm_hooks.h:20:53: warning: 'struct vm_area_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      20 | static inline bool arch_vma_access_permitted(struct vm_area_struct *vma,
+         |                                                     ^~~~~~~~~~~~~~
+   include/kcl/kcl_kthread.h:24:6: error: static declaration of 'kthread_use_mm' follows non-static declaration
+      24 | void kthread_use_mm(struct mm_struct *mm)
+         |      ^~~~~~~~~~~~~~
+   In file included from include/kcl/backport/kcl_kthread_backport.h:5:
+   include/linux/kthread.h:262:6: note: previous declaration of 'kthread_use_mm' with type 'void(struct mm_struct *)'
+     262 | void kthread_use_mm(struct mm_struct *mm);
+         |      ^~~~~~~~~~~~~~
+   include/kcl/kcl_kthread.h: In function 'kthread_use_mm':
+   include/kcl/kcl_kthread.h:26:9: error: implicit declaration of function 'use_mm' [-Wimplicit-function-declaration]
+      26 |         use_mm(mm);
+         |         ^~~~~~
+   include/kcl/kcl_kthread.h: At top level:
+   include/kcl/kcl_kthread.h:29:6: error: static declaration of 'kthread_unuse_mm' follows non-static declaration
+      29 | void kthread_unuse_mm(struct mm_struct *mm)
+         |      ^~~~~~~~~~~~~~~~
+   include/linux/kthread.h:263:6: note: previous declaration of 'kthread_unuse_mm' with type 'void(struct mm_struct *)'
+     263 | void kthread_unuse_mm(struct mm_struct *mm);
+         |      ^~~~~~~~~~~~~~~~
+   include/kcl/kcl_kthread.h: In function 'kthread_unuse_mm':
+   include/kcl/kcl_kthread.h:31:9: error: implicit declaration of function 'unuse_mm' [-Wimplicit-function-declaration]
+      31 |         unuse_mm(mm);
+         |         ^~~~~~~~
+   In file included from include/kcl/backport/kcl_fence_backport.h:4,
+                    from drivers/gpu/drm/scheduler/backport/backport.h:7:
+   include/kcl/kcl_fence.h: At top level:
+   include/kcl/kcl_fence.h:16:10: fatal error: kcl/kcl_rcupdate.h: No such file or directory
+      16 | #include <kcl/kcl_rcupdate.h>
+         |          ^~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1564
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1565  static int litex_clk_init_clkouts(struct device *dev,
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1566  				  struct device_node *node,
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1567  				  struct litex_clk_device *l_dev)
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1568  {
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1569  	struct device_node *child_node;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1570  	struct clk_hw *hw;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1571  	struct clk_duty duty;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1572  	u32 dt_lock_timeout, dt_drdy_timeout;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1573  	int i = 0, ret;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1574
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1575  	ret = litex_clk_get_timeouts(node, &dt_lock_timeout, &dt_drdy_timeout);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1576  	if (ret != 0)
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1577  		return ret;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1578
-6767f577aa05c5 Pawel Czarnecki 2020-12-22 @1579  	for_each_child_of_node(node, child_node) {
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1580  		struct litex_clk_clkout *clkout;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1581  		struct clk_init_data clkout_init;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1582
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1583  		clkout = &l_dev->clkouts[i];
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1584  		clkout->is_clkout = true;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1585
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1586  		clkout->lock_timeout = dt_lock_timeout;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1587  		clkout->drdy_timeout = dt_drdy_timeout;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1588  		clkout->sys_clk_freq = l_dev->sys_clk_freq;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1589
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1590  		ret = litex_clk_read_clkout_dts(child_node, clkout);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1591  		if (ret != 0)
-6767f577aa05c5 Pawel Czarnecki 2020-12-22 @1592  			return ret;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1593
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1594  		clkout_init.name = child_node->name;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1595  		clkout_init.ops = &litex_clk_ops;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1596  		clkout_init.num_parents = 0;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1597  		clkout_init.flags = CLK_SET_RATE_UNGATE | CLK_GET_RATE_NOCACHE;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1598  		clkout->clk_hw.init = &clkout_init;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1599  		clkout->base = l_dev->base;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1600
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1601  		duty.num = clkout->default_duty_num;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1602  		duty.den = clkout->default_duty_den;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1603
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1604  		/* set global divider and multiplier once */
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1605  		if (i == 0) {
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1606  			hw = &l_dev->clkouts[i].clk_hw;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1607  			litex_clk_enable(hw);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1608  			ret = litex_clk_set_dm(hw);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1609  			litex_clk_disable(hw);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1610  			if (ret != 0)
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1611  				return ret;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1612  		}
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1613
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1614  		ret = litex_clk_set_def_clkout(&clkout->clk_hw,
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1615  						clkout->default_freq,
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1616  						clkout->default_phase, &duty);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1617  		ret = devm_clk_hw_register(dev, &clkout->clk_hw);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1618  		if (ret != 0) {
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1619  			pr_err("devm_clk_hw_register failure, %s ret: %d\n",
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1620  						child_node->name, ret);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1621  			return ret;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1622  		}
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1623
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1624  		ret = of_clk_add_hw_provider(child_node, of_clk_hw_simple_get,
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1625  							     &clkout->clk_hw);
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1626  		if (ret != 0)
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1627  			return ret;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1628  		i++;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1629  	}
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1630  	return 0;
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1631  }
-6767f577aa05c5 Pawel Czarnecki 2020-12-22  1632
+
+vim +20 include/asm-generic/mm_hooks.h
+
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  19  
+1b2ee1266ea647 Dave Hansen         2016-02-12 @20  static inline bool arch_vma_access_permitted(struct vm_area_struct *vma,
+
+:::::: The code at line 20 was first introduced by commit
+:::::: 1b2ee1266ea647713dbaf44825967c180dfc8d76 mm/core: Do not enforce PKEY permissions on remote mm access
+
+:::::: TO: Dave Hansen <dave.hansen@linux.intel.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
