@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3892BD5BF
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 07:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB9027F75C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 07:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770447758; cv=none; b=N7jTBqqII3aCN2+rjYiKx4+DAX2XLuEZmIqQqXNbtYKgX0KwYV2/vTUtBycVuMyN1z193VSdQpCRz+8ERi9yc3g6jksgigjORmIUMObZeBwZc4/LwV4kXJ9Aup5L6r/tueej7PHPV+BVH+hxvwevbyEjzfDjWauunLBM7yN3kvg=
+	t=1770449031; cv=none; b=j5LvKMwlQ2kYPXAQk5Mz1sF8cRTt6eDK4i3lPeGpPZ5mrhHycwJ+qfCE51fpHzkUPkJZy57Z5O2NnO+XgWdzxmKQzKztO8EbOTvmnZrTr/00xo5AA7WbVIrf0JmluJoBVDsDqRZmPiSbwkLCUy+adFaKgo28n4LtZToLxgA92Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770447758; c=relaxed/simple;
-	bh=GHrqm+LDofjl8B3E7VcnKoG9ntCGBlm07lheqWfGh+o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QCcdNjlM8SWq+vCelhOhEEBe+cbPf6zgFpOjbGKzpn2tkHpVm+QTSAMq0LEyQwNQ1iBWFYcjUXwfs42KYwtZdqfmcAPQjNPWOS3ws/aAaj4z9JsoyAKSZnBG576vrAlNVmQx2EON17R5Adz1iMfNiocUbRs48RR+EUsu0fS0bV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OxPK+qgM; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1770449031; c=relaxed/simple;
+	bh=ii/8aMD8Bj99hyrGcsEbkUvwxd9Z+pAUPsF9wYZZHGk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=U3WdrWHwARnKRkzyQeETw7/Qy5obhKW737z7fD5tw2TN3wCpIHZRbxLIEW487CPpeKU6mBv3S1ydFWSMnTi5dySTMIQhE1SDQ3w9bRes1gBqAHTjIfYP9pnWJgj9ouMZ0AzeV4nh0hdthPqAJ/8AxgOYauRO0xms0Jke4Mq8f+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eS+km36Z; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OxPK+qgM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eS+km36Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770447758; x=1801983758;
+  t=1770449031; x=1801985031;
   h=date:from:to:cc:subject:message-id;
-  bh=GHrqm+LDofjl8B3E7VcnKoG9ntCGBlm07lheqWfGh+o=;
-  b=OxPK+qgMFIoE1OOmbMj4jG+oyoAO1kizWtNBIbDW/eWMUupqMd/WIPCX
-   F9SsoxJfb+gPCZcEjUoGOZ8cl3fI8rgARoYixSVtfBejt4MMKWdn3jdu9
-   SHUyFBKu/RjoyN8uXEXtmbdY05XYbhnchgdodF2SpI2x0XJPYAdcw+3ud
-   4ANIBIXQirT/szMI5ifSZ9Y7YokitDC/cwjD3WTl6yVprWq4mUxhyJysy
-   maEaSUDPwvT0Ddsbm/NtqFyN4eVuReWJxAQJ0pa8chfXnARAZC3vE4GLG
-   6Mja5v7lCI23BFFsKFpNg5QZPThB5cD9sAfDaAI57tGGcxNv18+vtqEWT
-   A==;
-X-CSE-ConnectionGUID: zpJxTQxuRbGMXVoSJQwngg==
-X-CSE-MsgGUID: b5FB4CCgQUWR2xH5mfXKcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="71539455"
+  bh=ii/8aMD8Bj99hyrGcsEbkUvwxd9Z+pAUPsF9wYZZHGk=;
+  b=eS+km36ZVCrFRlu5IQHekd3PAHoNTx14f7SJdUEJvItCTTT5Apu5ZEQ9
+   cyWHljvBJuK2wxdmors0F0+Z23+n+dqzHH1/rxjS+ku6qLATDnLLj13mv
+   G/EYWWrwD3JAYMkGLikj1t/7krcrnvTcoaCWzO+c2nc4DAUZGi2s1nU6U
+   XOJMbM44FUcimtmWWFRkEsUYiaVNIEWgmgMn4UYYhV7yjd6K+X8ICiAAL
+   mYib4oCzE4Mk7vM3ElhVh0NlrmW7ibT6w54BGdrBhzgvwTaewQFzJYJ96
+   Yd4EMBOf+NU+16Dob1rjglVz0OGEYZh34arxVbuR7umgLSN1g7I07GPDe
+   w==;
+X-CSE-ConnectionGUID: Z4aiNjcjSaSzqu4Yn/XeBw==
+X-CSE-MsgGUID: EpcFF42/Q2Gz20GyNefNPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="71830211"
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="71539455"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 23:02:37 -0800
-X-CSE-ConnectionGUID: QyejbDOGSIquoDt/c1vY6A==
-X-CSE-MsgGUID: bnoWnRYcR4GmE4n92/pdpg==
+   d="scan'208";a="71830211"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 23:23:37 -0800
+X-CSE-ConnectionGUID: bFUqEA6+TIKNawJ+LbnKhw==
+X-CSE-MsgGUID: EonrPa+RQay4bJdtDRvrhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="210870759"
+   d="scan'208";a="216055431"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Feb 2026 23:02:35 -0800
+  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2026 23:23:35 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vocKu-00000000lTE-1TIK;
-	Sat, 07 Feb 2026 07:02:32 +0000
-Date: Sat, 07 Feb 2026 15:02:13 +0800
+	id 1vocfE-00000000lTu-37Xu;
+	Sat, 07 Feb 2026 07:23:32 +0000
+Date: Sat, 07 Feb 2026 15:22:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/6]
- drivers/usb/gadget/function/android_f_accessory.c:1392:6: sparse: sparse:
- symbol '__acc_req_match' was not declared. Should it be static?
-Message-ID: <202602071403.v4sr9B3F-lkp@intel.com>
+Subject: [android-common:android15-6.6 1/1]
+ include/trace/hooks/net.h:23:1: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202602071558.BaTVzs9l-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,64 +60,54 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   1d370994ba023ff99b9ddab815c6e190e10b3403
-commit: d718cad4b605a726d93e9d6fc032fed768a7fcdb [0/6] ANDROID: usb: gadget: Add Android Accessory Function
-config: i386-randconfig-062-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071403.v4sr9B3F-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071403.v4sr9B3F-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   eeee2f3cb9b462b9954fc31022a42fe014fbdc24
+commit: 79e2fce9cd4a58d39cfd5fd081e4ff8d5911adc3 [1/1] ANDROID: GKI: net: add vendor hooks for 'struct sock' lifecycle
+config: i386-randconfig-r111-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071558.BaTVzs9l-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071558.BaTVzs9l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602071403.v4sr9B3F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602071558.BaTVzs9l-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/usb/gadget/function/android_f_accessory.c:353:23: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:786:35: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:798:23: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:840:23: sparse: sparse: Using plain integer as NULL pointer
->> drivers/usb/gadget/function/android_f_accessory.c:1392:6: sparse: sparse: symbol '__acc_req_match' was not declared. Should it be static?
+   net/core/sock.c: note: in included file:
+>> include/trace/hooks/net.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/net.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/net.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/net.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/net.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/net.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   net/core/sock.c:2417:9: sparse: sparse: context imbalance in 'sk_clone_lock' - wrong count at exit
+   net/core/sock.c:2421:6: sparse: sparse: context imbalance in 'sk_free_unlock_clone' - unexpected unlock
+   net/core/sock.c:4031:13: sparse: sparse: context imbalance in 'proto_seq_start' - wrong count at exit
+   net/core/sock.c:4043:13: sparse: sparse: context imbalance in 'proto_seq_stop' - wrong count at exit
 
-vim +/__acc_req_match +1392 drivers/usb/gadget/function/android_f_accessory.c
+vim +23 include/trace/hooks/net.h
 
-  1391	
-> 1392	bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
-  1393	{
-  1394		struct acc_dev *dev = get_acc_dev();
-  1395		u8 bRequestType = ctrl->bRequestType;
-  1396		u8 bRequest = ctrl->bRequest;
-  1397		bool ret = false;
-  1398	
-  1399		/*
-  1400		 * If instance is not created which is the case in power off charging
-  1401		 * mode, dev will be NULL. Hence return error if it is the case.
-  1402		 */
-  1403		if (!dev)
-  1404			return false;
-  1405	
-  1406		if (bRequestType == (USB_DIR_OUT | USB_TYPE_VENDOR)) {
-  1407			switch (bRequest) {
-  1408			case ACCESSORY_START:
-  1409			case ACCESSORY_SEND_STRING:
-  1410			case ACCESSORY_SET_AUDIO_MODE:
-  1411			case ACCESSORY_REGISTER_HID:
-  1412			case ACCESSORY_UNREGISTER_HID:
-  1413			case ACCESSORY_SET_HID_REPORT_DESC:
-  1414			case ACCESSORY_SEND_HID_EVENT:
-  1415				ret = true;
-  1416				break;
-  1417			default:
-  1418				ret = false;
-  1419			}
-  1420		} else if ((bRequestType == (USB_DIR_IN | USB_TYPE_VENDOR)) &&
-  1421				(bRequest == ACCESSORY_GET_PROTOCOL))
-  1422			ret = true;
-  1423	
-  1424		put_acc_dev(dev);
-  1425		return ret;
-  1426	}
-  1427	
+    10	
+    11	struct packet_type;
+    12	struct list_head;
+    13	DECLARE_HOOK(android_vh_ptype_head,
+    14		TP_PROTO(const struct packet_type *pt, struct list_head *vendor_pt),
+    15		TP_ARGS(pt, vendor_pt));
+    16	
+    17	struct nf_conn;
+    18	struct sock;
+    19	DECLARE_RESTRICTED_HOOK(android_rvh_nf_conn_alloc,
+    20		TP_PROTO(struct nf_conn *nf_conn), TP_ARGS(nf_conn), 1);
+    21	DECLARE_RESTRICTED_HOOK(android_rvh_nf_conn_free,
+    22		TP_PROTO(struct nf_conn *nf_conn), TP_ARGS(nf_conn), 1);
+  > 23	DECLARE_RESTRICTED_HOOK(android_rvh_sk_alloc,
+    24		TP_PROTO(struct sock *sock), TP_ARGS(sock), 1);
+    25	DECLARE_RESTRICTED_HOOK(android_rvh_sk_free,
+    26		TP_PROTO(struct sock *sock), TP_ARGS(sock), 1);
+    27	
 
 -- 
 0-DAY CI Kernel Test Service
