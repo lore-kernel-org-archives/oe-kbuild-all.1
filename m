@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED8C2FDC5D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 08:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49A727FD49
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 08:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770452748; cv=none; b=deiy3FIJkL5+W7NI/tg7Mnk7wo14qcyVN/8cUK4q9knTI5UYqRPzkNfMaFZ57wxziJmmMGhrcq+/4TiLSsJPJQktoVbtzjml6Gy7mtxmoU9xw31CJmcUMV5PRJ+e3Lkgjjb3Xu5NFKeLJRy68vcsIu4CadaAD8ADxK1/qLVJtys=
+	t=1770453399; cv=none; b=dxCaG49ZkTJq+11UB3hy1MplGd/jzPN97nqfR3oSoASlz9iyNqLtykWpnvTAEGbgR6l+Ppi6HKptM+3O5WG9+ZrXXJ+o1+f+5doTP+nvVG1EmP/oDkcHA+MmNsWcZsEZURZe9RoP8hciz5txvgbsGqiW5Jer/p9r4P90rTvu0Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770452748; c=relaxed/simple;
-	bh=o6z8MjwS31EuzEXJA411Uh8socK427/OxphEWgTD1n0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nokBz+EGp9UcOYNzeRtKoocsHnpvFdwiaBwGwTVMbeOdBmYF/J36K/J/KkbjT5UlEligFddtvPc081bB5dKoCFsDKH/v9gYAcXJ8Iz32YTzvYw5PTylAirdsQ8z30kHkmNE9XzWk8qFXhbxSAaSeov859g7CS748GGJExb2vyxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jwm2TvHb; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1770453399; c=relaxed/simple;
+	bh=2qCa57HsYcqwV7Q3c3OzkeLpoNaPNCHK7q8R+LDfVxE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ULyo1kGMijIPquxWFiiK0sBsasMggEq8UAxP43+32jJ/dL2UHNlOKbVC9aynjkb82iBUWAo6l4TbGqq/XLPmjt8IfgCyaap8jpEE7rSt4L6+4at0E/Q0w2Xy0itU0WI7jAhWsvmNx5sGfEJLkJjhmLDgqKeZykYhT8ULcRN7yCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzzLFZC/; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jwm2TvHb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzzLFZC/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770452747; x=1801988747;
+  t=1770453399; x=1801989399;
   h=date:from:to:cc:subject:message-id;
-  bh=o6z8MjwS31EuzEXJA411Uh8socK427/OxphEWgTD1n0=;
-  b=Jwm2TvHbVUo1VYvyM20gyzcpMzfdr3w5t/lDlus4oBO/AJ0RC7XR6FXo
-   pR1/cYOdHN6bK+SG+4cYc179AcmN8mNFa3YpW6UBsOpvUR6XSDTRkjceg
-   4YKUGyCc3pSu8KLaYZ+5Nr2swLFLPrmCuKqIJSjCTr5X1TN4VKkD34oDT
-   2ersOtlRhtQYqx7XKQxGOIaVrCl+PYuJ5aCe9xq8msP2ZvSyUkNEVX6mV
-   +tVgrLs7xoMSV8S5k1rVYmdEYZzInHk1bv7O4FjfAalQuTCaOgJqn2SgV
-   B0w03gHwCZy9sO0ou68NpqZME5tFJXYokVocy52UMFNh6G+FGGR+Zvnf/
-   Q==;
-X-CSE-ConnectionGUID: o7WzUNBRQCmALjn3BkBLKw==
-X-CSE-MsgGUID: FDUfOg0fQi6tQxc4BENkPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="83093114"
-X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="83093114"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 00:25:39 -0800
-X-CSE-ConnectionGUID: HVwZkBWqSE2ET8X3Pti8kA==
-X-CSE-MsgGUID: Jj+ctmKzSu6VUC5taAim6A==
+  bh=2qCa57HsYcqwV7Q3c3OzkeLpoNaPNCHK7q8R+LDfVxE=;
+  b=hzzLFZC/5bfl9chNvvr6RcpiUNWWmQqsSuKojD32EEYUS/CsUqKtPlbF
+   TP3VD9T+gBw6dSyp8Fdhem/Bsoy6PLqodE7B9sh3MdutGTyM82z1QZq8S
+   I587ewmYqB0yrKasJZZcacUzW+5w6vo9gRYyp35mXuELj06z/epEH/SqX
+   G5YSMi25qOK8NqJ7PKNXkrWQDzQHx4hSxoLpoladRxOLAT3RdlDbf0zVO
+   FF+F/ot2dUT54dEOmrVXzjvci/tw9qB+uW4mfgksNuT0EUsoiV5Fj+4JY
+   NBuOKobcJC8ZrwkPQepo7tCpDJfYQ7vXFMbouTtvf/Cu3eVFWVTIaSV2K
+   w==;
+X-CSE-ConnectionGUID: Ury8jMgXS/yRySnXimS8bA==
+X-CSE-MsgGUID: kPn5tB0dSxew8AqiPbwuhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="82762724"
+X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
+   d="scan'208";a="82762724"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 00:36:39 -0800
+X-CSE-ConnectionGUID: mTVRv4HSTMK12x7bPPfwLw==
+X-CSE-MsgGUID: heKYe3f2RhyFPm8uT7sWwA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="210389425"
+X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
+   d="scan'208";a="241437985"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Feb 2026 00:25:37 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 07 Feb 2026 00:36:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voddG-00000000lVw-1bd6;
-	Sat, 07 Feb 2026 08:25:34 +0000
-Date: Sat, 07 Feb 2026 16:25:27 +0800
+	id 1vodnu-00000000lWQ-2o1W;
+	Sat, 07 Feb 2026 08:36:34 +0000
+Date: Sat, 07 Feb 2026 16:35:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-as21_192 144/144]
- drivers/net/phy/as21xxx/999-ephy-as21xxx-01-update-driver-to-v1.9.2.patch:
- warning: ignored by one of the .gitignore files
-Message-ID: <202602071624.o9lioEvP-lkp@intel.com>
+To: Yuli Wang <wangyuli@uniontech.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Wentao Guan <guanwentao@uniontech.com>
+Subject: lib/dhry_1.o: warning: objtool: dhry+0xa60: stack state
+ mismatch: reg1[22]=-1+0 reg2[22]=-2-16
+Message-ID: <202602071618.nJh9Zdbw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,28 +61,26 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-as21_192
-head:   a16f3f4d09f2d008300fd2068475d5a12c3df8eb
-commit: 91228580f4aa7a9bdeb1bc9332e418a82412cbe4 [144/144] net: phy: as21: add patchfile for 1.9.2
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260207/202602071624.o9lioEvP-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071624.o9lioEvP-lkp@intel.com/reproduce)
+Hi Yuli,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2687c848e57820651b9f69d30c4710f4219f7dbf
+commit: 892a79634196d2729b81bb8e5b029d095704df63 LoongArch: Enable UBSAN (Undefined Behavior Sanitizer)
+date:   10 months ago
+config: loongarch-randconfig-r111-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071618.nJh9Zdbw-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071618.nJh9Zdbw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602071624.o9lioEvP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602071618.nJh9Zdbw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   .github/workflows/build.yml: warning: ignored by one of the .gitignore files
-   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
->> drivers/net/phy/as21xxx/999-ephy-as21xxx-01-update-driver-to-v1.9.2.patch: warning: ignored by one of the .gitignore files
-   utils/firmware/aeonsemi/as21x1x_fw.bin: warning: ignored by one of the .gitignore files
-   utils/firmware/airoha/EthMD32.DSP.bin: warning: ignored by one of the .gitignore files
-   utils/firmware/airoha/EthMD32.dm.bin: warning: ignored by one of the .gitignore files
-   utils/firmware/mediatek/mt7987/i2p5ge-phy-DSPBitTb.bin: warning: ignored by one of the .gitignore files
-   utils/firmware/mediatek/mt7987/i2p5ge-phy-pmb.bin: warning: ignored by one of the .gitignore files
+>> lib/dhry_1.o: warning: objtool: dhry+0xa60: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
 
 -- 
 0-DAY CI Kernel Test Service
