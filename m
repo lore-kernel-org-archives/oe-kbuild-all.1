@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE3523C8A0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Feb 2026 23:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0EE1A9FAF
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 00:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770421074; cv=none; b=H6SrldutiMv43EJvLQ09Ht03G1Ez0CoafKlChsJjmI91cIbuOUYLAm1BxHA38FoyNtroCDJX+m6t3RKjC2TWcj2UCsLa39AyOE6KiC0/Ni6GqdHKlGc2fs5mpF+Z74GTGLUYUYgfClw1fUEiJ9GENeuJQb9r/o8BiYNmMErJDls=
+	t=1770423867; cv=none; b=RkCeOT3th5ycahU6Idbxynpiww6fNVHZwP7t2PiTCdJvEjlnJgtxAgpQ06PExX9BQ4DtqTf9yqTK0g98PiZYfqktfwR9JFxxZu9QM6trI3351PpiCBkyKbTIwCCo6jfa3C1cOgMS/zFrj51LLKn+Pj3WS7RYQyCJLbBciWMQ8R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770421074; c=relaxed/simple;
-	bh=isOYdIvd6zZQP17E1pyU1M2/Fw1Ax66MUjSh61ztUkY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=H8PIglxNPoq53GzqZ/9GQnsS24jITPCjOoAq4xP2qVVLe30MEMFBL0Rv2ODNx1z900mMklVM0ZqILp1bX7l6fSZLdh2jt86UWETD04YmrTtDC6Pp/WZIaAs0LiwZacLmj04UuUtomaAfjbeWS+V12u0b8nCpgNhz4wxuXLpmxvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oj2G08mw; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1770423867; c=relaxed/simple;
+	bh=8iajhs/wxRSmEgg9+nl9643u3zxchGO1AYxf+OscVUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M+5e15L+iW8FlhOf3iqQbtf31qI1YJfZxnk3AwSlGw7IQA2ctD9GZgzI1hgtoRhPFyg6K2Ly9bva8jw8LW7M/mM1CzxGP25eeJmTnEs7VuOIz9drai14TFMB4iIU5N7ubzVp4UHr+jCig7brIaWZ7OgD0ddr7kraJ27D2r2FpfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIyhgGjY; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oj2G08mw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIyhgGjY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770421074; x=1801957074;
+  t=1770423866; x=1801959866;
   h=date:from:to:cc:subject:message-id;
-  bh=isOYdIvd6zZQP17E1pyU1M2/Fw1Ax66MUjSh61ztUkY=;
-  b=Oj2G08mw5a0tf+CIfhViZPvjAws7dYkPryr86EngCId8B5rAlLgau66Q
-   2mup9C5rHzU43pauwlqxHJzyUKZybxMg/NBSnIcQAJu1GCC7ABgnpn2sW
-   mkYn6mJZ3rNanM69Ag4gJkc1g3uuEROWiOZ/ujqzY527kPjqji9/nX2uV
-   HUtOixcIqUYASDs8FvK/vkoLtVrwEnSlSa8Mi9B6gwRiNln61lNy355jm
-   Af37n+Z85KSE8U0AXgbhxcB6oZ6ntRBg+1kw4rsrrV/V8T+y0H/2Et5cY
-   DDX3Q1Y/qCL++/HBBx7Mpw2f7+IkVjGGjXhyy3WcnW2fXYdABH5MdQSwR
+  bh=8iajhs/wxRSmEgg9+nl9643u3zxchGO1AYxf+OscVUQ=;
+  b=GIyhgGjYJ1g0XN6PFzsWLIRdfqHDDF5OBy8W7lmkf0fxF2MkbQbcNIsH
+   XXvDREqvJCEilDScnep2Xa50pwlNHYvBBiun2xxjkv9jihjbjCO8jzCRA
+   z7R1OUwZfwo4KLoQKktDNzU/hoydDJq+RmjK0uhiwnLBnsayXMRptoSFP
+   POJ3lXcAlQ8aswQf8U7i7XLoBDMPDs+QnvIjI9w7us1ExxbEDr3aNlMBa
+   ziMakPlSGZujSuxSEqkxwss2B5Q4DKTJnbekeb6oa4/+o+WKeFdTH/hrb
+   D5LD64oDd3EcdxuL9Klk5utM0jB+ArW7EL8F4b5eSm6Dz6IOa8XNLH1z/
    Q==;
-X-CSE-ConnectionGUID: W6JtBJWHQeS6zemA8NmjPw==
-X-CSE-MsgGUID: yiEKruIjQq6XzjO8oB41uA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="82744876"
+X-CSE-ConnectionGUID: mfsDW/W8RJa7sr/1JrjuzQ==
+X-CSE-MsgGUID: VWFpEE/sSiGv4Yn/99gz1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="59203180"
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="82744876"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 15:37:54 -0800
-X-CSE-ConnectionGUID: kifW2YHlRT2eGvTjNhgZlA==
-X-CSE-MsgGUID: CpExK9RgTWG8cMq6339Obg==
+   d="scan'208";a="59203180"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 16:24:25 -0800
+X-CSE-ConnectionGUID: i5CzfvN6Qt+3tT1Axe8noQ==
+X-CSE-MsgGUID: 2326Ko59Qv+fJ0MKufWzOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="215978511"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2026 15:37:53 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+   d="scan'208";a="210809568"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 06 Feb 2026 16:24:24 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voVOY-000000004kD-2UUT;
-	Fri, 06 Feb 2026 23:37:50 +0000
-Date: Sat, 07 Feb 2026 00:37:14 +0100
+	id 1voW7Z-00000000lHo-2286;
+	Sat, 07 Feb 2026 00:24:21 +0000
+Date: Sat, 07 Feb 2026 08:23:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:exportd-netlink 2/3] fs/nfsd/nfsctl.c:2270:40:
- error: 'exportd_nl_family' undeclared; did you mean 'nfsd_nl_family'?
-Message-ID: <202602070057.GG6uf0W3-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata-pre 13/13]
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c:161:5: error: conflicting
+ types for 'vsp1_subdev_get_pad_format'; have 'int(struct v4l2_subdev *, const
+ struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct
+ v4l2_subdev_format *)'
+Message-ID: <202602070821.c9SviwgN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,99 +62,66 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git exportd-netlink
-head:   aef82be579c01a1995f0e0c98313f23e7e4893a0
-commit: c282986480c6eb27e2330e62a435fdba93b42f32 [2/3] nfsd: register new netlink family for exportd
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260207/202602070057.GG6uf0W3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070057.GG6uf0W3-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata-pre
+head:   1b58854744d17413b2855b20178e63a1c82d58f5
+commit: 1b58854744d17413b2855b20178e63a1c82d58f5 [13/13] media: v4l: Add struct v4l2_subdev_client_info argument to pad ops
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260207/202602070821.c9SviwgN-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070821.c9SviwgN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070057.GG6uf0W3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602070821.c9SviwgN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/nfsd/nfsctl.c: In function 'init_nfsd':
->> fs/nfsd/nfsctl.c:2270:40: error: 'exportd_nl_family' undeclared (first use in this function); did you mean 'nfsd_nl_family'?
-    2270 |         retval = genl_register_family(&exportd_nl_family);
-         |                                        ^~~~~~~~~~~~~~~~~
-         |                                        nfsd_nl_family
-   fs/nfsd/nfsctl.c:2270:40: note: each undeclared identifier is reported only once for each function it appears in
-   fs/nfsd/nfsctl.c: In function 'exit_nfsd':
-   fs/nfsd/nfsctl.c:2306:33: error: 'exportd_nl_family' undeclared (first use in this function); did you mean 'nfsd_nl_family'?
-    2306 |         genl_unregister_family(&exportd_nl_family);
-         |                                 ^~~~~~~~~~~~~~~~~
-         |                                 nfsd_nl_family
+>> drivers/media/platform/renesas/vsp1/vsp1_entity.c:161:5: error: conflicting types for 'vsp1_subdev_get_pad_format'; have 'int(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
+     161 | int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:19:
+   drivers/media/platform/renesas/vsp1/vsp1_entity.h:178:5: note: previous declaration of 'vsp1_subdev_get_pad_format' with type 'int(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
+     178 | int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2270 fs/nfsd/nfsctl.c
+vim +161 drivers/media/platform/renesas/vsp1/vsp1_entity.c
 
-  2238	
-  2239	static int __init init_nfsd(void)
-  2240	{
-  2241		int retval;
-  2242	
-  2243		nfsd_debugfs_init();
-  2244	
-  2245		retval = nfsd4_init_slabs();
-  2246		if (retval)
-  2247			return retval;
-  2248		retval = nfsd4_init_pnfs();
-  2249		if (retval)
-  2250			goto out_free_slabs;
-  2251		retval = nfsd_drc_slab_create();
-  2252		if (retval)
-  2253			goto out_free_pnfs;
-  2254		nfsd_lockd_init();	/* lockd->nfsd callbacks */
-  2255		retval = register_pernet_subsys(&nfsd_net_ops);
-  2256		if (retval < 0)
-  2257			goto out_free_lockd;
-  2258		retval = register_cld_notifier();
-  2259		if (retval)
-  2260			goto out_free_subsys;
-  2261		retval = nfsd4_create_laundry_wq();
-  2262		if (retval)
-  2263			goto out_free_cld;
-  2264		retval = register_filesystem(&nfsd_fs_type);
-  2265		if (retval)
-  2266			goto out_free_nfsd4;
-  2267		retval = genl_register_family(&nfsd_nl_family);
-  2268		if (retval)
-  2269			goto out_free_filesystem;
-> 2270		retval = genl_register_family(&exportd_nl_family);
-  2271		if (retval)
-  2272			goto out_free_nfsd_nl;
-  2273		retval = create_proc_exports_entry();
-  2274		if (retval)
-  2275			goto out_free_all;
-  2276		nfsd_localio_ops_init();
-  2277	
-  2278		return 0;
-  2279	out_free_all:
-  2280		genl_unregister_family(&exportd_nl_family);
-  2281	out_free_nfsd_nl:
-  2282		genl_unregister_family(&nfsd_nl_family);
-  2283	out_free_filesystem:
-  2284		unregister_filesystem(&nfsd_fs_type);
-  2285	out_free_nfsd4:
-  2286		nfsd4_destroy_laundry_wq();
-  2287	out_free_cld:
-  2288		unregister_cld_notifier();
-  2289	out_free_subsys:
-  2290		unregister_pernet_subsys(&nfsd_net_ops);
-  2291	out_free_lockd:
-  2292		nfsd_lockd_shutdown();
-  2293		nfsd_drc_slab_free();
-  2294	out_free_pnfs:
-  2295		nfsd4_exit_pnfs();
-  2296	out_free_slabs:
-  2297		nfsd4_free_slabs();
-  2298		nfsd_debugfs_exit();
-  2299		return retval;
-  2300	}
-  2301	
+e790c3cb8d904c drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2015-11-15  151  
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  152  /*
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  153   * vsp1_subdev_get_pad_format - Subdev pad get_fmt handler
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  154   * @subdev: V4L2 subdevice
+30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  155   * @sd_state: V4L2 subdev state
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  156   * @fmt: V4L2 subdev format
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  157   *
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  158   * This function implements the subdev get_fmt pad operation. It can be used as
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  159   * a direct drop-in for the operation handler.
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  160   */
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24 @161  int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+1b58854744d174 drivers/media/platform/renesas/vsp1/vsp1_entity.c Sakari Ailus     2026-01-30  162  			       const struct v4l2_subdev_client_info *ci,
+0d346d2a6f54f0 drivers/media/platform/vsp1/vsp1_entity.c         Tomi Valkeinen   2021-06-10  163  			       struct v4l2_subdev_state *sd_state,
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  164  			       struct v4l2_subdev_format *fmt)
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  165  {
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  166  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  167  	struct v4l2_subdev_state *state;
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  168  
+30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  169  	state = vsp1_entity_get_state(entity, sd_state, fmt->which);
+30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  170  	if (!state)
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  171  		return -EINVAL;
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  172  
+34e77ed84b274d drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-06-26  173  	mutex_lock(&entity->lock);
+0aaf7db0872677 drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-12  174  	fmt->format = *v4l2_subdev_state_get_format(state, fmt->pad);
+34e77ed84b274d drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-06-26  175  	mutex_unlock(&entity->lock);
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  176  
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  177  	return 0;
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  178  }
+3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  179  
+
+:::::: The code at line 161 was first introduced by commit
+:::::: 3f557220cc29d1961ef9efa2a8db04c7c5f6e6d4 [media] v4l: vsp1: Factorize get pad format code
+
+:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
