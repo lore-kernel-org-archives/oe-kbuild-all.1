@@ -1,202 +1,208 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F66927E05A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 17:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B03227E05A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 17:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770485653; cv=none; b=eUVU+wr1IgIqOZdy2xI1wDzBcMbNhKuCxcDzaBm/Dmaup9DawHriAd6erqhqjANmmEeZsoBu5WbooOaNO6AN1UG6xvNlI42aJHRPuE93C+F4Qb5NAGXrk3lXeZph/w/tOob+Oomi6V2vZkHN65bUNVqpDFNlpViYo5pIjN+RYiU=
+	t=1770485695; cv=none; b=FB8UZeHBWqYcrCexySKTwh55M4vHgOqm8XfOaXkE0HN7f7xBt800rwYh1oOQxcsC0rn8IAFjPtYrZPkQapMG8nYalxl9hnjhfkZreFH8eGUmvIMjzlOIzjXW1REaSyAJ4Ve2r6hObXt1PPVqoZ8JmgFK16efFj7e8QQoIn00gUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770485653; c=relaxed/simple;
-	bh=x3dSlFE9Ty2D0TuGFufALmSD7yE0B0bMm9bdTzyqCqM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lvRONhy/YomyJwc+uBhz08j/58ZJ1c/4G71wMgeX5OXxRjC/dgzQcKPh0gbOibK3BWXL82UQSPEHYjmeqBO+ILXxVi3A35yhqqkjFDj9XyBVdgbHVzcRRAGTvE64Bhy68EHva89cwMXVo8EidxexxeBNhB5XCjMCLdJCdfTGhbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G8hK/GOm; arc=none smtp.client-ip=74.125.82.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770485695; c=relaxed/simple;
+	bh=yH5zNBGYD2oUN8FH0B6mq6AXhhBppXzybAsVqDDZyXU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p5s+LjJDu8mEJG4Ts/rIS2ajQbOVAbmC3peaWNsxmpBnedzvOlDmC4tvWynHYgTlfrjPwkhOBU3QF5kh+ACDD8d4pvcxV1Qi27ysrCiSqIe3SoTsT08/QezcGVgdwJ8omc+x08yuZigSQ/n9kMGdSk2TARB+RtJRpDNxIQ/uUTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezTqaKrz; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G8hK/GOm"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2b71557299dso1631159eec.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 07 Feb 2026 09:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770485652; x=1771090452; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=vWfIfyHpKZoIYtYm4HS2wsePgRkfeYlFHZpIDaa5Qds=;
-        b=G8hK/GOmhNk/8Pg5zYc2Wiu0VGdwIvPgesWweOipkUAQDTkTfkqsnGNuFLPMJQL6NX
-         UwWOWePje223+OM9cI0O8rrX0PZ0BvFvNuHfGa2tQJaM80RWZgxs9ZdadtGG4OmP2Kfq
-         JYhwmbjWBhIEnIi6auI2/0LsrCi03QvynBQYOem5ts8cRW9HpG5rKHyAJgxps30Js0cy
-         8kwy8+rUe+f/qEv6DJN2aoQigFl058zVuMoEEvn3C4Atg0Lnh/CfQ7SebIQKTUQBXVq/
-         CkcoIK2RCZ3Zqz6426v+qE1bQ2vrH73jRczVVYEGtAOhCFoLF8+/fJBjfKZdJ3IcltQY
-         3ZEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770485652; x=1771090452;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vWfIfyHpKZoIYtYm4HS2wsePgRkfeYlFHZpIDaa5Qds=;
-        b=A0lxXTZQfzcjmWz4aRktMnIF5N5ACQhe5/pn2AIxiGt1TkvNSjmzgFDRX49+ZJ6mmU
-         kOALCJrEVSeTZde0rMfJVMtbUMp5lWAybwFbmu74XL4odi/5l3OeWjKsZUi47AeYFL3I
-         geK9XZhOl7fT8j+loFSlcLnvq6bfatDB22KgL9vwJuiyB4xfQIms8haXLDaD6hOn38xG
-         bP39CQG2Li6L5XeNd9w1nxmQxbGQHMAANUtwHYd4Ggg1A/zKZQPnL91LEI8FHkUOaVwn
-         YapCDXKbgeaw5tHO6yuVTgqfR3SOladx+oG4bbdMqu/ssyI6Ws/bOQbhgmpmQ6QOo5bR
-         ULIw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVcmFs10AwQQHR24HjPOyH+Crpj4s/CTudvO7kQiRn65h30ewzcDhtORrFseNPcjaHPRD58Fx25BtF1Ike@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHEITEdYHD0piQ04Z27rI2ZXiniWR9Xu63irMbGdqk6yyuMOkK
-	Vij+5AR3Ay3g2sUkxsaG3vKVorrdOvIyWlxLaY8Upb+F/bCE8ejwCi5w
-X-Gm-Gg: AZuq6aJfR2w7nccWUIHMNnTIsiyYqAnKohVbV+SgqgvluEkQauBUj74nDuZw6CF1Ya8
-	lJNdGNWbOqqRsPuUY4THJ2+xO7Twj326Gg5dryevlVCOZwtys3/lw0IohsgGe/3v3o9H6/wtJeb
-	7rWqXvHLv0SC+JJGSIXw/pX6PhQqElXtGlUjnRncvj8ZYwrrJ1xqaHzSVbG2Y/m3uQXY3K2N+el
-	qp4dl4/JzIDxS9+Ec3sZuXT6V0Rzwrc2yFOAX/u7On+hlSyOEgZ1t5dUiUHzdFS5e2l8CDl0hpT
-	Oe58GJuHNahcV2C5pLizOFSvULVPCII8Y/tXIrlwbrxpQ4igAfUOdbqbm5fwRaM9elezwytoc5R
-	AnH6AbG/LAyY6IiWh5f0sJ2Md67PpYwz6yOSJ8t/qZtZiZV0+9uMbQi6kF/R2YEScTRcOJUg/wu
-	l2mTSCqrtG7eM/LFckpPhOjV+Fk6udT2g3WRbtGadLm5kHGs+8D39sIDwSZBLgPRC8LUHn5FBU/
-	p7yuW9+H90=
-X-Received: by 2002:a05:7300:f195:b0:2b7:26ab:1f74 with SMTP id 5a478bee46e88-2b85644eab5mr3151071eec.3.1770485652080;
-        Sat, 07 Feb 2026 09:34:12 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1270433ab31sm5418990c88.11.2026.02.07.09.34.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Feb 2026 09:34:11 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <8aae9201-b143-4433-889f-e32664adb9f8@roeck-us.net>
-Date: Sat, 7 Feb 2026 09:34:10 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezTqaKrz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770485694; x=1802021694;
+  h=date:from:to:cc:subject:message-id;
+  bh=yH5zNBGYD2oUN8FH0B6mq6AXhhBppXzybAsVqDDZyXU=;
+  b=ezTqaKrzTm1/HqtW1SHx22ACb7IGZ/Gnw/hGqkldJ3BAOwoVPJWOfZgg
+   dAp17bYZU67cLrOMZfU7Kmd/Y/mAHJ8iCXq4H53NdGJwEEuaWvfGK4Ok7
+   DxODQ8lWFIR7xHz4VmPczKyHmQ1QW4L1Muh946+V2n341uZ7zIwDvWCNx
+   W93UzWXJHqx23LOOtgxaYagK0tr43397/L9B8cWPI/dcYdoq3TLvlC0YS
+   WVie9p1jnCTATPB3Ozelh7jNMdDfwiBmefywGNSsEcXufDXVk5k/axFvP
+   1nIDUxz46WvNuKHgclOue7cIs5fu6pso2sVx9mC0bS/iiJezNV5GxBw2/
+   g==;
+X-CSE-ConnectionGUID: o7jgXbu3SLSwkoMbQRSBdw==
+X-CSE-MsgGUID: g/1Jh17CSPyZAP59bTAA/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="71701331"
+X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
+   d="scan'208";a="71701331"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 09:34:54 -0800
+X-CSE-ConnectionGUID: A6uyoqJOTnSZDeDvIwoVbg==
+X-CSE-MsgGUID: LLXo8DGYSBuUUQc4oywqQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
+   d="scan'208";a="215344887"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 07 Feb 2026 09:34:52 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vomCn-00000000lnm-3yu2;
+	Sat, 07 Feb 2026 17:34:49 +0000
+Date: Sun, 08 Feb 2026 01:34:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/tdx_huge_sept 56/56]
+ include/linux/static_call_types.h:58:2: error: too few arguments to function
+ '(({...}))'
+Message-ID: <202602080139.KNmQY5T0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 10251/12094] drivers/hwmon/cros_ec_hwmon.o:
- error: objtool: cros_ec_hwmon_read+0x6c: can't find jump dest instruction at
- .text+0xd2d
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org
-References: <202602071311.Q6tATiyh-lkp@intel.com>
- <4db66fc2-dc8a-4499-bc9d-c1f85e2ba4c1@t-8ch.de>
- <957068ee-7368-4fd1-9e55-1449414238be@roeck-us.net>
- <317af5ed-fc8b-42d7-aa4a-143f8cf3ab04@t-8ch.de>
- <8edcc901-04aa-4d8d-a357-8653e29327e4@roeck-us.net>
- <9a2bfcad-f5b6-42c1-92fb-c8348909c909@t-8ch.de>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <9a2bfcad-f5b6-42c1-92fb-c8348909c909@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 2/7/26 08:43, Thomas Weißschuh wrote:
-> On 2026-02-07 08:26:37-0800, Guenter Roeck wrote:
->> On 2/7/26 07:33, Thomas Weißschuh wrote:
->>> On 2026-02-07 07:07:13-0800, Guenter Roeck wrote:
->>>> On 2/7/26 02:56, Thomas Weißschuh wrote:
->>>>> On 2026-02-07 13:14:53+0800, kernel test robot wrote:
->>>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->>>>>> head:   9845cf73f7db6094c0d8419d6adb848028f4a921
->>>>>> commit: 165c14597d53cfa7bc97b4ff8bc85f7bd98262b7 [10251/12094] hwmon: (cros_ec) Add support for temperature thresholds
->>>>>> config: x86_64-randconfig-071-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071311.Q6tATiyh-lkp@intel.com/config)
->>>>>> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
->>>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071311.Q6tATiyh-lkp@intel.com/reproduce)
->>>>>>
->>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>>> the same patch/commit), kindly add following tags
->>>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202602071311.Q6tATiyh-lkp@intel.com/
->>>>>>
->>>>>> All errors (new ones prefixed by >>):
->>>>>>
->>>>>>>> drivers/hwmon/cros_ec_hwmon.o: error: objtool: cros_ec_hwmon_read+0x6c: can't find jump dest instruction at .text+0xd2d
->>>>>
->>>>> This is due to the call to unreachable() in cros_ec_hwmon_attr_to_thres().
->>>>> Replacing it with BUG() avoids the issue.
->>>>>
->>>>> Guenter, do you want to drop the patches for now and I'll resend them
->>>>> next cycle? I can also send an incremental patch. Or you just fix it up
->>>>> in your branch.
->>>>>
->>>>
->>>> I strongly dislike BUG() because it means "I don't trust my own code".
->>>
->>> Agreed, I am not a fan either, which is why I used unreachable()
->>> originally.
->>>
->>>> The final "else" in the code is not really necessary and should be dropped.
->>>
->>> That will trigger a compiler warning:
->>>
->>> drivers/hwmon/cros_ec_hwmon.c:170:1: error: control reaches end of non-void function [-Werror=return-type]
->>>     170 | }
->>>         | ^
->>>
->>
->> I meant something like
->>
->> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
->> index 5b998cd5e506..6cf5ab0f4b73 100644
->> --- a/drivers/hwmon/cros_ec_hwmon.c
->> +++ b/drivers/hwmon/cros_ec_hwmon.c
->> @@ -165,10 +165,7 @@ static enum ec_temp_thresholds cros_ec_hwmon_attr_to_thres(u32 attr)
->>                  return EC_TEMP_THRESH_WARN;
->>          else if (attr == hwmon_temp_crit)
->>                  return EC_TEMP_THRESH_HIGH;
->> -       else if (attr == hwmon_temp_emergency)
->> -               return EC_TEMP_THRESH_HALT;
->> -       else
->> -               unreachable();
->> +       return EC_TEMP_THRESH_HALT;     /* attr == hwmon_temp_emergency */
->>   }
-> 
-> Welp, that was easy :-/
-> Let's use it. Feel free to apply it directly.
-> 
-Done - squashed into original patch.
+tree:   https://github.com/sean-jc/linux x86/tdx_huge_sept
+head:   c86be62d601ede14cbad1d0fb5af9b67d4172342
+commit: c86be62d601ede14cbad1d0fb5af9b67d4172342 [56/56] FIXUPS
+config: x86_64-randconfig-011-20260207 (https://download.01.org/0day-ci/archive/20260208/202602080139.KNmQY5T0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602080139.KNmQY5T0-lkp@intel.com/reproduce)
 
-Thanks,
-Guenter
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602080139.KNmQY5T0-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/bug.h:141,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/page_64.h:9,
+                    from arch/x86/include/asm/page.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from arch/x86/kvm/irq.h:13,
+                    from arch/x86/kvm/mmu/mmu.c:19:
+   arch/x86/kvm/mmu/mmu.c: In function 'mmu_topup_memory_caches':
+>> include/linux/static_call_types.h:58:2: error: too few arguments to function '(({...}))'
+      58 | ({                                                                      \
+         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      59 |         __STATIC_CALL_ADDRESSABLE(name);                                \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      60 |         __raw_static_call(name);                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      61 | })
+         | ~~
+   include/linux/static_call_types.h:92:33: note: in expansion of macro '__static_call'
+      92 | #define static_call(name)       __static_call(name)
+         |                                 ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:2002:28: note: in expansion of macro 'static_call'
+    2002 | #define kvm_x86_call(func) static_call(kvm_x86_##func)
+         |                            ^~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:609:21: note: in expansion of macro 'kvm_x86_call'
+     609 |                 r = kvm_x86_call(topup_external_cache)(vcpu->kvm, vcpu);
+         |                     ^~~~~~~~~~~~
+--
+   In file included from include/linux/entry-virt.h:5,
+                    from include/linux/kvm_host.h:5,
+                    from arch/x86/kvm/mmu.h:5,
+                    from arch/x86/kvm/mmu/tdp_mmu.c:4:
+   arch/x86/kvm/mmu/tdp_mmu.c: In function 'tdp_mmu_alloc_sp_for_split':
+>> include/linux/static_call_types.h:58:2: error: too few arguments to function '(({...}))'
+      58 | ({                                                                      \
+         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      59 |         __STATIC_CALL_ADDRESSABLE(name);                                \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      60 |         __raw_static_call(name);                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      61 | })
+         | ~~
+   include/linux/static_call_types.h:92:33: note: in expansion of macro '__static_call'
+      92 | #define static_call(name)       __static_call(name)
+         |                                 ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:2002:28: note: in expansion of macro 'static_call'
+    2002 | #define kvm_x86_call(func) static_call(kvm_x86_##func)
+         |                            ^~~~~~~~~~~
+   arch/x86/kvm/mmu/tdp_mmu.c:1468:21: note: in expansion of macro 'kvm_x86_call'
+    1468 |                 if (kvm_x86_call(topup_external_cache)(kvm, kvm_get_running_vcpu()))
+         |                     ^~~~~~~~~~~~
+--
+   In file included from arch/x86/include/asm/bug.h:141,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/page_64.h:9,
+                    from arch/x86/include/asm/page.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from arch/x86/kvm/irq.h:13,
+                    from mmu/mmu.c:19:
+   mmu/mmu.c: In function 'mmu_topup_memory_caches':
+>> include/linux/static_call_types.h:58:2: error: too few arguments to function '(({...}))'
+      58 | ({                                                                      \
+         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      59 |         __STATIC_CALL_ADDRESSABLE(name);                                \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      60 |         __raw_static_call(name);                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      61 | })
+         | ~~
+   include/linux/static_call_types.h:92:33: note: in expansion of macro '__static_call'
+      92 | #define static_call(name)       __static_call(name)
+         |                                 ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:2002:28: note: in expansion of macro 'static_call'
+    2002 | #define kvm_x86_call(func) static_call(kvm_x86_##func)
+         |                            ^~~~~~~~~~~
+   mmu/mmu.c:609:21: note: in expansion of macro 'kvm_x86_call'
+     609 |                 r = kvm_x86_call(topup_external_cache)(vcpu->kvm, vcpu);
+         |                     ^~~~~~~~~~~~
+--
+   In file included from include/linux/entry-virt.h:5,
+                    from include/linux/kvm_host.h:5,
+                    from arch/x86/kvm/mmu.h:5,
+                    from mmu/tdp_mmu.c:4:
+   mmu/tdp_mmu.c: In function 'tdp_mmu_alloc_sp_for_split':
+>> include/linux/static_call_types.h:58:2: error: too few arguments to function '(({...}))'
+      58 | ({                                                                      \
+         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      59 |         __STATIC_CALL_ADDRESSABLE(name);                                \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      60 |         __raw_static_call(name);                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      61 | })
+         | ~~
+   include/linux/static_call_types.h:92:33: note: in expansion of macro '__static_call'
+      92 | #define static_call(name)       __static_call(name)
+         |                                 ^~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:2002:28: note: in expansion of macro 'static_call'
+    2002 | #define kvm_x86_call(func) static_call(kvm_x86_##func)
+         |                            ^~~~~~~~~~~
+   mmu/tdp_mmu.c:1468:21: note: in expansion of macro 'kvm_x86_call'
+    1468 |                 if (kvm_x86_call(topup_external_cache)(kvm, kvm_get_running_vcpu()))
+         |                     ^~~~~~~~~~~~
+
+
+vim +58 include/linux/static_call_types.h
+
+73f44fe19d3596 Josh Poimboeuf 2021-01-27  48  
+880cfed3a012d7 Peter Zijlstra 2021-01-18  49  /*
+880cfed3a012d7 Peter Zijlstra 2021-01-18  50   * __ADDRESSABLE() is used to ensure the key symbol doesn't get stripped from
+880cfed3a012d7 Peter Zijlstra 2021-01-18  51   * the symbol table so that objtool can reference it when it generates the
+880cfed3a012d7 Peter Zijlstra 2021-01-18  52   * .static_call_sites section.
+880cfed3a012d7 Peter Zijlstra 2021-01-18  53   */
+73f44fe19d3596 Josh Poimboeuf 2021-01-27  54  #define __STATIC_CALL_ADDRESSABLE(name) \
+73f44fe19d3596 Josh Poimboeuf 2021-01-27  55  	__ADDRESSABLE(STATIC_CALL_KEY(name))
+73f44fe19d3596 Josh Poimboeuf 2021-01-27  56  
+880cfed3a012d7 Peter Zijlstra 2021-01-18  57  #define __static_call(name)						\
+880cfed3a012d7 Peter Zijlstra 2021-01-18 @58  ({									\
+73f44fe19d3596 Josh Poimboeuf 2021-01-27  59  	__STATIC_CALL_ADDRESSABLE(name);				\
+73f44fe19d3596 Josh Poimboeuf 2021-01-27  60  	__raw_static_call(name);					\
+880cfed3a012d7 Peter Zijlstra 2021-01-18  61  })
+880cfed3a012d7 Peter Zijlstra 2021-01-18  62  
+
+:::::: The code at line 58 was first introduced by commit
+:::::: 880cfed3a012d7863f42251791cea7fe78c39390 static_call: Pull some static_call declarations to the type headers
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
