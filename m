@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30EB3112B0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 23:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F97022301
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 23:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770506702; cv=none; b=tjfKXVsIVblITbGIP6cw/Zbrt8+rRCsagmW2XaACyte7B4836PSak5FMD6HajI4RHAm8AdLrPsxCAFWeo/gQ8POXc6Zj0ASDxF0DETbSmh6nQCxNdQ0eaMHSQsnxtYFOYKjpW0KOKj4lZKmqvlv9AyVU4HV2YaZ7yF7JeOlx0Fo=
+	t=1770507962; cv=none; b=CskIA8w4RtxocWq+70EhSkM84PwzJz3zGHFsZF+/NOP9DylaCgeXFJyyVYiwzKadZoXOCnPtbeieIZZbi+HLxbEEB2Iiizti92lEbhvPUklssllApgkL8C5AccfGblW0PB8cWJlkS11UgWvJ1dpKiMlpUeU5BNGFdlpYKJRcJ/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770506702; c=relaxed/simple;
-	bh=fGiYA8sYigW1vJzpmKbbSw9ZVq+fC/++YecAFwjWamo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=THyeOT4+4cpfwxfbhgL9r4Pcz6y1g/E+CtZJ7elyGhIZWWu3GyjrpIaGWWdxoHbV5KUh8BizqMpDQRpvI6qYYcNf7o78P4Jf9OBFyYfg28sLRrjx4YPjk3zjbFlEXFNpgVD5z+xm+dT/DbqiGKoClFGLbKOzT0PZ6itB8+aWtt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TlYlB98W; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1770507962; c=relaxed/simple;
+	bh=WkArlRgfaTJ68Kq/Y2rnZlS2c7O1QcGPTpxeRJUgoJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J2Lu5+9A4Fd/aZbI+1s6VNHsnFkb/g6ziHUJV5n7dOQbBeJ1AkfMNn5o82h4P/pY+T8gAh/objh9MJ+nG/yOaBvMtlwH4TzH+YlfByWAPK8GQusonlark95qVss9J9FBbBQAvabrDXb9rdTrLWNQ7G2ihNB8/ZCCVy45vzq4tbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EhFe4t79; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlYlB98W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EhFe4t79"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770506701; x=1802042701;
+  t=1770507962; x=1802043962;
   h=date:from:to:cc:subject:message-id;
-  bh=fGiYA8sYigW1vJzpmKbbSw9ZVq+fC/++YecAFwjWamo=;
-  b=TlYlB98W2O+qJDtgzKUF17QTplXLOGXondG+kU2qHL90U8D8Y6r4thyw
-   vtgCPljSE6KZlrsFo7spxH72lfBRXqz4JzRV7tOerqtNmNK6UTgiYv/46
-   3yvnpZAmUJwsOPv5IfTlfnP0fpcKXa5VvQ0DODcRdEMm26yEahpEibmM/
-   0of8YjaG0dOykYibJLrka6ZbzDRVCJ28pj5p97Kw+TD/HI9k5kAwR4w5d
-   i852GlNOfC1hQdNanGpzQIPNHVG24CA8H7B85JXv3oU735aSjy5evrHHZ
-   X0MlN51YCGLe5t+tj48mL+puIJrTVh2r9e0SaLXKMpLqKvlvgzBSgH1T4
-   Q==;
-X-CSE-ConnectionGUID: xGfF3U4sSNOSlE619vz2MA==
-X-CSE-MsgGUID: 1P5pMD4eSzKZ7U3NUI1qhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="59239995"
+  bh=WkArlRgfaTJ68Kq/Y2rnZlS2c7O1QcGPTpxeRJUgoJ0=;
+  b=EhFe4t79WkcYJUOJyg1dTL6Dmc4UfBMDisvJvo4PQTIxH645K7MPQ15W
+   JnO3q1ZpEOMHyQgbj399Xa6zvr9uHh0Ivs/4KA2ssVJgh0q/CNmygAMnP
+   dZMD6yZkVD9GExsOBm5OYSsSas+uLCafoZ2rw6OzsFTvj2Sx3YlIGz917
+   3n90fV4PVD1At4xqc1fM98/YjJlcovDnFh5vJqy0vUsLk7D29bsRmHuVs
+   o7AiYT8Oxs5NgrXDZQ1lAqTxdmgYQbVntoQHga3/daXW2UkHC2761PKK9
+   a9mzeWS+4x3EYNOWFIaMbtL7bi24YmI2wVo6TqacNPfKKHCS93I6sUxnu
+   w==;
+X-CSE-ConnectionGUID: ZI80pTdcTp6Tm3Hmd7nKzg==
+X-CSE-MsgGUID: AVIxRPqXS3i3qFmuUYUT9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="75290119"
 X-IronPort-AV: E=Sophos;i="6.21,279,1763452800"; 
-   d="scan'208";a="59239995"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 15:25:01 -0800
-X-CSE-ConnectionGUID: eGscRDlBTBStNqGurbGI2A==
-X-CSE-MsgGUID: nEL880rvRraiEa71GwY14g==
+   d="scan'208";a="75290119"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 15:46:01 -0800
+X-CSE-ConnectionGUID: c9kSY4yJTDqxhiG1OrfNpw==
+X-CSE-MsgGUID: edT1ElPfQdWyKmM2gAGv/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,279,1763452800"; 
-   d="scan'208";a="211026351"
+   d="scan'208";a="210445951"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Feb 2026 15:24:59 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 07 Feb 2026 15:45:59 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vorfc-00000000lwO-3AHj;
-	Sat, 07 Feb 2026 23:24:56 +0000
-Date: Sun, 08 Feb 2026 07:24:50 +0800
+	id 1vorzx-00000000lx6-0x1Q;
+	Sat, 07 Feb 2026 23:45:57 +0000
+Date: Sun, 08 Feb 2026 07:45:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jesse.Zhang" <Jesse.Zhang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Infrastructure <z1.linuxinfra@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [agd5f:amd-staging-drm-next 2316/2322] Warning:
- drivers/gpu/drm/amd/amdgpu/mes_userqueue.c:308 function parameter
- 'compute_mqd' not described in 'amdgpu_userq_set_compute_mqd'
-Message-ID: <202602080728.VCnhQ23i-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/6]
+ arch/x86/kvm/vmx/pkvm/hyp/iommu.c:1204:5: warning: no previous prototype for
+ function 'pkvm_iommu_iec_flush'
+Message-ID: <202602080728.A8KFycKN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,21 +60,97 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   5d1d9f4fee686f0d8157f0340f302118110cadc3
-commit: a8941e6c6737452bdfead0a6972890c5ca3a4831 [2316/2322] drm/amdgpu: add MQD update support for user mode compute queues
-config: i386-randconfig-003-20260208 (https://download.01.org/0day-ci/archive/20260208/202602080728.VCnhQ23i-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602080728.VCnhQ23i-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   1d370994ba023ff99b9ddab815c6e190e10b3403
+commit: 54e452dc2a9ef42f282ce0fff2090d17c494ba04 [0/6] ANDROID: pkvm: x86: Forbid host IQT MMIO access and add IEC flush hypercall
+config: x86_64-randconfig-123-20260207 (https://download.01.org/0day-ci/archive/20260208/202602080728.A8KFycKN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602080728.A8KFycKN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602080728.VCnhQ23i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602080728.A8KFycKN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/mes_userqueue.c:308 function parameter 'compute_mqd' not described in 'amdgpu_userq_set_compute_mqd'
+   In file included from arch/x86/kvm/vmx/pkvm/hyp/iommu.c:7:
+   arch/x86/kvm/vmx/pkvm/include/pkvm.h:132:30: error: expected identifier or '('
+     132 | extern unsigned int pkvm_sym(nr_cpu_ids);
+         |                              ^
+   include/linux/cpumask.h:28:22: note: expanded from macro 'nr_cpu_ids'
+      28 | #define nr_cpu_ids ((unsigned int)NR_CPUS)
+         |                      ^
+   In file included from arch/x86/kvm/vmx/pkvm/hyp/iommu.c:7:
+   arch/x86/kvm/vmx/pkvm/include/pkvm.h:132:30: error: expected ')'
+   include/linux/cpumask.h:28:22: note: expanded from macro 'nr_cpu_ids'
+      28 | #define nr_cpu_ids ((unsigned int)NR_CPUS)
+         |                      ^
+   arch/x86/kvm/vmx/pkvm/include/pkvm.h:132:30: note: to match this '('
+   include/linux/cpumask.h:28:21: note: expanded from macro 'nr_cpu_ids'
+      28 | #define nr_cpu_ids ((unsigned int)NR_CPUS)
+         |                     ^
+   In file included from arch/x86/kvm/vmx/pkvm/hyp/iommu.c:7:
+   arch/x86/kvm/vmx/pkvm/include/pkvm.h:132:30: error: expected ')'
+     132 | extern unsigned int pkvm_sym(nr_cpu_ids);
+         |                              ^
+   include/linux/cpumask.h:28:35: note: expanded from macro 'nr_cpu_ids'
+      28 | #define nr_cpu_ids ((unsigned int)NR_CPUS)
+         |                                   ^
+   include/linux/threads.h:21:18: note: expanded from macro 'NR_CPUS'
+      21 | #define NR_CPUS         CONFIG_NR_CPUS
+         |                         ^
+   ./include/generated/autoconf.h:358:24: note: expanded from macro 'CONFIG_NR_CPUS'
+     358 | #define CONFIG_NR_CPUS 1
+         |                        ^
+   arch/x86/kvm/vmx/pkvm/include/pkvm.h:132:30: note: to match this '('
+   include/linux/cpumask.h:28:20: note: expanded from macro 'nr_cpu_ids'
+      28 | #define nr_cpu_ids ((unsigned int)NR_CPUS)
+         |                    ^
+>> arch/x86/kvm/vmx/pkvm/hyp/iommu.c:1204:5: warning: no previous prototype for function 'pkvm_iommu_iec_flush' [-Wmissing-prototypes]
+    1204 | int pkvm_iommu_iec_flush(u64 phys, bool global, u64 index, u64 mask)
+         |     ^
+   arch/x86/kvm/vmx/pkvm/hyp/iommu.c:1204:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1204 | int pkvm_iommu_iec_flush(u64 phys, bool global, u64 index, u64 mask)
+         | ^
+         | static 
+   1 warning and 3 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+
+
+vim +/pkvm_iommu_iec_flush +1204 arch/x86/kvm/vmx/pkvm/hyp/iommu.c
+
+  1203	
+> 1204	int pkvm_iommu_iec_flush(u64 phys, bool global, u64 index, u64 mask)
 
 -- 
 0-DAY CI Kernel Test Service
