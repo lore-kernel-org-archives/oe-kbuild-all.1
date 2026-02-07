@@ -1,169 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269D4136E3F;
-	Sat,  7 Feb 2026 06:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1260E29B793
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 06:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770445234; cv=none; b=J6eS+uSzwQhfRMcEazxmgpRvOtLf54itROn+KEYopKon/FFaDfqDoyeMA7NV/QEXjUlvQClqSUylgpTsaaVPr9ANBt8/rxfOuy15Y4yM2zDV6+zwC89SAPIvnBRDcA7kOo06jlsRnKS/LBtngjA1z0KLTRdW6CEz2+EJgJx7Mgg=
+	t=1770447158; cv=none; b=o19jplzaSzchf2OTm27t+veglT0T+MkY2XOD1J4HruqWS4WU3/1OAlHzCN+8z4Qgy6YH4ST5e3Y7NEDlH8QvfEZK5AmqaV3Trft5OYCUre3SXUAVdYSny4u5sKRPN56T+Cp5KjsVagA9FED6gWKssgdlQR2jGyg6wcYjXFkcr8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770445234; c=relaxed/simple;
-	bh=NxP0DbtBPS/jjC+9ZdKl01D87dnNJmPKLOCtB17nvos=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rYJpxwClce1vG4yxsmmlKUN5RrO2fqsyqcRAGcC6rJ8YFv9hW6mLH9yhXFuCUjGqTzjJDbYCstJSVkr1PYWXGIjlhNSYlVEBX98PzD7AP8cmbSEhvbMOavgNCqAJOFUH9AhaYr1wt1di8k6qybKDCLzRZ0ESh+AaBaYZMM5Piis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BBiAPS1Q; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1770447158; c=relaxed/simple;
+	bh=8p+QsbP4HBg7fY/gIbyzD0L3MXt+DZaiCtVaO9cjxAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CROF3joxmILPU7YTJDguoINEdRefHiB0CwqAkfjNVsTdqvjeDjAMO1JWRvv+74e+OQ4o6WLFRQBh3BLSbHKThq/2so2SX04L79QZ6cinViMo5dZNUJjBgx7WAdm1oL7PlPklbIvQS+WAORniOCUcTZwIvnKbKf0ZIE6lMqhWTGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UgHm9GPr; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BBiAPS1Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UgHm9GPr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770445234; x=1801981234;
-  h=date:from:to:cc:subject:message-id;
-  bh=NxP0DbtBPS/jjC+9ZdKl01D87dnNJmPKLOCtB17nvos=;
-  b=BBiAPS1QYz4UJVscVLgD6hsPJvtI7lWo45/iVtSUIJ9i8074fBlz4/vW
-   aSyGSymHTnZOX4cJPXKY+chTuYPBCUAST1J1rU3ZWzoEyuxJiT4422p9J
-   Uyf++Y9Wvw63dIXlsx8/PQNHieSwR4wQ3IokAgEHJjlEg1pRMrFN9yLei
-   FiXh9vbBEtU9AJe5yEcwkkyPm2WtyQuRMTDawOf/omqd6hXo8dsqRUZwS
-   bOTGvTWyDa9b9d2M82KJ+ft+CE8YOo2uFveoPg+hE3Z2kgcJ2i2j061x2
-   K1PeN59rQG3PDKypIjLOdAP0LVxbcnsbpr10xbfNoMQYBE1pTDTW2iMtj
-   w==;
-X-CSE-ConnectionGUID: Z0RJuuaMSvCVne6d9IKrWQ==
-X-CSE-MsgGUID: mlOYB2+7RDekrNHNoVdkuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="71828578"
+  t=1770447157; x=1801983157;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8p+QsbP4HBg7fY/gIbyzD0L3MXt+DZaiCtVaO9cjxAw=;
+  b=UgHm9GPrJsQFdhx1LUkkuAIsa5r+xWGdFIKYk6knih5IiXme8GDnn+mt
+   7ZHqbQvNJaYD7ZgqVO1XXDVe9MTy3XJpWn7dbystQPsCRSee38ZjoJJaI
+   Gwp8dlox4J5XgPlCAPA8AJH26Eem0Zf8s7hMnDkqapjpWq91fU24n+1h3
+   I+LSrf7ReYCYFC5xu6RvN1lmzkbIROe0pNorIykacwC4ZD8DkW2Voah+E
+   jqeAB2olT/hvdb7YtwNQ1E1lYekbBPJOzDgx87EkKsNgibMVp3O2e4MTF
+   iD/nxFYpv8tQanrzWeQPJJwWURXQbV4EkWSLYb/DrlYicAAFj1guX0u7A
+   g==;
+X-CSE-ConnectionGUID: zr+GRxEeQemgWl6ZzNVqfg==
+X-CSE-MsgGUID: TzwibIKbSwqbI1hVSZSQfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="59213886"
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="71828578"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 22:20:34 -0800
-X-CSE-ConnectionGUID: BTE4wrQrTa+S8fO3t7xQAw==
-X-CSE-MsgGUID: F5rYDTGVRhGumChnv34v4Q==
+   d="scan'208";a="59213886"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 22:52:36 -0800
+X-CSE-ConnectionGUID: TFWc4yYUSbGGi6MnNGcJ6A==
+X-CSE-MsgGUID: m0ivL34rRmap+yx/e8g0eQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="215557458"
+   d="scan'208";a="215244450"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Feb 2026 22:20:32 -0800
+  by orviesa003.jf.intel.com with ESMTP; 06 Feb 2026 22:52:34 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vobgD-00000000lS6-3Cfq;
-	Sat, 07 Feb 2026 06:20:29 +0000
-Date: Sat, 07 Feb 2026 14:19:42 +0800
+	id 1vocBE-00000000lT6-0rhy;
+	Sat, 07 Feb 2026 06:52:32 +0000
+Date: Sat, 7 Feb 2026 14:51:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chengjun Yao <Chengjun.Yao@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Bob Zhou <Bob.Zhou@amd.com>
-Subject: [agd5f:baseline0 29/81]
- drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_peerdirect.c:362:40: error: no
- member named 'dma_length' in 'struct scatterlist'
-Message-ID: <202602071450.W1TnNb5R-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: sunliming@linux.dev, song@kernel.org, yukuai@fnnas.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linan666@huaweicloud.com,
+	sunliming <sunliming@kylinos.cn>
+Subject: Re: [PATCH v2 2/3] lib/raid6: Optimizing the raid6_select_algo time
+ through asynchronous processing
+Message-ID: <202602071412.HND36w5Q-lkp@intel.com>
+References: <20260206054341.106878-3-sunliming@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206054341.106878-3-sunliming@linux.dev>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git baseline0
-head:   b6a8211a7821bf70201912b493ab705f423700c7
-commit: 4415c3986b7653907bf72d3150b596a491dbed38 [29/81] drm/amdkcl: kcl-cleanup macro HAVE_HYPERVISOR_IS_TYPE
-config: loongarch-randconfig-002-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071450.W1TnNb5R-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071450.W1TnNb5R-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on linus/master v6.19-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/sunliming-linux-dev/lib-raid6-Divide-the-raid6-algorithm-selection-process-into-two-parts/20260206-134850
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20260206054341.106878-3-sunliming%40linux.dev
+patch subject: [PATCH v2 2/3] lib/raid6: Optimizing the raid6_select_algo time through asynchronous processing
+config: arc-randconfig-001-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071412.HND36w5Q-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071412.HND36w5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602071450.W1TnNb5R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602071412.HND36w5Q-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:2428 function parameter 'p' not described in 'kfd_process_unmap_doorbells_if_idle'
---
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_peerdirect.c:362:40: error: no member named 'dma_length' in 'struct scatterlist'
-     362 |                         i, sg->dma_address, sg->length, sg->dma_length);
-         |                                                         ~~  ^
-   1 error generated.
-
-
-vim +362 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_peerdirect.c
-
-9e3a766b718144c Felix Kuehling 2020-04-23  304  
-9e3a766b718144c Felix Kuehling 2020-04-23  305  
-9e3a766b718144c Felix Kuehling 2020-04-23  306  static int amd_dma_map(struct sg_table *sg_head, void *client_context,
-9e3a766b718144c Felix Kuehling 2020-04-23  307  			struct device *dma_device, int dmasync, int *nmap)
-9e3a766b718144c Felix Kuehling 2020-04-23  308  {
-9e3a766b718144c Felix Kuehling 2020-04-23  309  	struct sg_table *sg_table_tmp;
-9d3646354db30f9 Philip Yang    2024-04-05  310  	struct scatterlist *sg;
-9e3a766b718144c Felix Kuehling 2020-04-23  311  	int ret;
-9d3646354db30f9 Philip Yang    2024-04-05  312  	int i;
-9e3a766b718144c Felix Kuehling 2020-04-23  313  
-9e3a766b718144c Felix Kuehling 2020-04-23  314  	/*
-9e3a766b718144c Felix Kuehling 2020-04-23  315  	 * NOTE/TODO:
-9e3a766b718144c Felix Kuehling 2020-04-23  316  	 * We could have potentially three cases for real memory
-9e3a766b718144c Felix Kuehling 2020-04-23  317  	 *	location:
-9e3a766b718144c Felix Kuehling 2020-04-23  318  	 *		- all memory in the local
-9e3a766b718144c Felix Kuehling 2020-04-23  319  	 *		- all memory in the system (RAM)
-9e3a766b718144c Felix Kuehling 2020-04-23  320  	 *		- memory is spread (s/g) between local and system.
-9e3a766b718144c Felix Kuehling 2020-04-23  321  	 *
-9e3a766b718144c Felix Kuehling 2020-04-23  322  	 *	In the case of all memory in the system we could use
-9e3a766b718144c Felix Kuehling 2020-04-23  323  	 *	iommu driver to build DMA addresses but not in the case
-9e3a766b718144c Felix Kuehling 2020-04-23  324  	 *	of local memory because currently iommu driver doesn't
-9e3a766b718144c Felix Kuehling 2020-04-23  325  	 *	deal with local/device memory addresses (it requires "struct
-9e3a766b718144c Felix Kuehling 2020-04-23  326  	 *	page").
-9e3a766b718144c Felix Kuehling 2020-04-23  327  	 *
-9e3a766b718144c Felix Kuehling 2020-04-23  328  	 *	Accordingly returning assumes that iommu funcutionality
-9e3a766b718144c Felix Kuehling 2020-04-23  329  	 *	should be disabled so we can assume that sg_table already
-9e3a766b718144c Felix Kuehling 2020-04-23  330  	 *	contains DMA addresses.
-9e3a766b718144c Felix Kuehling 2020-04-23  331  	 *
-9e3a766b718144c Felix Kuehling 2020-04-23  332  	 */
-9e3a766b718144c Felix Kuehling 2020-04-23  333  	struct amd_mem_context *mem_context =
-9e3a766b718144c Felix Kuehling 2020-04-23  334  		(struct amd_mem_context *)client_context;
-9e3a766b718144c Felix Kuehling 2020-04-23  335  
-9e3a766b718144c Felix Kuehling 2020-04-23  336  	pr_debug("Client context: 0x%p, sg_head: 0x%p\n",
-9e3a766b718144c Felix Kuehling 2020-04-23  337  			client_context, sg_head);
-9e3a766b718144c Felix Kuehling 2020-04-23  338  
-9d3646354db30f9 Philip Yang    2024-04-05  339  	if (!mem_context || !mem_context->bo) {
-9e3a766b718144c Felix Kuehling 2020-04-23  340  		pr_warn("Invalid client context");
-9e3a766b718144c Felix Kuehling 2020-04-23  341  		return -EINVAL;
-9e3a766b718144c Felix Kuehling 2020-04-23  342  	}
-9e3a766b718144c Felix Kuehling 2020-04-23  343  
-9e3a766b718144c Felix Kuehling 2020-04-23  344  	pr_debug("pid: %d, address: %#llx, size: %#llx\n",
-9e3a766b718144c Felix Kuehling 2020-04-23  345  			mem_context->pid,
-9e3a766b718144c Felix Kuehling 2020-04-23  346  			mem_context->va,
-9e3a766b718144c Felix Kuehling 2020-04-23  347  			mem_context->size);
-9e3a766b718144c Felix Kuehling 2020-04-23  348  
-9e3a766b718144c Felix Kuehling 2020-04-23  349  	/* Build sg_table for buffer being exported, including DMA mapping */
-9e3a766b718144c Felix Kuehling 2020-04-23  350  	ret = amdgpu_amdkfd_gpuvm_get_sg_table(
-2246c819e466f03 Leslie Shi     2021-11-15  351  		mem_context->dev->adev, mem_context->bo, mem_context->flags,
-9e3a766b718144c Felix Kuehling 2020-04-23  352  		mem_context->offset, mem_context->size,
-9e3a766b718144c Felix Kuehling 2020-04-23  353  		dma_device, DMA_BIDIRECTIONAL, &sg_table_tmp);
-9e3a766b718144c Felix Kuehling 2020-04-23  354  	if (ret) {
-9e3a766b718144c Felix Kuehling 2020-04-23  355  		pr_err("Building of sg_table failed\n");
-9e3a766b718144c Felix Kuehling 2020-04-23  356  		return ret;
-9e3a766b718144c Felix Kuehling 2020-04-23  357  	}
-9e3a766b718144c Felix Kuehling 2020-04-23  358  
-9d3646354db30f9 Philip Yang    2024-04-05  359  	pr_debug("size 0x%llx nents %d\n", mem_context->size, sg_table_tmp->nents);
-9d3646354db30f9 Philip Yang    2024-04-05  360  	for_each_sgtable_sg(sg_table_tmp, sg, i)
-9d3646354db30f9 Philip Yang    2024-04-05  361  		pr_debug("segment_%d dma_address 0x%llx length 0x%x dma_length 0x%x\n",
-9d3646354db30f9 Philip Yang    2024-04-05 @362  			i, sg->dma_address, sg->length, sg->dma_length);
-9d3646354db30f9 Philip Yang    2024-04-05  363  
-9e3a766b718144c Felix Kuehling 2020-04-23  364  	/* Maintain a copy of the handle to sg_table */
-9e3a766b718144c Felix Kuehling 2020-04-23  365  	mem_context->pages = sg_table_tmp;
-9e3a766b718144c Felix Kuehling 2020-04-23  366  	mem_context->dma_dev = dma_device;
-9e3a766b718144c Felix Kuehling 2020-04-23  367  
-9e3a766b718144c Felix Kuehling 2020-04-23  368  	/* Copy information about previosly allocated sg_table */
-9e3a766b718144c Felix Kuehling 2020-04-23  369  	*sg_head = *mem_context->pages;
-9e3a766b718144c Felix Kuehling 2020-04-23  370  
-9d3646354db30f9 Philip Yang    2024-04-05  371  	/* Return number of sg table segments */
-9e3a766b718144c Felix Kuehling 2020-04-23  372  	*nmap = mem_context->pages->nents;
-9e3a766b718144c Felix Kuehling 2020-04-23  373  
-9e3a766b718144c Felix Kuehling 2020-04-23  374  	return ret;
-9e3a766b718144c Felix Kuehling 2020-04-23  375  }
-9e3a766b718144c Felix Kuehling 2020-04-23  376  
-
-:::::: The code at line 362 was first introduced by commit
-:::::: 9d3646354db30f9a0472caa9e3bce3c34cf0a883 drm/amdkfd: Allow peer direct dma map with null RDMA device
-
-:::::: TO: Philip Yang <Philip.Yang@amd.com>
-:::::: CC: Bob Zhou <bob.zhou@amd.com>
+>> WARNING: modpost: lib/raid6/raid6_pq: section mismatch in reference: raid6_exit+0x2 (section: .text) -> raid6_benchmark_work (section: .init.data)
 
 -- 
 0-DAY CI Kernel Test Service
