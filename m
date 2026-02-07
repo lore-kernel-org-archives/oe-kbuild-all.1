@@ -1,152 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E2C2701C4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 17:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F66927E05A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 17:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770484497; cv=none; b=eLYMWL/5dsC8SXeLWcyB5X8MKvDAW3CWZ9ilbvF4gZh3CYihqHkuWFUtLe+aL2YvXcBWnKbDpuflHGUTchdzvS0b6hz68vfmquwAoAV7WwNJlyqEv6VPoSKlFVEOPE27bhljzw8blbXumc0qv1gcRx5U7rws2LoFGiXvAZGrjzc=
+	t=1770485653; cv=none; b=eUVU+wr1IgIqOZdy2xI1wDzBcMbNhKuCxcDzaBm/Dmaup9DawHriAd6erqhqjANmmEeZsoBu5WbooOaNO6AN1UG6xvNlI42aJHRPuE93C+F4Qb5NAGXrk3lXeZph/w/tOob+Oomi6V2vZkHN65bUNVqpDFNlpViYo5pIjN+RYiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770484497; c=relaxed/simple;
-	bh=zKw/AYb0/7FzcWHNukM1Pn4RE5MTCdV2hdJg1r0SlOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WHWISlK3r2u1rUwefQXQXkkD24edes1h69uLIyYucw4jc3DddvsgLL0/NwGUNZZnkvzzmVKaygeTIiDa75zNBMw/O5KuGyh4+tqt6ZXnTH16l7PrD3/CiYxmBH4kJeyb+08dyygh0u+lFb7NdXuvmYcjF8yTPHjjVUjUQlQjuao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ddvD1Lpa; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770485653; c=relaxed/simple;
+	bh=x3dSlFE9Ty2D0TuGFufALmSD7yE0B0bMm9bdTzyqCqM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lvRONhy/YomyJwc+uBhz08j/58ZJ1c/4G71wMgeX5OXxRjC/dgzQcKPh0gbOibK3BWXL82UQSPEHYjmeqBO+ILXxVi3A35yhqqkjFDj9XyBVdgbHVzcRRAGTvE64Bhy68EHva89cwMXVo8EidxexxeBNhB5XCjMCLdJCdfTGhbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G8hK/GOm; arc=none smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ddvD1Lpa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770484496; x=1802020496;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zKw/AYb0/7FzcWHNukM1Pn4RE5MTCdV2hdJg1r0SlOQ=;
-  b=ddvD1Lpa6Uzz/FHqwpIbyeNLmI3ISh3Etc2ArW8mEOUZDTi7yWh9xp+6
-   Ddg1WyQojtiGq0NwwEMZEa9/qsn3IeNO48fZ52Y/Erl5SH2ADdrPf1ktZ
-   w1YTo7Uw7OrD+TvKPybLxALlkW+gSHbhsn0uxdFn7OBQq4BuiOZncMYjx
-   xKtwSYbvgNStRKGcZz5wzgo32CjmvD78TP7bldwMLhS/hJPAbr1dZ6FlI
-   cDRQGFNLi5e54bfGYDqamgxi81SL+taUufpO0MnjkGclbXhyfCaS8NrC+
-   2OyQ+CwBNamtayXW1iIw9zPArjqROwitd1kUGEauH7ysxBSGsotyeS0x8
-   A==;
-X-CSE-ConnectionGUID: aJg1aLDmShyrO0/6D61gew==
-X-CSE-MsgGUID: 2Gp4iOhHQASVLc880QYI3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="70859051"
-X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
-   d="scan'208";a="70859051"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 09:14:55 -0800
-X-CSE-ConnectionGUID: iKezQjPSTNeDZ3nMz6tNgg==
-X-CSE-MsgGUID: CH8RI5QnSi29lqVxpEM0OQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
-   d="scan'208";a="211211830"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 07 Feb 2026 09:14:52 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1voltR-00000000lmq-1J6L;
-	Sat, 07 Feb 2026 17:14:49 +0000
-Date: Sun, 8 Feb 2026 01:13:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: 434779359@qq.com, Jonathan Cameron <jic23@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	liufulin <frank.liu@faiot.com>,
-	Waqar Hameed <waqar.hameed@axis.com>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH] tof: Add VL53L4CX TOF drivers
-Message-ID: <202602080159.l0CRmkUf-lkp@intel.com>
-References: <tencent_326708D02875274DF25B10B91402B3828606@qq.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G8hK/GOm"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2b71557299dso1631159eec.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 07 Feb 2026 09:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770485652; x=1771090452; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=vWfIfyHpKZoIYtYm4HS2wsePgRkfeYlFHZpIDaa5Qds=;
+        b=G8hK/GOmhNk/8Pg5zYc2Wiu0VGdwIvPgesWweOipkUAQDTkTfkqsnGNuFLPMJQL6NX
+         UwWOWePje223+OM9cI0O8rrX0PZ0BvFvNuHfGa2tQJaM80RWZgxs9ZdadtGG4OmP2Kfq
+         JYhwmbjWBhIEnIi6auI2/0LsrCi03QvynBQYOem5ts8cRW9HpG5rKHyAJgxps30Js0cy
+         8kwy8+rUe+f/qEv6DJN2aoQigFl058zVuMoEEvn3C4Atg0Lnh/CfQ7SebIQKTUQBXVq/
+         CkcoIK2RCZ3Zqz6426v+qE1bQ2vrH73jRczVVYEGtAOhCFoLF8+/fJBjfKZdJ3IcltQY
+         3ZEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770485652; x=1771090452;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vWfIfyHpKZoIYtYm4HS2wsePgRkfeYlFHZpIDaa5Qds=;
+        b=A0lxXTZQfzcjmWz4aRktMnIF5N5ACQhe5/pn2AIxiGt1TkvNSjmzgFDRX49+ZJ6mmU
+         kOALCJrEVSeTZde0rMfJVMtbUMp5lWAybwFbmu74XL4odi/5l3OeWjKsZUi47AeYFL3I
+         geK9XZhOl7fT8j+loFSlcLnvq6bfatDB22KgL9vwJuiyB4xfQIms8haXLDaD6hOn38xG
+         bP39CQG2Li6L5XeNd9w1nxmQxbGQHMAANUtwHYd4Ggg1A/zKZQPnL91LEI8FHkUOaVwn
+         YapCDXKbgeaw5tHO6yuVTgqfR3SOladx+oG4bbdMqu/ssyI6Ws/bOQbhgmpmQ6QOo5bR
+         ULIw==
+X-Forwarded-Encrypted: i=1; AJvYcCVVcmFs10AwQQHR24HjPOyH+Crpj4s/CTudvO7kQiRn65h30ewzcDhtORrFseNPcjaHPRD58Fx25BtF1Ike@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHEITEdYHD0piQ04Z27rI2ZXiniWR9Xu63irMbGdqk6yyuMOkK
+	Vij+5AR3Ay3g2sUkxsaG3vKVorrdOvIyWlxLaY8Upb+F/bCE8ejwCi5w
+X-Gm-Gg: AZuq6aJfR2w7nccWUIHMNnTIsiyYqAnKohVbV+SgqgvluEkQauBUj74nDuZw6CF1Ya8
+	lJNdGNWbOqqRsPuUY4THJ2+xO7Twj326Gg5dryevlVCOZwtys3/lw0IohsgGe/3v3o9H6/wtJeb
+	7rWqXvHLv0SC+JJGSIXw/pX6PhQqElXtGlUjnRncvj8ZYwrrJ1xqaHzSVbG2Y/m3uQXY3K2N+el
+	qp4dl4/JzIDxS9+Ec3sZuXT6V0Rzwrc2yFOAX/u7On+hlSyOEgZ1t5dUiUHzdFS5e2l8CDl0hpT
+	Oe58GJuHNahcV2C5pLizOFSvULVPCII8Y/tXIrlwbrxpQ4igAfUOdbqbm5fwRaM9elezwytoc5R
+	AnH6AbG/LAyY6IiWh5f0sJ2Md67PpYwz6yOSJ8t/qZtZiZV0+9uMbQi6kF/R2YEScTRcOJUg/wu
+	l2mTSCqrtG7eM/LFckpPhOjV+Fk6udT2g3WRbtGadLm5kHGs+8D39sIDwSZBLgPRC8LUHn5FBU/
+	p7yuW9+H90=
+X-Received: by 2002:a05:7300:f195:b0:2b7:26ab:1f74 with SMTP id 5a478bee46e88-2b85644eab5mr3151071eec.3.1770485652080;
+        Sat, 07 Feb 2026 09:34:12 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1270433ab31sm5418990c88.11.2026.02.07.09.34.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Feb 2026 09:34:11 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <8aae9201-b143-4433-889f-e32664adb9f8@roeck-us.net>
+Date: Sat, 7 Feb 2026 09:34:10 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_326708D02875274DF25B10B91402B3828606@qq.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 10251/12094] drivers/hwmon/cros_ec_hwmon.o:
+ error: objtool: cros_ec_hwmon_read+0x6c: can't find jump dest instruction at
+ .text+0xd2d
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org
+References: <202602071311.Q6tATiyh-lkp@intel.com>
+ <4db66fc2-dc8a-4499-bc9d-c1f85e2ba4c1@t-8ch.de>
+ <957068ee-7368-4fd1-9e55-1449414238be@roeck-us.net>
+ <317af5ed-fc8b-42d7-aa4a-143f8cf3ab04@t-8ch.de>
+ <8edcc901-04aa-4d8d-a357-8653e29327e4@roeck-us.net>
+ <9a2bfcad-f5b6-42c1-92fb-c8348909c909@t-8ch.de>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <9a2bfcad-f5b6-42c1-92fb-c8348909c909@t-8ch.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 2/7/26 08:43, Thomas Weißschuh wrote:
+> On 2026-02-07 08:26:37-0800, Guenter Roeck wrote:
+>> On 2/7/26 07:33, Thomas Weißschuh wrote:
+>>> On 2026-02-07 07:07:13-0800, Guenter Roeck wrote:
+>>>> On 2/7/26 02:56, Thomas Weißschuh wrote:
+>>>>> On 2026-02-07 13:14:53+0800, kernel test robot wrote:
+>>>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>>>>>> head:   9845cf73f7db6094c0d8419d6adb848028f4a921
+>>>>>> commit: 165c14597d53cfa7bc97b4ff8bc85f7bd98262b7 [10251/12094] hwmon: (cros_ec) Add support for temperature thresholds
+>>>>>> config: x86_64-randconfig-071-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071311.Q6tATiyh-lkp@intel.com/config)
+>>>>>> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+>>>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071311.Q6tATiyh-lkp@intel.com/reproduce)
+>>>>>>
+>>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>>>> the same patch/commit), kindly add following tags
+>>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202602071311.Q6tATiyh-lkp@intel.com/
+>>>>>>
+>>>>>> All errors (new ones prefixed by >>):
+>>>>>>
+>>>>>>>> drivers/hwmon/cros_ec_hwmon.o: error: objtool: cros_ec_hwmon_read+0x6c: can't find jump dest instruction at .text+0xd2d
+>>>>>
+>>>>> This is due to the call to unreachable() in cros_ec_hwmon_attr_to_thres().
+>>>>> Replacing it with BUG() avoids the issue.
+>>>>>
+>>>>> Guenter, do you want to drop the patches for now and I'll resend them
+>>>>> next cycle? I can also send an incremental patch. Or you just fix it up
+>>>>> in your branch.
+>>>>>
+>>>>
+>>>> I strongly dislike BUG() because it means "I don't trust my own code".
+>>>
+>>> Agreed, I am not a fan either, which is why I used unreachable()
+>>> originally.
+>>>
+>>>> The final "else" in the code is not really necessary and should be dropped.
+>>>
+>>> That will trigger a compiler warning:
+>>>
+>>> drivers/hwmon/cros_ec_hwmon.c:170:1: error: control reaches end of non-void function [-Werror=return-type]
+>>>     170 | }
+>>>         | ^
+>>>
+>>
+>> I meant something like
+>>
+>> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+>> index 5b998cd5e506..6cf5ab0f4b73 100644
+>> --- a/drivers/hwmon/cros_ec_hwmon.c
+>> +++ b/drivers/hwmon/cros_ec_hwmon.c
+>> @@ -165,10 +165,7 @@ static enum ec_temp_thresholds cros_ec_hwmon_attr_to_thres(u32 attr)
+>>                  return EC_TEMP_THRESH_WARN;
+>>          else if (attr == hwmon_temp_crit)
+>>                  return EC_TEMP_THRESH_HIGH;
+>> -       else if (attr == hwmon_temp_emergency)
+>> -               return EC_TEMP_THRESH_HALT;
+>> -       else
+>> -               unreachable();
+>> +       return EC_TEMP_THRESH_HALT;     /* attr == hwmon_temp_emergency */
+>>   }
+> 
+> Welp, that was easy :-/
+> Let's use it. Feel free to apply it directly.
+> 
+Done - squashed into original patch.
 
-kernel test robot noticed the following build warnings:
+Thanks,
+Guenter
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.19-rc8 next-20260205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/434779359-qq-com/tof-Add-VL53L4CX-TOF-drivers/20260207-174646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/tencent_326708D02875274DF25B10B91402B3828606%40qq.com
-patch subject: [PATCH] tof: Add VL53L4CX TOF drivers
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260208/202602080159.l0CRmkUf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602080159.l0CRmkUf-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602080159.l0CRmkUf-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/iio/proximity/vl53l4cx-i2c.c: In function 'ctrl_mz_data_blocking_common':
->> drivers/iio/proximity/vl53l4cx-i2c.c:16100:13: warning: variable 'rc0' set but not used [-Wunused-but-set-variable]
-   16100 |         int rc0;
-         |             ^~~
-
-
-vim +/rc0 +16100 drivers/iio/proximity/vl53l4cx-i2c.c
-
- 16096	
- 16097	static int ctrl_mz_data_blocking_common(struct stmvl53lx_data *data, void __user *p, bool is_additional)
- 16098	{
- 16099		int rc = 0;
- 16100		int rc0;
- 16101		struct stmvl53lx_data_with_additional __user *d = p;
- 16102		pid_t pid = current->pid;
- 16103	
- 16104		mutex_lock(&data->work_mutex);
- 16105		if (data->is_device_remove) {
- 16106			rc = -ENODEV;
- 16107			goto done;
- 16108		}
- 16109		if (!data->enable_sensor) {
- 16110			rc = -ENODEV;
- 16111			goto done;
- 16112		}
- 16113		if (!is_new_data_for_me(data, pid, &data->mz_data_reader_list))
- 16114			rc = sleep_for_data(data, pid, &data->mz_data_reader_list);
- 16115		if (rc) {
- 16116			kill_mz_data(&data->meas.multi_range_data);
- 16117			rc0 = copy_to_user(&d->data, &data->meas.multi_range_data, sizeof(VL53LX_MultiRangingData_t));
- 16118			goto done;
- 16119		}
- 16120	
- 16121		rc = copy_to_user(&d->data, &data->meas.multi_range_data, sizeof(VL53LX_MultiRangingData_t));
- 16122		if (rc)
- 16123			goto done;
- 16124		if (is_additional) {
- 16125			rc = copy_to_user(&d->additional_data, &data->meas.additional_data, sizeof(VL53LX_AdditionalData_t));
- 16126			if (rc)
- 16127				goto done;
- 16128		}
- 16129		rc = add_reader(pid, &data->mz_data_reader_list);
- 16130	
- 16131	done:
- 16132		mutex_unlock(&data->work_mutex);
- 16133	
- 16134		return rc;
- 16135	}
- 16136	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
