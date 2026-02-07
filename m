@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8B933EAED
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 13:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6836F341AD0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 13:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770470627; cv=none; b=eeNXAX4mE1mWANDu18Vx9Wy4PFOo7UOmsabnAT1Eny9AG6M4jxBkeDW4lDEudP6xEtH52StodXkNF4mrdu0G1ngn894YYe9G32NItUxa1iF9tvjHc9a2QWjJJ9mK4n9PWIOY0lgm+UNdxQPFdc3ws7kXD1E3mogUK6IP4WVq7cg=
+	t=1770471286; cv=none; b=pHa13f3oubJKeDWUOrNMshIhR2Kg+q52mllMjIyi65z8v3jCrutx6ArfgcGbCYObcPu24gcj//zv03JqKbCPWw0rJPCxdZWQ6lglSzsmmvtQTK0YZqjOUSfIBsH6TJGYVchxBNLNkyKCDPPxtRdSn6PFweAzzJI8bqU6ahL+VdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770470627; c=relaxed/simple;
-	bh=6/UmMTy0Gq1wUdv06kPMIOojTG2JWFlRrFM54NQFeek=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DI7N007hyhT0BXOTDXksaF67Noy+zRidPqFHi2BMg0gyUBWf9EAJtNYdlQ+IJm1qihSbTbTzsCYEjeJ0NYle8Pub0lvKoS1rJ/iQ3BRTBLbN7UwdGQHF2Aul6PPFlo390FBoy6Q7s+5m664rSBDuVSMPPWeDLMKjN3DCOYtxluE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VEODkqWk; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1770471286; c=relaxed/simple;
+	bh=DsGXXdE+KT9IkyZUqxENh80lMjDbvNSRQ1QYXwNK7u4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EO8ZU9c91HuPvHsuoYNNBzwHoUpJT1x0lXKmrOw2d94lKu61tCI67bekaXsJnpOgobqslTkR9CK5GC/xOxcZZlDrsQmry5UIq++KNvK4n2h9fP680uhHrWmu8fTidRQKZzbxTYqQ1tirP5W39MH8MiPFw/G9fS9GT+T/SwchHR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mbiz3AHg; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VEODkqWk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mbiz3AHg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770470627; x=1802006627;
+  t=1770471287; x=1802007287;
   h=date:from:to:cc:subject:message-id;
-  bh=6/UmMTy0Gq1wUdv06kPMIOojTG2JWFlRrFM54NQFeek=;
-  b=VEODkqWkdVFM4KeHVJt7zm7IRuht+68Cc5mmlwQMAQVGSKxyQaFLiRR/
-   27Fato4YAqFJuB0CnyiFcFtzPCjsR/fLodsdSNL0NF9TbWCts2CJVoECL
-   pmPsQixUPhyEwzpHcMjzHarZLD+UR4YKf842f02DSts6qDeHNzCy0RZ2L
-   loa4BP6VzCj11sGjO0ic3xCKxYgSnyrwocRR5vMIpT9v0n17uXXkBRilB
-   nBUa1ANaHTmcjIK5zTpFC82Lkoh1G1j1QKi8dLch0jx+fuvR3Sq+ZTPt8
-   KQLgi/lYrNrShulfefFqrwkas3QXei43xHHFuljveS02wf/YKNZ8mVwAS
+  bh=DsGXXdE+KT9IkyZUqxENh80lMjDbvNSRQ1QYXwNK7u4=;
+  b=Mbiz3AHgxFdZ/qfWz8NgkqJAtaKKx/naYNpd+RoeI4PP8iIeSEEj2+r5
+   fApR3I2GNNuwcUzWy0QG/5wff2wNHvRag3ubJv2YwkxFQcpqBVQdjKjRV
+   YK4qhDR3AKtC5URQrBhcs6dqDSuAk9aka0iRUJJg3Zin2ZcSXxNMX0cKs
+   3RIP0QCmU5CeM5DU9toLlWbgpoYhjBahL2YpuPBOVZsL4rXVQnGGhMJAv
+   IoG+1LfD8Vdyog+Aj0lfXcm+aFB/WVwAvExJC5cHomoFV4eVnNwNoBvOJ
+   PIOb2/+Kp/euXdA/JXNP7BRv/oRF8kt0GvRhuTUNv53xfGKNqKmKnbdOb
    Q==;
-X-CSE-ConnectionGUID: oHHZN/d5RSOGZLPCQe/hQA==
-X-CSE-MsgGUID: Fehdxq8zSSuHQpLO7g747Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="75273536"
+X-CSE-ConnectionGUID: gjOZnJwGRZagvI4fSYTrAQ==
+X-CSE-MsgGUID: DrZynA3BQzCFL3L9/CtXNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="71839736"
 X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
-   d="scan'208";a="75273536"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 05:23:47 -0800
-X-CSE-ConnectionGUID: ybYY/UMAQkug6ywdNjbZPw==
-X-CSE-MsgGUID: M4CYILQMRHqWOx4Ms7TS8w==
+   d="scan'208";a="71839736"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 05:34:46 -0800
+X-CSE-ConnectionGUID: zFm1r/3HR6Kpb/vuj9NwRg==
+X-CSE-MsgGUID: 5TpSBaYXQEO1btjqtMzunw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
-   d="scan'208";a="211148833"
+   d="scan'208";a="210920359"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 07 Feb 2026 05:23:45 -0800
+  by orviesa009.jf.intel.com with ESMTP; 07 Feb 2026 05:34:44 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voiHm-00000000lfG-16BO;
-	Sat, 07 Feb 2026 13:23:42 +0000
-Date: Sat, 07 Feb 2026 21:23:24 +0800
+	id 1voiSQ-00000000lfe-1lxU;
+	Sat, 07 Feb 2026 13:34:42 +0000
+Date: Sat, 07 Feb 2026 21:34:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>,
- ChenXiaoSong <chenxiaosong@kylinos.cn>
-Subject: [samba-ksmbd:for-next 51/52]
- fs/smb/client/smb2maperror.c:55:60: sparse: sparse: restricted __le32
- degrades to integer
-Message-ID: <202602072154.nzriZyX6-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1]
+ include/trace/hooks/ufshcd.h:25:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202602072150.SeL85llU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,53 +60,40 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.samba.org/ksmbd.git for-next
-head:   86163d5208e84648be59f3f2e06abd2f79f608bb
-commit: ade60a2fceae59392db456be3a7a7784fa4ab20c [51/52] cifs: Autogenerate SMB2 error mapping table
-config: x86_64-randconfig-r132-20260207 (https://download.01.org/0day-ci/archive/20260207/202602072154.nzriZyX6-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   eeee2f3cb9b462b9954fc31022a42fe014fbdc24
+commit: 324b653e2a6a43fc6a3352536376a47e18452d22 [1/1] ANDROID: scsi: ufs: add complete init vendor hook
+config: i386-randconfig-r111-20260207 (https://download.01.org/0day-ci/archive/20260207/202602072150.SeL85llU-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602072154.nzriZyX6-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602072150.SeL85llU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602072154.nzriZyX6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602072150.SeL85llU-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/smb/client/smb2maperror.c:55:60: sparse: sparse: restricted __le32 degrades to integer
+   drivers/ufs/core/ufshcd.c: note: in included file:
+>> include/trace/hooks/ufshcd.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/ufshcd.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/ufshcd.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-vim +55 fs/smb/client/smb2maperror.c
+vim +25 include/trace/hooks/ufshcd.h
 
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  32  
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  33  int
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  34  map_smb2_to_linux_error(char *buf, bool log_err)
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  35  {
-0d35e382e4e96a4 fs/cifs/smb2maperror.c       Ronnie Sahlberg 2021-11-05  36  	struct smb2_hdr *shdr = (struct smb2_hdr *)buf;
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  37  	unsigned int i;
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  38  	int rc = -EIO;
-31473fc4f9653b7 fs/cifs/smb2maperror.c       Pavel Shilovsky 2016-10-24  39  	__le32 smb2err = shdr->Status;
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  40  
-eccb4422cf97a4b fs/cifs/smb2maperror.c       Steve French    2018-05-17  41  	if (smb2err == 0) {
-0d35e382e4e96a4 fs/cifs/smb2maperror.c       Ronnie Sahlberg 2021-11-05  42  		trace_smb3_cmd_done(le32_to_cpu(shdr->Id.SyncId.TreeId),
-0d35e382e4e96a4 fs/cifs/smb2maperror.c       Ronnie Sahlberg 2021-11-05  43  			      le64_to_cpu(shdr->SessionId),
-0d35e382e4e96a4 fs/cifs/smb2maperror.c       Ronnie Sahlberg 2021-11-05  44  			      le16_to_cpu(shdr->Command),
-0d35e382e4e96a4 fs/cifs/smb2maperror.c       Ronnie Sahlberg 2021-11-05  45  			      le64_to_cpu(shdr->MessageId));
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  46  		return 0;
-eccb4422cf97a4b fs/cifs/smb2maperror.c       Steve French    2018-05-17  47  	}
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  48  
-6c1eb31ecb97c07 fs/smb/client/smb2maperror.c ChenXiaoSong    2025-12-05  49  	log_err = (log_err && (smb2err != STATUS_MORE_PROCESSING_REQUIRED) &&
-6c1eb31ecb97c07 fs/smb/client/smb2maperror.c ChenXiaoSong    2025-12-05  50  		   (smb2err != STATUS_END_OF_FILE)) ||
-6c1eb31ecb97c07 fs/smb/client/smb2maperror.c ChenXiaoSong    2025-12-05  51  		  (cifsFYI & CIFS_RC);
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  52  
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  53  	for (i = 0; i < sizeof(smb2_error_map_table) /
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15  54  			sizeof(struct status_to_posix_error); i++) {
-ddfbefbd393fb1a fs/cifs/smb2maperror.c       Steve French    2011-03-15 @55  		if (smb2_error_map_table[i].smb2_status == smb2err) {
-
-:::::: The code at line 55 was first introduced by commit
-:::::: ddfbefbd393fb1a935bdf27cba5ad2eb24a76e75 CIFS: Map SMB2 status codes to POSIX errors
-
-:::::: TO: Steve French <sfrench@us.ibm.com>
-:::::: CC: Steve French <smfrench@gmail.com>
+    15	
+    16	DECLARE_HOOK(android_vh_ufs_fill_prdt,
+    17		TP_PROTO(struct ufs_hba *hba, struct ufshcd_lrb *lrbp,
+    18			 unsigned int segments, int *err),
+    19		TP_ARGS(hba, lrbp, segments, err));
+    20	
+    21	DECLARE_RESTRICTED_HOOK(android_rvh_ufs_reprogram_all_keys,
+    22				TP_PROTO(struct ufs_hba *hba, int *err),
+    23				TP_ARGS(hba, err), 1);
+    24	
+  > 25	DECLARE_RESTRICTED_HOOK(android_rvh_ufs_complete_init,
+    26				TP_PROTO(struct ufs_hba *hba),
+    27				TP_ARGS(hba), 1);
+    28	
 
 -- 
 0-DAY CI Kernel Test Service
