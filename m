@@ -1,137 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06A433E346
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 10:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4CB1A9FA7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Feb 2026 10:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770461084; cv=none; b=CkleBHxLqmxWoGcWQP0Lc1N0Vdku/2Fqyw06JdNQHJuT5DVxxGChh50ZW7AN/qQkZpnX8X1hThNTROZMYY6ks/9bkffbp38ZpJZlt/7CpN05Lmoq2VRN0G20XHW2OJJaS/zPUkI5V3Kwi/2zQRnsq4cEmzKNVTK3HwcyvY08jfc=
+	t=1770461683; cv=none; b=ThL+Ri4Jj17TMT060YC96dR7vba8kSgQAafiDY2STTT5h+rOOqK4akDYQbtpH3DZaZDybAOrAa9XM4dLNCoxwtzEphgtvvDvpWYmUbkVmu/rVKWeImpjDUfFSiS40MD6vFxY9qSA279GlQja0+OJUbp5Sv7dfSrzElULe7RlS8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770461084; c=relaxed/simple;
-	bh=Gk1b1szSKFtgjZ1DQKUhyp77v69EzsrYNnADb+xDK+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGR9C02JezrfA+CauyQAAgJ8xKWVxPPdn0I0MJxm0tkVeKH28H85AKeY3AmHufF5XObbx740DEx8hpAhgxpdX5ku2uM8d2RdgmSGME/V0pzmO9ij8uBiVyj8n7khGcQl43dR3TYYckdApK7ik7OMvz7XrqA38E40mlAosly3A1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOfDjLp0; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1770461683; c=relaxed/simple;
+	bh=UKUij57MUql8/qTYspcOdOz1av6QKZuDhO/+vXShYLs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CbuCkjigYZyUood9ipAVVwBaVSOFza2tlGpy2am3xNcc7OUSQA6tx9Hqf0O0HERGjSjAIVelZy5iKbA0aP2ta9iJ+0DoruhQ+1nx/V0PF7E9OLbMPanHvmvsrfE8hqSCi3QlgNo9ybnENDWwXEA9vbDHpgHY64ADm5DrVRuR7E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LfdcJuwS; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOfDjLp0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LfdcJuwS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770461083; x=1801997083;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gk1b1szSKFtgjZ1DQKUhyp77v69EzsrYNnADb+xDK+c=;
-  b=jOfDjLp0v0QE+rc6LRr6Ml++4Mo7JaehAK1gc4moyRJhPBw5roIZJkah
-   p5LRbvINwcKH+V5+LJzGYQ4659aDVvJykIbCkStdOPm4d1Ds0g1Eemwof
-   0deH8Om+jg/qZw5p0oKVoql/9xXfNuMytRgPCdMtvv6abYgE8vGN5G4Y8
-   toLBGmUnaVY56y30HTe+SFL5Tqoy1X2v+O1FUl1dKrRZi+Gt2QJlUZ1XI
-   vjuu9NzCUGjxPHtHopgQO0mj4+Z+oR13o2wf6uM+lSiYQxfHNAOOD4/7N
-   nLWX32x8uSu7dBcxfx2HlkBYNm5/cd43fiFMYrDoCirpwBUIj6RqhVVrN
-   g==;
-X-CSE-ConnectionGUID: Ea3hoZbAT5SXGM4oZDBkzA==
-X-CSE-MsgGUID: HGyHjCyQQEK9/Miklo7gvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="97109628"
+  t=1770461683; x=1801997683;
+  h=date:from:to:cc:subject:message-id;
+  bh=UKUij57MUql8/qTYspcOdOz1av6QKZuDhO/+vXShYLs=;
+  b=LfdcJuwSMtIM6DJKhSMUWPeMotK/1WzWJ8s4Y+Ss8sbHnZY3lBSMCWX/
+   Pu6a91NKQT/UbHqbgKhMDuIUwuWEgNk5Ic4wafe0kgmbRhU+bPGBGhum+
+   REh8RI47USedICS87ZGxdpDFYd/kHqv7FboEdpct0lO6kdmkrx6Yiy8mh
+   as1usOV8BAmVDr7wysUHxPEbNdqo9VoTphyykBB7tGAs82RVfhIJEkquV
+   /Xm4+Wxlm/LgL9/Q2naWkc4DhIjvZ27XeAsR6RI0FlP49c8ubw3hJ/qve
+   VWD/YiBSccsH6H/NQbo5/wlEQ9DEeI4tw8qIcsq+Iul/ZQMAqvHqFuOAw
+   w==;
+X-CSE-ConnectionGUID: CDb1n1eKTlK/PSnDHCcRjA==
+X-CSE-MsgGUID: CEfREYvrTeSiWes9l5nrAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="89229682"
 X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
-   d="scan'208";a="97109628"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 02:44:43 -0800
-X-CSE-ConnectionGUID: XaIAzb1RTseln8MDTP5P8g==
-X-CSE-MsgGUID: su1AKVbVQBSEZSzAGvWb0g==
+   d="scan'208";a="89229682"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 02:54:42 -0800
+X-CSE-ConnectionGUID: FNEW3nWURWOBMVNxH8t7+w==
+X-CSE-MsgGUID: Q48+0c/pTTSIH06cLxWU3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,278,1763452800"; 
-   d="scan'208";a="210848523"
+   d="scan'208";a="210194716"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Feb 2026 02:44:40 -0800
+  by orviesa006.jf.intel.com with ESMTP; 07 Feb 2026 02:54:41 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vofnq-00000000laa-0Pv3;
-	Sat, 07 Feb 2026 10:44:38 +0000
-Date: Sat, 7 Feb 2026 18:43:45 +0800
+	id 1vofxW-00000000lau-17Lo;
+	Sat, 07 Feb 2026 10:54:38 +0000
+Date: Sat, 07 Feb 2026 18:54:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Coddington <bcodding@hammerspace.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Rick Macklem <rick.macklem@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] NFSD: Sign filehandles
-Message-ID: <202602071819.UF8h2gl7-lkp@intel.com>
-References: <d34d4f79a7d4c6b77ad260f925cb51c34fd53ce5.1770390036.git.bcodding@hammerspace.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bcachefs:master 342/347] fs/bcachefs/util/util.c:476:1:
+ warning: the frame size of 1036 bytes is larger than 1024 bytes
+Message-ID: <202602071855.ZANqdJjk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d34d4f79a7d4c6b77ad260f925cb51c34fd53ce5.1770390036.git.bcodding@hammerspace.com>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e3934bbd57c73b3835a77562ca47b5fbc6f34287]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/NFSD-Add-a-key-for-signing-filehandles/20260206-231407
-base:   e3934bbd57c73b3835a77562ca47b5fbc6f34287
-patch link:    https://lore.kernel.org/r/d34d4f79a7d4c6b77ad260f925cb51c34fd53ce5.1770390036.git.bcodding%40hammerspace.com
-patch subject: [PATCH v4 3/3] NFSD: Sign filehandles
-config: x86_64-randconfig-121-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071819.UF8h2gl7-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071819.UF8h2gl7-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git master
+head:   805636effec53f8729424c23a39685a76744c81f
+commit: 901bbf17808704205ff7ed14810b2a2c602c63af [342/347] bcachefs: Add bch2_time_stats_json_to_text() printbuf wrapper
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260207/202602071855.ZANqdJjk-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602071855.ZANqdJjk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602071819.UF8h2gl7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602071855.ZANqdJjk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/nfsd/nfsfh.c:168:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] hash @@     got restricted __le64 [usertype] @@
-   fs/nfsd/nfsfh.c:168:14: sparse:     expected unsigned long long [usertype] hash
-   fs/nfsd/nfsfh.c:168:14: sparse:     got restricted __le64 [usertype]
-   fs/nfsd/nfsfh.c:191:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] hash @@     got restricted __le64 [usertype] @@
-   fs/nfsd/nfsfh.c:191:14: sparse:     expected unsigned long long [usertype] hash
-   fs/nfsd/nfsfh.c:191:14: sparse:     got restricted __le64 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +168 fs/nfsd/nfsfh.c
+   fs/bcachefs/util/util.c: In function 'bch2_time_stats_json_to_text':
+>> fs/bcachefs/util/util.c:476:1: warning: the frame size of 1036 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     476 | }
+         | ^
 
-   143	
-   144	/*
-   145	 * Append an 8-byte MAC to the filehandle hashed from the server's fh_key:
-   146	 */
-   147	static int fh_append_mac(struct svc_fh *fhp, struct net *net)
-   148	{
-   149		struct nfsd_net *nn = net_generic(net, nfsd_net_id);
-   150		struct knfsd_fh *fh = &fhp->fh_handle;
-   151		siphash_key_t *fh_key = nn->fh_key;
-   152		u64 hash;
-   153	
-   154		if (!(fhp->fh_export->ex_flags & NFSEXP_SIGN_FH))
-   155			return 0;
-   156	
-   157		if (!fh_key) {
-   158			pr_warn_ratelimited("NFSD: unable to sign filehandles, fh_key not set.\n");
-   159			return -EINVAL;
-   160		}
-   161	
-   162		if (fh->fh_size + sizeof(hash) > fhp->fh_maxsize) {
-   163			pr_warn_ratelimited("NFSD: unable to sign filehandles, fh_size %d would be greater"
-   164				" than fh_maxsize %d.\n", (int)(fh->fh_size + sizeof(hash)), fhp->fh_maxsize);
-   165			return -EINVAL;
-   166		}
-   167	
- > 168		hash = cpu_to_le64(siphash(&fh->fh_raw, fh->fh_size, fh_key));
-   169		memcpy(&fh->fh_raw[fh->fh_size], &hash, sizeof(hash));
-   170		fh->fh_size += sizeof(hash);
-   171	
-   172		return 0;
-   173	}
-   174	
+
+vim +476 fs/bcachefs/util/util.c
+
+   466	
+   467	void bch2_time_stats_json_to_text(struct printbuf *out, struct bch2_time_stats *stats,
+   468					  const char *epoch_name, unsigned int flags)
+   469	{
+   470		char buf[1024];
+   471		struct seq_buf seq;
+   472	
+   473		seq_buf_init(&seq, buf, sizeof(buf));
+   474		bch2_time_stats_to_json(&seq, stats, epoch_name, flags);
+   475		prt_bytes(out, buf, seq_buf_used(&seq));
+ > 476	}
+   477	
 
 -- 
 0-DAY CI Kernel Test Service
