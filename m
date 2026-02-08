@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDD33EBF0E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Feb 2026 08:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B88533D6CF
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Feb 2026 09:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770541084; cv=none; b=QvU6Edg8EJh2Tg6eVlvVPBYCrT7GHgB1dnvBuW97jMLckt+GMTMZgM01NT1APerLL8dpD5Jfluyv2U4HTWWxFAY1g0cJc96DO7IKgOQoo7w/iJ7le4BnLzSc1y0RPSpqWmfMnJp3lnap6hg2wMSHGYpXx/rLlz10hkc3LPi9r7s=
+	t=1770543004; cv=none; b=EajzY6ftF0LQijxYSkmQh9BZBAE9YNjAiNWLczu+/QM3xzlDIRPpHzS9tYoLExZnPaAM9hwWo7nu1QU14gYs0OtkmLYgmqpXIPhZXifOY4c+rOQjuijSMF804WNcgcBPvV/3H30sgXw1c6YWWIrMay/DxhgHyA0BqUDhsx+4idU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770541084; c=relaxed/simple;
-	bh=6PXYYyFWwCKZhzlGOOe6zlKrU0nwj6paIBBqgxvvRSE=;
+	s=arc-20240116; t=1770543004; c=relaxed/simple;
+	bh=Z5x2IZZZOEQASq3EeYXcIL16SOYHlah9WTR7/atJWoA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PYRA3GuRESahoOszxQoyOIefQu2D6TROmcOAqt2nfPMLYEtJc3TSRLF0GwXfpFMVx3bB706QUcVmUh7F9uqnP3GzjVrtgwSINgstUgc7SIqrtrtX4KGi5QZFI/uo1uBhZH9vmaPHeSfo2XsWWQsqQdaQmWAEu7G1J/7FrZv2F30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsYI9IcX; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=pBDCKH9A0ESMwWvtaKV6sAt/a+Gh3WM1dNYbK7hyVG1UNgLDR+mdeMXX+JCyaVais9TR3b3dE9P9IdsX7ePCwAikzGupU7/q7Gqj3cpoEirC7gxrTYJBgP1NBrrBevKwO0wYVh6kQVI1ey/4R8DHQK7coKmyrZCFw+srkzleBzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TpITp/Ox; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsYI9IcX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpITp/Ox"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770541084; x=1802077084;
+  t=1770543003; x=1802079003;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6PXYYyFWwCKZhzlGOOe6zlKrU0nwj6paIBBqgxvvRSE=;
-  b=UsYI9IcXNCF8Rx7L7ZViC57G7LX6oRgiV6pe7uoEVcMw/XBJtS31cKBT
-   O8XkqeQ63DC1HQT+4nCPw+iRlNPQKEoaJmHcmjwhoi7VClE7DuuNa0+nm
-   /oqPhNy15I+9aIcohPr5NQVfDFrsDAFFoEhR/dYrYnJkkObFjAfn3cXa0
-   E1dlNr+ZcGynoHI6x59NTsI6PaAOJh0132X1U7bflQltnIIEAlJf/MwnV
-   VpeX2lJlgTUj543orCGk0v8yRwS56H0X6Wqsbodo5tqn6uawOSxT10o4I
-   hk5vMZlvYsrn5W0UsI1DgNlJCglqYJqHJDAm/U29F/s33LEsF7i/N56Fa
-   g==;
-X-CSE-ConnectionGUID: ZpS15KYsRQaTSNE7KoT2Dg==
-X-CSE-MsgGUID: ef07O08pSuK0KGb0vsvhyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="83056643"
+  bh=Z5x2IZZZOEQASq3EeYXcIL16SOYHlah9WTR7/atJWoA=;
+  b=TpITp/OxvoZocIIjaHRHw/8F4Zywqr7WG8F+AEZmnlxttkUeyL3K0vjA
+   a6ZVT5O4Gtnf7NPHt2KVfbbvwzQsTXOzWIHuu7tMmLqkYFaPhL3lwkWT1
+   6aeOg2Z6r6zojHzuRdJQiDuKKXsfYWHA2YVmV/s/EyoscciyPj+nVLBWv
+   6W0gjTTzceyRYuOsvPNiC8b9GzpN1ovKE8/3lUvdLoM9QsoeQCOXQskW4
+   2YOJAc/u+yGc52HQ4Ru2WeS2BK9MV990zDdzlf1xZayzJDkHpyVLWhkkA
+   VC4PaNTvlYQAFnDZOf2mFtoOi6EiBLnUyuSYOjJOEqGrMF3Tz1mQ+ZuNG
+   Q==;
+X-CSE-ConnectionGUID: +TMcICAZSPOznQFMGmPWFg==
+X-CSE-MsgGUID: +cwTOpPDSQmxUYijpcPPnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="70701405"
 X-IronPort-AV: E=Sophos;i="6.21,279,1763452800"; 
-   d="scan'208";a="83056643"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 00:58:04 -0800
-X-CSE-ConnectionGUID: hivW+x3DRgWV5innbmpaXw==
-X-CSE-MsgGUID: RsoW97q6SVqRU4qzOyxhPg==
+   d="scan'208";a="70701405"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 01:30:03 -0800
+X-CSE-ConnectionGUID: VL51Pn54RSu9lSWGmdphSQ==
+X-CSE-MsgGUID: OCYthuvQS6KWdfXjdZnTRQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,279,1763452800"; 
-   d="scan'208";a="215475021"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Feb 2026 00:58:01 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 08 Feb 2026 01:29:59 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vp0cA-00000000m76-1env;
-	Sun, 08 Feb 2026 08:57:58 +0000
-Date: Sun, 8 Feb 2026 16:57:29 +0800
+	id 1vp178-00000000m7g-4An0;
+	Sun, 08 Feb 2026 09:29:58 +0000
+Date: Sun, 8 Feb 2026 17:29:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Koichiro Den <den@valinux.co.jp>, vkoul@kernel.org, mani@kernel.org,
-	Frank.Li@nxp.com, jingoohan1@gmail.com, lpieralisi@kernel.org,
-	kwilczynski@kernel.org, robh@kernel.org, bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/9] dmaengine: dw-edma: Export per-channel IRQ and
- doorbell register offset
-Message-ID: <202602081640.ChGzNbe8-lkp@intel.com>
-References: <20260206172646.1556847-4-den@valinux.co.jp>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux trace kernel <linux-trace-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH] tracing: Clean up use of trace_create_maxlat_file()
+Message-ID: <202602081759.QQ7Yu6SK-lkp@intel.com>
+References: <20260207191101.0e014abd@robin>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,77 +63,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260206172646.1556847-4-den@valinux.co.jp>
+In-Reply-To: <20260207191101.0e014abd@robin>
 
-Hi Koichiro,
+Hi Steven,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.19-rc8 next-20260205]
-[cannot apply to vkoul-dmaengine/next]
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.19-rc8 next-20260205]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Koichiro-Den/dmaengine-dw-edma-Add-per-channel-interrupt-routing-control/20260207-013042
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260206172646.1556847-4-den%40valinux.co.jp
-patch subject: [PATCH v4 3/9] dmaengine: dw-edma: Export per-channel IRQ and doorbell register offset
-config: arc-randconfig-002-20260208 (https://download.01.org/0day-ci/archive/20260208/202602081640.ChGzNbe8-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602081640.ChGzNbe8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Clean-up-use-of-trace_create_maxlat_file/20260208-081407
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20260207191101.0e014abd%40robin
+patch subject: [PATCH] tracing: Clean up use of trace_create_maxlat_file()
+config: arm-randconfig-r071-20260208 (https://download.01.org/0day-ci/archive/20260208/202602081759.QQ7Yu6SK-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602081759.QQ7Yu6SK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602081640.ChGzNbe8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602081759.QQ7Yu6SK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/dma/dw-edma/dw-edma-core.c: In function 'dw_edma_chan_info':
->> drivers/dma/dw-edma/dw-edma-core.c:1109:26: warning: variable 'dchan' set but not used [-Wunused-but-set-variable]
-    1109 |         struct dma_chan *dchan;
-         |                          ^~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=y]
-   Selected by [y]:
-   - CAN [=y] && NET [=y]
+   kernel/trace/trace.c: In function 'trace_create_maxlat_file':
+>> kernel/trace/trace.c:1967:13: error: 'struct trace_array' has no member named 'd_max_latency'; did you mean 'max_latency'?
+    1967 |         tr->d_max_latency = trace_create_file("tracing_max_latency",
+         |             ^~~~~~~~~~~~~
+         |             max_latency
 
 
-vim +/dchan +1109 drivers/dma/dw-edma/dw-edma-core.c
+vim +1967 kernel/trace/trace.c
 
-  1103	
-  1104	int dw_edma_chan_info(struct dw_edma_chip *chip, unsigned int ch_idx,
-  1105			      struct dw_edma_chan_info *info)
-  1106	{
-  1107		struct dw_edma *dw = chip->dw;
-  1108		struct dw_edma_chan *chan;
-> 1109		struct dma_chan *dchan;
-  1110		u32 ch_cnt;
-  1111		int ret;
-  1112	
-  1113		if (!chip || !info || !dw)
-  1114			return -EINVAL;
-  1115	
-  1116		ch_cnt = dw->wr_ch_cnt + dw->rd_ch_cnt;
-  1117		if (ch_idx >= ch_cnt)
-  1118			return -EINVAL;
-  1119	
-  1120		chan = &dw->chan[ch_idx];
-  1121		dchan = &chan->vc.chan;
-  1122	
-  1123		ret = dw_edma_core_ch_info(dw, chan, info);
-  1124		if (ret)
-  1125			return ret;
-  1126	
-  1127		info->irq = dw->irq[chan->irq_idx].irq;
-  1128		return 0;
-  1129	}
-  1130	EXPORT_SYMBOL_GPL(dw_edma_chan_info);
-  1131	
+  1959	
+  1960	static void trace_create_maxlat_file(struct trace_array *tr,
+  1961					     struct dentry *d_tracer)
+  1962	{
+  1963	#ifdef LATENCY_FS_NOTIFY
+  1964		INIT_WORK(&tr->fsnotify_work, latency_fsnotify_workfn);
+  1965		init_irq_work(&tr->fsnotify_irqwork, latency_fsnotify_workfn_irq);
+  1966	#endif
+> 1967		tr->d_max_latency = trace_create_file("tracing_max_latency",
+  1968						      TRACE_MODE_WRITE,
+  1969						      d_tracer, tr,
+  1970						      &tracing_max_lat_fops);
+  1971	}
+  1972	
 
 -- 
 0-DAY CI Kernel Test Service
