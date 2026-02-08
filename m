@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A85030498E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Feb 2026 02:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B181417A2E8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Feb 2026 02:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770516604; cv=none; b=inWSLM5Pq35Rf3vEA7b3AlRqxBzMjdbPvDyYtqpaxyvT4Er1Div6QEAlrVM4zY4n8BaLJtnmd51CMaSqiKUMJwDP1B53GeLP5To/phyQwjEr7CFch0n7YbrlbC5qlT5rghnsMfA1IOJWPBFGgesRo3qpH7dbizOjeA57nOFq5cI=
+	t=1770517207; cv=none; b=E7YG8X2mpYBhhD6sVHxk3hnbHM3p3GQdEB1ZfXHV+Ea3a4RKPnQY5p72Uv7Q+v6Mv7TvDg6HWj1bf3wUfWqQoWHh3sZxoZwb3CQAj0n57R7x82/XYkBBNEveu6NbLpHgshpPeTypczIWZXk0qXT/SjKi/p1ocliB9eehI2AwyZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770516604; c=relaxed/simple;
-	bh=cmcytLAFg2mIdBgj5Iy8C6K6SAvGCetpxRW/k4wlhTw=;
+	s=arc-20240116; t=1770517207; c=relaxed/simple;
+	bh=DXnfPHWS0SoqDznXZb4pTv7mp6X9bZbcaLNr2tdznqw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FwRUhOxM1J0Nb12H7d5NbBa4dFHhCZPzAe3UepG1Tnx71ceFVJdbEEfUt6QehlD3qlMsScRDWCTI//HMSunrZ5CLn//xjiUq9pkBhCHrJ2k1Cns9dciboQzj6t1vjNmDqeT0Nm8lesGmxVZOWD7u/9Willp/BmbfVtbLAFvpgg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oA5cvCng; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=l1ehpD7Gpc/iqGLVqzorVw7kh9LKy1LpryjgjAIMlZxgi2H7O1+M7+F4K69U2olmicSSYdy3sji90lm93x9A4mWOxTgchgprzfSpRIMi41lXFpzQIHwQ2zI74rGHr5lEbivXtmecxC7C2xOiwYaNO6BRmg3hbQYd8un+KePLpl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMfl4/a5; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oA5cvCng"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMfl4/a5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770516604; x=1802052604;
+  t=1770517207; x=1802053207;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cmcytLAFg2mIdBgj5Iy8C6K6SAvGCetpxRW/k4wlhTw=;
-  b=oA5cvCngFjFBeqHvwiyxLc4BUoDSPfy7eiYZvealbyQRAnjyXZZqvE3M
-   j5CityUNpyR3GnFW12V15wE/vh9O0mpUce2Olmm8v7R15TRkUhHV6nt3x
-   7IpH/rUGJrkk2AsNVfeBbNC30P3no7RX3ixRwldJaKieNB+A68+Jt73RA
-   I08Jb3ivqp+bYlIHQbM+SK0pqTq8E4c69Gpusa5GcuXXSwtKZfaKzDgKv
-   atza9sU3cyKDXSLhHDIr1GbIFWO+KtX0I9LWYQJtQ//oqr5nOaZ95O7fx
-   0g01es9i9niyHQQQrQvwSngRtwqWqq2cy73jCgbIJCMwBy3XZuJcvNT+i
-   Q==;
-X-CSE-ConnectionGUID: v3aBjMqXTtqD/EVetwEGLw==
-X-CSE-MsgGUID: cXVevfEhRWe/CtghZy+TYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="70872915"
+  bh=DXnfPHWS0SoqDznXZb4pTv7mp6X9bZbcaLNr2tdznqw=;
+  b=gMfl4/a5TUZqLjAIxVzT09kTnSONo9mHb0jkAs94/AltmUMZ+SOhghFw
+   rwoB2KdfmL0e8YgHZxY8Qky5nYHzfKSrnopuWLUPaqHio4tTd3Ctg2Pzq
+   4t1syYhVc+zDSyWIXUh9HqIPOBtEM9pNYZZ1/22aPPatyZFeQo4nR6kRf
+   8UkyJZGXwPrmNQrid4Wz4toMhzYX/lr6j7RKNuMBlRRf/Pn/Ejc7Y6h/n
+   +BfZTb5SdeuHSyVMCbkx0sLEhuHJ0KNrsEsvGHN5fTamVYq2ahpq1q/yS
+   Ejt+y4bmWsSzBTp3BHRafPx5wRbf3aXYqhY2VKo5knUXX7qexdcWa9qYl
+   A==;
+X-CSE-ConnectionGUID: h3t1sbEXREW4Vaw6N13yGg==
+X-CSE-MsgGUID: QcCyQr2cRiqbALf1D08DtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="94322280"
 X-IronPort-AV: E=Sophos;i="6.21,279,1763452800"; 
-   d="scan'208";a="70872915"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 18:10:03 -0800
-X-CSE-ConnectionGUID: 5Jf8fZSTQBuqztSeAnacDA==
-X-CSE-MsgGUID: DlafrMlOSomtDDvzLSUTwA==
+   d="scan'208";a="94322280"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 18:20:06 -0800
+X-CSE-ConnectionGUID: 2ZUGKOx+Soq58pug647SPw==
+X-CSE-MsgGUID: rJOWAXWmS76q6MaTicNHTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,279,1763452800"; 
-   d="scan'208";a="210487889"
+   d="scan'208";a="215752594"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Feb 2026 18:10:02 -0800
+  by orviesa004.jf.intel.com with ESMTP; 07 Feb 2026 18:20:03 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vouFM-00000000m0W-1Mgo;
-	Sun, 08 Feb 2026 02:10:00 +0000
-Date: Sun, 8 Feb 2026 10:09:22 +0800
+	id 1vouP2-00000000m0q-2GxQ;
+	Sun, 08 Feb 2026 02:20:00 +0000
+Date: Sun, 8 Feb 2026 10:19:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qiliang Yuan <realwujing@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 06/12] watchdog: Allow runtime toggle of hardlockup
- detector on CPUs
-Message-ID: <202602081041.A1FfJQna-lkp@intel.com>
-References: <20260206-feature-dynamic_isolcpus_dhei-v1-6-00a711eb0c74@gmail.com>
+To: 434779359@qq.com, Jonathan Cameron <jic23@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	liufulin <frank.liu@faiot.com>,
+	Waqar Hameed <waqar.hameed@axis.com>, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH] tof: Add VL53L4CX TOF drivers
+Message-ID: <202602081057.kWswynEJ-lkp@intel.com>
+References: <tencent_326708D02875274DF25B10B91402B3828606@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,58 +70,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260206-feature-dynamic_isolcpus_dhei-v1-6-00a711eb0c74@gmail.com>
+In-Reply-To: <tencent_326708D02875274DF25B10B91402B3828606@qq.com>
 
-Hi Qiliang,
+Hi,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 1f97d9dcf53649c41c33227b345a36902cbb08ad]
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v6.19-rc8 next-20260205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qiliang-Yuan/sched-isolation-Remove-__init-restriction-from-housekeeping-cores/20260206-150801
-base:   1f97d9dcf53649c41c33227b345a36902cbb08ad
-patch link:    https://lore.kernel.org/r/20260206-feature-dynamic_isolcpus_dhei-v1-6-00a711eb0c74%40gmail.com
-patch subject: [PATCH RFC 06/12] watchdog: Allow runtime toggle of hardlockup detector on CPUs
-config: arc-randconfig-002-20260208 (https://download.01.org/0day-ci/archive/20260208/202602081041.A1FfJQna-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602081041.A1FfJQna-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/434779359-qq-com/tof-Add-VL53L4CX-TOF-drivers/20260207-174646
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/tencent_326708D02875274DF25B10B91402B3828606%40qq.com
+patch subject: [PATCH] tof: Add VL53L4CX TOF drivers
+config: loongarch-randconfig-r122-20260208 (https://download.01.org/0day-ci/archive/20260208/202602081057.kWswynEJ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602081057.kWswynEJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602081041.A1FfJQna-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602081057.kWswynEJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/watchdog.c: In function 'watchdog_housekeeping_reconfigure':
->> kernel/watchdog.c:1373:25: error: implicit declaration of function 'proc_watchdog_update' [-Werror=implicit-function-declaration]
-    1373 |                         proc_watchdog_update(false);
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/proc_watchdog_update +1373 kernel/watchdog.c
-
-  1362	
-  1363	static int watchdog_housekeeping_reconfigure(struct notifier_block *nb,
-  1364						    unsigned long action, void *data)
-  1365	{
-  1366		if (action == HK_UPDATE_MASK) {
-  1367			unsigned int type = (unsigned long)data;
-  1368	
-  1369			if (type == HK_TYPE_TIMER) {
-  1370				mutex_lock(&watchdog_mutex);
-  1371				cpumask_copy(&watchdog_cpumask,
-  1372					     housekeeping_cpumask(HK_TYPE_TIMER));
-> 1373				proc_watchdog_update(false);
-  1374				mutex_unlock(&watchdog_mutex);
-  1375			}
-  1376		}
-  1377	
-  1378		return NOTIFY_OK;
-  1379	}
-  1380	
+>> ld.lld: error: undefined symbol: input_set_abs_params
+   >>> referenced by vl53l4cx-i2c.c:5614 (drivers/iio/proximity/vl53l4cx-i2c.c:5614)
+   >>>               drivers/iio/proximity/vl53l4cx-i2c.o:(stmvl53lx_setup) in archive vmlinux.a
+   >>> referenced by vl53l4cx-i2c.c:5615 (drivers/iio/proximity/vl53l4cx-i2c.c:5615)
+   >>>               drivers/iio/proximity/vl53l4cx-i2c.o:(stmvl53lx_setup) in archive vmlinux.a
+   >>> referenced by vl53l4cx-i2c.c:5616 (drivers/iio/proximity/vl53l4cx-i2c.c:5616)
+   >>>               drivers/iio/proximity/vl53l4cx-i2c.o:(stmvl53lx_setup) in archive vmlinux.a
+   >>> referenced 16 more times
 
 -- 
 0-DAY CI Kernel Test Service
