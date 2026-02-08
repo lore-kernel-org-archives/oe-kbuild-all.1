@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F293207A32
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Feb 2026 12:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE241C3C1F;
+	Sun,  8 Feb 2026 18:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770555489; cv=none; b=E7g4WLDDadPYNJ0nAC2gmzSS1/hEZu7VFDdbT9iUlhcjatsez2joSqvRg+HazW45XJw9qCa6KHn9cb4NSomiHBzpnbA69M1MyEiKIlnBdZDi743nLI2qBD7yDyi/YUdkHvJHZhstsShxedZ8aIwOPqZtnGbi7OV1H5G+ZHqPaW0=
+	t=1770575778; cv=none; b=schjawdjQTBZ1zxWpIlWaeVAe2b/ikDb/us3A76++M0nrGa5mdaLx/qHc6ANNGOUPE60PGAUd9lV97qZuIEF60v+1kSEzRH2MB3Z6UNFgodd6S12mdzO2n9Lnxrl0eR7fE4nwadRA2sNQYWBaNauA6kUkNwYG2bBxQ9r1u8IC7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770555489; c=relaxed/simple;
-	bh=soW8MhiDWvsWnFp+P1cfvouA80sgn7yY/bwBWI78YdI=;
+	s=arc-20240116; t=1770575778; c=relaxed/simple;
+	bh=W8KZyHGs21/B6lh/JVqh0DJK7X83q4/2RwtxVlpYLZw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hB2XPNUhXVPJwAHQ2XRxa96ts0pGRX+8bMLeWsH9jdeWUnGnGl92W80OwrVElal8jheSUxMut9hIFlDs++Lsim7aahAf57U8PfRJY3hbAFJay2KY/QI18LI+I+hpMgeugXUQf29KX0WgTtG+9E2Jmw0ymx5JUixzZlXlWrYIRls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YcXsUsWK; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bnby3jLC0NITRAoOItQodCK0rIXILiugtwsXhMom/GVYDZi6q5I4+xQBzeh9ZDxpSOrFOmNM3RVOd1pRWvx8+0CLtrx87xg8D+QYhlVVk/C4K6wexCngH39RIo/dHx32ihTiLKHmKxcs93cZWRmidpmwJDB+r1YuG7YFQKDOXYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BFnjSN/r; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcXsUsWK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BFnjSN/r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770555489; x=1802091489;
+  t=1770575777; x=1802111777;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=soW8MhiDWvsWnFp+P1cfvouA80sgn7yY/bwBWI78YdI=;
-  b=YcXsUsWKIfUqBhaM3vV6Zw9QvSdSp/0jc42ezcxc3pmuUoHDDuNL0xQr
-   v8HhAiCZkIAxNy+PCHyQePC818lYJ2lb+HK/oHfEp6NF47q3FqduiaJoy
-   pwhMzQ5F0YQ84Vlr7OJO7RQXzFIhmUb6v/8IpoPqUI6BjcHezDVUmyxlj
-   OJCuSJB1SHFfLuc2RvYQsxKysYEj+woK4ceLZWy4I1K3OAx9PGmhmZ4MI
-   /P278XltAA6Z4d2YLquDptUY0UDhn4CsJX7ecr6nYUBAzLPZqm7mfCXCO
-   QtAa+arc70nFINJBB5wVuE+O6tWpV/UdOHXepEQ0LvN3/paiXXJsoqKum
-   g==;
-X-CSE-ConnectionGUID: hpzoqwazQMiN2wIypQ+6Ag==
-X-CSE-MsgGUID: YGb7uz/QS8mQJVSybxw3Sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="71591102"
+  bh=W8KZyHGs21/B6lh/JVqh0DJK7X83q4/2RwtxVlpYLZw=;
+  b=BFnjSN/rN2GU2MVxc9I+utf/KUtnR5Slgh9bhHQloj2rUVs8ool1+NbA
+   AEh3OGivzWUQKfw3lX4rL32Sd0cDvjPfPBGLMzFFNHdR/CxnAOqSa0Blw
+   KHIpypPu5PviCXF3EvUdfEqcb0Iqwo/36VhZllzeyCaOXh3Tc8cOgVszx
+   vf1ny58Zp8GFDOJ/79w4NHh/414Iw6y2/GVxqq18MxhkUeWnb4a6Rez2P
+   A2z6N029Fs8ewps3ajXwBfxDdTStjwIUWXqmv/n08esQtJFUChR6nv/L8
+   xuQ2DKRac71+7H6s7+KJpFXmHjOC1/Vcrsw8ereBKdHNrTZGXvyzQlcq8
+   Q==;
+X-CSE-ConnectionGUID: Pwj/uI3IQkOHjWVNR4QQkQ==
+X-CSE-MsgGUID: pGdt7CCxQYCeregVkNFrVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="82434955"
 X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
-   d="scan'208";a="71591102"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 04:58:09 -0800
-X-CSE-ConnectionGUID: j6T2Tzc7Q166JP+2Gly8jA==
-X-CSE-MsgGUID: 25HPp1gpR96eMHgeY3HohA==
+   d="scan'208";a="82434955"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 10:36:16 -0800
+X-CSE-ConnectionGUID: diqZtrUGTualKAE/DG1O9A==
+X-CSE-MsgGUID: Ge7IOH7HRJelpKRRJOidDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
-   d="scan'208";a="241970699"
+   d="scan'208";a="211431734"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Feb 2026 04:58:06 -0800
+  by orviesa007.jf.intel.com with ESMTP; 08 Feb 2026 10:36:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vp4MV-00000000mCS-3XQX;
-	Sun, 08 Feb 2026 12:58:03 +0000
-Date: Sun, 8 Feb 2026 20:57:05 +0800
+	id 1vp9dk-00000000mMG-2Gjc;
+	Sun, 08 Feb 2026 18:36:12 +0000
+Date: Mon, 9 Feb 2026 02:35:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maiquel Paiva <maiquelpaiva@gmail.com>, linux-bluetooth@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, luiz.dentz@gmail.com,
-	gregkh@linuxfoundation.org, marcel@holtmann.org,
-	Maiquel Paiva <maiquelpaiva@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] Bluetooth: mgmt: Fix race conditions in mesh
- handling
-Message-ID: <202602082014.LJf0O75Y-lkp@intel.com>
-References: <20260208081559.44983-3-maiquelpaiva@gmail.com>
+To: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: refactor
+ halbtc8723b1ant_CoexTableWithType() to remove duplication
+Message-ID: <202602090207.A176hCPb-lkp@intel.com>
+References: <aYiMi-X5r4aUEC32@BERA.localdomain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,123 +65,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260208081559.44983-3-maiquelpaiva@gmail.com>
+In-Reply-To: <aYiMi-X5r4aUEC32@BERA.localdomain>
 
-Hi Maiquel,
+Hi Bera,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bluetooth/master]
-[also build test ERROR on bluetooth-next/master linus/master v6.19-rc8 next-20260205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maiquel-Paiva/Bluetooth-mgmt-Fix-heap-overflow-in-mgmt_mesh_add/20260208-161842
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20260208081559.44983-3-maiquelpaiva%40gmail.com
-patch subject: [PATCH v4 2/2] Bluetooth: mgmt: Fix race conditions in mesh handling
-config: sparc-randconfig-002-20260208 (https://download.01.org/0day-ci/archive/20260208/202602082014.LJf0O75Y-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602082014.LJf0O75Y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bera-Y-zl/staging-rtl8723bs-refactor-halbtc8723b1ant_CoexTableWithType-to-remove-duplication/20260208-211800
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/aYiMi-X5r4aUEC32%40BERA.localdomain
+patch subject: [PATCH] staging: rtl8723bs: refactor halbtc8723b1ant_CoexTableWithType() to remove duplication
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260209/202602090207.A176hCPb-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602090207.A176hCPb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602082014.LJf0O75Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602090207.A176hCPb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/bluetooth/mgmt_util.c: In function 'mgmt_mesh_find':
->> net/bluetooth/mgmt_util.c:400:25: error: passing argument 1 of 'class_spinlock_constructor' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     400 |         guard(spinlock)(&hdev->lock);
-         |                         ^~~~~~~~~~~
-         |                         |
-         |                         struct mutex *
-   In file included from include/linux/irqflags.h:17,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/sparc/include/asm/cmpxchg_32.h:67,
-                    from arch/sparc/include/asm/cmpxchg.h:7,
-                    from arch/sparc/include/asm/atomic_32.h:17,
-                    from arch/sparc/include/asm/atomic.h:7,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/sparc/include/asm/bitops_32.h:102,
-                    from arch/sparc/include/asm/bitops.h:7,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/sparc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/jiffies.h:7,
-                    from include/linux/ktime.h:25,
-                    from include/linux/poll.h:7,
-                    from include/net/bluetooth/bluetooth.h:29,
-                    from net/bluetooth/mgmt_util.c:26:
-   include/linux/cleanup.h:490:77: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'struct mutex *'
-     490 | static __always_inline class_##_name##_t class_##_name##_constructor(_type *l) \
-   include/linux/cleanup.h:509:1: note: in expansion of macro '__DEFINE_LOCK_GUARD_1'
-     509 | __DEFINE_LOCK_GUARD_1(_name, _type, _lock)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:565:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     565 | DEFINE_LOCK_GUARD_1(spinlock, spinlock_t,
-         | ^~~~~~~~~~~~~~~~~~~
-   net/bluetooth/mgmt_util.c: In function 'mgmt_mesh_add':
-   net/bluetooth/mgmt_util.c:422:25: error: passing argument 1 of 'class_spinlock_constructor' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     422 |         guard(spinlock)(&hdev->lock);
-         |                         ^~~~~~~~~~~
-         |                         |
-         |                         struct mutex *
-   In file included from include/linux/irqflags.h:17,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/sparc/include/asm/cmpxchg_32.h:67,
-                    from arch/sparc/include/asm/cmpxchg.h:7,
-                    from arch/sparc/include/asm/atomic_32.h:17,
-                    from arch/sparc/include/asm/atomic.h:7,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/sparc/include/asm/bitops_32.h:102,
-                    from arch/sparc/include/asm/bitops.h:7,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/sparc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/jiffies.h:7,
-                    from include/linux/ktime.h:25,
-                    from include/linux/poll.h:7,
-                    from include/net/bluetooth/bluetooth.h:29,
-                    from net/bluetooth/mgmt_util.c:26:
-   include/linux/cleanup.h:490:77: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'struct mutex *'
-     490 | static __always_inline class_##_name##_t class_##_name##_constructor(_type *l) \
-   include/linux/cleanup.h:509:1: note: in expansion of macro '__DEFINE_LOCK_GUARD_1'
-     509 | __DEFINE_LOCK_GUARD_1(_name, _type, _lock)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:565:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     565 | DEFINE_LOCK_GUARD_1(spinlock, spinlock_t,
-         | ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:700:9: warning: result of comparison of constant -1 with expression of type 'u8' (aka 'unsigned char') is always true [-Wtautological-constant-out-of-range-compare]
+     700 |         if (-1 < type && type < 8)
+         |             ~~ ^ ~~~~
+   1 warning generated.
 
 
-vim +/class_spinlock_constructor +400 net/bluetooth/mgmt_util.c
+vim +700 drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
 
-   395	
-   396	struct mgmt_mesh_tx *mgmt_mesh_find(struct hci_dev *hdev, u8 handle)
-   397	{
-   398		struct mgmt_mesh_tx *mesh_tx;
-   399	
- > 400		guard(spinlock)(&hdev->lock);
-   401	
-   402		list_for_each_entry(mesh_tx, &hdev->mesh_pending, list) {
-   403			if (mesh_tx->handle == handle)
-   404				return mesh_tx;
-   405		}
-   406	
-   407		return NULL;
-   408	}
-   409	
+   682	
+   683	static void halbtc8723b1ant_CoexTableWithType(
+   684		struct btc_coexist *pBtCoexist, bool bForceExec, u8 type
+   685	)
+   686	{
+   687		static const u32 table[8][2] = {
+   688			{0x55555555, 0x55555555},
+   689			{0x55555555, 0x5a5a5a5a},
+   690			{0x5a5a5a5a, 0x5a5a5a5a},
+   691			{0xaaaa5555, 0xaaaa5a5a},
+   692			{0x55555555, 0xaaaa5a5a},
+   693			{0x5a5a5a5a, 0xaaaa5a5a},
+   694			{0x55555555, 0xaaaaaaaa},
+   695			{0xaaaaaaaa, 0xaaaaaaaa}
+   696		};
+   697	
+   698		pCoexSta->nCoexTableType = type;
+   699	
+ > 700		if (-1 < type && type < 8)
+   701			halbtc8723b1ant_CoexTable(
+   702				pBtCoexist, bForceExec, table[type][0], table[type][1], 0xffffff, 0x3
+   703			);
+   704	}
+   705	
 
 -- 
 0-DAY CI Kernel Test Service
