@@ -1,106 +1,599 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7B63803CB
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 16:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A1C37D13E;
+	Mon,  9 Feb 2026 17:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770654357; cv=none; b=LoKn/znokGSlWU+AXgJbPX/mIuu5cgb4s811Sl+C40qiGPUsYlXYyTJKa39DjUJ8DvEUCWVUhZmxkAnEv7zFDIZJgphEYgY1hLe61UVbY2Splx2yoWcAsUGyoef1UPYH9sHa2QAs20V4F9g4JnhMOoop2QWujbildeE81iVL4fc=
+	t=1770656455; cv=none; b=uBJkzteVjNyTkQbXburPz6MbSUu6izSQBGcsbdg1dT0zZpJ0ONEt3rKLSa2UBWX7NBXw23co9nnXfXwgHqycKQso4bAsjJTkuMpTQIOGgCXAqyZB1X5doVJNiPiTEoQhcBFHmDckgsjzjHexVIoLrP8k2BX6Be1ydoXREnPc/64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770654357; c=relaxed/simple;
-	bh=ncfn0zb/kw+r6lZWxJHQsFJygxFoISbK4omLXYU6WDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=djQnivcPnIPu8YvBU8YwEhbL0A00y70myOQEMNG8Or/sRRVDzp+LhtLwE6rasnrZ6QuMgGCaxXG8y+Y+ZE+3Lz8KVQEgtNN7LXidd3j6ifL6zq/6SuJjttBOMbivkE/TJbEYHS8jS10k1DohliaZvSfX6INXLk5M1oNn4g7FQHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S2aCXJxv; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1770656455; c=relaxed/simple;
+	bh=mf/6Q1WBshYdJwFlet1rqxPMJn1IL8rkiFNbZ7fGmaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kRJXlFoKZrkEHLCLACHhGamdiUM+oVvT6E4Gsa4UaHth6+BIyj5vpwUYdjxsNJJCS9A70OFt1srCrj1XmIhPIm60eA8JtUN+CLGW7x4py+SndH6QQEOgVqcsxEGv7MAxR4zb0llJ5UPPfKva2Wt38u94jXFhZNttNcuGN7yjm/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lB4+rXs6; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S2aCXJxv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lB4+rXs6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770654356; x=1802190356;
-  h=date:from:to:cc:subject:message-id;
-  bh=ncfn0zb/kw+r6lZWxJHQsFJygxFoISbK4omLXYU6WDQ=;
-  b=S2aCXJxvNl0rOrWdaFDTff4erTHa9taW+HaWLZwzHBuFyxX2Gak9sr7C
-   sVrDoxNTysAhIbZloyibZwxomK9N3sX/Wa1PhhuAy6eTknokL9KmXzYh8
-   6IIH1RfdxOgs0M8vJSe0zXctvKrxobvIE6GUhu4WWckZV6Sdw6ouMvmSD
-   I4c5MdUs626ecxfvtYrFXJ44TvFGeYAFBO75dNYPNPe4gkDdYiuj81eWz
-   Ed9J35EjQyo1LMtdqB+wQpdPYoQm0AEYvmMrKa0QsZW6kgGOUR7+JObQa
-   50+JfGR15eapPSzEOaZE7LVONwrpxt2ILlU3LixSRuRgofJ1yA+Aos5gx
-   g==;
-X-CSE-ConnectionGUID: moX2/0s2T0eYu8ZQhk0aUw==
-X-CSE-MsgGUID: 9MjQbnzTSE6nyeRGctpsWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="70784406"
+  t=1770656455; x=1802192455;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mf/6Q1WBshYdJwFlet1rqxPMJn1IL8rkiFNbZ7fGmaI=;
+  b=lB4+rXs6CkMIXLcDnk8EbV12+6ogqHoOeioftT5KiZ6KPcm86W/fjBVu
+   0HGgdVONST5Ue3uizWNTd/EgEBlW/XMYTcLQLc90hc7+CwmKWRvwPorLL
+   1gm6AgN/MC2pm1fvQmfJIgONm+1l/3TIO9eoxuoav1WUN93V3h/pQf7ge
+   TDcq1OmIeP4H1wRJDmNJqN8IillMkuAOMiBFmj8191y4ibmxi2LSMe7+0
+   +zqY9VqL7xECsnUXy4JJfSexJRoSvtRU1YnIzmU/7W82kJaUg0YtVK2Yk
+   kezuzLBKd3I05Mm8k+/alqyhr2lpV4irhxFI4jLysI0p4ydIpWdfcutXP
+   w==;
+X-CSE-ConnectionGUID: Z9jTJgm5SWCSKlZgzbRjNQ==
+X-CSE-MsgGUID: N2Zp6mTxT/mspsJZvTCo6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71955275"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="70784406"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 08:25:56 -0800
-X-CSE-ConnectionGUID: 6J3MayvYSCyiMxT6z/kF2Q==
-X-CSE-MsgGUID: yl6FuZYjTISiwEsrd+n3mA==
+   d="scan'208";a="71955275"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 09:00:50 -0800
+X-CSE-ConnectionGUID: Alqk51ddRwqsVd7qMqY3+g==
+X-CSE-MsgGUID: 2+f/WVnHRS+656o+nOIarw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="215818356"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 09 Feb 2026 08:25:54 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="210791783"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Feb 2026 09:00:47 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpU59-000000000Ib-2UB8;
-	Mon, 09 Feb 2026 16:25:51 +0000
-Date: Mon, 09 Feb 2026 17:25:42 +0100
+	id 1vpUcv-00000000o8m-1U0v;
+	Mon, 09 Feb 2026 17:00:45 +0000
+Date: Tue, 10 Feb 2026 01:00:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/2] htmldocs: Warning:
- drivers/md/Kconfig references a file that doesn't exist:
- file:Documentation/block/dm-user.rst
-Message-ID: <202602091708.I17p3AFo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: toast1599 <swizzguy76@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Bingbu Cao <bingbu.cao@intel.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, toast1599 <swizzguy76@gmail.com>
+Subject: Re: [PATCH] staging: media: ipu7: refine PHY, ABI and add metadata
+ support
+Message-ID: <202602100028.PFvYD41f-lkp@intel.com>
+References: <20260209081025.100080-1-swizzguy76@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209081025.100080-1-swizzguy76@gmail.com>
 
-Hi Palmer,
+Hi toast1599,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   3b54985e12634723f50be663b001e0f03e8643e1
-commit: 83bf345abc0bc06b98e906bfbb120a52446e1c43 [0/2] ANDROID: dm: dm-user: New target that proxies BIOs to userspace
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260209/202602091708.I17p3AFo-lkp@intel.com/reproduce)
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/toast1599/staging-media-ipu7-refine-PHY-ABI-and-add-metadata-support/20260209-161453
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260209081025.100080-1-swizzguy76%40gmail.com
+patch subject: [PATCH] staging: media: ipu7: refine PHY, ABI and add metadata support
+config: x86_64-randconfig-122-20260209 (https://download.01.org/0day-ci/archive/20260210/202602100028.PFvYD41f-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100028.PFvYD41f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602091708.I17p3AFo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602100028.PFvYD41f-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
->> Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
-   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
+   In file included from include/linux/videodev2.h:61,
+                    from include/media/v4l2-dev.h:18,
+                    from drivers/staging/media/ipu7/ipu7-isys-video.c:23:
+>> include/uapi/linux/videodev2.h:82:10: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:44: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:65: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: error: initializer element is not constant
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: note: (near initialization for 'ipu7_isys_pfmts[9].pixelformat')
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/videodev2.h:82:10: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:44: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:65: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: error: initializer element is not constant
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: note: (near initialization for 'ipu7_isys_pfmts[11].pixelformat')
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/videodev2.h:82:10: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:44: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:65: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: error: initializer element is not constant
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: note: (near initialization for 'ipu7_isys_pfmts[13].pixelformat')
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/videodev2.h:82:10: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:44: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:65: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: error: initializer element is not constant
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: note: (near initialization for 'ipu7_isys_pfmts[15].pixelformat')
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from drivers/staging/media/ipu7/ipu7-isys-video.c:12:
+   drivers/staging/media/ipu7/ipu7-isys-video.c: In function 'ipu7_isys_put_stream':
+   drivers/staging/media/ipu7/ipu7-isys-video.c:665:26: error: 'isys' undeclared (first use in this function)
+     665 |                 dev_err(&isys->adev->auxdev.dev, " no available stream\n");
+         |                          ^~~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:665:17: note: in expansion of macro 'dev_err'
+     665 |                 dev_err(&isys->adev->auxdev.dev, " no available stream\n");
+         |                 ^~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:665:26: note: each undeclared identifier is reported only once for each function it appears in
+     665 |                 dev_err(&isys->adev->auxdev.dev, " no available stream\n");
+         |                          ^~~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:665:17: note: in expansion of macro 'dev_err'
+     665 |                 dev_err(&isys->adev->auxdev.dev, " no available stream\n");
+         |                 ^~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c: In function 'ipu7_isys_video_init':
+   drivers/staging/media/ipu7/ipu7-isys-video.c:1031:70: error: expected expression before '|' token
+    1031 |         av->vdev.device_caps = V4L2_CAP_STREAMING | V4L2_CAP_IO_MC | | V4L2_CAP_META_CAPTURE
+         |                                                                      ^
 --
-   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
->> Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
-   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
+   In file included from include/linux/videodev2.h:61,
+                    from include/media/v4l2-dev.h:18,
+                    from ipu7-isys-video.c:23:
+>> include/uapi/linux/videodev2.h:82:10: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:44: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:65: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: error: initializer element is not constant
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: note: (near initialization for 'ipu7_isys_pfmts[9].pixelformat')
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:59:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/videodev2.h:82:10: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:44: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:65: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: error: initializer element is not constant
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: note: (near initialization for 'ipu7_isys_pfmts[11].pixelformat')
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:62:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/videodev2.h:82:10: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:44: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:65: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: error: initializer element is not constant
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: note: (near initialization for 'ipu7_isys_pfmts[13].pixelformat')
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:65:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/videodev2.h:82:10: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:44: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:65: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: error: initializer element is not constant
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:9: note: (near initialization for 'ipu7_isys_pfmts[15].pixelformat')
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |         ^
+   ipu7-isys-video.h:29:34: note: in expansion of macro 'v4l2_fourcc'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~
+   ipu7-isys-video.c:68:10: note: in expansion of macro 'V4L2_META_FMT_IPU7_STATS'
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from ipu7-isys-video.c:12:
+   ipu7-isys-video.c: In function 'ipu7_isys_put_stream':
+   ipu7-isys-video.c:665:26: error: 'isys' undeclared (first use in this function)
+     665 |                 dev_err(&isys->adev->auxdev.dev, " no available stream\n");
+         |                          ^~~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   ipu7-isys-video.c:665:17: note: in expansion of macro 'dev_err'
+     665 |                 dev_err(&isys->adev->auxdev.dev, " no available stream\n");
+         |                 ^~~~~~~
+   ipu7-isys-video.c:665:26: note: each undeclared identifier is reported only once for each function it appears in
+     665 |                 dev_err(&isys->adev->auxdev.dev, " no available stream\n");
+         |                          ^~~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   ipu7-isys-video.c:665:17: note: in expansion of macro 'dev_err'
+     665 |                 dev_err(&isys->adev->auxdev.dev, " no available stream\n");
+         |                 ^~~~~~~
+   ipu7-isys-video.c: In function 'ipu7_isys_video_init':
+   ipu7-isys-video.c:1031:70: error: expected expression before '|' token
+    1031 |         av->vdev.device_caps = V4L2_CAP_STREAMING | V4L2_CAP_IO_MC | | V4L2_CAP_META_CAPTURE
+         |                                                                      ^
+
+
+vim +82 include/uapi/linux/videodev2.h
+
+607ca46e97a1b6 David Howells 2012-10-13  75  
+607ca46e97a1b6 David Howells 2012-10-13  76  /*
+607ca46e97a1b6 David Howells 2012-10-13  77   *	M I S C E L L A N E O U S
+607ca46e97a1b6 David Howells 2012-10-13  78   */
+607ca46e97a1b6 David Howells 2012-10-13  79  
+607ca46e97a1b6 David Howells 2012-10-13  80  /*  Four-character-code (FOURCC) */
+607ca46e97a1b6 David Howells 2012-10-13  81  #define v4l2_fourcc(a, b, c, d)\
+607ca46e97a1b6 David Howells 2012-10-13 @82  	((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+ff3c65cb81157b Shuah Khan    2019-06-12  83  #define v4l2_fourcc_be(a, b, c, d)	(v4l2_fourcc(a, b, c, d) | (1U << 31))
+607ca46e97a1b6 David Howells 2012-10-13  84  
 
 -- 
 0-DAY CI Kernel Test Service
