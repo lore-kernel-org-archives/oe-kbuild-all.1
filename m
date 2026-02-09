@@ -1,119 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4042264DC;
-	Mon,  9 Feb 2026 13:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BCA379973
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 13:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770645334; cv=none; b=ekfIYOv8Z5OoEMJnb9gjz8tnh/jURqYZVk5OcEWvrBN7n50xm8Re3TKf9+Btco0FiD+EKNrKa7Jdei8lBgOR52sHpUjvxHMdl5yAe9rJotAJt8Tl16sMQlsc3hRpkGiLZpfzeI/54RAIIGtphmNvYYFD3oRze9VnAzQqtUcaUp4=
+	t=1770645357; cv=none; b=du+pa3/KShCKlIKEeop4BM84q5Ln6K67HzQvNEjoc+cFLVONbBIbMJuUGmPLWcWGTmsUFWR4bIc4HIdPhhP0SAims4bdVrsBCwBr1gGx9QPSHA+VJqTrsFhQO8XaQ8VkhpQbS4QTtDr2qtMzkKQQixCuGWOcINDkYJ5eGTKTHhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770645334; c=relaxed/simple;
-	bh=uWxyjccSnUbamkFwFukoekUd4igQ8ifECcBbsxYge/I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=doZYw14ohHKkqbCL1FRtaATu2MV6qP1ryIDvcV9llzMlQDyjykrVRGdSvu/pIfwajOp8cia/zL/P5jAY3cBri6IQjsDmoHu6XNfbgaxlZbclWMuqIuOZCZqnx7SlzBF1epZuf6DGqZDy6C+AHuA84vwnU0Pf3DzYATly5+njrAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQCXVwIr; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1770645357; c=relaxed/simple;
+	bh=8gsKrKfHzg5IhU75x8V2XqMYKKTj3V+aC4HJxoeX8nw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UHeCwTFFDDb5DZMUVBbEhmIGO4a8Lvvkg/Xf3wy18JuIA44DfcPkNFiCPCsUJSTZrBfHo/9Kf2b21PYRsaM5+gf7ollfa+IwczHaHJUXfoFuKvNRyXzdSDyMBtWGbmDxIvuoHKwsMn0ncRQfYLsk2YaPOdEWY80zqum37kRSyD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LLKiYYXX; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQCXVwIr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLKiYYXX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770645334; x=1802181334;
-  h=date:from:to:cc:subject:message-id;
-  bh=uWxyjccSnUbamkFwFukoekUd4igQ8ifECcBbsxYge/I=;
-  b=mQCXVwIrI4QtcARG+4cV1uaNXRP0Yg26aSO6IfVWsWt60SxFqy9sWKs+
-   ee9usCU7MJhj9jhxtpD9rhUzg89R/Ou9NMQ0SlwaZ+ebesZcyuDm+sgwI
-   aeb6BjrzOxHGHIBCdXrhOC8WekBM76LMoXngoI6JzwfoqaQVewpCurfb7
-   Tr9wwgo4KYxKa3ADF6ZB7KMxNhL5JEVrKnX32ryOXKp44soMY7SNduC7y
-   7GtbDx4Mm5zNKFLsdiwHlcbSxsjorpLBRjM1eGX6pwhBpoek79d2/wBds
-   ldQ9hLD40l9tPS6dqrNHUu6skuLW9lZGIJ6C+y4W8aLg3uC6QAd+Tss9p
-   Q==;
-X-CSE-ConnectionGUID: 2JtRNSMFTmqIzDo1cXpiaA==
-X-CSE-MsgGUID: I4PTFItNSy2ktDqLznb8lg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="70770200"
+  t=1770645356; x=1802181356;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8gsKrKfHzg5IhU75x8V2XqMYKKTj3V+aC4HJxoeX8nw=;
+  b=LLKiYYXXjrp2GG89Jzq4bsgfOTB3k+vvkTEmQmmNi1HHED95pwD2k9Ch
+   xSMOFzV3gBifk7Su8vvbJ/6PLhFSu+P9MqmLsr42i/JipFomSae6G1K7r
+   KOudqYSKMJ4P2l6CPbz0z4oA/qaRAIbzk/wwAUuj/ZL/olrqJ5yU2lAvL
+   9wuK7mNttuk9eNViTlBxcchH9zP/0X+Pv8zbUYBEkQzWxgqAb36JxgBiN
+   Ez1Wp261bGOZw7OiVHsRPl5knTOJGvY7T47q60oysRG3jqpLNs4Z3Ydz8
+   ZyKY5ZnFVMlO7raOSndGvqOiPXjUkjlxFyR+JbOA0oOc4M1TXiaRUzFxX
+   A==;
+X-CSE-ConnectionGUID: 2eWbgCEqTV+kzxdYDk/osA==
+X-CSE-MsgGUID: R9mIvNJLR1ef5wJG6Cn1mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71937717"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="70770200"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 05:53:15 -0800
-X-CSE-ConnectionGUID: 9CSNzQTwREiTVAl9nRYqMQ==
-X-CSE-MsgGUID: 3Et46yZ6SCybjpA9xPlm7g==
+   d="scan'208";a="71937717"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 05:55:56 -0800
+X-CSE-ConnectionGUID: YCgsTqlTQdW9ogsWCrm0+A==
+X-CSE-MsgGUID: gvgRjmM0S8GJaxmUZrRvGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="216094724"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Feb 2026 05:53:13 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="211417610"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 09 Feb 2026 05:55:52 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpRhO-00000000nQY-2eE4;
-	Mon, 09 Feb 2026 13:53:10 +0000
-Date: Mon, 09 Feb 2026 21:52:26 +0800
+	id 1vpRjx-000000000FV-1Wc1;
+	Mon, 09 Feb 2026 13:55:49 +0000
+Date: Mon, 9 Feb 2026 14:55:33 +0100
 From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sj:damon/next 112/124] mm/damon/core.c:1862:4: error: use
- of undeclared identifier 'c'
-Message-ID: <202602092126.d6pfqcbG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jie Zhang <jzhang918@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jzhang918@gmail.com,
+	jie.zhang@analog.com, horms@kernel.org,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Jose Abreu <Jose.Abreu@synopsys.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v2] net: stmmac: fix oops when split header is enabled
+Message-ID: <202602091406.tg5t31a5-lkp@intel.com>
+References: <20260206195643.11333-1-jie.zhang@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206195643.11333-1-jie.zhang@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   74672caf715ec5f49e15d405b8030ce9cb686d4f
-commit: 7fdffc23ed84ea44a9f15f71d15b00a94f326acd [112/124] mm/damon/core: unify damon_warn_fix_nr_accesses_corruption() with damon_verify_reset_aggregated()
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260209/202602092126.d6pfqcbG-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092126.d6pfqcbG-lkp@intel.com/reproduce)
+Hi Jie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jie-Zhang/net-stmmac-fix-oops-when-split-header-is-enabled/20260207-035916
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260206195643.11333-1-jie.zhang%40analog.com
+patch subject: [PATCH net v2] net: stmmac: fix oops when split header is enabled
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260209/202602091406.tg5t31a5-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602091406.tg5t31a5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602092126.d6pfqcbG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602091406.tg5t31a5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/damon/core.c:1862:4: error: use of undeclared identifier 'c'
-    1862 |                         c->passed_sample_intervals,
-         |                         ^
-   mm/damon/core.c:1863:4: error: use of undeclared identifier 'c'
-    1863 |                         c->next_aggregation_sis);
-         |                         ^
-   2 errors generated.
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_rx_buf2_len':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5041:24: error: 'struct plat_stmmacenet_data' has no member named 'has_gmac4'
+    5041 |         if (!priv->plat->has_gmac4 && (status & rx_not_ls))
+         |                        ^~
 
 
-vim +/c +1862 mm/damon/core.c
+vim +5041 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
-89796f03081328 SeongJae Park 2025-12-02  1844  
-591c4c78be0636 SeongJae Park 2025-05-12  1845  /*
-591c4c78be0636 SeongJae Park 2025-05-12  1846   * Warn and fix corrupted ->nr_accesses[_bp] for investigations and preventing
-591c4c78be0636 SeongJae Park 2025-05-12  1847   * the problem being propagated.
-591c4c78be0636 SeongJae Park 2025-05-12  1848   */
-591c4c78be0636 SeongJae Park 2025-05-12  1849  static void damon_warn_fix_nr_accesses_corruption(struct damon_region *r)
-591c4c78be0636 SeongJae Park 2025-05-12  1850  {
-591c4c78be0636 SeongJae Park 2025-05-12  1851  	if (r->nr_accesses_bp == r->nr_accesses * 10000)
-591c4c78be0636 SeongJae Park 2025-05-12  1852  		return;
-7fdffc23ed84ea SeongJae Park 2026-02-04  1853  #ifndef CONFIG_DAMON_HARDENED
-591c4c78be0636 SeongJae Park 2025-05-12  1854  	WARN_ONCE(true, "invalid nr_accesses_bp at reset: %u %u\n",
-591c4c78be0636 SeongJae Park 2025-05-12  1855  			r->nr_accesses_bp, r->nr_accesses);
-591c4c78be0636 SeongJae Park 2025-05-12  1856  	r->nr_accesses_bp = r->nr_accesses * 10000;
-7fdffc23ed84ea SeongJae Park 2026-02-04  1857  #else
-5b9f4fef2cb618 SeongJae Park 2026-01-03  1858  	pr_err("reset time invalid region found!\n");
-5b9f4fef2cb618 SeongJae Park 2026-01-03  1859  	pr_err("nr_accesses_bp %u last_nr_acceses %u\n",
-5b9f4fef2cb618 SeongJae Park 2026-01-03  1860  			r->nr_accesses_bp, r->last_nr_accesses);
-5b9f4fef2cb618 SeongJae Park 2026-01-03  1861  	pr_err("passed_sis %lu next_aggregation_sis %lu\n",
-5b9f4fef2cb618 SeongJae Park 2026-01-03 @1862  			c->passed_sample_intervals,
-5b9f4fef2cb618 SeongJae Park 2026-01-03  1863  			c->next_aggregation_sis);
-5b9f4fef2cb618 SeongJae Park 2026-01-03  1864  	BUG();
-5b9f4fef2cb618 SeongJae Park 2026-01-03  1865  #endif
-7fdffc23ed84ea SeongJae Park 2026-02-04  1866  }
-5b9f4fef2cb618 SeongJae Park 2026-01-03  1867  
-
-:::::: The code at line 1862 was first introduced by commit
-:::::: 5b9f4fef2cb618ee597b3345dee579340e8d5d43 mm/damon/core: add damon_reset_aggregated() hardening
-
-:::::: TO: SeongJae Park <sj@kernel.org>
-:::::: CC: SeongJae Park <sj@kernel.org>
+  5014	
+  5015	static unsigned int stmmac_rx_buf2_len(struct stmmac_priv *priv,
+  5016					       struct dma_desc *p,
+  5017					       int status, unsigned int len)
+  5018	{
+  5019		int coe = priv->hw->rx_csum;
+  5020		unsigned int plen = 0;
+  5021	
+  5022		/* Not split header, buffer is not available */
+  5023		if (!priv->sph_active)
+  5024			return 0;
+  5025	
+  5026		/* For GMAC4, when split header is enabled, in some rare cases, the
+  5027		 * hardware does not fill buf2 of the first descriptor with payload.
+  5028		 * Thus we cannot assume buf2 is always fully filled if it is not
+  5029		 * the last descriptor. Otherwise, the length of buf2 of the second
+  5030		 * descriptor will be calculated wrong and cause an oops.
+  5031		 *
+  5032		 * If this is the last descriptor, 'plen' is the length of the
+  5033		 * received packet that was transferred to system memory.
+  5034		 * Otherwise, it is the accumulated number of bytes that have been
+  5035		 * transferred for the current packet.
+  5036		 *
+  5037		 * Thus 'plen - len' always gives the correct length of buf2.
+  5038		 */
+  5039	
+  5040		/* Not GMAC4 and not last descriptor */
+> 5041		if (!priv->plat->has_gmac4 && (status & rx_not_ls))
+  5042			return priv->dma_conf.dma_buf_sz;
+  5043	
+  5044		/* GMAC4 or last descriptor */
+  5045		plen = stmmac_get_rx_frame_len(priv, p, coe);
+  5046	
+  5047		return plen - len;
+  5048	}
+  5049	
 
 -- 
 0-DAY CI Kernel Test Service
