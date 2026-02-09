@@ -1,156 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4682032AACA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 23:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B327C2264D3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 23:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770679025; cv=none; b=Pv4BAEmVY5ODnOCNSOk8YwAaDCkI9V2M3H+RPd/hlqlZx0B+hwqq3fqgJX97DBhLPSd1MiPxS3MjKUiS3BBcmY+BubAjIH9zmWlVnbzk8JLi8Rz/K4k8dfCj8PUerZRR1WT7dGpoZQ+bINYFBFiX6fOm1RkBAtYmhBB6jGL5boY=
+	t=1770680291; cv=none; b=Z+6zaafHTjN8h+6AW1nlWShoZ+LU+xPcXSC2bdmIjFqpR9dP7cEy7H73xJTJ/5hC+D6QxwU2p02n/R/lK9HwQJeB557wDpfpjg+GP5d8m1VSGbaNe1iZ3B0IE6GVboPsGmBNITdMEHjpEkf5mBaABfhmKeOixJixa9xDka2nhC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770679025; c=relaxed/simple;
-	bh=iywfeCVxyn3/HRiBC3vqicrGSDTNkMMhOLiBrQxjR7I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sNztX4thpwYJN9lYhJi7izC4ONGbAVduRPeTjhi6YJXWCZfHmcJxYtDAYDHU4pkOfbw6FYRpQYYWQo8vsSzwdeU68+vNC/L7quna+byfpvMjwZaJKjH6F5a2ottEiqeYWvHq9gbz8jLv4oxWorsveesAniWeB2IqnoR3IvOx0/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=boFev/tw; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1770680291; c=relaxed/simple;
+	bh=wGlZDqmrdBbEgyHk+9taYE7VHOb5DA6r41ddHjaltyQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTogkAv0OL8B+5292oNQRdd07M7BPrh/MSkG5poCaAL2xvFbMiTC7UuiEvhPqtmHQMQJeKcpVFb8r/LS6HSRoL8BoaLyOVQ99JupDyzSwYqjNyIacyhenwQMrfq4PSNCfV8oKEAjC8iQDfPLZwZzIF+jiNKnQBK+0Z6y6vCS2Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXOwU3xp; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="boFev/tw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXOwU3xp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770679024; x=1802215024;
-  h=date:from:to:cc:subject:message-id;
-  bh=iywfeCVxyn3/HRiBC3vqicrGSDTNkMMhOLiBrQxjR7I=;
-  b=boFev/twiiBenede4BL2v691l1c5DA+i3GMSYOghoxP2JuAReEjhIObD
-   pz/W5QveKaeKnZ7ACWIAM1Kdhhwmo6PS8fZ6OasBazh78TCSXZO100ikU
-   ejIPNftytcr6z/Y/R2GYU3RJV1lYpcic0OzUsmGtKxhf4B78DueofR56N
-   TvuCoBbUiVDOudosYPac/ZQynnJ729R1zfKOYb5jV1Jpte3KmLv7ej+kc
-   efXK3RvD4cOjktFNNKp9joDG/kA6JAINByz8w8zmjljvIet4uJQZjDemq
-   1SD6vLT36K7LTRQnqfGw5d4ZuUS4vFkSRwMnvDizHHVpBAjOZntmX170J
+  t=1770680289; x=1802216289;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wGlZDqmrdBbEgyHk+9taYE7VHOb5DA6r41ddHjaltyQ=;
+  b=KXOwU3xpxTb0NQplB2wEPKa0xqc8q/jf4eiWiBo4MhPIVgG1yqXMfDC4
+   R/lY1OtkavrxeGi5LISqDwOzR9SF5KgEQi9V4GJ9iOou+hF2ZCAc1v0jY
+   xR7DuA5d+5qXkoqTuYK3pyPzV8XTPczgfkTtCFbdtA3v8B3v2v5kN9V+0
+   CFrIBsOyJ4yP7oI2e09XxYEPJE+l7XGO6pEqASG5PulvfE9LOqhKV53Mc
+   sOEcpfHYa+cQklzyCBQTbyQsPmHiOpJWhd+ATSyMnL8FdqttBjr7N0Yog
+   7mCEYZjbKFs4oEzuOqXSj6zVWNgrPXj28ydcsHuHituUbEA2iA7iLWGWg
    A==;
-X-CSE-ConnectionGUID: TjI10CpXQ1enAifrjHN+Vw==
-X-CSE-MsgGUID: ECSmcCKWSuSqn7W9lP4tWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82906718"
+X-CSE-ConnectionGUID: gUG9kqO4QT6RNyZJDtwXIg==
+X-CSE-MsgGUID: 7UhfCGjLTmibma2+MwD8+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="89384728"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="82906718"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 15:17:03 -0800
-X-CSE-ConnectionGUID: 8cwmrB6GThaUa8NliyRoIw==
-X-CSE-MsgGUID: Z4odzbD8SeOBDV1dsem8Yw==
+   d="scan'208";a="89384728"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 15:38:08 -0800
+X-CSE-ConnectionGUID: cUlGTDknRj+p9ychtsexDA==
+X-CSE-MsgGUID: 7ThtdMsuRPanMmjNvnfNww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211804076"
+   d="scan'208";a="216256848"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Feb 2026 15:17:02 -0800
+  by orviesa004.jf.intel.com with ESMTP; 09 Feb 2026 15:38:03 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpaV1-00000000oOu-3v1V;
-	Mon, 09 Feb 2026 23:16:59 +0000
-Date: Tue, 10 Feb 2026 07:16:05 +0800
+	id 1vpapN-00000000oQ0-0GQ8;
+	Mon, 09 Feb 2026 23:38:01 +0000
+Date: Tue, 10 Feb 2026 07:37:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:container 11/14] fs/namespace.c:4437:21:
- error: too many arguments to function call, expected single argument 'mnt',
- have 2 arguments
-Message-ID: <202602100714.sJy7VFwC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Deepanshu Kartikey <kartikey406@gmail.com>, akpm@linux-foundation.org,
+	david@kernel.org, lorenzo.stoakes@oracle.com,
+	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
+	baohua@kernel.org, ackerleytng@google.com, seanjc@google.com,
+	pbonzini@redhat.com, michael.roth@amd.com, vannapurve@google.com
+Cc: oe-kbuild-all@lists.linux.dev, ziy@nvidia.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+33a04338019ac7e43a44@syzkaller.appspotmail.com
+Subject: Re: [PATCH] mm: thp: Deny THP for guest_memfd and secretmem in
+ file_thp_enabled()
+Message-ID: <202602100727.b1U4CHAA-lkp@intel.com>
+References: <20260209033558.22943-1-kartikey406@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209033558.22943-1-kartikey406@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git container
-head:   36f59ee3019d623c30b66df95200a51c85043bdc
-commit: f7965848b0b2b744e86cf56c17b2c5f01c591db9 [11/14] containers, vfs: Honour CONTAINER_NEW_EMPTY_FS_NS
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260210/202602100714.sJy7VFwC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100714.sJy7VFwC-lkp@intel.com/reproduce)
+Hi Deepanshu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/mm-thp-Deny-THP-for-guest_memfd-and-secretmem-in-file_thp_enabled/20260209-113800
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260209033558.22943-1-kartikey406%40gmail.com
+patch subject: [PATCH] mm: thp: Deny THP for guest_memfd and secretmem in file_thp_enabled()
+config: arc-randconfig-001-20260210 (https://download.01.org/0day-ci/archive/20260210/202602100727.b1U4CHAA-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100727.b1U4CHAA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602100714.sJy7VFwC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602100727.b1U4CHAA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/namespace.c:4437:21: error: too many arguments to function call, expected single argument 'mnt', have 2 arguments
-    4437 |                 move_from_ns(mnt, &tmp); /* Obtain the namespace's ref */
-         |                 ~~~~~~~~~~~~      ^~~~
-   fs/mount.h:199:20: note: 'move_from_ns' declared here
-     199 | static inline void move_from_ns(struct mount *mnt)
-         |                    ^            ~~~~~~~~~~~~~~~~~
-   1 error generated.
+   mm/huge_memory.c: In function 'file_thp_enabled':
+>> mm/huge_memory.c:96:37: error: 'GUEST_MEMFD_MAGIC' undeclared (first use in this function)
+      96 |         if (inode->i_sb->s_magic == GUEST_MEMFD_MAGIC ||
+         |                                     ^~~~~~~~~~~~~~~~~
+   mm/huge_memory.c:96:37: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/huge_memory.c:97:37: error: 'SECRETMEM_MAGIC' undeclared (first use in this function)
+      97 |             inode->i_sb->s_magic == SECRETMEM_MAGIC)
+         |                                     ^~~~~~~~~~~~~~~
 
 
-vim +/mnt +4437 fs/namespace.c
+vim +/GUEST_MEMFD_MAGIC +96 mm/huge_memory.c
 
-  4400	
-  4401	/*
-  4402	 * Create a mount namespace for a container and set the root mount in it.
-  4403	 */
-  4404	static int set_container_root(struct path *path, int fd)
-  4405	{
-  4406		struct mnt_namespace *mnt_ns;
-  4407		struct container *container;
-  4408		struct mount *mnt = real_mount(path->mnt);
-  4409		struct fd f;
-  4410		LIST_HEAD(tmp);
-  4411		int ret;
-  4412	
-  4413		f = fdget(fd);
-  4414		if (fd_empty(f))
-  4415			return -EBADF;
-  4416		ret = -EINVAL;
-  4417		if (!is_container_file(fd_file(f)))
-  4418			goto out_fd;
-  4419	
-  4420		ret = -EBUSY;
-  4421		container = fd_file(f)->private_data;
-  4422		if (container->ns->mnt_ns)
-  4423			goto out_fd;
-  4424	
-  4425		mnt_ns = alloc_mnt_ns(container->cred->user_ns, false);
-  4426		if (IS_ERR(mnt_ns)) {
-  4427			ret = PTR_ERR(mnt_ns);
-  4428			goto out_fd;
-  4429		}
-  4430	
-  4431		ret = -EBUSY;
-  4432		namespace_lock();
-  4433		lock_mount_hash();
-  4434		spin_lock(&container->lock);
-  4435	
-  4436		if (!container->ns->mnt_ns) {
-> 4437			move_from_ns(mnt, &tmp); /* Obtain the namespace's ref */
-  4438			list_del(&mnt->mnt_list);
-  4439	
-  4440			mnt_ns->root = mnt;
-  4441			mnt_ns->nr_mounts = 1;
-  4442			mnt_add_to_ns(mnt_ns, mnt); /* Give ref to namespace */
-  4443	
-  4444			container->ns->mnt_ns = mnt_ns;
-  4445	
-  4446			path_get(path);
-  4447			write_seqcount_begin(&container->seq);
-  4448			container->root = *path;
-  4449			write_seqcount_end(&container->seq);
-  4450	
-  4451			mnt_ns = NULL;
-  4452			ret = 0;
-  4453		}
-  4454	
-  4455		spin_unlock(&container->lock);
-  4456		unlock_mount_hash();
-  4457		namespace_unlock();
-  4458	
-  4459		if (ret < 0)
-  4460			put_mnt_ns(mnt_ns);
-  4461	out_fd:
-  4462		fdput(f);
-  4463		return ret;
-  4464	}
-  4465	
+    84	
+    85	static inline bool file_thp_enabled(struct vm_area_struct *vma)
+    86	{
+    87		struct inode *inode;
+    88	
+    89		if (!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS))
+    90			return false;
+    91	
+    92		if (!vma->vm_file)
+    93			return false;
+    94	
+    95		inode = file_inode(vma->vm_file);
+  > 96		if (inode->i_sb->s_magic == GUEST_MEMFD_MAGIC ||
+  > 97		    inode->i_sb->s_magic == SECRETMEM_MAGIC)
+    98			return false;
+    99	
+   100		return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
+   101	}
+   102	
 
 -- 
 0-DAY CI Kernel Test Service
