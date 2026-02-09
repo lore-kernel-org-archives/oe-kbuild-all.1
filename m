@@ -1,299 +1,151 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8E237B3F1;
-	Mon,  9 Feb 2026 15:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0437B37B3F1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 15:37:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770651455; cv=none; b=myS311tfGkChQgUOi7snfEYAJZbHjMj0uM7Q1UWoPgCwwskhDGV7rqUCGJHPAMg3bG7nuMdMfHzQScNOhb0DV6BcWCCKZzkpMSeNmaYLohOH8avbnYiH6fOVndydgKRXHfkZ7WDuHwbsMoASl87YlyQ4NARSn3ArrYSkGLFLWwc=
+	t=1770651456; cv=none; b=E6VuyYHkWcPyzZLXxoHdkDqoBCORSyv8Fdl6W0l7xZnAC/RhoVUB9oQB7xfHLyRjAadjSr+5gEn5aEeJF3zRxVhtQZReXPMUVKtAxrUyLTs1f1D0tX2Ip3cs4bV0Q9410tJjMognucunxbHi2A5MlLERk4OVNfpk5eZiwYPINW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770651455; c=relaxed/simple;
-	bh=IKCR4lvEQuc2Tydtoh143FaKcDcntZb/L2bYA7aAPxc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=G/TryL9YRmaJ9Kit+9+st/mjcrYE7ZnHveTHG10JNXsV48rj/yFN9WODf/y2aekFekCfNdRLg4lusR6+9uvQ9mxlLgsV5S0Ix2Zy11a+444zXkLrdJ19AUVPQeo67xVJdADr8SCPTYtX5jAPORmITnOS9bBu/U/SwOosI0DFksk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AnW875Y4; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1770651456; c=relaxed/simple;
+	bh=5qoZV77a6+kSnikdliIA4iXaH+PJyUpecip8OHKWf4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e87E59onc81FnJ3R6NFZ7qlntii61w4i6XEfZbUT0qX8cEtcCRWItTF/VHZmblCvOTFwxTArTbKxX0yHjLX25b8CtTJ6w+wcZhXKQCy3QVJtV3+9DwvIsMw4rOnho4S4sS+09T6qB4/Asahv6+33yJPVFME3tKJZpa73VLu2FCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AgEsj2Oj; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AnW875Y4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgEsj2Oj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770651455; x=1802187455;
-  h=date:from:to:cc:subject:message-id;
-  bh=IKCR4lvEQuc2Tydtoh143FaKcDcntZb/L2bYA7aAPxc=;
-  b=AnW875Y4a2DNexJiui73rzgXmkcvE1Avzi0tVzAgZ7eP+RGDSZCKxawf
-   b1Zz1LxKJRj1vKYWt0ZgfBQ6RyZh6KDviA7dWdMY2aIkbXx2jqxrGcTGA
-   DSUb7rpjDCvAQByCxGtW3jHK0CzT8V7z3dLYn6nV58QC1ku9MfMPyDgYT
-   WUBr8wm5zMzzwFRJAXDsB6cEwJFTWQb6bb7JJNPtwZ5mkh2XV7zb+4qzi
-   j6PWJuaxpeoMGRToWc1c7gpXWNZHubbM7km+J9zfLI324HA8hSQOddr8o
-   0kutcMam1AxzRT8SfBiVz44cMR2NT238qSMZKI0F5Dxhpoa2bvfPhXDN3
-   Q==;
-X-CSE-ConnectionGUID: yJOPSKx9Sr+CD1aEVjkKXg==
-X-CSE-MsgGUID: dcrdb0W+QQyZiKE/jt2Log==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71665089"
+  t=1770651456; x=1802187456;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5qoZV77a6+kSnikdliIA4iXaH+PJyUpecip8OHKWf4Q=;
+  b=AgEsj2Oj1fX2tAw/WG+ivFh5afl1RZDwcNodBpG1D/VrinOpK2lHdwwU
+   3G60e80YARVk0saOXl1HDNUUlC1GSzDiGLcXDCl0hj7W5Jm4EDaZIJQvG
+   qa1UFQ5PiIRZ8Alv8wds8qJEZTuU6HXV1vVwTRpz68PxaTqePscnCFTX2
+   DKOHgnr5xjlH3DE2q9bsvtm6DVQ89qH3qy6jjNdnXLG+lIog/DMcCIetg
+   +tk+PcfrQVE7Ot4VItlEFoMmWpU49PFTSCJgLDbl7UXAbw1oqx++wd/hj
+   ufxIZq/QzeR2+DlEj8db1QhierYMFYL5+k1tt/7W9/IejhkvZbNFcrWIx
+   g==;
+X-CSE-ConnectionGUID: R0Je6HxiSNOGve1RJriQCw==
+X-CSE-MsgGUID: yWNaQOGNRdO8/eIGDc0OBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71665092"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="71665089"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 07:37:35 -0800
-X-CSE-ConnectionGUID: Om9r6mcXRoOq9Gj0e73n5w==
-X-CSE-MsgGUID: aCouv1DPSxaD70JRWYBgeQ==
+   d="scan'208";a="71665092"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 07:37:36 -0800
+X-CSE-ConnectionGUID: 1DdUKmTlT5KKa66KH8UVeA==
+X-CSE-MsgGUID: xdwATXuRS4WvoUbhgnVvTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="210922205"
+   d="scan'208";a="211627456"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Feb 2026 07:37:33 -0800
+  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2026 07:37:32 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpTKM-00000000o52-2QyZ;
+	id 1vpTKM-00000000o4u-24xk;
 	Mon, 09 Feb 2026 15:37:30 +0000
-Date: Mon, 09 Feb 2026 23:37:15 +0800
+Date: Mon, 9 Feb 2026 23:37:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Abel Vesa <abel.vesa@oss.qualcomm.com>
-Subject: [sre-misc:thinkpad-t14s-x1e 20/129]
- drivers/media/platform/qcom/camss/camss-csiphy.c:821:59: warning: variable
- 'ret' is uninitialized when used here
-Message-ID: <202602092340.TG38Rxvc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Chuan Liu via B4 Relay <devnull+chuan.liu.amlogic.com@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Chuan Liu <chuan.liu@amlogic.com>
+Subject: Re: [PATCH 08/13] clk: amlogic: Add PLL driver
+Message-ID: <202602092354.9sJeoo5S-lkp@intel.com>
+References: <20260209-a9_clock_driver-v1-8-a9198dc03d2a@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209-a9_clock_driver-v1-8-a9198dc03d2a@amlogic.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git thinkpad-t14s-x1e
-head:   e59893f5d6ef4c024a8ce76f6922057dc52b8a9b
-commit: 73974b13359f2522448c9ea16fde5c0d56bba10e [20/129] media: qcom: camss: Add support for PHY API devices
-config: powerpc-randconfig-002-20260209 (https://download.01.org/0day-ci/archive/20260209/202602092340.TG38Rxvc-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092340.TG38Rxvc-lkp@intel.com/reproduce)
+Hi Chuan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4d310797262f0ddf129e76c2aad2b950adaf1fda]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuan-Liu-via-B4-Relay/dt-bindings-clock-Add-Amlogic-A9-standardized-model-clock-control-units/20260209-135334
+base:   4d310797262f0ddf129e76c2aad2b950adaf1fda
+patch link:    https://lore.kernel.org/r/20260209-a9_clock_driver-v1-8-a9198dc03d2a%40amlogic.com
+patch subject: [PATCH 08/13] clk: amlogic: Add PLL driver
+config: arm-randconfig-003-20260209 (https://download.01.org/0day-ci/archive/20260209/202602092354.9sJeoo5S-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092354.9sJeoo5S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602092340.TG38Rxvc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602092354.9sJeoo5S-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/platform/qcom/camss/camss-csiphy.c:643:44: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'csiphy_match_clock_name' [-Wmissing-format-attribute]
-     638 | static bool csiphy_match_clock_name(const char *clock_name, const char *format,
-         | __attribute__((format(printf, 2, 3))) 
-     639 |                                     int index)
-     640 | {
-     641 |         char name[16]; /* csiphyXXX_timer\0 */
-     642 | 
-     643 |         snprintf(name, sizeof(name), format, index);
-         |                                                   ^
-   drivers/media/platform/qcom/camss/camss-csiphy.c:638:13: note: 'csiphy_match_clock_name' declared here
-     638 | static bool csiphy_match_clock_name(const char *clock_name, const char *format,
-         |             ^
->> drivers/media/platform/qcom/camss/camss-csiphy.c:821:59: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     821 |                 dev_err(dev, "failed to get phy %s %d\n", csiphy->name, ret);
-         |                                                                         ^~~
-   drivers/media/platform/qcom/camss/camss-csiphy.c:808:9: note: initialize the variable 'ret' to silence this warning
-     808 |         int ret;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+   arm-linux-gnueabi-ld: drivers/clk/amlogic/clk-pll.o: in function `aml_pll_available_rates_show':
+>> drivers/clk/amlogic/clk-pll.c:554: undefined reference to `__aeabi_uldivmod'
+>> arm-linux-gnueabi-ld: drivers/clk/amlogic/clk-pll.c:567: undefined reference to `__aeabi_uldivmod'
+>> arm-linux-gnueabi-ld: drivers/clk/amlogic/clk-pll.c:554: undefined reference to `__aeabi_uldivmod'
 
 
-vim +/ret +821 drivers/media/platform/qcom/camss/camss-csiphy.c
+vim +554 drivers/clk/amlogic/clk-pll.c
 
-   637	
- > 638	static bool csiphy_match_clock_name(const char *clock_name, const char *format,
-   639					    int index)
-   640	{
-   641		char name[16]; /* csiphyXXX_timer\0 */
-   642	
-   643		snprintf(name, sizeof(name), format, index);
-   644		return !strcmp(clock_name, name);
-   645	}
-   646	
-   647	/*
-   648	 * msm_csiphy_subdev_init_legacy - Initialize CSIPHY device structure and resources
-   649	 * @csiphy: CSIPHY device
-   650	 * @res: CSIPHY module resources table
-   651	 * @id: CSIPHY module id
-   652	 *
-   653	 * Return 0 on success or a negative error code otherwise
-   654	 */
-   655	int msm_csiphy_subdev_init_legacy(struct camss *camss,
-   656					  struct csiphy_device *csiphy,
-   657					  const struct camss_subdev_resources *res, u8 id)
-   658	{
-   659		struct device *dev = camss->dev;
-   660		struct platform_device *pdev = to_platform_device(dev);
-   661		int i, j;
-   662		int ret;
-   663	
-   664		csiphy->camss = camss;
-   665		csiphy->id = id;
-   666		csiphy->cfg.combo_mode = 0;
-   667		csiphy->res = &res->csiphy;
-   668	
-   669		ret = csiphy->res->hw_ops->init(csiphy);
-   670		if (ret)
-   671			return ret;
-   672	
-   673		/* Memory */
-   674	
-   675		csiphy->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
-   676		if (IS_ERR(csiphy->base))
-   677			return PTR_ERR(csiphy->base);
-   678	
-   679		if (camss->res->version == CAMSS_8x16 ||
-   680		    camss->res->version == CAMSS_8x53 ||
-   681		    camss->res->version == CAMSS_8x96) {
-   682			csiphy->base_clk_mux =
-   683				devm_platform_ioremap_resource_byname(pdev, res->reg[1]);
-   684			if (IS_ERR(csiphy->base_clk_mux))
-   685				return PTR_ERR(csiphy->base_clk_mux);
-   686		} else {
-   687			csiphy->base_clk_mux = NULL;
-   688		}
-   689	
-   690		/* Interrupt */
-   691	
-   692		ret = platform_get_irq_byname(pdev, res->interrupt[0]);
-   693		if (ret < 0)
-   694			return ret;
-   695	
-   696		csiphy->irq = ret;
-   697		snprintf(csiphy->irq_name, sizeof(csiphy->irq_name), "%s_%s%d",
-   698			 dev_name(dev), MSM_CSIPHY_NAME, csiphy->id);
-   699	
-   700		ret = devm_request_irq(dev, csiphy->irq, csiphy->res->hw_ops->isr,
-   701				       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
-   702				       csiphy->irq_name, csiphy);
-   703		if (ret < 0) {
-   704			dev_err(dev, "request_irq failed: %d\n", ret);
-   705			return ret;
-   706		}
-   707	
-   708		/* Clocks */
-   709	
-   710		csiphy->nclocks = 0;
-   711		while (res->clock[csiphy->nclocks])
-   712			csiphy->nclocks++;
-   713	
-   714		csiphy->clock = devm_kcalloc(dev,
-   715					     csiphy->nclocks, sizeof(*csiphy->clock),
-   716					     GFP_KERNEL);
-   717		if (!csiphy->clock)
-   718			return -ENOMEM;
-   719	
-   720		csiphy->rate_set = devm_kcalloc(dev,
-   721						csiphy->nclocks,
-   722						sizeof(*csiphy->rate_set),
-   723						GFP_KERNEL);
-   724		if (!csiphy->rate_set)
-   725			return -ENOMEM;
-   726	
-   727		for (i = 0; i < csiphy->nclocks; i++) {
-   728			struct camss_clock *clock = &csiphy->clock[i];
-   729	
-   730			clock->clk = devm_clk_get(dev, res->clock[i]);
-   731			if (IS_ERR(clock->clk))
-   732				return PTR_ERR(clock->clk);
-   733	
-   734			clock->name = res->clock[i];
-   735	
-   736			clock->nfreqs = 0;
-   737			while (res->clock_rate[i][clock->nfreqs])
-   738				clock->nfreqs++;
-   739	
-   740			if (!clock->nfreqs) {
-   741				clock->freq = NULL;
-   742				continue;
-   743			}
-   744	
-   745			clock->freq = devm_kcalloc(dev,
-   746						   clock->nfreqs,
-   747						   sizeof(*clock->freq),
-   748						   GFP_KERNEL);
-   749			if (!clock->freq)
-   750				return -ENOMEM;
-   751	
-   752			for (j = 0; j < clock->nfreqs; j++)
-   753				clock->freq[j] = res->clock_rate[i][j];
-   754	
-   755			csiphy->rate_set[i] = csiphy_match_clock_name(clock->name,
-   756								      "csiphy%d_timer",
-   757								      csiphy->id);
-   758			if (csiphy->rate_set[i])
-   759				continue;
-   760	
-   761			if (camss->res->version == CAMSS_660) {
-   762				csiphy->rate_set[i] = csiphy_match_clock_name(clock->name,
-   763									      "csi%d_phy",
-   764									       csiphy->id);
-   765				if (csiphy->rate_set[i])
-   766					continue;
-   767			}
-   768	
-   769			csiphy->rate_set[i] = csiphy_match_clock_name(clock->name, "csiphy%d", csiphy->id);
-   770		}
-   771	
-   772		/* CSIPHY supplies */
-   773		for (i = 0; i < ARRAY_SIZE(res->regulators); i++) {
-   774			if (res->regulators[i])
-   775				csiphy->num_supplies++;
-   776		}
-   777	
-   778		if (csiphy->num_supplies) {
-   779			csiphy->supplies = devm_kmalloc_array(camss->dev,
-   780							      csiphy->num_supplies,
-   781							      sizeof(*csiphy->supplies),
-   782							      GFP_KERNEL);
-   783			if (!csiphy->supplies)
-   784				return -ENOMEM;
-   785		}
-   786	
-   787		for (i = 0; i < csiphy->num_supplies; i++)
-   788			csiphy->supplies[i].supply = res->regulators[i];
-   789	
-   790		ret = devm_regulator_bulk_get(camss->dev, csiphy->num_supplies,
-   791					      csiphy->supplies);
-   792		return ret;
-   793	}
-   794	
-   795	/*
-   796	 * msm_csiphy_subdev_init - Initialize CSIPHY device structure and resources
-   797	 * @csiphy: CSIPHY device
-   798	 * @res: CSIPHY module resources table
-   799	 * @id: CSIPHY module id
-   800	 *
-   801	 * Return 0 on success or a negative error code otherwise
-   802	 */
-   803	int msm_csiphy_subdev_init(struct camss *camss,
-   804				   struct csiphy_device *csiphy,
-   805				   const struct camss_subdev_resources *res, u8 id)
-   806	{
-   807		struct device *dev = camss->dev;
-   808		int ret;
-   809	
-   810		csiphy->camss = camss;
-   811		csiphy->id = id;
-   812		csiphy->cfg.combo_mode = 0;
-   813		csiphy->res = &res->csiphy;
-   814	
-   815		snprintf(csiphy->name, ARRAY_SIZE(csiphy->name), "csiphy%d",
-   816			 csiphy->id);
-   817	
-   818		csiphy->phy = devm_phy_get(dev, csiphy->name);
-   819	
-   820		if (IS_ERR(csiphy->phy)) {
- > 821			dev_err(dev, "failed to get phy %s %d\n", csiphy->name, ret);
-   822			return PTR_ERR(csiphy->phy);
-   823		}
-   824	
-   825		ret = phy_init(csiphy->phy);
-   826		if (ret)
-   827			dev_err(dev, "phy %s init fail %d\n", csiphy->name, ret);
-   828	
-   829		return ret;
-   830	}
-   831	
+   536	
+   537	static int aml_pll_get_best_rate(unsigned long rate, unsigned long step_rate,
+   538					 u64 min_vco_rate, u64 max_vco_rate,
+   539					 u8 od_max, enum round_type round,
+   540					 unsigned long *out_rate)
+   541	{
+   542		int i;
+   543		u64 vco_rate;
+   544		unsigned long now_rate, best_rate = 0;
+   545	
+   546		for (i = 0; i <= od_max; i++) {
+   547			vco_rate = rate << i;
+   548			if (vco_rate < min_vco_rate)
+   549				continue;
+   550	
+   551			if (vco_rate > max_vco_rate)
+   552				break;
+   553	
+ > 554			if (vco_rate % step_rate == 0) {
+   555				best_rate = rate;
+   556	
+   557				break;
+   558			}
+   559	
+   560			if (round == ROUND_DOWN) {
+   561				vco_rate = vco_rate - (vco_rate % step_rate);
+   562				now_rate = vco_rate >> i;
+   563				if ((rate - now_rate) < (rate - best_rate))
+   564					best_rate = now_rate;
+   565			} else {
+   566				vco_rate = vco_rate + step_rate;
+ > 567				vco_rate = vco_rate - (vco_rate % step_rate);
+   568				now_rate = vco_rate >> i;
+   569				if ((now_rate - rate) < (best_rate - rate))
+   570					best_rate = now_rate;
+   571			}
+   572		}
+   573	
+   574		if (!best_rate)
+   575			return -EINVAL;
+   576	
+   577		*out_rate = best_rate;
+   578	
+   579		return 0;
+   580	}
+   581	
 
 -- 
 0-DAY CI Kernel Test Service
