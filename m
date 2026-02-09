@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17A730CDA6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 21:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F98126ED48
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 21:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770672604; cv=none; b=gIZwWNLyS+HenvLQnvHksb1oKxHRz7r4TMvsu7gvoz7VqauX0Wx2X4m62gwLm1AsBNbwnSRtBhYaCHAXZptckzJ+lUFBZfYs7Ch8Uq8V+IuH6p1Ts30fe8uFVdsxP3FIzPwtN79ZTvQK2FCm4/vETrh+dJarygCwfJn7cHpaVMc=
+	t=1770673323; cv=none; b=as8co9l59fqb8wRRLHtU3tXIgBsZpTx+gs2NGgipErG8ETm6nIe4PeHQLPGwXKMXAMw60f5Vt92SSBxUXSoFLN2MaimqXuIk/sj7ecOEBMuSKdjkcgiKyCAE8ZckYGdDv5lX0jXQBehB8BtcgoU3dmdRluG1GBB0fOf6+5j3Yck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770672604; c=relaxed/simple;
-	bh=Us+2MHluE3BGP3bFG4N4scT+W4VoLSEALY4nk0TikuA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ob6Y9q+rpi/Nm6nA21icxRyU8w3+gEcfxQ3VDK3olBe2jDw9aX2+A5t6R+nh5UBB4SMgtU7TuAxp/Rizt8NtF5OiMvAdXp/63JL7elS69fzn7y1GjKEH5puy1TKHxNb+pAZBIM5cleIUr80osd77cSxBcY5a1oAbpd/5RDhbQgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VyP3YUKB; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1770673323; c=relaxed/simple;
+	bh=LZouKiHQYrKeXheG96A1NC037D/ZTIbBTBgw3JLEYKY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=F6/ZIVSotcf01CyBVTpgQhw5Y61GCKao0VvPq1FL2R2FnsZZTVnWnUYjAa/FqemOgiH/czmZWbhRHUE+vpiCNQmgvmAGBkOUhTQ4OVwoGpDPpStjSQ+lx+yOT8TN5GZk2m47htu30BszobC3e/KGtpSyTADxvZ3p7hiNuq1/krM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AYe4j7Lj; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VyP3YUKB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AYe4j7Lj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770672603; x=1802208603;
+  t=1770673322; x=1802209322;
   h=date:from:to:cc:subject:message-id;
-  bh=Us+2MHluE3BGP3bFG4N4scT+W4VoLSEALY4nk0TikuA=;
-  b=VyP3YUKBI6GtBuEal1mVrOdSceIr2e4hQ8LS0pkBgG6miOtVcDu1Tqsl
-   pEx7fwmg1gkbDLNdQzGQr0yz6iM/93JqlF5MQo7XY/a4IS22pN8Xi8SQM
-   oab0PltDNXMDxHYwqUKq6AWr5ofNNibXOPWk/m7qykaiYJs+ZnX/rSmvw
-   nhV+X2S5nEXmJECxfoHG/+dhjODZh7NUAL32TJw4Dw88fOEYKhH6NRyE3
-   MiIV4r1kZEgaO7uAWCnCB3jVY/DSbX1pA8L424hX5Js/opIm+MqCmC+By
-   0JOktMS8wMt34/k2PFt2wfoxNZnlGNMxWXP8fPA60mR3GAAbzlO1KsyVE
-   A==;
-X-CSE-ConnectionGUID: Z0eOfIs4Rtu8kP+71SW/9g==
-X-CSE-MsgGUID: 133q2bmGRlu1YlEh3TFVxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="75418874"
+  bh=LZouKiHQYrKeXheG96A1NC037D/ZTIbBTBgw3JLEYKY=;
+  b=AYe4j7LjTjTBulBtSWbSstwElkXMKlcwy/SMLw6F31bzALZgUCbLW2XV
+   31SMjRFjpxRsgYRDTH3KlZElu7YPnRRuzp9+1D2Jxo6o7O8BEy5hWPMNj
+   5aMzQ6dyMbhfuHUBks/CPpr4eTGABhy9h10RmM0dnjrONxEnbrRCM058T
+   QgzbpWUnDFH6zMRSfwXdZGtERLSZ4GeUr5MX/eiCBM3n9XSFkHboe7eux
+   TUUp7rl/zGTzGr5DvN+u17IFhnDFq2ZIpvi/Ez/l378E3iW2Qvc4XiKZS
+   MbGRdMImaWSn+jcU3epVpaTQ3Y2+RkjrtM6nL2fUoGRvqoIMd45TmKk1J
+   g==;
+X-CSE-ConnectionGUID: X3U5PtkwT9q3i4XzaxQ08w==
+X-CSE-MsgGUID: ObdgNYHbTbGwDrxUzPk4SA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71694141"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="75418874"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 13:30:02 -0800
-X-CSE-ConnectionGUID: 4EUxd3e+Rc6lTipPDYVsOQ==
-X-CSE-MsgGUID: Cfci7JmlT5qR45XyKiHFaA==
+   d="scan'208";a="71694141"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 13:42:01 -0800
+X-CSE-ConnectionGUID: +KA6v/KITAysiWfV5uMGAw==
+X-CSE-MsgGUID: 5CFcgKGeRsOnfWv1Lh4FUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="241786639"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Feb 2026 13:30:01 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="216087505"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 09 Feb 2026 13:42:00 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpYpS-000000000TR-1z6E;
-	Mon, 09 Feb 2026 21:29:58 +0000
-Date: Mon, 09 Feb 2026 22:29:51 +0100
+	id 1vpZ13-00000000oLw-3iU5;
+	Mon, 09 Feb 2026 21:41:57 +0000
+Date: Tue, 10 Feb 2026 05:41:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/2] htmldocs: Warning:
- include/uapi/linux/gunyah.h references a file that doesn't exist:
- Documentation/virt/gunyah/vm-manager.rst
-Message-ID: <202602092235.YephaU1M-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 459/799]
+ fs/bcachefs/alloc/background.c:206:5-8: Unneeded variable: "ret". Return "0"
+ on line 214
+Message-ID: <202602100505.PiRtU9VL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,42 +60,51 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Sreenad,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   3b54985e12634723f50be663b001e0f03e8643e1
-commit: c47ab53e5d6f4848cd52e1ba39e3bca4625e1548 [0/2] ANDROID: virt: gunyah: Add gup based demand paging support
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260209/202602092235.YephaU1M-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: 3fdc7b4035515f784e1d442bcca383f5c0267e53 [459/799] bcachefs: move alloc files to subdir
+config: arc-randconfig-r063-20260210 (https://download.01.org/0day-ci/archive/20260210/202602100505.PiRtU9VL-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602092235.YephaU1M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602100505.PiRtU9VL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
->> Warning: include/uapi/linux/gunyah.h references a file that doesn't exist: Documentation/virt/gunyah/vm-manager.rst
-   Warning: mm/cleancache.c references a file that doesn't exist: Documentation/vm/cleancache.rst
-   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
-   Using alabaster theme
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/alloc/background.c:206:5-8: Unneeded variable: "ret". Return "0" on line 214
+   fs/bcachefs/alloc/background.c:221:5-8: Unneeded variable: "ret". Return "0" on line 227
+   fs/bcachefs/alloc/background.c:234:5-8: Unneeded variable: "ret". Return "0" on line 240
+   fs/bcachefs/alloc/background.c:523:5-8: Unneeded variable: "ret". Return "0" on line 530
 --
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
->> Warning: include/uapi/linux/gunyah.h references a file that doesn't exist: Documentation/virt/gunyah/vm-manager.rst
-   Warning: mm/cleancache.c references a file that doesn't exist: Documentation/vm/cleancache.rst
-   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
+>> fs/bcachefs/alloc/backpointers.c:33:5-8: Unneeded variable: "ret". Return "0" on line 44
+--
+>> fs/bcachefs/alloc/lru.c:19:5-8: Unneeded variable: "ret". Return "0" on line 25
+
+vim +206 fs/bcachefs/alloc/background.c
+
+1c6fdbd8f2465d fs/bcachefs/alloc.c            Kent Overstreet 2017-03-16  201  
+d97de0d017cde0 fs/bcachefs/alloc_background.c Kent Overstreet 2024-08-12  202  int bch2_alloc_v1_validate(struct bch_fs *c, struct bkey_s_c k,
+a6f4794fcd8627 fs/bcachefs/alloc_background.c Kent Overstreet 2024-11-27  203  			   struct bkey_validate_context from)
+1c6fdbd8f2465d fs/bcachefs/alloc.c            Kent Overstreet 2017-03-16  204  {
+26609b619fa230 fs/bcachefs/alloc_background.c Kent Overstreet 2018-11-01  205  	struct bkey_s_c_alloc a = bkey_s_c_to_alloc(k);
+b65db750e2bb92 fs/bcachefs/alloc_background.c Kent Overstreet 2023-10-24 @206  	int ret = 0;
+26609b619fa230 fs/bcachefs/alloc_background.c Kent Overstreet 2018-11-01  207  
+e88973373aaabe fs/bcachefs/alloc_background.c Kent Overstreet 2018-11-22  208  	/* allow for unknown fields */
+d97de0d017cde0 fs/bcachefs/alloc_background.c Kent Overstreet 2024-08-12  209  	bkey_fsck_err_on(bkey_val_u64s(a.k) < bch_alloc_v1_val_u64s(a.v),
+d97de0d017cde0 fs/bcachefs/alloc_background.c Kent Overstreet 2024-08-12  210  			 c, alloc_v1_val_size_bad,
+b65db750e2bb92 fs/bcachefs/alloc_background.c Kent Overstreet 2023-10-24  211  			 "incorrect value size (%zu < %u)",
+f0ac7df23d04f3 fs/bcachefs/alloc_background.c Kent Overstreet 2022-04-03  212  			 bkey_val_u64s(a.k), bch_alloc_v1_val_u64s(a.v));
+b65db750e2bb92 fs/bcachefs/alloc_background.c Kent Overstreet 2023-10-24  213  fsck_err:
+b65db750e2bb92 fs/bcachefs/alloc_background.c Kent Overstreet 2023-10-24 @214  	return ret;
+1c6fdbd8f2465d fs/bcachefs/alloc.c            Kent Overstreet 2017-03-16  215  }
+1c6fdbd8f2465d fs/bcachefs/alloc.c            Kent Overstreet 2017-03-16  216  
+
+:::::: The code at line 206 was first introduced by commit
+:::::: b65db750e2bb9252321fd54c284edd73c1595a09 bcachefs: Enumerate fsck errors
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
