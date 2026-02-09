@@ -1,73 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7932E8DEB;
-	Mon,  9 Feb 2026 17:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C092D8767
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 17:35:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770658557; cv=none; b=e9x7t1jC9iS8uOtx4+7QGbhE4c9UzRgbnRnRNSoLpFN2jbYwSlIeTleIgFvQuILUieGTm6ZJK6DcunAD1Roc//Tj9C8kx1YH4Caa6T7Vt7pgmyzDDvFtnWTuJN8872zEMBXYmCen0RjzXIM4l7SwNQ+1mn9/zgXlBf1hjczEKAI=
+	t=1770658557; cv=none; b=o9mfsh9f5k44BzXeDzo3fGlW9rph75irZAKJLisZZ7MbFiW1hV9o+R2gmErFQKpWfqRO9BYPTaAUBPKwJQnrpqs4EGT3zs7SKLIoGowMx/aarrkHk4/nULHBWzompQCQC8OJO5m12Zo0Fr9GAeMpvkpaV6cqPF50QzwupeQuujE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770658557; c=relaxed/simple;
-	bh=Hhc+P7FHqU4LgtmCeJTNFX3Ofym7oq3Q9RPdNlZvRIk=;
+	bh=73LGh3J5tomwn6vZ9HuVNxSPnB+51GM8Nl0zJ+5ENEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WO8IvudmtXGMZV3walHn4xULpkH5vp765mwxMgW6ati6Dcwi8UCeKwLnlnGq7Bi+47L8LNl+O6djYB9dQ53AQ+zP4aHK7dUIqhMibr6bhjzim6jTdud/wQ9X4qZZYCM5dqqlSfkJ6TaEFUoPlIJAM7W+duxyPJW2ohyH/QCM3vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxGmLDy5; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=e0oOvPzdmsQ3RBBqJBMijSDIXzJDMCop35JE3W7oxO/9Hsynertz2PqpDiCapURq+9P/GjNiOVvbjBChoOzIUWBba79eFtZltWDapf4Yw0QHA3lbZcvVxMtO3nJGNDmnI/+JQAfESy7ZX5WjoQH1Cfp3Q6jPvNUdXsehCR1Jljo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkVx5MLJ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxGmLDy5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkVx5MLJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770658557; x=1802194557;
+  t=1770658556; x=1802194556;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Hhc+P7FHqU4LgtmCeJTNFX3Ofym7oq3Q9RPdNlZvRIk=;
-  b=CxGmLDy58OIuSd+qIk8jLgeTYD8qU+j2JlbZDETVZ5RY8kJ6Fx+QyGha
-   qFNHFufqDsvZunpFOU2DvScRFIYctMPiBeIc1YSxScun+qqZRCDkDN/Y3
-   OnKe4KBKOll8wOse+wADRcUSQb8/Mw/XT7UMrOEJwqpY7AKsv1wjW2TND
-   +L0ZPi7d9MhtEV8Tz/5B/bXbXN/l2ZqvANPbKCopSAh1PqIbuut458BBL
-   Ion/hEZEXWu6AL1gQBevTS+JQpN73r+bBkOjC5LbD+a9BG+Wp1ss/+stJ
-   LUPhDN0ZhOzPYPOfw+3xVMsHBYBmAHlKvKb5z3jfQ6cRNVfWuIOz78Jmd
+  bh=73LGh3J5tomwn6vZ9HuVNxSPnB+51GM8Nl0zJ+5ENEU=;
+  b=NkVx5MLJPoiyWFpijH0Nt9yHmW9VTEPAAdeltUIH2VkGaY/OdGPQJ5k4
+   c842KsVuNePT3W9+IuSit80CKcGha1jBnlcOZTDhlQ1jUxrxiU21VNvAg
+   gk+dRxr61A+NiT5mU72md6KX4Q8Y5EmThYIgIZri0zYvvoF5GjUtqijda
+   q9V1wzpER7ZmL4xqoLvJ0WIlmcLHCUwukc0rGKkqCPR3+vbsJAr/5WIe6
+   UT52OAOpYU0rIW2BJm+mrG6mY+YVb56EyJSVGOdCNsR+o0U9yRBrzuB49
+   ZcLPIRh70yBDurSYk82Z+sGg+EONmz+HPE48yzt98xHbSF1rxfts1NwP9
    w==;
-X-CSE-ConnectionGUID: 9aWTrhm8R1mSqEnPGjOJxQ==
-X-CSE-MsgGUID: DezXGer0RQqxDH1LNyL6/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="74375238"
+X-CSE-ConnectionGUID: XAC+UpqhQtSSoZVpTcJq0g==
+X-CSE-MsgGUID: g2NAUNRrRfeamaA4pC7f8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="74375236"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="74375238"
+   d="scan'208";a="74375236"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 09:35:56 -0800
-X-CSE-ConnectionGUID: 4hFr77PNRICoNQu5PyKO+Q==
-X-CSE-MsgGUID: HZKBtb4ASjqQd/aLqRnCJQ==
+X-CSE-ConnectionGUID: zfdlWZZpTma6abgQOL91Bw==
+X-CSE-MsgGUID: 5kpuJEo+TR6RTYSj1OKZ9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="216622485"
+   d="scan'208";a="216622484"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 09 Feb 2026 09:35:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpVAp-00000000oB4-3Ap7;
+	id 1vpVAp-00000000oB2-2v2D;
 	Mon, 09 Feb 2026 17:35:47 +0000
-Date: Tue, 10 Feb 2026 01:35:07 +0800
+Date: Tue, 10 Feb 2026 01:35:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kyle-jk.liao@mediatek.com, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Quentin Perret <qperret@google.com>,
-	Vincent Donnefort <vdonnefort@google.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, wsd_upstream@mediatek.com,
-	rock.yeh@mediatek.com, hungwen.chien@mediatek.com,
-	"kyle-jk.liao" <kyle-jk.liao@mediatek.com>
-Subject: Re: [PATCH] KVM: arm64: Allow module-owned pages in host stage-2
- range adjustment
-Message-ID: <202602100127.gNjhsGVB-lkp@intel.com>
-References: <20260209032421.1278325-1-kyle-jk.liao@mediatek.com>
+To: Chuan Liu via B4 Relay <devnull+chuan.liu.amlogic.com@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-amlogic@lists.infradead.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Chuan Liu <chuan.liu@amlogic.com>
+Subject: Re: [PATCH 08/13] clk: amlogic: Add PLL driver
+Message-ID: <202602100115.ykL6A0lh-lkp@intel.com>
+References: <20260209-a9_clock_driver-v1-8-a9198dc03d2a@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,101 +69,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260209032421.1278325-1-kyle-jk.liao@mediatek.com>
+In-Reply-To: <20260209-a9_clock_driver-v1-8-a9198dc03d2a@amlogic.com>
 
-Hi,
+Hi Chuan,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on kvmarm/next]
-[also build test ERROR on linus/master v6.19 next-20260205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 4d310797262f0ddf129e76c2aad2b950adaf1fda]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/kyle-jk-liao-mediatek-com/KVM-arm64-Allow-module-owned-pages-in-host-stage-2-range-adjustment/20260209-112902
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvmarm/kvmarm.git next
-patch link:    https://lore.kernel.org/r/20260209032421.1278325-1-kyle-jk.liao%40mediatek.com
-patch subject: [PATCH] KVM: arm64: Allow module-owned pages in host stage-2 range adjustment
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260210/202602100127.gNjhsGVB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100127.gNjhsGVB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuan-Liu-via-B4-Relay/dt-bindings-clock-Add-Amlogic-A9-standardized-model-clock-control-units/20260209-135334
+base:   4d310797262f0ddf129e76c2aad2b950adaf1fda
+patch link:    https://lore.kernel.org/r/20260209-a9_clock_driver-v1-8-a9198dc03d2a%40amlogic.com
+patch subject: [PATCH 08/13] clk: amlogic: Add PLL driver
+config: arm-randconfig-004-20260209 (https://download.01.org/0day-ci/archive/20260210/202602100115.ykL6A0lh-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100115.ykL6A0lh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602100127.gNjhsGVB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602100115.ykL6A0lh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/arm64/include/asm/processor.h:35,
-                    from include/linux/sched.h:13,
-                    from include/linux/resume_user_mode.h:6,
-                    from include/linux/entry-virt.h:6,
-                    from include/linux/kvm_host.h:5,
-                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:7:
-   arch/arm64/kvm/hyp/nvhe/mem_protect.c: In function 'host_stage2_adjust_range':
->> arch/arm64/kvm/hyp/nvhe/mem_protect.c:513:74: error: 'PKVM_MODULE_OWNED_PAGE' undeclared (first use in this function)
-     513 |                         (state != PKVM_NOPAGE && state != (PKVM_NOPAGE | PKVM_MODULE_OWNED_PAGE)));
-         |                                                                          ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON'
-     110 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/mem_protect.c:513:74: note: each undeclared identifier is reported only once for each function it appears in
-     513 |                         (state != PKVM_NOPAGE && state != (PKVM_NOPAGE | PKVM_MODULE_OWNED_PAGE)));
-         |                                                                          ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON'
-     110 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
+   arm-linux-gnueabi-ld: drivers/clk/amlogic/clk-pll.o: in function `aml_pll_get_rate_range':
+>> drivers/clk/amlogic/clk-pll.c:554:(.text+0x700): undefined reference to `__aeabi_uldivmod'
+>> arm-linux-gnueabi-ld: drivers/clk/amlogic/clk-pll.c:567:(.text+0x728): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: drivers/clk/amlogic/clk-pll.c:554:(.text+0x814): undefined reference to `__aeabi_uldivmod'
 
 
-vim +/PKVM_MODULE_OWNED_PAGE +513 arch/arm64/kvm/hyp/nvhe/mem_protect.c
+vim +554 drivers/clk/amlogic/clk-pll.c
 
-   492	
-   493	static int host_stage2_adjust_range(u64 addr, struct kvm_mem_range *range)
-   494	{
-   495		struct kvm_mem_range cur;
-   496		kvm_pte_t pte;
-   497		u64 granule;
-   498		s8 level;
-   499		int ret;
-   500		enum pkvm_page_state state;
-   501	
-   502		hyp_assert_lock_held(&host_mmu.lock);
-   503		ret = kvm_pgtable_get_leaf(&host_mmu.pgt, addr, &pte, &level);
-   504		if (ret)
-   505			return ret;
-   506	
-   507		if (kvm_pte_valid(pte))
-   508			return -EAGAIN;
-   509	
-   510		if (pte) {
-   511			state = get_host_state(hyp_phys_to_page(addr));
-   512			WARN_ON(addr_is_memory(addr) &&
- > 513				(state != PKVM_NOPAGE && state != (PKVM_NOPAGE | PKVM_MODULE_OWNED_PAGE)));
-   514			return -EPERM;
-   515		}
-   516	
-   517		for (; level <= KVM_PGTABLE_LAST_LEVEL; level++) {
-   518			if (!kvm_level_supports_block_mapping(level))
-   519				continue;
-   520			granule = kvm_granule_size(level);
-   521			cur.start = ALIGN_DOWN(addr, granule);
-   522			cur.end = cur.start + granule;
-   523			if (!range_included(&cur, range))
-   524				continue;
-   525			*range = cur;
-   526			return 0;
-   527		}
-   528	
-   529		WARN_ON(1);
-   530	
-   531		return -EINVAL;
-   532	}
-   533	
+   536	
+   537	static int aml_pll_get_best_rate(unsigned long rate, unsigned long step_rate,
+   538					 u64 min_vco_rate, u64 max_vco_rate,
+   539					 u8 od_max, enum round_type round,
+   540					 unsigned long *out_rate)
+   541	{
+   542		int i;
+   543		u64 vco_rate;
+   544		unsigned long now_rate, best_rate = 0;
+   545	
+   546		for (i = 0; i <= od_max; i++) {
+   547			vco_rate = rate << i;
+   548			if (vco_rate < min_vco_rate)
+   549				continue;
+   550	
+   551			if (vco_rate > max_vco_rate)
+   552				break;
+   553	
+ > 554			if (vco_rate % step_rate == 0) {
+   555				best_rate = rate;
+   556	
+   557				break;
+   558			}
+   559	
+   560			if (round == ROUND_DOWN) {
+   561				vco_rate = vco_rate - (vco_rate % step_rate);
+   562				now_rate = vco_rate >> i;
+   563				if ((rate - now_rate) < (rate - best_rate))
+   564					best_rate = now_rate;
+   565			} else {
+   566				vco_rate = vco_rate + step_rate;
+ > 567				vco_rate = vco_rate - (vco_rate % step_rate);
+   568				now_rate = vco_rate >> i;
+   569				if ((now_rate - rate) < (best_rate - rate))
+   570					best_rate = now_rate;
+   571			}
+   572		}
+   573	
+   574		if (!best_rate)
+   575			return -EINVAL;
+   576	
+   577		*out_rate = best_rate;
+   578	
+   579		return 0;
+   580	}
+   581	
 
 -- 
 0-DAY CI Kernel Test Service
