@@ -1,209 +1,304 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20B62D7812;
-	Mon,  9 Feb 2026 09:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A316936215C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 09:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770628624; cv=none; b=YScedFDkXAhfYkGcaZtgLKZpM85zlJm2TyRVQFwJ6H+98roxdsQv4vlXZQq1vyCx04YabPbq9v+6YFavk8M9OlUumgr4975gR5aEHpvX8kf8kHUvNEOcWeuLgGNMArgnynq2rsRGQKxhncPWT8FcevJHq3E+o8S+E+CFh/+UngI=
+	t=1770628625; cv=none; b=V7D+uWZUTFsjENt/TDCo6HUA5hzrpHElVFr9fGM1bw1hiUxysqTk9cn8iOWbbRMyTlPoKfDodYTtt4WbHiGW69Pbhgr/U1I+OTB9BTMjKWP1Cb/CzJABMqjZV/Qepr13e8QH3Y0fHoMTQf6tAvxMQI3TJ1tTQHzBEw3nUZ01lIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770628624; c=relaxed/simple;
-	bh=qrROYE4XpY1NIlCV3UwP8gdBFwTeOzyDOqqLcJ47Vfg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YwxCua1ankbwsmiZJKt38AWABsusys8p+SwfXm8t1V39z8qBzLKxrllUH0MhA0yJV/1CH00j3aGfbaBRIxjAgXmkyuwkwTaAjePwVRW8treqPvXgbdiouOQmC5vsY+3wJjlMjqPqvqHHPT5oBy+mD9ObgSYcEZeREWg/wJ+GLyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvyeiEA9; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1770628625; c=relaxed/simple;
+	bh=CAIyTwPLvJ/09ecTZ0sMoQQz882KcFGCIu2kE1d7mJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AtPb1a4x1ju7XypE4dswF6aTHz6shS1rwLBG+8h63ihGIRLIh1XEdoJGQuFoGIpf8uUe5l+/G9hh+5pC5g8BF/LrNvhjKjKcnPDIpBpdRV/wtzdtBYcWzt4wY+dw9rddxOBeAMrbSIm+t6BW8kfICR+rHuAXQf1vzaYD2HQulpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B7duD4wf; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvyeiEA9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B7duD4wf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770628624; x=1802164624;
-  h=date:from:to:cc:subject:message-id;
-  bh=qrROYE4XpY1NIlCV3UwP8gdBFwTeOzyDOqqLcJ47Vfg=;
-  b=kvyeiEA9lUGqB8LDGhHnR2sAm4odfs8/a3cl5gEFoO7m3/2Xy4AFQgVZ
-   KfKVHMSOlWn49Hn8SPmunc2X20zykshJ6S0dZAvWq7lQr+Zy466vdqXvw
-   MhgMUUy32aVtATFmcjzTprw3I327IFuzpH2PHeUpk9PV7Q3bFaEPmu1fd
-   ZP0h6sM+yP8X/yt+e1wHzP91RUEdNCg5JLu3zy2lGIJ/PPrsaEbe1/d7y
-   I/o3sBys7pOy5UWqGjx4htRMLNPpALPXAyRB0xekc2TNDWpmZbUcTU52p
-   rJ1E3bPrgBFafgJZTny7MerEqh0Jc08wyWApj9Rx6+zMcwqwPaXdOOBfP
-   Q==;
-X-CSE-ConnectionGUID: 5+j0eHbBQLCXojBvrSC+uA==
-X-CSE-MsgGUID: zLx7WS7XSf6N1jgSMJATBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="71723046"
+  t=1770628625; x=1802164625;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=CAIyTwPLvJ/09ecTZ0sMoQQz882KcFGCIu2kE1d7mJk=;
+  b=B7duD4wfoLvGafD8JVWAq09Z0rtSD4EO9A0n49Qil3/vLY3dpigpcNbE
+   bWJvxQm65L/7vixOMZlmoVuWtAzMOOlsffxU07fDiugncBP6zn1X8K7qt
+   C1S/jwK1ztWkv00M/Iwpr+Z72gQsMEd6qEFMH/3obPzdohs/D1fJUJj8n
+   eOQF4qYgyTv8fpaA1gAJw84E2YJgVIwryTLWUlAoHCp08OB7yT4Omb8Z4
+   QQHt4CfmaqWWiHqOwmxP61dxGt6L5ipsLYpq40iH556BKafMuPMgQn+EW
+   /v4rZdaW3px2Wkc0+goNHWwpwtefUPEdQT64/wQeRs033C0fqcdMYSJig
+   A==;
+X-CSE-ConnectionGUID: ma1b4du8TUSU6syV+TnLwA==
+X-CSE-MsgGUID: 6CAoQMBqS7il/WDjWuoKXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="83178851"
 X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
-   d="scan'208";a="71723046"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 01:17:04 -0800
-X-CSE-ConnectionGUID: dMDFdJTZRt6othJ4OG3o7w==
-X-CSE-MsgGUID: b772faSXR2ehOdUIsDINWQ==
+   d="scan'208";a="83178851"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 01:17:05 -0800
+X-CSE-ConnectionGUID: FQw8uyxkTSOaFT6z5zVpFg==
+X-CSE-MsgGUID: dOtjPHVSTS6Js1utt0icRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
-   d="scan'208";a="210687585"
+   d="scan'208";a="211594182"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Feb 2026 01:17:02 -0800
+  by orviesa007.jf.intel.com with ESMTP; 09 Feb 2026 01:17:02 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpNO7-00000000mrS-32nA;
+	id 1vpNO7-00000000mrQ-2vGM;
 	Mon, 09 Feb 2026 09:16:59 +0000
-Date: Mon, 09 Feb 2026 17:16:25 +0800
+Date: Mon, 9 Feb 2026 17:16:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:refactor-umem-v1 75/80]
- drivers/infiniband/hw/irdma/verbs.c:2108:16: warning: variable 'kmem_buf' is
- uninitialized when used here
-Message-ID: <202602091736.nL6iB1tr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev, Chen Ni <nichen@iscas.ac.cn>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on
+ non-mips platforms
+Message-ID: <202602091743.HcmQ4SB4-lkp@intel.com>
+References: <67b7aa0157b9cf5de111ab6b2725d207ec98aae9.1770572936.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <67b7aa0157b9cf5de111ab6b2725d207ec98aae9.1770572936.git.u.kleine-koenig@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git refactor-umem-v1
-head:   a13eb692588830b3d09a9dcb14d384ccfc029902
-commit: fc8e26318efebb43d582e9b2cb5ea0f80f5dacb9 [75/80] RDMA/irdma: Remove resize support for kernel CQs
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260209/202602091736.nL6iB1tr-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602091736.nL6iB1tr-lkp@intel.com/reproduce)
+Hi Uwe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 0636e6205beed850d985276dc56fd73d785bea5c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/fbdev-au1100fb-Don-t-store-device-specific-data-in-global-variables/20260209-015956
+base:   0636e6205beed850d985276dc56fd73d785bea5c
+patch link:    https://lore.kernel.org/r/67b7aa0157b9cf5de111ab6b2725d207ec98aae9.1770572936.git.u.kleine-koenig%40baylibre.com
+patch subject: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on non-mips platforms
+config: um-randconfig-r072-20260209 (https://download.01.org/0day-ci/archive/20260209/202602091743.HcmQ4SB4-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602091743.HcmQ4SB4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602091736.nL6iB1tr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602091743.HcmQ4SB4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/infiniband/hw/irdma/verbs.c:2108:16: warning: variable 'kmem_buf' is uninitialized when used here [-Wuninitialized]
-    2108 |                 iwcq->kmem = kmem_buf;
-         |                              ^~~~~~~~
-   drivers/infiniband/hw/irdma/verbs.c:2028:2: note: variable 'kmem_buf' is declared here
-    2028 |         struct irdma_dma_mem kmem_buf;
-         |         ^
-   1 warning generated.
+   /usr/bin/ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_setup':
+>> drivers/video/fbdev/au1100fb.c:371:(.text+0x1ff): undefined reference to `fb_get_options'
+   /usr/bin/ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_drv_probe':
+>> drivers/video/fbdev/au1100fb.c:499:(.text+0xa7e): undefined reference to `fb_alloc_cmap'
+>> /usr/bin/ld: drivers/video/fbdev/au1100fb.c:509:(.text+0xac2): undefined reference to `register_framebuffer'
+>> /usr/bin/ld: drivers/video/fbdev/au1100fb.c:522:(.text+0xb3e): undefined reference to `fb_dealloc_cmap'
+   /usr/bin/ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_drv_remove':
+>> drivers/video/fbdev/au1100fb.c:540:(.text+0xb73): undefined reference to `unregister_framebuffer'
+   /usr/bin/ld: drivers/video/fbdev/au1100fb.c:542:(.text+0xb86): undefined reference to `fb_dealloc_cmap'
+>> /usr/bin/ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x18): undefined reference to `fb_io_read'
+>> /usr/bin/ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x20): undefined reference to `fb_io_write'
+>> /usr/bin/ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x58): undefined reference to `cfb_fillrect'
+>> /usr/bin/ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x60): undefined reference to `cfb_copyarea'
+>> /usr/bin/ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x68): undefined reference to `cfb_imageblit'
+   collect2: error: ld returned 1 exit status
 
 
-vim +/kmem_buf +2108 drivers/infiniband/hw/irdma/verbs.c
+vim +371 drivers/video/fbdev/au1100fb.c
 
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2008  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2009  /**
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2010   * irdma_resize_cq - resize cq
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2011   * @ibcq: cq to be resized
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2012   * @entries: desired cq size
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2013   * @udata: user data
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2014   */
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2015  static int irdma_resize_cq(struct ib_cq *ibcq, int entries,
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2016  			   struct ib_udata *udata)
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2017  {
-fc8e26318efebb Leon Romanovsky 2026-02-08  2018  	struct irdma_resize_cq_req req = {};
-fc8e26318efebb Leon Romanovsky 2026-02-08  2019  	struct irdma_ucontext *ucontext = rdma_udata_to_drv_context(
-fc8e26318efebb Leon Romanovsky 2026-02-08  2020  		udata, struct irdma_ucontext, ibucontext);
-34acb833cc83bd Shiraz Saleem   2022-09-07  2021  #define IRDMA_RESIZE_CQ_MIN_REQ_LEN offsetofend(struct irdma_resize_cq_req, user_cq_buffer)
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2022  	struct irdma_cq *iwcq = to_iwcq(ibcq);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2023  	struct irdma_sc_dev *dev = iwcq->sc_cq.dev;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2024  	struct irdma_cqp_request *cqp_request;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2025  	struct cqp_cmds_info *cqp_info;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2026  	struct irdma_modify_cq_info *m_info;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2027  	struct irdma_modify_cq_info info = {};
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2028  	struct irdma_dma_mem kmem_buf;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2029  	struct irdma_cq_mr *cqmr_buf;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2030  	struct irdma_pbl *iwpbl_buf;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2031  	struct irdma_device *iwdev;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2032  	struct irdma_pci_f *rf;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2033  	struct irdma_cq_buf *cq_buf = NULL;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2034  	unsigned long flags;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2035  	int ret;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2036  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2037  	iwdev = to_iwdev(ibcq->device);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2038  	rf = iwdev->rf;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2039  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2040  	if (!(rf->sc_dev.hw_attrs.uk_attrs.feature_flags &
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2041  	    IRDMA_FEATURE_CQ_RESIZE))
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2042  		return -EOPNOTSUPP;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2043  
-fc8e26318efebb Leon Romanovsky 2026-02-08  2044  	if (udata->inlen < IRDMA_RESIZE_CQ_MIN_REQ_LEN)
-34acb833cc83bd Shiraz Saleem   2022-09-07  2045  		return -EINVAL;
-34acb833cc83bd Shiraz Saleem   2022-09-07  2046  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2047  	if (entries > rf->max_cqe)
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2048  		return -EINVAL;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2049  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2050  	info.cq_size = max(entries, 4);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2051  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2052  	if (info.cq_size == iwcq->sc_cq.cq_uk.cq_size - 1)
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2053  		return 0;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2054  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2055  	/* CQ resize not supported with legacy GEN_1 libi40iw */
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2056  	if (ucontext->legacy_mode)
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2057  		return -EOPNOTSUPP;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2058  
-fc8e26318efebb Leon Romanovsky 2026-02-08  2059  	if (ib_copy_from_udata(&req, udata, min(sizeof(req), udata->inlen)))
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2060  		return -EINVAL;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2061  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2062  	spin_lock_irqsave(&ucontext->cq_reg_mem_list_lock, flags);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2063  	iwpbl_buf = irdma_get_pbl((unsigned long)req.user_cq_buffer,
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2064  				  &ucontext->cq_reg_mem_list);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2065  	spin_unlock_irqrestore(&ucontext->cq_reg_mem_list_lock, flags);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2066  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2067  	if (!iwpbl_buf)
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2068  		return -ENOMEM;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2069  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2070  	cqmr_buf = &iwpbl_buf->cq_mr;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2071  	if (iwpbl_buf->pbl_allocated) {
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2072  		info.virtual_map = true;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2073  		info.pbl_chunk_size = 1;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2074  		info.first_pm_pbl_idx = cqmr_buf->cq_pbl.idx;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2075  	} else {
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2076  		info.cq_pa = cqmr_buf->cq_pbl.addr;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2077  	}
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2078  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2079  	cqp_request = irdma_alloc_and_get_cqp_request(&rf->cqp, true);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2080  	if (!cqp_request) {
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2081  		ret = -ENOMEM;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2082  		goto error;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2083  	}
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2084  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2085  	info.shadow_read_threshold = iwcq->sc_cq.shadow_read_threshold;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2086  	info.cq_resize = true;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2087  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2088  	cqp_info = &cqp_request->info;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2089  	m_info = &cqp_info->in.u.cq_modify.info;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2090  	memcpy(m_info, &info, sizeof(*m_info));
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2091  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2092  	cqp_info->cqp_cmd = IRDMA_OP_CQ_MODIFY;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2093  	cqp_info->in.u.cq_modify.cq = &iwcq->sc_cq;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2094  	cqp_info->in.u.cq_modify.scratch = (uintptr_t)cqp_request;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2095  	cqp_info->post_sq = 1;
-2322d17abf0a6c Shiraz Saleem   2022-02-17  2096  	ret = irdma_handle_cqp_op(rf, cqp_request);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2097  	irdma_put_cqp_request(&rf->cqp, cqp_request);
-2322d17abf0a6c Shiraz Saleem   2022-02-17  2098  	if (ret)
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2099  		goto error;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2100  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2101  	spin_lock_irqsave(&iwcq->lock, flags);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2102  	if (cq_buf) {
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2103  		cq_buf->kmem_buf = iwcq->kmem;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2104  		cq_buf->hw = dev->hw;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2105  		memcpy(&cq_buf->cq_uk, &iwcq->sc_cq.cq_uk, sizeof(cq_buf->cq_uk));
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2106  		INIT_WORK(&cq_buf->work, irdma_free_cqbuf);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2107  		list_add_tail(&cq_buf->list, &iwcq->resize_list);
-b48c24c2d710cf Mustafa Ismail  2021-06-02 @2108  		iwcq->kmem = kmem_buf;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2109  	}
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2110  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2111  	irdma_sc_cq_resize(&iwcq->sc_cq, &info);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2112  	ibcq->cqe = info.cq_size - 1;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2113  	spin_unlock_irqrestore(&iwcq->lock, flags);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2114  
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2115  	return 0;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2116  error:
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2117  	kfree(cq_buf);
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2118  	return ret;
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2119  }
-b48c24c2d710cf Mustafa Ismail  2021-06-02  2120  
-
-:::::: The code at line 2108 was first introduced by commit
-:::::: b48c24c2d710cf34810c555dcef883a3d35a9c08 RDMA/irdma: Implement device supported verb APIs
-
-:::::: TO: Mustafa Ismail <mustafa.ismail@intel.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  360  
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  361  static int au1100fb_setup(struct au1100fb_device *fbdev)
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  362  {
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  363  	char *this_opt, *options;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  364  	int num_panels = ARRAY_SIZE(known_lcd_panels);
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  365  
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  366  	if (num_panels <= 0) {
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  367  		print_err("No LCD panels supported by driver!");
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  368  		return -ENODEV;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  369  	}
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  370  
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30 @371  	if (fb_get_options(DRIVER_NAME, &options))
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  372  		return -ENODEV;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  373  	if (!options)
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  374  		return -ENODEV;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  375  
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  376  	while ((this_opt = strsep(&options, ",")) != NULL) {
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  377  		/* Panel option */
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  378  		if (!strncmp(this_opt, "panel:", 6)) {
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  379  			int i;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  380  			this_opt += 6;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  381  			for (i = 0; i < num_panels; i++) {
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  382  				if (!strncmp(this_opt, known_lcd_panels[i].name,
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  383  					     strlen(this_opt))) {
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  384  					fbdev->panel = &known_lcd_panels[i];
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  385  					fbdev->panel_idx = i;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  386  					break;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  387  				}
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  388  			}
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  389  			if (i >= num_panels) {
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  390  				print_warn("Panel '%s' not supported!", this_opt);
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  391  				return -ENODEV;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  392  			}
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  393  		}
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  394  		/* Unsupported option */
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  395  		else
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  396  			print_warn("Unsupported option \"%s\"", this_opt);
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  397  	}
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  398  
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  399  	print_info("Panel=%s", fbdev->panel->name);
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  400  
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  401  	return 0;
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  402  }
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  403  
+48c68c4f1b5424 drivers/video/au1100fb.c       Greg Kroah-Hartman 2012-12-21  404  static int au1100fb_drv_probe(struct platform_device *dev)
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  405  {
+46953e6aab262d drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28  406  	struct au1100fb_device *fbdev;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  407  	struct resource *regs_res;
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  408  	struct clk *c;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  409  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  410  	/* Allocate new device private */
+db66f0252e2f17 drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28  411  	fbdev = devm_kzalloc(&dev->dev, sizeof(*fbdev), GFP_KERNEL);
+29914badc59b23 drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28  412  	if (!fbdev)
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  413  		return -ENOMEM;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  414  
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  415  	if (au1100fb_setup(fbdev))
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  416  		goto failed;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  417  
+7a192ec334cab9 drivers/video/au1100fb.c       Ming Lei           2009-02-06  418  	platform_set_drvdata(dev, (void *)fbdev);
+67f30ad19c4b32 drivers/video/fbdev/au1100fb.c Christoph Hellwig  2019-04-28  419  	fbdev->dev = &dev->dev;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  420  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  421  	/* Allocate region for our registers and map them */
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  422  	regs_res = platform_get_resource(dev, IORESOURCE_MEM, 0);
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30  423  	if (!regs_res) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  424  		print_err("fail to retrieve registers resource");
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  425  		return -EFAULT;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  426  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  427  
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  428  	fbdev->info.fix = (struct fb_fix_screeninfo) {
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  429  		.mmio_start = regs_res->start,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  430  		.mmio_len = resource_size(regs_res),
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  431  		.id = "AU1100 FB",
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  432  		.xpanstep = 1,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  433  		.ypanstep = 1,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  434  		.type = FB_TYPE_PACKED_PIXELS,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  435  		.accel = FB_ACCEL_NONE,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  436  	};
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  437  
+93019734555f8d drivers/video/au1100fb.c       Manuel Lauss       2012-03-24  438  	if (!devm_request_mem_region(&dev->dev,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  439  				     fbdev->info.fix.mmio_start,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  440  				     fbdev->info.fix.mmio_len,
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  441  				     DRIVER_NAME)) {
+c05b7f3d12b945 drivers/video/au1100fb.c       Rodolfo Giometti   2006-05-30  442  		print_err("fail to lock memory region at 0x%08lx",
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  443  			  fbdev->info.fix.mmio_start);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  444  		return -EBUSY;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  445  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  446  
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  447  	fbdev->regs = (struct au1100fb_regs*)KSEG1ADDR(fbdev->info.fix.mmio_start);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  448  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  449  	print_dbg("Register memory map at %p", fbdev->regs);
+deee40d267c04a drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  450  	print_dbg("phys=0x%08x, size=%zu", fbdev->regs_phys, fbdev->regs_len);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  451  
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  452  	c = clk_get(NULL, "lcd_intclk");
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  453  	if (!IS_ERR(c)) {
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  454  		fbdev->lcdclk = c;
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  455  		clk_set_rate(c, 48000000);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  456  		clk_prepare_enable(c);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  457  	}
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  458  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  459  	/* Allocate the framebuffer to the maximum screen size * nbr of video buffers */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  460  	fbdev->fb_len = fbdev->panel->xres * fbdev->panel->yres *
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  461  		  	(fbdev->panel->bpp >> 3) * AU1100FB_NBR_VIDEO_BUFFERS;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  462  
+93019734555f8d drivers/video/au1100fb.c       Manuel Lauss       2012-03-24  463  	fbdev->fb_mem = dmam_alloc_coherent(&dev->dev,
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  464  					    PAGE_ALIGN(fbdev->fb_len),
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  465  					    &fbdev->fb_phys, GFP_KERNEL);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  466  	if (!fbdev->fb_mem) {
+deee40d267c04a drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  467  		print_err("fail to allocate framebuffer (size: %zuK))",
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  468  			  fbdev->fb_len / 1024);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  469  		return -ENOMEM;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  470  	}
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  471  
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  472  	fbdev->info.fix.smem_start = fbdev->fb_phys;
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  473  	fbdev->info.fix.smem_len = fbdev->fb_len;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  474  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  475  	print_dbg("Framebuffer memory map at %p", fbdev->fb_mem);
+8a19e8c9c05d78 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  476  	print_dbg("phys=0x%pad, size=%zuK", &fbdev->fb_phys, fbdev->fb_len / 1024);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  477  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  478  	/* load the panel info into the var struct */
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  479  	fbdev->info.var = (struct fb_var_screeninfo) {
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  480  		.activate = FB_ACTIVATE_NOW,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  481  		.height = -1,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  482  		.width = -1,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  483  		.vmode = FB_VMODE_NONINTERLACED,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  484  		.bits_per_pixel = fbdev->panel->bpp,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  485  		.xres = fbdev->panel->xres,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  486  		.xres_virtual = fbdev->panel->xres,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  487  		.yres = fbdev->panel->yres,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  488  		.yres_virtual = fbdev->panel->yres,
+0938c7cf68c618 drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  489  	};
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  490  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  491  	fbdev->info.screen_base = fbdev->fb_mem;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  492  	fbdev->info.fbops = &au1100fb_ops;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  493  
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  494  	fbdev->info.pseudo_palette =
+a86854d0c599b3 drivers/video/fbdev/au1100fb.c Kees Cook          2018-06-12  495  		devm_kcalloc(&dev->dev, 16, sizeof(u32), GFP_KERNEL);
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  496  	if (!fbdev->info.pseudo_palette)
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  497  		return -ENOMEM;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  498  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04 @499  	if (fb_alloc_cmap(&fbdev->info.cmap, AU1100_LCD_NBR_PALETTE_ENTRIES, 0) < 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  500  		print_err("Fail to allocate colormap (%d entries)",
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  501  			   AU1100_LCD_NBR_PALETTE_ENTRIES);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  502  		return -EFAULT;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  503  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  504  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  505  	/* Set h/w registers */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  506  	au1100fb_setmode(fbdev);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  507  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  508  	/* Register new framebuffer */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04 @509  	if (register_framebuffer(&fbdev->info) < 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  510  		print_err("cannot register new framebuffer");
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  511  		goto failed;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  512  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  513  
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  514  	return 0;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  515  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  516  failed:
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  517  	if (fbdev->lcdclk) {
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  518  		clk_disable_unprepare(fbdev->lcdclk);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  519  		clk_put(fbdev->lcdclk);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  520  	}
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  521  	if (fbdev->info.cmap.len != 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04 @522  		fb_dealloc_cmap(&fbdev->info.cmap);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  523  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  524  
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21  525  	return -ENODEV;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  526  }
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  527  
+65ead1cf1fc59b drivers/video/fbdev/au1100fb.c Uwe Kleine-König   2026-02-08  528  static void au1100fb_drv_remove(struct platform_device *dev)
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  529  {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  530  	struct au1100fb_device *fbdev = NULL;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  531  
+5a7bbe86b0b99b drivers/video/au1100fb.c       Jingoo Han         2013-09-09  532  	fbdev = platform_get_drvdata(dev);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  533  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  534  #if !defined(CONFIG_FRAMEBUFFER_CONSOLE) && defined(CONFIG_LOGO)
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  535  	au1100fb_fb_blank(VESA_POWERDOWN, &fbdev->info);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  536  #endif
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  537  	fbdev->regs->lcd_control &= ~LCD_CONTROL_GO;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  538  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  539  	/* Clean up all probe data */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04 @540  	unregister_framebuffer(&fbdev->info);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  541  
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  542  	fb_dealloc_cmap(&fbdev->info.cmap);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04  543  
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  544  	if (fbdev->lcdclk) {
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  545  		clk_disable_unprepare(fbdev->lcdclk);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  546  		clk_put(fbdev->lcdclk);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23  547  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  548  }
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16  549  
 
 -- 
 0-DAY CI Kernel Test Service
