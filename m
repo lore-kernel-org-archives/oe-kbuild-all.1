@@ -1,80 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F012295DAC;
-	Mon,  9 Feb 2026 15:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3B0366076
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 15:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770650023; cv=none; b=Ss1Ff7TVdulCdwiRPoTRkAOih8c0cPiR6RJU41ENvAhobv8DlLhlKv0n7M8k6a+XAmDcGf3NdyDkK5WgVwoeMQBGm2dhG7WhC27X6o/23S3aoxWsCagp+TkLo8qPyxScLWGw5hjRVCPnnrw70LBhC5kO+440MQcjW6993Kj9d94=
+	t=1770650844; cv=none; b=QC2qumx88xpGe6ccDHBnLFPJr57HSdbrnKssoP6z19tByT1mCLIAtAPkB/pSHMLHcxsWk40gETgzRG4LIt0eBav6ueJRx042m/SyrQX1FAHk0FbkxUa+ptomhtcyhdxRXhAg07+VER9IrT8glEs711qRJ5SqPjom+FWSIPaDlUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770650023; c=relaxed/simple;
-	bh=LLvWvnjKEvr8ODVZOMmqvmiNrDWj15ksQsiwjeWNcgg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LFFHcQ21C81+o35I8WBP4WOt4IT28i4fUte1NXELN2KW3IEAOXll1ZFTPvtYBqSbAgLVN3nP7Gl1NRBmMvggEFn4fm2G/M0MtrdN0EjUCkDmcpIRIYh3O3m3/XVS++rQB3n7+bKAHDYggUXb+VVE8NtWjScgUecJ2UizdvrIh6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWyyTsnD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770650844; c=relaxed/simple;
+	bh=ZnCdqjjCTMi7z6KbKkg7DGYVJkejRKluI70s6OCbk80=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VZHQkDCrflBBjALfYFce1G3JUxw4u9aiv6ma/yEjj+s8NcqAoQKfoYvPGlYTg63nFMALlnMHJgSae+z+r+e96zZTDIDW8vtfOcJGv8aZKJilj/81V9UhFxwlC2KjOGjt0NtgcUW9Rpu0kfzPFka9JOsLkxtyZ9vvIwAanmnLyRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m98bexvx; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWyyTsnD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB3EDC116C6;
-	Mon,  9 Feb 2026 15:13:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770650023;
-	bh=LLvWvnjKEvr8ODVZOMmqvmiNrDWj15ksQsiwjeWNcgg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UWyyTsnDDNo8ubjfh7e9kJruxzN05OX5+PK4cTZA4LQ2YzOdRA1eAGWXSMYDVituD
-	 T1csU8TzC562JLhv+Oy4mSpsQkaGJVrs25KG3YHPepfKVaYdhVQrChiTkwvMeFXwUo
-	 sxKf6I9//LUs53dQWKvZ4blREUVoPdwhGbN5L4A8FcGr+AHu2M9cSKdxM0yd8xPfmA
-	 SqNx84N1PvwBtJjlwRq9eI28A7h+Ngc5UxJ7Qxcb0W/dt6B1gJ0wzokMwXNi0oHSzc
-	 awCGn0mdcK34nNDrDzhBxEbNhboQXsEdCkEv97FFTvELRIsSV4tlXpx/KEpcnXBM1b
-	 9ioULSCAOdEDg==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 112/124] mm/damon/core.c:1862:4: error: use of undeclared identifier 'c'
-Date: Mon,  9 Feb 2026 07:13:21 -0800
-Message-ID: <20260209151322.54520-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202602092126.d6pfqcbG-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m98bexvx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770650844; x=1802186844;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZnCdqjjCTMi7z6KbKkg7DGYVJkejRKluI70s6OCbk80=;
+  b=m98bexvxCf68xGZHlqj51ruSFOZoGFB7WdpKTTIpvfjIRxP/oCCxCP6Y
+   1cEqg+3Cq7XA0mij1W9rk+AAxvoW4oXfW+pO43Lo8uxJSVyInYBHO3B5t
+   NodRV5CslOLM6DQCRAHxQ6AC99VL7HFdMvyjx6QTYo0MUmOa7K2kOzAmr
+   sHHaTnTDlwfjlBnt1gOy9cyaXLlWjP37VjwGywvQNxh2DZ/olIO2KgYDk
+   CnTHUPQ6d49svTeY+XSMEvuZHLkSGqTisC5axDPsZ6AeRowRAHIoYjNn1
+   h+6K+nLn3bx6B19eRKXkY9DmAP2PSTY2i2d8zvP9ZGfPx+h4CmbkLfp5z
+   Q==;
+X-CSE-ConnectionGUID: tAv90Y3cRS2bvoG4EhEI3A==
+X-CSE-MsgGUID: 8M0WYBNJSaO6cvl4FPcjeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71749489"
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
+   d="scan'208";a="71749489"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 07:27:24 -0800
+X-CSE-ConnectionGUID: kmRNxrXiQBC/d3v3+n+QLA==
+X-CSE-MsgGUID: rrRq0m3jSpSSYSkQ7nrnVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
+   d="scan'208";a="211677231"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 09 Feb 2026 07:27:22 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vpTAU-00000000o4G-3luS;
+	Mon, 09 Feb 2026 15:27:18 +0000
+Date: Mon, 09 Feb 2026 23:26:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xianwei Zhao <xianwei.zhao@amlogic.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: Error: Invalid compression type
+Message-ID: <202602092349.6Xa61Ocr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Mon, 09 Feb 2026 21:52:26 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+commit: 6b6e03106163458716c47df2baa9ad08ed4ddb0e spi: amlogic: fix spifc build error
+date:   4 months ago
+config: sh-randconfig-r063-20260209 (https://download.01.org/0day-ci/archive/20260209/202602092349.6Xa61Ocr-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092349.6Xa61Ocr-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   74672caf715ec5f49e15d405b8030ce9cb686d4f
-> commit: 7fdffc23ed84ea44a9f15f71d15b00a94f326acd [112/124] mm/damon/core: unify damon_warn_fix_nr_accesses_corruption() with damon_verify_reset_aggregated()
-> config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260209/202602092126.d6pfqcbG-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092126.d6pfqcbG-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602092126.d6pfqcbG-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> mm/damon/core.c:1862:4: error: use of undeclared identifier 'c'
->     1862 |                         c->passed_sample_intervals,
->          |                         ^
->    mm/damon/core.c:1863:4: error: use of undeclared identifier 'c'
->     1863 |                         c->next_aggregation_sis);
->          |                         ^
->    2 errors generated.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602092349.6Xa61Ocr-lkp@intel.com/
 
-Thank you for this report!  I just reverted the problematic commit and pushed
-it to damon/next.
+All errors (new ones prefixed by >>):
 
+>> Error: Invalid compression type
+   Usage: /usr/bin/mkimage [-T type] -l image
+   -l ==> list image header information
+   -T ==> parse image file as 'type'
+   -q ==> quiet
+   /usr/bin/mkimage [-x] -A arch -O os -T type -C comp -a addr -e ep -n name -d data_file[:data_file...] image
+   -A ==> set architecture to 'arch'
+   -O ==> set operating system to 'os'
+   -T ==> set image type to 'type'
+   -C ==> set compression type 'comp'
+   -a ==> set load address to 'addr' (hex)
+   -e ==> set entry point to 'ep' (hex)
+   -n ==> set image name to 'name'
+   -R ==> set second image name to 'name'
+   -d ==> use image data from 'datafile'
+   -x ==> set XIP (execute in place)
+   -s ==> create an image with no data
+   -v ==> verbose
+   /usr/bin/mkimage [-D dtc_options] [-f fit-image.its|-f auto|-f auto-conf|-F] [-b <dtb> [-b <dtb>]] [-E] [-B size] [-i <ramdisk.cpio.gz>] fit-image
+   <dtb> file is used with -f auto, it may occur multiple times.
+   -D => set all options for device tree compiler
+   -f => input filename for FIT source
+   -i => input filename for ramdisk file
+   -E => place data outside of the FIT structure
+   -B => align size in hex for FIT structure and header
+   -b => append the device tree binary to the FIT
+   -t => update the timestamp in the FIT
+   Signing / verified boot options: [-k keydir] [-K dtb] [ -c <comment>] [-p addr] [-r] [-N engine]
+   -k => set directory containing private keys
+   -K => write public keys to this .dtb file
+   -g => set key name hint
+   -G => use this signing key (in lieu of -k)
+   -c => add comment in signature node
+   -F => re-sign existing FIT image
+   -p => place external data at a static position
+   -r => mark keys used as 'required' in dtb
+   -N => openssl engine to use for signing
+   -o => algorithm to use for signing
+   /usr/bin/mkimage -V ==> print version information and exit
+   Use '-T list' to see a list of available image types
+   Long options are available; read the man page for details
 
-Thanks,
-SJ
-
-[...]
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
