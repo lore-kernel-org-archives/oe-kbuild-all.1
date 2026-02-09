@@ -1,143 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E563EFD15
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 19:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD1430AACA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 19:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770664449; cv=none; b=Ov+Tb4UGtCjVcqyn2Rrt9pwAFAKp/31RRRsYCR+Xvz9Ns/NdnJlRQDoVsNfU3vX9wjh7/wO0Of3z12Mx/cWmW6YoxKRxhoQ2f0w3a84N8lIkCmCDXsqB52iWjItzWR1dJ9KQJ6GFXVhwCq07fDy8Ct97cLSg65AEZAl996u+mu8=
+	t=1770664503; cv=none; b=AbqkQ3wQdLaOf78Cw1DfVo5eSs7f/yyIxVUp6UdiU9w4ULFayv7FVyTi+Hxw9Wcvof+U8Jepr0UAJOEvoOANVSDtGCc+llRCvcN20OvG1+st/TjEoeA3bMZL9BQ+GH/qLB6eF79Ax0DHUQOQLnCVDKx8qwq4HwPUSkxoNnVY47c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770664449; c=relaxed/simple;
-	bh=EeRnZ/D6LgXddB+3u6Cdx959SA+lB9fAUyb3gRAYC/c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WqfT4m9AeZh+25cG2cY0I1QGENSo92TSaTlHcPqPp2zWWlUFSaf7UhmHfd5HWFmvj7mSEggrHipdy+2DT9G6dCyZvtZca9APGn+0XzW/N9cqL3AMZ7rtQLAHeLULHUgwaix4G5Gpf5MZ+YRXK32ydRrCG3DgiRksPtGWjhf5RO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghihUtyb; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1770664503; c=relaxed/simple;
+	bh=lzQcsdTdetnsucr4ycX0Qck/zCfbI9/u+gS8781kISE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FStfe9zPNW6E3Fvd5Wg2AEPnc+7ZP8VtXOqW14iwXo9gAz/wADWyoH7uvZQsPMYpW0Uv/eZm3Bmj6x2ubdkTULFn84Fh8qqULI3t/u0W1lCI/rdOXIx1UT4+8XmHiLqYHZivNEqxm4B7bz6pEuf2HcAuKOeqTxj4VLpvDLrHBV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8w8RIw0; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghihUtyb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8w8RIw0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770664449; x=1802200449;
-  h=date:from:to:cc:subject:message-id;
-  bh=EeRnZ/D6LgXddB+3u6Cdx959SA+lB9fAUyb3gRAYC/c=;
-  b=ghihUtybMnCXSBrIjw5XSwXFOpYQ1bl5997d1Eoekwhtj5e95SvHRYtu
-   u4TqMTSy80IgC349X9XEp9gd78ZLk5awx6UBjOMT6TCtW4JOCZQqZaevW
-   wliu1zd2fw5TdT5dcRYQrj1QfeZglfChuGNZul+H5xj6Dn/LC+lDtcm+R
-   JYlcVYLjpKWpnKMKMF0x/Z57IFkdmpiEIgwUd7e7q5RPwaJbgDLASM2Ay
-   BffLzbszOK1RE0/0VaVNiJy+SlOxgWcjZG/JT+mkGFg8//utBRhPV2lBL
-   0RLgAC1R3G2slNbRH/+dvf5amF0pvCKBQOC/VJbmUAooQeFZbqFudlaUH
-   Q==;
-X-CSE-ConnectionGUID: 9VLrH49zS5GRg66n2CQ1Uw==
-X-CSE-MsgGUID: Jg+rTHY0RAqpU3vFeUlLUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="74388161"
+  t=1770664503; x=1802200503;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lzQcsdTdetnsucr4ycX0Qck/zCfbI9/u+gS8781kISE=;
+  b=V8w8RIw0nSplspA53CwN4840mCxZ/TOMy7Tk/TAV7JZqKcpByW9BAeDW
+   s7tbVFkhe70ZMXz4kYwNtXsf0ZpRwPQY1SL44+HOTomzdP99dB1qKgO8i
+   cDIMktkUzvg3/ypB/DjmN2nRMUc+OmH22NwXSN2F8axsYD6+rn+Z64lrb
+   AOo3PTkH6Jr7nXHSiUdlwDGbUFFSZ5iCHgOCd6MO24B/YdHXpsWzJxBEA
+   YBCTgZxXRRXaQfIF9m49RZi9U2DMybqGQG7064s29mn5mNITW/zTRBEN2
+   vZiHxUNQEBixxaelO4wkUxUj8NCEWUUjGZhU6E/rEOqK+jO5nveX8qckC
+   g==;
+X-CSE-ConnectionGUID: /lj8FstPRE6p0X6PMjPdxQ==
+X-CSE-MsgGUID: +BqrtTwVRj22eVOSY5DCsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71885921"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="74388161"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 11:14:00 -0800
-X-CSE-ConnectionGUID: V4hXuOPyT8ietd4/4ozq4g==
-X-CSE-MsgGUID: hwt6QvPfSSmhPHcv2masmw==
+   d="scan'208";a="71885921"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 11:15:02 -0800
+X-CSE-ConnectionGUID: c0mfFH5NQNCm/7LI8dQzIQ==
+X-CSE-MsgGUID: QCUn69YPSHKpYn1+YrdtTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="210815516"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Feb 2026 11:13:55 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="211495565"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 09 Feb 2026 11:14:57 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpWhk-00000000oGK-27iT;
-	Mon, 09 Feb 2026 19:13:52 +0000
-Date: Tue, 10 Feb 2026 03:12:52 +0800
+	id 1vpWij-000000000Lp-3gKu;
+	Mon, 09 Feb 2026 19:14:53 +0000
+Date: Mon, 9 Feb 2026 20:14:15 +0100
 From: kernel test robot <lkp@intel.com>
-To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>,
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
- Ivan Vecera <ivecera@redhat.com>,
- Grzegorz Nitka <grzegorz.nitka@intel.com>
-Subject: [net-next:main 19/22]
- drivers/net/ethernet/intel/ice/ice_dpll.c:3539:45: warning: '%u' directive
- output may be truncated writing between 1 and 8 bytes into a region of size 4
-Message-ID: <202602100310.nOvzaILF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jinjie Ruan <ruanjinjie@huawei.com>, corbet@lwn.net,
+	catalin.marinas@arm.com, will@kernel.org, chenhuacai@kernel.org,
+	kernel@xen0n.name, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	npiggin@gmail.com, chleroy@kernel.org, pjw@kernel.org,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com,
+	akpm@linux-foundation.org, bhe@redhat.com, vgoyal@redhat.com,
+	dyoung@redhat.com, rdunlap@infradead.org, pmladek@suse.com,
+	feng.tang@linux.alibaba.com, pawan.kumar.gupta@linux.intel.com,
+	kees@kernel.org, elver@google.com, arnd@arndb.de,
+	lirongqing@baidu.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 1/3] crash: Exclude crash kernel memory in crash core
+Message-ID: <202602092024.ZvbFIwzR-lkp@intel.com>
+References: <20260209095931.2813152-2-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209095931.2813152-2-ruanjinjie@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-head:   57be33f85e369ce9f69f61eaa34734e0d3bd47a7
-commit: ad1df4f2d591e167bc64b8a7ce6328a2735e3d58 [19/22] ice: dpll: Support E825-C SyncE and dynamic pin discovery
-config: microblaze-randconfig-r062-20260209 (https://download.01.org/0day-ci/archive/20260210/202602100310.nOvzaILF-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100310.nOvzaILF-lkp@intel.com/reproduce)
+Hi Jinjie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes arm64/for-next/core tip/x86/core linus/master v6.19 next-20260209]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/crash-Exclude-crash-kernel-memory-in-crash-core/20260209-180157
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20260209095931.2813152-2-ruanjinjie%40huawei.com
+patch subject: [PATCH v4 1/3] crash: Exclude crash kernel memory in crash core
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260209/202602092024.ZvbFIwzR-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092024.ZvbFIwzR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602100310.nOvzaILF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602092024.ZvbFIwzR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/net/ethernet/intel/ice/ice_dpll.c: In function 'ice_dpll_init':
->> drivers/net/ethernet/intel/ice/ice_dpll.c:3539:45: warning: '%u' directive output may be truncated writing between 1 and 8 bytes into a region of size 4 [-Wformat-truncation=]
-      snprintf(pin_name, sizeof(pin_name), "rclk%u", i);
-                                                ^~
-   drivers/net/ethernet/intel/ice/ice_dpll.c:3539:40: note: directive argument in the range [0, 38347923]
-      snprintf(pin_name, sizeof(pin_name), "rclk%u", i);
-                                           ^~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_dpll.c:3539:3: note: 'snprintf' output between 6 and 13 bytes into a destination of size 8
-      snprintf(pin_name, sizeof(pin_name), "rclk%u", i);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +3539 drivers/net/ethernet/intel/ice/ice_dpll.c
-
-  3509	
-  3510	/**
-  3511	 * ice_dpll_init_fwnode_pins - initialize pins from device tree
-  3512	 * @pf: board private structure
-  3513	 * @pins: pointer to pins array
-  3514	 * @start_idx: starting index for pins
-  3515	 * @count: number of pins to initialize
-  3516	 *
-  3517	 * Initialize input pins for E825 RCLK support. The parent pins (rclk0, rclk1)
-  3518	 * are expected to be defined by the system firmware (ACPI). This function
-  3519	 * allocates them in the dpll subsystem and stores their indices for later
-  3520	 * registration with the rclk pin.
-  3521	 *
-  3522	 * Return:
-  3523	 * * 0 - success
-  3524	 * * negative - initialization failure reason
-  3525	 */
-  3526	static int
-  3527	ice_dpll_init_fwnode_pins(struct ice_pf *pf, struct ice_dpll_pin *pins,
-  3528				  int start_idx)
-  3529	{
-  3530		char pin_name[8];
-  3531		int i, ret;
-  3532	
-  3533		pf->dplls.wq = create_singlethread_workqueue("ice_dpll_wq");
-  3534		if (!pf->dplls.wq)
-  3535			return -ENOMEM;
-  3536	
-  3537		for (i = 0; i < pf->dplls.rclk.num_parents; i++) {
-  3538			pins[start_idx + i].pf = pf;
-> 3539			snprintf(pin_name, sizeof(pin_name), "rclk%u", i);
-  3540			ret = ice_dpll_init_fwnode_pin(&pins[start_idx + i], pin_name);
-  3541			if (ret)
-  3542				goto error;
-  3543		}
-  3544	
-  3545		return 0;
-  3546	error:
-  3547		while (i--)
-  3548			ice_dpll_deinit_fwnode_pin(&pins[start_idx + i]);
-  3549	
-  3550		destroy_workqueue(pf->dplls.wq);
-  3551	
-  3552		return ret;
-  3553	}
-  3554	
+>> WARNING: modpost: vmlinux: section mismatch in reference: arch_get_crash_memory_ranges.isra.0+0x9a (section: .text) -> memblock (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: arch_get_crash_memory_ranges.isra.0+0x1a8 (section: .text) -> memblock (section: .init.data)
 
 -- 
 0-DAY CI Kernel Test Service
