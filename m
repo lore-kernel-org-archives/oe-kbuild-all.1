@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38BE27C866
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 20:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B8DC8F0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 21:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770669723; cv=none; b=KFy3pWLby6Kp5+eaiGr/xbTopjTWieiyWBTbDZWMXSjH02c/IZ2uDWqmSZruyJqBxPLdr5KQm+XGIWntm8RjHQkH6tLQ6F7e0U8XW37WRaBpyXSa2gkQTrdG4Iumdha7syvf1cg9fCfnUv7i+TZur0EVI3NKaG49+KPifCKO7TM=
+	t=1770671461; cv=none; b=rtx9qviauuiygl6D0pd16lNfvqTSixW49A/EiUaUWzQeit32963plZqq4uMtgloUZ1QpoIm0ZYErqGowY+Tufp/hcLc9rBkZc3wSp1v3V6saObi2suQykrpAx64K8v3A8tTmnH7YdnWyMAKmk7VOxPN0oDFtXmIAO0XbPmyOFcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770669723; c=relaxed/simple;
-	bh=kJMsDRiIjZyT64eb6EolIJB2d9xqQjE8630NpD3fw3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eIToOIM4EUWZMepF1jWOQRmWbwwY7Lrf81YpefvNzSYD59Cl++2kTSWofDjbdvWa/sxo60xDO1T/iDuh/1zHbnwc0N6sRMWjGcYpYE8EUekOtSNYLUDkI/DlddAwTxmAtnTE+m0arax/r0HwGHwMZ2/j62PTYlPaUEHk1l4uUh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=blhKXJc9; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1770671461; c=relaxed/simple;
+	bh=jw24xzjfBjgJg9youdctYJsyweFseYlheiAedT8q3l0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Dj8IQo2vV2LY/b8aMlDOztXIQsaCKwGq1beRDbjqN3XNAYHxoXhurblOHOsnL3VMY671BA65bDSjaXF3KLEYprLzY700g4LM8Erx+RmTiiGGMhTbujxVB2Qg19+LwN8FUQJ1Z/S4HPw5AgMU8i+q3f3ZIUHUFPsTjQKWrpRMexc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0l5J87u; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="blhKXJc9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0l5J87u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770669722; x=1802205722;
+  t=1770671460; x=1802207460;
   h=date:from:to:cc:subject:message-id;
-  bh=kJMsDRiIjZyT64eb6EolIJB2d9xqQjE8630NpD3fw3Q=;
-  b=blhKXJc9fj6bp8W+OOFFYpz6Gb/EdMR/4D2joS/iNhMAb1XlruzK3NXp
-   v/HVkgiCT6uLcNV16oqtnZRbi1Lmcy5RSvEvMLHl0H88objnr4jW+WY7e
-   YCzMtC4h88NpAV7OFBLCdzVmXR6gG0pUQSBzaTHULcXDvU7JPwFeGXhiC
-   +dck7ZWh6j4ev1ahEs8+yZWsjZnX7shWXEDVW19wQ8DL75xXGPkzQoQ0X
-   axqRzfWFRYz1IeP64L3dMsvEfbDdWsKUz1mVLsbdQmfk32NZb6BY2rwpW
-   aMUZrPlVjSJElqxEkk5gY+S79h/P8NMg8HSyLvXyEnzjpzDp4C99BRFIW
+  bh=jw24xzjfBjgJg9youdctYJsyweFseYlheiAedT8q3l0=;
+  b=m0l5J87uwhsp54gdjURRDuV1yav2sLlAEO4iyEjKwTjlUelnyx9ZIC07
+   nr8qboARvIIlCPRPBBpp4fR4/GPVkwGeDTG4+D1Xf1jQY7zmKRn7xwDp0
+   RLr5X2UgJ509nCtqNipedMChi72hiRJGTB6JD3baTOT/bIDgmgbaF7o7D
+   w9vaLBuHJdZRmN5eno7c+iD5imodnNvdqpF2y6Kd2xeqf10sP6VXXHu3f
+   VdHjJvTcuq+OSq2rQ3r5CUWU0dMEiFdVfe/e1gdWHrHjgc3dKIHMwTx5u
+   sK2enQDJcTXVMjSz+rb3amn8tXCmqfzN1g1PQpo5k5IZTqCJ3ROUqGmWz
    g==;
-X-CSE-ConnectionGUID: uzUcAZTBRTKfgDMtqL02FQ==
-X-CSE-MsgGUID: /uFpBGfqTuuYx2dtPXQ7kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71512619"
+X-CSE-ConnectionGUID: IktVigsuRQmQv0hrJvcmtQ==
+X-CSE-MsgGUID: Tdu3uqMCSSOfnqykEgBt9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71893942"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="71512619"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 12:42:02 -0800
-X-CSE-ConnectionGUID: oHsNOhCSTgqEiNqf+XyUOA==
-X-CSE-MsgGUID: xGQMwgHTTtmaqx5KIzZS1g==
+   d="scan'208";a="71893942"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 13:11:00 -0800
+X-CSE-ConnectionGUID: ZX/ygkpPR1OXj/B3xuKjMQ==
+X-CSE-MsgGUID: 801ftyokSr+NHLhwJIFGSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="216216219"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 09 Feb 2026 12:42:00 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="210837348"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Feb 2026 13:10:59 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpY50-000000000T3-0uC8;
-	Mon, 09 Feb 2026 20:41:58 +0000
-Date: Mon, 09 Feb 2026 21:41:28 +0100
+	id 1vpYX2-00000000oKi-3hDs;
+	Mon, 09 Feb 2026 21:10:56 +0000
+Date: Tue, 10 Feb 2026 05:10:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jiri Olsa <jolsa@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/2] htmldocs: Warning:
- mm/cleancache.c references a file that doesn't exist:
- Documentation/vm/cleancache.rst
-Message-ID: <202602092100.UFgKEmiW-lkp@intel.com>
+Subject: [jolsa-perf:bpf/tracing_multi_1 4/12]
+ arch/arm64/net/bpf_jit_comp.c:2511:1: warning: control reaches end of
+ non-void function
+Message-ID: <202602100403.46Kcz73f-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,40 +60,45 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Suren,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   3b54985e12634723f50be663b001e0f03e8643e1
-commit: 3318ae18bbe039615a077378e3736623852d5757 [0/2] ANDROID: Revert "mm: remove cleancache"
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260209/202602092100.UFgKEmiW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_1
+head:   95bf1a3ff57efabf9b7c50b8a0d3583a6714f5d8
+commit: 839b12f2dd3dd0be0a7321691ec25efca4132668 [4/12] bpf: Add struct bpf_tramp_node object
+config: arm64-randconfig-r112-20260209 (https://download.01.org/0day-ci/archive/20260210/202602100403.46Kcz73f-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100403.46Kcz73f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602092100.UFgKEmiW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602100403.46Kcz73f-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
->> Warning: mm/cleancache.c references a file that doesn't exist: Documentation/vm/cleancache.rst
-   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
-   Using alabaster theme
---
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
->> Warning: mm/cleancache.c references a file that doesn't exist: Documentation/vm/cleancache.rst
-   Warning: net/netfilter/Kconfig references a file that doesn't exist: file:Documentation/kbuild/modules.txt
+   arch/arm64/net/bpf_jit_comp.c: In function 'is_struct_ops_tramp':
+   arch/arm64/net/bpf_jit_comp.c:2510:45: error: '((struct bpf_tramp_node *)fentry_nodes->nodes[0])->link' is a pointer; did you mean to use '->'?
+    2510 |                 fentry_nodes->nodes[0]->link.type == BPF_LINK_TYPE_STRUCT_OPS;
+         |                                             ^
+         |                                             ->
+>> arch/arm64/net/bpf_jit_comp.c:2511:1: warning: control reaches end of non-void function [-Wreturn-type]
+    2511 | }
+         | ^
+
+
+vim +2511 arch/arm64/net/bpf_jit_comp.c
+
+efc9909fdce00a Xu Kuohai 2022-07-11  2506  
+839b12f2dd3dd0 Jiri Olsa 2024-10-17  2507  static bool is_struct_ops_tramp(const struct bpf_tramp_nodes *fentry_nodes)
+87cb58aebdf700 Xu Kuohai 2024-10-25  2508  {
+839b12f2dd3dd0 Jiri Olsa 2024-10-17  2509  	return fentry_nodes->nr_nodes == 1 &&
+839b12f2dd3dd0 Jiri Olsa 2024-10-17  2510  		fentry_nodes->nodes[0]->link.type == BPF_LINK_TYPE_STRUCT_OPS;
+87cb58aebdf700 Xu Kuohai 2024-10-25 @2511  }
+87cb58aebdf700 Xu Kuohai 2024-10-25  2512  
+
+:::::: The code at line 2511 was first introduced by commit
+:::::: 87cb58aebdf7005661a07e9fd5a900f924d48c75 bpf, arm64: Remove garbage frame for struct_ops trampoline
+
+:::::: TO: Xu Kuohai <xukuohai@huawei.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
