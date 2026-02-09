@@ -1,72 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54FF221F03;
-	Mon,  9 Feb 2026 02:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F89258EDE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 06:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770603760; cv=none; b=fUTdhN3Onmm1I/O0YU5BJZM7IJvX3D1k+0yS4fxF0zcJFKNqWfEvzf/JhKC4aA7A2hY3r9CZ87flUhDtyxr0LsbVR76npdEJGce9wPIZMCLzHE+R44Sqkuqfkl3ccw55ObZJt+o7MvvOkFFJWysVkXCC3h4S5XgwQSBHQF6amaw=
+	t=1770618648; cv=none; b=DrocoS7VcV4romUg8mQnOkx68DNoRyRC76oefpqmH7xI8MFCylN659dvWclg84S87dKGe3DWaSsmAjXvIS168Jo4YuBNO88yULypqiE8Ncxpx2THilnSnNbKM9SFrO8GL4UfsuVLy90TUgB/nA1VaWxUJoSQbTWFFZSg05pgDMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770603760; c=relaxed/simple;
-	bh=lN29YV+zBAydXqnE2rZS6mvynhrdF/TkVSR0zGXivNw=;
+	s=arc-20240116; t=1770618648; c=relaxed/simple;
+	bh=dh+fb6XzsJt1cp4AMc0cC7Q8+klw9ZHu4lNBecMgYpA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C/GGF4VebFvAiUGr2UYAaE2iSZPM5yyksqKPAakpcf0mit7rXDIXurSa1em0p40hlUK1Ck2VWUMniTUyxJ/q7WKMAP3MKq9ibl0jAZXX8tRlZ/y9BblLrKqf/DqsAv0MYdiZruMpsZ7Vjt4x4AHNulK5VXAFuLVQbkimwTH8uBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOKRM+R0; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=orvxkcgl73v+a9NmhoxwLJfygqxa01vTR62XnXPP4AEJ/l0LOg0EIZic5vadayddsRBAD66+MBaA2UMWuozC35ugzqJuPrxMVGXcBjKCeWtL7VlIoZ29bbPIhQwbrzHF9kK23rwAWFZT8PoTJGW5XTML8id1BIUeM5RH0E3kGoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XxquKAcL; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOKRM+R0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XxquKAcL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770603761; x=1802139761;
+  t=1770618649; x=1802154649;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lN29YV+zBAydXqnE2rZS6mvynhrdF/TkVSR0zGXivNw=;
-  b=SOKRM+R0/vzHBNMav07l4ZRcr20e9pREyMIjL86+eBdyOZUSO0Ql5S/y
-   HL/+PTVtAYXAS0wnDWkoifN6F4S13WAFvNLGlTIV8C+Ny8xkeO7EhPvlZ
-   J06KOW/yL+cPVRFzUYa7b76YOx7rL8lzZZgE4RUfvYcLuW6UK7RXDiUf8
-   GLXnVrbHA4PzL0MapoG/6kYhI8IEj9/FXdvjZ+ANMBO46sSTylAM4QAJB
-   HdD5+dNqy5BNVIB31FCoWMB0sNxMoSZmrrXn4vhJbf2xag4uZZeCJNUPH
-   dkcYk/CyL0eMqVwHqmS9g9Ilv9jwh09dNblST2QahL/s4+OoBqrHxjbsR
-   A==;
-X-CSE-ConnectionGUID: 6PfndJ4cRAeVshIjZxlk7A==
-X-CSE-MsgGUID: vmNVQm0OS3O3ugAIumPRcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="97170084"
+  bh=dh+fb6XzsJt1cp4AMc0cC7Q8+klw9ZHu4lNBecMgYpA=;
+  b=XxquKAcLp7S8miQKxr4PEviOsXMdf5WQrKijZBQfcgacJGHviY4kBmsZ
+   DcPOS4VNLc02qPaTTIk9FsPD636uVHzemugT6JhOaJ6atVg5+/noxY8oX
+   Gtu/cFcChw07Bz7C81UPcdTNx8sRXDToXAsMWVqtsCWiupjB+SgUE8Bu/
+   2ZebKjhUELXatnaSjgMIT+SuBJdQO8TkZwbhWU6vLU789bRZbZzVcrv5u
+   +a41hcdPjBiPxD7Meuye3VMlFoXWsFOIi5+TNmEJF60NcX0fDfrkDPNTF
+   LXDJRU2Lclrg0usGvLbEngfGMHTuC1XmzWCC7uXeKwCqOg/CtrdBW6m/2
+   Q==;
+X-CSE-ConnectionGUID: wzPP1NtxROKSYNgf5DjIdA==
+X-CSE-MsgGUID: 9JOdx0sXQVebEmJS6suMEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="82048953"
 X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
-   d="scan'208";a="97170084"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 18:22:40 -0800
-X-CSE-ConnectionGUID: CJ2DLclWQsCDNhy6DDl/HQ==
-X-CSE-MsgGUID: WlgPUJxwRzOOIAmFmBzJ9w==
+   d="scan'208";a="82048953"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 22:30:48 -0800
+X-CSE-ConnectionGUID: O088DlCgQdC/BW5r5rKpcw==
+X-CSE-MsgGUID: q8o/2qmoRgyZDTQ9EeDC1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
-   d="scan'208";a="241664631"
+   d="scan'208";a="210574153"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Feb 2026 18:22:33 -0800
+  by orviesa006.jf.intel.com with ESMTP; 08 Feb 2026 22:30:46 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpGv1-00000000mVw-0scF;
-	Mon, 09 Feb 2026 02:22:31 +0000
-Date: Mon, 9 Feb 2026 10:22:28 +0800
+	id 1vpKnD-00000000mes-3BZz;
+	Mon, 09 Feb 2026 06:30:43 +0000
+Date: Mon, 9 Feb 2026 14:30:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nhat Pham <nphamcs@gmail.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	akpm@linux-foundation.org, hannes@cmpxchg.org, hughd@google.com,
-	yosry.ahmed@linux.dev, mhocko@kernel.org, roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev, muchun.song@linux.dev, len.brown@intel.com,
-	chengming.zhou@linux.dev, kasong@tencent.com, chrisl@kernel.org,
-	huang.ying.caritas@gmail.com, ryan.roberts@arm.com,
-	shikemeng@huaweicloud.com, viro@zeniv.linux.org.uk,
-	baohua@kernel.org, bhe@redhat.com, osalvador@suse.de,
-	lorenzo.stoakes@oracle.com, christophe.leroy@csgroup.eu,
-	pavel@kernel.org, kernel-team@meta.com,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-pm@vger.kernel.org, peterx@redhat.com, riel@surriel.com,
-	joshua.hahnjy@gmail.com
-Subject: Re: [PATCH v3 01/20] mm/swap: decouple swap cache from physical swap
- infrastructure
-Message-ID: <202602091044.soVrWeDA-lkp@intel.com>
-References: <20260208215839.87595-2-nphamcs@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev, Chen Ni <nichen@iscas.ac.cn>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on
+ non-mips platforms
+Message-ID: <202602091447.3HeLynhy-lkp@intel.com>
+References: <67b7aa0157b9cf5de111ab6b2725d207ec98aae9.1770572936.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,169 +65,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260208215839.87595-2-nphamcs@gmail.com>
+In-Reply-To: <67b7aa0157b9cf5de111ab6b2725d207ec98aae9.1770572936.git.u.kleine-koenig@baylibre.com>
 
-Hi Nhat,
+Hi Uwe,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19]
-[cannot apply to akpm-mm/mm-everything tj-cgroup/for-next tip/smp/core next-20260205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 0636e6205beed850d985276dc56fd73d785bea5c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/swap-rearrange-the-swap-header-file/20260209-065842
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260208215839.87595-2-nphamcs%40gmail.com
-patch subject: [PATCH v3 01/20] mm/swap: decouple swap cache from physical swap infrastructure
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260209/202602091044.soVrWeDA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602091044.soVrWeDA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/fbdev-au1100fb-Don-t-store-device-specific-data-in-global-variables/20260209-015956
+base:   0636e6205beed850d985276dc56fd73d785bea5c
+patch link:    https://lore.kernel.org/r/67b7aa0157b9cf5de111ab6b2725d207ec98aae9.1770572936.git.u.kleine-koenig%40baylibre.com
+patch subject: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on non-mips platforms
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260209/202602091447.3HeLynhy-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602091447.3HeLynhy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602091044.soVrWeDA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602091447.3HeLynhy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/vmscan.c:715:3: error: call to undeclared function 'swap_cache_lock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     715 |                 swap_cache_lock_irq();
-         |                 ^
->> mm/vmscan.c:762:3: error: call to undeclared function 'swap_cache_unlock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     762 |                 swap_cache_unlock_irq();
-         |                 ^
-   mm/vmscan.c:762:3: note: did you mean 'swap_cluster_unlock_irq'?
-   mm/swap.h:350:20: note: 'swap_cluster_unlock_irq' declared here
-     350 | static inline void swap_cluster_unlock_irq(struct swap_cluster_info *ci)
-         |                    ^
-   mm/vmscan.c:801:3: error: call to undeclared function 'swap_cache_unlock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     801 |                 swap_cache_unlock_irq();
-         |                 ^
-   3 errors generated.
---
->> mm/shmem.c:2168:2: error: call to undeclared function 'swap_cache_lock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2168 |         swap_cache_lock_irq();
-         |         ^
->> mm/shmem.c:2173:2: error: call to undeclared function 'swap_cache_unlock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2173 |         swap_cache_unlock_irq();
-         |         ^
-   2 errors generated.
-
-
-vim +/swap_cache_lock_irq +715 mm/vmscan.c
-
-   700	
-   701	/*
-   702	 * Same as remove_mapping, but if the folio is removed from the mapping, it
-   703	 * gets returned with a refcount of 0.
-   704	 */
-   705	static int __remove_mapping(struct address_space *mapping, struct folio *folio,
-   706				    bool reclaimed, struct mem_cgroup *target_memcg)
-   707	{
-   708		int refcount;
-   709		void *shadow = NULL;
-   710	
-   711		BUG_ON(!folio_test_locked(folio));
-   712		BUG_ON(mapping != folio_mapping(folio));
-   713	
-   714		if (folio_test_swapcache(folio)) {
- > 715			swap_cache_lock_irq();
-   716		} else {
-   717			spin_lock(&mapping->host->i_lock);
-   718			xa_lock_irq(&mapping->i_pages);
-   719		}
-   720	
-   721		/*
-   722		 * The non racy check for a busy folio.
-   723		 *
-   724		 * Must be careful with the order of the tests. When someone has
-   725		 * a ref to the folio, it may be possible that they dirty it then
-   726		 * drop the reference. So if the dirty flag is tested before the
-   727		 * refcount here, then the following race may occur:
-   728		 *
-   729		 * get_user_pages(&page);
-   730		 * [user mapping goes away]
-   731		 * write_to(page);
-   732		 *				!folio_test_dirty(folio)    [good]
-   733		 * folio_set_dirty(folio);
-   734		 * folio_put(folio);
-   735		 *				!refcount(folio)   [good, discard it]
-   736		 *
-   737		 * [oops, our write_to data is lost]
-   738		 *
-   739		 * Reversing the order of the tests ensures such a situation cannot
-   740		 * escape unnoticed. The smp_rmb is needed to ensure the folio->flags
-   741		 * load is not satisfied before that of folio->_refcount.
-   742		 *
-   743		 * Note that if the dirty flag is always set via folio_mark_dirty,
-   744		 * and thus under the i_pages lock, then this ordering is not required.
-   745		 */
-   746		refcount = 1 + folio_nr_pages(folio);
-   747		if (!folio_ref_freeze(folio, refcount))
-   748			goto cannot_free;
-   749		/* note: atomic_cmpxchg in folio_ref_freeze provides the smp_rmb */
-   750		if (unlikely(folio_test_dirty(folio))) {
-   751			folio_ref_unfreeze(folio, refcount);
-   752			goto cannot_free;
-   753		}
-   754	
-   755		if (folio_test_swapcache(folio)) {
-   756			swp_entry_t swap = folio->swap;
-   757	
-   758			if (reclaimed && !mapping_exiting(mapping))
-   759				shadow = workingset_eviction(folio, target_memcg);
-   760			__swap_cache_del_folio(folio, swap, shadow);
-   761			memcg1_swapout(folio, swap);
- > 762			swap_cache_unlock_irq();
-   763			put_swap_folio(folio, swap);
-   764		} else {
-   765			void (*free_folio)(struct folio *);
-   766	
-   767			free_folio = mapping->a_ops->free_folio;
-   768			/*
-   769			 * Remember a shadow entry for reclaimed file cache in
-   770			 * order to detect refaults, thus thrashing, later on.
-   771			 *
-   772			 * But don't store shadows in an address space that is
-   773			 * already exiting.  This is not just an optimization,
-   774			 * inode reclaim needs to empty out the radix tree or
-   775			 * the nodes are lost.  Don't plant shadows behind its
-   776			 * back.
-   777			 *
-   778			 * We also don't store shadows for DAX mappings because the
-   779			 * only page cache folios found in these are zero pages
-   780			 * covering holes, and because we don't want to mix DAX
-   781			 * exceptional entries and shadow exceptional entries in the
-   782			 * same address_space.
-   783			 */
-   784			if (reclaimed && folio_is_file_lru(folio) &&
-   785			    !mapping_exiting(mapping) && !dax_mapping(mapping))
-   786				shadow = workingset_eviction(folio, target_memcg);
-   787			__filemap_remove_folio(folio, shadow);
-   788			xa_unlock_irq(&mapping->i_pages);
-   789			if (mapping_shrinkable(mapping))
-   790				inode_lru_list_add(mapping->host);
-   791			spin_unlock(&mapping->host->i_lock);
-   792	
-   793			if (free_folio)
-   794				free_folio(folio);
-   795		}
-   796	
-   797		return 1;
-   798	
-   799	cannot_free:
-   800		if (folio_test_swapcache(folio)) {
-   801			swap_cache_unlock_irq();
-   802		} else {
-   803			xa_unlock_irq(&mapping->i_pages);
-   804			spin_unlock(&mapping->host->i_lock);
-   805		}
-   806		return 0;
-   807	}
-   808	
+   csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_drv_remove':
+   au1100fb.c:(.text+0x21c): undefined reference to `unregister_framebuffer'
+>> csky-linux-ld: au1100fb.c:(.text+0x224): undefined reference to `fb_dealloc_cmap'
+   csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_fb_mmap':
+   au1100fb.c:(.text+0x2bc): undefined reference to `unregister_framebuffer'
+   csky-linux-ld: au1100fb.c:(.text+0x2c0): undefined reference to `fb_dealloc_cmap'
+   csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_drv_probe':
+   au1100fb.c:(.text+0x540): undefined reference to `fb_get_options'
+>> csky-linux-ld: au1100fb.c:(.text+0x6e4): undefined reference to `fb_get_options'
+>> csky-linux-ld: au1100fb.c:(.text+0x7bc): undefined reference to `fb_alloc_cmap'
+>> csky-linux-ld: au1100fb.c:(.text+0x7d8): undefined reference to `register_framebuffer'
+   csky-linux-ld: au1100fb.c:(.text+0x818): undefined reference to `fb_dealloc_cmap'
+   csky-linux-ld: au1100fb.c:(.text+0x850): undefined reference to `fb_alloc_cmap'
+   csky-linux-ld: au1100fb.c:(.text+0x860): undefined reference to `register_framebuffer'
+   csky-linux-ld: au1100fb.c:(.text+0x874): undefined reference to `fb_dealloc_cmap'
+>> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0xc): undefined reference to `fb_io_read'
+>> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x10): undefined reference to `fb_io_write'
+>> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
+>> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
+>> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
 
 -- 
 0-DAY CI Kernel Test Service
