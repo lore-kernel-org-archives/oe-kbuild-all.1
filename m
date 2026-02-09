@@ -1,76 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6901469D;
-	Mon,  9 Feb 2026 17:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E3A25A645;
+	Mon,  9 Feb 2026 17:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770659183; cv=none; b=Z4CBbxYJaIeJn4Adj6wDHRZzoI0K6+Qsg08A77kpJw7Hzb4ZuTXhvSj/Caw53itSqtzsXXGKEDsku9WCn417S+8pOhPOsg+pojDsXCOmo/AkbGjPFsZYrFQcH98glBH9S/q4NLjmob+jl3IX2qrZX4yg2wl7O5Iu0hD27Tu2dcU=
+	t=1770659272; cv=none; b=r6x1Xy87LQg7sxKZcLWk/aTXBbm2/oZjaBVR6/ewBHI1dT01Ze6L0spaAAy+UlwjQaVLd+JUND0NGbBtTwxiC0WcaXmiZyztCEFPt2JgLhmFFVu84SNStyuIYjztKWaQMrC/F82fAHaC+qROF8bxrIu9/OjCBx3frrlmfuVAUl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770659183; c=relaxed/simple;
-	bh=5tYHqdOIO9+kNsPGBamZhWPlrPY7zlzhK+s+tLVNB8w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qc9lLDf2nLSq3A7jWP5f45AIP9nR75hd7t4hYW+SvQxe2yF6iVJK/lGMyx/gO8VfUYFd+bTgtJdmHoAXqwTcpGJb/+f6yjaEdmn0+ACizHMK/VDydiTFWec/RaaPknR2Eski0CJ0D4AJf1y/Y6jvQZUOjQwowbHWdDMYQrJnrXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6vkucdV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770659272; c=relaxed/simple;
+	bh=T2Z2G1IPC7BiFlbWzeqD/jeFJVwXBLZDkZ8HK53zGik=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Tb3EiO/67F6jO8uTjqwNRrBXJ/L7jsJuahJms6w6zhsY3eyjcHu62gzRmC+4Yal3ib06sDgZAvdrhjma218yK0ozOXBC9ilmRpyIIupED1cpHwZ6s/N2WEnCQwyQynsOf1eWlyyja7J4zAchRJ1UjEdEyRDwUGZwMlJHatQ9IZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BKRMiOLM; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6vkucdV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E1DC116C6;
-	Mon,  9 Feb 2026 17:46:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770659183;
-	bh=5tYHqdOIO9+kNsPGBamZhWPlrPY7zlzhK+s+tLVNB8w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b6vkucdVe4wrpOv1J2Nc1Ee0STeaMnefAyuePiZysb18efHQFsEkWbBO7RfgbkZuK
-	 S7b3GsNEa8HGSlKY5/tTI5+DlNs9iH1Z5anSdYsQixvlx74lfwaOStO2j/iTjJdIVY
-	 UWc1/gagg/LckIH9N6bRbo4ajUgaLiFTHHGHQeNH9rDiJ19MY2C8EBm0hSQgImmYIP
-	 3IzwsF1BuWekWmo9s8VZwN+7tKexcu9Az3fZWqdYgkJ2IizGn4wctmMTBW8yrKduig
-	 i40yNIFOu39xhHLUYBLv5gwEQE6APdW/cOpgYxKPLdQDkdvM69oLzphab9d+d2tuXS
-	 1b4ngFgul126Q==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 112/124] mm/damon/core.c:1862:25: error: 'c' undeclared
-Date: Mon,  9 Feb 2026 09:46:20 -0800
-Message-ID: <20260209174621.39775-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202602100155.sDqMXews-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BKRMiOLM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770659272; x=1802195272;
+  h=date:from:to:cc:subject:message-id;
+  bh=T2Z2G1IPC7BiFlbWzeqD/jeFJVwXBLZDkZ8HK53zGik=;
+  b=BKRMiOLMkR5CkSAJDPFmUASCI6/ByDTdhpO8CaEoULPCF5uxmjijr5KW
+   MJIyQ6Qx9Ar2vGoATwlGwdnz+90sPjT4m/t3/ZNPiA40CldnJruJxdYPG
+   s6BFoOTZ8aJNZ++b21TbViimtIIMHOwoGa5GbpdntQFV3K9OL7oIkvx6o
+   /Brrl8bccAM6WyhPPPoDdd2TItGkVGb73mezkSwuHvH8Cwg4pzXTIYk7u
+   nBGPStTFXX2xXA4YdqiLJoM2CAd2Ix4Xi8GL/Ndqo1+awr16sewG15rBR
+   TLFCxo3FmdwPi2M38QGJivTHO4r5X/bt5bgFSGanL3Cgn541dcNSkzFE1
+   g==;
+X-CSE-ConnectionGUID: bj3muzGGSEmzdoKtt+c0fA==
+X-CSE-MsgGUID: ovAcWrDESRK5ijkdPQd+rA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="74376986"
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
+   d="scan'208";a="74376986"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 09:47:51 -0800
+X-CSE-ConnectionGUID: Dq9a6OI8SpWnINTSB9J11A==
+X-CSE-MsgGUID: VbGFEygNR+uy3YMcQ+z1Ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
+   d="scan'208";a="211251777"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 09 Feb 2026 09:47:50 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vpVMS-00000000oCF-2ZrN;
+	Mon, 09 Feb 2026 17:47:48 +0000
+Date: Tue, 10 Feb 2026 01:47:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_1 4/12]
+ arch/arm64/net/bpf_jit_comp.c:2510:31: error: member reference type 'struct
+ bpf_link *' is a pointer; did you mean to use '->'?
+Message-ID: <202602100139.stfv6wKR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Feb 2026 01:35:06 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_1
+head:   95bf1a3ff57efabf9b7c50b8a0d3583a6714f5d8
+commit: 839b12f2dd3dd0be0a7321691ec25efca4132668 [4/12] bpf: Add struct bpf_tramp_node object
+config: arm64-randconfig-001-20260209 (https://download.01.org/0day-ci/archive/20260210/202602100139.stfv6wKR-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100139.stfv6wKR-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   a8c204a2a82057d70dd8944476dd043dc52561ed
-> commit: 7fdffc23ed84ea44a9f15f71d15b00a94f326acd [112/124] mm/damon/core: unify damon_warn_fix_nr_accesses_corruption() with damon_verify_reset_aggregated()
-> config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260210/202602100155.sDqMXews-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100155.sDqMXews-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602100155.sDqMXews-lkp@intel.com/
-> 
-> Note: the sj/damon/next HEAD a8c204a2a82057d70dd8944476dd043dc52561ed builds fine.
->       It only hurts bisectability.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602100139.stfv6wKR-lkp@intel.com/
 
-Thank you for this report.  Seems this is same to another one, that a fix [1]
-has pushed a few hours ago.  I understand it is still making bisect
-complicated, because the fix was made as a separate commit.  I will squash the
-fix to the broken commit soon.
+All errors (new ones prefixed by >>):
 
-[1] https://lore.kernel.org/20260209151322.54520-1-sj@kernel.org
+>> arch/arm64/net/bpf_jit_comp.c:2510:31: error: member reference type 'struct bpf_link *' is a pointer; did you mean to use '->'?
+    2510 |                 fentry_nodes->nodes[0]->link.type == BPF_LINK_TYPE_STRUCT_OPS;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+         |                                             ->
+   1 error generated.
 
 
-Thanks,
-SJ
+vim +2510 arch/arm64/net/bpf_jit_comp.c
 
-[...]
+  2506	
+  2507	static bool is_struct_ops_tramp(const struct bpf_tramp_nodes *fentry_nodes)
+  2508	{
+  2509		return fentry_nodes->nr_nodes == 1 &&
+> 2510			fentry_nodes->nodes[0]->link.type == BPF_LINK_TYPE_STRUCT_OPS;
+  2511	}
+  2512	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
