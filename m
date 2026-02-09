@@ -1,182 +1,210 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FE731B810
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 07:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20B62D7812;
+	Mon,  9 Feb 2026 09:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770622031; cv=none; b=jmn+UN0GRSd+jzIc12VxWVY4zKJZ+JV6uWClX15+aNI0qHY2sGXNejbzKQxdrQEJwQ2cx15gkM9eArTYLRkIuLXJlOkmo8anWy/WukbZwPbvwlqlILgRf2dTe2DKECvRubFBZpLDS2cP8f1sDPj/2YSlhKB4vrQdoS3z2o+4oPw=
+	t=1770628624; cv=none; b=YScedFDkXAhfYkGcaZtgLKZpM85zlJm2TyRVQFwJ6H+98roxdsQv4vlXZQq1vyCx04YabPbq9v+6YFavk8M9OlUumgr4975gR5aEHpvX8kf8kHUvNEOcWeuLgGNMArgnynq2rsRGQKxhncPWT8FcevJHq3E+o8S+E+CFh/+UngI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770622031; c=relaxed/simple;
-	bh=bOVOcD/0Z9U+LQyMSv5SIr+eLchtYUt9XThVupwuffw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EqlM1V2h0H2TzAf3xXbKyIQ2NRrZCoJmYp6RboLlNvCgcsBFAQRJ7LSA7g4icuQYXiqTIQj9koDCFWKWvmHuxJ0WqGAhHnLwdnX7/59zkKcD29naCPWiywM4UkqltszXY36c66QuA+W/rYt1pMdeEIaS0RQ8XjuzSdJo/9EUEio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ECk25B0K; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1770628624; c=relaxed/simple;
+	bh=qrROYE4XpY1NIlCV3UwP8gdBFwTeOzyDOqqLcJ47Vfg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YwxCua1ankbwsmiZJKt38AWABsusys8p+SwfXm8t1V39z8qBzLKxrllUH0MhA0yJV/1CH00j3aGfbaBRIxjAgXmkyuwkwTaAjePwVRW8treqPvXgbdiouOQmC5vsY+3wJjlMjqPqvqHHPT5oBy+mD9ObgSYcEZeREWg/wJ+GLyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvyeiEA9; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ECk25B0K"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-436309f1ad7so1461851f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Feb 2026 23:27:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770622028; x=1771226828; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zSRrUJVvFwAIEAMSQdvLDvax5R1ZcBfYM0Suiw+VTt4=;
-        b=ECk25B0KJahoATOV21w74YUxdKPLVJitaJfukncKmKNIyhJCPrKKrespnWc/eAV23D
-         RxqEG6ohwklAH7M7vxxzC0PXY7n9F6ARmNbnBX4LJiVI2NiKMHctQkR5FU6m3btEst97
-         E+OV7WyiQDxVKpiKbh4xpIr5YK+azPrUPFfr6rS/ijcIfDyJDsGmCLCS1EvfTUVnBl9p
-         e/2H7aQ4XBJv+ixcud2vcLXAW0yZogw6hYalfxTV1xebpbtggtXDbeVxOE8irQdn9cn8
-         o/eD8Om0ObiLp/uc3jYMM7nmeRl/VmLsam0qBvklvx3h5qZv0Qg6giC6g+XofYe0Z5b0
-         JTcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770622028; x=1771226828;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zSRrUJVvFwAIEAMSQdvLDvax5R1ZcBfYM0Suiw+VTt4=;
-        b=RWIJr5Al79GjIhGaLM7HbzWT7g0enNZE834b0bJlI+mXypFvvmMm4TSgX5MS4geiNL
-         DKFlG5ybwgTVHUdeKsFW0e5BbzPaWDfgWa6kKeoOyZSx1RmJ0wAhDofC0ETMnx0v5t/k
-         wah0CMu/ku2QOfLcHTmGOlVxSXFK+L7l4ISCbbmpooYLN5wqvv156OXD5DT+SrA/KnrD
-         3fOmSzDHx63RSpBuYI4IrOQKySNRcsIIQfAK/6SOF9fyugMr3VFxvS8nIYEsC5rrPR1w
-         6U3+rtRIVzYASm8HRKdgtKQa8Bv3XzSY136gAb2AIlZ3kKrqYvI4DaABCqE9qCykW7l5
-         9IFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWZj0Ics9xj6jAUl076b+XCKPj3A2XRY3BeWr4BWHD9TQgsEOyTrPeLa8ybyGMd9rFG6DRDKJ5A+sFcq5Wg@lists.linux.dev
-X-Gm-Message-State: AOJu0YwG+IBla+6djid42boY/lMNsYrPjjGCJhAvdezQhRold69/Ql+n
-	hFIciz79oQ+qHgOmjsWOp/XeXjoUY7kv5a4gU8vZgSVvdWHkXkuPKjznSwTUWYipiVI=
-X-Gm-Gg: AZuq6aLxOyedVK2HlViHZTAJa3w9DRihTdPlLQo0BTer8XZVneqDLkR7pSyzkgfd99x
-	rNhFwDTNr/XPASFdVyM2xd47XmLb3DH6XEdD3CaMb4YSL65DBB/Mggfj8mJZ+XIGLZ0AqhRPN+X
-	R5ZJ5woj+rQ7s+lP2vNfbDfrU5YSn15RBV/cFdFiQbr/plQcfDyfETO9rBBG0071vNFVSbtR4Ox
-	l/uvZzUT+rj57ck4BuawMHnQigd46MsrxiiZvCFwxU1GDV84DRhTWPMcHzdAP8GI7wlIYqrndwS
-	l/ECxxNOvvntuVGsOTTtfniq89VjZ+Yrzn3xESUfuqddZycfghgARNLGoS5G52gro6ggyoAf550
-	y8WUAYGS/QUOMBlytIgu5PGNiIzl4saumL404xTmxDVyAXaZWEbwqwD6eH3qgB/3EjA5cVc0jLq
-	Boi3SQ8l3CJubJc9Us
-X-Received: by 2002:a05:6000:1ace:b0:435:b068:d3c4 with SMTP id ffacd0b85a97d-43629380e94mr16340688f8f.33.1770622028402;
-        Sun, 08 Feb 2026 23:27:08 -0800 (PST)
-Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4376686130csm12499489f8f.1.2026.02.08.23.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Feb 2026 23:27:07 -0800 (PST)
-Date: Mon, 9 Feb 2026 08:27:06 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Helge Deller <deller@gmx.de>, oe-kbuild-all@lists.linux.dev, 
-	Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on
- non-mips platforms
-Message-ID: <aYmLysU_q3C-xLfk@monoceros>
-References: <67b7aa0157b9cf5de111ab6b2725d207ec98aae9.1770572936.git.u.kleine-koenig@baylibre.com>
- <202602091447.3HeLynhy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvyeiEA9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770628624; x=1802164624;
+  h=date:from:to:cc:subject:message-id;
+  bh=qrROYE4XpY1NIlCV3UwP8gdBFwTeOzyDOqqLcJ47Vfg=;
+  b=kvyeiEA9lUGqB8LDGhHnR2sAm4odfs8/a3cl5gEFoO7m3/2Xy4AFQgVZ
+   KfKVHMSOlWn49Hn8SPmunc2X20zykshJ6S0dZAvWq7lQr+Zy466vdqXvw
+   MhgMUUy32aVtATFmcjzTprw3I327IFuzpH2PHeUpk9PV7Q3bFaEPmu1fd
+   ZP0h6sM+yP8X/yt+e1wHzP91RUEdNCg5JLu3zy2lGIJ/PPrsaEbe1/d7y
+   I/o3sBys7pOy5UWqGjx4htRMLNPpALPXAyRB0xekc2TNDWpmZbUcTU52p
+   rJ1E3bPrgBFafgJZTny7MerEqh0Jc08wyWApj9Rx6+zMcwqwPaXdOOBfP
+   Q==;
+X-CSE-ConnectionGUID: 5+j0eHbBQLCXojBvrSC+uA==
+X-CSE-MsgGUID: zLx7WS7XSf6N1jgSMJATBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="71723046"
+X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
+   d="scan'208";a="71723046"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 01:17:04 -0800
+X-CSE-ConnectionGUID: dMDFdJTZRt6othJ4OG3o7w==
+X-CSE-MsgGUID: b772faSXR2ehOdUIsDINWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
+   d="scan'208";a="210687585"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Feb 2026 01:17:02 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vpNO7-00000000mrS-32nA;
+	Mon, 09 Feb 2026 09:16:59 +0000
+Date: Mon, 09 Feb 2026 17:16:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:refactor-umem-v1 75/80]
+ drivers/infiniband/hw/irdma/verbs.c:2108:16: warning: variable 'kmem_buf' is
+ uninitialized when used here
+Message-ID: <202602091736.nL6iB1tr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3b4rsyg56sd3635q"
-Content-Disposition: inline
-In-Reply-To: <202602091447.3HeLynhy-lkp@intel.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git refactor-umem-v1
+head:   a13eb692588830b3d09a9dcb14d384ccfc029902
+commit: fc8e26318efebb43d582e9b2cb5ea0f80f5dacb9 [75/80] RDMA/irdma: Remove resize support for kernel CQs
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260209/202602091736.nL6iB1tr-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602091736.nL6iB1tr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602091736.nL6iB1tr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/infiniband/hw/irdma/verbs.c:2108:16: warning: variable 'kmem_buf' is uninitialized when used here [-Wuninitialized]
+    2108 |                 iwcq->kmem = kmem_buf;
+         |                              ^~~~~~~~
+   drivers/infiniband/hw/irdma/verbs.c:2028:2: note: variable 'kmem_buf' is declared here
+    2028 |         struct irdma_dma_mem kmem_buf;
+         |         ^
+   1 warning generated.
 
 
---3b4rsyg56sd3635q
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on
- non-mips platforms
-MIME-Version: 1.0
+vim +/kmem_buf +2108 drivers/infiniband/hw/irdma/verbs.c
 
-Hello,
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2008  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2009  /**
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2010   * irdma_resize_cq - resize cq
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2011   * @ibcq: cq to be resized
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2012   * @entries: desired cq size
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2013   * @udata: user data
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2014   */
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2015  static int irdma_resize_cq(struct ib_cq *ibcq, int entries,
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2016  			   struct ib_udata *udata)
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2017  {
+fc8e26318efebb Leon Romanovsky 2026-02-08  2018  	struct irdma_resize_cq_req req = {};
+fc8e26318efebb Leon Romanovsky 2026-02-08  2019  	struct irdma_ucontext *ucontext = rdma_udata_to_drv_context(
+fc8e26318efebb Leon Romanovsky 2026-02-08  2020  		udata, struct irdma_ucontext, ibucontext);
+34acb833cc83bd Shiraz Saleem   2022-09-07  2021  #define IRDMA_RESIZE_CQ_MIN_REQ_LEN offsetofend(struct irdma_resize_cq_req, user_cq_buffer)
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2022  	struct irdma_cq *iwcq = to_iwcq(ibcq);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2023  	struct irdma_sc_dev *dev = iwcq->sc_cq.dev;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2024  	struct irdma_cqp_request *cqp_request;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2025  	struct cqp_cmds_info *cqp_info;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2026  	struct irdma_modify_cq_info *m_info;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2027  	struct irdma_modify_cq_info info = {};
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2028  	struct irdma_dma_mem kmem_buf;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2029  	struct irdma_cq_mr *cqmr_buf;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2030  	struct irdma_pbl *iwpbl_buf;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2031  	struct irdma_device *iwdev;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2032  	struct irdma_pci_f *rf;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2033  	struct irdma_cq_buf *cq_buf = NULL;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2034  	unsigned long flags;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2035  	int ret;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2036  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2037  	iwdev = to_iwdev(ibcq->device);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2038  	rf = iwdev->rf;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2039  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2040  	if (!(rf->sc_dev.hw_attrs.uk_attrs.feature_flags &
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2041  	    IRDMA_FEATURE_CQ_RESIZE))
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2042  		return -EOPNOTSUPP;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2043  
+fc8e26318efebb Leon Romanovsky 2026-02-08  2044  	if (udata->inlen < IRDMA_RESIZE_CQ_MIN_REQ_LEN)
+34acb833cc83bd Shiraz Saleem   2022-09-07  2045  		return -EINVAL;
+34acb833cc83bd Shiraz Saleem   2022-09-07  2046  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2047  	if (entries > rf->max_cqe)
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2048  		return -EINVAL;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2049  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2050  	info.cq_size = max(entries, 4);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2051  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2052  	if (info.cq_size == iwcq->sc_cq.cq_uk.cq_size - 1)
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2053  		return 0;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2054  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2055  	/* CQ resize not supported with legacy GEN_1 libi40iw */
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2056  	if (ucontext->legacy_mode)
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2057  		return -EOPNOTSUPP;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2058  
+fc8e26318efebb Leon Romanovsky 2026-02-08  2059  	if (ib_copy_from_udata(&req, udata, min(sizeof(req), udata->inlen)))
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2060  		return -EINVAL;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2061  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2062  	spin_lock_irqsave(&ucontext->cq_reg_mem_list_lock, flags);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2063  	iwpbl_buf = irdma_get_pbl((unsigned long)req.user_cq_buffer,
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2064  				  &ucontext->cq_reg_mem_list);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2065  	spin_unlock_irqrestore(&ucontext->cq_reg_mem_list_lock, flags);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2066  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2067  	if (!iwpbl_buf)
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2068  		return -ENOMEM;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2069  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2070  	cqmr_buf = &iwpbl_buf->cq_mr;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2071  	if (iwpbl_buf->pbl_allocated) {
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2072  		info.virtual_map = true;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2073  		info.pbl_chunk_size = 1;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2074  		info.first_pm_pbl_idx = cqmr_buf->cq_pbl.idx;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2075  	} else {
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2076  		info.cq_pa = cqmr_buf->cq_pbl.addr;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2077  	}
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2078  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2079  	cqp_request = irdma_alloc_and_get_cqp_request(&rf->cqp, true);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2080  	if (!cqp_request) {
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2081  		ret = -ENOMEM;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2082  		goto error;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2083  	}
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2084  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2085  	info.shadow_read_threshold = iwcq->sc_cq.shadow_read_threshold;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2086  	info.cq_resize = true;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2087  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2088  	cqp_info = &cqp_request->info;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2089  	m_info = &cqp_info->in.u.cq_modify.info;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2090  	memcpy(m_info, &info, sizeof(*m_info));
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2091  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2092  	cqp_info->cqp_cmd = IRDMA_OP_CQ_MODIFY;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2093  	cqp_info->in.u.cq_modify.cq = &iwcq->sc_cq;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2094  	cqp_info->in.u.cq_modify.scratch = (uintptr_t)cqp_request;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2095  	cqp_info->post_sq = 1;
+2322d17abf0a6c Shiraz Saleem   2022-02-17  2096  	ret = irdma_handle_cqp_op(rf, cqp_request);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2097  	irdma_put_cqp_request(&rf->cqp, cqp_request);
+2322d17abf0a6c Shiraz Saleem   2022-02-17  2098  	if (ret)
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2099  		goto error;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2100  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2101  	spin_lock_irqsave(&iwcq->lock, flags);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2102  	if (cq_buf) {
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2103  		cq_buf->kmem_buf = iwcq->kmem;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2104  		cq_buf->hw = dev->hw;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2105  		memcpy(&cq_buf->cq_uk, &iwcq->sc_cq.cq_uk, sizeof(cq_buf->cq_uk));
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2106  		INIT_WORK(&cq_buf->work, irdma_free_cqbuf);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2107  		list_add_tail(&cq_buf->list, &iwcq->resize_list);
+b48c24c2d710cf Mustafa Ismail  2021-06-02 @2108  		iwcq->kmem = kmem_buf;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2109  	}
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2110  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2111  	irdma_sc_cq_resize(&iwcq->sc_cq, &info);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2112  	ibcq->cqe = info.cq_size - 1;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2113  	spin_unlock_irqrestore(&iwcq->lock, flags);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2114  
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2115  	return 0;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2116  error:
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2117  	kfree(cq_buf);
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2118  	return ret;
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2119  }
+b48c24c2d710cf Mustafa Ismail  2021-06-02  2120  
 
-On Mon, Feb 09, 2026 at 02:30:13PM +0800, kernel test robot wrote:
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on 0636e6205beed850d985276dc56fd73d785bea5c]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/f=
-bdev-au1100fb-Don-t-store-device-specific-data-in-global-variables/20260209=
--015956
-> base:   0636e6205beed850d985276dc56fd73d785bea5c
-> patch link:    https://lore.kernel.org/r/67b7aa0157b9cf5de111ab6b2725d207=
-ec98aae9.1770572936.git.u.kleine-koenig%40baylibre.com
-> patch subject: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on =
-non-mips platforms
-> config: csky-allmodconfig (https://download.01.org/0day-ci/archive/202602=
-09/202602091447.3HeLynhy-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260209/202602091447.3HeLynhy-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602091447.3HeLynhy-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_d=
-rv_remove':
->    au1100fb.c:(.text+0x21c): undefined reference to `unregister_framebuff=
-er'
-> >> csky-linux-ld: au1100fb.c:(.text+0x224): undefined reference to `fb_de=
-alloc_cmap'
->    csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_f=
-b_mmap':
->    au1100fb.c:(.text+0x2bc): undefined reference to `unregister_framebuff=
-er'
->    csky-linux-ld: au1100fb.c:(.text+0x2c0): undefined reference to `fb_de=
-alloc_cmap'
->    csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_d=
-rv_probe':
->    au1100fb.c:(.text+0x540): undefined reference to `fb_get_options'
-> >> csky-linux-ld: au1100fb.c:(.text+0x6e4): undefined reference to `fb_ge=
-t_options'
-> >> csky-linux-ld: au1100fb.c:(.text+0x7bc): undefined reference to `fb_al=
-loc_cmap'
-> >> csky-linux-ld: au1100fb.c:(.text+0x7d8): undefined reference to `regis=
-ter_framebuffer'
->    csky-linux-ld: au1100fb.c:(.text+0x818): undefined reference to `fb_de=
-alloc_cmap'
->    csky-linux-ld: au1100fb.c:(.text+0x850): undefined reference to `fb_al=
-loc_cmap'
->    csky-linux-ld: au1100fb.c:(.text+0x860): undefined reference to `regis=
-ter_framebuffer'
->    csky-linux-ld: au1100fb.c:(.text+0x874): undefined reference to `fb_de=
-alloc_cmap'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0xc): undefined=
- reference to `fb_io_read'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x10): undefine=
-d reference to `fb_io_write'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x2c): undefine=
-d reference to `cfb_fillrect'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x30): undefine=
-d reference to `cfb_copyarea'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x34): undefine=
-d reference to `cfb_imageblit'
+:::::: The code at line 2108 was first introduced by commit
+:::::: b48c24c2d710cf34810c555dcef883a3d35a9c08 RDMA/irdma: Implement device supported verb APIs
 
-The problem is that we have CONFIG_FB_AU1100=3Dy but only CONFIG_FB=3Dm in
-that config. I thought a bool depending on a tristate implies the latter
-to be =3Dy, it seems I'm wrong and FB_AU1100 needs to depend on (FB =3D y).
+:::::: TO: Mustafa Ismail <mustafa.ismail@intel.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
-Best regards
-Uwe
-
---3b4rsyg56sd3635q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmJjEcACgkQj4D7WH0S
-/k4A4Af/UeLSYJO6+3KwCZ0PksM2aIcAZXk4qDEAkK2FWzmYyRF1wwg/pVbsy6gD
-zrJMdbR2BUYwtDBx7OwEMPNA8e/Z1R+K9ngc7YqtEyI8MJGOP/rQ5AvkY5Gqizu6
-ZrAkZOoPdxff3W2cJKJZYAFKx4UXqqFZsXDm0wwh7rmQT2hSdgT7vAhYUE4KYBBn
-tbez40Tu2R3lBAwTsIbE7N03EYCt9OOnfQOXo+cT+yCsMSHwLLUd6deR/XWmdcQ7
-KJMhosrUr4aG+iWgN6//cLG8ruknQqDM+khJRnIrRWdUXoUG9Ns+rUGEg8twntGv
-E6X42zEK5WiKyrAltnYqEq2/jGj5aw==
-=283N
------END PGP SIGNATURE-----
-
---3b4rsyg56sd3635q--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
