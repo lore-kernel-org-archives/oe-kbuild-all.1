@@ -1,82 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F49296BA5
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 02:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54FF221F03;
+	Mon,  9 Feb 2026 02:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770603162; cv=none; b=IEuOB3aqpKUrRJ4HctwO0T5E/QyNdwdVrKetlMANTgR4S/6oExNcez63zduOX/t+ukVAU3s9Z6NDjnb2wwCV3/1KcLEHEumR5K27htltUCaip45gPlYfkohAovAif4tqn1JDSi9aNEeyobdwTWVVtI55prq4wopHKvfGm5rzPC4=
+	t=1770603760; cv=none; b=fUTdhN3Onmm1I/O0YU5BJZM7IJvX3D1k+0yS4fxF0zcJFKNqWfEvzf/JhKC4aA7A2hY3r9CZ87flUhDtyxr0LsbVR76npdEJGce9wPIZMCLzHE+R44Sqkuqfkl3ccw55ObZJt+o7MvvOkFFJWysVkXCC3h4S5XgwQSBHQF6amaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770603162; c=relaxed/simple;
-	bh=li3Bz7MB9Db5p57EW1iDijoV/yjuamNyqKYmNRYo6WM=;
+	s=arc-20240116; t=1770603760; c=relaxed/simple;
+	bh=lN29YV+zBAydXqnE2rZS6mvynhrdF/TkVSR0zGXivNw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtiAdA0EcvyQthWyDkK21gFq2yV84y5+HkI5MoMn4gUVxhokWBqXkvgVslIgRsNZXM1CWDBQOHpVJNSU+1XdJB7y6FXv9uY1oKVzBwSg5CrOhgqjqOyW859S5t35qvC+d4o6QQizZWdcuLdmO+kvKufJ3XoAKpu511YchnKmjTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IlJBJrQk; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=C/GGF4VebFvAiUGr2UYAaE2iSZPM5yyksqKPAakpcf0mit7rXDIXurSa1em0p40hlUK1Ck2VWUMniTUyxJ/q7WKMAP3MKq9ibl0jAZXX8tRlZ/y9BblLrKqf/DqsAv0MYdiZruMpsZ7Vjt4x4AHNulK5VXAFuLVQbkimwTH8uBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOKRM+R0; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlJBJrQk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOKRM+R0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770603162; x=1802139162;
+  t=1770603761; x=1802139761;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=li3Bz7MB9Db5p57EW1iDijoV/yjuamNyqKYmNRYo6WM=;
-  b=IlJBJrQkxZbj8WkChIrfk0TnaCZAvIYOoYJLwNiQV/YznaavQu5CSQjQ
-   5xi/q0Nq0XiYny41zGD2/PfjzpW9Vnusxd8yUyZ0GOQIuCA9tH6fniigS
-   c1BcMUowNpK/ZU/oUyWze7BFrBf/YxHK3W/Ntf22L5mLhXUy/ODvZT1tW
-   g2b6jhtn5rU7slGrVnkYHyMcyjoB2Srh+vbLEdJ/UIV2irqHJ2QHYTlnM
-   FZuCKTuCP4vAWWOv4MgTxwuwBW+otcQO1SonHOUcGe6K8zxVwxutqZBmo
-   gdzfnUTPpkU9IWr3YrPvQz1zB0+kf3BZp558g3tbenTed7bTfg02lpx7D
+  bh=lN29YV+zBAydXqnE2rZS6mvynhrdF/TkVSR0zGXivNw=;
+  b=SOKRM+R0/vzHBNMav07l4ZRcr20e9pREyMIjL86+eBdyOZUSO0Ql5S/y
+   HL/+PTVtAYXAS0wnDWkoifN6F4S13WAFvNLGlTIV8C+Ny8xkeO7EhPvlZ
+   J06KOW/yL+cPVRFzUYa7b76YOx7rL8lzZZgE4RUfvYcLuW6UK7RXDiUf8
+   GLXnVrbHA4PzL0MapoG/6kYhI8IEj9/FXdvjZ+ANMBO46sSTylAM4QAJB
+   HdD5+dNqy5BNVIB31FCoWMB0sNxMoSZmrrXn4vhJbf2xag4uZZeCJNUPH
+   dkcYk/CyL0eMqVwHqmS9g9Ilv9jwh09dNblST2QahL/s4+OoBqrHxjbsR
    A==;
-X-CSE-ConnectionGUID: eNQrUdCVQMmHJdmmoLFYmg==
-X-CSE-MsgGUID: W6RLPbOVSFmneI/+4qwIFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="83152670"
+X-CSE-ConnectionGUID: 6PfndJ4cRAeVshIjZxlk7A==
+X-CSE-MsgGUID: vmNVQm0OS3O3ugAIumPRcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="97170084"
 X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
-   d="scan'208";a="83152670"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 18:12:41 -0800
-X-CSE-ConnectionGUID: O3GWCk0XQz68cDcF85WjTA==
-X-CSE-MsgGUID: h2jjiJw6QHyTvzyFF1iPiw==
+   d="scan'208";a="97170084"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 18:22:40 -0800
+X-CSE-ConnectionGUID: CJ2DLclWQsCDNhy6DDl/HQ==
+X-CSE-MsgGUID: WlgPUJxwRzOOIAmFmBzJ9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; 
-   d="scan'208";a="211241339"
+   d="scan'208";a="241664631"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Feb 2026 18:12:34 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 08 Feb 2026 18:22:33 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpGlL-00000000mVm-0bVo;
-	Mon, 09 Feb 2026 02:12:31 +0000
-Date: Mon, 9 Feb 2026 10:12:03 +0800
+	id 1vpGv1-00000000mVw-0scF;
+	Mon, 09 Feb 2026 02:22:31 +0000
+Date: Mon, 9 Feb 2026 10:22:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josua Mayer <josua@solid-run.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Peter Rosin <peda@axentia.se>, Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Vignesh R <vigneshr@ti.com>, Andi Shyti <andi.shyti@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Yazan Shhady <yazan.shhady@solid-run.com>,
-	Jon Nettleton <jon@solid-run.com>,
-	Mikhail Anikin <mikhail.anikin@solid-run.com>,
-	linux-can@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v9 7/7] mmc: host: renesas_sdhi_core: support selecting
- an optional mux
-Message-ID: <202602091037.wNIGJdbh-lkp@intel.com>
-References: <20260208-rz-sdio-mux-v9-7-9a3be13c1280@solid-run.com>
+To: Nhat Pham <nphamcs@gmail.com>, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	akpm@linux-foundation.org, hannes@cmpxchg.org, hughd@google.com,
+	yosry.ahmed@linux.dev, mhocko@kernel.org, roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev, muchun.song@linux.dev, len.brown@intel.com,
+	chengming.zhou@linux.dev, kasong@tencent.com, chrisl@kernel.org,
+	huang.ying.caritas@gmail.com, ryan.roberts@arm.com,
+	shikemeng@huaweicloud.com, viro@zeniv.linux.org.uk,
+	baohua@kernel.org, bhe@redhat.com, osalvador@suse.de,
+	lorenzo.stoakes@oracle.com, christophe.leroy@csgroup.eu,
+	pavel@kernel.org, kernel-team@meta.com,
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+	linux-pm@vger.kernel.org, peterx@redhat.com, riel@surriel.com,
+	joshua.hahnjy@gmail.com
+Subject: Re: [PATCH v3 01/20] mm/swap: decouple swap cache from physical swap
+ infrastructure
+Message-ID: <202602091044.soVrWeDA-lkp@intel.com>
+References: <20260208215839.87595-2-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,31 +75,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260208-rz-sdio-mux-v9-7-9a3be13c1280@solid-run.com>
+In-Reply-To: <20260208215839.87595-2-nphamcs@gmail.com>
 
-Hi Josua,
+Hi Nhat,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.19]
+[cannot apply to akpm-mm/mm-everything tj-cgroup/for-next tip/smp/core next-20260205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Josua-Mayer/phy-can-transceiver-rename-temporary-helper-function-to-avoid-conflict/20260208-234345
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20260208-rz-sdio-mux-v9-7-9a3be13c1280%40solid-run.com
-patch subject: [PATCH v9 7/7] mmc: host: renesas_sdhi_core: support selecting an optional mux
-config: s390-randconfig-r054-20260209 (https://download.01.org/0day-ci/archive/20260209/202602091037.wNIGJdbh-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602091037.wNIGJdbh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/swap-rearrange-the-swap-header-file/20260209-065842
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260208215839.87595-2-nphamcs%40gmail.com
+patch subject: [PATCH v3 01/20] mm/swap: decouple swap cache from physical swap infrastructure
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260209/202602091044.soVrWeDA-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602091044.soVrWeDA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602091037.wNIGJdbh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602091044.soVrWeDA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/mmc/host/renesas_sdhi_core.o: in function `renesas_sdhi_probe':
->> renesas_sdhi_core.c:(.text+0x1996): undefined reference to `devm_mux_state_get_optional_selected'
+>> mm/vmscan.c:715:3: error: call to undeclared function 'swap_cache_lock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     715 |                 swap_cache_lock_irq();
+         |                 ^
+>> mm/vmscan.c:762:3: error: call to undeclared function 'swap_cache_unlock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     762 |                 swap_cache_unlock_irq();
+         |                 ^
+   mm/vmscan.c:762:3: note: did you mean 'swap_cluster_unlock_irq'?
+   mm/swap.h:350:20: note: 'swap_cluster_unlock_irq' declared here
+     350 | static inline void swap_cluster_unlock_irq(struct swap_cluster_info *ci)
+         |                    ^
+   mm/vmscan.c:801:3: error: call to undeclared function 'swap_cache_unlock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     801 |                 swap_cache_unlock_irq();
+         |                 ^
+   3 errors generated.
+--
+>> mm/shmem.c:2168:2: error: call to undeclared function 'swap_cache_lock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2168 |         swap_cache_lock_irq();
+         |         ^
+>> mm/shmem.c:2173:2: error: call to undeclared function 'swap_cache_unlock_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2173 |         swap_cache_unlock_irq();
+         |         ^
+   2 errors generated.
+
+
+vim +/swap_cache_lock_irq +715 mm/vmscan.c
+
+   700	
+   701	/*
+   702	 * Same as remove_mapping, but if the folio is removed from the mapping, it
+   703	 * gets returned with a refcount of 0.
+   704	 */
+   705	static int __remove_mapping(struct address_space *mapping, struct folio *folio,
+   706				    bool reclaimed, struct mem_cgroup *target_memcg)
+   707	{
+   708		int refcount;
+   709		void *shadow = NULL;
+   710	
+   711		BUG_ON(!folio_test_locked(folio));
+   712		BUG_ON(mapping != folio_mapping(folio));
+   713	
+   714		if (folio_test_swapcache(folio)) {
+ > 715			swap_cache_lock_irq();
+   716		} else {
+   717			spin_lock(&mapping->host->i_lock);
+   718			xa_lock_irq(&mapping->i_pages);
+   719		}
+   720	
+   721		/*
+   722		 * The non racy check for a busy folio.
+   723		 *
+   724		 * Must be careful with the order of the tests. When someone has
+   725		 * a ref to the folio, it may be possible that they dirty it then
+   726		 * drop the reference. So if the dirty flag is tested before the
+   727		 * refcount here, then the following race may occur:
+   728		 *
+   729		 * get_user_pages(&page);
+   730		 * [user mapping goes away]
+   731		 * write_to(page);
+   732		 *				!folio_test_dirty(folio)    [good]
+   733		 * folio_set_dirty(folio);
+   734		 * folio_put(folio);
+   735		 *				!refcount(folio)   [good, discard it]
+   736		 *
+   737		 * [oops, our write_to data is lost]
+   738		 *
+   739		 * Reversing the order of the tests ensures such a situation cannot
+   740		 * escape unnoticed. The smp_rmb is needed to ensure the folio->flags
+   741		 * load is not satisfied before that of folio->_refcount.
+   742		 *
+   743		 * Note that if the dirty flag is always set via folio_mark_dirty,
+   744		 * and thus under the i_pages lock, then this ordering is not required.
+   745		 */
+   746		refcount = 1 + folio_nr_pages(folio);
+   747		if (!folio_ref_freeze(folio, refcount))
+   748			goto cannot_free;
+   749		/* note: atomic_cmpxchg in folio_ref_freeze provides the smp_rmb */
+   750		if (unlikely(folio_test_dirty(folio))) {
+   751			folio_ref_unfreeze(folio, refcount);
+   752			goto cannot_free;
+   753		}
+   754	
+   755		if (folio_test_swapcache(folio)) {
+   756			swp_entry_t swap = folio->swap;
+   757	
+   758			if (reclaimed && !mapping_exiting(mapping))
+   759				shadow = workingset_eviction(folio, target_memcg);
+   760			__swap_cache_del_folio(folio, swap, shadow);
+   761			memcg1_swapout(folio, swap);
+ > 762			swap_cache_unlock_irq();
+   763			put_swap_folio(folio, swap);
+   764		} else {
+   765			void (*free_folio)(struct folio *);
+   766	
+   767			free_folio = mapping->a_ops->free_folio;
+   768			/*
+   769			 * Remember a shadow entry for reclaimed file cache in
+   770			 * order to detect refaults, thus thrashing, later on.
+   771			 *
+   772			 * But don't store shadows in an address space that is
+   773			 * already exiting.  This is not just an optimization,
+   774			 * inode reclaim needs to empty out the radix tree or
+   775			 * the nodes are lost.  Don't plant shadows behind its
+   776			 * back.
+   777			 *
+   778			 * We also don't store shadows for DAX mappings because the
+   779			 * only page cache folios found in these are zero pages
+   780			 * covering holes, and because we don't want to mix DAX
+   781			 * exceptional entries and shadow exceptional entries in the
+   782			 * same address_space.
+   783			 */
+   784			if (reclaimed && folio_is_file_lru(folio) &&
+   785			    !mapping_exiting(mapping) && !dax_mapping(mapping))
+   786				shadow = workingset_eviction(folio, target_memcg);
+   787			__filemap_remove_folio(folio, shadow);
+   788			xa_unlock_irq(&mapping->i_pages);
+   789			if (mapping_shrinkable(mapping))
+   790				inode_lru_list_add(mapping->host);
+   791			spin_unlock(&mapping->host->i_lock);
+   792	
+   793			if (free_folio)
+   794				free_folio(folio);
+   795		}
+   796	
+   797		return 1;
+   798	
+   799	cannot_free:
+   800		if (folio_test_swapcache(folio)) {
+   801			swap_cache_unlock_irq();
+   802		} else {
+   803			xa_unlock_irq(&mapping->i_pages);
+   804			spin_unlock(&mapping->host->i_lock);
+   805		}
+   806		return 0;
+   807	}
+   808	
 
 -- 
 0-DAY CI Kernel Test Service
