@@ -1,65 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572B82EA173;
-	Mon,  9 Feb 2026 21:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4193A25DB12
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 21:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770672064; cv=none; b=YJNdohuwyAmB576n4UOMEofOPZYGftEAxvBJ4h8aspW7GMkfI6K1rlq85i2KxYZOpRJxpOdGyUS4mun5Bbv195g88FDnl8b6uLCfVwxAWUNddZRCZU0Y/5C6TvoVAyckGyN/Q385HJPgQGURXYt8n8OjWoQY2Nex8PzxwxLHcEE=
+	t=1770672553; cv=none; b=P14PxHWgYp3yfbb0L0gHUaeQbwVyOj0G+8Zmocpbupysz+0M/FNkbv9bVk7eBQre3c4l/7REVATTI00DGvMNsEfJ8Tt34ODEr2Rd0plvSRrB33/Eb3oA9QblOxD72GIz0h2DtaakfeTzotbTDXtffbjmWV3y2vrX6c83bXpUAgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770672064; c=relaxed/simple;
-	bh=Tl0X3h0YbIbrMYP/4PSqqKr9YSUO3iCbUFP9QAlD560=;
+	s=arc-20240116; t=1770672553; c=relaxed/simple;
+	bh=/LgTZaFAZUNNIfQzp485GxUHPXvcIVujUCeyp+eVHcM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lc9UIyW9DSUkzl7eVE9w8cgV/OPNlQCmu+n2B9pB59x1QmYv0KK1K6j7Vrv0SE2UpWT8w3FAZJR77yPsC24JiD0k6pJvFdzdPAtEtidRGufVlO0Jwx4ju/Sgcct6hTZHeOa6piKslkZtWs8mXFzFkJMKU1vLqnTtp/HYXG/utDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EHIHbUpk; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=L9zmJUNxCCLxaAeAl6Tx9FYWgnFlX2dBku1il9wI0PJixFlxBpv2UgnVGML5gxmxpWytvf3xTnccVVvxFOdMtoN6oLdB9Bp+bHx7MCU8mgaoVEHZ4R0TtVbbEopIFrhsa5PYKXdZ4D6QwdvGKiN3RwkwHuAJIop/hamDQjdb4jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ag4PY2H/; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EHIHbUpk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ag4PY2H/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770672062; x=1802208062;
+  t=1770672553; x=1802208553;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Tl0X3h0YbIbrMYP/4PSqqKr9YSUO3iCbUFP9QAlD560=;
-  b=EHIHbUpkELesNW0XQHtGAGBpgTXtoPVCW6ErcgmBUlFYol8S4GPPkyRm
-   2CsTcD/PwBIJ/vyAPZvkI3AS90UKtfnDxClNWCxQ+unvd6Licrx1z6YrV
-   0i2WpkBv6jbY6Z4sBcaYCZktDsV6XVCTiH8XWsZdBEN/Npy8qADnVPxPv
-   LWbhwbI6npcF5VLU2Tn5ACMO/yU18YcjuSek4vIj1QMGruwgIHxXBWE02
-   E5vWIneKG0Xt1PTaFP0t59s/2GlnlEq9pqVszyd3AlECO0zoRFPVTr8eM
-   oUIeC3pCVdkRq09tOurp34fKpQJcaxSHPaJWwCSrwZ4DKzKckVwwMru8y
+  bh=/LgTZaFAZUNNIfQzp485GxUHPXvcIVujUCeyp+eVHcM=;
+  b=ag4PY2H/ozyBrF13boF7EIHz0oNwGBzoyt26iV4mh8BMvLl++yCb7C4N
+   GJu+7QrGGYR3kb9s9mTWdNJOPOPzJcDwIK9urUWhhaUmjh7lt5NlbQMj9
+   1LLp6mgPzWPOB00vIpa8QWofwMN8gcbvb0AcGvTPQjEr9U1ooYWf8eEW9
+   dfBcZAXbJeUTzfPRuWoNuG23WpVnDpw6Hfz8OcDZMMrjqbn9Q+KiGRX1C
+   v9tiyM7afL3xisz58Xga7EInUmB9COM6EJVWigZeV5VYXXMBnesbTtSHn
+   LuSontS44lpD1DXX36YqZ0M7pC8ryEmqkFXmp6RQCwezINfabdGQdpHO5
    A==;
-X-CSE-ConnectionGUID: 4ju+n0DNQZOHoo5695S71A==
-X-CSE-MsgGUID: Lj3jhNDORQK4Kih4eRtTuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71004179"
+X-CSE-ConnectionGUID: SckWGKUdT/mMR81T1Tpdbw==
+X-CSE-MsgGUID: wuysHystT3Oe+DreoIwu8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="94436788"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="71004179"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 13:21:02 -0800
-X-CSE-ConnectionGUID: qiJVag5sQhC/4fsrAuP8CQ==
-X-CSE-MsgGUID: 2EiX+7RgRAOpeh1o1+No/Q==
+   d="scan'208";a="94436788"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 13:29:12 -0800
+X-CSE-ConnectionGUID: sEi5dmbeT16QxMnqFyoBcA==
+X-CSE-MsgGUID: pA6FxwJHSTe0l9IABqA+Tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="211714482"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2026 13:21:00 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="242322031"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 09 Feb 2026 13:29:05 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpYgj-00000000oKy-07Cx;
-	Mon, 09 Feb 2026 21:20:57 +0000
-Date: Tue, 10 Feb 2026 05:20:41 +0800
+	id 1vpYoU-000000000TN-1pHD;
+	Mon, 09 Feb 2026 21:28:58 +0000
+Date: Mon, 9 Feb 2026 22:28:43 +0100
 From: kernel test robot <lkp@intel.com>
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
-	matthew.auld@intel.com, christian.koenig@amd.com,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alexander.deucher@amd.com,
-	Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Subject: Re: [PATCH v3 2/2] drm/buddy: Add KUnit test for offset-aligned
- allocations
-Message-ID: <202602100509.jUETbEEY-lkp@intel.com>
-References: <20260209083051.13376-2-Arunpravin.PaneerSelvam@amd.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, corbet@lwn.net,
+	catalin.marinas@arm.com, will@kernel.org, chenhuacai@kernel.org,
+	kernel@xen0n.name, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	npiggin@gmail.com, chleroy@kernel.org, pjw@kernel.org,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com,
+	akpm@linux-foundation.org, bhe@redhat.com, vgoyal@redhat.com,
+	dyoung@redhat.com, rdunlap@infradead.org, pmladek@suse.com,
+	feng.tang@linux.alibaba.com, pawan.kumar.gupta@linux.intel.com,
+	kees@kernel.org, elver@google.com, arnd@arndb.de,
+	lirongqing@baidu.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 1/3] crash: Exclude crash kernel memory in crash core
+Message-ID: <202602092246.ZOtmGYe8-lkp@intel.com>
+References: <20260209095931.2813152-2-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,144 +73,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260209083051.13376-2-Arunpravin.PaneerSelvam@amd.com>
+In-Reply-To: <20260209095931.2813152-2-ruanjinjie@huawei.com>
 
-Hi Arunpravin,
+Hi Jinjie,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 9d757669b2b22cd224c334924f798393ffca537c]
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes arm64/for-next/core tip/x86/core next-20260209]
+[cannot apply to linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arunpravin-Paneer-Selvam/drm-buddy-Add-KUnit-test-for-offset-aligned-allocations/20260209-163512
-base:   9d757669b2b22cd224c334924f798393ffca537c
-patch link:    https://lore.kernel.org/r/20260209083051.13376-2-Arunpravin.PaneerSelvam%40amd.com
-patch subject: [PATCH v3 2/2] drm/buddy: Add KUnit test for offset-aligned allocations
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260210/202602100509.jUETbEEY-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100509.jUETbEEY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/crash-Exclude-crash-kernel-memory-in-crash-core/20260209-180157
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20260209095931.2813152-2-ruanjinjie%40huawei.com
+patch subject: [PATCH v4 1/3] crash: Exclude crash kernel memory in crash core
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260209/202602092246.ZOtmGYe8-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092246.ZOtmGYe8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602100509.jUETbEEY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602092246.ZOtmGYe8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/tests/gpu_buddy_test.c:46:7: error: too many arguments provided to function-like macro invocation
-                              "buddy_init failed\n");
-                              ^
-   include/kunit/test.h:1390:9: note: macro 'KUNIT_ASSERT_FALSE' defined here
-   #define KUNIT_ASSERT_FALSE(test, condition) \
-           ^
-   drivers/gpu/tests/gpu_buddy_test.c:45:2: error: use of undeclared identifier 'KUNIT_ASSERT_FALSE'; did you mean 'KUNIT_ASSERTION'?
-           KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-           ^~~~~~~~~~~~~~~~~~
-           KUNIT_ASSERTION
-   include/kunit/assert.h:27:2: note: 'KUNIT_ASSERTION' declared here
-           KUNIT_ASSERTION,
-           ^
->> drivers/gpu/tests/gpu_buddy_test.c:45:2: warning: expression result unused [-Wunused-value]
-           KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-           ^~~~~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
+   In file included from ./arch/powerpc/include/asm/kexec.h:126,
+                    from ./include/linux/kexec.h:38,
+                    from init/initramfs.c:604:
+>> ./arch/powerpc/include/asm/kexec_ranges.h:7:32: warning: 'struct crash_mem' declared inside parameter list will not be visible outside of this definition or declaration
+       7 | void sort_memory_ranges(struct crash_mem *mrngs, bool merge);
+         |                                ^~~~~~~~~
+--
+   In file included from ./arch/powerpc/include/asm/kexec.h:126,
+                    from ./include/linux/kexec.h:38,
+                    from arch/powerpc/kexec/ranges.c:20:
+>> ./arch/powerpc/include/asm/kexec_ranges.h:7:32: warning: 'struct crash_mem' declared inside parameter list will not be visible outside of this definition or declaration
+       7 | void sort_memory_ranges(struct crash_mem *mrngs, bool merge);
+         |                                ^~~~~~~~~
+>> arch/powerpc/kexec/ranges.c:146:6: error: conflicting types for 'sort_memory_ranges'; have 'void(struct crash_mem *, bool)' {aka 'void(struct crash_mem *, _Bool)'}
+     146 | void sort_memory_ranges(struct crash_mem *mem_rngs, bool merge)
+         |      ^~~~~~~~~~~~~~~~~~
+   ./arch/powerpc/include/asm/kexec_ranges.h:7:6: note: previous declaration of 'sort_memory_ranges' with type 'void(struct crash_mem *, bool)' {aka 'void(struct crash_mem *, _Bool)'}
+       7 | void sort_memory_ranges(struct crash_mem *mrngs, bool merge);
+         |      ^~~~~~~~~~~~~~~~~~
 
 
-vim +45 drivers/gpu/tests/gpu_buddy_test.c
+vim +146 arch/powerpc/kexec/ranges.c
 
-    23	
-    24	static void gpu_test_buddy_subtree_offset_alignment_stress(struct kunit *test)
-    25	{
-    26		struct gpu_buddy_block *block;
-    27		struct rb_node *node = NULL;
-    28		const u64 mm_size = SZ_2M;
-    29		const u64 alignments[] = {
-    30			SZ_1M,
-    31			SZ_512K,
-    32			SZ_256K,
-    33			SZ_128K,
-    34			SZ_64K,
-    35			SZ_32K,
-    36			SZ_16K,
-    37			SZ_8K,
-    38		};
-    39	
-    40		struct list_head allocated[ARRAY_SIZE(alignments)];
-    41		unsigned int i, order, max_subtree_align = 0;
-    42		struct gpu_buddy mm;
-    43		int ret, tree;
-    44	
-  > 45		KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-    46				   "buddy_init failed\n");
-    47	
-    48		for (i = 0; i < ARRAY_SIZE(allocated); i++)
-    49			INIT_LIST_HEAD(&allocated[i]);
-    50	
-    51		/*
-    52		 * Exercise subtree_max_alignment tracking by allocating blocks with descending
-    53		 * alignment constraints and freeing them in reverse order. This verifies that
-    54		 * free-tree augmentation correctly propagates the maximum offset alignment
-    55		 * present in each subtree at every stage.
-    56		 */
-    57	
-    58		for (i = 0; i < ARRAY_SIZE(alignments); i++) {
-    59			struct gpu_buddy_block *root = NULL;
-    60			unsigned int expected;
-    61			u64 align;
-    62	
-    63			align = alignments[i];
-    64			expected = ilog2(align) - 1;
-    65	
-    66			for (;;) {
-    67				ret = gpu_buddy_alloc_blocks(&mm,
-    68							     0, mm_size,
-    69							     SZ_4K, align,
-    70							     &allocated[i],
-    71							     0);
-    72				if (ret)
-    73					break;
-    74	
-    75				block = list_last_entry(&allocated[i],
-    76							struct gpu_buddy_block,
-    77							link);
-    78				KUNIT_EXPECT_EQ(test, gpu_buddy_block_offset(block) & (align - 1), 0ULL);
-    79			}
-    80	
-    81			for (order = mm.max_order + 1; order-- > 0 && !root; ) {
-    82				for (tree = 0; tree < 2; tree++) {
-    83					node = mm.free_trees[tree][order].rb_node;
-    84					if (node) {
-    85						root = container_of(node,
-    86								    struct gpu_buddy_block,
-    87								    rb);
-    88						break;
-    89					}
-    90				}
-    91			}
-    92	
-    93			KUNIT_ASSERT_NOT_NULL(test, root);
-    94			KUNIT_EXPECT_EQ(test, root->subtree_max_alignment, expected);
-    95		}
-    96	
-    97		for (i = ARRAY_SIZE(alignments); i-- > 0; ) {
-    98			gpu_buddy_free_list(&mm, &allocated[i], 0);
-    99	
-   100			for (order = 0; order <= mm.max_order; order++) {
-   101				for (tree = 0; tree < 2; tree++) {
-   102					node = mm.free_trees[tree][order].rb_node;
-   103					if (!node)
-   104						continue;
-   105	
-   106					block = container_of(node, struct gpu_buddy_block, rb);
-   107					max_subtree_align = max(max_subtree_align, block->subtree_max_alignment);
-   108				}
-   109			}
-   110	
-   111			KUNIT_EXPECT_GE(test, max_subtree_align, ilog2(alignments[i]));
-   112		}
-   113	
-   114		gpu_buddy_fini(&mm);
-   115	}
-   116	
+180adfc532a83c Hari Bathini 2020-07-29  138  
+180adfc532a83c Hari Bathini 2020-07-29  139  /**
+180adfc532a83c Hari Bathini 2020-07-29  140   * sort_memory_ranges - Sorts the given memory ranges list.
+180adfc532a83c Hari Bathini 2020-07-29  141   * @mem_rngs:           Range list to sort.
+180adfc532a83c Hari Bathini 2020-07-29  142   * @merge:              If true, merge the list after sorting.
+180adfc532a83c Hari Bathini 2020-07-29  143   *
+180adfc532a83c Hari Bathini 2020-07-29  144   * Returns nothing.
+180adfc532a83c Hari Bathini 2020-07-29  145   */
+180adfc532a83c Hari Bathini 2020-07-29 @146  void sort_memory_ranges(struct crash_mem *mem_rngs, bool merge)
+180adfc532a83c Hari Bathini 2020-07-29  147  {
+180adfc532a83c Hari Bathini 2020-07-29  148  	int i;
+180adfc532a83c Hari Bathini 2020-07-29  149  
+180adfc532a83c Hari Bathini 2020-07-29  150  	if (!mem_rngs)
+180adfc532a83c Hari Bathini 2020-07-29  151  		return;
+180adfc532a83c Hari Bathini 2020-07-29  152  
+180adfc532a83c Hari Bathini 2020-07-29  153  	/* Sort the ranges in-place */
+180adfc532a83c Hari Bathini 2020-07-29  154  	sort(&(mem_rngs->ranges[0]), mem_rngs->nr_ranges,
+180adfc532a83c Hari Bathini 2020-07-29  155  	     sizeof(mem_rngs->ranges[0]), rngcmp, NULL);
+180adfc532a83c Hari Bathini 2020-07-29  156  
+180adfc532a83c Hari Bathini 2020-07-29  157  	if (merge)
+180adfc532a83c Hari Bathini 2020-07-29  158  		__merge_memory_ranges(mem_rngs);
+180adfc532a83c Hari Bathini 2020-07-29  159  
+180adfc532a83c Hari Bathini 2020-07-29  160  	/* For debugging purpose */
+180adfc532a83c Hari Bathini 2020-07-29  161  	pr_debug("Memory ranges:\n");
+180adfc532a83c Hari Bathini 2020-07-29  162  	for (i = 0; i < mem_rngs->nr_ranges; i++) {
+180adfc532a83c Hari Bathini 2020-07-29  163  		pr_debug("\t[%03d][%#016llx - %#016llx]\n", i,
+180adfc532a83c Hari Bathini 2020-07-29  164  			 mem_rngs->ranges[i].start,
+180adfc532a83c Hari Bathini 2020-07-29  165  			 mem_rngs->ranges[i].end);
+180adfc532a83c Hari Bathini 2020-07-29  166  	}
+180adfc532a83c Hari Bathini 2020-07-29  167  }
+180adfc532a83c Hari Bathini 2020-07-29  168  
 
 -- 
 0-DAY CI Kernel Test Service
