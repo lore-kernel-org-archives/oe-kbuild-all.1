@@ -1,156 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B09385EC6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 17:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE662D8767
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Feb 2026 17:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770657176; cv=none; b=lH1E0IQQIcmmkfb3B4IuPbnqVV4wydRFHc7l+2t6rGR9rI0wni5iO0sDfG6PRP1sKpEJ5ulJ4z5FmBMbza9lmZzm7iglEhqIJv0EQVtmoDz0fgcvthFizd+eXwvUorOHz4Sx+Lxl9CZT7TZi5SrmAC3DWiYu1mKFy+Z8E2KYvaY=
+	t=1770658552; cv=none; b=HdTq/A0ihDWj+gd3mW+wo8+43cQwTAfDHORFMVvgLRr9b3z95nm6fVlZXGfGBIz/L54nvimX/mFt8mOlsiFtwFpcEOHTssYAtdoDetjJY1FZh/vOPm+CvnnkjWGONGOnpkIzIhPYRjWsEjMtx5yzvtawxeEq4j9fyp7vWUJQniE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770657176; c=relaxed/simple;
-	bh=8Sub0P0wBitsQtcQWQoClr/YneNNLGxR7ML8aT1JB/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U27+Z+4QpBhMK1biKZkVUoOjT/hkdeVLENV3haARou8LADhi/aD+HjbiKDBYGg8Gs9f85NfLKN3Hz5h7AQuefcFwIeAQAtnX3jQeuc50ZvA0uuISGWyFNPLBbBcgW4afzzAW2B4ZTjvhGyOrWX4OPXy9Km4q4qmyZvTyB6uPbLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LHC4m97+; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1770658552; c=relaxed/simple;
+	bh=EVNEOsSqCrglGTokDOgirFkgBDnfB+3J7NuJI5kojPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uAbcMk0jyViG7G/rkkwiDKUiO+HOXDzuHXwaaP1TQ7juzJ4bNNFMRW8oMvZykyiCFRO20PdpZyv2T/6mM2WypwiK9glPpPxkbMOSzq5RH8NEUPYi0aAUMU7kR6vHtfeijAf+uEq+gnW62kXZFwtVHp/EXgVzvQHGvwIKFZVPKS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQopX/dX; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LHC4m97+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQopX/dX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770657176; x=1802193176;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8Sub0P0wBitsQtcQWQoClr/YneNNLGxR7ML8aT1JB/s=;
-  b=LHC4m97+tJGsyDyCZZ3EnrUVfgr0kLbTygoZ2taSLjVFlhpAXNASivlY
-   A75UGqHUm2zM4qw79+sv6eq+/QWgB1R4LynYt5muKecY8khZnrcJ9zALz
-   ie4+QSVrmzRsgcvLMnefgFONcIXUdR/JhmacPX6c2z1JO+/2OnxezXaWF
-   vatCBZLwQBlPmI0OP2H2oFt2kLLeTOtzZSKfiUOvMz+Vky3iSmZMnI+yu
-   jWCyJbNLcU4cxU/o9vvwKHNWfWqlLo438ILpEp6doAc5KOPPaN42PbVaW
-   TRsEponN29Un3c5dX+s/3ebt/Mhe0+1rjl3x94YwfhAGfsUvLyGHJO8gj
-   w==;
-X-CSE-ConnectionGUID: szVmzxTaTIePDUXNDfwNqg==
-X-CSE-MsgGUID: B8VsFQ9rSnGzd18xi0HOGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71812471"
+  t=1770658552; x=1802194552;
+  h=date:from:to:cc:subject:message-id;
+  bh=EVNEOsSqCrglGTokDOgirFkgBDnfB+3J7NuJI5kojPQ=;
+  b=GQopX/dXQSt35ZQnR2/+tqGsqbxcqijcmJ2pebdy0KdNv50HaZshAC24
+   PrvBa2MWH29g7tTTgvJVnypBQWUXXD7Yzx7Xe0/VnB6aikxtAgj0hmH2g
+   y7rIyE4Ch2cl8SnDbzev+zZvRq1JHtvWkyFRYk2b7CDPqsfiMmCRS1a9M
+   XjBAH2YESddDfHQg5o6dB25yEGHfe7OdJ1zMCweDThKlsZvvgJZu6Mw7c
+   XAGgn5MRASsuGO1TBOG9yawQ/KL7+qKgpU0Nba4fRHLjx2e7evbx8gYXX
+   JQV98i2SZJ1XuiRyoTIi+GBu6yuUpawUrJwuNY99zHSn6h06GKCH6UCce
+   A==;
+X-CSE-ConnectionGUID: YXjmxyVOSD+QXpCr7akJbg==
+X-CSE-MsgGUID: yKn1Tt0mS/+jGkyeDEYr2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="74375231"
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="71812471"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 09:12:56 -0800
-X-CSE-ConnectionGUID: kodm8n0eQkyUGfi1VPkc5A==
-X-CSE-MsgGUID: Q2xaUuuRTp+sireEBbIn9g==
+   d="scan'208";a="74375231"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 09:35:52 -0800
+X-CSE-ConnectionGUID: YYhaM0E+R1eca07cuVAvOQ==
+X-CSE-MsgGUID: VholjdQtRYitHuyMDsoK8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="211699525"
+   d="scan'208";a="216622490"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Feb 2026 09:12:49 -0800
+  by orviesa005.jf.intel.com with ESMTP; 09 Feb 2026 09:35:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpUoY-00000000o9a-0q0J;
-	Mon, 09 Feb 2026 17:12:46 +0000
-Date: Tue, 10 Feb 2026 01:12:17 +0800
+	id 1vpVAp-00000000oB9-3NW6;
+	Mon, 09 Feb 2026 17:35:47 +0000
+Date: Tue, 10 Feb 2026 01:35:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nhat Pham <nphamcs@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	hannes@cmpxchg.org, hughd@google.com, yosry.ahmed@linux.dev,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, len.brown@intel.com,
-	chengming.zhou@linux.dev, kasong@tencent.com, chrisl@kernel.org,
-	huang.ying.caritas@gmail.com, ryan.roberts@arm.com,
-	shikemeng@huaweicloud.com, viro@zeniv.linux.org.uk,
-	baohua@kernel.org, bhe@redhat.com, osalvador@suse.de,
-	lorenzo.stoakes@oracle.com, christophe.leroy@csgroup.eu,
-	pavel@kernel.org, kernel-team@meta.com,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-pm@vger.kernel.org, peterx@redhat.com, riel@surriel.com,
-	joshua.hahnjy@gmail.com
-Subject: Re: [PATCH v3 09/20] mm: swap: allocate a virtual swap slot for each
- swapped out page
-Message-ID: <202602100110.Au8uHgc8-lkp@intel.com>
-References: <20260208215839.87595-10-nphamcs@gmail.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 112/124] mm/damon/core.c:1862:25: error: 'c'
+ undeclared
+Message-ID: <202602100155.sDqMXews-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260208215839.87595-10-nphamcs@gmail.com>
 
-Hi Nhat,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.19]
-[cannot apply to akpm-mm/mm-everything tj-cgroup/for-next tip/smp/core next-20260205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/swap-rearrange-the-swap-header-file/20260209-065842
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260208215839.87595-10-nphamcs%40gmail.com
-patch subject: [PATCH v3 09/20] mm: swap: allocate a virtual swap slot for each swapped out page
-config: s390-randconfig-r134-20260209 (https://download.01.org/0day-ci/archive/20260210/202602100110.Au8uHgc8-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100110.Au8uHgc8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   a8c204a2a82057d70dd8944476dd043dc52561ed
+commit: 7fdffc23ed84ea44a9f15f71d15b00a94f326acd [112/124] mm/damon/core: unify damon_warn_fix_nr_accesses_corruption() with damon_verify_reset_aggregated()
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260210/202602100155.sDqMXews-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100155.sDqMXews-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602100110.Au8uHgc8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602100155.sDqMXews-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/vswap.c:653:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct local_lock_t * @@
-   mm/vswap.c:653:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/vswap.c:653:9: sparse:     got struct local_lock_t *
->> mm/vswap.c:653:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct local_lock_t * @@
-   mm/vswap.c:653:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/vswap.c:653:9: sparse:     got struct local_lock_t *
-   mm/vswap.c:665:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct local_lock_t * @@
-   mm/vswap.c:665:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/vswap.c:665:9: sparse:     got struct local_lock_t *
-   mm/vswap.c:665:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct local_lock_t * @@
-   mm/vswap.c:665:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/vswap.c:665:9: sparse:     got struct local_lock_t *
-   mm/vswap.c:182:36: sparse: sparse: context imbalance in 'vswap_iter' - unexpected unlock
-   mm/vswap.c:284:17: sparse: sparse: context imbalance in 'vswap_alloc' - different lock contexts for basic block
-   mm/vswap.c:413:19: sparse: sparse: context imbalance in 'vswap_free' - unexpected unlock
-   mm/vswap.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'folio_alloc_swap' - unexpected unlock
-   mm/vswap.c:570:9: sparse: sparse: context imbalance in 'swp_entry_to_swp_slot' - unexpected unlock
+Note: the sj/damon/next HEAD a8c204a2a82057d70dd8944476dd043dc52561ed builds fine.
+      It only hurts bisectability.
 
-vim +653 mm/vswap.c
+All errors (new ones prefixed by >>):
 
-   643	
-   644	static int vswap_cpu_dead(unsigned int cpu)
-   645	{
-   646		struct percpu_vswap_cluster *percpu_cluster;
-   647		struct vswap_cluster *cluster;
-   648		int order;
-   649	
-   650		percpu_cluster = per_cpu_ptr(&percpu_vswap_cluster, cpu);
-   651	
-   652		rcu_read_lock();
- > 653		local_lock(&percpu_cluster->lock);
-   654		for (order = 0; order < SWAP_NR_ORDERS; order++) {
-   655			cluster = percpu_cluster->clusters[order];
-   656			if (cluster) {
-   657				percpu_cluster->clusters[order] = NULL;
-   658				spin_lock(&cluster->lock);
-   659				cluster->cached = false;
-   660				if (refcount_dec_and_test(&cluster->refcnt))
-   661					vswap_cluster_free(cluster);
-   662				spin_unlock(&cluster->lock);
-   663			}
-   664		}
-   665		local_unlock(&percpu_cluster->lock);
-   666		rcu_read_unlock();
-   667	
-   668		return 0;
-   669	}
-   670	
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/sh/include/asm/bug.h:112,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/sh/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/cgroup.h:12,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/damon.h:11,
+                    from mm/damon/core.c:10:
+   mm/damon/core.c: In function 'damon_warn_fix_nr_accesses_corruption':
+>> mm/damon/core.c:1862:25: error: 'c' undeclared (first use in this function)
+    1862 |                         c->passed_sample_intervals,
+         |                         ^
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:555:9: note: in expansion of macro 'printk'
+     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   mm/damon/core.c:1861:9: note: in expansion of macro 'pr_err'
+    1861 |         pr_err("passed_sis %lu next_aggregation_sis %lu\n",
+         |         ^~~~~~
+   mm/damon/core.c:1862:25: note: each undeclared identifier is reported only once for each function it appears in
+    1862 |                         c->passed_sample_intervals,
+         |                         ^
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:555:9: note: in expansion of macro 'printk'
+     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   mm/damon/core.c:1861:9: note: in expansion of macro 'pr_err'
+    1861 |         pr_err("passed_sis %lu next_aggregation_sis %lu\n",
+         |         ^~~~~~
+
+
+vim +/c +1862 mm/damon/core.c
+
+89796f03081328 SeongJae Park 2025-12-02  1844  
+591c4c78be0636 SeongJae Park 2025-05-12  1845  /*
+591c4c78be0636 SeongJae Park 2025-05-12  1846   * Warn and fix corrupted ->nr_accesses[_bp] for investigations and preventing
+591c4c78be0636 SeongJae Park 2025-05-12  1847   * the problem being propagated.
+591c4c78be0636 SeongJae Park 2025-05-12  1848   */
+591c4c78be0636 SeongJae Park 2025-05-12  1849  static void damon_warn_fix_nr_accesses_corruption(struct damon_region *r)
+591c4c78be0636 SeongJae Park 2025-05-12  1850  {
+591c4c78be0636 SeongJae Park 2025-05-12  1851  	if (r->nr_accesses_bp == r->nr_accesses * 10000)
+591c4c78be0636 SeongJae Park 2025-05-12  1852  		return;
+7fdffc23ed84ea SeongJae Park 2026-02-04  1853  #ifndef CONFIG_DAMON_HARDENED
+591c4c78be0636 SeongJae Park 2025-05-12  1854  	WARN_ONCE(true, "invalid nr_accesses_bp at reset: %u %u\n",
+591c4c78be0636 SeongJae Park 2025-05-12  1855  			r->nr_accesses_bp, r->nr_accesses);
+591c4c78be0636 SeongJae Park 2025-05-12  1856  	r->nr_accesses_bp = r->nr_accesses * 10000;
+7fdffc23ed84ea SeongJae Park 2026-02-04  1857  #else
+5b9f4fef2cb618 SeongJae Park 2026-01-03  1858  	pr_err("reset time invalid region found!\n");
+5b9f4fef2cb618 SeongJae Park 2026-01-03  1859  	pr_err("nr_accesses_bp %u last_nr_acceses %u\n",
+5b9f4fef2cb618 SeongJae Park 2026-01-03  1860  			r->nr_accesses_bp, r->last_nr_accesses);
+5b9f4fef2cb618 SeongJae Park 2026-01-03  1861  	pr_err("passed_sis %lu next_aggregation_sis %lu\n",
+5b9f4fef2cb618 SeongJae Park 2026-01-03 @1862  			c->passed_sample_intervals,
+5b9f4fef2cb618 SeongJae Park 2026-01-03  1863  			c->next_aggregation_sis);
+5b9f4fef2cb618 SeongJae Park 2026-01-03  1864  	BUG();
+5b9f4fef2cb618 SeongJae Park 2026-01-03  1865  #endif
+7fdffc23ed84ea SeongJae Park 2026-02-04  1866  }
+5b9f4fef2cb618 SeongJae Park 2026-01-03  1867  
+
+:::::: The code at line 1862 was first introduced by commit
+:::::: 5b9f4fef2cb618ee597b3345dee579340e8d5d43 mm/damon/core: add damon_reset_aggregated() hardening
+
+:::::: TO: SeongJae Park <sj@kernel.org>
+:::::: CC: SeongJae Park <sj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
