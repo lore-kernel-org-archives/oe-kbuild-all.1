@@ -1,68 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5850D372B21;
-	Tue, 10 Feb 2026 17:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BFA319850;
+	Tue, 10 Feb 2026 18:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770745919; cv=none; b=NjGQtKqFJ/k+sJWJQrZvWYZ3d3e7Rjgf7rnT4iCrAqDF9j6UjaSZLOdkwNgSI3ovwX+9Mm9hoXpsxLe7hXRYTzZ8z+/0bdYtKo/61OeEsql+sUxWeAy+9Kji4CSINWzKxzs6ZNmzAPAtfKc5CP28UYzOJeDNH0nZ6ZKUfxF9yUU=
+	t=1770746640; cv=none; b=fP31hBezpuq+WyrbAHOp86peHvN3u1AJgOUkIDI9+ggTzRIbDLyjbFMwGJHjrxJ2Q+oqvvIa2BhTGSCnVRY188RFQp2k7lzRtgTQLY+SrkA2j93FbkpEVz9WpSsuKHV+/oO+MUPagQxxgltm5qewHqZaPW/PmaHIYKtmfxmVfJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770745919; c=relaxed/simple;
-	bh=qA06aqPLShHsei2q4s7sufdt3dRHU5s7RVveGATdUlY=;
+	s=arc-20240116; t=1770746640; c=relaxed/simple;
+	bh=RCF0n7XHDUGKM+cjf33SZOFc4i4PkHY0jF5mOX8LCFE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BLtU/VC5/arROnKEVEqMIV/Np1i+/k0xXgpZ8mY6yjUsriOWeKtU/QNUoC7fodrMm87kzcwM17DzpKyhAOyD8D+IzOAXbZQbzjctg8Q+S2eDuj0TxcRQH4mMiSkhIdi3U/lFgVHR2EeGeZBmsMOHd7HQOemP84TTy08JhnbTEoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U5tDKn5p; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=CKpoqNPILaKezeS3jKPCiolCWU7z1TRAil3FAk/2SOcU4JJ/J0a3Md68u3F67xyq3Oe+16USu9mPJR/TGvJfyzvw72S52W/Qxx+c9g9X+I3AeqUBeoWTYcVK+ZLZUVIATt/hqVdMvh98wlgh8vbszPp1nXQB4MstGdpk8y2rqxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hMXifKy9; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U5tDKn5p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hMXifKy9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770745918; x=1802281918;
+  t=1770746638; x=1802282638;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qA06aqPLShHsei2q4s7sufdt3dRHU5s7RVveGATdUlY=;
-  b=U5tDKn5pe9Huq749TSHvIeaTGvQ598+9GEQSY/KmxYObscu3XMkWAR7W
-   3qsGW4isHRYpKwelVIlx2NfAJNNeTSLxwEAugNYAMr8zQcNYdeofknwiq
-   PNaabKiIxO6Q+IMHUuggZnu74cjRtKxK39ANkLIyhQA0jnZ7tG5/gE0Rn
-   ULhjA2inFWanVXEwvw5+p8BjM9AgW9Ei4IzIBEZ7esFDohRSnhZ8m+I45
-   o1EzRA8jwbVF0UK9nTiFAcN3iAp0QKRmWbyX8MDLX5gvUIm3ZwMUvXBqG
-   2AT7vrysyv5Dps7eeSyIPQ15nVtjzZ9UcRP1+qptmXL6emuaHt9wHP6Kw
+  bh=RCF0n7XHDUGKM+cjf33SZOFc4i4PkHY0jF5mOX8LCFE=;
+  b=hMXifKy9/4SQOzymUlvohR5vdNAbCI4mOmkNl22JoiYWqiyw+T3vhcxF
+   Mzgq1N01Bz4+fVYVJ+ScXLy5GvYbtnahf9iUEw3ORuWQ2rq8bPsZbRsuV
+   IDrr189WtjNnypWhg7trcHpHEjoV3256hwPI67TyPRGLlSixQrijd2Y7e
+   3DFS0Dj5pSTZ8v2aADSErNFLBoEOZ3FvcHtIcQJVk9SBm7UmydZT2HX9L
+   Sczy+nd0Z6WD0mtHWcGYLQxo3X24rbUZM6ZDNN4FLNqkLtv+x3jCzHaXi
+   Cdog2lfydHkspxIs6XcsP6ps56MGZX+GElbm2UEnWYXTRg8GqrGpUlNMA
    w==;
-X-CSE-ConnectionGUID: w6nSWZ5ZSgyh3x2mCJQk2g==
-X-CSE-MsgGUID: ullgCn8AQSirwmkkp1IuQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="89473475"
+X-CSE-ConnectionGUID: meOjuHjkQaK5At1B/tlgyw==
+X-CSE-MsgGUID: CnrNALMjT4yJ42H7uw7VYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75728596"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="89473475"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 09:51:55 -0800
-X-CSE-ConnectionGUID: 5euT5pk4QyyxthZ+F314CA==
-X-CSE-MsgGUID: DBvC165RT2emIBVDWIIp4A==
+   d="scan'208";a="75728596"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 10:03:57 -0800
+X-CSE-ConnectionGUID: zOeotsxLRKmN8lqHs702VQ==
+X-CSE-MsgGUID: 7I9nDF1BShClWzSGAashTg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216495371"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Feb 2026 09:51:51 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 10 Feb 2026 10:03:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vprtt-00000000pH0-0MlI;
-	Tue, 10 Feb 2026 17:51:49 +0000
-Date: Wed, 11 Feb 2026 01:51:22 +0800
+	id 1vps5V-00000000pHk-2Bfq;
+	Tue, 10 Feb 2026 18:03:49 +0000
+Date: Wed, 11 Feb 2026 02:03:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>, akpm@linux-foundation.org,
-	david@kernel.org, lorenzo.stoakes@oracle.com,
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	baohua@kernel.org, ackerleytng@google.com, seanjc@google.com,
-	pbonzini@redhat.com, michael.roth@amd.com, vannapurve@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+33a04338019ac7e43a44@syzkaller.appspotmail.com
-Subject: Re: [PATCH] mm: thp: Deny THP for guest_memfd and secretmem in
- file_thp_enabled()
-Message-ID: <202602110124.Y72YFz1K-lkp@intel.com>
-References: <20260209033558.22943-1-kartikey406@gmail.com>
+To: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sumit.semwal@linaro.org,
+	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+	jstultz@google.com, tjmercier@google.com, christian.koenig@amd.com,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, jgg@ziepe.ca,
+	leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com,
+	catalin.marinas@arm.com, aneesh.kumar@kernel.org,
+	suzuki.poulose@arm.com, steven.price@arm.com,
+	thomas.lendacky@amd.com, john.allen@amd.com, ashish.kalra@amd.com,
+	suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
+Subject: Re: [PATCH 5/5] dma-buf: heaps: system: add an option to allocate
+ explicitly decrypted memory
+Message-ID: <202602110149.tBUPP0bh-lkp@intel.com>
+References: <20260209153809.250835-6-jiri@resnulli.us>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,59 +71,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260209033558.22943-1-kartikey406@gmail.com>
+In-Reply-To: <20260209153809.250835-6-jiri@resnulli.us>
 
-Hi Deepanshu,
+Hi Jiri,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip trace/for-next linus/master v6.19]
+[cannot apply to next-20260209]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/mm-thp-Deny-THP-for-guest_memfd-and-secretmem-in-file_thp_enabled/20260209-113800
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260209033558.22943-1-kartikey406%40gmail.com
-patch subject: [PATCH] mm: thp: Deny THP for guest_memfd and secretmem in file_thp_enabled()
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260211/202602110124.Y72YFz1K-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110124.Y72YFz1K-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Pirko/dma-mapping-avoid-random-addr-value-print-out-on-error-path/20260209-234013
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260209153809.250835-6-jiri%40resnulli.us
+patch subject: [PATCH 5/5] dma-buf: heaps: system: add an option to allocate explicitly decrypted memory
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260211/202602110149.tBUPP0bh-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110149.tBUPP0bh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602110124.Y72YFz1K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602110149.tBUPP0bh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/huge_memory.c:96:30: error: use of undeclared identifier 'GUEST_MEMFD_MAGIC'
-      96 |         if (inode->i_sb->s_magic == GUEST_MEMFD_MAGIC ||
-         |                                     ^
->> mm/huge_memory.c:97:30: error: use of undeclared identifier 'SECRETMEM_MAGIC'
-      97 |             inode->i_sb->s_magic == SECRETMEM_MAGIC)
-         |                                     ^
-   2 errors generated.
+   drivers/dma-buf/heaps/system_heap.c: In function 'system_heap_set_page_decrypted':
+>> drivers/dma-buf/heaps/system_heap.c:66:15: error: implicit declaration of function 'set_memory_decrypted' [-Wimplicit-function-declaration]
+      66 |         ret = set_memory_decrypted(addr, nr_pages);
+         |               ^~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/heaps/system_heap.c: In function 'system_heap_set_page_encrypted':
+>> drivers/dma-buf/heaps/system_heap.c:80:15: error: implicit declaration of function 'set_memory_encrypted' [-Wimplicit-function-declaration]
+      80 |         ret = set_memory_encrypted(addr, nr_pages);
+         |               ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/GUEST_MEMFD_MAGIC +96 mm/huge_memory.c
+vim +/set_memory_decrypted +66 drivers/dma-buf/heaps/system_heap.c
 
+    59	
+    60	static int system_heap_set_page_decrypted(struct page *page)
+    61	{
+    62		unsigned long addr = (unsigned long)page_address(page);
+    63		unsigned int nr_pages = 1 << compound_order(page);
+    64		int ret;
+    65	
+  > 66		ret = set_memory_decrypted(addr, nr_pages);
+    67		if (ret)
+    68			pr_warn_ratelimited("dma-buf system heap: failed to decrypt page at %p\n",
+    69					    page_address(page));
+    70	
+    71		return ret;
+    72	}
+    73	
+    74	static int system_heap_set_page_encrypted(struct page *page)
+    75	{
+    76		unsigned long addr = (unsigned long)page_address(page);
+    77		unsigned int nr_pages = 1 << compound_order(page);
+    78		int ret;
+    79	
+  > 80		ret = set_memory_encrypted(addr, nr_pages);
+    81		if (ret)
+    82			pr_warn_ratelimited("dma-buf system heap: failed to re-encrypt page at %p, leaking memory\n",
+    83					    page_address(page));
     84	
-    85	static inline bool file_thp_enabled(struct vm_area_struct *vma)
-    86	{
-    87		struct inode *inode;
-    88	
-    89		if (!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS))
-    90			return false;
-    91	
-    92		if (!vma->vm_file)
-    93			return false;
-    94	
-    95		inode = file_inode(vma->vm_file);
-  > 96		if (inode->i_sb->s_magic == GUEST_MEMFD_MAGIC ||
-  > 97		    inode->i_sb->s_magic == SECRETMEM_MAGIC)
-    98			return false;
-    99	
-   100		return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
-   101	}
-   102	
+    85		return ret;
+    86	}
+    87	
 
 -- 
 0-DAY CI Kernel Test Service
