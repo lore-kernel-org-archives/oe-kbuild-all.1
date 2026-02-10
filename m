@@ -1,189 +1,91 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CE021CFF6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 06:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A5A32E15F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 06:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770705114; cv=none; b=Ol0b7gdE+p0/K6zSMyS05rZ7EQ7YiwAMfd+/KQfi3ExBzjxCQF71JrDqXVHUp2W6M9uXP1cKlWEyod+VVv+O30+75QjZ9mao/Sk36SgybnAuY8ocAAFTt+nUAMN75aOs/1SpTDtIflht9CeCmxvHr0DIcABiTUVUpspWzHxrfac=
+	t=1770705569; cv=none; b=oogiyBWOQAUGlkl10nwkAves0wUGVLqi/HEKnGgN0y8Q7woU/QJhhGo07ZtS28yMaFMhOAC9iU7aEoqShICxNpAKw+xmJiliKKgtRc3j+CWGvA7A2pPTS/Z8jEH5A/0QY6ggyr8u0OWuRy4CdgP7meG5qJNIa1Ml0Gi04AbuTVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770705114; c=relaxed/simple;
-	bh=+dY5A7nwRVBRBd7BJ1hDL2J+oBIHOmLAIhWPxMtTN4o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LdoDhA5vCSB1U4sginfE+bOCYEuQf3lcX6u+KbRzmZprCJILVLvUEbs7IjvE2j6FaXsd3OEKs+o2+Ajs8MK1kE/wh7K1Ek7ZTxC98nxhlIpJzjrt3VJCOuJFqvhqER2aBqmcr+VJBzmVfXxDlfQwxTjCg3G+ScOR2zusmcOZXJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oYZc1Kc3; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770705569; c=relaxed/simple;
+	bh=sz5VihAueaqum5wYTgww8H9zVedSGsLr/iIXpbB2h8s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NgkVf86KXX7OD2Tj0ivYytSE6AiMpY/frbDDTgOZE76LPu3pxwjhNKVUUp+XJobkgiUhC2BB52UmlWROvmEyg02KfljVtaUMGBIXdCyyu9kYSJpSrpx2Y/kEJvjHEASEpP5uCDNPgeenrVjyPTWz65idI7wXyXZa3aKUpMU0IDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lLenuCj8; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oYZc1Kc3"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so31051335e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Feb 2026 22:31:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770705110; x=1771309910; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PuIvHjahYrqUwfgodntxdfFSIIlE9ggIgaeNW8+YxZc=;
-        b=oYZc1Kc3Hw0CT2IPsF8cLE8qUP3V1ESNsTWB9bI1H7vhWiWL+hjQpmWX4AxZ802a4/
-         p3OrLPfuGQ2KZ+NsRzCSbPW6+Zc7WS0NYEmdsbZFoabTUjpm+FuEN5zsaq7lUCnFk/xe
-         jmobnfHyHoNHtWOPunfqh4QCp30quUgcVaZp8KZeSHZKQOksE8wCAllETlGhowx3o05e
-         tH/QSNUWl28sDcgiwkHJwm2Gj2ln98qY9iUF0hK0xVf0bnxlnestsOH/MwdjBEZq9h+v
-         Se0frXGx65eTlbNQCtoAIgSELASkISSqxUpkSR54oypVGcV8b9kvJOblT3F18NSwEja+
-         bB7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770705110; x=1771309910;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PuIvHjahYrqUwfgodntxdfFSIIlE9ggIgaeNW8+YxZc=;
-        b=crt4irx+j0P2/BAlwrgERkv7wrOjr0Z/0rMIJyk5DUzoqNyqJMdXAGJE4AS7JOW9vz
-         /8SWURvBy8XjHZYhoP98xQ0lFpcvJW4xKDYpN4HZJ/8tYQLF58fTlVf5ebjsnM0BYS61
-         WN6J0sHLGeOnmqJMW4XTVdzTMoP7joPKBES5UZEW56eyg1IrFIEi3eqsjwiAaXXiwev8
-         R0QhLfmDMc/IdfkV6jMCCe3UK5RvqzNBoxeLocsQxCyaBpqeXpo+Q6EszqueHrV65cgd
-         FTrPVBCdeJqAOLyc2g/GT+7PfvdGLAAAHnyOLjKBOvYx/aKnVNYo0vR2UIlk7ID6CRDi
-         cIJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ1h4PIKNVarAtA/5KA7HkEAFRJntqIwPZ6aM3i5jKttBx4kVtdosqsN92jz73IW4P6VL/R1cdhYEqfIgG@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1a1n04iVQXco6Jl2nwKwt65TLUg+BHEV8hcgfs5FjJeawH85u
-	CEwmSnGeQUqfgxGRXdKksGRKR3goRrNau8+eqNvJrIG5EF8uqyU8yzhCjJvCzF5aSU8=
-X-Gm-Gg: AZuq6aJYYc4ol8OPWMWPpnkSVY2VNowJqSTWGEYuZ86aTlSZ5LMjx9E42gZLnMHXlBA
-	BsAl59qW3DN5lRNBk5tOn4nH4cb5h8LQy8rV5iw9kIdbfhj1DqHYFhDMG/PoYT+RR5FPZyU8zqr
-	3QieCbnXak58Wgi8+k/EvAIldb9kYaIzGVJfup8CPfb5cpjiizhGc+GKnefblInUiJsDpLqY5/P
-	Up4SSDsOimRXzOecmO4DCEf11aCTSEi/gDAZAB4w/UUNJA12OxRFitkzMWo3yJjUnzGeajZshqq
-	WrwvTVcDBeqbtRtjUn+IsamsnEG1gys/h69ijQCR5cIgRNxP8m0vXRqS2ZzQbxomMyMGVJEEI7g
-	zqKHdH6w8ZXJzKQfzssfSkn5a4YcpxmNCvtntjkKwOWNjcHrKNVo0QK7npvU8t3bN5dVHMrinL5
-	apcE4zSKjlsQF8jCWyMzx4PgRVUunP
-X-Received: by 2002:a05:600c:4f8a:b0:47a:8cce:2940 with SMTP id 5b1f17b1804b1-483201e3aaemr189459165e9.14.1770705109669;
-        Mon, 09 Feb 2026 22:31:49 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48320961505sm215017735e9.4.2026.02.09.22.31.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 22:31:49 -0800 (PST)
-Date: Tue, 10 Feb 2026 09:31:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Nhat Pham <nphamcs@gmail.com>,
-	linux-mm@kvack.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	hannes@cmpxchg.org, hughd@google.com, yosry.ahmed@linux.dev,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, len.brown@intel.com,
-	chengming.zhou@linux.dev, kasong@tencent.com, chrisl@kernel.org,
-	huang.ying.caritas@gmail.com, ryan.roberts@arm.com,
-	shikemeng@huaweicloud.com, viro@zeniv.linux.org.uk,
-	baohua@kernel.org, bhe@redhat.com, osalvador@suse.de,
-	lorenzo.stoakes@oracle.com, christophe.leroy@csgroup.eu,
-	pavel@kernel.org, kernel-team@meta.com,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-pm@vger.kernel.org, peterx@redhat.com, riel@surriel.com,
-	joshua.hahnjy@gmail.com
-Subject: Re: [PATCH v3 14/20] mm: swap: decouple virtual swap slot from
- backing store
-Message-ID: <202602092300.lZO4Ee4N-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lLenuCj8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770705568; x=1802241568;
+  h=date:from:to:cc:subject:message-id;
+  bh=sz5VihAueaqum5wYTgww8H9zVedSGsLr/iIXpbB2h8s=;
+  b=lLenuCj8xIA/GP2B3XbDhrTGfUOy5F6p/tVyEkfnX36ctKJ5A2Hg3q0J
+   y6w5+IGOYwdk/W0/Te6899BErEL/efwPAjc5MbDroU3Rt+TsAltDd2aIB
+   8+r2NviZXkNbC2XkY5908LknbVM/DQ//eCQsjLRkaFxyxzhNCl2ksCNBD
+   eINzP/ijPyMmcbVZzhiEk8XW5PLy67dKzvEsv8ayLlntG2KZcnyGeGW42
+   DJYWjZJfjvIs1p5hoczunPYgoGpPfEjUZdXhDXssSiwrPbW+/23N3in8t
+   hCD573kODVqJjfN+EXAZjnLZLNxoxkGC/NJJh0c59kNLnCegpMuTZ0/Oo
+   Q==;
+X-CSE-ConnectionGUID: 7b7SFWAQSlqdJBFTDBXc8g==
+X-CSE-MsgGUID: gv5rj++mRCqogLCGZFOblg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="72009668"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="72009668"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 22:39:28 -0800
+X-CSE-ConnectionGUID: nG76xQtvRWOlJfm38sY1vA==
+X-CSE-MsgGUID: 2H+Aw1gaSM+6WJ4nCrEppg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="215999489"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Feb 2026 22:39:26 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vphP9-00000000ojC-32H9;
+	Tue, 10 Feb 2026 06:39:23 +0000
+Date: Tue, 10 Feb 2026 14:38:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_2 1/1]
+ kernel/bpf/trampoline.c:40:48: sparse: sparse: non size-preserving pointer to
+ integer cast
+Message-ID: <202602101418.dDmyGSaa-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260208215839.87595-15-nphamcs@gmail.com>
 
-Hi Nhat,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/mm-swap-decouple-swap-cache-from-physical-swap-infrastructure/20260209-120606
-base:   05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
-patch link:    https://lore.kernel.org/r/20260208215839.87595-15-nphamcs%40gmail.com
-patch subject: [PATCH v3 14/20] mm: swap: decouple virtual swap slot from backing store
-config: powerpc-randconfig-r073-20260209 (https://download.01.org/0day-ci/archive/20260209/202602092300.lZO4Ee4N-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_2
+head:   ebbef7d1c33bdfa68df327c0d80101c04ab6d996
+commit: ebbef7d1c33bdfa68df327c0d80101c04ab6d996 [1/1] trampoline mutext pool
+config: parisc-randconfig-r121-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101418.dDmyGSaa-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101418.dDmyGSaa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202602092300.lZO4Ee4N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602101418.dDmyGSaa-lkp@intel.com/
 
-smatch warnings:
-mm/vswap.c:733 vswap_alloc_swap_slot() warn: variable dereferenced before check 'folio' (see line 701)
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/trampoline.c:18:31: sparse: sparse: symbol 'bpf_extension_verifier_ops' was not declared. Should it be static?
+   kernel/bpf/trampoline.c:20:27: sparse: sparse: symbol 'bpf_extension_prog_ops' was not declared. Should it be static?
+>> kernel/bpf/trampoline.c:40:48: sparse: sparse: non size-preserving pointer to integer cast
 
-vim +/folio +733 mm/vswap.c
+vim +40 kernel/bpf/trampoline.c
 
-19a5fe94e9aae4 Nhat Pham 2026-02-08  694  bool vswap_alloc_swap_slot(struct folio *folio)
-19a5fe94e9aae4 Nhat Pham 2026-02-08  695  {
-19a5fe94e9aae4 Nhat Pham 2026-02-08  696  	int i, nr = folio_nr_pages(folio);
-19a5fe94e9aae4 Nhat Pham 2026-02-08  697  	struct vswap_cluster *cluster = NULL;
-19a5fe94e9aae4 Nhat Pham 2026-02-08  698  	struct swap_info_struct *si;
-19a5fe94e9aae4 Nhat Pham 2026-02-08  699  	struct swap_cluster_info *ci;
-19a5fe94e9aae4 Nhat Pham 2026-02-08  700  	swp_slot_t slot = { .val = 0 };
-19a5fe94e9aae4 Nhat Pham 2026-02-08 @701  	swp_entry_t entry = folio->swap;
-
-folio dereference here
-
-19a5fe94e9aae4 Nhat Pham 2026-02-08  702  	struct swp_desc *desc;
-19a5fe94e9aae4 Nhat Pham 2026-02-08  703  	bool fallback = false;
-19a5fe94e9aae4 Nhat Pham 2026-02-08  704  
-19a5fe94e9aae4 Nhat Pham 2026-02-08  705  	/*
-19a5fe94e9aae4 Nhat Pham 2026-02-08  706  	 * We might have already allocated a backing physical swap slot in past
-19a5fe94e9aae4 Nhat Pham 2026-02-08  707  	 * attempts (for instance, when we disable zswap). If the entire range is
-19a5fe94e9aae4 Nhat Pham 2026-02-08  708  	 * already swapfile-backed we can skip swapfile case.
-19a5fe94e9aae4 Nhat Pham 2026-02-08  709  	 */
-19a5fe94e9aae4 Nhat Pham 2026-02-08  710  	if (vswap_swapfile_backed(entry, nr))
-19a5fe94e9aae4 Nhat Pham 2026-02-08  711  		return true;
-19a5fe94e9aae4 Nhat Pham 2026-02-08  712  
-19a5fe94e9aae4 Nhat Pham 2026-02-08  713  	if (swap_slot_alloc(&slot, folio_order(folio)))
-
-and here
-
-19a5fe94e9aae4 Nhat Pham 2026-02-08  714  		return false;
-19a5fe94e9aae4 Nhat Pham 2026-02-08  715  
-19a5fe94e9aae4 Nhat Pham 2026-02-08  716  	if (!slot.val)
-19a5fe94e9aae4 Nhat Pham 2026-02-08  717  		return false;
-19a5fe94e9aae4 Nhat Pham 2026-02-08  718  
-7f88e3ea20f231 Nhat Pham 2026-02-08  719  	/* establish the vrtual <-> physical swap slots linkages. */
-7f88e3ea20f231 Nhat Pham 2026-02-08  720  	si = __swap_slot_to_info(slot);
-7f88e3ea20f231 Nhat Pham 2026-02-08  721  	ci = swap_cluster_lock(si, swp_slot_offset(slot));
-7f88e3ea20f231 Nhat Pham 2026-02-08  722  	vswap_rmap_set(ci, slot, entry.val, nr);
-7f88e3ea20f231 Nhat Pham 2026-02-08  723  	swap_cluster_unlock(ci);
-7f88e3ea20f231 Nhat Pham 2026-02-08  724  
-7f88e3ea20f231 Nhat Pham 2026-02-08  725  	rcu_read_lock();
-7f88e3ea20f231 Nhat Pham 2026-02-08  726  	for (i = 0; i < nr; i++) {
-7f88e3ea20f231 Nhat Pham 2026-02-08  727  		desc = vswap_iter(&cluster, entry.val + i);
-7f88e3ea20f231 Nhat Pham 2026-02-08  728  		VM_WARN_ON(!desc);
-7f88e3ea20f231 Nhat Pham 2026-02-08  729  
-19a5fe94e9aae4 Nhat Pham 2026-02-08  730  		if (desc->type == VSWAP_FOLIO) {
-19a5fe94e9aae4 Nhat Pham 2026-02-08  731  			/* case 1: fallback from zswap store failure */
-19a5fe94e9aae4 Nhat Pham 2026-02-08  732  			fallback = true;
-19a5fe94e9aae4 Nhat Pham 2026-02-08 @733  			if (!folio)
-
-So it can't be NULL here.
-
-19a5fe94e9aae4 Nhat Pham 2026-02-08  734  				folio = desc->swap_cache;
-
-So we'll never do this assignment and it will never become NULL.
-
-19a5fe94e9aae4 Nhat Pham 2026-02-08  735  			else
-19a5fe94e9aae4 Nhat Pham 2026-02-08  736  				VM_WARN_ON(folio != desc->swap_cache);
-19a5fe94e9aae4 Nhat Pham 2026-02-08  737  		} else {
-19a5fe94e9aae4 Nhat Pham 2026-02-08  738  			/*
-19a5fe94e9aae4 Nhat Pham 2026-02-08  739  			 * Case 2: zswap writeback.
-19a5fe94e9aae4 Nhat Pham 2026-02-08  740  			 *
-19a5fe94e9aae4 Nhat Pham 2026-02-08  741  			 * No need to free zswap entry here - it will be freed once zswap
-19a5fe94e9aae4 Nhat Pham 2026-02-08  742  			 * writeback suceeds.
-19a5fe94e9aae4 Nhat Pham 2026-02-08  743  			 */
-19a5fe94e9aae4 Nhat Pham 2026-02-08  744  			VM_WARN_ON(desc->type != VSWAP_ZSWAP);
-19a5fe94e9aae4 Nhat Pham 2026-02-08  745  			VM_WARN_ON(fallback);
-19a5fe94e9aae4 Nhat Pham 2026-02-08  746  		}
-19a5fe94e9aae4 Nhat Pham 2026-02-08  747  		desc->type = VSWAP_SWAPFILE;
-7f88e3ea20f231 Nhat Pham 2026-02-08  748  		desc->slot.val = slot.val + i;
-7f88e3ea20f231 Nhat Pham 2026-02-08  749  	}
-7f88e3ea20f231 Nhat Pham 2026-02-08  750  	spin_unlock(&cluster->lock);
-7f88e3ea20f231 Nhat Pham 2026-02-08  751  	rcu_read_unlock();
-19a5fe94e9aae4 Nhat Pham 2026-02-08  752  	return true;
-7f88e3ea20f231 Nhat Pham 2026-02-08  753  }
+    37	
+    38	static struct mutex *trampoline_locks_lookup(struct bpf_trampoline *tr)
+    39	{
+  > 40		return &trampoline_locks[hash_64((u64) tr, TRAMPOLINE_LOCKS_BITS)];
+    41	}
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
