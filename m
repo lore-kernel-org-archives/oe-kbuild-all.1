@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC97431A558
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 11:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB51322B7B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 11:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770723701; cv=none; b=PlIwxGW7WCry2SI14v3UByJv3Fo5r5ykgsXJOmd+TUIaq4k9WGxjeXOPOwDW1UpcRmujwg4ETNb/btTZxDS3sv8akFWl1Xi4dFfz2sdyr3jhOZ2pe+UF0QiuMzoTPrjemyLEdOPILi7+bs1pDqBtWKnEQ4CI4wQDPdh15fqvLts=
+	t=1770724302; cv=none; b=fOPXoL2F5PSmo7EePxDN2DlGIK4MOpI7oVbJ8EdC5JdRfjTNxRSyQ6rNoG6qRFa62qbEb8OJnxEpttH3BoNBV3A9xZ0DPx/ErTiIUz/SzOlRF8kRfZHDEn8ulB30ZuZ9zCdBb8/D3TOyCXEk3Yl3oJ91ZRWBwJatVCgMO2qnBpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770723701; c=relaxed/simple;
-	bh=a1Xq+Whf1kQZxOVA6t2oOkDmpHegeBcp1zp7f3PiyAU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=j3oD2NIsr9EHO9MlTFHhGHAJ+Xj1lDUvwBV/mLFcPUov83UJDh+M2fYKdUAT3hfQhh8nsImaeo/XIWvswwMk9lo5cr30GGT6dOSLlwjkN+bxIFeYi+cStvZZO30Svd4KnTKnZqWUmYtARKq3tRtqpRiLDqmVCRBgtSC+iyv922I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=htcHUEn+; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1770724302; c=relaxed/simple;
+	bh=+A/0pOGodMjBOHe08tgO5PYNKBj4gWlddENLaoDL7dI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q3lEOtxIs5avHcQ4/yBu/gwdrFjnnbwsM343tjHUwJKVMwQbnaCY7YwIa++06oHER2vOmDagzuIfoNUZlHaE5utQwptGlxrSH9tIbs3I/y7L2aKSmWWjXMSu1jupBUCMA8PEpuAKCAVj8OkCzf7mm0cqY7006F6oP9ZJEvkWcQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=idkDKns6; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="htcHUEn+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="idkDKns6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770723700; x=1802259700;
+  t=1770724300; x=1802260300;
   h=date:from:to:cc:subject:message-id;
-  bh=a1Xq+Whf1kQZxOVA6t2oOkDmpHegeBcp1zp7f3PiyAU=;
-  b=htcHUEn+9Z76EXSTM6fxCf+sESSxC0K6gHce0/ZYq2Ihk6GeVcmdk+lo
-   wlAX4HKe07Qo4GMcwR+ASXJ85n7fCy0T0gbr4RHe/GAVY/16/fHl6dz5z
-   pMEZkjVbIU9AnzIYzJL/U8wcVnhfT7dNHK729X8MMdeWgZTAuWBpz7Pp+
-   eYcN2zUHiAPX9ZmVnr7WvFE5XjNLSEP/Ihe41I+JNQh2zOr99GnpX88vT
-   urD4kgok5/9LULIvONaedn7HNWHYsWEeCIx4fibxp8DMa1Z1t+Cv1twSH
-   sRTq9EKEJFgudKLGCz5jryCMxB9rdFo57Oal644XKSRVeATQ2gG196KzB
+  bh=+A/0pOGodMjBOHe08tgO5PYNKBj4gWlddENLaoDL7dI=;
+  b=idkDKns6WJgi0Fk7RfbiYg66/jc3VWkjZd/ICdrB1wk65YY3h0VULUcB
+   xULnkFK6Ik3hFKNvU8vDDnQnhXHdQHRYiA+GoGVdqCl/ESdVWX1xkCI+m
+   VIsCqbkif/8g28d/C4vx7ZMjKIHJv3egDK8RLCSH91YMhOjm208oyADis
+   AcYbA1q1gJUVDzNfH3fs5CRxntTnDgESe1ZN1bPxQ7/7jr6KbChTWw/Zb
+   daiZB91pEVcAZ9y24qWKJgPuK614a+ivTY/BZRA/p2GpWsa7yqyzvHJ1X
+   LB4fxNUF15/mt5tVo/G4BscTVI/cLuxfJ5mXxlNNxZY2lG9LTz5nlcDOG
    w==;
-X-CSE-ConnectionGUID: Q459QdDdSkm9om8+DWd0Sg==
-X-CSE-MsgGUID: Kp350YR3SUGTiOi9CjhwoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="83287878"
+X-CSE-ConnectionGUID: oq17LS4MQTiOIks0FQqBBA==
+X-CSE-MsgGUID: p/kEPOo1TOO56s8BmzJvvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71060502"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="83287878"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 03:41:40 -0800
-X-CSE-ConnectionGUID: KlNOX692TjKUdPOVSBdjtw==
-X-CSE-MsgGUID: IQTuC+cuTg2/nD1zaDTXWw==
+   d="scan'208";a="71060502"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 03:51:40 -0800
+X-CSE-ConnectionGUID: nF+4WW6LQkGX4wJQkfLyFQ==
+X-CSE-MsgGUID: VodMdQt3SQC7HuHwf13Pxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216858364"
+   d="scan'208";a="210999923"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Feb 2026 03:41:38 -0800
+  by orviesa006.jf.intel.com with ESMTP; 10 Feb 2026 03:51:39 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpm7c-00000000oyK-0Br9;
-	Tue, 10 Feb 2026 11:41:36 +0000
-Date: Tue, 10 Feb 2026 19:41:08 +0800
+	id 1vpmHI-00000000oye-0zez;
+	Tue, 10 Feb 2026 11:51:36 +0000
+Date: Tue, 10 Feb 2026 19:51:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
+To: Ard Biesheuvel <ardb@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 528/799]
- fs/bcachefs/fs/namei.c:737:5-8: Unneeded variable: "ret". Return "0" on line
- 763
-Message-ID: <202602101919.3OEtBH9a-lkp@intel.com>
+Subject: [ardb:x86-slaunch 38/41]
+ drivers/firmware/efi/libstub/x86-stub.c:832:18: error: too many arguments to
+ function 'efi_secure_launch_init'
+Message-ID: <202602101924.HOJWqnvm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,66 +60,92 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: ffb9000e105b51f652c471ecb2df248e51b809a9 [528/799] bcachefs: more errptr_try() conversions
-config: arc-randconfig-r063-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101919.3OEtBH9a-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-slaunch
+head:   68d6a808368b02c2fdfa0ba1e4e59d6b97668c1a
+commit: a64c42672d622dc2867904b9857ef64a890610bd [38/41] x86/efistub: EFI stub DRTM launch support for Secure Launch
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260210/202602101924.HOJWqnvm-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101924.HOJWqnvm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602101919.3OEtBH9a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602101924.HOJWqnvm-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/fs/namei.c:737:5-8: Unneeded variable: "ret". Return "0" on line 763
+All errors (new ones prefixed by >>):
 
-vim +737 fs/bcachefs/fs/namei.c
+   drivers/firmware/efi/libstub/x86-stub.c: In function 'efi_stub_entry':
+>> drivers/firmware/efi/libstub/x86-stub.c:832:18: error: too many arguments to function 'efi_secure_launch_init'
+     832 |         status = efi_secure_launch_init(handle);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/firmware/efi/libstub/x86-stub.c:21:
+   drivers/firmware/efi/libstub/efistub.h:1258:14: note: declared here
+    1258 | efi_status_t efi_secure_launch_init(void)
+         |              ^~~~~~~~~~~~~~~~~~~~~~
 
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  728  
-9b0d00a3693bbab fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  729  int __bch2_check_dirent_target(struct btree_trans *trans,
-9b0d00a3693bbab fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  730  			       struct btree_iter *dirent_iter,
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  731  			       struct bkey_s_c_dirent d,
-9b0d00a3693bbab fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  732  			       struct bch_inode_unpacked *target,
-9b0d00a3693bbab fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  733  			       bool in_fsck)
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  734  {
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  735  	struct bch_fs *c = trans->c;
-027a611a8fecaeb fs/bcachefs/namei.c    Kent Overstreet 2025-07-14  736  	CLASS(printbuf, buf)();
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20 @737  	int ret = 0;
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  738  
-ffb9000e105b51f fs/bcachefs/fs/namei.c Kent Overstreet 2025-10-11  739  	try(bch2_check_dirent_inode_dirent(trans, d, target, in_fsck));
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  740  
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  741  	if (fsck_err_on(d.v->d_type != inode_d_type(target),
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  742  			trans, dirent_d_type_wrong,
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  743  			"incorrect d_type: got %s, should be %s:\n%s",
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  744  			bch2_d_type_str(d.v->d_type),
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  745  			bch2_d_type_str(inode_d_type(target)),
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  746  			(printbuf_reset(&buf),
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  747  			 bch2_bkey_val_to_text(&buf, c, d.s_c), buf.buf))) {
-ffb9000e105b51f fs/bcachefs/fs/namei.c Kent Overstreet 2025-10-11  748  		struct bkey_i_dirent *n = errptr_try(bch2_trans_kmalloc(trans, bkey_bytes(d.k)));
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  749  
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  750  		bkey_reassemble(&n->k_i, d.s_c);
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  751  		n->v.d_type = inode_d_type(target);
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  752  		if (n->v.d_type == DT_SUBVOL) {
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  753  			n->v.d_parent_subvol = cpu_to_le32(target->bi_parent_subvol);
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  754  			n->v.d_child_subvol = cpu_to_le32(target->bi_subvol);
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  755  		} else {
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  756  			n->v.d_inum = cpu_to_le64(target->bi_inum);
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  757  		}
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  758  
-ffb9000e105b51f fs/bcachefs/fs/namei.c Kent Overstreet 2025-10-11  759  		try(bch2_trans_update(trans, dirent_iter, &n->k_i,
-ffb9000e105b51f fs/bcachefs/fs/namei.c Kent Overstreet 2025-10-11  760  				      BTREE_UPDATE_internal_snapshot_node));
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  761  	}
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  762  fsck_err:
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20 @763  	return ret;
-758ea4ff812b4df fs/bcachefs/namei.c    Kent Overstreet 2025-03-20  764  }
-4ba99dde330b2d4 fs/bcachefs/namei.c    Kent Overstreet 2025-05-19  765  
 
-:::::: The code at line 737 was first introduced by commit
-:::::: 758ea4ff812b4dfd4cef6dba0eb4b0025a7b147e bcachefs: Move bch2_check_dirent_target() to namei.c
+vim +/efi_secure_launch_init +832 drivers/firmware/efi/libstub/x86-stub.c
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+   810	
+   811	/*
+   812	 * On success, this routine will jump to the relocated image directly and never
+   813	 * return.  On failure, it will exit to the firmware via efi_exit() instead of
+   814	 * returning.
+   815	 */
+   816	void __noreturn efi_stub_entry(efi_handle_t handle,
+   817				       efi_system_table_t *sys_table_arg,
+   818				       struct boot_params *boot_params)
+   819	
+   820	{
+   821		efi_guid_t guid = EFI_MEMORY_ATTRIBUTE_PROTOCOL_GUID;
+   822		const struct linux_efi_initrd *initrd = NULL;
+   823		unsigned long kernel_entry;
+   824		struct setup_header *hdr;
+   825		efi_status_t status;
+   826	
+   827		efi_system_table = sys_table_arg;
+   828		/* Check if we were booted by the EFI firmware */
+   829		if (efi_system_table->hdr.signature != EFI_SYSTEM_TABLE_SIGNATURE)
+   830			efi_exit(handle, EFI_INVALID_PARAMETER);
+   831	
+ > 832		status = efi_secure_launch_init(handle);
+   833		switch (status) {
+   834			case EFI_SUCCESS:
+   835			case EFI_UNSUPPORTED:
+   836				break;
+   837			default:
+   838				efi_exit(handle, status);
+   839		}
+   840	
+   841		if (!IS_ENABLED(CONFIG_EFI_HANDOVER_PROTOCOL) || !boot_params) {
+   842			status = efi_allocate_bootparams(handle, &boot_params);
+   843			if (status != EFI_SUCCESS)
+   844				efi_exit(handle, status);
+   845		}
+   846	
+   847		hdr = &boot_params->hdr;
+   848	
+   849		if (have_unsupported_snp_features())
+   850			efi_exit(handle, EFI_UNSUPPORTED);
+   851	
+   852		if (IS_ENABLED(CONFIG_EFI_DXE_MEM_ATTRIBUTES)) {
+   853			efi_dxe_table = get_efi_config_table(EFI_DXE_SERVICES_TABLE_GUID);
+   854			if (efi_dxe_table &&
+   855			    efi_dxe_table->hdr.signature != EFI_DXE_SERVICES_TABLE_SIGNATURE) {
+   856				efi_warn("Ignoring DXE services table: invalid signature\n");
+   857				efi_dxe_table = NULL;
+   858			}
+   859		}
+   860	
+   861		/* grab the memory attributes protocol if it exists */
+   862		efi_bs_call(locate_protocol, &guid, NULL, (void **)&memattr);
+   863	
+   864		status = efi_setup_5level_paging();
+   865		if (status != EFI_SUCCESS) {
+   866			efi_err("efi_setup_5level_paging() failed!\n");
+   867			goto fail;
+   868		}
+   869	
 
 -- 
 0-DAY CI Kernel Test Service
