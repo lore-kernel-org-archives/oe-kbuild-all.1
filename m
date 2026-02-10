@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152BD3314D7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 21:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3641F18C933;
+	Tue, 10 Feb 2026 21:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770757683; cv=none; b=YS/F3iK8wDN9S7II4HxR4vVpMW63Yg5MCDCC5mniQZbP82mJ+EM8iRF7q4Vi7LuUABEqUd+hMyDypaLNPi+QQ8dLU7vZa2JpjNdgqwj1TAhS/jak9knwj9J2uZALPmih3TO4/XZLKqa4dYg+hI+0jxykShnOv/kExLGqvsgv5Ck=
+	t=1770758343; cv=none; b=lWDsu+R03obN3CioEL1qpyFtLsO+AqkP0thB+VanoO543Sgbdg0pfWKsDCVMjeQAGYQOXS1601cUbI3vI5Ar9Iu5h41j/wVQDeH7ZoMEYcog2tWYZCE8dO4yKm2cNX78UZsFiYj63badyJBs0KXwPIzsBuW1f2P/iQdePbgGAq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770757683; c=relaxed/simple;
-	bh=+QwX2JWuNj9Kx32PIhaH3S8QOZKxxnMTH99gNIFYe9k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UaUPTlGiwIFi98lp4krpAYizvPaIpwvj4BIdutF4ycdh/wyrqu3GWadXSJwmGAq55/ST4JwpvoTjtcIXh+/7BgLqRe+ehQMNeRXqIf0nEphHYIB8mOD0kJdAVlV3h/1vI/cUMVagPsWzVOUzmIeYZTCnqj47WDTYIke4UlG80Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XrjcyHj1; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1770758343; c=relaxed/simple;
+	bh=OBgKMhwigoL+mWRvWVpWuBIwheh3zOpnuyAHc3OGnJw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HOslolpm/4KAJ3K2e8w/+BGXGwBWor5B9wY0DlYubxLmj15m5D5GTbWgVkjO+Z0oncGGAxiN2/901k9/Tim4yTELrZgaOWkMJAcwbnZedU40eSs+jWIS3KXgVtG+0DJcXEsM9yIwPx0z9rk6okDKbkzPv+crrU1RMf+beFphknM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiytlxMI; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XrjcyHj1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiytlxMI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770757681; x=1802293681;
+  t=1770758341; x=1802294341;
   h=date:from:to:cc:subject:message-id;
-  bh=+QwX2JWuNj9Kx32PIhaH3S8QOZKxxnMTH99gNIFYe9k=;
-  b=XrjcyHj1a55YI2dL/ZAzKW8Z98qwLiWS1Ad6j4G9mZ73Y8I95oglJWL6
-   ZZ7THwQgfWKk8q7qa35zzGcnvAIwJPZiJS2cjgHSI7G3qQnSMd4PV0915
-   iBzIVHXB19kj0F+Y0e8vIQ0MdVR2IyhzfGJh+/c0+va7+FfsFrPPWoq60
-   qdsXBxz9pmS/P/yXMP3e/MBUhxVAhK4/c+FI6WFajW39sTkjOlf3hNjGp
-   RUedZVUsMG6VSbh83svWeiN0qmSYnCExQGkA+YZfj3PZdr8FskJ3R0Xp4
-   WYbR3AClSnI8NU4EFEJoTXJPUTSqE4xsUGq/4YnPNPpc4ivN8kL4+fgvH
-   Q==;
-X-CSE-ConnectionGUID: LSSD3FJ+ROmwleFrnQDktA==
-X-CSE-MsgGUID: /jNDyQJHRcai1kaMlxeeog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="83267511"
+  bh=OBgKMhwigoL+mWRvWVpWuBIwheh3zOpnuyAHc3OGnJw=;
+  b=QiytlxMIQrtUdaQFT7KidxQV/gjS6+p448IDY83yAQyoDEigN/f5ZG53
+   ETs4/U4Oy1s3QSypP5lthzLqTqhV6OUUD2Uy5eSHq7S8BG42pYrWfZJwd
+   WDQ3BzOl452dsnyE5uuk8xhH3cOm3cynJkYcd2XJciO++IacStSM8yszu
+   RRmLOsTLCJ8nIO2vahTmwoKPno1d/Gne0A+0hWZxUXibM/h1vgYgGuGMz
+   iH0BK82lxHOTQSdcPTHOwH2QcqRfyHlZIxsQP26uJtCfvOKT9OqXgIJ2o
+   Eq2cVbDVALyJ5M51ZhxygAjOLocMktNzCvnRQe5YPXOnQM3iWKf39ch9k
+   g==;
+X-CSE-ConnectionGUID: AQ2R2SUEQtGf3EeT80Oiag==
+X-CSE-MsgGUID: c1W236x1S8CMTvAwO0xJ4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75526128"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="83267511"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 13:08:00 -0800
-X-CSE-ConnectionGUID: hq2zoYzwSlOrr/d0Puc4Cg==
-X-CSE-MsgGUID: 4PnMeJMsQeKPRLb67dK09Q==
+   d="scan'208";a="75526128"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 13:19:00 -0800
+X-CSE-ConnectionGUID: TkSPWfzXTMySQrokhjGXrg==
+X-CSE-MsgGUID: 7k5nyF97SDquwjEiZbEwvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216986467"
+   d="scan'208";a="211492545"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Feb 2026 13:07:59 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 10 Feb 2026 13:18:58 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpuxg-00000000pQ0-2077;
-	Tue, 10 Feb 2026 21:07:56 +0000
-Date: Wed, 11 Feb 2026 05:07:13 +0800
+	id 1vpv8K-00000000pQS-33Z6;
+	Tue, 10 Feb 2026 21:18:56 +0000
+Date: Wed, 11 Feb 2026 05:18:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/enter_mmio_stack_uaf_simple 12/12]
- arch/x86/kvm/x86.c:11877:1: warning: the frame size of 4344 bytes is larger
- than 2048 bytes
-Message-ID: <202602110547.eXZePu3Z-lkp@intel.com>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [cel:svctcp-next 1/8] include/trace/events/sunrpc.h:1945:1:
+ error: use of undeclared identifier 'XPT_XPT_PEER_VALID'; did you mean
+ 'XPT_PEER_VALID'?
+Message-ID: <202602110548.KZOeWFeZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,101 +60,282 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/sean-jc/linux x86/enter_mmio_stack_uaf_simple
-head:   0192648eff680b148621853a27d2321130afb085
-commit: 0192648eff680b148621853a27d2321130afb085 [12/12] KVM: x86: Fill the stack for testing purposes
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260211/202602110547.eXZePu3Z-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110547.eXZePu3Z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux svctcp-next
+head:   c718461befe42db474143734b2ab32df318f9fd4
+commit: bf126e1cd573edafc55b7ec7d6d23f641007d71f [1/8] sunrpc: Add XPT flags missing from SVC_XPRT_FLAG_LIST
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260211/202602110548.KZOeWFeZ-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110548.KZOeWFeZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602110547.eXZePu3Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602110548.KZOeWFeZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/x86.c: In function 'complete_emulated_mmio':
->> arch/x86/kvm/x86.c:11877:1: warning: the frame size of 4344 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-   11877 | }
+   In file included from net/sunrpc/sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:107:
+>> include/trace/events/sunrpc.h:1945:1: error: use of undeclared identifier 'XPT_XPT_PEER_VALID'; did you mean 'XPT_PEER_VALID'?
+    1945 | SVC_XPRT_FLAG_LIST
          | ^
+   include/trace/events/sunrpc.h:1937:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1937 |         svc_xprt_flag(XPT_PEER_VALID)                                   \
+         |         ^
+   include/trace/events/sunrpc.h:1942:44: note: expanded from macro 'svc_xprt_flag'
+    1942 | #define svc_xprt_flag(x)        TRACE_DEFINE_ENUM(XPT_##x);
+         |                                                   ^
+   <scratch space>:162:1: note: expanded from here
+     162 | XPT_XPT_PEER_VALID
+         | ^
+   include/linux/sunrpc/svc_xprt.h:103:2: note: 'XPT_PEER_VALID' declared here
+     103 |         XPT_PEER_VALID,         /* peer has presented a filehandle that
+         |         ^
+   In file included from net/sunrpc/sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:107:
+>> include/trace/events/sunrpc.h:1945:1: error: use of undeclared identifier 'XPT_XPT_RPCB_UNREG'; did you mean 'XPT_RPCB_UNREG'?
+    1945 | SVC_XPRT_FLAG_LIST
+         | ^
+   include/trace/events/sunrpc.h:1938:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1938 |         svc_xprt_flag_end(XPT_RPCB_UNREG)
+         |         ^
+   include/trace/events/sunrpc.h:1943:48: note: expanded from macro 'svc_xprt_flag_end'
+    1943 | #define svc_xprt_flag_end(x)    TRACE_DEFINE_ENUM(XPT_##x);
+         |                                                   ^
+   <scratch space>:174:1: note: expanded from here
+     174 | XPT_XPT_RPCB_UNREG
+         | ^
+   include/linux/sunrpc/svc_xprt.h:107:2: note: 'XPT_RPCB_UNREG' declared here
+     107 |         XPT_RPCB_UNREG,         /* transport that needs unregistering
+         |         ^
+   In file included from net/sunrpc/sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/sunrpc.h:2029:38: error: use of undeclared identifier 'XPT_XPT_PEER_VALID'; did you mean 'XPT_PEER_VALID'?
+    2029 |         TP_printk(SVC_XPRT_ENDPOINT_FORMAT, SVC_XPRT_ENDPOINT_VARARGS)
+         |                                             ^
+   include/trace/events/sunrpc.h:2006:3: note: expanded from macro 'SVC_XPRT_ENDPOINT_VARARGS'
+    2006 |                 show_svc_xprt_flags(__entry->flags)
+         |                 ^
+   include/trace/events/sunrpc.h:1953:28: note: expanded from macro 'show_svc_xprt_flags'
+    1953 |         __print_flags(flags, "|", SVC_XPRT_FLAG_LIST)
+         |                                   ^
+   include/trace/events/sunrpc.h:1937:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1937 |         svc_xprt_flag(XPT_PEER_VALID)                                   \
+         |         ^
+   include/trace/events/sunrpc.h:1949:32: note: expanded from macro 'svc_xprt_flag'
+    1949 | #define svc_xprt_flag(x)        { BIT(XPT_##x), #x },
+         |                                       ^
+   <scratch space>:90:1: note: expanded from here
+      90 | XPT_XPT_PEER_VALID
+         | ^
+   include/linux/sunrpc/svc_xprt.h:103:2: note: 'XPT_PEER_VALID' declared here
+     103 |         XPT_PEER_VALID,         /* peer has presented a filehandle that
+         |         ^
+   In file included from net/sunrpc/sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/sunrpc.h:2029:38: error: use of undeclared identifier 'XPT_XPT_RPCB_UNREG'; did you mean 'XPT_RPCB_UNREG'?
+    2029 |         TP_printk(SVC_XPRT_ENDPOINT_FORMAT, SVC_XPRT_ENDPOINT_VARARGS)
+         |                                             ^
+   include/trace/events/sunrpc.h:2006:3: note: expanded from macro 'SVC_XPRT_ENDPOINT_VARARGS'
+    2006 |                 show_svc_xprt_flags(__entry->flags)
+         |                 ^
+   include/trace/events/sunrpc.h:1953:28: note: expanded from macro 'show_svc_xprt_flags'
+    1953 |         __print_flags(flags, "|", SVC_XPRT_FLAG_LIST)
+         |                                   ^
+   include/trace/events/sunrpc.h:1938:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1938 |         svc_xprt_flag_end(XPT_RPCB_UNREG)
+         |         ^
+   include/trace/events/sunrpc.h:1950:36: note: expanded from macro 'svc_xprt_flag_end'
+    1950 | #define svc_xprt_flag_end(x)    { BIT(XPT_##x), #x }
+         |                                       ^
+   <scratch space>:93:1: note: expanded from here
+      93 | XPT_XPT_RPCB_UNREG
+         | ^
+   include/linux/sunrpc/svc_xprt.h:107:2: note: 'XPT_RPCB_UNREG' declared here
+     107 |         XPT_RPCB_UNREG,         /* transport that needs unregistering
+         |         ^
+   In file included from net/sunrpc/sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/sunrpc.h:2054:3: error: use of undeclared identifier 'XPT_XPT_PEER_VALID'; did you mean 'XPT_PEER_VALID'?
+    2054 |                 SVC_XPRT_ENDPOINT_VARARGS, __entry->wakeup, __entry->qtime)
+         |                 ^
+   include/trace/events/sunrpc.h:2006:3: note: expanded from macro 'SVC_XPRT_ENDPOINT_VARARGS'
+    2006 |                 show_svc_xprt_flags(__entry->flags)
+         |                 ^
+   include/trace/events/sunrpc.h:1953:28: note: expanded from macro 'show_svc_xprt_flags'
+    1953 |         __print_flags(flags, "|", SVC_XPRT_FLAG_LIST)
+         |                                   ^
+   include/trace/events/sunrpc.h:1937:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1937 |         svc_xprt_flag(XPT_PEER_VALID)                                   \
+         |         ^
+   include/trace/events/sunrpc.h:1949:32: note: expanded from macro 'svc_xprt_flag'
+    1949 | #define svc_xprt_flag(x)        { BIT(XPT_##x), #x },
+         |                                       ^
+   <scratch space>:155:1: note: expanded from here
+     155 | XPT_XPT_PEER_VALID
+         | ^
+   include/linux/sunrpc/svc_xprt.h:103:2: note: 'XPT_PEER_VALID' declared here
+     103 |         XPT_PEER_VALID,         /* peer has presented a filehandle that
+         |         ^
+   In file included from net/sunrpc/sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/sunrpc.h:2054:3: error: use of undeclared identifier 'XPT_XPT_RPCB_UNREG'; did you mean 'XPT_RPCB_UNREG'?
+    2054 |                 SVC_XPRT_ENDPOINT_VARARGS, __entry->wakeup, __entry->qtime)
+         |                 ^
+   include/trace/events/sunrpc.h:2006:3: note: expanded from macro 'SVC_XPRT_ENDPOINT_VARARGS'
+    2006 |                 show_svc_xprt_flags(__entry->flags)
+         |                 ^
+   include/trace/events/sunrpc.h:1953:28: note: expanded from macro 'show_svc_xprt_flags'
+--
+   In file included from sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:107:
+>> include/trace/events/sunrpc.h:1945:1: error: use of undeclared identifier 'XPT_XPT_PEER_VALID'; did you mean 'XPT_PEER_VALID'?
+    1945 | SVC_XPRT_FLAG_LIST
+         | ^
+   include/trace/events/sunrpc.h:1937:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1937 |         svc_xprt_flag(XPT_PEER_VALID)                                   \
+         |         ^
+   include/trace/events/sunrpc.h:1942:44: note: expanded from macro 'svc_xprt_flag'
+    1942 | #define svc_xprt_flag(x)        TRACE_DEFINE_ENUM(XPT_##x);
+         |                                                   ^
+   <scratch space>:186:1: note: expanded from here
+     186 | XPT_XPT_PEER_VALID
+         | ^
+   include/linux/sunrpc/svc_xprt.h:103:2: note: 'XPT_PEER_VALID' declared here
+     103 |         XPT_PEER_VALID,         /* peer has presented a filehandle that
+         |         ^
+   In file included from sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:107:
+>> include/trace/events/sunrpc.h:1945:1: error: use of undeclared identifier 'XPT_XPT_RPCB_UNREG'; did you mean 'XPT_RPCB_UNREG'?
+    1945 | SVC_XPRT_FLAG_LIST
+         | ^
+   include/trace/events/sunrpc.h:1938:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1938 |         svc_xprt_flag_end(XPT_RPCB_UNREG)
+         |         ^
+   include/trace/events/sunrpc.h:1943:48: note: expanded from macro 'svc_xprt_flag_end'
+    1943 | #define svc_xprt_flag_end(x)    TRACE_DEFINE_ENUM(XPT_##x);
+         |                                                   ^
+   <scratch space>:198:1: note: expanded from here
+     198 | XPT_XPT_RPCB_UNREG
+         | ^
+   include/linux/sunrpc/svc_xprt.h:107:2: note: 'XPT_RPCB_UNREG' declared here
+     107 |         XPT_RPCB_UNREG,         /* transport that needs unregistering
+         |         ^
+   In file included from sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/sunrpc.h:2029:38: error: use of undeclared identifier 'XPT_XPT_PEER_VALID'; did you mean 'XPT_PEER_VALID'?
+    2029 |         TP_printk(SVC_XPRT_ENDPOINT_FORMAT, SVC_XPRT_ENDPOINT_VARARGS)
+         |                                             ^
+   include/trace/events/sunrpc.h:2006:3: note: expanded from macro 'SVC_XPRT_ENDPOINT_VARARGS'
+    2006 |                 show_svc_xprt_flags(__entry->flags)
+         |                 ^
+   include/trace/events/sunrpc.h:1953:28: note: expanded from macro 'show_svc_xprt_flags'
+    1953 |         __print_flags(flags, "|", SVC_XPRT_FLAG_LIST)
+         |                                   ^
+   include/trace/events/sunrpc.h:1937:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1937 |         svc_xprt_flag(XPT_PEER_VALID)                                   \
+         |         ^
+   include/trace/events/sunrpc.h:1949:32: note: expanded from macro 'svc_xprt_flag'
+    1949 | #define svc_xprt_flag(x)        { BIT(XPT_##x), #x },
+         |                                       ^
+   <scratch space>:108:1: note: expanded from here
+     108 | XPT_XPT_PEER_VALID
+         | ^
+   include/linux/sunrpc/svc_xprt.h:103:2: note: 'XPT_PEER_VALID' declared here
+     103 |         XPT_PEER_VALID,         /* peer has presented a filehandle that
+         |         ^
+   In file included from sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/sunrpc.h:2029:38: error: use of undeclared identifier 'XPT_XPT_RPCB_UNREG'; did you mean 'XPT_RPCB_UNREG'?
+    2029 |         TP_printk(SVC_XPRT_ENDPOINT_FORMAT, SVC_XPRT_ENDPOINT_VARARGS)
+         |                                             ^
+   include/trace/events/sunrpc.h:2006:3: note: expanded from macro 'SVC_XPRT_ENDPOINT_VARARGS'
+    2006 |                 show_svc_xprt_flags(__entry->flags)
+         |                 ^
+   include/trace/events/sunrpc.h:1953:28: note: expanded from macro 'show_svc_xprt_flags'
+    1953 |         __print_flags(flags, "|", SVC_XPRT_FLAG_LIST)
+         |                                   ^
+   include/trace/events/sunrpc.h:1938:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1938 |         svc_xprt_flag_end(XPT_RPCB_UNREG)
+         |         ^
+   include/trace/events/sunrpc.h:1950:36: note: expanded from macro 'svc_xprt_flag_end'
+    1950 | #define svc_xprt_flag_end(x)    { BIT(XPT_##x), #x }
+         |                                       ^
+   <scratch space>:111:1: note: expanded from here
+     111 | XPT_XPT_RPCB_UNREG
+         | ^
+   include/linux/sunrpc/svc_xprt.h:107:2: note: 'XPT_RPCB_UNREG' declared here
+     107 |         XPT_RPCB_UNREG,         /* transport that needs unregistering
+         |         ^
+   In file included from sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/sunrpc.h:2054:3: error: use of undeclared identifier 'XPT_XPT_PEER_VALID'; did you mean 'XPT_PEER_VALID'?
+    2054 |                 SVC_XPRT_ENDPOINT_VARARGS, __entry->wakeup, __entry->qtime)
+         |                 ^
+   include/trace/events/sunrpc.h:2006:3: note: expanded from macro 'SVC_XPRT_ENDPOINT_VARARGS'
+    2006 |                 show_svc_xprt_flags(__entry->flags)
+         |                 ^
+   include/trace/events/sunrpc.h:1953:28: note: expanded from macro 'show_svc_xprt_flags'
+    1953 |         __print_flags(flags, "|", SVC_XPRT_FLAG_LIST)
+         |                                   ^
+   include/trace/events/sunrpc.h:1937:2: note: expanded from macro 'SVC_XPRT_FLAG_LIST'
+    1937 |         svc_xprt_flag(XPT_PEER_VALID)                                   \
+         |         ^
+   include/trace/events/sunrpc.h:1949:32: note: expanded from macro 'svc_xprt_flag'
+    1949 | #define svc_xprt_flag(x)        { BIT(XPT_##x), #x },
+         |                                       ^
+   <scratch space>:173:1: note: expanded from here
+     173 | XPT_XPT_PEER_VALID
+         | ^
+   include/linux/sunrpc/svc_xprt.h:103:2: note: 'XPT_PEER_VALID' declared here
+     103 |         XPT_PEER_VALID,         /* peer has presented a filehandle that
+         |         ^
+   In file included from sched.c:31:
+   In file included from include/trace/events/sunrpc.h:2530:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/sunrpc.h:2054:3: error: use of undeclared identifier 'XPT_XPT_RPCB_UNREG'; did you mean 'XPT_RPCB_UNREG'?
+    2054 |                 SVC_XPRT_ENDPOINT_VARARGS, __entry->wakeup, __entry->qtime)
+         |                 ^
+   include/trace/events/sunrpc.h:2006:3: note: expanded from macro 'SVC_XPRT_ENDPOINT_VARARGS'
+    2006 |                 show_svc_xprt_flags(__entry->flags)
+         |                 ^
+   include/trace/events/sunrpc.h:1953:28: note: expanded from macro 'show_svc_xprt_flags'
 
 
-vim +11877 arch/x86/kvm/x86.c
+vim +1945 include/trace/events/sunrpc.h
 
-716d51abff06f4 Gleb Natapov        2012-09-03  11812  
-f78146b0f92307 Avi Kivity          2012-04-18  11813  /*
-f78146b0f92307 Avi Kivity          2012-04-18  11814   * Implements the following, as a state machine:
-f78146b0f92307 Avi Kivity          2012-04-18  11815   *
-f78146b0f92307 Avi Kivity          2012-04-18  11816   * read:
-f78146b0f92307 Avi Kivity          2012-04-18  11817   *   for each fragment
-87da7e66a40532 Xiao Guangrong      2012-10-24  11818   *     for each mmio piece in the fragment
-f78146b0f92307 Avi Kivity          2012-04-18  11819   *       write gpa, len
-f78146b0f92307 Avi Kivity          2012-04-18  11820   *       exit
-f78146b0f92307 Avi Kivity          2012-04-18  11821   *       copy data
-f78146b0f92307 Avi Kivity          2012-04-18  11822   *   execute insn
-f78146b0f92307 Avi Kivity          2012-04-18  11823   *
-f78146b0f92307 Avi Kivity          2012-04-18  11824   * write:
-f78146b0f92307 Avi Kivity          2012-04-18  11825   *   for each fragment
-87da7e66a40532 Xiao Guangrong      2012-10-24  11826   *     for each mmio piece in the fragment
-f78146b0f92307 Avi Kivity          2012-04-18  11827   *       write gpa, len
-f78146b0f92307 Avi Kivity          2012-04-18  11828   *       copy data
-f78146b0f92307 Avi Kivity          2012-04-18  11829   *       exit
-f78146b0f92307 Avi Kivity          2012-04-18  11830   */
-716d51abff06f4 Gleb Natapov        2012-09-03  11831  static int complete_emulated_mmio(struct kvm_vcpu *vcpu)
-5287f194bf0d70 Avi Kivity          2010-01-19  11832  {
-5287f194bf0d70 Avi Kivity          2010-01-19  11833  	struct kvm_run *run = vcpu->run;
-f78146b0f92307 Avi Kivity          2012-04-18  11834  	struct kvm_mmio_fragment *frag;
-0192648eff680b Sean Christopherson 2026-02-10  11835  	u8 clobber[4096];
-87da7e66a40532 Xiao Guangrong      2012-10-24  11836  	unsigned len;
-5287f194bf0d70 Avi Kivity          2010-01-19  11837  
-0192648eff680b Sean Christopherson 2026-02-10  11838  	memset(clobber, 0xaa, sizeof(clobber));
-0192648eff680b Sean Christopherson 2026-02-10  11839  
-716d51abff06f4 Gleb Natapov        2012-09-03  11840  	BUG_ON(!vcpu->mmio_needed);
-5287f194bf0d70 Avi Kivity          2010-01-19  11841  
-f78146b0f92307 Avi Kivity          2012-04-18  11842  	/* Complete previous fragment */
-87da7e66a40532 Xiao Guangrong      2012-10-24  11843  	frag = &vcpu->mmio_fragments[vcpu->mmio_cur_fragment];
-87da7e66a40532 Xiao Guangrong      2012-10-24  11844  	len = min(8u, frag->len);
-cef4dea07f6720 Avi Kivity          2010-01-20  11845  	if (!vcpu->mmio_is_write)
-87da7e66a40532 Xiao Guangrong      2012-10-24  11846  		memcpy(frag->data, run->mmio.data, len);
-87da7e66a40532 Xiao Guangrong      2012-10-24  11847  
-87da7e66a40532 Xiao Guangrong      2012-10-24  11848  	if (frag->len <= 8) {
-87da7e66a40532 Xiao Guangrong      2012-10-24  11849  		/* Switch to the next fragment. */
-87da7e66a40532 Xiao Guangrong      2012-10-24  11850  		frag++;
-87da7e66a40532 Xiao Guangrong      2012-10-24  11851  		vcpu->mmio_cur_fragment++;
-87da7e66a40532 Xiao Guangrong      2012-10-24  11852  	} else {
-87da7e66a40532 Xiao Guangrong      2012-10-24  11853  		/* Go forward to the next mmio piece. */
-87da7e66a40532 Xiao Guangrong      2012-10-24  11854  		frag->data += len;
-87da7e66a40532 Xiao Guangrong      2012-10-24  11855  		frag->gpa += len;
-87da7e66a40532 Xiao Guangrong      2012-10-24  11856  		frag->len -= len;
-87da7e66a40532 Xiao Guangrong      2012-10-24  11857  	}
-87da7e66a40532 Xiao Guangrong      2012-10-24  11858  
-a08d3b3b99efd5 Andrew Honig        2014-02-27  11859  	if (vcpu->mmio_cur_fragment >= vcpu->mmio_nr_fragments) {
-f78146b0f92307 Avi Kivity          2012-04-18  11860  		vcpu->mmio_needed = 0;
-0912c9771e9902 Paolo Bonzini       2013-08-27  11861  
-0912c9771e9902 Paolo Bonzini       2013-08-27  11862  		/* FIXME: return into emulator if single-stepping.  */
-cef4dea07f6720 Avi Kivity          2010-01-20  11863  		if (vcpu->mmio_is_write)
-cef4dea07f6720 Avi Kivity          2010-01-20  11864  			return 1;
-5287f194bf0d70 Avi Kivity          2010-01-19  11865  		vcpu->mmio_read_completed = 1;
-716d51abff06f4 Gleb Natapov        2012-09-03  11866  		return complete_emulated_io(vcpu);
-f78146b0f92307 Avi Kivity          2012-04-18  11867  	}
-87da7e66a40532 Xiao Guangrong      2012-10-24  11868  
-f78146b0f92307 Avi Kivity          2012-04-18  11869  	run->exit_reason = KVM_EXIT_MMIO;
-f78146b0f92307 Avi Kivity          2012-04-18  11870  	run->mmio.phys_addr = frag->gpa;
-f78146b0f92307 Avi Kivity          2012-04-18  11871  	if (vcpu->mmio_is_write)
-87da7e66a40532 Xiao Guangrong      2012-10-24  11872  		memcpy(run->mmio.data, frag->data, min(8u, frag->len));
-87da7e66a40532 Xiao Guangrong      2012-10-24  11873  	run->mmio.len = min(8u, frag->len);
-f78146b0f92307 Avi Kivity          2012-04-18  11874  	run->mmio.is_write = vcpu->mmio_is_write;
-716d51abff06f4 Gleb Natapov        2012-09-03  11875  	vcpu->arch.complete_userspace_io = complete_emulated_mmio;
-f78146b0f92307 Avi Kivity          2012-04-18  11876  	return 0;
-5287f194bf0d70 Avi Kivity          2010-01-19 @11877  }
-5287f194bf0d70 Avi Kivity          2010-01-19  11878  
+d75e490f35601aa Chuck Lever 2023-07-29  1944  
+d75e490f35601aa Chuck Lever 2023-07-29 @1945  SVC_XPRT_FLAG_LIST
+d75e490f35601aa Chuck Lever 2023-07-29  1946  
 
-:::::: The code at line 11877 was first introduced by commit
-:::::: 5287f194bf0d7062d6d99b725366202556f03e28 KVM: Split mmio completion into a function
+:::::: The code at line 1945 was first introduced by commit
+:::::: d75e490f35601aae12c7284d3c22684c65fb8354 SUNRPC: change svc_xprt::xpt_flags bits to enum
 
-:::::: TO: Avi Kivity <avi@redhat.com>
-:::::: CC: Avi Kivity <avi@redhat.com>
+:::::: TO: Chuck Lever <chuck.lever@oracle.com>
+:::::: CC: Chuck Lever <chuck.lever@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
