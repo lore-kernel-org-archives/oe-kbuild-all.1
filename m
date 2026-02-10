@@ -1,105 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10CC21883E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 03:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562EC2D0601
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 03:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770694102; cv=none; b=X3FmIJR/PbV+O1ZvCAb5NOGa30oE3wZrnje3sreF0J9Lh6Fv530KPaJeAvhmVDVplEOf5vf/nO8/jy0ShNgRTjLC7rQ9sAZl388itrR108fs+p9hhnT19OZl9pHg4kYvUBD+eh1Fii1mRVJLtnTVl+DtLwSII+NmTrgwC9mKXU8=
+	t=1770694700; cv=none; b=tyxhzyxLfskOd/PNkSum8EpevTubC0Ej6hW3aE6Zj/1r9TAL1qN86U+gkaKg7D1oWF8v2ZMBIEoL9P6ERp3uQNTIAxZCI0zrsXhGHn9DzXMGq+KI1ESwK46ovs97HHAXHbwNphYhK9MoX9/Fgv8EtkFLGT/+u56Hg/EU+w4w1VE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770694102; c=relaxed/simple;
-	bh=mquBsZD8rCNGgxPFuHH5PojnzCDvHIkOFFRMWAQGkAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fuH200VFq531GsnQK9UvWaW1p0917BF5rAWE/z4Kmlx5znUylrjNwXdq1Hgv9T9YBcrEtrGohMRIWb1or6M7yIjjA6h3b3qZrMoEUv2tzQvh0jLY4gecP7+lnZGAvTDc/touztT6b6p2SaPRTBTQ8occXnDIuZXBV+NpkCU2EwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXeufYPG; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1770694700; c=relaxed/simple;
+	bh=VcwMFoPyz5s+M3CLBHcy6PR1fqtMCG9/+oATAr28kSY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jTCzOZwvHMDiabLlXAUkSmqYgq+Jp+axxxniyxXq0s20KXL+nl6KEDflekIWXY7QBTOBpwmlW1leNhZGf4+YrWwbiCwsfDCBqbaAWwl4Sh170qPlZ4fNe9OuZgyNyV9iR0FKzpZA3EIeIivwBCxrIAnjAYy+PCQs6g+wU6uOFko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SX3WpqtK; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXeufYPG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SX3WpqtK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770694102; x=1802230102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mquBsZD8rCNGgxPFuHH5PojnzCDvHIkOFFRMWAQGkAs=;
-  b=eXeufYPGyxqwaIRpLKdonrjp1/E2dcU7k3FAsu88OLeEKr96rBhLM8DU
-   kCSjQavq7Rwk/0jyCWf1u6GnyUAJvzmRlLhkdN0PNUdplMcOlNauRjARz
-   y8SZsTdcnJOKogxmLlQEYh52/YnYjiwYY3FwyNNCexdJs7TTkdyzDBZPv
-   3kqHvv4/hyDZrwWin6g2RxsECDd0g/vvqi0oTzirHEkQf42ntTKfxC8cA
-   TuRx/fqD3wLYjbNYHbh5aDu6sc4ghSg3YeA4qGYTVhUaKGM00FkYTCjK7
-   vyT0KUyBabU67y2SPDcxL0TUyP9u+mWrZJ542mqCzpGHzfIUm3uYeII4q
+  t=1770694700; x=1802230700;
+  h=date:from:to:cc:subject:message-id;
+  bh=VcwMFoPyz5s+M3CLBHcy6PR1fqtMCG9/+oATAr28kSY=;
+  b=SX3WpqtKoIbTznXMUiMNi9Z1Dr1aVeqUytzhmTXqu5oO2ImppxTU05EA
+   LruTHvX3dXnEBlcn68iPg5BhaRGL9a8UZDrOlC5cYMuHccHh2Q0pvXCeo
+   hNUmq74U4MUuPguU9Ooe5tmRT669PH6rCNHjVmcUS9udXUeQB5zKnpuGE
+   XL6vSv+x8Dq8Ix1YpXQsvoPVTkn3fGo7RBTvuSXZf1DjLgdFTJT03Nbh8
+   mJU1Eopxr70jkXmFVKFXrv9aGxSF7aZdzou5GRBGD/gbfiaK5f489dMr1
+   opPse4gs3zYSSM+ps8RO0nKakZYn+fZzz/ZvUNKUqZFjIBvJJuEHEE0xf
    Q==;
-X-CSE-ConnectionGUID: 4WdsIaUwQvWxQsbqObuvGA==
-X-CSE-MsgGUID: H9Yw9ti4ToC/yQ5UQakcIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="70828379"
+X-CSE-ConnectionGUID: LhaFwhuLTcuL4Bdp/XJdcQ==
+X-CSE-MsgGUID: JEzmAO2rSPK6YPjZdJrUpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="75440719"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="70828379"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 19:28:21 -0800
-X-CSE-ConnectionGUID: hqEMkMWSRuq3GXKgeNTe+w==
-X-CSE-MsgGUID: 9LQAcO8lSIqg/G4tGiSpqQ==
+   d="scan'208";a="75440719"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 19:38:19 -0800
+X-CSE-ConnectionGUID: NiAWjiQ1R7SwGP6/XIWalQ==
+X-CSE-MsgGUID: NNAbH7sOR9u6N8D+lWaCcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="210891204"
+   d="scan'208";a="211465305"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Feb 2026 19:28:17 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 09 Feb 2026 19:38:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpeQB-00000000oa0-0V7E;
-	Tue, 10 Feb 2026 03:28:15 +0000
-Date: Tue, 10 Feb 2026 11:27:23 +0800
+	id 1vpeZr-00000000oaj-2Z43;
+	Tue, 10 Feb 2026 03:38:15 +0000
+Date: Tue, 10 Feb 2026 11:37:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Erikas Bitovtas <xerikasxx@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kevin Tsai <ktsai@capellamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	Erikas Bitovtas <xerikasxx@gmail.com>
-Subject: Re: [PATCH v2 2/2] iio: light: Add support for Capella cm36686 and
- cm36672p sensors
-Message-ID: <202602101105.uyNRag1Y-lkp@intel.com>
-References: <20260209-cm36686-v2-2-a48126d2b124@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 2/2]
+ include/trace/hooks/dmabuf.h:15:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202602101123.TbQMbX3B-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260209-cm36686-v2-2-a48126d2b124@gmail.com>
 
-Hi Erikas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9845cf73f7db6094c0d8419d6adb848028f4a921]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Erikas-Bitovtas/dt-bindings-Add-binding-document-for-cm36686/20260209-222640
-base:   9845cf73f7db6094c0d8419d6adb848028f4a921
-patch link:    https://lore.kernel.org/r/20260209-cm36686-v2-2-a48126d2b124%40gmail.com
-patch subject: [PATCH v2 2/2] iio: light: Add support for Capella cm36686 and cm36672p sensors
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260210/202602101105.uyNRag1Y-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101105.uyNRag1Y-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   3b54985e12634723f50be663b001e0f03e8643e1
+commit: 0d385a5b58ead06f4a2b6565cb1ce02b922863ce [2/2] ANDROID: dma-buf: Add vendor hook for deferred dmabuf sysfs stats release
+config: x86_64-randconfig-123-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101123.TbQMbX3B-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101123.TbQMbX3B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602101105.uyNRag1Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602101123.TbQMbX3B-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma-buf/dma-buf-sysfs-stats.c: note: in included file:
+>> include/trace/hooks/dmabuf.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/dmabuf.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/dmabuf.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
->> Warning: drivers/iio/light/cm36686.c:2 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C) 2026 Erikas Bitovtas <xerikasxx@gmail.com>
-   Warning: drivers/iio/light/cm36686.c:299 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * This is taken from Xiaomi's driver for cm36686. The device tree for cm36686
+vim +15 include/trace/hooks/dmabuf.h
+
+    13	
+    14	struct dma_buf_sysfs_entry;
+  > 15	DECLARE_RESTRICTED_HOOK(android_rvh_dma_buf_stats_teardown,
 
 -- 
 0-DAY CI Kernel Test Service
