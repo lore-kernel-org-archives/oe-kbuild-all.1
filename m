@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C49337BAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 09:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B424A32
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 09:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770714156; cv=none; b=buWUMWpH+ecJKQuVxwz/lghZIyWCYWRFK9X8AJ9+v8rkw8qTGx4sv5tzsRon3PxPMEe0Hkn+nBsi4j1v24Vjq/nQlZE6ZHfKyEeJ0714ghd6ncErXHA0PJhw8m81GrIc/hL7+qwvOJX8Rf58NUpuc6hciSRSMNeVdoxo5TNEDOM=
+	t=1770714816; cv=none; b=YdqEx44OVBNEjC1/rk7xPT1yEMpk+MROFvkfkHRT5wl39dGJxgh30kbgvBxoB9ki4WmhFbNRmI9lU/kK7pqQyOHHa4aXASvA3/aEMqqdYRzYXMYohsiur6ddiUKBeDMdjnGvUiOzuoW0KneXAv33oVo53WNYAENRiptJgU0AuJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770714156; c=relaxed/simple;
-	bh=gOztfxZ/Zqz79202o7dr8oXnMjiHQxkG/2JYcDWjYwM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jmgaOLAA5lIyRLl3cXw0tusvUWa6n3UogMt9dGNKTFkRrrMovEtZQ8ENT9AZqjTFES6UdibcqK0Qa+GXJMuvc8C2/pyDVyC5HKEDdvTJvQxlz+x4AcD5FY7eHhIQBEmbwSgN1OIMC4Cs9EAAGxAp/SMjC9lnovvujVicClMRiCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M/sfRhWR; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1770714816; c=relaxed/simple;
+	bh=lELKvDzg8m8+myBtuutpQsNcvMqgXMDEzrsuOvO4oPk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Im6e1tBGDXA75PJhlXJHcQJMEIQKX9D2CuuCGm3MgpmcKKnyNZXMpll44Fn3LPrYvL4wwVNls9c9ZZuF4QQ/JqCtqMYeP5gFT82ZXWv6foa9aKAcUMG3eSuYwMgPB+LpDRoQczS3hMnvULMkY4rnekQMKZnlWN/E+A8sB9j49fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GiiToEFS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M/sfRhWR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GiiToEFS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770714154; x=1802250154;
+  t=1770714814; x=1802250814;
   h=date:from:to:cc:subject:message-id;
-  bh=gOztfxZ/Zqz79202o7dr8oXnMjiHQxkG/2JYcDWjYwM=;
-  b=M/sfRhWRdJj2+z/ilQwX5Ndhfegw55MoqvgFjZbDnRIT43HhO16Nufd0
-   w6D/GJ/fvjtlIg7mjzIRF8rRq59S8hJA2Ep/KaBQmuTDZzQUnsnzV495/
-   /Vy57GbNQf0wa250/XbH3MHI7GWQXG4op7JGF4A2B4kTDyRnUaD9lNeHJ
-   1XiRLYsk+GU+1viJyVR9s7lN1eg50qcUzK0mHJZptc2shP7XeEQE5nqWb
-   b4XDQNR7wef2NRM/M4WkvA61KvtkFBBWxbpJ+hhOCKVltaehmBj87SUNd
-   jP9AhYr6j0C4rnHyCghyl2wZLb9aIP+v5RM8JssgFCfJZ+fNhkqhPGZdL
+  bh=lELKvDzg8m8+myBtuutpQsNcvMqgXMDEzrsuOvO4oPk=;
+  b=GiiToEFSv29sK0zsglUWr7CshnYibjgoMwNng8fGOLG4+CjmsnYs9upJ
+   San90JyFsygqGEXp8zAiQcpFKJIcBhmThcMm8fFYQ4n79ICkpoas8PbOZ
+   w90WYtzmgYKJAOv0IVvR+10geli8Vai7kd/eQ43jgVkTKWlV3sdlf3u55
+   Gj84LPPPO+eSOm/nFN8q6sfiFvPzzqBHI/lRllP3yVXEwiO8VcZQixFJl
+   RzwjOMHxFPSjgNT76YPfc0Jj4UjFqCxoL317Gvxv9nxIcWLCbF+zRQwl2
+   1I38sjG1eCtEbMB448+zmxhJemrp7o2Bz6dkESAKwDjF6FPpToTvpN6gR
    A==;
-X-CSE-ConnectionGUID: H+ntJVzCQTeX8JbDshjXhA==
-X-CSE-MsgGUID: wOk5SuVfQTmeY87vbbG1XQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="89251719"
+X-CSE-ConnectionGUID: iPhf/dMbTliI9QO7uq657A==
+X-CSE-MsgGUID: 3+W5ZAN9Rr270WMOBKX3gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82567792"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="89251719"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 01:02:33 -0800
-X-CSE-ConnectionGUID: B+Y5HmeHSg6TJqNn+LzDJQ==
-X-CSE-MsgGUID: acyRaN2pSo2otVhl3LiGOg==
+   d="scan'208";a="82567792"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 01:13:34 -0800
+X-CSE-ConnectionGUID: xzAhfX6MTfmd1CtYTEcN1Q==
+X-CSE-MsgGUID: LzwVKiVqSYW38bT4agHPuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216371250"
+   d="scan'208";a="216030004"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Feb 2026 01:02:31 -0800
+  by orviesa003.jf.intel.com with ESMTP; 10 Feb 2026 01:13:33 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpjdd-00000000oqW-3Sok;
-	Tue, 10 Feb 2026 09:02:29 +0000
-Date: Tue, 10 Feb 2026 17:01:59 +0800
+	id 1vpjoI-00000000oqq-09Sb;
+	Tue, 10 Feb 2026 09:13:30 +0000
+Date: Tue, 10 Feb 2026 17:12:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 501/799]
- fs/bcachefs/journal/read.c:527:5-8: Unneeded variable: "ret". Return "0" on
- line 536
-Message-ID: <202602101725.H5T5lTt8-lkp@intel.com>
+To: Ross Philipson <ross.philipson@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>,
+ "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Subject: [ardb:x86-slaunch 32/41] include/linux/slaunch.h:12:10:
+ fatal error: asm/txt.h: No such file or directory
+Message-ID: <202602101711.XqylAqJn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,53 +60,38 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: 23542f9170e75481d2e3d2e05c2f2988d2483f48 [501/799] bcachefs: split journal/io.c -> (read|write).c
-config: arc-randconfig-r063-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101725.H5T5lTt8-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-slaunch
+head:   68d6a808368b02c2fdfa0ba1e4e59d6b97668c1a
+commit: c6eaa811aa41c3de29b05dce1fadad2533e459f2 [32/41] kexec: Secure Launch kexec SEXIT support
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260210/202602101711.XqylAqJn-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101711.XqylAqJn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602101725.H5T5lTt8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602101711.XqylAqJn-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/journal/read.c:527:5-8: Unneeded variable: "ret". Return "0" on line 536
-   fs/bcachefs/journal/read.c:555:5-8: Unneeded variable: "ret". Return "0" on line 576
-   fs/bcachefs/journal/read.c:599:5-8: Unneeded variable: "ret". Return "0" on line 606
-   fs/bcachefs/journal/read.c:675:5-8: Unneeded variable: "ret". Return "0" on line 682
-   fs/bcachefs/journal/read.c:716:5-8: Unneeded variable: "ret". Return "0" on line 724
-   fs/bcachefs/journal/read.c:837:5-8: Unneeded variable: "ret". Return "0" on line 845
-   fs/bcachefs/journal/read.c:1305:5-8: Unneeded variable: "ret". Return "0" on line 1347
+All errors (new ones prefixed by >>):
 
-vim +527 fs/bcachefs/journal/read.c
+   In file included from kernel/kexec_core.c:44:
+>> include/linux/slaunch.h:12:10: fatal error: asm/txt.h: No such file or directory
+      12 | #include <asm/txt.h>
+         |          ^~~~~~~~~~~
+   compilation terminated.
 
-528b18e6d1c67c fs/bcachefs/journal_io.c Kent Overstreet 2021-12-31  520  
-528b18e6d1c67c fs/bcachefs/journal_io.c Kent Overstreet 2021-12-31  521  static int journal_entry_blacklist_validate(struct bch_fs *c,
-c23a9e08825919 fs/bcachefs/journal_io.c Kent Overstreet 2022-09-26  522  				struct jset *jset,
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  523  				struct jset_entry *entry,
-c4e382e2347781 fs/bcachefs/journal_io.c Kent Overstreet 2023-08-06  524  				unsigned version, int big_endian,
-60558d55f7e26c fs/bcachefs/journal_io.c Kent Overstreet 2024-12-07  525  				struct bkey_validate_context from)
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  526  {
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16 @527  	int ret = 0;
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  528  
-c23a9e08825919 fs/bcachefs/journal_io.c Kent Overstreet 2022-09-26  529  	if (journal_entry_err_on(le16_to_cpu(entry->u64s) != 1,
-a8712967bf07da fs/bcachefs/journal_io.c Kent Overstreet 2023-08-06  530  				 c, version, jset, entry,
-b65db750e2bb92 fs/bcachefs/journal_io.c Kent Overstreet 2023-10-24  531  				 journal_entry_blacklist_bad_size,
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  532  		"invalid journal seq blacklist entry: bad size")) {
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  533  		journal_entry_null_range(entry, vstruct_next(entry));
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  534  	}
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  535  fsck_err:
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16 @536  	return ret;
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  537  }
-1c6fdbd8f2465d fs/bcachefs/journal_io.c Kent Overstreet 2017-03-16  538  
 
-:::::: The code at line 527 was first introduced by commit
-:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
+vim +12 include/linux/slaunch.h
 
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+1877aef65de484 Ross Philipson 2025-12-15  11  
+1877aef65de484 Ross Philipson 2025-12-15 @12  #include <asm/txt.h>
+1877aef65de484 Ross Philipson 2025-12-15  13  
+
+:::::: The code at line 12 was first introduced by commit
+:::::: 1877aef65de484a2f9f9e51efc35e661c16360f8 x86: Secure Launch main header file
+
+:::::: TO: Ross Philipson <ross.philipson@oracle.com>
+:::::: CC: Ard Biesheuvel <ardb@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
