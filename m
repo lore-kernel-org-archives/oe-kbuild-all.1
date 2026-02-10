@@ -1,88 +1,176 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562EC2D0601
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 03:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288D82D0601
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 03:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770694700; cv=none; b=tyxhzyxLfskOd/PNkSum8EpevTubC0Ej6hW3aE6Zj/1r9TAL1qN86U+gkaKg7D1oWF8v2ZMBIEoL9P6ERp3uQNTIAxZCI0zrsXhGHn9DzXMGq+KI1ESwK46ovs97HHAXHbwNphYhK9MoX9/Fgv8EtkFLGT/+u56Hg/EU+w4w1VE=
+	t=1770694702; cv=none; b=qCmitXcy+RmP7BpDtCN4s2/ixYRArFv40TPd57BqSQgapoMe5N8gVuPhIOyz+jB3p1hqB2CdEt3EIhzscUpVZyi0x5kWINUc3acqqEPtMuvJD/3QuoLp2VoqFWmjbSNgtQym8boUziNQhWr/qhGZm4P58ca4jJW47TPGEkPiLMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770694700; c=relaxed/simple;
-	bh=VcwMFoPyz5s+M3CLBHcy6PR1fqtMCG9/+oATAr28kSY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jTCzOZwvHMDiabLlXAUkSmqYgq+Jp+axxxniyxXq0s20KXL+nl6KEDflekIWXY7QBTOBpwmlW1leNhZGf4+YrWwbiCwsfDCBqbaAWwl4Sh170qPlZ4fNe9OuZgyNyV9iR0FKzpZA3EIeIivwBCxrIAnjAYy+PCQs6g+wU6uOFko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SX3WpqtK; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1770694702; c=relaxed/simple;
+	bh=sFVY9uRlv/uOoCrFACyildgxjy5ned4sBwWRXbHJXbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H6V5VqxWttcNZfkRgkhlAFWWYeQbGcWuXOr8giQMGRzg7vQVgw6TuTYhO8kNUn3RHm6+j1zxGueckQM7jZ/hPDDf50bazdP2p7+NhXWZgGbtjXCQRujjrLNShDKCv2/9w9GJkO6H1QlWY35x8MgH20BhmWzKLtFMt3Ampt6wpzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhblH1mm; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SX3WpqtK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhblH1mm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770694700; x=1802230700;
-  h=date:from:to:cc:subject:message-id;
-  bh=VcwMFoPyz5s+M3CLBHcy6PR1fqtMCG9/+oATAr28kSY=;
-  b=SX3WpqtKoIbTznXMUiMNi9Z1Dr1aVeqUytzhmTXqu5oO2ImppxTU05EA
-   LruTHvX3dXnEBlcn68iPg5BhaRGL9a8UZDrOlC5cYMuHccHh2Q0pvXCeo
-   hNUmq74U4MUuPguU9Ooe5tmRT669PH6rCNHjVmcUS9udXUeQB5zKnpuGE
-   XL6vSv+x8Dq8Ix1YpXQsvoPVTkn3fGo7RBTvuSXZf1DjLgdFTJT03Nbh8
-   mJU1Eopxr70jkXmFVKFXrv9aGxSF7aZdzou5GRBGD/gbfiaK5f489dMr1
-   opPse4gs3zYSSM+ps8RO0nKakZYn+fZzz/ZvUNKUqZFjIBvJJuEHEE0xf
-   Q==;
-X-CSE-ConnectionGUID: LhaFwhuLTcuL4Bdp/XJdcQ==
-X-CSE-MsgGUID: JEzmAO2rSPK6YPjZdJrUpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="75440719"
+  t=1770694701; x=1802230701;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sFVY9uRlv/uOoCrFACyildgxjy5ned4sBwWRXbHJXbw=;
+  b=XhblH1mmq+Sh9cv5NV91y7rjuoKPDKZtHRZ/xbbdFtn/Ufr1NNUZvtYq
+   B/ppqra9hgxVMHro2LsPSIPvyuCA9LbbrcebZMkxhi4PYul/ogoYJHe5d
+   f6P12X5DC3l9arkij8SVpxV8dzdLSuP2+F3zVt6clMQYzLMBESqInOEaV
+   Z+HcSy68VDnmZkWfbeiw1dp4HN7AutqGdioyUe3crdVWyM/dWJK6PEfef
+   6XJkEsIpLZmdL72wC1kHFAPD+ybXqQnf90t+NLiFy2NWxtMVBLCWkgZi4
+   lQtB/CVLMy/4KR6NtLHeNOaKVjscagJhsWe+yekFD+Bd2PuaIJIgnZMyw
+   A==;
+X-CSE-ConnectionGUID: EAZzS+sjTHGaJkrLdd5OeQ==
+X-CSE-MsgGUID: yBjQXSQAS5io145dBMRaiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="75440722"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75440719"
+   d="scan'208";a="75440722"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 19:38:19 -0800
-X-CSE-ConnectionGUID: NiAWjiQ1R7SwGP6/XIWalQ==
-X-CSE-MsgGUID: NNAbH7sOR9u6N8D+lWaCcQ==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 19:38:20 -0800
+X-CSE-ConnectionGUID: wMXu1XltQ82QgfR5f5jb6Q==
+X-CSE-MsgGUID: 3FJlgQBrQ2WxlsuH9/BaKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211465305"
+   d="scan'208";a="211465296"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 09 Feb 2026 19:38:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpeZr-00000000oaj-2Z43;
+	id 1vpeZr-00000000oae-2DNE;
 	Tue, 10 Feb 2026 03:38:15 +0000
-Date: Tue, 10 Feb 2026 11:37:55 +0800
+Date: Tue, 10 Feb 2026 11:37:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 2/2]
- include/trace/hooks/dmabuf.h:15:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202602101123.TbQMbX3B-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Duoming Zhou <duoming@zju.edu.cn>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, 3chas3@gmail.com,
+	linux-atm-general@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org, shaojijie@huawei.com,
+	Duoming Zhou <duoming@zju.edu.cn>, stable@kernel.org
+Subject: Re: [PATCH net v3] atm: fore200e: fix use-after-free in tasklets
+ during device removal
+Message-ID: <202602101146.NCGz3JHc-lkp@intel.com>
+References: <20260209094512.33847-1-duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209094512.33847-1-duoming@zju.edu.cn>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   3b54985e12634723f50be663b001e0f03e8643e1
-commit: 0d385a5b58ead06f4a2b6565cb1ce02b922863ce [2/2] ANDROID: dma-buf: Add vendor hook for deferred dmabuf sysfs stats release
-config: x86_64-randconfig-123-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101123.TbQMbX3B-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101123.TbQMbX3B-lkp@intel.com/reproduce)
+Hi Duoming,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Duoming-Zhou/atm-fore200e-fix-use-after-free-in-tasklets-during-device-removal/20260209-174706
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260209094512.33847-1-duoming%40zju.edu.cn
+patch subject: [PATCH net v3] atm: fore200e: fix use-after-free in tasklets during device removal
+config: i386-randconfig-141-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101146.NCGz3JHc-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602101123.TbQMbX3B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602101146.NCGz3JHc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/dma-buf/dma-buf-sysfs-stats.c: note: in included file:
->> include/trace/hooks/dmabuf.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/dmabuf.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/dmabuf.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+smatch warnings:
+drivers/atm/fore200e.c:367 fore200e_shutdown() warn: inconsistent indenting
 
-vim +15 include/trace/hooks/dmabuf.h
+vim +367 drivers/atm/fore200e.c
 
-    13	
-    14	struct dma_buf_sysfs_entry;
-  > 15	DECLARE_RESTRICTED_HOOK(android_rvh_dma_buf_stats_teardown,
+   353	
+   354	
+   355	static void
+   356	fore200e_shutdown(struct fore200e* fore200e)
+   357	{
+   358	    printk(FORE200E "removing device %s at 0x%lx, IRQ %s\n",
+   359		   fore200e->name, fore200e->phys_base, 
+   360		   fore200e_irq_itoa(fore200e->irq));
+   361	    
+   362	    if (fore200e->state > FORE200E_STATE_RESET) {
+   363		/* first, reset the board to prevent further interrupts or data transfers */
+   364		fore200e_reset(fore200e, 0);
+   365	    }
+   366	#ifdef FORE200E_USE_TASKLET
+ > 367		if (fore200e->state >= FORE200E_STATE_IRQ) {
+   368			tasklet_kill(&fore200e->tx_tasklet);
+   369			tasklet_kill(&fore200e->rx_tasklet);
+   370		}
+   371	#endif
+   372	    /* then, release all allocated resources */
+   373	    switch(fore200e->state) {
+   374	
+   375	    case FORE200E_STATE_COMPLETE:
+   376		kfree(fore200e->stats);
+   377	
+   378		fallthrough;
+   379	    case FORE200E_STATE_IRQ:
+   380		free_irq(fore200e->irq, fore200e->atm_dev);
+   381	
+   382		fallthrough;
+   383	    case FORE200E_STATE_ALLOC_BUF:
+   384		fore200e_free_rx_buf(fore200e);
+   385	
+   386		fallthrough;
+   387	    case FORE200E_STATE_INIT_BSQ:
+   388		fore200e_uninit_bs_queue(fore200e);
+   389	
+   390		fallthrough;
+   391	    case FORE200E_STATE_INIT_RXQ:
+   392		fore200e_dma_chunk_free(fore200e, &fore200e->host_rxq.status);
+   393		fore200e_dma_chunk_free(fore200e, &fore200e->host_rxq.rpd);
+   394	
+   395		fallthrough;
+   396	    case FORE200E_STATE_INIT_TXQ:
+   397		fore200e_dma_chunk_free(fore200e, &fore200e->host_txq.status);
+   398		fore200e_dma_chunk_free(fore200e, &fore200e->host_txq.tpd);
+   399	
+   400		fallthrough;
+   401	    case FORE200E_STATE_INIT_CMDQ:
+   402		fore200e_dma_chunk_free(fore200e, &fore200e->host_cmdq.status);
+   403	
+   404		fallthrough;
+   405	    case FORE200E_STATE_INITIALIZE:
+   406		/* nothing to do for that state */
+   407	
+   408	    case FORE200E_STATE_START_FW:
+   409		/* nothing to do for that state */
+   410	
+   411	    case FORE200E_STATE_RESET:
+   412		/* nothing to do for that state */
+   413	
+   414	    case FORE200E_STATE_MAP:
+   415		fore200e->bus->unmap(fore200e);
+   416	
+   417		fallthrough;
+   418	    case FORE200E_STATE_CONFIGURE:
+   419		/* nothing to do for that state */
+   420	
+   421	    case FORE200E_STATE_REGISTER:
+   422		/* XXX shouldn't we *start* by deregistering the device? */
+   423		atm_dev_deregister(fore200e->atm_dev);
+   424	
+   425		fallthrough;
+   426	    case FORE200E_STATE_BLANK:
+   427		/* nothing to do for that state */
+   428		break;
+   429	    }
+   430	}
+   431	
 
 -- 
 0-DAY CI Kernel Test Service
