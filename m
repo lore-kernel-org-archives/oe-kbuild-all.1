@@ -1,381 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471FE245005
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 18:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76F03254AC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 18:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770748558; cv=none; b=d1/O77Q6/NWPV5WUZV8wKs2+XicevFDavgFIi5HHR2FIBiYBZtWh8c3M0J/J3Dqzfd/XNF5Zq9hh7iAWCo3gAJgqXIYqUfEBB/XiKVOvpLWrHNsZRzs41dvpanhPsqTYb4sJSxLr/ej+bVma3YEEQiwmJz/rzIAX4WP1TbdS5Dk=
+	t=1770749886; cv=none; b=Sfv5Sg5mZ0l835/uRZ/rl0EYEp4qk+tA4a10YDME2MixhF8eSg3Y7kIq8NLnKO5vyLXreOM8ZCyXw7CgkYMC1WgY+p/Ock6ww79McdzlI95aVFPIho3hSqXI/s7YJBsKbLfUlucTw6MEHa83qrswv6uaZT/pm8ZFc2YDEmBf5gU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770748558; c=relaxed/simple;
-	bh=J8vbRyDhN4fBEoVRPg0epdkE1Y35vtWi7KoWKKdWtOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bCqjZl8oLwEiyRFUC4wDdJQ8YthqaRrp/RKqrWHuIIy8a3XHaIZNZRRdSoT7EGQlMUkUu0o5iRYGQl8IFhxB5g6x9iF89Ny74JZHEgKME0CBO8TTpQKd1bTDUoGooCFUXoiSiXnAWcZM7C3G5wC6h2W+2sYO5R9Vq/XseK3X8ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z/AKeO99; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1770749886; c=relaxed/simple;
+	bh=LCM73XTSrnqBv4RZBagyTotqOS4BQKJ1iCJfNaDf3ug=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jfBjsJz3Cb+o+coYr49YTLPDkEwurR9U5yWBKxNvnJ6A+v9UOSywWnCVxYaYI0v18Ox0BZgKOJ57hC1kvBTZXjojwIiG81u+XM2+X95Jo4cHmq2iAPoSc99iHvII9zn9bpgjTVFmeIZvQjT34MAPiPrYjukjnhZ2a3v2sXd7u6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zunn7bt6; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z/AKeO99"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zunn7bt6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770748557; x=1802284557;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J8vbRyDhN4fBEoVRPg0epdkE1Y35vtWi7KoWKKdWtOI=;
-  b=Z/AKeO99qxAozPfya3K3uvNqxIo1F9jp4aZmX/Vx7XQ8BEGd0Feraga3
-   lGUYEGHtRhDjq/Y9WxB2yN99ox91UqvAxhmD56k7inTiis9vA2ksrsLVj
-   scyZ1rld9nCOwWg40mEDoVDK/v7OucSV9TSeBsTcKVzlayh6PUs4On6l3
-   kEZw0ltqMhMd8CWyswBbYdc1l3Dr8vsgEspsxXHaCpqu6nIRkGM8fLQta
-   qZGcT1NWUhmb7oJ4FYp54wjaylsifb6wsn21IjwGsyi8l5upYSpXXUtxJ
-   +NqJjC6SjF7z4AGLDwCKcjkxRqjjT4IikzhAdLE4Q/nM56HAkMAi0JjES
+  t=1770749885; x=1802285885;
+  h=date:from:to:cc:subject:message-id;
+  bh=LCM73XTSrnqBv4RZBagyTotqOS4BQKJ1iCJfNaDf3ug=;
+  b=Zunn7bt6p+Nt3zJ6PwsxEXIDOPm0zP7ceu6N7F2KxXUI+bvpzJ3AZA3H
+   B66g6eSX8Vy2gMSeHfNkyKI4gAYBVAFdRmlztowv8c9NztoHNvdieeNun
+   bW9KcpcvK40D2FfAWAd+SYX5M/6c1BqVeqp479Wu4sLy96ozd6dhDNpud
+   S0e956zy+TLFpKAfp6pY+XHJjwUmAOlqz1uEUgM0GJBfZYcwqjbc8FinZ
+   eKTbzw7wrqqA5yhnJSYQ/hg/Es1UisNbo7L7tVgZQKHpOKb49TZiAjeWp
+   IekWFcO5Cfh5DL5AUbR0Ww75oENxP6pIX9lOZvmCknzN9PpgYnEUbxhRH
    Q==;
-X-CSE-ConnectionGUID: XyO/BnQfQh2Kyc4MxkuF0w==
-X-CSE-MsgGUID: w8EddFU4TgCT4lvIRg0yNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75513466"
+X-CSE-ConnectionGUID: jIh+s7IlTxuin2pFOjy7Fw==
+X-CSE-MsgGUID: f5OHqZVWR8+AbHyl7LGKiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="82618739"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75513466"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 10:35:56 -0800
-X-CSE-ConnectionGUID: 1LG9rKigRWuh/ZAeHTsn4Q==
-X-CSE-MsgGUID: +46kTIN+SnWUSn88Fnt7Wg==
+   d="scan'208";a="82618739"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 10:57:56 -0800
+X-CSE-ConnectionGUID: klecdAOdS7mzYJVsSSD9Ag==
+X-CSE-MsgGUID: pTkVaQqkRyO264W+32ZAhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211324033"
+   d="scan'208";a="216538355"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Feb 2026 10:35:53 -0800
+  by orviesa004.jf.intel.com with ESMTP; 10 Feb 2026 10:57:55 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpsaU-00000000pIi-0Tbp;
-	Tue, 10 Feb 2026 18:35:50 +0000
-Date: Wed, 11 Feb 2026 02:34:58 +0800
+	id 1vpsvo-00000000pK0-1bHF;
+	Tue, 10 Feb 2026 18:57:52 +0000
+Date: Wed, 11 Feb 2026 02:56:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Feng Yang <yangfeng59949@163.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	yangfeng59949@163.com
-Subject: Re: [PATCH v5] bpf: test_run: Fix the null pointer dereference issue
- in bpf_lwt_xmit_push_encap
-Message-ID: <202602110246.gh5IIHrI-lkp@intel.com>
-References: <20260210090657.86977-1-yangfeng59949@163.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:refactor-umem-v1 78/105]
+ drivers/infiniband/hw/vmw_pvrdma/pvrdma_cq.c:156:17: error: label 'err_umem'
+ used but not defined
+Message-ID: <202602110210.QwWf11pG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260210090657.86977-1-yangfeng59949@163.com>
 
-Hi Feng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/net]
-[also build test ERROR on bpf-next/master bpf/master net-next/main net/main linus/master v6.19 next-20260209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Yang/bpf-test_run-Fix-the-null-pointer-dereference-issue-in-bpf_lwt_xmit_push_encap/20260210-171138
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20260210090657.86977-1-yangfeng59949%40163.com
-patch subject: [PATCH v5] bpf: test_run: Fix the null pointer dereference issue in bpf_lwt_xmit_push_encap
-config: x86_64-buildonly-randconfig-004-20260210 (https://download.01.org/0day-ci/archive/20260211/202602110246.gh5IIHrI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110246.gh5IIHrI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git refactor-umem-v1
+head:   b6daace542159a3879b60866e24495985ecffc23
+commit: 956a2f3d6294d17d7588fe679c44e9eddfdefc28 [78/105] RDMA/vmw_pvrdma: Provide a modern CQ creation interface
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260211/202602110210.QwWf11pG-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110210.QwWf11pG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602110246.gh5IIHrI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602110210.QwWf11pG-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/bpf/test_run.c: In function 'bpf_prog_test_run_skb':
->> net/bpf/test_run.c:1162:31: warning: unused variable 'fl6' [-Wunused-variable]
-    1162 |                 struct flowi6 fl6 = {};
-         |                               ^~~
---
-   ld: vmlinux.o: in function `ip_route_output_key':
->> include/net/route.h:179:(.text+0x128a7e9): undefined reference to `ip_route_output_flow'
+   drivers/infiniband/hw/vmw_pvrdma/pvrdma_cq.c: In function 'pvrdma_create_user_cq':
+>> drivers/infiniband/hw/vmw_pvrdma/pvrdma_cq.c:156:17: error: label 'err_umem' used but not defined
+     156 |                 goto err_umem;
+         |                 ^~~~
 
 
-vim +/fl6 +1162 net/bpf/test_run.c
+vim +/err_umem +156 drivers/infiniband/hw/vmw_pvrdma/pvrdma_cq.c
 
-   984	
-   985	int bpf_prog_test_run_skb(struct bpf_prog *prog, const union bpf_attr *kattr,
-   986				  union bpf_attr __user *uattr)
-   987	{
-   988		bool is_l2 = false, is_direct_pkt_access = false, is_lwt = false;
-   989		u32 tailroom = SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
-   990		struct net *net = current->nsproxy->net_ns;
-   991		struct net_device *dev = net->loopback_dev;
-   992		u32 headroom = NET_SKB_PAD + NET_IP_ALIGN;
-   993		u32 linear_sz = kattr->test.data_size_in;
-   994		u32 repeat = kattr->test.repeat;
-   995		struct dst_entry *dst = NULL;
-   996		struct __sk_buff *ctx = NULL;
-   997		struct sk_buff *skb = NULL;
-   998		struct sock *sk = NULL;
-   999		u32 retval, duration;
-  1000		int hh_len = ETH_HLEN;
-  1001		void *data = NULL;
-  1002		int ret;
-  1003	
-  1004		if ((kattr->test.flags & ~BPF_F_TEST_SKB_CHECKSUM_COMPLETE) ||
-  1005		    kattr->test.cpu || kattr->test.batch_size)
-  1006			return -EINVAL;
-  1007	
-  1008		if (kattr->test.data_size_in < ETH_HLEN)
-  1009			return -EINVAL;
-  1010	
-  1011		switch (prog->type) {
-  1012		case BPF_PROG_TYPE_SCHED_CLS:
-  1013		case BPF_PROG_TYPE_SCHED_ACT:
-  1014			is_direct_pkt_access = true;
-  1015			is_l2 = true;
-  1016			break;
-  1017		case BPF_PROG_TYPE_LWT_IN:
-  1018		case BPF_PROG_TYPE_LWT_OUT:
-  1019		case BPF_PROG_TYPE_LWT_XMIT:
-  1020			is_lwt = true;
-  1021			fallthrough;
-  1022		case BPF_PROG_TYPE_CGROUP_SKB:
-  1023			is_direct_pkt_access = true;
-  1024			break;
-  1025		default:
-  1026			break;
-  1027		}
-  1028	
-  1029		ctx = bpf_ctx_init(kattr, sizeof(struct __sk_buff));
-  1030		if (IS_ERR(ctx))
-  1031			return PTR_ERR(ctx);
-  1032	
-  1033		if (ctx) {
-  1034			if (ctx->data_end > kattr->test.data_size_in || ctx->data || ctx->data_meta) {
-  1035				ret = -EINVAL;
-  1036				goto out;
-  1037			}
-  1038			if (ctx->data_end) {
-  1039				/* Non-linear LWT test_run is unsupported for now. */
-  1040				if (is_lwt) {
-  1041					ret = -EINVAL;
-  1042					goto out;
-  1043				}
-  1044				linear_sz = max(ETH_HLEN, ctx->data_end);
-  1045			}
-  1046		}
-  1047	
-  1048		linear_sz = min_t(u32, linear_sz, PAGE_SIZE - headroom - tailroom);
-  1049	
-  1050		data = bpf_test_init(kattr, linear_sz, linear_sz, headroom, tailroom);
-  1051		if (IS_ERR(data)) {
-  1052			ret = PTR_ERR(data);
-  1053			data = NULL;
-  1054			goto out;
-  1055		}
-  1056	
-  1057		sk = sk_alloc(net, AF_UNSPEC, GFP_USER, &bpf_dummy_proto, 1);
-  1058		if (!sk) {
-  1059			ret = -ENOMEM;
-  1060			goto out;
-  1061		}
-  1062		sock_init_data(NULL, sk);
-  1063	
-  1064		skb = slab_build_skb(data);
-  1065		if (!skb) {
-  1066			ret = -ENOMEM;
-  1067			goto out;
-  1068		}
-  1069		skb->sk = sk;
-  1070	
-  1071		data = NULL; /* data released via kfree_skb */
-  1072	
-  1073		skb_reserve(skb, NET_SKB_PAD + NET_IP_ALIGN);
-  1074		__skb_put(skb, linear_sz);
-  1075	
-  1076		if (unlikely(kattr->test.data_size_in > linear_sz)) {
-  1077			void __user *data_in = u64_to_user_ptr(kattr->test.data_in);
-  1078			struct skb_shared_info *sinfo = skb_shinfo(skb);
-  1079			u32 copied = linear_sz;
-  1080	
-  1081			while (copied < kattr->test.data_size_in) {
-  1082				struct page *page;
-  1083				u32 data_len;
-  1084	
-  1085				if (sinfo->nr_frags == MAX_SKB_FRAGS) {
-  1086					ret = -ENOMEM;
-  1087					goto out;
-  1088				}
-  1089	
-  1090				page = alloc_page(GFP_KERNEL);
-  1091				if (!page) {
-  1092					ret = -ENOMEM;
-  1093					goto out;
-  1094				}
-  1095	
-  1096				data_len = min_t(u32, kattr->test.data_size_in - copied,
-  1097						 PAGE_SIZE);
-  1098				skb_fill_page_desc(skb, sinfo->nr_frags, page, 0, data_len);
-  1099	
-  1100				if (copy_from_user(page_address(page), data_in + copied,
-  1101						   data_len)) {
-  1102					ret = -EFAULT;
-  1103					goto out;
-  1104				}
-  1105				skb->data_len += data_len;
-  1106				skb->truesize += PAGE_SIZE;
-  1107				skb->len += data_len;
-  1108				copied += data_len;
-  1109			}
-  1110		}
-  1111	
-  1112		if (ctx && ctx->ifindex > 1) {
-  1113			dev = dev_get_by_index(net, ctx->ifindex);
-  1114			if (!dev) {
-  1115				ret = -ENODEV;
-  1116				goto out;
-  1117			}
-  1118		}
-  1119		skb->protocol = eth_type_trans(skb, dev);
-  1120		skb_reset_network_header(skb);
-  1121	
-  1122		switch (skb->protocol) {
-  1123		case htons(ETH_P_IP):
-  1124			sk->sk_family = AF_INET;
-  1125			if (sizeof(struct iphdr) <= skb_headlen(skb)) {
-  1126				sk->sk_rcv_saddr = ip_hdr(skb)->saddr;
-  1127				sk->sk_daddr = ip_hdr(skb)->daddr;
-  1128			}
-  1129			break;
-  1130	#if IS_ENABLED(CONFIG_IPV6)
-  1131		case htons(ETH_P_IPV6):
-  1132			sk->sk_family = AF_INET6;
-  1133			if (sizeof(struct ipv6hdr) <= skb_headlen(skb)) {
-  1134				sk->sk_v6_rcv_saddr = ipv6_hdr(skb)->saddr;
-  1135				sk->sk_v6_daddr = ipv6_hdr(skb)->daddr;
-  1136			}
-  1137			break;
-  1138	#endif
-  1139		default:
-  1140			break;
-  1141		}
-  1142	
-  1143		if (is_l2)
-  1144			__skb_push(skb, hh_len);
-  1145		if (is_direct_pkt_access)
-  1146			bpf_compute_data_pointers(skb);
-  1147	
-  1148		ret = convert___skb_to_skb(skb, ctx);
-  1149		if (ret)
-  1150			goto out;
-  1151	
-  1152		if (kattr->test.flags & BPF_F_TEST_SKB_CHECKSUM_COMPLETE) {
-  1153			const int off = skb_network_offset(skb);
-  1154			int len = skb->len - off;
-  1155	
-  1156			skb->csum = skb_checksum(skb, off, len, 0);
-  1157			skb->ip_summed = CHECKSUM_COMPLETE;
-  1158		}
-  1159	
-  1160		if (prog->type == BPF_PROG_TYPE_LWT_XMIT && !skb_dst(skb)) {
-  1161			struct flowi4 fl4 = {};
-> 1162			struct flowi6 fl6 = {};
-  1163			struct rtable *rt;
-  1164	
-  1165			switch (skb->protocol) {
-  1166			case htons(ETH_P_IP):
-  1167				if (sizeof(struct iphdr) <= skb_headlen(skb)) {
-  1168					fl4.saddr = ip_hdr(skb)->saddr;
-  1169					fl4.daddr = ip_hdr(skb)->daddr;
-  1170				}
-  1171	
-  1172				rt = ip_route_output_key(net, &fl4);
-  1173				if (IS_ERR(rt)) {
-  1174					ret = PTR_ERR(rt);
-  1175					goto out;
-  1176				}
-  1177				dst = &rt->dst;
-  1178				break;
-  1179	#if IS_ENABLED(CONFIG_IPV6)
-  1180			case htons(ETH_P_IPV6):
-  1181				if (sizeof(struct ipv6hdr) <= skb_headlen(skb)) {
-  1182					fl6.saddr = ipv6_hdr(skb)->saddr;
-  1183					fl6.daddr = ipv6_hdr(skb)->daddr;
-  1184				}
-  1185	
-  1186				dst = ip6_route_output(net, NULL, &fl6);
-  1187				if (IS_ERR(dst)) {
-  1188					ret = PTR_ERR(dst);
-  1189					goto out;
-  1190				}
-  1191				break;
-  1192	#endif
-  1193			default:
-  1194				ret = -EINVAL;
-  1195				goto out;
-  1196			}
-  1197	
-  1198			if (unlikely(dst->error)) {
-  1199				ret = dst->error;
-  1200				dst_release(dst);
-  1201				goto out;
-  1202			}
-  1203			skb_dst_set(skb, dst);
-  1204		}
-  1205		ret = bpf_test_run(prog, skb, repeat, &retval, &duration, false);
-  1206		if (ret)
-  1207			goto out;
-  1208		if (!is_l2) {
-  1209			if (skb_headroom(skb) < hh_len) {
-  1210				int nhead = HH_DATA_ALIGN(hh_len - skb_headroom(skb));
-  1211	
-  1212				if (pskb_expand_head(skb, nhead, 0, GFP_USER)) {
-  1213					ret = -ENOMEM;
-  1214					goto out;
-  1215				}
-  1216			}
-  1217			memset(__skb_push(skb, hh_len), 0, hh_len);
-  1218		}
-  1219	
-  1220		if (kattr->test.flags & BPF_F_TEST_SKB_CHECKSUM_COMPLETE) {
-  1221			const int off = skb_network_offset(skb);
-  1222			int len = skb->len - off;
-  1223			__wsum csum;
-  1224	
-  1225			csum = skb_checksum(skb, off, len, 0);
-  1226	
-  1227			if (csum_fold(skb->csum) != csum_fold(csum)) {
-  1228				ret = -EBADMSG;
-  1229				goto out;
-  1230			}
-  1231		}
-  1232	
-  1233		convert_skb_to___skb(skb, ctx);
-  1234	
-  1235		if (skb_is_nonlinear(skb))
-  1236			/* bpf program can never convert linear skb to non-linear */
-  1237			WARN_ON_ONCE(linear_sz == kattr->test.data_size_in);
-  1238		ret = bpf_test_finish(kattr, uattr, skb->data, skb_shinfo(skb), skb->len,
-  1239				      skb->data_len, retval, duration);
-  1240		if (!ret)
-  1241			ret = bpf_ctx_finish(kattr, uattr, ctx,
-  1242					     sizeof(struct __sk_buff));
-  1243	out:
-  1244		if (dev && dev != net->loopback_dev)
-  1245			dev_put(dev);
-  1246		kfree_skb(skb);
-  1247		kfree(data);
-  1248		if (sk)
-  1249			sk_free(sk);
-  1250		kfree(ctx);
-  1251		return ret;
-  1252	}
-  1253	
+29c8d9eba550c6 Adit Ranadive      2016-10-02   92  
+956a2f3d6294d1 Leon Romanovsky    2026-02-09   93  int pvrdma_create_user_cq(struct ib_cq *ibcq,
+956a2f3d6294d1 Leon Romanovsky    2026-02-09   94  			  const struct ib_cq_init_attr *attr,
+dd6d7f8574d7f8 Akiva Goldberger   2024-06-27   95  			  struct uverbs_attr_bundle *attrs)
+29c8d9eba550c6 Adit Ranadive      2016-10-02   96  {
+dd6d7f8574d7f8 Akiva Goldberger   2024-06-27   97  	struct ib_udata *udata = &attrs->driver_udata;
+e39afe3d6dbd90 Leon Romanovsky    2019-05-28   98  	struct ib_device *ibdev = ibcq->device;
+29c8d9eba550c6 Adit Ranadive      2016-10-02   99  	int entries = attr->cqe;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  100  	struct pvrdma_dev *dev = to_vdev(ibdev);
+e39afe3d6dbd90 Leon Romanovsky    2019-05-28  101  	struct pvrdma_cq *cq = to_vcq(ibcq);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  102  	int ret;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  103  	int npages;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  104  	unsigned long flags;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  105  	union pvrdma_cmd_req req;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  106  	union pvrdma_cmd_resp rsp;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  107  	struct pvrdma_cmd_create_cq *cmd = &req.create_cq;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  108  	struct pvrdma_cmd_create_cq_resp *resp = &rsp.create_cq_resp;
+e39afe3d6dbd90 Leon Romanovsky    2019-05-28  109  	struct pvrdma_create_cq_resp cq_resp = {};
+29c8d9eba550c6 Adit Ranadive      2016-10-02  110  	struct pvrdma_create_cq ucmd;
+ff23dfa134576e Shamir Rabinovitch 2019-03-31  111  	struct pvrdma_ucontext *context = rdma_udata_to_drv_context(
+ff23dfa134576e Shamir Rabinovitch 2019-03-31  112  		udata, struct pvrdma_ucontext, ibucontext);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  113  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  114  	BUILD_BUG_ON(sizeof(struct pvrdma_cqe) != 64);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  115  
+1c407cb5d70568 Jason Gunthorpe    2020-10-03  116  	if (attr->flags)
+1c407cb5d70568 Jason Gunthorpe    2020-10-03  117  		return -EOPNOTSUPP;
+1c407cb5d70568 Jason Gunthorpe    2020-10-03  118  
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  119  	if (attr->cqe > dev->dsr->caps.max_cqe)
+e39afe3d6dbd90 Leon Romanovsky    2019-05-28  120  		return -EINVAL;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  121  
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  122  	entries = roundup_pow_of_two(entries);
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  123  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  124  	if (!atomic_add_unless(&dev->num_cqs, 1, dev->dsr->caps.max_cq))
+e39afe3d6dbd90 Leon Romanovsky    2019-05-28  125  		return -ENOMEM;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  126  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  127  	cq->ibcq.cqe = entries;
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  128  	cq->is_kernel = false;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  129  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  130  	if (ib_copy_from_udata(&ucmd, udata, sizeof(ucmd))) {
+29c8d9eba550c6 Adit Ranadive      2016-10-02  131  		ret = -EFAULT;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  132  		goto err_cq;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  133  	}
+29c8d9eba550c6 Adit Ranadive      2016-10-02  134  
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  135  	if (!ibcq->umem)
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  136  		ibcq->umem = ib_umem_get(ibdev, ucmd.buf_addr, ucmd.buf_size,
+72b894b09a96b7 Christoph Hellwig  2019-11-13  137  					 IB_ACCESS_LOCAL_WRITE);
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  138  	if (IS_ERR(ibcq->umem)) {
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  139  		ret = PTR_ERR(ibcq->umem);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  140  		goto err_cq;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  141  	}
+29c8d9eba550c6 Adit Ranadive      2016-10-02  142  
+87aebd3f8c7490 Jason Gunthorpe    2020-09-04  143  	npages = ib_umem_num_dma_blocks(cq->umem, PAGE_SIZE);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  144  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  145  	if (npages < 0 || npages > PVRDMA_PAGE_DIR_MAX_PAGES) {
+29c8d9eba550c6 Adit Ranadive      2016-10-02  146  		dev_warn(&dev->pdev->dev,
+29c8d9eba550c6 Adit Ranadive      2016-10-02  147  			 "overflow pages in completion queue\n");
+29c8d9eba550c6 Adit Ranadive      2016-10-02  148  		ret = -EINVAL;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  149  		goto err_umem;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  150  	}
+29c8d9eba550c6 Adit Ranadive      2016-10-02  151  
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  152  	ret = pvrdma_page_dir_init(dev, &cq->pdir, npages, false);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  153  	if (ret) {
+29c8d9eba550c6 Adit Ranadive      2016-10-02  154  		dev_warn(&dev->pdev->dev,
+29c8d9eba550c6 Adit Ranadive      2016-10-02  155  			 "could not allocate page directory\n");
+29c8d9eba550c6 Adit Ranadive      2016-10-02 @156  		goto err_umem;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  157  	}
+29c8d9eba550c6 Adit Ranadive      2016-10-02  158  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  159  	/* Ring state is always the first page. Set in library for user cq. */
+29c8d9eba550c6 Adit Ranadive      2016-10-02  160  	pvrdma_page_dir_insert_umem(&cq->pdir, cq->umem, 0);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  161  
+a61eb613682917 Bryan Tan          2017-12-20  162  	refcount_set(&cq->refcnt, 1);
+e3524b269e451c Bryan Tan          2017-12-20  163  	init_completion(&cq->free);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  164  	spin_lock_init(&cq->cq_lock);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  165  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  166  	memset(cmd, 0, sizeof(*cmd));
+29c8d9eba550c6 Adit Ranadive      2016-10-02  167  	cmd->hdr.cmd = PVRDMA_CMD_CREATE_CQ;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  168  	cmd->nchunks = npages;
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  169  	cmd->ctx_handle = context->ctx_handle;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  170  	cmd->cqe = entries;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  171  	cmd->pdir_dma = cq->pdir.dir_dma;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  172  	ret = pvrdma_cmd_post(dev, &req, &rsp, PVRDMA_CMD_CREATE_CQ_RESP);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  173  	if (ret < 0) {
+29c8d9eba550c6 Adit Ranadive      2016-10-02  174  		dev_warn(&dev->pdev->dev,
+29c8d9eba550c6 Adit Ranadive      2016-10-02  175  			 "could not create completion queue, error: %d\n", ret);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  176  		goto err_page_dir;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  177  	}
+29c8d9eba550c6 Adit Ranadive      2016-10-02  178  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  179  	cq->ibcq.cqe = resp->cqe;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  180  	cq->cq_handle = resp->cq_handle;
+1f5a6c47aabc46 Adit Ranadive      2018-02-15  181  	cq_resp.cqn = resp->cq_handle;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  182  	spin_lock_irqsave(&dev->cq_tbl_lock, flags);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  183  	dev->cq_tbl[cq->cq_handle % dev->dsr->caps.max_cq] = cq;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  184  	spin_unlock_irqrestore(&dev->cq_tbl_lock, flags);
+29c8d9eba550c6 Adit Ranadive      2016-10-02  185  
+ff23dfa134576e Shamir Rabinovitch 2019-03-31  186  	cq->uar = &context->uar;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  187  
+29c8d9eba550c6 Adit Ranadive      2016-10-02  188  	/* Copy udata back. */
+1f5a6c47aabc46 Adit Ranadive      2018-02-15  189  	if (ib_copy_to_udata(udata, &cq_resp, sizeof(cq_resp))) {
+29c8d9eba550c6 Adit Ranadive      2016-10-02  190  		dev_warn(&dev->pdev->dev,
+29c8d9eba550c6 Adit Ranadive      2016-10-02  191  			 "failed to copy back udata\n");
+c4367a26357be5 Shamir Rabinovitch 2019-03-31  192  		pvrdma_destroy_cq(&cq->ibcq, udata);
+e39afe3d6dbd90 Leon Romanovsky    2019-05-28  193  		return -EINVAL;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  194  	}
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  195  
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  196  	return 0;
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  197  
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  198  err_page_dir:
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  199  	pvrdma_page_dir_cleanup(dev, &cq->pdir);
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  200  err_cq:
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  201  	atomic_dec(&dev->num_cqs);
+956a2f3d6294d1 Leon Romanovsky    2026-02-09  202  	return ret;
+29c8d9eba550c6 Adit Ranadive      2016-10-02  203  }
+29c8d9eba550c6 Adit Ranadive      2016-10-02  204  
+
+:::::: The code at line 156 was first introduced by commit
+:::::: 29c8d9eba550c6d73d17cc1618a9f5f2a7345aa1 IB: Add vmw_pvrdma driver
+
+:::::: TO: Adit Ranadive <aditr@vmware.com>
+:::::: CC: Doug Ledford <dledford@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
