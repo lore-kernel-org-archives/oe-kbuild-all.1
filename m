@@ -1,106 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8BC2B9B7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 05:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C107A2848AD;
+	Tue, 10 Feb 2026 05:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770701546; cv=none; b=Vv7RSKdyErW9CCucuGyDJboeBR5P2CKYbxFtgMB0Z5I/AxHnt0TB2IQa15Fte4hr8bkwBbAn5i4Wfzuy7ItjaXA7ifCZDzGgIGgzlGtWKpiQYv7hcl0bqUXofIP0mT8HkwAoNQPAq64xZwU1fsFKEN7f60YfwLztQkHs7QjzSu4=
+	t=1770702937; cv=none; b=s8BitiZbzfxV2MZX/gZ4Novb1ddsWfuu5LEzn1o9akWveSeWUZZiiW+uNkq5Y6aclhIEEKFzg0II5a29LN0MH4DoK5UU7YS03cL8EuufnbfWQWUwIMyx71i+QmhIFQ1yAJAw58d8q/nfbuV+8HjpA/5lYmlI3X3Cv3rEV4yuA6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770701546; c=relaxed/simple;
-	bh=jmi1cve8W7FUUbylHvhTFPbCsxuO954l4eStqASgDMk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LtEIywnhRCLQoio3kVWTahf7egREIzUqOoxdXNdqRfpGD66noSceOwpzLPSh1MxOBYOi2FZhAKrVX7OeuhkZH6DFtYm2Y5hce4MSMnkBTD67XQAWvPqGiN+Z+bnu8yjp+2UkFA2chNaKnxDx/fPPZf5ngpCUVfR4Q5s9fiMjemA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jogMdETU; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1770702937; c=relaxed/simple;
+	bh=9nnWMdj/22l/UeayrTX5T1lj3a2Zm8Tv6HcRko/maj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SiMj5EV9kS/bxP44KDQfzivqy5p3RreKg5ZXlIImPdqG0Fzr0ioPoA9DL4bnNDa53dD3iDMkGX2Ovzb45ydDj1/Btr1nrhwNMWJHUG56RA7hJINDlWt3Q/c+m9nnh1L9cTkjL6BcepJaPJm1EVGhzvfguNdEGTbcYtaqduxj2hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MHyzqE2T; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jogMdETU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MHyzqE2T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770701545; x=1802237545;
-  h=date:from:to:cc:subject:message-id;
-  bh=jmi1cve8W7FUUbylHvhTFPbCsxuO954l4eStqASgDMk=;
-  b=jogMdETUb9Ad8R14HFHs4On4/BTDNA078amxoF1NFhVOQkuEK8MlI3uM
-   xlHlXGR+w6WiJkNQaisPyTelIjQ7OXo2nytApT52iUL9xfChVYO3XcusZ
-   WfMe+WwfEvpgK9AUOD3jhYTtodhcc8XiRzdNesUrGxxW7FrjhhjHIphm8
-   ZLvvmuIMSKQWKhHlNS47D+ys5g1nahE7CcULh1MTvOED728gil/rS+edz
-   8QxO1k5y/Jy2OI1w5gE1YvVPUd/f8AQ4dvE2+AGSxKfCGuWStPXOYzznk
-   NKanUdj+2hB5KMU1fp91P+JFo+yXuHSOR63K+wpQbsjCMRVTeGBN0ZE8p
-   g==;
-X-CSE-ConnectionGUID: 8d2QiYrsTqi5h+lKyi1zvg==
-X-CSE-MsgGUID: gD0VlRnpRsObbxADP4T5nA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="75447210"
+  t=1770702936; x=1802238936;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9nnWMdj/22l/UeayrTX5T1lj3a2Zm8Tv6HcRko/maj4=;
+  b=MHyzqE2TL98Y0e1NilVdyuPkF+iXRXqwK1HCmioj4IILCK2GgdtAffnF
+   YmxoonRaH+n1t8MW7wCXH7L3GeQUhw6g06+vigoEspOhHCqeMM09qJgt3
+   TrK3JS7ebNhlC40im4gEKhdAgTN+1XsTTvG9ssfrWXYip9r1YJ8golp8+
+   dHXO2O+WkhLj+/q+yp49W0uLtLq5EziQfaMS+PGZTHcGkT/0LqcwuFXVh
+   M27TBMjSDDcELRkxIzrhWI0jGY1N6olRkaVOMWFmWklIMtMLd+AhJ4nWE
+   7TgqV5sOUKxogmykfg6SJoTkCF5lS/+36cMHm7Zk3SqnHUt19BVITMMNy
+   w==;
+X-CSE-ConnectionGUID: OuED8cO+S2OBND25UL6dwg==
+X-CSE-MsgGUID: KHrc5bRJS2WwbpXlpOMGQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82552870"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75447210"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 21:32:25 -0800
-X-CSE-ConnectionGUID: pMsnAmCcS7qDf7Lv69pVYQ==
-X-CSE-MsgGUID: ZJlNkc+CRrqVFmqymtWDQQ==
+   d="scan'208";a="82552870"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 21:55:30 -0800
+X-CSE-ConnectionGUID: arSyvb8yT9+dGXp6koLMDA==
+X-CSE-MsgGUID: OiiH5N3LTQOp/Uz4oFV5Lw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="211845844"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Feb 2026 21:32:23 -0800
+  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2026 21:55:24 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpgMH-00000000ofg-29nV;
-	Tue, 10 Feb 2026 05:32:21 +0000
-Date: Tue, 10 Feb 2026 13:32:16 +0800
+	id 1vpgiY-00000000ogW-0ClM;
+	Tue, 10 Feb 2026 05:55:22 +0000
+Date: Tue, 10 Feb 2026 13:55:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 481/799]
- fs/bcachefs/snapshots/snapshot.c:45:5-8: Unneeded variable: "ret". Return "0"
- on line 52
-Message-ID: <202602101305.3VdQsOTo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Colton Lewis <coltonlewis@google.com>
+Subject: Re: [PATCH v6 16/19] KVM: arm64: Add vCPU device attr to partition
+ the PMU
+Message-ID: <202602101354.lZex1CmW-lkp@intel.com>
+References: <20260209221414.2169465-17-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209221414.2169465-17-coltonlewis@google.com>
 
-Hi Kent,
+Hi Colton,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: 29e05f82d6bdd4efef504f6f68922db28e2e4917 [481/799] bcachefs: bit more reorg
-config: arc-randconfig-r063-20260210 (https://download.01.org/0day-ci/archive/20260210/202602101305.3VdQsOTo-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
+[auto build test WARNING on 63804fed149a6750ffd28610c5c1c98cce6bd377]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20260210-064939
+base:   63804fed149a6750ffd28610c5c1c98cce6bd377
+patch link:    https://lore.kernel.org/r/20260209221414.2169465-17-coltonlewis%40google.com
+patch subject: [PATCH v6 16/19] KVM: arm64: Add vCPU device attr to partition the PMU
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260210/202602101354.lZex1CmW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101354.lZex1CmW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602101305.3VdQsOTo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602101354.lZex1CmW-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/snapshots/snapshot.c:45:5-8: Unneeded variable: "ret". Return "0" on line 52
-   fs/bcachefs/snapshots/snapshot.c:225:5-8: Unneeded variable: "ret". Return "0" on line 272
---
->> fs/bcachefs/snapshots/subvolume.c:215:5-8: Unneeded variable: "ret". Return "0" on line 230
+All warnings (new ones prefixed by >>):
 
-vim +45 fs/bcachefs/snapshots/snapshot.c
-
-8e877caaad8185 fs/bcachefs/snapshot.c Kent Overstreet 2023-08-16  41  
-d97de0d017cde0 fs/bcachefs/snapshot.c Kent Overstreet 2024-08-12  42  int bch2_snapshot_tree_validate(struct bch_fs *c, struct bkey_s_c k,
-a6f4794fcd8627 fs/bcachefs/snapshot.c Kent Overstreet 2024-11-27  43  				struct bkey_validate_context from)
-8e877caaad8185 fs/bcachefs/snapshot.c Kent Overstreet 2023-08-16  44  {
-b65db750e2bb92 fs/bcachefs/snapshot.c Kent Overstreet 2023-10-24 @45  	int ret = 0;
-8e877caaad8185 fs/bcachefs/snapshot.c Kent Overstreet 2023-08-16  46  
-b65db750e2bb92 fs/bcachefs/snapshot.c Kent Overstreet 2023-10-24  47  	bkey_fsck_err_on(bkey_gt(k.k->p, POS(0, U32_MAX)) ||
-d97de0d017cde0 fs/bcachefs/snapshot.c Kent Overstreet 2024-08-12  48  			 bkey_lt(k.k->p, POS(0, 1)),
-d97de0d017cde0 fs/bcachefs/snapshot.c Kent Overstreet 2024-08-12  49  			 c, snapshot_tree_pos_bad,
-b65db750e2bb92 fs/bcachefs/snapshot.c Kent Overstreet 2023-10-24  50  			 "bad pos");
-b65db750e2bb92 fs/bcachefs/snapshot.c Kent Overstreet 2023-10-24  51  fsck_err:
-b65db750e2bb92 fs/bcachefs/snapshot.c Kent Overstreet 2023-10-24 @52  	return ret;
-8e877caaad8185 fs/bcachefs/snapshot.c Kent Overstreet 2023-08-16  53  }
-8e877caaad8185 fs/bcachefs/snapshot.c Kent Overstreet 2023-08-16  54  
-
-:::::: The code at line 45 was first introduced by commit
-:::::: b65db750e2bb9252321fd54c284edd73c1595a09 bcachefs: Enumerate fsck errors
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+>> Warning: arch/arm64/kvm/pmu-direct.c:55 function parameter 'vcpu' not described in 'kvm_vcpu_pmu_is_partitioned'
+>> Warning: arch/arm64/kvm/pmu-direct.c:55 expecting prototype for kvm_pmu_is_partitioned(). Prototype was for kvm_vcpu_pmu_is_partitioned() instead
 
 -- 
 0-DAY CI Kernel Test Service
