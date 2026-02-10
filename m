@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2241238A9C4;
-	Tue, 10 Feb 2026 17:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3948B38A9C9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 17:51:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770745918; cv=none; b=XeQOJioaX3iVbZYDubZdmWYeGjS9H4hvFwPsdAIM4CJ+K4tZ2Q0KsTxDQDKbJ8bmbelUh0bojKFHHDEA4hhxqqsNCC9UPivJOz638poG0chBoilrpw09OfGYJjn37EpuW3mdaBd+O6e/7dkboR8GjRCayAMoTA5UnaWBxMLaG3s=
+	t=1770745918; cv=none; b=mWByQEx1X3HEaV1DOetj3EMrHoBnPapZ5Ejp9JsYyiMEA5OCszpCVnvDfMG09COfmf//zPtDQAC3RRiTXEXRup8q7BN2eJlusnEyn/PMR43oQc4CaOw3TDcduSRt/TcU54QVsygkNrBm2YGIzVv9oTbqhwX7btzbN0cIVo+0YlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770745918; c=relaxed/simple;
-	bh=PPxvKYAlQiSUuXtMrVXjr8mSYaxiv4xumYCJ9h/dKuc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YRY7aYHXSJWfz0JJm83+uFnGStKssa0Lx1nScJ0LknC++5/iCm4PN1yFFBHtO/t8t9v0FwlFX6mLt/7WcNJAjqTIX37VHnEM3mmZcA9hy5Cqy0/HX/ml//MnmBYHwM+yyyrT0DrnQAJ0mhdV37qH8yibkjM6pVMLOTC7mcUtfe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lp9PPxFv; arc=none smtp.client-ip=192.198.163.8
+	bh=B66gu3Xhhik6jixS6Tr+Nrd350lErDtq09N23EiRYCI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rOcWTSEgSq5tV/nvDY6kggGnMke6x4jYm+WPHLeJhyB4t9OovTUSHTnJ0hDrd7OKVeFxlnffRCGesxb09YF9vohhhVYY5qaH9uI2UELTEu4m4lYVShIPT5lFBPAmNkxDmGPOrplUFl3C69iJRPTGzg5jT2zM6QNnYLG6Ua1Iho4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RavAK2Li; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lp9PPxFv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RavAK2Li"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1770745916; x=1802281916;
   h=date:from:to:cc:subject:message-id;
-  bh=PPxvKYAlQiSUuXtMrVXjr8mSYaxiv4xumYCJ9h/dKuc=;
-  b=Lp9PPxFvxksiZ/B7yoUnbAk+tu1bybHGH+jpAflklTFWtr8i8pNVzkwV
-   TKlaGpJy5F2qPzJ5YvbOVoNAA3/ZPBy7L+q9On0vdn9NR0OHrQLasVc9D
-   XhKuDlSa7vEgigpWjnhvVdfGqLY5VF5EbbC+RQxDY3FfjI44jSM0Dibf/
-   uchboBv3J1U4Iic3ZuJ7tnReH/qxwN3/XD1L9EwYvNG2JszXnueFI+0JB
-   o/3cTy92ylald7pV5O3y0z1yZYMiR1wHrXuG7vBei12OBv8jY5+jNJ9sP
-   BU+Ja12t9Be+psC8Lg8oZCqiyporT0HFYv9uKA5J4oD+CKimfWCdAdKiA
+  bh=B66gu3Xhhik6jixS6Tr+Nrd350lErDtq09N23EiRYCI=;
+  b=RavAK2Li4QpA/PoddaFaoqzmJISO2SNoG2ankatizKxgmvZKmOfPQpAM
+   4fFfOIA8S9o4Dn/5T7YXeNeFFOgN2iD1b3YrG9agdVN/IT5olahhLJblT
+   nlSJ42qsP5zDh839IgqPWCQvLAlYXGqpv/xwC1LMnzgZgB/DJmAaeg318
+   nfr4R9Xk/2mzy68+OgjcLgAFMr3PVN2kJXw3DgSypmL3VPdeFUT5HOadE
+   EYQxwnyeqwPN8n9lzn92aE3DOVYbF4wHCmVXOsQWwZJZTyHp3XIDRL2HK
+   D4DpF8uKVcXeoWcBsLQTIV2dbcQpU3eHpnjBEXC1zSvZbFT7bkotpUxi2
    g==;
-X-CSE-ConnectionGUID: jr7VkbSyTECkKYYIjK33Dw==
-X-CSE-MsgGUID: Qn1jAv1BRXylXWFarSH9nQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="89473473"
+X-CSE-ConnectionGUID: E29s/Bw6Qt+/6SzHnomNFQ==
+X-CSE-MsgGUID: PpQijq+GSzy3z12h9eorCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="89473470"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="89473473"
+   d="scan'208";a="89473470"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 09:51:53 -0800
-X-CSE-ConnectionGUID: nRfXvetXRkCDrXofsukijw==
-X-CSE-MsgGUID: 2gNsiz8MQjqhA09f50KwnQ==
+X-CSE-ConnectionGUID: vfFKjIDfTw+HbIJOrgnneg==
+X-CSE-MsgGUID: wzVTpJT2Rm6GBSayUxKkuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216495385"
+   d="scan'208";a="216495383"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 10 Feb 2026 09:51:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vprtt-00000000pH2-0SCM;
+	id 1vprtt-00000000pH4-0VgZ;
 	Tue, 10 Feb 2026 17:51:49 +0000
-Date: Wed, 11 Feb 2026 01:51:23 +0800
+Date: Wed, 11 Feb 2026 01:51:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: Leon Romanovsky <leonro@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [leon-rdma:refactor-umem-v1 73/105]
- drivers/infiniband/hw/cxgb4/cq.c:1018:10: error: member reference type 'const
- struct ib_cq_init_attr *' is a pointer; did you mean to use '->'?
-Message-ID: <202602110124.Y8EAUbI7-lkp@intel.com>
+ drivers/infiniband/hw/cxgb4/cq.c:1018:17: error: 'attr' is a pointer; did you
+ mean to use '->'?
+Message-ID: <202602110115.n2dpbyKk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,23 +63,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git refactor-umem-v1
 head:   b6daace542159a3879b60866e24495985ecffc23
 commit: 23f23fe92e4c96b51f27c4f5ce4f60e881b5efae [73/105] RDMA/cxgb4: Separate kernel and user CQ creation paths
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260211/202602110124.Y8EAUbI7-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110124.Y8EAUbI7-lkp@intel.com/reproduce)
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260211/202602110115.n2dpbyKk-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110115.n2dpbyKk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602110124.Y8EAUbI7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602110115.n2dpbyKk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/infiniband/hw/cxgb4/cq.c:1018:10: error: member reference type 'const struct ib_cq_init_attr *' is a pointer; did you mean to use '->'?
+   drivers/infiniband/hw/cxgb4/cq.c: In function 'c4iw_create_user_cq':
+>> drivers/infiniband/hw/cxgb4/cq.c:1018:17: error: 'attr' is a pointer; did you mean to use '->'?
     1018 |         if (attr.cqe > ibdev->attrs.max_cqe)
-         |             ~~~~^
+         |                 ^
          |                 ->
-   1 error generated.
 
 
 vim +1018 drivers/infiniband/hw/cxgb4/cq.c
