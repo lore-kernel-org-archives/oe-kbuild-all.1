@@ -1,160 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B6232B9BE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 06:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65D1330D26
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 07:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770706337; cv=none; b=gsTmTOnZpuPb7OX1/OunT2Rqs/GZjJTMoVgjMSL7zwSkhF3dUx1hQwal9MeeywxfpsO5+rMOaXhnovhRTBoZB45C96HL9DEsFk7kaO4Zwspxl3oow562Sq9SN4CaBAwtedSzmqIaha0PztWhJoASOgLzxufFvpAGFKWZEUwVIFc=
+	t=1770707553; cv=none; b=rJzrPt/WLdnuztMX51F/b6u6ebzOJovXOTbNtxPO5wkjMZjM8L58V2AaEmhMOxXHktz+xPIWiP2/XzT8L6pDDAJ/v1YD6Efxw5DHRqrNiWibDg0ZD7xoB3mLIndxyHaZi2ke8fYmKwUVyXGqfNhgd7vRp1rsIzMKcgFeEH12Q0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770706337; c=relaxed/simple;
-	bh=oy53PKHRy+YkmX+oypM3N1JPpSJbQ2mNJFUChkYgNG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u2ygSmE8jzzbJCa10O/JMCYdPFr5NFZ+9CepL+YEQfqPQBiYXHX4q5P7uHfgedOR1ktfYAYURyihypI4M42Pvy75alStb4JgnY/Vnc1qgYQSvtIKGZLpeSDdX3gEt0KheXUIFwuD1Uhh7+yG6RPL8vxXOge1zZP0KBebzGcDfNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B6hQ232R; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1770707553; c=relaxed/simple;
+	bh=Qj2J2ttjzeGzSVX0hAsuo/aEyHBvMuwSwwH4t7+cUBM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rzgLSE3dhtCLkFt5c7ZEYJVUmla8WbTRdcFbMeYc1q393L7EYK6rNoxisY/Qel6UOGAh7/ayZVGphgRKL5p8ylfYag5oSm2no35W4DOfqrm5zlvIjYkAFYazYOxsZh0UV3frBEfsl19dBhft04QLNsf305YIz55NTnxMBTec35o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvNS4SpH; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B6hQ232R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvNS4SpH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770706336; x=1802242336;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oy53PKHRy+YkmX+oypM3N1JPpSJbQ2mNJFUChkYgNG0=;
-  b=B6hQ232Rrutm/j9dBZTuNhzuTgoU4/6rVlpinPl7Wb58zOgvx5xADLQ0
-   EiYXqAtEie1UVnQzSPu2oVSwxm0M8SC76bAiuEGkH3+HCHAsxGs4zkuGO
-   089xZD9nfVKc4BgzZ5+U/93tpj2GKZSNCL/AeiRzYzcyg5ZlSJF4FPntj
-   0D/SY6/DOxH2kagLfjPe058zquQXA3TpypYRlHpSIt478NaPK4S6UPyMD
-   i4g4yv4/Ch8+7XB2HUUXMgBUTH+V5rJy59TZ/x1xC9bstPGMpBBqX7dS9
-   lAsLuSFJNwzKydNEsI9a6+AbJKXjIJKnFHvgvsLEsR1JTOB1VmE6oryM8
-   w==;
-X-CSE-ConnectionGUID: uqDw7vngSYmXEKBVLBKmwg==
-X-CSE-MsgGUID: /CXWQi/4S1aHxdOM/74dxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71928102"
+  t=1770707548; x=1802243548;
+  h=date:from:to:cc:subject:message-id;
+  bh=Qj2J2ttjzeGzSVX0hAsuo/aEyHBvMuwSwwH4t7+cUBM=;
+  b=JvNS4SpHWW8X1q03lBz2XuMfsh3jxA+vjcueKqiuaCqU81FYjc8FwVM+
+   ieXRQzovVVuQB1DASiyw7wDNIrMz4ZGtq+sXaHeQdnimeIpxnHk2h7o9e
+   ou9b4v5RuHosj+QsHCav+TAWf9cvMrzwaerf4hWttENvLXLd7+8+29NL3
+   sLh2uOwVJGPTJRSz7D1Ekdm9458P9eGhEvxU9OFmjR2CmYi8yAH0IohnW
+   Np2FVDZjHnsMEu6U6klm6Tp/BaWNMZjoWBjERisUFLla2eedvBw/JBqZy
+   u1CVseRc/2PLBMHagYbUH6WduJu4f0dGexn5AwK9SZ0iFx7DHr36wJcmJ
+   Q==;
+X-CSE-ConnectionGUID: +U5wH9ViTdabVbRFUb4qyw==
+X-CSE-MsgGUID: gNiHZv00T8mceCe/jfOOLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71727633"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="71928102"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 22:52:16 -0800
-X-CSE-ConnectionGUID: HmVfBsX+S3SKysfF6v+xww==
-X-CSE-MsgGUID: hryxJ2f9ToWDPdiy2Ny4yQ==
+   d="scan'208";a="71727633"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 23:12:28 -0800
+X-CSE-ConnectionGUID: k805+Uw8QAi52vKZvtZ4Tg==
+X-CSE-MsgGUID: LbjyQZIRTda4rk0gSk/5CA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216335280"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Feb 2026 22:52:09 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="216008664"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Feb 2026 23:12:27 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vphbT-000000000hV-2L0R;
-	Tue, 10 Feb 2026 06:52:07 +0000
-Date: Tue, 10 Feb 2026 07:51:39 +0100
+	id 1vphv6-00000000oke-2trf;
+	Tue, 10 Feb 2026 07:12:24 +0000
+Date: Tue, 10 Feb 2026 15:11:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Huang Rui <ray.huang@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH -next v8 1/3] rust: clist: Add support to interface with
- C linked lists
-Message-ID: <202602100751.ldfRitCJ-lkp@intel.com>
-References: <20260209214246.2783990-2-joelagnelf@nvidia.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:container 12/14] fs/namespace.c:3533:33:
+ error: 'ns' undeclared; did you mean 'fns'?
+Message-ID: <202602101543.HVID9xbh-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260209214246.2783990-2-joelagnelf@nvidia.com>
 
-Hi Joel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20260209]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Fernandes/rust-clist-Add-support-to-interface-with-C-linked-lists/20260210-054655
-base:   next-20260209
-patch link:    https://lore.kernel.org/r/20260209214246.2783990-2-joelagnelf%40nvidia.com
-patch subject: [PATCH -next v8 1/3] rust: clist: Add support to interface with C linked lists
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260210/202602100751.ldfRitCJ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100751.ldfRitCJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git container
+head:   f62d2a134716e021cfca8d7860048f9c71bd53c4
+commit: 3b3cfa4dc210573e079a64da95f7ddd6e6436479 [12/14] vfs: Allow mounting to other namespaces
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260210/202602101543.HVID9xbh-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101543.HVID9xbh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602100751.ldfRitCJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602101543.HVID9xbh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   Diff in tools/perf/tests/workloads/code_with_type.rs:10:
-    
-    #[no_mangle]
-    pub extern "C" fn test_rs(count: u32) {
-   -    let mut b =  Buf { data1: 0, data2: String::from("data"), data3: 0};
-   +    let mut b = Buf {
-   +        data1: 0,
-   +        data2: String::from("data"),
-   +        data3: 0,
-   +    };
-    
-        for _ in 1..count {
-            b.data1 += 1;
->> Diff in rust/kernel/clist.rs:93:
-    use pin_init::{
-        pin_data,
-        pin_init,
-   -    PinInit //
-   +    PinInit, //
-    };
-    
-    /// Wraps a `list_head` object for use in intrusive linked lists.
->> Diff in rust/kernel/clist.rs:93:
-    use pin_init::{
-        pin_data,
-        pin_init,
-   -    PinInit //
-   +    PinInit, //
-    };
-    
-    /// Wraps a `list_head` object for use in intrusive linked lists.
-   make[2]: *** [Makefile:1903: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   fs/namespace.c: In function 'do_move_mount':
+>> fs/namespace.c:3533:33: error: 'ns' undeclared (first use in this function); did you mean 'fns'?
+    3533 |                 if (!is_anon_ns(ns) || mnt_has_parent(old))
+         |                                 ^~
+         |                                 fns
+   fs/namespace.c:3533:33: note: each undeclared identifier is reported only once for each function it appears in
+>> fs/namespace.c:3535:35: error: 'p' undeclared (first use in this function); did you mean 'mp'?
+    3535 |         } else if (old->mnt_ns == p->mnt_ns) {
+         |                                   ^
+         |                                   mp
+>> fs/namespace.c:3534:25: error: label 'out' used but not defined
+    3534 |                         goto out;
+         |                         ^~~~
+   fs/namespace.c: In function 'set_container_root':
+   fs/namespace.c:4442:17: error: too many arguments to function 'move_from_ns'
+    4442 |                 move_from_ns(mnt, &tmp); /* Obtain the namespace's ref */
+         |                 ^~~~~~~~~~~~
+   In file included from fs/pnode.h:11,
+                    from fs/namespace.c:39:
+   fs/mount.h:199:20: note: declared here
+     199 | static inline void move_from_ns(struct mount *mnt)
+         |                    ^~~~~~~~~~~~
+
+
+vim +3533 fs/namespace.c
+
+  3513	
+  3514	static int do_move_mount(const struct path *old_path,
+  3515				 const struct path *new_path,
+  3516				 enum mnt_tree_flags_t flags)
+  3517	{
+  3518		struct mount *old = real_mount(old_path->mnt);
+  3519		int err;
+  3520		bool beneath = flags & MNT_TREE_BENEATH;
+  3521	
+  3522		if (!path_mounted(old_path))
+  3523			return -EINVAL;
+  3524	
+  3525		if (d_is_dir(new_path->dentry) != d_is_dir(old_path->dentry))
+  3526			return -EINVAL;
+  3527	
+  3528		LOCK_MOUNT_MAYBE_BENEATH(mp, new_path, beneath);
+  3529		if (IS_ERR(mp.parent))
+  3530			return PTR_ERR(mp.parent);
+  3531	
+  3532		if (flags & MNT_TREE_CONTAINER) {
+> 3533			if (!is_anon_ns(ns) || mnt_has_parent(old))
+> 3534				goto out;
+> 3535		} else if (old->mnt_ns == p->mnt_ns) {
+  3536			/* if the source is in the same namespace as the mountpoint... */
+  3537			/* ... it should be detachable from parent */
+  3538			if (!mnt_has_parent(old) || IS_MNT_LOCKED(old))
+  3539				return -EINVAL;
+  3540			/* ... which should not be shared */
+  3541			if (IS_MNT_SHARED(old->mnt_parent))
+  3542				return -EINVAL;
+  3543			/* ... and the target should be in our namespace */
+  3544			if (!check_mnt(mp.parent))
+  3545				return -EINVAL;
+  3546		} else {
+  3547			/*
+  3548			 * otherwise the source must be the root of some anon namespace.
+  3549			 */
+  3550			if (!anon_ns_root(old))
+  3551				return -EINVAL;
+  3552			/*
+  3553			 * Bail out early if the target is within the same namespace -
+  3554			 * subsequent checks would've rejected that, but they lose
+  3555			 * some corner cases if we check it early.
+  3556			 */
+  3557			if (old->mnt_ns == mp.parent->mnt_ns)
+  3558				return -EINVAL;
+  3559			/*
+  3560			 * Target should be either in our namespace or in an acceptable
+  3561			 * anon namespace, sensu check_anonymous_mnt().
+  3562			 */
+  3563			if (!may_use_mount(mp.parent))
+  3564				return -EINVAL;
+  3565		}
+  3566	
+  3567		if (beneath) {
+  3568			struct mount *over = real_mount(new_path->mnt);
+  3569	
+  3570			if (mp.parent != over->mnt_parent)
+  3571				over = mp.parent->overmount;
+  3572			err = can_move_mount_beneath(old, over, mp.mp);
+  3573			if (err)
+  3574				return err;
+  3575		}
+  3576	
+  3577		/*
+  3578		 * Don't move a mount tree containing unbindable mounts to a destination
+  3579		 * mount which is shared.
+  3580		 */
+  3581		if (IS_MNT_SHARED(mp.parent) && tree_contains_unbindable(old))
+  3582			return -EINVAL;
+  3583		if (!check_for_nsfs_mounts(old))
+  3584			return -ELOOP;
+  3585		if (mount_is_ancestor(old, mp.parent))
+  3586			return -ELOOP;
+  3587	
+  3588		return attach_recursive_mnt(old, &mp);
+  3589	}
+  3590	
 
 -- 
 0-DAY CI Kernel Test Service
