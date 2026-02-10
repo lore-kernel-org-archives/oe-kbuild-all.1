@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1443122D4C3;
-	Tue, 10 Feb 2026 02:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3B4284686
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 02:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770689654; cv=none; b=WnrCaWDT5h0uWTgTZmKTJ61B9yycqX/PICD29R1K4jZ5L8G78Oqo1QjnNygDuvVm+hrEh2AWGhHrXZz5FSBV3QVdxI+lL5dDR9cTXcgi4mE4wsY1U4AcK9OHa/NXPuxM6HUKfj9+Km9QvkCh8x0j/sYXwD55OuJaNj9zADGw0s8=
+	t=1770690248; cv=none; b=QE3s5+mM2qlJ2/iUCY8OYUqukgUduC1HkxxUf+3ToOI1u6UmnVqRvOFAfdLcTqiGT1qrLgaulRfzJfhGnO5ALSOYlIWXotCRydZmsFjjAJLVXDhpddijJqrwESIaygqNo/Lm/zV6ko1aFbXIF/yp3ZBOJBNCc1K2qWtBBJvj5Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770689654; c=relaxed/simple;
-	bh=KqpPNRuJOqMq9UeSsEX9Bncq6eMe+R1v6yCoeEyB1mY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oaJ/eQdjUbeblf2tHv92HIryG/yKVgZC43+4AhMG826NrBL8z+w/WVs4DgzzIakN4XVs14LN6Nh97O36hjRZYG0zxFxZFrQ/E+ZOwOakQNqSzGehh+A1mtRvnzTPqoa0Sj7Szqi0xBncoVBkpdV7vu5iIVMrRl58IpXqiZjZPKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=joUEfMDC; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1770690248; c=relaxed/simple;
+	bh=8u0aRpE6P0XGJ7yx9q1WxEzZYfIZkKKSZc0h91/Kd1I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DgTPOsxC2D5I0WY/y2cbfQXKvY8YFNAdbV7BW5VujQCkemshf+1yXH6jiLhFIWfyXKho4l8884vtc1qVZbmOBRXS9uCQRh1CruPtqMC14ICQgorkQDSYERHff8uz5h7GWgBPBsUzrEj79AzRPK9Vwx8G7dL3rgkEICcJVdL2K8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wjij9fwZ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joUEfMDC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wjij9fwZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770689653; x=1802225653;
+  t=1770690246; x=1802226246;
   h=date:from:to:cc:subject:message-id;
-  bh=KqpPNRuJOqMq9UeSsEX9Bncq6eMe+R1v6yCoeEyB1mY=;
-  b=joUEfMDCS33eyCe2CMzCap1r4KiCOCAw5JZOa7LZIxvlylWdCXeZfznc
-   Qhw3FUZjLuJcasT7j/Ga04PckcSiTP6QUU+NIoWnIP44pFlDiRyVNvJo8
-   b5R77AebXkHDA4vmJT5W+2adsTNZupLhMXPP7E0fR75kpls4QOq9yYoQf
-   jCqT91prNH7Wj6hTGEApx83RjKYmTbK+8blywCfhgXUoHjiFTZq/q7ke8
-   xgL5V/oTztE0EnRvky+e8vc0zJ/uH3MPB+3+dzQpIwjT2VQsUFaHavN29
-   ReStXpUwPx9acLw37jBfFw3EAvf4gyZOto/kqB035x9YlVi4zxUFZ+jQo
+  bh=8u0aRpE6P0XGJ7yx9q1WxEzZYfIZkKKSZc0h91/Kd1I=;
+  b=Wjij9fwZdVYYMeDtHcz3851LJLhGVCYvgZNg5PwF2/5UAtmPh/gB3qVX
+   K1hNDP1PjwJvExsVZjMCdWoicJy2iGgQ/uwtufdDzM/bUTnDDPYTysjG9
+   CHkYajjyJsQ2TP5LbsNo0HC9FZcqbg2Xl6AGOjlyBlRmXxU6LtFKumBKY
+   fPl363CW/gcB83DOrLylP23ALu9Lh9HEwjUF7n13/12c9sHMbR/20j1/y
+   IVT7lfcAIABu8rMGB6mDpVMGkF162PHQT18q2QvmuNTmMHpKj+sWfPrRs
+   K6I27dvKqGbvM7nCKvoVaHk7gNEBL0RJfviVEoscSCodRXU/0DtyCZCRu
    A==;
-X-CSE-ConnectionGUID: QUABLPT2QvWN4hRRQMdFKQ==
-X-CSE-MsgGUID: 380u26A0QgWhndo+gUdZjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="89393588"
+X-CSE-ConnectionGUID: cjc07rcRSFGJZvFtQxAceA==
+X-CSE-MsgGUID: kP6mwdbBQb6KoM4fmUJbxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="83183463"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="89393588"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 18:14:12 -0800
-X-CSE-ConnectionGUID: 83Pr4ssfRcGR8s60vn8Xtw==
-X-CSE-MsgGUID: WTAzt5MnQy6e6j8G7tfL/Q==
+   d="scan'208";a="83183463"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 18:24:06 -0800
+X-CSE-ConnectionGUID: wrqey/0USwakfPSGxru9yQ==
+X-CSE-MsgGUID: 6dE8JPeqQ6iO3wDalhBRPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="210879779"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Feb 2026 18:14:11 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 09 Feb 2026 18:24:03 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpdGS-00000000oWM-3oC4;
-	Tue, 10 Feb 2026 02:14:08 +0000
-Date: Tue, 10 Feb 2026 10:13:15 +0800
+	id 1vpdQ1-000000000Y9-34HG;
+	Tue, 10 Feb 2026 02:24:01 +0000
+Date: Tue, 10 Feb 2026 03:23:22 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 2/3] ld.lld: error: undefined symbol:
- nfsd_nl_svc_export_rsp_doit
-Message-ID: <202602101051.Ik74zHQC-lkp@intel.com>
+To: Anup Patel <anup@brainfault.org>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+ Farrah Chen <farrah.chen@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [kvm:queue 7/10] lib/kvm_util.c:362:19: error: 'struct
+ kvm_vm' has no member named 'pgtable_levels'
+Message-ID: <202602100341.7pRzdzX7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,26 +59,35 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   c85f01c61c12fb4d6f368ae8e37e83a9d6fd0305
-commit: 0e13ddc5e80de4eb58edd0a542ece89747043045 [2/3] nfsd: add new netlink spec for svc_export upcall
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260210/202602101051.Ik74zHQC-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101051.Ik74zHQC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+head:   91ba4fbddd62cf09807a8bf3f29e2e8a0290cfba
+commit: 94bef3eab737a77ffa5a26f837e8f3f34dbcc60e [7/10] Merge tag 'kvm-riscv-6.20-1' of https://github.com/kvm-riscv/linux into HEAD
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260210/202602100341.7pRzdzX7-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100341.7pRzdzX7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602101051.Ik74zHQC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602100341.7pRzdzX7-lkp@intel.com/
 
-Note: the jlayton/kdevops HEAD c85f01c61c12fb4d6f368ae8e37e83a9d6fd0305 builds fine.
+Note: the kvm/queue HEAD 91ba4fbddd62cf09807a8bf3f29e2e8a0290cfba builds fine.
       It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: nfsd_nl_svc_export_rsp_doit
-   >>> referenced by netlink.c
-   >>>               fs/nfsd/netlink.o:(nfsd_nl_ops) in archive vmlinux.a
+   lib/kvm_util.c: In function '____vm_create':
+>> lib/kvm_util.c:362:19: error: 'struct kvm_vm' has no member named 'pgtable_levels'
+     362 |                 vm->pgtable_levels = 5;
+         |                   ^~
+   lib/kvm_util.c:367:19: error: 'struct kvm_vm' has no member named 'pgtable_levels'
+     367 |                 vm->pgtable_levels = 4;
+         |                   ^~
+   lib/kvm_util.c:372:19: error: 'struct kvm_vm' has no member named 'pgtable_levels'
+     372 |                 vm->pgtable_levels = 3;
+         |                   ^~
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
 
 -- 
 0-DAY CI Kernel Test Service
