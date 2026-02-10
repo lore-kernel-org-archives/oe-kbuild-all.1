@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CD72E06ED
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 16:38:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A0C30B536;
+	Tue, 10 Feb 2026 16:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770741532; cv=none; b=IS+5DSiqvuImKmcQy+UoNnopJeHM8Vi1Rac1K+QqPid/JTUIFUrCcpRCIZn3W2ka2U3uBO/udujCbPPIcwZipjUOGTEJj0ymRDddHsJWqNSHM+H8wcuv7ugoAQwihi6kZko4ZakuixJYXKV8vhnVe/+oh+p0pHEox9WLeZGdaqo=
+	t=1770742133; cv=none; b=lhgddcr8cmMAM8XSTTuHeX0uc9wtm+kroCFSC4VhE7IoO7N9VABt7Vs3Ed/fa8Ce6uE0RxbbCUNM7laJ93U3nKonIl3U2lGDtaSR2C/1xUICJqhU8bKLU4et+xJF+HY6P1+WtK8KT7VRmRI4MYxhjei33U23geS4gBgVrkUBcm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770741532; c=relaxed/simple;
-	bh=1uek7R5PKHntWAyUa1OWCvCzx629MZdBHjmdLnVzlU0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hpa4F4zNkclpUL4OEPb34JAHvqLg427iTEdHZ0ZQZJVXtNgvu1GTY/8SToRSR3YVV9iP7EUGyv36ItDKCfVa5LsfTcLAIFExo07DRg14VsxeZVvQ2hrEE/jrDZcv+PEjBFFyXxx1WWwRc6GPqUzggrhyVWknavHclmAjct0u00s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LmbsH+l0; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1770742133; c=relaxed/simple;
+	bh=kdNxMFE6PwZGO0BEQaRyKBfOGFnaVOqFW1VBpbMc2uw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bDo05/x1EOPeTGTcJnLiSTvUEkS5ACV3MtDLCrAdOeT4I9qTxD90iiFpxOvIpzfhYwa++Efo5lxse1CiysEmGbUd5MOYmC3cJqpKddEyVAksmqn7aCd3pWm3DTy44xjJJTa92z+YjKp2msAjdbvAHooAvFLDbijCJnwn5POtboc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbbgUIM4; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LmbsH+l0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbbgUIM4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770741531; x=1802277531;
+  t=1770742132; x=1802278132;
   h=date:from:to:cc:subject:message-id;
-  bh=1uek7R5PKHntWAyUa1OWCvCzx629MZdBHjmdLnVzlU0=;
-  b=LmbsH+l0oOafxpDYFLpIIbYmktGb19ulLP2oI3cjUIj6jvOgsarwcCF+
-   HlnYKOmV5cb9V2T12M3VrznqSKvr7bRVQUG3YxQk3eDHNAFS0uEyh5rwc
-   gR9+mmXXMzHl+uBS8C1BD8lFNkQXx6h1CpPRtjuZHaiKHcfdqK+2DGUei
-   Ua+0TXxTCQBAobFS4OyBkschwR3xgjT0mgVjLZfzYiYLXFvXysVNZmNN9
-   SLxUSmvaoQ4412B/2YvDMJO/emuP6BFFafsMkUgJcH79wueJyfgzAW5wg
-   LUgUwFh3AfOxvq3QjA4tDxwTI5TpYXS//40HaRSsnIXKihz4YNaJYYtw7
+  bh=kdNxMFE6PwZGO0BEQaRyKBfOGFnaVOqFW1VBpbMc2uw=;
+  b=SbbgUIM4+KBmHW2qH5JVQKlt4WNRiHrlP1h3JHqnUAzL9iHiGup8PPhg
+   3ZIXGdeLQXkAzkE66KOq0mvw5EkyjzCIbD3PsQNApdxXQMTXwwpto68tl
+   IgeuGp4uSa7JNilwSEIKiY5EuwjrsxcfKGBRikAqgd0GQZZYAUhOsa6WQ
+   aPgEgp4W7eeAlXOgEctnzTTrQV9hRHkKNUSbkzRX3lveEOeSiabm4jXLn
+   RCG65lx2w/I/6keMJDGoxHeZhBzxdffZoIj+/IpUR3u6pTyUhuO4NUZ3j
+   BW3EWAxYn1c/1NKEoQ+cx+rBpyXZ76wO+c3O56nZYoIFjwggxNawL9KP/
    Q==;
-X-CSE-ConnectionGUID: IvPDptE2TICX8AV3UW515g==
-X-CSE-MsgGUID: ukDS7IGBQpCq6Ppu58hwZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75722036"
+X-CSE-ConnectionGUID: r3tasrZtQmWBLbnxMzCG7g==
+X-CSE-MsgGUID: FgRLlN6/RKW0GxjaSd65qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="89290702"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75722036"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 08:38:50 -0800
-X-CSE-ConnectionGUID: 1h195WPtRrmNJKrVAgj8Pg==
-X-CSE-MsgGUID: xpuxqQ/5TfWekIcU7v6pMw==
+   d="scan'208";a="89290702"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 08:48:50 -0800
+X-CSE-ConnectionGUID: 6Egu1cN2TxipMsxRYd44aw==
+X-CSE-MsgGUID: Nrk/ssK9TACgLChMoovJ5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211074099"
+   d="scan'208";a="211009337"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Feb 2026 08:38:49 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2026 08:48:48 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpqlC-00000000pCi-0g1h;
-	Tue, 10 Feb 2026 16:38:46 +0000
-Date: Wed, 11 Feb 2026 00:37:59 +0800
+	id 1vpqus-00000000pDA-1nSX;
+	Tue, 10 Feb 2026 16:48:46 +0000
+Date: Wed, 11 Feb 2026 00:48:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/core 19/19] kernel/sched/fair.c:824:42:
- error: 'cfs_rq' undeclared
-Message-ID: <202602110042.tePKUn5q-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/core 19/19] kernel/sched/fair.c:824:35:
+ error: use of undeclared identifier 'cfs_rq'
+Message-ID: <202602110027.m5vtu490-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,22 +62,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
 head:   2457c33520be9ef61c83b8d2308a46f290273ffe
 commit: 2457c33520be9ef61c83b8d2308a46f290273ffe [19/19] sched/fair: Revert 6d71a9c61604 ("sched/fair: Fix EEVDF entity placement bug causing scheduling lag")
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260211/202602110042.tePKUn5q-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110042.tePKUn5q-lkp@intel.com/reproduce)
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260211/202602110027.m5vtu490-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110027.m5vtu490-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602110042.tePKUn5q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602110027.m5vtu490-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/sched/fair.c: In function 'entity_lag':
->> kernel/sched/fair.c:824:42: error: 'cfs_rq' undeclared (first use in this function)
+>> kernel/sched/fair.c:824:35: error: use of undeclared identifier 'cfs_rq'
      824 |         u64 max_slice = cfs_rq_max_slice(cfs_rq) + TICK_NSEC;
          |                                          ^~~~~~
-   kernel/sched/fair.c:824:42: note: each undeclared identifier is reported only once for each function it appears in
+   1 error generated.
 
 
 vim +/cfs_rq +824 kernel/sched/fair.c
