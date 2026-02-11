@@ -1,128 +1,279 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF41281525
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 12:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A682216E24
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 13:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770813163; cv=none; b=u/pX3UBA3/9BoESYJE0dWQT7RuiMmG57yDwghoVR+x9PDuTyVupprSLCH1AGoOl7pwZtHrvIuFtx6pW/RE3QEhE6TJTAeDg35rw8TF+VuvQmep2miVp+yqWl/3UfT8U0eLWDHETF8MvUfNh2GbEom63lH8ay2EgakyxQM+XNUAQ=
+	t=1770815430; cv=none; b=cq5Iq9Eh4vEEMUd0m+VAgrM1BwkY/PYgZ+PxnHl1VttJjqIkhnotdW3hLjy+/0+2xse/g8s8bwDbbDjyJQCeuRNPt0JdV1To5Pa6vYusY7UVff5164aXFx7t4P7mkzQiwf5pUtVQ2dOA1BJEnPkvRSAw96vWamx187S0FHgyPy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770813163; c=relaxed/simple;
-	bh=QAByPVqT09++FJk0uuU+1F6APVuMo+EbFVRjVQuki6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=izaJez3GFgB4QBMISrdgCfs6sKQBlC8SxdExKOSIYzz7gI5Mx7k74mmaaCO003PQy420EzpJqpiD749Y2DaRpJHronqBZEjkUA3i5Yd6wKbDo78AqyY2MvL+NWpwSx6yD9h+2Pwubkco6RqufZXrzp181uK6SV10sZtDu2F595A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AATRKUx7; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1770815430; c=relaxed/simple;
+	bh=KXpq6sfo7fNCWC0k9QEyhECCHgKvP+330d6c59q6Dls=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qf0fJTsy/uXtBnOdkcr6IQhAiaMB3KzHqw1oVm2ACxdwhww6d8QHJkiVD4q+nmhHxTi1zusb6C3tmVhlRiLopY7etjKHqBqH9YssbvgM3icuWgbq085KhrrOU3ijmS1pgyLuELGW23lN4p44RFLxim0dAuWij9yh8/oh40k+BBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DfxLDaZA; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AATRKUx7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfxLDaZA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770813162; x=1802349162;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QAByPVqT09++FJk0uuU+1F6APVuMo+EbFVRjVQuki6A=;
-  b=AATRKUx7vC2VUWnKOzO450qoyNj1Y9SytLtvENpl3GxWvH6lOQc4Gy2X
-   tBxswykxCC8Uuxg5JIrmbZCJmRjWHum0Y5/wpd5flRkHNG0QEZZJJ33BB
-   Sob4nmqnZwa9TYRcP/sXmGEA4OYSBjTjxPqg4OShzjL0gTmeqiSWNAoyU
-   dsvfiJzUblDLwWRxOLK2PtroLFkwXlOWH+lcOQ559R36NEu4TKvcU22xy
-   9yx4TVPNENVtuzkDgOCjwrUGG6ZKyGMQ00Nb1JKH852v+/vWzrzUiV2U7
-   GXvPR9vmrVcXhHL+skJLTOhQLzjMUfflqU1d2xgI8DGI91UDz3Vy9at4T
+  t=1770815428; x=1802351428;
+  h=date:from:to:cc:subject:message-id;
+  bh=KXpq6sfo7fNCWC0k9QEyhECCHgKvP+330d6c59q6Dls=;
+  b=DfxLDaZAQUitQH+nucpiC0fFsC+71fZcVWN7/lFREHvqyZGAjQciAf6K
+   Mhsbk0qXed6QjDO26q8jrlvgMduO0Icj2UpaF0h/RRFLoLc3UkqWPBep4
+   RSSr7vjiXot3BCpMLcCsMavgwL9Eop0AokQjGm2YRmlhExD0zM31s82fz
+   wn66x0QhId2pYcHy6T/EiAfwJdGCGjHhAkKXwjlIn+9fBGOF1s8j9TD50
+   inC9LCjsSgSvrs2pCJvv2rzXaKE285qf7iNVXBTud6q3bdGfNiq+lsiPE
+   LgS3J+rdUacmYBk77tvra0z9js77pLceEH+MtNertYNFJSFZJCLik490j
    Q==;
-X-CSE-ConnectionGUID: puosf+nuQ7i/PHEC/Zd/Qg==
-X-CSE-MsgGUID: kdEG9EuPRJ+LfvdZj9yAVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="72145096"
+X-CSE-ConnectionGUID: pS2zdE6+RJWVKbQ69wDsXA==
+X-CSE-MsgGUID: OvCZtCcQQ8akRTGvcbmL8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="82282829"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="72145096"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 04:32:42 -0800
-X-CSE-ConnectionGUID: Lp5x3XOyS7a+N5GY+/X3LQ==
-X-CSE-MsgGUID: VWmLSFPXRma1eVX+c5/yVQ==
+   d="scan'208";a="82282829"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 05:10:28 -0800
+X-CSE-ConnectionGUID: NdA3vJWTS+ihofcpA2zB/A==
+X-CSE-MsgGUID: VQbnnGa5T1ausEUDHDJEFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="212327590"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Feb 2026 04:32:29 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="249892348"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 11 Feb 2026 05:10:26 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vq9OL-00000000py8-3rO7;
-	Wed, 11 Feb 2026 12:32:25 +0000
-Date: Wed, 11 Feb 2026 20:31:53 +0800
+	id 1vq9z5-0000000015N-3ek5;
+	Wed, 11 Feb 2026 13:10:23 +0000
+Date: Wed, 11 Feb 2026 14:10:06 +0100
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, linux-mm@kvack.org,
-	akpm@linux-foundation.org, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel_team@skhynix.com, harry.yoo@oracle.com, ast@kernel.org,
-	daniel@iogearbox.net, davem@davemloft.net, kuba@kernel.org,
-	hawk@kernel.org, john.fastabend@gmail.com, sdf@fomichev.me,
-	saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com,
-	mbloch@nvidia.com, andrew+netdev@lunn.ch, edumazet@google.com,
-	pabeni@redhat.com, david@redhat.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, horms@kernel.org,
-	jackmanb@google.com, hannes@cmpxchg.org
-Subject: Re: [PATCH v3] mm: introduce a new page type for page pool in page
- type
-Message-ID: <202602112054.QKfqC0UR-lkp@intel.com>
-References: <20260210114712.55072-1-byungchul@sk.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 203/203]
+ userfaultfd.c:146:33: warning: format '%d' expects a matching 'int' argument
+Message-ID: <202602111436.liFG5BLw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260210114712.55072-1-byungchul@sk.com>
 
-Hi Byungchul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/mm-introduce-a-new-page-type-for-page-pool-in-page-type/20260210-194920
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260210114712.55072-1-byungchul%40sk.com
-patch subject: [PATCH v3] mm: introduce a new page type for page pool in page type
-config: microblaze-randconfig-r134-20260211 (https://download.01.org/0day-ci/archive/20260211/202602112054.QKfqC0UR-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112054.QKfqC0UR-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   35927ff8df047b269c671535118aa0046a689a6d
+commit: 72863addaa15829a3fb85b34053b2620db0dbb10 [203/203] FROMGIT: userfaultfd/selftests: exercise minor fault handling shmem support
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260211/202602111436.liFG5BLw-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111436.liFG5BLw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602112054.QKfqC0UR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602111436.liFG5BLw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/skbuff.c: note: in included file:
->> net/core/netmem_priv.h:21:20: sparse: sparse: cast to restricted netmem_ref
->> net/core/netmem_priv.h:21:20: sparse: sparse: cast to restricted netmem_ref
-   net/core/skbuff.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
-   include/net/checksum.h:33:39: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] sum @@     got unsigned int @@
-   include/net/checksum.h:33:39: sparse:     expected restricted __wsum [usertype] sum
-   include/net/checksum.h:33:39: sparse:     got unsigned int
---
->> net/core/page_pool.c:715:20: sparse: sparse: cast to restricted netmem_ref
-   net/core/page_pool.c:739:20: sparse: sparse: cast to restricted netmem_ref
+All warnings (new ones prefixed by >>):
 
-vim +21 net/core/netmem_priv.h
-
-    10	
-    11	static inline bool netmem_is_pp(netmem_ref netmem)
-    12	{
-    13		netmem_ref clr_ref;
-    14	
-    15		/* XXX: Now that the offset of page_type is shared between
-    16		 * struct page and net_iov, just cast the netmem to struct page
-    17		 * unconditionally by clearing NET_IOV if any, no matter whether
-    18		 * it comes from struct net_iov or struct page.  This should be
-    19		 * adjusted once the offset is no longer shared.
-    20		 */
-  > 21		clr_ref = (netmem_ref)((__force unsigned long)netmem & ~NET_IOV);
-    22		return PageNetpp(__netmem_to_page(clr_ref));
-    23	}
-    24	
+   userfaultfd.c:445:39: error: unknown type name 'uint64_t'
+     445 | static inline void uffd_test_ctx_init(uint64_t features)
+         |                                       ^~~~~~~~
+   userfaultfd.c:445:39: note: 'uint64_t' is defined in header '<stdint.h>'; this is probably fixable by adding '#include <stdint.h>'
+   userfaultfd.c: In function 'wp_range':
+   userfaultfd.c:470:51: error: expected ')' before 'PRIx64'
+     470 |                 err("clear WP failed: address=0x%"PRIx64, (uint64_t)start);
+         |                                                   ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:470:17: note: in expansion of macro 'err'
+     470 |                 err("clear WP failed: address=0x%"PRIx64, (uint64_t)start);
+         |                 ^~~
+   userfaultfd.c:60:1: note: 'PRIx64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+      59 | #include "../kselftest.h"
+     +++ |+#include <inttypes.h>
+      60 | 
+   userfaultfd.c:146:24: note: to match this '('
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:470:17: note: in expansion of macro 'err'
+     470 |                 err("clear WP failed: address=0x%"PRIx64, (uint64_t)start);
+         |                 ^~~
+   userfaultfd.c:146:33: warning: spurious trailing '%' in format [-Wformat=]
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:470:17: note: in expansion of macro 'err'
+     470 |                 err("clear WP failed: address=0x%"PRIx64, (uint64_t)start);
+         |                 ^~~
+   userfaultfd.c: In function 'continue_range':
+   userfaultfd.c:483:62: error: expected ')' before 'PRIx64'
+     483 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                                                              ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:483:17: note: in expansion of macro 'err'
+     483 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                 ^~~
+   userfaultfd.c:483:62: note: 'PRIx64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+     483 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                                                              ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:483:17: note: in expansion of macro 'err'
+     483 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                 ^~~
+   userfaultfd.c:146:24: note: to match this '('
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:483:17: note: in expansion of macro 'err'
+     483 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                 ^~~
+   userfaultfd.c:146:33: warning: spurious trailing '%' in format [-Wformat=]
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:483:17: note: in expansion of macro 'err'
+     483 |                 err("UFFDIO_CONTINUE failed for address 0x%" PRIx64,
+         |                 ^~~
+   userfaultfd.c:494:91: error: expected ')' before 'PRId64'
+     494 |                 err("failed to exercise UFFDIO_CONTINUE error handling, ret=%d, mapped=%" PRId64,
+         |                                                                                           ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:494:17: note: in expansion of macro 'err'
+     494 |                 err("failed to exercise UFFDIO_CONTINUE error handling, ret=%d, mapped=%" PRId64,
+         |                 ^~~
+   userfaultfd.c:494:91: note: 'PRId64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+     494 |                 err("failed to exercise UFFDIO_CONTINUE error handling, ret=%d, mapped=%" PRId64,
+         |                                                                                           ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:494:17: note: in expansion of macro 'err'
+     494 |                 err("failed to exercise UFFDIO_CONTINUE error handling, ret=%d, mapped=%" PRId64,
+         |                 ^~~
+   userfaultfd.c:146:24: note: to match this '('
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:494:17: note: in expansion of macro 'err'
+     494 |                 err("failed to exercise UFFDIO_CONTINUE error handling, ret=%d, mapped=%" PRId64,
+         |                 ^~~
+>> userfaultfd.c:146:33: warning: format '%d' expects a matching 'int' argument [-Wformat=]
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:494:17: note: in expansion of macro 'err'
+     494 |                 err("failed to exercise UFFDIO_CONTINUE error handling, ret=%d, mapped=%" PRId64,
+         |                 ^~~
+   userfaultfd.c:146:33: warning: spurious trailing '%' in format [-Wformat=]
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:494:17: note: in expansion of macro 'err'
+     494 |                 err("failed to exercise UFFDIO_CONTINUE error handling, ret=%d, mapped=%" PRId64,
+         |                 ^~~
+   userfaultfd.c: In function 'retry_copy_page':
+   userfaultfd.c:558:57: error: expected ')' before 'PRId64'
+     558 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                                                         ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:558:25: note: in expansion of macro 'err'
+     558 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:558:57: note: 'PRId64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+     558 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                                                         ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:558:25: note: in expansion of macro 'err'
+     558 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:146:24: note: to match this '('
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:558:25: note: in expansion of macro 'err'
+     558 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:146:33: warning: spurious trailing '%' in format [-Wformat=]
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:558:25: note: in expansion of macro 'err'
+     558 |                         err("UFFDIO_COPY retry error: %"PRId64,
+         |                         ^~~
+   userfaultfd.c:561:54: error: expected ')' before 'PRId64'
+     561 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                                                      ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:561:17: note: in expansion of macro 'err'
+     561 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                 ^~~
+   userfaultfd.c:561:54: note: 'PRId64' is defined in header '<inttypes.h>'; this is probably fixable by adding '#include <inttypes.h>'
+     561 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                                                      ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:561:17: note: in expansion of macro 'err'
+     561 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                 ^~~
+   userfaultfd.c:146:24: note: to match this '('
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                        ^
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:561:17: note: in expansion of macro 'err'
+     561 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                 ^~~
+   userfaultfd.c:146:33: warning: spurious trailing '%' in format [-Wformat=]
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                 ^~~~~~~~~
+   userfaultfd.c:153:17: note: in expansion of macro '_err'
+     153 |                 _err(fmt, ##__VA_ARGS__);       \
+         |                 ^~~~
+   userfaultfd.c:561:17: note: in expansion of macro 'err'
+     561 |                 err("UFFDIO_COPY retry unexpected: %"PRId64,
+         |                 ^~~
+   userfaultfd.c: In function '__copy_page':
+   userfaultfd.c:583:51: error: expected ')' before 'PRId64'
+     583 |                         err("UFFDIO_COPY error: %"PRId64,
+         |                                                   ^~~~~~
+   userfaultfd.c:146:43: note: in definition of macro '_err'
+     146 |                 fprintf(stderr, "ERROR: " fmt, ##__VA_ARGS__);  \
+         |                                           ^~~
+   userfaultfd.c:583:25: note: in expansion of macro 'err'
+     583 |                         err("UFFDIO_COPY error: %"PRId64,
+         |                         ^~~
 
 -- 
 0-DAY CI Kernel Test Service
