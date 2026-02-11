@@ -1,114 +1,167 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B2422DFA5;
-	Wed, 11 Feb 2026 14:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B53A322A;
+	Wed, 11 Feb 2026 14:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770820662; cv=none; b=g0i/wDIBqkngcty4L335W06/UX9VzFgwu3b3INojZcKgtExWgbgWE2OF0KcHijD2edFFsWeuhnlTQvku6YGx8q8Pz3Own3ALASoOCX98w1VxNeGQtZ6zLbgDw/kbGYI52GtR+SO8A3mpeX5f7qFLqenNruGgr+FpHENJD7ZgKBs=
+	t=1770821318; cv=none; b=RN7I410jIQoY62Niy+i4sbFIrkPsdZLQgmx3E+M+0ZybujnlEzDtnLCVU4snCA8xPr2DyVCGdXa8bVxkZDzKC4kGuuaW4GJXw0dv04tJnmYax0adnL4iVQY+8Kg9EZu5pMzb6q2vDfFmVKsMOy911ddDaKfyTLBw6AYk0uTKFms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770820662; c=relaxed/simple;
-	bh=6a6C1Oo2VXTtwxfCgh52YB7e/Bvv2ZnnllQSS7+LNqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=InNiE4TWzrUI4KO0LrCuFgpSVKwuFIKRmV0RSX0e6SsTfnX+95dgmHqL7V2YCZj4l5g5PS+2A1T0UG+ODCq1C683jso5e6zQfA1JZlx1pH5LDS4YDPkO+P5j9xY/5BCxX0xeZETAV2beWhVU+5w+4ZrdBUYFutniQVKuH4L3YWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiHHMXte; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1770821318; c=relaxed/simple;
+	bh=mBhv/ikmf+VJ9MEf6KxEZZCRfxKrD3eR8pUCYe2wTxE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lwmDo7Z131M1pfok5Q2ChB4jHL882A13M0VjDslLyXrINJ8C0mYq2LbupxD34bgPYXF5EBFOwUUt604F24/KD2+q2Eyu4SgYWlPUYp6uRhdopWny+1FoNilZ1bgJExO5E9uDRhx6yiYinPPatQpxCDrNbkuUebZ7ovoGceZn1G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsDJHcus; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiHHMXte"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsDJHcus"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770820661; x=1802356661;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6a6C1Oo2VXTtwxfCgh52YB7e/Bvv2ZnnllQSS7+LNqk=;
-  b=QiHHMXteZNhlfHyCFWZJM0u6+3nJpOdbIOgmoq7KiG4kpBEh3DSzoX5+
-   iq7lLM3R+LbO4D6GSs47sbO57d8mGcRGymBUjzTdfeUxpdzvNT71fIszw
-   nQ8bL7fESwb4VWLfH3HfbG4Qy1KLeJCc4GZPZFkzNFtqQ9i1SyC+RY7I2
-   HM0PFiySGIhwE7SrwR9sSDX7V93wBAKUL37WZCxcs6w+EMnDP3kM5ve+i
-   9chrVjAIsJoOtrhUYwLE6K5P3LsJJv76OcGmPOur2sN1kr9A1Rqi7QKJY
-   Heehr15gEiSan5wouf9CCBFK/joQ6QmKVsOkCOXqAzz2mYFQyN0nkEJsS
-   w==;
-X-CSE-ConnectionGUID: vw3styarQuS37wdpYIt4XA==
-X-CSE-MsgGUID: c7fJoOYATQ+4jrAst+RHkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="83410595"
+  t=1770821317; x=1802357317;
+  h=date:from:to:cc:subject:message-id;
+  bh=mBhv/ikmf+VJ9MEf6KxEZZCRfxKrD3eR8pUCYe2wTxE=;
+  b=YsDJHcusLnXILQFLA1E89LabTvQ5wlIowOVbhiVhzN1tQVsesr45A0u5
+   vT3PWn39XQ0xw6tXN5e5TmwghZ3H9ZUxjXPOPoZh9vuxviZ8oXJA5ZCnC
+   UML2HSIndiPwyxIrYiYznWKH+6H+2Mn0maStZo4qLUM4wk4jqs19eYpFG
+   t7Lofaz1jRFzTZX11w+T1R9PgKRUhRdfYArgbI78gbLq9tEfreXWKlEBt
+   aEbJFoPG0piSU1jTOdPkiJtN1ChZEvPFroSbDIVGu9rNy8fYwTwGDT88w
+   20dSBsNvIieWRn1vYwfuPyQ8t4KknbagU/UbU01CCvGsVzG9MmNMgrrN0
+   Q==;
+X-CSE-ConnectionGUID: OW3Z/dyETCWj7LhqbLJWPQ==
+X-CSE-MsgGUID: Xb/EdSclTJmBh8HN9fGIBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="83411538"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="83410595"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 06:37:40 -0800
-X-CSE-ConnectionGUID: 1olVpYRZQImHZO61gK3Adw==
-X-CSE-MsgGUID: WJelymD/S8WHbDyy+MdGww==
+   d="scan'208";a="83411538"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 06:48:37 -0800
+X-CSE-ConnectionGUID: 2XhWwCrhQ8OxLNKGwuMUwQ==
+X-CSE-MsgGUID: /ZsnW71cS4WFqK9+XKc26g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="212094960"
+   d="scan'208";a="216420295"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Feb 2026 06:37:34 -0800
+  by orviesa003.jf.intel.com with ESMTP; 11 Feb 2026 06:48:35 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqBLQ-00000000q4e-2HC3;
-	Wed, 11 Feb 2026 14:37:32 +0000
-Date: Wed, 11 Feb 2026 22:37:05 +0800
+	id 1vqBW4-00000000q4u-3555;
+	Wed, 11 Feb 2026 14:48:32 +0000
+Date: Wed, 11 Feb 2026 22:47:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-imx@nxp.com,
-	arnaud.pouliquen@foss.st.com, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v7 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <202602112252.gWFirLCA-lkp@intel.com>
-References: <20260210170814.406883-4-shenwei.wang@nxp.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata-pre 14/14]
+ drivers/staging/media/ipu7/ipu7-isys-subdev.c:101:5: error: conflicting types
+ for 'ipu7_isys_subdev_set_fmt'
+Message-ID: <202602112253.JRfzluk0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260210170814.406883-4-shenwei.wang@nxp.com>
 
-Hi Shenwei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on robh/for-next remoteproc/rproc-next linus/master v6.19 next-20260210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/dt-bindings-remoteproc-imx_rproc-Add-rpmsg-subnode-support/20260211-011505
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20260210170814.406883-4-shenwei.wang%40nxp.com
-patch subject: [PATCH v7 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-config: sparc-randconfig-r133-20260211 (https://download.01.org/0day-ci/archive/20260211/202602112252.gWFirLCA-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112252.gWFirLCA-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata-pre
+head:   11ab80de774b0527a7365d6f03ea5dcd0ace3e85
+commit: 11ab80de774b0527a7365d6f03ea5dcd0ace3e85 [14/14] media: v4l2-subdev: Add struct v4l2_subdev_client_info argument to pad ops
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260211/202602112253.JRfzluk0-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112253.JRfzluk0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602112252.gWFirLCA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602112253.JRfzluk0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sparc-linux-ld: drivers/gpio/gpio-rpmsg.o: in function `rpmsg_gpio_channel_probe':
->> gpio-rpmsg.c:(.text+0x788): undefined reference to `rproc_get_by_child'
->> sparc-linux-ld: gpio-rpmsg.c:(.text+0x834): undefined reference to `rproc_get_by_child'
+>> drivers/staging/media/ipu7/ipu7-isys-subdev.c:101:5: error: conflicting types for 'ipu7_isys_subdev_set_fmt'
+     101 | int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
+         |     ^
+   drivers/staging/media/ipu7/ipu7-isys-subdev.h:33:5: note: previous declaration is here
+      33 | int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
+         |     ^
+   1 error generated.
+
+
+vim +/ipu7_isys_subdev_set_fmt +101 drivers/staging/media/ipu7/ipu7-isys-subdev.c
+
+a516d36bdc3d83 Bingbu Cao   2025-05-29  100  
+a516d36bdc3d83 Bingbu Cao   2025-05-29 @101  int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
+11ab80de774b05 Sakari Ailus 2026-01-30  102  			     const struct v4l2_subdev_client_info *ci,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  103  			     struct v4l2_subdev_state *state,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  104  			     struct v4l2_subdev_format *format)
+a516d36bdc3d83 Bingbu Cao   2025-05-29  105  {
+a516d36bdc3d83 Bingbu Cao   2025-05-29  106  	struct ipu7_isys_subdev *asd = to_ipu7_isys_subdev(sd);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  107  	u32 code = asd->supported_codes[0];
+a516d36bdc3d83 Bingbu Cao   2025-05-29  108  	struct v4l2_mbus_framefmt *fmt;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  109  	u32 other_pad, other_stream;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  110  	struct v4l2_rect *crop;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  111  	unsigned int i;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  112  	int ret;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  113  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  114  	/* No transcoding, source and sink formats must match. */
+a516d36bdc3d83 Bingbu Cao   2025-05-29  115  	if ((sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SOURCE) &&
+a516d36bdc3d83 Bingbu Cao   2025-05-29  116  	    sd->entity.num_pads > 1)
+11ab80de774b05 Sakari Ailus 2026-01-30  117  		return v4l2_subdev_get_fmt(sd, NULL, state, format);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  118  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  119  	format->format.width = clamp(format->format.width, IPU_ISYS_MIN_WIDTH,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  120  				     IPU_ISYS_MAX_WIDTH);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  121  	format->format.height = clamp(format->format.height,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  122  				      IPU_ISYS_MIN_HEIGHT,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  123  				      IPU_ISYS_MAX_HEIGHT);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  124  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  125  	for (i = 0; asd->supported_codes[i]; i++) {
+a516d36bdc3d83 Bingbu Cao   2025-05-29  126  		if (asd->supported_codes[i] == format->format.code) {
+a516d36bdc3d83 Bingbu Cao   2025-05-29  127  			code = asd->supported_codes[i];
+a516d36bdc3d83 Bingbu Cao   2025-05-29  128  			break;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  129  		}
+a516d36bdc3d83 Bingbu Cao   2025-05-29  130  	}
+a516d36bdc3d83 Bingbu Cao   2025-05-29  131  	format->format.code = code;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  132  	format->format.field = V4L2_FIELD_NONE;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  133  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  134  	/* Store the format and propagate it to the source pad. */
+a516d36bdc3d83 Bingbu Cao   2025-05-29  135  	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  136  	if (!fmt)
+a516d36bdc3d83 Bingbu Cao   2025-05-29  137  		return -EINVAL;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  138  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  139  	*fmt = format->format;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  140  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  141  	if (!(sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SINK))
+a516d36bdc3d83 Bingbu Cao   2025-05-29  142  		return 0;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  143  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  144  	/* propagate format to following source pad */
+a516d36bdc3d83 Bingbu Cao   2025-05-29  145  	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  146  							   format->stream);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  147  	if (!fmt)
+a516d36bdc3d83 Bingbu Cao   2025-05-29  148  		return -EINVAL;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  149  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  150  	*fmt = format->format;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  151  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  152  	ret = v4l2_subdev_routing_find_opposite_end(&state->routing,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  153  						    format->pad,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  154  						    format->stream,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  155  						    &other_pad,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  156  						    &other_stream);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  157  	if (ret)
+a516d36bdc3d83 Bingbu Cao   2025-05-29  158  		return -EINVAL;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  159  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  160  	crop = v4l2_subdev_state_get_crop(state, other_pad, other_stream);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  161  	/* reset crop */
+a516d36bdc3d83 Bingbu Cao   2025-05-29  162  	crop->left = 0;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  163  	crop->top = 0;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  164  	crop->width = fmt->width;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  165  	crop->height = fmt->height;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  166  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  167  	return 0;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  168  }
+a516d36bdc3d83 Bingbu Cao   2025-05-29  169  
+
+:::::: The code at line 101 was first introduced by commit
+:::::: a516d36bdc3d8373f904af57c95e76d6f921cf1c media: staging/ipu7: add IPU7 input system device driver
+
+:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
+:::::: CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 -- 
 0-DAY CI Kernel Test Service
