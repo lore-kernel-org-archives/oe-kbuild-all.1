@@ -1,187 +1,638 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115592F5313
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 02:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770775798; cv=fail; b=SOJof6wu/9MPiqd96I5SvWbeqP3dzq2hbfU7QnMqwu8iEeMrs5eZBxteB3Q5jxpbOa7zuva2Sosc0UNInBqaquE8cKcmN2zZKenEEX13vMEtuixm6GS506Eb3WuiiSNwxO/YkNNYxGPwwwWyBaGan7ceWtXbiCaeKZTd8oK36/A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770775798; c=relaxed/simple;
-	bh=BrrXb8OZV8n+DBzZAta+h4Cu2fs387myRtQPUD5nL8g=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=misSCeFEF/qfjQfEHD0AhaxjW3EX6uVmagPc4IVg7WzkS7FJyNvJR/0PFg/PtqgOozgKrgpYOv98ffqHKdK3CCSNnzoQzZWEkgvD8Xo6Whsm9D/LuEsrsu+iyW4lZ4SA3IAMgN8IhUzuJtarydLp1iopjS2KWy/111WSaFFwaAk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N4/fmheS; arc=fail smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D6830E835;
+	Wed, 11 Feb 2026 02:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770776774; cv=none; b=RraE8ap5xxlB2mCNghKg9LG2Gs21M3OYpicXdPnzdeFOZiBNi2lHXdOOGTfmDCLgJiBlfJacerzLAwWZz47CTKC5NubTHF1XVf4oqaMUAuyatmwGdZ4Xr6oMY9TXVsax9Ckxv2bbmhwa0ZeQAVBCQVqWzTAOb4BQ3LPEVBs8u9M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770776774; c=relaxed/simple;
+	bh=YrG4SPM/1G6cqZD3Ljnx4/RyKlSVJfgjt6uBW+uxyN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UKdUdo87HiUgwUUtTeYKck1GItm9VnZ7begRfe8tZcSvOrrcJXULVQtz24OuEKVWFYqBbZ+T7xlnb/NKBXugD+BmdOoEzQZsj0JPpENvMubjvAtJRjXVj/tZP5r/6FQPgBKoxBZIDZ+Dsmv+MjTvLo22txPv0qkySVhDSFPL66E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xgr3i8nh; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N4/fmheS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xgr3i8nh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770775797; x=1802311797;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BrrXb8OZV8n+DBzZAta+h4Cu2fs387myRtQPUD5nL8g=;
-  b=N4/fmheSdRDW+0jlMhP4//6nYwL+KXGQtfLTdiF3+s64RaoWbYt9r85n
-   2nIbGfzENfw8BAqRinu2Z/riMysXQtVNYOnuDx8hb0FWR6wCFEtvw69Gc
-   BMkWwk7i6dC2x0/vYoff/6zZev2B/n0zbcE/D1SckT8kNRZWO2uRdDLgb
-   /K0QXtnmrAk9sJYbjwPGKPBQlNBrZhbAdzS5iCwaZ5lB9ER4PEkKLI7Aj
-   G56g1/PUyOkFwiMrRlcXltVYy1OeE+SbATtHzumOZvfJkBB9nDDIhG++D
-   55ONx+Bx3fZGwt70oiWzvj2taeA6bJUWcHWGkjwSa3ps0cEl5p611V165
-   A==;
-X-CSE-ConnectionGUID: FKX4UAZcTYCzfoKfs5nw/g==
-X-CSE-MsgGUID: VDwACNpIR8ekramSM6uSVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="83019595"
+  t=1770776772; x=1802312772;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YrG4SPM/1G6cqZD3Ljnx4/RyKlSVJfgjt6uBW+uxyN8=;
+  b=Xgr3i8nhIE9+AVJmREiSlY21zkec2AZ6sjaBHyy1QhTL5yZ47u4/ah5+
+   cx50hCzmAif4ou9Ti1bwmENJsBSnqEqTBZSdzd6I6HW90bQ4gHB3hdzxF
+   nSL8X1iJn3PfDI+Ysn8yN1giupyKhFQJK7sHUR6hRFAkf8Ekux+p3OvDa
+   Cnxf0/+XXDg89fU5x8F6Td7m1KPsA15SEXvI4TyulAUnsPBQGe6Rm/U8A
+   NfS+v1VBozGofnxsh8mQb24FEdyGoZkLdOliajni0OdrlPyz8MFYCEkTM
+   PbEcbEx0NhzpI2dHsmDbza0ToZ/6GlknGp0NDiN1f0KyJrGnyeHcZ5Zg4
+   g==;
+X-CSE-ConnectionGUID: b0h9gGpARZm0DMxOjepaxw==
+X-CSE-MsgGUID: REsQh8ugTsqGiheZ5UAvjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="94557480"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="83019595"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 18:09:56 -0800
-X-CSE-ConnectionGUID: 3YY7XvIDT9CCIn/zLG3AfQ==
-X-CSE-MsgGUID: +f8Pvq7kSuqNm5HN48+Hbw==
+   d="scan'208";a="94557480"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 18:26:11 -0800
+X-CSE-ConnectionGUID: OAVjT+HmQA66+998RkwxGA==
+X-CSE-MsgGUID: qo38QKvcS127tOl655N2lw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="217048736"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 18:09:57 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 10 Feb 2026 18:09:56 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Tue, 10 Feb 2026 18:09:56 -0800
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.29) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 10 Feb 2026 18:09:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kM/b8pH+BzML+NZhOzi5vk2eFxpcgThhit53o96aKWco3Zw59K6JKYyfouZX/OfiUViXBiLuX16ZebPKlNYCLwutimpEMru8t0WSBr1K0QggFCtT1DkOI3xQJ3jWkldxRMVr89ObYc54d+C3V9uZ0H525qsBwxpbAR3V3TloFRJs1cmDiuMG4q4+eG7hppuIw/PXnBXrIpMMpNCDmM0NgqeybAd32+JFlgFdJkcSUt7rcOGMg9ri61p+wYncK9R7HGzKHlaTTaCVsEi8vE//VJlE8n2fGslBJqu0w5OHexss7qDuIFsbhnPz+0+weCVyJtHLhvzJ6kNTFFhINLOtIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iQpWviVTs7BIXKEedso+yunss/BCcmr2ILzxqLYQe0g=;
- b=GuWCBxOxgAwyx0JjYnYHjvBX8PKUyYrI8D++jXY/rPCbQvpWFrn0q5I1157rcJeHL22k0KqNS7Mx2gDk7PsvqjdIzplZabXUiGaARqX0KP0M2iFZaizRIP59sLbTvNYR9tBXuwoBsOxl6VRYatEr7blMBr86MLdGEvzIrl0KS1FGLPscvURyFWqubj84OK1khQwkiKmeDHr+6EhMO+seAFEkpkmjV8stYpYYs93M6H5Fu5YAqb5IgQYdU2BMAoVkQW5kegoUX7WhJP+sshsiYZVZ5t/48rvZNiWlYUqIuBaBzyl0CcXAwbN/fwR0BFzk7oiTo5zxReHMEYLZPqPmwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
- by PH0PR11MB9522.namprd11.prod.outlook.com (2603:10b6:510:3b0::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Wed, 11 Feb
- 2026 02:09:54 +0000
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394]) by CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394%5]) with mapi id 15.20.9587.017; Wed, 11 Feb 2026
- 02:09:54 +0000
-Date: Wed, 11 Feb 2026 10:09:47 +0800
+   d="scan'208";a="211086900"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2026 18:26:08 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vpzva-00000000pb6-3IVn;
+	Wed, 11 Feb 2026 02:26:06 +0000
+Date: Wed, 11 Feb 2026 10:26:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: George Guo <guodongtai@kylinos.cn>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [chenhuacai-loongson:loongarch-next 3/20] checkpatch:
- WARNING:BAD_SIGN_OFF: Use a single space after Co-developed-by:
-Message-ID: <aYvk65N31hEkW6K1@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0162.apcprd04.prod.outlook.com (2603:1096:4::24)
- To CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
+To: markatbritain@gmail.com, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, straube.linux@gmail.com,
+	dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mark Wu <markatbritain@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove NDIS_802_11 types and cleanup
+ style
+Message-ID: <202602111040.PumsMipt-lkp@intel.com>
+References: <20260210221556.73872-1-markatbritain@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8468:EE_|PH0PR11MB9522:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a13e177-8e2a-4796-8112-08de6912a596
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tNuCg+hKEAFiOy4jx6GTqitrMdKNEj1x2I/FJ6G8sBkjO8YNPOFBgFmMvrxM?=
- =?us-ascii?Q?FeOFrmFrnVio8oB/XnLMGgfNpIAGdlvd+FzaeEArJNF7Eht6ABEbywMZ3D0Y?=
- =?us-ascii?Q?YSZoHPSPXnJ17LqRlffM8uTzxzfWkZjvw4gAACbYzg7MgYoKrh6qsrGH8+DB?=
- =?us-ascii?Q?pwpTKeZ5V39ZGx6hOlQCM6qPAXNfLNP0O7ytQCf+GIwlcnQpjwAu5m61euUf?=
- =?us-ascii?Q?2mnHfzffURCQ5pAxH6UeerrGGIyktg5Eom5scKmbKS8MIHmgYKTcTtMBKSvG?=
- =?us-ascii?Q?74vh0/ryDeRPLB51c2aiR1i1jQ3clTdz5C3WmRUbZM1ECCDYwmR3G/7n5dJi?=
- =?us-ascii?Q?UG2CTXAx+Nz4ZRkKfosMX2Yy994t56t4Ep7J2HDdAb7gABI7nXp6zRS52Xe3?=
- =?us-ascii?Q?QMvDiz/zofN2HKPVXFY13B9l2N90Q3oyhcNfEIBKUX8Yah1mdkubfRxX14eB?=
- =?us-ascii?Q?5urEVluEU1358WuF2CFEAmS6N/XHXlF4V3KjEYuc475qV9ulDtui+fdKKZIp?=
- =?us-ascii?Q?PPPU+6LXUTNyo3m59yihGvQ7TP3g5EC/0hGR6fEuZ7UkYY+n7x8DCI9paNj2?=
- =?us-ascii?Q?WGqcZ4VbxQdZ7HHRLUisJSLpQZ4pObEXF2AlzB3zM8D8/5O3s7iA1J6QlC6b?=
- =?us-ascii?Q?c5s1Z7P/j8/Hs6xAV0e2F6x1guPEJMLwn1cv9b2UWs8fsqGex/M8pL7w8bjj?=
- =?us-ascii?Q?Ecz/JNlHUR5Ofrfbn/rOAWw72RKTKnl+fssdhylQ7PpZM20rBjlW52Y2Gw8W?=
- =?us-ascii?Q?mojh3YzBJ64AOvJDUkxMpS9yzTW6OGkoKEmUky5s9hws8QPYK3iFONr11j9h?=
- =?us-ascii?Q?IMX+w4KDj6QTGfBKNj7cD+gO+gemKovl2f+WAuIFTLgDzosndK6vhZXFuBky?=
- =?us-ascii?Q?11Avqw2WeIdFBBgzzzi20v91kRfNeQw4cQ/vypsR4KHS4+/69W/rDHxiuH3D?=
- =?us-ascii?Q?zHZh5MrrwCuLEVFVZgrOJWxXVWKRfWlajrVmTk3NxKr7y4VeoNB4bs5OcEEu?=
- =?us-ascii?Q?tWZ9p2uhhDU5j77uqNN3NdEOtcu6b+fuE3C6IQSDK1BHHzEACKrn7Y5+9xa5?=
- =?us-ascii?Q?ENltyGSpwIBHhuqAwNfgfynsDd+H01HtmJZVUycqHgOfTn5MUyNDEpGogVW+?=
- =?us-ascii?Q?q48VPKU9FdttQ2N2MR+AEHcQOz2xX9wXeIow56mGvqS1bLIsjnMYGdXnRDgF?=
- =?us-ascii?Q?aRnYWg7BXm2YnRCyvgyDQiCo4PWGvIUasTfVgk70SAjmN7Kdum0krr6gheqB?=
- =?us-ascii?Q?F9pr2oHVECxxjPWmFWNKPnLV7pr/udgg4Kich5qOxKhDjOTkqDRympL+b8RL?=
- =?us-ascii?Q?JD3TyIR2LyUZhzFeCy2542JhFCFUcTVdkUVN/DoiDEJMRNQLVxs5/4vmCXiE?=
- =?us-ascii?Q?Ej274L+PsAHczZsgaGT/lM26fMKUDTN1XhDKr0AMXVM/vITosM6IzDuPRcmo?=
- =?us-ascii?Q?LkOUhPYPntKwHpH7dfJ/7cJaiDl/aMxPrQc8ooUoBK1payfFEorvIpdllv7H?=
- =?us-ascii?Q?ZgJAhcJ+iqhHqm+1w5L5AtfNWFiwoY+rhsjYoQufASe2iU5CJ59CquKwsx2H?=
- =?us-ascii?Q?/oVQBGNvlT5NW6IEkiBIPz/uVPynS5NUq+YfdbnS?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8468.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vYdYLXmKbbKkQXsaeTlh0L9itlrKzI/p/EaMaE1XK3cEdF98bMXekTCYGzdA?=
- =?us-ascii?Q?3mcSILPq30bN8B3ZWBWBUrh3oZ7T0OKBWHBwh2wWywe5yDBkyWnYLaI7hw6J?=
- =?us-ascii?Q?KpoxDZQsZPwsqb86255L10vP7+VXVQveruqE7ZDyLN5V+yj0sQ7ystOAf9BF?=
- =?us-ascii?Q?iV5FVRSeKytlr/NbuyBgYMGs18D4Lv5gDQBrTt8Hdoev3PqS7oW9ELfQxZL4?=
- =?us-ascii?Q?KCUDMs2WTN2Ne7389sDbkk2ddGBhUuC106gJyphc/I3+YqtJHp3LV3ssfwNY?=
- =?us-ascii?Q?bnKxIMR3SuSek3JgQwWVrZ4dQCo3/2Tjeo2gAMiU81f3Dqx8UNpWZKH4wSVD?=
- =?us-ascii?Q?fPLkwYEUB6zFolU8VOQ7SeSvitr+t6kTj7dSs6NMnvd2fXqdGu0nGFzkkjgE?=
- =?us-ascii?Q?AlES1v1XUBCUY473Y/p9YUbc3GB2a4/Ax7Wkh9xvVQ/SFH1erb21tkwYkX6Y?=
- =?us-ascii?Q?4RGqcdhCm1xUdVswDqVPueWoxlwmCzq55Q4zdSe+PKwm9QvtldtCaPxsCVEn?=
- =?us-ascii?Q?C6ImQ8QtmMqBdXt5aA3Z2tTOOHbWsOYedkY+qhWK5aXV9EYD9SoSIG7M9hdY?=
- =?us-ascii?Q?nGIzrD/uD3E9jmskJ+aIeb8V259TGb40Dup/VK7esCWUCPI17+QVAkRkMZ8l?=
- =?us-ascii?Q?KzPlHTXLbibI8I2aKyz7+/sjMWUQBx/Ev+1/aR5cOUG2J0M6f8cvOs+eHJWq?=
- =?us-ascii?Q?6320Rz4YrOWUbvpYwzq2M8Rpgt4PdUJqUlcCyjOxtoetGC7QdT9fDKKP3BnY?=
- =?us-ascii?Q?+nDVjENN5ZSP2sJtG2FeDvH4ACk1QhOgJUnD8YZQ9yIC+5MxcAb+kGuDe1eh?=
- =?us-ascii?Q?Lwubj6JUG/gQM1KeRlKRsYxEDMWh71AstPUZGX8kDm7wXpx/E404G3/GwE3H?=
- =?us-ascii?Q?4PEh6j1NJq7bZaZFZD3m6TAQ0Wbq0iBh3h1c7ZaFKjEFxNFshaNhvrMKwkOS?=
- =?us-ascii?Q?bYYDWWMsC4+7W+A9er+d5VNyVvvDGjofplaX2vg+jKZlVo8FiBDrZV59M3tq?=
- =?us-ascii?Q?VGA35KUvw7qbu1zu89CqKlDyQOahm+MXP+Wu+aqb1gYFAFONu0zjTXxFIKds?=
- =?us-ascii?Q?kw5pV6F1CLXo/JYBhh1wPTmShJZ0ZON0ganO9FqXm3HMHHdDP6Gy/u0S0Kq5?=
- =?us-ascii?Q?9d7wZ5VhysgBq9MSkucRZvYzWHRiQHKC6mF/occ1Ol3Qlr+6l9r8zImw3pvp?=
- =?us-ascii?Q?TgLClwp7d1YbnAaw3a7wwxCUx01xEPY5GRiiq0wc97LyFawI7nTc9xpaZo24?=
- =?us-ascii?Q?GbxzmeWhRG1rYpQKjYbeqg76VMJYDIueVCvcphu2gcyVLgjjavo/rf+0UIg6?=
- =?us-ascii?Q?si1SrvTIkP276tYTiAKXuCISpx1a8JcNpj37aZmUawoz0nYoZRQLDk4m+Nqw?=
- =?us-ascii?Q?8uq+sD2ZmCUWz8TNO/2o94poZ3dGmhZ6fQHCLF9GWvYGG/jx7V2M5x77gK9P?=
- =?us-ascii?Q?2nwmKlB67KPDUVC6rsH9HUIJS1Q+VlRCckrOUz/TJkli7OHt9HEUb3pLBjTI?=
- =?us-ascii?Q?QtGvMgm8fQpAHPtlkvA0DunYu7FddDmhZlc1tjmwbazIM2SlR5bx8lK7T1KT?=
- =?us-ascii?Q?0DC7DlELROzQHQ6eSaSB8O5EA/3FkgZk8OXQA2OzHb8apE9Wjio2oqioCD7X?=
- =?us-ascii?Q?zO6Bi4Oc4UV0U1kZtDByc2v4m0PKyRQLs4Bp/Ga5dTDoIMqXhyPMCOJojqvl?=
- =?us-ascii?Q?FBXsZdYAtdNVtTBtqmnNrVCiCZAWJlYLTz00rpsjXhxMPpUvXgto9cPwORRw?=
- =?us-ascii?Q?7FDZSQK5lA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a13e177-8e2a-4796-8112-08de6912a596
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8468.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2026 02:09:54.2718
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: feCTt69qBidU4H/7aSEHwATbalW64U98WbV/Y1jMV+m6b/vu4TcmBONZsG2bs5jVvOsgxrAKD3ob4ZzBp9kvDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB9522
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260210221556.73872-1-markatbritain@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git loongarch-next
-head:   92860256402cce9fa6268763365f5333a56c1428
-commit: f0e4b1b6e295299f5c9c79ad546dedbdf7132f45 [3/20] LoongArch: Add 128-bit atomic cmpxchg support
-reproduce: (https://download.01.org/0day-ci/archive/20260211/202602110052.ECCZnlGs-lkp@intel.com/reproduce)
+Hi,
 
-# many are suggestions rather than must-fix
+kernel test robot noticed the following build errors:
 
-WARNING:BAD_SIGN_OFF: Use a single space after Co-developed-by:
-#22: 
-Co-developed-by:: Xi Ruoyao <xry111@xry111.site>
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/markatbritain-gmail-com/staging-rtl8723bs-remove-NDIS_802_11-types-and-cleanup-style/20260211-062107
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260210221556.73872-1-markatbritain%40gmail.com
+patch subject: [PATCH] staging: rtl8723bs: remove NDIS_802_11 types and cleanup style
+config: um-randconfig-r073-20260211 (https://download.01.org/0day-ci/archive/20260211/202602111040.PumsMipt-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111040.PumsMipt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602111040.PumsMipt-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c: In function 'rtw_cfg80211_set_encryption':
+>> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:787:72: error: initialization of 'struct ieee_crypt_arg *' from incompatible pointer type 'struct <anonymous> *' [-Wincompatible-pointer-types]
+     787 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
+         |                                                                        ^
+   In file included from include/linux/kernel.h:28,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/if_ether.h:19,
+                    from include/linux/etherdevice.h:20,
+                    from drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:8:
+>> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:788:60: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     788 |                                         u32 len = min(crypt->key_len, 16U);
+         |                                                            ^~
+   include/linux/minmax.h:92:20: note: in definition of macro '__careful_cmp_once'
+      92 |         auto ux = (x); auto uy = (y);                   \
+         |                    ^
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:788:51: note: in expansion of macro 'min'
+     788 |                                         u32 len = min(crypt->key_len, 16U);
+         |                                                   ^~~
+   In file included from <command-line>:
+   include/linux/compiler.h:168:17: error: '__UNIQUE_ID_x__656' undeclared (first use in this function); did you mean '__UNIQUE_ID_y__657'?
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |                 ^~~~~~~~~~~~
+   include/linux/compiler_types.h:610:23: note: in definition of macro '__compiletime_assert'
+     610 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:630:9: note: in expansion of macro '_compiletime_assert'
+     630 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
+      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
+         |                         ^~~~~~~~~~~~~~
+   include/linux/minmax.h:75:10: note: in expansion of macro '__sign_use'
+      75 |         (__sign_use(ux) & __sign_use(uy))
+         |          ^~~~~~~~~~
+   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:16:23: note: in expansion of macro '___PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^~~~~~~~
+   include/linux/compiler.h:168:9: note: in expansion of macro '__PASTE'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^~~~~~~
+   include/linux/minmax.h:98:38: note: in expansion of macro '__UNIQUE_ID'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                      ^~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:788:51: note: in expansion of macro 'min'
+     788 |                                         u32 len = min(crypt->key_len, 16U);
+         |                                                   ^~~
+   include/linux/compiler.h:168:17: note: each undeclared identifier is reported only once for each function it appears in
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |                 ^~~~~~~~~~~~
+   include/linux/compiler_types.h:610:23: note: in definition of macro '__compiletime_assert'
+     610 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:630:9: note: in expansion of macro '_compiletime_assert'
+     630 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
+      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
+         |                         ^~~~~~~~~~~~~~
+   include/linux/minmax.h:75:10: note: in expansion of macro '__sign_use'
+      75 |         (__sign_use(ux) & __sign_use(uy))
+         |          ^~~~~~~~~~
+   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:16:23: note: in expansion of macro '___PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^~~~~~~~
+   include/linux/compiler.h:168:9: note: in expansion of macro '__PASTE'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^~~~~~~
+   include/linux/minmax.h:98:38: note: in expansion of macro '__UNIQUE_ID'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                      ^~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:788:51: note: in expansion of macro 'min'
+     788 |                                         u32 len = min(crypt->key_len, 16U);
+         |                                                   ^~~
+   include/linux/minmax.h:71:17: error: first argument to '__builtin_choose_expr' not a constant
+      71 |         (typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:610:23: note: in definition of macro '__compiletime_assert'
+--
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:70:25: note: in expansion of macro 'statically_true'
+      70 | #define __is_nonneg(ux) statically_true( \
+         |                         ^~~~~~~~~~~~~~~
+   include/linux/minmax.h:50:14: note: in expansion of macro '__is_nonneg'
+      50 |         (2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
+         |              ^~~~~~~~~~~
+   include/linux/minmax.h:75:10: note: in expansion of macro '__sign_use'
+      75 |         (__sign_use(ux) & __sign_use(uy))
+         |          ^~~~~~~~~~
+   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:804:51: note: in expansion of macro 'min'
+     804 |                                         u32 len = min(crypt->key_len, 16U);
+         |                                                   ^~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:806:57: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     806 |                                         if (strcmp(crypt->alg, "TKIP") == 0 ||
+         |                                                         ^~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:807:57: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     807 |                                             strcmp(crypt->alg, "CCMP") == 0) {
+         |                                                         ^~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:84: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                                                    ^~
+   include/linux/fortify-string.h:628:34: note: in definition of macro '__fortify_memcpy_chk'
+     628 |         const size_t __p_size = (p_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:691:17: note: in expansion of macro '__struct_size'
+     691 |                 __struct_size(p), __struct_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:49: note: in expansion of macro 'memcpy'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:809:61: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     809 |                                                        crypt->key, len);
+         |                                                             ^~
+   include/linux/fortify-string.h:629:34: note: in definition of macro '__fortify_memcpy_chk'
+     629 |         const size_t __q_size = (q_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:691:35: note: in expansion of macro '__struct_size'
+     691 |                 __struct_size(p), __struct_size(q),                     \
+         |                                   ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:49: note: in expansion of macro 'memcpy'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:84: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                                                    ^~
+   include/linux/fortify-string.h:630:40: note: in definition of macro '__fortify_memcpy_chk'
+     630 |         const size_t __p_size_field = (p_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:692:17: note: in expansion of macro '__member_size'
+     692 |                 __member_size(p), __member_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:49: note: in expansion of macro 'memcpy'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:809:61: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     809 |                                                        crypt->key, len);
+         |                                                             ^~
+   include/linux/fortify-string.h:631:40: note: in definition of macro '__fortify_memcpy_chk'
+     631 |         const size_t __q_size_field = (q_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:692:35: note: in expansion of macro '__member_size'
+     692 |                 __member_size(p), __member_size(q),                     \
+         |                                   ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:49: note: in expansion of macro 'memcpy'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:84: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                                                    ^~
+   include/linux/fortify-string.h:645:27: note: in definition of macro '__fortify_memcpy_chk'
+     645 |         __underlying_##op(p, q, __copy_size);                           \
+         |                           ^
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:49: note: in expansion of macro 'memcpy'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:809:61: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     809 |                                                        crypt->key, len);
+         |                                                             ^~
+   include/linux/fortify-string.h:645:30: note: in definition of macro '__fortify_memcpy_chk'
+     645 |         __underlying_##op(p, q, __copy_size);                           \
+         |                              ^
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:49: note: in expansion of macro 'memcpy'
+     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+         |                                                 ^~~~~~
+>> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:62: error: 'struct security_priv' has no member named 'dot18021XGrptxmickey'; did you mean 'dot118021XGrptxmickey'?
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                              ^~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:628:34: note: in definition of macro '__fortify_memcpy_chk'
+     628 |         const size_t __p_size = (p_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:691:17: note: in expansion of macro '__struct_size'
+     691 |                 __struct_size(p), __struct_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:88: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                                                        ^~
+   include/linux/fortify-string.h:628:34: note: in definition of macro '__fortify_memcpy_chk'
+     628 |         const size_t __p_size = (p_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:691:17: note: in expansion of macro '__struct_size'
+     691 |                 __struct_size(p), __struct_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:812:62: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     812 |                                                        &crypt->key[16], 8);
+         |                                                              ^~
+   include/linux/fortify-string.h:629:34: note: in definition of macro '__fortify_memcpy_chk'
+     629 |         const size_t __q_size = (q_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:691:35: note: in expansion of macro '__struct_size'
+     691 |                 __struct_size(p), __struct_size(q),                     \
+         |                                   ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+>> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:62: error: 'struct security_priv' has no member named 'dot18021XGrptxmickey'; did you mean 'dot118021XGrptxmickey'?
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                              ^~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:630:40: note: in definition of macro '__fortify_memcpy_chk'
+     630 |         const size_t __p_size_field = (p_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:692:17: note: in expansion of macro '__member_size'
+     692 |                 __member_size(p), __member_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:88: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                                                        ^~
+   include/linux/fortify-string.h:630:40: note: in definition of macro '__fortify_memcpy_chk'
+     630 |         const size_t __p_size_field = (p_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:692:17: note: in expansion of macro '__member_size'
+     692 |                 __member_size(p), __member_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:812:62: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     812 |                                                        &crypt->key[16], 8);
+         |                                                              ^~
+   include/linux/fortify-string.h:631:40: note: in definition of macro '__fortify_memcpy_chk'
+     631 |         const size_t __q_size_field = (q_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:692:35: note: in expansion of macro '__member_size'
+     692 |                 __member_size(p), __member_size(q),                     \
+         |                                   ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+>> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:62: error: 'struct security_priv' has no member named 'dot18021XGrptxmickey'; did you mean 'dot118021XGrptxmickey'?
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                              ^~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:645:27: note: in definition of macro '__fortify_memcpy_chk'
+     645 |         __underlying_##op(p, q, __copy_size);                           \
+         |                           ^
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:88: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                                                        ^~
+   include/linux/fortify-string.h:645:27: note: in definition of macro '__fortify_memcpy_chk'
+     645 |         __underlying_##op(p, q, __copy_size);                           \
+         |                           ^
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:812:62: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     812 |                                                        &crypt->key[16], 8);
+         |                                                              ^~
+   include/linux/fortify-string.h:645:30: note: in definition of macro '__fortify_memcpy_chk'
+     645 |         __underlying_##op(p, q, __copy_size);                           \
+         |                              ^
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:49: note: in expansion of macro 'memcpy'
+     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:89: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                                                         ^~
+   include/linux/fortify-string.h:628:34: note: in definition of macro '__fortify_memcpy_chk'
+     628 |         const size_t __p_size = (p_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:691:17: note: in expansion of macro '__struct_size'
+     691 |                 __struct_size(p), __struct_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:49: note: in expansion of macro 'memcpy'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:815:62: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     815 |                                                        &crypt->key[24], 8);
+         |                                                              ^~
+   include/linux/fortify-string.h:629:34: note: in definition of macro '__fortify_memcpy_chk'
+     629 |         const size_t __q_size = (q_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:691:35: note: in expansion of macro '__struct_size'
+     691 |                 __struct_size(p), __struct_size(q),                     \
+         |                                   ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:49: note: in expansion of macro 'memcpy'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:89: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                                                         ^~
+   include/linux/fortify-string.h:630:40: note: in definition of macro '__fortify_memcpy_chk'
+     630 |         const size_t __p_size_field = (p_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:692:17: note: in expansion of macro '__member_size'
+     692 |                 __member_size(p), __member_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:49: note: in expansion of macro 'memcpy'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:815:62: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     815 |                                                        &crypt->key[24], 8);
+         |                                                              ^~
+   include/linux/fortify-string.h:631:40: note: in definition of macro '__fortify_memcpy_chk'
+     631 |         const size_t __q_size_field = (q_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:692:35: note: in expansion of macro '__member_size'
+     692 |                 __member_size(p), __member_size(q),                     \
+         |                                   ^~~~~~~~~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:49: note: in expansion of macro 'memcpy'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:89: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                                                         ^~
+   include/linux/fortify-string.h:645:27: note: in definition of macro '__fortify_memcpy_chk'
+     645 |         __underlying_##op(p, q, __copy_size);                           \
+         |                           ^
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:49: note: in expansion of macro 'memcpy'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:815:62: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     815 |                                                        &crypt->key[24], 8);
+         |                                                              ^~
+   include/linux/fortify-string.h:645:30: note: in definition of macro '__fortify_memcpy_chk'
+     645 |         __underlying_##op(p, q, __copy_size);                           \
+         |                              ^
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:49: note: in expansion of macro 'memcpy'
+     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+         |                                                 ^~~~~~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:818:81: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     818 |                                                 psec->dot118021XGrpKeyid = crypt->idx;
+         |                                                                                 ^~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:819:82: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     819 |                                                 rtw_set_key(padapter, psec, crypt->idx, 1, true);
+         |                                                                                  ^~
+   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:820:64: error: invalid use of undefined type 'struct ieee_crypt_arg'
+     820 |                                         } else if (strcmp(crypt->alg, "BIP") == 0) {
+
+
+vim +787 drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+
+   697	
+   698	static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param *param, u32 param_len)
+   699	{
+   700		int ret = 0;
+   701		u8 max_idx;
+   702		u32 wep_key_idx, wep_key_len;
+   703		struct adapter *padapter = rtw_netdev_priv(dev);
+   704		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+   705		struct security_priv *psecuritypriv = &padapter->securitypriv;
+   706	
+   707		param->u.crypt.err = 0;
+   708		param->u.crypt.alg[IEEE_CRYPT_ALG_NAME_LEN - 1] = '\0';
+   709	
+   710		if (param_len < (u32)((u8 *)param->u.crypt.key - (u8 *)param) + param->u.crypt.key_len) {
+   711			ret =  -EINVAL;
+   712			goto exit;
+   713		}
+   714	
+   715		if (param->sta_addr[0] != 0xff || param->sta_addr[1] != 0xff ||
+   716		    param->sta_addr[2] != 0xff || param->sta_addr[3] != 0xff ||
+   717		    param->sta_addr[4] != 0xff || param->sta_addr[5] != 0xff) {
+   718			ret = -EINVAL;
+   719			goto exit;
+   720		}
+   721	
+   722		if (strcmp(param->u.crypt.alg, "WEP") == 0)
+   723			max_idx = WEP_KEYS - 1;
+   724		else
+   725			max_idx = BIP_MAX_KEYID;
+   726	
+   727		if (param->u.crypt.idx > max_idx) {
+   728			netdev_err(dev, "Error crypt.idx %d > %d\n", param->u.crypt.idx, max_idx);
+   729			ret = -EINVAL;
+   730			goto exit;
+   731		}
+   732	
+   733		if (strcmp(param->u.crypt.alg, "WEP") == 0) {
+   734			wep_key_idx = param->u.crypt.idx;
+   735			wep_key_len = param->u.crypt.key_len;
+   736	
+   737			if (wep_key_len <= 0) {
+   738				ret = -EINVAL;
+   739				goto exit;
+   740			}
+   741	
+   742			if (psecuritypriv->bWepDefaultKeyIdxSet == 0) {
+   743				/* wep default key has not been set, so use this key index as default key. */
+   744	
+   745				wep_key_len = wep_key_len <= 5 ? 5 : 13;
+   746	
+   747				psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_ENABLED;
+   748				psecuritypriv->dot11PrivacyAlgrthm = _WEP40_;
+   749				psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
+   750	
+   751				if (wep_key_len == 13) {
+   752					psecuritypriv->dot11PrivacyAlgrthm = _WEP104_;
+   753					psecuritypriv->dot118021XGrpPrivacy = _WEP104_;
+   754				}
+   755	
+   756				psecuritypriv->dot11PrivacyKeyIndex = wep_key_idx;
+   757			}
+   758	
+   759			memcpy(&(psecuritypriv->dot11DefKey[wep_key_idx].skey[0]), param->u.crypt.key, wep_key_len);
+   760	
+   761			psecuritypriv->dot11DefKeylen[wep_key_idx] = wep_key_len;
+   762	
+   763			rtw_set_key(padapter, psecuritypriv, wep_key_idx, 0, true);
+   764	
+   765			goto exit;
+   766		}
+   767	
+   768		if (padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X) { /*  802_1x */
+   769			struct sta_info *psta, *pbcmc_sta;
+   770			struct sta_priv *pstapriv = &padapter->stapriv;
+   771	
+   772			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE) == true) { /* sta mode */
+   773				psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
+   774				if (psta) {
+   775					/* Jeff: don't disable ieee8021x_blocked while clearing key */
+   776					if (strcmp(param->u.crypt.alg, "none") != 0)
+   777						psta->ieee8021x_blocked = false;
+   778	
+   779					if ((padapter->securitypriv.ndisencryptstatus ==
+   780					     NDIS_802_11_ENCRYPTION_2_ENABLED) ||
+   781					    (padapter->securitypriv.ndisencryptstatus ==
+   782					     NDIS_802_11_ENCRYPTION_3_ENABLED)) {
+   783						psta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
+   784					}
+   785	
+   786					if (param->u.crypt.set_tx == 1) { /* pairwise key */
+ > 787						struct ieee_crypt_arg *crypt = &param->u.crypt;
+ > 788						u32 len = min(crypt->key_len, 16U);
+   789	
+   790						memcpy(psta->dot118021x_UncstKey.skey,
+   791						       crypt->key, len);
+   792						if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
+   793							memcpy(psta->dot11tkiptxmickey.skey, &(param->u.crypt.key[16]), 8);
+   794							memcpy(psta->dot11tkiprxmickey.skey, &(param->u.crypt.key[24]), 8);
+   795	
+   796							padapter->securitypriv.busetkipkey = false;
+   797							/* _set_timer(&padapter->securitypriv.tkip_timer, 50); */
+   798						}
+   799	
+   800						rtw_setstakey_cmd(padapter, psta, true, true);
+   801					} else { /* group key */
+   802						struct security_priv *psec = &padapter->securitypriv;
+   803						struct ieee_crypt_arg *crypt = &param->u.crypt;
+   804						u32 len = min(crypt->key_len, 16U);
+   805	
+   806						if (strcmp(crypt->alg, "TKIP") == 0 ||
+   807						    strcmp(crypt->alg, "CCMP") == 0) {
+   808							memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
+   809							       crypt->key, len);
+   810	
+ > 811							memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
+   812							       &crypt->key[16], 8);
+   813	
+   814							memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
+   815							       &crypt->key[24], 8);
+   816	
+   817							psec->binstallGrpkey = true;
+   818							psec->dot118021XGrpKeyid = crypt->idx;
+   819							rtw_set_key(padapter, psec, crypt->idx, 1, true);
+   820						} else if (strcmp(crypt->alg, "BIP") == 0) {
+   821							/* save the IGTK key, length 16 bytes */
+   822							memcpy(psec->dot11wBIPKey[crypt->idx].skey,
+   823							       crypt->key, len);
+   824							psec->dot11wBIPKeyid = crypt->idx;
+   825							psec->binstallBIPkey = true;
+   826						}
+   827					}
+   828				}
+   829	
+   830				pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
+   831				if (pbcmc_sta) {
+   832					/* Jeff: don't disable ieee8021x_blocked while clearing key */
+   833					if (strcmp(param->u.crypt.alg, "none") != 0)
+   834						pbcmc_sta->ieee8021x_blocked = false;
+   835	
+   836					if ((padapter->securitypriv.ndisencryptstatus ==
+   837					     NDIS_802_11_ENCRYPTION_2_ENABLED) ||
+   838					    (padapter->securitypriv.ndisencryptstatus ==
+   839					     NDIS_802_11_ENCRYPTION_3_ENABLED)) {
+   840						pbcmc_sta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
+   841					}
+   842				}
+   843			} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) { /* adhoc mode */
+   844			}
+   845		}
+   846	
+   847	exit:
+   848	
+   849		return ret;
+   850	}
+   851	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
