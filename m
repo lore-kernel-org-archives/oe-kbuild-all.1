@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0AE1D5147
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 19:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE85281AA8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 20:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770838278; cv=none; b=XmfXjXb3K0rJPoI8BB8Wzlaxjf7uHWQlVivqzgTj+oBVf9i5AqF1TT7acrXak0zm8UPbYlc8i1X/PoEESB6KN/IPi4OTpwA8h1Ti9u3jnfwxvIA9KqFddHB93vWYLI9UWCIn20ylZlz4JC+iSHZRkQ0oNPxeUAqG7iM6q3T23qU=
+	t=1770840111; cv=none; b=Sy+EP9u5zVSWM1xne5Ue8omQY0KlrYLlF0VtfapADyRijYFqfy+3UesxiZiZgN0WVLGgEL1HVjdcF1Uj36o6Aq9wyfWf6ikX8jls+3hxa+kAG7CRdhhTLsRWkhX5qfflcVCiEmdztXaJWR17SuClfhyHWI1LfA3Lj69AP+LtE0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770838278; c=relaxed/simple;
-	bh=i5yIVHa4XXWUvNtM2BFTjGf/wrX+dzYk9ww6RIaTnnE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ox27LpbtJicC+fzGg++c8qqGMlQ2eQbj3aXzRs62FsF52m1CYYkzqutjS1bZ1hF63XK58vQZf2sSBE0oKEpmcrKshhsLnde/DpGJac2qvtWCpgTgcnspdZor/Vhy8MfQSVDie6oETkJ0bfVPDDjq1uZjzUnQqLnr4Yw176uHz7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDywsaUU; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1770840111; c=relaxed/simple;
+	bh=FRK80FtOeNHas7nb8MAtDSMxEW26e50AfyrrYROtmVM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=d7Jxv9TEK1yq2Zsf4RnYu3fkkNDeFBUEx/Z1mNqICPIxS8PlC1jQaB3aWSFnpuf+ynK2kn4ACLxXDZ8cYe7LP6rZ0I9BjKKbNIFZa++kEJTJ16DVXl7EV0HpT3FfF5d/gR/UlXRzeehExhB7I+smN8gd/qgVsxw/NaeCfEDP0TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i6LnmXlM; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDywsaUU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6LnmXlM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770838277; x=1802374277;
+  t=1770840110; x=1802376110;
   h=date:from:to:cc:subject:message-id;
-  bh=i5yIVHa4XXWUvNtM2BFTjGf/wrX+dzYk9ww6RIaTnnE=;
-  b=WDywsaUU45Bvwt3mZwf3t+loP0hyjaWNDjLTpaM7Ag2IrIHAdwx2LJhB
-   4s6ydEXKZuG6bFtbHXXIMiRBqU1Bit5PqoWKawYqSFncwTDtfqtKLAkQR
-   abKNa/JsrLd/oNgc+uA9amaTxp8sxbqkRUpRWz/QicnvIS5tVluI7mxMe
-   5059vpyGCdBP+A6hAOyvPyxDSpNZ8VhjNe2DHZQ/ezymDUEplmQIe4Xf+
-   U5TNdwzquSUYUbGUGWFXTnlFrFDgK1wxADiWW2b9FcCqLifFCqVHRDYCu
-   dLKILtf1EkTbnyh+9qAmQSCCR2vPqMH1HRcbTKnI4wzrNVXnC458leRIw
+  bh=FRK80FtOeNHas7nb8MAtDSMxEW26e50AfyrrYROtmVM=;
+  b=i6LnmXlMVBF4OkbtN9gYXOBi98j/YH1pXDjCyKVeRJ+naFLCCNrNL9X/
+   /JCazpdF/gJW8skCxofoogKPXWm5z3cQ5Oz0qNCGcxO5PHHnp9oUrKHXl
+   ZkZWPaPv6afs3qaCk3XC1beQtSgM9bQf6to/+Byc+Ij2r1eLyen9ZcCuE
+   jhFlvqAWePBVbOsbz5IWmWfbYlOksSCtlDm8ACcIx0Y2UHfE5ewMcWRNt
+   NqtTMe7QAm9YqS7O+pdwqiVdXM4HGAwsrINaGa8mHEh28GRvf3bZhdvi+
+   mcsQ+/XT49y3m8w6M7chN51u+pHLssgd/tXLM9oKV5nFwd4npi6Tj3zWU
    Q==;
-X-CSE-ConnectionGUID: 1K9lq+raSROK0SOlIGc/Lw==
-X-CSE-MsgGUID: lYk7/B9LQu6u6GGLnN9FDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="75620993"
+X-CSE-ConnectionGUID: WQzTQRaCQkOSxsgomB5ccw==
+X-CSE-MsgGUID: 4EPpHscfRJW14qxaT1MaCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="82324375"
 X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="75620993"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 11:30:48 -0800
-X-CSE-ConnectionGUID: 9aq4E8/xSE2GxeYB07o9fw==
-X-CSE-MsgGUID: z/2qxx4oSbyapfb9iO4CWQ==
+   d="scan'208";a="82324375"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 12:01:49 -0800
+X-CSE-ConnectionGUID: 8zwdOS0ERNqveyr98P2Dog==
+X-CSE-MsgGUID: tq0zQTybScW3bv/T1OnmDg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="216603327"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Feb 2026 11:30:46 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 11 Feb 2026 12:01:48 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqFvA-00000000qJA-0dh4;
-	Wed, 11 Feb 2026 19:30:44 +0000
-Date: Thu, 12 Feb 2026 03:29:47 +0800
+	id 1vqGPB-00000000qKm-3YjJ;
+	Wed, 11 Feb 2026 20:01:45 +0000
+Date: Thu, 12 Feb 2026 04:01:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/flat 7/11] m68k-linux-ld:
- fair.c:undefined reference to `__udivdi3'
-Message-ID: <202602120334.j0IicTNm-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 203/203]
+ arch/arm64/mm/dma-mapping-noalias.c:550:6: warning: no previous prototype for
+ 'arm64_noalias_setup_dma_ops'
+Message-ID: <202602120354.qLUGCIYa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,30 +58,63 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat
-head:   0900b7ccd9fd82ebb9af824a43994c4d20c7cca8
-commit: 5f7dcdadf71c0b5c475bc3ffe4d4f69be7bb87b5 [7/11] sched/fair: Use full weight to __calc_delta()
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260212/202602120334.j0IicTNm-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120334.j0IicTNm-lkp@intel.com/reproduce)
+Hi Robin,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   35927ff8df047b269c671535118aa0046a689a6d
+commit: 3c75a6fb7fd1cd149d7af1a2e200b064a2d12782 [203/203] ANDROID: arm64: Work around Cortex-A510 erratum 2454944
+config: arm64-randconfig-r134-20260211 (https://download.01.org/0day-ci/archive/20260212/202602120354.qLUGCIYa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120354.qLUGCIYa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602120334.j0IicTNm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602120354.qLUGCIYa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   m68k-linux-ld: kernel/sched/fair.o: in function `entity_lag.constprop.0':
-   fair.c:(.text+0x7f0): undefined reference to `__udivdi3'
-   m68k-linux-ld: kernel/sched/fair.o: in function `update_curr':
-   fair.c:(.text+0x2140): undefined reference to `__udivdi3'
->> m68k-linux-ld: fair.c:(.text+0x217e): undefined reference to `__udivdi3'
-   m68k-linux-ld: kernel/sched/fair.o: in function `yield_task_fair':
-   fair.c:(.text+0x235a): undefined reference to `__udivdi3'
-   m68k-linux-ld: kernel/sched/fair.o: in function `wakeup_preempt_fair':
-   fair.c:(.text+0x4a98): undefined reference to `__udivdi3'
-   m68k-linux-ld: kernel/sched/fair.o:fair.c:(.text+0x5438): more undefined references to `__udivdi3' follow
+>> arch/arm64/mm/dma-mapping-noalias.c:550:6: warning: no previous prototype for 'arm64_noalias_setup_dma_ops' [-Wmissing-prototypes]
+     550 | void arm64_noalias_setup_dma_ops(struct device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+
+vim +/arm64_noalias_setup_dma_ops +550 arch/arm64/mm/dma-mapping-noalias.c
+
+   549	
+ > 550	void arm64_noalias_setup_dma_ops(struct device *dev)
 
 -- 
 0-DAY CI Kernel Test Service
