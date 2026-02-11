@@ -1,95 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C97D1FE451
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 00:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1701514F8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 01:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770770529; cv=none; b=CGDvaONatpatnOOvTXhFcvVxfDpIGuYB9IaPUchxhw7mCnXGQ+JgCBng+8aOErMeNzA1Nd/d9HaBqFXy79DbfTTgJpJh8aQ4QmX5HDSo0dg1QwqoJuoJJHtrO6GD0bSNs+bcUXU7qN2gUEP6L2dlc2i+zxPJvFfcMJak+8gk2p8=
+	t=1770772584; cv=none; b=evfIx/9gWdAcHZ5PqCkWm+FB7cYgcZce5ORUod2ZJwVI+JQ5dMVQC6KdhMl20YxluZIWcpMs/JfBM099VGncph8UXM2sw/tMFcGWBmU4n+0skWzTxzrnHltkgOH1OfaX2q/XM9pcu/12W5Vwp8J26BMzuv0wZhI0uMLt6vaXpIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770770529; c=relaxed/simple;
-	bh=nFfcoraVBUungQ2GfDdBN9X5zf+/KAm/HJoCo1bNa8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=qIQYC1NFrcqeWMXisOaAgYIhyUy9b+7kbXxCop8+EDnz3GGyrcvC5LPV6uTB/tCRiFC75N33/r7cP/uLiiB8BBRdGOM2S6H3baJrmj3EZNrfdeAYna2jQvfK+umKXSNnnRSGdU+b5nnbrKK9DbKws4cfZ3uKoMuwnF5okmzUW/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RrPtUPfB; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1770772584; c=relaxed/simple;
+	bh=zQfK1duHSKt4nuIm0o2EbL0gFCGXcTeC5skyfDPlcFY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O+QmhB6Y/O59ma0VIzCZB9SXU2LNdo/jT90hEzMxff97Bo7As2JU/kgplrwUs8vviG+8xssHPmDnYHv73ND4V7u5XW86h6VGIuhscM1z7EgQjmt2rLORn9r5tgfilZS9ovkyDDDv+DDTK+Iea6LSJ9LY22aSwF0Hj3nHtQUMjsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fEO+NKgu; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RrPtUPfB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fEO+NKgu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770770527; x=1802306527;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nFfcoraVBUungQ2GfDdBN9X5zf+/KAm/HJoCo1bNa8A=;
-  b=RrPtUPfB/HzoKxHhJr6TozSc6XxJyjVopgIfYt834wCfvZevDZ/+MvvV
-   knkLP/KRj/QTWZ/sO2GS2Oc55FqsFlDL5Z+ZRiWtOzhCOexArTY/C0908
-   hS7QDgPlQggqJipy+oCCT2VvCO6ncY4PkT2d15PP+VaIdDP+h8SuC37Xh
-   iSSBiWiedjcRIjRF/eZheF7ZXwWEyTqZLTLe1JFFKfdqR1cHlWTJ7R/6a
-   IyTdHmb4Jau03z9Uqb6c9AZD99MKfcKUOqI6hSXlzR8xoEdpIZSh63mG1
-   EUhvhgbSbgCJxafovAZNnIspQeBIpQiWVhqYxb4YBp97quGUX+DyP3eQD
-   g==;
-X-CSE-ConnectionGUID: 9dlgRBeYTzinScs+ZLwgpw==
-X-CSE-MsgGUID: wL/FPU2bRSKS1O1juqsRpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="83281765"
+  t=1770772582; x=1802308582;
+  h=date:from:to:cc:subject:message-id;
+  bh=zQfK1duHSKt4nuIm0o2EbL0gFCGXcTeC5skyfDPlcFY=;
+  b=fEO+NKgutnNvZ200++WrkFRIEh/FKkeT25XwSwGP/l+30we+D+hsEtL7
+   hXQyCuuzadDZxwe5QycG7RGHzq5DQyT5w6FiAuXJ6DMJJ5SOgltknhtyP
+   BziWsuIap5+10OSgxfa4Dtaisy921Rf00bY4lDlam6hHkOGNy9k6rP/hz
+   8QdppbM+pnwtWdx52z7FI6/qlUYJmq07OPidhVS6PCJn1jR4kPgC2LMUl
+   heag+peYeSEVeASgcdkO/Vpuh/jN+cBoD4AUV0mkJrhwxTqYhKy5DYBzL
+   MelWYjjVofAniVp9V+YAXTDniZTbGyEw7mENyjcNUrzAEBwfXs11NyKeu
+   w==;
+X-CSE-ConnectionGUID: 6VqiRsJTTTeSAwh/ARnYzQ==
+X-CSE-MsgGUID: 2CLID/HVR/uSdtF1cnEGaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75759779"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="83281765"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 16:42:07 -0800
-X-CSE-ConnectionGUID: wyVSHalUSaK3s9tQo+UBfA==
-X-CSE-MsgGUID: Bvgh9oaFS/Si9AW3ukFzzA==
+   d="scan'208";a="75759779"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 17:16:22 -0800
+X-CSE-ConnectionGUID: Ysdbb5FcTRCihb8qmfrONA==
+X-CSE-MsgGUID: /jjnfcydSM6MWRRkHqr7Bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="249727914"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Feb 2026 16:42:06 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="211414687"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 10 Feb 2026 17:16:21 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpyIt-00000000pXq-24Jq;
-	Wed, 11 Feb 2026 00:42:03 +0000
-Date: Wed, 11 Feb 2026 08:41:16 +0800
+	id 1vpyq2-000000000y1-2xPi;
+	Wed, 11 Feb 2026 01:16:18 +0000
+Date: Wed, 11 Feb 2026 02:15:21 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-drm-fix 60/61]
- drivers/accel/ethosu/ethosu_drv.c:26:1: warning: parameter names (without
- types) in function declaration
-Message-ID: <202602110833.BAT4ZvrM-lkp@intel.com>
+Subject: [android-common:android17-6.18 1/1] /usr/bin/ld:
+ tools/testing/selftests/vfio/lib/vfio_pci_driver.o:undefined reference to
+ `dsa_ops'
+Message-ID: <202602110256.FEDk8DOe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git dd-drm-fix
-head:   b160ea7e81b14378daf7dc40cd85e1b26ebb6634
-commit: 409d5f2c32913392326ac7923364665eca17c1bb [60/61] accel/ethosu: enable drm.debug control
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260211/202602110833.BAT4ZvrM-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110833.BAT4ZvrM-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   ce4825ea1b7d8aa49dd3412ab07579e13abdb22e
+commit: 35b05bd96204bc40a2ca8620bad1a5d139c20060 [1/1] vfio: selftests: Add driver for Intel DSA
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260211/202602110256.FEDk8DOe-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110256.FEDk8DOe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602110833.BAT4ZvrM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602110256.FEDk8DOe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/accel/ethosu/ethosu_drv.c:26:1: warning: data definition has no type or storage class
-      26 | DRM_CLASSMAP_USE(drm_debug_classes);
-         | ^~~~~~~~~~~~~~~~
-   drivers/accel/ethosu/ethosu_drv.c:26:1: error: type defaults to 'int' in declaration of 'DRM_CLASSMAP_USE' [-Werror=implicit-int]
->> drivers/accel/ethosu/ethosu_drv.c:26:1: warning: parameter names (without types) in function declaration
-   cc1: some warnings being treated as errors
-
-
-vim +26 drivers/accel/ethosu/ethosu_drv.c
-
-    25	
-  > 26	DRM_CLASSMAP_USE(drm_debug_classes);
-    27	
+>> /usr/bin/ld: tools/testing/selftests/vfio/lib/vfio_pci_driver.o:(.data.rel+0x0): undefined reference to `dsa_ops'
+   /usr/bin/ld: tools/testing/selftests/vfio/lib/vfio_pci_driver.o:(.data.rel+0x8): undefined reference to `ioat_ops'
+   collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
