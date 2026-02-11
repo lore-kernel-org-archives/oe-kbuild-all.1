@@ -1,99 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB61A33AD8C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 16:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E4E314D36
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 17:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770827610; cv=none; b=d2nD7Pq2A2idRxR/BSuIISQF8+pHGVZa5iA2DnrfJIgPGrYwh5VdwQBuSgZ8p0RmZ4J/gkNJErh2hmfrZc7wGmW4RnlgKAhZjTFzfEDGXJEBrbxiluBQdNib55LxeC4d4skP8R+aHku5QD5HH4EVgKi2VkRSIh0yPIA1KIeuse8=
+	t=1770829424; cv=none; b=nU+lPShB1OJAnyJoLl8Z89k5dfboMjgc021HjYQNW7PO9p5PWBBLHjyNtdBky/oTvoU4troamuabjGm01cTIoBUSAkJRYxPWQ4EESYAO0HFbPzfb1biI0t3KoB90b9ZfzigSdtpGBwXudARLOO/HdackhBzJ9Lyn9uxcrJx4WCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770827610; c=relaxed/simple;
-	bh=HAIYvlbWhYLjXT/jFjX9JmTWPFwdHlAF4qrvqKBgcPE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EyT1uiAKK3mxeD4wQfIZZ6RWG3GK7+gJisV4ERU2KC2axvH5M6+PDtv1RtO/jUHkaCZbSnB1CfiS2mDk9lafysRe90+IPGxQa+zf+wq+xZmfZAsJaExOveApfqzQepUFSO/sQYDw9MhMp0BDsvJ9chT0Kec9M+FtgPMJboyAd5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3ZVPevy; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1770829424; c=relaxed/simple;
+	bh=vjQ8Pcy2UpJDfcajfg1X2ExCqC7LgjKaqpwL0bvl6Xw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c462qze2e9Jj8NJ0Fr/qxL4gEZVc7BAjb4+VT4p00nyEL9Wn7APFumtd1+am7pVDN48wpulUeMJBuql/fXjjWtCWFNMNwY7Boj3VhFjrgVmsQPhOpeL41IgGrHe5B1TWRAKJiC4eEEdJaA2BiRIuVOTB7gp+G7ohZ7O0YKOS8Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EzcTK/px; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3ZVPevy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EzcTK/px"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770827609; x=1802363609;
-  h=date:from:to:cc:subject:message-id;
-  bh=HAIYvlbWhYLjXT/jFjX9JmTWPFwdHlAF4qrvqKBgcPE=;
-  b=J3ZVPevyPc5nsaKwtRZhV7fBITxaf8FOwVTgArUxkYzSKN07IYOojjt2
-   V6HImQ9lc+piCoJshUEmSgQACzw8PzqBZEnx54RhiJ2DIstmqtpMiiOKn
-   3DL08lZqgXf1Bh+FlB+0ErLNPjLey5FQrcq1mH2ehMlfeT2+mxjaaZwS6
-   IrAYLdBNXwDGOvD0rNoQPnKpabkSaAS59ik/awjfblX7HMUQWP6s6tuAu
-   9A0iC4980mhRijwlj5Kuq8d+R23G9QWQabtRCucoYzoiUFIC7Jn5bJeMO
-   P/RgnsfpXD3aG5QT1ey8finTZTZrbc4gAqIRkNFe4CDfXjdXYp4ZYJ6kN
+  t=1770829423; x=1802365423;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vjQ8Pcy2UpJDfcajfg1X2ExCqC7LgjKaqpwL0bvl6Xw=;
+  b=EzcTK/pxHK/O1gjXEhgHcvwEZRCZAcvjYrCJogHdYb/7quctt8RUKoM8
+   Kk2ia/R/rMj2ksr/kibR6HCEWs8DbTPySPaxRgpcwE8yKLLYL5dUz7kk5
+   SSuiGjIH3CHaUjzzcNgjVoW6JShAaGrwP0eUDtqO/UtIOSWcjbmTj9wei
+   FoI2XWN/B5+J9tF7PExRFC1Grkfqqlepd/FKEgSkGkSjfHYLFCP0mMU2A
+   9CFquidu71OhNOiIE9bXIys3p5+nm7J3IT9Chtshx/c+/t6wXwMriUZsc
+   abgKcBHxg73x/Ds66D7nX3n5LINEmndb+Z1+BOlHQ00Bef7C4WrofIlo0
    A==;
-X-CSE-ConnectionGUID: nWhtS71BT+yuadRESbE7vg==
-X-CSE-MsgGUID: kB9QJN3TQsej9dFbslc8wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="71879556"
+X-CSE-ConnectionGUID: TyV6VAh6Q0ObOUh3dvdO9A==
+X-CSE-MsgGUID: RWGoIENbQkuHPtzf++WPRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="71697379"
 X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="71879556"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 08:33:28 -0800
-X-CSE-ConnectionGUID: sHE91MFXQBqqHz4tygP8YA==
-X-CSE-MsgGUID: v5VJcMhHSqWO1pI1ovnMVA==
+   d="scan'208";a="71697379"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 09:03:43 -0800
+X-CSE-ConnectionGUID: AkCbdv6AQEyDP9aYDxMjTw==
+X-CSE-MsgGUID: KtqoMgmiSzCC8UjI1Tottw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="212120313"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 11 Feb 2026 08:33:27 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="211341357"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 11 Feb 2026 09:03:41 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqD9Z-0000000017B-0TFc;
-	Wed, 11 Feb 2026 16:33:25 +0000
-Date: Wed, 11 Feb 2026 17:32:38 +0100
+	id 1vqDco-00000000qBc-0NzN;
+	Wed, 11 Feb 2026 17:03:38 +0000
+Date: Thu, 12 Feb 2026 01:03:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 107/107]
- load_address.c:81:25: warning: incompatible implicit declaration of built-in
- function 'strstr'
-Message-ID: <202602111710.VX51WCvt-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] apple-gmux: preserve brightness using EFI
+Message-ID: <202602120036.rVaXQsI0-lkp@intel.com>
+References: <20260211092640.3231-1-atharvatiwarilinuxdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260211092640.3231-1-atharvatiwarilinuxdev@gmail.com>
 
-Hi Kees,
+Hi Atharva,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   39507179e24402e6e2b6fb69547bca374f4882d8
-commit: add3a49ae91a1f6390b3fbf14a7ec9c6231bfbd6 [107/107] selftests/exec: Build both static and non-static load_address tests
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260211/202602111710.VX51WCvt-lkp@intel.com/config)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.19 next-20260211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Atharva-Tiwari/apple-gmux-preserve-brightness-using-EFI/20260211-173626
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260211092640.3231-1-atharvatiwarilinuxdev%40gmail.com
+patch subject: [PATCH v3] apple-gmux: preserve brightness using EFI
+config: x86_64-randconfig-011-20260211 (https://download.01.org/0day-ci/archive/20260212/202602120036.rVaXQsI0-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111710.VX51WCvt-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120036.rVaXQsI0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602111710.VX51WCvt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602120036.rVaXQsI0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   load_address.c: In function 'main':
-   load_address.c:65:69: error: implicit declaration of function 'strerror'; did you mean 'perror'? [-Wimplicit-function-declaration]
-      65 |                 ksft_exit_fail_msg("FAILED: /proc/self/maps: %s\n", strerror(errno));
-         |                                                                     ^~~~~~~~
-         |                                                                     perror
-   load_address.c:81:25: error: implicit declaration of function 'strstr' [-Wimplicit-function-declaration]
-      81 |         interp_needed = strstr(argv[0], ".static.") == NULL;
-         |                         ^~~~~~
-   load_address.c:10:1: note: include '<string.h>' or provide a declaration of 'strstr'
-       9 | #include "../kselftest.h"
-     +++ |+#include <string.h>
-      10 | 
->> load_address.c:81:25: warning: incompatible implicit declaration of built-in function 'strstr' [-Wbuiltin-declaration-mismatch]
-      81 |         interp_needed = strstr(argv[0], ".static.") == NULL;
-         |                         ^~~~~~
-   load_address.c:81:25: note: include '<string.h>' or provide a declaration of 'strstr'
+   drivers/platform/x86/apple-gmux.c: In function 'gmux_shutdown':
+>> drivers/platform/x86/apple-gmux.c:1058:13: warning: unused variable 'brightness' [-Wunused-variable]
+    1058 |         u16 brightness = (u16)gmux_get_brightness(gmux_data->bdev);
+         |             ^~~~~~~~~~
+
+
+vim +/brightness +1058 drivers/platform/x86/apple-gmux.c
+
+  1054	
+  1055	static void gmux_shutdown(struct pnp_dev *pnp)
+  1056	{
+  1057		struct apple_gmux_data *gmux_data = pnp_get_drvdata(pnp);
+> 1058		u16 brightness = (u16)gmux_get_brightness(gmux_data->bdev);
+  1059	
 
 -- 
 0-DAY CI Kernel Test Service
