@@ -1,109 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DBD1B983F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 12:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF41281525
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 12:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770813151; cv=none; b=WVIZXcdPa5mS2tri1B2Y+DuVjPk5Rqu6dV6X451OF0fO9oQXNWK3JUooJJ7h+giwYowxKMblqKmxCrBij7rETKzaI4yL0rKaoG5YPHumRM4TmJ6CB5JmgfVYIMYuwN46HSz92bmORvhJ+UkAYTHDQt0c4UksMXYOWsiUSqH2AI8=
+	t=1770813163; cv=none; b=u/pX3UBA3/9BoESYJE0dWQT7RuiMmG57yDwghoVR+x9PDuTyVupprSLCH1AGoOl7pwZtHrvIuFtx6pW/RE3QEhE6TJTAeDg35rw8TF+VuvQmep2miVp+yqWl/3UfT8U0eLWDHETF8MvUfNh2GbEom63lH8ay2EgakyxQM+XNUAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770813151; c=relaxed/simple;
-	bh=gKqsUY8QiFOiqbi69Ne3X2+9oK3B3tyFLBelCaADXTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uWaB5dYCUfx3MlsK6kwD1RPAT0JKAfS77nVAe0bC2tQGtlg3Kw2KlSin8l/WBBZYviHrElJwe2Tc2lpRoLWGI94JQVudRx89TbefOgPXs0sMPFCrffOUNC85MEQ4YDpjJzEKomdhsC/t2EVVgeQx088gwYYpnnKUvDFHED20TRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRzzLydh; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1770813163; c=relaxed/simple;
+	bh=QAByPVqT09++FJk0uuU+1F6APVuMo+EbFVRjVQuki6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=izaJez3GFgB4QBMISrdgCfs6sKQBlC8SxdExKOSIYzz7gI5Mx7k74mmaaCO003PQy420EzpJqpiD749Y2DaRpJHronqBZEjkUA3i5Yd6wKbDo78AqyY2MvL+NWpwSx6yD9h+2Pwubkco6RqufZXrzp181uK6SV10sZtDu2F595A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AATRKUx7; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRzzLydh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AATRKUx7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770813150; x=1802349150;
-  h=date:from:to:cc:subject:message-id;
-  bh=gKqsUY8QiFOiqbi69Ne3X2+9oK3B3tyFLBelCaADXTQ=;
-  b=JRzzLydhMuHD76FqSPd67sMo5Dg52raa6k9xgIAMC7sYKobioOZthLYO
-   9S+S0GTOTmK6vzp66JzCNDgFwUha1XFm3fS6Lb01uQkr8IQyY2utbsMuC
-   9OyxP0LG4y5ndh7ua0zGfMRSRoqNnEytmr3zbQLNWbTBULXk2MZzhHi/i
-   y2C5CL0akgQTvTn+0xS5TTrQ11pl+2YCqRrLjZp7DkwfP6/o7GNkACHU1
-   chFDvvNqhmsZ0Z+wR16usa6nJztqylplJkjyiZOscChN5sa/XQa9NQ9/r
-   k14M5Klue5V+AVGqRauMhASqO3wWfwUFwCBV+ikSEC9T4Rqo5utLe9ntL
-   A==;
-X-CSE-ConnectionGUID: OO2pO2rkRCC4ydL1xNpg3Q==
-X-CSE-MsgGUID: EiBFHw77S0+LdNj1Ua86zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="82596826"
+  t=1770813162; x=1802349162;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QAByPVqT09++FJk0uuU+1F6APVuMo+EbFVRjVQuki6A=;
+  b=AATRKUx7vC2VUWnKOzO450qoyNj1Y9SytLtvENpl3GxWvH6lOQc4Gy2X
+   tBxswykxCC8Uuxg5JIrmbZCJmRjWHum0Y5/wpd5flRkHNG0QEZZJJ33BB
+   Sob4nmqnZwa9TYRcP/sXmGEA4OYSBjTjxPqg4OShzjL0gTmeqiSWNAoyU
+   dsvfiJzUblDLwWRxOLK2PtroLFkwXlOWH+lcOQ559R36NEu4TKvcU22xy
+   9yx4TVPNENVtuzkDgOCjwrUGG6ZKyGMQ00Nb1JKH852v+/vWzrzUiV2U7
+   GXvPR9vmrVcXhHL+skJLTOhQLzjMUfflqU1d2xgI8DGI91UDz3Vy9at4T
+   Q==;
+X-CSE-ConnectionGUID: puosf+nuQ7i/PHEC/Zd/Qg==
+X-CSE-MsgGUID: kdEG9EuPRJ+LfvdZj9yAVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="72145096"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="82596826"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 04:32:30 -0800
-X-CSE-ConnectionGUID: MXSdDXjsQHijgetgHVpAoQ==
-X-CSE-MsgGUID: Afu+bkvdQJ2flQWJHaccJg==
+   d="scan'208";a="72145096"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 04:32:42 -0800
+X-CSE-ConnectionGUID: Lp5x3XOyS7a+N5GY+/X3LQ==
+X-CSE-MsgGUID: VWmLSFPXRma1eVX+c5/yVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="217198190"
+   d="scan'208";a="212327590"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 Feb 2026 04:32:28 -0800
+  by orviesa007.jf.intel.com with ESMTP; 11 Feb 2026 04:32:29 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vq9OL-00000000pyA-3wbT;
+	id 1vq9OL-00000000py8-3rO7;
 	Wed, 11 Feb 2026 12:32:25 +0000
-Date: Wed, 11 Feb 2026 20:31:52 +0800
+Date: Wed, 11 Feb 2026 20:31:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [geert-renesas-drivers:master 13/53]
- drivers/gpu/drm/xe/xe_survivability_mode.c:241:17: error: implicit
- declaration of function 'xe_nvm_fini'; did you mean 'xe_nvm_init'?
-Message-ID: <202602112026.Di2Vv6FF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Byungchul Park <byungchul@sk.com>, linux-mm@kvack.org,
+	akpm@linux-foundation.org, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel_team@skhynix.com, harry.yoo@oracle.com, ast@kernel.org,
+	daniel@iogearbox.net, davem@davemloft.net, kuba@kernel.org,
+	hawk@kernel.org, john.fastabend@gmail.com, sdf@fomichev.me,
+	saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com,
+	mbloch@nvidia.com, andrew+netdev@lunn.ch, edumazet@google.com,
+	pabeni@redhat.com, david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, horms@kernel.org,
+	jackmanb@google.com, hannes@cmpxchg.org
+Subject: Re: [PATCH v3] mm: introduce a new page type for page pool in page
+ type
+Message-ID: <202602112054.QKfqC0UR-lkp@intel.com>
+References: <20260210114712.55072-1-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260210114712.55072-1-byungchul@sk.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   7f66ef0ac030a3da0d0a0e8c0dfee1aa9c266dfa
-commit: 2f8a7331e1404f4364092565c145c7cf3cd377d4 [13/53] Merge remote-tracking branch 'drm/drm-next' into renesas-drivers
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260211/202602112026.Di2Vv6FF-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112026.Di2Vv6FF-lkp@intel.com/reproduce)
+Hi Byungchul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/mm-introduce-a-new-page-type-for-page-pool-in-page-type/20260210-194920
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260210114712.55072-1-byungchul%40sk.com
+patch subject: [PATCH v3] mm: introduce a new page type for page pool in page type
+config: microblaze-randconfig-r134-20260211 (https://download.01.org/0day-ci/archive/20260211/202602112054.QKfqC0UR-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112054.QKfqC0UR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602112026.Di2Vv6FF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602112054.QKfqC0UR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/core/skbuff.c: note: in included file:
+>> net/core/netmem_priv.h:21:20: sparse: sparse: cast to restricted netmem_ref
+>> net/core/netmem_priv.h:21:20: sparse: sparse: cast to restricted netmem_ref
+   net/core/skbuff.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   include/net/checksum.h:33:39: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] sum @@     got unsigned int @@
+   include/net/checksum.h:33:39: sparse:     expected restricted __wsum [usertype] sum
+   include/net/checksum.h:33:39: sparse:     got unsigned int
+--
+>> net/core/page_pool.c:715:20: sparse: sparse: cast to restricted netmem_ref
+   net/core/page_pool.c:739:20: sparse: sparse: cast to restricted netmem_ref
 
-   drivers/gpu/drm/xe/xe_survivability_mode.c: In function 'xe_survivability_mode_fini':
->> drivers/gpu/drm/xe/xe_survivability_mode.c:241:17: error: implicit declaration of function 'xe_nvm_fini'; did you mean 'xe_nvm_init'? [-Wimplicit-function-declaration]
-     241 |                 xe_nvm_fini(xe);
-         |                 ^~~~~~~~~~~
-         |                 xe_nvm_init
+vim +21 net/core/netmem_priv.h
 
-
-vim +241 drivers/gpu/drm/xe/xe_survivability_mode.c
-
-5e940312a2ac64 Riana Tauro     2025-01-28  232  
-d40f275d96e890 Lucas De Marchi 2025-02-21  233  static void xe_survivability_mode_fini(void *arg)
-d40f275d96e890 Lucas De Marchi 2025-02-21  234  {
-d40f275d96e890 Lucas De Marchi 2025-02-21  235  	struct xe_device *xe = arg;
-1987ea95ac37ea Riana Tauro     2025-12-08  236  	struct xe_survivability *survivability = &xe->survivability;
-d40f275d96e890 Lucas De Marchi 2025-02-21  237  	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-d40f275d96e890 Lucas De Marchi 2025-02-21  238  	struct device *dev = &pdev->dev;
-d40f275d96e890 Lucas De Marchi 2025-02-21  239  
-1987ea95ac37ea Riana Tauro     2025-12-08  240  	if (survivability->fdo_mode)
-1987ea95ac37ea Riana Tauro     2025-12-08 @241  		xe_nvm_fini(xe);
-1987ea95ac37ea Riana Tauro     2025-12-08  242  
-f4e9fc967afdb5 Riana Tauro     2025-12-08  243  	device_remove_file(dev, &dev_attr_survivability_mode);
-d40f275d96e890 Lucas De Marchi 2025-02-21  244  }
-d40f275d96e890 Lucas De Marchi 2025-02-21  245  
-
-:::::: The code at line 241 was first introduced by commit
-:::::: 1987ea95ac37ea3f9299d220974676207d5262f6 drm/xe/xe_survivability: Add support for survivability mode v2
-
-:::::: TO: Riana Tauro <riana.tauro@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+    10	
+    11	static inline bool netmem_is_pp(netmem_ref netmem)
+    12	{
+    13		netmem_ref clr_ref;
+    14	
+    15		/* XXX: Now that the offset of page_type is shared between
+    16		 * struct page and net_iov, just cast the netmem to struct page
+    17		 * unconditionally by clearing NET_IOV if any, no matter whether
+    18		 * it comes from struct net_iov or struct page.  This should be
+    19		 * adjusted once the offset is no longer shared.
+    20		 */
+  > 21		clr_ref = (netmem_ref)((__force unsigned long)netmem & ~NET_IOV);
+    22		return PageNetpp(__netmem_to_page(clr_ref));
+    23	}
+    24	
 
 -- 
 0-DAY CI Kernel Test Service
