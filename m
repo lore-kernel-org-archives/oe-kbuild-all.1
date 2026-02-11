@@ -1,56 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE85281AA8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 20:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347782E5427
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 22:36:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770840111; cv=none; b=Sy+EP9u5zVSWM1xne5Ue8omQY0KlrYLlF0VtfapADyRijYFqfy+3UesxiZiZgN0WVLGgEL1HVjdcF1Uj36o6Aq9wyfWf6ikX8jls+3hxa+kAG7CRdhhTLsRWkhX5qfflcVCiEmdztXaJWR17SuClfhyHWI1LfA3Lj69AP+LtE0s=
+	t=1770849416; cv=none; b=S6XaDpIXJbNmdLxrhsNlIgADs0A1iwdA43FZ3m8bgsUUg7dnk0CasX1iLJqJfZjIzMulnZQsTIcwOdt0EQ4V0LS1pDisV8V7xbXm/MFhLLH7eruG7RtrvqEkMqFu4dK1VyloXyuENpX+RDqnPeU97d0oqmJgBPCOhsOvWgCJWzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770840111; c=relaxed/simple;
-	bh=FRK80FtOeNHas7nb8MAtDSMxEW26e50AfyrrYROtmVM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=d7Jxv9TEK1yq2Zsf4RnYu3fkkNDeFBUEx/Z1mNqICPIxS8PlC1jQaB3aWSFnpuf+ynK2kn4ACLxXDZ8cYe7LP6rZ0I9BjKKbNIFZa++kEJTJ16DVXl7EV0HpT3FfF5d/gR/UlXRzeehExhB7I+smN8gd/qgVsxw/NaeCfEDP0TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i6LnmXlM; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1770849416; c=relaxed/simple;
+	bh=aoHfs6WQOIGjFfDRAkeG/PEvwtZcGSg8uxYM+UoMF+w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fzvn88awbtPg88HWW+TVfrDjFMAxO+8MtmAG7qrkaZ/mKMedKIAKAw9RbUJ7Nh7VxKq+8qY8d1iplam83I7sdCxXsGEJZWOXtL8MVineDwxBqUcknOSD20M6oyD5GJVufqqvKZuu/sUkVz8J0f6fmJSvjWGkCVF5eGgFK2v2BPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mJ29JEeh; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6LnmXlM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mJ29JEeh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770840110; x=1802376110;
+  t=1770849415; x=1802385415;
   h=date:from:to:cc:subject:message-id;
-  bh=FRK80FtOeNHas7nb8MAtDSMxEW26e50AfyrrYROtmVM=;
-  b=i6LnmXlMVBF4OkbtN9gYXOBi98j/YH1pXDjCyKVeRJ+naFLCCNrNL9X/
-   /JCazpdF/gJW8skCxofoogKPXWm5z3cQ5Oz0qNCGcxO5PHHnp9oUrKHXl
-   ZkZWPaPv6afs3qaCk3XC1beQtSgM9bQf6to/+Byc+Ij2r1eLyen9ZcCuE
-   jhFlvqAWePBVbOsbz5IWmWfbYlOksSCtlDm8ACcIx0Y2UHfE5ewMcWRNt
-   NqtTMe7QAm9YqS7O+pdwqiVdXM4HGAwsrINaGa8mHEh28GRvf3bZhdvi+
-   mcsQ+/XT49y3m8w6M7chN51u+pHLssgd/tXLM9oKV5nFwd4npi6Tj3zWU
-   Q==;
-X-CSE-ConnectionGUID: WQzTQRaCQkOSxsgomB5ccw==
-X-CSE-MsgGUID: 4EPpHscfRJW14qxaT1MaCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="82324375"
+  bh=aoHfs6WQOIGjFfDRAkeG/PEvwtZcGSg8uxYM+UoMF+w=;
+  b=mJ29JEeh9tTJnzpfTOV26rX8vRyALihpL6T4PTDAgfkLF0V+MGkGsSfk
+   r9m9srVIIAsK0VguDbykXiRobpcEuKborvfvewcau4QAxO+xKK65zUAZk
+   0pEnxP3i6FuG0YVQY3uLk7QPuTZotEAWy/FFkaKpvyTejoYz9UwMY6AOv
+   8PkuCIqNyOEET9wGUN/xsbc4Lyd/nx4fbjnLxd5/76cBCYTaOXxcU3ukR
+   4gbYUMCeq28BNK4Dq3vmZ2MY2hEwJWGQpoNCIOI8PXA9U5jCYvHRuR1PE
+   O+XJ0J7btY+utE1oZ5niblbaUTdVlKLxz0GGZeq0z5OY7WbuKmjnNlFnS
+   A==;
+X-CSE-ConnectionGUID: EWwX7YnkRhqWgXt/nZBxnw==
+X-CSE-MsgGUID: mLhdkgkoQXCkg0BSaOe42w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="82335091"
 X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="82324375"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 12:01:49 -0800
-X-CSE-ConnectionGUID: 8zwdOS0ERNqveyr98P2Dog==
-X-CSE-MsgGUID: tq0zQTybScW3bv/T1OnmDg==
+   d="scan'208";a="82335091"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 14:36:54 -0800
+X-CSE-ConnectionGUID: 9UkigkuTTFmW6yBVBB47HQ==
+X-CSE-MsgGUID: tqw165khTtGLN6OXm3NSww==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
+   d="scan'208";a="212211732"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Feb 2026 12:01:48 -0800
+  by orviesa009.jf.intel.com with ESMTP; 11 Feb 2026 14:36:53 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqGPB-00000000qKm-3YjJ;
-	Wed, 11 Feb 2026 20:01:45 +0000
-Date: Thu, 12 Feb 2026 04:01:01 +0800
+	id 1vqIpH-00000000qRl-0uI8;
+	Wed, 11 Feb 2026 22:36:51 +0000
+Date: Thu, 12 Feb 2026 06:35:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android12-kiwi-5.10 203/203]
- arch/arm64/mm/dma-mapping-noalias.c:550:6: warning: no previous prototype for
- 'arm64_noalias_setup_dma_ops'
-Message-ID: <202602120354.qLUGCIYa-lkp@intel.com>
+ drivers/gpu/drm/i915/display/intel_display.o: warning: objtool:
+ i9xx_find_best_dpll()+0x4ed: unreachable instruction
+Message-ID: <202602120620.lDfZwYqt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,63 +60,25 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Robin,
+Hi Andrey,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
 tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
 head:   35927ff8df047b269c671535118aa0046a689a6d
-commit: 3c75a6fb7fd1cd149d7af1a2e200b064a2d12782 [203/203] ANDROID: arm64: Work around Cortex-A510 erratum 2454944
-config: arm64-randconfig-r134-20260211 (https://download.01.org/0day-ci/archive/20260212/202602120354.qLUGCIYa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120354.qLUGCIYa-lkp@intel.com/reproduce)
+commit: 71f70987f97bd71c6ec99c544ffe477e584fdf12 [203/203] UPSTREAM: ubsan: remove overflow checks
+config: x86_64-randconfig-001-20260211 (https://download.01.org/0day-ci/archive/20260212/202602120620.lDfZwYqt-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120620.lDfZwYqt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602120354.qLUGCIYa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602120620.lDfZwYqt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/mm/dma-mapping-noalias.c:550:6: warning: no previous prototype for 'arm64_noalias_setup_dma_ops' [-Wmissing-prototypes]
-     550 | void arm64_noalias_setup_dma_ops(struct device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-
-
-vim +/arm64_noalias_setup_dma_ops +550 arch/arm64/mm/dma-mapping-noalias.c
-
-   549	
- > 550	void arm64_noalias_setup_dma_ops(struct device *dev)
+>> drivers/gpu/drm/i915/display/intel_display.o: warning: objtool: i9xx_find_best_dpll()+0x4ed: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
