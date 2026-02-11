@@ -1,63 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320BD1624D5;
-	Wed, 11 Feb 2026 05:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBCA1531C8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 05:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770786317; cv=none; b=VkK0kQRgzovipABLp6tkBniF4Q/XbDWK8B7rEXymCp5Xp9Sosdd8Snt9FayEDXk+OiO1jukNlqJOgUzWn8AZ8Y2xTBj//pFdjlONUKkwGYn2tDIZ27IBohaD/fIMBah7FUFdG34D9JZibErvINel81/oJyRpjBOO6uUaLTlEihU=
+	t=1770787955; cv=none; b=PLSEI7dt8tOvZ3Z4H/kerc4KO2ANX5hnY4hUvOwhhPZFl6Q7ZLzEXRZmloekfbS/KsHhbqrADW4jK/Wak/pO80oyp5+TjSBxWe1dwfLXyKABl0oSM9ozq1IO819ZlZnS12N6fCGVE0Xhvur/ObzwYeuGHVicDJKEd3qJkc0ExEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770786317; c=relaxed/simple;
-	bh=HAXCP0FLElP2zKVJaG2Nwv9y9/MJLxwcppNgilWMcEM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=egZQeIfd8P7BJASlP+LB5h17c+HLeFlE7UCqb/KFurYUeMRp3XX4osLHB5R1GsBVCOlARwv8BEOgYOYVNFR+Ve+CLXeIkqPV1k4AYnFFXps3+ENJiMYiTizj56wak8bA332JVgK730Vdf90e8Ttko2S3VkhgmxNiYVPcNzeKGko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cmpCgMF5; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770787955; c=relaxed/simple;
+	bh=DKEnYEJIcjH9VsyVQXmd7gFdtPdOjiuL6VHjR+j9W2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RCd1TZV79EvLbA5AZ8DkSdDuhAs+3juyzvC3EG1uKumjz7NqQm9FJTOGrt0d9gVpW9yCsZYkGV2PpbtpSySNFhPM5i2LYCLaPdQeJ5ZjyGlI1TK6bByJSvaTwJ5kVx20oPGCo1iqYwnmOpibmxBJg0925AzWA/GTdmfS7KNOrCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oIVX6njy; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cmpCgMF5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770786315; x=1802322315;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HAXCP0FLElP2zKVJaG2Nwv9y9/MJLxwcppNgilWMcEM=;
-  b=cmpCgMF5gE7MD6BnlGAGesRszRjhaFW4xsMZS2o4ZWaMnfzT+dhU1pDv
-   aCUA47Kp2uhZpk435nE1OVIyJhCGjYwMK5G/+4SIdOfwRKEwi0zpOFo4i
-   8FdnddZ1b7EQhUIFmkaFK6y8o6Z6YwaUAq97qtVV1Dsph+6cqwRoyMDe1
-   zBw7YcSLdPn6D5AqaalZP6dvC8hvqxH4VbyvRlcvMOvRQsdYSrhOowzuS
-   KJqNp+imYUxX8pAdkJX267Pxixa74mbgHa6Ua35plgu4jM+rezQO8K9HU
-   oPjQDxop1LCy3wBSu+nOT+7yk97RYw7+DkbaSytvHEF3o6B0R7IptR6Hf
-   Q==;
-X-CSE-ConnectionGUID: SI6zKn2SRPKYvgtOtpJaXw==
-X-CSE-MsgGUID: AvPkLzKZRP2WElWvJ5v+rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75773232"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75773232"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 21:05:14 -0800
-X-CSE-ConnectionGUID: NCSX8JFkR8qd26m1CUrKXw==
-X-CSE-MsgGUID: f5Pnvmo/SlqH3a69tq5NDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211185555"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Feb 2026 21:05:12 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vq2PW-00000000pge-1lKH;
-	Wed, 11 Feb 2026 05:05:10 +0000
-Date: Wed, 11 Feb 2026 13:04:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: markatbritain@gmail.com, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	straube.linux@gmail.com, dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Wu <markatbritain@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: remove NDIS_802_11 types and cleanup
- style
-Message-ID: <202602111248.03HAaYiv-lkp@intel.com>
-References: <20260210221556.73872-1-markatbritain@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oIVX6njy"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so39081215e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Feb 2026 21:32:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770787952; x=1771392752; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uCLQnA8Q5b4PenKSuKJMmgZbDykH+EY39Wyasz8gTF8=;
+        b=oIVX6njyZjOe4YCDCb2TGJ26PPoGi+aNn4VzGAyeLYpP2L1NeHQyCUoF/hl33vqSql
+         /LEJRWSrfLAAvBAdWlZTfiq6rUQa77WY3uP/HM2+FBRmGeSDKc6GleWwkyC/UUOT/Ksu
+         kB6N2WeJn9jLMW0OrbfbKfxE3lEqxH/rADpMIYYiK5YUiVk41MZlMngyHKCl8+6fhqXb
+         9ccCX3yqUV+SfTI5KpuqQW6ubbxP2jbyKjPtly9jp0rBOjVNwvik4BJei2wpUrSwRfIm
+         IXVIMGVPDYnrLeOi3l2SrS6DYwR9W4cu46eL67MRGe4/l3Z3trmQHj9yhaAiKJNuEv0o
+         UM2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770787952; x=1771392752;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uCLQnA8Q5b4PenKSuKJMmgZbDykH+EY39Wyasz8gTF8=;
+        b=ifcnjzNBmf9VsXIOOrKOV5Oks0I8dWBTZXYylqm4ujrNj3LUh+FA6lB/gdbAUVdsrA
+         VmpY7VU06QTvEj3J4mnI6r1kGPdppKsrzj40aQ+B+cTJPNEb9WpfNxoXvxwM44u4WXMm
+         SJHvVZItcRUh0IQ/MdKWXag/V77a6Dm6h39qzgri3nkoLDg11tlhjyqtxZPEqycSdl2Y
+         JTBFM9rScv+XIjYcrPNYrFEw6xCLnkFlgMlwhh/3S5ErU6LRgnZOsgofFamZ80H2FRSh
+         BRAu7J7tQ2RHnPWCr153GZ0EKdLxi0OM31j66nFT47hsPGXUuhokGhs8WFiFCKToZZmU
+         dOYg==
+X-Forwarded-Encrypted: i=1; AJvYcCW2aaeq+BH4O3aKdMtjAafB7uGjimksC+FsSaYQ2RFRJHEWzF7fy5thzPIeKs2YmszP/GrbUCqtxxGk4c5R@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZRorl0jxkG4PTqu6Bl0bRgwB2ZTWxL5rT92RuYH5JTeo3iEgF
+	bCM/hJKRtlCg1ipaNMNI8QN5qmLnhug7OLSSFeW0XUOmwcINq+Mr1Ley8uZcMNKONI8=
+X-Gm-Gg: AZuq6aJJWtg/0Xjnd6NKTEVQdGvXdgvejIuoH4pXRXWuhsiBoVdFJ2MMCsFZboV6Hqo
+	3yZbuU7qcjCA4imnmH9MeEzw/NiA1Kq9EJrCVe2qpS/dIZoRCIHmFQX2h5jsMNR5l8liXbda4GR
+	BJvjw8B+p70u1E3doWAbLN982/oCUP+/NChPPhBplhSpjdi+sojYm4P7rzxhw6JrsJZAVbX7Rk0
+	HFkec46SAAiAerF0PI18qdjPX2ACaWSluVlfmJpgehjUR5PEXfS6q6+Rlb+oMxTa7caJ+7JlkDA
+	7kQV9cfnAn4pE73JcWvmW3rC/JATQ3qsYAT5u2Nj3MGEzt4FjewyJAZjTejhdguTvJ+E/r1wKYT
+	rVb05IleA5FssadTRtxIipBZ2pApqpjStv5hhK8riBp6ZWiEiYuJruXBv2FuzOcy28dQ6STxb0v
+	Fn+0hpV++p7uHaH2CKBLCsY8iU+iVY
+X-Received: by 2002:a05:600c:638f:b0:477:7b16:5f9f with SMTP id 5b1f17b1804b1-4835b941194mr16396425e9.31.1770787951347;
+        Tue, 10 Feb 2026 21:32:31 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835ba3e4b5sm13598315e9.5.2026.02.10.21.32.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 21:32:30 -0800 (PST)
+Date: Wed, 11 Feb 2026 08:32:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Subject: drivers/pmdomain/mediatek/mtk-pm-domains.c:824
+ scpsys_add_one_domain() error: we previously assumed 'pd->data' could be
+ null (see line 799)
+Message-ID: <202602110354.a2w7BlHC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,318 +76,223 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260210221556.73872-1-markatbritain@gmail.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/markatbritain-gmail-com/staging-rtl8723bs-remove-NDIS_802_11-types-and-cleanup-style/20260211-062107
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260210221556.73872-1-markatbritain%40gmail.com
-patch subject: [PATCH] staging: rtl8723bs: remove NDIS_802_11 types and cleanup style
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260211/202602111248.03HAaYiv-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72c395024dac5e215136cbff793455f065603b06
+commit: 88914db077b6c2920b29a3ec76109a2fd3cf8d38 pmdomain: mediatek: Add support for Hardware Voter power domains
+date:   3 months ago
+config: arm64-randconfig-r072-20260210 (https://download.01.org/0day-ci/archive/20260211/202602110354.a2w7BlHC-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111248.03HAaYiv-lkp@intel.com/reproduce)
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602111248.03HAaYiv-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202602110354.a2w7BlHC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/pmdomain/mediatek/mtk-pm-domains.c:824 scpsys_add_one_domain() error: we previously assumed 'pd->data' could be null (see line 799)
 
->> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:787:29: error: incompatible pointer types initializing 'struct ieee_crypt_arg *' with an expression of type 'struct (unnamed struct at drivers/staging/rtl8723bs/include/ieee80211.h:181:3) *' [-Werror,-Wincompatible-pointer-types]
-     787 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                                ^       ~~~~~~~~~~~~~~~
->> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:788:25: error: incomplete definition of type 'struct ieee_crypt_arg'
-     788 |                                         u32 len = min(crypt->key_len, 16U);
-         |                                                       ~~~~~^
-   include/linux/minmax.h:105:38: note: expanded from macro 'min'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                                            ^
-   include/linux/minmax.h:98:25: note: expanded from macro '__careful_cmp'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                ^
-   include/linux/minmax.h:92:13: note: expanded from macro '__careful_cmp_once'
-      92 |         auto ux = (x); auto uy = (y);                   \
-         |                    ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:787:13: note: forward declaration of 'struct ieee_crypt_arg'
-     787 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:791:18: error: incomplete definition of type 'struct ieee_crypt_arg'
-     791 |                                                crypt->key, len);
-         |                                                ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:787:13: note: forward declaration of 'struct ieee_crypt_arg'
-     787 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:29: error: incompatible pointer types initializing 'struct ieee_crypt_arg *' with an expression of type 'struct (unnamed struct at drivers/staging/rtl8723bs/include/ieee80211.h:181:3) *' [-Werror,-Wincompatible-pointer-types]
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                                ^       ~~~~~~~~~~~~~~~
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:804:25: error: incomplete definition of type 'struct ieee_crypt_arg'
-     804 |                                         u32 len = min(crypt->key_len, 16U);
-         |                                                       ~~~~~^
-   include/linux/minmax.h:105:38: note: expanded from macro 'min'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                                            ^
-   include/linux/minmax.h:98:25: note: expanded from macro '__careful_cmp'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                ^
-   include/linux/minmax.h:92:13: note: expanded from macro '__careful_cmp_once'
-      92 |         auto ux = (x); auto uy = (y);                   \
-         |                    ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:806:22: error: incomplete definition of type 'struct ieee_crypt_arg'
-     806 |                                         if (strcmp(crypt->alg, "TKIP") == 0 ||
-         |                                                    ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:807:22: error: incomplete definition of type 'struct ieee_crypt_arg'
-     807 |                                             strcmp(crypt->alg, "CCMP") == 0) {
-         |                                                    ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:808:42: error: incomplete definition of type 'struct ieee_crypt_arg'
-     808 |                                                 memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
-         |                                                                               ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:809:19: error: incomplete definition of type 'struct ieee_crypt_arg'
-     809 |                                                        crypt->key, len);
-         |                                                        ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:46: error: incomplete definition of type 'struct ieee_crypt_arg'
-     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
-         |                                                                                   ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
->> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:811:20: error: no member named 'dot18021XGrptxmickey' in 'struct security_priv'; did you mean 'dot118021XGrptxmickey'?
-     811 |                                                 memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
-         |                                                              ^~~~~~~~~~~~~~~~~~~~
-         |                                                              dot118021XGrptxmickey
-   drivers/staging/rtl8723bs/include/rtw_security.h:106:16: note: 'dot118021XGrptxmickey' declared here
-     106 |         union Keytype   dot118021XGrptxmickey[BIP_MAX_KEYID + 1];
-         |                         ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:812:20: error: incomplete definition of type 'struct ieee_crypt_arg'
-     812 |                                                        &crypt->key[16], 8);
-         |                                                         ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:814:47: error: incomplete definition of type 'struct ieee_crypt_arg'
-     814 |                                                 memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
-         |                                                                                    ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:815:20: error: incomplete definition of type 'struct ieee_crypt_arg'
-     815 |                                                        &crypt->key[24], 8);
-         |                                                         ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:818:39: error: incomplete definition of type 'struct ieee_crypt_arg'
-     818 |                                                 psec->dot118021XGrpKeyid = crypt->idx;
-         |                                                                            ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:819:40: error: incomplete definition of type 'struct ieee_crypt_arg'
-     819 |                                                 rtw_set_key(padapter, psec, crypt->idx, 1, true);
-         |                                                                             ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:820:29: error: incomplete definition of type 'struct ieee_crypt_arg'
-     820 |                                         } else if (strcmp(crypt->alg, "BIP") == 0) {
-         |                                                           ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:822:38: error: incomplete definition of type 'struct ieee_crypt_arg'
-     822 |                                                 memcpy(psec->dot11wBIPKey[crypt->idx].skey,
-         |                                                                           ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:823:19: error: incomplete definition of type 'struct ieee_crypt_arg'
-     823 |                                                        crypt->key, len);
-         |                                                        ~~~~~^
-   drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:803:13: note: forward declaration of 'struct ieee_crypt_arg'
-     803 |                                         struct ieee_crypt_arg *crypt = &param->u.crypt;
-         |                                                ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+Old smatch warnings:
+drivers/pmdomain/mediatek/mtk-pm-domains.c:1192 scpsys_probe() warn: missing unwind goto?
+
+vim +824 drivers/pmdomain/mediatek/mtk-pm-domains.c
+
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  677  static struct
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  678  generic_pm_domain *scpsys_add_one_domain(struct scpsys *scpsys, struct device_node *node)
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  679  {
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  680  	const struct scpsys_domain_data *domain_data;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  681  	const struct scpsys_hwv_domain_data *hwv_domain_data;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  682  	struct scpsys_domain *pd;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  683  	struct property *prop;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  684  	const char *clk_name;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  685  	int i, ret, num_clks;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  686  	struct clk *clk;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  687  	int clk_ind = 0;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  688  	u32 id;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  689  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  690  	ret = of_property_read_u32(node, "reg", &id);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  691  	if (ret) {
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  692  		dev_err(scpsys->dev, "%pOF: failed to retrieve domain id from reg: %d\n",
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  693  			node, ret);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  694  		return ERR_PTR(-EINVAL);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  695  	}
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  696  
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  697  	switch (scpsys->soc_data->type) {
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  698  	case SCPSYS_MTCMOS_TYPE_DIRECT_CTL:
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  699  		if (id >= scpsys->soc_data->num_domains) {
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  700  			dev_err(scpsys->dev, "%pOF: invalid domain id %d\n", node, id);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  701  			return ERR_PTR(-EINVAL);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  702  		}
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  703  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  704  		domain_data = &scpsys->soc_data->domains_data[id];
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  705  		hwv_domain_data = NULL;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  706  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  707  		if (domain_data->sta_mask == 0) {
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  708  			dev_err(scpsys->dev, "%pOF: undefined domain id %d\n", node, id);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  709  			return ERR_PTR(-EINVAL);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  710  		}
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  711  
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  712  		break;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  713  	case SCPSYS_MTCMOS_TYPE_HW_VOTER:
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  714  		if (id >= scpsys->soc_data->num_hwv_domains) {
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  715  			dev_err(scpsys->dev, "%pOF: invalid HWV domain id %d\n", node, id);
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  716  			return ERR_PTR(-EINVAL);
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  717  		}
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  718  
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  719  		domain_data = NULL;
+
+The NULL is only for SCPSYS_MTCMOS_TYPE_HW_VOTER.
+
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  720  		hwv_domain_data = &scpsys->soc_data->hwv_domains_data[id];
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  721  
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  722  		break;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  723  	default:
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  724  		return ERR_PTR(-EINVAL);
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  725  	}
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  726  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  727  	pd = devm_kzalloc(scpsys->dev, sizeof(*pd), GFP_KERNEL);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  728  	if (!pd)
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  729  		return ERR_PTR(-ENOMEM);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  730  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  731  	pd->data = domain_data;
+                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^
+Assigned
+
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  732  	pd->hwv_data = hwv_domain_data;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  733  	pd->scpsys = scpsys;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  734  
+1b18c0558d092b drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  735  	if (MTK_SCPD_CAPS(pd, MTK_SCPD_DOMAIN_SUPPLY)) {
+ca824b2d69c52b drivers/pmdomain/mediatek/mtk-pm-domains.c Chen-Yu Tsai               2024-09-30  736  		pd->supply = devm_of_regulator_get_optional(scpsys->dev, node, "domain");
+391a2e64d757a0 drivers/pmdomain/mediatek/mtk-pm-domains.c Hongbo Li                  2024-08-28  737  		if (IS_ERR(pd->supply))
+391a2e64d757a0 drivers/pmdomain/mediatek/mtk-pm-domains.c Hongbo Li                  2024-08-28  738  			return dev_err_cast_probe(scpsys->dev, pd->supply,
+1b18c0558d092b drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  739  				      "%pOF: failed to get power supply.\n",
+1b18c0558d092b drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  740  				      node);
+1b18c0558d092b drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  741  	}
+1b18c0558d092b drivers/soc/mediatek/mtk-pm-domains.c      Hsin-Yi Wang               2021-01-29  742  
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  743  	num_clks = of_clk_get_parent_count(node);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  744  	if (num_clks > 0) {
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  745  		/* Calculate number of subsys_clks */
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  746  		of_property_for_each_string(node, "clock-names", prop, clk_name) {
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  747  			char *subsys;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  748  
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  749  			subsys = strchr(clk_name, '-');
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  750  			if (subsys)
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  751  				pd->num_subsys_clks++;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  752  			else
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  753  				pd->num_clks++;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  754  		}
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  755  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  756  		pd->clks = devm_kcalloc(scpsys->dev, pd->num_clks, sizeof(*pd->clks), GFP_KERNEL);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  757  		if (!pd->clks)
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  758  			return ERR_PTR(-ENOMEM);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  759  
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  760  		pd->subsys_clks = devm_kcalloc(scpsys->dev, pd->num_subsys_clks,
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  761  					       sizeof(*pd->subsys_clks), GFP_KERNEL);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  762  		if (!pd->subsys_clks)
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  763  			return ERR_PTR(-ENOMEM);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  764  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  765  	}
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  766  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  767  	for (i = 0; i < pd->num_clks; i++) {
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  768  		clk = of_clk_get(node, i);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  769  		if (IS_ERR(clk)) {
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  770  			ret = PTR_ERR(clk);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  771  			dev_err_probe(scpsys->dev, ret,
+385ba16dbf9eda drivers/soc/mediatek/mtk-pm-domains.c      Christophe JAILLET         2022-08-05  772  				      "%pOF: failed to get clk at index %d\n", node, i);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  773  			goto err_put_clocks;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  774  		}
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  775  
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  776  		pd->clks[clk_ind++].clk = clk;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  777  	}
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  778  
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  779  	for (i = 0; i < pd->num_subsys_clks; i++) {
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  780  		clk = of_clk_get(node, i + clk_ind);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  781  		if (IS_ERR(clk)) {
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  782  			ret = PTR_ERR(clk);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  783  			dev_err_probe(scpsys->dev, ret,
+385ba16dbf9eda drivers/soc/mediatek/mtk-pm-domains.c      Christophe JAILLET         2022-08-05  784  				      "%pOF: failed to get clk at index %d\n", node,
+385ba16dbf9eda drivers/soc/mediatek/mtk-pm-domains.c      Christophe JAILLET         2022-08-05  785  				      i + clk_ind);
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  786  			goto err_put_subsys_clocks;
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  787  		}
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  788  
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  789  		pd->subsys_clks[i].clk = clk;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  790  	}
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  791  
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  792  	if (scpsys->domains[id]) {
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  793  		ret = -EINVAL;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  794  		dev_err(scpsys->dev,
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  795  			"power domain with id %d already exists, check your device-tree\n", id);
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  796  		goto err_put_subsys_clocks;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  797  	}
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  798  
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25 @799  	if (pd->data && pd->data->name)
+                                                                                                            ^^^^^^^^
 
 
-vim +787 drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  800  		pd->genpd.name = pd->data->name;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  801  	else if (pd->hwv_data && pd->hwv_data->name)
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  802  		pd->genpd.name = pd->hwv_data->name;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  803  	else
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  804  		pd->genpd.name = node->name;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  805  
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  806  	if (scpsys->soc_data->type == SCPSYS_MTCMOS_TYPE_DIRECT_CTL) {
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  807  		pd->genpd.power_off = scpsys_power_off;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  808  		pd->genpd.power_on = scpsys_power_on;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  809  	} else {
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  810  		pd->genpd.power_off = scpsys_hwv_power_off;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  811  		pd->genpd.power_on = scpsys_hwv_power_on;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  812  
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  813  		/* HW-Voter code can be invoked in atomic context */
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  814  		pd->genpd.flags |= GENPD_FLAG_IRQ_SAFE;
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  815  	}
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  816  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  817  	/*
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  818  	 * Initially turn on all domains to make the domains usable
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  819  	 * with !CONFIG_PM and to get the hardware in sync with the
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  820  	 * software.  The unused domains will be switched off during
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  821  	 * late_init time.
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  822  	 */
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  823  	if (MTK_SCPD_CAPS(pd, MTK_SCPD_KEEP_DEFAULT_OFF)) {
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30 @824  		if (scpsys_domain_is_on(pd))
 
-   697	
-   698	static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param *param, u32 param_len)
-   699	{
-   700		int ret = 0;
-   701		u8 max_idx;
-   702		u32 wep_key_idx, wep_key_len;
-   703		struct adapter *padapter = rtw_netdev_priv(dev);
-   704		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-   705		struct security_priv *psecuritypriv = &padapter->securitypriv;
-   706	
-   707		param->u.crypt.err = 0;
-   708		param->u.crypt.alg[IEEE_CRYPT_ALG_NAME_LEN - 1] = '\0';
-   709	
-   710		if (param_len < (u32)((u8 *)param->u.crypt.key - (u8 *)param) + param->u.crypt.key_len) {
-   711			ret =  -EINVAL;
-   712			goto exit;
-   713		}
-   714	
-   715		if (param->sta_addr[0] != 0xff || param->sta_addr[1] != 0xff ||
-   716		    param->sta_addr[2] != 0xff || param->sta_addr[3] != 0xff ||
-   717		    param->sta_addr[4] != 0xff || param->sta_addr[5] != 0xff) {
-   718			ret = -EINVAL;
-   719			goto exit;
-   720		}
-   721	
-   722		if (strcmp(param->u.crypt.alg, "WEP") == 0)
-   723			max_idx = WEP_KEYS - 1;
-   724		else
-   725			max_idx = BIP_MAX_KEYID;
-   726	
-   727		if (param->u.crypt.idx > max_idx) {
-   728			netdev_err(dev, "Error crypt.idx %d > %d\n", param->u.crypt.idx, max_idx);
-   729			ret = -EINVAL;
-   730			goto exit;
-   731		}
-   732	
-   733		if (strcmp(param->u.crypt.alg, "WEP") == 0) {
-   734			wep_key_idx = param->u.crypt.idx;
-   735			wep_key_len = param->u.crypt.key_len;
-   736	
-   737			if (wep_key_len <= 0) {
-   738				ret = -EINVAL;
-   739				goto exit;
-   740			}
-   741	
-   742			if (psecuritypriv->bWepDefaultKeyIdxSet == 0) {
-   743				/* wep default key has not been set, so use this key index as default key. */
-   744	
-   745				wep_key_len = wep_key_len <= 5 ? 5 : 13;
-   746	
-   747				psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_ENABLED;
-   748				psecuritypriv->dot11PrivacyAlgrthm = _WEP40_;
-   749				psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
-   750	
-   751				if (wep_key_len == 13) {
-   752					psecuritypriv->dot11PrivacyAlgrthm = _WEP104_;
-   753					psecuritypriv->dot118021XGrpPrivacy = _WEP104_;
-   754				}
-   755	
-   756				psecuritypriv->dot11PrivacyKeyIndex = wep_key_idx;
-   757			}
-   758	
-   759			memcpy(&(psecuritypriv->dot11DefKey[wep_key_idx].skey[0]), param->u.crypt.key, wep_key_len);
-   760	
-   761			psecuritypriv->dot11DefKeylen[wep_key_idx] = wep_key_len;
-   762	
-   763			rtw_set_key(padapter, psecuritypriv, wep_key_idx, 0, true);
-   764	
-   765			goto exit;
-   766		}
-   767	
-   768		if (padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X) { /*  802_1x */
-   769			struct sta_info *psta, *pbcmc_sta;
-   770			struct sta_priv *pstapriv = &padapter->stapriv;
-   771	
-   772			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE) == true) { /* sta mode */
-   773				psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
-   774				if (psta) {
-   775					/* Jeff: don't disable ieee8021x_blocked while clearing key */
-   776					if (strcmp(param->u.crypt.alg, "none") != 0)
-   777						psta->ieee8021x_blocked = false;
-   778	
-   779					if ((padapter->securitypriv.ndisencryptstatus ==
-   780					     NDIS_802_11_ENCRYPTION_2_ENABLED) ||
-   781					    (padapter->securitypriv.ndisencryptstatus ==
-   782					     NDIS_802_11_ENCRYPTION_3_ENABLED)) {
-   783						psta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
-   784					}
-   785	
-   786					if (param->u.crypt.set_tx == 1) { /* pairwise key */
- > 787						struct ieee_crypt_arg *crypt = &param->u.crypt;
- > 788						u32 len = min(crypt->key_len, 16U);
-   789	
-   790						memcpy(psta->dot118021x_UncstKey.skey,
-   791						       crypt->key, len);
-   792						if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
-   793							memcpy(psta->dot11tkiptxmickey.skey, &(param->u.crypt.key[16]), 8);
-   794							memcpy(psta->dot11tkiprxmickey.skey, &(param->u.crypt.key[24]), 8);
-   795	
-   796							padapter->securitypriv.busetkipkey = false;
-   797							/* _set_timer(&padapter->securitypriv.tkip_timer, 50); */
-   798						}
-   799	
-   800						rtw_setstakey_cmd(padapter, psta, true, true);
-   801					} else { /* group key */
-   802						struct security_priv *psec = &padapter->securitypriv;
-   803						struct ieee_crypt_arg *crypt = &param->u.crypt;
-   804						u32 len = min(crypt->key_len, 16U);
-   805	
-   806						if (strcmp(crypt->alg, "TKIP") == 0 ||
-   807						    strcmp(crypt->alg, "CCMP") == 0) {
-   808							memcpy(psec->dot118021XGrpKey[crypt->idx].skey,
-   809							       crypt->key, len);
-   810	
- > 811							memcpy(psec->dot18021XGrptxmickey[crypt->idx].skey,
-   812							       &crypt->key[16], 8);
-   813	
-   814							memcpy(psec->dot118021XGrprxmickey[crypt->idx].skey,
-   815							       &crypt->key[24], 8);
-   816	
-   817							psec->binstallGrpkey = true;
-   818							psec->dot118021XGrpKeyid = crypt->idx;
-   819							rtw_set_key(padapter, psec, crypt->idx, 1, true);
-   820						} else if (strcmp(crypt->alg, "BIP") == 0) {
-   821							/* save the IGTK key, length 16 bytes */
-   822							memcpy(psec->dot11wBIPKey[crypt->idx].skey,
-   823							       crypt->key, len);
-   824							psec->dot11wBIPKeyid = crypt->idx;
-   825							psec->binstallBIPkey = true;
-   826						}
-   827					}
-   828				}
-   829	
-   830				pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
-   831				if (pbcmc_sta) {
-   832					/* Jeff: don't disable ieee8021x_blocked while clearing key */
-   833					if (strcmp(param->u.crypt.alg, "none") != 0)
-   834						pbcmc_sta->ieee8021x_blocked = false;
-   835	
-   836					if ((padapter->securitypriv.ndisencryptstatus ==
-   837					     NDIS_802_11_ENCRYPTION_2_ENABLED) ||
-   838					    (padapter->securitypriv.ndisencryptstatus ==
-   839					     NDIS_802_11_ENCRYPTION_3_ENABLED)) {
-   840						pbcmc_sta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
-   841					}
-   842				}
-   843			} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) { /* adhoc mode */
-   844			}
-   845		}
-   846	
-   847	exit:
-   848	
-   849		return ret;
-   850	}
-   851	
+Can pd->data be NULL here?  It's dereferenced inside the
+scpsys_domain_is_on() function.
+
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  825  			dev_warn(scpsys->dev,
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  826  				 "%pOF: A default off power domain has been ON\n", node);
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  827  	} else {
+88914db077b6c2 drivers/pmdomain/mediatek/mtk-pm-domains.c AngeloGioacchino Del Regno 2025-09-25  828  		ret = pd->genpd.power_on(&pd->genpd);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  829  		if (ret < 0) {
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  830  			dev_err(scpsys->dev, "%pOF: failed to power on domain: %d\n", node, ret);
+f0fce06e345dc4 drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2021-06-01  831  			goto err_put_subsys_clocks;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  832  		}
+72be1e7a447add drivers/soc/mediatek/mtk-pm-domains.c      Chunfeng Yun               2022-06-17  833  
+72be1e7a447add drivers/soc/mediatek/mtk-pm-domains.c      Chunfeng Yun               2022-06-17  834  		if (MTK_SCPD_CAPS(pd, MTK_SCPD_ALWAYS_ON))
+72be1e7a447add drivers/soc/mediatek/mtk-pm-domains.c      Chunfeng Yun               2022-06-17  835  			pd->genpd.flags |= GENPD_FLAG_ALWAYS_ON;
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  836  	}
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  837  
+ac0ca395543af0 drivers/soc/mediatek/mtk-pm-domains.c      Chun-Jie Chen              2022-01-30  838  	if (MTK_SCPD_CAPS(pd, MTK_SCPD_ACTIVE_WAKEUP))
+ac0ca395543af0 drivers/soc/mediatek/mtk-pm-domains.c      Chun-Jie Chen              2022-01-30  839  		pd->genpd.flags |= GENPD_FLAG_ACTIVE_WAKEUP;
+ac0ca395543af0 drivers/soc/mediatek/mtk-pm-domains.c      Chun-Jie Chen              2022-01-30  840  
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  841  	if (MTK_SCPD_CAPS(pd, MTK_SCPD_KEEP_DEFAULT_OFF))
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  842  		pm_genpd_init(&pd->genpd, NULL, true);
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  843  	else
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  844  		pm_genpd_init(&pd->genpd, NULL, false);
+c1f3163d8ff36f drivers/soc/mediatek/mtk-pm-domains.c      Weiyi Lu                   2020-10-30  845  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  846  	scpsys->domains[id] = &pd->genpd;
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  847  
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  848  	return scpsys->pd_data.domains[id];
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  849  
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  850  err_put_subsys_clocks:
+123e8b4fd0cd99 drivers/soc/mediatek/mtk-pm-domains.c      Matthias Brugger           2020-10-30  851  	clk_bulk_put(pd->num_subsys_clks, pd->subsys_clks);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  852  err_put_clocks:
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  853  	clk_bulk_put(pd->num_clks, pd->clks);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  854  	return ERR_PTR(ret);
+59b644b01cf48d drivers/soc/mediatek/mtk-pm-domains.c      Enric Balletbo i Serra     2020-10-30  855  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
