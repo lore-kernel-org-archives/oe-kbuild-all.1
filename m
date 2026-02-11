@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D682D5935
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 07:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E638128725B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 07:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770794367; cv=none; b=a2AucYQOuJ/pyZoXe5omQtZk27LGuulOCwqMxeCu0PcberkEKxNRVixyUdYN442OeKLLMVN4Ky51G9K3L8jVZGYe2JcZmBLLgBURiFVSAunaMDKsCECuYYUeJxycp7dvnOs0jkbEXf9PAGDruwm0Uhra+delQiQ/3s0DSo1qd4Q=
+	t=1770796342; cv=none; b=sO5A5Fdm285p8aT87YKOMb7//Wx1RPHVV3tElkBTbOpGc5ww91/zTuJHh1SJyKMULCKpD864Z2WQFW9EOIEOqEl3KWQALig5g89IzrABFt875tPUMIkkpJOsOHSsLwNJSXZNcrJLHCfAWtj8xGYmk3CLXI/FExiHww1li7iFpJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770794367; c=relaxed/simple;
-	bh=Ozjd1lyydwnMvo3nfkBOPYfSyXPB8/wE/WfjBSDFd4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Rb4KYS03Cps2F7GalbeoB4PWk9y6rmeZl1jHIBijIdNVjXVTzhljUkOk6nJV7HaxXFzGDCjxfi6Zc0Pm6b4b76U7TMduj+9Z68dR60MNnr7xeU0cnO+keNy0zcYLlBHAIxV5Ja1ay3CmHeoRhGA/Yu/YnlwxXxgVRTwd/1/IvYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IixAQSw2; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1770796342; c=relaxed/simple;
+	bh=ZahawXdD0lbJk75fg1V9rXa1M47nNykkGGfkbL/T7p8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=o8G7Unlb8ytWisr/dSkDjdS46q0Ii3xO/Uz/rEq02UIrjpGJ394M7cnWnISMsmSwrciQ9MNecc5rCKkGs0QjmhFrEYuCE9LXPp+/8oWlVJLrMqp0N7sceYzA0JRwOvx0HYf6r+D4l51huMtOmDpPMi+2RJnbmcqen1FhY/1abPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aX3rlXGl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IixAQSw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aX3rlXGl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770794366; x=1802330366;
+  t=1770796341; x=1802332341;
   h=date:from:to:cc:subject:message-id;
-  bh=Ozjd1lyydwnMvo3nfkBOPYfSyXPB8/wE/WfjBSDFd4Q=;
-  b=IixAQSw2HnDACh0meWHF/pN6Bi/LngU0CvYUV3DAcsse0kR1pxl1FNl5
-   a1WpS68CyeUMmXezbywC6vE+dagiZr2ctyJU6rpaPhlrxrgtFePAIpI/9
-   PJOf3ZqxTa4d0jXx/9AxgPzNPQLPpOQT0KT7EvkVdpQ39yfON+RaGQTon
-   NzHTk9VFPH4W3s+bPqo5Obln4Y92YE0IMcwwNkG0hsUDmhMh78IV34kx0
-   IumiPnZlj0iPpByf4kobG92juZcuAYkGa+bbtz11Kras6Kk+EMrM1WrTd
-   aupbYcYVMh4K+iHad9f3aGYrVWP3w71eGWB7ITxlEiyVHzW+kqvDM32iY
-   Q==;
-X-CSE-ConnectionGUID: nwfdpG0HQTmQegNFZw+wEw==
-X-CSE-MsgGUID: PnPx5d4aQUex9MLVw2f91w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75781906"
+  bh=ZahawXdD0lbJk75fg1V9rXa1M47nNykkGGfkbL/T7p8=;
+  b=aX3rlXGlWZd32oH8LlKbY15A378vOGA9duJGnAEuTTCATd+9MAAud0t6
+   1CqHTx4e9liuw3L5clpEY96OvwfLPfB62IoTiE5Jyio7QJBPxuS4MM6n5
+   FRN3ICOB4FWeKXfhUweHyRdjIWKlbRC+iyjuY/jmohqyOliuiNsAGkKL1
+   muXZ0w0T+IURa0eia1ghp4MOOSqxJfh5xNrrXFh+taEAMTUeMw/7ytz78
+   7uSFq2RjXtol3WhENYbtYfprvp2Goq7r68H+nEy9zdhnQHP9xBJzU/Mtx
+   xBgstSAG4gJFkthQ31HEQYMo4lPQAiX+B0WXxnn6cXjc7zBYVdl7Pt8IQ
+   w==;
+X-CSE-ConnectionGUID: wiFi29u2SDa573Jh2LG4dg==
+X-CSE-MsgGUID: bEQf6BxgRluker/dVv+1HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="71840481"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75781906"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 23:19:25 -0800
-X-CSE-ConnectionGUID: Pd7Hx/0USHGHp9RJxNfbsg==
-X-CSE-MsgGUID: PEmLeiO4Tqm1aIpa/i1frg==
+   d="scan'208";a="71840481"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 23:52:21 -0800
+X-CSE-ConnectionGUID: DT3Gq8oURHiwWQPdu0YhVQ==
+X-CSE-MsgGUID: XygKQo9OQbuLC1oNnrBgNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211769464"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Feb 2026 23:19:24 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="212260871"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 10 Feb 2026 23:52:19 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vq4VN-0000000012L-2ZGx;
-	Wed, 11 Feb 2026 07:19:21 +0000
-Date: Wed, 11 Feb 2026 08:19:20 +0100
+	id 1vq51F-00000000pna-0fwn;
+	Wed, 11 Feb 2026 07:52:17 +0000
+Date: Wed, 11 Feb 2026 15:51:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jarkko Sakkinen <jarkko@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1] posix_timers.c:257:13:
- warning: 'check_sig_ign' defined but not used
-Message-ID: <202602110844.2fz6eXhB-lkp@intel.com>
+Subject: [jarkko-tpmdd:container 10/14] fs/proc/root.c:340:41: error:
+ incomplete definition of type 'struct container'
+Message-ID: <202602111518.6xepFJ52-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,33 +59,52 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi HONG,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   e625a969da56eb1e7cd097610614e0ecc10fe60d
-commit: 32c1bffe815c9ed746ce7d84cae07da17db6bca4 [1/1] ANDROID: Compile kselftest_timers_posix_timers code
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260211/202602110844.2fz6eXhB-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110844.2fz6eXhB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git container
+head:   ac4ec62cd4decf787406c1407f18ade110d80c5a
+commit: eae87346ef7094984596a12c9096148d3989c983 [10/14] containers: Make fsopen() able to create a superblock in a container
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260211/202602111518.6xepFJ52-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111518.6xepFJ52-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602110844.2fz6eXhB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602111518.6xepFJ52-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   posix_timers.c:399:13: warning: 'check_delete' defined but not used [-Wunused-function]
-     399 | static void check_delete(void)
-         |             ^~~~~~~~~~~~
-   posix_timers.c:343:13: warning: 'check_rearm' defined but not used [-Wunused-function]
-     343 | static void check_rearm(void)
-         |             ^~~~~~~~~~~
->> posix_timers.c:257:13: warning: 'check_sig_ign' defined but not used [-Wunused-function]
-     257 | static void check_sig_ign(int thread)
-         |             ^~~~~~~~~~~~~
+>> fs/proc/root.c:340:41: error: incomplete definition of type 'struct container'
+     340 |                 ctx->pid_ns = get_pid_ns(fc->container->pid_ns);
+         |                                          ~~~~~~~~~~~~~^
+   include/linux/sched.h:65:8: note: forward declaration of 'struct container'
+      65 | struct container;
+         |        ^
+   1 error generated.
+
+
+vim +340 fs/proc/root.c
+
+   330	
+   331	static int proc_init_fs_context(struct fs_context *fc)
+   332	{
+   333		struct proc_fs_context *ctx;
+   334	
+   335		ctx = kzalloc(sizeof(struct proc_fs_context), GFP_KERNEL);
+   336		if (!ctx)
+   337			return -ENOMEM;
+   338	
+   339		if (fc->container)
+ > 340			ctx->pid_ns = get_pid_ns(fc->container->pid_ns);
+   341		else
+   342			ctx->pid_ns = get_pid_ns(task_active_pid_ns(current));
+   343	
+   344		put_user_ns(fc->user_ns);
+   345		fc->user_ns = get_user_ns(ctx->pid_ns->user_ns);
+   346		fc->fs_private = ctx;
+   347		fc->ops = &proc_fs_context_ops;
+   348		return 0;
+   349	}
+   350	
 
 -- 
 0-DAY CI Kernel Test Service
