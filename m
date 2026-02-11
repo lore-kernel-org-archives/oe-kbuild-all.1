@@ -1,127 +1,110 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85D231578B;
-	Wed, 11 Feb 2026 12:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DBD1B983F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 12:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770812949; cv=none; b=bKdkEQLfHlzU8P/7ZyJ7CX0+OfA9ViMg5EX+Iv8MvnJHVvOdqwu9IBGy5701rwd3IEQjAxSKwmgZe9py+FDAYC3Ya5B8fHHjL06Vq9s14q5sSvhHB5fF6pLfWSTS6xmq2D6ftXd8WWJ2iZBGTPSwWkU6QHr7vH7zPn6kVFDadNk=
+	t=1770813151; cv=none; b=WVIZXcdPa5mS2tri1B2Y+DuVjPk5Rqu6dV6X451OF0fO9oQXNWK3JUooJJ7h+giwYowxKMblqKmxCrBij7rETKzaI4yL0rKaoG5YPHumRM4TmJ6CB5JmgfVYIMYuwN46HSz92bmORvhJ+UkAYTHDQt0c4UksMXYOWsiUSqH2AI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770812949; c=relaxed/simple;
-	bh=G9xtJUjfAmAX5OA0nxs5ezcv9Y+NPB6FNsxNmgDqCtc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uIWk4aTRf2t6GINa6m0pzYgggbQjSiWkr3+jiYNCUy0ewpeg43fDsO7G7sn1lF1Oj5QTh4Px1b03JyO9vDZNHWcBzlui9dFke8c03LZsQqkiHksvJjo+XtyG6AeoCbc3pFN7CczbLgHbWPwvrdAxYD/6qp42JrukywiLesnYwcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=EULENZpZ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+YQYed+P; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1770813151; c=relaxed/simple;
+	bh=gKqsUY8QiFOiqbi69Ne3X2+9oK3B3tyFLBelCaADXTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uWaB5dYCUfx3MlsK6kwD1RPAT0JKAfS77nVAe0bC2tQGtlg3Kw2KlSin8l/WBBZYviHrElJwe2Tc2lpRoLWGI94JQVudRx89TbefOgPXs0sMPFCrffOUNC85MEQ4YDpjJzEKomdhsC/t2EVVgeQx088gwYYpnnKUvDFHED20TRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRzzLydh; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EULENZpZ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+YQYed+P"
-Date: Wed, 11 Feb 2026 13:29:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1770812946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aDAkxtoSZsIDCBfmD5kx/lbms/p5QrZ0qzUxOUkwiMs=;
-	b=EULENZpZo+RmXujrHH820kuxPMRLfKSLem1jC91M08G3J0RyRxzPtIGT6jbabPLRmBhJsW
-	lRqMlgewkcQM2TSfGTUXyxtlnzbvzUb5pE9gkTP7lhKdlnQbsIGSB+nlt3wdECoEkQDJuw
-	3S8n/e/VnXyyKvvVBy785TvULHmb6ZHmpE2ks352k09EdTDDSXBljT0BLKJqUwEb5ZZtYx
-	hs+B/Cdey6pFyrSFcRWHupL5C2edhKo3f4vZZtFZJuyeu871oF0fQjLhv1M1zZlGt9zNvo
-	ckTkvF47W0CfS6cqeicjYGi/4BlRFdKkdfPDVDUdmB5juPjvmNEFQtSfTAV95w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1770812946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aDAkxtoSZsIDCBfmD5kx/lbms/p5QrZ0qzUxOUkwiMs=;
-	b=+YQYed+P9I9ui/FU9+9w0nBvpte55RZXUoPxuT9KGuGe3EqrkvZ0dd81/iEjeJuGRx6ND7
-	4PczbVsN9CP23yDQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, "H. Peter Anvin" <hpa@zytor.com>, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Dave Hansen <dave.hansen@linux.intel.com>
-Subject: Re: arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:308
- __cvdso_clock_gettime_common() warn: right shifting more than type allows 32
- vs 40
-Message-ID: <20260211132457-1519ef21-1087-45df-905f-e58575bf43e5@linutronix.de>
-References: <202602111941.PIhubgrb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRzzLydh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770813150; x=1802349150;
+  h=date:from:to:cc:subject:message-id;
+  bh=gKqsUY8QiFOiqbi69Ne3X2+9oK3B3tyFLBelCaADXTQ=;
+  b=JRzzLydhMuHD76FqSPd67sMo5Dg52raa6k9xgIAMC7sYKobioOZthLYO
+   9S+S0GTOTmK6vzp66JzCNDgFwUha1XFm3fS6Lb01uQkr8IQyY2utbsMuC
+   9OyxP0LG4y5ndh7ua0zGfMRSRoqNnEytmr3zbQLNWbTBULXk2MZzhHi/i
+   y2C5CL0akgQTvTn+0xS5TTrQ11pl+2YCqRrLjZp7DkwfP6/o7GNkACHU1
+   chFDvvNqhmsZ0Z+wR16usa6nJztqylplJkjyiZOscChN5sa/XQa9NQ9/r
+   k14M5Klue5V+AVGqRauMhASqO3wWfwUFwCBV+ikSEC9T4Rqo5utLe9ntL
+   A==;
+X-CSE-ConnectionGUID: OO2pO2rkRCC4ydL1xNpg3Q==
+X-CSE-MsgGUID: EiBFHw77S0+LdNj1Ua86zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="82596826"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="82596826"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 04:32:30 -0800
+X-CSE-ConnectionGUID: MXSdDXjsQHijgetgHVpAoQ==
+X-CSE-MsgGUID: Afu+bkvdQJ2flQWJHaccJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="217198190"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 11 Feb 2026 04:32:28 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vq9OL-00000000pyA-3wbT;
+	Wed, 11 Feb 2026 12:32:25 +0000
+Date: Wed, 11 Feb 2026 20:31:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 13/53]
+ drivers/gpu/drm/xe/xe_survivability_mode.c:241:17: error: implicit
+ declaration of function 'xe_nvm_fini'; did you mean 'xe_nvm_init'?
+Message-ID: <202602112026.Di2Vv6FF-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202602111941.PIhubgrb-lkp@intel.com>
 
-On Wed, Feb 11, 2026 at 03:13:34PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   192c0159402e6bfbe13de6f8379546943297783d
-> commit: 693c819fedcdcabfda7488e2d5e355a84c2fd1b0 x86/entry/vdso: Refactor the vdso build
-> config: x86_64-randconfig-161-20260210 (https://download.01.org/0day-ci/archive/20260211/202602111941.PIhubgrb-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-> smatch version: v0.5.0-8994-gd50c5a4c
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202602111941.PIhubgrb-lkp@intel.com/
-> 
-> smatch warnings:
-> arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:308 __cvdso_clock_gettime_common() warn: right shifting more than type allows 32 vs 40
-> arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:308 __cvdso_clock_gettime_common() warn: bitwise AND condition is false here
-> arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:454 __cvdso_clock_getres_common() warn: right shifting more than type allows 32 vs 40
-> arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:454 __cvdso_clock_getres_common() warn: bitwise AND condition is false here
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   7f66ef0ac030a3da0d0a0e8c0dfee1aa9c266dfa
+commit: 2f8a7331e1404f4364092565c145c7cf3cd377d4 [13/53] Merge remote-tracking branch 'drm/drm-next' into renesas-drivers
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260211/202602112026.Di2Vv6FF-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112026.Di2Vv6FF-lkp@intel.com/reproduce)
 
-Thanks for the report!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602112026.Di2Vv6FF-lkp@intel.com/
 
-> vim +308 arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c
-> 
-> fb61bdb27fd730 Thomas Weißschuh   2025-07-01  287  static __always_inline bool
-> ac1a42f4e4e296 Thomas Weißschuh   2025-02-04  288  __cvdso_clock_gettime_common(const struct vdso_time_data *vd, clockid_t clock,
-> e876f0b69dc993 Christophe Leroy   2020-02-07  289  			     struct __kernel_timespec *ts)
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  290  {
-> 886653e3663917 Anna-Maria Behnsen 2025-03-03  291  	const struct vdso_clock *vc = vd->clock_data;
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  292  	u32 msk;
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  293  
-> 1a1cd5fe881fdf Thomas Weißschuh   2025-07-01  294  	if (!vdso_clockid_valid(clock))
-> fb61bdb27fd730 Thomas Weißschuh   2025-07-01  295  		return false;
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  296  
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  297  	/*
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  298  	 * Convert the clockid to a bitmask and use it to check which
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  299  	 * clocks are handled in the VDSO directly.
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  300  	 */
-> 00b26474c2f161 Vincenzo Frascino  2019-06-21  301  	msk = 1U << clock;
-> 8463cf80529d0f Christophe Leroy   2019-12-23  302  	if (likely(msk & VDSO_HRES))
-> cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  303  		vc = &vc[CS_HRES_COARSE];
-> 8463cf80529d0f Christophe Leroy   2019-12-23  304  	else if (msk & VDSO_COARSE)
-> 70067ae181f302 Anna-Maria Behnsen 2025-03-03  305  		return do_coarse(vd, &vc[CS_HRES_COARSE], clock, ts);
-> 8463cf80529d0f Christophe Leroy   2019-12-23  306  	else if (msk & VDSO_RAW)
-> cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  307  		vc = &vc[CS_RAW];
-> cd3557a7618bf5 Thomas Weißschuh   2025-07-01 @308  	else if (msk & VDSO_AUX)
-> 
-> This code is built with -m32 when we build
-> arch/x86/entry/vdso/vdso32/vclock_gettime.c so VDSO_AUX is zero
-> and we never call do_aux().  Presumably that's intentional.  I
-> don't know this code at all.
+All errors (new ones prefixed by >>):
 
-This is a false positive due to a mismatch between compiler and $(CHECK) flags.
-We are working on a fix, see:
- * https://lore.kernel.org/lkml/20260116-vdso-compat-checkflags-v1-2-4a83b4fbb0d3@linutronix.de/
- * https://lore.kernel.org/lkml/20260117215542.342638347@kernel.org/
+   drivers/gpu/drm/xe/xe_survivability_mode.c: In function 'xe_survivability_mode_fini':
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:241:17: error: implicit declaration of function 'xe_nvm_fini'; did you mean 'xe_nvm_init'? [-Wimplicit-function-declaration]
+     241 |                 xe_nvm_fini(xe);
+         |                 ^~~~~~~~~~~
+         |                 xe_nvm_init
 
-> cd3557a7618bf5 Thomas Weißschuh   2025-07-01  309  		return do_aux(vd, clock, ts);
-> c966533f8c6c45 Andrei Vagin       2019-11-12  310  	else
-> fb61bdb27fd730 Thomas Weißschuh   2025-07-01  311  		return false;
-> c966533f8c6c45 Andrei Vagin       2019-11-12  312  
-> 64c3613ce31a1a Anna-Maria Behnsen 2025-03-03  313  	return do_hres(vd, vc, clock, ts);
-> 502a590a170b3b Thomas Gleixner    2019-07-28  314  }
-> 
+
+vim +241 drivers/gpu/drm/xe/xe_survivability_mode.c
+
+5e940312a2ac64 Riana Tauro     2025-01-28  232  
+d40f275d96e890 Lucas De Marchi 2025-02-21  233  static void xe_survivability_mode_fini(void *arg)
+d40f275d96e890 Lucas De Marchi 2025-02-21  234  {
+d40f275d96e890 Lucas De Marchi 2025-02-21  235  	struct xe_device *xe = arg;
+1987ea95ac37ea Riana Tauro     2025-12-08  236  	struct xe_survivability *survivability = &xe->survivability;
+d40f275d96e890 Lucas De Marchi 2025-02-21  237  	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+d40f275d96e890 Lucas De Marchi 2025-02-21  238  	struct device *dev = &pdev->dev;
+d40f275d96e890 Lucas De Marchi 2025-02-21  239  
+1987ea95ac37ea Riana Tauro     2025-12-08  240  	if (survivability->fdo_mode)
+1987ea95ac37ea Riana Tauro     2025-12-08 @241  		xe_nvm_fini(xe);
+1987ea95ac37ea Riana Tauro     2025-12-08  242  
+f4e9fc967afdb5 Riana Tauro     2025-12-08  243  	device_remove_file(dev, &dev_attr_survivability_mode);
+d40f275d96e890 Lucas De Marchi 2025-02-21  244  }
+d40f275d96e890 Lucas De Marchi 2025-02-21  245  
+
+:::::: The code at line 241 was first introduced by commit
+:::::: 1987ea95ac37ea3f9299d220974676207d5262f6 drm/xe/xe_survivability: Add support for survivability mode v2
+
+:::::: TO: Riana Tauro <riana.tauro@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
