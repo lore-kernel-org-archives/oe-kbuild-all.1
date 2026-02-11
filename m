@@ -1,121 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EA3313554
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 02:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD28E571;
+	Wed, 11 Feb 2026 02:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770776833; cv=none; b=nemAI1yD1veSkk/L3k9JzDE+2Val4He78+JnjMUfYA1S1t6SmLvGNiXqTo+bylUT6qyNk3Fe2OmdD8OFHnpaNsLuLYGPRImngNsKAd/IWnWVaRoemI6dI3FlkYonqX81nPnfYP4avdjG6lf5z2cmj6rkJTiivgSAm1a//7WoAfA=
+	t=1770778092; cv=none; b=CQn907jZ11AjCilqIvvjvIaSY3jBmAkHBN8G+IKoqcgWfXvSmuvP++bQ0f2SBxCPpPtVVZUqVcbUH7ymvYZdxArzrdJSUqu6x8MPITEfDVh+I2IVD9l/uXaZ6obonDbDIAAHq/F26y4z1XTX/JjBjPQ+bORRv8SLM4/inJjpLGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770776833; c=relaxed/simple;
-	bh=VizfXMgRo2x7m5BVGIEfIafHca9AtaxrlxlbbTdRmIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lz/X0S9XFj1e742tnGyF6gfcrQWBKAM+a8RT3ML/JR+9eedWX1phKGXdjo3cGUXjrERQvLwWVspUTyC0DI9BiD01I/yeMa+VdXa5ieo6W/X3CQw3yskEv02YIbo00HACKGOOg0V8wx+w3Pp5eba3WAwwQCJAzrnq9ZjICLt+5q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WD5x0vJQ; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1770778092; c=relaxed/simple;
+	bh=Uz9HeZsoDx0cr09h1MzkpnhMHhavMZBgIlWuXDIe/ew=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kZ2haSkHg7kRGXyjQMEFcJV9ZOa2X0CXmsqm3mxDI7vo16X0x3fKE/eZQqj3xcxSqzxZFImyqdQ3GS/M0IZsoG7okQhVDdDhSH06JCxdmSNoG/4yQQR5a100m4jq7pi8xRnVZm5XxxdEbhi5rxuy3m75jf8itmlm5eotFrWI/tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPY4Q/8b; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WD5x0vJQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPY4Q/8b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770776831; x=1802312831;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VizfXMgRo2x7m5BVGIEfIafHca9AtaxrlxlbbTdRmIY=;
-  b=WD5x0vJQgcAd8bx5PhzcAqz4yovk/c0LFbtlz/Xhe2hAR1Q5/bK9WetG
-   ysOzWholnLd6FyW8Zjm2RlxGpbBXkIwRiDOLsSQbyXaRI6w6VwOoggFtp
-   +KKJEP8z00eeEWwJ3I//SkZA4A9leyDcgYTy7wZ+SLCjTb7X2Kln733va
-   59X1mmEd9pfT4TocK+viH4yBT2jV7rI4AP1bzDG6OSC0wNTEXi0V3cATA
-   g94v2bG+8XYyPWuyw4XAtpNlmZQgadURZNQkv2rxq0VogHROQG8VNvXH2
-   kua/FkDqbxfZXqnfrBSSJfDp9R0Ml2Fb5ZSwsoPyxXNTtbo2jzq6gR3rM
-   w==;
-X-CSE-ConnectionGUID: DP7IADQuQpGAgwj/tfQEuw==
-X-CSE-MsgGUID: AN9eIzrGQfqKZnyAuwkkeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="83020649"
+  t=1770778091; x=1802314091;
+  h=date:from:to:cc:subject:message-id;
+  bh=Uz9HeZsoDx0cr09h1MzkpnhMHhavMZBgIlWuXDIe/ew=;
+  b=gPY4Q/8bQECAnqlKmfxkiNeq2BxdtutZYmNiIFk57CA+lszdhGZmufuz
+   xUavbauXppLRvMqZgYzf+HsngMQVW6U9YTnrdAaHiyFa8o6SMGGxqttD/
+   yzn9qB5l/ykmrAFPNoV/+gvrlhZVpCwhhmrHp58eq20lhPKXtsOR1yL1f
+   uTBpPG3uXtaQPwa10+lBHngJpubBm9efahDLVQXTZZcmsQgFPveolTMJY
+   0911d9sQkE4VSuw36X4oUo+FUo8zq/+o5AfAVSa3x7xecLXJQHC8SGAea
+   KhCHoHfLOOprWw8LB9iTgAk6LadSoUZw7okxSebjgsjcCwK3xYAekyqQN
+   Q==;
+X-CSE-ConnectionGUID: OSQx0VtXQ9qqzzhYk/baDQ==
+X-CSE-MsgGUID: 3rPoeCR3RNaZacHsYIdV7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="71816159"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="83020649"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 18:27:10 -0800
-X-CSE-ConnectionGUID: zOjUMskXSMSSc4vXN1XptQ==
-X-CSE-MsgGUID: hO9bm3NCQWyRxyKt+aYzcw==
+   d="scan'208";a="71816159"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 18:48:11 -0800
+X-CSE-ConnectionGUID: xh5dOAA3QJWLDWdLaTw6MA==
+X-CSE-MsgGUID: gUy0wNxVQUS4tbqoVV5AjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="217052525"
+   d="scan'208";a="211088880"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Feb 2026 18:27:09 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2026 18:48:09 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpzwY-00000000pbA-3OTB;
-	Wed, 11 Feb 2026 02:27:06 +0000
-Date: Wed, 11 Feb 2026 10:26:12 +0800
+	id 1vq0Gt-00000000pbw-1dQx;
+	Wed, 11 Feb 2026 02:48:07 +0000
+Date: Wed, 11 Feb 2026 10:47:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ethan Ferguson <ethan.ferguson@zetier.com>, hirofumi@mail.parknet.co.jp
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ethan Ferguson <ethan.ferguson@zetier.com>
-Subject: Re: [PATCH 2/2] fat: Add FS_IOC_SETFSLABEL ioctl
-Message-ID: <202602111002.F4q2b5Gx-lkp@intel.com>
-References: <20260210222310.357755-3-ethan.ferguson@zetier.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-slaunch 40/41] ld.lld: error: undefined symbol:
+ __pi_bcmp
+Message-ID: <202602111032.4Dnk05jr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260210222310.357755-3-ethan.ferguson@zetier.com>
 
-Hi Ethan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9f2693489ef8558240d9e80bfad103650daed0af]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Ferguson/fat-Add-FS_IOC_GETFSLABEL-ioctl/20260211-062606
-base:   9f2693489ef8558240d9e80bfad103650daed0af
-patch link:    https://lore.kernel.org/r/20260210222310.357755-3-ethan.ferguson%40zetier.com
-patch subject: [PATCH 2/2] fat: Add FS_IOC_SETFSLABEL ioctl
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260211/202602111002.F4q2b5Gx-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111002.F4q2b5Gx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-slaunch
+head:   68d6a808368b02c2fdfa0ba1e4e59d6b97668c1a
+commit: b3138d620ceb6371e697d5d7eefbd20ff485c3dd [40/41] x86/slaunch: Wire up early secure launch C code into startup/
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260211/202602111032.4Dnk05jr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111032.4Dnk05jr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602111002.F4q2b5Gx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602111032.4Dnk05jr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In function 'fat_get_entry',
-       inlined from 'fat_rename_volume_label_dentry' at fs/fat/dir.c:1435:7:
->> fs/fat/dir.c:121:12: warning: 'bh' is used uninitialized [-Wuninitialized]
-     121 |         if (*bh && *de &&
-         |            ^
-   fs/fat/dir.c: In function 'fat_rename_volume_label_dentry':
-   fs/fat/dir.c:1430:29: note: 'bh' was declared here
-    1430 |         struct buffer_head *bh;
-         |                             ^~
-
-
-vim +/bh +121 fs/fat/dir.c
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  115  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  116  static inline int fat_get_entry(struct inode *dir, loff_t *pos,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  117  				struct buffer_head **bh,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  118  				struct msdos_dir_entry **de)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  119  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  120  	/* Fast stuff first */
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @121  	if (*bh && *de &&
-f08b4988f229fb Cruz Julian Bishop 2012-10-04  122  	   (*de - (struct msdos_dir_entry *)(*bh)->b_data) <
-f08b4988f229fb Cruz Julian Bishop 2012-10-04  123  				MSDOS_SB(dir->i_sb)->dir_per_block - 1) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  124  		*pos += sizeof(struct msdos_dir_entry);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  125  		(*de)++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  126  		return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  127  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  128  	return fat__get_entry(dir, pos, bh, de);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  129  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  130  
+>> ld.lld: error: undefined symbol: __pi_bcmp
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__pi_sl_tpm1_extend)
 
 -- 
 0-DAY CI Kernel Test Service
