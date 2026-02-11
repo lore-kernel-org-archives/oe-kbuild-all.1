@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B53A322A;
-	Wed, 11 Feb 2026 14:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90CC1DF980
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 15:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770821318; cv=none; b=RN7I410jIQoY62Niy+i4sbFIrkPsdZLQgmx3E+M+0ZybujnlEzDtnLCVU4snCA8xPr2DyVCGdXa8bVxkZDzKC4kGuuaW4GJXw0dv04tJnmYax0adnL4iVQY+8Kg9EZu5pMzb6q2vDfFmVKsMOy911ddDaKfyTLBw6AYk0uTKFms=
+	t=1770822585; cv=none; b=LiffPQKIKGQAKALPqDomvzymZkHOHfFafwxh0v+sYL/QhY1LQAaN6ItocRIS6b0lC9E7NNj76lmlieakSmjGBBCyY3RXbBJxuBof4tLB7tX+7gDnTWhxP7UJ5m1S2QWTv5kV17FRvQ3pgqpS1cHk1VhpVkfhTxg42EwbuFjugNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770821318; c=relaxed/simple;
-	bh=mBhv/ikmf+VJ9MEf6KxEZZCRfxKrD3eR8pUCYe2wTxE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lwmDo7Z131M1pfok5Q2ChB4jHL882A13M0VjDslLyXrINJ8C0mYq2LbupxD34bgPYXF5EBFOwUUt604F24/KD2+q2Eyu4SgYWlPUYp6uRhdopWny+1FoNilZ1bgJExO5E9uDRhx6yiYinPPatQpxCDrNbkuUebZ7ovoGceZn1G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsDJHcus; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1770822585; c=relaxed/simple;
+	bh=rXSLyKsCar49lRKD+gy3mZfblQd8FLMd2JaFX+td4ws=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oPj6MNGM/qMv7wZQk/2j/mU9Foavb6pzyJ9Vs3NHJNixz8ME+i6AtU+hpvoUahAYbvv2Fn1A+ZzgCBTdA+FeYPpQP3T0nqhJJ22OPhLR7f7mW/PDkXsuuKZHydzX1/654j/uoVuv1morwt278zAQmdvBsqkJw4pnJhYt7L4GP08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSdOisOC; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsDJHcus"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSdOisOC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770821317; x=1802357317;
+  t=1770822583; x=1802358583;
   h=date:from:to:cc:subject:message-id;
-  bh=mBhv/ikmf+VJ9MEf6KxEZZCRfxKrD3eR8pUCYe2wTxE=;
-  b=YsDJHcusLnXILQFLA1E89LabTvQ5wlIowOVbhiVhzN1tQVsesr45A0u5
-   vT3PWn39XQ0xw6tXN5e5TmwghZ3H9ZUxjXPOPoZh9vuxviZ8oXJA5ZCnC
-   UML2HSIndiPwyxIrYiYznWKH+6H+2Mn0maStZo4qLUM4wk4jqs19eYpFG
-   t7Lofaz1jRFzTZX11w+T1R9PgKRUhRdfYArgbI78gbLq9tEfreXWKlEBt
-   aEbJFoPG0piSU1jTOdPkiJtN1ChZEvPFroSbDIVGu9rNy8fYwTwGDT88w
-   20dSBsNvIieWRn1vYwfuPyQ8t4KknbagU/UbU01CCvGsVzG9MmNMgrrN0
-   Q==;
-X-CSE-ConnectionGUID: OW3Z/dyETCWj7LhqbLJWPQ==
-X-CSE-MsgGUID: Xb/EdSclTJmBh8HN9fGIBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="83411538"
+  bh=rXSLyKsCar49lRKD+gy3mZfblQd8FLMd2JaFX+td4ws=;
+  b=RSdOisOCyrczioqxaMNrNv3hvLN8kp91BMoDCs1qrJegjVNGOZ0xbdhl
+   ythCdPYyF79oU7nXgsncXHkHorv4o4NHONloZE9rN0MAyRdc/sdJEuFQE
+   ZNlpFOcNU34ya62XBc5irJjyVb+eYDLgOFRu3J2yOMRN+QN3xSNzCC2Zr
+   6WZO5bHbbOnLEbGm24bsw6vHzNPRZd1vK52ZQlZFQ97DGtEWfhF9Odih3
+   sEMzBoxg06sKshMsA9tLJYHcvtHeO0OO3XQhfOl+mPdn/xqUOsX5/3Xv0
+   QSO3fJO3zecRr8IPJfAKdTEzz6ArH4XJwJ471UdSrtIq3zNGVLICaol18
+   w==;
+X-CSE-ConnectionGUID: 68IX/3xsRF+A+q7BQBXaWQ==
+X-CSE-MsgGUID: 6HaymzR3RFCyJbLfuKvmVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="71686085"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="83411538"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 06:48:37 -0800
-X-CSE-ConnectionGUID: 2XhWwCrhQ8OxLNKGwuMUwQ==
-X-CSE-MsgGUID: /ZsnW71cS4WFqK9+XKc26g==
+   d="scan'208";a="71686085"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 07:09:38 -0800
+X-CSE-ConnectionGUID: pFwO21bkQBKa15PRRM0hOQ==
+X-CSE-MsgGUID: Qo/Ej41sRvq7stZXDGcPCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216420295"
+   d="scan'208";a="216547001"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Feb 2026 06:48:35 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 11 Feb 2026 07:09:35 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqBW4-00000000q4u-3555;
-	Wed, 11 Feb 2026 14:48:32 +0000
-Date: Wed, 11 Feb 2026 22:47:35 +0800
+	id 1vqBqP-00000000q5k-0rHd;
+	Wed, 11 Feb 2026 15:09:33 +0000
+Date: Wed, 11 Feb 2026 23:08:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata-pre 14/14]
- drivers/staging/media/ipu7/ipu7-isys-subdev.c:101:5: error: conflicting types
- for 'ipu7_isys_subdev_set_fmt'
-Message-ID: <202602112253.JRfzluk0-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_3 7/14]
+ kernel/bpf/trampoline.c:64:13: warning: 'trampoline_unlock_all' defined but
+ not used
+Message-ID: <202602112254.4MEvLSrl-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,107 +60,70 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata-pre
-head:   11ab80de774b0527a7365d6f03ea5dcd0ace3e85
-commit: 11ab80de774b0527a7365d6f03ea5dcd0ace3e85 [14/14] media: v4l2-subdev: Add struct v4l2_subdev_client_info argument to pad ops
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260211/202602112253.JRfzluk0-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112253.JRfzluk0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_3
+head:   e88de144ad6e264c1df0286d6a975136d7a059c2
+commit: 5e011f72271142e5e37a81d4c8eb725d0092de20 [7/14] bpf: Add bpf_trampoline_multi_attach/detach functions
+config: arm-randconfig-002-20260211 (https://download.01.org/0day-ci/archive/20260211/202602112254.4MEvLSrl-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112254.4MEvLSrl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602112253.JRfzluk0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602112254.4MEvLSrl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/media/ipu7/ipu7-isys-subdev.c:101:5: error: conflicting types for 'ipu7_isys_subdev_set_fmt'
-     101 | int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
-         |     ^
-   drivers/staging/media/ipu7/ipu7-isys-subdev.h:33:5: note: previous declaration is here
-      33 | int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
-         |     ^
-   1 error generated.
+   kernel/bpf/trampoline.c: In function 'trampoline_locks_lookup':
+   kernel/bpf/trampoline.c:43:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     return &trampoline_locks[hash_64((u64) tr, TRAMPOLINE_LOCKS_BITS)].mutex;
+                                      ^
+   At top level:
+   kernel/bpf/trampoline.c:793:12: warning: 'bpf_trampoline_update' defined but not used [-Wunused-function]
+    static int bpf_trampoline_update(struct bpf_trampoline *tr, bool lock_direct_mutex)
+               ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/trampoline.c:64:13: warning: 'trampoline_unlock_all' defined but not used [-Wunused-function]
+    static void trampoline_unlock_all(void)
+                ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/trampoline.c:56:13: warning: 'trampoline_lock_all' defined but not used [-Wunused-function]
+    static void trampoline_lock_all(void)
+                ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/ipu7_isys_subdev_set_fmt +101 drivers/staging/media/ipu7/ipu7-isys-subdev.c
+vim +/trampoline_unlock_all +64 kernel/bpf/trampoline.c
 
-a516d36bdc3d83 Bingbu Cao   2025-05-29  100  
-a516d36bdc3d83 Bingbu Cao   2025-05-29 @101  int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
-11ab80de774b05 Sakari Ailus 2026-01-30  102  			     const struct v4l2_subdev_client_info *ci,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  103  			     struct v4l2_subdev_state *state,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  104  			     struct v4l2_subdev_format *format)
-a516d36bdc3d83 Bingbu Cao   2025-05-29  105  {
-a516d36bdc3d83 Bingbu Cao   2025-05-29  106  	struct ipu7_isys_subdev *asd = to_ipu7_isys_subdev(sd);
-a516d36bdc3d83 Bingbu Cao   2025-05-29  107  	u32 code = asd->supported_codes[0];
-a516d36bdc3d83 Bingbu Cao   2025-05-29  108  	struct v4l2_mbus_framefmt *fmt;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  109  	u32 other_pad, other_stream;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  110  	struct v4l2_rect *crop;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  111  	unsigned int i;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  112  	int ret;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  113  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  114  	/* No transcoding, source and sink formats must match. */
-a516d36bdc3d83 Bingbu Cao   2025-05-29  115  	if ((sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SOURCE) &&
-a516d36bdc3d83 Bingbu Cao   2025-05-29  116  	    sd->entity.num_pads > 1)
-11ab80de774b05 Sakari Ailus 2026-01-30  117  		return v4l2_subdev_get_fmt(sd, NULL, state, format);
-a516d36bdc3d83 Bingbu Cao   2025-05-29  118  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  119  	format->format.width = clamp(format->format.width, IPU_ISYS_MIN_WIDTH,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  120  				     IPU_ISYS_MAX_WIDTH);
-a516d36bdc3d83 Bingbu Cao   2025-05-29  121  	format->format.height = clamp(format->format.height,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  122  				      IPU_ISYS_MIN_HEIGHT,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  123  				      IPU_ISYS_MAX_HEIGHT);
-a516d36bdc3d83 Bingbu Cao   2025-05-29  124  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  125  	for (i = 0; asd->supported_codes[i]; i++) {
-a516d36bdc3d83 Bingbu Cao   2025-05-29  126  		if (asd->supported_codes[i] == format->format.code) {
-a516d36bdc3d83 Bingbu Cao   2025-05-29  127  			code = asd->supported_codes[i];
-a516d36bdc3d83 Bingbu Cao   2025-05-29  128  			break;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  129  		}
-a516d36bdc3d83 Bingbu Cao   2025-05-29  130  	}
-a516d36bdc3d83 Bingbu Cao   2025-05-29  131  	format->format.code = code;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  132  	format->format.field = V4L2_FIELD_NONE;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  133  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  134  	/* Store the format and propagate it to the source pad. */
-a516d36bdc3d83 Bingbu Cao   2025-05-29  135  	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-a516d36bdc3d83 Bingbu Cao   2025-05-29  136  	if (!fmt)
-a516d36bdc3d83 Bingbu Cao   2025-05-29  137  		return -EINVAL;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  138  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  139  	*fmt = format->format;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  140  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  141  	if (!(sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SINK))
-a516d36bdc3d83 Bingbu Cao   2025-05-29  142  		return 0;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  143  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  144  	/* propagate format to following source pad */
-a516d36bdc3d83 Bingbu Cao   2025-05-29  145  	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  146  							   format->stream);
-a516d36bdc3d83 Bingbu Cao   2025-05-29  147  	if (!fmt)
-a516d36bdc3d83 Bingbu Cao   2025-05-29  148  		return -EINVAL;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  149  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  150  	*fmt = format->format;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  151  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  152  	ret = v4l2_subdev_routing_find_opposite_end(&state->routing,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  153  						    format->pad,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  154  						    format->stream,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  155  						    &other_pad,
-a516d36bdc3d83 Bingbu Cao   2025-05-29  156  						    &other_stream);
-a516d36bdc3d83 Bingbu Cao   2025-05-29  157  	if (ret)
-a516d36bdc3d83 Bingbu Cao   2025-05-29  158  		return -EINVAL;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  159  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  160  	crop = v4l2_subdev_state_get_crop(state, other_pad, other_stream);
-a516d36bdc3d83 Bingbu Cao   2025-05-29  161  	/* reset crop */
-a516d36bdc3d83 Bingbu Cao   2025-05-29  162  	crop->left = 0;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  163  	crop->top = 0;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  164  	crop->width = fmt->width;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  165  	crop->height = fmt->height;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  166  
-a516d36bdc3d83 Bingbu Cao   2025-05-29  167  	return 0;
-a516d36bdc3d83 Bingbu Cao   2025-05-29  168  }
-a516d36bdc3d83 Bingbu Cao   2025-05-29  169  
-
-:::::: The code at line 101 was first introduced by commit
-:::::: a516d36bdc3d8373f904af57c95e76d6f921cf1c media: staging/ipu7: add IPU7 input system device driver
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Hans Verkuil <hverkuil@xs4all.nl>
+    40	
+    41	static struct mutex *trampoline_locks_lookup(struct bpf_trampoline *tr)
+    42	{
+  > 43		return &trampoline_locks[hash_64((u64) tr, TRAMPOLINE_LOCKS_BITS)].mutex;
+    44	}
+    45	
+    46	static void trampoline_lock(struct bpf_trampoline *tr)
+    47	{
+    48		mutex_lock(trampoline_locks_lookup(tr));
+    49	}
+    50	
+    51	static void trampoline_unlock(struct bpf_trampoline *tr)
+    52	{
+    53		mutex_unlock(trampoline_locks_lookup(tr));
+    54	}
+    55	
+  > 56	static void trampoline_lock_all(void)
+    57	{
+    58		int i;
+    59	
+    60		for (i = 0; i < TRAMPOLINE_LOCKS_TABLE_SIZE; i++)
+    61			mutex_lock(&trampoline_locks[i].mutex);
+    62	}
+    63	
+  > 64	static void trampoline_unlock_all(void)
+    65	{
+    66		int i;
+    67	
+    68		for (i = 0; i < TRAMPOLINE_LOCKS_TABLE_SIZE; i++)
+    69			mutex_unlock(&trampoline_locks[i].mutex);
+    70	}
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
