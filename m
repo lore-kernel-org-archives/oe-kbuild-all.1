@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2531FC8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 00:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B678B1487E9;
+	Wed, 11 Feb 2026 00:31:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770768608; cv=none; b=A1pJvVWAJmpuKP+nY11XkaqMWDdETMhjmS3MHnarhVQLx+/Sd6sUdWOzFM+5BuwpBKY1YfpiWnYtuAoCIQ3jCs5Oy0iKw7SGeyzG8LsjjA/IlxVAFsVJm7IESLooUe1aRS14dxKi5ZCY6ec17OJ8EYqZZKp3FuFPKQftGV/u7Rc=
+	t=1770769869; cv=none; b=Gxe2VC5cHrgBBcT1rCpxAs6nuDsvDp3+9m8ZI8ci0PnfXY5HvD9Rqm/PdIrnLYi3iq0Q/MiYU1pst5SFpqWnbwLQGHt/hazMsUN8+DoS7BatrVd9+cm3yi32/OrgsqGD4ud4tqJJ69ooBUW058FfcoFG7AbTgbWL/iwUC/u4bO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770768608; c=relaxed/simple;
-	bh=qYHiSFybsiBiEyHlkr2sR6jK5ts8yD99cHXvL9KbvS4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=N23t6yB0Rfa8qJmnTAkVVoQeDVzmV+MqBUpqON9+G1f1YLgdHeaU9lV1OhNSa583ubN1canwKvdVx+0UPT2RVRB32IZuC6t/8KfLv58y/0EZpm/oaVUXNFYtv0yNvqkm1f94gc2Tc6JmGFyvrSjOx9YcgRJgPbVS66YOX56VOaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KyMAjmZ9; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1770769869; c=relaxed/simple;
+	bh=TNrk4xzIM1FIYFOQX0swyDdRTM+nwT+RTSCnHMOhLN8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sKC/SvJtJbBXgc6lHT+n+F4AzQEhAf6mCU8AT0UOg8rcWYazUTGP9ceOhJMeDJmBj3CJAJn/ncy+vsN+lG6NGYEq37K5Ywh83XcCxxIhi+4MsHuY5TCzeDBowGXw56xWcbuJfNaKFzluj8yE9+sS8CDzzurPcklpuHPeQ/bBbdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FXhLfYoZ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KyMAjmZ9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FXhLfYoZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770768607; x=1802304607;
+  t=1770769867; x=1802305867;
   h=date:from:to:cc:subject:message-id;
-  bh=qYHiSFybsiBiEyHlkr2sR6jK5ts8yD99cHXvL9KbvS4=;
-  b=KyMAjmZ9J88PzEbkMhtjubvVfeKSzB4kzdavOphHDgSyzzb9/dWE5VVb
-   8WPcXnf3r+2HSDQ8kOkaSnO2ZeHN6lGCzKcvOp2T7+97hlr88mXvaq/oC
-   Cv9BEMlXolF3yC+pa81HLLKcyjlTVUJQ8PYj+xGbZtYZF7Xfv2FJ0hc0z
-   J5x0w2wMBjf+9KZD2dMI3q/kfzI8HWNAWNHEvIPxLj3LnmcGLZZohJKfU
-   ic/al1Zv4FFG5P2j3VCrPA2HfAoyOKMB0gITh09zNyZgdbOmPQwNWPl4w
-   dl0veUt/MuQTt+9gkBdvx3HOJ5493dcZjR8Vl2RQ7fOufJX9NeMt7aqw7
-   w==;
-X-CSE-ConnectionGUID: BAXp6jB6SYqWv7B+MTdQfg==
-X-CSE-MsgGUID: gkO1JNwZRGqjxLKwy6ICyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="83279535"
+  bh=TNrk4xzIM1FIYFOQX0swyDdRTM+nwT+RTSCnHMOhLN8=;
+  b=FXhLfYoZcDBAO7Fb0gqvzq9tKHBB1yF/IRXaSjVDOhHgWENRQzv8KBMZ
+   1DwICo/uNbwPhIi5ENcmW1pN6NrR6q8VqduWGmgVjcQbPRSa4TQgNORRS
+   GcxzcgH696ZEh3FXrZ/A61yJ2SyHCH313OLCaPbeUJI4R61MoYsKR75do
+   4XQoOUnjbsvlNRZvZte/vjJeSg0haRvVLnVYVg2xxrGda40/D67RQyGFC
+   pgB289BKjosOvHZZ2jKHuYJkMaiNYJvTk8a+KkjeprIBC1SWiyWzEmSAf
+   b30sbalHsxZjXnkw/GIQTzSrlNKrsDzRnAupulpCwr/PrxE/KSZthWeP0
+   Q==;
+X-CSE-ConnectionGUID: 1EVWPuh6QKWoCVxeOmja7g==
+X-CSE-MsgGUID: QB7AYPAiTo2Pw+x6tQMjUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="83280666"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="83279535"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 16:10:06 -0800
-X-CSE-ConnectionGUID: XEeDe99TRsieQbBhmNTMLw==
-X-CSE-MsgGUID: ei3U3/xQQ7aP8Xzgmb0tHA==
+   d="scan'208";a="83280666"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 16:31:07 -0800
+X-CSE-ConnectionGUID: MUg7IVBPRLqUGJU6uG3XJA==
+X-CSE-MsgGUID: TZCIP2tvS7OO0F5dsFc0Xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="217023207"
+   d="scan'208";a="216244699"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Feb 2026 16:10:05 -0800
+  by orviesa003.jf.intel.com with ESMTP; 10 Feb 2026 16:31:06 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vpxnu-00000000pX2-3QcD;
-	Wed, 11 Feb 2026 00:10:02 +0000
-Date: Wed, 11 Feb 2026 08:09:04 +0800
+	id 1vpy8F-00000000pXU-0uhT;
+	Wed, 11 Feb 2026 00:31:03 +0000
+Date: Wed, 11 Feb 2026 08:30:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:bla 1/4] drivers/gpio/gpio-mpfs.c:267:10: error: call
- to undeclared function 'devm_request_irq'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202602110859.CbN7moeR-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/enter_mmio_stack_uaf_simple 12/12]
+ arch/x86/kvm/x86.c:11831:12: warning: stack frame size (4232) exceeds limit
+ (2048) in 'complete_emulated_mmio'
+Message-ID: <202602110831.h1VfdQeb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,117 +60,101 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git bla
-head:   6124ffbb452bacd43bf2679507cf0908b229701a
-commit: a20ea9beb081c80bcb178e25ca3386c9068e8474 [1/4] gpio: mpfs: Add interrupt support
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260211/202602110859.CbN7moeR-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110859.CbN7moeR-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/enter_mmio_stack_uaf_simple
+head:   0192648eff680b148621853a27d2321130afb085
+commit: 0192648eff680b148621853a27d2321130afb085 [12/12] KVM: x86: Fill the stack for testing purposes
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260211/202602110831.h1VfdQeb-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110831.h1VfdQeb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602110859.CbN7moeR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602110831.h1VfdQeb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpio/gpio-mpfs.c:267:10: error: call to undeclared function 'devm_request_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     267 |                         ret = devm_request_irq(dev, girq->parents[i], mpfs_gpio_irq_handler,
-         |                               ^
-   drivers/gpio/gpio-mpfs.c:267:10: note: did you mean 'can_request_irq'?
-   include/linux/irq.h:710:13: note: 'can_request_irq' declared here
-     710 | extern bool can_request_irq(unsigned int irq, unsigned long irqflags);
-         |             ^
->> drivers/gpio/gpio-mpfs.c:268:13: error: use of undeclared identifier 'IRQF_SHARED'
-     268 |                                                IRQF_SHARED, NULL, mpfs_gpio);
-         |                                                ^
-   2 errors generated.
+>> arch/x86/kvm/x86.c:11831:12: warning: stack frame size (4232) exceeds limit (2048) in 'complete_emulated_mmio' [-Wframe-larger-than]
+    11831 | static int complete_emulated_mmio(struct kvm_vcpu *vcpu)
+          |            ^
+   1 warning generated.
 
 
-vim +/devm_request_irq +267 drivers/gpio/gpio-mpfs.c
+vim +/complete_emulated_mmio +11831 arch/x86/kvm/x86.c
 
-   200	
-   201	static int mpfs_gpio_probe(struct platform_device *pdev)
-   202	{
-   203		struct device *dev = &pdev->dev;
-   204		struct device_node *node = pdev->dev.of_node;
-   205		struct mpfs_gpio_chip *mpfs_gpio;
-   206		struct gpio_irq_chip *girq;
-   207		struct clk *clk;
-   208		void __iomem *base;
-   209		int ngpios, nirqs, ret;
-   210	
-   211		mpfs_gpio = devm_kzalloc(dev, sizeof(*mpfs_gpio), GFP_KERNEL);
-   212		if (!mpfs_gpio)
-   213			return -ENOMEM;
-   214	
-   215		mpfs_gpio->offsets = device_get_match_data(&pdev->dev);
-   216	
-   217		base = devm_platform_ioremap_resource(pdev, 0);
-   218		if (IS_ERR(base))
-   219			return dev_err_probe(dev, PTR_ERR(base), "failed to ioremap memory resource\n");
-   220	
-   221		mpfs_gpio->regs = devm_regmap_init_mmio(dev, base, &mpfs_gpio_regmap_config);
-   222		if (IS_ERR(mpfs_gpio->regs))
-   223			return dev_err_probe(dev, PTR_ERR(mpfs_gpio->regs),
-   224					     "failed to initialise regmap\n");
-   225	
-   226		clk = devm_clk_get_enabled(dev, NULL);
-   227		if (IS_ERR(clk))
-   228			return dev_err_probe(dev, PTR_ERR(clk), "failed to get and enable clock\n");
-   229	
-   230		ngpios = MPFS_MAX_NUM_GPIO;
-   231		device_property_read_u32(dev, "ngpios", &ngpios);
-   232		if (ngpios > MPFS_MAX_NUM_GPIO)
-   233			ngpios = MPFS_MAX_NUM_GPIO;
-   234	
-   235		mpfs_gpio->gc.direction_input = mpfs_gpio_direction_input;
-   236		mpfs_gpio->gc.direction_output = mpfs_gpio_direction_output;
-   237		mpfs_gpio->gc.get_direction = mpfs_gpio_get_direction;
-   238		mpfs_gpio->gc.get = mpfs_gpio_get;
-   239		mpfs_gpio->gc.set = mpfs_gpio_set;
-   240		mpfs_gpio->gc.base = -1;
-   241		mpfs_gpio->gc.ngpio = ngpios;
-   242		mpfs_gpio->gc.label = dev_name(dev);
-   243		mpfs_gpio->gc.parent = dev;
-   244		mpfs_gpio->gc.owner = THIS_MODULE;
-   245	
-   246		nirqs = of_irq_count(node);
-   247		if (nirqs > MPFS_MAX_NUM_GPIO)
-   248			return -ENXIO;
-   249	
-   250		girq = &mpfs_gpio->gc.irq;
-   251		girq->num_parents = nirqs;
-   252	
-   253		if (girq->num_parents) {
-   254			gpio_irq_chip_set_chip(girq, &mpfs_gpio_irqchip);
-   255	
-   256			girq->parents = devm_kcalloc(&pdev->dev, girq->num_parents,
-   257						     sizeof(*girq->parents), GFP_KERNEL);
-   258			if (!girq->parents)
-   259				return -ENOMEM;
-   260	
-   261			for (int i = 0; i < girq->num_parents; i++) {
-   262				ret = platform_get_irq(pdev, i);
-   263				if (ret < 0)
-   264					return ret;
-   265	
-   266				girq->parents[i] = ret;
- > 267				ret = devm_request_irq(dev, girq->parents[i], mpfs_gpio_irq_handler,
- > 268						       IRQF_SHARED, NULL, mpfs_gpio);
-   269				if (ret)
-   270					return dev_err_probe(dev, ret,
-   271							     "failed to request irq for line %u\n",
-   272							     i);
-   273			}
-   274	
-   275			girq->handler = handle_level_irq;
-   276			girq->default_type = IRQ_TYPE_NONE;
-   277		}
-   278	
-   279		return devm_gpiochip_add_data(dev, &mpfs_gpio->gc, mpfs_gpio);
-   280	}
-   281	
+716d51abff06f48 Gleb Natapov        2012-09-03  11812  
+f78146b0f923076 Avi Kivity          2012-04-18  11813  /*
+f78146b0f923076 Avi Kivity          2012-04-18  11814   * Implements the following, as a state machine:
+f78146b0f923076 Avi Kivity          2012-04-18  11815   *
+f78146b0f923076 Avi Kivity          2012-04-18  11816   * read:
+f78146b0f923076 Avi Kivity          2012-04-18  11817   *   for each fragment
+87da7e66a40532b Xiao Guangrong      2012-10-24  11818   *     for each mmio piece in the fragment
+f78146b0f923076 Avi Kivity          2012-04-18  11819   *       write gpa, len
+f78146b0f923076 Avi Kivity          2012-04-18  11820   *       exit
+f78146b0f923076 Avi Kivity          2012-04-18  11821   *       copy data
+f78146b0f923076 Avi Kivity          2012-04-18  11822   *   execute insn
+f78146b0f923076 Avi Kivity          2012-04-18  11823   *
+f78146b0f923076 Avi Kivity          2012-04-18  11824   * write:
+f78146b0f923076 Avi Kivity          2012-04-18  11825   *   for each fragment
+87da7e66a40532b Xiao Guangrong      2012-10-24  11826   *     for each mmio piece in the fragment
+f78146b0f923076 Avi Kivity          2012-04-18  11827   *       write gpa, len
+f78146b0f923076 Avi Kivity          2012-04-18  11828   *       copy data
+f78146b0f923076 Avi Kivity          2012-04-18  11829   *       exit
+f78146b0f923076 Avi Kivity          2012-04-18  11830   */
+716d51abff06f48 Gleb Natapov        2012-09-03 @11831  static int complete_emulated_mmio(struct kvm_vcpu *vcpu)
+5287f194bf0d706 Avi Kivity          2010-01-19  11832  {
+5287f194bf0d706 Avi Kivity          2010-01-19  11833  	struct kvm_run *run = vcpu->run;
+f78146b0f923076 Avi Kivity          2012-04-18  11834  	struct kvm_mmio_fragment *frag;
+0192648eff680b1 Sean Christopherson 2026-02-10  11835  	u8 clobber[4096];
+87da7e66a40532b Xiao Guangrong      2012-10-24  11836  	unsigned len;
+5287f194bf0d706 Avi Kivity          2010-01-19  11837  
+0192648eff680b1 Sean Christopherson 2026-02-10  11838  	memset(clobber, 0xaa, sizeof(clobber));
+0192648eff680b1 Sean Christopherson 2026-02-10  11839  
+716d51abff06f48 Gleb Natapov        2012-09-03  11840  	BUG_ON(!vcpu->mmio_needed);
+5287f194bf0d706 Avi Kivity          2010-01-19  11841  
+f78146b0f923076 Avi Kivity          2012-04-18  11842  	/* Complete previous fragment */
+87da7e66a40532b Xiao Guangrong      2012-10-24  11843  	frag = &vcpu->mmio_fragments[vcpu->mmio_cur_fragment];
+87da7e66a40532b Xiao Guangrong      2012-10-24  11844  	len = min(8u, frag->len);
+cef4dea07f6720b Avi Kivity          2010-01-20  11845  	if (!vcpu->mmio_is_write)
+87da7e66a40532b Xiao Guangrong      2012-10-24  11846  		memcpy(frag->data, run->mmio.data, len);
+87da7e66a40532b Xiao Guangrong      2012-10-24  11847  
+87da7e66a40532b Xiao Guangrong      2012-10-24  11848  	if (frag->len <= 8) {
+87da7e66a40532b Xiao Guangrong      2012-10-24  11849  		/* Switch to the next fragment. */
+87da7e66a40532b Xiao Guangrong      2012-10-24  11850  		frag++;
+87da7e66a40532b Xiao Guangrong      2012-10-24  11851  		vcpu->mmio_cur_fragment++;
+87da7e66a40532b Xiao Guangrong      2012-10-24  11852  	} else {
+87da7e66a40532b Xiao Guangrong      2012-10-24  11853  		/* Go forward to the next mmio piece. */
+87da7e66a40532b Xiao Guangrong      2012-10-24  11854  		frag->data += len;
+87da7e66a40532b Xiao Guangrong      2012-10-24  11855  		frag->gpa += len;
+87da7e66a40532b Xiao Guangrong      2012-10-24  11856  		frag->len -= len;
+87da7e66a40532b Xiao Guangrong      2012-10-24  11857  	}
+87da7e66a40532b Xiao Guangrong      2012-10-24  11858  
+a08d3b3b99efd50 Andrew Honig        2014-02-27  11859  	if (vcpu->mmio_cur_fragment >= vcpu->mmio_nr_fragments) {
+f78146b0f923076 Avi Kivity          2012-04-18  11860  		vcpu->mmio_needed = 0;
+0912c9771e9902f Paolo Bonzini       2013-08-27  11861  
+0912c9771e9902f Paolo Bonzini       2013-08-27  11862  		/* FIXME: return into emulator if single-stepping.  */
+cef4dea07f6720b Avi Kivity          2010-01-20  11863  		if (vcpu->mmio_is_write)
+cef4dea07f6720b Avi Kivity          2010-01-20  11864  			return 1;
+5287f194bf0d706 Avi Kivity          2010-01-19  11865  		vcpu->mmio_read_completed = 1;
+716d51abff06f48 Gleb Natapov        2012-09-03  11866  		return complete_emulated_io(vcpu);
+f78146b0f923076 Avi Kivity          2012-04-18  11867  	}
+87da7e66a40532b Xiao Guangrong      2012-10-24  11868  
+f78146b0f923076 Avi Kivity          2012-04-18  11869  	run->exit_reason = KVM_EXIT_MMIO;
+f78146b0f923076 Avi Kivity          2012-04-18  11870  	run->mmio.phys_addr = frag->gpa;
+f78146b0f923076 Avi Kivity          2012-04-18  11871  	if (vcpu->mmio_is_write)
+87da7e66a40532b Xiao Guangrong      2012-10-24  11872  		memcpy(run->mmio.data, frag->data, min(8u, frag->len));
+87da7e66a40532b Xiao Guangrong      2012-10-24  11873  	run->mmio.len = min(8u, frag->len);
+f78146b0f923076 Avi Kivity          2012-04-18  11874  	run->mmio.is_write = vcpu->mmio_is_write;
+716d51abff06f48 Gleb Natapov        2012-09-03  11875  	vcpu->arch.complete_userspace_io = complete_emulated_mmio;
+f78146b0f923076 Avi Kivity          2012-04-18  11876  	return 0;
+5287f194bf0d706 Avi Kivity          2010-01-19  11877  }
+5287f194bf0d706 Avi Kivity          2010-01-19  11878  
+
+:::::: The code at line 11831 was first introduced by commit
+:::::: 716d51abff06f48425cef15d78ca6f36093f6dbf KVM: Provide userspace IO exit completion callback
+
+:::::: TO: Gleb Natapov <gleb@redhat.com>
+:::::: CC: Avi Kivity <avi@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
