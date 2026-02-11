@@ -1,359 +1,299 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6321B4F2C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 13:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF3427FB37
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 13:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770816877; cv=none; b=DMMcdkj2CWP2RF0OmI851QDyXrhoalZry+RNBvGq/tG7Q1ffABQ0XuxAacr/SxJ3QEOhjl7eHRdoErZ2G2ZJNdOcI1mxe5erGVccgZZHpPdbskmOpslm9/SVr5Otqo9bxZYOJW3kWLblonlDw9peQqvxk/3cu1QVC0nmDco/5aY=
+	t=1770817415; cv=none; b=LJL6zSNEkj1CFA3m3aTjYxoGhYb5+vcHSVgEWknjTcms7WMtyutePGVgm0VZ6Lk6MMiRXCqhAGEfAxqcklX2qajTYj2zNypkjcLisqaFAl5DMf1VQ0U+kXZdLpays07skI2gYYMTQxE3lCZhNr7JM/Le3Vihsiy7DL27xxdPCXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770816877; c=relaxed/simple;
-	bh=Vt6iOgTMmbP3ORPXGE4cqGf9P9k4RzX5Nb9d0j0nyZc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eswZW+2rebJ9skpeggBhb6H4Dwqp88ZWg6GKMMeqgVIaSfdjH8JqK4JIN9uJ5fkvFZHjaNqqXupJQhi/NXYIDCveo3B5/2QjdHTLOEKI1OOM8L6tZ78584yetziJsFqbPvovplNbKCo2L9i67Q8Rwc+OJU4BSXkm8dQzynhENSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P94agTxD; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1770817415; c=relaxed/simple;
+	bh=wEJz6UAJ/YDJm9FyFpIp7xlD4O0stl9h6zZkBnYZOxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cuO+efL8MA4BkVqjDxEEIHEGsNu1deKNtfOPBumbxu5tT9Z/GNizFuzfST1QbbS5U343eJt/VUnZBJQlN+h9rr2oLKqXLcfEmxGD9ghsBfRXvtuETi5g8dHpB45aOFZHoq7cYkNPsNR06O3YwxRfsK0IaTAAcbih45qMNdaCGXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JPVjVjWD; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P94agTxD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPVjVjWD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770816876; x=1802352876;
-  h=date:from:to:cc:subject:message-id;
-  bh=Vt6iOgTMmbP3ORPXGE4cqGf9P9k4RzX5Nb9d0j0nyZc=;
-  b=P94agTxDRc8YwQjbLL9/2p+nmYjdpT/czwAmr055xyuOMHBF6XEX9pwN
-   ZegXwqIsIAabvKaaepvCN8CIU/yFNL6eNMjzONsLhE6AInPyYGwY1TsMs
-   o9IV7Ji5hb7J9WEmyfR7TojZTKG+/VJKnwnAh/pztZtph5CIdU2WqNjWd
-   99FAD+OceCUmL7J3ku3TQnWCSp+KilHfhibmo31bMn0OFbVUqOlaOUtKk
-   8aBRzVZOHjL9zPjXSpeYsfEeJMCem861I1czS5CNyMM54adkn22dMfIlS
-   Ri6jHLASvAIE5aAMXoLRQnjxvxvZant1W2ut1pZPK90t4ZJIkxf6iuOjd
-   w==;
-X-CSE-ConnectionGUID: L+hMKpkfRC+zZqECu4+ZmA==
-X-CSE-MsgGUID: p35yZKZ6RIegM5cyMbdCAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="97421543"
+  t=1770817414; x=1802353414;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wEJz6UAJ/YDJm9FyFpIp7xlD4O0stl9h6zZkBnYZOxY=;
+  b=JPVjVjWD4kyRd1qzcjvV4vKwQ9g65zCyTJ38jnksskggw1+kSlwzD64S
+   gk8wjXLAjydS+YjDPXUz634XK0wGBilYlaYmTNpiZDTSNWqxgT4of9J4+
+   Hv8+v5LdV+DY9g77r00QcBAwTie2ARNM6bjyTHVh+iV0bbIdqgotOTVVl
+   xcOhxlSK+vIBZEw1w6BJk2UKcG8reyFewVs8fhRVvLCyvR0xEg96jm1Mw
+   kVf85ibOWzbNF0BrC+VdT4Cw/9tRrB+6jm9B59PQpAMDJchKjPf3LMSXo
+   rZHPVLQ6JCuDTInj7fdr6ufvpcYaY35FwhhrXGFtqy7zI/zT4+/3CdMxP
+   g==;
+X-CSE-ConnectionGUID: D0c0bLeJT+aspoagMy17Qw==
+X-CSE-MsgGUID: TBiPhvGFS56s5C+NazceJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="72007574"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="97421543"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 05:34:35 -0800
-X-CSE-ConnectionGUID: dHkdg7bRRJu6HkIpw8Y7og==
-X-CSE-MsgGUID: 7azfY98qQ3apyOSaPwHOQA==
+   d="scan'208";a="72007574"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 05:43:33 -0800
+X-CSE-ConnectionGUID: R3H5VLSkRWCLn8vcnT5v2A==
+X-CSE-MsgGUID: n5aq+60TScCI4U8b3U0n8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="235240940"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Feb 2026 05:34:33 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="216757612"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 11 Feb 2026 05:43:26 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqAMQ-00000000q1k-2ZgT;
-	Wed, 11 Feb 2026 13:34:30 +0000
-Date: Wed, 11 Feb 2026 21:34:22 +0800
+	id 1vqAV2-0000000015Z-01aG;
+	Wed, 11 Feb 2026 13:43:24 +0000
+Date: Wed, 11 Feb 2026 14:42:24 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 203/203]
- mm/memory.c:3303:13: sparse: sparse: incorrect type in assignment (different
- base types)
-Message-ID: <202602112102.2VmadLry-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Nhat Pham <nphamcs@gmail.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	hannes@cmpxchg.org, hughd@google.com, yosry.ahmed@linux.dev,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	muchun.song@linux.dev, len.brown@intel.com,
+	chengming.zhou@linux.dev, kasong@tencent.com, chrisl@kernel.org,
+	huang.ying.caritas@gmail.com, ryan.roberts@arm.com,
+	shikemeng@huaweicloud.com, viro@zeniv.linux.org.uk,
+	baohua@kernel.org, bhe@redhat.com, osalvador@suse.de,
+	lorenzo.stoakes@oracle.com, christophe.leroy@csgroup.eu,
+	pavel@kernel.org, kernel-team@meta.com,
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+	linux-pm@vger.kernel.org, peterx@redhat.com, riel@surriel.com,
+	joshua.hahnjy@gmail.com
+Subject: Re: [PATCH v3 09/20] mm: swap: allocate a virtual swap slot for each
+ swapped out page
+Message-ID: <202602111445.rP38hmwx-lkp@intel.com>
+References: <20260208215839.87595-10-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260208215839.87595-10-nphamcs@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   35927ff8df047b269c671535118aa0046a689a6d
-commit: 5835d87162afa8424c692a73a10ef5723dcc183b [203/203] FROMLIST: mm: make pte_unmap_same compatible with SPF
-config: i386-randconfig-063-20260211 (https://download.01.org/0day-ci/archive/20260211/202602112102.2VmadLry-lkp@intel.com/config)
+Hi Nhat,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/mm-swap-decouple-swap-cache-from-physical-swap-infrastructure/20260209-120606
+base:   05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+patch link:    https://lore.kernel.org/r/20260208215839.87595-10-nphamcs%40gmail.com
+patch subject: [PATCH v3 09/20] mm: swap: allocate a virtual swap slot for each swapped out page
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260211/202602111445.rP38hmwx-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112102.2VmadLry-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111445.rP38hmwx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602112102.2VmadLry-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602111445.rP38hmwx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/memory.c:2873:19: sparse: sparse: incorrect type in initializer (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
-   mm/memory.c:2873:19: sparse:     expected int ret
-   mm/memory.c:2873:19: sparse:     got restricted vm_fault_t
-   mm/memory.c:2918:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
-   mm/memory.c:2918:21: sparse:     expected int ret
-   mm/memory.c:2918:21: sparse:     got restricted vm_fault_t
-   mm/memory.c:3012:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int ret @@
-   mm/memory.c:3012:16: sparse:     expected restricted vm_fault_t
-   mm/memory.c:3012:16: sparse:     got int ret
->> mm/memory.c:3303:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] ret @@     got int @@
-   mm/memory.c:3303:13: sparse:     expected restricted vm_fault_t [usertype] ret
-   mm/memory.c:3303:13: sparse:     got int
-   mm/memory.c:5262:22: sparse: sparse: cast removes address space '__user' of expression
-   mm/memory.c:957:17: sparse: sparse: context imbalance in 'copy_pte_range' - different lock contexts for basic block
-   mm/memory.c:1637:16: sparse: sparse: context imbalance in '__get_locked_pte' - different lock contexts for basic block
-   mm/memory.c:1686:9: sparse: sparse: context imbalance in 'insert_page' - different lock contexts for basic block
-   mm/memory.c:2188:17: sparse: sparse: context imbalance in 'remap_pte_range' - different lock contexts for basic block
-   mm/memory.c:2433:17: sparse: sparse: context imbalance in 'apply_to_pte_range' - unexpected unlock
-   mm/memory.c:2712:9: sparse: sparse: context imbalance in 'wp_page_copy' - different lock contexts for basic block
-   mm/memory.c:3060:17: sparse: sparse: context imbalance in 'wp_pfn_shared' - unexpected unlock
-   mm/memory.c:3123:19: sparse: sparse: context imbalance in 'do_wp_page' - different lock contexts for basic block
-   mm/memory.c:3719:19: sparse: sparse: context imbalance in 'pte_alloc_one_map' - different lock contexts for basic block
-   mm/memory.c:3947:17: sparse: sparse: context imbalance in 'finish_fault' - unexpected unlock
-   mm/memory.c:4056:9: sparse: sparse: context imbalance in 'do_fault_around' - unexpected unlock
-   mm/memory.c:4775:12: sparse: sparse: context imbalance in '__follow_pte_pmd' - wrong count at exit
-   mm/memory.c:4861:16: sparse: sparse: context imbalance in 'follow_pte_pmd' - different lock contexts for basic block
-   mm/memory.c:4921:9: sparse: sparse: context imbalance in 'follow_phys' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +3303 mm/memory.c
+   In file included from include/linux/local_lock.h:5,
+                    from include/linux/mmzone.h:24,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/vswap.c:7:
+   mm/vswap.c: In function 'vswap_cpu_dead':
+>> include/linux/percpu-defs.h:221:45: error: initialization from pointer to non-enclosed address space
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                             ^
+   include/linux/local_lock_internal.h:105:40: note: in definition of macro '__local_lock_acquire'
+     105 |                 __l = (local_lock_t *)(lock);                           \
+         |                                        ^~~~
+   include/linux/local_lock.h:17:41: note: in expansion of macro '__local_lock'
+      17 | #define local_lock(lock)                __local_lock(this_cpu_ptr(lock))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:245:9: note: in expansion of macro '__verify_pcpu_ptr'
+     245 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:256:27: note: in expansion of macro 'raw_cpu_ptr'
+     256 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~
+   include/linux/local_lock.h:17:54: note: in expansion of macro 'this_cpu_ptr'
+      17 | #define local_lock(lock)                __local_lock(this_cpu_ptr(lock))
+         |                                                      ^~~~~~~~~~~~
+   mm/vswap.c:653:9: note: in expansion of macro 'local_lock'
+     653 |         local_lock(&percpu_cluster->lock);
+         |         ^~~~~~~~~~
+   include/linux/percpu-defs.h:221:45: note: expected 'const __seg_gs void *' but pointer is of type 'local_lock_t *'
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                             ^
+   include/linux/local_lock_internal.h:105:40: note: in definition of macro '__local_lock_acquire'
+     105 |                 __l = (local_lock_t *)(lock);                           \
+         |                                        ^~~~
+   include/linux/local_lock.h:17:41: note: in expansion of macro '__local_lock'
+      17 | #define local_lock(lock)                __local_lock(this_cpu_ptr(lock))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:245:9: note: in expansion of macro '__verify_pcpu_ptr'
+     245 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:256:27: note: in expansion of macro 'raw_cpu_ptr'
+     256 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~
+   include/linux/local_lock.h:17:54: note: in expansion of macro 'this_cpu_ptr'
+      17 | #define local_lock(lock)                __local_lock(this_cpu_ptr(lock))
+         |                                                      ^~~~~~~~~~~~
+   mm/vswap.c:653:9: note: in expansion of macro 'local_lock'
+     653 |         local_lock(&percpu_cluster->lock);
+         |         ^~~~~~~~~~
+>> include/linux/percpu-defs.h:221:45: error: initialization from pointer to non-enclosed address space
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                             ^
+   include/linux/local_lock_internal.h:107:27: note: in definition of macro '__local_lock_acquire'
+     107 |                 _Generic((lock),                                        \
+         |                           ^~~~
+   include/linux/local_lock.h:17:41: note: in expansion of macro '__local_lock'
+      17 | #define local_lock(lock)                __local_lock(this_cpu_ptr(lock))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:245:9: note: in expansion of macro '__verify_pcpu_ptr'
+     245 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:256:27: note: in expansion of macro 'raw_cpu_ptr'
+     256 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~
+   include/linux/local_lock.h:17:54: note: in expansion of macro 'this_cpu_ptr'
+      17 | #define local_lock(lock)                __local_lock(this_cpu_ptr(lock))
+         |                                                      ^~~~~~~~~~~~
+   mm/vswap.c:653:9: note: in expansion of macro 'local_lock'
+     653 |         local_lock(&percpu_cluster->lock);
+         |         ^~~~~~~~~~
+   include/linux/percpu-defs.h:221:45: note: expected 'const __seg_gs void *' but pointer is of type 'local_lock_t *'
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                             ^
+   include/linux/local_lock_internal.h:107:27: note: in definition of macro '__local_lock_acquire'
+     107 |                 _Generic((lock),                                        \
+         |                           ^~~~
+   include/linux/local_lock.h:17:41: note: in expansion of macro '__local_lock'
+      17 | #define local_lock(lock)                __local_lock(this_cpu_ptr(lock))
+         |                                         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:245:9: note: in expansion of macro '__verify_pcpu_ptr'
+     245 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:256:27: note: in expansion of macro 'raw_cpu_ptr'
+     256 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~
+   include/linux/local_lock.h:17:54: note: in expansion of macro 'this_cpu_ptr'
+      17 | #define local_lock(lock)                __local_lock(this_cpu_ptr(lock))
+         |                                                      ^~~~~~~~~~~~
+   mm/vswap.c:653:9: note: in expansion of macro 'local_lock'
+     653 |         local_lock(&percpu_cluster->lock);
+         |         ^~~~~~~~~~
+>> include/linux/percpu-defs.h:221:45: error: initialization from pointer to non-enclosed address space
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                             ^
+   include/linux/local_lock_internal.h:176:40: note: in definition of macro '__local_lock_release'
+     176 |                 __l = (local_lock_t *)(lock);                           \
+         |                                        ^~~~
+   include/linux/local_lock.h:38:41: note: in expansion of macro '__local_unlock'
+      38 | #define local_unlock(lock)              __local_unlock(this_cpu_ptr(lock))
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:245:9: note: in expansion of macro '__verify_pcpu_ptr'
+     245 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:256:27: note: in expansion of macro 'raw_cpu_ptr'
+     256 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~
+   include/linux/local_lock.h:38:56: note: in expansion of macro 'this_cpu_ptr'
+      38 | #define local_unlock(lock)              __local_unlock(this_cpu_ptr(lock))
+         |                                                        ^~~~~~~~~~~~
+   mm/vswap.c:665:9: note: in expansion of macro 'local_unlock'
+     665 |         local_unlock(&percpu_cluster->lock);
+         |         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:221:45: note: expected 'const __seg_gs void *' but pointer is of type 'local_lock_t *'
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                             ^
+   include/linux/local_lock_internal.h:176:40: note: in definition of macro '__local_lock_release'
+     176 |                 __l = (local_lock_t *)(lock);                           \
+         |                                        ^~~~
+   include/linux/local_lock.h:38:41: note: in expansion of macro '__local_unlock'
+      38 | #define local_unlock(lock)              __local_unlock(this_cpu_ptr(lock))
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:245:9: note: in expansion of macro '__verify_pcpu_ptr'
+     245 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:256:27: note: in expansion of macro 'raw_cpu_ptr'
+     256 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~
+   include/linux/local_lock.h:38:56: note: in expansion of macro 'this_cpu_ptr'
+      38 | #define local_unlock(lock)              __local_unlock(this_cpu_ptr(lock))
+         |                                                        ^~~~~~~~~~~~
+   mm/vswap.c:665:9: note: in expansion of macro 'local_unlock'
+     665 |         local_unlock(&percpu_cluster->lock);
+         |         ^~~~~~~~~~~~
+>> include/linux/percpu-defs.h:221:45: error: initialization from pointer to non-enclosed address space
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                             ^
+   include/linux/local_lock_internal.h:179:27: note: in definition of macro '__local_lock_release'
+     179 |                 _Generic((lock),                                        \
+         |                           ^~~~
+   include/linux/local_lock.h:38:41: note: in expansion of macro '__local_unlock'
+      38 | #define local_unlock(lock)              __local_unlock(this_cpu_ptr(lock))
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:245:9: note: in expansion of macro '__verify_pcpu_ptr'
+     245 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:256:27: note: in expansion of macro 'raw_cpu_ptr'
+     256 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~
+   include/linux/local_lock.h:38:56: note: in expansion of macro 'this_cpu_ptr'
+      38 | #define local_unlock(lock)              __local_unlock(this_cpu_ptr(lock))
+         |                                                        ^~~~~~~~~~~~
+   mm/vswap.c:665:9: note: in expansion of macro 'local_unlock'
+     665 |         local_unlock(&percpu_cluster->lock);
+         |         ^~~~~~~~~~~~
+   include/linux/percpu-defs.h:221:45: note: expected 'const __seg_gs void *' but pointer is of type 'local_lock_t *'
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                             ^
+   include/linux/local_lock_internal.h:179:27: note: in definition of macro '__local_lock_release'
+     179 |                 _Generic((lock),                                        \
+         |                           ^~~~
+   include/linux/local_lock.h:38:41: note: in expansion of macro '__local_unlock'
+      38 | #define local_unlock(lock)              __local_unlock(this_cpu_ptr(lock))
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:245:9: note: in expansion of macro '__verify_pcpu_ptr'
+     245 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:256:27: note: in expansion of macro 'raw_cpu_ptr'
+     256 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~
+   include/linux/local_lock.h:38:56: note: in expansion of macro 'this_cpu_ptr'
+      38 | #define local_unlock(lock)              __local_unlock(this_cpu_ptr(lock))
+         |                                                        ^~~~~~~~~~~~
+   mm/vswap.c:665:9: note: in expansion of macro 'local_unlock'
+     665 |         local_unlock(&percpu_cluster->lock);
+         |         ^~~~~~~~~~~~
 
-  3283	
-  3284	/*
-  3285	 * We enter with non-exclusive mmap_lock (to exclude vma changes,
-  3286	 * but allow concurrent faults), and pte mapped but not yet locked.
-  3287	 * We return with pte unmapped and unlocked.
-  3288	 *
-  3289	 * We return with the mmap_lock locked or unlocked in the same cases
-  3290	 * as does filemap_fault().
-  3291	 */
-  3292	vm_fault_t do_swap_page(struct vm_fault *vmf)
-  3293	{
-  3294		struct vm_area_struct *vma = vmf->vma;
-  3295		struct page *page = NULL, *swapcache;
-  3296		swp_entry_t entry;
-  3297		pte_t pte;
-  3298		int locked;
-  3299		int exclusive = 0;
-  3300		vm_fault_t ret;
-  3301		void *shadow = NULL;
-  3302	
-> 3303		ret = pte_unmap_same(vmf);
-  3304		if (ret) {
-  3305			/*
-  3306			 * If pte != orig_pte, this means another thread did the
-  3307			 * swap operation in our back.
-  3308			 * So nothing else to do.
-  3309			 */
-  3310			if (ret == VM_FAULT_PTNOTSAME)
-  3311				ret = 0;
-  3312			goto out;
-  3313		}
-  3314	
-  3315		entry = pte_to_swp_entry(vmf->orig_pte);
-  3316		if (unlikely(non_swap_entry(entry))) {
-  3317			if (is_migration_entry(entry)) {
-  3318				migration_entry_wait(vma->vm_mm, vmf->pmd,
-  3319						     vmf->address);
-  3320			} else if (is_device_private_entry(entry)) {
-  3321				vmf->page = device_private_entry_to_page(entry);
-  3322				ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
-  3323			} else if (is_hwpoison_entry(entry)) {
-  3324				ret = VM_FAULT_HWPOISON;
-  3325			} else {
-  3326				print_bad_pte(vma, vmf->address, vmf->orig_pte, NULL);
-  3327				ret = VM_FAULT_SIGBUS;
-  3328			}
-  3329			goto out;
-  3330		}
-  3331	
-  3332	
-  3333		delayacct_set_flag(DELAYACCT_PF_SWAPIN);
-  3334		page = lookup_swap_cache(entry, vma, vmf->address);
-  3335		swapcache = page;
-  3336	
-  3337		if (!page) {
-  3338			struct swap_info_struct *si = swp_swap_info(entry);
-  3339	
-  3340			if (data_race(si->flags & SWP_SYNCHRONOUS_IO) &&
-  3341			    __swap_count(entry) == 1) {
-  3342				/* skip swapcache */
-  3343				gfp_t flags = GFP_HIGHUSER_MOVABLE;
-  3344	
-  3345				trace_android_rvh_set_skip_swapcache_flags(&flags);
-  3346				page = alloc_page_vma(flags, vma, vmf->address);
-  3347				if (page) {
-  3348					int err;
-  3349	
-  3350					__SetPageLocked(page);
-  3351					__SetPageSwapBacked(page);
-  3352					set_page_private(page, entry.val);
-  3353	
-  3354					/* Tell memcg to use swap ownership records */
-  3355					SetPageSwapCache(page);
-  3356					err = mem_cgroup_charge(page, vma->vm_mm,
-  3357								GFP_KERNEL);
-  3358					ClearPageSwapCache(page);
-  3359					if (err) {
-  3360						ret = VM_FAULT_OOM;
-  3361						goto out_page;
-  3362					}
-  3363	
-  3364					shadow = get_shadow_from_swap_cache(entry);
-  3365					if (shadow)
-  3366						workingset_refault(page, shadow);
-  3367	
-  3368					lru_cache_add(page);
-  3369					swap_readpage(page, true);
-  3370				}
-  3371			} else {
-  3372				page = swapin_readahead(entry, GFP_HIGHUSER_MOVABLE,
-  3373							vmf);
-  3374				swapcache = page;
-  3375			}
-  3376	
-  3377			if (!page) {
-  3378				/*
-  3379				 * Back out if the VMA has changed in our back during
-  3380				 * a speculative page fault or if somebody else
-  3381				 * faulted in this pte while we released the pte lock.
-  3382				 */
-  3383				if (!pte_map_lock(vmf)) {
-  3384					delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
-  3385					ret = VM_FAULT_RETRY;
-  3386					goto out;
-  3387				}
-  3388	
-  3389				if (likely(pte_same(*vmf->pte, vmf->orig_pte)))
-  3390					ret = VM_FAULT_OOM;
-  3391				delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
-  3392				goto unlock;
-  3393			}
-  3394	
-  3395			/* Had to read the page from swap area: Major fault */
-  3396			ret = VM_FAULT_MAJOR;
-  3397			count_vm_event(PGMAJFAULT);
-  3398			count_memcg_event_mm(vma->vm_mm, PGMAJFAULT);
-  3399		} else if (PageHWPoison(page)) {
-  3400			/*
-  3401			 * hwpoisoned dirty swapcache pages are kept for killing
-  3402			 * owner processes (which may be unknown at hwpoison time)
-  3403			 */
-  3404			ret = VM_FAULT_HWPOISON;
-  3405			delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
-  3406			goto out_release;
-  3407		}
-  3408	
-  3409		locked = lock_page_or_retry(page, vma->vm_mm, vmf->flags);
-  3410	
-  3411		delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
-  3412		if (!locked) {
-  3413			ret |= VM_FAULT_RETRY;
-  3414			goto out_release;
-  3415		}
-  3416	
-  3417		/*
-  3418		 * Make sure try_to_free_swap or reuse_swap_page or swapoff did not
-  3419		 * release the swapcache from under us.  The page pin, and pte_same
-  3420		 * test below, are not enough to exclude that.  Even if it is still
-  3421		 * swapcache, we need to check that the page's swap has not changed.
-  3422		 */
-  3423		if (unlikely((!PageSwapCache(page) ||
-  3424				page_private(page) != entry.val)) && swapcache)
-  3425			goto out_page;
-  3426	
-  3427		page = ksm_might_need_to_copy(page, vma, vmf->address);
-  3428		if (unlikely(!page)) {
-  3429			ret = VM_FAULT_OOM;
-  3430			page = swapcache;
-  3431			goto out_page;
-  3432		}
-  3433	
-  3434		cgroup_throttle_swaprate(page, GFP_KERNEL);
-  3435	
-  3436		/*
-  3437		 * Back out if the VMA has changed in our back during a speculative
-  3438		 * page fault or if somebody else already faulted in this pte.
-  3439		 */
-  3440		if (!pte_map_lock(vmf)) {
-  3441			ret = VM_FAULT_RETRY;
-  3442			goto out_page;
-  3443		}
-  3444		if (unlikely(!pte_same(*vmf->pte, vmf->orig_pte)))
-  3445			goto out_nomap;
-  3446	
-  3447		if (unlikely(!PageUptodate(page))) {
-  3448			ret = VM_FAULT_SIGBUS;
-  3449			goto out_nomap;
-  3450		}
-  3451	
-  3452		/*
-  3453		 * The page isn't present yet, go ahead with the fault.
-  3454		 *
-  3455		 * Be careful about the sequence of operations here.
-  3456		 * To get its accounting right, reuse_swap_page() must be called
-  3457		 * while the page is counted on swap but not yet in mapcount i.e.
-  3458		 * before page_add_anon_rmap() and swap_free(); try_to_free_swap()
-  3459		 * must be called after the swap_free(), or it will never succeed.
-  3460		 */
-  3461	
-  3462		inc_mm_counter_fast(vma->vm_mm, MM_ANONPAGES);
-  3463		dec_mm_counter_fast(vma->vm_mm, MM_SWAPENTS);
-  3464		pte = mk_pte(page, vma->vm_page_prot);
-  3465		if ((vmf->flags & FAULT_FLAG_WRITE) && reuse_swap_page(page, NULL)) {
-  3466			pte = maybe_mkwrite(pte_mkdirty(pte), vma);
-  3467			vmf->flags &= ~FAULT_FLAG_WRITE;
-  3468			ret |= VM_FAULT_WRITE;
-  3469			exclusive = RMAP_EXCLUSIVE;
-  3470		}
-  3471		flush_icache_page(vma, page);
-  3472		if (pte_swp_soft_dirty(vmf->orig_pte))
-  3473			pte = pte_mksoft_dirty(pte);
-  3474		if (pte_swp_uffd_wp(vmf->orig_pte)) {
-  3475			pte = pte_mkuffd_wp(pte);
-  3476			pte = pte_wrprotect(pte);
-  3477		}
-  3478		set_pte_at(vma->vm_mm, vmf->address, vmf->pte, pte);
-  3479		arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
-  3480		vmf->orig_pte = pte;
-  3481	
-  3482		/* ksm created a completely new copy */
-  3483		if (unlikely(page != swapcache && swapcache)) {
-  3484			page_add_new_anon_rmap(page, vma, vmf->address, false);
-  3485			lru_cache_add_inactive_or_unevictable(page, vma);
-  3486		} else {
-  3487			do_page_add_anon_rmap(page, vma, vmf->address, exclusive);
-  3488		}
-  3489	
-  3490		swap_free(entry);
-  3491		if (mem_cgroup_swap_full(page) ||
-  3492		    (vma->vm_flags & VM_LOCKED) || PageMlocked(page))
-  3493			try_to_free_swap(page);
-  3494		unlock_page(page);
-  3495		if (page != swapcache && swapcache) {
-  3496			/*
-  3497			 * Hold the lock to avoid the swap entry to be reused
-  3498			 * until we take the PT lock for the pte_same() check
-  3499			 * (to avoid false positives from pte_same). For
-  3500			 * further safety release the lock after the swap_free
-  3501			 * so that the swap count won't change under a
-  3502			 * parallel locked swapcache.
-  3503			 */
-  3504			unlock_page(swapcache);
-  3505			put_page(swapcache);
-  3506		}
-  3507	
-  3508		if (vmf->flags & FAULT_FLAG_WRITE) {
-  3509			ret |= do_wp_page(vmf);
-  3510			if (ret & VM_FAULT_ERROR)
-  3511				ret &= VM_FAULT_ERROR;
-  3512			goto out;
-  3513		}
-  3514	
-  3515		/* No need to invalidate - it was non-present before */
-  3516		update_mmu_cache(vma, vmf->address, vmf->pte);
-  3517	unlock:
-  3518		pte_unmap_unlock(vmf->pte, vmf->ptl);
-  3519	out:
-  3520		return ret;
-  3521	out_nomap:
-  3522		pte_unmap_unlock(vmf->pte, vmf->ptl);
-  3523	out_page:
-  3524		unlock_page(page);
-  3525	out_release:
-  3526		put_page(page);
-  3527		if (page != swapcache && swapcache) {
-  3528			unlock_page(swapcache);
-  3529			put_page(swapcache);
-  3530		}
-  3531		return ret;
-  3532	}
-  3533	
+
+vim +221 include/linux/percpu-defs.h
+
+62fde54123fb64 Tejun Heo 2014-06-17  207  
+9c28278a24c01c Tejun Heo 2014-06-17  208  /*
+6fbc07bbe2b5a8 Tejun Heo 2014-06-17  209   * __verify_pcpu_ptr() verifies @ptr is a percpu pointer without evaluating
+6fbc07bbe2b5a8 Tejun Heo 2014-06-17  210   * @ptr and is invoked once before a percpu area is accessed by all
+6fbc07bbe2b5a8 Tejun Heo 2014-06-17  211   * accessors and operations.  This is performed in the generic part of
+6fbc07bbe2b5a8 Tejun Heo 2014-06-17  212   * percpu and arch overrides don't need to worry about it; however, if an
+6fbc07bbe2b5a8 Tejun Heo 2014-06-17  213   * arch wants to implement an arch-specific percpu accessor or operation,
+6fbc07bbe2b5a8 Tejun Heo 2014-06-17  214   * it may use __verify_pcpu_ptr() to verify the parameters.
+9c28278a24c01c Tejun Heo 2014-06-17  215   *
+9c28278a24c01c Tejun Heo 2014-06-17  216   * + 0 is required in order to convert the pointer type from a
+9c28278a24c01c Tejun Heo 2014-06-17  217   * potential array type to a pointer to a single item of the array.
+9c28278a24c01c Tejun Heo 2014-06-17  218   */
+eba117889ac444 Tejun Heo 2014-06-17  219  #define __verify_pcpu_ptr(ptr)						\
+eba117889ac444 Tejun Heo 2014-06-17  220  do {									\
+9c28278a24c01c Tejun Heo 2014-06-17 @221  	const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;	\
+9c28278a24c01c Tejun Heo 2014-06-17  222  	(void)__vpp_verify;						\
+9c28278a24c01c Tejun Heo 2014-06-17  223  } while (0)
+9c28278a24c01c Tejun Heo 2014-06-17  224  
 
 -- 
 0-DAY CI Kernel Test Service
