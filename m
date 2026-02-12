@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D860330D5E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 21:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9E633120E;
+	Thu, 12 Feb 2026 21:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770932417; cv=none; b=UEvsAUpBddqmq2BOxSbY/lz9RGReqgk+eCbGi42gsbTGyInM/XxaQ0ak9Il2ACw+69i/QNkVKQFWQ97dR7wvuELlippCYXsssCbOwtbFD2VO0KiL6gem0+EENJTLQEXEzA76Bfh000VVxedcnY3liNl6CYchlYAU1iCrigWtfOc=
+	t=1770932419; cv=none; b=f9GBKwwP7RaBNIVEjUW3Je9Y+T5aYQo0PI5cHkWx6k4abYUCGE+6j0vfFs0qSDFG8oti5Uc18dJrwuwc8bw8zn1Aj6TrNfPvgDXDtxJt3K0TsJEvE8U8RDp/jGAKQrVg4jMrBTLaYrv+My/iyxuNo3VTICS0aXYKNS6Ehki9Zd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770932417; c=relaxed/simple;
-	bh=Fm+NLXW7sgsMyZNChwGuTwjbBoSTKyGAyAx5Fcu/67E=;
+	s=arc-20240116; t=1770932419; c=relaxed/simple;
+	bh=9Bebr0rxB9kRmStJVmkIGzES7bCZTVxPlqb0tZlq93M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tta+SRF6S/X3h9xgSobf1nVBtevtIFmCuyjtfEaVfpAJcpU21M6s7QjIvpDkdHbJZv0zRW/aT/ptTR2jA4QRb3IkQvspbCPHYAcrv1/FL2Dh+ykf4fBzx4x+QqUIfAX9hmiQSZ88wmrGsEs+MVh6EVIYh7kVDqNq+qj0VB3HYIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J/acPioL; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=VOKV6mcVECQS8GahvAovWIPOoodyrc/zRqUpEF2aJnpjCGj/JpGt2bj/0Oqv6QXrntohd/6XlLN4XmvpV588LECbldgkdteblnlCO/Mr04etF8JvJeDnGJ0SvIr6o9XS171oFdqFR3stsq+J2mpkDxBrER/TqukWZ1ga8bMHdic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hDkUgUsM; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/acPioL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hDkUgUsM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770932416; x=1802468416;
+  t=1770932418; x=1802468418;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Fm+NLXW7sgsMyZNChwGuTwjbBoSTKyGAyAx5Fcu/67E=;
-  b=J/acPioLK6lsURNCTEe3AVVYij60+50u3YKpxIeWApsk1HE7Pd7P7AZR
-   W+Y86MPJsWR+BKG4AyPCnWqf6C5sENLxWVxyryIplBMck+79Eimtnyshd
-   efQRM2GCc3sX7mT1Dz5OwXZp23xz2ZAxNusLr1ZnacgyvvkSyL8sbZIxe
-   GiGqq2Eh1tUnKTej4IoWIiDyXT58Bv/RPNKq/oH2E/rk+04rPcNzs0thj
-   T4azZUIHxdtqjWnyzqYKAVihgbXxOSVddVPhGKgvsnbPPtDvsxtmHKzxO
-   4VeZ1zspuu1rGYLcCpCrLxN+hcyCBUrJ8KG/VRVRQEtzVcT/2BdnnVfvh
+  bh=9Bebr0rxB9kRmStJVmkIGzES7bCZTVxPlqb0tZlq93M=;
+  b=hDkUgUsMnrmJ2jolIm5CFtkIftoC55qep4Fw/8p7qmp8kAEzEx+q3ulH
+   feL6+8vJC/hVRvKzg1N9FMffO4SoiDMhKSBVWdBA+A4ihyXRfL/qGAvbI
+   NnndkxdHt3AWSpKksgLLu24TZztt9kHNFR2IDb1xeMWLP+3DLKQt7Hdwb
+   oGRdRz9UPiR8QXfWNBEP1x9LSX4jdxsBfWSCK7yvPcAIqYIxsiLjDLk3E
+   HPNLLRP7+Mj3UOjQdFi9uB5X/Aa0mNykpXTsueTgEp05SrCOqNbiFjhES
+   4KMmeKiQ9YzQlWRR0qIDLwFLbecsbiRNAuzyYDYPtdfgjb/lHY40ORi1M
    A==;
-X-CSE-ConnectionGUID: 2z/VZc55RxGbW6N5xJ/5/Q==
-X-CSE-MsgGUID: BZyB4w7gSRWgc4fClNbmfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="75965622"
+X-CSE-ConnectionGUID: lgVOzV3US9+LoRTmugV4QQ==
+X-CSE-MsgGUID: tUvKNf2hQm+/QGy65bc6vw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="75965624"
 X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
-   d="scan'208";a="75965622"
+   d="scan'208";a="75965624"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 13:40:15 -0800
-X-CSE-ConnectionGUID: JUG/Xc4mQmqEhra7s+Bh2w==
-X-CSE-MsgGUID: su9pxJJpS1S8enL6hJJwOQ==
+X-CSE-ConnectionGUID: 4JQEJXBmTdukQ67CHQnXwQ==
+X-CSE-MsgGUID: YAtiI7ZFQrmN4ZKdA+mMTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
-   d="scan'208";a="216878746"
+   d="scan'208";a="216878747"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 12 Feb 2026 13:40:13 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqePz-00000000tbK-11HN;
+	id 1vqePz-00000000tbI-0uyx;
 	Thu, 12 Feb 2026 21:40:11 +0000
-Date: Fri, 13 Feb 2026 05:40:05 +0800
+Date: Fri, 13 Feb 2026 05:40:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Usama Arif <usama.arif@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC 2/2] mm: thp: add THP_SPLIT_PMD_PTE_ALLOC_FAILED counter
-Message-ID: <202602130520.mofTmHuk-lkp@intel.com>
+Message-ID: <202602130506.7Tm8CJkW-lkp@intel.com>
 References: <20260211125507.4175026-3-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,26 +80,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/mm-thp-allocat
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20260211125507.4175026-3-usama.arif%40linux.dev
 patch subject: [RFC 2/2] mm: thp: add THP_SPLIT_PMD_PTE_ALLOC_FAILED counter
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260213/202602130520.mofTmHuk-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130520.mofTmHuk-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260213/202602130506.7Tm8CJkW-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130506.7Tm8CJkW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602130520.mofTmHuk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602130506.7Tm8CJkW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/rmap.c: In function 'try_to_unmap_one':
->> mm/rmap.c:1961:56: error: 'THP_SPLIT_PMD_PTE_ALLOC_FAILED' undeclared (first use in this function)
+>> mm/rmap.c:1961:21: error: use of undeclared identifier 'THP_SPLIT_PMD_PTE_ALLOC_FAILED'
     1961 |                                         count_vm_event(THP_SPLIT_PMD_PTE_ALLOC_FAILED);
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/rmap.c:1961:56: note: each undeclared identifier is reported only once for each function it appears in
-   mm/rmap.c: In function 'try_to_migrate_one':
-   mm/rmap.c:2364:56: error: 'THP_SPLIT_PMD_PTE_ALLOC_FAILED' undeclared (first use in this function)
+         |                                                        ^
+   mm/rmap.c:2364:21: error: use of undeclared identifier 'THP_SPLIT_PMD_PTE_ALLOC_FAILED'
     2364 |                                         count_vm_event(THP_SPLIT_PMD_PTE_ALLOC_FAILED);
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                        ^
+   2 errors generated.
 
 
 vim +/THP_SPLIT_PMD_PTE_ALLOC_FAILED +1961 mm/rmap.c
