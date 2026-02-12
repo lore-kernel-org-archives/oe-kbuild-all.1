@@ -1,126 +1,91 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D021E492D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 15:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8B3285058
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 17:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770911741; cv=none; b=KKCqhveq3YbDT+ugYkx5wF7ebnNxxAW4hbp3IhTMneEGMBE56MPVmOLZxIUuDa12OZzxCUCWoi2yLSyFgl+yESrmnalqwSmTPZwR20gHDXL6Vsy1m5OLFlHare3JjrjD26/oAFG4hdtmd2oqt3xQYqgDXmcYt/js/PZGhoIR7p0=
+	t=1770915603; cv=none; b=U7ZXPCUYZwKl4dA5Ydmq3Gj7jAbdOXRP3cAqgKMDEtzAnpn21IT2M2dGw9SdFP87rcyfvZBdu1nx1xinPOmsPrY4tZfxelDw+CEzC/OUkfc+bXM6phAzP/oTlNMe1jveX4arj4NSbwhn+7XH7JdJ6xkKq8UTYBNGeDtNqLamSPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770911741; c=relaxed/simple;
-	bh=oKpS8Zq97T6bID5LMkxur/x114LFgGk9i8kvBicFK/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=esGeOvzCA/xPwirYpSwH/CRFhROkHRAToJdkpDbkdigCAOodE4XcdlC9A/yNFO19wYw9NykNWkRN3J70P/VaGUmKqoDL/1OGoOBytii9+D/I3FvW3kA4SPJZ9V/9GFdV7kGs6fUDYruCe1FKyTU3m5nFxVv+vIc0+YLQ0mN4x4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSsrRr2N; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1770915603; c=relaxed/simple;
+	bh=vRYPZp7dhIffUlZGBewZ3dQDal6YgBAa+0yCHEjTVM4=;
+	h=Date:From:Cc:Subject:Message-ID; b=ZE8G7vvRlUt4PjIdVwSJjq67vvElkwu+HLbYBWyZjd4MfMyF5lMKLrwV/c5nmkjN5LbgBz5BHbJvr3SUrYscd5U+dkGG3xuEkHRVnnMCnZe3mEE+w531TpjqSZRr3hf+c7RsWuSQ4E3ZV25MvPizTp7Nt5inhrp9TmXsN7AAfpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TiiLnZnf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSsrRr2N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TiiLnZnf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770911739; x=1802447739;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oKpS8Zq97T6bID5LMkxur/x114LFgGk9i8kvBicFK/c=;
-  b=CSsrRr2NCvyGYYcuMc/GvxnP0cJSt+LxyWAe1/6lvBZS2VV8n4AMgTEa
-   JBhT7FDUyhqM/laDJv1iD98A1/hauyGJpL5bTQadX78D+4vEJjDHIhOnN
-   Zdixk3tKQUKV/FIY+pktBdeE4Q1fcANM+oBJcQeMTHmHH6LqknRE3qLw+
-   7gtMMIei0SoIzFJUq22hyb3tJh2G+aEbTFCl31PljMEkWymU/Zfm5k6h9
-   8CrV59r64+NuiOI2VXm5ug733cHxG+3mmwKqTwwI70yCliJBwAZ0quLNX
-   OcE2EjiVflYsl95K0C0EabxH+ss1VEomvAr95hNa5Et3GtGi72wSvlVQG
-   g==;
-X-CSE-ConnectionGUID: okD0lxDOSgC5zuRSzFiKNA==
-X-CSE-MsgGUID: H5LMpr5NSyucdQDsxVVXkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="75928772"
-X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
-   d="scan'208";a="75928772"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 07:55:38 -0800
-X-CSE-ConnectionGUID: RKr3bZBhRO6WZpGF73jQeg==
-X-CSE-MsgGUID: tG4A6mkbQ/qJGllX8KbB3A==
+  t=1770915601; x=1802451601;
+  h=date:from:cc:subject:message-id;
+  bh=vRYPZp7dhIffUlZGBewZ3dQDal6YgBAa+0yCHEjTVM4=;
+  b=TiiLnZnfTZRhx8iEHE/x33gYhKhDmecJNqAEmFxzSWw+X9Db3i7qNr0L
+   giwaU5gwsjQanEgMgbdi/PxFzObwcJ8XWssChTErLw7ziyW9z9Abui1ys
+   2mb7CLUOiTu+XHRwHmS6h0eI6A1ZSS5G9UOJrKzJ+fsPJcCO4VDz6OL/F
+   KBz9sPT4SSJGtbgofYV+pXRqjdaUdZ56iC4WKeGyqLLmuMB9xMScn6rTh
+   1hIov5+CkgoXVGs18bct8WjnDRP4s7bwzCvgPLe63KvOUnPH8/7GXg2Nd
+   M9udWmw5Clb15lh+km42nV8oWNVrGUwdd8wihDMVAzB49uAuuiX6ZM1kz
+   w==;
+X-CSE-ConnectionGUID: x6q4Z5xDQw+QA899K0gUVw==
+X-CSE-MsgGUID: dYgf9HwKQQeZSKTKzS+WfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="75937207"
+X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
+   d="scan'208";a="75937207"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 09:00:00 -0800
+X-CSE-ConnectionGUID: oijP2N/wSLeQUq70i95KdA==
+X-CSE-MsgGUID: fr2LNKJARUWAg6FWQlpnxg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
-   d="scan'208";a="250311912"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 12 Feb 2026 07:55:37 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
+   d="scan'208";a="216818923"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 12 Feb 2026 08:59:59 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqZ2V-000000001Lh-1K3h;
-	Thu, 12 Feb 2026 15:55:35 +0000
-Date: Thu, 12 Feb 2026 16:54:48 +0100
+	id 1vqa2m-00000000rnC-0dSI;
+	Thu, 12 Feb 2026 16:59:56 +0000
+Date: Fri, 13 Feb 2026 00:59:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ali Zain <alizainuimx@gmail.com>, rust-for-linux@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ojeda@kernel.org,
-	Ali Zain <alizainuimx@gmail.com>
-Subject: Re: [PATCH] rust: print: Document SAFETY invariants in
- rust_fmt_argument and call_printk
-Message-ID: <202602121620.o4VvwtXn-lkp@intel.com>
-References: <20260212125427.122362-1-alizainuimx@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Riana Tauro <riana.tauro@intel.com>
+Subject: ld.lld: error: undefined symbol:
+ xe_configfs_get_psmi_enabled
+Message-ID: <202602130022.hA5x2ikt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260212125427.122362-1-alizainuimx@gmail.com>
 
-Hi Ali,
+Hi Lucas,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on linus/master v6.19 next-20260212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ali-Zain/rust-print-Document-SAFETY-invariants-in-rust_fmt_argument-and-call_printk/20260212-205645
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260212125427.122362-1-alizainuimx%40gmail.com
-patch subject: [PATCH] rust: print: Document SAFETY invariants in rust_fmt_argument and call_printk
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260212/202602121620.o4VvwtXn-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   37a93dd5c49b5fda807fd204edf2547c3493319c
+commit: afe902848b417da81f60b3d15cbae40a67286dbf drm/xe/configfs: Allow to enable PSMI
+date:   6 months ago
+config: x86_64-randconfig-r052-20260212 (https://download.01.org/0day-ci/archive/20260213/202602130022.hA5x2ikt-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602121620.o4VvwtXn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130022.hA5x2ikt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602121620.o4VvwtXn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602130022.hA5x2ikt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/print.rs:117:
-        // at compile time, a null-terminated module name, and a pointer to
-        // `fmt::Arguments` obtained via `core::ptr::from_ref`. All pointers
-        // are valid for the duration of the call and respect the C ABI.
-   -
-        unsafe {
-            bindings::_printk(
-                format_string.as_ptr(),
->> Diff in rust/kernel/print.rs:117:
-        // at compile time, a null-terminated module name, and a pointer to
-        // `fmt::Arguments` obtained via `core::ptr::from_ref`. All pointers
-        // are valid for the duration of the call and respect the C ABI.
-   -
-        unsafe {
-            bindings::_printk(
-                format_string.as_ptr(),
-   make[2]: *** [Makefile:1888: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+>> ld.lld: error: undefined symbol: xe_configfs_get_psmi_enabled
+   >>> referenced by xe_guc.c:91 (drivers/gpu/drm/xe/xe_guc.c:91)
+   >>>               vmlinux.o:(xe_guc_init_post_hwconfig)
+   >>> referenced by xe_psmi.c:36 (drivers/gpu/drm/xe/xe_psmi.c:36)
+   >>>               vmlinux.o:(xe_psmi_debugfs_register)
+   >>> referenced by xe_psmi.c:36 (drivers/gpu/drm/xe/xe_psmi.c:36)
+   >>>               vmlinux.o:(xe_psmi_init)
+   >>> referenced 1 more times
 
 -- 
 0-DAY CI Kernel Test Service
