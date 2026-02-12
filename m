@@ -1,65 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C10C1CDFD5;
-	Thu, 12 Feb 2026 03:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D652319E819
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 03:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770867427; cv=none; b=MOF0MgPxTWevAvgubY64CyXLkFV4QW96Zmlk9+JyCcOXdYbmXXWgG0CsX5Tldm/peY9k3p6TBka7CXqSq4wGmbEdRleBYldLHTrNID1BFqiWKpYYt/aFcn/V0kIobfI5tRSGQ8WDl3HTaUV4ZlHkqtpMut7+ENYjamHz9Ma95bE=
+	t=1770868599; cv=none; b=CDKh8RxsaH/h+w/4Z7qWz9HCb9sZFEpYKyjOO38o+JpO+Zep9nqGad2761DArFT2vGD+5Kc+JVM0Kg0kag6cAHz8hJ0VmSI29virA75jEQ0l8t9kmLRm+Q1WZaD+0Oy8YNZ84ON+SlzeWudrU26TN9Nbgg0iOVTHPxvLQTxCYJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770867427; c=relaxed/simple;
-	bh=NKfao1ygz76tzoQRBfZlrExWua32iDkEJOkINJcRurs=;
+	s=arc-20240116; t=1770868599; c=relaxed/simple;
+	bh=m5FX710KFiG+MB3P345VDRHdTTue3VoIFjOCrEq7n50=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bKD87n944eXzafe8K6hyeGa/ir6Zge+jB5i9nFDsJQgsKVpGC/qPetnA7g9Q5FtBXxb6hffH1WT3YvZXsubNN21SGrp25nWT0lWBk1TPyqG7R7+Ks9sw58XeZQLSK18a54fat9Buc8o6uKD3dwmF33WPDwlP4W91FjuDBQzNtrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIiZXz7K; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=daZDxzK9nmW5HbAmO7tYYhBCxOFD8ly5YWrO26SPKLpE7wmwLhimH5Assj7oh7Z0XIgeVAkRcoGvHP/JhkSukWl0PriDcwPzZleHVNkNiAcsd8NA10nLOp7xF0Y5veyaauX3j6g3MA9YL3l3cTVu9Ipy4iLbRNYvUlxSMY5F600=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b+qGPcc8; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIiZXz7K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+qGPcc8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770867426; x=1802403426;
+  t=1770868597; x=1802404597;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NKfao1ygz76tzoQRBfZlrExWua32iDkEJOkINJcRurs=;
-  b=OIiZXz7KeF/bIJo6KBDHFV33oIy4of0XsT5g+YU5V2qHynisTKFoW7Oi
-   CUvb8NhpzS/6fQFJVFjE84JacIGQnAoBRg1pJ6tiTYy+ywG77UwEdQ/wi
-   IUa5LK9xi0Z74AxFen+/d3KfyZkhnAUzRuBSMoXoLaoucc8MVuh6X1K+W
-   XE4KMJjwzGGVQ3tOuDHIZF+9SFB5U12SPETK5Oiuaux/hyT7Fjkpu+I3s
-   sEqn532EsdkhFSUEZtl9exxt1oW+FsaCLOO1mCfb3yc8fGrReK/WXJBqs
-   leODtXfOVxOrh2s+KWDL/K5Kw4Nv1WnWTBXoV7l63Hey5WdaY6QpE0/Wg
-   w==;
-X-CSE-ConnectionGUID: cIFI+bBRTT2Vk4AW8mdu2w==
-X-CSE-MsgGUID: +klyAku4R5Stu1Ohjl7dMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="89437584"
+  bh=m5FX710KFiG+MB3P345VDRHdTTue3VoIFjOCrEq7n50=;
+  b=b+qGPcc8dEUblC2J1Are49gIvQhdRJGTwaPY5w2j1t4H9lq/Xf1QlGJB
+   zflZX1PhRstxzQmHG+2RSaWrx7gStjg9XLigCfHWrWRpIoE39BUN0nlh7
+   8NoIdf0WvyN+9TsodA5eogrDYG9MtkVibTbh5AXYlP2bAuJ85ZjwMgbTp
+   DEp2GR+neSisDjHMbBPHL3qfdbzV2dshKzG+sOUcURW8nzFRXW7I397A1
+   b5y8r6hjjsoJY40FA0JInB6h2Aq3yb5tE/xzJAf3jKDeL7/8ioT4LrN7T
+   S/h+ullocDJyGI+oMJhnCJl9qVnWrb3k0/8XM1CCaTImFphknmWoNAwzh
+   A==;
+X-CSE-ConnectionGUID: 3AZzhcMpRvyVavN40TfHlA==
+X-CSE-MsgGUID: k2GxJdAtTlOX/Lodl5Kx3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="72076955"
 X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
-   d="scan'208";a="89437584"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 19:37:05 -0800
-X-CSE-ConnectionGUID: 4UDyxZNkRe+pwwQEoO+3Yw==
-X-CSE-MsgGUID: k1ubzEQYRAmfo7N5rhdgsw==
+   d="scan'208";a="72076955"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 19:56:37 -0800
+X-CSE-ConnectionGUID: 8YKsv03FT4Oi33+hgFC3eA==
+X-CSE-MsgGUID: le1ORshSScmQxXWm8fQHjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
-   d="scan'208";a="211554495"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Feb 2026 19:37:02 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="211323652"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Feb 2026 19:56:33 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqNVj-00000000qc0-1kpV;
-	Thu, 12 Feb 2026 03:36:59 +0000
-Date: Thu, 12 Feb 2026 11:36:49 +0800
+	id 1vqNod-000000001GL-1E4e;
+	Thu, 12 Feb 2026 03:56:31 +0000
+Date: Thu, 12 Feb 2026 04:56:26 +0100
 From: kernel test robot <lkp@intel.com>
-To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
-	airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
-	broonie@kernel.org, ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
-Subject: Re: [PATCH v1] drm/tyr: make SRAM supply optional like panthor
-Message-ID: <202602121116.499PMsGK-lkp@intel.com>
-References: <20260211195406.289634-1-work@onurozkan.dev>
+To: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	Kyle Tso <kyletso@google.com>, RD Babiera <rdbabiera@google.com>,
+	Amit Sunil Dhamne <amitsd@google.com>
+Subject: Re: [PATCH 2/2] usb: typec: tcpm: add support for Sink Cap Extended
+ msg response
+Message-ID: <202602120453.BOyqL3t6-lkp@intel.com>
+References: <20260211-skedb-v1-2-616340426cdc@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,45 +72,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260211195406.289634-1-work@onurozkan.dev>
+In-Reply-To: <20260211-skedb-v1-2-616340426cdc@google.com>
 
-Hi Onur,
+Hi Amit,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on broonie-regulator/for-next]
-[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes v6.19]
-[cannot apply to drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-tip/drm-tip linus/master next-20260211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 8dfce8991b95d8625d0a1d2896e42f93b9d7f68d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Onur-zkan/drm-tyr-make-SRAM-supply-optional-like-panthor/20260212-035718
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20260211195406.289634-1-work%40onurozkan.dev
-patch subject: [PATCH v1] drm/tyr: make SRAM supply optional like panthor
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260212/202602121116.499PMsGK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602121116.499PMsGK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Amit-Sunil-Dhamne-via-B4-Relay/dt-bindings-connector-Add-sink-properties-to-comply-with-PD-3-1-spec/20260212-072745
+base:   8dfce8991b95d8625d0a1d2896e42f93b9d7f68d
+patch link:    https://lore.kernel.org/r/20260211-skedb-v1-2-616340426cdc%40google.com
+patch subject: [PATCH 2/2] usb: typec: tcpm: add support for Sink Cap Extended msg response
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260212/202602120453.BOyqL3t6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120453.BOyqL3t6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602121116.499PMsGK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602120453.BOyqL3t6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `regulator_get_optional` in crate `bindings`
-   --> rust/kernel/regulator.rs:287:23
-   |
-   287  |             bindings::regulator_get_optional(dev.as_raw(), name.as_char_ptr())
-   |                       ^^^^^^^^^^^^^^^^^^^^^^ help: a function with a similar name exists: `regulator_get_voltage`
-   |
-   ::: rust/bindings/bindings_helpers_generated.rs:1306:5
-   |
-   1306 |     pub fn regulator_get_voltage(regulator: *mut regulator) -> ffi::c_int;
-   |     ---------------------------------------------------------------------- similarly named function `regulator_get_voltage` defined here
+>> Warning: drivers/usb/typec/tcpm/tcpm.c:351 cannot understand function prototype: 'struct pd_identifier'
+>> Warning: drivers/usb/typec/tcpm/tcpm.c:368 cannot understand function prototype: 'struct sink_caps_ext_data'
 
 -- 
 0-DAY CI Kernel Test Service
