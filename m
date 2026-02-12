@@ -1,209 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395194A02
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 18:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFACCBA21;
+	Thu, 12 Feb 2026 18:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770920543; cv=none; b=UOANH56xHEgRs8A3Opz1hdpdaV70LMjsEf9K2Uz5ky0iTCay5v5QZVplbfuqE85Dw9Qu4kqHJP2VsY3tKn+OQIloH3qc/QH2Dkg2TiiaWceSU0VQyJsKbuluIZxtug+gb2nBIxGmnetzsVnDf28UQ6JQvYJE0d7MgUxYrXuBQ3g=
+	t=1770922349; cv=none; b=GE/JW/JoXLG9TBSlK4PX2fYRSBWPOAa2uDwj4w0uwpMXIa90f2pFlqt+HIHiXu+nFeoR2FMHgRzgSD1k0GzqUY2D2/eRASQJRID3M6tCSl+RRiAvHPGqHlN8eEhabMB9odSiUX039sDmZNnvuNDofjOGgJw2OknyOFGlYMOcDg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770920543; c=relaxed/simple;
-	bh=8ax0K1VZEc5q5CalYCULktcby+/9WC5DvpuRGmCJ4TY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kzB1kDaMCPcKUjMnVkU7X6K0AnnE8x2bsrUgEMULp6Yf+isRa0xdTAHU66CnFTVYL5hqMR8o4R0/E2LxjJQAaSjrR8LPpaLLwWXQgZn7+T0zI+zHf7fm0MOFIlNgUY97Yz31PpdDrR1geXppoKBgoLHxPzFFlZ0zmplWMEyF2OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ok4ZzlIj; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1770922349; c=relaxed/simple;
+	bh=+Ys3Nzyehyy7T5zBEo7o1NSAXzowFsqDv9PZFh6VNQA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DdMbnOZugM8HInnPs+veuO3qdRZt9dJCb8vVCb1/ZhUIoqJQbCJDcEPfnccgNnUkO9W7/KeXdZ8IcqJh6aR36rQqOFGmESjxXDEVtBP0/pN+eyawa+H/YPboo4LsEEyGw+FBw8PcfTm0PNgA2ovO9ybHUMfy7pN7OMvTF7KViY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZI1mvRe4; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ok4ZzlIj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZI1mvRe4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770920542; x=1802456542;
-  h=date:from:to:cc:subject:message-id;
-  bh=8ax0K1VZEc5q5CalYCULktcby+/9WC5DvpuRGmCJ4TY=;
-  b=Ok4ZzlIjecW4tjANdwF1SubK5CkzMivirRo9MhB1/HxrLpEw6kvTa/qD
-   xG0dlObFtnmAkLXbu0cGgPwVa1sDCvYtjkbpQA53T2qnOLhaINAQJVIiX
-   /P1/zVXjcYX/+KoCzgh1vs6tNHmdXkU+pvr/pZToj4Udjdw4chr2V4uZI
-   GlNEIXr3miXF6u3wJ1dX1O1upCydIenP2wu1fjMEnY83bVJKh1QncBRJs
-   LaYa1ZlEglVmeCDZB7LrtNuVjm/Ej+9jlTLdecqPivtGuMcCKDRvApMez
-   M99oXuMco2UQsk2UDbBSFJvGzIPrmbvQ8hgstq1FCOGWELzHpS4sJdK7w
+  t=1770922348; x=1802458348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+Ys3Nzyehyy7T5zBEo7o1NSAXzowFsqDv9PZFh6VNQA=;
+  b=ZI1mvRe4HADsOkdWwmiTd/carRI1CCSKH7dTQjOd6DYlmMfS77hU1eGt
+   PyshxqQPbM7JEunHxBO8GPHo9utUswjF7PuQvNO6lbp6GVrZSsrsM6Fwm
+   OAFtNoU7xQXNWOitaqvB5UMNY3+EpA2J0QqQDqVhTHt71YhlOFhvCpyAq
+   Sflo/5su7SGQrGeUjhcWaOrgV7grYZFFhXvVYJLrnODPPZo0+EZOZT5fD
+   OpHnY22CKZStQ/K9uH4W2nuvqPBOJxrapEUHoUYG5Jt1CL5xY/EhfGvXO
+   wAFFV6zSE9QdQeHI8t8/ZVrp6TSYVm3CiA9GN3QUp7tI+kb/NgoIFL5TT
    w==;
-X-CSE-ConnectionGUID: Bth+kgOZTV2cgGSaX63FjA==
-X-CSE-MsgGUID: mhL2K1o1S1iO997J/KFCVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="72005821"
+X-CSE-ConnectionGUID: lx3mRV+1SGeuOT3dnvZo1g==
+X-CSE-MsgGUID: k4DUU/e3SKm4QNYqEp0HOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="94744773"
 X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
-   d="scan'208";a="72005821"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 10:22:21 -0800
-X-CSE-ConnectionGUID: 60r3PiZ1TKuxU85PX3GeVg==
-X-CSE-MsgGUID: bUTQ2xMxRAy8xBz9w5YPqA==
+   d="scan'208";a="94744773"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 10:52:27 -0800
+X-CSE-ConnectionGUID: HVOYSGJCTGqCu6xEgvroIQ==
+X-CSE-MsgGUID: JtWuuvgmSFSGdd0p4JRZOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
-   d="scan'208";a="242222436"
+   d="scan'208";a="211919746"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Feb 2026 10:22:19 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 12 Feb 2026 10:52:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqbKS-00000000sHA-34kr;
-	Thu, 12 Feb 2026 18:22:16 +0000
-Date: Fri, 13 Feb 2026 02:21:31 +0800
+	id 1vqbnc-00000000sSu-0zp6;
+	Thu, 12 Feb 2026 18:52:24 +0000
+Date: Fri, 13 Feb 2026 02:52:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/4] mm/filemap.c:1909:60:
- sparse: sparse: incorrect type in argument 3 (different base types)
-Message-ID: <202602130232.BFa3xRhN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Oliver Neukum <oneukum@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC net-next 3/3] net: usb: usbnet: remove driver_priv
+Message-ID: <202602130213.zIDtfW6G-lkp@intel.com>
+References: <20260210151416.42254-4-oneukum@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260210151416.42254-4-oneukum@suse.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   8509f529f4f89b70589200986bed71bd0e69d008
-commit: 5f7004a8d09a928abe77727512f37fb570a66690 [0/4] ANDROID: mm: Add vendor hook in filemap_get_folio()
-config: i386-randconfig-061-20260212 (https://download.01.org/0day-ci/archive/20260213/202602130232.BFa3xRhN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130232.BFa3xRhN-lkp@intel.com/reproduce)
+Hi Oliver,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/net-usb-divorce-private-data-and-cdc-state-in-usbnet/20260210-231805
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260210151416.42254-4-oneukum%40suse.com
+patch subject: [RFC net-next 3/3] net: usb: usbnet: remove driver_priv
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260213/202602130213.zIDtfW6G-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130213.zIDtfW6G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602130232.BFa3xRhN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602130213.zIDtfW6G-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/filemap.c:1909:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int fgp_flags @@     got restricted fgf_t [usertype] fgp_flags @@
-   mm/filemap.c:1909:60: sparse:     expected int fgp_flags
-   mm/filemap.c:1909:60: sparse:     got restricted fgf_t [usertype] fgp_flags
-   mm/filemap.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h, include/linux/dax.h):
-   include/linux/rcupdate.h:880:25: sparse: sparse: context imbalance in 'filemap_fault_recheck_pte_none' - unexpected unlock
-   include/linux/rcupdate.h:878:9: sparse: sparse: context imbalance in 'filemap_map_pages' - different lock contexts for basic block
+All warnings (new ones prefixed by >>):
 
-vim +1909 mm/filemap.c
+>> drivers/net/usb/aqc111.c:734:30: warning: variable 'aqc111_data' is uninitialized when used here [-Wuninitialized]
+     734 |         aqc111_read_fw_version(dev, aqc111_data);
+         |                                     ^~~~~~~~~~~
+   drivers/net/usb/aqc111.c:689:33: note: initialize the variable 'aqc111_data' to silence this warning
+     689 |         struct aqc111_data *aqc111_data;
+         |                                        ^
+         |                                         = NULL
+   1 warning generated.
 
-  1883	
-  1884	/**
-  1885	 * __filemap_get_folio - Find and get a reference to a folio.
-  1886	 * @mapping: The address_space to search.
-  1887	 * @index: The page index.
-  1888	 * @fgp_flags: %FGP flags modify how the folio is returned.
-  1889	 * @gfp: Memory allocation flags to use if %FGP_CREAT is specified.
-  1890	 *
-  1891	 * Looks up the page cache entry at @mapping & @index.
-  1892	 *
-  1893	 * If %FGP_LOCK or %FGP_CREAT are specified then the function may sleep even
-  1894	 * if the %GFP flags specified for %FGP_CREAT are atomic.
-  1895	 *
-  1896	 * If this function returns a folio, it is returned with an increased refcount.
-  1897	 *
-  1898	 * Return: The found folio or an ERR_PTR() otherwise.
-  1899	 */
-  1900	struct folio *__filemap_get_folio(struct address_space *mapping, pgoff_t index,
-  1901			fgf_t fgp_flags, gfp_t gfp)
-  1902	{
-  1903		struct folio *folio;
-  1904	
-  1905	repeat:
-  1906		folio = filemap_get_entry(mapping, index);
-  1907		if (xa_is_value(folio))
-  1908			folio = NULL;
-> 1909		trace_android_vh_filemap_get_folio(mapping, index, fgp_flags,
-  1910						gfp, folio);
-  1911		if (!folio)
-  1912			goto no_page;
-  1913	
-  1914		if (fgp_flags & FGP_LOCK) {
-  1915			if (fgp_flags & FGP_NOWAIT) {
-  1916				if (!folio_trylock(folio)) {
-  1917					folio_put(folio);
-  1918					return ERR_PTR(-EAGAIN);
-  1919				}
-  1920			} else {
-  1921				folio_lock(folio);
-  1922			}
-  1923	
-  1924			/* Has the page been truncated? */
-  1925			if (unlikely(folio->mapping != mapping)) {
-  1926				folio_unlock(folio);
-  1927				folio_put(folio);
-  1928				goto repeat;
-  1929			}
-  1930			VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
-  1931		}
-  1932	
-  1933		if (fgp_flags & FGP_ACCESSED)
-  1934			folio_mark_accessed(folio);
-  1935		else if (fgp_flags & FGP_WRITE) {
-  1936			/* Clear idle flag for buffer write */
-  1937			if (folio_test_idle(folio))
-  1938				folio_clear_idle(folio);
-  1939		}
-  1940	
-  1941		if (fgp_flags & FGP_STABLE)
-  1942			folio_wait_stable(folio);
-  1943	no_page:
-  1944		if (!folio && (fgp_flags & FGP_CREAT)) {
-  1945			unsigned int min_order = mapping_min_folio_order(mapping);
-  1946			unsigned int order = max(min_order, FGF_GET_ORDER(fgp_flags));
-  1947			int err;
-  1948			index = mapping_align_index(mapping, index);
-  1949	
-  1950			if ((fgp_flags & FGP_WRITE) && mapping_can_writeback(mapping))
-  1951				gfp |= __GFP_WRITE;
-  1952			if (fgp_flags & FGP_NOFS)
-  1953				gfp &= ~__GFP_FS;
-  1954			if (fgp_flags & FGP_NOWAIT) {
-  1955				gfp &= ~GFP_KERNEL;
-  1956				gfp |= GFP_NOWAIT | __GFP_NOWARN;
-  1957			}
-  1958			if (WARN_ON_ONCE(!(fgp_flags & (FGP_LOCK | FGP_FOR_MMAP))))
-  1959				fgp_flags |= FGP_LOCK;
-  1960	
-  1961			if (order > mapping_max_folio_order(mapping))
-  1962				order = mapping_max_folio_order(mapping);
-  1963			/* If we're not aligned, allocate a smaller folio */
-  1964			if (index & ((1UL << order) - 1))
-  1965				order = __ffs(index);
-  1966	
-  1967			do {
-  1968				gfp_t alloc_gfp = gfp;
-  1969	
-  1970				err = -ENOMEM;
-  1971				if (order > min_order)
-  1972					alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
-  1973				folio = filemap_alloc_folio(alloc_gfp, order);
-  1974				if (!folio)
-  1975					continue;
-  1976	
-  1977				/* Init accessed so avoid atomic mark_page_accessed later */
-  1978				if (fgp_flags & FGP_ACCESSED)
-  1979					__folio_set_referenced(folio);
-  1980	
-  1981				err = filemap_add_folio(mapping, folio, index, gfp);
-  1982				if (!err)
-  1983					break;
-  1984				folio_put(folio);
-  1985				folio = NULL;
-  1986			} while (order-- > min_order);
-  1987	
-  1988			if (err == -EEXIST)
-  1989				goto repeat;
-  1990			if (err)
-  1991				return ERR_PTR(err);
-  1992			/*
-  1993			 * filemap_add_folio locks the page, and for mmap
-  1994			 * we expect an unlocked page.
-  1995			 */
-  1996			if (folio && (fgp_flags & FGP_FOR_MMAP))
-  1997				folio_unlock(folio);
-  1998		}
-  1999	
-  2000		if (!folio)
-  2001			return ERR_PTR(-ENOENT);
-  2002		return folio;
-  2003	}
-  2004	EXPORT_SYMBOL(__filemap_get_folio);
-  2005	
+
+vim +/aqc111_data +734 drivers/net/usb/aqc111.c
+
+33cd597fbfe00d Dmitry Bezrukov 2018-11-26  684  
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  685  static int aqc111_bind(struct usbnet *dev, struct usb_interface *intf)
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  686  {
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  687  	struct usb_device *udev = interface_to_usbdev(intf);
+7b8b06544ab035 Dmitry Bezrukov 2018-11-26  688  	enum usb_device_speed usb_speed = udev->speed;
+33cd597fbfe00d Dmitry Bezrukov 2018-11-26  689  	struct aqc111_data *aqc111_data;
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  690  	int ret;
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  691  
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  692  	/* Check if vendor configuration */
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  693  	if (udev->actconfig->desc.bConfigurationValue != 1) {
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  694  		usb_driver_set_configuration(udev, 1);
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  695  		return -ENODEV;
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  696  	}
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  697  
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  698  	usb_reset_configuration(dev->udev);
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  699  
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  700  	ret = usbnet_get_endpoints(dev, intf);
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  701  	if (ret < 0) {
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  702  		netdev_dbg(dev->net, "usbnet_get_endpoints failed");
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  703  		return ret;
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  704  	}
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  705  
+df2d59a2ab6c9c Dmitry Bezrukov 2018-11-26  706  	/* Init the MAC address */
+df2d59a2ab6c9c Dmitry Bezrukov 2018-11-26  707  	ret = aqc111_read_perm_mac(dev);
+df2d59a2ab6c9c Dmitry Bezrukov 2018-11-26  708  	if (ret)
+df2d59a2ab6c9c Dmitry Bezrukov 2018-11-26  709  		goto out;
+df2d59a2ab6c9c Dmitry Bezrukov 2018-11-26  710  
+af804e6db9f60b Jakub Kicinski  2021-10-01  711  	eth_hw_addr_set(dev->net, dev->net->perm_addr);
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  712  
+361459cd964263 Dmitry Bezrukov 2018-11-26  713  	/* Set Rx urb size */
+361459cd964263 Dmitry Bezrukov 2018-11-26  714  	dev->rx_urb_size = URB_SIZE;
+361459cd964263 Dmitry Bezrukov 2018-11-26  715  
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  716  	/* Set TX needed headroom & tailroom */
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  717  	dev->net->needed_headroom += sizeof(u64);
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  718  	dev->net->needed_tailroom += sizeof(u64);
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  719  
+a4017cc264c66b Dmitry Bezrukov 2018-11-26  720  	dev->net->max_mtu = 16334;
+a4017cc264c66b Dmitry Bezrukov 2018-11-26  721  
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  722  	dev->net->netdev_ops = &aqc111_netdev_ops;
+027e6f7800e5ff Dmitry Bezrukov 2018-11-26  723  	dev->net->ethtool_ops = &aqc111_ethtool_ops;
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  724  
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  725  	if (usb_device_no_sg_constraint(dev->udev))
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  726  		dev->can_dma_sg = 1;
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  727  
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  728  	dev->net->hw_features |= AQ_SUPPORT_HW_FEATURE;
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  729  	dev->net->features |= AQ_SUPPORT_FEATURE;
+7afa6c9803eac4 Dmitry Bezrukov 2018-11-26  730  	dev->net->vlan_features |= AQ_SUPPORT_VLAN_FEATURE;
+4a3576d2bcc755 Dmitry Bezrukov 2018-11-26  731  
+ee8b7a1156f357 Jakub Kicinski  2022-05-05  732  	netif_set_tso_max_size(dev->net, 65535);
+de074e7a7e20f0 Dmitry Bezrukov 2018-11-26  733  
+33cd597fbfe00d Dmitry Bezrukov 2018-11-26 @734  	aqc111_read_fw_version(dev, aqc111_data);
+7b8b06544ab035 Dmitry Bezrukov 2018-11-26  735  	aqc111_data->autoneg = AUTONEG_ENABLE;
+7b8b06544ab035 Dmitry Bezrukov 2018-11-26  736  	aqc111_data->advertised_speed = (usb_speed == USB_SPEED_SUPER) ?
+7b8b06544ab035 Dmitry Bezrukov 2018-11-26  737  					 SPEED_5000 : SPEED_1000;
+33cd597fbfe00d Dmitry Bezrukov 2018-11-26  738  
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  739  	return 0;
+df2d59a2ab6c9c Dmitry Bezrukov 2018-11-26  740  
+df2d59a2ab6c9c Dmitry Bezrukov 2018-11-26  741  out:
+df2d59a2ab6c9c Dmitry Bezrukov 2018-11-26  742  	return ret;
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  743  }
+7cea2d40afd053 Dmitry Bezrukov 2018-11-26  744  
 
 -- 
 0-DAY CI Kernel Test Service
