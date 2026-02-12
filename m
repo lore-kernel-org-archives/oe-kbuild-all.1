@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B50935979
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 23:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E482192B90;
+	Thu, 12 Feb 2026 00:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770850835; cv=none; b=V2E99mzPvm+yrM8RS8WnjL/HCsnjsin0K+jRgXbggOXuowH1UP2TWVs+0ZtBINoZrlYwvah2JhdUxjhqjUDEH3a9DAGC5OsQg35nrv6yQdPKMJCwlGIllTrK4/HkC10IqEWtBoDptygFTZ9zbbeb0zo/rVltCZdY1OzDUI1GOjA=
+	t=1770855539; cv=none; b=NrLdXsVkmqALGwjnAz2reoa/1X3P9Y4yFxDcnV+zVjj1iCNrBqxytksDjrr4l2VW5rD8A4HeUvLfM1Q3Ro7GPx9gYXPu8oR7PElnd3pjPKRQsMEm6zm+cEDDPe2dRZPSDMhV83yKRFDRaVSshMm/B8VqzW/pOz0m30BVa+aU2Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770850835; c=relaxed/simple;
-	bh=g3UmgeJ7pRIP+ltNPJyycVNzzaEKsXvtU/rO1Qy2zo8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qecbFTEpt3fTHLV1a1tt6maT7jhxt9aZmDlbvZHn2gVUf5Ru+smMwl3jkCI6egNxNR3W3GOc6LQ2s1vaw0urbqLH9d9TQz2paShyWXAeSfc/QF7ZLkDq1pl5OjncZ600Tc5F9W0X5sHLYmLd0CTUU8dxjrdt0dfAAaoFpF/EBFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/1Myotb; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1770855539; c=relaxed/simple;
+	bh=KOQr7YIKBJ6FuGotcC4x2nQQzv30wTjYWd8kIIXENYE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=X7H7vBsKasWlRoIsieCldNq8FIc+W2r7TNBoWHiJWeI+vOwVBS3JoGFXg0YJj2Dpv+GBmcxOBifFWvcwPRNGYfNgzR9MktYi7RtxyjdQvjvhT+3pPrPXWL/OhoCg2uqOhd3zjNIKi6zPMSLCL3SAyhWdpAx1JF6/9A+XC0Ftlgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XkAJvpW+; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/1Myotb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XkAJvpW+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770850832; x=1802386832;
+  t=1770855538; x=1802391538;
   h=date:from:to:cc:subject:message-id;
-  bh=g3UmgeJ7pRIP+ltNPJyycVNzzaEKsXvtU/rO1Qy2zo8=;
-  b=K/1MyotbW7EFJ6cqA+l6t67OPLjFZBMtCK5C+Aqp9jpDD89P/ol0Bua9
-   OmRYTLT0rzXOhRZW6WB0L5Kqf3omEOKPciG1Fns42Ni1JCkPOb067ZEvc
-   MlnlbFPLYG95f5Oc1HWYiE9tVezgyYv6kUbqVVTGilM/DE1fnyCZF2/h3
-   PIB20xrYWSpcovU+znJLEiBsAa5liG0hBBgP6NShsosCvOvnMhzaDYfhB
-   3DzRAxeGw5TMYpUHLBoQJHm+4QD7ji9j/nBF+/eQX8bW2QQhvkAbJVAO2
-   RdKQSLhkLvIV6z9Cg74CU2hopXuOSPW/H2Zn1t71XQIFRCqYa7djvJqOd
-   Q==;
-X-CSE-ConnectionGUID: tWLFp2s5TYGh7aP2E3d9lw==
-X-CSE-MsgGUID: aK4KDInGR0OM0rraLGQnsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="82647479"
+  bh=KOQr7YIKBJ6FuGotcC4x2nQQzv30wTjYWd8kIIXENYE=;
+  b=XkAJvpW+6Qe+MVLsV/07aYNioZCyZH+zzFYJnEN+1pa0ER+j6NEOyABT
+   eqONr4EEV6ZULcSP34qFGABZdm5BtfEJDmFvUM6V6p/6U5uYjjfTmY2gr
+   KwAku0v+UH793ynAisRYLgf+pGPYGSlLCxNNiogfzbVtiTu3NQOgjfLCv
+   4Do+V6glMCSgS/AM0Sl3Ec+dWrdBx0aqe8EbAA3ckePivWbOLaVW73cF3
+   5wB/+VxoI/81S1Jl5TsN4u0/yX/cJW1JFTSocTdUBivvmQL7Vzi1s4A9t
+   R74/A9QSUYbClCIRQ9OWWLhidxex4rJV0D021LcrWjTf0BLuTyOBQS9C7
+   A==;
+X-CSE-ConnectionGUID: 5f+PZFU5QtehykdXzEmaFQ==
+X-CSE-MsgGUID: OqFD0tMST86O6OVE7wwTvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="97476269"
 X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="82647479"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 15:00:32 -0800
-X-CSE-ConnectionGUID: 6Rsib2csTZ+y2nV6b/ykEg==
-X-CSE-MsgGUID: 82Wwy1XeQmyZ6qxSXj5Y4Q==
+   d="scan'208";a="97476269"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 16:18:58 -0800
+X-CSE-ConnectionGUID: 5KfOwVCqTwmvizTrHSr1pw==
+X-CSE-MsgGUID: hfw+QFipT0KopWPlN19u5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="216644794"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Feb 2026 15:00:30 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="216561789"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 11 Feb 2026 16:18:57 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqJC8-000000001Bp-1pPw;
-	Wed, 11 Feb 2026 23:00:28 +0000
-Date: Thu, 12 Feb 2026 00:00:11 +0100
+	id 1vqKQ1-00000000qV8-44Vp;
+	Thu, 12 Feb 2026 00:18:53 +0000
+Date: Thu, 12 Feb 2026 08:18:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 12089/12577]
- arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: emi@80000000
- (fsl,emi): $nodename:0: 'emi@80000000' does not match
- '^((spba|emi)-bus|bus)(@[0-9a-f]+)?$'
-Message-ID: <202602112338.NPpkQRWQ-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_4 7/13]
+ kernel/bpf/trampoline.c:527:14: error: call to undeclared function
+ 'is_tracing_multi'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202602120809.ddpbx5h9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,63 +61,55 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9152bc8cebcb14dc16b03ec81f2377ee8ce12268
-commit: 55d43aab478db869f57281e947020605f9ff6b16 [12089/12577] dt-bindings: soc: imx: add fsl,aips and fsl,emi compatible strings
-config: arm-randconfig-2051-20260210 (https://download.01.org/0day-ci/archive/20260211/202602112338.NPpkQRWQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-dtschema: 2025.13.dev7+gd16dc68b0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112338.NPpkQRWQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_4
+head:   a3f496c783e26237e1a9a5b1f5e6661d4e3c5f25
+commit: cbb350ed40eb90b612d359931c72378a8dcc718b [7/13] bpf: Add bpf_trampoline_multi_attach/detach functions
+config: i386-randconfig-002-20260212 (https://download.01.org/0day-ci/archive/20260212/202602120809.ddpbx5h9-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120809.ddpbx5h9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602112338.NPpkQRWQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602120809.ddpbx5h9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: /avic-interrupt-controller@68000000: failed to match any schema with compatible: ['fsl,imx35-avic', 'fsl,avic']
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: i2c@43f80000 (fsl,imx35-i2c): clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: /soc/bus@43f00000/i2c@43f80000/codec@1a: failed to match any schema with compatible: ['ti,tlv320aic23']
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: i2c@43f84000 (fsl,imx35-i2c): clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: i2c@43f98000 (fsl,imx35-i2c): clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: emi@80000000 (fsl,emi): $nodename:0: 'emi@80000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: emi@80000000 (fsl,emi): $nodename:0: 'emi@80000000' does not match '^((spba|emi)-bus|bus)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/fsl,spba-bus.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: /soc/emi@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx35-nand', 'fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: /soc/emi@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx35-nand', 'fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: nand-controller@bb000000 (fsl,imx35-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: usbphy (simple-bus): usb-phy@0:reg:0: [0] is too short
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: usbphy (simple-bus): usb-phy@1:reg:0: [1] is too short
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb: usbphy (simple-bus): #size-cells: 0 is not one of [1, 2]
---
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: /avic-interrupt-controller@68000000: failed to match any schema with compatible: ['fsl,imx35-avic', 'fsl,avic']
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: /avic-interrupt-controller@68000000: failed to match any schema with compatible: ['fsl,imx35-avic', 'fsl,avic']
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: i2c@43f80000 (fsl,imx35-i2c): clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: i2c@43f84000 (fsl,imx35-i2c): clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: i2c@43f98000 (fsl,imx35-i2c): clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: emi@80000000 (fsl,emi): $nodename:0: 'emi@80000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: emi@80000000 (fsl,emi): $nodename:0: 'emi@80000000' does not match '^((spba|emi)-bus|bus)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/fsl,spba-bus.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: /soc/emi@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx35-nand', 'fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: /soc/emi@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx35-nand', 'fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: nand-controller@bb000000 (fsl,imx35-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: usbphy (simple-bus): usb-phy@0:reg:0: [0] is too short
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: usbphy (simple-bus): usb-phy@1:reg:0: [1] is too short
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/nxp/imx/imx35-pdk.dtb: usbphy (simple-bus): #size-cells: 0 is not one of [1, 2]
+All errors (new ones prefixed by >>):
+
+>> kernel/bpf/trampoline.c:527:14: error: call to undeclared function 'is_tracing_multi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     527 |                         *multi |= is_tracing_multi(node->link->prog->expected_attach_type);
+         |                                   ^
+   1 error generated.
+
+
+vim +/is_tracing_multi +527 kernel/bpf/trampoline.c
+
+   507	
+   508	static struct bpf_tramp_nodes *
+   509	bpf_trampoline_get_progs(const struct bpf_trampoline *tr, int *total, bool *ip_arg, bool *multi)
+   510	{
+   511		struct bpf_tramp_node *node, **nodes;
+   512		struct bpf_tramp_nodes *tnodes;
+   513		int kind;
+   514	
+   515		*total = 0;
+   516		tnodes = kcalloc(BPF_TRAMP_MAX, sizeof(*tnodes), GFP_KERNEL);
+   517		if (!tnodes)
+   518			return ERR_PTR(-ENOMEM);
+   519	
+   520		for (kind = 0; kind < BPF_TRAMP_MAX; kind++) {
+   521			tnodes[kind].nr_nodes = tr->progs_cnt[kind];
+   522			*total += tr->progs_cnt[kind];
+   523			nodes = tnodes[kind].nodes;
+   524	
+   525			hlist_for_each_entry(node, &tr->progs_hlist[kind], tramp_hlist) {
+   526				*ip_arg |= node->link->prog->call_get_func_ip;
+ > 527				*multi |= is_tracing_multi(node->link->prog->expected_attach_type);
+   528				*nodes++ = node;
+   529			}
+   530		}
+   531		return tnodes;
+   532	}
+   533	
 
 -- 
 0-DAY CI Kernel Test Service
