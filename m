@@ -1,195 +1,137 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AF13EBF1B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 09:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1023EBF2C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 10:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770889944; cv=none; b=uKBk19z0wPhiBmJeGO5osbuLxggDTH4ZJl0synG7qhS5PLsljrQVEhtTvM9GRs7gjBGpU0rV7hD5aA6GQ3yBKRoKu5OuQn/h3gdVVZE+Rk9cjWwi32BoZdwik2UiYZT9czcAkjKcugWF1kbkaNirWU1QtOLgVHjENZpI7xG536I=
+	t=1770890908; cv=none; b=a9ITshpBz+XC/dehjLp/AXIKYnB4ZCUblL8op/Nj3k4plCXaT5dUkgVneMff3JqIxtxv2kJgS+FLRQBtsEVebiMGcr1gqwQKbjvfvYnD2VMxHVrpKeP84R0qXN7r3zjaCYY5eDb6Ium8UlKqYSegGevleyQvTiFPdwRJZ0H9MLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770889944; c=relaxed/simple;
-	bh=pU0VB7AYOzQl/yh/JheYXq51M96vqe6qh/dIv+Br+Ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gU2EKl6wUpQ4HN/jkWAkYC3lYLRtQ8ruztyIvzlSGkt9vihDewC6HRZcsGlQTBevH2Jtds510osLIaAPh2r7mjiYfW3glZFBidWYQaNeljRnm0jixFrnHTIzb1niTsXgrx+AZcNLU+fowZaRMWxMTZxpO0YFUO6ti8GgKqL8a6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=H4wICBwh; arc=none smtp.client-ip=209.85.128.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1770890908; c=relaxed/simple;
+	bh=RVHZiiiJhz2hq7g/Lzhc1U11tFpzQJCmWwzWmtjLizg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YjmuR1G4sRfua7daHG8DmvRnUVnrYAca59d76CUD3Zgz/tOZjgRXqy/xY1yT/TvlwGUmA6C28/LFRl2bAJwzN6EA+9aS2GlWD8g5kawJ5CAeCuaOhJaPrwmF0zE7rXVQlyUxceJ1tXrCCGYl6vDrrDMDeElqDoHmJjNQiWEbIo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJxqYLHj; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="H4wICBwh"
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so79561635e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 01:52:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1770889941; x=1771494741; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A9k+OG3Lg6/8MR/lpCIljUo1hlGXRPUExOQsJeHIhbY=;
-        b=H4wICBwh5x3fVbvwHCPd4dbC/donLyhMHtY4M5ZMlrDFNVaDSPAlAIxXevMhMYOcbK
-         eLMMxZMVpFkxBtNj+lejvTzsvS2hOpOqyne+AskyxDjMWdtM2b/BGpWawTAX07Q0w/Ji
-         XeZQYXhIrY8EOlw0rXpabCpxLpW0dS7cYD8NR2ZKGqjkwj2RMl4M+xfe84P+gBjjpmtM
-         RgvFBY9Dbu1AykxE5U+WDMb3Zhb8ubujhEPKz+w50kecInzLqxSONEyXnqYb/rdz2Rue
-         mpTo5ElQUU5QvJLLUwguUGBQj9L0YX+zytCbYsI+lRJnPxnRfO0A2bYtyGJDHhOJ7OB0
-         koEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770889941; x=1771494741;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A9k+OG3Lg6/8MR/lpCIljUo1hlGXRPUExOQsJeHIhbY=;
-        b=qH8sInvUF1N0dXp4S7FJA/X6/ha3eM0iIbxdtN0aM4hUwBFfCDYR6wprv4I19V6vpr
-         /ytH7tLouLpPvaXf81otpo7vEeE2W3STz5D5jHrOQju5sGDkLQTtXeDZ2J2YMZ+AZEpG
-         bGf8+GnCVgTMkr1SIJ2lILJtnwT+1jAIMafWaLTReA2RfGuWNn+PxPh/N2464QbCvQOX
-         2gcRHVzAm4M26Ng78bbUsd7EVnemNOE2w6unvi0rWmqOzKfHlBsuuDSaDzK5y0sMDyzX
-         NB0TATcfEjzczv9dOIEsV1cgdX5b8g1KjdbCV4AckrdHwFOEQJunwOUvaIZWcAbhge84
-         8L1A==
-X-Forwarded-Encrypted: i=1; AJvYcCXAjoshzp4KzMD+5PfA/IdEvIv1BsVuBRg7RfF1lZTv5o3ji4173n9f7IrbZFBZyqArB3oCPkOlsP/z6kYE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBmY5spRP4ndDe/JJJY83FcMP9ZGs67hdETCFibGsNO5Rtwp8r
-	Rmozrz6C5+CsVcMz+2lJpyM3Qpy5pDsE4mPZkgErOXM6PPirkqq+JtUrMHK3M2hwoWk=
-X-Gm-Gg: AZuq6aLEnimtnxRFbNJK/QxDRrIYHzN0pcJ8IL0FfuhFQiLkJCgb6FQYOXFtPK9XFVg
-	iDTzGjxp5U+LS9A/RQv9CsqwJa/SySLBb3wvvLdoc8OYoHMMOXqR8O5CldfJuBukmRlnNoUow2K
-	vNj8q3k/kh3wP0yq40oNY9M8Je0ZaHwtszdLLGH6ax3SUTsSvxkAs/x/TNdPEGfj9UxoSOGKqPt
-	3EGhZd9CrM99jhui0PtFTXlkRn7NXB8y+VBKkhu/l9Dkw4Gum9Wmc71r89bILPshJNstFaLI5v5
-	y+Phrub61DiImwDJz32D2H0EcQYLUN9nuRyxrwGyMdNReT8RcYLlmaZ1/89Ngx7VI7nNk1BWqwy
-	Kzl0bmlu47VgoQzy6JqARSWuQtztntgZRUn/MAPyvBHSOS5pa/uNCOwSEijccOumaVImj7WVRZu
-	iwe67EOXYod0BtMLVXeXprdTdDAw==
-X-Received: by 2002:a05:600c:450e:b0:47e:e952:86c9 with SMTP id 5b1f17b1804b1-4836560d37amr28513665e9.0.1770889941139;
-        Thu, 12 Feb 2026 01:52:21 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d834ebesm183195375e9.13.2026.02.12.01.52.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Feb 2026 01:52:20 -0800 (PST)
-Date: Thu, 12 Feb 2026 10:52:18 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Helge Deller <deller@gmx.de>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	kernel test robot <lkp@intel.com>,
-	Tamir Duberstein <tamird@kernel.org>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 9199/12313]
- include/linux/compiler_types.h:617:38: error: call to
- '__compiletime_assert_304' declared with attribute error: BUILD_BUG_ON
- failed: IS_ERR(PTR)
-Message-ID: <aY2i0vuq1TG-yEhn@pathway.suse.cz>
-References: <202602110708.x7AYvCN7-lkp@intel.com>
- <aYxi3KG0gHBBbqox@smile.fi.intel.com>
- <aYxomlXamlNiNa8G@smile.fi.intel.com>
- <aYyKYa36G-X-ScN2@smile.fi.intel.com>
- <933de445-c15d-49f6-a5f9-026eff6e4e06@gmx.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJxqYLHj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770890905; x=1802426905;
+  h=date:from:to:cc:subject:message-id;
+  bh=RVHZiiiJhz2hq7g/Lzhc1U11tFpzQJCmWwzWmtjLizg=;
+  b=WJxqYLHj5GJhzYdu9m4tMbRuMtfWxqfQq9wN8RMpPcCLYBNf9/8kVazL
+   Tr/xBmKX7BEEZvgRhi0t8oJnCiWHxu7fVMkLSzGwv+M3sCebFqypoOs3V
+   Lk/4p9Y+AR7z9jFgBY69CFMtWeEzNq4SuvPLQrH7plbTLqBO15j8IGm/v
+   016LidYl4Mg/XKelDYcmZootHu/QhKGUHDXx90FipTm39kvVr6mxRseS/
+   HPrLou1CwGJsfN0XzlGLQG8R+WHQR79vDSoJO1jhpeRyGavU4En/XCHNS
+   /jpcvOcBqJwyHM+WdEklTvDXVVuJnRuFqFetFS17Pr7MCVQAKw7DM6nv4
+   w==;
+X-CSE-ConnectionGUID: RczH6uUSRYqg3brcZEHALQ==
+X-CSE-MsgGUID: RvxsTdEkTqe3HfA4YmEFUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="75684172"
+X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
+   d="scan'208";a="75684172"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 02:08:24 -0800
+X-CSE-ConnectionGUID: SSSE/lD4TM6av3eEM/a08Q==
+X-CSE-MsgGUID: q7CFZNX3RYu2g/QA6hGkWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
+   d="scan'208";a="212660880"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 12 Feb 2026 02:08:23 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vqTcT-00000000r1s-0jTd;
+	Thu, 12 Feb 2026 10:08:21 +0000
+Date: Thu, 12 Feb 2026 18:08:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_4 5/13]
+ kernel/bpf/syscall.c:3513:49: error: passing argument 1 of
+ 'bpf_trampoline_unlink_prog' from incompatible pointer type
+Message-ID: <202602121715.MbWdl9qA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <933de445-c15d-49f6-a5f9-026eff6e4e06@gmx.de>
 
-On Wed 2026-02-11 17:27:47, Helge Deller wrote:
-> On 2/11/26 14:55, Andy Shevchenko wrote:
-> > +Helge, do you have any insights on this?
-> > 
-> > The original mail is here:
-> > https://lore.kernel.org/r/202602110708.x7AYvCN7-lkp@intel.com
-> > 
-> > On Wed, Feb 11, 2026 at 01:31:41PM +0200, Andy Shevchenko wrote:
-> > > On Wed, Feb 11, 2026 at 01:07:12PM +0200, Andy Shevchenko wrote:
-> > > > On Wed, Feb 11, 2026 at 07:15:01AM +0800, kernel test robot wrote:
-> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > > > head:   fd9678829d6dd0c10fde080b536abf4b1121c346
-> > > > > commit: 9bfa52dac27a20b43bcb73e56dc45aba6b9aaff1 [9199/12313] printf: convert test_hashed into macro
-> > > > > config: parisc-randconfig-r122-20260211 (https://download.01.org/0day-ci/archive/20260211/202602110708.x7AYvCN7-lkp@intel.com/config)
-> > > > > compiler: hppa-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_4
+head:   a3f496c783e26237e1a9a5b1f5e6661d4e3c5f25
+commit: bb32c63cae9103f6e7f0c7d4e907490b7bef89f4 [5/13] bpf: Add struct bpf_tramp_node object
+config: sparc64-randconfig-r063-20260212 (https://download.01.org/0day-ci/archive/20260212/202602121715.MbWdl9qA-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602121715.MbWdl9qA-lkp@intel.com/reproduce)
 
-I guess that the test bot is using GCC 8.5 because 8.1 should be the minimal
-supported version, see Documentation/process/changes.rst.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602121715.MbWdl9qA-lkp@intel.com/
 
-> > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110708.x7AYvCN7-lkp@intel.com/reproduce)
-> > > > > 
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202602110708.x7AYvCN7-lkp@intel.com/
-> > > > > 
-> > > > > All errors (new ones prefixed by >>):
-> > > > 
-> > > > Very interesting case. My theory is that this is a compiler bug or
-> > > > a rare corner case. When test_hashed was converted to a macro it
-> > > > affects the scope of PTR in errptr(). And compiler most likely
-> > > > mistakenly drops it's value to 0.
-> > > > 
-> > > > OTOH, I do not believe that it's a problem of IS_ERR_VALUE() implementation
-> > > > since that it is so low level C standard integer promotion rules and should
-> > > > be covered very well by compiler tests, etc.
-> > > > 
-> > > > However, it might be possible (but very unlikely) that the 32-bit
-> > > > value is considered smaller than (unsigned long)-MAX_ERRNO. If
-> > > > this a case, why only now? The change was introduces in 2019 to
-> > > > have this BUILD_BUG_ON()?
-> > > > 
-> > > > TL;DR: Changing a compiler version might help, I think?
-> 
-> I think so too.
-> 
-> > > So, PTR was used in two places in errptr():
-> > > 
-> > >          BUILD_BUG_ON(IS_ERR(PTR));
-> > >          test_hashed(kunittest, "%pe", PTR);
-> > > 
-> > > The compiler has seen that PTR is always used (it was static inline).
-> > > When it was converted to a macro, the stage that does some pass now
-> > > probably thinks that PTR may be eliminated even if it has non-0 value!
+All errors (new ones prefixed by >>):
 
-Honestly, I have no idea what is going on here and why inlining would
-mater. But google pointed me to a discussion where the inlining was
-mentioned:
+   In file included from kernel/bpf/syscall.c:5:
+   include/linux/bpf.h:1543:51: warning: 'struct bpf_tramp_link' declared inside parameter list will not be visible outside of this definition or declaration
+    1543 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
+         |                                                   ^~~~~~~~~~~~~~
+   include/linux/bpf.h:1549:53: warning: 'struct bpf_tramp_link' declared inside parameter list will not be visible outside of this definition or declaration
+    1549 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
+         |                                                     ^~~~~~~~~~~~~~
+   In file included from arch/sparc/include/asm/bug.h:25,
+                    from include/linux/bug.h:5,
+                    from include/linux/alloc_tag.h:8,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11:
+   kernel/bpf/syscall.c: In function 'bpf_tracing_link_release':
+>> kernel/bpf/syscall.c:3513:49: error: passing argument 1 of 'bpf_trampoline_unlink_prog' from incompatible pointer type [-Wincompatible-pointer-types]
+    3513 |         WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
+         |                                                 ^~~~~~~~~~~~~~~~~~~
+         |                                                 |
+         |                                                 struct bpf_tramp_node *
+   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
+     205 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   kernel/bpf/syscall.c:3513:9: note: in expansion of macro 'WARN_ON_ONCE'
+    3513 |         WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
+         |         ^~~~~~~~~~~~
+   include/linux/bpf.h:1549:69: note: expected 'struct bpf_tramp_link *' but argument is of type 'struct bpf_tramp_node *'
+    1549 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   kernel/bpf/syscall.c: In function 'bpf_tracing_prog_attach':
+>> kernel/bpf/syscall.c:3745:40: error: passing argument 1 of 'bpf_trampoline_link_prog' from incompatible pointer type [-Wincompatible-pointer-types]
+    3745 |         err = bpf_trampoline_link_prog(&link->link.node, tr, tgt_prog);
+         |                                        ^~~~~~~~~~~~~~~~
+         |                                        |
+         |                                        struct bpf_tramp_node *
+   include/linux/bpf.h:1543:67: note: expected 'struct bpf_tramp_link *' but argument is of type 'struct bpf_tramp_node *'
+    1543 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~^~~~
 
-<paste>
-Oh! This function is defined inline and not __always_inline, so that's
-the problem. BUILD_BUG_ON will always fail if the values used in
-the condition are not compile-time constants. So you can comment out
-the BUILD_BUG_ON or change inline to __always_inline if you want
-to get going asap. I can probably reproduce it by setting the max
-inline insns to a low value and I'm guessing that's why it's occurring
-for you -- your compiler may have a different default max inline insns
-value than mine, so it just exposed this bug. In fact, it would make
-sense for Debian to patch their gcc like that, it likely results in
-slightly smaller executables.
-</paste>
 
-, see
-https://github.com/daniel-santos/mcp2210-linux/issues/7#js-repo-pjax-container
+vim +/bpf_trampoline_unlink_prog +3513 kernel/bpf/syscall.c
 
-I have no idea if this was similar scenario or a completely different
-one. But it seems that inlining affect how complilers handle
-BUILD_BUG_ON()...
+  3507	
+  3508	static void bpf_tracing_link_release(struct bpf_link *link)
+  3509	{
+  3510		struct bpf_tracing_link *tr_link =
+  3511			container_of(link, struct bpf_tracing_link, link.link);
+  3512	
+> 3513		WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
+  3514							tr_link->trampoline,
+  3515							tr_link->tgt_prog));
+  3516	
+  3517		bpf_trampoline_put(tr_link->trampoline);
+  3518	
+  3519		/* tgt_prog is NULL if target is a kernel function */
+  3520		if (tr_link->tgt_prog)
+  3521			bpf_prog_put(tr_link->tgt_prog);
+  3522	}
+  3523	
 
-> > > But again, my knowledge in all this is close to 0, especially for PA-RISC.
-> > > I'm purely speculating here based on my experience, intuition, and current
-> > > code base of the Linux kernel.
-> 
-> I tried to reproduce, but my cross-compiler does not trigger:
-> hppa-linux-gnu-gcc (GCC) 15.2.1 20250808 (Red Hat Cross 15.2.1-1)
-> 
-> Preprocessed source is:
-> 
-> # 76 "/home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/err.h"
-> static inline __attribute__((__gnu_inline__)) __attribute__((__unused__)) __attribute__((__no_instrument_function__)) bool __attribute__((__warn_unused_result__)) IS_ERR( const void *ptr)
-> {
->  return __builtin_expect(!!((unsigned long)(void *)((unsigned long)ptr) >= (unsigned long)-4095), 0);
-> }
-> ...
-> static void errptr(struct kunit *kunittest) {
-> ...
->  do { __attribute__((__noreturn__)) extern void __compiletime_assert_305(void) __attribute__((__error__("BUILD_BUG_ON failed: " "IS_ERR(PTR)"))); if (!(!(IS_ERR(((void *)0x456789ab))))) __compiletime_assert_305(); } while (0);
-> 
-> I will try to check again, but I believe upgrading the compiler should fix it.
-
-Hmm, I am not sure if upgrading the compiler is an option here.
-I guess that they use the old version on purpose.
-
-I think about reverting the commit 9bfa52dac27a20b43 ("printf: convert
-test_hashed into macro") if we can't find a better solution.
-
-I am sorry. I do not have time to play with this.
-
-Best Regards,
-Petr
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
