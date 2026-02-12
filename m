@@ -1,86 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680372C3254
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 19:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5422BD5BB;
+	Thu, 12 Feb 2026 20:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770925544; cv=none; b=PFA5c9j8Db4KNf2v+vnyOFC3/JDav/OAuK1foz+xqgbc3dz6zz3qO63+vsmmMzH0vOVXh+8dDYTKs56//REhvwi+iWHfhcIQ1HXJUadLtx40wzMk61gZ6Ars/94hdWNgTuE1JNguzbbTuEcc1ucscVfcJ6jjkD09SAzjgdQ1PZ4=
+	t=1770926808; cv=none; b=aO7U6bG3GV43YanZKSWEZhHjlIKILs/4TDYdrv2DXhs+3nrnygHNGT6Br3nc054xymsmNvSNw1Unj2QFq4+otI/smR2ZuOcRlRBllA9HIkrqN5pKraHrb3vbpNnisRuQpsG99lKU40VWUN7n+lMpVeQ11XgwZkbb1Bb91nSPjYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770925544; c=relaxed/simple;
-	bh=gHB1bLNM8smKD93cGEcEhkajByV8gCB9jnOcfOqg4EE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PWrCPIYbSpYns8giQLvtSFxJBg5TFka9w/pTVgDpJA+pBQVWObxYvHETdyY6tdWv2VgYjkWfnps//S2fxa6Z/9WgQdHmwUXQlpMVYd8OCKw3LcU7SD1NXQEEgHHP0q74xsUD/+ENsZy5aCHz4DFVie9qXltEXAqNXLpqCxts110=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mx0e9UbC; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1770926808; c=relaxed/simple;
+	bh=KvR6yJtJg3M/klyQgTMwpht6W37h/fXEStbRmD8w9is=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Djg3xidqDf5tOYLBGVA8sxGaugtRLgX3w24Oe1kSvoBUwAy4r+lSQ7bBI1vPgLSj3nAabqg2pEwsrKvQq8+BSggVNmlhtRrD2ro9NrVg3VgizipmY3LjKybLj2W2u81OzyRVlCmdL6zNajxxlJ8gkoMWjR10oHoKYD28D4ebHnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lsxd9BZ4; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mx0e9UbC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lsxd9BZ4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770925543; x=1802461543;
-  h=date:from:to:cc:subject:message-id;
-  bh=gHB1bLNM8smKD93cGEcEhkajByV8gCB9jnOcfOqg4EE=;
-  b=mx0e9UbCKR3AYV8n6UgUx1UDw4yVw7j+g/7BnMb3pDj+LmUUuRpyFZRz
-   QcpqAe/PJF6vSH8Xk1u/f82d3CDg/70gUzfwCwJb2ccSTJ2dXwWSuwaBY
-   CzoM/pSVzi6FYQkvQ/AGkNOWmOfokdaaYHzRH2nh0Faxh/d+nWsed94AY
-   BEi113XUisDbtc9eRYdRPV2FggDDB0bfvlxxKFUHrmH1KZXZwePHytQcB
-   r3SArCaAChc2MtSzRHfPFqWVC+fYr9ODEJKPam/fMzwY/gazZ7ujljK2s
-   KDFDjpXt2d8gDlioOBjVy9GRe5MFhzM9/P70UIzSCtkHSrl9byrMVwtYQ
-   g==;
-X-CSE-ConnectionGUID: OOqkkQsBSbGObnMWba0OOg==
-X-CSE-MsgGUID: aR9UlZ0dQEGleFQxi5SG0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="72292215"
+  t=1770926807; x=1802462807;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KvR6yJtJg3M/klyQgTMwpht6W37h/fXEStbRmD8w9is=;
+  b=Lsxd9BZ4Fc/5DAgxBiA6TxbHNVzEmDzRsRdEKLCA9qAgpCltSwwUratK
+   1XLhj53z3iEFY3AktZHV97mQV8PoVaSlA+mC31qb4RR+bG9U0zX1GVALY
+   TyX5Ir3gKISNbXa2hLH4bigV4+jvYait4T8WnX8j96/sTl/TtJiLxbjMW
+   DGJENoOjmw22iZP4vsndArs0R7shnQW2wSPARDUqvuDyF0CUJ4JVy7QUR
+   gj+aI3on3MGRlmUZCIBniXoAWxpJreav/A/r9mWvGnk0yQErmijQYZaFT
+   j6NN6+QCA4PzT0Oz+kckCb8586sivux9L5xjnn/q1jxamRPZlH3Mv7tc0
+   A==;
+X-CSE-ConnectionGUID: 6GQzBz3oTqK1bsmaFJN4MA==
+X-CSE-MsgGUID: 9+/i+hRiT0CkG1Txy2dsBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="71140784"
 X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
-   d="scan'208";a="72292215"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 11:45:42 -0800
-X-CSE-ConnectionGUID: xtQjEWhvRcOLCV77Tq3TIA==
-X-CSE-MsgGUID: wC68cv8oTg+7wGcUiDgdaQ==
+   d="scan'208";a="71140784"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 12:06:47 -0800
+X-CSE-ConnectionGUID: Rov6hAAqQq+nR3GUtAAQcA==
+X-CSE-MsgGUID: HXV0mj9dRei6p2BogmA2Zw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
+   d="scan'208";a="211484023"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Feb 2026 11:45:40 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 12 Feb 2026 12:06:45 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqcd8-00000000slo-2qHB;
-	Thu, 12 Feb 2026 19:45:38 +0000
-Date: Fri, 13 Feb 2026 03:44:55 +0800
+	id 1vqcxX-00000000ssu-1rcB;
+	Thu, 12 Feb 2026 20:06:43 +0000
+Date: Fri, 13 Feb 2026 04:05:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jsarha:new_memory_domain_logic 7661/8264] ERROR: modpost:
- "mtk_adsp_ipc_send" [sound/soc/sof/mediatek/mtk-adsp-common.ko] undefined!
-Message-ID: <202602130317.j0ZiWS3P-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] KVM: remove CONFIG_KVM_GENERIC_MMU_NOTIFIER
+Message-ID: <202602130416.oIONAEUp-lkp@intel.com>
+References: <20260212105211.1555876-2-pbonzini@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260212105211.1555876-2-pbonzini@redhat.com>
 
-Hi Bard,
+Hi Paolo,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/jsarha/linux new_memory_domain_logic
-head:   9e793ed3dc49eb7c72bee1f530ced0edc4c71203
-commit: 3e55a76d727eddf6b3bad82139a6788172168a01 [7661/8264] Merge branch 'sound/upstream-20250414' into merge/sound-upstream-20250414
-config: parisc-randconfig-r064-20260212 (https://download.01.org/0day-ci/archive/20260213/202602130317.j0ZiWS3P-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130317.j0ZiWS3P-lkp@intel.com/reproduce)
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next kvms390/next next-20260212]
+[cannot apply to powerpc/topic/ppc-kvm kvmarm/next linus/master kvm/linux-next v6.19]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-remove-CONFIG_KVM_GENERIC_MMU_NOTIFIER/20260212-185546
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260212105211.1555876-2-pbonzini%40redhat.com
+patch subject: [PATCH 1/2] KVM: remove CONFIG_KVM_GENERIC_MMU_NOTIFIER
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20260213/202602130416.oIONAEUp-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130416.oIONAEUp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602130317.j0ZiWS3P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602130416.oIONAEUp-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8365/snd-sof-mt8365.o
-ERROR: modpost: "__divdi3" [drivers/gpu/drm/xe/xe.ko] undefined!
-ERROR: modpost: "__udivdi3" [drivers/gpu/drm/xe/xe.ko] undefined!
->> ERROR: modpost: "mtk_adsp_ipc_send" [sound/soc/sof/mediatek/mtk-adsp-common.ko] undefined!
-ERROR: modpost: "sof_of_pm" [sound/soc/sof/mediatek/mt8365/snd-sof-mt8365.ko] undefined!
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:900:9: error: call to undeclared function 'mmu_notifier_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     900 |         return mmu_notifier_register(&kvm->mmu_notifier, current->mm);
+         |                ^
+   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:900:9: note: did you mean 'mmu_notifier_release'?
+   include/linux/mmu_notifier.h:598:20: note: 'mmu_notifier_release' declared here
+     598 | static inline void mmu_notifier_release(struct mm_struct *mm)
+         |                    ^
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1220:3: error: call to undeclared function 'mmu_notifier_unregister'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1220 |                 mmu_notifier_unregister(&kvm->mmu_notifier, current->mm);
+         |                 ^
+   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1220:3: note: did you mean 'preempt_notifier_unregister'?
+   include/linux/preempt.h:357:6: note: 'preempt_notifier_unregister' declared here
+     357 | void preempt_notifier_unregister(struct preempt_notifier *notifier);
+         |      ^
+   arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1283:2: error: call to undeclared function 'mmu_notifier_unregister'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1283 |         mmu_notifier_unregister(&kvm->mmu_notifier, kvm->mm);
+         |         ^
+   3 errors generated.
+
+
+vim +/mmu_notifier_register +900 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
+
+4c07b0a4b6df45 Avi Kivity 2009-12-20  896  
+4c07b0a4b6df45 Avi Kivity 2009-12-20  897  static int kvm_init_mmu_notifier(struct kvm *kvm)
+4c07b0a4b6df45 Avi Kivity 2009-12-20  898  {
+4c07b0a4b6df45 Avi Kivity 2009-12-20  899  	kvm->mmu_notifier.ops = &kvm_mmu_notifier_ops;
+4c07b0a4b6df45 Avi Kivity 2009-12-20 @900  	return mmu_notifier_register(&kvm->mmu_notifier, current->mm);
+4c07b0a4b6df45 Avi Kivity 2009-12-20  901  }
+4c07b0a4b6df45 Avi Kivity 2009-12-20  902  
 
 -- 
 0-DAY CI Kernel Test Service
