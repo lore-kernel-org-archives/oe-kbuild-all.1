@@ -1,72 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61EC257452;
-	Thu, 12 Feb 2026 17:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2771B4A02
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 18:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770917411; cv=none; b=WSvz3Chh/WVPX8T2IIL7qM5ZiG183u5u6AKWXQffBf+NYQ+b1iFI1XHmRAzV2HPy96GcpExaxZQnzq1wIip/Ky+sMNJubof0YvFPYQz8WU6SAb2U9EIVlHiihFk6eqdMgb5fjPu29/Rwk0Qyjl5wZ5CCR0DYUb6HoBbWqIt5Y6M=
+	t=1770919279; cv=none; b=hxQ5gINnuYokdWKzDNzFGRdxbUYZ1CMTzdJHzWZgQrsyAk7x/ONzfZo7qms1AzAVdFbtFywjw/wrNTWxcS5yHkVrM1iRhFhOqFT0bmJPJgHrXnpmfy1xOZ0+s0jUCJQrYQLJSiqsvsxvJ5BT/KmTeVkNvlgk2a/43U2JfxfSTaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770917411; c=relaxed/simple;
-	bh=XBOcgJBc1RSlYmqobhoDkxo7B2GCI8X28c2EJGVXf2M=;
+	s=arc-20240116; t=1770919279; c=relaxed/simple;
+	bh=2VceDgzAcNAbcWMGe/daLfC3MZ2oRKR+bvMespEvaLQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rMkOnSaYb4/ZrWseg0xcuVsLNQrGhGuaF9p0Al7xCgEMDCr2dQ8UZAUErtKaP5F68iw85i5s1WRw+0Dw4Kbjq6yrX99rz10GCaL10llh3ZWifSENUfBTgfs5oH7ETj97/CIT5a4z59mumWAa7+R/UXtnZVQ/su2RJ+N11X4iM/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQobrbAL; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=OshmfXwZPpar5XSV8e8ZMMLRhKhx/kACFdJISnMVTIYSN6S9j0KG3ybmU7qWiRp8DHwkv+9PvDLB/3fPyO5BnAKk7O328E4O5jkIPziacDLelGCzEonvQpojGZ3N5FIYcL7d6afs7jBMdN4b2bJifWiVdUzrazs7MFXkwlVHK+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBQ1ngq9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQobrbAL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBQ1ngq9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770917410; x=1802453410;
+  t=1770919277; x=1802455277;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XBOcgJBc1RSlYmqobhoDkxo7B2GCI8X28c2EJGVXf2M=;
-  b=cQobrbALT5yR7C+vFMsWe2lPKljuZcJHgcvM6vPPULU+VLuIpld1fDHY
-   /5WYftu8cu8kdC5sKgnsVpAIJTGEHD8Zu8uJJv0wX5eFOqgFa+wrYIQpD
-   KSOfwksqMPDj6lyUfMYo4J94WmOChWpGzCGnCwlnKmmBHHNzM7T/mesAg
-   K9TukLbEzEHfXWVa8TkjqrpOFtgwQOVo98Wj/AbKxLV/gIgkVHI3Yq0xq
-   AiJ9NzfBC3aRO280dHsoPzhZ0DSoO0uTTwk6HcxXmorhwsykJx4vOGALj
-   USE8OZwypURMC8IjisTTjmU7zvjjolGiwrSMZZBDxDRUexmrFtcsSiVSX
+  bh=2VceDgzAcNAbcWMGe/daLfC3MZ2oRKR+bvMespEvaLQ=;
+  b=YBQ1ngq9XNyBYLi3MLp/kxVxflAo3x2YXloHsL8JGY1DHHN5cbl+xE8a
+   pY7hQdy/39CAA1BQAM0gwuNOrmTOAyJ830tjuv2jnJqo5Q5pEYA9ZHN0R
+   8RGh10dOy7T1aNjiujyFzHrSpy1gkAYFpdHrCz+teDJnB4UKEQII9Fuc1
+   eP3+M1DUxAsbLbsENPlM2SFQeEvQzXwqaEjQz9IUw/Fc6LOWl2yGQWuHQ
+   5Gj8JJFWYT2AKTO5fjDMWiTxtaIKAJ8ZDcjsslyUicF5UbGOvdmWy5Pq0
+   NIn9E/XcpX62SMGH3QTvSTrSX8w2MKn7w+wzEg1H4JW9hkuhGLdAIyVug
    Q==;
-X-CSE-ConnectionGUID: XrCgfqaBT8ievulid8TSlQ==
-X-CSE-MsgGUID: 2mJOuYRqSrCpSFxREjLbIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="71124771"
+X-CSE-ConnectionGUID: tiacrhO/SbqpfS3tWkJ0sA==
+X-CSE-MsgGUID: V7TmMGyTSlamkR732eauvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="72199055"
 X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
-   d="scan'208";a="71124771"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 09:30:09 -0800
-X-CSE-ConnectionGUID: vokpPQzjS12/nvQhQb0tIA==
-X-CSE-MsgGUID: xGkuYLYkQLemyQ69LEKpyg==
+   d="scan'208";a="72199055"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 10:01:17 -0800
+X-CSE-ConnectionGUID: rdinfRarRReea0eUHw6cmw==
+X-CSE-MsgGUID: qKrb+KCxSqmlemg5SrIz1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,287,1763452800"; 
-   d="scan'208";a="243258862"
+   d="scan'208";a="235659425"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 12 Feb 2026 09:30:06 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 12 Feb 2026 10:01:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqaVv-00000000rwq-1LsJ;
-	Thu, 12 Feb 2026 17:30:03 +0000
-Date: Fri, 13 Feb 2026 01:29:53 +0800
+	id 1vqb05-00000000sB6-1JRP;
+	Thu, 12 Feb 2026 18:01:13 +0000
+Date: Fri, 13 Feb 2026 02:00:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>
-Subject: Re: [PATCH v2 3/9] bus: rifsc: use new CONFIG_STM32_FIREWALL_DEBUG
- switch
-Message-ID: <202602130151.3v3igg2M-lkp@intel.com>
-References: <20260212-stm32_risab-v2-3-02ef2859b596@foss.st.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] KVM: remove CONFIG_KVM_GENERIC_MMU_NOTIFIER
+Message-ID: <202602130100.UiJclptY-lkp@intel.com>
+References: <20260212105211.1555876-2-pbonzini@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,59 +63,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260212-stm32_risab-v2-3-02ef2859b596@foss.st.com>
+In-Reply-To: <20260212105211.1555876-2-pbonzini@redhat.com>
 
-Hi Gatien,
+Hi Paolo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b]
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next kvms390/next next-20260212]
+[cannot apply to powerpc/topic/ppc-kvm kvmarm/next linus/master kvm/linux-next v6.19]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gatien-Chevallier/dt-bindings-bus-document-the-RISAB-firewall-peripheral/20260212-182006
-base:   05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
-patch link:    https://lore.kernel.org/r/20260212-stm32_risab-v2-3-02ef2859b596%40foss.st.com
-patch subject: [PATCH v2 3/9] bus: rifsc: use new CONFIG_STM32_FIREWALL_DEBUG switch
-config: loongarch-randconfig-002-20260212 (https://download.01.org/0day-ci/archive/20260213/202602130151.3v3igg2M-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130151.3v3igg2M-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-remove-CONFIG_KVM_GENERIC_MMU_NOTIFIER/20260212-185546
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260212105211.1555876-2-pbonzini%40redhat.com
+patch subject: [PATCH 1/2] KVM: remove CONFIG_KVM_GENERIC_MMU_NOTIFIER
+config: i386-buildonly-randconfig-002-20260212 (https://download.01.org/0day-ci/archive/20260213/202602130100.UiJclptY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130100.UiJclptY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602130151.3v3igg2M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602130100.UiJclptY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/bus/stm32_rifsc.c:436:21: warning: attribute declaration must precede definition [-Wignored-attributes]
-     436 | static const struct __maybe_unused stm32_rifsc_resources_names rifsc_mp21_res_names = {
-         |                     ^
-   include/linux/compiler_attributes.h:343:56: note: expanded from macro '__maybe_unused'
-     343 | #define __maybe_unused                  __attribute__((__unused__))
-         |                                                        ^
-   drivers/bus/stm32_rifsc.c:424:8: note: previous definition is here
-     424 | struct stm32_rifsc_resources_names {
-         |        ^
-   drivers/bus/stm32_rifsc.c:441:21: warning: attribute declaration must precede definition [-Wignored-attributes]
-     441 | static const struct __maybe_unused stm32_rifsc_resources_names rifsc_mp25_res_names = {
-         |                     ^
-   include/linux/compiler_attributes.h:343:56: note: expanded from macro '__maybe_unused'
-     343 | #define __maybe_unused                  __attribute__((__unused__))
-         |                                                        ^
-   drivers/bus/stm32_rifsc.c:424:8: note: previous definition is here
-     424 | struct stm32_rifsc_resources_names {
-         |        ^
-   2 warnings generated.
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_init_mmu_notifier':
+>> arch/x86/kvm/../../../virt/kvm/kvm_main.c:900:16: error: implicit declaration of function 'mmu_notifier_register'; did you mean 'mmu_notifier_release'? [-Wimplicit-function-declaration]
+     900 |         return mmu_notifier_register(&kvm->mmu_notifier, current->mm);
+         |                ^~~~~~~~~~~~~~~~~~~~~
+         |                mmu_notifier_release
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_create_vm':
+>> arch/x86/kvm/../../../virt/kvm/kvm_main.c:1220:17: error: implicit declaration of function 'mmu_notifier_unregister'; did you mean 'preempt_notifier_unregister'? [-Wimplicit-function-declaration]
+    1220 |                 mmu_notifier_unregister(&kvm->mmu_notifier, current->mm);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 preempt_notifier_unregister
 
 
-vim +436 drivers/bus/stm32_rifsc.c
+vim +900 arch/x86/kvm/../../../virt/kvm/kvm_main.c
 
-   435	
- > 436	static const struct __maybe_unused stm32_rifsc_resources_names rifsc_mp21_res_names = {
-   437		.device_names = stm32mp21_rifsc_risup_names,
-   438		.initiator_names = stm32mp21_rifsc_rimu_names,
-   439	};
-   440	
+4c07b0a4b6df45 Avi Kivity 2009-12-20  896  
+4c07b0a4b6df45 Avi Kivity 2009-12-20  897  static int kvm_init_mmu_notifier(struct kvm *kvm)
+4c07b0a4b6df45 Avi Kivity 2009-12-20  898  {
+4c07b0a4b6df45 Avi Kivity 2009-12-20  899  	kvm->mmu_notifier.ops = &kvm_mmu_notifier_ops;
+4c07b0a4b6df45 Avi Kivity 2009-12-20 @900  	return mmu_notifier_register(&kvm->mmu_notifier, current->mm);
+4c07b0a4b6df45 Avi Kivity 2009-12-20  901  }
+4c07b0a4b6df45 Avi Kivity 2009-12-20  902  
 
 -- 
 0-DAY CI Kernel Test Service
