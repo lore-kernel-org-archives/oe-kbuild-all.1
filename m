@@ -1,131 +1,225 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1154319DF62
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 02:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F62021B9D2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Feb 2026 03:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770863127; cv=none; b=RHy3oWyBOkArqnaykTs+UlJchm8fZn5aH+OnQDffGDMG9IKFF2s3EtStIpnV3jwu0NwYedWYTg5rBNbCPddrKCn9GJtSMSO76avveSs5hpGxIQAQ0jAtYT6Jq9BEdpqbtKDInaScItgYThvMWCO/lys9MLylbyjAdH2TlRCN+rc=
+	t=1770865601; cv=none; b=F8wcJlCrDGM2TZZ98cv7jXUT2Lp+/BgBxlzqlTgDqiQZGKWZYcD16dpLpjJwilkOUXhe5lXkP2kEW/svmI79O6SD8jYrQ1zYGmgHNx0BtHlDRVlwXhZaDAZUcHGk9K8XZI92bkDa2ZiERXwWdg28MuXLIDFMAgeH8rCZLTE0Hmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770863127; c=relaxed/simple;
-	bh=4PnXNNy7PSA47ka3TglfbwhzMH2hrLV3dWKJyDAqTuI=;
+	s=arc-20240116; t=1770865601; c=relaxed/simple;
+	bh=//Tdnbn7lKDX27CHQNT2N1tRGBHP07Udp8jqFUUumEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=to4VCms8+0wQr1Hv4VkZyYUSsan231AzoDprLohjxNSggniuvb99iB+daREIDd3gspvdKRILJ2q0wKNmsj6pQGBD5si3sg2BSuf5b4VHe8Qop2uewRmS0M9hyeCZCS/sIawHH6SPsy5dMpFq0z+KQ//NfvWigo2Z6isTwTagvxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K5DoyXpP; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dTRKQj9dsqhDeOC4AOrUkpadlmqBi/tmteAOl1CYp7VLdQNVX0FSgSYhU0iTZwzd2RlVcSKOzMhLqPXa7iR2/nS0SHt0max5+6RDqYRPbyF6l4lZoCBBSgUanpckYtlQzCjVBrt1rxRUFzvBX9AbTSW4kJopdfC4k6LtiqRN3DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0BHcPWf; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K5DoyXpP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770863125;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BW+Mgpaq6SwF9hkVhCNywA9aCMpLFaTHrW15uFZTbFY=;
-	b=K5DoyXpPysvfVRTPxJtxGLMC8QdvDKiI1awH0JfD+qpxgQI4WUKX04/Y/GpIAP8y+gfu9Z
-	6eax6tD1013cF+NsClhFI9taXsZJzAGD0dBLW3Ad3Z3Cxn2sG4oB4NMTVDia5xpLG0dGei
-	a/cUcNCrQeNYIcYCLDHkaQd6AvSXjmM=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-F0xi-yZ1N66ym6Ros765mw-1; Wed, 11 Feb 2026 21:25:23 -0500
-X-MC-Unique: F0xi-yZ1N66ym6Ros765mw-1
-X-Mimecast-MFC-AGG-ID: F0xi-yZ1N66ym6Ros765mw_1770863122
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8249cbbf769so577912b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Feb 2026 18:25:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770863122; x=1771467922;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BW+Mgpaq6SwF9hkVhCNywA9aCMpLFaTHrW15uFZTbFY=;
-        b=Z+rltY4QRzVZo/yBbE4NSZJBVXgBFPWm4NsTHXw4GeFJ4kRepLqC8P8fe25OKPSxHd
-         BbZcd906T9qlGFh4UIRwp5j/sOlCT/tUs6383RTCPEgVtLRe/TBMdGsdLOZeRXQ+Ccte
-         LeqCHwOsZ9ZIhS6uAI5lSfN6pTAYxTTN//Ny5GDYaao3K/+TLy7EGd9WoO056YYXEIkV
-         Upcnn6YdfjvTH+o9Ur7+2hbECFqlq3Jlt366FVL8iw9UVcfBnCInAzHtrHonwYxuuEdL
-         cDYpSix35D5pQrRpDYn2VS7C1XTnhiLYHpBwo4oY8fjAMpdRzEBMoZVSTIl8jw7g3DLD
-         m73w==
-X-Forwarded-Encrypted: i=1; AJvYcCU1Oja6jFsU79Z5qi85H3txoRqos77giCiWOrhndX2dZErf4GuTUYxT8wHI2mxGPDgUse84cjvCbrJAT867@lists.linux.dev
-X-Gm-Message-State: AOJu0YzY0xMgTQ+rjrrsdqlnilOeBrojLaIlEBsiXDIcw8GWwFnPG2R7
-	lMg2tUwLkDFzbqydgWCWRiQvOsCyoQHf8wBv9dlnzVSNIY1jOqyGcnTMkDZl834j3I3er7Dx4Ss
-	oemRYLB9xhThZrkraiSVaV/hX25FxFOBRct9FA/W1Wda5NUmSy+RKIAkpBVmK1kXPOAU=
-X-Gm-Gg: AZuq6aJOSp9YhHPCyxXc+UFQRZhiBFLOIMLl+VFzDOxhfIanc0EUURTvYe7F8naWckm
-	8uM6Uh5FLrDkxBQrzGU9reoxsFwC4x9hyGiE1ei7LdPNOrylgkRuC8X702WQFDoqmO1Y6+wUj0n
-	y8wOjANfE3MhdTMkNeShl7Ja22Jzu+MI6vR0FRUnHje8qXYYRPyfNI5nZPB8pziCW5IlWh4fOgZ
-	KHwD1ZeoaLgqSD0ocMgexR2xmJP6NUvjZR2ccmfCGsNqCeajoGJA4Y91fXjMUoh2nGhOU27xNWh
-	ikJNaOr5v2AFBUtHbsYMdM+kbH6PmbS+3mTvwhL2kutCWPn0U3OsND5ltoEeK2sW5rxnRn/mDLK
-	JaJKRrdJUbW2Y
-X-Received: by 2002:a05:6a00:1d84:b0:824:9451:c1ee with SMTP id d2e1a72fcca58-824b3068659mr493707b3a.55.1770863121965;
-        Wed, 11 Feb 2026 18:25:21 -0800 (PST)
-X-Received: by 2002:a05:6a00:1d84:b0:824:9451:c1ee with SMTP id d2e1a72fcca58-824b3068659mr493667b3a.55.1770863121385;
-        Wed, 11 Feb 2026 18:25:21 -0800 (PST)
-Received: from localhost ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8249e8198a6sm3984873b3a.50.2026.02.11.18.25.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Feb 2026 18:25:20 -0800 (PST)
-Date: Thu, 12 Feb 2026 10:22:10 +0800
-From: Coiby Xu <coxu@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	Arnaud Lefebvre <arnaud.lefebvre@clever-cloud.com>, Baoquan he <bhe@redhat.com>, Dave Young <dyoung@redhat.com>, 
-	Kairui Song <ryncsn@gmail.com>, Pingfan Liu <kernelfans@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Thomas Staudt <tstaudt@de.ibm.com>, Sourabh Jain <sourabhjain@linux.ibm.com>, 
-	Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] arm64,ppc64le/kdump: pass dm-crypt keys to kdump
- kernel
-Message-ID: <aY05DpHN6QL8xQQ4@Rk>
-References: <20260211082401.2407853-3-coxu@redhat.com>
- <202602120648.RgQALnnI-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0BHcPWf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770865600; x=1802401600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=//Tdnbn7lKDX27CHQNT2N1tRGBHP07Udp8jqFUUumEs=;
+  b=h0BHcPWfXL9eIE4syJjHVjs7PV+IHxmovMQyrtubbXP6JWuH3bN6eN6x
+   oHLXWbLMwLjVtTNtYdO1zX/DTOPuMtU17U7qUmoexYhPtxsKttvbKJUCq
+   Io+WkDbpmYGltYj2Eht2US6JQ2p+9F1pna9GyO5Q/TQJOV+4SndxQjNIX
+   X+HbB+HTKxfmGM3HySvQFWVS495IQE6XI7mV0gOtUekmN9fEa6pYCAEwP
+   k+HJ5OiyiPe+APiW472JPWbVXsvIxwlMAqZZNf4bTF/wGv1p9ceVDtW0i
+   rlK9TizsGzX7lQ6D57XwkIDJz9lO9/2WTHs5f7WSQYXfC4nUIXoIlZBx7
+   g==;
+X-CSE-ConnectionGUID: 3+L6CGN5Sv26IN6Cd4GdrA==
+X-CSE-MsgGUID: Lq+7kUoHRZyMRw+tl+BZoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="89616181"
+X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
+   d="scan'208";a="89616181"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 19:06:35 -0800
+X-CSE-ConnectionGUID: r7ON8AjCRQKoWSc8aTeATA==
+X-CSE-MsgGUID: eIr1mpSkTUaWzhq3ctyVrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
+   d="scan'208";a="211450315"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 11 Feb 2026 19:06:33 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vqN2E-000000001Fh-3nn3;
+	Thu, 12 Feb 2026 03:06:30 +0000
+Date: Thu, 12 Feb 2026 04:06:20 +0100
+From: kernel test robot <lkp@intel.com>
+To: Eduard Zingerman <eddyz87@gmail.com>, bpf@vger.kernel.org,
+	ast@kernel.org, andrii@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net,
+	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev,
+	eddyz87@gmail.com
+Subject: Re: [PATCH bpf-next 3/3] bpf: rename bpf_reg_state->off to
+ bpf_reg_state->delta
+Message-ID: <202602120439.lmbFn0nF-lkp@intel.com>
+References: <20260211-ptrs-off-migration-v1-3-996c2a37b063@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202602120648.RgQALnnI-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: -h6O7prz7oHQlzif7evVDF5ecVLCKy9mrZpLuSX4AKo_1770863122
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260211-ptrs-off-migration-v1-3-996c2a37b063@gmail.com>
 
-On Thu, Feb 12, 2026 at 06:35:52AM +0800, kernel test robot wrote:
->Hi Coiby,
->
->kernel test robot noticed the following build errors:
->
->[auto build test ERROR on 2619c62b7ef2f463bcbbb34af122689c09855c23]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Coiby-Xu/crash_dump-dm-crypt-Don-t-print-in-arch-specific-code/20260211-162729
->base:   2619c62b7ef2f463bcbbb34af122689c09855c23
->patch link:    https://lore.kernel.org/r/20260211082401.2407853-3-coxu%40redhat.com
->patch subject: [PATCH v4 2/2] arm64,ppc64le/kdump: pass dm-crypt keys to kdump kernel
->config: powerpc64-randconfig-r111-20260212 (https://download.01.org/0day-ci/archive/20260212/202602120648.RgQALnnI-lkp@intel.com/config)
->compiler: powerpc64-linux-gcc (GCC) 11.5.0
->reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120648.RgQALnnI-lkp@intel.com/reproduce)
->
->If you fix the issue in a separate patch/commit (i.e. not just a new version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes: https://lore.kernel.org/oe-kbuild-all/202602120648.RgQALnnI-lkp@intel.com/
->
->All errors (new ones prefixed by >>):
->
->   arch/powerpc/kexec/elf_64.c: In function 'elf64_load':
->>> arch/powerpc/kexec/elf_64.c:82:23: error: implicit declaration of function 'crash_load_dm_crypt_keys' [-Werror=implicit-function-declaration]
->      82 |                 ret = crash_load_dm_crypt_keys(image);
->         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
->   cc1: some warnings being treated as errors
+Hi Eduard,
 
-Thanks for reporting this issue. I'll fix this issue in new patch set.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4475cdac12c46fc26ee815de1b43cfe9f8375140]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-split-check_reg_sane_offset-in-two-parts/20260212-063425
+base:   4475cdac12c46fc26ee815de1b43cfe9f8375140
+patch link:    https://lore.kernel.org/r/20260211-ptrs-off-migration-v1-3-996c2a37b063%40gmail.com
+patch subject: [PATCH bpf-next 3/3] bpf: rename bpf_reg_state->off to bpf_reg_state->delta
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260212/202602120439.lmbFn0nF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120439.lmbFn0nF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602120439.lmbFn0nF-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/net/ethernet/netronome/nfp/bpf/verifier.c: In function 'nfp_bpf_map_update_value_ok':
+>> drivers/net/ethernet/netronome/nfp/bpf/verifier.c:101:19: error: 'const struct bpf_reg_state' has no member named 'off'
+     101 |         off = reg3->off + reg3->var_off.value;
+         |                   ^~
+   drivers/net/ethernet/netronome/nfp/bpf/verifier.c: In function 'nfp_bpf_stack_arg_ok':
+   drivers/net/ethernet/netronome/nfp/bpf/verifier.c:140:39: error: 'const struct bpf_reg_state' has no member named 'off'
+     140 |         off = reg->var_off.value + reg->off;
+         |                                       ^~
+>> drivers/net/ethernet/netronome/nfp/bpf/verifier.c:150:60: error: 'struct bpf_reg_state' has no member named 'off'
+     150 |         old_off = old_arg->reg.var_off.value + old_arg->reg.off;
+         |                                                            ^
+   drivers/net/ethernet/netronome/nfp/bpf/verifier.c: In function 'nfp_bpf_check_stack_access':
+   drivers/net/ethernet/netronome/nfp/bpf/verifier.c:361:28: error: 'struct bpf_reg_state' has no member named 'off'
+     361 |         old_off = meta->ptr.off + meta->ptr.var_off.value;
+         |                            ^
+   drivers/net/ethernet/netronome/nfp/bpf/verifier.c:362:22: error: 'const struct bpf_reg_state' has no member named 'off'
+     362 |         new_off = reg->off + reg->var_off.value;
+         |                      ^~
+   drivers/net/ethernet/netronome/nfp/bpf/verifier.c: In function 'nfp_bpf_map_mark_used':
+   drivers/net/ethernet/netronome/nfp/bpf/verifier.c:431:56: error: 'const struct bpf_reg_state' has no member named 'off'
+     431 |         off = reg->var_off.value + meta->insn.off + reg->off;
+         |                                                        ^~
+--
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c: In function 'map_call_stack_common':
+>> drivers/net/ethernet/netronome/nfp/bpf/jit.c:1734:64: error: 'struct bpf_reg_state' has no member named 'off'
+    1734 |         lm_off += meta->arg2.reg.var_off.value + meta->arg2.reg.off;
+         |                                                                ^
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c: In function 'mem_ldx':
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c:2878:47: error: 'struct bpf_reg_state' has no member named 'off'
+    2878 |                                      meta->ptr.off + meta->ptr.var_off.value);
+         |                                               ^
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c: In function 'mem_stx':
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c:2989:47: error: 'struct bpf_reg_state' has no member named 'off'
+    2989 |                                      meta->ptr.off + meta->ptr.var_off.value);
+         |                                               ^
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c: In function 'cross_mem_access':
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c:4156:65: error: 'struct bpf_reg_state' has no member named 'off'
+    4156 |         head_ld_off = head_ld_meta->insn.off + head_ld_meta->ptr.off;
+         |                                                                 ^
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c:4157:65: error: 'struct bpf_reg_state' has no member named 'off'
+    4157 |         head_st_off = head_st_meta->insn.off + head_st_meta->ptr.off;
+         |                                                                 ^
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c:4158:45: error: 'struct bpf_reg_state' has no member named 'off'
+    4158 |         ld_off = ld->off + head_ld_meta->ptr.off;
+         |                                             ^
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c: In function 'nfp_bpf_opt_pkt_cache':
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c:4329:30: error: 'struct bpf_reg_state' has no member named 'off'
+    4329 |                     meta->ptr.off == range_ptr_off) {
+         |                              ^
+   drivers/net/ethernet/netronome/nfp/bpf/jit.c:4364:48: error: 'struct bpf_reg_state' has no member named 'off'
+    4364 |                 range_ptr_off = range_node->ptr.off;
+         |                                                ^
+
+
+vim +101 drivers/net/ethernet/netronome/nfp/bpf/verifier.c
+
+8231f8444110c3 Jakub Kicinski 2017-12-14   82  
+527db74b71ee5a Jakub Kicinski 2018-10-16   83  static bool nfp_bpf_map_update_value_ok(struct bpf_verifier_env *env)
+527db74b71ee5a Jakub Kicinski 2018-10-16   84  {
+527db74b71ee5a Jakub Kicinski 2018-10-16   85  	const struct bpf_reg_state *reg1 = cur_regs(env) + BPF_REG_1;
+527db74b71ee5a Jakub Kicinski 2018-10-16   86  	const struct bpf_reg_state *reg3 = cur_regs(env) + BPF_REG_3;
+527db74b71ee5a Jakub Kicinski 2018-10-16   87  	struct bpf_offloaded_map *offmap;
+527db74b71ee5a Jakub Kicinski 2018-10-16   88  	struct bpf_func_state *state;
+527db74b71ee5a Jakub Kicinski 2018-10-16   89  	struct nfp_bpf_map *nfp_map;
+527db74b71ee5a Jakub Kicinski 2018-10-16   90  	int off, i;
+527db74b71ee5a Jakub Kicinski 2018-10-16   91  
+527db74b71ee5a Jakub Kicinski 2018-10-16   92  	state = env->cur_state->frame[reg3->frameno];
+527db74b71ee5a Jakub Kicinski 2018-10-16   93  
+527db74b71ee5a Jakub Kicinski 2018-10-16   94  	/* We need to record each time update happens with non-zero words,
+527db74b71ee5a Jakub Kicinski 2018-10-16   95  	 * in case such word is used in atomic operations.
+527db74b71ee5a Jakub Kicinski 2018-10-16   96  	 * Implicitly depend on nfp_bpf_stack_arg_ok(reg3) being run before.
+527db74b71ee5a Jakub Kicinski 2018-10-16   97  	 */
+527db74b71ee5a Jakub Kicinski 2018-10-16   98  
+527db74b71ee5a Jakub Kicinski 2018-10-16   99  	offmap = map_to_offmap(reg1->map_ptr);
+527db74b71ee5a Jakub Kicinski 2018-10-16  100  	nfp_map = offmap->dev_priv;
+527db74b71ee5a Jakub Kicinski 2018-10-16 @101  	off = reg3->off + reg3->var_off.value;
+527db74b71ee5a Jakub Kicinski 2018-10-16  102  
+527db74b71ee5a Jakub Kicinski 2018-10-16  103  	for (i = 0; i < offmap->map.value_size; i++) {
+527db74b71ee5a Jakub Kicinski 2018-10-16  104  		struct bpf_stack_state *stack_entry;
+527db74b71ee5a Jakub Kicinski 2018-10-16  105  		unsigned int soff;
+527db74b71ee5a Jakub Kicinski 2018-10-16  106  
+527db74b71ee5a Jakub Kicinski 2018-10-16  107  		soff = -(off + i) - 1;
+527db74b71ee5a Jakub Kicinski 2018-10-16  108  		stack_entry = &state->stack[soff / BPF_REG_SIZE];
+527db74b71ee5a Jakub Kicinski 2018-10-16  109  		if (stack_entry->slot_type[soff % BPF_REG_SIZE] == STACK_ZERO)
+527db74b71ee5a Jakub Kicinski 2018-10-16  110  			continue;
+527db74b71ee5a Jakub Kicinski 2018-10-16  111  
+527db74b71ee5a Jakub Kicinski 2018-10-16  112  		if (nfp_map->use_map[i / 4].type == NFP_MAP_USE_ATOMIC_CNT) {
+527db74b71ee5a Jakub Kicinski 2018-10-16  113  			pr_vlog(env, "value at offset %d/%d may be non-zero, bpf_map_update_elem() is required to initialize atomic counters to zero to avoid offload endian issues\n",
+527db74b71ee5a Jakub Kicinski 2018-10-16  114  				i, soff);
+527db74b71ee5a Jakub Kicinski 2018-10-16  115  			return false;
+527db74b71ee5a Jakub Kicinski 2018-10-16  116  		}
+527db74b71ee5a Jakub Kicinski 2018-10-16  117  		nfp_map->use_map[i / 4].non_zero_update = 1;
+527db74b71ee5a Jakub Kicinski 2018-10-16  118  	}
+527db74b71ee5a Jakub Kicinski 2018-10-16  119  
+527db74b71ee5a Jakub Kicinski 2018-10-16  120  	return true;
+527db74b71ee5a Jakub Kicinski 2018-10-16  121  }
+527db74b71ee5a Jakub Kicinski 2018-10-16  122  
+2f46e0c1273512 Jakub Kicinski 2018-03-28  123  static int
+2f46e0c1273512 Jakub Kicinski 2018-03-28  124  nfp_bpf_stack_arg_ok(const char *fname, struct bpf_verifier_env *env,
+2f46e0c1273512 Jakub Kicinski 2018-03-28  125  		     const struct bpf_reg_state *reg,
+2f46e0c1273512 Jakub Kicinski 2018-03-28  126  		     struct nfp_bpf_reg_state *old_arg)
+2f46e0c1273512 Jakub Kicinski 2018-03-28  127  {
+2f46e0c1273512 Jakub Kicinski 2018-03-28  128  	s64 off, old_off;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  129  
+2f46e0c1273512 Jakub Kicinski 2018-03-28  130  	if (reg->type != PTR_TO_STACK) {
+2f46e0c1273512 Jakub Kicinski 2018-03-28  131  		pr_vlog(env, "%s: unsupported ptr type %d\n",
+2f46e0c1273512 Jakub Kicinski 2018-03-28  132  			fname, reg->type);
+2f46e0c1273512 Jakub Kicinski 2018-03-28  133  		return false;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  134  	}
+2f46e0c1273512 Jakub Kicinski 2018-03-28  135  	if (!tnum_is_const(reg->var_off)) {
+2f46e0c1273512 Jakub Kicinski 2018-03-28  136  		pr_vlog(env, "%s: variable pointer\n", fname);
+2f46e0c1273512 Jakub Kicinski 2018-03-28  137  		return false;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  138  	}
+2f46e0c1273512 Jakub Kicinski 2018-03-28  139  
+2f46e0c1273512 Jakub Kicinski 2018-03-28  140  	off = reg->var_off.value + reg->off;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  141  	if (-off % 4) {
+2f46e0c1273512 Jakub Kicinski 2018-03-28  142  		pr_vlog(env, "%s: unaligned stack pointer %lld\n", fname, -off);
+2f46e0c1273512 Jakub Kicinski 2018-03-28  143  		return false;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  144  	}
+2f46e0c1273512 Jakub Kicinski 2018-03-28  145  
+2f46e0c1273512 Jakub Kicinski 2018-03-28  146  	/* Rest of the checks is only if we re-parse the same insn */
+2f46e0c1273512 Jakub Kicinski 2018-03-28  147  	if (!old_arg)
+2f46e0c1273512 Jakub Kicinski 2018-03-28  148  		return true;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  149  
+2f46e0c1273512 Jakub Kicinski 2018-03-28 @150  	old_off = old_arg->reg.var_off.value + old_arg->reg.off;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  151  	old_arg->var_off |= off != old_off;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  152  
+2f46e0c1273512 Jakub Kicinski 2018-03-28  153  	return true;
+2f46e0c1273512 Jakub Kicinski 2018-03-28  154  }
+2f46e0c1273512 Jakub Kicinski 2018-03-28  155  
 
 -- 
-Best regards,
-Coiby
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
