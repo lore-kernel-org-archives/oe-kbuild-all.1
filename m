@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6465533C52A;
-	Fri, 13 Feb 2026 23:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C3733CE82
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 23:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771024853; cv=none; b=Sf2ohaemLy4OQScwYGR0OvZWX8wRwua/dYVXGWyqszIRDu6MYfQuHrxx5GUwoTMb5p3ykL5cXj+nLzeI/fPVjvQMa+wSl1rRvK4oy1KUkrejd4b+Qxe3ZC5euDS2HdjyvdlJJRIzfimUC9LWjrQnEEi2yQSCSTmzJy0mCy+TQaM=
+	t=1771024854; cv=none; b=KEfbLAXHwM2J7EsbvqZKj6jKAZIgmr4MZxOQf4hY5ax6q2KGWTT1dH8jZI6rvSi8qMNZb8XKh9fBPZJug7MoTnqFk/g73x2FSvtIQxXJ4PHEglnPpm8oc8g6VjToj2Vni2cMIxY9C5cCjiIk5GSUbSbLXiB6DxS1euEVOFpvims=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771024853; c=relaxed/simple;
-	bh=EkQtcVmiJ8ec56l6tnyPvJJpdOdXvQyvqzGPx4Fwt9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=aPwbI6QZl1NTBUeGWlqrwIZ1b2K8YV6isuUl4avFWPK9rnXYkRT9bMGIwgyt6vDF1x3MlHN5jxR0XJHML0zRam+UV83oZy/phGfe7O52z+FZ+0bQKHGtHt6NpkpQhcRdYNdA7j1OWTxaMpSbau0gZjDxSqBahkbwLmg3EO4gFcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wbc8Y/Bd; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1771024854; c=relaxed/simple;
+	bh=UP1k3/aqKqvuuTAexXLYVIICFg/RGeQzEYaH3Yj4530=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMDZh2ZxR/pCAtq4zYKb1olyeDgBm+w6CxsExKihLYmfhWEtlsuhMWK8FF8TFr1VvNCfCw8p7FDav2FAQR1lB9Dx/YFNgf8jojfm2P0HDpfvmcucV2xCj+cnnwkRJXNWhOWNNizxqi4BOQCG3a4IKwIYoZyU8/VLCj/rfl/hyQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tpxp+Pib; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wbc8Y/Bd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tpxp+Pib"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771024852; x=1802560852;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EkQtcVmiJ8ec56l6tnyPvJJpdOdXvQyvqzGPx4Fwt9g=;
-  b=Wbc8Y/Bd4Y44zS/Osz24UXLNtpqKZL04tGw0Af8garl7b1UJaNTIJZ3m
-   tdDj2aDsyxgsdgej/VgEr4ono468+GYXb2KbJdMzbydfsM8pFY2cah2wj
-   /zwn1EDGRnjAsw81jvurLzynISk8PEOyGRioML48bnqjL8yhmDYknDCgd
-   kIy8REFjKrKA7LKgWSSCnzBfqyBExnVdxtUPa929PUQTjdlJZtd1HMmkk
-   UUE8aK4N6Ia05s4/LdazE+CHHsgKl7QNX6ZK/8l5TCUUPYsSaeo61iXwL
-   RAxXoe5G3qkXjEE6QULckSJUwaXG5X+hRymNBqUCYWUvq23B878RiCUpH
+  t=1771024853; x=1802560853;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UP1k3/aqKqvuuTAexXLYVIICFg/RGeQzEYaH3Yj4530=;
+  b=Tpxp+PibEgLk9bvu9HFD+9MjlhGUCwr1eehfm/Qu3BVl0dcYqAgrI9jF
+   kG1CSn4BZBwUtiSCxsFnwAUbSz+FXL3czN0Bq3ncGDGFSuckDzagHIse1
+   jGruVvXoJkLmJ3UmP7CItkkNZjAJu5LJwYSZ47Q/Tf/j4zffel5THL6Qm
+   y6Dmmg1pQk7CZLa+1/bt27ane+hpC8b0ozSJ3rYvO6U0XkASNoJICeUuq
+   DyfT3chF0SaD7M63fuLivkfaILup16hI7q7L9RN+NQACggkhfVfiqtb3u
+   l6lscL537mNDu2HlufDo7ScRu1qwn5c76GdKWHi9YQvtlx/iRTd8AmmPG
    w==;
-X-CSE-ConnectionGUID: Q1FE0S+CQhmTEtJlFpZOKg==
-X-CSE-MsgGUID: VzfdXvXJR/qtSyZf4uOj/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72388595"
+X-CSE-ConnectionGUID: Ysal8a1NSTG3VPlCtgRq9A==
+X-CSE-MsgGUID: n1iAx5kNS3SwXiQlaK2mrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72202997"
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="72388595"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 15:20:52 -0800
-X-CSE-ConnectionGUID: 7W+sUFmDSdCk37Hj29PTvQ==
-X-CSE-MsgGUID: SPPu+G0iSwq1YTG6h6xeXw==
+   d="scan'208";a="72202997"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 15:20:53 -0800
+X-CSE-ConnectionGUID: GOQOO2YpQQC3VCOaEwHDZQ==
+X-CSE-MsgGUID: unp07YppQcmFZMvxem8dIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="211711519"
+   d="scan'208";a="242391086"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Feb 2026 15:20:50 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 13 Feb 2026 15:20:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vr2Su-00000000vtp-10N7;
+	id 1vr2Su-00000000vtk-0Tdb;
 	Fri, 13 Feb 2026 23:20:48 +0000
-Date: Sat, 14 Feb 2026 07:20:34 +0800
+Date: Sat, 14 Feb 2026 07:20:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-compat_32bit_time 3/4]
- lib/vdso/gettimeofday.c:343:2: error: call to undeclared function
- 'BUILD_BUG_ON'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202602140732.Qkr1m15w-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Umang Jain <uajain@igalia.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v2 25/25] media: i2c: imx283: Simplify VFLIP control
+ setting
+Message-ID: <202602140716.ayhsqB6c-lkp@intel.com>
+References: <20260213-mainline-imx283-v2-v2-25-be40a3770ebf@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +69,162 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260213-mainline-imx283-v2-v2-25-be40a3770ebf@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-compat_32bit_time
-head:   1a400ee33c91f1c010e4fcbddc3781afdc8ff201
-commit: 194ed9d5b6d11d446fde4eaa8724406aa7cd5fe2 [3/4] generic
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260214/202602140732.Qkr1m15w-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140732.Qkr1m15w-lkp@intel.com/reproduce)
+Hi Kieran,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on c824345288d11e269ce41b36c105715bc2286050]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kieran-Bingham/media-i2c-imx283-Report-correct-V4L2_SEL_TGT_CROP/20260213-221320
+base:   c824345288d11e269ce41b36c105715bc2286050
+patch link:    https://lore.kernel.org/r/20260213-mainline-imx283-v2-v2-25-be40a3770ebf%40ideasonboard.com
+patch subject: [PATCH v2 25/25] media: i2c: imx283: Simplify VFLIP control setting
+config: openrisc-randconfig-r071-20260214 (https://download.01.org/0day-ci/archive/20260214/202602140716.ayhsqB6c-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 9.5.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140716.ayhsqB6c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602140732.Qkr1m15w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602140716.ayhsqB6c-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <built-in>:3:
->> lib/vdso/gettimeofday.c:343:2: error: call to undeclared function 'BUILD_BUG_ON'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     343 |         BUILD_BUG_ON(!IS_ENABLED(CONFIG_VDSO_COMPAT_32BIT_TIME));
-         |         ^
-   lib/vdso/gettimeofday.c:496:2: error: call to undeclared function 'BUILD_BUG_ON'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     496 |         BUILD_BUG_ON(!IS_ENABLED(CONFIG_VDSO_COMPAT_32BIT_TIME));
-         |         ^
-   2 errors generated.
-   make[3]: *** [arch/arm64/kernel/vdso32/Makefile:135: arch/arm64/kernel/vdso32/vgettimeofday.o] Error 1
-   make[3]: Target 'arch/arm64/kernel/vdso32/vdso.so' not remade because of errors.
-   make[2]: *** [arch/arm64/Makefile:208: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/media/i2c/imx283.c: In function 'imx283_set_ctrl':
+>> drivers/media/i2c/imx283.c:951:3: error: a label can only be part of a statement and a declaration is not a statement
+     951 |   u8 trim = IMX283_HTRIMMING_EN;
+         |   ^~
 
 
-vim +/BUILD_BUG_ON +343 lib/vdso/gettimeofday.c
+vim +951 drivers/media/i2c/imx283.c
 
-   334	
-   335	#ifdef BUILD_VDSO32
-   336	static __maybe_unused int
-   337	__cvdso_clock_gettime32_data(const struct vdso_time_data *vd, clockid_t clock,
-   338				     struct old_timespec32 *res)
-   339	{
-   340		struct __kernel_timespec ts;
-   341		bool ok;
-   342	
- > 343		BUILD_BUG_ON(!IS_ENABLED(CONFIG_VDSO_COMPAT_32BIT_TIME));
-   344	
-   345		ok = __cvdso_clock_gettime_common(vd, clock, &ts);
-   346	
-   347		if (unlikely(!ok))
-   348			return clock_gettime32_fallback(clock, res);
-   349	
-   350		/* For ok == true */
-   351		res->tv_sec = ts.tv_sec;
-   352		res->tv_nsec = ts.tv_nsec;
-   353	
-   354		return 0;
-   355	}
-   356	
+   850	
+   851	static int imx283_set_ctrl(struct v4l2_ctrl *ctrl)
+   852	{
+   853		struct imx283 *imx283 = container_of(ctrl->handler, struct imx283,
+   854						     ctrl_handler);
+   855		const struct imx283_mode *mode;
+   856		struct v4l2_mbus_framefmt *fmt;
+   857		const struct imx283_mode *mode_list;
+   858		struct v4l2_subdev_state *state;
+   859		unsigned int num_modes;
+   860		u64 shr;
+   861		int ret = 0;
+   862	
+   863		state = v4l2_subdev_get_locked_active_state(&imx283->sd);
+   864		fmt = v4l2_subdev_state_get_format(state, 0);
+   865	
+   866		get_mode_table(fmt->code, &mode_list, &num_modes);
+   867		mode = v4l2_find_nearest_size(mode_list, num_modes, width, height,
+   868					      fmt->width, fmt->height);
+   869	
+   870		/*
+   871		 * The VBLANK/HBLANK controls change the limits of usable exposure,
+   872		 * so check and adjust if necessary.
+   873		 */
+   874		if (ctrl->id == V4L2_CID_HBLANK) {
+   875			u64 pixel_rate = imx283_pixel_rate(imx283, mode);
+   876			u32 max_width = mode->crop.width + ctrl->val;
+   877	
+   878			imx283->hmax = imx283_internal_clock(pixel_rate, max_width);
+   879		}
+   880	
+   881		if (ctrl->id == V4L2_CID_VBLANK)
+   882			imx283->vmax = mode->crop.height + ctrl->val;
+   883	
+   884		if (ctrl->id == V4L2_CID_HBLANK ||
+   885		    ctrl->id == V4L2_CID_VBLANK) {
+   886			/* Honour the VBLANK limits when setting exposure. */
+   887			s64 current_exposure, max_exposure, min_exposure;
+   888	
+   889			imx283_exposure_limits(imx283, mode,
+   890					       &min_exposure, &max_exposure);
+   891	
+   892			current_exposure = imx283->exposure->val;
+   893			current_exposure = clamp(current_exposure, min_exposure,
+   894						 max_exposure);
+   895	
+   896			__v4l2_ctrl_modify_range(imx283->exposure, min_exposure,
+   897						 max_exposure, 1, current_exposure);
+   898		}
+   899	
+   900		/*
+   901		 * Applying V4L2 control value only happens
+   902		 * when power is up for streaming
+   903		 */
+   904		if (!pm_runtime_get_if_active(imx283->dev))
+   905			return 0;
+   906	
+   907		switch (ctrl->id) {
+   908		case V4L2_CID_EXPOSURE:
+   909			shr = imx283_shr(imx283, mode, ctrl->val);
+   910			dev_dbg(imx283->dev, "V4L2_CID_EXPOSURE : %d - SHR: %lld\n",
+   911				ctrl->val, shr);
+   912			ret = cci_write(imx283->cci, IMX283_REG_SHR, shr, NULL);
+   913			break;
+   914	
+   915		case V4L2_CID_HBLANK:
+   916			dev_dbg(imx283->dev, "V4L2_CID_HBLANK : %d  HMAX : %u\n",
+   917				ctrl->val, imx283->hmax);
+   918			ret = cci_write(imx283->cci, IMX283_REG_HMAX, imx283->hmax, NULL);
+   919	
+   920			/* Recompute the SHR based on the new timings */
+   921			shr = imx283_shr(imx283, mode, imx283->exposure->val);
+   922			cci_write(imx283->cci, IMX283_REG_SHR, shr, &ret);
+   923	
+   924			break;
+   925	
+   926		case V4L2_CID_VBLANK:
+   927			imx283->vmax = mode->crop.height + ctrl->val;
+   928			dev_dbg(imx283->dev, "V4L2_CID_VBLANK : %d  VMAX : %u\n",
+   929				ctrl->val, imx283->vmax);
+   930			ret = cci_write(imx283->cci, IMX283_REG_VMAX, imx283->vmax, NULL);
+   931	
+   932			/* Recompute the SHR based on the new timings */
+   933			shr = imx283_shr(imx283, mode, imx283->exposure->val);
+   934			cci_write(imx283->cci, IMX283_REG_SHR, shr, &ret);
+   935	
+   936			break;
+   937	
+   938		case V4L2_CID_ANALOGUE_GAIN:
+   939			ret = cci_write(imx283->cci, IMX283_REG_ANALOG_GAIN, ctrl->val, NULL);
+   940			break;
+   941	
+   942		case V4L2_CID_DIGITAL_GAIN:
+   943			ret = cci_write(imx283->cci, IMX283_REG_DIGITAL_GAIN, ctrl->val, NULL);
+   944			break;
+   945	
+   946		case V4L2_CID_VFLIP:
+   947			/*
+   948			 * VFLIP is managed by BIT(0) of IMX283_REG_HTRIMMING address, hence
+   949			 * both need to be set simultaneously.
+   950			 */
+ > 951			u8 trim = IMX283_HTRIMMING_EN;
+   952	
+   953			trim |= ctrl->val ? IMX283_MDVREV : 0;
+   954			cci_write(imx283->cci, IMX283_REG_HTRIMMING, trim, &ret);
+   955	
+   956			break;
+   957	
+   958		case V4L2_CID_TEST_PATTERN:
+   959			ret = imx283_update_test_pattern(imx283, ctrl->val);
+   960			break;
+   961	
+   962		default:
+   963			dev_err(imx283->dev, "ctrl(id:0x%x, val:0x%x) is not handled\n",
+   964				ctrl->id, ctrl->val);
+   965			break;
+   966		}
+   967	
+   968		pm_runtime_put(imx283->dev);
+   969	
+   970		return ret;
+   971	}
+   972	
 
 -- 
 0-DAY CI Kernel Test Service
