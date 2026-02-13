@@ -1,100 +1,131 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3880E3033DF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 13:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA3B17ADE0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 14:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770987932; cv=none; b=Jmq02GmcMTO422F6fJhc5loVxOCp5RQJN/C9BrhJl80e+vOgHqYKKUht06Egn0u6CLvegxoRBULazK1UMAO1Le1j1gkmprjSHf0+Al3FPZdOC60WTotmTQCkmgFxuuUKSxUypL6IFR4UoUZckh0BYn2tI1IiQ2cn7GJxR8XHsxk=
+	t=1770993113; cv=none; b=PVU0F5Vd/vofl1qI6gWRJRXHWBbMxysJgEVvOxEC75PoN8G0NE8ZhemRb5qJaOHISR7FUOmUkJBoA96PkyzeLpeJ9awFkccOQ9GZ68ie6yRwKbpcUBwxv418zW83ZlTyQl+xuvxM3GQMtO26CdFyIkb7SazGIELzEwVia2voFO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770987932; c=relaxed/simple;
-	bh=IVc42heI0hMCj4ws7zasG9pLn/XiLujeIkp9D9CO+NY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HZryEQ5/HKo/MkQoFA3+YYs6lQWJIGp3JgjmeyQYIDUISzToHuudYuYwsHS9ApqriZtxJg3JZq4Q/ACIO2r+UGXT8UkyuMForztFrzbnwWIvzJ6mPioHys0IiAlKrK5WWR9yF8cjV17Shq4HvpsNd/lNdyRn01j2gfv2fofSQSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5fa3f2b8f7dso621537137.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 05:05:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770987930; x=1771592730;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KA8YczKRSeoQbJEtcnOFAEHbKWV2BJI6BhQNIywG3ik=;
-        b=iNxHDYwHpn8Aoc0yOWl1VmLQbA9fovhDAOI8iyq1hdPeG9e8rkJmO/bh+en7ahVoWq
-         7QtvbF5H8rnSBxkjZCc7t7Yg5woSpHQKF6ofWZP00gSdy7nMfa7/o4JHT95WJIDIWjgM
-         R0z9qM6kSu7kTanmdfogJIufx0YvhE9OHCGMOrtF2yJtxRfoHLUBnsdo4hCZzf3rwEtI
-         d0dqO3V5nRxw5EH6zrjEeG7hV1cPtJUpKMmkxChWtBUDCdtoKBoznF99o56Wa/6WKg3/
-         SCPFtQjhJ3b5VXSsgepLe8JP1o0GzhxMrsQm6/EE7J64hP8aeOC6MEBOqMrl1voNyW7t
-         AECg==
-X-Gm-Message-State: AOJu0YyNkvuR5a7tqfxqPpHMlMRSms2UzYGxyZwDha5T5Dx9o7p97RvH
-	6bMV007oymiTvnac3W7iF1lGylzSqjBJu/Fe5MXJh0DA+PmWXe4ZN2aNFwbU87pY
-X-Gm-Gg: AZuq6aLDHdm8d2+9sI+KzXAkLM0GymVmPkX3sfytxec1tJ3fPbwGbxJf678yCA5yAgw
-	SyOClPc3JVDvCz7s0lyXetkBEQ156+a7hKS37JRU/4q1QC7/vLiJsk03N85PWSwsBU5o5nSXBkL
-	3aXxAetuQx4pZvBLMZu2NaOVRAMYK6cpWizDlZMev70LGNZR4/mgV4jcCRLBFLMOH272DfAB1hU
-	GkJa3vhm0GuGyiWNEzgQWCTRxOiYW/Qe0izDmtpeIXwXM5i8nscxewmbWbiB+n+TPDMTAuIJpMJ
-	kzyLvuGOqgoWvAnVDwDSYA+Hl/cxuADdqhcolOBbsgCaixVViQj6oZ3WV7jVILIQmtHx+oF6OP/
-	os7cx9vuJqlHy6Snk0SwTBQKM2QtA0knXN7sRnNNe/5MEgOb1Y9MxD2mgj7zT7tFGoWbcws5Ss+
-	BRyIxVbL3xGrfuK+gGfY17Rg9sJhumsPWf1RDMUJbzUo9iJqdSSgXnyiUU8lgS
-X-Received: by 2002:a05:6102:32ce:b0:5fd:ed7c:b7fa with SMTP id ada2fe7eead31-5fe1a6d59eemr532822137.21.1770981311630;
-        Fri, 13 Feb 2026 03:15:11 -0800 (PST)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94afd3a99cdsm3118917241.13.2026.02.13.03.15.11
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Feb 2026 03:15:11 -0800 (PST)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5fe0959ae3dso597922137.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 03:15:11 -0800 (PST)
-X-Received: by 2002:a05:6102:3913:b0:5fd:f8d6:21ca with SMTP id
- ada2fe7eead31-5fe1a47bbefmr490613137.4.1770981311221; Fri, 13 Feb 2026
- 03:15:11 -0800 (PST)
+	s=arc-20240116; t=1770993113; c=relaxed/simple;
+	bh=CZqEiUd0s1xxUPifcZ+/8kJbZFhRW8RHh7AsgkrK8Qs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Irotax2VSBDrdrnO2KsglHetZsX5bpFdSfctHbjCDpqgxODbO2+1Iikkhwf89lTfQPQgIJ+UoOc/7R+CKmej4XN2Jyhm1MIgXsSXyUtoKDkGwUpnqeHg8xkhDZUambuaJlXYaIgZdgj/SCZ9XFntFF23NBdppbSgrOxJj0ewKpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyyUzzTN; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyyUzzTN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770993111; x=1802529111;
+  h=date:from:to:cc:subject:message-id;
+  bh=CZqEiUd0s1xxUPifcZ+/8kJbZFhRW8RHh7AsgkrK8Qs=;
+  b=cyyUzzTNjdhLxUZkUBhiZIMrymwsALGfr/8nVQNSnHGTzkHZHHSmL9js
+   77ZosyEQjet/s+jGcgGf0XSs1HUMNd8bjrEcxR5BTYVwBomzAduOqW3J5
+   OFgEDUDDqduavP7ZHZeUFvvlDUTRVd+NlIJkwIUdDy7dwkXaOIVuu3aMg
+   2NuNGdVZYJIiFRu3rsb50GmEGF8nVDkDbEfFwDtwj/dnNyrZVBnP5RAP4
+   d8now4VC2eHWIUlfI6mNxbrZ2tn88Z2ifDiPCOQIx2SXDgdB4FSigb16R
+   H72GKvMHNTalWLpKSgIFwNe1e1hqDrdkORmpozPpzYBxj7rDnQn6R4UtA
+   A==;
+X-CSE-ConnectionGUID: +IaCM4ALQ6u4dC8PPZXYdg==
+X-CSE-MsgGUID: ozJjM8njReOsr3BkOi1JkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="75799033"
+X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
+   d="scan'208";a="75799033"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 06:31:51 -0800
+X-CSE-ConnectionGUID: p24WkonPQbCmAHEIWskBrg==
+X-CSE-MsgGUID: wnfYpUnlSzy4fUNwvUF8Mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
+   d="scan'208";a="242340686"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Feb 2026 06:31:49 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vquCw-000000001cX-2Xgr;
+	Fri, 13 Feb 2026 14:31:46 +0000
+Date: Fri, 13 Feb 2026 15:31:07 +0100
+From: kernel test robot <lkp@intel.com>
+To: Meng Wei <wei.meng@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, renjiaox <jiaojiaox.ren@intel.com>
+Subject: [intel-lts:5.15/android_u 1/1] versioncheck:
+ ./drivers/media/i2c/ti953-ser.c: 11 linux/version.h not needed.
+Message-ID: <202602131539.zu7yAgOR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202602131114.LrOqbQnZ-lkp@intel.com>
-In-Reply-To: <202602131114.LrOqbQnZ-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 13 Feb 2026 12:15:00 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUG-70fF7Z9hQ4aXW-p+26wr9H5QXi2_=v_8cjoD58g+A@mail.gmail.com>
-X-Gm-Features: AZwV_QjKkyzGlxxS0UqwSfoYkqhRdoxu4XqidjptmxF2sLRG-4dAOww5inLIVSA
-Message-ID: <CAMuHMdUG-70fF7Z9hQ4aXW-p+26wr9H5QXi2_=v_8cjoD58g+A@mail.gmail.com>
-Subject: Re: ld.lld: error: undefined symbol: xe_configfs_get_ctx_restore_post_bb
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Lucas De Marchi <demarchi@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 
-CC lucas
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/android_u
+head:   7a3552a558d85f246a5731a63991323dda742a4c
+commit: 4f29719d32db19c7291043693e973b463d7df25b [1/1] media: intel-ipu4: css: scci_IPU4_master_20181222_1218 fw release
+reproduce: (https://download.01.org/0day-ci/archive/20260213/202602131539.zu7yAgOR-lkp@intel.com/reproduce)
 
-On Fri, 13 Feb 2026 at 11:56, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Lucas,
->
-> FYI, the error/warning still remains.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   7449f86bafcdb588422bb14a4babfd285e723670
-> commit: 6c6988c5e03df145e6c5cabc50d67b11f5aa2e56 drm/xe/lrc: Allow to add user commands on context switch
-> date:   5 months ago
-> config: x86_64-randconfig-r052-20260212 (https://download.01.org/0day-ci/archive/20260213/202602131114.LrOqbQnZ-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602131114.LrOqbQnZ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602131114.LrOqbQnZ-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> ld.lld: error: undefined symbol: xe_configfs_get_ctx_restore_post_bb
->    >>> referenced by xe_lrc.c:1116 (drivers/gpu/drm/xe/xe_lrc.c:1116)
->    >>>               vmlinux.o:(setup_configfs_post_ctx_restore_bb)
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602131539.zu7yAgOR-lkp@intel.com/
+
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck 
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
+>> ./drivers/media/i2c/ti953-ser.c: 11 linux/version.h not needed.
+>> ./drivers/media/pci/intel/ipu-bus.c: 469: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-dma.c: 460: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 366: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 306: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-media.h: 138: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-queue.c: 1536: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-queue.h: 172: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-subdev.c: 1073: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-subdev.h: 227: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-tpg.c: 359: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys.h: 178: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 883: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-wrapper.c: 515: need linux/version.h
+>> ./drivers/media/pci/intel/ipu.c: 771: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+>> ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1076: need linux/version.h
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./fs/incfs/integrity.c: 8 linux/version.h not needed.
+   ./init/version.c: 17 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 232: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
