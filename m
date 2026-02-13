@@ -1,139 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C67D279334
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 18:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC1F224AF9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 19:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771007686; cv=none; b=AqCEeR3ZyGyEa1o63tBGSHg+dTQf6PM6pxCZUS+pTK6PfCm2lDwbOJ92MAPpwPdALSXhOyAjiLEmdd7oYcTRU6dJC52pCT0ANIh1wKx+tD+KQtcYjcP1dmx8Tv5Z5jpqMGBF5LdEAwi4ilgzV9xNmvqsq7EiNOi5A4LYUgtIxc8=
+	t=1771010449; cv=none; b=KPGM5wUahXdpFu0y8a5Xd/8YYv8s7NobO4bcu2v1eYc9TVrfLY0uBUzvXr4mtOYqBj3pV00r4uqfL4Y1e+3+g0eiM+5y0El98d2pbttFng64CVYLpwfMNsFaaCJ2HPj6/yHuI4ffOCvWz7b0RDpby/AG69MIEnNi5uhh3eR04bQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771007686; c=relaxed/simple;
-	bh=3mjWYbnpem5q3s50nhLv7UAoE9gOQ1s8C504nUkSfWI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fOOOrE8+TlkcR++3bhThVh9Pshhf1j2s1PZZA13x5WO3/80n45sHpRkwgSny4oJ6KB4nPbJWbifcGlXlN7EPsvE3NQqo+ZMmMfkWrXWjOKFPadwKRIivLCCmt5msRf+s5ETwOrQUU8Vvm3YlDjHRncpjINwXP0RxtzFT6D3ROY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WQPbBvGt; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771010449; c=relaxed/simple;
+	bh=MxvLi+RBqhBDzPL+AdRohVzQETByofgQO617rangqK4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VmzYq3oHBzAdMIabcRJWNjZjHQMDQFpE8kyZp3fD6Em2rbsGB+GejxZ8kTFngChFvnQ8Y82PHuuIlqqd6XUAHeQTU76nout8mcNp5rnunZ31TuMOtPv3bQvHN6zzM9QnCUpLga97ZgSC3u8Atbda6oc1aJEleyl5FM8cE7XGYtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=GpVllVc5; arc=none smtp.client-ip=212.27.42.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WQPbBvGt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771007685; x=1802543685;
-  h=date:from:to:cc:subject:message-id;
-  bh=3mjWYbnpem5q3s50nhLv7UAoE9gOQ1s8C504nUkSfWI=;
-  b=WQPbBvGt7oibdXXBEkcxfxA35ZAP89vN/LAFnWxWi6qSKwkgoyKWbRu3
-   tefGyD0uSRDQ2pnvW4hkmMicAw7i+3II+eMV8Nexmin6ESQmi74wYZyjy
-   I95DTcuU74Lxw59+PwICaiSc0Zm0bWUpg9gzxquVrOcRhj7cJBTlkwac1
-   CCW2Sk/2WyHIuuBRXq+g2q3BZHZu1XWRuzKni5ayRSz5E+YHB6AmWQHtj
-   y88GLbTFOAcBC+MrzahPv8NsMh1NtVIIqlMtHR29pyZyhk0Fggcp8asap
-   0Zn3xq4BKBhRe9xJ6urBmiBuXC5W1cbYl5cM4OREm+uVy0DQ0fcXqjUn/
-   Q==;
-X-CSE-ConnectionGUID: k7+2pMBwQr2O7F8pUFZkTQ==
-X-CSE-MsgGUID: mPoDqAchSB2NPtPY/PBCqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="71221988"
-X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="71221988"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 10:34:43 -0800
-X-CSE-ConnectionGUID: 4nrxDP9YTy28xJ5nrKx74w==
-X-CSE-MsgGUID: wA68/JOKTyiJI/gk2Tql/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="212826627"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Feb 2026 10:34:41 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vqxzz-00000000vku-1VFA;
-	Fri, 13 Feb 2026 18:34:39 +0000
-Date: Sat, 14 Feb 2026 02:33:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jack Xiao <Jack.Xiao@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- Mukul Joshi <mukul.joshi@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1352:74: warning:
- '%hhu' directive output may be truncated writing 1 byte into a region of size
- between 0 and 2
-Message-ID: <202602140200.2bCDckFo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="GpVllVc5"
+Received: from [IPV6:2a02:842a:8223:5500::20] (unknown [IPv6:2a02:842a:8223:5500::20])
+	(Authenticated sender: julien.robin28@free.fr)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id A36D613F8B8;
+	Fri, 13 Feb 2026 20:20:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1771010445;
+	bh=MxvLi+RBqhBDzPL+AdRohVzQETByofgQO617rangqK4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GpVllVc5gzxIgvia3k/OwVIC8fGGK/U2Gy3hQ/XYIMeOtUCfMtg4mLDT8zCHlGB8O
+	 VHX5moU34JcbsUwQM4fFKQuXIa0N2z8T3ajAvAM2DtV4w7C1EpnbElQKgpyqtQfh6h
+	 IRYU9qoKb/Agu6fOoyfCEHrdhaPvUqLz+QR+VTbuqcxsdV46tf0daiKzc5VEm5hcJm
+	 x5AGBo3zsHjiIZ1uiEq8/R8+b9uS/mE1XoT/KF4pj2WY6Z22Hl9MuhuFqt4S4kCVVt
+	 a1r5pRGEHlBy8I788I+2bn2az4T5omGS9lcMTrsgXhtAGXGdXVy2Kt1dTUaqwlYq06
+	 dTDdQaXMcMvmA==
+Message-ID: <1bab812c-59c9-4d99-b91b-ed5bc618ec36@free.fr>
+Date: Fri, 13 Feb 2026 20:20:36 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/pci-dma: swiotlb: Fix a regression since 5.19.0 about
+ iommu=soft kernel parameter
+To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>
+References: <16c95f65-17ee-4bbd-99b3-93406a7801c4@free.fr>
+ <202602132218.jy0N4aRs-lkp@intel.com>
+Content-Language: en-US
+From: Julien ROBIN <julien.robin28@free.fr>
+In-Reply-To: <202602132218.jy0N4aRs-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jack,
+Hi kernel test robot and other folks,
 
-FYI, the error/warning still remains.
+Yes, my mistake, 'x86_soft_iommu_only' should have been static; I did the mistake by doing like what I saw around (but the new variable isn't used outside of its 'pci-dma.c' file). Sorry for having done this mistake in a so small patch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cee73b1e840c154f64ace682cb477c1ae2e29cc4
-commit: e220edf2d6fd6dbf08fa93790809500a80217948 drm/amdgpu/mes_v12_1: initial support for mes_v12_1
-date:   10 weeks ago
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260214/202602140200.2bCDckFo-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140200.2bCDckFo-lkp@intel.com/reproduce)
+I'll be sending a corrected version of this patch quickly.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602140200.2bCDckFo-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c: In function 'mes_v12_1_sw_init':
->> drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1352:74: warning: '%hhu' directive output may be truncated writing 1 byte into a region of size between 0 and 2 [-Wformat-truncation=]
-    1352 |         snprintf(ring->name, sizeof(ring->name), "mes_kiq_%hhu.%hhu.%hhu.%hhu",
-         |                                                                          ^~~~
-   In function 'mes_v12_1_kiq_ring_init',
-       inlined from 'mes_v12_1_sw_init' at drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1425:9:
-   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1352:9: note: 'snprintf' output between 16 and 18 bytes into a destination of size 16
-    1352 |         snprintf(ring->name, sizeof(ring->name), "mes_kiq_%hhu.%hhu.%hhu.%hhu",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1353 |                  (unsigned char)xcc_id, (unsigned char)ring->me,
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1354 |                  (unsigned char)ring->pipe, (unsigned char)ring->queue);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Best regards,
+Julien ROBIN
 
 
-vim +1352 drivers/gpu/drm/amd/amdgpu/mes_v12_1.c
-
-  1326	
-  1327	static int mes_v12_1_kiq_ring_init(struct amdgpu_device *adev, int xcc_id)
-  1328	{
-  1329		struct amdgpu_ring *ring;
-  1330		int inst = MES_PIPE_INST(xcc_id, AMDGPU_MES_KIQ_PIPE);
-  1331	
-  1332		spin_lock_init(&adev->gfx.kiq[xcc_id].ring_lock);
-  1333	
-  1334		ring = &adev->gfx.kiq[xcc_id].ring;
-  1335	
-  1336		ring->me = 3;
-  1337		ring->pipe = 1;
-  1338		ring->queue = 0;
-  1339		ring->xcc_id = xcc_id;
-  1340		ring->vm_hub = AMDGPU_GFXHUB(xcc_id);
-  1341	
-  1342		ring->adev = NULL;
-  1343		ring->ring_obj = NULL;
-  1344		ring->use_doorbell = true;
-  1345		ring->eop_gpu_addr = adev->mes.eop_gpu_addr[inst];
-  1346		ring->no_scheduler = true;
-  1347		ring->doorbell_index =
-  1348			(adev->doorbell_index.mes_ring1 +
-  1349			 xcc_id * adev->doorbell_index.xcc_doorbell_range)
-  1350			<< 1;
-  1351	
-> 1352		snprintf(ring->name, sizeof(ring->name), "mes_kiq_%hhu.%hhu.%hhu.%hhu",
-  1353			 (unsigned char)xcc_id, (unsigned char)ring->me,
-  1354			 (unsigned char)ring->pipe, (unsigned char)ring->queue);
-  1355	
-  1356		return amdgpu_ring_init(adev, ring, 1024, NULL, 0,
-  1357					AMDGPU_RING_PRIO_DEFAULT, NULL);
-  1358	}
-  1359	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 13/02/2026 3:51 PM, kernel test robot wrote:
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> [...]
+> 
+> sparse warnings: (new ones prefixed by >>)
+>>> arch/x86/kernel/pci-dma.c:37:5: sparse: sparse: symbol 'x86_soft_iommu_only' was not declared. Should it be static?
