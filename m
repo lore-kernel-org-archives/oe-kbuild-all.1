@@ -1,67 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED0F349AEA;
-	Fri, 13 Feb 2026 08:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90908331A5C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 09:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770972518; cv=none; b=pUHE2e1ZoySW/kkEI5gqPrSw8Q3Z28TjIFUwOEunuka/mS9D2EMUbTYJMbBTBem+TNqHRB1yzCOgl3Oq0JnpTaqL55T1d+viWw3RD4XOEzBpHQQvKQDg1j45kowEgTM+bG7LyesBzcK/+Tnu0q5q4EslGwGZztQTx9p7Q8E+6c8=
+	t=1770973827; cv=none; b=MmNZWiQTYr+UZILe9w8YIMU1VnCFkW+Nz+8Z0gKjHw7EVTIdkvyi+mEVuJobYoAWO5F6NB11/7DbV6pkXBlvLPOxZWrQBm3820BKaUnvOXpFanYEkqPKR06ZbzFD0UctEkvUqLfWMEmsm43rX6pPTfye6vGblCchPFZ835VkapE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770972518; c=relaxed/simple;
-	bh=MuqqbySfLbrXxCZtufrECjpaM62KymJsHeUZ+/3ILUk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dV+Gai1C8pkSOPJMd7ob6sp7Cz/6E+Won1Z+iEU9rrvFLKTMH3kR9DHmconSEE6OLFPxSqo4OY7ATHVW72fF5OE8a6UYQuIs/FZ9DZRUhqpp8IBJpZiG+phtk+pz1hWp2gM6y37wxzO4QkIy6zbdx7O/VZsd8ZhZjYjg9GWE8W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NuAsqN72; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770973827; c=relaxed/simple;
+	bh=wFsXMJC3uad/YFbw/ma5wWtQb8QH2U7GAVHJ+g8k/Z4=;
+	h=Date:From:Cc:Subject:Message-ID; b=BfbcKiLJrN4oWgYzx1KoRItciuq0azOGzFQ9lKaPNXKuFa8u7hKsFAhGFO6qbbD05EoCllaRcxKrqC6IwQG4UMSJvQR8eamnPrOTQ7YpqBC0LqoQP03FHez+AkEaZH7o0thQ+kSGBMkpYP7w+TQTKLro8jEdaRpQP1UJidNelO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GXd1eTbz; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NuAsqN72"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19D4C116C6;
-	Fri, 13 Feb 2026 08:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770972517;
-	bh=MuqqbySfLbrXxCZtufrECjpaM62KymJsHeUZ+/3ILUk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NuAsqN72k5J1pxKAVhC3h9o8Wde0CkrZZEm6gJV3UZXlmszA6ptU5DSPzdLIZJhd4
-	 hwMaHuOqq09YUfOu5WNNops3u49gYefv/Cj4xnEheg7hvzD0ZPAnHqZ/deTbRx2101
-	 8KQsHIViEsW0D4VdfrG7sFpdixLHhanIJO/1id70bqJX9mCwBQKoiAhV0MCV6+94Rr
-	 cmTk4tKtIeSm4ZhaBOk5WWzJ8GeskISejgzuxBj32b7PVGYliJj62B2Xnrm8Zqg9tA
-	 RoZJJiiYNBgRU9nXMkaZXPmWWPTaChC4YvKztRSC1BXAkdINLc6Prb2GAJQgjpawqa
-	 /Bd+IrCkRH6GA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: kernel test robot <lkp@intel.com>, Yuwen Chen <ywen.chen@foxmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, ywen.chen@foxmail.com,
- akpm@linux-foundation.org, andrealmeid@igalia.com, bigeasy@linutronix.de,
- colin.i.king@gmail.com, dave@stgolabs.net, dvhart@infradead.org,
- edliaw@google.com, justinstitt@google.com, kernel-team@android.com,
- licayy@foxmail.com, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, luto@mit.edu, mingo@redhat.com,
- morbo@google.com, nathan@kernel.org, nick.desaulniers+lkml@gmail.com,
- peterz@infradead.org, shuah@kernel.org, usama.anjum@collabora.com,
- wakel@google.com
-Subject: Re: [PATCH] selftests/futex: fix incorrect result reporting of
- futex_wait test item
-In-Reply-To: <202602052333.1Bhrssu1-lkp@intel.com>
-References: <tencent_7D6D776D157570FF8C9FB9DE9D9FE5257C0A@qq.com>
- <202602052333.1Bhrssu1-lkp@intel.com>
-Date: Fri, 13 Feb 2026 09:48:33 +0100
-Message-ID: <87fr7581we.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GXd1eTbz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770973826; x=1802509826;
+  h=date:from:cc:subject:message-id;
+  bh=wFsXMJC3uad/YFbw/ma5wWtQb8QH2U7GAVHJ+g8k/Z4=;
+  b=GXd1eTbzQTscuyiHoFoqU4GAw1gyT/TrsLS3kkexG3gip1yTWnKD9ODz
+   vPN1qdTyK/HIAokU/CHSzaACeqM6iuIXB7thCJ3eb6OP+/W3wdEgru2On
+   UUB8te09mXFXgIU2ejgOInzneQNFhxYLQjQdYhy6vWD4IsEjBOQvMfbUl
+   Oi3uuDhbum6VrYQQgiuWKvDwKEJgUM9DLAHrKNogsjfyNwuYlD8lh07/s
+   XAvfGiBnVmMg96o0j3rgBy9tgO5GWPcYsYZ6T0B3pdERXyT4lHjPFV9lu
+   gOyaSgh1GlKdHxydF+i6tbF4OCS+6ZStcLapku9qDEEmqakrukiyfuBqI
+   A==;
+X-CSE-ConnectionGUID: h8Fvb5pXTdaieei1wXC3Hw==
+X-CSE-MsgGUID: 65DJcAIVQzyqRwOVGB5BZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="97614659"
+X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
+   d="scan'208";a="97614659"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 01:10:24 -0800
+X-CSE-ConnectionGUID: rddphdeNQnOmoBPuJyvaXw==
+X-CSE-MsgGUID: uak+haYGTM2td2UOhn3GcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
+   d="scan'208";a="212117109"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 13 Feb 2026 01:10:23 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vqpBs-00000000vFw-20gt;
+	Fri, 13 Feb 2026 09:10:20 +0000
+Date: Fri, 13 Feb 2026 17:10:01 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: ld.lld: error: undefined symbol:
+ xe_configfs_get_ctx_restore_mid_bb
+Message-ID: <202602131722.ZXfVklUT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-On Thu, Feb 05 2026 at 23:29, kernel test robot wrote:
+Hi Lucas,
 
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+FYI, the error/warning still remains.
 
->>> futex_wait.c:48:2: warning: format specifies type 'uintmax_t' (aka 'unsigned long') but the argument has type 'uintmax_t' (aka 'unsigned long long') [-Wformat]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cee73b1e840c154f64ace682cb477c1ae2e29cc4
+commit: 7a4756b2fd0431f109b07b904a7442f00838abf9 drm/xe/lrc: Allow to add user commands mid context switch
+date:   5 months ago
+config: x86_64-randconfig-r052-20260212 (https://download.01.org/0day-ci/archive/20260213/202602131722.ZXfVklUT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602131722.ZXfVklUT-lkp@intel.com/reproduce)
 
-Priceless. Your compiler can't make it's mind up.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602131722.ZXfVklUT-lkp@intel.com/
 
-uintmax_t is defined by the compiler provided includes.
+All errors (new ones prefixed by >>):
 
-Thanks,
+>> ld.lld: error: undefined symbol: xe_configfs_get_ctx_restore_mid_bb
+   >>> referenced by xe_lrc.c:87 (drivers/gpu/drm/xe/xe_lrc.c:87)
+   >>>               vmlinux.o:(xe_lrc_create)
+   >>> referenced by xe_lrc.c:1151 (drivers/gpu/drm/xe/xe_lrc.c:1151)
+   >>>               vmlinux.o:(setup_configfs_mid_ctx_restore_bb)
 
-        tglx
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
