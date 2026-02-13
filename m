@@ -1,101 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E2E272E56
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 09:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAC0224B05
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 11:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770976288; cv=none; b=GCRQO6G4GdYAgUuOLtXbMVxjaFUES+3o6P9Obx6dA3FdZtlPGrMCbf56fh3Lc36qsBzQ0IbKsT3O+laZ9w+yy0BJxBxyA90BwBgIW5qsA/Z9/EKL1FiAWorqcTvpxv4RX/wDTrpmxQhs21wzWuyzrFg/3lyaOaL/fMrn026GXnI=
+	t=1770981268; cv=none; b=AWOxjtyq7xGNlxaQsGnXUaYzMthiHYcyKrMswI29GdJYdNmU8e9Q4l2tOeXPtHNgWGArKsEKlRhTEfevitHU/WXaUC1DKd/3aZ0ENq+VDQ+kNRTiBqYWYvGdNnEVXgA+FbycWXaJCvTOr40xsS5K5r15lx73EmU1SdHQ/5ekFmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770976288; c=relaxed/simple;
-	bh=84cqhQxYamXqo+10VWcQQ4qQXh87NRcXTKNZwApzapU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nne3RbVyjIXGNLHwL7HRlNDFwP3PNboZHiFP1mixH/Yxj75aErD8ItRgqKHKq6AilcXI2DhZUjeYLt9TQbAPQz6X/hIi/22A7Fyp1FKzwEG0PNt6t4WzxTPG58x9xI8qzFG8vZ7BIWw4LvuwhQ2Oj1fLGyX+0RBae/YwIlqK+tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYZZWyTK; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1770981268; c=relaxed/simple;
+	bh=fxyWLUpalEdX+xbSGxLLq7jX4jMWKZDgGZAcBjbr2Rk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BE2oE+gbCzK7m1CYKIuC7P/gEeZTYeTvgD9NM1Ci3BFoseVHWerEdPaVVfOTec625m6Rde/k4xarjuG5cCVegjiVF9ucJ8VUU2uvIQFLXcVEeCqz6IS/qnI+WqiTpjBXypBVexr66obel+LZidpssWX8XIUof1jgp+twoWWUvX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mx5Q/hEd; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYZZWyTK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mx5Q/hEd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770976287; x=1802512287;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=84cqhQxYamXqo+10VWcQQ4qQXh87NRcXTKNZwApzapU=;
-  b=ZYZZWyTKwIYT7aQxMcd1ObQCJ2TB7S61ViZmILYHKF9yNfdsOWMcayu1
-   GWqax5nm6EmZdV82Tw/E/uowIs+ouqJ3C0Ojatn+l+NlaLWXD8GELTcwf
-   rcU2gz9y7COmR0tUYsnkGGqZPRaCDJPWdz6Lloj1p9o+Q4IX9Gj/V+NDf
-   rV9ut89mOUgHzEZ4iPST2SWwjL20EO9HF0tm+B/05wOIrx6igqcrYMCbP
-   e1Xxt7m4M6sDBAP4mmwi36U6VQj0mbXrIl3RKHMlDzK4YiCytQVtAUBp0
-   FnfLa2R2QG/UzRiO5H9meV0GnlFConPUdc+kED8L00eKx4AOXCOtswUHx
-   w==;
-X-CSE-ConnectionGUID: WfQCmEn/Q7aL1ndG4ZscQA==
-X-CSE-MsgGUID: N3rsk8gfStShecH4PooW7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="76005242"
+  t=1770981267; x=1802517267;
+  h=date:from:to:cc:subject:message-id;
+  bh=fxyWLUpalEdX+xbSGxLLq7jX4jMWKZDgGZAcBjbr2Rk=;
+  b=Mx5Q/hEdnz9pAbwVKzFbWfOOrr5Mr4jUeEOc8p5JsafaAcRBGcjOxmof
+   vcV9K6RMq2TljWqjRnOt5pxV9KwsXZneIhkqzVyK3Nie0pyOd8vdnlw3c
+   YUMG88tSwJSKekOLKrVN9v3MxkOu5fV4jULIjfKJzEJ29QVSXT8BZWiXq
+   Shsal0xeh6vO1U/yTKXNGAom5y4YY4Kr9awg6+5ALuIkEkMiyGkJDaR1X
+   eewoXuozdhivpe9zNdekAZW9+Is6PBoXJfhTIp1J+rAJJfDSm93UoK3Vm
+   qqftiPN3kDEtBgo3VvYW6INriiGgYkC4HCCaDAWg+9OPwxpDCbGZ9uBJp
+   A==;
+X-CSE-ConnectionGUID: frRo0PMjSD2ThKq8Ax2CNQ==
+X-CSE-MsgGUID: 09btV7c+QPerozERa4zBKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="76005214"
 X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="76005242"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 01:51:26 -0800
-X-CSE-ConnectionGUID: MalrhjJ7RniQKdiHbkYKqw==
-X-CSE-MsgGUID: mfKkC6w2RZ6YamYWJJ7GZQ==
+   d="scan'208";a="76005214"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 03:14:27 -0800
+X-CSE-ConnectionGUID: AEB1mULpRNyNqA7NdCldNQ==
+X-CSE-MsgGUID: 79QuN9z8Qi2Hpuuy6/1bMA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="211784960"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Feb 2026 01:51:23 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 13 Feb 2026 03:14:25 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqppZ-00000000vHU-1rFV;
-	Fri, 13 Feb 2026 09:51:21 +0000
-Date: Fri, 13 Feb 2026 17:51:01 +0800
+	id 1vqr7v-00000000vKC-1BlD;
+	Fri, 13 Feb 2026 11:14:23 +0000
+Date: Fri, 13 Feb 2026 19:13:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stoyan Bogdanov <sbogdanov@baylibre.com>, jbrunet@baylibre.com,
-	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stoyan Bogdanov <sbogdanov@baylibre.com>
-Subject: Re: [PATCH v2 1/3] hwmon: (pmbus/tps25990): Rework TPS25990 non
- standatd direct conversion
-Message-ID: <202602131757.UpBvEXu8-lkp@intel.com>
-References: <20260213001408.2454567-2-sbogdanov@baylibre.com>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kas:pte_size 3/16] arch/parisc/include/asm/pgtable.h:185:9:
+ warning: 'PTE_SHIFT' redefined
+Message-ID: <202602131907.cWmQskb9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260213001408.2454567-2-sbogdanov@baylibre.com>
 
-Hi Stoyan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.19 next-20260212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stoyan-Bogdanov/hwmon-pmbus-tps25990-Rework-TPS25990-non-standatd-direct-conversion/20260213-081713
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20260213001408.2454567-2-sbogdanov%40baylibre.com
-patch subject: [PATCH v2 1/3] hwmon: (pmbus/tps25990): Rework TPS25990 non standatd direct conversion
-config: sparc-randconfig-001-20260213 (https://download.01.org/0day-ci/archive/20260213/202602131757.UpBvEXu8-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602131757.UpBvEXu8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git pte_size
+head:   f562d70c53ccc0213b4afbf20fc312d85f9972bb
+commit: 49c571ae7bb8b188254533ec2375cebc783f840c [3/16] mm: Introduce PTE_SIZE, PTE_SHIFT and PTE_MASK
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20260213/202602131907.cWmQskb9-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602131907.cWmQskb9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602131757.UpBvEXu8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602131907.cWmQskb9-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__udivdi3" [drivers/hwmon/pmbus/tps25990.ko] undefined!
+   In file included from arch/parisc/include/asm/uaccess.h:16,
+                    from include/linux/uaccess.h:12,
+                    from include/linux/sched/task.h:13,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/ptrace.h:7,
+                    from arch/parisc/kernel/asm-offsets.c:20:
+>> arch/parisc/include/asm/pgtable.h:185:9: warning: 'PTE_SHIFT' redefined
+     185 | #define PTE_SHIFT               xlate_pabit(_PAGE_USER_BIT)
+         |         ^~~~~~~~~
+   In file included from arch/parisc/include/asm/page.h:7,
+                    from include/linux/shm.h:6,
+                    from include/linux/sched.h:23,
+                    from arch/parisc/kernel/asm-offsets.c:18:
+   include/vdso/page.h:13:9: note: this is the location of the previous definition
+      13 | #define PTE_SHIFT      CONFIG_PTE_SHIFT
+         |         ^~~~~~~~~
+--
+   In file included from arch/parisc/include/asm/uaccess.h:16,
+                    from include/linux/uaccess.h:12,
+                    from include/linux/sched/task.h:13,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/ptrace.h:7,
+                    from arch/parisc/kernel/asm-offsets.c:20:
+>> arch/parisc/include/asm/pgtable.h:185:9: warning: 'PTE_SHIFT' redefined
+     185 | #define PTE_SHIFT               xlate_pabit(_PAGE_USER_BIT)
+         |         ^~~~~~~~~
+   In file included from arch/parisc/include/asm/page.h:7,
+                    from include/linux/shm.h:6,
+                    from include/linux/sched.h:23,
+                    from arch/parisc/kernel/asm-offsets.c:18:
+   include/vdso/page.h:13:9: note: this is the location of the previous definition
+      13 | #define PTE_SHIFT      CONFIG_PTE_SHIFT
+         |         ^~~~~~~~~
+
+
+vim +/PTE_SHIFT +185 arch/parisc/include/asm/pgtable.h
+
+^1da177e4c3f41 include/asm-parisc/pgtable.h Linus Torvalds 2005-04-16  181  
+^1da177e4c3f41 include/asm-parisc/pgtable.h Linus Torvalds 2005-04-16  182  /* this defines the shift to the usable bits in the PTE it is set so
+^1da177e4c3f41 include/asm-parisc/pgtable.h Linus Torvalds 2005-04-16  183   * that the valid bits _PAGE_PRESENT_BIT and _PAGE_USER_BIT are set
+^1da177e4c3f41 include/asm-parisc/pgtable.h Linus Torvalds 2005-04-16  184   * to zero */
+^1da177e4c3f41 include/asm-parisc/pgtable.h Linus Torvalds 2005-04-16 @185  #define PTE_SHIFT	   	xlate_pabit(_PAGE_USER_BIT)
+^1da177e4c3f41 include/asm-parisc/pgtable.h Linus Torvalds 2005-04-16  186  
+
+:::::: The code at line 185 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
