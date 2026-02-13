@@ -1,107 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153261B85F8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 15:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F2E2147E6;
+	Fri, 13 Feb 2026 15:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770994957; cv=none; b=cDubg2cbQjzzOHJVtTFWdgbMA7m06RRHHQKb0hRQmaK07daRhbqXkHmo5/vyipKsVm9EKUdFOpB7vJEbhpMMIieQpG1oPKc/oKz/fNtBL0O54s+w4BEmXQ1h9n7xiP1eDRTi12HKXlsZ0qzxwlvh+VqsoVMsoybX3rOZAWx3Uq4=
+	t=1770996879; cv=none; b=fh9q7wDaw39i6vfG8Ls6/1klayEP62DdVXnQ140lYcTqOCSUbHIlwfvDC2yGH5Cmm+LQGCplOK0ZbS209DfxWB3gC2KkdVqCSQS7AGA/sZjZA/TACY2/zaWtkHtbjAIqMP0kR55nzh4j+Y+nerDzrWrFopNhG2sR4B4qVYjFuRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770994957; c=relaxed/simple;
-	bh=K0dD/bFQ/Jx52UPbN+7BpT5GdbCAYMfx6DRZs6uiqyA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EOGTpSgb2DrM1cwlh0e0AJuw/CdkSEkQvUmmuLiq9EyVi1MvFoCRkByxeuCozIHWZXzlQ1Yu8OO0FCP9xnklFA28bBXjKyf2tZzpJ0SYzhJAXWCik2TBVWMPKyZGnxVroAB0/yzX22ekXWtXDEmiOJOt1bYj9ZSsME/MwH+Q0EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e0NjALpY; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1770996879; c=relaxed/simple;
+	bh=GOTDlwH16MekgibpH22/4LKEUA6TwRCThzNGqllNrB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fAyHz8yKTXuybVVrVIDkd/kddI7Di4BkbCu/7fD5mg5cq/pZyOuak/Tt/OyrpEYf20WrrlQEMt7+rHUUZdgcphwqqTFFCMZgm+pv8lfeAiFxaTgjlYmve8MjaMpt3MRAjxTBg85IRvHhDWG/g580+YNInOnMuKV7WTYCdOD+n3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gN6u2UTP; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0NjALpY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gN6u2UTP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770994956; x=1802530956;
-  h=date:from:to:cc:subject:message-id;
-  bh=K0dD/bFQ/Jx52UPbN+7BpT5GdbCAYMfx6DRZs6uiqyA=;
-  b=e0NjALpYrlAUADMK07Pen4+ETAlvw3yNUTfF23S437iuvSJ+xZ/ay5M9
-   LzS6bb9SI5zIChjhY6ARI+p2YWttHVVr4+sLPxEPrra3WlUhkzjWtLbie
-   PzGsZzFLyEhjhHOhaSgrOtDCTlovPbZmKcjp9urw5VrVyneeq+LOhudFE
-   0PDyBgCh6vHbkOJOADHPrVohBXsxV+E4+fZyFxpdtdD2dqMKSw+nOe+vw
-   4LthsveW6XZEwA6cBXlPwx8DJ4Xl55gWHIIgFQ3qCaWoAnDBeH2gIq0VI
-   Bpg05Yi5paP0i+cVyo28li2xiH8FdnSaCd4Kd5dlafSv8fLSTah38OmoS
-   Q==;
-X-CSE-ConnectionGUID: EfdfaLDJSPebZvYAR06iYg==
-X-CSE-MsgGUID: dv42fDsDQBCue0L8wyJTug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="76024507"
+  t=1770996877; x=1802532877;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GOTDlwH16MekgibpH22/4LKEUA6TwRCThzNGqllNrB0=;
+  b=gN6u2UTP6100oMKfFQSbKJcibMmbVZIvgFdb+9CgXXU3/xoS068ff5+6
+   XzXmBV1kYoNn7m8fn5J1i2wnX9JWvEqCdtPvcd4TPkIs9ckM5l2+gUB2F
+   TZAiD0QYzmPO9pF0FNyeDbC9RyAlgaocqYP1w8qXWUDyGFgdSMep+5NRJ
+   VMPkkgAgmyZcfA2HB7s2Kc86Pl7pH084mUrISTQ7F6/6zby8aBEs1K7gw
+   7930lHf00pZUdf3BZCZBxzTlhiQP/tWPVLIIE0TAfw73DQKEd+YlLZ6AH
+   ZfJMzjcKe9IKSqWqetg00H5zZ9XDt5rzgzFvsndzFpwE7DrUDQgp4TVo3
+   g==;
+X-CSE-ConnectionGUID: JSTjVxbbQdmGd/JY79G+Jw==
+X-CSE-MsgGUID: bIz3eP9iQWa0tCAGhQTw3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72087956"
 X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="76024507"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 07:02:35 -0800
-X-CSE-ConnectionGUID: Kw/d1UHiSCag7wbW/JLK/w==
-X-CSE-MsgGUID: 1QjHryVZR+eo5A1KgVjsig==
+   d="scan'208";a="72087956"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 07:34:36 -0800
+X-CSE-ConnectionGUID: elODkWL4TYyQ1z23TpxhTw==
+X-CSE-MsgGUID: oQAIVuDERziEljjKgs7Cmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="217476946"
+   d="scan'208";a="213049909"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Feb 2026 07:02:34 -0800
+  by orviesa007.jf.intel.com with ESMTP; 13 Feb 2026 07:34:35 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqugh-00000000vae-26xT;
-	Fri, 13 Feb 2026 15:02:31 +0000
-Date: Fri, 13 Feb 2026 23:01:48 +0800
+	id 1vqvBg-00000000vbs-0sTR;
+	Fri, 13 Feb 2026 15:34:32 +0000
+Date: Fri, 13 Feb 2026 23:34:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kernel Patches Daemon <kernel-patches-bot@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_5 2/17] ci/diffs/.keep:
- warning: ignored by one of the .gitignore files
-Message-ID: <202602132255.FniDlktI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ethan Luna <trunixcodes@zohomail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Ethan Luna <trunixcodes@zohomail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove NDIS_802_11_RATES typedef
+Message-ID: <202602132351.lKF5l1tO-lkp@intel.com>
+References: <20260211024115.31339-1-trunixcodes@zohomail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260211024115.31339-1-trunixcodes@zohomail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
-head:   3bb11e809e06ec473ee881de417d36f0d164f3fe
-commit: 254af9f91cb38b13b6cf71769ea5d413af48a9ef [2/17] adding ci files
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260213/202602132255.FniDlktI-lkp@intel.com/config)
+Hi Ethan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Luna/staging-rtl8723bs-remove-NDIS_802_11_RATES-typedef/20260211-104321
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260211024115.31339-1-trunixcodes%40zohomail.com
+patch subject: [PATCH] staging: rtl8723bs: remove NDIS_802_11_RATES typedef
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260213/202602132351.lKF5l1tO-lkp@intel.com/config)
 compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602132255.FniDlktI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602132351.lKF5l1tO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602132255.FniDlktI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602132351.lKF5l1tO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   .github/actions/veristat_baseline_compare/action.yml: warning: ignored by one of the .gitignore files
-   .github/scripts/compare-veristat-results.sh: warning: ignored by one of the .gitignore files
-   .github/scripts/download-gcc-bpf.sh: warning: ignored by one of the .gitignore files
-   .github/scripts/matrix.py: warning: ignored by one of the .gitignore files
-   .github/scripts/tests/test_veristat_compare.py: warning: ignored by one of the .gitignore files
-   .github/scripts/tmpfsify-workspace.sh: warning: ignored by one of the .gitignore files
-   .github/scripts/veristat_compare.py: warning: ignored by one of the .gitignore files
-   .github/workflows/ai-code-review.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/gcc-bpf.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/kernel-build-test.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/kernel-build.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/kernel-test.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/lint.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/test.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/veristat-kernel.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/veristat-meta.yml: warning: ignored by one of the .gitignore files
-   .github/workflows/veristat-scx.yml: warning: ignored by one of the .gitignore files
-   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
->> ci/diffs/.keep: warning: ignored by one of the .gitignore files
->> ci/diffs/0001-selftests-bpf-work-around-latest-Clang-smartness.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/20251014-selftests-arg_parsing-Ensure-data-is-flushed-to-.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/20251014-selftests-bpf-make-arg_parsing.c-more-robust-to-.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/20260127-Fix-static-build-of-bpftool.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/20260202-selftests-sched_ext-Fix-init_enable_count-flakiness.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/202602021-sched-mmcid-Prevent-live-lock-on-task-to-CPU-mo.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/202602022-sched-mmcid-Protect-transition-on-weakly-ordere.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/202602023-sched-mmcid-Drop-per-CPU-CID-immediately-when-s.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/202602024-sched-mmcid-Optimize-transitional-CIDs-when-sch.patch: warning: ignored by one of the .gitignore files
->> ci/diffs/20260210-selftests-bpf-Rename-do_filp_open-to-do_file_open.patch: warning: ignored by one of the .gitignore files
+>> alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_btcoex.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_cmd.o:(.sbss+0x8): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_efuse.o:(.sbss+0xd): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_io.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_ioctl_set.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_ieee80211.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_mlme.o:(.sbss+0x3): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_mlme_ext.o:(.sbss+0x7): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_pwrctrl.o:(.sbss+0xc): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_recv.o:(.sbss+0xe): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_security.o:(.sbss+0x20): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_sta_mgt.o:(.sbss+0x9): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_wlan_util.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/core/rtw_xmit.o:(.sbss+0x1a): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/hal_intf.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/hal_com.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/hal_com_phycfg.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/hal_btcoex.o:(.sbss+0x3): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/hal_sdio.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/hal_pwr_seq.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/HalPhyRf.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/odm.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/odm_CfoTracking.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/odm_DIG.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/odm_DynamicBBPowerSaving.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/odm_DynamicTxPower.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/odm_HWConfig.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/odm_RegConfig8723B.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/rtl8723b_cmd.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/rtl8723b_dm.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.o:(.sbss+0x2): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/rtl8723bs_recv.o:(.sbss+0x3): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.o:(.sbss+0x2): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/sdio_halinit.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/sdio_ops.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.o:(.sbss+0x1c): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.o:(.sbss+0x18): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.o:(.sbss+0x9): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/os_dep/osdep_service.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/os_dep/os_intfs.o:(.sbss+0x44): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/os_dep/sdio_intf.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/os_dep/wifi_regd.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
+   alpha-linux-ld: drivers/staging/rtl8723bs/os_dep/xmit_linux.o:(.sbss+0x0): multiple definition of `NDIS_802_11_RATES'; drivers/staging/rtl8723bs/core/rtw_ap.o:(.sbss+0x2): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
