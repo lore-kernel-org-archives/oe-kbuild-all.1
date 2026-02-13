@@ -1,108 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19230363C40
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 14:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153261B85F8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 15:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770994303; cv=none; b=n0T/abm1j9S8L/J56aXPtfvPALV6i7PeXaHk3Enm6QJ5mAB5h3v7u0bMGc53XU3gShkXUAqpG/BYgfoNZhtcOw0Pq7MVwLrmpnHMddjHIdVt3/JLdqEhgvlADeTQBTMtG2CpkZ9OvQbJ5rn4/LNqbopOgKW/23wgKVMJzD1ZxTo=
+	t=1770994957; cv=none; b=cDubg2cbQjzzOHJVtTFWdgbMA7m06RRHHQKb0hRQmaK07daRhbqXkHmo5/vyipKsVm9EKUdFOpB7vJEbhpMMIieQpG1oPKc/oKz/fNtBL0O54s+w4BEmXQ1h9n7xiP1eDRTi12HKXlsZ0qzxwlvh+VqsoVMsoybX3rOZAWx3Uq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770994303; c=relaxed/simple;
-	bh=Gla484qNz1R+SW3X4zeyqNYKnde64dHOPrkpfsrmPjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPGGzq7Yi9oXIpRAv6oZSnhf3WSiUH0AKXtySdpLRq5lwlp+tLhhrgxnlmAUkB2+eh2DewZ1+l3TD947aeKuujRMWA2BMIXC+cFlCmquxxWfZoZrXy+wYm7t3FZxbxrjcTvBwgclFXVOENu9KsFAIA2TifxJk/RVsiOs+8Fak0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpbMafGx; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1770994957; c=relaxed/simple;
+	bh=K0dD/bFQ/Jx52UPbN+7BpT5GdbCAYMfx6DRZs6uiqyA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EOGTpSgb2DrM1cwlh0e0AJuw/CdkSEkQvUmmuLiq9EyVi1MvFoCRkByxeuCozIHWZXzlQ1Yu8OO0FCP9xnklFA28bBXjKyf2tZzpJ0SYzhJAXWCik2TBVWMPKyZGnxVroAB0/yzX22ekXWtXDEmiOJOt1bYj9ZSsME/MwH+Q0EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e0NjALpY; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpbMafGx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0NjALpY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770994300; x=1802530300;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gla484qNz1R+SW3X4zeyqNYKnde64dHOPrkpfsrmPjo=;
-  b=HpbMafGxJp6NYQR0xWJ+1fyZjKFfCuXDhpvO4KTC8mFnWQ4xgwL/HNUT
-   jWvQtQczF7Xq6cr3H6BXWfS0YvOXnodAVK7RX2xQe6vnZpjBEv5DjtIKF
-   I/+p8r093AxYsMYA5Dkvytu4n7Z6BLa92jsaNUui9sajYnmDxyAt+VlG8
-   rIQx0bRmStTn7q1h6/jnFwyuSCyEY7VRzQyCfm5gZcXdZmXSgki9EH5SZ
-   xHg2SUKGo0qKmzouHM+W8FUYHiWWQH8MGg3PFt7Fa9FDa24ZEiXEmkHRl
-   lJvgQjECSSbdnElSlTwbASWpxMMiPe0DTAo1KQcQ8ytffixx9XogYanD/
-   w==;
-X-CSE-ConnectionGUID: xMsaARspTRiRNOwBZWbBhw==
-X-CSE-MsgGUID: Ak8IlbhvRLO1cNkdF/fDLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="71375262"
+  t=1770994956; x=1802530956;
+  h=date:from:to:cc:subject:message-id;
+  bh=K0dD/bFQ/Jx52UPbN+7BpT5GdbCAYMfx6DRZs6uiqyA=;
+  b=e0NjALpYrlAUADMK07Pen4+ETAlvw3yNUTfF23S437iuvSJ+xZ/ay5M9
+   LzS6bb9SI5zIChjhY6ARI+p2YWttHVVr4+sLPxEPrra3WlUhkzjWtLbie
+   PzGsZzFLyEhjhHOhaSgrOtDCTlovPbZmKcjp9urw5VrVyneeq+LOhudFE
+   0PDyBgCh6vHbkOJOADHPrVohBXsxV+E4+fZyFxpdtdD2dqMKSw+nOe+vw
+   4LthsveW6XZEwA6cBXlPwx8DJ4Xl55gWHIIgFQ3qCaWoAnDBeH2gIq0VI
+   Bpg05Yi5paP0i+cVyo28li2xiH8FdnSaCd4Kd5dlafSv8fLSTah38OmoS
+   Q==;
+X-CSE-ConnectionGUID: EfdfaLDJSPebZvYAR06iYg==
+X-CSE-MsgGUID: dv42fDsDQBCue0L8wyJTug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="76024507"
 X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="71375262"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 06:51:35 -0800
-X-CSE-ConnectionGUID: G+ptk6AfQeGGKltq3CPy8A==
-X-CSE-MsgGUID: eD3fI7tnQ/yghpX3L2gJvQ==
+   d="scan'208";a="76024507"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 07:02:35 -0800
+X-CSE-ConnectionGUID: Kw/d1UHiSCag7wbW/JLK/w==
+X-CSE-MsgGUID: 1QjHryVZR+eo5A1KgVjsig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="212347184"
+   d="scan'208";a="217476946"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Feb 2026 06:51:33 -0800
+  by orviesa004.jf.intel.com with ESMTP; 13 Feb 2026 07:02:34 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vquW3-00000000vaK-1LiE;
-	Fri, 13 Feb 2026 14:51:31 +0000
-Date: Fri, 13 Feb 2026 22:51:22 +0800
+	id 1vqugh-00000000vae-26xT;
+	Fri, 13 Feb 2026 15:02:31 +0000
+Date: Fri, 13 Feb 2026 23:01:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julien ROBIN <julien.robin28@free.fr>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH] x86/pci-dma: swiotlb: Fix a regression since 5.19.0
- about iommu=soft kernel parameter
-Message-ID: <202602132218.jy0N4aRs-lkp@intel.com>
-References: <16c95f65-17ee-4bbd-99b3-93406a7801c4@free.fr>
+To: Kernel Patches Daemon <kernel-patches-bot@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_5 2/17] ci/diffs/.keep:
+ warning: ignored by one of the .gitignore files
+Message-ID: <202602132255.FniDlktI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <16c95f65-17ee-4bbd-99b3-93406a7801c4@free.fr>
 
-Hi Julien,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/master]
-[also build test WARNING on tip/x86/core tip/auto-latest linus/master v6.19 next-20260212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-ROBIN/x86-pci-dma-swiotlb-Fix-a-regression-since-5-19-0-about-iommu-soft-kernel-parameter/20260213-122547
-base:   tip/master
-patch link:    https://lore.kernel.org/r/16c95f65-17ee-4bbd-99b3-93406a7801c4%40free.fr
-patch subject: [PATCH] x86/pci-dma: swiotlb: Fix a regression since 5.19.0 about iommu=soft kernel parameter
-config: i386-randconfig-r132-20260213 (https://download.01.org/0day-ci/archive/20260213/202602132218.jy0N4aRs-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602132218.jy0N4aRs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
+head:   3bb11e809e06ec473ee881de417d36f0d164f3fe
+commit: 254af9f91cb38b13b6cf71769ea5d413af48a9ef [2/17] adding ci files
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260213/202602132255.FniDlktI-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602132255.FniDlktI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602132218.jy0N4aRs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602132255.FniDlktI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/pci-dma.c:37:5: sparse: sparse: symbol 'x86_soft_iommu_only' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/x86_soft_iommu_only +37 arch/x86/kernel/pci-dma.c
-
-    35	
-    36	int no_iommu __read_mostly;
-  > 37	int x86_soft_iommu_only __read_mostly;
-    38	/* Set this to 1 if there is a HW IOMMU in the system */
-    39	int iommu_detected __read_mostly = 0;
-    40	
+   .github/actions/veristat_baseline_compare/action.yml: warning: ignored by one of the .gitignore files
+   .github/scripts/compare-veristat-results.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/download-gcc-bpf.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/matrix.py: warning: ignored by one of the .gitignore files
+   .github/scripts/tests/test_veristat_compare.py: warning: ignored by one of the .gitignore files
+   .github/scripts/tmpfsify-workspace.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/veristat_compare.py: warning: ignored by one of the .gitignore files
+   .github/workflows/ai-code-review.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/gcc-bpf.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-build-test.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-build.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/kernel-test.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/lint.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/test.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/veristat-kernel.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/veristat-meta.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/veristat-scx.yml: warning: ignored by one of the .gitignore files
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+>> ci/diffs/.keep: warning: ignored by one of the .gitignore files
+>> ci/diffs/0001-selftests-bpf-work-around-latest-Clang-smartness.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/20251014-selftests-arg_parsing-Ensure-data-is-flushed-to-.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/20251014-selftests-bpf-make-arg_parsing.c-more-robust-to-.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/20260127-Fix-static-build-of-bpftool.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/20260202-selftests-sched_ext-Fix-init_enable_count-flakiness.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/202602021-sched-mmcid-Prevent-live-lock-on-task-to-CPU-mo.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/202602022-sched-mmcid-Protect-transition-on-weakly-ordere.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/202602023-sched-mmcid-Drop-per-CPU-CID-immediately-when-s.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/202602024-sched-mmcid-Optimize-transitional-CIDs-when-sch.patch: warning: ignored by one of the .gitignore files
+>> ci/diffs/20260210-selftests-bpf-Rename-do_filp_open-to-do_file_open.patch: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
