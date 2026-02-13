@@ -1,86 +1,67 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2F433B97B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 08:37:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED0F349AEA;
+	Fri, 13 Feb 2026 08:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770971823; cv=none; b=F44ximRJdjSKrPwho7PeJtOGu31chMFUZ+BYMZcWIg3PCFtJCAcubZ2GOgfA7PRiyuI/+sCRtchKBya7HNnYjP2xlpkrzxV2Sw3Iexdx0wXMeOqeMsGe2d9kyxbjJd1xZcHQGyzl4NW8o65OdJqXFWuuqwSk9+TefegzbuTRLro=
+	t=1770972518; cv=none; b=pUHE2e1ZoySW/kkEI5gqPrSw8Q3Z28TjIFUwOEunuka/mS9D2EMUbTYJMbBTBem+TNqHRB1yzCOgl3Oq0JnpTaqL55T1d+viWw3RD4XOEzBpHQQvKQDg1j45kowEgTM+bG7LyesBzcK/+Tnu0q5q4EslGwGZztQTx9p7Q8E+6c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770971823; c=relaxed/simple;
-	bh=7uB/PCia4RZYSoP+w0qDkGwAGbztPcn3sFxeOvnNZbw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZZEgkaMC6kFn068pdTkMLhXpfD0V3FD2orpzlt097PsZO9Ciqi5Sl6AYI48AZd2HrEl1xKPyhjbo1oQj5S9ACPY3pTNuZFAXi8ZpnjtciKIAngPl7j9AD6ISNXO+wiFkT1snR+MjWGl/CqwDu+kZrzp9BYQrGHCwxj76PxBz8t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RgQhA443; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1770972518; c=relaxed/simple;
+	bh=MuqqbySfLbrXxCZtufrECjpaM62KymJsHeUZ+/3ILUk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dV+Gai1C8pkSOPJMd7ob6sp7Cz/6E+Won1Z+iEU9rrvFLKTMH3kR9DHmconSEE6OLFPxSqo4OY7ATHVW72fF5OE8a6UYQuIs/FZ9DZRUhqpp8IBJpZiG+phtk+pz1hWp2gM6y37wxzO4QkIy6zbdx7O/VZsd8ZhZjYjg9GWE8W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NuAsqN72; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RgQhA443"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1770971819;
-	bh=7uB/PCia4RZYSoP+w0qDkGwAGbztPcn3sFxeOvnNZbw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RgQhA443+n+xY7wQbgDPJuhPVdwDk/1kDyOV7xHjv+mwn9DHyyQPTt1uSMX3mGDNp
-	 rC9XEwjElVtEzvZAX1GUcQGm1lnPtsxT9i4RhB/qcekDUW4qgOp64OfQj26HqqdUPQ
-	 u2um8l1nNQjjPWYTwfMl6tD8HavSLyD5S3kS3GFATWnwWfblsePY49BmYpsBWoe52U
-	 LloeNPG1lJ4Z7IiJBhtRdJ7pJfouAFfgLyHMWPaICTTpt/67up8QGiTa55ir9qduUh
-	 NgVi/oNVLM9JTUpsWfiSQligU/Kvq1AeiRe8Mtaff7Ru0rJvqENnm05gL2SLAKQqgw
-	 vJANkKp1HfcqA==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6D5CB17E151C;
-	Fri, 13 Feb 2026 09:36:59 +0100 (CET)
-Message-ID: <1fc9e105-6c2b-4e4d-9e29-9284cfd76545@collabora.com>
-Date: Fri, 13 Feb 2026 09:36:58 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NuAsqN72"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19D4C116C6;
+	Fri, 13 Feb 2026 08:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770972517;
+	bh=MuqqbySfLbrXxCZtufrECjpaM62KymJsHeUZ+/3ILUk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=NuAsqN72k5J1pxKAVhC3h9o8Wde0CkrZZEm6gJV3UZXlmszA6ptU5DSPzdLIZJhd4
+	 hwMaHuOqq09YUfOu5WNNops3u49gYefv/Cj4xnEheg7hvzD0ZPAnHqZ/deTbRx2101
+	 8KQsHIViEsW0D4VdfrG7sFpdixLHhanIJO/1id70bqJX9mCwBQKoiAhV0MCV6+94Rr
+	 cmTk4tKtIeSm4ZhaBOk5WWzJ8GeskISejgzuxBj32b7PVGYliJj62B2Xnrm8Zqg9tA
+	 RoZJJiiYNBgRU9nXMkaZXPmWWPTaChC4YvKztRSC1BXAkdINLc6Prb2GAJQgjpawqa
+	 /Bd+IrCkRH6GA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: kernel test robot <lkp@intel.com>, Yuwen Chen <ywen.chen@foxmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, ywen.chen@foxmail.com,
+ akpm@linux-foundation.org, andrealmeid@igalia.com, bigeasy@linutronix.de,
+ colin.i.king@gmail.com, dave@stgolabs.net, dvhart@infradead.org,
+ edliaw@google.com, justinstitt@google.com, kernel-team@android.com,
+ licayy@foxmail.com, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, luto@mit.edu, mingo@redhat.com,
+ morbo@google.com, nathan@kernel.org, nick.desaulniers+lkml@gmail.com,
+ peterz@infradead.org, shuah@kernel.org, usama.anjum@collabora.com,
+ wakel@google.com
+Subject: Re: [PATCH] selftests/futex: fix incorrect result reporting of
+ futex_wait test item
+In-Reply-To: <202602052333.1Bhrssu1-lkp@intel.com>
+References: <tencent_7D6D776D157570FF8C9FB9DE9D9FE5257C0A@qq.com>
+ <202602052333.1Bhrssu1-lkp@intel.com>
+Date: Fri, 13 Feb 2026 09:48:33 +0100
+Message-ID: <87fr7581we.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ERROR: modpost: "phy_mipi_dphy_get_default_config_for_hsclk"
- [drivers/media/platform/synopsys/dw-mipi-csi2rx.ko] undefined!
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Hans Verkuil <hverkuil@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <202602130253.BZnVd4jh-lkp@intel.com>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <202602130253.BZnVd4jh-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi all,
+On Thu, Feb 05 2026 at 23:29, kernel test robot wrote:
 
-On 2/12/26 19:11, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   37a93dd5c49b5fda807fd204edf2547c3493319c
-> commit: 355a110040665e439af126e8ec9c3968e73f163c media: synopsys: add driver for the designware mipi csi-2 receiver
-> date:   3 weeks ago
-> config: i386-randconfig-062-20260212 (https://download.01.org/0day-ci/archive/20260213/202602130253.BZnVd4jh-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130253.BZnVd4jh-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602130253.BZnVd4jh-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
->>> ERROR: modpost: "phy_mipi_dphy_get_default_config_for_hsclk" [drivers/media/platform/synopsys/dw-mipi-csi2rx.ko] undefined!
-> 
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
 
-I'll send a patch that selects GENERIC_PHY_MIPI_DPHY in the Kconfig,
-this should sort this out.
+>>> futex_wait.c:48:2: warning: format specifies type 'uintmax_t' (aka 'unsigned long') but the argument has type 'uintmax_t' (aka 'unsigned long long') [-Wformat]
 
-Best regards,
-Michael
+Priceless. Your compiler can't make it's mind up.
 
+uintmax_t is defined by the compiler provided includes.
+
+Thanks,
+
+        tglx
