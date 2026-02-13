@@ -1,112 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A599A31ED73;
-	Fri, 13 Feb 2026 08:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2F433B97B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 08:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770970705; cv=none; b=fozy0bxS8k6JDsXJ8MZtQMtrE7qM0z+4PnxX4dimNfb0NCsMP63P2erGLtXbm/DKv0BYtLeWTUXppcGY79H3aIZVriVtngPadS2JTv2vFvD0Qbtl2I/qbz/mPwHrxst5fryfA5DEFk//1HzRO5Y8bo+kizMrPIxtuWQoA9S/CzI=
+	t=1770971823; cv=none; b=F44ximRJdjSKrPwho7PeJtOGu31chMFUZ+BYMZcWIg3PCFtJCAcubZ2GOgfA7PRiyuI/+sCRtchKBya7HNnYjP2xlpkrzxV2Sw3Iexdx0wXMeOqeMsGe2d9kyxbjJd1xZcHQGyzl4NW8o65OdJqXFWuuqwSk9+TefegzbuTRLro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770970705; c=relaxed/simple;
-	bh=tGUYMLVKjYb+RaTElSaNdtgcFJ7Zdg2coDCV62HXDOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hdocbBdEynf5mwMifwQZT9XvUTvgxzmocngK7sQ2WxJJVGzDBT+g0SQqYtGImEveE/+X76kZ32MBneCM7bQoX6WhcCsuG8UAIQooTQmL0LJjJc2AR3Z89jxd/zyfffLZOQL2/CLfNvyQWPY6D7OZQDIYFLvyNJh0ys6BmKpEmWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cdmls7wx; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770971823; c=relaxed/simple;
+	bh=7uB/PCia4RZYSoP+w0qDkGwAGbztPcn3sFxeOvnNZbw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZZEgkaMC6kFn068pdTkMLhXpfD0V3FD2orpzlt097PsZO9Ciqi5Sl6AYI48AZd2HrEl1xKPyhjbo1oQj5S9ACPY3pTNuZFAXi8ZpnjtciKIAngPl7j9AD6ISNXO+wiFkT1snR+MjWGl/CqwDu+kZrzp9BYQrGHCwxj76PxBz8t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RgQhA443; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cdmls7wx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770970704; x=1802506704;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tGUYMLVKjYb+RaTElSaNdtgcFJ7Zdg2coDCV62HXDOM=;
-  b=Cdmls7wxkpecJyHacgbrOOMFh+kFwfFv/VP7vFHySzgBsX6a0r8hoENr
-   1m33sNwwFEGOVLUUJQS8ZP8nyUHsq4cfbSGb0dYs8ugabXriVDBq/VEyA
-   BTa3TOvFZYKHdWtfYOWutogF0mLJJXgRfllGvCKPV8r9JnaKDB+h4uhAE
-   nqcHYlXHy4B0cgjLQbI5UH1efZPe+/e0US7Jol9OFah7tRObnUEMftCYT
-   N4IcHDrk+lei/w3gbNxxN6GpbkVF/WTfQ8H6UZMaLoYR74Iy/zLsUvt8p
-   MKPsCe19OEDFbhuSks0xuTOeTZTaekQ0vXQ+Z+49TM7Dh5NuSBkVtIfKe
-   w==;
-X-CSE-ConnectionGUID: eoyqVUuTSaSMMm218jgtkA==
-X-CSE-MsgGUID: xFqFNJIBR3u1VkE7FS97Tw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="72059598"
-X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="72059598"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 00:18:24 -0800
-X-CSE-ConnectionGUID: NkgbhQfATS+S19r/5LW5qA==
-X-CSE-MsgGUID: D1nZS4adRX27eGdz+4RVig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="235832227"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Feb 2026 00:18:21 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vqoNX-00000000vE4-1jnX;
-	Fri, 13 Feb 2026 08:18:19 +0000
-Date: Fri, 13 Feb 2026 16:17:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ethan Ferguson <ethan.ferguson@zetier.com>, luisbg@kernel.org,
-	salah.triki@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ethan Ferguson <ethan.ferguson@zetier.com>
-Subject: Re: [PATCH 1/2] befs: Add FS_IOC_GETFSLABEL ioctl
-Message-ID: <202602131600.jVbNpmdD-lkp@intel.com>
-References: <20260212231339.644714-2-ethan.ferguson@zetier.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RgQhA443"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1770971819;
+	bh=7uB/PCia4RZYSoP+w0qDkGwAGbztPcn3sFxeOvnNZbw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RgQhA443+n+xY7wQbgDPJuhPVdwDk/1kDyOV7xHjv+mwn9DHyyQPTt1uSMX3mGDNp
+	 rC9XEwjElVtEzvZAX1GUcQGm1lnPtsxT9i4RhB/qcekDUW4qgOp64OfQj26HqqdUPQ
+	 u2um8l1nNQjjPWYTwfMl6tD8HavSLyD5S3kS3GFATWnwWfblsePY49BmYpsBWoe52U
+	 LloeNPG1lJ4Z7IiJBhtRdJ7pJfouAFfgLyHMWPaICTTpt/67up8QGiTa55ir9qduUh
+	 NgVi/oNVLM9JTUpsWfiSQligU/Kvq1AeiRe8Mtaff7Ru0rJvqENnm05gL2SLAKQqgw
+	 vJANkKp1HfcqA==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6D5CB17E151C;
+	Fri, 13 Feb 2026 09:36:59 +0100 (CET)
+Message-ID: <1fc9e105-6c2b-4e4d-9e29-9284cfd76545@collabora.com>
+Date: Fri, 13 Feb 2026 09:36:58 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260212231339.644714-2-ethan.ferguson@zetier.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: ERROR: modpost: "phy_mipi_dphy_get_default_config_for_hsclk"
+ [drivers/media/platform/synopsys/dw-mipi-csi2rx.ko] undefined!
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <202602130253.BZnVd4jh-lkp@intel.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <202602130253.BZnVd4jh-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Ethan,
+Hi all,
 
-kernel test robot noticed the following build errors:
+On 2/12/26 19:11, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   37a93dd5c49b5fda807fd204edf2547c3493319c
+> commit: 355a110040665e439af126e8ec9c3968e73f163c media: synopsys: add driver for the designware mipi csi-2 receiver
+> date:   3 weeks ago
+> config: i386-randconfig-062-20260212 (https://download.01.org/0day-ci/archive/20260213/202602130253.BZnVd4jh-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602130253.BZnVd4jh-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602130253.BZnVd4jh-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+>>> ERROR: modpost: "phy_mipi_dphy_get_default_config_for_hsclk" [drivers/media/platform/synopsys/dw-mipi-csi2rx.ko] undefined!
+> 
 
-[auto build test ERROR on 541c43310e85dbf35368b43b720c6724bc8ad8ec]
+I'll send a patch that selects GENERIC_PHY_MIPI_DPHY in the Kconfig,
+this should sort this out.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Ferguson/befs-Add-FS_IOC_GETFSLABEL-ioctl/20260213-071516
-base:   541c43310e85dbf35368b43b720c6724bc8ad8ec
-patch link:    https://lore.kernel.org/r/20260212231339.644714-2-ethan.ferguson%40zetier.com
-patch subject: [PATCH 1/2] befs: Add FS_IOC_GETFSLABEL ioctl
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260213/202602131600.jVbNpmdD-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260213/202602131600.jVbNpmdD-lkp@intel.com/reproduce)
+Best regards,
+Michael
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602131600.jVbNpmdD-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/befs/linuxvfs.c:985:54: error: call to undeclared function 'compat_ptr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     985 |         return befs_generic_ioctl(filp, cmd, (unsigned long)compat_ptr(arg));
-         |                                                             ^
-   1 error generated.
-
-
-vim +/compat_ptr +985 fs/befs/linuxvfs.c
-
-   979	
-   980	#ifdef CONFIG_COMPAT
-   981	static long befs_generic_compat_ioctl(struct file *filp, unsigned int cmd,
-   982					      unsigned long arg)
-   983	
-   984	{
- > 985		return befs_generic_ioctl(filp, cmd, (unsigned long)compat_ptr(arg));
-   986	}
-   987	#endif
-   988	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
