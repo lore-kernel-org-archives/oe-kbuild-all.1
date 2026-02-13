@@ -1,108 +1,216 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4134519005E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 16:27:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5352FF9E8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Feb 2026 16:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771000060; cv=none; b=eSG8OhhZapKieztg5q9vueKFJXDEag+71x0OECZQh4L+FRxBKXKRa5csk7PX7CphqSG0ooc6VlfmDwOmPYIJxVdtX/lAiHvTivmljVb0OkODp3MdqKMgRhkWmPVPPDfOmI4z0D3rpVI/STgwOQHaYvn9zYN7suahfz7AGYo5mVA=
+	t=1771000064; cv=none; b=ioLGvuf7oPIKIDDRiK6PuSnd0LMrAc09BwQs/5UmqhF0nK0icfbwnkyf7a6qbpNInrjvMbFC38O9lnVLvKNA+gGRFrtO9gTOt76KhAl+KcOFbmFoM8ibd0MUdMHfL8HJ+TS2OORaMLXQNt+53/bCXnaeeuATI3UR3kVZemB/jMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771000060; c=relaxed/simple;
-	bh=j6ixpRbqQbX0//KZuZeir8bb7H3794PP1sjrcM1Pnh8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=su971IrkyYczskqklcSXRzNcbmAVLaKyTGLbJzON0AHg3sLl85f2XzNG3fuyR3H/UPpJCW6pS1Sr9/o+glJy8EWgZyexf+i0HRS8qETZqZmzV43VtcwkQc2JD83CTpIaGFi5/WhH1Zcj9F7ql4T54jnVNNoWESqmWNBFkUer7Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XP98CPKI; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1771000064; c=relaxed/simple;
+	bh=loXZez4fU6bTVN0GB9jS/17xXYK/cezQdjrmGTcZACM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qu7VpbCKJmlGjw8OZYmkoYoT6KPTNxtsqf5lt76qTdD3gv7b5bx72zLAaI1iuKkqTsZIhAGHSUHzbW56vXzVi3BIRCm5AoYNgOfb3xKElwdm/P4hpt1vdYaOsfBTXXbJ7bkCd9u9jh17y8MxUpuEy1Tg1mcrnSt+aOmumk5ZhdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wyu1LCea; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XP98CPKI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wyu1LCea"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771000059; x=1802536059;
-  h=date:from:to:cc:subject:message-id;
-  bh=j6ixpRbqQbX0//KZuZeir8bb7H3794PP1sjrcM1Pnh8=;
-  b=XP98CPKIhUl0RCvFq3Akcc9FUuPD0nd80alGMGZEYOH3lfdI4Epyjuc8
-   VRN4G7JSTim/YxOkDzMq1cROZh2dxwL3oCXQVIFHEfInzkVmFrkO+IjRX
-   kYQgWsxMbfhQh6hBsUH7o7fVj4UbEt7FpiYcozhP0mTOPM15mggpKY90C
-   ulPykiA78CZgDS76eHZ7Tum5SsnZhDC4+9vmD9c9+PXDnOeJvHWV67/nb
-   GMVla2o85ktyevvSRHvxunVXyWx75MX5d9pnTD5Rh3b3O6FiRjOyHw6Ru
-   9Glant0vEfdMSAzMHPOdH1Qukf7FfZvzsKr0rEFyIHhgsqnn8qqOfOxvM
-   w==;
-X-CSE-ConnectionGUID: G2W1aDUQTLGGusHRo7uVWg==
-X-CSE-MsgGUID: FDM0vfHyRSeyWac4Q0RJvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72080395"
+  t=1771000063; x=1802536063;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=loXZez4fU6bTVN0GB9jS/17xXYK/cezQdjrmGTcZACM=;
+  b=Wyu1LCeaYzQuYQCGqY+axY7BjIjECRrNhdk+B6q2BpQ0kyq3xT3kCZx6
+   FKLVeFTMX5uoDNJDaJIKxIpSkl2jWIovCKIZ056jPfum6+l+DuqSSQT74
+   V+bHyjLlt1Rs2es4MnqhJvwuanIJ4Kt0mb1iARZk+25HTsfbZOB3YzA0y
+   zQN2SJh1kCrZZVYUl7lc/MBpbL1gKVxrcvzyIf+cWNo2Z/5SPIy3P7JzX
+   /IQdLWtdk5bwdnZ49huymxdKIf67QWLZjRmpL+5eE7potSQ6UETik+CFg
+   0jplI8simClMnPqMKl7o7QSWvlhjZyY5VVwx/iBkou7oQRIFgnfrkuF6q
+   A==;
+X-CSE-ConnectionGUID: nSDwWRmATjWdckzVS4yxcA==
+X-CSE-MsgGUID: 1CAJPLaFQgy0cNusPBABng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72080397"
 X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="72080395"
+   d="scan'208";a="72080397"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 08:27:39 -0800
-X-CSE-ConnectionGUID: VW/nPUUxRPu1P0IHgKVh1g==
-X-CSE-MsgGUID: JJPfA7VtRHyTB2H6XXkD0g==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 08:27:43 -0800
+X-CSE-ConnectionGUID: qjkegM0URdKv5bNMpcxCNw==
+X-CSE-MsgGUID: oOBomfvvQiC05aSwqnejxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="212057144"
+   d="scan'208";a="212057138"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 13 Feb 2026 08:27:37 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vqw11-00000000vfC-1ADz;
+	id 1vqw11-00000000vfA-1389;
 	Fri, 13 Feb 2026 16:27:35 +0000
-Date: Sat, 14 Feb 2026 00:27:21 +0800
+Date: Sat, 14 Feb 2026 00:27:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3] mm/page_alloc.c:1831:6:
- warning: no previous prototype for 'prep_new_page'
-Message-ID: <202602140016.PFmTD3Gh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: LiuQingtao <qtliu@mail.ustc.edu.cn>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, jirislaby@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, neil.armstrong@linaro.org,
+	bjorn.andersson@oss.qualcomm.com, marex@nabladev.com, dev@kael-k.io,
+	mani@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-serial@vger.kernel.org, linux-riscv@lists.infradead.org,
+	liu.wenhong35@zte.com.cn, liu.qingtao2@zte.com.cn,
+	hu.yuye@zte.com.cn, dai.hualiang@zte.com.cn,
+	deng.weixian@zte.com.cn, jia.yunxiang@zte.com.cn,
+	bai.lu5@zte.com.cn, yang.susheng@zte.com.cn, shen.lin1@zte.com.cn,
+	tan.hu@zte.com.cn, zuo.jiang@zte.com.cn
+Subject: Re: [PATCH v1 2/2] LRW UART: serial: add driver for the LRW UART
+Message-ID: <202602140029.NXkDToZ7-lkp@intel.com>
+References: <20260213093334.9217-3-qtliu@mail.ustc.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260213093334.9217-3-qtliu@mail.ustc.edu.cn>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   a18295bb2ff61afce1b5cfd06eb893d75c39c61c
-commit: f2c613bbd9ad3f09e4eb94bf541cdfb57423dcc9 [3/3] ANDROID: export symbol prep_new_page for vendor module
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260214/202602140016.PFmTD3Gh-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140016.PFmTD3Gh-lkp@intel.com/reproduce)
+Hi LiuQingtao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus robh/for-next usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.19 next-20260212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/LiuQingtao/LRW-UART-dt-bindings-Add-binding-for-LRW-UART/20260213-173610
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20260213093334.9217-3-qtliu%40mail.ustc.edu.cn
+patch subject: [PATCH v1 2/2] LRW UART: serial: add driver for the LRW UART
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260214/202602140029.NXkDToZ7-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140029.NXkDToZ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602140016.PFmTD3Gh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602140029.NXkDToZ7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/page_alloc.c:1831:6: warning: no previous prototype for 'prep_new_page' [-Wmissing-prototypes]
-    1831 | void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
-         |      ^~~~~~~~~~~~~
+   In file included from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:18,
+                    from drivers/tty/serial/lrw_uart.c:8:
+   drivers/tty/serial/lrw_uart.c: In function 'lrw_uart_dma_rx_irq':
+>> drivers/tty/serial/lrw_uart.c:973:23: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'long unsigned int' [-Wformat=]
+     973 |                       "pending %zu exceeds DMA buffer size %zu\n",
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:142:62: note: in definition of macro '__WARN_printf'
+     142 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
+         |                                                              ^~~
+   include/linux/once_lite.h:31:25: note: in expansion of macro 'WARN'
+      31 |                         func(__VA_ARGS__);                              \
+         |                         ^~~~
+   include/asm-generic/bug.h:185:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     185 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |         ^~~~~~~~~~~~~~~
+   drivers/tty/serial/lrw_uart.c:972:13: note: in expansion of macro 'WARN_ONCE'
+     972 |         if (WARN_ONCE(pending > LRW_UART_DMA_BUFFER_SIZE,
+         |             ^~~~~~~~~
+   drivers/tty/serial/lrw_uart.c:973:62: note: format string is defined here
+     973 |                       "pending %zu exceeds DMA buffer size %zu\n",
+         |                                                            ~~^
+         |                                                              |
+         |                                                              unsigned int
+         |                                                            %lu
+   drivers/tty/serial/lrw_uart.c: In function 'lrw_uart_dma_rx_callback':
+   drivers/tty/serial/lrw_uart.c:1022:23: warning: format '%zu' expects argument of type 'size_t', but argument 6 has type 'long unsigned int' [-Wformat=]
+    1022 |                       "pending %zu exceeds DMA buffer size %zu\n",
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:142:62: note: in definition of macro '__WARN_printf'
+     142 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
+         |                                                              ^~~
+   include/linux/once_lite.h:31:25: note: in expansion of macro 'WARN'
+      31 |                         func(__VA_ARGS__);                              \
+         |                         ^~~~
+   include/asm-generic/bug.h:185:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     185 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |         ^~~~~~~~~~~~~~~
+   drivers/tty/serial/lrw_uart.c:1021:13: note: in expansion of macro 'WARN_ONCE'
+    1021 |         if (WARN_ONCE(pending > LRW_UART_DMA_BUFFER_SIZE,
+         |             ^~~~~~~~~
+   drivers/tty/serial/lrw_uart.c:1022:62: note: format string is defined here
+    1022 |                       "pending %zu exceeds DMA buffer size %zu\n",
+         |                                                            ~~^
+         |                                                              |
+         |                                                              unsigned int
+         |                                                            %lu
 
 
-vim +/prep_new_page +1831 mm/page_alloc.c
+vim +973 drivers/tty/serial/lrw_uart.c
 
-  1830	
-> 1831	void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
-  1832								unsigned int alloc_flags)
-  1833	{
-  1834		post_alloc_hook(page, order, gfp_flags);
-  1835	
-  1836		if (order && (gfp_flags & __GFP_COMP))
-  1837			prep_compound_page(page, order);
-  1838	
-  1839		/*
-  1840		 * page is set pfmemalloc when ALLOC_NO_WATERMARKS was necessary to
-  1841		 * allocate the page. The expectation is that the caller is taking
-  1842		 * steps that will free more memory. The caller should avoid the page
-  1843		 * being used for !PFMEMALLOC purposes.
-  1844		 */
-  1845		if (alloc_flags & ALLOC_NO_WATERMARKS)
-  1846			set_page_pfmemalloc(page);
-  1847		else
-  1848			clear_page_pfmemalloc(page);
-  1849		trace_android_vh_test_clear_look_around_ref(page);
-  1850	}
-  1851	EXPORT_SYMBOL_GPL(prep_new_page);
-  1852	
+   943	
+   944	static void lrw_uart_dma_rx_irq(struct lrw_uart_port *sup)
+   945	{
+   946		struct lrw_uart_dmarx_data *dmarx = &sup->dmarx;
+   947		struct dma_chan *rxchan = dmarx->chan;
+   948		struct lrw_uart_dmabuf *dbuf = dmarx->use_buf_b ?
+   949			&dmarx->dbuf_b : &dmarx->dbuf_a;
+   950		size_t pending;
+   951		struct dma_tx_state state;
+   952		enum dma_status dmastat;
+   953	
+   954		/*
+   955		 * Pause the transfer so we can trust the current counter,
+   956		 * do this before we pause the LRW UART block, else we may
+   957		 * overflow the FIFO.
+   958		 */
+   959		if (dmaengine_pause(rxchan))
+   960			dev_err(sup->port.dev, "unable to pause DMA transfer\n");
+   961		dmastat = rxchan->device->device_tx_status(rxchan,
+   962							   dmarx->cookie, &state);
+   963		if (dmastat != DMA_PAUSED)
+   964			dev_err(sup->port.dev, "unable to pause DMA transfer\n");
+   965	
+   966		/* Disable RX DMA - incoming data will wait in the FIFO */
+   967		sup->dmacr &= ~UARTFCCR_RXDMAE;
+   968		lrw_uart_write(sup->dmacr, sup, REG_FCCR);
+   969		sup->dmarx.running = false;
+   970	
+   971		pending = dbuf->len - state.residue;
+   972		if (WARN_ONCE(pending > LRW_UART_DMA_BUFFER_SIZE,
+ > 973			      "pending %zu exceeds DMA buffer size %zu\n",
+   974			      pending, LRW_UART_DMA_BUFFER_SIZE))
+   975			pending = LRW_UART_DMA_BUFFER_SIZE;
+   976		/* Then we terminate the transfer - we now know our residue */
+   977		dmaengine_terminate_all(rxchan);
+   978	
+   979		/*
+   980		 * This will take the chars we have so far and insert
+   981		 * into the framework.
+   982		 */
+   983		lrw_uart_dma_rx_chars(sup, pending, dmarx->use_buf_b, true);
+   984	
+   985		/* Switch buffer & re-trigger DMA job */
+   986		dmarx->use_buf_b = !dmarx->use_buf_b;
+   987		if (lrw_uart_dma_rx_trigger_dma(sup)) {
+   988			dev_dbg(sup->port.dev,
+   989				"could not retrigger RX DMA job fall back to interrupt mode\n");
+   990			sup->im |= UARTIMSC_RXIM;
+   991			lrw_uart_write(sup->im, sup, REG_IMSC);
+   992		}
+   993	}
+   994	
 
 -- 
 0-DAY CI Kernel Test Service
