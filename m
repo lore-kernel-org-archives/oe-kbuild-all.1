@@ -1,198 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C863EBF2D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 12:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2C91A3166;
+	Sat, 14 Feb 2026 12:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771072413; cv=none; b=ejgKT9Sajsxt6JpTz3M2tn4IT2taUy/7d83YFqbuVTUtenR5L4W5eG/LcouMqIb7HaBVbVUxN39RNlt4+rCz8gBoc88gHvLfoNM+AB+GDA2uCoSKYQMxZBLRxNDAOC0ijolLbpQmy5X24qPSeAk7RqMcCeZtzWa22ju7acv1SRY=
+	t=1771073670; cv=none; b=eKUkhLAEqSDF24cr0g4RKTlvn7dsQJBx2td54K4ALUAgWQaMOlTOFAsFy5FP9y+R3vgzzMNSCUEGjuazIqp9O+HNZiVBAlimAe8S1Xh30ORr8Hq0mJgofKiGtKjO1nIvWpHORIaHq/56O0whYZ7NEGueCxsBBtCxXu8dzbnGzz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771072413; c=relaxed/simple;
-	bh=YCR560SceZMWoFT+hZOGG3Q841yflpLrAjRNtMTNlqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OxsnThHLGgpe7vfWtvHVJj9GkXaTpOY5jsGRAzIxFenjTI3RWgPSX78tl/E8i8I/EW44SXv/2eP7zDG0PB/sJXsqSRoWrwAdHqVp3xRfZiAScYCTvzdQDGiDEQlFq5XlgHaw74WYlcsQ+Qf7YsFc+At5U1FNmeYUIPhbv09CC9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLOyhSCl; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1771073670; c=relaxed/simple;
+	bh=WHXK6420mmGvbIRP5eez8HD9ENue1ml6+Qq/Vs7KrFs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GFTiw+02WZkZ7wg55JcWqa32csQ0nyliq+nSfJGAQlkhA+Bh2SNeWm6r1eSj0H5NklilXOjDar6nmd67b/hQ2dSdKcV5Sx8hwEAtGAA/3ECRL2R5/jdbr7b69TzTkAqSL0T83WpGi6O6Xu0XBhe1eIcYb8o7jfIZexX+MerusWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HF2LTvQj; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLOyhSCl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HF2LTvQj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771072410; x=1802608410;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YCR560SceZMWoFT+hZOGG3Q841yflpLrAjRNtMTNlqM=;
-  b=KLOyhSClSm80Fmb2kwTlnT+FQ4Cb+36ldPiIYnAmW8gsSR69gqnUguxB
-   9mS97LkLUaNPfTeaNKIwIANjuYMJhj5Kqe3ddM0cv7epP5O0XYUnTbg4c
-   3LgIKZtPPVFhCENvusymiWnwR5dnWXnId1aDmkC/jZLOKXU8BX9SDx1C8
-   7Ov5KdREJREVbjbzN0OYzsVekd7k7NO7kz2L5gAWJchUpC5hy4UBpHYyp
-   7og7369dqQGrbqz6jfCkgH9DWxo8Y4OAiMwVAKr5EmeeUdsDCbRPYi/FR
-   6CEUMc+BjIRe27S4nNu6eDwSCXNzS9i38FE2VBTXz8HHjaSCb+G2WUsH5
-   A==;
-X-CSE-ConnectionGUID: gk/rQMatTBGYP9lbh3maEQ==
-X-CSE-MsgGUID: OHMOVZVHTcy/kSgpp5n3lw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="82565163"
+  t=1771073669; x=1802609669;
+  h=date:from:to:cc:subject:message-id;
+  bh=WHXK6420mmGvbIRP5eez8HD9ENue1ml6+Qq/Vs7KrFs=;
+  b=HF2LTvQjDclUe9V+k3aR6o7UZ7Ftd460M/PJYOiqpNxV6CpXCxrgz9+t
+   DVTKGz/1ODkwfaHU6CEPPFN42CrkS5zj9n4cVgUGefwLz62IjIFf+7gm0
+   E30GyDGwsS34/BuBhL3N5XDPeL0Hh1KrnBrAu6+HPyNEXd9HFVkdCeP5b
+   GeqDQb24OsGJ9IvzHsBtJ/t4egpuKsWjD801aY2o3uEkN0hIS5fFb61E0
+   bD7xICnab8mliSM+wPRl3hK6ZGr1fCcrEVL86ZUH/gLQLYTFL2DAKBORd
+   3EjOGKFEtCmKlisVGwFL47Jtop/BwWUswNVuTrz/dZGN3Sx6Hk7tntK66
+   g==;
+X-CSE-ConnectionGUID: ZmLc1+sLSHORc07una0kyA==
+X-CSE-MsgGUID: bjvXI6CXS5+acXtdqgL2xA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="71265812"
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="82565163"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 04:33:30 -0800
-X-CSE-ConnectionGUID: avkfkb8ZTimdIY18Uz98kA==
-X-CSE-MsgGUID: MweAp2/NQHGZTQH2fPfrMw==
+   d="scan'208";a="71265812"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 04:54:28 -0800
+X-CSE-ConnectionGUID: jx9sIBFBQJmEv+66ybB1Xg==
+X-CSE-MsgGUID: BrYtVBnMQIi7Scr8zzQ7xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="213269477"
+   d="scan'208";a="212549787"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 Feb 2026 04:33:27 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 14 Feb 2026 04:54:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrEpw-00000000wWS-0fal;
-	Sat, 14 Feb 2026 12:33:24 +0000
-Date: Sat, 14 Feb 2026 20:32:36 +0800
+	id 1vrFAG-00000000wXo-3boc;
+	Sat, 14 Feb 2026 12:54:24 +0000
+Date: Sat, 14 Feb 2026 20:53:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumit Garg <sumit.garg@kernel.org>, op-tee@lists.trustedfirmware.org
-Cc: oe-kbuild-all@lists.linux.dev, jens.wiklander@linaro.org,
-	vbabka@suse.cz, akpm@linux-foundation.org, willy@infradead.org,
-	linux-kernel@vger.kernel.org,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Sven =?iso-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>
-Subject: Re: [RFT PATCH] tee: shm: Remove refcounting of kernel pages
-Message-ID: <202602142012.snNfstpn-lkp@intel.com>
-References: <20260213113317.1728769-1-sumit.garg@kernel.org>
+To: Linus Walleij <linusw@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/aarch64-clear-pages 2/2] make[7]: *** No
+ rule to make target 'arch/arm64/kvm/hyp/nvhe/../../../lib/clear_page.nvhe.o',
+ needed by 'arch/arm64/kvm/hyp/nvhe/kvm_nvhe.tmp.o'.
+Message-ID: <202602142051.bzpo4KnU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260213113317.1728769-1-sumit.garg@kernel.org>
 
-Hi Sumit,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.19 next-20260213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Garg/tee-shm-Remove-refcounting-of-kernel-pages/20260213-193435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260213113317.1728769-1-sumit.garg%40kernel.org
-patch subject: [RFT PATCH] tee: shm: Remove refcounting of kernel pages
-config: x86_64-randconfig-r073-20260214 (https://download.01.org/0day-ci/archive/20260214/202602142012.snNfstpn-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602142012.snNfstpn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-clear-pages
+head:   a925ec351435c4da7f3ca8877af9e0aee81bcca5
+commit: a925ec351435c4da7f3ca8877af9e0aee81bcca5 [2/2] arm64: Implement clear_pages()
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260214/202602142051.bzpo4KnU-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602142051.bzpo4KnU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602142012.snNfstpn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602142051.bzpo4KnU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/tee/tee_shm.c: In function 'register_shm_helper':
->> drivers/tee/tee_shm.c:475:13: error: implicit declaration of function 'iter_is_uvec'; did you mean 'iter_is_iovec'? [-Wimplicit-function-declaration]
-     475 |         if (iter_is_uvec(iter))
-         |             ^~~~~~~~~~~~
-         |             iter_is_iovec
-
-
-vim +475 drivers/tee/tee_shm.c
-
-   399	
-   400	static struct tee_shm *
-   401	register_shm_helper(struct tee_context *ctx, struct iov_iter *iter, u32 flags,
-   402			    int id)
-   403	{
-   404		struct tee_device *teedev = ctx->teedev;
-   405		struct tee_shm *shm;
-   406		unsigned long start, addr;
-   407		size_t num_pages, off;
-   408		ssize_t len;
-   409		void *ret;
-   410		int rc;
-   411	
-   412		if (!tee_device_get(teedev))
-   413			return ERR_PTR(-EINVAL);
-   414	
-   415		if (!teedev->desc->ops->shm_register ||
-   416		    !teedev->desc->ops->shm_unregister) {
-   417			ret = ERR_PTR(-ENOTSUPP);
-   418			goto err_dev_put;
-   419		}
-   420	
-   421		teedev_ctx_get(ctx);
-   422	
-   423		shm = kzalloc(sizeof(*shm), GFP_KERNEL);
-   424		if (!shm) {
-   425			ret = ERR_PTR(-ENOMEM);
-   426			goto err_ctx_put;
-   427		}
-   428	
-   429		refcount_set(&shm->refcount, 1);
-   430		shm->flags = flags;
-   431		shm->ctx = ctx;
-   432		shm->id = id;
-   433		addr = untagged_addr((unsigned long)iter_iov_addr(iter));
-   434		start = rounddown(addr, PAGE_SIZE);
-   435		num_pages = iov_iter_npages(iter, INT_MAX);
-   436		if (!num_pages) {
-   437			ret = ERR_PTR(-ENOMEM);
-   438			goto err_ctx_put;
-   439		}
-   440	
-   441		shm->pages = kcalloc(num_pages, sizeof(*shm->pages), GFP_KERNEL);
-   442		if (!shm->pages) {
-   443			ret = ERR_PTR(-ENOMEM);
-   444			goto err_free_shm;
-   445		}
-   446	
-   447		len = iov_iter_extract_pages(iter, &shm->pages, LONG_MAX, num_pages, 0,
-   448					     &off);
-   449		if (unlikely(len <= 0)) {
-   450			ret = len ? ERR_PTR(len) : ERR_PTR(-ENOMEM);
-   451			goto err_free_shm_pages;
-   452		} else if (DIV_ROUND_UP(len + off, PAGE_SIZE) != num_pages) {
-   453			/*
-   454			 * If we only got a few pages, update to release the
-   455			 * correct amount below.
-   456			 */
-   457			shm->num_pages = len / PAGE_SIZE;
-   458			ret = ERR_PTR(-ENOMEM);
-   459			goto err_put_shm_pages;
-   460		}
-   461	
-   462		shm->offset = off;
-   463		shm->size = len;
-   464		shm->num_pages = num_pages;
-   465	
-   466		rc = teedev->desc->ops->shm_register(ctx, shm, shm->pages,
-   467						     shm->num_pages, start);
-   468		if (rc) {
-   469			ret = ERR_PTR(rc);
-   470			goto err_put_shm_pages;
-   471		}
-   472	
-   473		return shm;
-   474	err_put_shm_pages:
- > 475		if (iter_is_uvec(iter))
-   476			unpin_user_pages(shm->pages, shm->num_pages);
-   477	err_free_shm_pages:
-   478		kfree(shm->pages);
-   479	err_free_shm:
-   480		kfree(shm);
-   481	err_ctx_put:
-   482		teedev_ctx_put(ctx);
-   483	err_dev_put:
-   484		tee_device_put(teedev);
-   485		return ret;
-   486	}
-   487	
+>> make[7]: *** No rule to make target 'arch/arm64/kvm/hyp/nvhe/../../../lib/clear_page.nvhe.o', needed by 'arch/arm64/kvm/hyp/nvhe/kvm_nvhe.tmp.o'.
+   make[7]: Target 'arch/arm64/kvm/hyp/nvhe/' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
