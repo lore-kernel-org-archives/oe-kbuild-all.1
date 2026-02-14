@@ -1,113 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6702E1DE885
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 01:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1105A26299
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 01:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771032478; cv=none; b=Be8E+r8SYlfmor0WcXLwfhXhKg4o5tU2hYKfgJh9Whi7WhaHtF+WEFqSAk8c47oxt4VafKGfY2dD/+bW940HSraahMmEw7Hsna4oMGGN13iROiQBnhUC4Koe6b8OXnxFqmowMfSmKQDkKU19OU6MpJU66Kbu96fCN18I/NlIzN8=
+	t=1771034224; cv=none; b=WXgQ3GXiAc+5ATjCuEsIohW9NfwXd634GBXbDVacCqv+uxqIXTNISpwUXiiEfgPNr9m5AaIb4t0M2PaDsOKT7Nm3PmWjPU42DOoc6iBZf26+JfiQyUn0jxyWZfWvqRe1cVIkir1IJAYq+EqjoyWh1yiuCBiQVGXSSPh0sHEOV2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771032478; c=relaxed/simple;
-	bh=qWvuvieV6lE2xUCTjNaFNIRApfeAbvrQx7NY/KxXe4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SsOi51iuzXK43qEpzja5YJeJT3AgrjNnpSGTBjd7ii2CUWoRWWu0T02OzAZHbAa1DYccdVST8B5IjzIpVNrneeXLySiUByyuOSvnfbuIKrHHEvKKth/QcG5etcnrGwg6h3G3QxUwhy+X7DbUiaRvVLDtTKtrpCuPxlm+AAJXSvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NvRJB2JI; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1771034224; c=relaxed/simple;
+	bh=uEUhBTCr/mGenEk5V1ZjS0fzk7FvGJADZpTv1xFydLs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cUV4iUnf+s2G04ZCkmBlG424YRTsH6iKt09Tt2iySV7xOX9dUC76W1IBp/Fc0tuGKHH6/02Zn84AQUGG1/+JSnHv5ftmzY6TmkWb5UfNE4eChCVWTMTSZ48DD8v1mZPXFqOkq0pp+Bt+i7GwbEIX1w9AdS+xpDtrcrvuyS5sZ3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ewil3Bvb; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NvRJB2JI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ewil3Bvb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771032476; x=1802568476;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qWvuvieV6lE2xUCTjNaFNIRApfeAbvrQx7NY/KxXe4Y=;
-  b=NvRJB2JIQJIfygpBLyREtyltNQpF1ikuEQ3eMLbI4ohzA9sIJYXmeFCe
-   G8CyeobkQI1JMhd228DqxWGKN0M8r+xW/U+cJ3KnM6Hk5wgUmUG1hEYIs
-   ed071mGAtlNTSkJcw9frYaEz0WsnLQUdgDzSfmpznnK4S8dqsH2RifbJ0
-   GF/AHZURxzzzTIkPIT8An7wu/AlVk30DKrUpfmuCIqCk7tfl87HU4U/te
-   heiQp1awufGTrdid3ipJ0LA7rHH8Umz5B2GkZEinqbaq4OoXX25mcKoq6
-   MZkRrcuVdka6rqQAz2dfiesNY7o/Hylv5qKBb7utDOdxhnRPKilIN4xDo
-   Q==;
-X-CSE-ConnectionGUID: rHut/P5uR7+6NZT1XF81ug==
-X-CSE-MsgGUID: hw6CEievSe6NLAvZp5qzqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72393425"
+  t=1771034223; x=1802570223;
+  h=date:from:to:cc:subject:message-id;
+  bh=uEUhBTCr/mGenEk5V1ZjS0fzk7FvGJADZpTv1xFydLs=;
+  b=Ewil3BvbyRh5e24umLWWRyXGDdGLee9YPIfnKbxmogiI2oJm6GN8819u
+   XeheAoenprkjdWBx+bkakHcQxrOerPWngNMRT/lXifAEf5+v3z08wdBmo
+   FEYYMQxjak5e6lT6pFLzyqWdO6Sw4eURVZw7r7e0XBRZiEyyzSIGwhEBx
+   wu2/YbJjMdg1bzkGCWFa+vnEthfuCA9JYaf8S0EFxNUy8glPXQ/7HvPAf
+   FsTYR38sktmMbnnt1aICEjGBTRFj2rA483YzMSlzqF+lW4no6RUTXG9B5
+   69ABJPca1AkneER8JGqf+88W+yANKAQImEa8TdkN/GyivkwEXYylDkhvX
+   w==;
+X-CSE-ConnectionGUID: OCUTqT3qSc+LZXRJNt84WQ==
+X-CSE-MsgGUID: 3p58h5yhQOCFkyCJyXdeUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72114833"
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="72393425"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 17:27:55 -0800
-X-CSE-ConnectionGUID: HuP8rwiOTdy4yZW/b6BSdg==
-X-CSE-MsgGUID: RWqSYcEmRYG+XCwHDLvcMA==
+   d="scan'208";a="72114833"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 17:57:02 -0800
+X-CSE-ConnectionGUID: aKS6EtpOQpWaUa4R+IdSdw==
+X-CSE-MsgGUID: ugDit8XwQAu+/4+5i34yhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="236058500"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Feb 2026 17:27:52 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="250745052"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 13 Feb 2026 17:56:58 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vr4Rr-000000001jN-0xvp;
-	Sat, 14 Feb 2026 01:27:51 +0000
-Date: Sat, 14 Feb 2026 02:27:04 +0100
+	id 1vr4u1-00000000w2U-3qyP;
+	Sat, 14 Feb 2026 01:56:57 +0000
+Date: Sat, 14 Feb 2026 09:56:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-compat_32bit_time 3/4]
- lib/vdso/gettimeofday.c:343:9: error: implicit declaration of function
- 'BUILD_BUG_ON'
-Message-ID: <202602140236.aMbBf0r8-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-testing 140/387]
+ fs/bcachefs/data/copygc.c:581:34: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202602140951.Mta6FVvv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-compat_32bit_time
-head:   1a400ee33c91f1c010e4fcbddc3781afdc8ff201
-commit: 194ed9d5b6d11d446fde4eaa8724406aa7cd5fe2 [3/4] generic
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260214/202602140236.aMbBf0r8-lkp@intel.com/config)
-compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140236.aMbBf0r8-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   81724235384fc832cc568c7bf14bc604a22fc4ee
+commit: 88633d63152451a41ce7b7913e49ac6d6107c314 [140/387] bcachefs: Allocator now directly wakes up copygc when necessary
+config: parisc-randconfig-r134-20260214 (https://download.01.org/0day-ci/archive/20260214/202602140951.Mta6FVvv-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140951.Mta6FVvv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602140236.aMbBf0r8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602140951.Mta6FVvv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/bcachefs/data/copygc.c:581:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *thread @@     got struct task_struct *t @@
+   fs/bcachefs/data/copygc.c:581:34: sparse:     expected struct task_struct [noderef] __rcu *thread
+   fs/bcachefs/data/copygc.c:581:34: sparse:     got struct task_struct *t
+>> fs/bcachefs/data/copygc.c:583:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *thread @@
+   fs/bcachefs/data/copygc.c:583:42: sparse:     expected struct task_struct *tsk
+   fs/bcachefs/data/copygc.c:583:42: sparse:     got struct task_struct [noderef] __rcu *thread
 
-   In file included from <command-line>:
-   lib/vdso/gettimeofday.c: In function '__cvdso_clock_gettime32_data':
->> lib/vdso/gettimeofday.c:343:9: error: implicit declaration of function 'BUILD_BUG_ON' [-Wimplicit-function-declaration]
-     343 |         BUILD_BUG_ON(!IS_ENABLED(CONFIG_VDSO_COMPAT_32BIT_TIME));
-         |         ^~~~~~~~~~~~
+vim +581 fs/bcachefs/data/copygc.c
 
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  557  
+e6d1161530bcd6 fs/bcachefs/movinggc.c    Kent Overstreet 2020-07-11  558  int bch2_copygc_start(struct bch_fs *c)
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  559  {
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  560  	if (c->opts.nochanges)
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  561  		return 0;
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  562  
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  563  	if (bch2_fs_init_fault("copygc_start"))
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  564  		return -ENOMEM;
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  565  
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  566  	if (!c->copygc.wq &&
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  567  	    !(c->copygc.wq = alloc_workqueue("bcachefs_copygc",
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  568  				WQ_HIGHPRI|WQ_FREEZABLE|WQ_MEM_RECLAIM|WQ_CPU_INTENSIVE, 1)))
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  569  		return bch_err_throw(c, ENOMEM_fs_other_alloc);
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  570  
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  571  	if (!c->copygc.thread) {
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  572  		struct task_struct *t =
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  573  			kthread_create(bch2_copygc_thread, c, "bch-copygc/%s", c->name);
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  574  		int ret = PTR_ERR_OR_ZERO(t);
+e46c181af9e230 fs/bcachefs/movinggc.c    Kent Overstreet 2023-09-11  575  		bch_err_msg(c, ret, "creating copygc thread");
+cf904c8d964fa4 fs/bcachefs/movinggc.c    Kent Overstreet 2023-12-16  576  		if (ret)
+d4bf5eecd78a90 fs/bcachefs/movinggc.c    Kent Overstreet 2022-07-18  577  			return ret;
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  578  
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  579  		get_task_struct(t);
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  580  
+cb70f3a81f829a fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29 @581  		c->copygc.thread = t;
+88633d63152451 fs/bcachefs/data/copygc.c Kent Overstreet 2024-10-18  582  		rcu_assign_pointer(c->copygc.thread, t);
+cb70f3a81f829a fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29 @583  		wake_up_process(c->copygc.thread);
+7705b3d5de918b fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  584  	}
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  585  
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  586  	return 0;
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  587  }
+1c6fdbd8f2465d fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  588  
 
-vim +/BUILD_BUG_ON +343 lib/vdso/gettimeofday.c
+:::::: The code at line 581 was first introduced by commit
+:::::: cb70f3a81f829a0b9217057bb638905881dc02c1 bcachefs: struct bch_fs_ec, bch_fs_copygc
 
-   334	
-   335	#ifdef BUILD_VDSO32
-   336	static __maybe_unused int
-   337	__cvdso_clock_gettime32_data(const struct vdso_time_data *vd, clockid_t clock,
-   338				     struct old_timespec32 *res)
-   339	{
-   340		struct __kernel_timespec ts;
-   341		bool ok;
-   342	
- > 343		BUILD_BUG_ON(!IS_ENABLED(CONFIG_VDSO_COMPAT_32BIT_TIME));
-   344	
-   345		ok = __cvdso_clock_gettime_common(vd, clock, &ts);
-   346	
-   347		if (unlikely(!ok))
-   348			return clock_gettime32_fallback(clock, res);
-   349	
-   350		/* For ok == true */
-   351		res->tv_sec = ts.tv_sec;
-   352		res->tv_nsec = ts.tv_nsec;
-   353	
-   354		return 0;
-   355	}
-   356	
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
