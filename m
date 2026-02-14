@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C4727F754
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 02:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC21022D9F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 03:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771036685; cv=none; b=UZDKKjzPH6rDVLtJGgdV+80rmPSOI0k5/8FPVyBtAWW/7DmYSYg4dml0oPDwZI3wzcyX2tyV4DHSZnEIxYxm/pUNrY1Izxn1b7WFcmisCmzMIVeE25ebibV61enOmbgnGXQs9qIuP1K7MPauALSdom9ZXPL26fGceY9zFAYel50=
+	t=1771038006; cv=none; b=dHMHvWNlExwM45BxquXRi2lznIpJgA2hQWmaTRh0l5w6hLsgT9UX5I+4WuilpiJUSIV57WdgJ3MVsxeI94lpNvY35ddL9V4TYngL/eWku46TJt4sG5gfUq1pT36711dt10Y+m/zZU5CT6gnUCo8nUiKPgSzZW73COgpMi+3Nx8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771036685; c=relaxed/simple;
-	bh=QJb/R39Cz0GOr9fjfTQnN1YMnX188YCXcQ30iQnVPdw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GUU4B8tjfXPEIOgMt0DeRISb8RYfz6xdUVXGasqzKZjDslT0/M5TQ4b2RGy5l91mnjmv/fDe56AZ351aP6CnBrLW3AhWPCFWXgKwrsEJexuANtQc5aJhgvstTm97lSmAy7103plS2dl6K92AIdGvoC9vrpJvSR9rLws7X+2nVoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JbGszQhW; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1771038006; c=relaxed/simple;
+	bh=QCfazbWaBTLRX1hnsiu19DeqiHwehuf8UWdcsKhmX2c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lw0oZJEP/jRNLl0TiCPuLM9ajiI9Hg6xZ3CuD9/Ato6m5zCh0IB9LJAU88tBn0XqGhzxs+Ef78cG/fz9PLfqIhEyMDie8a8cgMTBG2AkUopTmkYbAziuNUaWJyuAbbPEAa+bFoRAh63K3k6pmegGGsOk2a0uZP0gj8dUJyb0sjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YH4ZDbB9; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JbGszQhW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YH4ZDbB9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771036683; x=1802572683;
+  t=1771038005; x=1802574005;
   h=date:from:to:cc:subject:message-id;
-  bh=QJb/R39Cz0GOr9fjfTQnN1YMnX188YCXcQ30iQnVPdw=;
-  b=JbGszQhWiV18nJ7rLkIr43b/3aJ6gfxrqoM4HinsI4BmkMxUUnBGp0ru
-   vEuO041auETLqEG2h5FrgF6ncIOPYVo2RIatGUl3TyCBViIc5erthVOW2
-   5TMj+5JiBPs8poiZzVY3LwsXK+Dvuz4gKFN1SXXGJT6jVpTURAo57wXDx
-   ciEJZdsGDCTlJ6jpTfLhmRSeFQSXEHEjEMKYx8yrYIQDYqV3vP+JjT2Z0
-   S4JIzVrTi5UDrKJ/Yyq6jBXKViwAHTFS96vxDLPF4D7MYlmlioOR6bhte
-   skA8PUnGOLXOTb28uEVZPSfoM97COVx6+Mwxt5/GUTfDFf4YfqJu8wVQp
-   w==;
-X-CSE-ConnectionGUID: 3pmGqmYtSVSzP7vQbU8nRw==
-X-CSE-MsgGUID: wJ++Sm43SiOc6m9+DvGJNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="71419057"
+  bh=QCfazbWaBTLRX1hnsiu19DeqiHwehuf8UWdcsKhmX2c=;
+  b=YH4ZDbB9FiJse9JK5XW6iaJubDcRlHcGYZ35UEvHNp1bZQwk59LNftph
+   8Q1Ol84U8bRRGfTpfCznFHtV7U86DbHuv7+sFZb5gzkzuftB1szVHNNQN
+   AXuQVvD96G015r8QJPjNgEReaLTXJ/slrR3mgCevG/eMWsnhAOC65g8oA
+   sCRo72eVCG0t4gjxFIpnsLVFrw0QDtG/W5qrJ+i6w4u1xmZqbjgin9YHO
+   kNesC7AhJ6LbNE+iXzHEXYzA+JjCSfe1kcI6F+mqsxn6DywZhQTL6hfAa
+   T0vWkdXlGHqMfNTgreKWXUjrMU68Ng/a5MhH40dOgvnF+H6vbt4Wv4iQA
+   Q==;
+X-CSE-ConnectionGUID: pjYAovtvRxCcY/f9t6O12Q==
+X-CSE-MsgGUID: XPro3CSGSAma17C2bqABiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72124401"
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="71419057"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 18:38:03 -0800
-X-CSE-ConnectionGUID: qBxEWSR+TGCAUre24oYIPQ==
-X-CSE-MsgGUID: GO9yP8pgRnihDmoMH3sNsw==
+   d="scan'208";a="72124401"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 19:00:04 -0800
+X-CSE-ConnectionGUID: ALe/zt4xTeazfH/qjAixfQ==
+X-CSE-MsgGUID: /lggqpmeSF25eTk0nSPm/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="213096808"
+   d="scan'208";a="243680556"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 Feb 2026 18:38:00 -0800
+  by orviesa002.jf.intel.com with ESMTP; 13 Feb 2026 19:00:02 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vr5Xi-00000000w3Y-2QvT;
-	Sat, 14 Feb 2026 02:37:58 +0000
-Date: Sat, 14 Feb 2026 10:37:13 +0800
+	id 1vr5t1-00000000w5I-3Zqg;
+	Sat, 14 Feb 2026 02:59:59 +0000
+Date: Sat, 14 Feb 2026 10:59:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lakshmi Prasanna Eachuri <lakshmi.prasanna.eachuri@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
- Michal Simek <monstr@monstr.eu>, Vishal Sagar <vishal.sagar@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6 556/1266]
- drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_tx.c:1088:1: warning: the frame size of
- 1312 bytes is larger than 1280 bytes
-Message-ID: <202602141051.2jjBdFcS-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_5 5/15]
+ arch/riscv/net/bpf_jit_comp64.c:1265:46: error: passing argument 3 of
+ '__arch_prepare_bpf_trampoline' from incompatible pointer type
+Message-ID: <202602141024.12ffvFZw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,229 +60,108 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6
-head:   343f487d634122b137e2b1491d0c7fe1fb876c2e
-commit: cb87205eb5fc2c62947a6fd217ebe719d30151e5 [556/1266] drm: xlnx: hdcp: Add HDMI supportive HDCP1X functionalities
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260214/202602141051.2jjBdFcS-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141051.2jjBdFcS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
+head:   3bb11e809e06ec473ee881de417d36f0d164f3fe
+commit: 9d5c97a3c65fa6f74af1b36dcfdce91e0c2ab81c [5/15] bpf: Add struct bpf_tramp_node object
+config: riscv-randconfig-001-20260214 (https://download.01.org/0day-ci/archive/20260214/202602141024.12ffvFZw-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141024.12ffvFZw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602141051.2jjBdFcS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602141024.12ffvFZw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_tx.c: In function 'xlnx_hdcp1x_tx_validate_ksv_list':
->> drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_tx.c:1088:1: warning: the frame size of 1312 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-    1088 | }
-         | ^
+   arch/riscv/net/bpf_jit_comp64.c: In function 'invoke_bpf_prog':
+   arch/riscv/net/bpf_jit_comp64.c:936:7: error: 'struct bpf_tramp_link' has no member named 'cookie'
+     if (l->cookie) {
+          ^~
+   arch/riscv/net/bpf_jit_comp64.c:937:24: error: 'struct bpf_tramp_link' has no member named 'cookie'
+      emit_imm(RV_REG_T1, l->cookie, ctx);
+                           ^~
+   arch/riscv/net/bpf_jit_comp64.c: At top level:
+   arch/riscv/net/bpf_jit_comp64.c:995:14: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
+          struct bpf_tramp_links *tlinks,
+                 ^~~~~~~~~~~~~~~
+   arch/riscv/net/bpf_jit_comp64.c: In function '__arch_prepare_bpf_trampoline':
+   arch/riscv/net/bpf_jit_comp64.c:1003:42: error: invalid use of undefined type 'struct bpf_tramp_links'
+     struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
+                                             ^
+   arch/riscv/net/bpf_jit_comp64.c:1003:42: error: dereferencing pointer to incomplete type 'struct bpf_tramp_links'
+   arch/riscv/net/bpf_jit_comp64.c:1004:41: error: invalid use of undefined type 'struct bpf_tramp_links'
+     struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
+                                            ^
+   arch/riscv/net/bpf_jit_comp64.c:1005:44: error: invalid use of undefined type 'struct bpf_tramp_links'
+     struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
+                                               ^
+   arch/riscv/net/bpf_jit_comp64.c:1151:16: warning: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
+                   ^
+   arch/riscv/net/bpf_jit_comp64.c: At top level:
+   arch/riscv/net/bpf_jit_comp64.c:1256:16: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
+            struct bpf_tramp_links *tlinks, void *func_addr)
+                   ^~~~~~~~~~~~~~~
+   arch/riscv/net/bpf_jit_comp64.c:1255:5: error: conflicting types for 'arch_bpf_trampoline_size'
+    int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
+        ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/riscv/net/bpf_jit_comp64.c:9:
+   include/linux/bpf.h:1271:5: note: previous declaration of 'arch_bpf_trampoline_size' was here
+    int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
+        ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/net/bpf_jit_comp64.c: In function 'arch_bpf_trampoline_size':
+>> arch/riscv/net/bpf_jit_comp64.c:1265:46: error: passing argument 3 of '__arch_prepare_bpf_trampoline' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     ret = __arch_prepare_bpf_trampoline(&im, m, tlinks, func_addr, flags, &ctx);
+                                                 ^~~~~~
+   arch/riscv/net/bpf_jit_comp64.c:995:31: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
+          struct bpf_tramp_links *tlinks,
+          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   arch/riscv/net/bpf_jit_comp64.c: At top level:
+   arch/riscv/net/bpf_jit_comp64.c:1282:23: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
+        u32 flags, struct bpf_tramp_links *tlinks,
+                          ^~~~~~~~~~~~~~~
+   arch/riscv/net/bpf_jit_comp64.c:1280:5: error: conflicting types for 'arch_prepare_bpf_trampoline'
+    int arch_prepare_bpf_trampoline(struct bpf_tramp_image *im, void *ro_image,
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/riscv/net/bpf_jit_comp64.c:9:
+   include/linux/bpf.h:1264:5: note: previous declaration of 'arch_prepare_bpf_trampoline' was here
+    int arch_prepare_bpf_trampoline(struct bpf_tramp_image *im, void *image, void *image_end,
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/net/bpf_jit_comp64.c: In function 'arch_prepare_bpf_trampoline':
+   arch/riscv/net/bpf_jit_comp64.c:1297:45: error: passing argument 3 of '__arch_prepare_bpf_trampoline' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     ret = __arch_prepare_bpf_trampoline(im, m, tlinks, func_addr, flags, &ctx);
+                                                ^~~~~~
+   arch/riscv/net/bpf_jit_comp64.c:995:31: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
+          struct bpf_tramp_links *tlinks,
+          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1088 drivers/gpu/drm/xlnx/hdcp/xlnx_hdcp1x_tx.c
+vim +/__arch_prepare_bpf_trampoline +1265 arch/riscv/net/bpf_jit_comp64.c
 
-   889	
-   890	int xlnx_hdcp1x_tx_validate_ksv_list(struct xlnx_hdcp1x_config *xhdcp1x_tx, u16 repeater_info)
-   891	{
-   892		struct xlnx_sha1_context sha1_context;
-   893		u8 buf[DRM_HDCP_KSV_LEN * XHDCP1X_PORT_SIZE_BKSV];
-   894		u8 ksv_list_holder[XHDMI_HDCP1X_PORT_MAX_DEV_CNT * XHDCP1X_PORT_SIZE_BKSV];
-   895		int num_to_read = 0;
-   896		int ksv_count = 0, byte_count = 0;
-   897		int ret = 0;
-   898		unsigned int ksv_list_size = 0;
-   899		u64 value = 0, buf_read_ksv_count = 0, mo = 0, remote_ksv;
-   900		u8 sha_result[SHA1_HASH_SIZE];
-   901		u8 bksv[XHDCP1X_PORT_SIZE_BKSV];
-   902	
-   903		memset(ksv_list_holder, 0, (XHDMI_HDCP1X_PORT_MAX_DEV_CNT * XHDCP1X_PORT_SIZE_BKSV));
-   904	
-   905		memset(buf, 0, DRM_HDCP_KSV_LEN * XHDCP1X_PORT_SIZE_BKSV);
-   906	
-   907		xlnx_sha1_reset(&sha1_context);
-   908	
-   909		repeater_info = xhdcp1x_tx->state_helper;
-   910		num_to_read = ((repeater_info & XHDMI_HDCP1X_PORT_MAX_DEV_CNT) * DRM_HDCP_KSV_LEN);
-   911	
-   912		if (xhdcp1x_tx->protocol != XHDCP1X_TX_DP) {
-   913			if (xhdcp1x_tx->handlers.rd_handler(xhdcp1x_tx->interface_ref,
-   914							    XHDMI_HDCP1X_OFFSET_KSVFIFO,
-   915							    ksv_list_holder, num_to_read)) {
-   916				xlnx_sha1_input(&sha1_context, ksv_list_holder, num_to_read);
-   917	
-   918				while (byte_count < num_to_read) {
-   919					if ((byte_count + 1) % DRM_HDCP_KSV_LEN == 0) {
-   920						value = xlnx_hdcp1x_buf_to_unit((ksv_list_holder
-   921										+ ((((byte_count + 1)
-   922										/ XHDCP1X_PORT_SIZE_BKSV)
-   923										- 1)
-   924										* XHDCP1X_PORT_SIZE_BKSV)),
-   925										XHDCP1X_PORT_SIZE_BKSV *
-   926										BITS_PER_BYTE);
-   927	
-   928						if (!xlnx_hdcp1x_is_ksvvalid(value))
-   929							return false;
-   930	
-   931						xhdcp1x_tx->repeatervalues.ksvlist[ksv_count++] = value;
-   932						value = 0;
-   933					}
-   934					byte_count++;
-   935				}
-   936			}
-   937		} else {
-   938			unsigned int ksv_list_byte_count = 0;
-   939	
-   940			byte_count = (num_to_read / DRM_HDCP_KSV_LEN);
-   941			ksv_list_size = byte_count;
-   942			do {
-   943				int total_bytes = XHDCP1X_PORT_SIZE_KSVFIFO;
-   944				int min_bytes_to_read = XHDCP1X_PORT_MIN_BYTES;
-   945	
-   946				if (total_bytes > num_to_read)
-   947					total_bytes = num_to_read;
-   948	
-   949				if (min_bytes_to_read > byte_count)
-   950					min_bytes_to_read = byte_count;
-   951	
-   952				ret = xhdcp1x_tx->handlers.rd_handler(xhdcp1x_tx->interface_ref,
-   953								      XHDCP1X_PORT_DPCD_BASE
-   954								      + XHDCP1X_PORT_OFFSET_KSVFIFO,
-   955								      buf, total_bytes);
-   956				if (!ret)
-   957					return false;
-   958	
-   959				xlnx_sha1_input(&sha1_context, buf, total_bytes);
-   960				while (buf_read_ksv_count < total_bytes) {
-   961					ksv_list_holder[ksv_list_byte_count++] =
-   962					buf[buf_read_ksv_count];
-   963					buf_read_ksv_count++;
-   964				}
-   965				num_to_read -= total_bytes;
-   966				byte_count -= min_bytes_to_read;
-   967	
-   968			} while (num_to_read > 0);
-   969		}
-   970	
-   971		/* Insert repeater_info into the SHA-1 transform */
-   972		buf[0] = (u8)repeater_info;
-   973	
-   974		if (xhdcp1x_tx->protocol != XHDCP1X_TX_DP)
-   975			buf[1] = (u8)(repeater_info
-   976			>> XHDMI_HDCP1X_PORT_BSTATUS_DEPTH_SHIFT);
-   977		else
-   978			buf[1] = (u8)(repeater_info >> XHDCP1X_PORT_BINFO_DEPTH_SHIFT);
-   979	
-   980		xlnx_sha1_input(&sha1_context, buf, 2);
-   981	
-   982		/* Insert the mo into the SHA-1 transform */
-   983		mo = xhdcp1x_cipher_get_mo(xhdcp1x_tx->cipher);
-   984		xlnx_hdcp1x_uint_to_buf(buf, mo, XHDCP1X_BYTE_IN_BITS * BITS_PER_BYTE);
-   985	
-   986		xlnx_sha1_input(&sha1_context, buf, BITS_PER_BYTE);
-   987	
-   988		/* Finalize the SHA-1 result and confirm success */
-   989		if (xlnx_sha1_result(&sha1_context, sha_result) == XLNX_SHA_SUCCESS) {
-   990			u64 offset = 0;
-   991			const u8 *sha1_buf = sha_result;
-   992			int num_iterations = (SHA1_HASH_SIZE >> 2);
-   993	
-   994			if (xhdcp1x_tx->protocol != XHDCP1X_TX_DP)
-   995				offset = XHDMI_HDCP1X_PORT_OFFSET_VH0;
-   996			else
-   997				offset = XHDCP1X_PORT_OFFSET_VH0;
-   998	
-   999			do {
-  1000				u32 calc_calue = 0;
-  1001				u32 read_value = 0;
-  1002	
-  1003				/* Determine calc_calue */
-  1004				calc_calue = *sha1_buf++;
-  1005				calc_calue <<= BITS_PER_BYTE;
-  1006				calc_calue |= *sha1_buf++;
-  1007				calc_calue <<= BITS_PER_BYTE;
-  1008				calc_calue |= *sha1_buf++;
-  1009				calc_calue <<= BITS_PER_BYTE;
-  1010				calc_calue |= *sha1_buf++;
-  1011	
-  1012				if (xhdcp1x_tx->protocol != XHDCP1X_TX_DP)
-  1013					offset = XHDMI_HDCP1X_PORT_OFFSET_VH0;
-  1014	
-  1015				else
-  1016					offset = XHDCP1X_PORT_DPCD_BASE + XHDCP1X_PORT_OFFSET_VH0;
-  1017	
-  1018				ret =
-  1019					xhdcp1x_tx->handlers.rd_handler(xhdcp1x_tx->interface_ref,
-  1020									XHDCP1X_PORT_DPCD_BASE
-  1021									+ offset, buf,
-  1022									XHDCP1X_PORT_SIZE_VH0);
-  1023	
-  1024				if (!ret) {
-  1025					dev_err(xhdcp1x_tx->dev, "Unable to read V");
-  1026					return false;
-  1027				}
-  1028				memcpy(&xhdcp1x_tx->repeatervalues.v[offset - XHDMI_HDCP1X_PORT_OFFSET_VH0],
-  1029				       buf, XHDCP1X_PORT_SIZE_VH0);
-  1030				read_value = xlnx_hdcp1x_buf_to_unit(buf,
-  1031								     BITS_PER_BYTE * XHDCP1X_PORT_SIZE_VH0);
-  1032				if (calc_calue != read_value) {
-  1033					dev_err(xhdcp1x_tx->dev, "V` Ksv's miss match");
-  1034					return false;
-  1035				}
-  1036				offset += XHDCP1X_PORT_SIZE_VH0;
-  1037				num_iterations--;
-  1038			} while (num_iterations > 0);
-  1039		} else {
-  1040			dev_err(xhdcp1x_tx->dev, "SHA mismatch Occurred");
-  1041			return false;
-  1042		}
-  1043		if (xhdcp1x_tx->is_repeater) {
-  1044			if (xhdcp1x_tx->protocol == XHDCP1X_TX_DP) {
-  1045				u64 val = 0;
-  1046				u32 this_ksv = 0;
-  1047	
-  1048				while (this_ksv < ksv_list_size) {
-  1049					val = xlnx_hdcp1x_buf_to_u64((ksv_list_holder +
-  1050								       (this_ksv *
-  1051								       XHDCP1X_PORT_SIZE_BKSV)),
-  1052								       XHDCP1X_PORT_SIZE_BKSV *
-  1053								       BITS_PER_BYTE);
-  1054					if (!(val)) {
-  1055						this_ksv++;
-  1056						continue;
-  1057					}
-  1058					xhdcp1x_tx->repeatervalues.ksvlist[ksv_count++] = val;
-  1059	
-  1060					val = 0;
-  1061					this_ksv++;
-  1062				}
-  1063			}
-  1064	
-  1065			memset(bksv, 0, XHDCP1X_PORT_SIZE_BKSV);
-  1066			if (xhdcp1x_tx->protocol != XHDCP1X_TX_DP)
-  1067				xhdcp1x_tx->handlers.rd_handler(xhdcp1x_tx->interface_ref,
-  1068								XHDMI_HDCP1X_PORT_OFFSET_BKSV,
-  1069								bksv,
-  1070								XHDMI_HDCP1X_PORT_SIZE_BKSV);
-  1071			else
-  1072				xhdcp1x_tx->handlers.rd_handler(xhdcp1x_tx->interface_ref,
-  1073								XHDCP1X_PORT_DPCD_BASE
-  1074								+ XHDCP1X_PORT_OFFSET_BKSV,
-  1075								bksv, XHDCP1X_PORT_SIZE_BKSV);
-  1076	
-  1077			/* Determine theremote_ksv */
-  1078			remote_ksv = xlnx_hdcp1x_buf_to_unit(bksv,
-  1079							     XHDCP1X_PORT_SIZE_BKSV * BITS_PER_BYTE);
-  1080			/* Check for invalid */
-  1081			if (!xlnx_hdcp1x_is_ksvvalid(remote_ksv)) {
-  1082				dev_dbg(xhdcp1x_tx->dev, "Invalid Bksv reads");
-  1083				return 0;
-  1084			}
-  1085			xhdcp1x_tx->repeatervalues.ksvlist[ksv_count] = remote_ksv;
-  1086		}
-  1087		return true;
-> 1088	}
-  1089	
+49b5e77ae3e214 Pu Lehui 2023-02-15  1254  
+96d1b7c081c0c9 Song Liu 2023-12-06  1255  int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
+96d1b7c081c0c9 Song Liu 2023-12-06  1256  			     struct bpf_tramp_links *tlinks, void *func_addr)
+96d1b7c081c0c9 Song Liu 2023-12-06  1257  {
+96d1b7c081c0c9 Song Liu 2023-12-06  1258  	struct bpf_tramp_image im;
+96d1b7c081c0c9 Song Liu 2023-12-06  1259  	struct rv_jit_context ctx;
+96d1b7c081c0c9 Song Liu 2023-12-06  1260  	int ret;
+96d1b7c081c0c9 Song Liu 2023-12-06  1261  
+96d1b7c081c0c9 Song Liu 2023-12-06  1262  	ctx.ninsns = 0;
+96d1b7c081c0c9 Song Liu 2023-12-06  1263  	ctx.insns = NULL;
+96d1b7c081c0c9 Song Liu 2023-12-06  1264  	ctx.ro_insns = NULL;
+96d1b7c081c0c9 Song Liu 2023-12-06 @1265  	ret = __arch_prepare_bpf_trampoline(&im, m, tlinks, func_addr, flags, &ctx);
+96d1b7c081c0c9 Song Liu 2023-12-06  1266  
+96d1b7c081c0c9 Song Liu 2023-12-06  1267  	return ret < 0 ? ret : ninsns_rvoff(ctx.ninsns);
+96d1b7c081c0c9 Song Liu 2023-12-06  1268  }
+96d1b7c081c0c9 Song Liu 2023-12-06  1269  
+
+:::::: The code at line 1265 was first introduced by commit
+:::::: 96d1b7c081c0c96cbe8901045f4ff15a2e9974a2 bpf: Add arch_bpf_trampoline_size()
+
+:::::: TO: Song Liu <song@kernel.org>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
