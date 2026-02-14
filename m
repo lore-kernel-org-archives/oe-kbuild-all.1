@@ -1,71 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2456217F27
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 08:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BE731D744;
+	Sat, 14 Feb 2026 08:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771056063; cv=none; b=T6ijqegUz7uRpIKP/O6mKtlvuBVNIVAXa1wSxHXHx4GH/LrS+r506qUOVIldWEhifGdhA/6Dz7vUUYtBUesNJtIyZKFqCoqgRz1A40/XrUOgw+FyqLCOuuXB0mcCP3VfvmSkP6eiHo9qHLqU00qm73IRSUUAKCkxn284aJi4JQY=
+	t=1771059391; cv=none; b=gzY8pVPgIPLMvjalQCgV/9MEkXs/K+IQ3eKlOV2uoqACySrJDDmLRToIlz0eYsmf6pSpkmnCu/ye77/VAaAnSI/lOQelIj3mHZszb8CyWY83pSgTcXIowglU/5e183P45iognsJ2w9B8yM+UwPfItAad5mnlQvx5f/3JPHqVDsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771056063; c=relaxed/simple;
-	bh=zHHZHSpFNz8VdD6TZxtjd43NGQRTsenYiTPnEOHMl00=;
+	s=arc-20240116; t=1771059391; c=relaxed/simple;
+	bh=FmU6sN6VTvK2lk9nkffJpXX9j+KGsN9TIxoBy1pLkF0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=flA+zmeochuZNUOB9N2Gyqo0K1RfXrORcKk32sH4wS0qMl3Kk9Rq6VRZyA39qMoK8aAdH6qp+cLlzF07SHHeK27FQdtGAAQzVev/6CTIxmTryKWgD5L/2vwGq1qR+w4/AQ9s4BBu7zfsP9Bi868Hz73q+QR7yhveew+CmUajo30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WR3Zi17l; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=mgH7nO/K9eRav+K0Tb9sYARKPQmVIVxuruXmOkdvmOukAY9f63jWVgCS9SMAnWAYYDQfRjZgZkBF4Oby6f5bGIrPKG+qu6/EMxYklvL4z8hBFFH/DC3yqW/Y/IjqlKVX7u6PqSWpFeOj+dO41Atss3p+AEJXAWAJL/MtixCejiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q663OU/0; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WR3Zi17l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q663OU/0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771056062; x=1802592062;
+  t=1771059387; x=1802595387;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zHHZHSpFNz8VdD6TZxtjd43NGQRTsenYiTPnEOHMl00=;
-  b=WR3Zi17l6yKhLNn8oAzrJ6IU1SFJi9wDbgRubQzq8m0D5IMFLHRfCkGH
-   SoM8/GmfM9naWTcIafCDUSOQ8fw/VRaXl4RxZHLFHshS5DdUJJU7zgUWT
-   VDeTDIrOn7GZ0MRmGjy3m+lHNYiDEMZE0Gi+uIw2+dlNGSKRSdp9wZs1t
-   R06yxIKDN/qnqk+DdsgmCEt4jT31MTip95Sgh/K+W4sjJgKxYF2fiJ8s3
-   hJzz4/Wx5NbQflmYo2MAdm0GoKRzBCycNCmdGj5XqPPAGPev/dZiDmFBy
-   SOWJqwJBcogU7zkyxe8WV1m0oBdT1ah8GxQzVH6r0jJzvIlxtzWk5XfH9
-   A==;
-X-CSE-ConnectionGUID: d7hCTNJiT+mBCOpmIElZKw==
-X-CSE-MsgGUID: Zhs/deRJR4+NqcE9kJGNig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="83595506"
+  bh=FmU6sN6VTvK2lk9nkffJpXX9j+KGsN9TIxoBy1pLkF0=;
+  b=Q663OU/0kclcSCrHbC+Z7f+IatB68YiepEW42MHDErrv42kUTCpdd3Fn
+   gHDivvz02HUbPiUUsEuKvQXTW9Qgurd+MwwOovwxVviJ49T42DNPpmu0j
+   ZemN1yLrRoudb6iqPFVtePp6EtiDQn07K8WXFlF9uYFHcngQPMjT6iHk0
+   qL93mwAy6V7BLjk0Srd57reY1n4RbRpaRJKAUHu9LeGlw2GBd6J5c37mv
+   peBuB2tyK2E4UKkGkiew4n5zTuK5oG0aWZQbdlEYWjas5z5h/EgnnVfeT
+   VvsCjK07uR/wC3c2R7IOeD7j6YEJQSJvQKY1cM7WBIhKTHwoCAvzQ36Yk
+   g==;
+X-CSE-ConnectionGUID: NrdKyOfaQneGq+IxxzS5LQ==
+X-CSE-MsgGUID: erhWc9lkSuO188xeYHfhYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="71428987"
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="83595506"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 00:01:01 -0800
-X-CSE-ConnectionGUID: oNpYrDVRR7WyI3DWrXNRKg==
-X-CSE-MsgGUID: leycIjwNQ5iXJiU9xiBbNw==
+   d="scan'208";a="71428987"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 00:56:26 -0800
+X-CSE-ConnectionGUID: N824LeOqToGHpVGW64sH6Q==
+X-CSE-MsgGUID: Qhwja1+kR8SCKwHr/L7Utg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="213231962"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 14 Feb 2026 00:00:57 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="218110063"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 14 Feb 2026 00:56:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrAaE-000000001nt-0zKp;
-	Sat, 14 Feb 2026 08:00:54 +0000
-Date: Sat, 14 Feb 2026 09:00:05 +0100
+	id 1vrBRp-00000000wPI-1UDK;
+	Sat, 14 Feb 2026 08:56:17 +0000
+Date: Sat, 14 Feb 2026 16:56:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris J Arges <carges@cloudflare.com>, michael.chan@broadcom.com,
-	pavan.chebbi@broadcom.com, hawk@kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	kernel-team@cloudflare.com, jbrandeburg@cloudflare.com,
-	Chris J Arges <carges@cloudflare.com>, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH 2/2] bnxt_en: Implement XDP RSS hash metadata extraction
-Message-ID: <202602140829.b2xx1hxx-lkp@intel.com>
-References: <20260213192449.1294830-3-carges@cloudflare.com>
+To: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Lee Jones <lee@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>,
+	Amit Sunil Dhamne <amitsd@google.com>
+Subject: Re: [PATCH v6 5/6] power: supply: max77759: add charger driver
+Message-ID: <202602141606.igFDFWAJ-lkp@intel.com>
+References: <20260214-max77759-charger-v6-5-28c09bda74b4@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,49 +84,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260213192449.1294830-3-carges@cloudflare.com>
+In-Reply-To: <20260214-max77759-charger-v6-5-28c09bda74b4@google.com>
 
-Hi Chris,
+Hi Amit,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on v6.19]
-[cannot apply to linus/master next-20260213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 8dfce8991b95d8625d0a1d2896e42f93b9d7f68d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-J-Arges/bnxt_en-use-bnxt_xdp_buff-for-xdp-context/20260214-032849
-base:   v6.19
-patch link:    https://lore.kernel.org/r/20260213192449.1294830-3-carges%40cloudflare.com
-patch subject: [PATCH 2/2] bnxt_en: Implement XDP RSS hash metadata extraction
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260214/202602140829.b2xx1hxx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140829.b2xx1hxx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Amit-Sunil-Dhamne-via-B4-Relay/dt-bindings-mfd-maxim-max77759-reference-power-supply-schema-and-add-regulator-property/20260214-111637
+base:   8dfce8991b95d8625d0a1d2896e42f93b9d7f68d
+patch link:    https://lore.kernel.org/r/20260214-max77759-charger-v6-5-28c09bda74b4%40google.com
+patch subject: [PATCH v6 5/6] power: supply: max77759: add charger driver
+config: powerpc64-randconfig-001-20260214 (https://download.01.org/0day-ci/archive/20260214/202602141606.igFDFWAJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141606.igFDFWAJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602140829.b2xx1hxx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602141606.igFDFWAJ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c:476:12: error: static declaration of 'bnxt_xdp_rx_hash' follows non-static declaration
-     476 | static int bnxt_xdp_rx_hash(const struct xdp_md *ctx, u32 *hash,
-         |            ^~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c:22:
-   drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.h:44:5: note: previous declaration of 'bnxt_xdp_rx_hash' with type 'int(const struct xdp_md *, u32 *, enum xdp_rss_hash_type *)' {aka 'int(const struct xdp_md *, unsigned int *, enum xdp_rss_hash_type *)'}
-      44 | int bnxt_xdp_rx_hash(const struct xdp_md *ctx, u32 *hash,
-         |     ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c:476:12: warning: 'bnxt_xdp_rx_hash' defined but not used [-Wunused-function]
-     476 | static int bnxt_xdp_rx_hash(const struct xdp_md *ctx, u32 *hash,
-         |            ^~~~~~~~~~~~~~~~
+>> drivers/power/supply/max77759_charger.c:623:4: error: cannot jump from this goto statement to its label
+     623 |                         goto err;
+         |                         ^
+   drivers/power/supply/max77759_charger.c:631:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     631 |         guard(mutex)(&chg->retry_lock);
+         |         ^
+   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
+     414 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:18:1: note: expanded from here
+      18 | __UNIQUE_ID_guard_461
+         | ^
+   drivers/power/supply/max77759_charger.c:615:3: error: cannot jump from this goto statement to its label
+     615 |                 goto err;
+         |                 ^
+   drivers/power/supply/max77759_charger.c:631:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     631 |         guard(mutex)(&chg->retry_lock);
+         |         ^
+   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
+     414 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:18:1: note: expanded from here
+      18 | __UNIQUE_ID_guard_461
+         | ^
+   drivers/power/supply/max77759_charger.c:606:3: error: cannot jump from this goto statement to its label
+     606 |                 goto err;
+         |                 ^
+   drivers/power/supply/max77759_charger.c:631:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     631 |         guard(mutex)(&chg->retry_lock);
+         |         ^
+   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
+     414 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:18:1: note: expanded from here
+      18 | __UNIQUE_ID_guard_461
+         | ^
+   3 errors generated.
 
 
-vim +/bnxt_xdp_rx_hash +476 drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c
+vim +623 drivers/power/supply/max77759_charger.c
 
-   475	
- > 476	static int bnxt_xdp_rx_hash(const struct xdp_md *ctx, u32 *hash,
+   591	
+   592	static void psy_work_item(struct work_struct *work)
+   593	{
+   594		struct max77759_charger *chg =
+   595			container_of(work, struct max77759_charger, psy_work.work);
+   596		union power_supply_propval current_limit, online;
+   597		int ret;
+   598	
+   599		ret = power_supply_get_property(chg->tcpm_psy,
+   600						POWER_SUPPLY_PROP_CURRENT_MAX,
+   601						&current_limit);
+   602		if (ret) {
+   603			dev_err(chg->dev,
+   604				"Failed to get CURRENT_MAX psy property, ret=%d",
+   605				ret);
+   606			goto err;
+   607		}
+   608	
+   609		ret = power_supply_get_property(chg->tcpm_psy, POWER_SUPPLY_PROP_ONLINE,
+   610						&online);
+   611		if (ret) {
+   612			dev_err(chg->dev,
+   613				"Failed to get ONLINE psy property, ret=%d",
+   614				ret);
+   615			goto err;
+   616		}
+   617	
+   618		if (online.intval && current_limit.intval) {
+   619			ret = set_input_current_limit(chg, current_limit.intval);
+   620			if (ret) {
+   621				dev_err(chg->dev,
+   622					"Unable to set current limit, ret=%d", ret);
+ > 623				goto err;
+   624			}
+   625	
+   626			charger_set_mode(chg, MAX77759_CHGR_MODE_CHG_BUCK_ON);
+   627		} else {
+   628			charger_set_mode(chg, MAX77759_CHGR_MODE_OFF);
+   629		}
+   630	
+   631		guard(mutex)(&chg->retry_lock);
+   632	
+   633		if (chg->psy_work_retry_cnt)
+   634			dev_dbg(chg->dev, "chg psy_work succeeded after %u tries",
+   635				chg->psy_work_retry_cnt);
+   636		chg->psy_work_retry_cnt = 0;
+   637		return;
+   638	
+   639	err:
+   640		charger_set_mode(chg, MAX77759_CHGR_MODE_OFF);
+   641		guard(mutex)(&chg->retry_lock);
+   642	
+   643		if (chg->psy_work_retry_cnt >= MAX_NUM_RETRIES) {
+   644			dev_err(chg->dev, "chg psy work failed, giving up");
+   645			return;
+   646		}
+   647	
+   648		++chg->psy_work_retry_cnt;
+   649		dev_dbg(chg->dev, "Retrying %u/%u chg psy_work",
+   650			chg->psy_work_retry_cnt, MAX_NUM_RETRIES);
+   651		schedule_delayed_work(&chg->psy_work,
+   652				      msecs_to_jiffies(PSY_WORK_RETRY_DELAY_MS));
+   653	}
+   654	
 
 -- 
 0-DAY CI Kernel Test Service
