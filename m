@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59C53EBF3A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 00:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B381C5D57;
+	Sat, 14 Feb 2026 00:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771027976; cv=none; b=LQ/ncVky64zL/iOcMVaNHo3lgxbVNu1H+dVHVJs2c8EGqfVrdyndtkZxxLw0oXsxnc8W3tiVrudTX/GwNaAbusRElVxwNKDhuMiutmo68aMjik50ZX9JOky/cFbgxcIjeqIzbFujz+qzLNB8a/SC5X76UpsS30l9vcEwtH0hFBc=
+	t=1771028577; cv=none; b=RR1lIBazOlNnA7ZsE44bzC2Bh8aPYq/h+GrEiKoo5NEXhyKZWm/xLsnYlJ2mbZTMhobkwGQUfowfgVj/HfuZOYj9nixiSG2ck9uU4GVmYHWzqGsA6c7LjSmCVwM7S1YqK8vsfyIa33jQpAbSJ2RucC0z0+pYZcDad1r/cwBkq70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771027976; c=relaxed/simple;
-	bh=HWQ1w2bzxj+fGlgxGMuE9iwvPVKMSIHV/8pawRsUr+M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S4tcpnxpzbFR3dLTDgaNAbjzelqrv5/9wZVS9OAu5ZWLVWVQfB1uzmSnW5ELyshWPv3lLf8cubyk5fi2QQhzBQhegqRofCETVLFtsEkEtfO0uWSZpcPsrsLjuIkZPhbK4+8yZpkdN/RV6Bk9u/BrsruPlK8e7FYkT4kuaT22644=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xb5T5qFQ; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1771028577; c=relaxed/simple;
+	bh=6x8d9PqZ+a0hJoDwGYCjnuPJ/as9exif8b51lAJ2gxE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=duS7/8ZfBjcnucPdYiGKcCnNVHa/ODlskLwKPWrlLfR5ChMzC0Fe+KYvqR0v1cj8WPjD7fPRq5i3ngEgbCUQDcIiu2R+tujLZWeBrwQDN77I8k+oj8MUqAfbOzsune5ubBCiS8Rqm3HCo4Y2jjORETDKqz0F96xFydU01SZQNlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbR/M2m+; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xb5T5qFQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbR/M2m+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771027975; x=1802563975;
+  t=1771028575; x=1802564575;
   h=date:from:to:cc:subject:message-id;
-  bh=HWQ1w2bzxj+fGlgxGMuE9iwvPVKMSIHV/8pawRsUr+M=;
-  b=Xb5T5qFQdFmkgodXMN/6W0E0yWJENYec34lvqxBQzrV93N8EoiCg654X
-   XFzA2lIaExpKAG/dCO5VuOO/R42mZUTRj6dmFm7G5/9J6yIQuKY8pR6zx
-   uMvhujudxvKIEjpW8nTSRADZ/VV0xZTg+hXJqZmmopXd2TcT4cjE/CNHG
-   S2tRL0qqtqf4+JSf0uErBG5LjUZ1cmHkMGBnf0NRzy950KH6ey7DRVx1L
-   qlyPbWl/2Ov14gr0t4CfLq/OEHTPrcthYiK6mJsX7NMb6XvJAWplC5jCw
-   41rpjmZiSAmU2mSxI7AnD9rEevuI3fA/rDhg6CnXIDXl8U6G89fkBsVOr
-   g==;
-X-CSE-ConnectionGUID: 67Fdd+uzRgG+nNmot70Ibg==
-X-CSE-MsgGUID: DQVCueI0TOuwtcY2x9tP7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="71927653"
+  bh=6x8d9PqZ+a0hJoDwGYCjnuPJ/as9exif8b51lAJ2gxE=;
+  b=FbR/M2m+CBvXqk9Gc0xHmp2uX85xMX6bbt6j2G9zpsFlqQX9PQaWss+l
+   RdF7qfDmUGae5Chwv5cQAJ3zdeM+qtQlAx4kUm/Ayn3p4WePnT9LFl3K8
+   uLfaq1VaKLlJQFpJfWF8BnQdhce2Ez1CjEFvWDleQkGv3BNAdqHPWI5DI
+   9jg+Xen5qgsxdkOkUIh+NmNWi6INApBwVRO76VkWHXu8TvimbvWRywnvf
+   xo8R2VDlalw9XTlKNOKrlTE81E1IujP1+T//cj+Zo5YHEl8C9G4qerKO8
+   rO8HZ2Vfw+jZt7sLXCAQUjAoVwaa34kYTAdYliw7uRzgCOsE1vrtUVBec
+   Q==;
+X-CSE-ConnectionGUID: 0C1hCaSjQ6C1Vm9d+0x5MA==
+X-CSE-MsgGUID: 1WeZi0ziT06Y5AgYidM8qQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72310448"
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="71927653"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 16:12:54 -0800
-X-CSE-ConnectionGUID: tokNkuQjTOGBtKfgW/FlJg==
-X-CSE-MsgGUID: xCCEKpN8QX+UeNkbRoBENQ==
+   d="scan'208";a="72310448"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 16:22:54 -0800
+X-CSE-ConnectionGUID: fbvnhimVQzWDZW08w5REhw==
+X-CSE-MsgGUID: ccSKI7yRT7+EhNv8YQDZVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="217563281"
+   d="scan'208";a="211719738"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Feb 2026 16:12:53 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 13 Feb 2026 16:22:53 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vr3HG-00000000vwa-3OFh;
-	Sat, 14 Feb 2026 00:12:50 +0000
-Date: Sat, 14 Feb 2026 08:12:22 +0800
+	id 1vr3Qx-00000000vxC-136m;
+	Sat, 14 Feb 2026 00:22:51 +0000
+Date: Sat, 14 Feb 2026 08:22:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [wsa:renesas/hwspinlock/refactor-alloc-buildtest 16/19]
- drivers/hwspinlock/hwspinlock_core.c:531:16: error: implicit declaration of
- function 'kzalloc'
-Message-ID: <202602140823.7MZA6CDy-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:thread-safety 80/84]
+ arch/mips/include/asm/dma.h:165:1: warning: spinlock 'dma_spin_lock' is still
+ held at the end of function
+Message-ID: <202602140803.EIUsW6LY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,102 +60,65 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
-head:   661496e362d06c7579ec2f4001cebf7d520ef601
-commit: ac5e31c8eab290f8d5b4f5200025c5a538b3c65b [16/19] core: core allocates bank
-config: i386-randconfig-141-20260214 (https://download.01.org/0day-ci/archive/20260214/202602140823.7MZA6CDy-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140823.7MZA6CDy-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   d4418ddb34578f2e04647ee7cc4f35c86975bffc
+commit: 56a98354252fe670d1fffba44fe4c453bdb8c47e [80/84] kbuild: clang: Enable thread-safety checking for all kernel headers
+config: mips-bcm63xx_defconfig (https://download.01.org/0day-ci/archive/20260214/202602140803.EIUsW6LY-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140803.EIUsW6LY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602140823.7MZA6CDy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602140803.EIUsW6LY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/hwspinlock/hwspinlock_core.c: In function 'hwspin_lock_register':
->> drivers/hwspinlock/hwspinlock_core.c:531:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-     531 |         bank = kzalloc(struct_size(bank, lock, num_locks), GFP_KERNEL);
-         |                ^~~~~~~
->> drivers/hwspinlock/hwspinlock_core.c:531:14: error: assignment to 'struct hwspinlock_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     531 |         bank = kzalloc(struct_size(bank, lock, num_locks), GFP_KERNEL);
-         |              ^
->> drivers/hwspinlock/hwspinlock_core.c:564:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
-     564 |         kfree(bank);
-         |         ^~~~~
+   In file included from kernel/sched/core.c:91:
+   In file included from kernel/sched/sched.h:46:
+   In file included from include/linux/memblock.h:13:
+>> arch/mips/include/asm/dma.h:165:1: warning: spinlock 'dma_spin_lock' is still held at the end of function [-Wthread-safety-analysis]
+     165 | }
+         | ^
+   arch/mips/include/asm/dma.h:163:2: note: spinlock acquired here
+     163 |         spin_lock_irqsave(&dma_spin_lock, flags);
+         |         ^
+   include/linux/spinlock.h:378:35: note: expanded from macro 'spin_lock_irqsave'
+     378 |         __release(spinlock_check(lock)); __acquire(lock);       \
+         |                                          ^
+   include/linux/compiler-context-analysis.h:361:23: note: expanded from macro '__acquire'
+     361 | #define __acquire(x)            __acquire_ctx_lock(x)
+         |                                 ^
+   In file included from kernel/sched/core.c:91:
+   In file included from kernel/sched/sched.h:46:
+   In file included from include/linux/memblock.h:13:
+>> arch/mips/include/asm/dma.h:169:2: warning: releasing spinlock 'dma_spin_lock' that was not held [-Wthread-safety-analysis]
+     169 |         spin_unlock_irqrestore(&dma_spin_lock, flags);
+         |         ^
+   2 warnings generated.
 
 
-vim +/kzalloc +531 drivers/hwspinlock/hwspinlock_core.c
+vim +/dma_spin_lock +165 arch/mips/include/asm/dma.h
 
-   502	
-   503	/**
-   504	 * hwspin_lock_register() - register a new hw spinlock device
-   505	 * @dev: the backing device
-   506	 * @ops: hwspinlock handlers for this device
-   507	 * @base_id: id of the first hardware spinlock in this bank
-   508	 * @num_locks: number of hwspinlocks provided by this device
-   509	 * @init_data: additional data passed on to the init_priv callback
-   510	 *
-   511	 * This function should be called from the underlying platform-specific
-   512	 * implementation, to register a new hwspinlock device instance.
-   513	 *
-   514	 * Should be called from a process context (might sleep)
-   515	 *
-   516	 * Returns: a pointer to the device (needed for unregistering), or an
-   517	 * appropriate error pointer on failure
-   518	 */
-   519	struct hwspinlock_device *hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
-   520						       int base_id, int num_locks, void *init_data)
-   521	{
-   522		struct hwspinlock_device *bank;
-   523		struct hwspinlock *hwlock;
-   524		int ret, i;
-   525	
-   526		if (!ops || !dev || !num_locks || !ops->trylock || !ops->unlock) {
-   527			pr_err("invalid parameters\n");
-   528			return ERR_PTR(-EINVAL);
-   529		}
-   530	
- > 531		bank = kzalloc(struct_size(bank, lock, num_locks), GFP_KERNEL);
-   532		if (!bank)
-   533			return ERR_PTR(-ENOMEM);
-   534	
-   535		bank->dev = dev;
-   536		bank->ops = ops;
-   537		bank->base_id = base_id;
-   538		bank->num_locks = num_locks;
-   539	
-   540		for (i = 0; i < num_locks; i++) {
-   541			hwlock = &bank->lock[i];
-   542	
-   543			spin_lock_init(&hwlock->lock);
-   544			hwlock->bank = bank;
-   545	
-   546			if (ops->init_priv) {
-   547				hwlock->priv = ops->init_priv(i, init_data);
-   548				if (IS_ERR(hwlock->priv)) {
-   549					ret = PTR_ERR(hwlock->priv);
-   550					goto reg_failed;
-   551				}
-   552			}
-   553	
-   554			ret = hwspin_lock_register_single(hwlock, base_id + i);
-   555			if (ret)
-   556				goto reg_failed;
-   557		}
-   558	
-   559		return bank;
-   560	
-   561	reg_failed:
-   562		while (--i >= 0)
-   563			hwspin_lock_unregister_single(base_id + i);
- > 564		kfree(bank);
-   565		return ERR_PTR(ret);
-   566	}
-   567	EXPORT_SYMBOL_GPL(hwspin_lock_register);
-   568	
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  159  
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  160  static __inline__ unsigned long claim_dma_lock(void)
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  161  {
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  162  	unsigned long flags;
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  163  	spin_lock_irqsave(&dma_spin_lock, flags);
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  164  	return flags;
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16 @165  }
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  166  
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  167  static __inline__ void release_dma_lock(unsigned long flags)
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  168  {
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16 @169  	spin_unlock_irqrestore(&dma_spin_lock, flags);
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  170  }
+^1da177e4c3f41 include/asm-mips/dma.h Linus Torvalds 2005-04-16  171  
+
+:::::: The code at line 165 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
