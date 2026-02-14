@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC21022D9F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 03:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A77EEBA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 03:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771038006; cv=none; b=dHMHvWNlExwM45BxquXRi2lznIpJgA2hQWmaTRh0l5w6hLsgT9UX5I+4WuilpiJUSIV57WdgJ3MVsxeI94lpNvY35ddL9V4TYngL/eWku46TJt4sG5gfUq1pT36711dt10Y+m/zZU5CT6gnUCo8nUiKPgSzZW73COgpMi+3Nx8I=
+	t=1771038607; cv=none; b=NXfhP2V2pPu9J8dGa93S+EG0yRcbQfnelAHaXyxqgm9r7wfnp0jYlU+LplbMGtVmBVdXg6kOTMKwxlISNRszdSFeT7WooOLq8M2Q62C1ZntTa4QD9rCO5m+kZew/5/84+iK/cDLZLagdxi8oI22RMoeiXOW2KouAQCqxSO5VdiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771038006; c=relaxed/simple;
-	bh=QCfazbWaBTLRX1hnsiu19DeqiHwehuf8UWdcsKhmX2c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lw0oZJEP/jRNLl0TiCPuLM9ajiI9Hg6xZ3CuD9/Ato6m5zCh0IB9LJAU88tBn0XqGhzxs+Ef78cG/fz9PLfqIhEyMDie8a8cgMTBG2AkUopTmkYbAziuNUaWJyuAbbPEAa+bFoRAh63K3k6pmegGGsOk2a0uZP0gj8dUJyb0sjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YH4ZDbB9; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1771038607; c=relaxed/simple;
+	bh=QhekNKuc1toUutNEUwprDfCivySsfZ7u0I5TpJyL1Gs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fbJwW8rkxikFgh456Tk7dwJYzZh/HvaOM8uAQYLs5lQ2Btt8TyPPS6M/mLyn+89zReMXBW4tRRCLbgS78NgfLEirMqAtqSZlp2y7j1+rEMVSBpZrngpSHu3Ztr49Jg0qik7SEcJXJ3U18OXYrA3qwLrO2q5ODu3rne5UO0JPyn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gsyz7W+W; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YH4ZDbB9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gsyz7W+W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771038005; x=1802574005;
+  t=1771038605; x=1802574605;
   h=date:from:to:cc:subject:message-id;
-  bh=QCfazbWaBTLRX1hnsiu19DeqiHwehuf8UWdcsKhmX2c=;
-  b=YH4ZDbB9FiJse9JK5XW6iaJubDcRlHcGYZ35UEvHNp1bZQwk59LNftph
-   8Q1Ol84U8bRRGfTpfCznFHtV7U86DbHuv7+sFZb5gzkzuftB1szVHNNQN
-   AXuQVvD96G015r8QJPjNgEReaLTXJ/slrR3mgCevG/eMWsnhAOC65g8oA
-   sCRo72eVCG0t4gjxFIpnsLVFrw0QDtG/W5qrJ+i6w4u1xmZqbjgin9YHO
-   kNesC7AhJ6LbNE+iXzHEXYzA+JjCSfe1kcI6F+mqsxn6DywZhQTL6hfAa
-   T0vWkdXlGHqMfNTgreKWXUjrMU68Ng/a5MhH40dOgvnF+H6vbt4Wv4iQA
-   Q==;
-X-CSE-ConnectionGUID: pjYAovtvRxCcY/f9t6O12Q==
-X-CSE-MsgGUID: XPro3CSGSAma17C2bqABiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72124401"
+  bh=QhekNKuc1toUutNEUwprDfCivySsfZ7u0I5TpJyL1Gs=;
+  b=gsyz7W+WIoRx7svi64/DONOIy44l9Ck9FeVeB94ll8w3B6z4eQpDONSz
+   0RaSYpg6seoMWqVhrpru758ZwivxPshoZJ+O6KfwHgZz9k+oLgdcjlIJ7
+   HMOhJ+KsQ3hTmE3rjAOgOokAbse+EsC/R6K6KT8uBj6/5l1dkmlSQfMhJ
+   ZmviHbhzKLee8MbcTWtAIbLTeLfM/DnHzRKR2L2naLrMAQ9ohZVa1bxYK
+   8aZi3Ag04+Gi2hpe6+TACwXfascYkQn300sB/EE7KFydWygrli6EbmPJM
+   sPz7f8CEVFVUrUE15WlLIlfrLnhTJjY0D/3NV7Ec9+x/1tEste2aN8DD2
+   A==;
+X-CSE-ConnectionGUID: 4Gd0O/szT72Of7Y33FOWVA==
+X-CSE-MsgGUID: DdSqt+lQSzOXmSoGj6PUGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72292490"
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="72124401"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 19:00:04 -0800
-X-CSE-ConnectionGUID: ALe/zt4xTeazfH/qjAixfQ==
-X-CSE-MsgGUID: /lggqpmeSF25eTk0nSPm/g==
+   d="scan'208";a="72292490"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 19:10:04 -0800
+X-CSE-ConnectionGUID: pQ3um3tySnGh0iZyElML7w==
+X-CSE-MsgGUID: H2XhVz13RoWrt0Zv6MbG/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="243680556"
+   d="scan'208";a="212926847"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Feb 2026 19:00:02 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Feb 2026 19:10:03 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vr5t1-00000000w5I-3Zqg;
-	Sat, 14 Feb 2026 02:59:59 +0000
-Date: Sat, 14 Feb 2026 10:59:20 +0800
+	id 1vr62i-00000000w6Y-2KkB;
+	Sat, 14 Feb 2026 03:10:00 +0000
+Date: Sat, 14 Feb 2026 11:09:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_5 5/15]
- arch/riscv/net/bpf_jit_comp64.c:1265:46: error: passing argument 3 of
- '__arch_prepare_bpf_trampoline' from incompatible pointer type
-Message-ID: <202602141024.12ffvFZw-lkp@intel.com>
+Subject: [wsa:renesas/hwspinlock/refactor-alloc-buildtest 16/19]
+ drivers/hwspinlock/hwspinlock_core.c:531:9: error: call to undeclared
+ function 'kzalloc'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202602141043.6zAFbnEm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,108 +61,104 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
-head:   3bb11e809e06ec473ee881de417d36f0d164f3fe
-commit: 9d5c97a3c65fa6f74af1b36dcfdce91e0c2ab81c [5/15] bpf: Add struct bpf_tramp_node object
-config: riscv-randconfig-001-20260214 (https://download.01.org/0day-ci/archive/20260214/202602141024.12ffvFZw-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141024.12ffvFZw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+head:   661496e362d06c7579ec2f4001cebf7d520ef601
+commit: ac5e31c8eab290f8d5b4f5200025c5a538b3c65b [16/19] core: core allocates bank
+config: arm-randconfig-003-20260214 (https://download.01.org/0day-ci/archive/20260214/202602141043.6zAFbnEm-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141043.6zAFbnEm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602141024.12ffvFZw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602141043.6zAFbnEm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/riscv/net/bpf_jit_comp64.c: In function 'invoke_bpf_prog':
-   arch/riscv/net/bpf_jit_comp64.c:936:7: error: 'struct bpf_tramp_link' has no member named 'cookie'
-     if (l->cookie) {
-          ^~
-   arch/riscv/net/bpf_jit_comp64.c:937:24: error: 'struct bpf_tramp_link' has no member named 'cookie'
-      emit_imm(RV_REG_T1, l->cookie, ctx);
-                           ^~
-   arch/riscv/net/bpf_jit_comp64.c: At top level:
-   arch/riscv/net/bpf_jit_comp64.c:995:14: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-          struct bpf_tramp_links *tlinks,
-                 ^~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c: In function '__arch_prepare_bpf_trampoline':
-   arch/riscv/net/bpf_jit_comp64.c:1003:42: error: invalid use of undefined type 'struct bpf_tramp_links'
-     struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
-                                             ^
-   arch/riscv/net/bpf_jit_comp64.c:1003:42: error: dereferencing pointer to incomplete type 'struct bpf_tramp_links'
-   arch/riscv/net/bpf_jit_comp64.c:1004:41: error: invalid use of undefined type 'struct bpf_tramp_links'
-     struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
-                                            ^
-   arch/riscv/net/bpf_jit_comp64.c:1005:44: error: invalid use of undefined type 'struct bpf_tramp_links'
-     struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
-                                               ^
-   arch/riscv/net/bpf_jit_comp64.c:1151:16: warning: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-                   ^
-   arch/riscv/net/bpf_jit_comp64.c: At top level:
-   arch/riscv/net/bpf_jit_comp64.c:1256:16: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-            struct bpf_tramp_links *tlinks, void *func_addr)
-                   ^~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1255:5: error: conflicting types for 'arch_bpf_trampoline_size'
-    int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/riscv/net/bpf_jit_comp64.c:9:
-   include/linux/bpf.h:1271:5: note: previous declaration of 'arch_bpf_trampoline_size' was here
-    int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c: In function 'arch_bpf_trampoline_size':
->> arch/riscv/net/bpf_jit_comp64.c:1265:46: error: passing argument 3 of '__arch_prepare_bpf_trampoline' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     ret = __arch_prepare_bpf_trampoline(&im, m, tlinks, func_addr, flags, &ctx);
-                                                 ^~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:995:31: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
-          struct bpf_tramp_links *tlinks,
-          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   arch/riscv/net/bpf_jit_comp64.c: At top level:
-   arch/riscv/net/bpf_jit_comp64.c:1282:23: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-        u32 flags, struct bpf_tramp_links *tlinks,
-                          ^~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1280:5: error: conflicting types for 'arch_prepare_bpf_trampoline'
-    int arch_prepare_bpf_trampoline(struct bpf_tramp_image *im, void *ro_image,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/riscv/net/bpf_jit_comp64.c:9:
-   include/linux/bpf.h:1264:5: note: previous declaration of 'arch_prepare_bpf_trampoline' was here
-    int arch_prepare_bpf_trampoline(struct bpf_tramp_image *im, void *image, void *image_end,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c: In function 'arch_prepare_bpf_trampoline':
-   arch/riscv/net/bpf_jit_comp64.c:1297:45: error: passing argument 3 of '__arch_prepare_bpf_trampoline' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     ret = __arch_prepare_bpf_trampoline(im, m, tlinks, func_addr, flags, &ctx);
-                                                ^~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:995:31: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
-          struct bpf_tramp_links *tlinks,
-          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/hwspinlock/hwspinlock_core.c:531:9: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     531 |         bank = kzalloc(struct_size(bank, lock, num_locks), GFP_KERNEL);
+         |                ^
+>> drivers/hwspinlock/hwspinlock_core.c:531:7: error: incompatible integer to pointer conversion assigning to 'struct hwspinlock_device *' from 'int' [-Wint-conversion]
+     531 |         bank = kzalloc(struct_size(bank, lock, num_locks), GFP_KERNEL);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hwspinlock/hwspinlock_core.c:564:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     564 |         kfree(bank);
+         |         ^
+   drivers/hwspinlock/hwspinlock_core.c:596:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     596 |         kfree(bank);
+         |         ^
+   4 errors generated.
 
 
-vim +/__arch_prepare_bpf_trampoline +1265 arch/riscv/net/bpf_jit_comp64.c
+vim +/kzalloc +531 drivers/hwspinlock/hwspinlock_core.c
 
-49b5e77ae3e214 Pu Lehui 2023-02-15  1254  
-96d1b7c081c0c9 Song Liu 2023-12-06  1255  int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
-96d1b7c081c0c9 Song Liu 2023-12-06  1256  			     struct bpf_tramp_links *tlinks, void *func_addr)
-96d1b7c081c0c9 Song Liu 2023-12-06  1257  {
-96d1b7c081c0c9 Song Liu 2023-12-06  1258  	struct bpf_tramp_image im;
-96d1b7c081c0c9 Song Liu 2023-12-06  1259  	struct rv_jit_context ctx;
-96d1b7c081c0c9 Song Liu 2023-12-06  1260  	int ret;
-96d1b7c081c0c9 Song Liu 2023-12-06  1261  
-96d1b7c081c0c9 Song Liu 2023-12-06  1262  	ctx.ninsns = 0;
-96d1b7c081c0c9 Song Liu 2023-12-06  1263  	ctx.insns = NULL;
-96d1b7c081c0c9 Song Liu 2023-12-06  1264  	ctx.ro_insns = NULL;
-96d1b7c081c0c9 Song Liu 2023-12-06 @1265  	ret = __arch_prepare_bpf_trampoline(&im, m, tlinks, func_addr, flags, &ctx);
-96d1b7c081c0c9 Song Liu 2023-12-06  1266  
-96d1b7c081c0c9 Song Liu 2023-12-06  1267  	return ret < 0 ? ret : ninsns_rvoff(ctx.ninsns);
-96d1b7c081c0c9 Song Liu 2023-12-06  1268  }
-96d1b7c081c0c9 Song Liu 2023-12-06  1269  
-
-:::::: The code at line 1265 was first introduced by commit
-:::::: 96d1b7c081c0c96cbe8901045f4ff15a2e9974a2 bpf: Add arch_bpf_trampoline_size()
-
-:::::: TO: Song Liu <song@kernel.org>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+   502	
+   503	/**
+   504	 * hwspin_lock_register() - register a new hw spinlock device
+   505	 * @dev: the backing device
+   506	 * @ops: hwspinlock handlers for this device
+   507	 * @base_id: id of the first hardware spinlock in this bank
+   508	 * @num_locks: number of hwspinlocks provided by this device
+   509	 * @init_data: additional data passed on to the init_priv callback
+   510	 *
+   511	 * This function should be called from the underlying platform-specific
+   512	 * implementation, to register a new hwspinlock device instance.
+   513	 *
+   514	 * Should be called from a process context (might sleep)
+   515	 *
+   516	 * Returns: a pointer to the device (needed for unregistering), or an
+   517	 * appropriate error pointer on failure
+   518	 */
+   519	struct hwspinlock_device *hwspin_lock_register(struct device *dev, const struct hwspinlock_ops *ops,
+   520						       int base_id, int num_locks, void *init_data)
+   521	{
+   522		struct hwspinlock_device *bank;
+   523		struct hwspinlock *hwlock;
+   524		int ret, i;
+   525	
+   526		if (!ops || !dev || !num_locks || !ops->trylock || !ops->unlock) {
+   527			pr_err("invalid parameters\n");
+   528			return ERR_PTR(-EINVAL);
+   529		}
+   530	
+ > 531		bank = kzalloc(struct_size(bank, lock, num_locks), GFP_KERNEL);
+   532		if (!bank)
+   533			return ERR_PTR(-ENOMEM);
+   534	
+   535		bank->dev = dev;
+   536		bank->ops = ops;
+   537		bank->base_id = base_id;
+   538		bank->num_locks = num_locks;
+   539	
+   540		for (i = 0; i < num_locks; i++) {
+   541			hwlock = &bank->lock[i];
+   542	
+   543			spin_lock_init(&hwlock->lock);
+   544			hwlock->bank = bank;
+   545	
+   546			if (ops->init_priv) {
+   547				hwlock->priv = ops->init_priv(i, init_data);
+   548				if (IS_ERR(hwlock->priv)) {
+   549					ret = PTR_ERR(hwlock->priv);
+   550					goto reg_failed;
+   551				}
+   552			}
+   553	
+   554			ret = hwspin_lock_register_single(hwlock, base_id + i);
+   555			if (ret)
+   556				goto reg_failed;
+   557		}
+   558	
+   559		return bank;
+   560	
+   561	reg_failed:
+   562		while (--i >= 0)
+   563			hwspin_lock_unregister_single(base_id + i);
+ > 564		kfree(bank);
+   565		return ERR_PTR(ret);
+   566	}
+   567	EXPORT_SYMBOL_GPL(hwspin_lock_register);
+   568	
 
 -- 
 0-DAY CI Kernel Test Service
