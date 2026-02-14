@@ -1,176 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD72C2C21F2;
-	Sat, 14 Feb 2026 10:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495F71E47C5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 11:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771064309; cv=none; b=RXwJb2BtooJH1zafXPTFoCSxNJWydG19yN0mMwWyEoAF5+M72UpFMD+liRXEzC5RdIGFp/SIztOZjGzrq85gyZ3+ukC1m869siDeq5I4lsFCwCDioqJWcppKnHHMX8aQnmKdFRjqNbumNEFDL4qvyahBXMSd60Si0HnsF0AaJio=
+	t=1771067427; cv=none; b=Q9i61kYDpcrkq9/QsjRfflh6XFo1e2bXmnkjjBxEIQRYFzDWLybRSIiObAD8JDlLIrohhVyKVbt1GdbArUodkifxoFM525NKXf2CIsYAiMmCH6MeLQYQqplhPhW1g+sFO5ZmbEzRxFkxZcW6LDVI/vRZuqenB2GB4B0nvgXzu6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771064309; c=relaxed/simple;
-	bh=qTiz7MpERdOdvXBnu7frdrabOReE49b85LIwqLeM+40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UTYdqqAQvAj1Yr1mw0QVQ2vULttCLTj8lG9N8mzlhFAHeObQJiYUZL2Sy6cTq7Mr4nXAVRdcsZ/R8rQKovTOEjSXv7UdS1UpjF4wYC5D0S64n6jPdmBvYTJNvzlvOL+LsriH2wx4ezm6Hgf88/Jt1c4cCIzIF++Tc1ILT37WH2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZILQdgzt; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1771067427; c=relaxed/simple;
+	bh=uWTtdPH0MVPTEEzLpT8lfCdIsw6WMfGYETL5fcXLv4s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=epDn2D9ougXg4Q7iVERz5u8cOEilWpEfGG3Pnth639ryxZF7rYDWXCSVUETnVxe+ekqVBNcpIYeJdLU+yyKOXrRzwUcrax4QVoi6mU45CTRq9iF01kVwaobt+eNFBDN5B0OFm0toucd3mq1HUKtq8VWqhbaA+60LaKv8KR0zs3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hb66klV5; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZILQdgzt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hb66klV5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771064307; x=1802600307;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qTiz7MpERdOdvXBnu7frdrabOReE49b85LIwqLeM+40=;
-  b=ZILQdgztYZvwakTQ+AiR1YER7o1phRLmiAnP2exa4T6WwBovdlPehMML
-   u/eKXzJCKOcfsfcbIfFkAbX3PVp7sHo0axCsvCO9oqCHPdMUgK9RihQdO
-   WXDVEGNs8u25XMZGebdN+hHDTmLAk6VTlGVr2ZKLjTK7T6kczO6CoWl+j
-   XbjqKH6Fryj+fZwGVyIZTOm6PVJJ9HyNhmEQkq+JyD2wJMJ6hXLNPq+OE
-   8nHfQ0yRL88/RqLwHXYKJGceeEzyZhqBXr9FyK8GGjS+Q/9CguucckDWf
-   GdCm6QFdRHTuPUsr4HMpkg4Q0gBWV0UQf+hn6OaDQzE7OFnCwufLBUUF4
-   A==;
-X-CSE-ConnectionGUID: uPfqnWrASiycKgDfzUhZNQ==
-X-CSE-MsgGUID: nnDohoh2TLCf6BZqbWobig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="82561393"
+  t=1771067425; x=1802603425;
+  h=date:from:to:cc:subject:message-id;
+  bh=uWTtdPH0MVPTEEzLpT8lfCdIsw6WMfGYETL5fcXLv4s=;
+  b=hb66klV5Wuq+iezzHmdDKEJZ8xBqq3fOrv8TZTJ5NU9qhBknTOl9neXA
+   fJ6ZzMji5ISZO721t2g3sm34hQ6ctWklfLtxw76pMbbcOoauC3/DFpWEa
+   nGPzOa8ATVuhT89UV2DzSykGtfBMCLQ0RMB/2pAlakFQIHNxJzSAaaY89
+   zoCaz6x9MFcyqo/Ifejz2el9D+3dn7tCF9VIvfMikEoIe1eZSWCtkC/eG
+   EcqajaPqy1Ykc9nACZLpUyOyVyPV+2qu/wWzMhgdYVpEgUriX6civEQWz
+   DdZwxlFgeiojn0/mHKlnO4L2vKtlBuSVb8cR2qx74cBy+Vl/HcCQD2/8a
+   g==;
+X-CSE-ConnectionGUID: Nf1+Rhf0R5mTxnRH6iyDsA==
+X-CSE-MsgGUID: wXlStvtuSCmiJA0N/ApxTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="74832781"
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="82561393"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 02:18:24 -0800
-X-CSE-ConnectionGUID: bsqcXMzVRhSXWBY2mK222g==
-X-CSE-MsgGUID: CJZVRH5WQl6eohcUF/UGsA==
+   d="scan'208";a="74832781"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 03:10:25 -0800
+X-CSE-ConnectionGUID: L9i6ZuZaT4Gu0b3HnvpuUQ==
+X-CSE-MsgGUID: EZDpxZOHQ3OtmJbM8pG9kA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="242447806"
+   d="scan'208";a="213257016"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Feb 2026 02:18:21 -0800
+  by orviesa007.jf.intel.com with ESMTP; 14 Feb 2026 03:10:23 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrCjD-00000000wRY-0gyO;
-	Sat, 14 Feb 2026 10:18:19 +0000
-Date: Sat, 14 Feb 2026 18:17:41 +0800
+	id 1vrDXY-00000000wTG-3ScJ;
+	Sat, 14 Feb 2026 11:10:20 +0000
+Date: Sat, 14 Feb 2026 19:09:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <uajain@igalia.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	linux-kernel@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2 09/25] media: i2c: imx283: Define recommended area
-Message-ID: <202602141812.smD7Mebb-lkp@intel.com>
-References: <20260213-mainline-imx283-v2-v2-9-be40a3770ebf@ideasonboard.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Eric Biggers <ebiggers@kernel.org>
+Subject: fs/f2fs/data.c:2514:undefined reference to
+ `fsverity_readahead'
+Message-ID: <202602141934.xN4mcU2f-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260213-mainline-imx283-v2-v2-9-be40a3770ebf@ideasonboard.com>
 
-Hi Kieran,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on c824345288d11e269ce41b36c105715bc2286050]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kieran-Bingham/media-i2c-imx283-Report-correct-V4L2_SEL_TGT_CROP/20260213-221320
-base:   c824345288d11e269ce41b36c105715bc2286050
-patch link:    https://lore.kernel.org/r/20260213-mainline-imx283-v2-v2-9-be40a3770ebf%40ideasonboard.com
-patch subject: [PATCH v2 09/25] media: i2c: imx283: Define recommended area
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260214/202602141812.smD7Mebb-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141812.smD7Mebb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   770aaedb461a055f79b971d538678942b6607894
+commit: 45dcb3ac9832650e5fdc2046cc7cdb97cebbb888 f2fs: consolidate fsverity_info lookup
+date:   10 days ago
+config: parisc-randconfig-r113-20260214 (https://download.01.org/0day-ci/archive/20260214/202602141934.xN4mcU2f-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602141934.xN4mcU2f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602141812.smD7Mebb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602141934.xN4mcU2f-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/i2c/imx283.c:510:11: error: initializer element is not a compile-time constant
-                   .crop = imx283_recommended_area,
-                           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx283.c:571:11: error: initializer element is not a compile-time constant
-                   .crop = imx283_recommended_area,
-                           ^~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   hppa-linux-ld: fs/f2fs/data.o: in function `f2fs_readahead':
+>> fs/f2fs/data.c:2514:(.text+0xe334): undefined reference to `fsverity_readahead'
+   hppa-linux-ld: fs/f2fs/data.o: in function `f2fs_read_data_folio':
+   fs/f2fs/data.c:2494:(.text+0xe494): undefined reference to `fsverity_readahead'
 
 
-vim +510 drivers/media/i2c/imx283.c
+vim +2514 fs/f2fs/data.c
 
-   489	
-   490	/* Mode configs */
-   491	static const struct imx283_mode supported_modes_12bit[] = {
-   492		{
-   493			/* 20MPix 21.40 fps readout mode 0 */
-   494			.scan = &imx283_scan_modes[IMX283_MODE_0],
-   495	
-   496			.width = 5472,
-   497			.height = 3648,
-   498			.min_hmax = 5914, /* 887 @ 480MHz/72MHz */
-   499			.min_vmax = 3793, /* Lines */
-   500	
-   501			.hbin_ratio = 1,
-   502			.vbin_ratio = 1,
-   503	
-   504			/* 20.00 FPS */
-   505			.default_hmax = 6000, /* 900 @ 480MHz/72MHz */
-   506			.default_vmax = 4000,
-   507	
-   508			.min_shr = 11,
-   509	
- > 510			.crop = imx283_recommended_area,
-   511		},
-   512		{
-   513			/*
-   514			 * Readout mode 2 : 2/2 binned mode (2736x1824)
-   515			 */
-   516			.scan = &imx283_scan_modes[IMX283_MODE_2],
-   517			.width = 2736,
-   518			.height = 1824,
-   519			.min_hmax = 2414, /* Pixels (362 * 480MHz/72MHz + padding) */
-   520			.min_vmax = 3840, /* Lines */
-   521	
-   522			/* 50.00 FPS */
-   523			.default_hmax = 2500, /* 375 @ 480MHz/72Mhz */
-   524			.default_vmax = 3840,
-   525	
-   526			.hbin_ratio = 2,
-   527			.vbin_ratio = 2,
-   528	
-   529			.min_shr = 12,
-   530	
-   531			.crop = imx283_recommended_area,
-   532		},
-   533		{
-   534			/*
-   535			 * Readout mode 3 : 3/3 binned mode (1824x1216)
-   536			 */
-   537			.scan = &imx283_scan_modes[IMX283_MODE_3],
-   538			.width = 1824,
-   539			.height = 1216,
-   540			.min_hmax = 1894, /* Pixels (284 * 480MHz/72MHz + padding) */
-   541			.min_vmax = 4200, /* Lines */
-   542	
-   543			/* 60.00 fps */
-   544			.default_hmax = 1900, /* 285 @ 480MHz/72Mhz */
-   545			.default_vmax = 4200,
-   546	
-   547			.hbin_ratio = 3,
-   548			.vbin_ratio = 3,
-   549	
-   550			.min_shr = 16,
-   551	
-   552			.crop = imx283_recommended_area,
-   553		},
-   554	};
-   555	
+  2497	
+  2498	static void f2fs_readahead(struct readahead_control *rac)
+  2499	{
+  2500		struct inode *inode = rac->mapping->host;
+  2501		struct fsverity_info *vi = NULL;
+  2502	
+  2503		trace_f2fs_readpages(inode, readahead_index(rac), readahead_count(rac));
+  2504	
+  2505		if (!f2fs_is_compress_backend_ready(inode))
+  2506			return;
+  2507	
+  2508		/* If the file has inline data, skip readahead */
+  2509		if (f2fs_has_inline_data(inode))
+  2510			return;
+  2511	
+  2512		vi = f2fs_need_verity(inode, readahead_index(rac));
+  2513		if (vi)
+> 2514			fsverity_readahead(vi, readahead_index(rac),
+  2515					   readahead_count(rac));
+  2516		f2fs_mpage_readpages(inode, vi, rac, NULL);
+  2517	}
+  2518	
 
 -- 
 0-DAY CI Kernel Test Service
