@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D7622A4E1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 13:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8828984A35;
+	Sat, 14 Feb 2026 15:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771074873; cv=none; b=iQTPATIe/NmTzFo7KHKl5lT5l62j0YtAs8ojm1Co5f20OkQtTbIMgKsAymJZfGaut9GXOLmpxHJkSrTZF/h2YbBNp6Fj0mStTGskZXNVbV8/I8yD3v6VjT6I1N3mPV1t/Js7iiGq2Wifwvl6P4oi8Jna9VOukGjaAWwtLdL2t/A=
+	t=1771083458; cv=none; b=lb03j4eiGe32hZAA2eHUuszzHdQuiW8b2uhZvZMIyUzG+uND0XgPNR2yal/tecioVHE0uvTZt3rXNtKFnoyUAvFcCVoiu9AY349bPA2ZXIHqo0YzPblosnxjlFu7YLZVqspPYg69dSVAIVU+bRo9qd6EiTIwZM37WbDZzHSCwEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771074873; c=relaxed/simple;
-	bh=zxqiGYycm/uPGXvDc3oTEyAMzFT7Zsp+wknBpRd9KB4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qkPX88+XbnrgAytcWZwkOV9GypL4/4WpwFrNi/ISDGhFkh6pP7Uhx/B1Xs+LfG4rynvfzxjnb7i1enrj1I8W7IzFW8/SOBPerRcu6VUkYDQmDdp5dIwI4nVvFZX+ZOeTGuWLpOnk6q8lRzyngzbOZTnF+VBH/tpz5Ad/z/XWmNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVixDNvo; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1771083458; c=relaxed/simple;
+	bh=19Ro5BnSXFj562sQ6jj1pDK460WHV/ysLgzGDuHDTXE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PgfGEw5tiP8xSjbQJH+x3sK3MFvIqpci176KBcLfFgFmC67ShxFtIm9ZryIiW1kNAVsTfOjY03o+UHxUI0ql/pZuF8ELB099fAkXe8knxKAPMxtUpZ97Pq6pHf4YCkba5I8kYrYyPel07REPbDvZcIf1EUeP6MqKHDYv1Q12u1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lBVkVbUD; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVixDNvo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lBVkVbUD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771074871; x=1802610871;
+  t=1771083456; x=1802619456;
   h=date:from:to:cc:subject:message-id;
-  bh=zxqiGYycm/uPGXvDc3oTEyAMzFT7Zsp+wknBpRd9KB4=;
-  b=AVixDNvoB8OU4spfsQp2G46gbJoOdBHIQuoBVvCYKWfBvpv8kO5RrHFN
-   2lqQ6DrJ0BAusTJnkIHCMx34thMgOx6VcHJN9uvCwfdkAHBRvcd3Fq6OX
-   Oh7f32B/uaTxELfdEnVIOAmX5VXo/3ixycWlwb604W38oZsgN1PafvyS1
-   Q6sX5+N62Vsx7ta6sOve1/3/ILgPf/MDUC/wTNo3yIc6Ya5dyR0KDfUyh
-   jN39HY/nEg7vEH6UNJiFtvITYURhRXMX8hMDP5OFWrN6OG4jzaJE3NPMn
-   24ieq73oUt2qIJd3eL/IlTJtBpPj4v3m5tjrkJngRsb2I+98eE09XrX0l
-   w==;
-X-CSE-ConnectionGUID: mfBL3Y1uQPGAVY0XGkFTMw==
-X-CSE-MsgGUID: O9n+KYJZSDax7hvFUzrMUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="76091834"
+  bh=19Ro5BnSXFj562sQ6jj1pDK460WHV/ysLgzGDuHDTXE=;
+  b=lBVkVbUD//ab+WeNKjiYI1Lo74DTZUqEhNzvo+vcCRUuthyNuCy4XI40
+   eMH+sSPCvgt7Fs/wxcarKD547tQ8BAi+eF+XA7wyXVDdP5JIFKTht0jM4
+   4EvMoMBaFc63HLBBOsamXplzKmw6+bkYIaHn6NMwTjuxpOH7juSCtvH4V
+   Mq6O9618ZQwLCmgtGMvNvWl0g4cSAtuphFTxx76h3ay8QWjlz7S+m2pta
+   PGH5ejM+MPfa4T9dBDu299YV4mGBBUYaDqvy/xfOI4UpKGEAAWJsZMu/E
+   IiJLAhaOjzl4c8R730sxhTNBFeuYIYvvBmlPS7oJa4N+39jFLHtlCpxDi
+   Q==;
+X-CSE-ConnectionGUID: oq/med4ISLmHSJL1Qu7hIg==
+X-CSE-MsgGUID: OljQFlopRumj8L3rrXoQdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="82965595"
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="76091834"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 05:14:31 -0800
-X-CSE-ConnectionGUID: SqpaVjGvQU2rVBaSZ1ghGQ==
-X-CSE-MsgGUID: /9sEANtOR8ePeleozlw8eg==
+   d="scan'208";a="82965595"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 07:37:36 -0800
+X-CSE-ConnectionGUID: fp27VHTsRHKUBv5vYVc3qg==
+X-CSE-MsgGUID: y6JKlC8MSfu8CDJ2SmqYJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,290,1763452800"; 
-   d="scan'208";a="217320598"
+   d="scan'208";a="218160550"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Feb 2026 05:14:28 -0800
+  by orviesa005.jf.intel.com with ESMTP; 14 Feb 2026 07:37:34 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrFTe-00000000wZA-1YWk;
-	Sat, 14 Feb 2026 13:14:26 +0000
-Date: Sat, 14 Feb 2026 21:13:55 +0800
+	id 1vrHi7-00000000wfa-2o9J;
+	Sat, 14 Feb 2026 15:37:31 +0000
+Date: Sat, 14 Feb 2026 23:37:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Jon Hunter <jonathanh@nvidia.com>
-Subject: arch/powerpc/boot/decompress.c:132: undefined reference to
- `__decompress'
-Message-ID: <202602142140.yi7s2ZLa-lkp@intel.com>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [kas:pte_size 13/19] include/linux/mm.h:1809:35: warning:
+ operator '<<' has lower precedence than '+'; '+' will be evaluated first
+Message-ID: <202602142324.QVDVb48H-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,73 +59,196 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Guenter,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   770aaedb461a055f79b971d538678942b6607894
-commit: 916aa36042db8ee230543ffe0d192f900e8b8c9f clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation
-date:   5 months ago
-config: powerpc-randconfig-r052-20260214 (https://download.01.org/0day-ci/archive/20260214/202602142140.yi7s2ZLa-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602142140.yi7s2ZLa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git pte_size
+head:   c8cade07a55a710c48535164d08894878eeee29f
+commit: 3f5d0ecef190d94f72a32f822ec40b4330db8dca [13/19] mm: Introduce mkpte() and folio_mkpte()
+config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260214/202602142324.QVDVb48H-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602142324.QVDVb48H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602142140.yi7s2ZLa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602142324.QVDVb48H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc-linux-ld: arch/powerpc/boot/wrapper.a(decompress.o): in function `partial_decompress':
->> arch/powerpc/boot/decompress.c:132: undefined reference to `__decompress'
+   In file included from kernel/sched/core.c:10:
+   In file included from include/linux/highmem.h:10:
+>> include/linux/mm.h:1809:35: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+    1809 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   include/linux/mm.h:1809:35: note: place parentheses around the '+' expression to silence this warning
+    1809 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   In file included from kernel/sched/core.c:10:
+   In file included from include/linux/highmem.h:10:
+   include/linux/mm.h:1828:34: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+    1828 |         return pfn_pte(folio_pfn(folio) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                                     ^~~ ~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   include/linux/mm.h:1828:34: note: place parentheses around the '+' expression to silence this warning
+    1828 |         return pfn_pte(folio_pfn(folio) + off, pgprot);
+         |                        ~~~~~~~~~~~~~~~~~^~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                                     ^~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   kernel/sched/core.c:2445:20: warning: unused function 'rq_has_pinned_tasks' [-Wunused-function]
+    2445 | static inline bool rq_has_pinned_tasks(struct rq *rq)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:5795:20: warning: unused function 'sched_tick_stop' [-Wunused-function]
+    5795 | static inline void sched_tick_stop(int cpu) { }
+         |                    ^~~~~~~~~~~~~~~
+   kernel/sched/core.c:6514:20: warning: unused function 'sched_core_cpu_deactivate' [-Wunused-function]
+    6514 | static inline void sched_core_cpu_deactivate(unsigned int cpu) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6515:20: warning: unused function 'sched_core_cpu_dying' [-Wunused-function]
+    6515 | static inline void sched_core_cpu_dying(unsigned int cpu) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:8305:20: warning: unused function 'balance_hotplug_wait' [-Wunused-function]
+    8305 | static inline void balance_hotplug_wait(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   7 warnings generated.
+--
+   In file included from kernel/sched/fair.c:27:
+   In file included from include/linux/mm_api.h:1:
+>> include/linux/mm.h:1809:35: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+    1809 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   include/linux/mm.h:1809:35: note: place parentheses around the '+' expression to silence this warning
+    1809 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   In file included from kernel/sched/fair.c:27:
+   In file included from include/linux/mm_api.h:1:
+   include/linux/mm.h:1828:34: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+    1828 |         return pfn_pte(folio_pfn(folio) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                                     ^~~ ~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   include/linux/mm.h:1828:34: note: place parentheses around the '+' expression to silence this warning
+    1828 |         return pfn_pte(folio_pfn(folio) + off, pgprot);
+         |                        ~~~~~~~~~~~~~~~~~^~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                                     ^~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   kernel/sched/fair.c:482:20: warning: unused function 'list_del_leaf_cfs_rq' [-Wunused-function]
+     482 | static inline void list_del_leaf_cfs_rq(struct cfs_rq *cfs_rq)
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:503:19: warning: unused function 'tg_is_idle' [-Wunused-function]
+     503 | static inline int tg_is_idle(struct task_group *tg)
+         |                   ^~~~~~~~~~
+   kernel/sched/fair.c:3997:20: warning: unused function 'load_avg_is_decayed' [-Wunused-function]
+    3997 | static inline bool load_avg_is_decayed(struct sched_avg *sa)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:6640:20: warning: unused function 'sync_throttle' [-Wunused-function]
+    6640 | static inline void sync_throttle(struct task_group *tg, int cpu) {}
+         |                    ^~~~~~~~~~~~~
+   kernel/sched/fair.c:6664:37: warning: unused function 'tg_cfs_bandwidth' [-Wunused-function]
+    6664 | static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
+         |                                     ^~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:6668:20: warning: unused function 'destroy_cfs_bandwidth' [-Wunused-function]
+    6668 | static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:9986:20: warning: unused function 'check_misfit_status' [-Wunused-function]
+     9986 | static inline bool check_misfit_status(struct rq *rq)
+          |                    ^~~~~~~~~~~~~~~~~~~
+   9 warnings generated.
+--
+   In file included from kernel/sched/build_policy.c:19:
+   In file included from include/linux/sched/isolation.h:5:
+   In file included from include/linux/cpuset.h:17:
+>> include/linux/mm.h:1809:35: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+    1809 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   include/linux/mm.h:1809:35: note: place parentheses around the '+' expression to silence this warning
+    1809 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   In file included from kernel/sched/build_policy.c:19:
+   In file included from include/linux/sched/isolation.h:5:
+   In file included from include/linux/cpuset.h:17:
+   include/linux/mm.h:1828:34: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+    1828 |         return pfn_pte(folio_pfn(folio) + off, pgprot);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                                     ^~~ ~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   include/linux/mm.h:1828:34: note: place parentheses around the '+' expression to silence this warning
+    1828 |         return pfn_pte(folio_pfn(folio) + off, pgprot);
+         |                        ~~~~~~~~~~~~~~~~~^~~~~
+   arch/hexagon/include/asm/pgtable.h:340:37: note: expanded from macro 'pfn_pte'
+     340 | #define pfn_pte(pfn, pgprot) __pte((pfn << PAGE_SHIFT) | pgprot_val(pgprot))
+         |                                     ^~~
+   arch/hexagon/include/asm/page.h:71:36: note: expanded from macro '__pte'
+      71 | #define __pte(x)       ((pte_t) { (x) })
+         |                                    ^
+   2 warnings generated.
 
 
-vim +132 arch/powerpc/boot/decompress.c
+vim +1809 include/linux/mm.h
 
-1b7898ee276b39e Oliver O'Halloran 2016-09-22   97  
-1b7898ee276b39e Oliver O'Halloran 2016-09-22   98  /**
-1b7898ee276b39e Oliver O'Halloran 2016-09-22   99   * partial_decompress - decompresses part or all of a compressed buffer
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  100   * @inbuf:       input buffer
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  101   * @input_size:  length of the input buffer
-930a77c3ad79c30 Zhang Jianhua     2021-05-10  102   * @outbuf:      output buffer
-930a77c3ad79c30 Zhang Jianhua     2021-05-10  103   * @output_size: length of the output buffer
-6efc2f1a64ef62f Yang Li           2024-04-08  104   * @_skip:       number of output bytes to ignore
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  105   *
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  106   * This function takes compressed data from inbuf, decompresses and write it to
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  107   * outbuf. Once output_size bytes are written to the output buffer, or the
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  108   * stream is exhausted the function will return the number of bytes that were
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  109   * decompressed. Otherwise it will return whatever error code the decompressor
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  110   * reported (NB: This is specific to each decompressor type).
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  111   *
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  112   * The skip functionality is mainly there so the program and discover
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  113   * the size of the compressed image so that it can ask firmware (if present)
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  114   * for an appropriately sized buffer.
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  115   */
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  116  long partial_decompress(void *inbuf, unsigned long input_size,
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  117  	void *outbuf, unsigned long output_size, unsigned long _skip)
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  118  {
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  119  	int ret;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  120  
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  121  	/*
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  122  	 * The skipped bytes needs to be included in the size of data we want
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  123  	 * to decompress.
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  124  	 */
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  125  	output_size += _skip;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  126  
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  127  	decompressed_bytes = 0;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  128  	output_buffer = outbuf;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  129  	limit = output_size;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  130  	skip = _skip;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  131  
-1b7898ee276b39e Oliver O'Halloran 2016-09-22 @132  	ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
-
-:::::: The code at line 132 was first introduced by commit
-:::::: 1b7898ee276b39e54d870dc4ef3374f663d0b426 powerpc/boot: Use the pre-boot decompression API
-
-:::::: TO: Oliver O'Halloran <oohall@gmail.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+  1803	
+  1804	#ifdef CONFIG_MMU
+  1805	static inline pte_t mkpte(struct page *page, unsigned long pteoff, pgprot_t pgprot)
+  1806	{
+  1807		unsigned long off = pteoff & ((1UL << (PG_SHIFT - PTE_SHIFT)) - 1);
+  1808	
+> 1809		return pfn_pte(page_to_pfn(page) + off, pgprot);
+  1810	}
+  1811	
 
 -- 
 0-DAY CI Kernel Test Service
