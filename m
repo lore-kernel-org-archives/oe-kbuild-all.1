@@ -1,373 +1,324 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF3B199E94;
-	Sun, 15 Feb 2026 04:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83EA94A0C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Feb 2026 05:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771130298; cv=none; b=W6n5HMDR8Q1axQC4Cv6+8LbWh2RWEurciY6OI3HdvoxUIpjn6IvKBymi1lHGBhLttjC7mg1LL80RZeyKq82Wfc3z0XM9V3jjE0mrBHrvFq4RiHKBOBuosFG2IwfUoezzFAJCTzWTIfkZgOvzompBWZt/a9ygXUNKJdsJWF9g/Ec=
+	t=1771132221; cv=none; b=MgDywwpyyW9mR6kIlofQVmjsCeX6piip4c5SICIhnLmu+Xfj4NwBpQsBSIFm1r2olsHxSq0FlIYHN0lD5C/KacmH+5UudKH05Bg7l2BsUk9rcLF6lVQIuApnQZfnnyE8YqU2wbFgU3j82EFOBIesH9SvH2gba9zMCp4wyQpEpO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771130298; c=relaxed/simple;
-	bh=IOHZDqzGlOj5FKqzh2vYIIxqTX4vZM/Qx6T83Fnk9Vs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AXx9chNkYwSKAhl6gSQRVG59JHUhmlF54yiExpleDodm4VXTslzhasBGusyGlpWLu9xKvni2lnpMJQ+xB0DIWX30Sflf60y8tXsaEBCmyRBJMb25t1KUuX7SGnzNPxhEF7cvUaj22YbwdWEWonsIr+DjdTTuUla81C9V5QCYGZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNQwfmgW; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1771132221; c=relaxed/simple;
+	bh=qxXP+s9aAm1wsn9JQB/VS6WgqpLXOrQ5HjnzirkizfM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mtrwv6VNyoQbzqoQ/Y2bQ82VCPirC2F/BFcF9HC/rR1o0M01IV/HNEgcpmn5vBqt4A7Y3D+WV2Y6Xha1wZtP0PlpF1/T8pbvurgTCgWpKfvtOfrruWm8UBm76BhREkS94s7eqxPumVP/LwBWSyao5K8Ns3oGzPIMuClmjGhcVQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fhg0pTac; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNQwfmgW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fhg0pTac"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771130297; x=1802666297;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IOHZDqzGlOj5FKqzh2vYIIxqTX4vZM/Qx6T83Fnk9Vs=;
-  b=RNQwfmgWX371ZCjDqWLJH6NWOeQ0iboUpNZKAoRYUfabNdfhzLl+Yg48
-   zjmJBQBgzTPC6hofK6iYNe4PkU1vxPlVpntMjaBDItGRcjf0egm7ryPBL
-   x+jlHCk5nfAjBbR3YFhwg6yW+sthhWIoSbyyEe697+9WRp5iJqhQ4TjWi
-   Zvg/NetrYicgBFDEWeGqdj9GQyltxmBtX/CZyqhOCAuNZ63JMpcYAuzPo
-   4k+UsuVQqqPIn8PleB1eKr8CBAt+OmkKNKIN8F8NZJdIHm0TGTuHoEaiD
-   Hn3xAMy6L3qBDZM/WEEny4+PESJoO+50Sk49dijk+469cGyYvSfChAKmE
-   w==;
-X-CSE-ConnectionGUID: D1wKfZvvTiukhgvp4HYvBA==
-X-CSE-MsgGUID: 9ZHdXGhpTACLGAhrIHEw0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="72302921"
+  t=1771132218; x=1802668218;
+  h=date:from:to:cc:subject:message-id;
+  bh=qxXP+s9aAm1wsn9JQB/VS6WgqpLXOrQ5HjnzirkizfM=;
+  b=fhg0pTacTPMjz/dNiY3A3ZNkN8A4asrpcRbLELlytWvrqXSFsts4JXok
+   KK4Cyx26MivzcVBDVDlMV0NQM0vchCHU0ZJk57z6mkGwhM8PEeLYkGXsK
+   ZeUU20axFUvHnWYlsq9EgIGskLebu4kbN+Dnq3efwNy+Uo3N1VIkpY/CQ
+   O52yNNE2EjvR450Z+Sn2Ob5sj1faClgwYCMKxBQ7n82aefyOkLvuNAqJ5
+   DxEtsJvtCauw6oMSHzH6lt3GSXLZdF3K7zATDIDuugHTv29JLRlbInCUu
+   QqY8XJzMwlPcQu5nxJCB43TN/ovtv/y3KEMRIJYsBfIH7daAWcciOPlBs
+   g==;
+X-CSE-ConnectionGUID: 0I7lWM3bS9Oi1bGgiCU9zQ==
+X-CSE-MsgGUID: cptwI19fT/OcQkdODj73EQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="76107115"
 X-IronPort-AV: E=Sophos;i="6.21,291,1763452800"; 
-   d="scan'208";a="72302921"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 20:38:14 -0800
-X-CSE-ConnectionGUID: BzrQrbk5R3WQ2AkzGB8gYg==
-X-CSE-MsgGUID: 9MtltZT9S+W6+ZkSMJ80pQ==
+   d="scan'208";a="76107115"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 21:10:18 -0800
+X-CSE-ConnectionGUID: GsLm+bEtRZ+tvgmTKhXjiw==
+X-CSE-MsgGUID: QTYAJZFfTeuUFWxdcv85EA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,291,1763452800"; 
-   d="scan'208";a="213122803"
+   d="scan'208";a="250961713"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 Feb 2026 20:38:13 -0800
+  by orviesa001.jf.intel.com with ESMTP; 14 Feb 2026 21:10:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrTtb-00000000xQS-0ocs;
-	Sun, 15 Feb 2026 04:38:11 +0000
-Date: Sun, 15 Feb 2026 12:38:07 +0800
+	id 1vrUOb-00000000xTw-0y0J;
+	Sun, 15 Feb 2026 05:10:13 +0000
+Date: Sun, 15 Feb 2026 13:09:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 2/2] ALSA: usb: qcom: manage offload device usage
-Message-ID: <202602151243.pv13LBdT-lkp@intel.com>
-References: <20260213100736.2914690-3-guanyulin@google.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:fuse-iomap-bpf 106/106]
+ fs/fuse/fuse_iomap_bpf.c:347:1: sparse: sparse: symbol
+ 'fuse_bpf_inode_nodeid' was not declared. Should it be static?
+Message-ID: <202602151344.GP5RMY8Q-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260213100736.2914690-3-guanyulin@google.com>
 
-Hi Guan-Yu,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.19 next-20260213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guan-Yu-Lin/usb-offload-move-device-locking-to-callers-in-offload-c/20260213-181132
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20260213100736.2914690-3-guanyulin%40google.com
-patch subject: [RFC PATCH v2 2/2] ALSA: usb: qcom: manage offload device usage
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260215/202602151243.pv13LBdT-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602151243.pv13LBdT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-iomap-bpf
+head:   cfabfd535988652f4ce050030fbbf472e820a672
+commit: cfabfd535988652f4ce050030fbbf472e820a672 [106/106] fuse: make fuse_inode opaque to iomap bpf programs
+config: arm64-randconfig-r122-20260215 (https://download.01.org/0day-ci/archive/20260215/202602151344.GP5RMY8Q-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602151344.GP5RMY8Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602151243.pv13LBdT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602151344.GP5RMY8Q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/fuse/fuse_iomap_bpf.c:176:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/fuse/fuse_iomap_bpf.c:176:9: sparse:    struct fuse_iomap_bpf_ops [noderef] __rcu *
+   fs/fuse/fuse_iomap_bpf.c:176:9: sparse:    struct fuse_iomap_bpf_ops *
+   fs/fuse/fuse_iomap_bpf.c:215:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/fuse/fuse_iomap_bpf.c:215:9: sparse:    struct fuse_iomap_bpf_ops [noderef] __rcu *
+   fs/fuse/fuse_iomap_bpf.c:215:9: sparse:    struct fuse_iomap_bpf_ops *
+   fs/fuse/fuse_iomap_bpf.c:293:1: sparse: sparse: symbol 'fuse_bpf_iomap_inval_mappings' was not declared. Should it be static?
+   fs/fuse/fuse_iomap_bpf.c:319:1: sparse: sparse: symbol 'fuse_bpf_iomap_upsert_mappings' was not declared. Should it be static?
+>> fs/fuse/fuse_iomap_bpf.c:347:1: sparse: sparse: symbol 'fuse_bpf_inode_nodeid' was not declared. Should it be static?
+>> fs/fuse/fuse_iomap_bpf.c:355:1: sparse: sparse: symbol 'fuse_bpf_inode_orig_ino' was not declared. Should it be static?
+   fs/fuse/fuse_iomap_bpf.c:391:1: sparse: sparse: symbol 'btf_fuse_iomap_bpf_ops_id' was not declared. Should it be static?
+   fs/fuse/fuse_iomap_bpf.c:393:1: sparse: sparse: symbol 'btf_fuse_iomap_begin_out_id' was not declared. Should it be static?
+   fs/fuse/fuse_iomap_bpf.c:395:1: sparse: sparse: symbol 'btf_fuse_iomap_ioend_out_id' was not declared. Should it be static?
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse:    struct fuse_iomap_bpf_ops [noderef] __rcu *
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse:    struct fuse_iomap_bpf_ops *
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse:    struct fuse_iomap_bpf_ops [noderef] __rcu *
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse:    struct fuse_iomap_bpf_ops *
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse:    struct fuse_iomap_bpf_ops [noderef] __rcu *
+   fs/fuse/fuse_iomap_bpf.c:190:15: sparse:    struct fuse_iomap_bpf_ops *
 
->> sound/usb/qcom/qc_audio_offload.c:1608:4: error: cannot jump from this goto statement to its label
-    1608 |                         goto response;
-         |                         ^
-   sound/usb/qcom/qc_audio_offload.c:1616:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1616 |         guard(device)(&udev->dev);
-         |         ^
-   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
-     414 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:78:1: note: expanded from here
-      78 | __UNIQUE_ID_guard_609
-         | ^
-   sound/usb/qcom/qc_audio_offload.c:1598:5: error: cannot jump from this goto statement to its label
-    1598 |                                 goto response;
-         |                                 ^
-   sound/usb/qcom/qc_audio_offload.c:1616:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1616 |         guard(device)(&udev->dev);
-         |         ^
-   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
-     414 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:78:1: note: expanded from here
-      78 | __UNIQUE_ID_guard_609
-         | ^
-   sound/usb/qcom/qc_audio_offload.c:1591:3: error: cannot jump from this goto statement to its label
-    1591 |                 goto response;
-         |                 ^
-   sound/usb/qcom/qc_audio_offload.c:1616:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1616 |         guard(device)(&udev->dev);
-         |         ^
-   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
-     414 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:78:1: note: expanded from here
-      78 | __UNIQUE_ID_guard_609
-         | ^
-   sound/usb/qcom/qc_audio_offload.c:1583:3: error: cannot jump from this goto statement to its label
-    1583 |                 goto response;
-         |                 ^
-   sound/usb/qcom/qc_audio_offload.c:1616:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1616 |         guard(device)(&udev->dev);
-         |         ^
-   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
-     414 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:78:1: note: expanded from here
-      78 | __UNIQUE_ID_guard_609
-         | ^
-   sound/usb/qcom/qc_audio_offload.c:1576:3: error: cannot jump from this goto statement to its label
-    1576 |                 goto response;
-         |                 ^
-   sound/usb/qcom/qc_audio_offload.c:1616:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1616 |         guard(device)(&udev->dev);
-         |         ^
-   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
-     414 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
+vim +/fuse_bpf_inode_nodeid +347 fs/fuse/fuse_iomap_bpf.c
 
-
-vim +1608 sound/usb/qcom/qc_audio_offload.c
-
-326bbc348298ab Wesley Cheng 2025-04-09  1516  
-326bbc348298ab Wesley Cheng 2025-04-09  1517  /**
-326bbc348298ab Wesley Cheng 2025-04-09  1518   * handle_uaudio_stream_req() - handle stream enable/disable request
-326bbc348298ab Wesley Cheng 2025-04-09  1519   * @handle: QMI client handle
-326bbc348298ab Wesley Cheng 2025-04-09  1520   * @sq: qrtr socket
-326bbc348298ab Wesley Cheng 2025-04-09  1521   * @txn: QMI transaction context
-326bbc348298ab Wesley Cheng 2025-04-09  1522   * @decoded_msg: decoded QMI message
-326bbc348298ab Wesley Cheng 2025-04-09  1523   *
-326bbc348298ab Wesley Cheng 2025-04-09  1524   * Main handler for the QMI stream enable/disable requests.  This executes the
-326bbc348298ab Wesley Cheng 2025-04-09  1525   * corresponding enable/disable stream apis, respectively.
-326bbc348298ab Wesley Cheng 2025-04-09  1526   *
-326bbc348298ab Wesley Cheng 2025-04-09  1527   */
-326bbc348298ab Wesley Cheng 2025-04-09  1528  static void handle_uaudio_stream_req(struct qmi_handle *handle,
-326bbc348298ab Wesley Cheng 2025-04-09  1529  				     struct sockaddr_qrtr *sq,
-326bbc348298ab Wesley Cheng 2025-04-09  1530  				     struct qmi_txn *txn,
-326bbc348298ab Wesley Cheng 2025-04-09  1531  				     const void *decoded_msg)
-326bbc348298ab Wesley Cheng 2025-04-09  1532  {
-326bbc348298ab Wesley Cheng 2025-04-09  1533  	struct qmi_uaudio_stream_req_msg_v01 *req_msg;
-326bbc348298ab Wesley Cheng 2025-04-09  1534  	struct qmi_uaudio_stream_resp_msg_v01 resp = {{0}, 0};
-326bbc348298ab Wesley Cheng 2025-04-09  1535  	struct uaudio_qmi_svc *svc = uaudio_svc;
-326bbc348298ab Wesley Cheng 2025-04-09  1536  	struct snd_usb_audio *chip = NULL;
-326bbc348298ab Wesley Cheng 2025-04-09  1537  	struct snd_usb_substream *subs;
-326bbc348298ab Wesley Cheng 2025-04-09  1538  	struct usb_host_endpoint *ep;
-326bbc348298ab Wesley Cheng 2025-04-09  1539  	int datainterval = -EINVAL;
-326bbc348298ab Wesley Cheng 2025-04-09  1540  	int info_idx = -EINVAL;
-326bbc348298ab Wesley Cheng 2025-04-09  1541  	struct intf_info *info;
-326bbc348298ab Wesley Cheng 2025-04-09  1542  	u8 pcm_card_num;
-326bbc348298ab Wesley Cheng 2025-04-09  1543  	u8 pcm_dev_num;
-326bbc348298ab Wesley Cheng 2025-04-09  1544  	u8 direction;
-0357ca53e65e90 Guan-Yu Lin  2026-02-13  1545  	struct usb_device *udev = NULL;
-326bbc348298ab Wesley Cheng 2025-04-09  1546  	int ret = 0;
-326bbc348298ab Wesley Cheng 2025-04-09  1547  
-326bbc348298ab Wesley Cheng 2025-04-09  1548  	if (!svc->client_connected) {
-326bbc348298ab Wesley Cheng 2025-04-09  1549  		svc->client_sq = *sq;
-326bbc348298ab Wesley Cheng 2025-04-09  1550  		svc->client_connected = true;
-326bbc348298ab Wesley Cheng 2025-04-09  1551  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1552  
-326bbc348298ab Wesley Cheng 2025-04-09  1553  	mutex_lock(&qdev_mutex);
-326bbc348298ab Wesley Cheng 2025-04-09  1554  	req_msg = (struct qmi_uaudio_stream_req_msg_v01 *)decoded_msg;
-326bbc348298ab Wesley Cheng 2025-04-09  1555  	if (!req_msg->audio_format_valid || !req_msg->bit_rate_valid ||
-326bbc348298ab Wesley Cheng 2025-04-09  1556  	    !req_msg->number_of_ch_valid || !req_msg->xfer_buff_size_valid) {
-326bbc348298ab Wesley Cheng 2025-04-09  1557  		ret = -EINVAL;
-326bbc348298ab Wesley Cheng 2025-04-09  1558  		goto response;
-326bbc348298ab Wesley Cheng 2025-04-09  1559  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1560  
-326bbc348298ab Wesley Cheng 2025-04-09  1561  	if (!uaudio_qdev) {
-326bbc348298ab Wesley Cheng 2025-04-09  1562  		ret = -EINVAL;
-326bbc348298ab Wesley Cheng 2025-04-09  1563  		goto response;
-326bbc348298ab Wesley Cheng 2025-04-09  1564  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1565  
-326bbc348298ab Wesley Cheng 2025-04-09  1566  	direction = (req_msg->usb_token & QMI_STREAM_REQ_DIRECTION);
-326bbc348298ab Wesley Cheng 2025-04-09  1567  	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
-326bbc348298ab Wesley Cheng 2025-04-09  1568  	pcm_card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
-326bbc348298ab Wesley Cheng 2025-04-09  1569  	if (pcm_card_num >= SNDRV_CARDS) {
-326bbc348298ab Wesley Cheng 2025-04-09  1570  		ret = -EINVAL;
-326bbc348298ab Wesley Cheng 2025-04-09  1571  		goto response;
-326bbc348298ab Wesley Cheng 2025-04-09  1572  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1573  
-326bbc348298ab Wesley Cheng 2025-04-09  1574  	if (req_msg->audio_format > USB_QMI_PCM_FORMAT_U32_BE) {
-326bbc348298ab Wesley Cheng 2025-04-09  1575  		ret = -EINVAL;
-326bbc348298ab Wesley Cheng 2025-04-09  1576  		goto response;
-326bbc348298ab Wesley Cheng 2025-04-09  1577  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1578  
-326bbc348298ab Wesley Cheng 2025-04-09  1579  	subs = find_substream(pcm_card_num, pcm_dev_num, direction);
-326bbc348298ab Wesley Cheng 2025-04-09  1580  	chip = uadev[pcm_card_num].chip;
-326bbc348298ab Wesley Cheng 2025-04-09  1581  	if (!subs || !chip || atomic_read(&chip->shutdown)) {
-326bbc348298ab Wesley Cheng 2025-04-09  1582  		ret = -ENODEV;
-326bbc348298ab Wesley Cheng 2025-04-09  1583  		goto response;
-326bbc348298ab Wesley Cheng 2025-04-09  1584  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1585  
-326bbc348298ab Wesley Cheng 2025-04-09  1586  	info_idx = info_idx_from_ifnum(pcm_card_num, subs->cur_audiofmt ?
-326bbc348298ab Wesley Cheng 2025-04-09  1587  			subs->cur_audiofmt->iface : -1, req_msg->enable);
-326bbc348298ab Wesley Cheng 2025-04-09  1588  	if (atomic_read(&chip->shutdown) || !subs->stream || !subs->stream->pcm ||
-326bbc348298ab Wesley Cheng 2025-04-09  1589  	    !subs->stream->chip) {
-326bbc348298ab Wesley Cheng 2025-04-09  1590  		ret = -ENODEV;
-326bbc348298ab Wesley Cheng 2025-04-09  1591  		goto response;
-326bbc348298ab Wesley Cheng 2025-04-09  1592  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1593  
-e5d3eeb4261a3a Takashi Iwai 2025-08-29  1594  	scoped_guard(mutex, &chip->mutex) {
-326bbc348298ab Wesley Cheng 2025-04-09  1595  		if (req_msg->enable) {
-6a348e9236c336 Wesley Cheng 2025-04-09  1596  			if (info_idx < 0 || chip->system_suspend || subs->opened) {
-326bbc348298ab Wesley Cheng 2025-04-09  1597  				ret = -EBUSY;
-326bbc348298ab Wesley Cheng 2025-04-09  1598  				goto response;
-326bbc348298ab Wesley Cheng 2025-04-09  1599  			}
-6a348e9236c336 Wesley Cheng 2025-04-09  1600  			subs->opened = 1;
-326bbc348298ab Wesley Cheng 2025-04-09  1601  		}
-e5d3eeb4261a3a Takashi Iwai 2025-08-29  1602  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1603  
-326bbc348298ab Wesley Cheng 2025-04-09  1604  	if (req_msg->service_interval_valid) {
-326bbc348298ab Wesley Cheng 2025-04-09  1605  		ret = get_data_interval_from_si(subs,
-326bbc348298ab Wesley Cheng 2025-04-09  1606  						req_msg->service_interval);
-326bbc348298ab Wesley Cheng 2025-04-09  1607  		if (ret == -EINVAL)
-326bbc348298ab Wesley Cheng 2025-04-09 @1608  			goto response;
-326bbc348298ab Wesley Cheng 2025-04-09  1609  
-326bbc348298ab Wesley Cheng 2025-04-09  1610  		datainterval = ret;
-326bbc348298ab Wesley Cheng 2025-04-09  1611  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1612  
-326bbc348298ab Wesley Cheng 2025-04-09  1613  	uadev[pcm_card_num].ctrl_intf = chip->ctrl_intf;
-326bbc348298ab Wesley Cheng 2025-04-09  1614  
-0357ca53e65e90 Guan-Yu Lin  2026-02-13  1615  	udev = subs->dev;
-0357ca53e65e90 Guan-Yu Lin  2026-02-13  1616  	guard(device)(&udev->dev);
-326bbc348298ab Wesley Cheng 2025-04-09  1617  	if (req_msg->enable) {
-326bbc348298ab Wesley Cheng 2025-04-09  1618  		ret = enable_audio_stream(subs,
-326bbc348298ab Wesley Cheng 2025-04-09  1619  					  map_pcm_format(req_msg->audio_format),
-326bbc348298ab Wesley Cheng 2025-04-09  1620  					  req_msg->number_of_ch, req_msg->bit_rate,
-326bbc348298ab Wesley Cheng 2025-04-09  1621  					  datainterval);
-326bbc348298ab Wesley Cheng 2025-04-09  1622  
-326bbc348298ab Wesley Cheng 2025-04-09  1623  		if (!ret)
-326bbc348298ab Wesley Cheng 2025-04-09  1624  			ret = prepare_qmi_response(subs, req_msg, &resp,
-326bbc348298ab Wesley Cheng 2025-04-09  1625  						   info_idx);
-6a348e9236c336 Wesley Cheng 2025-04-09  1626  		if (ret < 0) {
-e5d3eeb4261a3a Takashi Iwai 2025-08-29  1627  			guard(mutex)(&chip->mutex);
-6a348e9236c336 Wesley Cheng 2025-04-09  1628  			subs->opened = 0;
-6a348e9236c336 Wesley Cheng 2025-04-09  1629  		}
-326bbc348298ab Wesley Cheng 2025-04-09  1630  	} else {
-326bbc348298ab Wesley Cheng 2025-04-09  1631  		info = &uadev[pcm_card_num].info[info_idx];
-326bbc348298ab Wesley Cheng 2025-04-09  1632  		if (info->data_ep_pipe) {
-326bbc348298ab Wesley Cheng 2025-04-09  1633  			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-326bbc348298ab Wesley Cheng 2025-04-09  1634  					       info->data_ep_pipe);
-326bbc348298ab Wesley Cheng 2025-04-09  1635  			if (ep) {
-326bbc348298ab Wesley Cheng 2025-04-09  1636  				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-326bbc348298ab Wesley Cheng 2025-04-09  1637  							    ep);
-326bbc348298ab Wesley Cheng 2025-04-09  1638  				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-326bbc348298ab Wesley Cheng 2025-04-09  1639  							      ep);
-326bbc348298ab Wesley Cheng 2025-04-09  1640  			}
-326bbc348298ab Wesley Cheng 2025-04-09  1641  
-326bbc348298ab Wesley Cheng 2025-04-09  1642  			info->data_ep_pipe = 0;
-326bbc348298ab Wesley Cheng 2025-04-09  1643  		}
-326bbc348298ab Wesley Cheng 2025-04-09  1644  
-326bbc348298ab Wesley Cheng 2025-04-09  1645  		if (info->sync_ep_pipe) {
-326bbc348298ab Wesley Cheng 2025-04-09  1646  			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-326bbc348298ab Wesley Cheng 2025-04-09  1647  					       info->sync_ep_pipe);
-326bbc348298ab Wesley Cheng 2025-04-09  1648  			if (ep) {
-326bbc348298ab Wesley Cheng 2025-04-09  1649  				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-326bbc348298ab Wesley Cheng 2025-04-09  1650  							    ep);
-326bbc348298ab Wesley Cheng 2025-04-09  1651  				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-326bbc348298ab Wesley Cheng 2025-04-09  1652  							      ep);
-326bbc348298ab Wesley Cheng 2025-04-09  1653  			}
-326bbc348298ab Wesley Cheng 2025-04-09  1654  
-326bbc348298ab Wesley Cheng 2025-04-09  1655  			info->sync_ep_pipe = 0;
-326bbc348298ab Wesley Cheng 2025-04-09  1656  		}
-326bbc348298ab Wesley Cheng 2025-04-09  1657  
-326bbc348298ab Wesley Cheng 2025-04-09  1658  		disable_audio_stream(subs);
-e5d3eeb4261a3a Takashi Iwai 2025-08-29  1659  		guard(mutex)(&chip->mutex);
-6a348e9236c336 Wesley Cheng 2025-04-09  1660  		subs->opened = 0;
-326bbc348298ab Wesley Cheng 2025-04-09  1661  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1662  
-326bbc348298ab Wesley Cheng 2025-04-09  1663  response:
-326bbc348298ab Wesley Cheng 2025-04-09  1664  	if (!req_msg->enable && ret != -EINVAL && ret != -ENODEV) {
-e5d3eeb4261a3a Takashi Iwai 2025-08-29  1665  		guard(mutex)(&chip->mutex);
-326bbc348298ab Wesley Cheng 2025-04-09  1666  		if (info_idx >= 0) {
-326bbc348298ab Wesley Cheng 2025-04-09  1667  			info = &uadev[pcm_card_num].info[info_idx];
-326bbc348298ab Wesley Cheng 2025-04-09  1668  			uaudio_dev_intf_cleanup(uadev[pcm_card_num].udev,
-326bbc348298ab Wesley Cheng 2025-04-09  1669  						info);
-326bbc348298ab Wesley Cheng 2025-04-09  1670  		}
-326bbc348298ab Wesley Cheng 2025-04-09  1671  		if (atomic_read(&uadev[pcm_card_num].in_use))
-326bbc348298ab Wesley Cheng 2025-04-09  1672  			kref_put(&uadev[pcm_card_num].kref,
-326bbc348298ab Wesley Cheng 2025-04-09  1673  				 uaudio_dev_release);
-326bbc348298ab Wesley Cheng 2025-04-09  1674  	}
-326bbc348298ab Wesley Cheng 2025-04-09  1675  	mutex_unlock(&qdev_mutex);
-326bbc348298ab Wesley Cheng 2025-04-09  1676  
-326bbc348298ab Wesley Cheng 2025-04-09  1677  	resp.usb_token = req_msg->usb_token;
-326bbc348298ab Wesley Cheng 2025-04-09  1678  	resp.usb_token_valid = 1;
-326bbc348298ab Wesley Cheng 2025-04-09  1679  	resp.internal_status = ret;
-326bbc348298ab Wesley Cheng 2025-04-09  1680  	resp.internal_status_valid = 1;
-326bbc348298ab Wesley Cheng 2025-04-09  1681  	resp.status = ret ? USB_QMI_STREAM_REQ_FAILURE_V01 : ret;
-326bbc348298ab Wesley Cheng 2025-04-09  1682  	resp.status_valid = 1;
-326bbc348298ab Wesley Cheng 2025-04-09  1683  	ret = qmi_send_response(svc->uaudio_svc_hdl, sq, txn,
-326bbc348298ab Wesley Cheng 2025-04-09  1684  				QMI_UAUDIO_STREAM_RESP_V01,
-326bbc348298ab Wesley Cheng 2025-04-09  1685  				QMI_UAUDIO_STREAM_RESP_MSG_V01_MAX_MSG_LEN,
-326bbc348298ab Wesley Cheng 2025-04-09  1686  				qmi_uaudio_stream_resp_msg_v01_ei, &resp);
-326bbc348298ab Wesley Cheng 2025-04-09  1687  }
-326bbc348298ab Wesley Cheng 2025-04-09  1688  
+   141	
+   142	/* Register an iomap bpf program with a fuse connection */
+   143	static int fuse_iomap_bpf_reg(void *kdata, struct bpf_link *link)
+   144	{
+   145		struct fuse_iomap_bpf_ops *ops = kdata;
+   146		struct file *fusedev_file;
+   147		struct fuse_dev *fud;
+   148		struct fuse_conn *fc;
+   149	
+   150		CLASS(fd, fusedev_fd)(ops->fuse_fd);
+   151		if (fd_empty(fusedev_fd))
+   152			return -EBADF;
+   153	
+   154		fusedev_file = fd_file(fusedev_fd);
+   155		if (fusedev_file->f_op != &fuse_dev_operations)
+   156			return -EBADF;
+   157	
+   158		fud = fuse_get_dev(fusedev_file);
+   159		fc = fud->fc;
+   160	
+   161		if (!fc->iomap)
+   162			return -EOPNOTSUPP;
+   163	
+   164		spin_lock(&fuse_iomap_bpf_ops_lock);
+   165		if (fc->iomap_conn.bpf_ops) {
+   166			spin_unlock(&fuse_iomap_bpf_ops_lock);
+   167			return -EBUSY;
+   168		}
+   169	
+   170		trace_fuse_iomap_attach_bpf(fc, ops);
+   171	
+   172		/*
+   173		 * The initial ops user count bias is transferred to fc so that we only
+   174		 * initiate wakeup events when someone tries to unregister the BPF.
+   175		 */
+ > 176		rcu_assign_pointer(fc->iomap_conn.bpf_ops, ops);
+   177		ops->fc = fc;
+   178		spin_unlock(&fuse_iomap_bpf_ops_lock);
+   179	
+   180		return 0;
+   181	}
+   182	
+   183	static inline struct fuse_iomap_bpf_ops *
+   184	fuse_iomap_get_bpf_ops(struct inode *inode)
+   185	{
+   186		struct fuse_conn *fc = get_fuse_conn(inode);
+   187		struct fuse_iomap_bpf_ops *ops;
+   188	
+   189		rcu_read_lock();
+   190		ops = rcu_dereference(fc->iomap_conn.bpf_ops);
+   191		if (ops && !atomic_inc_not_zero(&ops->users))
+   192			ops = NULL;
+   193		rcu_read_unlock();
+   194	
+   195		return ops;
+   196	}
+   197	
+   198	static inline void
+   199	fuse_iomap_put_bpf_ops(struct fuse_iomap_bpf_ops *ops)
+   200	{
+   201		if (ops)
+   202			atomic_dec_and_wake_up(&ops->users);
+   203	}
+   204	
+   205	DEFINE_CLASS(iomap_bpf_ops, struct fuse_iomap_bpf_ops *,
+   206		     fuse_iomap_put_bpf_ops(_T), fuse_iomap_get_bpf_ops(inode),
+   207		     struct inode *inode);
+   208	
+   209	static void __fuse_iomap_detach_bpf(struct fuse_conn *fc,
+   210					    struct fuse_iomap_bpf_ops *ops)
+   211	{
+   212		trace_fuse_iomap_detach_bpf(fc, ops);
+   213	
+   214		ops->fc = NULL;
+   215		rcu_assign_pointer(fc->iomap_conn.bpf_ops, NULL);
+   216		fuse_iomap_put_bpf_ops(ops);
+   217	}
+   218	
+   219	/* Detach any iomap bpf programs from the fuse connection */
+   220	void fuse_iomap_unmount_bpf(struct fuse_conn *fc)
+   221	{
+   222		spin_lock(&fuse_iomap_bpf_ops_lock);
+   223		if (fc->iomap_conn.bpf_ops) {
+   224			/*
+   225			 * This should only be called from unmount, so there won't be
+   226			 * anybody trying to call the BPF iomap functions.
+   227			 */
+   228			ASSERT(atomic_read(&fc->iomap_conn.bpf_ops->users) == 1);
+   229	
+   230			__fuse_iomap_detach_bpf(fc, fc->iomap_conn.bpf_ops);
+   231		}
+   232		spin_unlock(&fuse_iomap_bpf_ops_lock);
+   233	}
+   234	
+   235	/* Detach the fuse connection from this iomap bpf program */
+   236	static void fuse_iomap_bpf_unreg(void *kdata, struct bpf_link *link)
+   237	{
+   238		struct fuse_iomap_bpf_ops *ops = kdata;
+   239	
+   240		spin_lock(&fuse_iomap_bpf_ops_lock);
+   241		if (ops->fc && ops->fc->iomap_conn.bpf_ops == ops)
+   242			__fuse_iomap_detach_bpf(ops->fc, ops);
+   243		spin_unlock(&fuse_iomap_bpf_ops_lock);
+   244	
+   245		/* wait until nobody's trying to call into the bpf iomap program */
+   246		wait_var_event(&ops->users, atomic_read(&ops->users) == 0);
+   247	}
+   248	
+   249	/* Dummy function stubs for control flow integrity hashes */
+   250	static enum fuse_iomap_bpf_ret
+   251	__iomap_begin(struct fuse_bpf_inode *fbi, uint64_t pos, uint64_t count,
+   252		      uint32_t opflags, struct fuse_iomap_begin_out *outarg)
+   253	{
+   254		return FIB_FALLBACK;
+   255	}
+   256	
+   257	static enum fuse_iomap_bpf_ret
+   258	__iomap_end(struct fuse_bpf_inode *fbi, uint64_t pos, uint64_t count,
+   259		    int64_t written, uint32_t opflags)
+   260	{
+   261		return FIB_FALLBACK;
+   262	}
+   263	
+   264	static enum fuse_iomap_bpf_ret
+   265	__iomap_ioend(struct fuse_bpf_inode *fbi, uint64_t pos, int64_t written,
+   266		      uint32_t ioendflags, int error, uint32_t dev, uint64_t new_addr,
+   267		      struct fuse_iomap_ioend_out *outarg)
+   268	{
+   269		return FIB_FALLBACK;
+   270	}
+   271	
+   272	static struct fuse_iomap_bpf_ops __fuse_iomap_bpf_ops = {
+   273		.iomap_begin	= __iomap_begin,
+   274		.iomap_end	= __iomap_end,
+   275		.iomap_ioend	= __iomap_ioend,
+   276	};
+   277	
+   278	static struct bpf_struct_ops fuse_iomap_bpf_struct_ops = {
+   279		.verifier_ops	= &fuse_iomap_bpf_verifier_ops,
+   280		.init		= fuse_iomap_bpf_ops_init,
+   281		.check_member	= fuse_iomap_bpf_ops_check_member,
+   282		.init_member	= fuse_iomap_bpf_ops_init_member,
+   283		.reg		= fuse_iomap_bpf_reg,
+   284		.unreg		= fuse_iomap_bpf_unreg,
+   285		.name		= "fuse_iomap_bpf_ops",
+   286		.cfi_stubs	= &__fuse_iomap_bpf_ops,
+   287		.owner		= THIS_MODULE,
+   288	};
+   289	
+   290	__bpf_kfunc_start_defs();
+   291	
+   292	__bpf_kfunc int
+   293	fuse_bpf_iomap_inval_mappings(struct fuse_bpf_inode *fbi,
+   294				      const struct fuse_range *read__nullable,
+   295				      const struct fuse_range *write__nullable)
+   296	{
+   297		struct fuse_inode *fi = fuse_inode_from_bpf(fbi);
+   298		struct fuse_iomap_inval_mappings_out outarg = {
+   299			.nodeid = fi->nodeid,
+   300			.attr_ino = fi->orig_ino,
+   301		};
+   302		struct inode *inode = &fi->inode;
+   303		struct fuse_conn *fc = get_fuse_conn(inode);
+   304	
+   305		if (!fc->iomap)
+   306			return -EOPNOTSUPP;
+   307	
+   308		if (read__nullable)
+   309			memcpy(&outarg.read, read__nullable, sizeof(outarg.read));
+   310		if (write__nullable)
+   311			memcpy(&outarg.write, write__nullable, sizeof(outarg.write));
+   312	
+   313		trace_fuse_iomap_inval_mappings(inode, &outarg);
+   314	
+   315		return fuse_iomap_inval_inode(inode, &outarg);
+   316	}
+   317	
+   318	__bpf_kfunc int
+   319	fuse_bpf_iomap_upsert_mappings(struct fuse_bpf_inode *fbi,
+   320				       const struct fuse_iomap_io *read__nullable,
+   321				       const struct fuse_iomap_io *write__nullable)
+   322	{
+   323		struct fuse_inode *fi = fuse_inode_from_bpf(fbi);
+   324		struct fuse_iomap_upsert_mappings_out outarg = {
+   325			.nodeid = fi->nodeid,
+   326			.attr_ino = fi->orig_ino,
+   327			.read.type = FUSE_IOMAP_TYPE_NOCACHE,
+   328			.write.type = FUSE_IOMAP_TYPE_NOCACHE,
+   329		};
+   330		struct inode *inode = &fi->inode;
+   331		struct fuse_conn *fc = get_fuse_conn(inode);
+   332	
+   333		if (!fc->iomap)
+   334			return -EOPNOTSUPP;
+   335	
+   336		if (read__nullable)
+   337			memcpy(&outarg.read, read__nullable, sizeof(outarg.read));
+   338		if (write__nullable)
+   339			memcpy(&outarg.write, write__nullable, sizeof(outarg.write));
+   340	
+   341		trace_fuse_iomap_upsert_mappings(inode, &outarg);
+   342	
+   343		return fuse_iomap_upsert_inode(inode, &outarg);
+   344	}
+   345	
+   346	__bpf_kfunc uint64_t
+ > 347	fuse_bpf_inode_nodeid(const struct fuse_bpf_inode *fbi)
+   348	{
+   349		const struct fuse_inode *fi = fuse_inode_from_bpf(fbi);
+   350	
+   351		return fi->nodeid;
+   352	}
+   353	
+   354	__bpf_kfunc uint64_t
+ > 355	fuse_bpf_inode_orig_ino(const struct fuse_bpf_inode *fbi)
+   356	{
+   357		const struct fuse_inode *fi = fuse_inode_from_bpf(fbi);
+   358	
+   359		return fi->orig_ino;
+   360	}
+   361	
 
 -- 
 0-DAY CI Kernel Test Service
