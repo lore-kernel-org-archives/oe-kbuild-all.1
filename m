@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EB71519B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Feb 2026 15:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9435F187FE4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Feb 2026 17:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771168845; cv=none; b=AHg5FtYHh/G8p2ZLx1wG0QTDcxhpHcV6MI2GcNSymXot+oHHEFkzV3ZFFpZz5PuWVoHfKJwYDg/bb+P4UQgAhYsfD+fVPLIw27vOfS3ZlmKV6bcuumNUau/cSs+4FLwCEDjjkI6MJYoA3DgZRIXGOE5eLpDhuF2JGTf60ZBr0l4=
+	t=1771178033; cv=none; b=jGyPeMaiBJL5zyNrHyUQQXRk8biXt2DNkuA/zqdusveQUda0pKqr5J3Q9nYm3hUGswslBrJuAzo4D8/cf18xtXP9FxgiJnXtiX9POr9kAcjEeTHm4kxyz0hidCcSB/ryGnL+1NUGUbeKxPtbA5kXrsWWaZzoRLgvNKD5ZJnkbzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771168845; c=relaxed/simple;
-	bh=1vWLvK4Ti2M5mar8kUI+eDTU+U63QnCsglu5a2D4eRI=;
+	s=arc-20240116; t=1771178033; c=relaxed/simple;
+	bh=hXOlYDzkGeHdSnx/HxwTez3vHrXkvJwme569VZU5k80=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMRKaiP4DdlvKdN4O9TQd/6pFyjc3X0+rNGRyQoCbeK7PtBt2X5RpBOknsNqJ0UPaMTSyReh0kxRpfqrgNU0z25LfHNS3sxG55rt9Cw9z1ZSm6dINl6QyLKA1F3Fvl2Wrdh3tZza2UZeV0z6un1v4wfFgTBxN7kZ21Bkb/lU3PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFO2NCo7; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=l0E5wnmy/rCyC09S4RoLZ8fTjjXCCnLZ0Z7CBwN0E4Lxy/gGJwoHiemMeqXFZKhLJolxKF2QHIswnUV4WqGlsQ7zykKYBWV5EQZamMlnm9YuM5jIB9y6HJs3IfzvM0gXt2FDvpzWTMmbjEY46OmaP+Kaj+J2jTxRdT4ylO4hDPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9uFP9Il; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFO2NCo7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9uFP9Il"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771168844; x=1802704844;
+  t=1771178032; x=1802714032;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1vWLvK4Ti2M5mar8kUI+eDTU+U63QnCsglu5a2D4eRI=;
-  b=TFO2NCo7sJ08fY655KsT57g3blDdImFgkD4fnk6EbBXRuy2ntIs8zpGx
-   Au0SORiv52zEXXeJxgaRTvU98gXt5QYeQigG+qoRUcMhYajolWpJAJVpn
-   f8/eCxUZc2hHPKvMulemW5Esi4b/kEIGW0jOeAm3qsDoOk/BdmoWOB7Uk
-   c8H7kGL70LhiVm3zAA63MHXmien1jNxVYl+LJIQos1/mSiXX6DckOGc7j
-   yosnTtfj2j6MGpvVlApkigtnUuyx1k3KycJlXE78Fq/5PEUxkiYIyW2OP
-   e6h9f3qZh4n1hWMqxvdNx+oG85slUHgjnT67STiunKmjM5DkQ5dXdqmB4
-   w==;
-X-CSE-ConnectionGUID: oz7T3fIxQkiecqL7+6noXg==
-X-CSE-MsgGUID: OXijmk5CRoy4F9rDDm5lDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="74875573"
+  bh=hXOlYDzkGeHdSnx/HxwTez3vHrXkvJwme569VZU5k80=;
+  b=i9uFP9IlV5gC0t+vCZS1c/ziauqeSW5nPGCpEtxGEb7W/YQnnybon2wQ
+   Snp2k8Lp4lTX792Ig4w8pDikOx9oGYJbQ9eiwqDshJuR5X0hWZGHQiNot
+   KBfj6/FKKoF1TDgDgqXqeYAv43/i+ruSbXZZfRQSuG7HJpXbQYXYiI9uT
+   FGVwKVxU/Yjat/GicNy0Al68E2IfYCI+/M8Hy5CHPIbwlc2nrhYHDblJu
+   Is8NU/eyl8yEjS3LKIQ2dAlZp/5hw+A9ntQFvkeYcGgmhBMp1cSbeNp1h
+   jNK5jpCs6Vl5lzo5uVNQCAjYogdqHgic4GOLnGCWwJURQVeUsRnIQFIfy
+   Q==;
+X-CSE-ConnectionGUID: twg0u6XuTbqtbbENcz+WlQ==
+X-CSE-MsgGUID: vNXQNxmDRPii8hRR9vIkjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="75902220"
 X-IronPort-AV: E=Sophos;i="6.21,292,1763452800"; 
-   d="scan'208";a="74875573"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 07:20:43 -0800
-X-CSE-ConnectionGUID: GQTEggcNSZCiHfeUdl95YA==
-X-CSE-MsgGUID: 0ZNtW5S8SRqOp1R6h5L+JA==
+   d="scan'208";a="75902220"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 09:53:52 -0800
+X-CSE-ConnectionGUID: jJMFrSu/Qn2e0t5khQiiFw==
+X-CSE-MsgGUID: QhR4QmFQSZiO/izzqqUGow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,292,1763452800"; 
-   d="scan'208";a="218363807"
+   d="scan'208";a="212449286"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Feb 2026 07:20:40 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 15 Feb 2026 09:53:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrdvJ-00000000yqy-3Hhr;
-	Sun, 15 Feb 2026 15:20:37 +0000
-Date: Sun, 15 Feb 2026 23:20:14 +0800
+	id 1vrgJX-00000000yye-1ZjV;
+	Sun, 15 Feb 2026 17:53:47 +0000
+Date: Mon, 16 Feb 2026 01:53:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
-	Rong Zhang <i@rong.moe>, Kurt Borja <kuurtb@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] platform/x86: lenovo-wmi-other: Add WMI battery
- charge limiting.
-Message-ID: <202602152344.7wTkiRM4-lkp@intel.com>
-References: <20260215061339.2842486-7-derekjohn.clark@gmail.com>
+To: Maharaja Kennadyrajan <maharaja.kennadyrajan@oss.qualcomm.com>,
+	ath12k@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Maharaja Kennadyrajan <maharaja.kennadyrajan@oss.qualcomm.com>,
+	Aishwarya R <aishwarya.r@oss.qualcomm.com>
+Subject: Re: [PATCH ath-next] wifi: ath12k: add basic hwmon temperature
+ reporting
+Message-ID: <202602160145.YQdvbqYY-lkp@intel.com>
+References: <20260214035947.44671-1-maharaja.kennadyrajan@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,31 +66,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260215061339.2842486-7-derekjohn.clark@gmail.com>
+In-Reply-To: <20260214035947.44671-1-maharaja.kennadyrajan@oss.qualcomm.com>
 
-Hi Derek,
+Hi Maharaja,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 5a5203a45b063a594e89a2aeaf9e4923893a5b4c]
+[auto build test ERROR on 37a93dd5c49b5fda807fd204edf2547c3493319c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-lenovo-wmi-other-Add-LWMI_ATTR_ID-Macro/20260215-141750
-base:   5a5203a45b063a594e89a2aeaf9e4923893a5b4c
-patch link:    https://lore.kernel.org/r/20260215061339.2842486-7-derekjohn.clark%40gmail.com
-patch subject: [PATCH v2 6/6] platform/x86: lenovo-wmi-other: Add WMI battery charge limiting.
-config: x86_64-buildonly-randconfig-006-20260215 (https://download.01.org/0day-ci/archive/20260215/202602152344.7wTkiRM4-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maharaja-Kennadyrajan/wifi-ath12k-add-basic-hwmon-temperature-reporting/20260214-120212
+base:   37a93dd5c49b5fda807fd204edf2547c3493319c
+patch link:    https://lore.kernel.org/r/20260214035947.44671-1-maharaja.kennadyrajan%40oss.qualcomm.com
+patch subject: [PATCH ath-next] wifi: ath12k: add basic hwmon temperature reporting
+config: x86_64-randconfig-075-20250806 (https://download.01.org/0day-ci/archive/20260216/202602160145.YQdvbqYY-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602152344.7wTkiRM4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602160145.YQdvbqYY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602152344.7wTkiRM4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602160145.YQdvbqYY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `lwmi_om_master_bind':
->> wmi-other.c:(.text+0x4fbcbab): undefined reference to `devm_battery_hook_register'
+   ld: vmlinux.o: in function `ath12k_thermal_unregister':
+>> drivers/net/wireless/ath/ath12k/thermal.c:118:(.text+0x2df8112): undefined reference to `hwmon_device_unregister'
+
+
+vim +118 drivers/net/wireless/ath/ath12k/thermal.c
+
+   106	
+   107	void ath12k_thermal_unregister(struct ath12k_base *ab)
+   108	{
+   109		struct ath12k *ar;
+   110		int i;
+   111	
+   112		for (i = 0; i < ab->num_radios; i++) {
+   113			ar = ab->pdevs[i].ar;
+   114			if (!ar)
+   115				continue;
+   116	
+   117			if (ar->thermal.hwmon_dev) {
+ > 118				hwmon_device_unregister(ar->thermal.hwmon_dev);
 
 -- 
 0-DAY CI Kernel Test Service
