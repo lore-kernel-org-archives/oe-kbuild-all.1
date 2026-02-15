@@ -1,95 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0941DE885
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Feb 2026 11:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA6B261388
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Feb 2026 13:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771155299; cv=none; b=JFPjsQnyOwsro+SQytYMkZs8+sa2T9KS7ffB9UMLevwh94AO++V0pv+6agD5v/71Ld+g+hrWxUmJhRdjC1WwivAb4aHGWah7SiY0UWl3UY+Q2FnSZgFLPVukcZq5YNcjKDPB8l3VwtAo9FEyxtHwXb+35aeBRdfr/GmE4Cp/0uU=
+	t=1771161493; cv=none; b=gs+I2Gpwb4knz1LxlhlAmZs0UY11T1jhXTpfe0yIQscUS/GbKMMQUEa5z+trjQAdhoobjgOGp4QiP/DBWbQvLmnpu2aoJZJ+xvhDR+aqD+osMVyaBdmZ8sY2kNDu54mRTPgaS1SCwfOEjrvw5aR9i4vkNVjO8fO5KvsaAdUD/Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771155299; c=relaxed/simple;
-	bh=xtL4sJ/wPig48NuqGEHCuPGFPXx5Fdf20EIu6okp08k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=X7MaYWLljdUWpo2tTPtQmLjl6ImRWkxIF6QmQCoXlHkZ3p4c0IiQrDlHBmg2mKXasejGIZXZ0ICNCt7mYPvDDg5vphsDkt2QGouMWEeO/JdxvDZX4RJhKo4Ke+qJFcr++nyAmIP75uBUmhRAMtwC1q/uTPWZcqRVKQXvNUv+lDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P9Q4bEGw; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1771161493; c=relaxed/simple;
+	bh=rJ5ddnQdV/88we7IRy3llOBLkmsvcA4Rc6qaRk2Bb/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B9yUrRxroLZX6NjwD+ixe42MStsS9WF5xkzYSp3OCyUNSSeo6+4+yMkiYnCyfxOlXUvdTdCRXynPlrrztyXcVENrvD5KhOz05QrTN/cPSTt/lIibLmKy+dEd6ZeSpWjUIw8ICdwf5Ib0tUo4wtwCHQ+MUF3ac2iz69tSOdxJuy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KyBLZOr7; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P9Q4bEGw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KyBLZOr7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771155297; x=1802691297;
-  h=date:from:to:cc:subject:message-id;
-  bh=xtL4sJ/wPig48NuqGEHCuPGFPXx5Fdf20EIu6okp08k=;
-  b=P9Q4bEGwDxPuqbLsLyPtvskOZjohKskSQyanPv6Fz34OaQ8Wzc9Z8Pdh
-   5zRywAfhO3UoROudLSKLR90KU6SyZqJ/0XTD4uG6PGmkVKAjUdCOcysJz
-   j2oK3AwXtXUN3yzpIZ8PKVUGTgfncyFpMxlZkJTYcs0QSSMQG6KDvmISl
-   eJKyz+3kI7w65512D2yfy1c3ubawOfNMdyzlDmyevnl2tQgKpDKSvfNNV
-   DD3uOmYGH5Lf+ErmzPPn2NsxmaOFUD/l0qH3VZcoyGtOFcWdYlZG2FCSy
-   UDYr8waaTiyEfnM1GB+KCcqTF0TDrDKr95Zd3QV6zlagSoCIA0G7h2iGr
-   w==;
-X-CSE-ConnectionGUID: IXGkTjTBTXm6PecPhgzRoQ==
-X-CSE-MsgGUID: hI+xDKW6SrOx3cw8c3tL2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="72170828"
+  t=1771161489; x=1802697489;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rJ5ddnQdV/88we7IRy3llOBLkmsvcA4Rc6qaRk2Bb/o=;
+  b=KyBLZOr7n7HXmcHXBXpmGFHalhU/ihDGX+QRWWIOG4LE5EyPZbiIEJ6W
+   Akec3/RupAD+UyAwFozbybatwFiKf9+6URQ3fj1+d53RBEv1Cwhuuifwg
+   mY2A5G49e6Sp4wKVrXRgMG8HHaryhDymumt0WzG3nuh6AnFiEDJSyhNeh
+   Mz9PZokgF5u8IkPMk4ibxMcrteZ8CDRdrQT6cGMhG8POEdyL+vtTJi8VB
+   CPdkqciQtG26VZcAf4LbPSs0CMY8gXWrtlbnqfr4eWH5qVxZCcISDX2pS
+   bF0FCm+qFiG7qac/MQOhCIAbFj3TECxZBtwnEkrFX4rLXDfxWhH2BlM8Y
+   Q==;
+X-CSE-ConnectionGUID: iNzIzhhbSgudASERVJ0KiA==
+X-CSE-MsgGUID: dDCf0QSKQQyjml1D5eQlyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="71982293"
 X-IronPort-AV: E=Sophos;i="6.21,292,1763452800"; 
-   d="scan'208";a="72170828"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 03:34:57 -0800
-X-CSE-ConnectionGUID: zYlv0dxlT3mkHlnC17ObXg==
-X-CSE-MsgGUID: ib++I7oNSsC29oFUvk3voQ==
+   d="scan'208";a="71982293"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 05:18:09 -0800
+X-CSE-ConnectionGUID: K7KqVKr1ReGrkMoDjj8Sqw==
+X-CSE-MsgGUID: uYJ2W9cqQJuqTiW8/x/Z9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,292,1763452800"; 
-   d="scan'208";a="236343714"
+   d="scan'208";a="217905230"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Feb 2026 03:34:55 -0800
+  by orviesa004.jf.intel.com with ESMTP; 15 Feb 2026 05:18:10 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vraOr-00000000yQm-27jc;
-	Sun, 15 Feb 2026 11:34:53 +0000
-Date: Sun, 15 Feb 2026 19:34:34 +0800
+	id 1vrc0l-00000000yWC-29T0;
+	Sun, 15 Feb 2026 13:18:07 +0000
+Date: Sun, 15 Feb 2026 21:17:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: Alexander Aring <aahringo@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:fengshui 9/10] kernel/bpf/helpers.c:2332:18:
- sparse: sparse: symbol 'bpf_coro_frame_free' was not declared. Should it be
- static?
-Message-ID: <202602151913.r4uUWKBY-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [RFC v6.19] dlm: introduce dlmpfs
+Message-ID: <202602152138.khGHQzqq-lkp@intel.com>
+References: <20260213180014.614646-1-aahringo@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260213180014.614646-1-aahringo@redhat.com>
 
-tree:   https://github.com/kkdwivedi/linux fengshui
-head:   deb002811418a4474f90d6d372ca363328cad588
-commit: 440bca6951413ab7fbd8f23f124d531066c5794a [9/10] bpf: add bpf_coro_frame_alloc() and bpf_coro_frame_free() kfuncs
-config: m68k-randconfig-r111-20260215 (https://download.01.org/0day-ci/archive/20260215/202602151913.r4uUWKBY-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602151913.r4uUWKBY-lkp@intel.com/reproduce)
+Hi Alexander,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.19]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Aring/dlm-introduce-dlmpfs/20260214-020248
+base:   v6.19
+patch link:    https://lore.kernel.org/r/20260213180014.614646-1-aahringo%40redhat.com
+patch subject: [RFC v6.19] dlm: introduce dlmpfs
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20260215/202602152138.khGHQzqq-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602152138.khGHQzqq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602151913.r4uUWKBY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602152138.khGHQzqq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/helpers.c:1212:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long ( *[usertype] callback_fn )( ... ) @@     got void [noderef] __rcu * @@
-   kernel/bpf/helpers.c:1212:21: sparse:     expected unsigned long long ( *[usertype] callback_fn )( ... )
-   kernel/bpf/helpers.c:1212:21: sparse:     got void [noderef] __rcu *
->> kernel/bpf/helpers.c:2332:18: sparse: sparse: symbol 'bpf_coro_frame_free' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2614:18: sparse: sparse: symbol 'bpf_task_release_dtor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2644:18: sparse: sparse: symbol 'bpf_cgroup_release_dtor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3113:18: sparse: sparse: context imbalance in 'bpf_rcu_read_lock' - wrong count at exit
-   kernel/bpf/helpers.c:3118:18: sparse: sparse: context imbalance in 'bpf_rcu_read_unlock' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +/bpf_coro_frame_free +2332 kernel/bpf/helpers.c
+   fs/dlm/dlmpfs/inode.c: In function 'dlmpfs_alloc_inode':
+>> fs/dlm/dlmpfs/inode.c:47:14: error: implicit declaration of function 'kzalloc_obj'; did you mean 'kzalloc_node'? [-Wimplicit-function-declaration]
+      47 |         di = kzalloc_obj(*di, GFP_NOFS);
+         |              ^~~~~~~~~~~
+         |              kzalloc_node
+>> fs/dlm/dlmpfs/inode.c:47:12: error: assignment to 'struct dlmpfs_inode *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      47 |         di = kzalloc_obj(*di, GFP_NOFS);
+         |            ^
+   fs/dlm/dlmpfs/inode.c: In function 'dlmpfs_init_fs_context':
+>> fs/dlm/dlmpfs/inode.c:441:13: error: assignment to 'struct dlmpfs_fs_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     441 |         fsi = kzalloc_obj(*fsi, GFP_KERNEL);
+         |             ^
+--
+   fs/dlm/dlmpfs/newdlm.c: In function 'dlmlk_alloc':
+>> fs/dlm/dlmpfs/newdlm.c:137:14: error: implicit declaration of function 'kzalloc_obj'; did you mean 'kzalloc_node'? [-Wimplicit-function-declaration]
+     137 |         lk = kzalloc_obj(*lk, GFP_NOFS);
+         |              ^~~~~~~~~~~
+         |              kzalloc_node
+>> fs/dlm/dlmpfs/newdlm.c:137:12: error: assignment to 'struct dlmlk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     137 |         lk = kzalloc_obj(*lk, GFP_NOFS);
+         |            ^
+   fs/dlm/dlmpfs/newdlm.c: In function 'dlmls_new':
+>> fs/dlm/dlmpfs/newdlm.c:216:12: error: assignment to 'struct dlmls *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     216 |         ls = kzalloc_obj(*ls, GFP_NOFS);
+         |            ^
+--
+   fs/dlm/dlmpfs/file.c: In function 'dlmpfs_open':
+>> fs/dlm/dlmpfs/file.c:23:14: error: implicit declaration of function 'kzalloc_obj'; did you mean 'kzalloc_node'? [-Wimplicit-function-declaration]
+      23 |         fp = kzalloc_obj(*fp, GFP_NOFS);
+         |              ^~~~~~~~~~~
+         |              kzalloc_node
+>> fs/dlm/dlmpfs/file.c:23:12: error: assignment to 'struct dlmpfs_file *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      23 |         fp = kzalloc_obj(*fp, GFP_NOFS);
+         |            ^
 
-  2331	
-> 2332	__bpf_kfunc void bpf_coro_frame_free(void *p, u64 size__k)
-  2333	{
-  2334		kfree_nolock(p);
-  2335	}
-  2336	
+
+vim +47 fs/dlm/dlmpfs/inode.c
+
+    42	
+    43	static struct inode *dlmpfs_alloc_inode(struct super_block *sb)
+    44	{
+    45		struct dlmpfs_inode *di;
+    46	
+  > 47		di = kzalloc_obj(*di, GFP_NOFS);
+    48		if (!di)
+    49			return NULL;
+    50	
+    51		inode_init_once(&di->inode);
+    52		return &di->inode;
+    53	}
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
