@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04C42405EC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Feb 2026 03:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6B4246788
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Feb 2026 03:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771124710; cv=none; b=U4ZT9UmCmTu7Yj82UOB92RwJCNfa05SGOVYTXLavrpBJE0AuFPNUPCp8dfiCtj18Imjr2cWkGh95omvYkuHpb/d9Fon1bIWXytL5yxpkPQRrse1C4yrw9Wc0jcBzk85AVzIolqEzIpqxTGWt92pGeEAt+uvaTCORNsDQ6ctzZK8=
+	t=1771125308; cv=none; b=KMn+OvtbwP37+ube/exOUeJtmFDl3Zo/NpEMpG8C5Rzketd4oufPSKFJgwUUrZTjOb2nLkkXczI4MWrEiQQ++p7/4lQsRBGex0LkWbcgb74LhUmHeJ3qr9sHk651DiA0fxrySvpwk8hz/xMwBNqi1lGSf+yVU04Vq8elu0dwzEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771124710; c=relaxed/simple;
-	bh=45VHmGkTF1FRGtusweoRAi6OOtOaWjdXBecvC2akYl4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nw3X15n/grWA9VVvgb3yFibhePKnAUzWOo1Z5tFlVvLbQa+uBYSGZtX6iIMyovcONBEI8BouAbfhvJR2NKECmGP41KzR/98F596nBxi5gtn53YpEHmL3XTXeukv15vBs/BdyubOhAJRlRQCdE6p/qx/oXa+xdfjpz0iPK1MSU0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckdJ18ZB; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1771125308; c=relaxed/simple;
+	bh=1WQEf6iibb3vugZzECgYsYCSDskRS7hqBVDdKZLEHuA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OmpZtv7ycQAVTgljFzzxrBoS7xOkvfnTIhyOy8g4zYiqjCaQefjCEXffdjvzi7q9xlokUSK7dpDievhXMlg02RqxVbtAflrOfjjyK/HWnJNRTkw2Ju+cZjeQI+wqalAT5b2t52/1kyaX4I/tJZpw5O2x8FVJXeJWnEET4KcO7cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ak9oHIY1; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckdJ18ZB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ak9oHIY1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771124709; x=1802660709;
+  t=1771125307; x=1802661307;
   h=date:from:to:cc:subject:message-id;
-  bh=45VHmGkTF1FRGtusweoRAi6OOtOaWjdXBecvC2akYl4=;
-  b=ckdJ18ZBQ6fv4nHAbbPYUxLmak5HcWWRQipUyDBsltOsk+cuqqSt0GuQ
-   8oNsKIXd0atFwxJ+b+e8BRSRP4KevWLY4A1Mm/3MzlyYFSMYjvbkhoTOG
-   O1oTO4Z/War4YXnrWUBoVpIIy6JF1e0ral8OvZZ4vV7zgsoiO0jimttmP
-   VvMQa7I+KGhtaVy7RiogVV7bFE1eGszjzvb7Rv12h88H7sYNLbhiRElmn
-   IgXxJyIwY+eQ16IsZAr0l+vgQ0RJ/QQd7daYpqzaZGyTJ4LZAfGjSU7+s
-   CofiWToRXxrslstbq9mnZ0EgpFMH8iFVQ2wTWIRRx6RRyrf5EU8L0oSSM
-   Q==;
-X-CSE-ConnectionGUID: yr46UeX7SbSMesVg/5trlw==
-X-CSE-MsgGUID: tHzZZi80THO/4ctmAlD/+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="72351008"
+  bh=1WQEf6iibb3vugZzECgYsYCSDskRS7hqBVDdKZLEHuA=;
+  b=Ak9oHIY1+yQ/R4m5Ue/zgMUoFEZyKCtR2fEVj7u8rfuGxikfaY8MWGu3
+   7P27HMwP/HfaST7erw7k2HQeuEm7yrHjRcBL/mi/o0pVKddyxMLk4W7be
+   /D5QmUY/KLxTb7h8ArpKns4KnhG2TEN8Tlmvx1Nm32dqaIWjHANR64aQi
+   WYxfA5XHUbK/8lqEy+cG0Xu9nnf9Fh3vIo+BiAZ5hPUy7e4GQhkLrEAI/
+   WEx93kY8vivsal4VHc+K5ZXQaz7lbxZASXZGzkCH6M0XarCxqtvJP3emq
+   Or/04q96EFPjiGm6q41W8iE3ppkqofqnKyd8ubyqkzyY/vwf/Bpp/BYE0
+   g==;
+X-CSE-ConnectionGUID: 3FoPEj9QSHugZ41q25U05g==
+X-CSE-MsgGUID: b1CEPD7zSWCkRR1XuV6e2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="59827093"
 X-IronPort-AV: E=Sophos;i="6.21,291,1763452800"; 
-   d="scan'208";a="72351008"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 19:05:07 -0800
-X-CSE-ConnectionGUID: Kyd31BvoQhmPRyPIAUlevw==
-X-CSE-MsgGUID: CszUs+17SKqxkZ2iNqk6Ag==
+   d="scan'208";a="59827093"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 19:15:07 -0800
+X-CSE-ConnectionGUID: JaVB1wJ7T46bBRdpSommNA==
+X-CSE-MsgGUID: mGLH/nwEQaKjF5/WZdPMLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,291,1763452800"; 
-   d="scan'208";a="212526305"
+   d="scan'208";a="212345483"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Feb 2026 19:05:05 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 14 Feb 2026 19:15:05 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrSRS-00000000xDA-2cPP;
-	Sun, 15 Feb 2026 03:05:02 +0000
-Date: Sun, 15 Feb 2026 11:04:16 +0800
+	id 1vrSb9-00000000xDo-0Xlt;
+	Sun, 15 Feb 2026 03:15:03 +0000
+Date: Sun, 15 Feb 2026 11:14:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 86/86]
- include/linux/proc_fs.h:125:21: error: invalid use of undefined type 'const
- struct inode'
-Message-ID: <202602151030.u5y68OSc-lkp@intel.com>
+Subject: [android-common:android17-6.18 0/2]
+ sound/soc/sof/intel/hda.c:1172:undefined reference to `codec_info_list'
+Message-ID: <202602151132.VYT5SQHH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,157 +59,170 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   eb0f9b74059447f014624aeec977890e35a4860e
-commit: eb0f9b74059447f014624aeec977890e35a4860e [86/86] kasan: Fix a build error
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20260215/202602151030.u5y68OSc-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602151030.u5y68OSc-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   002e9fb549542a83ae6df1edad74036e1bdcfec0
+commit: dcf066e2640127f5a26ff2394968a8fe39220475 [0/2] UPSTREAM: ASoC: SOF: Intel: use sof_sdw as default SDW machine driver
+config: i386-randconfig-016-20260215 (https://download.01.org/0day-ci/archive/20260215/202602151132.VYT5SQHH-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602151132.VYT5SQHH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602151030.u5y68OSc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602151132.VYT5SQHH-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/sparc/include/asm/prom.h:18,
-                    from include/linux/of.h:252,
-                    from arch/sparc/include/asm/openprom.h:15,
-                    from arch/sparc/include/asm/oplib_32.h:12,
-                    from arch/sparc/include/asm/oplib.h:7,
-                    from arch/sparc/include/asm/pgtable_32.h:32,
-                    from arch/sparc/include/asm/pgtable.h:7,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/kasan.h:9,
-                    from include/linux/slab.h:264,
-                    from include/linux/fs.h:45,
-                    from include/linux/cgroup.h:17,
-                    from include/linux/cgroup_api.h:1,
-                    from kernel/sched/sched.h:28,
-                    from kernel/sched/rq-offsets.c:5:
->> include/linux/proc_fs.h:39:58: warning: 'struct iov_iter' declared inside parameter list will not be visible outside of this definition or declaration
-      39 |         ssize_t (*proc_read_iter)(struct kiocb *, struct iov_iter *);
-         |                                                          ^~~~~~~~
->> include/linux/proc_fs.h:39:42: warning: 'struct kiocb' declared inside parameter list will not be visible outside of this definition or declaration
-      39 |         ssize_t (*proc_read_iter)(struct kiocb *, struct iov_iter *);
-         |                                          ^~~~~
-   include/linux/proc_fs.h: In function 'pde_data':
->> include/linux/proc_fs.h:125:21: error: invalid use of undefined type 'const struct inode'
-     125 |         return inode->i_private;
-         |                     ^~
-   make[3]: *** [scripts/Makefile.build:184: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1333: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   ld: sound/soc/sof/intel/hda.o: in function `find_acpi_adr_device':
+>> sound/soc/sof/intel/hda.c:1172:(.text+0x6a1): undefined reference to `codec_info_list'
+>> ld: sound/soc/sof/intel/hda.c:1172:(.text+0x6a6): undefined reference to `asoc_sdw_get_codec_info_list_count'
+   ld: sound/soc/sof/intel/hda.c:1172:(.text+0x6c7): undefined reference to `asoc_sdw_get_codec_info_list_count'
+>> ld: sound/soc/sof/intel/hda.c:1179:(.text+0x6e8): undefined reference to `codec_info_list'
+   ld: sound/soc/sof/intel/hda.o: in function `devm_kmalloc_array':
+>> include/linux/device/devres.h:59:(.text+0x6f1): undefined reference to `codec_info_list'
+   ld: sound/soc/sof/intel/hda.o: in function `find_acpi_adr_device':
+>> sound/soc/sof/intel/hda.c:1221:(.text+0x80d): undefined reference to `asoc_sdw_get_codec_info_list_count'
+   ld: sound/soc/sof/intel/hda.c:1190:(.text+0x9cb): undefined reference to `codec_info_list'
 
 
-vim +125 include/linux/proc_fs.h
+vim +1172 sound/soc/sof/intel/hda.c
 
-d919b33dafb3e2 Alexey Dobriyan   2020-04-06   34  
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   35  struct proc_ops {
-d919b33dafb3e2 Alexey Dobriyan   2020-04-06   36  	unsigned int proc_flags;
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   37  	int	(*proc_open)(struct inode *, struct file *);
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   38  	ssize_t	(*proc_read)(struct file *, char __user *, size_t, loff_t *);
-fd5a13f4893c8d Christoph Hellwig 2020-09-03  @39  	ssize_t (*proc_read_iter)(struct kiocb *, struct iov_iter *);
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   40  	ssize_t	(*proc_write)(struct file *, const char __user *, size_t, loff_t *);
-d4455faccd6cbe Alexey Dobriyan   2021-05-06   41  	/* mandatory unless nonseekable_open() or equivalent is used */
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   42  	loff_t	(*proc_lseek)(struct file *, loff_t, int);
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   43  	int	(*proc_release)(struct inode *, struct file *);
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   44  	__poll_t (*proc_poll)(struct file *, struct poll_table_struct *);
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   45  	long	(*proc_ioctl)(struct file *, unsigned int, unsigned long);
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   46  #ifdef CONFIG_COMPAT
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   47  	long	(*proc_compat_ioctl)(struct file *, unsigned int, unsigned long);
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   48  #endif
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   49  	int	(*proc_mmap)(struct file *, struct vm_area_struct *);
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   50  	unsigned long (*proc_get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
-d919b33dafb3e2 Alexey Dobriyan   2020-04-06   51  } __randomize_layout;
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03   52  
-fa10fed30f2550 Alexey Gladkov    2020-04-19   53  /* definitions for hide_pid field */
-e61bb8b36a287d Alexey Gladkov    2020-04-19   54  enum proc_hidepid {
-fa10fed30f2550 Alexey Gladkov    2020-04-19   55  	HIDEPID_OFF	  = 0,
-fa10fed30f2550 Alexey Gladkov    2020-04-19   56  	HIDEPID_NO_ACCESS = 1,
-fa10fed30f2550 Alexey Gladkov    2020-04-19   57  	HIDEPID_INVISIBLE = 2,
-24a71ce5c47f6b Alexey Gladkov    2020-04-19   58  	HIDEPID_NOT_PTRACEABLE = 4, /* Limit pids to only ptraceable pids */
-fa10fed30f2550 Alexey Gladkov    2020-04-19   59  };
-fa10fed30f2550 Alexey Gladkov    2020-04-19   60  
-6814ef2d992af0 Alexey Gladkov    2020-04-19   61  /* definitions for proc mount option pidonly */
-e61bb8b36a287d Alexey Gladkov    2020-04-19   62  enum proc_pidonly {
-6814ef2d992af0 Alexey Gladkov    2020-04-19   63  	PROC_PIDONLY_OFF = 0,
-6814ef2d992af0 Alexey Gladkov    2020-04-19   64  	PROC_PIDONLY_ON  = 1,
-6814ef2d992af0 Alexey Gladkov    2020-04-19   65  };
-6814ef2d992af0 Alexey Gladkov    2020-04-19   66  
-fa10fed30f2550 Alexey Gladkov    2020-04-19   67  struct proc_fs_info {
-fa10fed30f2550 Alexey Gladkov    2020-04-19   68  	struct pid_namespace *pid_ns;
-fa10fed30f2550 Alexey Gladkov    2020-04-19   69  	kgid_t pid_gid;
-e61bb8b36a287d Alexey Gladkov    2020-04-19   70  	enum proc_hidepid hide_pid;
-e61bb8b36a287d Alexey Gladkov    2020-04-19   71  	enum proc_pidonly pidonly;
-e31f0a57ae1ab2 Al Viro           2023-09-20   72  	struct rcu_head rcu;
-fa10fed30f2550 Alexey Gladkov    2020-04-19   73  };
-fa10fed30f2550 Alexey Gladkov    2020-04-19   74  
-fa10fed30f2550 Alexey Gladkov    2020-04-19   75  static inline struct proc_fs_info *proc_sb_info(struct super_block *sb)
-fa10fed30f2550 Alexey Gladkov    2020-04-19   76  {
-fa10fed30f2550 Alexey Gladkov    2020-04-19   77  	return sb->s_fs_info;
-fa10fed30f2550 Alexey Gladkov    2020-04-19   78  }
-fa10fed30f2550 Alexey Gladkov    2020-04-19   79  
-^1da177e4c3f41 Linus Torvalds    2005-04-16   80  #ifdef CONFIG_PROC_FS
-^1da177e4c3f41 Linus Torvalds    2005-04-16   81  
-564def71765caf David Howells     2018-05-18   82  typedef int (*proc_write_t)(struct file *, char *, size_t);
-564def71765caf David Howells     2018-05-18   83  
-^1da177e4c3f41 Linus Torvalds    2005-04-16   84  extern void proc_root_init(void);
-7bc3e6e55acf06 Eric W. Biederman 2020-02-19   85  extern void proc_flush_pid(struct pid *);
-^1da177e4c3f41 Linus Torvalds    2005-04-16   86  
-^1da177e4c3f41 Linus Torvalds    2005-04-16   87  extern struct proc_dir_entry *proc_symlink(const char *,
-^1da177e4c3f41 Linus Torvalds    2005-04-16   88  		struct proc_dir_entry *, const char *);
-c6c75deda81344 Alexey Dobriyan   2020-12-15   89  struct proc_dir_entry *_proc_mkdir(const char *, umode_t, struct proc_dir_entry *, void *, bool);
-^1da177e4c3f41 Linus Torvalds    2005-04-16   90  extern struct proc_dir_entry *proc_mkdir(const char *, struct proc_dir_entry *);
-270b5ac2151707 David Howells     2013-04-12   91  extern struct proc_dir_entry *proc_mkdir_data(const char *, umode_t,
-270b5ac2151707 David Howells     2013-04-12   92  					      struct proc_dir_entry *, void *);
-59d8053f1e1690 David Howells     2013-04-11   93  extern struct proc_dir_entry *proc_mkdir_mode(const char *, umode_t,
-59d8053f1e1690 David Howells     2013-04-11   94  					      struct proc_dir_entry *);
-f97df70b1c879f Seth Forshee      2016-11-14   95  struct proc_dir_entry *proc_create_mount_point(const char *name);
-59d8053f1e1690 David Howells     2013-04-11   96  
-44414d82cfe0f6 Christoph Hellwig 2018-04-24   97  struct proc_dir_entry *proc_create_seq_private(const char *name, umode_t mode,
-fddda2b7b52118 Christoph Hellwig 2018-04-13   98  		struct proc_dir_entry *parent, const struct seq_operations *ops,
-44414d82cfe0f6 Christoph Hellwig 2018-04-24   99  		unsigned int state_size, void *data);
-44414d82cfe0f6 Christoph Hellwig 2018-04-24  100  #define proc_create_seq_data(name, mode, parent, ops, data) \
-44414d82cfe0f6 Christoph Hellwig 2018-04-24  101  	proc_create_seq_private(name, mode, parent, ops, 0, data)
-fddda2b7b52118 Christoph Hellwig 2018-04-13  102  #define proc_create_seq(name, mode, parent, ops) \
-44414d82cfe0f6 Christoph Hellwig 2018-04-24  103  	proc_create_seq_private(name, mode, parent, ops, 0, NULL)
-3f3942aca6da35 Christoph Hellwig 2018-05-15  104  struct proc_dir_entry *proc_create_single_data(const char *name, umode_t mode,
-3f3942aca6da35 Christoph Hellwig 2018-05-15  105  		struct proc_dir_entry *parent,
-3f3942aca6da35 Christoph Hellwig 2018-05-15  106  		int (*show)(struct seq_file *, void *), void *data);
-3f3942aca6da35 Christoph Hellwig 2018-05-15  107  #define proc_create_single(name, mode, parent, show) \
-3f3942aca6da35 Christoph Hellwig 2018-05-15  108  	proc_create_single_data(name, mode, parent, show, NULL)
-fddda2b7b52118 Christoph Hellwig 2018-04-13  109   
-59d8053f1e1690 David Howells     2013-04-11  110  extern struct proc_dir_entry *proc_create_data(const char *, umode_t,
-59d8053f1e1690 David Howells     2013-04-11  111  					       struct proc_dir_entry *,
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03  112  					       const struct proc_ops *,
-59d8053f1e1690 David Howells     2013-04-11  113  					       void *);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  114  
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03  115  struct proc_dir_entry *proc_create(const char *name, umode_t mode, struct proc_dir_entry *parent, const struct proc_ops *proc_ops);
-271a15eabe0945 David Howells     2013-04-12  116  extern void proc_set_size(struct proc_dir_entry *, loff_t);
-271a15eabe0945 David Howells     2013-04-12  117  extern void proc_set_user(struct proc_dir_entry *, kuid_t, kgid_t);
-6dfbbae14a7b96 Muchun Song       2022-01-21  118  
-6dfbbae14a7b96 Muchun Song       2022-01-21  119  /*
-6dfbbae14a7b96 Muchun Song       2022-01-21  120   * Obtain the private data passed by user through proc_create_data() or
-6dfbbae14a7b96 Muchun Song       2022-01-21  121   * related.
-6dfbbae14a7b96 Muchun Song       2022-01-21  122   */
-6dfbbae14a7b96 Muchun Song       2022-01-21  123  static inline void *pde_data(const struct inode *inode)
-6dfbbae14a7b96 Muchun Song       2022-01-21  124  {
-6dfbbae14a7b96 Muchun Song       2022-01-21 @125  	return inode->i_private;
-6dfbbae14a7b96 Muchun Song       2022-01-21  126  }
-6dfbbae14a7b96 Muchun Song       2022-01-21  127  
-
-:::::: The code at line 125 was first introduced by commit
-:::::: 6dfbbae14a7b961f41d80a106e1ab60e86d061c5 fs: proc: store PDE()->data into inode->i_private
-
-:::::: TO: Muchun Song <songmuchun@bytedance.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  1148	
+  1149	static struct snd_soc_acpi_adr_device *find_acpi_adr_device(struct device *dev,
+  1150								    struct sdw_slave *sdw_device,
+  1151								    struct snd_soc_acpi_link_adr *link,
+  1152								    int *amp_index)
+  1153	{
+  1154		struct snd_soc_acpi_adr_device *adr_dev;
+  1155		const char *name_prefix = "";
+  1156		int index = link->num_adr;
+  1157		bool is_amp = true; /* Set it to false if the codec wiah any NON-AMP DAI type */
+  1158		int ep_index = 0;
+  1159		int i, j;
+  1160	
+  1161		link->mask = BIT(sdw_device->bus->link_id);
+  1162		/* index is 0 based, we need allocate index + 1 for the array size */
+  1163		if (!index)
+  1164			adr_dev = devm_kzalloc(dev, sizeof(*adr_dev), GFP_KERNEL);
+  1165		else
+  1166			adr_dev = devm_krealloc(dev, (struct snd_soc_acpi_adr_device *)link->adr_d,
+  1167						(index + 1) * sizeof(*adr_dev), GFP_KERNEL);
+  1168	
+  1169		if (!adr_dev)
+  1170			return NULL;
+  1171	
+> 1172		for (i = 0; i < asoc_sdw_get_codec_info_list_count(); i++) {
+  1173			struct snd_soc_acpi_endpoint *endpoints;
+  1174			int amp_group_id = 1;
+  1175	
+  1176			if (sdw_device->id.part_id != codec_info_list[i].part_id)
+  1177				continue;
+  1178	
+> 1179			endpoints = devm_kcalloc(dev, codec_info_list[i].dai_num,
+  1180						 sizeof(struct snd_soc_acpi_endpoint), GFP_KERNEL);
+  1181			if (!endpoints)
+  1182				return NULL;
+  1183	
+  1184			name_prefix = codec_info_list[i].name_prefix;
+  1185			/*
+  1186			 * This should not happen, but add a paranoid check to avoid NULL pointer
+  1187			 * dereference
+  1188			 */
+  1189			if (!name_prefix) {
+  1190				dev_err(dev, "codec_info_list name_prefix of part id %#x is missing\n",
+  1191					codec_info_list[i].part_id);
+  1192				return NULL;
+  1193			}
+  1194			for (j = 0; j < codec_info_list[i].dai_num; j++) {
+  1195				/* Check if the endpoint is present by the SDCA DisCo table */
+  1196				if (!is_endpoint_present(sdw_device, &codec_info_list[i],
+  1197							 codec_info_list[i].dais[j].dai_type))
+  1198					continue;
+  1199	
+  1200				endpoints[ep_index].num = ep_index;
+  1201				if (codec_info_list[i].dais[j].dai_type == SOC_SDW_DAI_TYPE_AMP) {
+  1202					/* Assume all amp are aggregated */
+  1203					endpoints[ep_index].aggregated = 1;
+  1204					endpoints[ep_index].group_id = amp_group_id;
+  1205					endpoints[ep_index].group_position = *amp_index;
+  1206					/* Set group id = 2 for feedback capture endpoint */
+  1207					amp_group_id++;
+  1208				} else {
+  1209					endpoints[ep_index].aggregated = 0;
+  1210					endpoints[ep_index].group_id = 0;
+  1211					endpoints[ep_index].group_position = 0;
+  1212					is_amp = false;
+  1213				}
+  1214				ep_index++;
+  1215			}
+  1216			adr_dev[index].endpoints = endpoints;
+  1217			adr_dev[index].num_endpoints = ep_index;
+  1218			break;
+  1219		}
+  1220	
+> 1221		if (i == asoc_sdw_get_codec_info_list_count()) {
+  1222			dev_err(dev, "part id %#x is not supported\n", sdw_device->id.part_id);
+  1223			return NULL;
+  1224		}
+  1225	
+  1226		adr_dev[index].adr = ((u64)sdw_device->id.class_id & 0xFF) |
+  1227				((u64)sdw_device->id.part_id & 0xFFFF) << 8 |
+  1228				((u64)sdw_device->id.mfg_id & 0xFFFF) << 24 |
+  1229				((u64)(sdw_device->id.unique_id & 0xF) << 40) |
+  1230				((u64)(sdw_device->id.sdw_version & 0xF) << 44) |
+  1231				((u64)(sdw_device->bus->link_id & 0xF) << 48);
+  1232	
+  1233		if (!is_amp) {
+  1234			/* For non-amp codecs, get name_prefix from codec_info_list[] */
+  1235			adr_dev[index].name_prefix = devm_kasprintf(dev, GFP_KERNEL, "%s", name_prefix);
+  1236			goto done_name_prefix;
+  1237		}
+  1238	
+  1239		/*
+  1240		 * The name_prefix comes from codec_info_list which has a name_prefix per codec.
+  1241		 * And we need to give a unique name_prefix for each amp and should be backwards
+  1242		 * compatible to the existing acpi match tables to not break existing UCMs.
+  1243		 * For the common name_prefix, we append the amp index to it. However, for the
+  1244		 * "Left" name_prefix, we convert the second amp name_prefix to "Right" and
+  1245		 * for the third and further amps, we set the name_prefix to "AMP<amp_index>".
+  1246		 */
+  1247		if (!strcmp(name_prefix, "Left")) {
+  1248			switch (*amp_index) {
+  1249			case 1:
+  1250				adr_dev[index].name_prefix = devm_kasprintf(dev, GFP_KERNEL,
+  1251									    "%s", "Left");
+  1252				break;
+  1253			case 2:
+  1254				adr_dev[index].name_prefix = devm_kasprintf(dev, GFP_KERNEL,
+  1255									    "%s", "Right");
+  1256				break;
+  1257			default:
+  1258				/* Set the name_fix to AMP<amp_index> if there are more than 2 amps */
+  1259				adr_dev[index].name_prefix = devm_kasprintf(dev, GFP_KERNEL, "%s%d",
+  1260									    "AMP", *amp_index);
+  1261				break;
+  1262			}
+  1263		} else {
+  1264			adr_dev[index].name_prefix = devm_kasprintf(dev, GFP_KERNEL, "%s%d",
+  1265								    name_prefix,
+  1266								    *amp_index);
+  1267		}
+  1268		(*amp_index)++;
+  1269	
+  1270	done_name_prefix:
+  1271		if (!adr_dev[index].name_prefix) {
+  1272			dev_err(dev, "failed to allocate memory for name_prefix\n");
+  1273			return NULL;
+  1274		}
+  1275	
+  1276		dev_dbg(dev, "adr[%d] 0x%llx link id %d name_prefix \"%s\" is found\n",
+  1277			index, adr_dev[index].adr, sdw_device->bus->link_id, adr_dev[index].name_prefix);
+  1278	
+  1279		link->num_adr++;
+  1280	
+  1281		return adr_dev;
+  1282	}
+  1283	
 
 -- 
 0-DAY CI Kernel Test Service
