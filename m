@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE533EBF3D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Feb 2026 23:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A701D88D7;
+	Sun, 15 Feb 2026 00:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771112405; cv=none; b=gLfj+zyTz+cfHj55Wg/x26Cp+8wojna4NEHwJss98YXhksySfmX2XiLd+nXEkozBbZ4SFgqLGjqmPpeyXZtCDFxUb8VEDLBk2xJczOTzX0mbePeOncaWpXpvCxdRkxUL9JJa7/ot1H0oqAe1s4aVbbzTHF3GBMz9wCGBV4r5KSs=
+	t=1771116125; cv=none; b=AG1UmIFJW7duCqIk2Ae1aSlFYDrlUyvNmzq/PxE8geonjXg6TRc4ZIMu/erMHV/AJFbILyGtjFlEXB/7YhhgUfjYWEN12FtF+LRx9XIKKpj5vM9lkes1arZPxNqATvghHmb0AdT1sqp91kPU0wT8O1bJwB/TPfILOVY/Fi5AKwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771112405; c=relaxed/simple;
-	bh=nFE/tjQvu/aJ6D+15pKAM8sO3amkqzxz285KvxIZ8k4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tbxYgvVkn+vYJtjlOIBkYR1ToVs4CxlsPP/4JbE7TH8dS8wtxuqUOIXGfq1rwxF0UKLckta/T3u1AOk354ZXgKCd1tGYBmaEoIxqCczpGPo6sIAATFSm4sVY00aCrz1mrYJaUi7Tp+WdO91lTLk+EE4uPUTAUbZ4Y59TFby+ItQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZhxGF8yZ; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1771116125; c=relaxed/simple;
+	bh=kEsnx+VVQ6rQffg1msdDxwnXf8UioDx2IdA1sZ3G8Hg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bRwmhXPKsnFbtKZdx2Y15FGBJyRoNW3bOrIazcCMtpkkkNc4YsGYimARGMLWw8SySLs5+GPl/oDS7Bn8sGcVasCSKJeMEGH1AyYyzNqC2NnumATbNBY2tThu63qdBDMJ7MNQfY5jOrdS8JZW5V9mZ2DV2lMDIatZOlPEwCK9R7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HCN6Ef/h; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZhxGF8yZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HCN6Ef/h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771112401; x=1802648401;
+  t=1771116122; x=1802652122;
   h=date:from:to:cc:subject:message-id;
-  bh=nFE/tjQvu/aJ6D+15pKAM8sO3amkqzxz285KvxIZ8k4=;
-  b=ZhxGF8yZWyJ5ECug4TiQA7OyiVUbGyQWCfOtvEO1bANU5GrijMJCNCNm
-   3k9NqEWE4X5Y1hm27+xyCxd+za3bRLPvddqDGN3bAQw5modXZJ58Kdhfo
-   hfTtnshR7FjTKSaLQN878zwTzdStb9+YzMlxfzxMptdKt0YE07IEQsGfS
-   kbF4tTRQLMy61JInk6d+prJZZcEoRhCk+dH2RMJSXG1A/VvAkUx/Yjroz
-   3laR/n/REoFQyralX5hVwJtouI39VcESR57Wbu135kOfkGM0ocITE9nku
-   7geH5u6HS3P6ExcStIZNYiFprmsZPKRHaJNC01DCAQPl+5KRMlpHObhx4
-   Q==;
-X-CSE-ConnectionGUID: d4fTwi9lQDOOHq95a6xxQw==
-X-CSE-MsgGUID: 2LxjH5pTTPCErssCBUqizA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="83693989"
+  bh=kEsnx+VVQ6rQffg1msdDxwnXf8UioDx2IdA1sZ3G8Hg=;
+  b=HCN6Ef/h5o3q5fL1ok5Jc9YiXB5DV3997fZ8NOuaDSZnJTBeZUJgtNX7
+   pF3Es5Ph3N/VC17hseNecNhOVb+HTK8fjMlhDdIK6Dmr9LI3QDFzpYY1r
+   vEYpZmgtxON5mmBeSqAR15aAn4PwAlD+GzoQ7LBppfHjKf13gitPDdVdA
+   jS++Fo4gxQ2+3TnuMhgdYKreL402X2FQgWkGccgyf5uMErOBIUEPV6Khi
+   c3UWU9UWWMcE0Af5fIzlqGkr9gnlnYWAmSFxG0oa5auIEWmfxu1pzxaO/
+   lQ201IK2oy4Fsfq6eloEH2u0u+PPqeKdEkdlZ4i+8L84u2JovWEv+a2zW
+   w==;
+X-CSE-ConnectionGUID: zw+ivYwfSpGQ7OpGjCwMCQ==
+X-CSE-MsgGUID: Feaesl6tRtGmMDOjtjBi8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="89664789"
 X-IronPort-AV: E=Sophos;i="6.21,291,1763452800"; 
-   d="scan'208";a="83693989"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 15:40:00 -0800
-X-CSE-ConnectionGUID: 593X1FdUTtuIAX+cERA3IQ==
-X-CSE-MsgGUID: bqU7cPJ3QMiJg2KSQf2KgA==
+   d="scan'208";a="89664789"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 16:42:02 -0800
+X-CSE-ConnectionGUID: FiynNv4wRh6V/NfET+eSGg==
+X-CSE-MsgGUID: 0RNlJjjGRx6wqxzT5MEBvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,291,1763452800"; 
-   d="scan'208";a="218219129"
+   d="scan'208";a="217414308"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Feb 2026 15:39:59 -0800
+  by orviesa003.jf.intel.com with ESMTP; 14 Feb 2026 16:41:58 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrPEy-00000000x5Y-0Zz9;
-	Sat, 14 Feb 2026 23:39:56 +0000
-Date: Sun, 15 Feb 2026 07:39:17 +0800
+	id 1vrQCz-00000000x7Y-3Wdz;
+	Sun, 15 Feb 2026 00:41:57 +0000
+Date: Sun, 15 Feb 2026 08:41:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [bvanassche:thread-safety-2026-02-13 7/85]
- include/linux/mm.h:2356:22: error: conflicting types for 'folio_size'
-Message-ID: <202602150752.OUDxsiMk-lkp@intel.com>
+ include/linux/highmem.h:326:15: error: call to undeclared function
+ 'user_alloc_needs_zeroing'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202602150852.zbaoGSx1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,152 +64,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/bvanassche/linux thread-safety-2026-02-13
 head:   b3d50cd353767e14c2bc42f6b49ec42114b0425f
 commit: 564a4cd602be522e2844ccb8ebc2e9ac56b7a37b [7/85] mm/pgtable: Fix a build error
-config: arm-randconfig-r062-20260215 (https://download.01.org/0day-ci/archive/20260215/202602150752.OUDxsiMk-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602150752.OUDxsiMk-lkp@intel.com/reproduce)
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20260215/202602150852.zbaoGSx1-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260215/202602150852.zbaoGSx1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602150752.OUDxsiMk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602150852.zbaoGSx1-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/slab.h:264,
-                    from include/linux/fs.h:45,
-                    from include/linux/highmem.h:5,
-                    from include/linux/pgtable.h:123,
-                    from include/linux/mm.h:31,
-                    from arch/arm/kernel/asm-offsets.c:14:
-   include/linux/kasan.h:54:37: error: 'MAX_PTRS_PER_PTE' undeclared here (not in a function); did you mean 'PTRS_PER_PTE'?
-      54 | extern pte_t kasan_early_shadow_pte[MAX_PTRS_PER_PTE + PTE_HWTABLE_PTRS];
-         |                                     ^~~~~~~~~~~~~~~~
-         |                                     PTRS_PER_PTE
-   include/linux/kasan.h:55:37: error: 'MAX_PTRS_PER_PMD' undeclared here (not in a function); did you mean 'PTRS_PER_PMD'?
-      55 | extern pmd_t kasan_early_shadow_pmd[MAX_PTRS_PER_PMD];
-         |                                     ^~~~~~~~~~~~~~~~
-         |                                     PTRS_PER_PMD
-   include/linux/kasan.h:56:37: error: 'MAX_PTRS_PER_PUD' undeclared here (not in a function); did you mean 'PTRS_PER_PUD'?
-      56 | extern pud_t kasan_early_shadow_pud[MAX_PTRS_PER_PUD];
-         |                                     ^~~~~~~~~~~~~~~~
-         |                                     PTRS_PER_PUD
-   include/linux/kasan.h:57:37: error: 'MAX_PTRS_PER_P4D' undeclared here (not in a function); did you mean 'PTRS_PER_P4D'?
-      57 | extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D];
-         |                                     ^~~~~~~~~~~~~~~~
-         |                                     PTRS_PER_P4D
-   In file included from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/pgtable.h:123,
-                    from include/linux/mm.h:31,
-                    from arch/arm/kernel/asm-offsets.c:14:
-   arch/arm/include/asm/cacheflush.h: In function 'vivt_flush_cache_range':
-   arch/arm/include/asm/cacheflush.h:230:46: error: implicit declaration of function 'PAGE_ALIGN'; did you mean 'PTR_ALIGN'? [-Werror=implicit-function-declaration]
-     230 |   __cpuc_flush_user_range(start & PAGE_MASK, PAGE_ALIGN(end),
-         |                                              ^~~~~~~~~~
-         |                                              PTR_ALIGN
-   In file included from include/linux/highmem.h:14,
-                    from include/linux/pgtable.h:123,
-                    from include/linux/mm.h:31,
-                    from arch/arm/kernel/asm-offsets.c:14:
-   include/linux/highmem-internal.h: In function 'kmap':
-   include/linux/highmem-internal.h:46:10: error: implicit declaration of function 'page_address'; did you mean 'page_ptdesc'? [-Werror=implicit-function-declaration]
-      46 |   addr = page_address(page);
-         |          ^~~~~~~~~~~~
-         |          page_ptdesc
->> include/linux/highmem-internal.h:46:8: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      46 |   addr = page_address(page);
-         |        ^
-   include/linux/highmem-internal.h: In function 'kmap_local_page_try_from_panic':
->> include/linux/highmem-internal.h:79:10: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-      79 |   return page_address(page);
-         |          ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/pgtable.h:123,
-                    from include/linux/mm.h:31,
-                    from arch/arm/kernel/asm-offsets.c:14:
-   include/linux/highmem.h: In function 'vma_alloc_zeroed_movable_folio':
-   include/linux/highmem.h:326:15: error: implicit declaration of function 'user_alloc_needs_zeroing' [-Werror=implicit-function-declaration]
-     326 |  if (folio && user_alloc_needs_zeroing())
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   include/linux/highmem.h: In function 'memcpy_folio':
-   include/linux/highmem.h:502:28: error: implicit declaration of function 'folio_size'; did you mean 'folio_page'? [-Werror=implicit-function-declaration]
-     502 |  VM_BUG_ON(dst_off + len > folio_size(dst_folio));
-         |                            ^~~~~~~~~~
-   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x) __builtin_expect(!!(x), 0)
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:31:
+   In file included from include/linux/pgtable.h:123:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+>> arch/arm/include/asm/cacheflush.h:230:46: error: call to undeclared function 'PAGE_ALIGN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     230 |                 __cpuc_flush_user_range(start & PAGE_MASK, PAGE_ALIGN(end),
+         |                                                            ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:31:
+   In file included from include/linux/pgtable.h:123:
+   In file included from include/linux/highmem.h:14:
+>> include/linux/highmem-internal.h:46:10: error: call to undeclared function 'page_address'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      46 |                 addr = page_address(page);
+         |                        ^
+>> include/linux/highmem-internal.h:46:8: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+      46 |                 addr = page_address(page);
+         |                      ^ ~~~~~~~~~~~~~~~~~~
+   include/linux/highmem-internal.h:79:10: error: call to undeclared function 'page_address'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      79 |                 return page_address(page);
+         |                        ^
+>> include/linux/highmem-internal.h:79:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+      79 |                 return page_address(page);
+         |                        ^~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:31:
+   In file included from include/linux/pgtable.h:123:
+>> include/linux/highmem.h:326:15: error: call to undeclared function 'user_alloc_needs_zeroing'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     326 |         if (folio && user_alloc_needs_zeroing())
+         |                      ^
+>> include/linux/highmem.h:502:28: error: call to undeclared function 'folio_size'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     502 |         VM_BUG_ON(dst_off + len > folio_size(dst_folio));
+         |                                   ^
+>> include/linux/highmem.h:511:27: error: call to undeclared function 'offset_in_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     511 |                     chunk > PAGE_SIZE - offset_in_page(dst_off))
+         |                                         ^
+   include/linux/highmem.h:577:27: error: call to undeclared function 'folio_size'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     577 |         VM_BUG_ON(offset + len > folio_size(folio));
+         |                                  ^
+   include/linux/highmem.h:584:27: error: call to undeclared function 'offset_in_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     584 |                     chunk > PAGE_SIZE - offset_in_page(offset))
+         |                                         ^
+   include/linux/highmem.h:605:27: error: call to undeclared function 'folio_size'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     605 |         VM_BUG_ON(offset + len > folio_size(folio));
+         |                                  ^
+   include/linux/highmem.h:612:27: error: call to undeclared function 'offset_in_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     612 |                     chunk > PAGE_SIZE - offset_in_page(offset))
+         |                                         ^
+   include/linux/highmem.h:642:15: error: call to undeclared function 'folio_size'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     642 |         size_t len = folio_size(folio) - offset;
+         |                      ^
+   include/linux/highmem.h:645:28: error: call to undeclared function 'offset_in_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     645 |                 size_t max = PAGE_SIZE - offset_in_page(offset);
          |                                          ^
-   include/linux/mmdebug.h:21:25: note: in expansion of macro 'BUG_ON'
-      21 | #define VM_BUG_ON(cond) BUG_ON(cond)
-         |                         ^~~~~~
-   include/linux/highmem.h:502:2: note: in expansion of macro 'VM_BUG_ON'
-     502 |  VM_BUG_ON(dst_off + len > folio_size(dst_folio));
-         |  ^~~~~~~~~
-   In file included from include/linux/pgtable.h:123,
-                    from include/linux/mm.h:31,
-                    from arch/arm/kernel/asm-offsets.c:14:
-   include/linux/highmem.h:511:27: error: implicit declaration of function 'offset_in_page' [-Werror=implicit-function-declaration]
-     511 |       chunk > PAGE_SIZE - offset_in_page(dst_off))
-         |                           ^~~~~~~~~~~~~~
-   include/linux/highmem.h: In function 'memcpy_from_file_folio':
-   include/linux/highmem.h:716:18: error: implicit declaration of function 'offset_in_folio' [-Werror=implicit-function-declaration]
-     716 |  size_t offset = offset_in_folio(folio, pos);
-         |                  ^~~~~~~~~~~~~~~
-   include/linux/highmem.h: In function 'folio_release_kmap':
-   include/linux/highmem.h:781:2: error: implicit declaration of function 'folio_put'; did you mean 'folio_page'? [-Werror=implicit-function-declaration]
-     781 |  folio_put(folio);
-         |  ^~~~~~~~~
-         |  folio_page
-   In file included from arch/arm/kernel/asm-offsets.c:14:
-   include/linux/mm.h: At top level:
->> include/linux/mm.h:1613:20: warning: conflicting types for 'folio_put'
-    1613 | static inline void folio_put(struct folio *folio)
-         |                    ^~~~~~~~~
-   include/linux/mm.h:1613:20: error: static declaration of 'folio_put' follows non-static declaration
-   In file included from include/linux/pgtable.h:123,
-                    from include/linux/mm.h:31,
-                    from arch/arm/kernel/asm-offsets.c:14:
-   include/linux/highmem.h:781:2: note: previous implicit declaration of 'folio_put' was here
-     781 |  folio_put(folio);
-         |  ^~~~~~~~~
-   In file included from arch/arm/kernel/asm-offsets.c:14:
->> include/linux/mm.h:2356:22: error: conflicting types for 'folio_size'
-    2356 | static inline size_t folio_size(const struct folio *folio)
-         |                      ^~~~~~~~~~
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   include/linux/highmem.h:502:28: note: previous implicit declaration of 'folio_size' was here
-     502 |  VM_BUG_ON(dst_off + len > folio_size(dst_folio));
-         |                            ^~~~~~~~~~
-   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x) __builtin_expect(!!(x), 0)
+   include/linux/highmem.h:680:27: error: call to undeclared function 'folio_size'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     680 |         VM_BUG_ON(offset + len > folio_size(folio));
+         |                                  ^
+   include/linux/highmem.h:683:28: error: call to undeclared function 'offset_in_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     683 |                 size_t max = PAGE_SIZE - offset_in_page(offset);
          |                                          ^
-   include/linux/mmdebug.h:21:25: note: in expansion of macro 'BUG_ON'
-      21 | #define VM_BUG_ON(cond) BUG_ON(cond)
-         |                         ^~~~~~
-   include/linux/highmem.h:502:2: note: in expansion of macro 'VM_BUG_ON'
-     502 |  VM_BUG_ON(dst_off + len > folio_size(dst_folio));
-         |  ^~~~~~~~~
-   In file included from arch/arm/kernel/asm-offsets.c:14:
->> include/linux/mm.h:2509:7: error: conflicting types for 'page_address'
-    2509 | void *page_address(const struct page *page);
-         |       ^~~~~~~~~~~~
-   In file included from include/linux/highmem.h:14,
-                    from include/linux/pgtable.h:123,
-                    from include/linux/mm.h:31,
-                    from arch/arm/kernel/asm-offsets.c:14:
-   include/linux/highmem-internal.h:46:10: note: previous implicit declaration of 'page_address' was here
-      46 |   addr = page_address(page);
-         |          ^~~~~~~~~~~~
-   In file included from arch/arm/kernel/asm-offsets.c:14:
->> include/linux/mm.h:4594:20: error: conflicting types for 'user_alloc_needs_zeroing'
-    4594 | static inline bool user_alloc_needs_zeroing(void)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/pgtable.h:123,
-                    from include/linux/mm.h:31,
-                    from arch/arm/kernel/asm-offsets.c:14:
-   include/linux/highmem.h:326:15: note: previous implicit declaration of 'user_alloc_needs_zeroing' was here
-     326 |  if (folio && user_alloc_needs_zeroing())
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> include/linux/highmem.h:716:18: error: call to undeclared function 'offset_in_folio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     716 |         size_t offset = offset_in_folio(folio, pos);
+         |                         ^
+   include/linux/highmem.h:720:12: error: call to undeclared function 'offset_in_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     720 |                 offset = offset_in_page(offset);
+         |                          ^
+   include/linux/highmem.h:723:18: error: call to undeclared function 'folio_size'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     723 |                 len = min(len, folio_size(folio) - offset);
+         |                                ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
    make[3]: *** [scripts/Makefile.build:184: arch/arm/kernel/asm-offsets.s] Error 1
    make[3]: Target 'prepare' not remade because of errors.
    make[2]: *** [Makefile:1333: prepare0] Error 2
@@ -218,181 +156,235 @@ All error/warnings (new ones prefixed by >>):
    make: Target 'prepare' not remade because of errors.
 
 
-vim +/folio_size +2356 include/linux/mm.h
+vim +/user_alloc_needs_zeroing +326 include/linux/highmem.h
 
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2347) 
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2348) /**
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2349)  * folio_size - The number of bytes in a folio.
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2350)  * @folio: The folio.
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2351)  *
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2352)  * Context: The caller should have a reference on the folio to prevent
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2353)  * it from being split.  It is not necessary for the folio to be locked.
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2354)  * Return: The number of bytes in this folio.
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2355)  */
-4d2bcefa965b06 Matthew Wilcox (Oracle  2024-05-31 @2356) static inline size_t folio_size(const struct folio *folio)
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2357) {
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2358) 	return PAGE_SIZE << folio_order(folio);
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2359) }
-7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  2360) 
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2361) /**
-003fde4492c88a David Hildenbrand       2025-03-03  2362   * folio_maybe_mapped_shared - Whether the folio is mapped into the page
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2363   *			       tables of more than one MM
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2364)  * @folio: The folio.
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2365)  *
-003fde4492c88a David Hildenbrand       2025-03-03  2366   * This function checks if the folio maybe currently mapped into more than one
-003fde4492c88a David Hildenbrand       2025-03-03  2367   * MM ("maybe mapped shared"), or if the folio is certainly mapped into a single
-003fde4492c88a David Hildenbrand       2025-03-03  2368   * MM ("mapped exclusively").
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2369)  *
-17d5f38b33b662 David Hildenbrand       2024-07-31  2370   * For KSM folios, this function also returns "mapped shared" when a folio is
-17d5f38b33b662 David Hildenbrand       2024-07-31  2371   * mapped multiple times into the same MM, because the individual page mappings
-17d5f38b33b662 David Hildenbrand       2024-07-31  2372   * are independent.
-17d5f38b33b662 David Hildenbrand       2024-07-31  2373   *
-17d5f38b33b662 David Hildenbrand       2024-07-31  2374   * For small anonymous folios and anonymous hugetlb folios, the return
-17d5f38b33b662 David Hildenbrand       2024-07-31  2375   * value will be exactly correct: non-KSM folios can only be mapped at most once
-17d5f38b33b662 David Hildenbrand       2024-07-31  2376   * into an MM, and they cannot be partially mapped. KSM folios are
-17d5f38b33b662 David Hildenbrand       2024-07-31  2377   * considered shared even if mapped multiple times into the same MM.
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2378   *
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2379   * For other folios, the result can be fuzzy:
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2380   *    #. For partially-mappable large folios (THP), the return value can wrongly
-003fde4492c88a David Hildenbrand       2025-03-03  2381   *       indicate "mapped shared" (false positive) if a folio was mapped by
-003fde4492c88a David Hildenbrand       2025-03-03  2382   *       more than two MMs at one point in time.
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2383   *    #. For pagecache folios (including hugetlb), the return value can wrongly
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2384   *       indicate "mapped shared" (false positive) when two VMAs in the same MM
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2385   *       cover the same file range.
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2386   *
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2387   * Further, this function only considers current page table mappings that
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2388   * are tracked using the folio mapcount(s).
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2389   *
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2390   * This function does not consider:
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2391   *    #. If the folio might get mapped in the (near) future (e.g., swapcache,
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2392   *       pagecache, temporary unmapping for migration).
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2393   *    #. If the folio is mapped differently (VM_PFNMAP).
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2394   *    #. If hugetlb page table sharing applies. Callers might want to check
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2395   *       hugetlb_pmd_shared().
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2396   *
-ebb34f78d72c23 David Hildenbrand       2024-02-27  2397   * Return: Whether the folio is estimated to be mapped into more than one MM.
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2398)  */
-003fde4492c88a David Hildenbrand       2025-03-03  2399  static inline bool folio_maybe_mapped_shared(struct folio *folio)
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2400) {
-eefb9b2725e395 David Hildenbrand       2024-04-09  2401  	int mapcount = folio_mapcount(folio);
-eefb9b2725e395 David Hildenbrand       2024-04-09  2402  
-eefb9b2725e395 David Hildenbrand       2024-04-09  2403  	/* Only partially-mappable folios require more care. */
-eefb9b2725e395 David Hildenbrand       2024-04-09  2404  	if (!folio_test_large(folio) || unlikely(folio_test_hugetlb(folio)))
-eefb9b2725e395 David Hildenbrand       2024-04-09  2405  		return mapcount > 1;
-eefb9b2725e395 David Hildenbrand       2024-04-09  2406  
-003fde4492c88a David Hildenbrand       2025-03-03  2407  	/*
-003fde4492c88a David Hildenbrand       2025-03-03  2408  	 * vm_insert_page() without CONFIG_TRANSPARENT_HUGEPAGE ...
-003fde4492c88a David Hildenbrand       2025-03-03  2409  	 * simply assume "mapped shared", nobody should really care
-003fde4492c88a David Hildenbrand       2025-03-03  2410  	 * about this for arbitrary kernel allocations.
-003fde4492c88a David Hildenbrand       2025-03-03  2411  	 */
-003fde4492c88a David Hildenbrand       2025-03-03  2412  	if (!IS_ENABLED(CONFIG_MM_ID))
-eefb9b2725e395 David Hildenbrand       2024-04-09  2413  		return true;
-eefb9b2725e395 David Hildenbrand       2024-04-09  2414  
-003fde4492c88a David Hildenbrand       2025-03-03  2415  	/*
-003fde4492c88a David Hildenbrand       2025-03-03  2416  	 * A single mapping implies "mapped exclusively", even if the
-003fde4492c88a David Hildenbrand       2025-03-03  2417  	 * folio flag says something different: it's easier to handle this
-003fde4492c88a David Hildenbrand       2025-03-03  2418  	 * case here instead of on the RMAP hot path.
-003fde4492c88a David Hildenbrand       2025-03-03  2419  	 */
-003fde4492c88a David Hildenbrand       2025-03-03  2420  	if (mapcount <= 1)
-003fde4492c88a David Hildenbrand       2025-03-03  2421  		return false;
-4428a35f91f0f0 Lance Yang              2025-04-24  2422  	return test_bit(FOLIO_MM_IDS_SHARED_BITNUM, &folio->_mm_ids);
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2423) }
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2424) 
-86ebd50224c073 Shivank Garg            2025-04-30  2425  /**
-86ebd50224c073 Shivank Garg            2025-04-30  2426   * folio_expected_ref_count - calculate the expected folio refcount
-86ebd50224c073 Shivank Garg            2025-04-30  2427   * @folio: the folio
-86ebd50224c073 Shivank Garg            2025-04-30  2428   *
-86ebd50224c073 Shivank Garg            2025-04-30  2429   * Calculate the expected folio refcount, taking references from the pagecache,
-86ebd50224c073 Shivank Garg            2025-04-30  2430   * swapcache, PG_private and page table mappings into account. Useful in
-86ebd50224c073 Shivank Garg            2025-04-30  2431   * combination with folio_ref_count() to detect unexpected references (e.g.,
-86ebd50224c073 Shivank Garg            2025-04-30  2432   * GUP or other temporary references).
-86ebd50224c073 Shivank Garg            2025-04-30  2433   *
-86ebd50224c073 Shivank Garg            2025-04-30  2434   * Does currently not consider references from the LRU cache. If the folio
-86ebd50224c073 Shivank Garg            2025-04-30  2435   * was isolated from the LRU (which is the case during migration or split),
-86ebd50224c073 Shivank Garg            2025-04-30  2436   * the LRU cache does not apply.
-86ebd50224c073 Shivank Garg            2025-04-30  2437   *
-86ebd50224c073 Shivank Garg            2025-04-30  2438   * Calling this function on an unmapped folio -- !folio_mapped() -- that is
-86ebd50224c073 Shivank Garg            2025-04-30  2439   * locked will return a stable result.
-86ebd50224c073 Shivank Garg            2025-04-30  2440   *
-86ebd50224c073 Shivank Garg            2025-04-30  2441   * Calling this function on a mapped folio will not result in a stable result,
-86ebd50224c073 Shivank Garg            2025-04-30  2442   * because nothing stops additional page table mappings from coming (e.g.,
-86ebd50224c073 Shivank Garg            2025-04-30  2443   * fork()) or going (e.g., munmap()).
-86ebd50224c073 Shivank Garg            2025-04-30  2444   *
-86ebd50224c073 Shivank Garg            2025-04-30  2445   * Calling this function without the folio lock will also not result in a
-86ebd50224c073 Shivank Garg            2025-04-30  2446   * stable result: for example, the folio might get dropped from the swapcache
-86ebd50224c073 Shivank Garg            2025-04-30  2447   * concurrently.
-86ebd50224c073 Shivank Garg            2025-04-30  2448   *
-86ebd50224c073 Shivank Garg            2025-04-30  2449   * However, even when called without the folio lock or on a mapped folio,
-86ebd50224c073 Shivank Garg            2025-04-30  2450   * this function can be used to detect unexpected references early (for example,
-86ebd50224c073 Shivank Garg            2025-04-30  2451   * if it makes sense to even lock the folio and unmap it).
-86ebd50224c073 Shivank Garg            2025-04-30  2452   *
-86ebd50224c073 Shivank Garg            2025-04-30  2453   * The caller must add any reference (e.g., from folio_try_get()) it might be
-86ebd50224c073 Shivank Garg            2025-04-30  2454   * holding itself to the result.
-86ebd50224c073 Shivank Garg            2025-04-30  2455   *
-86ebd50224c073 Shivank Garg            2025-04-30  2456   * Returns the expected folio refcount.
-86ebd50224c073 Shivank Garg            2025-04-30  2457   */
-86ebd50224c073 Shivank Garg            2025-04-30  2458  static inline int folio_expected_ref_count(const struct folio *folio)
-86ebd50224c073 Shivank Garg            2025-04-30  2459  {
-86ebd50224c073 Shivank Garg            2025-04-30  2460  	const int order = folio_order(folio);
-86ebd50224c073 Shivank Garg            2025-04-30  2461  	int ref_count = 0;
-86ebd50224c073 Shivank Garg            2025-04-30  2462  
-78cb1a13c42a6d David Hildenbrand       2025-07-04  2463  	if (WARN_ON_ONCE(page_has_type(&folio->page) && !folio_test_hugetlb(folio)))
-86ebd50224c073 Shivank Garg            2025-04-30  2464  		return 0;
-86ebd50224c073 Shivank Garg            2025-04-30  2465  
-86ebd50224c073 Shivank Garg            2025-04-30  2466  	/* One reference per page from the swapcache. */
-86ebd50224c073 Shivank Garg            2025-04-30  2467  	ref_count += folio_test_swapcache(folio) << order;
-f183663901f21f Bijan Tabatabai         2025-12-16  2468  
-f183663901f21f Bijan Tabatabai         2025-12-16  2469  	if (!folio_test_anon(folio)) {
-86ebd50224c073 Shivank Garg            2025-04-30  2470  		/* One reference per page from the pagecache. */
-86ebd50224c073 Shivank Garg            2025-04-30  2471  		ref_count += !!folio->mapping << order;
-86ebd50224c073 Shivank Garg            2025-04-30  2472  		/* One reference from PG_private. */
-86ebd50224c073 Shivank Garg            2025-04-30  2473  		ref_count += folio_test_private(folio);
-86ebd50224c073 Shivank Garg            2025-04-30  2474  	}
-86ebd50224c073 Shivank Garg            2025-04-30  2475  
-86ebd50224c073 Shivank Garg            2025-04-30  2476  	/* One reference per page table mapping. */
-86ebd50224c073 Shivank Garg            2025-04-30  2477  	return ref_count + folio_mapcount(folio);
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2478) }
-fa4e3f5ffa5e6e Vishal Moola (Oracle    2023-01-30  2479) 
-b424de33c42dbd Matthew Wilcox (Oracle  2021-04-24  2480) #ifndef HAVE_ARCH_MAKE_FOLIO_ACCESSIBLE
-b424de33c42dbd Matthew Wilcox (Oracle  2021-04-24  2481) static inline int arch_make_folio_accessible(struct folio *folio)
-b424de33c42dbd Matthew Wilcox (Oracle  2021-04-24  2482) {
-e5a41fc77771c7 David Hildenbrand       2024-07-29  2483  	return 0;
-b424de33c42dbd Matthew Wilcox (Oracle  2021-04-24  2484) }
-b424de33c42dbd Matthew Wilcox (Oracle  2021-04-24  2485) #endif
-b424de33c42dbd Matthew Wilcox (Oracle  2021-04-24  2486) 
-f6ac2354d79119 Christoph Lameter       2006-06-30  2487  /*
-f6ac2354d79119 Christoph Lameter       2006-06-30  2488   * Some inline functions in vmstat.h depend on page_zone()
-f6ac2354d79119 Christoph Lameter       2006-06-30  2489   */
-f6ac2354d79119 Christoph Lameter       2006-06-30  2490  #include <linux/vmstat.h>
-f6ac2354d79119 Christoph Lameter       2006-06-30  2491  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2492  #if defined(CONFIG_HIGHMEM) && !defined(WANT_PAGE_VIRTUAL)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2493  #define HASHED_PAGE_VIRTUAL
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2494  #endif
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2495  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2496  #if defined(WANT_PAGE_VIRTUAL)
-f92f455f67fef2 Geert Uytterhoeven      2014-01-21  2497  static inline void *page_address(const struct page *page)
-f92f455f67fef2 Geert Uytterhoeven      2014-01-21  2498  {
-f92f455f67fef2 Geert Uytterhoeven      2014-01-21  2499  	return page->virtual;
-f92f455f67fef2 Geert Uytterhoeven      2014-01-21  2500  }
-f92f455f67fef2 Geert Uytterhoeven      2014-01-21  2501  static inline void set_page_address(struct page *page, void *address)
-f92f455f67fef2 Geert Uytterhoeven      2014-01-21  2502  {
-f92f455f67fef2 Geert Uytterhoeven      2014-01-21  2503  	page->virtual = address;
-f92f455f67fef2 Geert Uytterhoeven      2014-01-21  2504  }
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2505  #define page_address_init()  do { } while(0)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2506  #endif
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2507  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2508  #if defined(HASHED_PAGE_VIRTUAL)
-f991879473828f Ian Campbell            2011-08-17 @2509  void *page_address(const struct page *page);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2510  void set_page_address(struct page *page, void *virtual);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2511  void page_address_init(void);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2512  #endif
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2513  
+8d846b723e5723 Ankur Arora             2026-01-06  305  
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  306) #ifndef vma_alloc_zeroed_movable_folio
+769848c03895b6 Mel Gorman              2007-07-17  307  /**
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  308)  * vma_alloc_zeroed_movable_folio - Allocate a zeroed page for a VMA.
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  309)  * @vma: The VMA the page is to be allocated for.
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  310)  * @vaddr: The virtual address the page will be inserted into.
+769848c03895b6 Mel Gorman              2007-07-17  311   *
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  312)  * This function will allocate a page suitable for inserting into this
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  313)  * VMA at this virtual address.  It may be allocated from highmem or
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  314)  * the movable zone.  An architecture may provide its own implementation.
+e7392b4eca84e8 Fabio M. De Francesco   2022-05-13  315   *
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  316)  * Return: A folio containing one allocated and zeroed page or NULL if
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  317)  * we are out of memory.
+769848c03895b6 Mel Gorman              2007-07-17  318   */
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  319) static inline
+6bc56a4d855303 Matthew Wilcox (Oracle  2023-01-16  320) struct folio *vma_alloc_zeroed_movable_folio(struct vm_area_struct *vma,
+769848c03895b6 Mel Gorman              2007-07-17  321  				   unsigned long vaddr)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  322  {
+c51a4f11e6d824 Zi Yan                  2024-12-09  323  	struct folio *folio;
+c51a4f11e6d824 Zi Yan                  2024-12-09  324  
+c51a4f11e6d824 Zi Yan                  2024-12-09  325  	folio = vma_alloc_folio(GFP_HIGHUSER_MOVABLE, 0, vma, vaddr);
+c51a4f11e6d824 Zi Yan                  2024-12-09 @326  	if (folio && user_alloc_needs_zeroing())
+c51a4f11e6d824 Zi Yan                  2024-12-09  327  		clear_user_highpage(&folio->page, vaddr);
+c51a4f11e6d824 Zi Yan                  2024-12-09  328  
+c51a4f11e6d824 Zi Yan                  2024-12-09  329  	return folio;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  330  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16  331  #endif
+^1da177e4c3f41 Linus Torvalds          2005-04-16  332  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  333  static inline void clear_highpage(struct page *page)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  334  {
+d2c20e51e3966b Ira Weiny               2021-11-05  335  	void *kaddr = kmap_local_page(page);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  336  	clear_page(kaddr);
+d2c20e51e3966b Ira Weiny               2021-11-05  337  	kunmap_local(kaddr);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  338  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16  339  
+d9da8f6cf55eec Andrey Konovalov        2022-06-09  340  static inline void clear_highpage_kasan_tagged(struct page *page)
+d9da8f6cf55eec Andrey Konovalov        2022-06-09  341  {
+16d91faf09be14 Peter Collingbourne     2023-02-16  342  	void *kaddr = kmap_local_page(page);
+d9da8f6cf55eec Andrey Konovalov        2022-06-09  343  
+16d91faf09be14 Peter Collingbourne     2023-02-16  344  	clear_page(kasan_reset_tag(kaddr));
+16d91faf09be14 Peter Collingbourne     2023-02-16  345  	kunmap_local(kaddr);
+d9da8f6cf55eec Andrey Konovalov        2022-06-09  346  }
+d9da8f6cf55eec Andrey Konovalov        2022-06-09  347  
+5bebe8de192649 Linus Torvalds          2025-11-18  348  #ifndef __HAVE_ARCH_TAG_CLEAR_HIGHPAGES
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  349  
+5bebe8de192649 Linus Torvalds          2025-11-18  350  /* Return false to let people know we did not initialize the pages */
+5bebe8de192649 Linus Torvalds          2025-11-18  351  static inline bool tag_clear_highpages(struct page *page, int numpages)
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  352  {
+5bebe8de192649 Linus Torvalds          2025-11-18  353  	return false;
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  354  }
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  355  
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  356  #endif
+013bb59dbb7cf8 Peter Collingbourne     2021-06-02  357  
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  358) /*
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  359)  * If we pass in a base or tail page, we can zero up to PAGE_SIZE.
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  360)  * If we pass in a head page, we can zero up to the size of the compound page.
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  361)  */
+c035713998700e Matthew Wilcox (Oracle  2021-11-05  362) #ifdef CONFIG_HIGHMEM
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  363) void zero_user_segments(struct page *page, unsigned start1, unsigned end1,
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  364) 		unsigned start2, unsigned end2);
+c035713998700e Matthew Wilcox (Oracle  2021-11-05  365) #else
+eebd2aa355692a Christoph Lameter       2008-02-04  366  static inline void zero_user_segments(struct page *page,
+eebd2aa355692a Christoph Lameter       2008-02-04  367  		unsigned start1, unsigned end1,
+eebd2aa355692a Christoph Lameter       2008-02-04  368  		unsigned start2, unsigned end2)
+eebd2aa355692a Christoph Lameter       2008-02-04  369  {
+d2c20e51e3966b Ira Weiny               2021-11-05  370  	void *kaddr = kmap_local_page(page);
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  371) 	unsigned int i;
+eebd2aa355692a Christoph Lameter       2008-02-04  372  
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  373) 	BUG_ON(end1 > page_size(page) || end2 > page_size(page));
+eebd2aa355692a Christoph Lameter       2008-02-04  374  
+eebd2aa355692a Christoph Lameter       2008-02-04  375  	if (end1 > start1)
+eebd2aa355692a Christoph Lameter       2008-02-04  376  		memset(kaddr + start1, 0, end1 - start1);
+eebd2aa355692a Christoph Lameter       2008-02-04  377  
+eebd2aa355692a Christoph Lameter       2008-02-04  378  	if (end2 > start2)
+eebd2aa355692a Christoph Lameter       2008-02-04  379  		memset(kaddr + start2, 0, end2 - start2);
+eebd2aa355692a Christoph Lameter       2008-02-04  380  
+d2c20e51e3966b Ira Weiny               2021-11-05  381  	kunmap_local(kaddr);
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  382) 	for (i = 0; i < compound_nr(page); i++)
+0060ef3b4e6dd1 Matthew Wilcox (Oracle  2020-12-14  383) 		flush_dcache_page(page + i);
+eebd2aa355692a Christoph Lameter       2008-02-04  384  }
+c035713998700e Matthew Wilcox (Oracle  2021-11-05  385) #endif
+eebd2aa355692a Christoph Lameter       2008-02-04  386  
+eebd2aa355692a Christoph Lameter       2008-02-04  387  static inline void zero_user_segment(struct page *page,
+eebd2aa355692a Christoph Lameter       2008-02-04  388  	unsigned start, unsigned end)
+eebd2aa355692a Christoph Lameter       2008-02-04  389  {
+eebd2aa355692a Christoph Lameter       2008-02-04  390  	zero_user_segments(page, start, end, 0, 0);
+eebd2aa355692a Christoph Lameter       2008-02-04  391  }
+eebd2aa355692a Christoph Lameter       2008-02-04  392  
+77fff4ae2b7bba Atsushi Nemoto          2006-12-12  393  #ifndef __HAVE_ARCH_COPY_USER_HIGHPAGE
+77fff4ae2b7bba Atsushi Nemoto          2006-12-12  394  
+9de455b20705f3 Atsushi Nemoto          2006-12-12  395  static inline void copy_user_highpage(struct page *to, struct page *from,
+9de455b20705f3 Atsushi Nemoto          2006-12-12  396  	unsigned long vaddr, struct vm_area_struct *vma)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  397  {
+^1da177e4c3f41 Linus Torvalds          2005-04-16  398  	char *vfrom, *vto;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  399  
+d2c20e51e3966b Ira Weiny               2021-11-05  400  	vfrom = kmap_local_page(from);
+d2c20e51e3966b Ira Weiny               2021-11-05  401  	vto = kmap_local_page(to);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  402  	copy_user_page(vto, vfrom, vaddr, to);
+b073d7f8aee4eb Alexander Potapenko     2022-09-15  403  	kmsan_unpoison_memory(page_address(to), PAGE_SIZE);
+d2c20e51e3966b Ira Weiny               2021-11-05  404  	kunmap_local(vto);
+d2c20e51e3966b Ira Weiny               2021-11-05  405  	kunmap_local(vfrom);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  406  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16  407  
+77fff4ae2b7bba Atsushi Nemoto          2006-12-12  408  #endif
+77fff4ae2b7bba Atsushi Nemoto          2006-12-12  409  
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  410  #ifndef __HAVE_ARCH_COPY_HIGHPAGE
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  411  
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  412  static inline void copy_highpage(struct page *to, struct page *from)
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  413  {
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  414  	char *vfrom, *vto;
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  415  
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  416  	vfrom = kmap_local_page(from);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  417  	vto = kmap_local_page(to);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  418  	copy_page(vto, vfrom);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  419  	kmsan_copy_page_meta(to, from);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  420  	kunmap_local(vto);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  421  	kunmap_local(vfrom);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  422  }
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  423  
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  424  #endif
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  425  
+a873dfe1032a13 Tony Luck               2022-10-21  426  #ifdef copy_mc_to_kernel
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  427  /*
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  428   * If architecture supports machine check exception handling, define the
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  429   * #MC versions of copy_user_highpage and copy_highpage. They copy a memory
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  430   * page with #MC in source page (@from) handled, and return the number
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  431   * of bytes not copied if there was a #MC, otherwise 0 for success.
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  432   */
+a873dfe1032a13 Tony Luck               2022-10-21  433  static inline int copy_mc_user_highpage(struct page *to, struct page *from,
+a873dfe1032a13 Tony Luck               2022-10-21  434  					unsigned long vaddr, struct vm_area_struct *vma)
+a873dfe1032a13 Tony Luck               2022-10-21  435  {
+a873dfe1032a13 Tony Luck               2022-10-21  436  	unsigned long ret;
+a873dfe1032a13 Tony Luck               2022-10-21  437  	char *vfrom, *vto;
+a873dfe1032a13 Tony Luck               2022-10-21  438  
+a873dfe1032a13 Tony Luck               2022-10-21  439  	vfrom = kmap_local_page(from);
+a873dfe1032a13 Tony Luck               2022-10-21  440  	vto = kmap_local_page(to);
+a873dfe1032a13 Tony Luck               2022-10-21  441  	ret = copy_mc_to_kernel(vto, vfrom, PAGE_SIZE);
+a873dfe1032a13 Tony Luck               2022-10-21  442  	if (!ret)
+a873dfe1032a13 Tony Luck               2022-10-21  443  		kmsan_unpoison_memory(page_address(to), PAGE_SIZE);
+a873dfe1032a13 Tony Luck               2022-10-21  444  	kunmap_local(vto);
+a873dfe1032a13 Tony Luck               2022-10-21  445  	kunmap_local(vfrom);
+a873dfe1032a13 Tony Luck               2022-10-21  446  
+28bdacbcb36d09 Kefeng Wang             2024-06-26  447  	if (ret)
+28bdacbcb36d09 Kefeng Wang             2024-06-26  448  		memory_failure_queue(page_to_pfn(from), 0);
+28bdacbcb36d09 Kefeng Wang             2024-06-26  449  
+a873dfe1032a13 Tony Luck               2022-10-21  450  	return ret;
+a873dfe1032a13 Tony Luck               2022-10-21  451  }
+a873dfe1032a13 Tony Luck               2022-10-21  452  
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  453  static inline int copy_mc_highpage(struct page *to, struct page *from)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  454  {
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  455  	unsigned long ret;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  456  	char *vfrom, *vto;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  457  
+d2c20e51e3966b Ira Weiny               2021-11-05  458  	vfrom = kmap_local_page(from);
+d2c20e51e3966b Ira Weiny               2021-11-05  459  	vto = kmap_local_page(to);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  460  	ret = copy_mc_to_kernel(vto, vfrom, PAGE_SIZE);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  461  	if (!ret)
+b073d7f8aee4eb Alexander Potapenko     2022-09-15  462  		kmsan_copy_page_meta(to, from);
+d2c20e51e3966b Ira Weiny               2021-11-05  463  	kunmap_local(vto);
+d2c20e51e3966b Ira Weiny               2021-11-05  464  	kunmap_local(vfrom);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  465  
+28bdacbcb36d09 Kefeng Wang             2024-06-26  466  	if (ret)
+28bdacbcb36d09 Kefeng Wang             2024-06-26  467  		memory_failure_queue(page_to_pfn(from), 0);
+28bdacbcb36d09 Kefeng Wang             2024-06-26  468  
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  469  	return ret;
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  470  }
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  471  #else
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  472  static inline int copy_mc_user_highpage(struct page *to, struct page *from,
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  473  					unsigned long vaddr, struct vm_area_struct *vma)
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  474  {
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  475  	copy_user_highpage(to, from, vaddr, vma);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  476  	return 0;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  477  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16  478  
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  479  static inline int copy_mc_highpage(struct page *to, struct page *from)
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  480  {
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  481  	copy_highpage(to, from);
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  482  	return 0;
+6efc7afb5cc984 Jiaqi Yan               2023-03-29  483  }
+a4602b62d9fdea Khalid Aziz             2018-02-21  484  #endif
+a4602b62d9fdea Khalid Aziz             2018-02-21  485  
+6a0996db6879cf Ira Weiny               2021-02-09  486  static inline void memcpy_page(struct page *dst_page, size_t dst_off,
+6a0996db6879cf Ira Weiny               2021-02-09  487  			       struct page *src_page, size_t src_off,
+6a0996db6879cf Ira Weiny               2021-02-09  488  			       size_t len)
+6a0996db6879cf Ira Weiny               2021-02-09  489  {
+6a0996db6879cf Ira Weiny               2021-02-09  490  	char *dst = kmap_local_page(dst_page);
+6a0996db6879cf Ira Weiny               2021-02-09  491  	char *src = kmap_local_page(src_page);
+6a0996db6879cf Ira Weiny               2021-02-09  492  
+ca18f6ea012bf3 Ira Weiny               2021-02-10  493  	VM_BUG_ON(dst_off + len > PAGE_SIZE || src_off + len > PAGE_SIZE);
+6a0996db6879cf Ira Weiny               2021-02-09  494  	memcpy(dst + dst_off, src + src_off, len);
+6a0996db6879cf Ira Weiny               2021-02-09  495  	kunmap_local(src);
+6a0996db6879cf Ira Weiny               2021-02-09  496  	kunmap_local(dst);
+6a0996db6879cf Ira Weiny               2021-02-09  497  }
+6a0996db6879cf Ira Weiny               2021-02-09  498  
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  499) static inline void memcpy_folio(struct folio *dst_folio, size_t dst_off,
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  500) 		struct folio *src_folio, size_t src_off, size_t len)
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  501) {
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31 @502) 	VM_BUG_ON(dst_off + len > folio_size(dst_folio));
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  503) 	VM_BUG_ON(src_off + len > folio_size(src_folio));
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  504) 
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  505) 	do {
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  506) 		char *dst = kmap_local_folio(dst_folio, dst_off);
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  507) 		const char *src = kmap_local_folio(src_folio, src_off);
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  508) 		size_t chunk = len;
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  509) 
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  510) 		if (folio_test_highmem(dst_folio) &&
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31 @511) 		    chunk > PAGE_SIZE - offset_in_page(dst_off))
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  512) 			chunk = PAGE_SIZE - offset_in_page(dst_off);
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  513) 		if (folio_test_highmem(src_folio) &&
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  514) 		    chunk > PAGE_SIZE - offset_in_page(src_off))
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  515) 			chunk = PAGE_SIZE - offset_in_page(src_off);
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  516) 		memcpy(dst, src, chunk);
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  517) 		kunmap_local(src);
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  518) 		kunmap_local(dst);
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  519) 
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  520) 		dst_off += chunk;
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  521) 		src_off += chunk;
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  522) 		len -= chunk;
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  523) 	} while (len > 0);
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  524) }
+1313057c369bb4 Matthew Wilcox (Oracle  2025-03-31  525) 
 
-:::::: The code at line 2356 was first introduced by commit
-:::::: 4d2bcefa965b06a1f2be6912456bcfa86a34f184 mm: Reduce the number of slab->folio casts
+:::::: The code at line 326 was first introduced by commit
+:::::: c51a4f11e6d8246590b5e64908c1ed84b33e8ba2 mm: use clear_user_(high)page() for arch with special user folio handling
 
-:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
-:::::: CC: Vlastimil Babka <vbabka@suse.cz>
+:::::: TO: Zi Yan <ziy@nvidia.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
