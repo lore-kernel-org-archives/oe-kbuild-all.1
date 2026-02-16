@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DF83B1BD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 02:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13481284B29
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 02:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771208301; cv=none; b=bv0IjzUCT5k3VJAcyR57W28GR7nc2hTzi/Ffl41TWx9wQHtSLi3TDUaYRCedbv/nCsi9LFIMYuSogG1dQyj/lQmdeMWFLAu9AybHzb2V7VjmZ61q07LJClXXI8ilaQoB1aHI7o2w9aXb7KkNKPXAcJZxF6SrxbBg8jp4QcovMlE=
+	t=1771209620; cv=none; b=mN2iGqZVDsaTbQpE066YlQn6h7RKEjG8sad2h9GJcnj4nFYtTe7vM7Dh7k8Z7E3KGb0zGGBNukIuNqmf16zgqbISxCsppO7UvjLrmUVOb0Keu1biFacvrsSkRPqO6RDVx8Z+y0GLhVKKGDuCc2gq+wy09A1+HIsYT1tAvZqJh0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771208301; c=relaxed/simple;
-	bh=nDcUDmDE0KQMYCBVWkNYotlLx+VXboFK5k01NXCBpNg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Nzr+fM/dimPjcUrfQr3ef0VCBeWKsxRzCYwJw7oN9gtP/Rdu+wHYHxUYysM0iZ/Mn3KKGzPJ77wIAs/OlCY+p2tGJonjoXb9OgmojI3/b41IDzlc7mL8Jr/6fjZrVvrAmw4RYtT9AAdADEv+7+2Ju1MJdtAVpXkKwgfd/2mlt40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QYOwWGhI; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1771209620; c=relaxed/simple;
+	bh=3qEc9EJJVbYAdsBmfZYHVcyqZ7BulTtHgZqbXqYBXns=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=h7POMLouSckTbQmBx8yfQTAx4BHU/Qe/m6Of6KVZIcfLvjfYTAyLkx1XoxuO+JNvqgBQ4Kd0JLciIGiIEhAFx6DkXSVqdV2BLZYC6pGuCYhtR7Vety5gOE6QrX2+OKvzpxCiGNp6aTSiqaCmnbt7n0I4uhrSQdpj0CX0e5Ev8Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SIZle9J5; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QYOwWGhI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SIZle9J5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771208298; x=1802744298;
+  t=1771209618; x=1802745618;
   h=date:from:to:cc:subject:message-id;
-  bh=nDcUDmDE0KQMYCBVWkNYotlLx+VXboFK5k01NXCBpNg=;
-  b=QYOwWGhIA6/d5ruLhNwauKu/CT06N/KmteOAXLEDwRpOXgmLg4T20/3i
-   OceIDNKarutaWLsPpXBlNK2PiOy5JYuhBtMNOZarfJb4jHLJ4sAZG3tRs
-   xnTPAInOlmXi8/7pXHQT2f5juMk79bTX7oYGq1z/sS2NQH16xExLE7MIb
-   SFYgXOg4Gt/8JVL3r8P93BR+wmFFtsY+PUvTgXWu+NZg0zYqw2vVf2two
-   Ubhjr3Wc1Di/tDk4JVsCwGA4EB9ex19KbznHFF+uqvc83DwfzjSiDcMLT
-   JWzFACd5uIX/5B7qs7f+/aSQt17pf/cHnEJQPDSRn4ih22B2khBGBnyxI
+  bh=3qEc9EJJVbYAdsBmfZYHVcyqZ7BulTtHgZqbXqYBXns=;
+  b=SIZle9J51cwA+eux9+HU/EexswLHXzkJ3GWTL5sJDmCZ4QsaNU/heQoF
+   ILcO1fSKX/WfqtNGg4DvfpNo3/PWWsSkuAnWuhvqAGaMyuGNbFKwyZqzu
+   P3qp9Zj5yU8qZ78TVb4dPYJHk1Q3HetoKqhL+S7f+awwr0Taq9MSSw2+d
+   CcBumVFIedFlFo5XPEQXjJFStpdRp26JLtElWLHLJpQJ100GlUqTDQ8Hq
+   apAdwRG6bu31SUmG/+NJcXCrcfX0e4wnPpgW8ijIa0szFaNG14qVuVlyf
+   Vv0uEMprVBdfntuUr6M9cIYUf1PSFZA+81FV67+dL3QDrrlnMkPeRJVNA
    w==;
-X-CSE-ConnectionGUID: LZT2sP2HRLehdDcc/z+1hw==
-X-CSE-MsgGUID: 6NkgwClJS0aim8TsbQkqcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="83732172"
+X-CSE-ConnectionGUID: AuSRU3bvQLKV/TRIQUpSDg==
+X-CSE-MsgGUID: 20sA+ZslSeisI/vmci9oJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="71492594"
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="83732172"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 18:18:18 -0800
-X-CSE-ConnectionGUID: k/euOG5gRr2shscmAK6zCw==
-X-CSE-MsgGUID: nsBIlUU/S1i/yws6ygVloA==
+   d="scan'208";a="71492594"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 18:40:17 -0800
+X-CSE-ConnectionGUID: Wh2ta+61QbSmDelWHveuyg==
+X-CSE-MsgGUID: 8Exn3f8oRy+AEQCrKyF+qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="212800971"
+   d="scan'208";a="218014322"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Feb 2026 18:18:14 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 15 Feb 2026 18:40:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vroBg-00000000zJO-1Utd;
-	Mon, 16 Feb 2026 02:18:12 +0000
-Date: Mon, 16 Feb 2026 10:17:28 +0800
+	id 1vroWz-00000000zKS-1dZS;
+	Mon, 16 Feb 2026 02:40:13 +0000
+Date: Mon, 16 Feb 2026 10:40:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/sched/rt.c:1804:9: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202602161053.O0vuoPGo-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: kernel/sched/core.c:10574:58: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+Message-ID: <202602161002.mQEhZCLk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,395 +61,165 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Ingo,
-
-First bad commit (maybe != root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   26a4cfaff82a2dcb810f6bfd5f4842f9b6046c8a
-commit: 15125a229abc2404a264ce493e64a9ffa7850f6e sched/smp: Use the SMP version of the RT scheduling class
-date:   8 months ago
-config: sh-randconfig-r132-20260215 (https://download.01.org/0day-ci/archive/20260216/202602161053.O0vuoPGo-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161053.O0vuoPGo-lkp@intel.com/reproduce)
+commit: fbd0e71dc370af73f6b316e4de9eed273dd90340 sched/mmcid: Provide CID ownership mode fixup functions
+date:   3 months ago
+config: i386-randconfig-061-20260216 (https://download.01.org/0day-ci/archive/20260216/202602161002.mQEhZCLk-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161002.mQEhZCLk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602161053.O0vuoPGo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602161002.mQEhZCLk-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:2289:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:2289:25: sparse:    struct task_struct *
-   kernel/sched/rt.c:2289:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:976:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:976:39: sparse:     expected struct task_struct *donor
-   kernel/sched/rt.c:976:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:1490:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1490:31: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1490:31: sparse:     got struct task_struct [noderef] __rcu *curr
->> kernel/sched/rt.c:1804:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/rt.c:1804:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/rt.c:1804:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/rt.c:1509:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/rt.c:1509:14: sparse:     expected struct task_struct *curr
-   kernel/sched/rt.c:1509:14: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:1510:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/rt.c:1510:15: sparse:     expected struct task_struct *donor
-   kernel/sched/rt.c:1510:15: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:1571:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:1571:45: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1571:45: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:1613:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:1613:39: sparse:     expected struct task_struct *donor
-   kernel/sched/rt.c:1613:39: sparse:     got struct task_struct [noderef] __rcu *donor
->> kernel/sched/rt.c:1632:64: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1632:64: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:1632:64: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:1971:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1971:40: sparse:     expected struct task_struct *task
-   kernel/sched/rt.c:1971:40: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:1994:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:1994:13: sparse:    struct task_struct *
-   kernel/sched/rt.c:1994:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:2340:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2340:54: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:2340:54: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2342:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:2342:40: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2342:40: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:2342:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:2342:62: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2342:62: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/deadline.c:2634:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2634:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2634:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2644:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2644:13: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2644:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2750:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2750:25: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2750:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2278:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:2278:42: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:2278:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:2288:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2288:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:2288:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1197:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1197:39: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1197:39: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1197:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1197:85: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1197:85: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1295:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:1295:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1295:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:1604:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1604:31: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1604:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1604:70: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1604:70: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1604:70: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1693:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:1693:39: sparse:     expected struct task_struct *donor
-   kernel/sched/deadline.c:1693:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2495:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/deadline.c:2495:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/deadline.c:2495:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/deadline.c:2164:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:2164:14: sparse:     expected struct task_struct *curr
-   kernel/sched/deadline.c:2164:14: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2165:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:2165:15: sparse:     expected struct task_struct *donor
-   kernel/sched/deadline.c:2165:15: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2240:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2240:43: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2240:43: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2795:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2795:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:2795:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2797:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2797:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2797:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2799:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:2799:44: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:2799:44: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:2986:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2986:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2986:23: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:206:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/syscalls.c:206:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/syscalls.c:206:22: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2235:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2235:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2235:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2246:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2246:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2246:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2235:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2235:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2246:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2246:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:1100:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:1100:38: sparse:     expected struct task_struct *curr
+   kernel/sched/core.c:1100:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:2203:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:2203:39: sparse:     expected struct task_struct *donor
+   kernel/sched/core.c:2203:39: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:2214:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:2214:65: sparse:     expected struct task_struct *tsk
+   kernel/sched/core.c:2214:65: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:3656:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/core.c:3656:17: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/core.c:3656:17: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/core.c:3861:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:3861:36: sparse:     expected struct task_struct const *p
+   kernel/sched/core.c:3861:36: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:8167:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:8167:43: sparse:     expected struct task_struct *push_task
+   kernel/sched/core.c:8167:43: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:5585:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:5585:15: sparse:     expected struct task_struct *donor
+   kernel/sched/core.c:5585:15: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:6799:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:6799:14: sparse:     expected struct task_struct *prev
+   kernel/sched/core.c:6799:14: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:6865:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:6865:37: sparse:     expected struct task_struct *prev
+   kernel/sched/core.c:6865:37: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:7372:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:7372:17: sparse:    struct task_struct *
+   kernel/sched/core.c:7372:17: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:10322:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:10322:25: sparse:     expected struct task_struct *p
+   kernel/sched/core.c:10322:25: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/core.c:10574:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *t @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:10574:58: sparse:     expected struct task_struct *t
+   kernel/sched/core.c:10574:58: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:10610:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:10610:38: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:10610:38: sparse:    struct task_struct *
+   kernel/sched/core.c:631:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
+   kernel/sched/core.c:656:6: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
+   kernel/sched/core.c:680:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:1799:9: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
+   kernel/sched/sched.h:1799:9: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/pelt.h:102:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/pelt.h:102:13: sparse:     expected struct task_struct const *p
+   kernel/sched/pelt.h:102:13: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:1579:13: sparse: sparse: context imbalance in 'uclamp_update_util_min_rt_default' - wrong count at exit
+   kernel/sched/core.c:2284:35: sparse: sparse: context imbalance in 'wait_task_inactive' - different lock contexts for basic block
+   kernel/sched/core.c:2678:6: sparse: sparse: context imbalance in 'set_cpus_allowed_common' - different lock contexts for basic block
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2474:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2474:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2474:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2277:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2277:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2277:25: sparse:    struct task_struct *
+   kernel/sched/core.c:2167:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:2167:38: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:2167:38: sparse:    struct task_struct const *
+   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2474:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2474:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2474:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2474:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2474:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2474:9: sparse:    struct task_struct *
 
-vim +1804 kernel/sched/rt.c
+vim +10574 kernel/sched/core.c
 
-e7693a362ec84b kernel/sched_rt.c Gregory Haskins   2008-01-25  1607  
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1608  /*
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1609   * Preempt the current task with a newly woken task if needed:
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1610   */
-e23edc86b09df6 kernel/sched/rt.c Ingo Molnar       2023-09-19  1611  static void wakeup_preempt_rt(struct rq *rq, struct task_struct *p, int flags)
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1612  {
-af0c8b2bf67b25 kernel/sched/rt.c Peter Zijlstra    2024-10-09  1613  	struct task_struct *donor = rq->donor;
-af0c8b2bf67b25 kernel/sched/rt.c Peter Zijlstra    2024-10-09  1614  
-af0c8b2bf67b25 kernel/sched/rt.c Peter Zijlstra    2024-10-09  1615  	if (p->prio < donor->prio) {
-8875125efe8402 kernel/sched/rt.c Kirill Tkhai      2014-06-29  1616  		resched_curr(rq);
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1617  		return;
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1618  	}
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1619  
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1620  	/*
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1621  	 * If:
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1622  	 *
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1623  	 * - the newly woken task is of equal priority to the current task
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1624  	 * - the newly woken task is non-migratable while current is migratable
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1625  	 * - current will be preempted on the next reschedule
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1626  	 *
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1627  	 * we should check to see if current can readily move to a different
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1628  	 * cpu.  If so, we will reschedule to allow the push logic to try
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1629  	 * to move current somewhere else, making room for our non-migratable
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1630  	 * task.
-45c01e824991b2 kernel/sched_rt.c Gregory Haskins   2008-05-12  1631  	 */
-af0c8b2bf67b25 kernel/sched/rt.c Peter Zijlstra    2024-10-09 @1632  	if (p->prio == donor->prio && !test_tsk_need_resched(rq->curr))
-7ebefa8ceefed4 kernel/sched_rt.c Dmitry Adamushko  2008-07-01  1633  		check_preempt_equal_prio(rq, p);
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1634  }
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1635  
-a0e813f26ebcb2 kernel/sched/rt.c Peter Zijlstra    2019-11-08  1636  static inline void set_next_task_rt(struct rq *rq, struct task_struct *p, bool first)
-ff1cdc94de4d33 kernel/sched/rt.c Muchun Song       2018-10-26  1637  {
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1638  	struct sched_rt_entity *rt_se = &p->rt;
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1639  	struct rt_rq *rt_rq = &rq->rt;
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1640  
-ff1cdc94de4d33 kernel/sched/rt.c Muchun Song       2018-10-26  1641  	p->se.exec_start = rq_clock_task(rq);
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1642  	if (on_rt_rq(&p->rt))
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1643  		update_stats_wait_end_rt(rt_rq, rt_se);
-ff1cdc94de4d33 kernel/sched/rt.c Muchun Song       2018-10-26  1644  
-ff1cdc94de4d33 kernel/sched/rt.c Muchun Song       2018-10-26  1645  	/* The running task is never eligible for pushing */
-ff1cdc94de4d33 kernel/sched/rt.c Muchun Song       2018-10-26  1646  	dequeue_pushable_task(rq, p);
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1647  
-a0e813f26ebcb2 kernel/sched/rt.c Peter Zijlstra    2019-11-08  1648  	if (!first)
-a0e813f26ebcb2 kernel/sched/rt.c Peter Zijlstra    2019-11-08  1649  		return;
-a0e813f26ebcb2 kernel/sched/rt.c Peter Zijlstra    2019-11-08  1650  
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1651  	/*
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1652  	 * If prev task was rt, put_prev_task() has already updated the
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1653  	 * utilization. We only care of the case where we start to schedule a
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1654  	 * rt task
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1655  	 */
-af0c8b2bf67b25 kernel/sched/rt.c Peter Zijlstra    2024-10-09  1656  	if (rq->donor->sched_class != &rt_sched_class)
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1657  		update_rt_rq_load_avg(rq_clock_pelt(rq), rq, 0);
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1658  
-f95d4eaee6d020 kernel/sched/rt.c Peter Zijlstra    2019-05-29  1659  	rt_queue_push_tasks(rq);
-ff1cdc94de4d33 kernel/sched/rt.c Muchun Song       2018-10-26  1660  }
-ff1cdc94de4d33 kernel/sched/rt.c Muchun Song       2018-10-26  1661  
-821aecd09e5ad2 kernel/sched/rt.c Dietmar Eggemann  2022-03-02  1662  static struct sched_rt_entity *pick_next_rt_entity(struct rt_rq *rt_rq)
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1663  {
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1664  	struct rt_prio_array *array = &rt_rq->active;
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1665  	struct sched_rt_entity *next = NULL;
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1666  	struct list_head *queue;
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1667  	int idx;
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1668  
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1669  	idx = sched_find_first_bit(array->bitmap);
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1670  	BUG_ON(idx >= MAX_RT_PRIO);
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1671  
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1672  	queue = array->queue + idx;
-f7d2728cc032a2 kernel/sched/rt.c Ingo Molnar       2025-03-17  1673  	if (WARN_ON_ONCE(list_empty(queue)))
-7c4a5b89a0b5a5 kernel/sched/rt.c Pietro Borrello   2023-02-06  1674  		return NULL;
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1675  	next = list_entry(queue->next, struct sched_rt_entity, run_list);
-326587b840785c kernel/sched_rt.c Dmitry Adamushko  2008-01-25  1676  
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1677  	return next;
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1678  }
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1679  
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1680  static struct task_struct *_pick_next_task_rt(struct rq *rq)
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1681  {
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1682  	struct sched_rt_entity *rt_se;
-606dba2e289446 kernel/sched/rt.c Peter Zijlstra    2012-02-11  1683  	struct rt_rq *rt_rq  = &rq->rt;
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1684  
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1685  	do {
-821aecd09e5ad2 kernel/sched/rt.c Dietmar Eggemann  2022-03-02  1686  		rt_se = pick_next_rt_entity(rt_rq);
-7c4a5b89a0b5a5 kernel/sched/rt.c Pietro Borrello   2023-02-06  1687  		if (unlikely(!rt_se))
-7c4a5b89a0b5a5 kernel/sched/rt.c Pietro Borrello   2023-02-06  1688  			return NULL;
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1689  		rt_rq = group_rt_rq(rt_se);
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1690  	} while (rt_rq);
-6f505b16425a51 kernel/sched_rt.c Peter Zijlstra    2008-01-25  1691  
-ff1cdc94de4d33 kernel/sched/rt.c Muchun Song       2018-10-26  1692  	return rt_task_of(rt_se);
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1693  }
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1694  
-21f56ffe4482e5 kernel/sched/rt.c Peter Zijlstra    2020-11-17  1695  static struct task_struct *pick_task_rt(struct rq *rq)
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1696  {
-606dba2e289446 kernel/sched/rt.c Peter Zijlstra    2012-02-11  1697  	struct task_struct *p;
-606dba2e289446 kernel/sched/rt.c Peter Zijlstra    2012-02-11  1698  
-6e2df0581f5690 kernel/sched/rt.c Peter Zijlstra    2019-11-08  1699  	if (!sched_rt_runnable(rq))
-606dba2e289446 kernel/sched/rt.c Peter Zijlstra    2012-02-11  1700  		return NULL;
-606dba2e289446 kernel/sched/rt.c Peter Zijlstra    2012-02-11  1701  
-606dba2e289446 kernel/sched/rt.c Peter Zijlstra    2012-02-11  1702  	p = _pick_next_task_rt(rq);
-21f56ffe4482e5 kernel/sched/rt.c Peter Zijlstra    2020-11-17  1703  
-21f56ffe4482e5 kernel/sched/rt.c Peter Zijlstra    2020-11-17  1704  	return p;
-21f56ffe4482e5 kernel/sched/rt.c Peter Zijlstra    2020-11-17  1705  }
-21f56ffe4482e5 kernel/sched/rt.c Peter Zijlstra    2020-11-17  1706  
-b2d70222dbf2a2 kernel/sched/rt.c Peter Zijlstra    2024-08-14  1707  static void put_prev_task_rt(struct rq *rq, struct task_struct *p, struct task_struct *next)
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1708  {
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1709  	struct sched_rt_entity *rt_se = &p->rt;
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1710  	struct rt_rq *rt_rq = &rq->rt;
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1711  
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1712  	if (on_rt_rq(&p->rt))
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1713  		update_stats_wait_start_rt(rt_rq, rt_se);
-57a5c2dafca8e3 kernel/sched/rt.c Yafang Shao       2021-09-05  1714  
-f1e14ef64d3e1b kernel/sched_rt.c Ingo Molnar       2007-08-09  1715  	update_curr_rt(rq);
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1716  
-23127296889fe8 kernel/sched/rt.c Vincent Guittot   2019-01-23  1717  	update_rt_rq_load_avg(rq_clock_pelt(rq), rq, 1);
-371bf42732694d kernel/sched/rt.c Vincent Guittot   2018-06-28  1718  
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1719  	/*
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1720  	 * The previous task needs to be made eligible for pushing
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1721  	 * if it is still active
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1722  	 */
-4b53a3412d6663 kernel/sched/rt.c Ingo Molnar       2017-02-05  1723  	if (on_rt_rq(&p->rt) && p->nr_cpus_allowed > 1)
-917b627d4d981d kernel/sched_rt.c Gregory Haskins   2008-12-29  1724  		enqueue_pushable_task(rq, p);
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1725  }
-bb44e5d1c6b3b7 kernel/sched_rt.c Ingo Molnar       2007-07-09  1726  
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1727  /* Only try algorithms three times */
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1728  #define RT_MAX_TRIES 3
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1729  
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1730  /*
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1731   * Return the highest pushable rq's task, which is suitable to be executed
-97fb7a0a8944bd kernel/sched/rt.c Ingo Molnar       2018-03-03  1732   * on the CPU, NULL otherwise
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1733   */
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1734  static struct task_struct *pick_highest_pushable_task(struct rq *rq, int cpu)
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1735  {
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1736  	struct plist_head *head = &rq->rt.pushable_tasks;
-3d07467b7aa916 kernel/sched_rt.c Peter Zijlstra    2010-03-10  1737  	struct task_struct *p;
-3d07467b7aa916 kernel/sched_rt.c Peter Zijlstra    2010-03-10  1738  
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1739  	if (!has_pushable_tasks(rq))
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1740  		return NULL;
-3d07467b7aa916 kernel/sched_rt.c Peter Zijlstra    2010-03-10  1741  
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1742  	plist_for_each_entry(p, head, pushable_tasks) {
-18adad1dac3334 kernel/sched/rt.c Connor O'Brien    2024-10-09  1743  		if (task_is_pushable(rq, p, cpu))
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1744  			return p;
-f65eda4f789168 kernel/sched_rt.c Steven Rostedt    2008-01-25  1745  	}
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1746  
-e23ee74777f389 kernel/sched/rt.c Kirill Tkhai      2013-06-07  1747  	return NULL;
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1748  }
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1749  
-0e3900e6d3b04c kernel/sched_rt.c Rusty Russell     2008-11-25  1750  static DEFINE_PER_CPU(cpumask_var_t, local_cpu_mask);
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1751  
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1752  static int find_lowest_rq(struct task_struct *task)
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1753  {
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1754  	struct sched_domain *sd;
-4ba2968420fa9d kernel/sched/rt.c Christoph Lameter 2014-08-26  1755  	struct cpumask *lowest_mask = this_cpu_cpumask_var_ptr(local_cpu_mask);
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1756  	int this_cpu = smp_processor_id();
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1757  	int cpu      = task_cpu(task);
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1758  	int ret;
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1759  
-0da938c44921cf kernel/sched_rt.c Steven Rostedt    2011-06-14  1760  	/* Make sure the mask is initialized first */
-0da938c44921cf kernel/sched_rt.c Steven Rostedt    2011-06-14  1761  	if (unlikely(!lowest_mask))
-0da938c44921cf kernel/sched_rt.c Steven Rostedt    2011-06-14  1762  		return -1;
-0da938c44921cf kernel/sched_rt.c Steven Rostedt    2011-06-14  1763  
-4b53a3412d6663 kernel/sched/rt.c Ingo Molnar       2017-02-05  1764  	if (task->nr_cpus_allowed == 1)
-6e0534f278199f kernel/sched_rt.c Gregory Haskins   2008-05-12  1765  		return -1; /* No other targets possible */
-06f90dbd7610d5 kernel/sched_rt.c Gregory Haskins   2008-01-25  1766  
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1767  	/*
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1768  	 * If we're on asym system ensure we consider the different capacities
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1769  	 * of the CPUs when searching for the lowest_mask.
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1770  	 */
-740cf8a760b73e kernel/sched/rt.c Dietmar Eggemann  2022-07-29  1771  	if (sched_asym_cpucap_active()) {
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1772  
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1773  		ret = cpupri_find_fitness(&task_rq(task)->rd->cpupri,
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1774  					  task, lowest_mask,
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1775  					  rt_task_fits_capacity);
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1776  	} else {
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1777  
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1778  		ret = cpupri_find(&task_rq(task)->rd->cpupri,
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1779  				  task, lowest_mask);
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1780  	}
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1781  
-a1bd02e1f28b19 kernel/sched/rt.c Qais Yousef       2020-03-02  1782  	if (!ret)
-6e0534f278199f kernel/sched_rt.c Gregory Haskins   2008-05-12  1783  		return -1; /* No targets found */
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1784  
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1785  	/*
-97fb7a0a8944bd kernel/sched/rt.c Ingo Molnar       2018-03-03  1786  	 * At this point we have built a mask of CPUs representing the
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1787  	 * lowest priority tasks in the system.  Now we want to elect
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1788  	 * the best one based on our affinity and topology.
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1789  	 *
-97fb7a0a8944bd kernel/sched/rt.c Ingo Molnar       2018-03-03  1790  	 * We prioritize the last CPU that the task executed on since
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1791  	 * it is most likely cache-hot in that location.
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1792  	 */
-96f874e26428ab kernel/sched_rt.c Rusty Russell     2008-11-25  1793  	if (cpumask_test_cpu(cpu, lowest_mask))
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1794  		return cpu;
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1795  
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1796  	/*
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1797  	 * Otherwise, we consult the sched_domains span maps to figure
-97fb7a0a8944bd kernel/sched/rt.c Ingo Molnar       2018-03-03  1798  	 * out which CPU is logically closest to our hot cache data.
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1799  	 */
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1800  	if (!cpumask_test_cpu(this_cpu, lowest_mask))
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1801  		this_cpu = -1; /* Skip this_cpu opt if not among lowest */
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1802  
-cd4ae6adf8b1c2 kernel/sched_rt.c Xiaotian Feng     2011-04-22  1803  	rcu_read_lock();
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25 @1804  	for_each_domain(cpu, sd) {
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1805  		if (sd->flags & SD_WAKE_AFFINE) {
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1806  			int best_cpu;
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1807  
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1808  			/*
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1809  			 * "this_cpu" is cheaper to preempt than a
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1810  			 * remote processor.
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1811  			 */
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1812  			if (this_cpu != -1 &&
-cd4ae6adf8b1c2 kernel/sched_rt.c Xiaotian Feng     2011-04-22  1813  			    cpumask_test_cpu(this_cpu, sched_domain_span(sd))) {
-cd4ae6adf8b1c2 kernel/sched_rt.c Xiaotian Feng     2011-04-22  1814  				rcu_read_unlock();
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1815  				return this_cpu;
-cd4ae6adf8b1c2 kernel/sched_rt.c Xiaotian Feng     2011-04-22  1816  			}
-d38b223c86db31 kernel/sched_rt.c Mike Travis       2009-01-10  1817  
-14e292f8d45380 kernel/sched/rt.c Peter Zijlstra    2020-10-01  1818  			best_cpu = cpumask_any_and_distribute(lowest_mask,
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1819  							      sched_domain_span(sd));
-cd4ae6adf8b1c2 kernel/sched_rt.c Xiaotian Feng     2011-04-22  1820  			if (best_cpu < nr_cpu_ids) {
-cd4ae6adf8b1c2 kernel/sched_rt.c Xiaotian Feng     2011-04-22  1821  				rcu_read_unlock();
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1822  				return best_cpu;
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1823  			}
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1824  		}
-cd4ae6adf8b1c2 kernel/sched_rt.c Xiaotian Feng     2011-04-22  1825  	}
-cd4ae6adf8b1c2 kernel/sched_rt.c Xiaotian Feng     2011-04-22  1826  	rcu_read_unlock();
-e8fa136262e112 kernel/sched_rt.c Steven Rostedt    2008-01-25  1827  
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1828  	/*
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1829  	 * And finally, if there were no matches within the domains
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1830  	 * just give the caller *something* to work with from the compatible
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1831  	 * locations.
-6e1254d2c41215 kernel/sched_rt.c Gregory Haskins   2008-01-25  1832  	 */
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1833  	if (this_cpu != -1)
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1834  		return this_cpu;
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1835  
-14e292f8d45380 kernel/sched/rt.c Peter Zijlstra    2020-10-01  1836  	cpu = cpumask_any_distribute(lowest_mask);
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1837  	if (cpu < nr_cpu_ids)
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1838  		return cpu;
-97fb7a0a8944bd kernel/sched/rt.c Ingo Molnar       2018-03-03  1839  
-e2c880630438f8 kernel/sched_rt.c Rusty Russell     2009-11-03  1840  	return -1;
-07b4032c9e505e kernel/sched_rt.c Gregory Haskins   2008-01-25  1841  }
-07b4032c9e505e kernel/sched_rt.c Gregory Haskins   2008-01-25  1842  
-
-:::::: The code at line 1804 was first introduced by commit
-:::::: 6e1254d2c41215da27025add8900ed187bca121d sched: optimize RT affinity
-
-:::::: TO: Gregory Haskins <ghaskins@novell.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+ 10555	
+ 10556	static void __maybe_unused mm_cid_fixup_cpus_to_tasks(struct mm_struct *mm)
+ 10557	{
+ 10558		unsigned int cpu;
+ 10559	
+ 10560		/* Walk the CPUs and fixup all stale CIDs */
+ 10561		for_each_possible_cpu(cpu) {
+ 10562			struct mm_cid_pcpu *pcp = per_cpu_ptr(mm->mm_cid.pcpu, cpu);
+ 10563			struct rq *rq = cpu_rq(cpu);
+ 10564	
+ 10565			/* Remote access to mm::mm_cid::pcpu requires rq_lock */
+ 10566			guard(rq_lock_irq)(rq);
+ 10567			/* Is the CID still owned by the CPU? */
+ 10568			if (cid_on_cpu(pcp->cid)) {
+ 10569				/*
+ 10570				 * If rq->curr has @mm, transfer it with the
+ 10571				 * transition bit set. Otherwise drop it.
+ 10572				 */
+ 10573				if (rq->curr->mm == mm && rq->curr->mm_cid.active)
+ 10574					mm_cid_transit_to_task(rq->curr, pcp);
+ 10575				else
+ 10576					mm_drop_cid_on_cpu(mm, pcp);
+ 10577	
+ 10578			} else if (rq->curr->mm == mm && rq->curr->mm_cid.active) {
+ 10579				unsigned int cid = rq->curr->mm_cid.cid;
+ 10580	
+ 10581				/* Ensure it has the transition bit set */
+ 10582				if (!cid_in_transit(cid)) {
+ 10583					cid = cid_to_transit_cid(cid);
+ 10584					rq->curr->mm_cid.cid = cid;
+ 10585					pcp->cid = cid;
+ 10586				}
+ 10587			}
+ 10588		}
+ 10589		/* Clear the transition bit */
+ 10590		WRITE_ONCE(mm->mm_cid.transit, 0);
+ 10591	}
+ 10592	
 
 -- 
 0-DAY CI Kernel Test Service
