@@ -1,63 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916621F37D4;
-	Mon, 16 Feb 2026 02:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9492B1F5842
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 02:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771210279; cv=none; b=s/Bg7nMbo6E0rEDwgAyALPtqIqERMH8qQ9qlmpl8Snz3j14M7Gw4OKdwfRkF7MAQWq2COgZgSIKTCFiFXIVRm3GdtyAShb7RhyEOvjk4AKFd6V3VYx67X9ICTBTL3mS9WcIrOdM8YG7FE4IRzX669OAZRuQIg58T4kwqp5Yqlrw=
+	t=1771210280; cv=none; b=i9cbj9KO2sRQKfvz0EA9M+c2+spdrFyRRHN0EKJqW1LaFH2LqBqrRPjva+MlqmZskM9od1+0lHVJGcEReAe2M0Y5udwR0EM/uYmQXBhM2O1rTfH/4RVRM4IhYO7qOG9MK6qYXHc/N8tooUwhd9Yqy4TFjgV8WkEHn2YJJuCDR/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771210279; c=relaxed/simple;
-	bh=zECy0mqaOgeJXWyIw7FNUt2iDqlCCCgkdZjUix16Sco=;
+	s=arc-20240116; t=1771210280; c=relaxed/simple;
+	bh=BtfTy6wRVU5oGY/Ndnmcii+F9Cr6tuNhG9rNllvi4qc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVQ0w20Gto4c6Y4T6rW/z8mDibd50D9+J5/W/2moSR29cSBghHO5NWFoyZuc3W0Aj7a5iJceCMH2UcmtogiUNxcgw1Ed2nZZoF/Cov//G5OO3E6EqFjj2b4U0AG62RIdQJAkUv7knGnYiBWxiyGf8AsHWKXCDXz+UstsPxiTbAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0RXg2g5; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kyYD5DAR7qe2TW7NM40AWXQ3xzdwQMpMTihrf0d4fZBNaF8/EybEvkpma7mZCzp9MPAoVReN2LYANqIGWcFwMp514GNyqrJxdmkPeQB/5a9jp5lhYnkTQJpMBH+dGFHrwXDW3Be/nhIksfodNNJkc13rOhxYF2nRfsWeRj7W/nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=elXhlZWI; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0RXg2g5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elXhlZWI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1771210278; x=1802746278;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zECy0mqaOgeJXWyIw7FNUt2iDqlCCCgkdZjUix16Sco=;
-  b=m0RXg2g5/PT3r/5INPAahd97NG/8gLWPNrGi+8vw8jD1f8M9eB8yFc/K
-   0XciyfTNmZvTlPVG+rpVTpqq5p7nIaWnyYkRyIzjFVNP9CDQl/tJiugKP
-   NVTYg85XzUyu0CHRfOaZsRMUtpH8TBN7n30IFG+4cA2ytDckrHb2h2uBn
-   CmSkgY9/s3lHKXpWd1+SAIeWzo9JQJRzvNuCb415zDLsn/n5Txxs7cNA1
-   Q+vHKqIUXt/34sKpOeTZLkhN73gaDj1Ga5nwWkD/HLDQt7iyybiaeKQUh
-   KqvfGbQFL5E9BZGvUkVt3Ux3D1SqXvwh6srLRNKWSIpXpiRN7UBXR4E7m
-   w==;
-X-CSE-ConnectionGUID: JsHj49WGQli5gbfnDBEGxw==
-X-CSE-MsgGUID: bNjWVPn+SKCqZ4CfYZuGcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="71492824"
+  bh=BtfTy6wRVU5oGY/Ndnmcii+F9Cr6tuNhG9rNllvi4qc=;
+  b=elXhlZWIqGZdVYezHJlXyGQP/fLW6CBS//3d3N657xryz0jBaC6KyaQE
+   hnoDaw5wBijYWYFJ5rw6bNSHszqcp/tJNjumYDk9L97JawGG/ZRFnVKHo
+   EmMqKEauxRWTyLiRr2+0K7Ld1ZAqBnlrcF/e2WeC8cw/XyIUUvSp5kCo4
+   eVyv1wbbRkwWVejWkHbXb2ZgBsxc3LqT+R8YJPF2wyYWKWq8yL/xIUn+Z
+   U3Dm69BGRGUHH5TLm86f4Uh6jDm57FD5LxBbFYM3zWl7xBBEJLItucuZE
+   Pe1XlcNHQwwyswP4Z15yRDEsQ6XY9GT+82yFKPVId2ittjItAuNfO4aho
+   Q==;
+X-CSE-ConnectionGUID: zW4DLlsWTu6lRMchIBm5jw==
+X-CSE-MsgGUID: TptcOuXhSvOG3tRtMoclQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="83017455"
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="71492824"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 18:51:18 -0800
-X-CSE-ConnectionGUID: WWng7x6KTdiqC+6q3mL+QA==
-X-CSE-MsgGUID: hon0aVVWTh6gERwcALI6KQ==
+   d="scan'208";a="83017455"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 18:51:17 -0800
+X-CSE-ConnectionGUID: GznNaG7zRl6//c+ESuiY3A==
+X-CSE-MsgGUID: vto2SdazRru5aXc1oO9+Fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="218015367"
+   d="scan'208";a="236487695"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Feb 2026 18:51:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 15 Feb 2026 18:51:16 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrohd-00000000zL2-3MTH;
+	id 1vrohd-00000000zL4-3S9V;
 	Mon, 16 Feb 2026 02:51:13 +0000
-Date: Mon, 16 Feb 2026 10:50:31 +0800
+Date: Mon, 16 Feb 2026 10:50:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samyak <samyak.bambole07@gmail.com>, marvin24@gmx.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Samyak Bambole <samyak.bambole07@gmail.com>
-Subject: Re: [PATCH] staging: nvec: Use kzalloc_obj instead of kzalloc
-Message-ID: <202602161056.Elbb21hV-lkp@intel.com>
-References: <20260215122913.104064-1-samyak.bambole07@gmail.com>
+To: Kuniyuki Iwashima <kuniyu@google.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Jakub Sitnicki <jakub@cloudflare.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Cong Wang <cong.wang@bytedance.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org,
+	syzbot+5b3b7e51dda1be027b7a@syzkaller.appspotmail.com
+Subject: Re: [PATCH v1 bpf/net 6/6] sockmap: Fix broken memory accounting for
+ UDP.
+Message-ID: <202602161010.ohfwdwoo-lkp@intel.com>
+References: <20260215204353.3645744-7-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,68 +70,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260215122913.104064-1-samyak.bambole07@gmail.com>
+In-Reply-To: <20260215204353.3645744-7-kuniyu@google.com>
 
-Hi Samyak,
+Hi Kuniyuki,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on staging/staging-testing]
+[auto build test ERROR on linus/master]
+[also build test ERROR on next-20260213]
+[cannot apply to horms-ipvs/master v6.19]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samyak/staging-nvec-Use-kzalloc_obj-instead-of-kzalloc/20260215-203130
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260215122913.104064-1-samyak.bambole07%40gmail.com
-patch subject: [PATCH] staging: nvec: Use kzalloc_obj instead of kzalloc
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20260216/202602161056.Elbb21hV-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project afd4df07ab0262482829d4410a6bae9f2809d37b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161056.Elbb21hV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/sockmap-Annotate-sk-sk_data_ready-for-UDP/20260216-044819
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260215204353.3645744-7-kuniyu%40google.com
+patch subject: [PATCH v1 bpf/net 6/6] sockmap: Fix broken memory accounting for UDP.
+config: x86_64-buildonly-randconfig-002-20260216 (https://download.01.org/0day-ci/archive/20260216/202602161010.ohfwdwoo-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161010.ohfwdwoo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602161056.Elbb21hV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602161010.ohfwdwoo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/nvec/nvec_ps2.c:105:12: error: call to undeclared function 'kzalloc_obj'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     105 |         ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
-         |                   ^
->> drivers/staging/nvec/nvec_ps2.c:105:10: error: incompatible integer to pointer conversion assigning to 'struct serio *' from 'int' [-Wint-conversion]
-     105 |         ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
-         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
-
-
-vim +/kzalloc_obj +105 drivers/staging/nvec/nvec_ps2.c
-
-    99	
-   100	static int nvec_mouse_probe(struct platform_device *pdev)
-   101	{
-   102		struct nvec_chip *nvec = dev_get_drvdata(pdev->dev.parent);
-   103		struct serio *ser_dev;
-   104	
- > 105		ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
-   106		if (!ser_dev)
-   107			return -ENOMEM;
-   108	
-   109		ser_dev->id.type = SERIO_8042;
-   110		ser_dev->write = ps2_sendcommand;
-   111		ser_dev->start = ps2_startstreaming;
-   112		ser_dev->stop = ps2_stopstreaming;
-   113	
-   114		strscpy(ser_dev->name, "nvec mouse", sizeof(ser_dev->name));
-   115		strscpy(ser_dev->phys, "nvec", sizeof(ser_dev->phys));
-   116	
-   117		ps2_dev.ser_dev = ser_dev;
-   118		ps2_dev.notifier.notifier_call = nvec_ps2_notifier;
-   119		ps2_dev.nvec = nvec;
-   120		nvec_register_notifier(nvec, &ps2_dev.notifier, 0);
-   121	
-   122		serio_register_port(ser_dev);
-   123	
-   124		return 0;
-   125	}
-   126	
+   ld: vmlinux.o: in function `sk_psock_skb_ingress':
+>> skmsg.c:(.text+0x8fc777): undefined reference to `udp_sock_rfree'
 
 -- 
 0-DAY CI Kernel Test Service
