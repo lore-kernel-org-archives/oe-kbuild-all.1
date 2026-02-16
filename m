@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B182475CE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA3021D596
 	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 03:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771211662; cv=none; b=BBqkKiUaacs5nmQ+IDuiIGGSMIKQDTTtVCsGEaczEcSuZWxtNggMlMoq3iWQQxdcqfR9EQWZGJE4CuJJjILMgcAmiC5AsEDyvy5Oud8A4PmPrWzi7RTieWe77uQpFpB1QqxpooFJy5u1RhqqUEfBm2RjCYQbgyKAUgMDDcGDoaY=
+	t=1771211662; cv=none; b=MMFNuVW10Gg/w+NlJFksIdN/FSnIRoNEptb5SEXSs7dlkaTCW1/gTmMQBC5FOZ0CmRK2N9pgmza2M29/j1T69GSh0p9lN/KORlNt18JYZGJgfAsfl5bmNARO0cZhAV9ofghLBik6nqTwvDvajNKT6hI1P72PLPcQ9z2orf1ELgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771211662; c=relaxed/simple;
-	bh=3Hg2HkU7pZM8BMXZYTsQLpgl8e0f4y3uR6Nc9tPvzjg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ABRiTDy2ryLq66nUwQqJg01uzGLEuaGp6SZIY6ZB1/Dmlx8YCkrDWqJfgv/RXnQ4UBBEY5e3KuckCBjjmQvrxgIO6TEreF/cPc/3fkkzDAXr+KDXslbQqVrVmaXidZaN7+tO3iAbXtkLYx3lcBONSAHynlWbEBi4RBLo6CRUgw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3LiuZQy; arc=none smtp.client-ip=192.198.163.12
+	bh=JFEoSR+fJmbHa7Qpdi+wDkcoNPcfTNYlxzErgyAd0TI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=N0mTfS2qusJIAna4lQSfEUKdHkoWsfplamGR90J0MbnIAVa615vjiyDXgiK7ImZdy/qa16eJ436TTSS5ISyAjx9cWPdRhFI9Di6X5xX5FocFYxSb8v/H0phKS7MglNt8z4SwUgE8aBd0LDF9yxYN6kz0EB+x73IV8NdeZDVHP+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwl3GiVt; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3LiuZQy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwl3GiVt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1771211660; x=1802747660;
   h=date:from:to:cc:subject:message-id;
-  bh=3Hg2HkU7pZM8BMXZYTsQLpgl8e0f4y3uR6Nc9tPvzjg=;
-  b=a3LiuZQy8EiSWS+GkLK5Ze19VS9cL2s2UYsO/bvdKpdS6zCoB3x0N4fN
-   1NxTmGv29pguVLLYa0O4qTbcsRdqjHSSYugbRkuIKeUZPhM5E+6J6BQOL
-   KuLp6I1IYeow7QTNSGLb2BKp5N4SUijcTbUQKku3wkEUgsizq/cMqlj9Q
-   4yB38CmZBulkl6LZGaINcxnvPZ4n4o2GATfbT5tVH8nb1GLR6k2gqICAz
-   UDJUJdqSDRG0ZxKGdZ7sUd1ll54ObWvgaiIZj3dstlzhIiqvR6OPhUcn0
-   YtIvTuEmliszVXmQVhxvjppZmNWbMyvJhfwn1IksgxyWypsfRjOMHhle8
-   w==;
-X-CSE-ConnectionGUID: l7jTMz/cTPGAsznHlliYVQ==
-X-CSE-MsgGUID: Ea9PlcvrRjOQy4Pv5whfxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="76147817"
+  bh=JFEoSR+fJmbHa7Qpdi+wDkcoNPcfTNYlxzErgyAd0TI=;
+  b=hwl3GiVtkwN6Cafr3l5YO0bIuzTvFgp6pIHbJjbi9+7bfAlYBKn5Bze8
+   9o6Y3Q5mWMuKrKyhp0CKz3u/J98XiybEPAbVnkZXf+jeqV4rr6hOXBBDX
+   t98wc4qFRDbceggbILy7EnLZnqPIUIMxpvrIsoUXpsH/V4AoSCPoOqyID
+   L3tHu96o+C5+ozROawSmKwcLB/S6fw9DbvvK2r3wbU28HtSoTSk9iFbQ9
+   Z3I/UPuh0+8om4byWF5CWgde7ZDWdJDVchKNCifNT+VOmNc1G8AOyMwJg
+   jBSEi9joiIt+YyscSCDrhsIf/ZzoUJb7m2fPaiOv1uxUUM30O3VAQbqhv
+   A==;
+X-CSE-ConnectionGUID: +HF0CNjhSJKrw1qYdn10cg==
+X-CSE-MsgGUID: mioLuFPDSlq6W9o2IIGPNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="72006840"
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="76147817"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 19:14:20 -0800
-X-CSE-ConnectionGUID: 8iCuwKjMQayE1gY259UbgQ==
-X-CSE-MsgGUID: bT2D/9njQh60fHllJDyLOg==
+   d="scan'208";a="72006840"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 19:14:19 -0800
+X-CSE-ConnectionGUID: wEhUJXSjQIahXUdoKGBsAw==
+X-CSE-MsgGUID: 0wFW2ntwSXeX9/VCzjbFvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="251149921"
+   d="scan'208";a="213574611"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Feb 2026 19:14:18 -0800
+  by orviesa007.jf.intel.com with ESMTP; 15 Feb 2026 19:14:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrp3w-00000000zMi-09UC;
+	id 1vrp3w-00000000zMg-02PB;
 	Mon, 16 Feb 2026 03:14:16 +0000
-Date: Mon, 16 Feb 2026 11:13:36 +0800
+Date: Mon, 16 Feb 2026 11:13:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alexei Starovoitov <ast@kernel.org>
-Subject: kernel/bpf/rqspinlock.c:100:39: sparse: sparse: incorrect
- type in initializer (different address spaces)
-Message-ID: <202602161139.B1owy5fU-lkp@intel.com>
+ Jens Axboe <axboe@kernel.dk>
+Subject: io_uring/io_uring.c:578:28: sparse: sparse: invalid
+ assignment: |=
+Message-ID: <202602161110.UdSSYGJ6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,60 +60,52 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Kumar,
-
-First bad commit (maybe != root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   26a4cfaff82a2dcb810f6bfd5f4842f9b6046c8a
-commit: e2082e32fd57976e811086708043c136ee596978 rqspinlock: Add entry to Makefile, MAINTAINERS
-date:   11 months ago
-config: x86_64-randconfig-121-20260216 (https://download.01.org/0day-ci/archive/20260216/202602161139.B1owy5fU-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161139.B1owy5fU-lkp@intel.com/reproduce)
+commit: fde04c7e2775feb0746301e0ef86a04d3598c3fe io_uring: fix spurious drain flushing
+date:   9 months ago
+config: alpha-randconfig-r134-20260216 (https://download.01.org/0day-ci/archive/20260216/202602161110.UdSSYGJ6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161110.UdSSYGJ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602161139.B1owy5fU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602161110.UdSSYGJ6-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/rqspinlock.c:100:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
-   kernel/bpf/rqspinlock.c:100:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/bpf/rqspinlock.c:100:39: sparse:     got struct rqspinlock_held *
-   kernel/bpf/rqspinlock.c:122:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
-   kernel/bpf/rqspinlock.c:122:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/bpf/rqspinlock.c:122:39: sparse:     got struct rqspinlock_held *
-   kernel/bpf/rqspinlock.c:135:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
-   kernel/bpf/rqspinlock.c:135:51: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/bpf/rqspinlock.c:135:51: sparse:     got struct rqspinlock_held *
+   io_uring/io_uring.c: note: in included file (through include/linux/io_uring/cmd.h):
+   include/linux/io_uring_types.h:199:37: sparse: sparse: array of flexible structures
+>> io_uring/io_uring.c:578:28: sparse: sparse: invalid assignment: |=
+   io_uring/io_uring.c:578:28: sparse:    left side has type bool
+   io_uring/io_uring.c:578:28: sparse:    right side has type restricted io_req_flags_t
+   io_uring/io_uring.c:619:36: sparse: sparse: context imbalance in 'io_req_post_cqe' - unexpected unlock
+   io_uring/io_uring.c:621:17: sparse: sparse: context imbalance in '__io_submit_flush_completions' - different lock contexts for basic block
 
-vim +100 kernel/bpf/rqspinlock.c
+vim +578 io_uring/io_uring.c
 
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15   96  
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15   97  static noinline int check_deadlock_AA(rqspinlock_t *lock, u32 mask,
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15   98  				      struct rqspinlock_timeout *ts)
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15   99  {
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15 @100  	struct rqspinlock_held *rqh = this_cpu_ptr(&rqspinlock_held_locks);
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  101  	int cnt = min(RES_NR_HELD, rqh->cnt);
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  102  
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  103  	/*
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  104  	 * Return an error if we hold the lock we are attempting to acquire.
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  105  	 * We'll iterate over max 32 locks; no need to do is_lock_released.
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  106  	 */
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  107  	for (int i = 0; i < cnt - 1; i++) {
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  108  		if (rqh->locks[i] == lock)
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  109  			return -EDEADLK;
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  110  	}
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  111  	return 0;
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  112  }
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  113  
-
-:::::: The code at line 100 was first introduced by commit
-:::::: 31158ad02ddbed2b0672c9701a0a2f3e5b3bc01a rqspinlock: Add deadlock detection and recovery
-
-:::::: TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+   568	
+   569	static __cold noinline void io_queue_deferred(struct io_ring_ctx *ctx)
+   570	{
+   571		bool drain_seen = false, first = true;
+   572	
+   573		spin_lock(&ctx->completion_lock);
+   574		while (!list_empty(&ctx->defer_list)) {
+   575			struct io_defer_entry *de = list_first_entry(&ctx->defer_list,
+   576							struct io_defer_entry, list);
+   577	
+ > 578			drain_seen |= de->req->flags & REQ_F_IO_DRAIN;
+   579			if ((drain_seen || first) && io_drain_defer_seq(de->req, de->seq))
+   580				break;
+   581	
+   582			list_del_init(&de->list);
+   583			io_req_task_queue(de->req);
+   584			kfree(de);
+   585			first = false;
+   586		}
+   587		spin_unlock(&ctx->completion_lock);
+   588	}
+   589	
 
 -- 
 0-DAY CI Kernel Test Service
