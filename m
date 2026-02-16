@@ -1,66 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D5B332916
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 16:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFD5311C2F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 16:05:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771257921; cv=none; b=mmUBhezeW4gquh002R6ZH0k7BehfceHe1F8mZ0/i0ATI3ZVDixbKUxLZAWXPg7xEEKdUIM323vDUaF3BLYuuLVKNPxkloZDIXkexH24k51opSsO+LsDrGEDyg+rJ1h8NdX3zEEzb7c/uNV/atRaNOI8tAGQrnZ296MAc9BG7kGk=
+	t=1771257922; cv=none; b=ARnvh1K2BxbJlayM9taqhWd21YtVtq3UCtZLl+IuZ68EXJA+DD9yGm+sSSeXYH9Ffx5UmVqWcDk8nuln58fGfWmjTy0d4u/Hv27ruQw2BeG4ddJBpEuqU+Fqoqgt9pAcRcLYtG7Lt2rCi7joPc9s1ZvS/1j4rquPN4nRsydVAV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771257921; c=relaxed/simple;
-	bh=qHCNQtUiB/qHwVXwQ/1FkPzBFdSV2PDmtD0JKx8v0ao=;
+	s=arc-20240116; t=1771257922; c=relaxed/simple;
+	bh=bqHeOKM7JvvA+JD/+/f90MdkUeGx+oFO9+YA5pXFpVw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMwF1L0045FFSOJcV9LOIiT6HhwGHt3bfOmYgR/yM6bK3KCfUR2Inr9esqHLkHxjdcVf6KNSx2mpSySdF2VIBSP8uysNagVoGRZ/8jsQ8xi9+fO68k1b1Empt1BlDjWrNbznG5aa7kcMOEPNPSFl0ZB9T6NflGckJ05vFDegL9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f2spBX00; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=WHunKk8VFaG9Vkdgpj2v6jxI2OMIzmm50KJS0CMuSaZleSQewmyOJdu6yKijfaFq63k6QpQPFYj/p4ZGfa4NQDAzbH3Dy4SDwciJ3geQMlvXBO4M8nlD6tCuH1q3QGa+qTDBZ/eylq6GQEf50+WJBv2MktKgrGyrEVeovirdpn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DjnNSrUN; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2spBX00"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DjnNSrUN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771257919; x=1802793919;
+  t=1771257921; x=1802793921;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qHCNQtUiB/qHwVXwQ/1FkPzBFdSV2PDmtD0JKx8v0ao=;
-  b=f2spBX00MZMAqJmzQMaNicLM12krxIzkt22DxqXeuav3r/OEFADNaVb7
-   LcGkTgozh8VqeGoa5j2JOUZUeDpj75Zs10VsiszGQ9ML9gZqdJlUJA2xS
-   mmbm5lwuTw0FEJP0HGkzxOkYsDogXj3YDapabWh670MnP4tDraTBvQfx9
-   wD8Dmfu7YsWFoWFMyIWx/bwrXIy/zUMwwJuGyGJpRtI++EOuhkwo4ZQ75
-   UsV9i4Umx/ZFdC+eKoPKtQUpnUqdqkvprbjUDl0PiLgM5oEo0gBuVil4f
-   8Mxr4AoGQoBW8AkHvVsCOq0P7KKPHrDAi29bKZYdeLGrnoWrglwV6zknO
-   Q==;
-X-CSE-ConnectionGUID: 8hI1MmT9S2aB7A01B4SgMA==
-X-CSE-MsgGUID: Vmd8UWhzQ+qarOLhBp2+hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="75959908"
+  bh=bqHeOKM7JvvA+JD/+/f90MdkUeGx+oFO9+YA5pXFpVw=;
+  b=DjnNSrUNCvCeKP5EWW6mIW09uFnrCytdcw0nzvZ3Ijy1//cfK60pvsAb
+   bZ1aUgeZGFQBSKK/UjGdNaFtgP7nGqEpIUQySxsywe97MZ5t598botKBK
+   JrYOSDzcZtyb8NXm83CX+x5iO98ZjXDfHJFK3ISren79DFhW5LvAWeMwO
+   Hs1u37Ad0+MtL3fVtalzhygQwhGyJkfJF6jh60pBoeq/ujHaJepkByCGS
+   XYR4U4FKVN6MPt1KhZpWAD73BZWYPY9p7IieQzW0CTfOncTIhI5d+9gmz
+   e/6Xa7+k2uNC/2HuV9DrIR+uDPov4N9cVTFnZC3rln0F76fjwb1g0Aa0P
+   g==;
+X-CSE-ConnectionGUID: 4Z2A4/abSquDlR0ZF1Al0g==
+X-CSE-MsgGUID: OZzJPRbNSmWl3eiQ+Gn/Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="75959924"
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="75959908"
+   d="scan'208";a="75959924"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 08:05:18 -0800
-X-CSE-ConnectionGUID: CYt7VqExSk+BAVZ5rauWow==
-X-CSE-MsgGUID: R/d9wrytRNqHyVM5DtILAg==
+X-CSE-ConnectionGUID: 4CFoSClbQpO83Pz764U/og==
+X-CSE-MsgGUID: k2B98ltUSgew6AamdOHWJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="251318402"
+   d="scan'208";a="251318403"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 16 Feb 2026 08:05:14 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vs160-00000001032-0Qdo;
+	id 1vs160-00000001035-0hED;
 	Mon, 16 Feb 2026 16:05:12 +0000
-Date: Tue, 17 Feb 2026 00:05:10 +0800
+Date: Tue, 17 Feb 2026 00:05:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vishal Chourasia <vishalc@linux.ibm.com>, peterz@infradead.org,
-	aboorvad@linux.ibm.com
-Cc: oe-kbuild-all@lists.linux.dev, boqun.feng@gmail.com,
-	frederic@kernel.org, joelagnelf@nvidia.com, josh@joshtriplett.org,
-	linux-kernel@vger.kernel.org, neeraj.upadhyay@kernel.org,
-	paulmck@kernel.org, rcu@vger.kernel.org, rostedt@goodmis.org,
-	srikar@linux.ibm.com, sshegde@linux.ibm.com, tglx@linutronix.de,
-	urezki@gmail.com, samir@linux.ibm.com, vishalc@linux.ibm.com
-Subject: Re: [PATCH v2 2/2] cpuhp: Expedite RCU grace periods during SMT
- operations
-Message-ID: <202602170042.5jdtaQeu-lkp@intel.com>
-References: <20260216121927.489062-6-vishalc@linux.ibm.com>
+To: zhang.guodong@linux.dev, smfrench@gmail.com, linkinjeon@kernel.org,
+	pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
+	tom@talpey.com, bharathsm@microsoft.com, senozhatsky@chromium.org,
+	dhowells@redhat.com, chenxiaosong@kylinos.cn,
+	chenxiaosong.chenxiaosong@linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+	ZhangGuoDong <zhangguodong@kylinos.cn>,
+	Steve French <stfrench@microsoft.com>
+Subject: Re: [PATCH v3 1/5] smb: move smb3_fs_vol_info into common/fscc.h
+Message-ID: <202602162321.pMV2aDap-lkp@intel.com>
+References: <20260216082018.156695-2-zhang.guodong@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,89 +68,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260216121927.489062-6-vishalc@linux.ibm.com>
+In-Reply-To: <20260216082018.156695-2-zhang.guodong@linux.dev>
 
-Hi Vishal,
+Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20260213]
-[also build test ERROR on linus/master]
-[cannot apply to tip/smp/core rcu/rcu/dev v6.19 v6.19-rc8 v6.19-rc7 v6.19]
+[auto build test WARNING on cifs/for-next]
+[also build test WARNING on brauner-vfs/vfs.all linus/master v6.19 next-20260213]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Chourasia/cpuhp-Optimize-SMT-switch-operation-by-batching-lock-acquisition/20260216-202247
-base:   next-20260213
-patch link:    https://lore.kernel.org/r/20260216121927.489062-6-vishalc%40linux.ibm.com
-patch subject: [PATCH v2 2/2] cpuhp: Expedite RCU grace periods during SMT operations
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260217/202602170042.5jdtaQeu-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170042.5jdtaQeu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/zhang-guodong-linux-dev/smb-move-smb3_fs_vol_info-into-common-fscc-h/20260216-162407
+base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+patch link:    https://lore.kernel.org/r/20260216082018.156695-2-zhang.guodong%40linux.dev
+patch subject: [PATCH v3 1/5] smb: move smb3_fs_vol_info into common/fscc.h
+config: i386-randconfig-r123-20260216 (https://download.01.org/0day-ci/archive/20260216/202602162321.pMV2aDap-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602162321.pMV2aDap-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602170042.5jdtaQeu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602162321.pMV2aDap-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/smb/client/smb2pdu.c:6230:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] vol_serial_number @@     got restricted __le32 [usertype] VolumeSerialNumber @@
+   fs/smb/client/smb2pdu.c:6230:41: sparse:     expected unsigned int [usertype] vol_serial_number
+   fs/smb/client/smb2pdu.c:6230:41: sparse:     got restricted __le32 [usertype] VolumeSerialNumber
 
-   In file included from kernel/rcu/update.c:50:
->> kernel/rcu/rcu.h:515:20: error: static declaration of 'rcu_expedite_gp' follows non-static declaration
-     515 | static inline void rcu_expedite_gp(void) { }
-         |                    ^~~~~~~~~~~~~~~
-   In file included from include/linux/rbtree.h:24,
-                    from include/linux/mm_types.h:11,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/topology.h:34,
-                    from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/alpha/include/asm/hardirq.h:8,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from kernel/rcu/update.c:25:
-   include/linux/rcupdate.h:1193:13: note: previous declaration of 'rcu_expedite_gp' with type 'void(void)'
-    1193 | extern void rcu_expedite_gp(void);
-         |             ^~~~~~~~~~~~~~~
->> kernel/rcu/rcu.h:516:20: error: static declaration of 'rcu_unexpedite_gp' follows non-static declaration
-     516 | static inline void rcu_unexpedite_gp(void) { }
-         |                    ^~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:1194:13: note: previous declaration of 'rcu_unexpedite_gp' with type 'void(void)'
-    1194 | extern void rcu_unexpedite_gp(void);
-         |             ^~~~~~~~~~~~~~~~~
+vim +6230 fs/smb/client/smb2pdu.c
 
-
-vim +/rcu_expedite_gp +515 kernel/rcu/rcu.h
-
-2b34c43cc1671c Paul E. McKenney        2017-03-14  509  
-25c36329a30c8c Paul E. McKenney        2017-05-03  510  #ifdef CONFIG_TINY_RCU
-25c36329a30c8c Paul E. McKenney        2017-05-03  511  /* Tiny RCU doesn't expedite, as its purpose in life is instead to be tiny. */
-7414fac050d5e0 Paul E. McKenney        2017-06-12  512  static inline bool rcu_gp_is_normal(void) { return true; }
-7414fac050d5e0 Paul E. McKenney        2017-06-12  513  static inline bool rcu_gp_is_expedited(void) { return false; }
-6efdda8bec2900 Joel Fernandes (Google  2023-01-12  514) static inline bool rcu_async_should_hurry(void) { return false; }
-7414fac050d5e0 Paul E. McKenney        2017-06-12 @515  static inline void rcu_expedite_gp(void) { }
-7414fac050d5e0 Paul E. McKenney        2017-06-12 @516  static inline void rcu_unexpedite_gp(void) { }
-6efdda8bec2900 Joel Fernandes (Google  2023-01-12  517) static inline void rcu_async_hurry(void) { }
-6efdda8bec2900 Joel Fernandes (Google  2023-01-12  518) static inline void rcu_async_relax(void) { }
-2be4686d866ad5 Frederic Weisbecker     2023-10-27  519  static inline bool rcu_cpu_online(int cpu) { return true; }
-25c36329a30c8c Paul E. McKenney        2017-05-03  520  #else /* #ifdef CONFIG_TINY_RCU */
-25c36329a30c8c Paul E. McKenney        2017-05-03  521  bool rcu_gp_is_normal(void);     /* Internal RCU use. */
-25c36329a30c8c Paul E. McKenney        2017-05-03  522  bool rcu_gp_is_expedited(void);  /* Internal RCU use. */
-6efdda8bec2900 Joel Fernandes (Google  2023-01-12  523) bool rcu_async_should_hurry(void);  /* Internal RCU use. */
-25c36329a30c8c Paul E. McKenney        2017-05-03  524  void rcu_expedite_gp(void);
-25c36329a30c8c Paul E. McKenney        2017-05-03  525  void rcu_unexpedite_gp(void);
-6efdda8bec2900 Joel Fernandes (Google  2023-01-12  526) void rcu_async_hurry(void);
-6efdda8bec2900 Joel Fernandes (Google  2023-01-12  527) void rcu_async_relax(void);
-25c36329a30c8c Paul E. McKenney        2017-05-03  528  void rcupdate_announce_bootup_oddness(void);
-2be4686d866ad5 Frederic Weisbecker     2023-10-27  529  bool rcu_cpu_online(int cpu);
-474d0997361c07 Paul E. McKenney        2021-04-20  530  #ifdef CONFIG_TASKS_RCU_GENERIC
-e21408ceec2de5 Paul E. McKenney        2020-03-16  531  void show_rcu_tasks_gp_kthreads(void);
-e0a34641eb551e Arnd Bergmann           2023-06-09  532  #else /* #ifdef CONFIG_TASKS_RCU_GENERIC */
-e0a34641eb551e Arnd Bergmann           2023-06-09  533  static inline void show_rcu_tasks_gp_kthreads(void) {}
-e0a34641eb551e Arnd Bergmann           2023-06-09  534  #endif /* #else #ifdef CONFIG_TASKS_RCU_GENERIC */
-e0a34641eb551e Arnd Bergmann           2023-06-09  535  #endif /* #else #ifdef CONFIG_TINY_RCU */
-e0a34641eb551e Arnd Bergmann           2023-06-09  536  
+2d304217832ea7 fs/cifs/smb2pdu.c       Steve French    2018-06-24  6140  
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6141  int
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6142  SMB2_QFS_attr(const unsigned int xid, struct cifs_tcon *tcon,
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6143  	      u64 persistent_fid, u64 volatile_fid, int level)
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6144  {
+40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-12  6145  	struct smb_rqst rqst;
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6146  	struct smb2_query_info_rsp *rsp = NULL;
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6147  	struct kvec iov;
+da502f7df03d2d fs/cifs/smb2pdu.c       Pavel Shilovsky 2016-10-25  6148  	struct kvec rsp_iov;
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6149  	int rc = 0;
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6150  	int resp_buftype, max_len, min_len;
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6151  	struct cifs_ses *ses = tcon->ses;
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6152  	struct TCP_Server_Info *server;
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6153  	unsigned int rsp_len, offset;
+7fb8986e7449d0 fs/cifs/smb2pdu.c       Pavel Shilovsky 2016-10-31  6154  	int flags = 0;
+16d480ed4990ed fs/smb/client/smb2pdu.c Shyam Prasad N  2026-01-31  6155  	int retries = 0, cur_sleep = 0;
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6156  
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6157  replay_again:
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6158  	/* reinitialize for possible replay */
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6159  	flags = 0;
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6160  	server = cifs_pick_channel(ses);
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6161  
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6162  	if (level == FS_DEVICE_INFORMATION) {
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6163  		max_len = sizeof(FILE_SYSTEM_DEVICE_INFO);
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6164  		min_len = sizeof(FILE_SYSTEM_DEVICE_INFO);
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6165  	} else if (level == FS_ATTRIBUTE_INFORMATION) {
+c4a2a49f7df481 fs/smb/client/smb2pdu.c ChenXiaoSong    2025-11-17  6166  		max_len = sizeof(FILE_SYSTEM_ATTRIBUTE_INFO) + MAX_FS_NAME_LEN;
+c4a2a49f7df481 fs/smb/client/smb2pdu.c ChenXiaoSong    2025-11-17  6167  		min_len = sizeof(FILE_SYSTEM_ATTRIBUTE_INFO);
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6168  	} else if (level == FS_SECTOR_SIZE_INFORMATION) {
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6169  		max_len = sizeof(struct smb3_fs_ss_info);
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6170  		min_len = sizeof(struct smb3_fs_ss_info);
+21ba3845b59c73 fs/cifs/smb2pdu.c       Steve French    2018-06-24  6171  	} else if (level == FS_VOLUME_INFORMATION) {
+21ba3845b59c73 fs/cifs/smb2pdu.c       Steve French    2018-06-24  6172  		max_len = sizeof(struct smb3_fs_vol_info) + MAX_VOL_LABEL_LEN;
+21ba3845b59c73 fs/cifs/smb2pdu.c       Steve French    2018-06-24  6173  		min_len = sizeof(struct smb3_fs_vol_info);
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6174  	} else {
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6175  		cifs_dbg(FYI, "Invalid qfsinfo level %d\n", level);
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6176  		return -EINVAL;
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6177  	}
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6178  
+352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel  2020-05-31  6179  	rc = build_qfs_info_req(&iov, tcon, server,
+352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel  2020-05-31  6180  				level, max_len,
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6181  				persistent_fid, volatile_fid);
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6182  	if (rc)
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6183  		return rc;
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6184  
+5a77e75fedce55 fs/cifs/smb2pdu.c       Steve French    2018-05-09  6185  	if (smb3_encryption_required(tcon))
+7fb8986e7449d0 fs/cifs/smb2pdu.c       Pavel Shilovsky 2016-10-31  6186  		flags |= CIFS_TRANSFORM_REQ;
+7fb8986e7449d0 fs/cifs/smb2pdu.c       Pavel Shilovsky 2016-10-31  6187  
+40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-12  6188  	memset(&rqst, 0, sizeof(struct smb_rqst));
+40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-12  6189  	rqst.rq_iov = &iov;
+40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-12  6190  	rqst.rq_nvec = 1;
+40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-12  6191  
+16d480ed4990ed fs/smb/client/smb2pdu.c Shyam Prasad N  2026-01-31  6192  	if (retries) {
+16d480ed4990ed fs/smb/client/smb2pdu.c Shyam Prasad N  2026-01-31  6193  		/* Back-off before retry */
+16d480ed4990ed fs/smb/client/smb2pdu.c Shyam Prasad N  2026-01-31  6194  		if (cur_sleep)
+16d480ed4990ed fs/smb/client/smb2pdu.c Shyam Prasad N  2026-01-31  6195  			msleep(cur_sleep);
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6196  		smb2_set_replay(server, &rqst);
+16d480ed4990ed fs/smb/client/smb2pdu.c Shyam Prasad N  2026-01-31  6197  	}
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6198  
+352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel  2020-05-31  6199  	rc = cifs_send_recv(xid, ses, server,
+352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel  2020-05-31  6200  			    &rqst, &resp_buftype, flags, &rsp_iov);
+33eae65c6f4977 fs/smb/client/smb2pdu.c Paulo Alcantara 2023-12-13  6201  	free_qfs_info_req(&iov);
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6202  	if (rc) {
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6203  		cifs_stats_fail_inc(tcon, SMB2_QUERY_INFO_HE);
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6204  		goto qfsattr_exit;
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6205  	}
+da502f7df03d2d fs/cifs/smb2pdu.c       Pavel Shilovsky 2016-10-25  6206  	rsp = (struct smb2_query_info_rsp *)rsp_iov.iov_base;
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6207  
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6208  	rsp_len = le32_to_cpu(rsp->OutputBufferLength);
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6209  	offset = le16_to_cpu(rsp->OutputBufferOffset);
+730928c8f4be88 fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-08-08  6210  	rc = smb2_validate_iov(offset, rsp_len, &rsp_iov, min_len);
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6211  	if (rc)
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6212  		goto qfsattr_exit;
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6213  
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6214  	if (level == FS_ATTRIBUTE_INFORMATION)
+1fc6ad2f10ad6f fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-01  6215  		memcpy(&tcon->fsAttrInfo, offset
+49f466bdbdf395 fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-01  6216  			+ (char *)rsp, min_t(unsigned int,
+c4a2a49f7df481 fs/smb/client/smb2pdu.c ChenXiaoSong    2025-11-17  6217  			rsp_len, min_len));
+2167114c6ea6e7 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6218  	else if (level == FS_DEVICE_INFORMATION)
+1fc6ad2f10ad6f fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-01  6219  		memcpy(&tcon->fsDevInfo, offset
+49f466bdbdf395 fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-01  6220  			+ (char *)rsp, sizeof(FILE_SYSTEM_DEVICE_INFO));
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6221  	else if (level == FS_SECTOR_SIZE_INFORMATION) {
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6222  		struct smb3_fs_ss_info *ss_info = (struct smb3_fs_ss_info *)
+1fc6ad2f10ad6f fs/cifs/smb2pdu.c       Ronnie Sahlberg 2018-06-01  6223  			(offset + (char *)rsp);
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6224  		tcon->ss_flags = le32_to_cpu(ss_info->Flags);
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6225  		tcon->perf_sector_size =
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6226  			le32_to_cpu(ss_info->PhysicalBytesPerSectorForPerf);
+21ba3845b59c73 fs/cifs/smb2pdu.c       Steve French    2018-06-24  6227  	} else if (level == FS_VOLUME_INFORMATION) {
+21ba3845b59c73 fs/cifs/smb2pdu.c       Steve French    2018-06-24  6228  		struct smb3_fs_vol_info *vol_info = (struct smb3_fs_vol_info *)
+21ba3845b59c73 fs/cifs/smb2pdu.c       Steve French    2018-06-24  6229  			(offset + (char *)rsp);
+21ba3845b59c73 fs/cifs/smb2pdu.c       Steve French    2018-06-24 @6230  		tcon->vol_serial_number = vol_info->VolumeSerialNumber;
+21ba3845b59c73 fs/cifs/smb2pdu.c       Steve French    2018-06-24  6231  		tcon->vol_create_time = vol_info->VolumeCreationTime;
+af6a12ea8d4bb3 fs/cifs/smb2pdu.c       Steven French   2013-10-09  6232  	}
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6233  
+34f626406c09dd fs/cifs/smb2pdu.c       Steve French    2013-10-09  6234  qfsattr_exit:
+da502f7df03d2d fs/cifs/smb2pdu.c       Pavel Shilovsky 2016-10-25  6235  	free_rsp_buf(resp_buftype, rsp_iov.iov_base);
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6236  
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6237  	if (is_replayable_error(rc) &&
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6238  	    smb2_should_replay(tcon, &retries, &cur_sleep))
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6239  		goto replay_again;
+4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N  2024-01-21  6240  
+6fc05c25ca35e6 fs/cifs/smb2pdu.c       Pavel Shilovsky 2012-09-18  6241  	return rc;
+6fc05c25ca35e6 fs/cifs/smb2pdu.c       Pavel Shilovsky 2012-09-18  6242  }
+f7ba7fe685bc3e fs/cifs/smb2pdu.c       Pavel Shilovsky 2012-09-19  6243  
 
 -- 
 0-DAY CI Kernel Test Service
