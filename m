@@ -1,291 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E5A1DF963
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 19:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844E92D8379
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 19:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771269332; cv=none; b=hE9O6dEgOrQVKlvUZ0twyICc44qWBB2v74SLXmyZU/zfI3tH9Q+jT8Jd7XPyiIaou2hYjKkm2bDKyE15QG7LZhAc53I5rvS01gwswMn+neLPA9dBWP9ugobCnODd6gDj8Fsc7cE+rRddy9usrv1EnSU89Ijnu/blXPuGM4oqmn8=
+	t=1771269930; cv=none; b=ZpbQRbBOhIXK0Oj5uBcko8imQFaMIgrkPm3/UzXo8im8OA+e/vOo+FKYIM7/7bRX5lkpfSPQsuwRr9CXjvfwLixxAHYHR0173rLBX1tj0Hr2MPp9tFJyZu8BLvE8cJoCV7Sb+dENjbMwbaJrzE52HpNmUKWw4+tkMXlTwdlWrT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771269332; c=relaxed/simple;
-	bh=5se4Iu/7ubFuyPU7cpRyrrJpTks1JWXd3S01JarPDrg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c+c3oup3lwADh+9KGRQgP571h2uZJSOZmfUtry09ZIyHOkJ7GVzbeV8YTV13+zZR4OIIw5jgKrj00Cgin9uSZ6F9oK7lMV0mc6Imta/EH8RKhBETcEwiy5wSJsaAH1Fh6DrR7vJkhsLoJDxoEATdfflybOTtoMBWwR6RImXlEsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0f/zRba; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1771269930; c=relaxed/simple;
+	bh=GfHNBSFKG2srYHIVplXCXarZG1ux5Q4KWSm3yRAsLwU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dsym77q2buuMhSd/Thvz8pDlJ2/TulO6WYVs2hMpFJkl4dnRR/KBqmXj0XO63nmLx77C7VBFIOE6IBSRhQxu7ZrGpBcRB1xpFfRfp0pyulA5tGtlURXcYsp19QXBWK79mSWc9/6/7KUZC8OxzenlXQg86TKal2p3mNKpJe3si7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfRQrGpY; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0f/zRba"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfRQrGpY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771269328; x=1802805328;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5se4Iu/7ubFuyPU7cpRyrrJpTks1JWXd3S01JarPDrg=;
-  b=U0f/zRbaWFigKrpleeNRmqa155oFoBU0xhya9gCd2TRiRbgYhFDcJOdN
-   WD5NFS9+k/xNRVPYwRq8G6R7wyN915bIMv1HMoWiUEXBgPOwa4yIEFqbb
-   pMbraFjHE+CJJnbCstuyn6PsqlEleDiIiEmI1kev3P0O9CdgDBLiuPvRp
-   pKzgCA5Z5vRWw17O3u471HpxtHKfKlrFEaGiGgQC1IgwOz9QWBspR7Oka
-   VZKuqjdNXbfBpAq/qSFARCoG9GakPcazf0SD966png9AyvOEnefDgv/2/
-   ll/kQeGVRLgN0jrcjki+ZL2tGaIxs3QueOfUFpBfeVfcbRizwRuu3q5Ll
-   w==;
-X-CSE-ConnectionGUID: vkmWWTakS72lE6XB1AWl0A==
-X-CSE-MsgGUID: +CqMhV7PTt2qvzGjaMjJjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="83075269"
+  t=1771269928; x=1802805928;
+  h=date:from:to:cc:subject:message-id;
+  bh=GfHNBSFKG2srYHIVplXCXarZG1ux5Q4KWSm3yRAsLwU=;
+  b=kfRQrGpYUGfUcv4b/oLdGeBErY3Dymz9D2+uCD+eRGITtN1gLGGP7BDA
+   JLmh5cw5KPiq9weCXqriMbaCsxXqzPAl6Ndmpin1gJtFfdwLqgASonu2B
+   LIXLGEBIVcJv68FJJSLOBlLO3p5AIJt7rKB679mVmRcfEQiiR7XIQsC5N
+   aGbu/rcBXmEsjp7jL9KPdK6EVRnAFegVbhpG3PqpSkERv8zhe4MKVu8Ky
+   akFK7dy7BlqRSvtK4LdDFesKdkIvmI2aU7Q/AujbIsuyhaXCFyHuZMlfh
+   mDEh03VVYol4EI8iZKyzKFIsWzeyHRS+oWmJAQedHUKSW5/GmY2FG8Oc7
+   Q==;
+X-CSE-ConnectionGUID: imNO72bmQkqLkMuV35Ohjg==
+X-CSE-MsgGUID: cE/PO+oARZGze6hAEn9tdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="83790625"
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="83075269"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 11:15:28 -0800
-X-CSE-ConnectionGUID: g389iGY3QYOLVaC38m3Aqw==
-X-CSE-MsgGUID: QgXzA+KSRYmFUvCkDRvOTA==
+   d="scan'208";a="83790625"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 11:25:28 -0800
+X-CSE-ConnectionGUID: 0YaVw5K6TLWGTMgko7lI5g==
+X-CSE-MsgGUID: cIe+4R5GQDyH1iM5+sc11w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="218674562"
+   d="scan'208";a="212462669"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 16 Feb 2026 11:15:26 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 16 Feb 2026 11:25:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vs444-000000010Ci-091H;
-	Mon, 16 Feb 2026 19:15:24 +0000
-Date: Tue, 17 Feb 2026 03:14:34 +0800
+	id 1vs4Dk-000000010DM-2GZy;
+	Mon, 16 Feb 2026 19:25:24 +0000
+Date: Tue, 17 Feb 2026 03:24:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: adubey@linux.ibm.com, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hbathini@linux.ibm.com,
-	linuxppc-dev@lists.ozlabs.org, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, martin.lau@kernel.org, eddyz87@gmail.com,
-	yonghong.song@linux.dev, clm@meta.com, ihor.solodrai@linux.dev,
-	chleroy@kernel.org, Abhishek Dubey <adubey@linux.ibm.com>
-Subject: Re: [PATCH 1/2] powerpc64/bpf: Implement JIT support for private
- stack
-Message-ID: <202602170316.V2RZWuVa-lkp@intel.com>
-References: <20260216152234.36632-1-adubey@linux.ibm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 51/51]
+ arch/arm64/kvm/hyp/nvhe/modules.c:276:5: warning: no previous prototype for
+ function 'module_map_module_page'
+Message-ID: <202602170342.c2wmMPt4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260216152234.36632-1-adubey@linux.ibm.com>
 
-Hi,
+Hi Vincent,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on bpf-next/master]
-[also build test WARNING on bpf/master powerpc/next linus/master next-20260216]
-[cannot apply to bpf-next/net powerpc/fixes v6.19]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/adubey-linux-ibm-com/selftests-bpf-Enable-private-stack-tests-for-powerpc64/20260216-182353
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260216152234.36632-1-adubey%40linux.ibm.com
-patch subject: [PATCH 1/2] powerpc64/bpf: Implement JIT support for private stack
-config: powerpc-randconfig-001-20260217 (https://download.01.org/0day-ci/archive/20260217/202602170316.V2RZWuVa-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170316.V2RZWuVa-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   41a7c40493aca929fa8889c998fd18a2f0be18e1
+commit: db8bad4a59d2609e1ec4c6da947554ab51901f4a [51/51] ANDROID: KVM: arm64: Expose unmap_module_page to modules
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260217/202602170342.c2wmMPt4-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170342.c2wmMPt4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602170316.V2RZWuVa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602170342.c2wmMPt4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_int_jit_compile':
->> arch/powerpc/net/bpf_jit_comp.c:266:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     cgctx.priv_sp = priv_stack_ptr ? (u64)priv_stack_ptr : 0;
-                                      ^
+>> arch/arm64/kvm/hyp/nvhe/modules.c:276:5: warning: no previous prototype for function 'module_map_module_page' [-Wmissing-prototypes]
+     276 | int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/modules.c:276:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     276 | int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/modules.c:282:5: warning: no previous prototype for function 'module_map_module_pages' [-Wmissing-prototypes]
+     282 | int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/modules.c:282:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     282 | int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/modules.c:288:5: warning: no previous prototype for function 'module_unmap_module_pages' [-Wmissing-prototypes]
+     288 | int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/modules.c:288:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     288 | int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
+         | ^
+         | static 
+   3 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
 
 
-vim +266 arch/powerpc/net/bpf_jit_comp.c
+vim +/module_map_module_page +276 arch/arm64/kvm/hyp/nvhe/modules.c
 
-   164	
-   165	struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *fp)
-   166	{
-   167		u32 proglen;
-   168		u32 alloclen;
-   169		u8 *image = NULL;
-   170		u32 *code_base;
-   171		u32 *addrs;
-   172		struct powerpc_jit_data *jit_data;
-   173		struct codegen_context cgctx;
-   174		int pass;
-   175		int flen;
-   176		int priv_stack_alloc_size;
-   177		void __percpu *priv_stack_ptr = NULL;
-   178		struct bpf_binary_header *fhdr = NULL;
-   179		struct bpf_binary_header *hdr = NULL;
-   180		struct bpf_prog *org_fp = fp;
-   181		struct bpf_prog *tmp_fp;
-   182		bool bpf_blinded = false;
-   183		bool extra_pass = false;
-   184		u8 *fimage = NULL;
-   185		u32 *fcode_base;
-   186		u32 extable_len;
-   187		u32 fixup_len;
-   188	
-   189		if (!fp->jit_requested)
-   190			return org_fp;
-   191	
-   192		tmp_fp = bpf_jit_blind_constants(org_fp);
-   193		if (IS_ERR(tmp_fp))
-   194			return org_fp;
-   195	
-   196		if (tmp_fp != org_fp) {
-   197			bpf_blinded = true;
-   198			fp = tmp_fp;
-   199		}
-   200	
-   201		jit_data = fp->aux->jit_data;
-   202		if (!jit_data) {
-   203			jit_data = kzalloc(sizeof(*jit_data), GFP_KERNEL);
-   204			if (!jit_data) {
-   205				fp = org_fp;
-   206				goto out;
-   207			}
-   208			fp->aux->jit_data = jit_data;
-   209		}
-   210	
-   211		if (!priv_stack_ptr && fp->aux->jits_use_priv_stack) {
-   212			/*
-   213			 * Allocate private stack of size equivalent to
-   214			 * verifier-calculated stack size plus two memory
-   215			 * guard regions to detect private stack overflow
-   216			 * and underflow.
-   217			 */
-   218			priv_stack_alloc_size = round_up(fp->aux->stack_depth, 16) +
-   219								2 * PRIV_STACK_GUARD_SZ;
-   220			priv_stack_ptr = __alloc_percpu_gfp(priv_stack_alloc_size, 16, GFP_KERNEL);
-   221			if (!priv_stack_ptr) {
-   222				fp = org_fp;
-   223				goto out_priv_stack;
-   224			}
-   225	
-   226			priv_stack_init_guard(priv_stack_ptr, priv_stack_alloc_size);
-   227			fp->aux->priv_stack_ptr = priv_stack_ptr;
-   228		}
-   229	
-   230		flen = fp->len;
-   231		addrs = jit_data->addrs;
-   232		if (addrs) {
-   233			cgctx = jit_data->ctx;
-   234			/*
-   235			 * JIT compiled to a writable location (image/code_base) first.
-   236			 * It is then moved to the readonly final location (fimage/fcode_base)
-   237			 * using instruction patching.
-   238			 */
-   239			fimage = jit_data->fimage;
-   240			fhdr = jit_data->fhdr;
-   241			proglen = jit_data->proglen;
-   242			hdr = jit_data->hdr;
-   243			image = (void *)hdr + ((void *)fimage - (void *)fhdr);
-   244			extra_pass = true;
-   245			/* During extra pass, ensure index is reset before repopulating extable entries */
-   246			cgctx.exentry_idx = 0;
-   247			goto skip_init_ctx;
-   248		}
-   249	
-   250		addrs = kcalloc(flen + 1, sizeof(*addrs), GFP_KERNEL);
-   251		if (addrs == NULL) {
-   252			fp = org_fp;
-   253			goto out_addrs;
-   254		}
-   255	
-   256		memset(&cgctx, 0, sizeof(struct codegen_context));
-   257		bpf_jit_init_reg_mapping(&cgctx);
-   258	
-   259		/* Make sure that the stack is quadword aligned. */
-   260		cgctx.stack_size = round_up(fp->aux->stack_depth, 16);
-   261		cgctx.arena_vm_start = bpf_arena_get_kern_vm_start(fp->aux->arena);
-   262		cgctx.user_vm_start = bpf_arena_get_user_vm_start(fp->aux->arena);
-   263		cgctx.is_subprog = bpf_is_subprog(fp);
-   264		cgctx.exception_boundary = fp->aux->exception_boundary;
-   265		cgctx.exception_cb = fp->aux->exception_cb;
- > 266		cgctx.priv_sp = priv_stack_ptr ? (u64)priv_stack_ptr : 0;
-   267	
-   268		/* Scouting faux-generate pass 0 */
-   269		if (bpf_jit_build_body(fp, NULL, NULL, &cgctx, addrs, 0, false)) {
-   270			/* We hit something illegal or unsupported. */
-   271			fp = org_fp;
-   272			goto out_addrs;
-   273		}
-   274	
-   275		/*
-   276		 * If we have seen a tail call, we need a second pass.
-   277		 * This is because bpf_jit_emit_common_epilogue() is called
-   278		 * from bpf_jit_emit_tail_call() with a not yet stable ctx->seen.
-   279		 * We also need a second pass if we ended up with too large
-   280		 * a program so as to ensure BPF_EXIT branches are in range.
-   281		 */
-   282		if (cgctx.seen & SEEN_TAILCALL || !is_offset_in_branch_range((long)cgctx.idx * 4)) {
-   283			cgctx.idx = 0;
-   284			if (bpf_jit_build_body(fp, NULL, NULL, &cgctx, addrs, 0, false)) {
-   285				fp = org_fp;
-   286				goto out_addrs;
-   287			}
-   288		}
-   289	
-   290		bpf_jit_realloc_regs(&cgctx);
-   291		/*
-   292		 * Pretend to build prologue, given the features we've seen.  This will
-   293		 * update ctgtx.idx as it pretends to output instructions, then we can
-   294		 * calculate total size from idx.
-   295		 */
-   296		bpf_jit_build_prologue(NULL, &cgctx);
-   297		addrs[fp->len] = cgctx.idx * 4;
-   298		bpf_jit_build_epilogue(NULL, &cgctx);
-   299	
-   300		fixup_len = fp->aux->num_exentries * BPF_FIXUP_LEN * 4;
-   301		extable_len = fp->aux->num_exentries * sizeof(struct exception_table_entry);
-   302	
-   303		proglen = cgctx.idx * 4;
-   304		alloclen = proglen + FUNCTION_DESCR_SIZE + fixup_len + extable_len;
-   305	
-   306		fhdr = bpf_jit_binary_pack_alloc(alloclen, &fimage, 4, &hdr, &image,
-   307						      bpf_jit_fill_ill_insns);
-   308		if (!fhdr) {
-   309			fp = org_fp;
-   310			goto out_addrs;
-   311		}
-   312	
-   313		if (extable_len)
-   314			fp->aux->extable = (void *)fimage + FUNCTION_DESCR_SIZE + proglen + fixup_len;
-   315	
-   316	skip_init_ctx:
-   317		code_base = (u32 *)(image + FUNCTION_DESCR_SIZE);
-   318		fcode_base = (u32 *)(fimage + FUNCTION_DESCR_SIZE);
-   319	
-   320		/* Code generation passes 1-2 */
-   321		for (pass = 1; pass < 3; pass++) {
-   322			/* Now build the prologue, body code & epilogue for real. */
-   323			cgctx.idx = 0;
-   324			cgctx.alt_exit_addr = 0;
-   325			bpf_jit_build_prologue(code_base, &cgctx);
-   326			if (bpf_jit_build_body(fp, code_base, fcode_base, &cgctx, addrs, pass,
-   327					       extra_pass)) {
-   328				bpf_arch_text_copy(&fhdr->size, &hdr->size, sizeof(hdr->size));
-   329				bpf_jit_binary_pack_free(fhdr, hdr);
-   330				fp = org_fp;
-   331				goto out_addrs;
-   332			}
-   333			bpf_jit_build_epilogue(code_base, &cgctx);
-   334	
-   335			if (bpf_jit_enable > 1)
-   336				pr_info("Pass %d: shrink = %d, seen = 0x%x\n", pass,
-   337					proglen - (cgctx.idx * 4), cgctx.seen);
-   338		}
-   339	
-   340		if (bpf_jit_enable > 1)
-   341			/*
-   342			 * Note that we output the base address of the code_base
-   343			 * rather than image, since opcodes are in code_base.
-   344			 */
-   345			bpf_jit_dump(flen, proglen, pass, code_base);
-   346	
+   275	
+ > 276	int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
+   277				   bool is_protected)
+   278	{
+   279		return __pkvm_map_module_pages(pfn, va, 1, prot, is_protected);
+   280	}
+   281	
+ > 282	int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
+   283				   bool is_protected)
+   284	{
+   285		return __pkvm_map_module_pages(pfn, va, nr_pages, prot, is_protected);
+   286	}
+   287	
+ > 288	int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
+   289	{
+   290		return __pkvm_unmap_module_pages(pfn, va, nr_pages);
+   291	}
+   292	
 
 -- 
 0-DAY CI Kernel Test Service
