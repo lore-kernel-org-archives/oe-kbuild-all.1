@@ -1,158 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD172C11C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 04:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF3924503F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 04:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771216045; cv=none; b=T6272CyrKgMN23P7TZSLNcbD0l8nOkCyJhxpEDCeQfj+IOAMPuzN/BJX3hPgMXo3h5HLojQV5GcqQLSdAH0usRTRwxgvofn3uiyftL54xfJPEX3LbWRklAINEqBYos+cdMPRVXbrLHgu+Hk6EQmltvxCo14rJ8TVhsiHHuTLNOI=
+	t=1771217845; cv=none; b=kPkgcl10eP4QR/C84BsrfVlHeK9X86XEsLQjXw/eimGiRDs10ZQs8qKn4TPiX9LDgDLQ6SA6mc2XGojn02+GtyQtHUnieLKzee7i9/JlbbO1GfVxxl8zw/NEiuAmzZm5/7zWlBianMZT1IUry0EOCXWZc/82Hp2G33/Ry2304uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771216045; c=relaxed/simple;
-	bh=zS5aTFEiXNs11x2klWT5blaxKck2RbkmlTT/mT+crYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tmQZuuEvTSJoTA4wPSvhl449i6lEegzK4urnNpkAwLgSp6rp2vm/cb4mVgQAPvdvxqhbWYB0m9ue21WZ1y+uz/DCYOzVwZmhJaPplVSpYeyewTgiMmsgKBYt8UYQD66cy5wCLJbyptQ850Fjtc+qTzq/uDQSdR7MWaECPdXrQNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGe9xKos; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1771217845; c=relaxed/simple;
+	bh=2Ct9oqqvBDEqdnHxxMAkCWjjm9+H5se2OYCVx2rYSmA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QKSvUPTBImZ/GI/yIGnJ7qy4okCF02OA95/bSOUWwhFYCYCPhJBXrNPt+6qpO0U+jviJ5lyK5RywAiQuvHtpP/B5Se9WLdlFZaFTlVE202tkgP3m+6cWYkeDi6lK5JU65SqLV0RQ10rly54oRwDIBn4Tnws7bPJxAc8fCtUIqlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEZnwXEN; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGe9xKos"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEZnwXEN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771216043; x=1802752043;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zS5aTFEiXNs11x2klWT5blaxKck2RbkmlTT/mT+crYE=;
-  b=DGe9xKosj47Os+ywuQnFF6XT6wqWaCyKQZE8i1ozsF1WGYo9S3IJmWG5
-   eDFLopUJYKXVTm7I0JQg66IrFCM0kvYoYzQYR8ZEuh8RwmtwXk1SxTpDC
-   jnh/6h6ZX+mVdo3Nc0aLUMm+fHd14YmxeLst3AN3a9q5pHjJxO0y0To99
-   H8LlMj/g8nYxuuVZf3RfEkcLvmp0v9wMVALvOcO13NVXLEP8N6G75oG9o
-   lMpiPTr6temx1S51tYCTu9wAJH/Zk06RRiHBv3v1rq05rLCGO1ZYSRHgJ
-   tWk3irrJRUJcHVdQWsUNrE2zdJzll4u8cJbD9zQr4THlzlzYnax36/4TN
-   w==;
-X-CSE-ConnectionGUID: 3hPmH8TyRm2sCaPGkgup1Q==
-X-CSE-MsgGUID: Bk27mY9VRaq9wtCIncxUmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="72468998"
+  t=1771217843; x=1802753843;
+  h=date:from:to:cc:subject:message-id;
+  bh=2Ct9oqqvBDEqdnHxxMAkCWjjm9+H5se2OYCVx2rYSmA=;
+  b=KEZnwXEN0NAmugDs89e5yrf5RXRhjLIFHoA+aqO/QDFd7Cs+oWReree2
+   PivBvkcaOjSnpDv6LoLQC7WtBjidfiU67YD/6WCtpoX/RbovEq+9aMJYV
+   W3TFz79kGIKYIQTepjE7q8/+INIxE8AmmyPV/+4haFVg9QEsvYNAGr9fE
+   TOHT/xcE9VMHKfJ8itsktn7uCCQSfdw3/rzsOpcKpYkbFqEfrtRwEwAla
+   vyRe5sUl7nCAYnaQMHzZMQDC7VSNGnq8lMp0qxLCc39BeiReRiFjHSXt0
+   zR/kTVzQDbZAwLjEYbHmWEa/fU7++UFz8uNEAwb8BCn4X+erhc0hHeTMf
+   A==;
+X-CSE-ConnectionGUID: ZS3jnMKmStS4u56uc7SxoA==
+X-CSE-MsgGUID: 1UkSnUJ6Se24hglStFdhpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="74897016"
 X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="72468998"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 20:27:22 -0800
-X-CSE-ConnectionGUID: EV1xUuohR4Slxdcg/tTu7g==
-X-CSE-MsgGUID: 34AHIvdUQZKD3IQxzWa6iw==
+   d="scan'208";a="74897016"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 20:57:22 -0800
+X-CSE-ConnectionGUID: PIkQTyJdSkSR8bkQTcCL8A==
+X-CSE-MsgGUID: IzF2cOegSVmhPcv4Ui1bHw==
+X-Ironport-Invalid-End-Of-Message: True
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
+   d="scan'208";a="218050921"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Feb 2026 20:27:19 -0800
+  by orviesa004.jf.intel.com with ESMTP; 15 Feb 2026 20:57:22 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vrqCb-00000000zOK-39zz;
-	Mon, 16 Feb 2026 04:27:17 +0000
-Date: Mon, 16 Feb 2026 12:26:28 +0800
+	id 1vrqff-00000000zPW-1MFZ;
+	Mon, 16 Feb 2026 04:57:19 +0000
+Date: Mon, 16 Feb 2026 12:57:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@google.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Sitnicki <jakub@cloudflare.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Cong Wang <cong.wang@bytedance.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org,
-	syzbot+5b3b7e51dda1be027b7a@syzkaller.appspotmail.com
-Subject: Re: [PATCH v1 bpf/net 6/6] sockmap: Fix broken memory accounting for
- UDP.
-Message-ID: <202602161215.LxHBWhAv-lkp@intel.com>
-References: <20260215204353.3645744-7-kuniyu@google.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:wip-aes 4/10] ERROR: modpost:
+ arch/arm64/crypto/aes-neon-blk: 'neon_aes_ecb_encrypt' exported twice.
+ Previous export was in vmlinux
+Message-ID: <202602161237.VXa8rEOr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260215204353.3645744-7-kuniyu@google.com>
 
-Hi Kuniyuki,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on next-20260213]
-[cannot apply to horms-ipvs/master v6.19]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/sockmap-Annotate-sk-sk_data_ready-for-UDP/20260216-044819
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260215204353.3645744-7-kuniyu%40google.com
-patch subject: [PATCH v1 bpf/net 6/6] sockmap: Fix broken memory accounting for UDP.
-config: x86_64-buildonly-randconfig-004-20260216 (https://download.01.org/0day-ci/archive/20260216/202602161215.LxHBWhAv-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161215.LxHBWhAv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-aes
+head:   8895fed4c18339c8cd86e534302a83972a4c8892
+commit: b2c5d455805657417955519a5eef1583c06525c7 [4/10] lib/crypto: arm64/aes-cmac: Migrate optimized code into library
+config: arm64-randconfig-001-20260215 (https://download.01.org/0day-ci/archive/20260216/202602161237.VXa8rEOr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161237.VXa8rEOr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602161215.LxHBWhAv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602161237.VXa8rEOr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   ld: net/core/skmsg.o: in function `sk_psock_skb_ingress':
->> net/core/skmsg.c:608:(.text+0x2037): undefined reference to `udp_sock_rfree'
-
-
-vim +608 net/core/skmsg.c
-
-   575	
-   576	static int sk_psock_skb_ingress(struct sk_psock *psock, struct sk_buff *skb,
-   577					u32 off, u32 len, gfp_t gfp_flags, bool take_ref)
-   578	{
-   579		struct sock *sk = psock->sk;
-   580		bool is_udp = sk_is_udp(sk);
-   581		struct sk_msg *msg;
-   582		int err = -EAGAIN;
-   583	
-   584		msg = alloc_sk_msg(gfp_flags);
-   585		if (!msg)
-   586			goto out;
-   587	
-   588		if (is_udp)
-   589			spin_lock_bh(&sk->sk_receive_queue.lock);
-   590	
-   591		if (skb->sk != sk || is_udp) {
-   592			if (atomic_read(&sk->sk_rmem_alloc) > sk->sk_rcvbuf)
-   593				goto unlock;
-   594	
-   595			if (!sk_rmem_schedule(sk, skb, skb->truesize))
-   596				goto unlock;
-   597		}
-   598	
-   599		/* This will transition ownership of the data from the socket where
-   600		 * the BPF program was run initiating the redirect to the socket
-   601		 * we will eventually receive this data on. The data will be released
-   602		 * from skb_consume found in __tcp_bpf_recvmsg() after its been copied
-   603		 * into user buffers.
-   604		 */
-   605		skb_set_owner_r(skb, sk);
-   606	
-   607		if (is_udp) {
- > 608			skb->destructor = udp_sock_rfree;
-   609			spin_unlock_bh(&sk->sk_receive_queue.lock);
-   610		}
-   611	
-   612		err = sk_psock_skb_ingress_enqueue(skb, off, len, psock, sk, msg, take_ref);
-   613		if (err < 0)
-   614			goto free;
-   615	out:
-   616		return err;
-   617	
-   618	unlock:
-   619		if (is_udp)
-   620			spin_unlock_bh(&sk->sk_receive_queue.lock);
-   621	free:
-   622		kfree(msg);
-   623		goto out;
-   624	}
-   625	
+>> ERROR: modpost: arch/arm64/crypto/aes-neon-blk: 'neon_aes_ecb_encrypt' exported twice. Previous export was in vmlinux
+>> ERROR: modpost: arch/arm64/crypto/aes-neon-blk: 'neon_aes_cbc_encrypt' exported twice. Previous export was in vmlinux
+>> ERROR: modpost: arch/arm64/crypto/aes-neon-blk: 'neon_aes_ctr_encrypt' exported twice. Previous export was in vmlinux
+>> ERROR: modpost: arch/arm64/crypto/aes-neon-blk: 'neon_aes_xts_encrypt' exported twice. Previous export was in vmlinux
+>> ERROR: modpost: arch/arm64/crypto/aes-neon-blk: 'neon_aes_xts_decrypt' exported twice. Previous export was in vmlinux
+>> ERROR: modpost: "neon_aes_ctr_encrypt" [arch/arm64/crypto/aes-neon-blk.ko] was exported without definition
+>> ERROR: modpost: "neon_aes_ecb_encrypt" [arch/arm64/crypto/aes-neon-blk.ko] was exported without definition
+>> ERROR: modpost: "neon_aes_cbc_encrypt" [arch/arm64/crypto/aes-neon-blk.ko] was exported without definition
+>> ERROR: modpost: "neon_aes_xts_encrypt" [arch/arm64/crypto/aes-neon-blk.ko] was exported without definition
+>> ERROR: modpost: "neon_aes_xts_decrypt" [arch/arm64/crypto/aes-neon-blk.ko] was exported without definition
 
 -- 
 0-DAY CI Kernel Test Service
