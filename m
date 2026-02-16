@@ -1,316 +1,291 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CBC1F17E8;
-	Mon, 16 Feb 2026 19:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E5A1DF963
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 19:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771269331; cv=none; b=IBGUgAjVaQukCShjtAtikcVmA5RBD/Hsnje30IEWTsJPoF8tKpHBmsWGdVSsfw4if3LqH5pJJwkZ8nUktvhMJDK4N762abPetgnhpRAU6SRmXdFO3BLBcwRFzxqWRFKJpgIfsPDgDdUWvEZFw6ezBsEd0CfNMp8fTUfas/ssdkk=
+	t=1771269332; cv=none; b=hE9O6dEgOrQVKlvUZ0twyICc44qWBB2v74SLXmyZU/zfI3tH9Q+jT8Jd7XPyiIaou2hYjKkm2bDKyE15QG7LZhAc53I5rvS01gwswMn+neLPA9dBWP9ugobCnODd6gDj8Fsc7cE+rRddy9usrv1EnSU89Ijnu/blXPuGM4oqmn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771269331; c=relaxed/simple;
-	bh=qRO8YRPiaNHXsglzbjCPq7/+9Q71Yh7RdKbk9Qr+bDo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nihtqCXOsHC6P/bZDHcGVEyqHEdn6KIKZ5rRifdAxj1l+eJD/p8v3ZRug3hXk3SxpEr5WakDAWPE3Qth8SannRI0d1vDwjHX658YSnTpi2b6uG0/4PGBTYSv+hemebYiBAmaaJzCmi1/GejqbYTqWWTIudiBf9e3wxCm6RSGgpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgX1YjLo; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1771269332; c=relaxed/simple;
+	bh=5se4Iu/7ubFuyPU7cpRyrrJpTks1JWXd3S01JarPDrg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c+c3oup3lwADh+9KGRQgP571h2uZJSOZmfUtry09ZIyHOkJ7GVzbeV8YTV13+zZR4OIIw5jgKrj00Cgin9uSZ6F9oK7lMV0mc6Imta/EH8RKhBETcEwiy5wSJsaAH1Fh6DrR7vJkhsLoJDxoEATdfflybOTtoMBWwR6RImXlEsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0f/zRba; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgX1YjLo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0f/zRba"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771269329; x=1802805329;
-  h=date:from:to:cc:subject:message-id;
-  bh=qRO8YRPiaNHXsglzbjCPq7/+9Q71Yh7RdKbk9Qr+bDo=;
-  b=KgX1YjLoZuZGHZa81b5qs2zClxuzxReHXhPRgREVdMw6jz6xD8b8ygKV
-   bForzYsDHCR0hzCRUV7zYOFSc/5oFfIkwFSwjTYQS7Ll4T8Bz8gnkZyOa
-   xDPmdGUP5fGQK+s8kp2l2iA6/ExzEK0cJvHy1y777j/1+lNvAboAH78HB
-   PVnwub5gBu5Md7evO6GdIFtpO5elxpcARReGaTjWYVL2OmMSnjVXXZQj5
-   Hos+sG5o5h+nulgP4jlVRd5BpyfWO9+OEEslBQIAQv17JaSQISEF/yfyf
-   N7qmuRvWf/jEbQTSq6RmrGShPQyEwqVZMOTgfn6T3E0k4kaaSgJRXV8B8
-   Q==;
-X-CSE-ConnectionGUID: B/kcCSHgTFOtOZHqWW0jwg==
-X-CSE-MsgGUID: 1AIJYrP6To+J78Bw1DIqPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="71548174"
+  t=1771269328; x=1802805328;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5se4Iu/7ubFuyPU7cpRyrrJpTks1JWXd3S01JarPDrg=;
+  b=U0f/zRbaWFigKrpleeNRmqa155oFoBU0xhya9gCd2TRiRbgYhFDcJOdN
+   WD5NFS9+k/xNRVPYwRq8G6R7wyN915bIMv1HMoWiUEXBgPOwa4yIEFqbb
+   pMbraFjHE+CJJnbCstuyn6PsqlEleDiIiEmI1kev3P0O9CdgDBLiuPvRp
+   pKzgCA5Z5vRWw17O3u471HpxtHKfKlrFEaGiGgQC1IgwOz9QWBspR7Oka
+   VZKuqjdNXbfBpAq/qSFARCoG9GakPcazf0SD966png9AyvOEnefDgv/2/
+   ll/kQeGVRLgN0jrcjki+ZL2tGaIxs3QueOfUFpBfeVfcbRizwRuu3q5Ll
+   w==;
+X-CSE-ConnectionGUID: vkmWWTakS72lE6XB1AWl0A==
+X-CSE-MsgGUID: +CqMhV7PTt2qvzGjaMjJjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="83075269"
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="71548174"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 11:15:28 -0800
-X-CSE-ConnectionGUID: /Dg5nN0ZQdimrSzYDXD5XA==
-X-CSE-MsgGUID: yGjxdvUXRLakegrX9JHkEw==
+   d="scan'208";a="83075269"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 11:15:28 -0800
+X-CSE-ConnectionGUID: g389iGY3QYOLVaC38m3Aqw==
+X-CSE-MsgGUID: QgXzA+KSRYmFUvCkDRvOTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="212779683"
+   d="scan'208";a="218674562"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Feb 2026 11:15:26 -0800
+  by orviesa005.jf.intel.com with ESMTP; 16 Feb 2026 11:15:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vs444-000000010Ck-0F31;
+	id 1vs444-000000010Ci-091H;
 	Mon, 16 Feb 2026 19:15:24 +0000
-Date: Tue, 17 Feb 2026 03:14:33 +0800
+Date: Tue, 17 Feb 2026 03:14:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_sbi_dbtr_v2 61/62]
- arch/riscv/kernel/hw_breakpoint.c:44:16: error: variable has incomplete type
- 'struct sbiret'
-Message-ID: <202602170318.7w2o0rVB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: adubey@linux.ibm.com, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hbathini@linux.ibm.com,
+	linuxppc-dev@lists.ozlabs.org, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@kernel.org, eddyz87@gmail.com,
+	yonghong.song@linux.dev, clm@meta.com, ihor.solodrai@linux.dev,
+	chleroy@kernel.org, Abhishek Dubey <adubey@linux.ibm.com>
+Subject: Re: [PATCH 1/2] powerpc64/bpf: Implement JIT support for private
+ stack
+Message-ID: <202602170316.V2RZWuVa-lkp@intel.com>
+References: <20260216152234.36632-1-adubey@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260216152234.36632-1-adubey@linux.ibm.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_dbtr_v2
-head:   66b69ab7fb5601c86982a276040e718ba54a8569
-commit: dcbfaa5a331231162ca9597079b7bc15bd1307fd [61/62] riscv: Introduce support for hardware break/watchpoints
-config: riscv-nommu_k210_defconfig (https://download.01.org/0day-ci/archive/20260217/202602170318.7w2o0rVB-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170318.7w2o0rVB-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master powerpc/next linus/master next-20260216]
+[cannot apply to bpf-next/net powerpc/fixes v6.19]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/adubey-linux-ibm-com/selftests-bpf-Enable-private-stack-tests-for-powerpc64/20260216-182353
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260216152234.36632-1-adubey%40linux.ibm.com
+patch subject: [PATCH 1/2] powerpc64/bpf: Implement JIT support for private stack
+config: powerpc-randconfig-001-20260217 (https://download.01.org/0day-ci/archive/20260217/202602170316.V2RZWuVa-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170316.V2RZWuVa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602170318.7w2o0rVB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602170316.V2RZWuVa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:846:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     846 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:109:53: note: expanded from macro 'insw'
-     109 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/hw_breakpoint.c:6:
-   In file included from include/linux/hw_breakpoint.h:5:
-   In file included from include/linux/perf_event.h:43:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:854:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     854 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:110:53: note: expanded from macro 'insl'
-     110 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/hw_breakpoint.c:6:
-   In file included from include/linux/hw_breakpoint.h:5:
-   In file included from include/linux/perf_event.h:43:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:863:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     863 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:122:55: note: expanded from macro 'outsb'
-     122 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/hw_breakpoint.c:6:
-   In file included from include/linux/hw_breakpoint.h:5:
-   In file included from include/linux/perf_event.h:43:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:872:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     872 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:123:55: note: expanded from macro 'outsw'
-     123 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/hw_breakpoint.c:6:
-   In file included from include/linux/hw_breakpoint.h:5:
-   In file included from include/linux/perf_event.h:43:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:881:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     881 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:124:55: note: expanded from macro 'outsl'
-     124 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/hw_breakpoint.c:6:
-   In file included from include/linux/hw_breakpoint.h:5:
-   In file included from include/linux/perf_event.h:43:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> arch/riscv/kernel/hw_breakpoint.c:44:16: error: variable has incomplete type 'struct sbiret'
-      44 |         struct sbiret ret;
-         |                       ^
-   arch/riscv/kernel/hw_breakpoint.c:44:9: note: forward declaration of 'struct sbiret'
-      44 |         struct sbiret ret;
-         |                ^
->> arch/riscv/kernel/hw_breakpoint.c:47:15: error: arithmetic on a pointer to an incomplete type 'union sbi_dbtr_shmem_entry'
-      47 |         dbtr_shmem = per_cpu_ptr(sbi_dbtr_shmem, cpu);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:239:2: note: expanded from macro 'per_cpu_ptr'
-     239 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:221:52: note: expanded from macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                     ~~~~~ ^
-   arch/riscv/kernel/hw_breakpoint.c:23:14: note: forward declaration of 'union sbi_dbtr_shmem_entry'
-      23 | static union sbi_dbtr_shmem_entry __percpu *sbi_dbtr_shmem;
-         |              ^
->> arch/riscv/kernel/hw_breakpoint.c:55:8: error: call to undeclared function 'sbi_ecall'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      55 |         ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_SETUP_SHMEM,
-         |               ^
->> arch/riscv/kernel/hw_breakpoint.c:55:18: error: use of undeclared identifier 'SBI_EXT_DBTR'
-      55 |         ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_SETUP_SHMEM,
-         |                         ^~~~~~~~~~~~
->> arch/riscv/kernel/hw_breakpoint.c:55:32: error: use of undeclared identifier 'SBI_EXT_DBTR_SETUP_SHMEM'
-      55 |         ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_SETUP_SHMEM,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kernel/hw_breakpoint.c:60:8: error: use of undeclared identifier 'SBI_ERR_DENIED'
-      60 |                 case SBI_ERR_DENIED:
-         |                      ^~~~~~~~~~~~~~
->> arch/riscv/kernel/hw_breakpoint.c:66:8: error: use of undeclared identifier 'SBI_ERR_INVALID_PARAM'
-      66 |                 case SBI_ERR_INVALID_PARAM:
-         |                      ^~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kernel/hw_breakpoint.c:67:8: error: use of undeclared identifier 'SBI_ERR_INVALID_ADDRESS'
-      67 |                 case SBI_ERR_INVALID_ADDRESS:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kernel/hw_breakpoint.c:73:8: error: use of undeclared identifier 'SBI_ERR_ALREADY_AVAILABLE'
-      73 |                 case SBI_ERR_ALREADY_AVAILABLE:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/riscv/kernel/hw_breakpoint.c:79:8: error: use of undeclared identifier 'SBI_ERR_FAILURE'
-      79 |                 case SBI_ERR_FAILURE:
-         |                      ^~~~~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:99:16: error: variable has incomplete type 'struct sbiret'
-      99 |         struct sbiret ret;
-         |                       ^
-   arch/riscv/kernel/hw_breakpoint.c:99:9: note: forward declaration of 'struct sbiret'
-      99 |         struct sbiret ret;
-         |                ^
-   arch/riscv/kernel/hw_breakpoint.c:102:8: error: call to undeclared function 'sbi_ecall'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     102 |         ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_SETUP_SHMEM,
-         |               ^
-   arch/riscv/kernel/hw_breakpoint.c:102:18: error: use of undeclared identifier 'SBI_EXT_DBTR'
-     102 |         ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_SETUP_SHMEM,
-         |                         ^~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:102:32: error: use of undeclared identifier 'SBI_EXT_DBTR_SETUP_SHMEM'
-     102 |         ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_SETUP_SHMEM,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:107:8: error: use of undeclared identifier 'SBI_ERR_DENIED'
-     107 |                 case SBI_ERR_DENIED:
-         |                      ^~~~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:112:8: error: use of undeclared identifier 'SBI_ERR_INVALID_PARAM'
-     112 |                 case SBI_ERR_INVALID_PARAM:
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:113:8: error: use of undeclared identifier 'SBI_ERR_INVALID_ADDRESS'
-     113 |                 case SBI_ERR_INVALID_ADDRESS:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:118:8: error: use of undeclared identifier 'SBI_ERR_ALREADY_AVAILABLE'
-     118 |                 case SBI_ERR_ALREADY_AVAILABLE:
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:122:8: error: use of undeclared identifier 'SBI_ERR_FAILURE'
-     122 |                 case SBI_ERR_FAILURE:
-         |                      ^~~~~~~~~~~~~~~
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   7 warnings and 20 errors generated.
+   arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_int_jit_compile':
+>> arch/powerpc/net/bpf_jit_comp.c:266:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     cgctx.priv_sp = priv_stack_ptr ? (u64)priv_stack_ptr : 0;
+                                      ^
 
 
-vim +44 arch/riscv/kernel/hw_breakpoint.c
+vim +266 arch/powerpc/net/bpf_jit_comp.c
 
-    39	
-    40	static int arch_smp_setup_sbi_shmem(unsigned int cpu)
-    41	{
-    42		union sbi_dbtr_shmem_entry *dbtr_shmem;
-    43		unsigned long shmem_pa;
-  > 44		struct sbiret ret;
-    45		int rc = 0;
-    46	
-  > 47		dbtr_shmem = per_cpu_ptr(sbi_dbtr_shmem, cpu);
-    48		if (!dbtr_shmem) {
-    49			pr_err("Invalid per-cpu shared memory for debug triggers\n");
-    50			return -ENODEV;
-    51		}
-    52	
-    53		shmem_pa = __pa(dbtr_shmem);
-    54	
-  > 55		ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_SETUP_SHMEM,
-    56				MEM_LO(shmem_pa), MEM_HI(shmem_pa), 0, 0, 0, 0);
-    57	
-    58		if (ret.error) {
-    59			switch (ret.error) {
-  > 60			case SBI_ERR_DENIED:
-    61				pr_warn("%s: Access denied for shared memory at %lx\n",
-    62					__func__, shmem_pa);
-    63				rc = -EPERM;
-    64				break;
-    65	
-  > 66			case SBI_ERR_INVALID_PARAM:
-  > 67			case SBI_ERR_INVALID_ADDRESS:
-    68				pr_warn("%s: Invalid address parameter (%lu)\n",
-    69					__func__, ret.error);
-    70				rc = -EINVAL;
-    71				break;
-    72	
-  > 73			case SBI_ERR_ALREADY_AVAILABLE:
-    74				pr_warn("%s: Shared memory is already set\n",
-    75					__func__);
-    76				rc = -EADDRINUSE;
-    77				break;
-    78	
-  > 79			case SBI_ERR_FAILURE:
-    80				pr_err("%s: Internal sdtrig state error\n",
-    81				       __func__);
-    82				rc = -ENXIO;
-    83				break;
-    84	
-    85			default:
-    86				pr_warn("%s: Unknown error %lu\n", __func__, ret.error);
-    87				rc = -ENXIO;
-    88				break;
-    89			}
-    90		}
-    91	
-    92		pr_info("CPU %d: HW Breakpoint shared memory registered.\n", cpu);
-    93	
-    94		return rc;
-    95	}
-    96	
+   164	
+   165	struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *fp)
+   166	{
+   167		u32 proglen;
+   168		u32 alloclen;
+   169		u8 *image = NULL;
+   170		u32 *code_base;
+   171		u32 *addrs;
+   172		struct powerpc_jit_data *jit_data;
+   173		struct codegen_context cgctx;
+   174		int pass;
+   175		int flen;
+   176		int priv_stack_alloc_size;
+   177		void __percpu *priv_stack_ptr = NULL;
+   178		struct bpf_binary_header *fhdr = NULL;
+   179		struct bpf_binary_header *hdr = NULL;
+   180		struct bpf_prog *org_fp = fp;
+   181		struct bpf_prog *tmp_fp;
+   182		bool bpf_blinded = false;
+   183		bool extra_pass = false;
+   184		u8 *fimage = NULL;
+   185		u32 *fcode_base;
+   186		u32 extable_len;
+   187		u32 fixup_len;
+   188	
+   189		if (!fp->jit_requested)
+   190			return org_fp;
+   191	
+   192		tmp_fp = bpf_jit_blind_constants(org_fp);
+   193		if (IS_ERR(tmp_fp))
+   194			return org_fp;
+   195	
+   196		if (tmp_fp != org_fp) {
+   197			bpf_blinded = true;
+   198			fp = tmp_fp;
+   199		}
+   200	
+   201		jit_data = fp->aux->jit_data;
+   202		if (!jit_data) {
+   203			jit_data = kzalloc(sizeof(*jit_data), GFP_KERNEL);
+   204			if (!jit_data) {
+   205				fp = org_fp;
+   206				goto out;
+   207			}
+   208			fp->aux->jit_data = jit_data;
+   209		}
+   210	
+   211		if (!priv_stack_ptr && fp->aux->jits_use_priv_stack) {
+   212			/*
+   213			 * Allocate private stack of size equivalent to
+   214			 * verifier-calculated stack size plus two memory
+   215			 * guard regions to detect private stack overflow
+   216			 * and underflow.
+   217			 */
+   218			priv_stack_alloc_size = round_up(fp->aux->stack_depth, 16) +
+   219								2 * PRIV_STACK_GUARD_SZ;
+   220			priv_stack_ptr = __alloc_percpu_gfp(priv_stack_alloc_size, 16, GFP_KERNEL);
+   221			if (!priv_stack_ptr) {
+   222				fp = org_fp;
+   223				goto out_priv_stack;
+   224			}
+   225	
+   226			priv_stack_init_guard(priv_stack_ptr, priv_stack_alloc_size);
+   227			fp->aux->priv_stack_ptr = priv_stack_ptr;
+   228		}
+   229	
+   230		flen = fp->len;
+   231		addrs = jit_data->addrs;
+   232		if (addrs) {
+   233			cgctx = jit_data->ctx;
+   234			/*
+   235			 * JIT compiled to a writable location (image/code_base) first.
+   236			 * It is then moved to the readonly final location (fimage/fcode_base)
+   237			 * using instruction patching.
+   238			 */
+   239			fimage = jit_data->fimage;
+   240			fhdr = jit_data->fhdr;
+   241			proglen = jit_data->proglen;
+   242			hdr = jit_data->hdr;
+   243			image = (void *)hdr + ((void *)fimage - (void *)fhdr);
+   244			extra_pass = true;
+   245			/* During extra pass, ensure index is reset before repopulating extable entries */
+   246			cgctx.exentry_idx = 0;
+   247			goto skip_init_ctx;
+   248		}
+   249	
+   250		addrs = kcalloc(flen + 1, sizeof(*addrs), GFP_KERNEL);
+   251		if (addrs == NULL) {
+   252			fp = org_fp;
+   253			goto out_addrs;
+   254		}
+   255	
+   256		memset(&cgctx, 0, sizeof(struct codegen_context));
+   257		bpf_jit_init_reg_mapping(&cgctx);
+   258	
+   259		/* Make sure that the stack is quadword aligned. */
+   260		cgctx.stack_size = round_up(fp->aux->stack_depth, 16);
+   261		cgctx.arena_vm_start = bpf_arena_get_kern_vm_start(fp->aux->arena);
+   262		cgctx.user_vm_start = bpf_arena_get_user_vm_start(fp->aux->arena);
+   263		cgctx.is_subprog = bpf_is_subprog(fp);
+   264		cgctx.exception_boundary = fp->aux->exception_boundary;
+   265		cgctx.exception_cb = fp->aux->exception_cb;
+ > 266		cgctx.priv_sp = priv_stack_ptr ? (u64)priv_stack_ptr : 0;
+   267	
+   268		/* Scouting faux-generate pass 0 */
+   269		if (bpf_jit_build_body(fp, NULL, NULL, &cgctx, addrs, 0, false)) {
+   270			/* We hit something illegal or unsupported. */
+   271			fp = org_fp;
+   272			goto out_addrs;
+   273		}
+   274	
+   275		/*
+   276		 * If we have seen a tail call, we need a second pass.
+   277		 * This is because bpf_jit_emit_common_epilogue() is called
+   278		 * from bpf_jit_emit_tail_call() with a not yet stable ctx->seen.
+   279		 * We also need a second pass if we ended up with too large
+   280		 * a program so as to ensure BPF_EXIT branches are in range.
+   281		 */
+   282		if (cgctx.seen & SEEN_TAILCALL || !is_offset_in_branch_range((long)cgctx.idx * 4)) {
+   283			cgctx.idx = 0;
+   284			if (bpf_jit_build_body(fp, NULL, NULL, &cgctx, addrs, 0, false)) {
+   285				fp = org_fp;
+   286				goto out_addrs;
+   287			}
+   288		}
+   289	
+   290		bpf_jit_realloc_regs(&cgctx);
+   291		/*
+   292		 * Pretend to build prologue, given the features we've seen.  This will
+   293		 * update ctgtx.idx as it pretends to output instructions, then we can
+   294		 * calculate total size from idx.
+   295		 */
+   296		bpf_jit_build_prologue(NULL, &cgctx);
+   297		addrs[fp->len] = cgctx.idx * 4;
+   298		bpf_jit_build_epilogue(NULL, &cgctx);
+   299	
+   300		fixup_len = fp->aux->num_exentries * BPF_FIXUP_LEN * 4;
+   301		extable_len = fp->aux->num_exentries * sizeof(struct exception_table_entry);
+   302	
+   303		proglen = cgctx.idx * 4;
+   304		alloclen = proglen + FUNCTION_DESCR_SIZE + fixup_len + extable_len;
+   305	
+   306		fhdr = bpf_jit_binary_pack_alloc(alloclen, &fimage, 4, &hdr, &image,
+   307						      bpf_jit_fill_ill_insns);
+   308		if (!fhdr) {
+   309			fp = org_fp;
+   310			goto out_addrs;
+   311		}
+   312	
+   313		if (extable_len)
+   314			fp->aux->extable = (void *)fimage + FUNCTION_DESCR_SIZE + proglen + fixup_len;
+   315	
+   316	skip_init_ctx:
+   317		code_base = (u32 *)(image + FUNCTION_DESCR_SIZE);
+   318		fcode_base = (u32 *)(fimage + FUNCTION_DESCR_SIZE);
+   319	
+   320		/* Code generation passes 1-2 */
+   321		for (pass = 1; pass < 3; pass++) {
+   322			/* Now build the prologue, body code & epilogue for real. */
+   323			cgctx.idx = 0;
+   324			cgctx.alt_exit_addr = 0;
+   325			bpf_jit_build_prologue(code_base, &cgctx);
+   326			if (bpf_jit_build_body(fp, code_base, fcode_base, &cgctx, addrs, pass,
+   327					       extra_pass)) {
+   328				bpf_arch_text_copy(&fhdr->size, &hdr->size, sizeof(hdr->size));
+   329				bpf_jit_binary_pack_free(fhdr, hdr);
+   330				fp = org_fp;
+   331				goto out_addrs;
+   332			}
+   333			bpf_jit_build_epilogue(code_base, &cgctx);
+   334	
+   335			if (bpf_jit_enable > 1)
+   336				pr_info("Pass %d: shrink = %d, seen = 0x%x\n", pass,
+   337					proglen - (cgctx.idx * 4), cgctx.seen);
+   338		}
+   339	
+   340		if (bpf_jit_enable > 1)
+   341			/*
+   342			 * Note that we output the base address of the code_base
+   343			 * rather than image, since opcodes are in code_base.
+   344			 */
+   345			bpf_jit_dump(flen, proglen, pass, code_base);
+   346	
 
 -- 
 0-DAY CI Kernel Test Service
