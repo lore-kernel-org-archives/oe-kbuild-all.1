@@ -1,196 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25E133993
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 07:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248242D8797
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 07:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771313670; cv=none; b=Tqy8VQpPY7Gv2Oo1+UqF3RFW/Ye//vNFPBDmTAOqyR82i3UAjK1A24rBJDD+avEVGcfb/lVJQfVPaJBdys2VnqRKo1Z/3jfwlX5bc1o3tRMN5ATF6PpUmgqg5mJvbfGX2Ndblp4ZblNWa6kCfxjfwNrIiMr0bYMcIoF72J6AsdM=
+	t=1771314816; cv=none; b=lcJzR3a5BZCcMxYc/2C9BuvY0D/NmlMCShVwffuBrETjLEqAGp8KhHav/ib2rJPvak89CvMYsAvL2awgqmhK2W0JNVuIEQv2DeEFJA1F9lyITzVkzsv8sU72P27jqyMUjvwzriioZWqNJ8kttaaLGOnKCuAc6jg9Rk1+OWVPNEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771313670; c=relaxed/simple;
-	bh=3Ze8WFYqRkiy3Uexn4QMudNunUswB1mcmaDjvVwK+4A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e9pONiBlBEBeVR2AN3zW5yGMMe8SpaRkSEydBEvab2grAeW4ZYl6p9Lgf7TqtqKx2uDASX7mB3F1GW/48cGLVAgEUZXLZVoT/YIN3EzNtu4PzN3K3mj8hQv+h9J3qyOtMM9utYXOCRfoo2tvKDuAfv5obxrgPcnlgW0Cu4qJHxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RaCo6Hkt; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771314816; c=relaxed/simple;
+	bh=u10W0dZQkXKK92GV/cpGKMrlxzSLCDLg8iUDPQNa+Dw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eiqmi6wcTnOAuX1N2olAfKzvuVWAmPgW4tzPHUsVI4mEXRHfyI5vSxk0ihyEuKrncE/bTsGadMFvEBg8a4QjWbQGNncl4jJ8R/nwl4HhA3lJhh9VIVPaBW+yQTQlM7LK7VhEWl/NVi6+x+ck9G7pducOp/WLkzCJTOz2f14xcWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kh/DgkVM; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SXdxcNle; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RaCo6Hkt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771313669; x=1802849669;
-  h=date:from:to:cc:subject:message-id;
-  bh=3Ze8WFYqRkiy3Uexn4QMudNunUswB1mcmaDjvVwK+4A=;
-  b=RaCo6HktFUbdT1E4VKWoyRVkf/jo1NmDY2pvJhbJrNJEEXgNyShlm/f4
-   J5FWa1eoeWjf7WF536KpDIWHg87zJh23rZrYeiuPb23eNj6eMSCUjS2Cq
-   MqZ+nVFk7uDfUPlHMZCmYWbzXChgFA1xIGbjUrZUm9sItxSfAHy2HNByF
-   1Rbn1bCgIMiHpJN8zL5Z7T155SYT9GKJguqAmZU5iJCBRyCrN7hr2Yj2I
-   YCvJ1OjZfXEVLPNSwsy7+Wp9vvxAHPohpLwPqRnOTri3dWBjMUfxNwfoa
-   GlRlQSXzZoCBh6C6HDGpR1OYDSsO/G84wdFGpn/z/n6/XHC5Zc8HYAKFZ
-   w==;
-X-CSE-ConnectionGUID: Tt2QPKyyTFa+KDux42BjSg==
-X-CSE-MsgGUID: 8fCmhgskRueyTH7gQIKE8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="97840036"
-X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="97840036"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 23:34:28 -0800
-X-CSE-ConnectionGUID: yhESnr5wQh26Np0zyEyrSQ==
-X-CSE-MsgGUID: nuxbf3i6Q3efJEkM3n2GDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="212299824"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Feb 2026 23:34:27 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vsFbE-000000010j4-2MVO;
-	Tue, 17 Feb 2026 07:34:24 +0000
-Date: Tue, 17 Feb 2026 15:33:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sj:damon/next 130/142] samples/damon/mtier.c:78:30:
- warning: unused variable 'region'
-Message-ID: <202602171530.NsLdPVOF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kh/DgkVM";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SXdxcNle"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61GHbddv2802096
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 07:53:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=HlyIZEog6J3u33MMe7AFXbsT
+	oOYrvaz+iKp7UgWrFA0=; b=kh/DgkVMfTUv94MQxfiFtIZvNho6Sio2iEoAmdwt
+	p9wU7zr1g7ZzxgGBXfXYlLjq3TPOM3hJ8D/b9aSchRwQxwjF3e1rthYMJutvF2vt
+	EDvweYnq4avWV8HWeNz8wQPR0a6rjvhP/Gy9m78DqnJoDvhWhNwFPzf6cYjloITR
+	WlRrIBZZkeKKGf1mPDdDqAGO1R0Pv4FdvTQ5K3zENBUVBmxKAovlQVsrsCZtT5Zr
+	ZFCsnc5h5NmVAks3u2iFAGJ/DgN8EtQRvlauC9OFjC1wQ0CdmcrOqwmQf4/WAy8u
+	PQcuvuH07hVls331ZoxcCkHIK7kDNjmeAsIsWRdN9UFYdw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cbyxujn2n-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 07:53:34 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8ca3ef536ddso3112960385a.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Feb 2026 23:53:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1771314813; x=1771919613; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HlyIZEog6J3u33MMe7AFXbsToOYrvaz+iKp7UgWrFA0=;
+        b=SXdxcNleKXi4vADlAiZ5nYBtxDXrj/c31oVrxdmnCC+oGuOIZYFi/ExP8zzXl11E6A
+         133QU0CB86IHFjad4wd36iBREeIjv7QB8yxlakG3Wh+NTrEQlZrsh60OVt/5P9LGvwnM
+         K6aHeG6CW2I66/fpIOVuT5SdHGioR84l4E2Zh5zroLUsBiO00XyJNg3OSBVDzy220QyS
+         XsLOCqqXLcsjoLx5iEb8v2ZunEis5Pd92WALG+BmOng+UdZQbJGqhgFnWNkWRJ9Ddsf7
+         tIbr5gXZutX8mXZ87hrcMbFGVfQ18LSJWPCLsIEeNG6XNK6ON63C9HRNJ0NqPV/TPMnq
+         EAtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771314813; x=1771919613;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HlyIZEog6J3u33MMe7AFXbsToOYrvaz+iKp7UgWrFA0=;
+        b=Fgz2PP3VP1qUEakETpSgUgD5FSNqnjXM5rZ4pk0p24CXDSc6zUeAph7DPhZL5JlcsA
+         LtCUYbGAc2IUlFMECPy1H+7p/8vzEV7Hyf0PAPJpafBi3NYDCslXp6s+9GqTazPcp8Mo
+         vZ80KO2Cz+K256LiCdPm94WTpan1rsyZyrGMRVs8RFTOC7oKcC6t5E2E5tfjdv/nvNmA
+         8kW+hpQi5rorea/DMzcD9JrOI52lk6R/SkP+Oe6+oaTF5jMUY0JZtyoIH7pE0PKQfese
+         dlCzUbP1em6AKVdgS0X39HVWoLx6Dmp2nZfOAQ8lIj2E3Vu/ilfJjFh2KgoypB/+GqHO
+         ySOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEhIhkVxeLx2ExVsmCXhAI6VbGAH6Di4aC5NcA8ZwXTb17NcQ+sDRGQqILeGsxxJEAW72UEwYFi58oje6o@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSS8scLW5ehtlBNSfPqU7N9NKmTTPW6rtNrzCkJyZiwro71fVp
+	FHd/ZLtxDTl54MsiGLQ+IJdlVFS6fJinruDO4DK1Fke255NOBRcwTdwJGFlts0t1+ioq2aVK8By
+	0JtIDCcr1ny3THiEzU8jyTcmefxwOeYcFBjauDOZkpXimBPXwP5ABT1BvsVOpCBBueGUD
+X-Gm-Gg: AZuq6aK8y968YPPafpDrk1vAuKCrYJukTNO1XjRC0HD2AdCiC5UeLPwfTBQhJcniF57
+	IuGVCBY3pJc0KoW57T5ix4IGV8nrr6AH0FS0UqguVDFBf61lVF9TGp7wuqSmOLPBhsmjcDkYJKO
+	bONSuyU/PFuPzG+tvVfxIE0AV7uqMotYQGUcuCMkSFXqqv9JtlYV5ulux4dLSpGrG8KQI4KGdG0
+	OKREx3iMgOh9SgDz+0c5SgAnSG7uGAlvYmM26uev5nIiuTAu4Av81gQzJWpGemdfwj8pRdexDXA
+	7NsQqBLHqC3JXgptPx//KY/mLYLV94VDQzdgZmJB2j0/uq4Uorpz5T7sJX6MmJRwKti58TON5jv
+	GPJdm/ps9SxNvmTDjB1amgX8xeicuLnYspGzh
+X-Received: by 2002:a05:620a:1728:b0:8c0:d16b:b0a7 with SMTP id af79cd13be357-8cb4225fdb1mr1520261285a.2.1771314813334;
+        Mon, 16 Feb 2026 23:53:33 -0800 (PST)
+X-Received: by 2002:a05:620a:1728:b0:8c0:d16b:b0a7 with SMTP id af79cd13be357-8cb4225fdb1mr1520259285a.2.1771314812848;
+        Mon, 16 Feb 2026 23:53:32 -0800 (PST)
+Received: from oss.qualcomm.com ([86.121.162.109])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ac9d77sm29866948f8f.33.2026.02.16.23.53.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Feb 2026 23:53:30 -0800 (PST)
+Date: Tue, 17 Feb 2026 09:53:29 +0200
+From: Abel Vesa <abel.vesa@oss.qualcomm.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Taniya Das <taniya.das@oss.qualcomm.com>, llvm@lists.linux.dev,
+        oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v3 6/6] clk: qcom: Add TCSR clock driver for Eliza
+Message-ID: <ckfybgx4suqpm2hjkm3zgdssxh4rmy4dxxjy35yqarg2ybu6fk@fl77gdnzvnhy>
+References: <20260216-eliza-clocks-v3-6-8afc5a7e3a98@oss.qualcomm.com>
+ <202602171002.SP54PXRC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202602171002.SP54PXRC-lkp@intel.com>
+X-Proofpoint-GUID: 1J3JFFWGrHIUyM6U3sSY-ZGFj71fsaw1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE3MDA2NCBTYWx0ZWRfX3YUxx96GJMUT
+ bvqViVxsabstIIx+BjoA32ucn5/NyyCGN87Q5YprxGifkGZyZZgSGoCmJK9nQexCPtdRe0Pvg1D
+ OlPJCqZrgord4OmiDtI4ZvrICF+onvHGIkVSj2yQDvW2hmkTleZxex++mViSwqlKoIC81du55m+
+ ElxRdpVhAjrNSK+zmlPuDtR5/+O6G8TU1qFCo+owI7cKts7YbLLF+bmQYvao2kv7vjnhefl9a0M
+ SzHmvQRadgTdM49IqOp4D225p6z8eXWQ2W21IqKyP24n5HJdiROYLd9uNi7AfEnxE3Q4bnVMsAz
+ fDwDj243h9IuOfXOqDv5AxOM9tegGa1PbSWqpKsmyo75rG1tMy3CwQjPIFAK+CEDGhYk9Rh0gfM
+ obG5cz3uuK6DGXfiI4g48kDV0mYx8KubhoQW2rTa4UjDxR7m4MvzhHuFiLYjK5UkHCWe/V8pYOY
+ piWYIq8/PMouVqY49Bg==
+X-Authority-Analysis: v=2.4 cv=BpuQAIX5 c=1 sm=1 tr=0 ts=69941e7e cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=oauzzCmhM186DRC0Y2yWPg==:17
+ a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=i3X5FwGiAAAA:8
+ a=QyXUC8HyAAAA:8 a=gSbDSvPH9l2sfEXJlosA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-ORIG-GUID: 1J3JFFWGrHIUyM6U3sSY-ZGFj71fsaw1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-17_01,2026-02-16_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 adultscore=0 clxscore=1011 phishscore=0
+ lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602170064
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   53a936b437ade97f957569534f1460d23883b94f
-commit: 52639cde20a9887c5df4acc55fb51a4f48a1644d [130/142] samples/damon/mtier: replace damon_add_region() with damon_set_regions()
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260217/202602171530.NsLdPVOF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171530.NsLdPVOF-lkp@intel.com/reproduce)
+On 26-02-17 10:31:45, kernel test robot wrote:
+> Hi Abel,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 635c467cc14ebdffab3f77610217c1dacaf88e8c]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/dt-bindings-clock-qcom-document-the-Eliza-Global-Clock-Controller/20260216-215148
+> base:   635c467cc14ebdffab3f77610217c1dacaf88e8c
+> patch link:    https://lore.kernel.org/r/20260216-eliza-clocks-v3-6-8afc5a7e3a98%40oss.qualcomm.com
+> patch subject: [PATCH v3 6/6] clk: qcom: Add TCSR clock driver for Eliza
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260217/202602171002.SP54PXRC-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171002.SP54PXRC-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602171002.SP54PXRC-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/clk/qcom/tcsrcc-eliza.c:126:3: error: use of undeclared identifier 'TCSR_HDMI_CLKREF_EN'
+>      126 |         [TCSR_HDMI_CLKREF_EN] = &tcsr_hdmi_clkref_en.clkr,
+>          |          ^
+> >> drivers/clk/qcom/tcsrcc-eliza.c:128:3: error: use of undeclared identifier 'TCSR_PCIE_1_CLKREF_EN'
+>      128 |         [TCSR_PCIE_1_CLKREF_EN] = &tcsr_pcie_1_clkref_en.clkr,
+>          |          ^
+> >> drivers/clk/qcom/tcsrcc-eliza.c:145:14: error: invalid application of 'sizeof' to an incomplete type 'struct clk_regmap *[]'
+>      145 |         .num_clks = ARRAY_SIZE(tcsr_cc_eliza_clocks),
+>          |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+>       11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+>          |                                ^~~~~
+>    3 errors generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602171530.NsLdPVOF-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   samples/damon/mtier.c: In function 'damon_sample_mtier_build_ctx':
->> samples/damon/mtier.c:78:30: warning: unused variable 'region' [-Wunused-variable]
-      78 |         struct damon_region *region;
-         |                              ^~~~~~
-
-
-vim +/region +78 samples/damon/mtier.c
-
-749cc6533b6621 Yunjeong Mun  2025-07-08   72  
-82a08bde3cf7bb SeongJae Park 2025-04-20   73  static struct damon_ctx *damon_sample_mtier_build_ctx(bool promote)
-82a08bde3cf7bb SeongJae Park 2025-04-20   74  {
-82a08bde3cf7bb SeongJae Park 2025-04-20   75  	struct damon_ctx *ctx;
-82a08bde3cf7bb SeongJae Park 2025-04-20   76  	struct damon_attrs attrs;
-82a08bde3cf7bb SeongJae Park 2025-04-20   77  	struct damon_target *target;
-82a08bde3cf7bb SeongJae Park 2025-04-20  @78  	struct damon_region *region;
-82a08bde3cf7bb SeongJae Park 2025-04-20   79  	struct damos *scheme;
-82a08bde3cf7bb SeongJae Park 2025-04-20   80  	struct damos_quota_goal *quota_goal;
-82a08bde3cf7bb SeongJae Park 2025-04-20   81  	struct damos_filter *filter;
-749cc6533b6621 Yunjeong Mun  2025-07-08   82  	struct region_range addr;
-52639cde20a988 SeongJae Park 2026-02-15   83  	struct damon_addr_range range;
-749cc6533b6621 Yunjeong Mun  2025-07-08   84  	int ret;
-82a08bde3cf7bb SeongJae Park 2025-04-20   85  
-82a08bde3cf7bb SeongJae Park 2025-04-20   86  	ctx = damon_new_ctx();
-82a08bde3cf7bb SeongJae Park 2025-04-20   87  	if (!ctx)
-82a08bde3cf7bb SeongJae Park 2025-04-20   88  		return NULL;
-82a08bde3cf7bb SeongJae Park 2025-04-20   89  	attrs = (struct damon_attrs) {
-82a08bde3cf7bb SeongJae Park 2025-04-20   90  		.sample_interval = 5 * USEC_PER_MSEC,
-82a08bde3cf7bb SeongJae Park 2025-04-20   91  		.aggr_interval = 100 * USEC_PER_MSEC,
-82a08bde3cf7bb SeongJae Park 2025-04-20   92  		.ops_update_interval = 60 * USEC_PER_MSEC * MSEC_PER_SEC,
-82a08bde3cf7bb SeongJae Park 2025-04-20   93  		.min_nr_regions = 10,
-82a08bde3cf7bb SeongJae Park 2025-04-20   94  		.max_nr_regions = 1000,
-82a08bde3cf7bb SeongJae Park 2025-04-20   95  	};
-82a08bde3cf7bb SeongJae Park 2025-04-20   96  
-82a08bde3cf7bb SeongJae Park 2025-04-20   97  	/*
-82a08bde3cf7bb SeongJae Park 2025-04-20   98  	 * auto-tune sampling and aggregation interval aiming 4% DAMON-observed
-82a08bde3cf7bb SeongJae Park 2025-04-20   99  	 * accesses ratio, keeping sampling interval in [5ms, 10s] range.
-82a08bde3cf7bb SeongJae Park 2025-04-20  100  	 */
-82a08bde3cf7bb SeongJae Park 2025-04-20  101  	attrs.intervals_goal = (struct damon_intervals_goal) {
-82a08bde3cf7bb SeongJae Park 2025-04-20  102  		.access_bp = 400, .aggrs = 3,
-82a08bde3cf7bb SeongJae Park 2025-04-20  103  		.min_sample_us = 5000, .max_sample_us = 10000000,
-82a08bde3cf7bb SeongJae Park 2025-04-20  104  	};
-82a08bde3cf7bb SeongJae Park 2025-04-20  105  	if (damon_set_attrs(ctx, &attrs))
-82a08bde3cf7bb SeongJae Park 2025-04-20  106  		goto free_out;
-82a08bde3cf7bb SeongJae Park 2025-04-20  107  	if (damon_select_ops(ctx, DAMON_OPS_PADDR))
-82a08bde3cf7bb SeongJae Park 2025-04-20  108  		goto free_out;
-82a08bde3cf7bb SeongJae Park 2025-04-20  109  
-82a08bde3cf7bb SeongJae Park 2025-04-20  110  	target = damon_new_target();
-82a08bde3cf7bb SeongJae Park 2025-04-20  111  	if (!target)
-82a08bde3cf7bb SeongJae Park 2025-04-20  112  		goto free_out;
-82a08bde3cf7bb SeongJae Park 2025-04-20  113  	damon_add_target(ctx, target);
-749cc6533b6621 Yunjeong Mun  2025-07-08  114  
-749cc6533b6621 Yunjeong Mun  2025-07-08  115  	if (detect_node_addresses) {
-749cc6533b6621 Yunjeong Mun  2025-07-08  116  		ret = promote ? nid_to_phys(1, &addr) : nid_to_phys(0, &addr);
-749cc6533b6621 Yunjeong Mun  2025-07-08  117  		if (ret)
-749cc6533b6621 Yunjeong Mun  2025-07-08  118  			goto free_out;
-749cc6533b6621 Yunjeong Mun  2025-07-08  119  	} else {
-749cc6533b6621 Yunjeong Mun  2025-07-08  120  		addr.start = promote ? node1_start_addr : node0_start_addr;
-749cc6533b6621 Yunjeong Mun  2025-07-08  121  		addr.end = promote ? node1_end_addr : node0_end_addr;
-749cc6533b6621 Yunjeong Mun  2025-07-08  122  	}
-749cc6533b6621 Yunjeong Mun  2025-07-08  123  
-52639cde20a988 SeongJae Park 2026-02-15  124  	range.start = addr.start;
-52639cde20a988 SeongJae Park 2026-02-15  125  	range.end = addr.end;
-52639cde20a988 SeongJae Park 2026-02-15  126  
-52639cde20a988 SeongJae Park 2026-02-15  127  	ret = damon_set_regions(target, &range, 1, DAMON_MIN_REGION_SZ);
-52639cde20a988 SeongJae Park 2026-02-15  128  	if (ret)
-82a08bde3cf7bb SeongJae Park 2025-04-20  129  		goto free_out;
-82a08bde3cf7bb SeongJae Park 2025-04-20  130  
-82a08bde3cf7bb SeongJae Park 2025-04-20  131  	scheme = damon_new_scheme(
-82a08bde3cf7bb SeongJae Park 2025-04-20  132  			/* access pattern */
-82a08bde3cf7bb SeongJae Park 2025-04-20  133  			&(struct damos_access_pattern) {
-82a08bde3cf7bb SeongJae Park 2025-04-20  134  				.min_sz_region = PAGE_SIZE,
-82a08bde3cf7bb SeongJae Park 2025-04-20  135  				.max_sz_region = ULONG_MAX,
-82a08bde3cf7bb SeongJae Park 2025-04-20  136  				.min_nr_accesses = promote ? 1 : 0,
-82a08bde3cf7bb SeongJae Park 2025-04-20  137  				.max_nr_accesses = promote ? UINT_MAX : 0,
-82a08bde3cf7bb SeongJae Park 2025-04-20  138  				.min_age_region = 0,
-82a08bde3cf7bb SeongJae Park 2025-04-20  139  				.max_age_region = UINT_MAX},
-82a08bde3cf7bb SeongJae Park 2025-04-20  140  			/* action */
-82a08bde3cf7bb SeongJae Park 2025-04-20  141  			promote ? DAMOS_MIGRATE_HOT : DAMOS_MIGRATE_COLD,
-82a08bde3cf7bb SeongJae Park 2025-04-20  142  			1000000,	/* apply interval (1s) */
-82a08bde3cf7bb SeongJae Park 2025-04-20  143  			&(struct damos_quota){
-82a08bde3cf7bb SeongJae Park 2025-04-20  144  				/* 200 MiB per sec by most */
-82a08bde3cf7bb SeongJae Park 2025-04-20  145  				.reset_interval = 1000,
-82a08bde3cf7bb SeongJae Park 2025-04-20  146  				.sz = 200 * 1024 * 1024,
-82a08bde3cf7bb SeongJae Park 2025-04-20  147  				/* ignore size of region when prioritizing */
-82a08bde3cf7bb SeongJae Park 2025-04-20  148  				.weight_sz = 0,
-82a08bde3cf7bb SeongJae Park 2025-04-20  149  				.weight_nr_accesses = 100,
-82a08bde3cf7bb SeongJae Park 2025-04-20  150  				.weight_age = 100,
-82a08bde3cf7bb SeongJae Park 2025-04-20  151  			},
-82a08bde3cf7bb SeongJae Park 2025-04-20  152  			&(struct damos_watermarks){},
-82a08bde3cf7bb SeongJae Park 2025-04-20  153  			promote ? 0 : 1);	/* migrate target node id */
-82a08bde3cf7bb SeongJae Park 2025-04-20  154  	if (!scheme)
-82a08bde3cf7bb SeongJae Park 2025-04-20  155  		goto free_out;
-82a08bde3cf7bb SeongJae Park 2025-04-20  156  	damon_set_schemes(ctx, &scheme, 1);
-82a08bde3cf7bb SeongJae Park 2025-04-20  157  	quota_goal = damos_new_quota_goal(
-82a08bde3cf7bb SeongJae Park 2025-04-20  158  			promote ? DAMOS_QUOTA_NODE_MEM_USED_BP :
-82a08bde3cf7bb SeongJae Park 2025-04-20  159  			DAMOS_QUOTA_NODE_MEM_FREE_BP,
-c5e67d40a10234 Yunjeong Mun  2025-06-27  160  			promote ? node0_mem_used_bp : node0_mem_free_bp);
-82a08bde3cf7bb SeongJae Park 2025-04-20  161  	if (!quota_goal)
-82a08bde3cf7bb SeongJae Park 2025-04-20  162  		goto free_out;
-82a08bde3cf7bb SeongJae Park 2025-04-20  163  	quota_goal->nid = 0;
-82a08bde3cf7bb SeongJae Park 2025-04-20  164  	damos_add_quota_goal(&scheme->quota, quota_goal);
-82a08bde3cf7bb SeongJae Park 2025-04-20  165  	filter = damos_new_filter(DAMOS_FILTER_TYPE_YOUNG, true, promote);
-82a08bde3cf7bb SeongJae Park 2025-04-20  166  	if (!filter)
-82a08bde3cf7bb SeongJae Park 2025-04-20  167  		goto free_out;
-82a08bde3cf7bb SeongJae Park 2025-04-20  168  	damos_add_filter(scheme, filter);
-82a08bde3cf7bb SeongJae Park 2025-04-20  169  	return ctx;
-82a08bde3cf7bb SeongJae Park 2025-04-20  170  free_out:
-82a08bde3cf7bb SeongJae Park 2025-04-20  171  	damon_destroy_ctx(ctx);
-82a08bde3cf7bb SeongJae Park 2025-04-20  172  	return NULL;
-82a08bde3cf7bb SeongJae Park 2025-04-20  173  }
-82a08bde3cf7bb SeongJae Park 2025-04-20  174  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 82a08bde3cf7bbbe90de57baa181bebf676582c7 samples/damon: implement a DAMON module for memory tiering
-
-:::::: TO: SeongJae Park <sj@kernel.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Fixed in v4.
