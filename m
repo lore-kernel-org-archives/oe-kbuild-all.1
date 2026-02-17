@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFF622FE0E;
-	Mon, 16 Feb 2026 23:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CA918A956
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 01:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771284463; cv=none; b=WiYzKi6qbJ09qu5Pn+nkyc+x/oYNX3Sw8FEuFd3RM4pR+QEZKK50PFe7v3qJIM61VwUUup+wnuwrKUsAcZMsaIatsiGZs+SsCxlYSAgOw0+9f2UHtupNn7p4hMH5EYqFI9zPyFyi7DdG2g3odga5d0sUEY6ZdU/Yb9BTUduWzmg=
+	t=1771290301; cv=none; b=Dc6gz4oFx5vISMRtBo3EmmrGKeXYsQa5gcoj88M3GYGETu/LtJ/RVDGzNL2rJljSvZ3xzqJLi6svyaTcDr78dFdSM0B90CfLTzFAEBasvWZOfXBna8pC9Txz+s9HOFuHe1FwkJ/Fi5o+m5zRPCMXkNug/rjdtyZlEi4PCu+BZlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771284463; c=relaxed/simple;
-	bh=3eDHWBAgzyRpVy0JHZiN7AznMUh9cfiBNLfrzAZOgSE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gI1/oGiY9aLf6eKn55RAjM/dsqZaq2x4b/QgZf1DUMDFlYuJNtLOFaV9jdy//r6/2GKL7bFnljcFNIfG4x/D1qkGAAatLyEPCrlzvIzUfgGwZIantXDPl8eVdx1a9FCa5xdzwS8+9mXHjxc5aKhYCVY8ys44BESoxATSun3JwGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WmrmcIxJ; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1771290301; c=relaxed/simple;
+	bh=WLsJLgaSC8ORP9bBROHzTkp9//j5dcp7c1tf+0go1R4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MYDv6y1JzTjmTMgoMDt3uBwGKvKl4r2FrRx8EhLN//zphlRW9cddwytHvfDpaB6M7xWTz+5kbHTw4l6BuamyP8v5ISHqd4prx8siHPtLWcsajTQ1vvGV4XY5yDHxAuyBSaZT7yE293fhXT8BIl187EKJSKZvaxiDH3rxb1hQpFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aiDDnTMi; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WmrmcIxJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aiDDnTMi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771284462; x=1802820462;
+  t=1771290299; x=1802826299;
   h=date:from:to:cc:subject:message-id;
-  bh=3eDHWBAgzyRpVy0JHZiN7AznMUh9cfiBNLfrzAZOgSE=;
-  b=WmrmcIxJ0BfthdyDbXSSYEpa8JPbBBdhPVpzR3VOLhdBb2+uNoxjlJE1
-   mWywoF4MeK5S/Yq04Dx2uoRP3Wm0JvhrdVbgbZFsrxLwatbmZvznuwo+z
-   /8AOV2uP59cgRJLxHXo+Pn8Up5XtC+GMPVhui69b5OSHd1w3TFm5tj9OK
-   KrMOZ3kDjLmQvk7w0sW6XkK5Hos2xJTLmOZs3F+lum8BJ+AM8O9+LxysT
-   ICv3prhePgy2krmYOnZonczuz54eMNnGOm7Urh5pdlZDdqD28EVhyofAz
-   fnLIGU6FZi0n9cYtlkHEJC20SvYYNZdWtvwjAytorKHpWeVA1FqJ/GpeM
-   w==;
-X-CSE-ConnectionGUID: sgzmWYH+QkO+M6j/kkpQZw==
-X-CSE-MsgGUID: NIdpNNbpTeegCOsayeg78A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="76201692"
+  bh=WLsJLgaSC8ORP9bBROHzTkp9//j5dcp7c1tf+0go1R4=;
+  b=aiDDnTMiWWO2Y+SdfgPLAG3l8tBUjtD9i8qKc1w+EaOGwrN8R1A/WCf7
+   FElRCpTeQVd6sxFGturKwTSFxWvPSBmlFnn4MURihlBPuyS+UqLthzwl3
+   j78Mba+0gOX8ihKq3RcKXpDclCNKNw+EIBDeG4mgVJqPvhVXb4wnnWFrw
+   wOOyz4oULkkN+ZcRQnZvwqc1QjuN388OHBKtIN+Re4/Ki9/xrf/Hc/9Pu
+   c/BOKH2OYVN+F3lcPfvg2iTcvcVx1Lw398mqzhvuV2gEzGX0FFF/6Qzzg
+   STW3Mj4D+Nx6eoQQJm3pMlank3Va/X0gLfG9aqgJuGzocfUDsR8/RXny1
+   Q==;
+X-CSE-ConnectionGUID: DOpYFjZAQzu0L8d5rjSUpg==
+X-CSE-MsgGUID: S3WjD7XGQ32t0jCcpBMJ7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72457561"
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="76201692"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 15:27:41 -0800
-X-CSE-ConnectionGUID: 1sNRUuHQTVqIf3+d9KcZnw==
-X-CSE-MsgGUID: KaBz59NqR4ym11rskUJmMQ==
+   d="scan'208";a="72457561"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 17:04:59 -0800
+X-CSE-ConnectionGUID: 7t+j8wsMQKyjuMH59b/Krw==
+X-CSE-MsgGUID: 2SLoqtQkRKS7tb+JEUVGcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="212240603"
+   d="scan'208";a="244329822"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Feb 2026 15:27:39 -0800
+  by orviesa002.jf.intel.com with ESMTP; 16 Feb 2026 17:04:56 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vs809-000000010Me-3b7A;
-	Mon, 16 Feb 2026 23:27:37 +0000
-Date: Tue, 17 Feb 2026 07:27:26 +0800
+	id 1vs9WH-000000010Ry-3UDi;
+	Tue, 17 Feb 2026 01:04:53 +0000
+Date: Tue, 17 Feb 2026 09:04:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
-Subject: [mptcp:export-net 1/12] .git_markup: warning: ignored by one
- of the .gitignore files
-Message-ID: <202602170758.Dxr6HX9l-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>
+Subject: io_uring/poll.c:703:33: sparse: sparse: incorrect type in
+ initializer (different base types)
+Message-ID: <202602170838.zIyxCiih-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,23 +60,267 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
-head:   d8b476dcafa197a8e66cf6e87f2441848269af0a
-commit: d09ac91885d528e93a8ae458b877d0d5faa897b3 [1/12] DO-NOT-MERGE: git markup: net
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260217/202602170758.Dxr6HX9l-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170758.Dxr6HX9l-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9702969978695d9a699a1f34771580cdbb153b33
+commit: 162151889267089bb920609830c35f9272087c3f io_uring/poll: introduce io_arm_apoll()
+date:   8 months ago
+config: alpha-randconfig-r134-20260216 (https://download.01.org/0day-ci/archive/20260217/202602170838.zIyxCiih-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170838.zIyxCiih-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602170758.Dxr6HX9l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602170838.zIyxCiih-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   io_uring/poll.c:426:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:426:40: sparse:     expected int mask
+   io_uring/poll.c:426:40: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:262:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
+   io_uring/poll.c:262:38: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:262:38: sparse:     got restricted __poll_t
+   io_uring/poll.c:276:21: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:284:56: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:283:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:283:66: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:283:66: sparse:     got unsigned int
+   io_uring/poll.c:283:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
+   io_uring/poll.c:283:52: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:283:52: sparse:     got unsigned short
+   io_uring/poll.c:286:51: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:286:51: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:286:51: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:287:53: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:287:53: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:287:53: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:337:71: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:337:65: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:337:65: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:337:65: sparse:     got unsigned int
+   io_uring/poll.c:614:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:614:40: sparse:     expected int mask
+   io_uring/poll.c:614:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:696:38: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:696:38: sparse:     expected int mask
+   io_uring/poll.c:696:38: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:696:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
+   io_uring/poll.c:696:55: sparse:     expected int events
+   io_uring/poll.c:696:55: sparse:     got restricted __poll_t [usertype] events
+>> io_uring/poll.c:703:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got int @@
+   io_uring/poll.c:703:33: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:703:33: sparse:     got int
+   io_uring/poll.c:841:24: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:841:24: sparse:    left side has type unsigned int
+   io_uring/poll.c:841:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:843:24: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:843:24: sparse:    left side has type unsigned int
+   io_uring/poll.c:843:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:845:55: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:844:29: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:844:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
+   io_uring/poll.c:844:38: sparse:     expected restricted __poll_t
+   io_uring/poll.c:844:38: sparse:     got unsigned int
+   io_uring/poll.c:905:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [addressable] [assigned] [usertype] result_mask @@
+   io_uring/poll.c:905:40: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:905:40: sparse:     got restricted __poll_t [addressable] [assigned] [usertype] result_mask
+   io_uring/poll.c:936:38: sparse: sparse: invalid assignment: &=
+   io_uring/poll.c:936:38: sparse:    left side has type restricted __poll_t
+   io_uring/poll.c:936:38: sparse:    right side has type int
+   io_uring/poll.c:937:52: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:937:38: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:937:38: sparse:    left side has type restricted __poll_t
+   io_uring/poll.c:937:38: sparse:    right side has type unsigned int
 
-   .b4-config: warning: ignored by one of the .gitignore files
->> .git_markup: warning: ignored by one of the .gitignore files
-   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+vim +703 io_uring/poll.c
+
+   538	
+   539	/*
+   540	 * Returns 0 when it's handed over for polling. The caller owns the requests if
+   541	 * it returns non-zero, but otherwise should not touch it. Negative values
+   542	 * contain an error code. When the result is >0, the polling has completed
+   543	 * inline and ipt.result_mask is set to the mask.
+   544	 */
+   545	static int __io_arm_poll_handler(struct io_kiocb *req,
+   546					 struct io_poll *poll,
+   547					 struct io_poll_table *ipt, __poll_t mask,
+   548					 unsigned issue_flags)
+   549	{
+   550		INIT_HLIST_NODE(&req->hash_node);
+   551		io_init_poll_iocb(poll, mask);
+   552		poll->file = req->file;
+   553		req->apoll_events = poll->events;
+   554	
+   555		ipt->pt._key = mask;
+   556		ipt->req = req;
+   557		ipt->error = 0;
+   558		ipt->nr_entries = 0;
+   559		/*
+   560		 * Polling is either completed here or via task_work, so if we're in the
+   561		 * task context we're naturally serialised with tw by merit of running
+   562		 * the same task. When it's io-wq, take the ownership to prevent tw
+   563		 * from running. However, when we're in the task context, skip taking
+   564		 * it as an optimisation.
+   565		 *
+   566		 * Note: even though the request won't be completed/freed, without
+   567		 * ownership we still can race with io_poll_wake().
+   568		 * io_poll_can_finish_inline() tries to deal with that.
+   569		 */
+   570		ipt->owning = issue_flags & IO_URING_F_UNLOCKED;
+   571		atomic_set(&req->poll_refs, (int)ipt->owning);
+   572	
+   573		/*
+   574		 * Exclusive waits may only wake a limited amount of entries
+   575		 * rather than all of them, this may interfere with lazy
+   576		 * wake if someone does wait(events > 1). Ensure we don't do
+   577		 * lazy wake for those, as we need to process each one as they
+   578		 * come in.
+   579		 */
+   580		if (poll->events & EPOLLEXCLUSIVE)
+   581			req->flags |= REQ_F_POLL_NO_LAZY;
+   582	
+   583		mask = vfs_poll(req->file, &ipt->pt) & poll->events;
+   584	
+   585		if (unlikely(ipt->error || !ipt->nr_entries)) {
+   586			io_poll_remove_entries(req);
+   587	
+   588			if (!io_poll_can_finish_inline(req, ipt)) {
+   589				io_poll_mark_cancelled(req);
+   590				return 0;
+   591			} else if (mask && (poll->events & EPOLLET)) {
+   592				ipt->result_mask = mask;
+   593				return 1;
+   594			}
+   595			return ipt->error ?: -EINVAL;
+   596		}
+   597	
+   598		if (mask &&
+   599		   ((poll->events & (EPOLLET|EPOLLONESHOT)) == (EPOLLET|EPOLLONESHOT))) {
+   600			if (!io_poll_can_finish_inline(req, ipt)) {
+   601				io_poll_add_hash(req, issue_flags);
+   602				return 0;
+   603			}
+   604			io_poll_remove_entries(req);
+   605			ipt->result_mask = mask;
+   606			/* no one else has access to the req, forget about the ref */
+   607			return 1;
+   608		}
+   609	
+   610		io_poll_add_hash(req, issue_flags);
+   611	
+   612		if (mask && (poll->events & EPOLLET) &&
+   613		    io_poll_can_finish_inline(req, ipt)) {
+ > 614			__io_poll_execute(req, mask);
+   615			return 0;
+   616		}
+   617		io_napi_add(req);
+   618	
+   619		if (ipt->owning) {
+   620			/*
+   621			 * Try to release ownership. If we see a change of state, e.g.
+   622			 * poll was waken up, queue up a tw, it'll deal with it.
+   623			 */
+   624			if (atomic_cmpxchg(&req->poll_refs, 1, 0) != 1)
+   625				__io_poll_execute(req, 0);
+   626		}
+   627		return 0;
+   628	}
+   629	
+   630	static void io_async_queue_proc(struct file *file, struct wait_queue_head *head,
+   631				       struct poll_table_struct *p)
+   632	{
+   633		struct io_poll_table *pt = container_of(p, struct io_poll_table, pt);
+   634		struct async_poll *apoll = pt->req->apoll;
+   635	
+   636		__io_queue_proc(&apoll->poll, pt, head, &apoll->double_poll);
+   637	}
+   638	
+   639	/*
+   640	 * We can't reliably detect loops in repeated poll triggers and issue
+   641	 * subsequently failing. But rather than fail these immediately, allow a
+   642	 * certain amount of retries before we give up. Given that this condition
+   643	 * should _rarely_ trigger even once, we should be fine with a larger value.
+   644	 */
+   645	#define APOLL_MAX_RETRY		128
+   646	
+   647	static struct async_poll *io_req_alloc_apoll(struct io_kiocb *req,
+   648						     unsigned issue_flags)
+   649	{
+   650		struct io_ring_ctx *ctx = req->ctx;
+   651		struct async_poll *apoll;
+   652	
+   653		if (req->flags & REQ_F_POLLED) {
+   654			apoll = req->apoll;
+   655			kfree(apoll->double_poll);
+   656		} else {
+   657			if (!(issue_flags & IO_URING_F_UNLOCKED))
+   658				apoll = io_cache_alloc(&ctx->apoll_cache, GFP_ATOMIC);
+   659			else
+   660				apoll = kmalloc(sizeof(*apoll), GFP_ATOMIC);
+   661			if (!apoll)
+   662				return NULL;
+   663			apoll->poll.retries = APOLL_MAX_RETRY;
+   664		}
+   665		apoll->double_poll = NULL;
+   666		req->apoll = apoll;
+   667		if (unlikely(!--apoll->poll.retries))
+   668			return NULL;
+   669		return apoll;
+   670	}
+   671	
+   672	int io_arm_apoll(struct io_kiocb *req, unsigned issue_flags, __poll_t mask)
+   673	{
+   674		struct async_poll *apoll;
+   675		struct io_poll_table ipt;
+   676		int ret;
+   677	
+   678		mask |= EPOLLET;
+   679		if (!io_file_can_poll(req))
+   680			return IO_APOLL_ABORTED;
+   681		if (!(req->flags & REQ_F_APOLL_MULTISHOT))
+   682			mask |= EPOLLONESHOT;
+   683	
+   684		apoll = io_req_alloc_apoll(req, issue_flags);
+   685		if (!apoll)
+   686			return IO_APOLL_ABORTED;
+   687		req->flags &= ~(REQ_F_SINGLE_POLL | REQ_F_DOUBLE_POLL);
+   688		req->flags |= REQ_F_POLLED;
+   689		ipt.pt._qproc = io_async_queue_proc;
+   690	
+   691		io_kbuf_recycle(req, issue_flags);
+   692	
+   693		ret = __io_arm_poll_handler(req, &apoll->poll, &ipt, mask, issue_flags);
+   694		if (ret)
+   695			return ret > 0 ? IO_APOLL_READY : IO_APOLL_ABORTED;
+   696		trace_io_uring_poll_arm(req, mask, apoll->poll.events);
+   697		return IO_APOLL_OK;
+   698	}
+   699	
+   700	int io_arm_poll_handler(struct io_kiocb *req, unsigned issue_flags)
+   701	{
+   702		const struct io_issue_def *def = &io_issue_defs[req->opcode];
+ > 703		__poll_t mask = POLLPRI | POLLERR;
+   704	
+   705		if (!def->pollin && !def->pollout)
+   706			return IO_APOLL_ABORTED;
+   707		if (!io_file_can_poll(req))
+   708			return IO_APOLL_ABORTED;
+   709	
+   710		if (def->pollin) {
+   711			mask |= EPOLLIN | EPOLLRDNORM;
+   712	
+   713			/* If reading from MSG_ERRQUEUE using recvmsg, ignore POLLIN */
+   714			if (req->flags & REQ_F_CLEAR_POLLIN)
+   715				mask &= ~EPOLLIN;
+   716		} else {
+   717			mask |= EPOLLOUT | EPOLLWRNORM;
+   718		}
+   719		if (def->poll_exclusive)
+   720			mask |= EPOLLEXCLUSIVE;
+   721	
+   722		return io_arm_apoll(req, issue_flags, mask);
+   723	}
+   724	
 
 -- 
 0-DAY CI Kernel Test Service
