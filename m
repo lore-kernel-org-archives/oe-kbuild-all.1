@@ -1,141 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25211280A29;
-	Tue, 17 Feb 2026 15:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220AB332ECF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 15:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771342077; cv=none; b=Ihxet+uG46gJU0tz4ZU/PYpqgRgYWR5magP8s+qt+LKNsQvS4Fz1U7bmmxp8CcESF1ESXpYu9HhjwzOILwsArQhXekQKWz3us07kiVoPVPBu5/MdVVl+mqzqM2ityLAQH3Qti1U+rtJMMM4nuKh7jXWgAlxNTI7Yqw+c6KjnJ5M=
+	t=1771342793; cv=none; b=dU4vTRPlam+YjOb+4CbykirsZe7lWeW+BEbqI5lRfyF8BobSly8GqNetxQ66ZXB334qG3pIYQDrpsr41VPC0wk4qU6vYqcmiQ6zeZ0MHrOX7H+9N88jJMsWvsIpiJVxxdqCFOOfiExybcTRGGorBOGCZEOz0jQ6NtZYn+MZBTdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771342077; c=relaxed/simple;
-	bh=camCf+hMhDCMoC/dJnwKFdEJluxi3duXst4BvOZyGNk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n1lDBs4IKgDyxKDm21W0guU9Cjds2L8RDc4o5Yu8MmklKoWUOE3cO8rsV90Uvj9dbTcTZWwhNLn8A00OTbEM5B5pEft1l7f9h0CN3hoFtJ6BIsVumvaVsg7cOlT1KQ/70gTO9f2VX7NaKYa/eoImBCYZ9wOYs6XOHuK6MLyKCfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGpSXoaz; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1771342793; c=relaxed/simple;
+	bh=Xbs49G7k8YvA7nN0uIwx1fTVvbOrL8TTZ1Jaubhbk5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EIEczw6Nz2BpElpTZsoVIGuF/DljodOlO+peCO5aFMTX5sHIkXfo75Q6gbB5RLEZECAKZxL3+bUQRBFoRO+tRKoEbmJ7Bb+WwTstwnU7+koevtZhKQkHlQoDb5UhwIVBoMaS4TyxqYST6UD41vtZFwcVKwWXKDELGZO94pIZdCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKJFRZva; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGpSXoaz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKJFRZva"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771342075; x=1802878075;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=camCf+hMhDCMoC/dJnwKFdEJluxi3duXst4BvOZyGNk=;
-  b=fGpSXoazXqWC3rDbu7VBl5RPLO8YLoc7kUGdWTrPDFBgljfpmzaBg5kX
-   ME6pJ5fF1NUfOtfqkUrULhypxKNUypY+RcS9NgzoW7tq4k0O2AAuguU9c
-   5+ASKnhcHWy0CeX1ijijtVHo7emm5h9GCN/o+VN4BQREuri2rJg9UxWpN
-   OS07oDsYWjosZNUpVhOz1q/7KuUWjdTR0tp8/VyaGxG9XnaGvZUgynBIW
-   PAQNfqeYs17RKbPCUg7nIK5o56+4/3pb/FNEsD6y0RcpAC1ZBBdFMKPkZ
-   fkOexs+v9wKwCdw7f5553pE4rv/aAuY5TgRBVD6KM1bBdnwvU9gpItKpm
-   w==;
-X-CSE-ConnectionGUID: zcrh10UqSFaxMTzUPQwCHg==
-X-CSE-MsgGUID: LnNOaX3ORSebCxVCaxtH8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72125693"
+  t=1771342792; x=1802878792;
+  h=date:from:to:cc:subject:message-id;
+  bh=Xbs49G7k8YvA7nN0uIwx1fTVvbOrL8TTZ1Jaubhbk5Y=;
+  b=FKJFRZvawnkcKKmWkaMv52r+Lu0rP+9TsXnXSUtRW2Lalm6zpXW8tZ7H
+   8pNm4syyMac9QMsM0AAGKRsV/m6zIFFJ6/dXXpxO9qwxen6CBjugDaOHk
+   cqxl1Lnb2QuZNLP66Zg5iJKRbMsDJ+sppnVb1v1ldJAYaVC8ZyjkDOLqR
+   iXGvHDG9VUHudI0mwWyMVo7pjhdfdrWbN3Ka+rvbSJecWXrorobJXmeHH
+   zy95xeYwvPhlYFxEg2Bmy6RS8NvwMu0JhaY38MbtgqRANHnaJiEhG+7JV
+   mr9ExmLAnYeTUIHstd3Vh1Re6KCTcAJ7e2NRgy2YkPP5x1Bp3rUKfEDbe
+   g==;
+X-CSE-ConnectionGUID: spQjDkI9T4+dcOL+lG/XqQ==
+X-CSE-MsgGUID: qTzA61GbRFGqzYupDHdOMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="76034104"
 X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
-   d="scan'208";a="72125693"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 07:27:54 -0800
-X-CSE-ConnectionGUID: 0xAn4PJMRCqyOVKaDo5Keg==
-X-CSE-MsgGUID: iDkey0zJTbC4GUUgB5IS0Q==
+   d="scan'208";a="76034104"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 07:39:52 -0800
+X-CSE-ConnectionGUID: CIkrJ4rPQ1Ov2jWPj98g6Q==
+X-CSE-MsgGUID: cZKtb0hyQZaqlPHFZ0VZLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
-   d="scan'208";a="218043448"
+   d="scan'208";a="213928370"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Feb 2026 07:27:50 -0800
+  by orviesa008.jf.intel.com with ESMTP; 17 Feb 2026 07:39:50 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsMzL-0000000115k-15b4;
-	Tue, 17 Feb 2026 15:27:47 +0000
-Date: Tue, 17 Feb 2026 23:27:04 +0800
+	id 1vsNAx-0000000116i-4384;
+	Tue, 17 Feb 2026 15:39:47 +0000
+Date: Tue, 17 Feb 2026 23:38:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youngjun Park <youngjun.park@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	gunho.lee@lge.com, taejoon.song@lge.com, austin.kim@lge.com,
-	youngjun.park@lge.com
-Subject: Re: [PATCH v4 1/4] mm: swap: introduce swap tier infrastructure
-Message-ID: <202602172319.SHQ7btgd-lkp@intel.com>
-References: <20260217000950.4015880-2-youngjun.park@lge.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:xor-improvements 4/26] scripts/Makefile.build:37:
+ lib/raid/Makefile: No such file or directory
+Message-ID: <202602172358.MOSvsPun-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260217000950.4015880-2-youngjun.park@lge.com>
 
-Hi Youngjun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 776250964cbaa49ebe6b8bb2870765cc89cece59]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youngjun-Park/mm-swap-introduce-swap-tier-infrastructure/20260217-121406
-base:   776250964cbaa49ebe6b8bb2870765cc89cece59
-patch link:    https://lore.kernel.org/r/20260217000950.4015880-2-youngjun.park%40lge.com
-patch subject: [PATCH v4 1/4] mm: swap: introduce swap tier infrastructure
-config: hexagon-randconfig-002-20260217 (https://download.01.org/0day-ci/archive/20260217/202602172319.SHQ7btgd-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602172319.SHQ7btgd-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git xor-improvements
+head:   b135f36339c97daa37d59816d60ba59f9693154f
+commit: c3a9a7db4810306290abb2351340c07100920169 [4/26] xor: move to lib/raid/
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260217/202602172358.MOSvsPun-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602172358.MOSvsPun-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602172319.SHQ7btgd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602172358.MOSvsPun-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/swap_tier.c:118:10: warning: format specifies type 'long' but the argument has type '__ptrdiff_t' (aka 'int') [-Wformat]
-     116 |                 len += sysfs_emit_at(buf, len, "%-16s %-5ld %-11d %-11d\n",
-         |                                                       ~~~~~
-         |                                                       %-5td
-     117 |                                      tier->name,
-     118 |                                      TIER_IDX(tier),
-         |                                      ^~~~~~~~~~~~~~
-   mm/swap_tier.c:33:24: note: expanded from macro 'TIER_IDX'
-      33 | #define TIER_IDX(tier)  ((tier) - swap_tiers)
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> scripts/Makefile.build:37: lib/raid/Makefile: No such file or directory
+>> make[5]: *** No rule to make target 'lib/raid/Makefile'.
+   scripts/Makefile.build:37: Failed to remake makefile 'lib/raid/Makefile'.
+--
+>> /kbuild/src/consumer/scripts/Makefile.clean:12: /kbuild/src/consumer/lib/raid/Makefile: No such file or directory
+   make[5]: *** No rule to make target '/kbuild/src/consumer/lib/raid/Makefile'.
+   /kbuild/src/consumer/scripts/Makefile.clean:12: Failed to remake makefile '/kbuild/src/consumer/lib/raid/Makefile'.
+   make[4]: *** [/kbuild/src/consumer/scripts/Makefile.clean:61: lib/raid] Error 2
+   make[4]: Target '__clean' not remade because of errors.
+   make[3]: *** [/kbuild/src/consumer/scripts/Makefile.clean:61: lib] Error 2
+   make[3]: Target '__clean' not remade because of errors.
+   make[2]: *** [/kbuild/src/consumer/Makefile:2097: _clean_.] Error 2
+   make[2]: Target 'mrproper' not remade because of errors.
+   make[1]: *** [/kbuild/src/consumer/Makefile:248: __sub-make] Error 2
+   make[1]: Target 'mrproper' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'mrproper' not remade because of errors.
 
 
-vim +118 mm/swap_tier.c
+vim +37 scripts/Makefile.build
 
-   105	
-   106	ssize_t swap_tiers_sysfs_show(char *buf)
-   107	{
-   108		struct swap_tier *tier;
-   109		ssize_t len = 0;
-   110	
-   111		len += sysfs_emit_at(buf, len, "%-16s %-5s %-11s %-11s\n",
-   112				 "Name", "Idx", "PrioStart", "PrioEnd");
-   113	
-   114		spin_lock(&swap_tier_lock);
-   115		for_each_active_tier(tier) {
-   116			len += sysfs_emit_at(buf, len, "%-16s %-5ld %-11d %-11d\n",
-   117					     tier->name,
- > 118					     TIER_IDX(tier),
-   119					     tier->prio,
-   120					     TIER_END_PRIO(tier));
-   121		}
-   122		spin_unlock(&swap_tier_lock);
-   123	
-   124		return len;
-   125	}
-   126	
+^1da177e4c3f41 Linus Torvalds  2005-04-16  34  
+3204a7fb98a3bc Masahiro Yamada 2021-02-28  35  include $(srctree)/scripts/Kbuild.include
+57fd251c789647 Masahiro Yamada 2021-02-28  36  include $(srctree)/scripts/Makefile.compiler
+a2430b25c31840 Masahiro Yamada 2022-11-19 @37  include $(kbuild-file)
+3204a7fb98a3bc Masahiro Yamada 2021-02-28  38  include $(srctree)/scripts/Makefile.lib
+^1da177e4c3f41 Linus Torvalds  2005-04-16  39  
+
+:::::: The code at line 37 was first introduced by commit
+:::::: a2430b25c31840a6dcbf95c65415d5fee2984dbc kbuild: add kbuild-file macro
+
+:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
+:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
