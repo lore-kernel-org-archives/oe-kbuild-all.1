@@ -1,160 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD2D334690;
-	Tue, 17 Feb 2026 12:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070062848BB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 12:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771331987; cv=none; b=SFGP46M+A/fVRdI13VR9Viq6v7OLh5zRDPpiRcEKbvehg5mpeBLgBVvBshYxA+V866EY7zbwwrIDiaqeAm8y1KGLAFJFsiR9GoIW6uzlsZYDZtd+B6A2JbxYlBdfbY3JhE260mcij8SujY3OTCv5Iz+maUZ0OBHFKhXqoODpdZw=
+	t=1771332646; cv=none; b=OmutLr9ftAiTTEbgMo91P8MzqQQV11I+gmyg35B9EUDA53IPwhJQgECqNtv83tq0wpk3kAr19i3aDilpV2dtBlKq/xgW58qs3GgMUyW90ouGTQn95xQ4/CS3eMAMxU3wxUAQPP4mbdbLN47jRL448eCupAsTVKSehzADVL81MVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771331987; c=relaxed/simple;
-	bh=jkvscVY8jhU91bgbPbEIsETUtHOFLH8AOKAEllmL2rk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m1KHlXxOSR3m24UIEdnkBP28Sp6gRJTwW6BsUvDkSzEKDLVaFqTHXtZNz89DzNsAh42cbpudtZtJTaeDfFY3cblbXLMD59rvR67/F20BNKgnrYlIpfeS50A/Zsz+5KdieA2zSJ2AOEcTZ9fFTDAxnagBRqBr1lEBpftl+mWmhRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQqBwSlg; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1771332646; c=relaxed/simple;
+	bh=JWhBMFmP60u96fUmrnW+Et46p+vXRSTmhIrrV7Bi5g4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HrWv4z/Ixt2KcwqMk1vRCvjHmtuMoJlzG0rj1ippvcmyQYUQDZVGPwsIcaRJAxK/ZpzjZNF1tTvV9JS06+IfUdX8xzhHnMAUB/V0y916oRMNyWEh9frOZI04s9ceCpzGNlsrUVKzbzQePR66FLajyk4GPvbF1KwwtHq6w97dyBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z3FHsLJi; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQqBwSlg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z3FHsLJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771331985; x=1802867985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jkvscVY8jhU91bgbPbEIsETUtHOFLH8AOKAEllmL2rk=;
-  b=PQqBwSlgdtTZDPzOTPhEbHt/35E4doQ/JS7SGnsnYXuXK1dI1kkYxSGW
-   NZ3ISeYMP2bG7eoQ22tmu6X0NpaR7/LGzuUiKmv/4Xp4DPyulfspIpZTm
-   GeFalHURDQoVJ4gnSAlNgPXugDAtDcuNGqM7U24Kise43kdjHzZDhyDE7
-   HOfap5qJdIdfqFxeFAFAAXgWDaMtalUiXIFM9zAkwIjBf4aC5GXR9BbDY
-   /su9FVFYSxKuPhzZOy4L+4RVQM0RjBxpU7DpL0wB3eU1fKtHu5befuKWe
-   pAvyLYQwticm2CAkOl3f5Z8zbjxN9v5upsubRWseRUmS0husLB1T1xND7
+  t=1771332645; x=1802868645;
+  h=date:from:to:cc:subject:message-id;
+  bh=JWhBMFmP60u96fUmrnW+Et46p+vXRSTmhIrrV7Bi5g4=;
+  b=Z3FHsLJiNm6C4Eq+CtPgiXsrmBQctbFq+eKPNkO6tb0/beZB7AXc/QYw
+   HMBEiy1X41XRyqxqtI7xTnP1pm5GJynANfwdqbjrZDhxPyFVt+YEJ777I
+   pui17aVUszGctiKRzeY6Uhiw3bNPsOBLH3iPQC5/yBx1BeKNVe1UMjCid
+   cF6WddlGMh5OGXijBI0B7/ijVfZE0epTbv5eHiP8mOiCjd0mi75HaQIX1
+   1QhHqeHvob1ql4uI49RSavLb/oj7VosyldQ1dDMQE1aAlWXNnxb0PcyrS
+   6Nns0yobLH3l2HCK5aCM9l0QJHUEUHzIXN36BlP+j4C19Rpst1Y9Kkj83
    w==;
-X-CSE-ConnectionGUID: Uxxt6IjxTcW8n8MKdwDCEQ==
-X-CSE-MsgGUID: 9jmwUTSERAO1KN3ajKubtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="89810019"
+X-CSE-ConnectionGUID: OelttHghT3e6erdRCW+NmA==
+X-CSE-MsgGUID: GM4StNgqS0amxwUTJjOPRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72306026"
 X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
-   d="scan'208";a="89810019"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 04:39:45 -0800
-X-CSE-ConnectionGUID: 6kfB+UeyR7uRw1igXSIHzQ==
-X-CSE-MsgGUID: 2+/IDyIFRpyfXaTbOlIbZA==
+   d="scan'208";a="72306026"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 04:50:44 -0800
+X-CSE-ConnectionGUID: f6A2hbMEQLuqfFPYeY5pzg==
+X-CSE-MsgGUID: WMFD7AWySaGn//fickVNzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
-   d="scan'208";a="218003122"
+   d="scan'208";a="213884267"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Feb 2026 04:39:41 -0800
+  by orviesa008.jf.intel.com with ESMTP; 17 Feb 2026 04:50:43 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsKMc-000000010xY-2ggC;
-	Tue, 17 Feb 2026 12:39:38 +0000
-Date: Tue, 17 Feb 2026 20:39:19 +0800
+	id 1vsKXI-000000010zE-2Jj6;
+	Tue, 17 Feb 2026 12:50:40 +0000
+Date: Tue, 17 Feb 2026 20:49:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Nikhil P. Rao" <nikhil.rao@amd.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nikhil.rao@amd.com,
-	magnus.karlsson@intel.com, maciej.fijalkowski@intel.com,
-	sdf@fomichev.me, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	kerneljasonxing@gmail.com
-Subject: Re: [PATCH net v3 2/2] xsk: Fix zero-copy AF_XDP fragment drop
-Message-ID: <202602172046.vf9DtpdF-lkp@intel.com>
-References: <20260217012346.22468-3-nikhil.rao@amd.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linkinjeon-ntfs:ntfs-next 18/18] fs/ntfs/file.c:657:13:
+ error: implicit declaration of function 'vma_desc_test_flags'; did you mean
+ 'bdev_test_flag'?
+Message-ID: <202602172032.yKMLCF3c-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260217012346.22468-3-nikhil.rao@amd.com>
 
-Hi Nikhil,
+Hi Namjae,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikhil-P-Rao/xsk-Fix-fragment-node-deletion-to-prevent-buffer-leak/20260217-092448
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260217012346.22468-3-nikhil.rao%40amd.com
-patch subject: [PATCH net v3 2/2] xsk: Fix zero-copy AF_XDP fragment drop
-config: powerpc64-randconfig-002-20260217 (https://download.01.org/0day-ci/archive/20260217/202602172046.vf9DtpdF-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602172046.vf9DtpdF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git ntfs-next
+head:   225383c049d157bd7d3af29707c830a9474bf74a
+commit: 225383c049d157bd7d3af29707c830a9474bf74a [18/18] ntfs: update all remaining mmap_prepare users to use vma_flags_t
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260217/202602172032.yKMLCF3c-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602172032.yKMLCF3c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602172046.vf9DtpdF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602172032.yKMLCF3c-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/xdp/xsk.c:183:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     183 |         if (xskq_prod_nb_free(xs->rx, num_desc) < num_desc) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/xdp/xsk.c:201:9: note: uninitialized use occurs here
-     201 |         return err;
-         |                ^~~
-   net/xdp/xsk.c:183:2: note: remove the 'if' if its condition is always false
-     183 |         if (xskq_prod_nb_free(xs->rx, num_desc) < num_desc) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     184 |                 xs->rx_queue_full++;
-         |                 ~~~~~~~~~~~~~~~~~~~~
-     185 |                 goto err;
-         |                 ~~~~~~~~~
-     186 |         }
-         |         ~
-   net/xdp/xsk.c:171:9: note: initialize the variable 'err' to silence this warning
-     171 |         int err;
-         |                ^
-         |                 = 0
-   1 warning generated.
+   fs/ntfs/file.c: In function 'ntfs_file_mmap_prepare':
+>> fs/ntfs/file.c:657:13: error: implicit declaration of function 'vma_desc_test_flags'; did you mean 'bdev_test_flag'? [-Wimplicit-function-declaration]
+     657 |         if (vma_desc_test_flags(desc, VMA_WRITE_BIT)) {
+         |             ^~~~~~~~~~~~~~~~~~~
+         |             bdev_test_flag
 
 
-vim +183 net/xdp/xsk.c
+vim +657 fs/ntfs/file.c
 
-   162	
-   163	static int xsk_rcv_zc(struct xdp_sock *xs, struct xdp_buff *xdp, u32 len)
-   164	{
-   165		struct xdp_buff_xsk *xskb = container_of(xdp, struct xdp_buff_xsk, xdp);
-   166		u32 frags = xdp_buff_has_frags(xdp);
-   167		struct xdp_buff_xsk *pos, *tmp;
-   168		struct list_head *xskb_list;
-   169		u32 contd = 0;
-   170		u32 num_desc;
-   171		int err;
-   172	
-   173		if (frags) {
-   174			num_desc = xdp_get_shared_info_from_buff(xdp)->nr_frags + 1;
-   175			contd = XDP_PKT_CONTD;
-   176		} else {
-   177			err = __xsk_rcv_zc(xs, xskb, len, contd);
-   178			if (err)
-   179				goto err;
-   180			return 0;
-   181		}
-   182	
- > 183		if (xskq_prod_nb_free(xs->rx, num_desc) < num_desc) {
-   184			xs->rx_queue_full++;
-   185			goto err;
-   186		}
-   187	
-   188		__xsk_rcv_zc(xs, xskb, len, contd);
-   189		xskb_list = &xskb->pool->xskb_list;
-   190		list_for_each_entry_safe(pos, tmp, xskb_list, list_node) {
-   191			if (list_is_singular(xskb_list))
-   192				contd = 0;
-   193			len = pos->xdp.data_end - pos->xdp.data;
-   194			__xsk_rcv_zc(xs, pos, len, contd);
-   195			list_del_init(&pos->list_node);
-   196		}
-   197	
-   198		return 0;
-   199	err:
-   200		xsk_buff_free(xdp);
-   201		return err;
-   202	}
-   203	
+   645	
+   646	static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
+   647	{
+   648		struct file *file = desc->file;
+   649		struct inode *inode = file_inode(file);
+   650	
+   651		if (NVolShutdown(NTFS_SB(file->f_mapping->host->i_sb)))
+   652			return -EIO;
+   653	
+   654		if (NInoCompressed(NTFS_I(inode)))
+   655			return -EOPNOTSUPP;
+   656	
+ > 657		if (vma_desc_test_flags(desc, VMA_WRITE_BIT)) {
+   658			struct inode *inode = file_inode(file);
+   659			loff_t from, to;
+   660			int err;
+   661	
+   662			from = ((loff_t)desc->pgoff << PAGE_SHIFT);
+   663			to = min_t(loff_t, i_size_read(inode),
+   664				   from + desc->end - desc->start);
+   665	
+   666			if (NTFS_I(inode)->initialized_size < to) {
+   667				err = ntfs_extend_initialized_size(inode, to, to, false);
+   668				if (err)
+   669					return err;
+   670			}
+   671		}
+   672	
+   673	
+   674		file_accessed(file);
+   675		desc->vm_ops = &ntfs_file_vm_ops;
+   676		return 0;
+   677	}
+   678	
 
 -- 
 0-DAY CI Kernel Test Service
