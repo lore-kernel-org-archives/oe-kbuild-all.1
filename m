@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EE32309B9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 02:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452CE3EBF02
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 02:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771294482; cv=none; b=RyWm4JoWOgF1uFIPySlipRaYnOukLTBsH6k60lsrmWH8ANy1pmUyKx1tAvYDj4g1X2FvvZtu7Qmu7SHB2cZi4M8HhUAPf3V+lGr8hb6D6OY095FfIxeeIX+dZU8SqJGdeEAgICziFWIowQVUnsx96Lw4PSkFuOE2GQ7YWKYDMMk=
+	t=1771295531; cv=none; b=G1qe2mke087f0cVTQycJdtvNw4zR92uaiaZzWKy6e7i4L+v0ig66NYmh/rMMBBsr2uGLHIOjNTmHCWLtq6zILWibQ4DXfrZ3UGz1VPcH6+1aa+nuS+zpdxS5LQ4Kvmv5pSbURwMvp5BAFFDyOy+pT7CDzws0gBvNjaugwlP975E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771294482; c=relaxed/simple;
-	bh=Jrk6tWVzRHHFw6c6rJElHZAkE1PhDOpHeM0AZwq8mfk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MnrxxqYd6vsP++q8byETWgEsxboOosmqwTLvHT4o11lBseqARPBZNLp+eoe2oSSIyMnI0V/324Ez1j3TpI2I8YIjjy2mDy0cbMfgu6Kr4F0J1XuuW+IP9nNPEoY9n1Zki0wr4jZgl2ojr6Jr8lpRqdIGPmcaS+v9BS74A8KyJQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XGv9nXu5; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1771295531; c=relaxed/simple;
+	bh=FO/8Asgy584zcW1VWNI7XM3oSO8jlcqkpWUBwrajZb0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dVo34PI7CxirR229gCzMJbj7ZLHGkSBtf8xxqldiMCfOgOdVbSH9Y7DtiBJCr9Mgat0TecF5peSV2jeOheHePEp18zDQY+AY31p3oxDb4f0HZx4m9q48KTP/wAeqkIzPMPxSFhnZyITnIxCd9kve7TImF3cKVwzC1KhmTqk25E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ck9qNuib; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XGv9nXu5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ck9qNuib"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771294481; x=1802830481;
+  t=1771295531; x=1802831531;
   h=date:from:to:cc:subject:message-id;
-  bh=Jrk6tWVzRHHFw6c6rJElHZAkE1PhDOpHeM0AZwq8mfk=;
-  b=XGv9nXu57B/M/ua77CwAJXiGY4dl4pvL7V5d1WvvEP3MQRNylfApFQql
-   z051QqpKlfqhl3HW1fvAzWQ2uLP1kygS/eOzLl45OkEPE2onT+gRtn8DE
-   2Eg08n8rkzHJTqzLZLqnjO2+E5ZjYnfOu6ocUJnJEsGXq+hN2RgppA69e
-   LTzs69kYxUqBeZGrOJFl5tP8t2CLepe710aH9Km+P7ovFmpkMV1bVF5LI
-   /2F1bcEv9QHd4arhmSrnv72vWNXGHt+pAKERiSmDfUcekIrFiFq6YMFdD
-   r1sGqpRnqHk7+OA6c4CIj2gnRtcMvv/1Z4DuyutxQkAD43j6eWxYWx+mH
-   A==;
-X-CSE-ConnectionGUID: lXpL5ftbRy2v8N9NYwOOlA==
-X-CSE-MsgGUID: K/VwukwxTgqCmSrwzwWF/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="94996820"
+  bh=FO/8Asgy584zcW1VWNI7XM3oSO8jlcqkpWUBwrajZb0=;
+  b=Ck9qNuibL5XEagdtSRlDYswqwCLcnm0zhtqXLf9qEwcSnmVi9g+cZRvj
+   zPW9xtj8DEqeUuqluf/ySg4IEgS1Q8KIpPx/jggxDLNLgQ3PAqgNlc+gq
+   HWl8qw0BvST4W6nQJ0yOIG6xv5LFsnloxTe8zdHXQpbOFh70I7PWySV6m
+   OY1eDtov6cDxGJW0KXZRQBHr3o545QyOu5GyJ7t90b8Rz6HccqtlymtyX
+   Ds+/6NUeQ45LbIArJgOV1Axt4C7MQM4cWUfUP7SlkjfMfqu1TAekHvAdG
+   WCFuP3nG8uCRZTwGO1EhyT+xxT3pZpRd6ejq9Bd/yj3mVpze6Pm+qsRU1
+   Q==;
+X-CSE-ConnectionGUID: 3tIMEhalRr+8twcAUkP/KQ==
+X-CSE-MsgGUID: NW3JVzmjQay3zU27/0zQng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="89780111"
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="94996820"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 18:14:41 -0800
-X-CSE-ConnectionGUID: uaAuucylSiKp1vBzYvbqzA==
-X-CSE-MsgGUID: dHI01sqURsGu8Zpjs4JRfA==
+   d="scan'208";a="89780111"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 18:32:10 -0800
+X-CSE-ConnectionGUID: o4x1Z/y8Q92omDwDo0ZOpw==
+X-CSE-MsgGUID: cgAdmI7ZT0CyqG6ra9ifnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="217891384"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 16 Feb 2026 18:14:39 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="218747295"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 16 Feb 2026 18:32:08 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsAbk-000000002iH-3HOT;
-	Tue, 17 Feb 2026 02:14:36 +0000
-Date: Tue, 17 Feb 2026 03:14:17 +0100
+	id 1vsAsg-000000010Xi-1CGP;
+	Tue, 17 Feb 2026 02:32:06 +0000
+Date: Tue, 17 Feb 2026 10:31:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Shen <sjg168@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: [linux-next:master 3620/13026]
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dtb:
- /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible:
- ['aspeed,ast2600-lhc']
-Message-ID: <202602170340.RYg4GAOo-lkp@intel.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/aarch64-clear-pages 2/2]
+ aarch64-linux-ld:./arch/arm64/kernel/vmlinux.lds:195: undefined symbol
+ `__kvm_nvhe___pi_clear_page' referenced in expression
+Message-ID: <202602171036.lQYIO00r-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,31 +60,21 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   350adaf7fde9fdbd9aeed6d442a9ae90c6a3ab97
-commit: bc83b7353d2bfefba73193335bacc3542d8a7ae2 [3620/13026] ARM: dts: aspeed: Add Facebook Anacapa platform
-config: arm-randconfig-2051-20260215 (https://download.01.org/0day-ci/archive/20260217/202602170340.RYg4GAOo-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2025.13.dev7+gd16dc68b0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170340.RYg4GAOo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-clear-pages
+head:   98402e2f0056970d40a53404141ba384a62b19f2
+commit: 98402e2f0056970d40a53404141ba384a62b19f2 [2/2] arm64: Implement clear_pages()
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260217/202602171036.lQYIO00r-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171036.lQYIO00r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602170340.RYg4GAOo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602171036.lQYIO00r-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+All errors (new ones prefixed by >>):
+
+>> aarch64-linux-ld:./arch/arm64/kernel/vmlinux.lds:195: undefined symbol `__kvm_nvhe___pi_clear_page' referenced in expression
 
 -- 
 0-DAY CI Kernel Test Service
