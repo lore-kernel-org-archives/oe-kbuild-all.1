@@ -1,147 +1,254 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA231E5718
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 05:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831052749EA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 05:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771305258; cv=none; b=LZiG45Cp8t+mO9Va1G6K/gyfUjGzK7Aw6Vrkd4t8Kw5dwA4w475jrk5ZrYJ+53+yqqV31+huxODMvGW0p5KvBh2rEaPH/njdD2JWQvmnL12tWvXyKLbj0Bm8RaSAjkC5llrUW8hKfpFniuc25W1KIuY+IBu/8mmW1EtVsGIR/68=
+	t=1771305261; cv=none; b=TFd1U6Wpf70TwzzzOEAEhOE3NsP5ODPpE96duT8KM4E8rfXmOogTba7sQA7At02pndGb0Zt5Nm5y4UgAE3JW6aa8w+ElZfSFAQkl4VuGv1Em5ChpPkCdk1Rqnoxtmnh+eLvVuiQ2hpmIOuBu/k5IZYX0wodouhO3aCHBgAc1WEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771305258; c=relaxed/simple;
-	bh=5o9M+e+ueKIZQlpVFvujoz74dvoBJg2q/U41zgy0Auc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RE4HMDjDy1v6Z+21w+5ydIMBm02SuOfZ7D/bMsJ7JrkRGCOA88V0c8UEVDPn+pK9XikxSsQ7EDw7vmKho+ieOXOiizwQMrpK4A3vssmNdPKpIAjRuAsAET7iC7F5YXp4+aW+TR3p6qkCVf3Hi66QGP0uqeYIk42Cq9vy7dPJY+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k90vf/JL; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1771305261; c=relaxed/simple;
+	bh=4AsbFdAWsCtcCPmpmwch4smnpgukaOnM/aovJKQ2Y5c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLPr663EfOQUm2Db2mJwjq7WNuuU3HGe65TTRrKIR4oelBdF5NHI0xnlpu5703HdmEgKNxMdtfuxfKLG+lGY3ACZLI2fANBAJcySHZHZxQ9N74z2iRJTmGJDwZisNoqYfvxe+ZbKJyqOJkWH1onADOD3Y+T9beKCWdTPot9uHTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DKAoAsU5; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k90vf/JL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKAoAsU5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771305256; x=1802841256;
-  h=date:from:to:cc:subject:message-id;
-  bh=5o9M+e+ueKIZQlpVFvujoz74dvoBJg2q/U41zgy0Auc=;
-  b=k90vf/JLoRqBsMcwbvy+B12a9SEmRSIpTYxQvrCtTQ8R7rkgN64oRQiT
-   42xGfbBV2afC1UQ3DY2Q66kEciS5I8rzmAVJkeM6+8aJ0GPytoqCjWn2p
-   1xA8WZTReArExl996rZ8GhBE+4J2kM+x6tG9ApC5S/POPMR8wTsDPj1eO
-   YUUccmBazYvQHjIxjI6dmfXWDB0xr76Rj0cEyY04kIiyU6bpPFeWVwl1P
-   v1lvWJCohaMBVwe3g8NfV626XnNS/JMBuGE2RskoD+6ekQ62RE2DtTCCq
-   82arZ+emscNwC8v8MPjoi9IWnO/xdx/fNF9uICWRDWeGAxwXPi+HyYMbr
+  t=1771305260; x=1802841260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4AsbFdAWsCtcCPmpmwch4smnpgukaOnM/aovJKQ2Y5c=;
+  b=DKAoAsU5R1+ObDCvlA9hQfDb+CR6n1AqutRSAAK2hngRp+yueWVzZwC4
+   FdJlzIBTtP6TF8XJIfIxfn9Pk6CVrCUZVH0u8JW5Ej6rjRgXw7BTY8YGO
+   ZIaZ0+D/W+RBBhLiT0BrekBAc6kER2MPMn1TL3CTnq/n9fdoI9FEFYMLK
+   SzNqCYKuQJ84PX2ePMtjAh4S+isgh0G4LYSCqIdQUsGy7qREq5VeBSsFn
+   jmCDSNB48wT63SDgfLixyvCLjMZYR6kXoXCfzby/gy3MUzDT7i5yQ/pK5
+   +FGL1x86eOdlsEPN0Xy5HK8tyw7zps+Qts3TavhTXJRetQOWHtuEFcJVm
    w==;
-X-CSE-ConnectionGUID: 2OqclxpQTCii5riq4I2tlA==
-X-CSE-MsgGUID: aUs2/+MQREWkXJtFV3fFBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="76212522"
+X-CSE-ConnectionGUID: dq55GDyeTAq4VJwJ/G47Lw==
+X-CSE-MsgGUID: ZxVPMahNQYikrmwuTnQS3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="89785728"
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="76212522"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 21:14:16 -0800
-X-CSE-ConnectionGUID: P89lKbxLRNKRhewAq+Pjag==
-X-CSE-MsgGUID: Xvua7SvMSXe7WeXgqJSxKw==
+   d="scan'208";a="89785728"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 21:14:19 -0800
+X-CSE-ConnectionGUID: UvN4Fvm1TmanATuYUzlP+w==
+X-CSE-MsgGUID: PmEu3jx7Rnivyu7Uk2ockw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="213879693"
+   d="scan'208";a="213061276"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 16 Feb 2026 21:14:14 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 16 Feb 2026 21:14:14 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsDPY-000000010dI-0xOn;
+	id 1vsDPY-000000010dA-086V;
 	Tue, 17 Feb 2026 05:14:12 +0000
-Date: Tue, 17 Feb 2026 13:13:32 +0800
+Date: Tue, 17 Feb 2026 13:13:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.18/zen-sauce 4/29]
- drivers/pci/controller/intel-nvme-remap.c:47:21: error: field has incomplete
- type 'struct pci_sysdata'
-Message-ID: <202602171354.rtOz3X15-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+	Robert Chiras <robert.chiras@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, kernel@puri.sm,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	"Oliver F. Brown" <oliver.brown@oss.nxp.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+Subject: Re: [PATCH] drm/bridge: nwl-dsi: Correct MIPI DSI horizontal sync
+ timing
+Message-ID: <202602171326.PoWR3Iye-lkp@intel.com>
+References: <20260216-nwl-sync-timing-v1-1-b0ff6ecf204a@puri.sm>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260216-nwl-sync-timing-v1-1-b0ff6ecf204a@puri.sm>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.18/zen-sauce
-head:   0c87fdcd1f9f7f1a09e8928422160159b8966784
-commit: dbc40c577cbb482c1d5c92d97724a026113e4526 [4/29] ZEN: PCI: Add Intel remapped NVMe device support
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260217/202602171354.rtOz3X15-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171354.rtOz3X15-lkp@intel.com/reproduce)
+Hi Sebastian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 0f2acd3148e0ef42bdacbd477f90e8533f96b2ac]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Krzyszkowiak/drm-bridge-nwl-dsi-Correct-MIPI-DSI-horizontal-sync-timing/20260217-015316
+base:   0f2acd3148e0ef42bdacbd477f90e8533f96b2ac
+patch link:    https://lore.kernel.org/r/20260216-nwl-sync-timing-v1-1-b0ff6ecf204a%40puri.sm
+patch subject: [PATCH] drm/bridge: nwl-dsi: Correct MIPI DSI horizontal sync timing
+config: i386-randconfig-006-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171326.PoWR3Iye-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171326.PoWR3Iye-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602171354.rtOz3X15-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602171326.PoWR3Iye-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/pci/controller/intel-nvme-remap.c:37:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/pci/controller/intel-nvme-remap.c:47:21: error: field has incomplete type 'struct pci_sysdata'
-      47 |         struct pci_sysdata      sysdata;
-         |                                 ^
-   drivers/pci/controller/intel-nvme-remap.c:47:9: note: forward declaration of 'struct pci_sysdata'
-      47 |         struct pci_sysdata      sysdata;
-         |                ^
-   drivers/pci/controller/intel-nvme-remap.c:447:12: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     447 |                 .class = PCI_CLASS_STORAGE_RAID << 8,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci_ids.h:23:33: note: expanded from macro 'PCI_CLASS_STORAGE_RAID'
-      23 | #define PCI_CLASS_STORAGE_RAID          0x0104
-         |                                         ^
-   drivers/pci/controller/intel-nvme-remap.c:446:3: note: previous initialization is here
-     446 |                 PCI_VDEVICE(INTEL, PCI_ANY_ID),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:1076:52: note: expanded from macro 'PCI_VDEVICE'
-    1076 |         .subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, 0, 0
-         |                                                           ^
-   drivers/pci/controller/intel-nvme-remap.c:448:17: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     448 |                 .class_mask = 0xffffff00,
-         |                               ^~~~~~~~~~
-   drivers/pci/controller/intel-nvme-remap.c:446:3: note: previous initialization is here
-     446 |                 PCI_VDEVICE(INTEL, PCI_ANY_ID),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:1076:55: note: expanded from macro 'PCI_VDEVICE'
-    1076 |         .subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, 0, 0
-         |                                                              ^
-   3 warnings and 1 error generated.
+   ld: drivers/gpu/drm/bridge/nwl-dsi.o: in function `nwl_dsi_config_dpi':
+>> drivers/gpu/drm/bridge/nwl-dsi.c:338:(.text+0x1dcb): undefined reference to `__udivdi3'
+>> ld: drivers/gpu/drm/bridge/nwl-dsi.c:339:(.text+0x1e2e): undefined reference to `__udivdi3'
+   ld: drivers/gpu/drm/bridge/nwl-dsi.c:340:(.text+0x1e8f): undefined reference to `__udivdi3'
 
 
-vim +47 drivers/pci/controller/intel-nvme-remap.c
+vim +338 drivers/gpu/drm/bridge/nwl-dsi.c
 
-    43	
-    44	struct nvme_remap_dev {
-    45		struct pci_dev		*dev;		/* AHCI device */
-    46		struct pci_bus		*bus;		/* our fake PCI bus */
-  > 47		struct pci_sysdata	sysdata;
-    48		int			irq_base;	/* our fake interrupts */
-    49	
-    50		/*
-    51		 * When we detect an all-ones write to a BAR register, this flag
-    52		 * is set, so that we return the BAR size on the next read (a
-    53		 * standard PCI behaviour).
-    54		 * This includes the assumption that an all-ones BAR write is
-    55		 * immediately followed by a read of the same register.
-    56		 */
-    57		bool			bar_sizing;
-    58	
-    59		/*
-    60		 * Resources copied from the AHCI device, to be regarded as
-    61		 * resources on our fake bus.
-    62		 */
-    63		struct resource		ahci_resources[PCI_NUM_RESOURCES];
-    64	
-    65		/* Resources corresponding to the NVMe devices. */
-    66		struct resource		remapped_dev_mem[AHCI_MAX_REMAP];
-    67	
-    68		/* Number of remapped NVMe devices found. */
-    69		int			num_remapped_devices;
-    70	};
-    71	
+   255	
+   256	static int nwl_dsi_config_dpi(struct nwl_dsi *dsi)
+   257	{
+   258		u32 mode;
+   259		int color_format;
+   260		bool burst_mode;
+   261		int hfront_porch, hback_porch, vfront_porch, vback_porch;
+   262		int hsync_len, vsync_len;
+   263		int hfp, hbp, hsa;
+   264		unsigned long long pclk_period;
+   265		unsigned long long hs_period;
+   266		int h_blank, pkt_hdr_len, pkt_len;
+   267	
+   268		hfront_porch = dsi->mode.hsync_start - dsi->mode.hdisplay;
+   269		hsync_len = dsi->mode.hsync_end - dsi->mode.hsync_start;
+   270		hback_porch = dsi->mode.htotal - dsi->mode.hsync_end;
+   271	
+   272		vfront_porch = dsi->mode.vsync_start - dsi->mode.vdisplay;
+   273		vsync_len = dsi->mode.vsync_end - dsi->mode.vsync_start;
+   274		vback_porch = dsi->mode.vtotal - dsi->mode.vsync_end;
+   275	
+   276		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hfront_porch = %d\n", hfront_porch);
+   277		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hback_porch = %d\n", hback_porch);
+   278		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hsync_len = %d\n", hsync_len);
+   279		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hdisplay = %d\n", dsi->mode.hdisplay);
+   280		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vfront_porch = %d\n", vfront_porch);
+   281		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vback_porch = %d\n", vback_porch);
+   282		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vsync_len = %d\n", vsync_len);
+   283		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vactive = %d\n", dsi->mode.vdisplay);
+   284		DRM_DEV_DEBUG_DRIVER(dsi->dev, "clock = %d kHz\n", dsi->mode.clock);
+   285	
+   286		color_format = nwl_dsi_get_dpi_pixel_format(dsi->format);
+   287		if (color_format < 0) {
+   288			DRM_DEV_ERROR(dsi->dev, "Invalid color format 0x%x\n",
+   289				      dsi->format);
+   290			return color_format;
+   291		}
+   292		DRM_DEV_DEBUG_DRIVER(dsi->dev, "pixel fmt = %d\n", dsi->format);
+   293	
+   294		nwl_dsi_write(dsi, NWL_DSI_INTERFACE_COLOR_CODING, NWL_DSI_DPI_24_BIT);
+   295		nwl_dsi_write(dsi, NWL_DSI_PIXEL_FORMAT, color_format);
+   296		nwl_dsi_write(dsi, NWL_DSI_VSYNC_POLARITY,
+   297			      dsi->mode.flags & DRM_MODE_FLAG_PVSYNC ?
+   298			      NWL_DSI_VSYNC_POLARITY_ACTIVE_HIGH :
+   299			      NWL_DSI_VSYNC_POLARITY_ACTIVE_LOW);
+   300		nwl_dsi_write(dsi, NWL_DSI_HSYNC_POLARITY,
+   301			      dsi->mode.flags & DRM_MODE_FLAG_PHSYNC ?
+   302			      NWL_DSI_HSYNC_POLARITY_ACTIVE_HIGH :
+   303			      NWL_DSI_HSYNC_POLARITY_ACTIVE_LOW);
+   304	
+   305		burst_mode = (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_BURST) &&
+   306			     !(dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE);
+   307	
+   308		if (burst_mode) {
+   309			nwl_dsi_write(dsi, NWL_DSI_VIDEO_MODE, NWL_DSI_VM_BURST_MODE);
+   310			nwl_dsi_write(dsi, NWL_DSI_PIXEL_FIFO_SEND_LEVEL, 256);
+   311		} else {
+   312			mode = ((dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) ?
+   313					NWL_DSI_VM_BURST_MODE_WITH_SYNC_PULSES :
+   314					NWL_DSI_VM_NON_BURST_MODE_WITH_SYNC_EVENTS);
+   315			nwl_dsi_write(dsi, NWL_DSI_VIDEO_MODE, mode);
+   316			nwl_dsi_write(dsi, NWL_DSI_PIXEL_FIFO_SEND_LEVEL,
+   317				      dsi->mode.hdisplay);
+   318		}
+   319	
+   320		pclk_period = ALIGN(PSEC_PER_SEC, dsi->mode.clock * 1000);
+   321		do_div(pclk_period, dsi->mode.clock * 1000);
+   322		DRM_DEV_DEBUG_DRIVER(dsi->dev, "pclk_period: %llu\n", pclk_period);
+   323	
+   324		hs_period = ALIGN(PSEC_PER_SEC, dsi->phy_cfg.mipi_dphy.hs_clk_rate);
+   325		do_div(hs_period, dsi->phy_cfg.mipi_dphy.hs_clk_rate);
+   326		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hs_period: %llu\n", hs_period);
+   327	
+   328		/*
+   329		 * Calculate the bytes needed, according to the RM formula:
+   330		 * Time of DPI event = time to transmit x number of bytes on the DSI
+   331		 * interface
+   332		 * dpi_event_size * dpi_pclk_period = dsi_bytes * 8 * hs_bit_period /
+   333		 * num_lanes
+   334		 * ===>
+   335		 * dsi_bytes = dpi_event_size * dpi_pclk_period * num_lanes /
+   336		 * (8 * hs_bit_period)
+   337		 */
+ > 338		hfp = hfront_porch * pclk_period * dsi->lanes / (8 * hs_period);
+ > 339		hbp = hback_porch * pclk_period * dsi->lanes / (8 * hs_period);
+   340		hsa = hsync_len * pclk_period * dsi->lanes / (8 * hs_period);
+   341	
+   342		/* Make sure horizontal blankins are even numbers */
+   343		hfp = roundup(hfp, 2);
+   344		hbp = roundup(hbp, 2);
+   345		hsa = roundup(hsa, 2);
+   346	
+   347		/*
+   348		 * We need to subtract the packet header length: 32
+   349		 * In order to make sure we don't get negative values,
+   350		 * subtract a proportional value to the total length of the
+   351		 * horizontal blanking duration.
+   352		 */
+   353		h_blank = hfp + hbp + hsa;
+   354	
+   355		pkt_len = roundup(((hfp * 100 / h_blank) * 32) / 100, 2);
+   356		pkt_hdr_len = pkt_len;
+   357		hfp -= pkt_len;
+   358	
+   359		pkt_len = roundup(((hbp * 100 / h_blank) * 32) / 100, 2);
+   360		pkt_hdr_len += pkt_len;
+   361		hbp -= pkt_len;
+   362	
+   363		hsa -= (32 - pkt_hdr_len);
+   364	
+   365		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP)
+   366			hfp = hfront_porch;
+   367		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HBP)
+   368			hbp = hback_porch;
+   369		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HSA)
+   370			hsa = hsync_len;
+   371	
+   372		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hfp: %d\n", hfp);
+   373		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hbp: %d\n", hbp);
+   374		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hsa: %d\n", hsa);
+   375	
+   376		nwl_dsi_write(dsi, NWL_DSI_HFP, hfp);
+   377		nwl_dsi_write(dsi, NWL_DSI_HBP, hbp);
+   378		nwl_dsi_write(dsi, NWL_DSI_HSA, hsa);
+   379	
+   380		nwl_dsi_write(dsi, NWL_DSI_ENABLE_MULT_PKTS, 0x0);
+   381		nwl_dsi_write(dsi, NWL_DSI_BLLP_MODE, 0x1);
+   382		nwl_dsi_write(dsi, NWL_DSI_USE_NULL_PKT_BLLP, 0x0);
+   383		nwl_dsi_write(dsi, NWL_DSI_VC, 0x0);
+   384	
+   385		nwl_dsi_write(dsi, NWL_DSI_PIXEL_PAYLOAD_SIZE, dsi->mode.hdisplay);
+   386		nwl_dsi_write(dsi, NWL_DSI_VACTIVE, dsi->mode.vdisplay - 1);
+   387		nwl_dsi_write(dsi, NWL_DSI_VBP, vback_porch);
+   388		nwl_dsi_write(dsi, NWL_DSI_VFP, vfront_porch);
+   389	
+   390		return nwl_dsi_clear_error(dsi);
+   391	}
+   392	
 
 -- 
 0-DAY CI Kernel Test Service
