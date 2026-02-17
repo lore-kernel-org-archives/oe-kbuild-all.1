@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09E931C576
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 22:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183A828469F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 23:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771368141; cv=none; b=omQmEu3TL4/zEDYdiWuakpUpE0X1ezGWswxZ5pswAg0fJPXUWGRxNwhLtvwT1vkE31ZdKC7TZxSslQYwLN0riK+n5gIVoLtA/je6KbEcIFupa/1qv7opKPtAY5fvrvOc7JTi3qSilW/SV+oZUN3ee1eaqMzK+To+PyuRHUbfDR4=
+	t=1771369403; cv=none; b=e9gzhv2SzDWS16SskT7MLMQ1Wii97d/mPyYgWK/YnlWrytntT++g1IUhdIGrkAKO6kb6QRw8NfIQv7C/NmWvqxjMOcgaDr/4e9/b2sq36TEw6Y2xc5swDMZer5Z7x6xjAxQWx97a9I/fOQmBf9GHls9YQfWVScSCHCttUwo5xW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771368141; c=relaxed/simple;
-	bh=gFeOFj6Z4eOFuoIhYFQGbrkWX9ka8rCSLARXM5k0Y28=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kU2DrsJqkguVSVJjnn9k7HAbIEw8BJvn6Y5W8zZlpg85pPnfjHShRYg9vo+NnznM1JdJCRbbA+0igpwQCq5DM2YlExrsRE+ndoRyVpQgMpnZsHyD4glEPwEMAY+GL1mnRsIyqlPy6L4QMSl5smEqNP1nBWHtEBsFVto/M95hvTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l7RJEJ1q; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1771369403; c=relaxed/simple;
+	bh=S11PPFF8ss6YWATIicIxAtRBPtCI3t/gfA0dXrVR8nU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Jxpe6g4O/OSC1UsSy1pW6BrnTZXcJtav72vpiidmYiDbnDgMKyQbt3Ad5OIEtpTOfPH6IxHGQuZ1bwaYffTCjUTnJL8Ao3WfkPNWGttL8Rf5eqQJKlbw60METWXZxm/B8eNLjyOCCPWWBQal9KsozcStvx3LVN3ZTcLuCphIlvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lMkTd+WO; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7RJEJ1q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lMkTd+WO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771368140; x=1802904140;
+  t=1771369401; x=1802905401;
   h=date:from:to:cc:subject:message-id;
-  bh=gFeOFj6Z4eOFuoIhYFQGbrkWX9ka8rCSLARXM5k0Y28=;
-  b=l7RJEJ1qVl9JeZDXBXhG5DIQGqy4C/yMmTswXl8cTO1NZifZ5Y0mXQtc
-   /lpnawooHzITkLWY8l/iHdfaRugBSf8Tbk5QM4fpbnjuts/fkbui3y85l
-   sbTszec9EN/1EEa5eyrWjYIXepOtxEWgqLCDbvPcZ+xyEyetbBIJbgCGW
-   mu1GT8p62KpqhXoIfNPYlEQwnJi/X4D4xyIAM/pw8eol8+fMS+aXKACkd
-   rihJt+KJxU/v2mV1+hhoyJGOYB4hNbhvWWGyFbxV1la0EmWAeXC5U68yu
-   kVwlMRnvbMR3dRAPgu/L2m+dElmpMg/lz/ugx89lM8oik5Fni98EF51QF
-   Q==;
-X-CSE-ConnectionGUID: Izk2ZICfQNW4PxDz/OuWxw==
-X-CSE-MsgGUID: anL82EO5SkiTFMQuV2u5GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="76307700"
+  bh=S11PPFF8ss6YWATIicIxAtRBPtCI3t/gfA0dXrVR8nU=;
+  b=lMkTd+WOLapXjBcJOWF6xresHCTr4LUCWwgxkMeDfKx6HPtjR9f+W7v9
+   NoJ5cXV/WGo92DGeCuBjus7W5En4ky+dQFFbTjR5FKVHn7PG2Bh7SYQEU
+   181EFhJkvvrEVP2Nl3q/EdHEwJpCQytNsAM/Y6XEwxYrqSlp+/1XYDzPy
+   2a9EETDPA1ru6AeIpc5pGsksT3YkQMJsOs5cKj6Ef/EgvkkCzaBpyjWRB
+   VQaShSHjGcrCQn3Kbn6U+3ZIKziYUDKSIl9BogI+jDhyFflNegPr/cKPL
+   2b2iijvRdQpazhtbl1DJlOg2oeYV+4Cufpover/rhejyFifSVXsYuHY8p
+   w==;
+X-CSE-ConnectionGUID: T4vVX60iRuipv2aNM0CyoQ==
+X-CSE-MsgGUID: 0KRbdFSuTwuLEDFpDnE0TQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="83813124"
 X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
-   d="scan'208";a="76307700"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 14:42:19 -0800
-X-CSE-ConnectionGUID: jJ++8fiCQB6vVU+yl0FT3g==
-X-CSE-MsgGUID: OEwpNpaGQ+yrdSoyXHVvDg==
+   d="scan'208";a="83813124"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 15:03:20 -0800
+X-CSE-ConnectionGUID: 90dHHgIXTqugYuZYpRoSuA==
+X-CSE-MsgGUID: 3KqGNRTXSzmOInpv+Ap2OA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
-   d="scan'208";a="218556807"
+   d="scan'208";a="244616992"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Feb 2026 14:42:17 -0800
+  by orviesa002.jf.intel.com with ESMTP; 17 Feb 2026 15:03:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsTln-000000011lI-1DGf;
-	Tue, 17 Feb 2026 22:42:15 +0000
-Date: Wed, 18 Feb 2026 06:42:02 +0800
+	id 1vsU67-000000011m2-3Wj0;
+	Tue, 17 Feb 2026 23:03:15 +0000
+Date: Wed, 18 Feb 2026 07:02:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ido Schimmel <idosch@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
 Subject: [jpirko-mlxsw:combined_queue 14/14]
- drivers/mmc/host/dw_mmc.c:606:29: sparse: sparse: incorrect type in argument
- 1 (different address spaces)
-Message-ID: <202602180637.f9ALfUbC-lkp@intel.com>
+ drivers/ata/libata-core.c:4818:26: sparse: sparse: cast to restricted __le16
+Message-ID: <202602180600.OmvYW9VJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,185 +62,219 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/jpirko/linux_mlxsw combined_queue
 head:   795595cd79ba6d53ee6165ab807c5452487ec0f3
 commit: 795595cd79ba6d53ee6165ab807c5452487ec0f3 [14/14] TMP: Revert "module: Add compile-time check for embedded NUL characters"
-config: csky-randconfig-r132-20260218 (https://download.01.org/0day-ci/archive/20260218/202602180637.f9ALfUbC-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602180637.f9ALfUbC-lkp@intel.com/reproduce)
+config: powerpc-randconfig-r131-20260218 (https://download.01.org/0day-ci/archive/20260218/202602180600.OmvYW9VJ-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602180600.OmvYW9VJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602180637.f9ALfUbC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602180600.OmvYW9VJ-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/mmc/host/dw_mmc.c:606:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
-   drivers/mmc/host/dw_mmc.c:606:29: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/mmc/host/dw_mmc.c:606:29: sparse:     got unsigned int *
->> drivers/mmc/host/dw_mmc.c:619:25: sparse: sparse: restricted __le32 degrades to integer
->> drivers/mmc/host/dw_mmc.c:619:25: sparse: sparse: restricted __le32 degrades to integer
->> drivers/mmc/host/dw_mmc.c:678:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/mmc/host/dw_mmc.c:678:29: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/mmc/host/dw_mmc.c:678:29: sparse:     got restricted __le32 *
-   drivers/mmc/host/dw_mmc.c:678:29: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/ata/libata-core.c:4818:26: sparse: sparse: cast to restricted __le16
 --
->> drivers/mtd/nand/raw/nandsim.c:1900:41: sparse: sparse: cast from restricted __le16
-   drivers/mtd/nand/raw/nandsim.c:2072:59: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/mtd/nand/raw/nandsim.c:2072:59: sparse:     expected unsigned short [usertype]
-   drivers/mtd/nand/raw/nandsim.c:2072:59: sparse:     got restricted __le16 [usertype]
+>> drivers/fsi/fsi-master-ast-cf.c:399:65: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 [usertype] rdata @@     got unsigned int [assigned] [usertype] rdata @@
+   drivers/fsi/fsi-master-ast-cf.c:399:65: sparse:     expected restricted __be32 [usertype] rdata
+   drivers/fsi/fsi-master-ast-cf.c:399:65: sparse:     got unsigned int [assigned] [usertype] rdata
+--
+   drivers/hwspinlock/stm32_hwspinlock.c:30:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void *priv @@
+   drivers/hwspinlock/stm32_hwspinlock.c:30:39: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/stm32_hwspinlock.c:30:39: sparse:     got void *priv
+   drivers/hwspinlock/stm32_hwspinlock.c:41:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void *priv @@
+   drivers/hwspinlock/stm32_hwspinlock.c:41:39: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/stm32_hwspinlock.c:41:39: sparse:     got void *priv
+>> drivers/hwspinlock/stm32_hwspinlock.c:110:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
+   drivers/hwspinlock/stm32_hwspinlock.c:110:39: sparse:     expected void *priv
+   drivers/hwspinlock/stm32_hwspinlock.c:110:39: sparse:     got void [noderef] __iomem *
+--
+>> drivers/hwspinlock/u8500_hsem.c:52:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void *priv @@
+   drivers/hwspinlock/u8500_hsem.c:52:39: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/u8500_hsem.c:52:39: sparse:     got void *priv
+   drivers/hwspinlock/u8500_hsem.c:65:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void *priv @@
+   drivers/hwspinlock/u8500_hsem.c:65:39: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/u8500_hsem.c:65:39: sparse:     got void *priv
+   drivers/hwspinlock/u8500_hsem.c:116:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
+   drivers/hwspinlock/u8500_hsem.c:116:30: sparse:     expected void *priv
+   drivers/hwspinlock/u8500_hsem.c:116:30: sparse:     got void [noderef] __iomem *
+>> drivers/hwspinlock/u8500_hsem.c:126:52: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *io_base @@     got void * @@
+   drivers/hwspinlock/u8500_hsem.c:126:52: sparse:     expected void [noderef] __iomem *io_base
+   drivers/hwspinlock/u8500_hsem.c:126:52: sparse:     got void *
+--
+   drivers/hwspinlock/sun6i_hwspinlock.c:65:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void *priv @@
+   drivers/hwspinlock/sun6i_hwspinlock.c:65:39: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/sun6i_hwspinlock.c:65:39: sparse:     got void *priv
+   drivers/hwspinlock/sun6i_hwspinlock.c:72:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void *priv @@
+   drivers/hwspinlock/sun6i_hwspinlock.c:72:39: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/sun6i_hwspinlock.c:72:39: sparse:     got void *priv
+>> drivers/hwspinlock/sun6i_hwspinlock.c:166:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
+   drivers/hwspinlock/sun6i_hwspinlock.c:166:30: sparse:     expected void *priv
+   drivers/hwspinlock/sun6i_hwspinlock.c:166:30: sparse:     got void [noderef] __iomem *
+--
+>> drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse:     expected void *base
+   drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse:     got void [noderef] __iomem *
+>> drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     got void *base
+>> drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     got void *base
+>> drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     got void *base
+>> drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     got void *base
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse:     got void *base
+--
+   drivers/uio/uio_fsl_elbc_gpcm.c:86:53: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsl_lbc_bank *bank @@     got struct fsl_lbc_bank [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:86:53: sparse:     expected struct fsl_lbc_bank *bank
+   drivers/uio/uio_fsl_elbc_gpcm.c:86:53: sparse:     got struct fsl_lbc_bank [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:90:43: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:90:43: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:90:43: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:94:43: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:94:43: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:94:43: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:105:53: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsl_lbc_bank *bank @@     got struct fsl_lbc_bank [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:105:53: sparse:     expected struct fsl_lbc_bank *bank
+   drivers/uio/uio_fsl_elbc_gpcm.c:105:53: sparse:     got struct fsl_lbc_bank [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:117:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:117:31: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:117:31: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:118:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:118:31: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:118:31: sparse:     got restricted __be32 *
+>> drivers/uio/uio_fsl_elbc_gpcm.c:132:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:132:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:132:27: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:140:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:140:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:140:27: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:345:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:345:46: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:345:46: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:346:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:346:46: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:346:46: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:375:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:375:34: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:375:34: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:376:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:376:34: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:376:34: sparse:     got restricted __be32 [noderef] __iomem *
+--
+>> drivers/phy/microchip/sparx5_serdes.c:34:20: sparse: sparse: symbol 'sparx5_serdes_tsize' was not declared. Should it be static?
+   drivers/phy/microchip/sparx5_serdes.c:41:20: sparse: sparse: symbol 'lan969x_serdes_tsize' was not declared. Should it be static?
+--
+>> drivers/video/fbdev/pxa168fb.c:668:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void * @@
+   drivers/video/fbdev/pxa168fb.c:668:27: sparse:     expected char [noderef] __iomem *screen_base
+   drivers/video/fbdev/pxa168fb.c:668:27: sparse:     got void *
+>> drivers/video/fbdev/pxa168fb.c:758:25: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/pxa168fb.c:758:25: sparse:     expected void *cpu_addr
+   drivers/video/fbdev/pxa168fb.c:758:25: sparse:     got char [noderef] __iomem *screen_base
+   drivers/video/fbdev/pxa168fb.c:790:25: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/pxa168fb.c:790:25: sparse:     expected void *cpu_addr
+   drivers/video/fbdev/pxa168fb.c:790:25: sparse:     got char [noderef] __iomem *screen_base
+--
+   drivers/video/fbdev/broadsheetfb.c:298:40: sparse: sparse: restricted __le32 degrades to integer
+   drivers/video/fbdev/broadsheetfb.c:299:45: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/video/fbdev/broadsheetfb.c:879:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
+   drivers/video/fbdev/broadsheetfb.c:879:17: sparse:     expected unsigned short
+   drivers/video/fbdev/broadsheetfb.c:879:17: sparse:     got restricted __le16 [usertype]
+--
+>> drivers/video/fbdev/pvr2fb.c:1081:11: sparse: sparse: Using plain integer as NULL pointer
+--
+>> drivers/soc/qcom/qcom-geni-se.c:1061:21: sparse: sparse: cast to restricted __le32
+>> drivers/soc/qcom/qcom-geni-se.c:1061:21: sparse: sparse: cast from restricted __le16
+--
+>> drivers/mtd/nand/raw/hisi504_nand.c:362:26: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/mtd/nand/raw/hisi504_nand.c:367:26: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     expected void *
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     expected void *
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     expected void *
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     got void [noderef] __iomem *mmio
+--
+   drivers/mtd/nand/raw/meson_nand.c:542:23: sparse: sparse: invalid assignment: |=
+   drivers/mtd/nand/raw/meson_nand.c:542:23: sparse:    left side has type restricted __le64
+   drivers/mtd/nand/raw/meson_nand.c:542:23: sparse:    right side has type unsigned char
+   drivers/mtd/nand/raw/meson_nand.c:543:23: sparse: sparse: invalid assignment: |=
+   drivers/mtd/nand/raw/meson_nand.c:543:23: sparse:    left side has type restricted __le64
+   drivers/mtd/nand/raw/meson_nand.c:543:23: sparse:    right side has type int
+>> drivers/mtd/nand/raw/meson_nand.c:555:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __le64 [usertype] @@
+   drivers/mtd/nand/raw/meson_nand.c:555:32: sparse:     expected unsigned char [usertype]
+   drivers/mtd/nand/raw/meson_nand.c:555:32: sparse:     got restricted __le64 [usertype]
+>> drivers/mtd/nand/raw/meson_nand.c:556:38: sparse: sparse: restricted __le64 degrades to integer
+   drivers/mtd/nand/raw/meson_nand.c:570:21: sparse: sparse: restricted __le64 degrades to integer
+   drivers/mtd/nand/raw/meson_nand.c:571:53: sparse: sparse: restricted __le64 degrades to integer
+   drivers/mtd/nand/raw/meson_nand.c:572:37: sparse: sparse: restricted __le64 degrades to integer
+   drivers/mtd/nand/raw/meson_nand.c:577:21: sparse: sparse: restricted __le64 degrades to integer
+   drivers/mtd/nand/raw/meson_nand.c:578:53: sparse: sparse: restricted __le64 degrades to integer
+   drivers/mtd/nand/raw/meson_nand.c:579:37: sparse: sparse: restricted __le64 degrades to integer
+   drivers/mtd/nand/raw/meson_nand.c:823:23: sparse: sparse: restricted __le64 degrades to integer
+--
+>> drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c:52:25: sparse: sparse: symbol 'imx_legacy_bridge_funcs' was not declared. Should it be static?
+--
+   drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c:79:27: sparse: sparse: symbol 'sdm660_lpi_pinctrl_groups' was not declared. Should it be static?
+>> drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c:116:27: sparse: sparse: symbol 'sdm660_lpi_pinctrl_functions' was not declared. Should it be static?
 
-vim +606 drivers/mmc/host/dw_mmc.c
+vim +4818 drivers/ata/libata-core.c
 
-3b2a067b98b45f7 Shawn Lin         2016-09-02  577  
-3b2a067b98b45f7 Shawn Lin         2016-09-02  578  static inline int dw_mci_prepare_desc64(struct dw_mci *host,
-ec0baaa6b33932a Shawn Lin         2016-09-02  579  					 struct mmc_data *data,
-f95f3850f7a9e1d Will Newton       2011-01-02  580  					 unsigned int sg_len)
-f95f3850f7a9e1d Will Newton       2011-01-02  581  {
-5959b32e3636f9b Alexey Brodkin    2015-06-25  582  	unsigned int desc_len;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  583  	struct idmac_desc_64addr *desc_first, *desc_last, *desc;
-b6d2d81c5c2de6b Shawn Lin         2017-02-17  584  	u32 val;
-ec0baaa6b33932a Shawn Lin         2016-09-02  585  	int i;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  586  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  587  	desc_first = desc_last = desc = host->sg_cpu;
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  588  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  589  	for (i = 0; i < sg_len; i++) {
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  590  		unsigned int length = sg_dma_len(&data->sg[i]);
-0e3a22c044478b6 Shawn Lin         2015-08-03  591  
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  592  		u64 mem_addr = sg_dma_address(&data->sg[i]);
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  593  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  594  		for ( ; length ; desc++) {
-5959b32e3636f9b Alexey Brodkin    2015-06-25  595  			desc_len = (length <= DW_MCI_DESC_DATA_LENGTH) ?
-5959b32e3636f9b Alexey Brodkin    2015-06-25  596  				   length : DW_MCI_DESC_DATA_LENGTH;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  597  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  598  			length -= desc_len;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  599  
-3b2a067b98b45f7 Shawn Lin         2016-09-02  600  			/*
-3b2a067b98b45f7 Shawn Lin         2016-09-02  601  			 * Wait for the former clear OWN bit operation
-3b2a067b98b45f7 Shawn Lin         2016-09-02  602  			 * of IDMAC to make sure that this descriptor
-3b2a067b98b45f7 Shawn Lin         2016-09-02  603  			 * isn't still owned by IDMAC as IDMAC's write
-3b2a067b98b45f7 Shawn Lin         2016-09-02  604  			 * ops and CPU's read ops are asynchronous.
-3b2a067b98b45f7 Shawn Lin         2016-09-02  605  			 */
-b6d2d81c5c2de6b Shawn Lin         2017-02-17 @606  			if (readl_poll_timeout_atomic(&desc->des0, val,
-b6d2d81c5c2de6b Shawn Lin         2017-02-17  607  						!(val & IDMAC_DES0_OWN),
-b6d2d81c5c2de6b Shawn Lin         2017-02-17  608  						10, 100 * USEC_PER_MSEC))
-3b2a067b98b45f7 Shawn Lin         2016-09-02  609  				goto err_own_bit;
-3b2a067b98b45f7 Shawn Lin         2016-09-02  610  
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  611  			/*
-5959b32e3636f9b Alexey Brodkin    2015-06-25  612  			 * Set the OWN bit and disable interrupts
-5959b32e3636f9b Alexey Brodkin    2015-06-25  613  			 * for this descriptor
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  614  			 */
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  615  			desc->des0 = IDMAC_DES0_OWN | IDMAC_DES0_DIC |
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  616  						IDMAC_DES0_CH;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  617  
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  618  			/* Buffer length */
-5959b32e3636f9b Alexey Brodkin    2015-06-25 @619  			IDMAC_64ADDR_SET_BUFFER1_SIZE(desc, desc_len);
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  620  
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  621  			/* Physical address to DMA to/from */
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  622  			desc->des4 = mem_addr & 0xffffffff;
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  623  			desc->des5 = mem_addr >> 32;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  624  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  625  			/* Update physical address for the next desc */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  626  			mem_addr += desc_len;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  627  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  628  			/* Save pointer to the last descriptor */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  629  			desc_last = desc;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  630  		}
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  631  	}
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  632  
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  633  	/* Set first descriptor */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  634  	desc_first->des0 |= IDMAC_DES0_FD;
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  635  
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  636  	/* Set last descriptor */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  637  	desc_last->des0 &= ~(IDMAC_DES0_CH | IDMAC_DES0_DIC);
-5959b32e3636f9b Alexey Brodkin    2015-06-25  638  	desc_last->des0 |= IDMAC_DES0_LD;
-3b2a067b98b45f7 Shawn Lin         2016-09-02  639  
-3b2a067b98b45f7 Shawn Lin         2016-09-02  640  	return 0;
-3b2a067b98b45f7 Shawn Lin         2016-09-02  641  err_own_bit:
-3b2a067b98b45f7 Shawn Lin         2016-09-02  642  	/* restore the descriptor chain as it's polluted */
-26be9d705f44521 Colin Ian King    2016-11-16  643  	dev_dbg(host->dev, "descriptor is still owned by IDMAC.\n");
-cc190d4c6499b1b Shawn Lin         2016-09-02  644  	memset(host->sg_cpu, 0, DESC_RING_BUF_SZ);
-3b2a067b98b45f7 Shawn Lin         2016-09-02  645  	dw_mci_idmac_init(host);
-3b2a067b98b45f7 Shawn Lin         2016-09-02  646  	return -EINVAL;
-ec0baaa6b33932a Shawn Lin         2016-09-02  647  }
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  648  
-ec0baaa6b33932a Shawn Lin         2016-09-02  649  
-3b2a067b98b45f7 Shawn Lin         2016-09-02  650  static inline int dw_mci_prepare_desc32(struct dw_mci *host,
-ec0baaa6b33932a Shawn Lin         2016-09-02  651  					 struct mmc_data *data,
-ec0baaa6b33932a Shawn Lin         2016-09-02  652  					 unsigned int sg_len)
-ec0baaa6b33932a Shawn Lin         2016-09-02  653  {
-ec0baaa6b33932a Shawn Lin         2016-09-02  654  	unsigned int desc_len;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  655  	struct idmac_desc *desc_first, *desc_last, *desc;
-b6d2d81c5c2de6b Shawn Lin         2017-02-17  656  	u32 val;
-ec0baaa6b33932a Shawn Lin         2016-09-02  657  	int i;
-f95f3850f7a9e1d Will Newton       2011-01-02  658  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  659  	desc_first = desc_last = desc = host->sg_cpu;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  660  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  661  	for (i = 0; i < sg_len; i++) {
-f95f3850f7a9e1d Will Newton       2011-01-02  662  		unsigned int length = sg_dma_len(&data->sg[i]);
-0e3a22c044478b6 Shawn Lin         2015-08-03  663  
-f95f3850f7a9e1d Will Newton       2011-01-02  664  		u32 mem_addr = sg_dma_address(&data->sg[i]);
-f95f3850f7a9e1d Will Newton       2011-01-02  665  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  666  		for ( ; length ; desc++) {
-5959b32e3636f9b Alexey Brodkin    2015-06-25  667  			desc_len = (length <= DW_MCI_DESC_DATA_LENGTH) ?
-5959b32e3636f9b Alexey Brodkin    2015-06-25  668  				   length : DW_MCI_DESC_DATA_LENGTH;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  669  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  670  			length -= desc_len;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  671  
-3b2a067b98b45f7 Shawn Lin         2016-09-02  672  			/*
-3b2a067b98b45f7 Shawn Lin         2016-09-02  673  			 * Wait for the former clear OWN bit operation
-3b2a067b98b45f7 Shawn Lin         2016-09-02  674  			 * of IDMAC to make sure that this descriptor
-3b2a067b98b45f7 Shawn Lin         2016-09-02  675  			 * isn't still owned by IDMAC as IDMAC's write
-3b2a067b98b45f7 Shawn Lin         2016-09-02  676  			 * ops and CPU's read ops are asynchronous.
-3b2a067b98b45f7 Shawn Lin         2016-09-02  677  			 */
-b6d2d81c5c2de6b Shawn Lin         2017-02-17 @678  			if (readl_poll_timeout_atomic(&desc->des0, val,
-b6d2d81c5c2de6b Shawn Lin         2017-02-17  679  						      IDMAC_OWN_CLR64(val),
-b6d2d81c5c2de6b Shawn Lin         2017-02-17  680  						      10,
-b6d2d81c5c2de6b Shawn Lin         2017-02-17  681  						      100 * USEC_PER_MSEC))
-3b2a067b98b45f7 Shawn Lin         2016-09-02  682  				goto err_own_bit;
-3b2a067b98b45f7 Shawn Lin         2016-09-02  683  
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  684  			/*
-5959b32e3636f9b Alexey Brodkin    2015-06-25  685  			 * Set the OWN bit and disable interrupts
-5959b32e3636f9b Alexey Brodkin    2015-06-25  686  			 * for this descriptor
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  687  			 */
-6687c42fa71acd6 Ben Dooks         2015-03-25  688  			desc->des0 = cpu_to_le32(IDMAC_DES0_OWN |
-5959b32e3636f9b Alexey Brodkin    2015-06-25  689  						 IDMAC_DES0_DIC |
-5959b32e3636f9b Alexey Brodkin    2015-06-25  690  						 IDMAC_DES0_CH);
-5959b32e3636f9b Alexey Brodkin    2015-06-25  691  
-f95f3850f7a9e1d Will Newton       2011-01-02  692  			/* Buffer length */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  693  			IDMAC_SET_BUFFER1_SIZE(desc, desc_len);
-f95f3850f7a9e1d Will Newton       2011-01-02  694  
-f95f3850f7a9e1d Will Newton       2011-01-02  695  			/* Physical address to DMA to/from */
-6687c42fa71acd6 Ben Dooks         2015-03-25  696  			desc->des2 = cpu_to_le32(mem_addr);
-5959b32e3636f9b Alexey Brodkin    2015-06-25  697  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  698  			/* Update physical address for the next desc */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  699  			mem_addr += desc_len;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  700  
-5959b32e3636f9b Alexey Brodkin    2015-06-25  701  			/* Save pointer to the last descriptor */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  702  			desc_last = desc;
-5959b32e3636f9b Alexey Brodkin    2015-06-25  703  		}
-f95f3850f7a9e1d Will Newton       2011-01-02  704  	}
-f95f3850f7a9e1d Will Newton       2011-01-02  705  
-f95f3850f7a9e1d Will Newton       2011-01-02  706  	/* Set first descriptor */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  707  	desc_first->des0 |= cpu_to_le32(IDMAC_DES0_FD);
-f95f3850f7a9e1d Will Newton       2011-01-02  708  
-f95f3850f7a9e1d Will Newton       2011-01-02  709  	/* Set last descriptor */
-5959b32e3636f9b Alexey Brodkin    2015-06-25  710  	desc_last->des0 &= cpu_to_le32(~(IDMAC_DES0_CH |
-5959b32e3636f9b Alexey Brodkin    2015-06-25  711  				       IDMAC_DES0_DIC));
-5959b32e3636f9b Alexey Brodkin    2015-06-25  712  	desc_last->des0 |= cpu_to_le32(IDMAC_DES0_LD);
-3b2a067b98b45f7 Shawn Lin         2016-09-02  713  
-3b2a067b98b45f7 Shawn Lin         2016-09-02  714  	return 0;
-3b2a067b98b45f7 Shawn Lin         2016-09-02  715  err_own_bit:
-3b2a067b98b45f7 Shawn Lin         2016-09-02  716  	/* restore the descriptor chain as it's polluted */
-26be9d705f44521 Colin Ian King    2016-11-16  717  	dev_dbg(host->dev, "descriptor is still owned by IDMAC.\n");
-cc190d4c6499b1b Shawn Lin         2016-09-02  718  	memset(host->sg_cpu, 0, DESC_RING_BUF_SZ);
-3b2a067b98b45f7 Shawn Lin         2016-09-02  719  	dw_mci_idmac_init(host);
-3b2a067b98b45f7 Shawn Lin         2016-09-02  720  	return -EINVAL;
-69d99fdcfd7815d Prabu Thangamuthu 2014-10-20  721  }
-f95f3850f7a9e1d Will Newton       2011-01-02  722  
+2874d5ee6c06ab drivers/ata/libata-core.c  Geert Uytterhoeven 2017-01-03  4799  
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4800  /**
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4801   *	swap_buf_le16 - swap halves of 16-bit words in place
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4802   *	@buf:  Buffer to swap
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4803   *	@buf_words:  Number of 16-bit words in buffer.
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4804   *
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4805   *	Swap halves of 16-bit words if needed to convert from
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4806   *	little-endian byte order to native cpu byte order, or
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4807   *	vice-versa.
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4808   *
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4809   *	LOCKING:
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4810   *	Inherited from caller.
+a1af37344f669d drivers/scsi/libata-core.c Albert Lee         2006-03-25  4811   */
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4812  void swap_buf_le16(u16 *buf, unsigned int buf_words)
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4813  {
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4814  #ifdef __BIG_ENDIAN
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4815  	unsigned int i;
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4816  
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4817  	for (i = 0; i < buf_words; i++)
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25 @4818  		buf[i] = le16_to_cpu(buf[i]);
+624d5c514eed18 drivers/ata/libata-core.c  Tejun Heo          2008-03-25  4819  #endif /* __BIG_ENDIAN */
+8061f5f0a04cfd drivers/scsi/libata-core.c Tejun Heo          2006-03-05  4820  }
+8061f5f0a04cfd drivers/scsi/libata-core.c Tejun Heo          2006-03-05  4821  
 
-:::::: The code at line 606 was first introduced by commit
-:::::: b6d2d81c5c2de6b3c69da3be9b2044dd008dbe45 mmc: dw_mmc: improve the timeout polling code
+:::::: The code at line 4818 was first introduced by commit
+:::::: 624d5c514eed18d5a93062e9d86d67065175f30a libata: reorganize SFF related stuff
 
-:::::: TO: Shawn Lin <shawn.lin@rock-chips.com>
-:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
+:::::: TO: Tejun Heo <htejun@gmail.com>
+:::::: CC: Jeff Garzik <jgarzik@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
