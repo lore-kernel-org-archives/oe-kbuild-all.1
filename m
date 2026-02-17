@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDB235504D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96F82848BB
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 12:50:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771332648; cv=none; b=uOJjVUDHIf0eWjOtgb4mvDOqlzomN9sOuVf6RJiAfO9QviP8TKSqwa9YZxgyO9YF7tBhEtM5l9NRW/EFPrhtBnfOzEjf6/eHjEZCgef5sz8RQX2puOli6fvRlt0U/Nlg5FJimeaxioMXIqJ5vQAbDyugsWu/ig9Hs9NIM52zi3Y=
+	t=1771332648; cv=none; b=pF6us/YCCZ82F8kZ/irr0RWzdmarmQ4gIAFntkN/VmCVHwgD9X2vhylfbxaI/NpieztcjD9f8QAs86v2gazrffR38hLuaSEnQKST3HERg4H/pLY1ZalFQuCRrrk8T6rFbx/jSTzQkS2ddr8coDpX9hLXQGtEhbGWtLUF8A4WkfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771332648; c=relaxed/simple;
-	bh=WZNnT8wwfbBaDd/8iEzvgX9Xms20mnJT+hhVGSYbWRM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=G9cW/6YdOB+sTxDOpf7XM24WgAI6L821GUVBrxpdDPMqlAVPcP6du6AlB9hW0c8KGkOUB1N5W1YLVhug0q7lDUSaSUYMIFQa/N9v0s/GeOixmJhCiBybA+398Gj3jDdLsyfHY1sNFK+UA6VDWMaRCNSJOHZ0W7BUqkKYds1kjH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZjYl4pgJ; arc=none smtp.client-ip=192.198.163.17
+	bh=l/zxZ2qn5LovQ1AtR1d0nAOvFk/Z6vRXwUjXztTWo4I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=N+bp2mmO64ggJdQkOt5wyjyTIfNjAxTfeDaoM+Lz5xlFSjDmSPHbRXcvkBnbqi73qtriMp8zca0WVcqRMMh8HHu6Lbq2/Cwj5ePtM3tmX7VmjORSTbWfGF2H6Gyh02TiHu809lohE6RPLL27LXliFdoywPirK/ojwmigP4lakyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EhJ+1Miu; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZjYl4pgJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EhJ+1Miu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771332646; x=1802868646;
+  t=1771332647; x=1802868647;
   h=date:from:to:cc:subject:message-id;
-  bh=WZNnT8wwfbBaDd/8iEzvgX9Xms20mnJT+hhVGSYbWRM=;
-  b=ZjYl4pgJ0DdNh30p+EN/xGJ2dlLmLzWROJXNsOKuaVcgHcjsTQ+9aNlg
-   BRmxRY3EtivWlWjTKbAoVYtF6fRiF4GC9O2ffjaEC6x84ZJbizXKWRSH5
-   Mg8FzP69vxDifhKfwboL0fMTLH1RCDkUw7exKUWJDL0l1V+OvtOANJFgi
-   9C6nD2/J0aqiG6lpjsasrgH6rVsjSQFqHdgO6jmSqGvpOP5cGUkuJEEaZ
-   tlu/Ru5mK6PvQkOpekMUDCTztuEYG1ia+hn4mNw+C+BmBNZMVg01IZFJr
-   36GGbHucbaF4s+2iIoY8w9M9b+OjIOhq+ehLZj8GKVmfr4PkRVPD0/SWp
+  bh=l/zxZ2qn5LovQ1AtR1d0nAOvFk/Z6vRXwUjXztTWo4I=;
+  b=EhJ+1MiunF6umkFyVg127kdG3wLse3NWREoe+gZ4s7K/0+okc7ULLxik
+   Fus7m3s0K/GsUlg8b1LKJGeH9uteLjJbIrp8+WnLVMfuVGaFpHNJFEb5V
+   VWbF84njTZnKc2cAbGg0icKJ4drC3qK8qPlVt7/5Jz8qNSqLNPVGQlIyr
+   u5BGD7qyaX27bSM1XwkFrtqfb5SamZIIBtWS/VV1fc5wYIGRCBHNWOnri
+   EGjJS3D+xUMe3SvOu2S84hIkLePKQLrh9gaUGF7wgxwDtTavmLjaBBaeE
+   HlIbPqjiieKE7yLcgpNvPPvofXAheQCDPJAHnQGrJqOdRJTsQRu2u0tEB
    g==;
-X-CSE-ConnectionGUID: F3rTuXZfQ7ql7Rn9RS6tXw==
-X-CSE-MsgGUID: lKHIjh2PSJOpu1b+f/7jmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72306028"
+X-CSE-ConnectionGUID: 3uMd7eJgQvaUcQllw6vVxg==
+X-CSE-MsgGUID: AM5751pwTB+twc7NDnNWBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72306031"
 X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
-   d="scan'208";a="72306028"
+   d="scan'208";a="72306031"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 04:50:44 -0800
-X-CSE-ConnectionGUID: LF5P1r/bTDmtUQ9YpM6vbg==
-X-CSE-MsgGUID: tpdHTjADTXymBI6d6AGyow==
+X-CSE-ConnectionGUID: LBl/y3Q0SEOYBHmZTyLVzQ==
+X-CSE-MsgGUID: U8kHOwj3SV2DZ4OgVuO4rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
-   d="scan'208";a="213884270"
+   d="scan'208";a="213884272"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 17 Feb 2026 04:50:43 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsKXI-000000010zA-237s;
+	id 1vsKXI-000000010zC-2Drm;
 	Tue, 17 Feb 2026 12:50:40 +0000
-Date: Tue, 17 Feb 2026 20:49:56 +0800
+Date: Tue, 17 Feb 2026 20:49:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [jirislaby:devel 16/28]
- drivers/tty/serial/serial_core.c:3082:2: error: call to undeclared function
- 'tty_port_link_device'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202602172012.loxTxyV3-lkp@intel.com>
+ drivers/tty/serial/serial_core.c:3082:9: error: implicit declaration of
+ function 'tty_port_link_device'; did you mean 'tty_port_register_device'?
+Message-ID: <202602172038.pwbyHlfu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,25 +63,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
 head:   7dfaca63ccbb107c245cabdb86641954abc5284e
 commit: a21e503ffebf61207f7b9623c1398b47fc16adf5 [16/28] hide tty_port_link_device
-config: x86_64-randconfig-161-20260217 (https://download.01.org/0day-ci/archive/20260217/202602172012.loxTxyV3-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602172012.loxTxyV3-lkp@intel.com/reproduce)
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20260217/202602172038.pwbyHlfu-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602172038.pwbyHlfu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602172012.loxTxyV3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602172038.pwbyHlfu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/tty/serial/serial_core.c:3082:2: error: call to undeclared function 'tty_port_link_device'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   drivers/tty/serial/serial_core.c: In function 'serial_core_add_one_port':
+>> drivers/tty/serial/serial_core.c:3082:9: error: implicit declaration of function 'tty_port_link_device'; did you mean 'tty_port_register_device'? [-Wimplicit-function-declaration]
     3082 |         tty_port_link_device(port, drv->tty_driver, uport->line);
-         |         ^
-   1 error generated.
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         tty_port_register_device
 
 
-vim +/tty_port_link_device +3082 drivers/tty/serial/serial_core.c
+vim +3082 drivers/tty/serial/serial_core.c
 
 6915c0e487c822 drivers/tty/serial/serial_core.c Tomas Hlavacek        2012-09-06  3023  
 ^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3024  /**
