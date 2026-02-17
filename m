@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD4E280325
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 07:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25E133993
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 07:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771313010; cv=none; b=LSk9dS86mKMLPUWeUwxg6dIOTTkFSCqeWY4hfklLC53AblnnsV7sA7ri0xLVR1RvdpKmvdPLhfL0H5ZIvKThJWPIuym9QRhsjUOvCtO/DF4PctllZCIEkuItCH856dxICpFQbhswb7jI3jIvTiYwu3t1m/P2v7XJD9F1yJtj6iA=
+	t=1771313670; cv=none; b=Tqy8VQpPY7Gv2Oo1+UqF3RFW/Ye//vNFPBDmTAOqyR82i3UAjK1A24rBJDD+avEVGcfb/lVJQfVPaJBdys2VnqRKo1Z/3jfwlX5bc1o3tRMN5ATF6PpUmgqg5mJvbfGX2Ndblp4ZblNWa6kCfxjfwNrIiMr0bYMcIoF72J6AsdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771313010; c=relaxed/simple;
-	bh=pG/zCjLp5A/lP5/0rYzKuF9Dd7sJfebHQP3K21QUZVk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CerPlcaiWB8wYfZhKJ+oXWCfT7YxRG/w2XItKzFQUyDo/oUW+tkf86LWmP31loH8NbCy+VeTIDz840XWetTAgm9APnYQ4KUPLk73/LdyTFOYBC9P9DD8gNIeOs/KV1Awl5oY09mjHwrd3N/eq5xbILB+HOykmsH5H+w6fto/rcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJzuW8a5; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1771313670; c=relaxed/simple;
+	bh=3Ze8WFYqRkiy3Uexn4QMudNunUswB1mcmaDjvVwK+4A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=e9pONiBlBEBeVR2AN3zW5yGMMe8SpaRkSEydBEvab2grAeW4ZYl6p9Lgf7TqtqKx2uDASX7mB3F1GW/48cGLVAgEUZXLZVoT/YIN3EzNtu4PzN3K3mj8hQv+h9J3qyOtMM9utYXOCRfoo2tvKDuAfv5obxrgPcnlgW0Cu4qJHxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RaCo6Hkt; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJzuW8a5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RaCo6Hkt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771313009; x=1802849009;
+  t=1771313669; x=1802849669;
   h=date:from:to:cc:subject:message-id;
-  bh=pG/zCjLp5A/lP5/0rYzKuF9Dd7sJfebHQP3K21QUZVk=;
-  b=DJzuW8a5bbl+HKjoDNAz06m/mswmL8GbSxoEPBb5xdCD+2/8Vi00P3nd
-   L1JrfrkpIhWJ282fWnLPrY+qVjZL+qGRLHa1NjSyXUS0I+WNFAE1YQp5C
-   jZUkQZmFMNZrFT/0oiaDsEu/ggS5FAv32M3RUaH7nHEshsNbbUUZdpUAu
-   u2juLpfk3U71/8CLwM30otqUwjSSICC9aLoZVbDyTbszpIhJMsAeEFHd3
-   RTihP5O4q3kLiBkjEUASDQIkFU05/Fh9aALhsq+LccEdfS10eL+buPwfJ
-   ysAWUz10m1D7lzd8LhKXFvFguWu3bQRSDQl9O3qMbT338cxDmb44hrrQQ
-   A==;
-X-CSE-ConnectionGUID: xyztQi+VQt+052m2DHK8eQ==
-X-CSE-MsgGUID: K+idjtGTRg288TJ6mCA1mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="71575295"
+  bh=3Ze8WFYqRkiy3Uexn4QMudNunUswB1mcmaDjvVwK+4A=;
+  b=RaCo6HktFUbdT1E4VKWoyRVkf/jo1NmDY2pvJhbJrNJEEXgNyShlm/f4
+   J5FWa1eoeWjf7WF536KpDIWHg87zJh23rZrYeiuPb23eNj6eMSCUjS2Cq
+   MqZ+nVFk7uDfUPlHMZCmYWbzXChgFA1xIGbjUrZUm9sItxSfAHy2HNByF
+   1Rbn1bCgIMiHpJN8zL5Z7T155SYT9GKJguqAmZU5iJCBRyCrN7hr2Yj2I
+   YCvJ1OjZfXEVLPNSwsy7+Wp9vvxAHPohpLwPqRnOTri3dWBjMUfxNwfoa
+   GlRlQSXzZoCBh6C6HDGpR1OYDSsO/G84wdFGpn/z/n6/XHC5Zc8HYAKFZ
+   w==;
+X-CSE-ConnectionGUID: Tt2QPKyyTFa+KDux42BjSg==
+X-CSE-MsgGUID: 8fCmhgskRueyTH7gQIKE8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="97840036"
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="71575295"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 23:23:28 -0800
-X-CSE-ConnectionGUID: lExhM0wRQtuwvjII0+bOFg==
-X-CSE-MsgGUID: +ai7LOcoRXyjNiqwDAB+uw==
+   d="scan'208";a="97840036"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 23:34:28 -0800
+X-CSE-ConnectionGUID: yhESnr5wQh26Np0zyEyrSQ==
+X-CSE-MsgGUID: nuxbf3i6Q3efJEkM3n2GDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="213637022"
+   d="scan'208";a="212299824"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 16 Feb 2026 23:23:27 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 16 Feb 2026 23:34:27 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsFQa-000000010io-1ErK;
-	Tue, 17 Feb 2026 07:23:24 +0000
-Date: Tue, 17 Feb 2026 15:22:54 +0800
+	id 1vsFbE-000000010j4-2MVO;
+	Tue, 17 Feb 2026 07:34:24 +0000
+Date: Tue, 17 Feb 2026 15:33:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
+To: SeongJae Park <sj@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:container 7/17]
- include/linux/syscalls.h:251:18: error: conflicting types for
- 'sys_container_create'
-Message-ID: <202602171502.jzQEkm2D-lkp@intel.com>
+Subject: [sj:damon/next 130/142] samples/damon/mtier.c:78:30:
+ warning: unused variable 'region'
+Message-ID: <202602171530.NsLdPVOF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,74 +59,137 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git container
-head:   de0a7cb340f6d2f9486a65f9d8e1e45d8f296c1c
-commit: 11f6e954430e0e9041917daf57d29b53e68bdfc5 [7/17] containers: Implement container_create()
-config: powerpc64-randconfig-001-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171502.jzQEkm2D-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171502.jzQEkm2D-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   53a936b437ade97f957569534f1460d23883b94f
+commit: 52639cde20a9887c5df4acc55fb51a4f48a1644d [130/142] samples/damon/mtier: replace damon_add_region() with damon_set_regions()
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260217/202602171530.NsLdPVOF-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171530.NsLdPVOF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602171502.jzQEkm2D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602171530.NsLdPVOF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/container.c:16:
->> include/linux/syscalls.h:251:18: error: conflicting types for 'sys_container_create'
-     asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__)) \
-                     ^~~
-   include/linux/syscalls.h:237:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   kernel/container.c:386:1: note: in expansion of macro 'SYSCALL_DEFINE5'
-    SYSCALL_DEFINE5(container_create,
-    ^~~~~~~~~~~~~~~
-   In file included from kernel/container.c:16:
-   include/linux/syscalls.h:1002:17: note: previous declaration of 'sys_container_create' was here
-    asmlinkage long sys_container_create(const char __user *name, unsigned int flags,
-                    ^~~~~~~~~~~~~~~~~~~~
+   samples/damon/mtier.c: In function 'damon_sample_mtier_build_ctx':
+>> samples/damon/mtier.c:78:30: warning: unused variable 'region' [-Wunused-variable]
+      78 |         struct damon_region *region;
+         |                              ^~~~~~
 
 
-vim +/sys_container_create +251 include/linux/syscalls.h
+vim +/region +78 samples/damon/mtier.c
 
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  240  
-e145242ea0df6b Dominik Brodowski   2018-04-09  241  /*
-e145242ea0df6b Dominik Brodowski   2018-04-09  242   * The asmlinkage stub is aliased to a function named __se_sys_*() which
-e145242ea0df6b Dominik Brodowski   2018-04-09  243   * sign-extends 32-bit ints to longs whenever needed. The actual work is
-e145242ea0df6b Dominik Brodowski   2018-04-09  244   * done within __do_sys_*().
-e145242ea0df6b Dominik Brodowski   2018-04-09  245   */
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  246  #ifndef __SYSCALL_DEFINEx
-bed1ffca022cc8 Frederic Weisbecker 2009-03-13  247  #define __SYSCALL_DEFINEx(x, name, ...)					\
-bee20031772af3 Arnd Bergmann       2018-06-19  248  	__diag_push();							\
-bee20031772af3 Arnd Bergmann       2018-06-19  249  	__diag_ignore(GCC, 8, "-Wattribute-alias",			\
-bee20031772af3 Arnd Bergmann       2018-06-19  250  		      "Type aliasing is used to sanitize syscall arguments");\
-83460ec8dcac14 Andi Kleen          2013-11-12 @251  	asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  252  		__attribute__((alias(__stringify(__se_sys##name))));	\
-c9a211951c7c79 Howard McLauchlan   2018-03-21  253  	ALLOW_ERROR_INJECTION(sys##name, ERRNO);			\
-e145242ea0df6b Dominik Brodowski   2018-04-09  254  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
-e145242ea0df6b Dominik Brodowski   2018-04-09  255  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
-e145242ea0df6b Dominik Brodowski   2018-04-09  256  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
-1a94bc34768e46 Heiko Carstens      2009-01-14  257  	{								\
-e145242ea0df6b Dominik Brodowski   2018-04-09  258  		long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
-07fe6e00f6cca6 Al Viro             2013-01-21  259  		__MAP(x,__SC_TEST,__VA_ARGS__);				\
-2cf0966683430b Al Viro             2013-01-21  260  		__PROTECT(x, ret,__MAP(x,__SC_ARGS,__VA_ARGS__));	\
-2cf0966683430b Al Viro             2013-01-21  261  		return ret;						\
-1a94bc34768e46 Heiko Carstens      2009-01-14  262  	}								\
-bee20031772af3 Arnd Bergmann       2018-06-19  263  	__diag_pop();							\
-e145242ea0df6b Dominik Brodowski   2018-04-09  264  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
-1bd21c6c21e848 Dominik Brodowski   2018-04-05  265  #endif /* __SYSCALL_DEFINEx */
-1a94bc34768e46 Heiko Carstens      2009-01-14  266  
+749cc6533b6621 Yunjeong Mun  2025-07-08   72  
+82a08bde3cf7bb SeongJae Park 2025-04-20   73  static struct damon_ctx *damon_sample_mtier_build_ctx(bool promote)
+82a08bde3cf7bb SeongJae Park 2025-04-20   74  {
+82a08bde3cf7bb SeongJae Park 2025-04-20   75  	struct damon_ctx *ctx;
+82a08bde3cf7bb SeongJae Park 2025-04-20   76  	struct damon_attrs attrs;
+82a08bde3cf7bb SeongJae Park 2025-04-20   77  	struct damon_target *target;
+82a08bde3cf7bb SeongJae Park 2025-04-20  @78  	struct damon_region *region;
+82a08bde3cf7bb SeongJae Park 2025-04-20   79  	struct damos *scheme;
+82a08bde3cf7bb SeongJae Park 2025-04-20   80  	struct damos_quota_goal *quota_goal;
+82a08bde3cf7bb SeongJae Park 2025-04-20   81  	struct damos_filter *filter;
+749cc6533b6621 Yunjeong Mun  2025-07-08   82  	struct region_range addr;
+52639cde20a988 SeongJae Park 2026-02-15   83  	struct damon_addr_range range;
+749cc6533b6621 Yunjeong Mun  2025-07-08   84  	int ret;
+82a08bde3cf7bb SeongJae Park 2025-04-20   85  
+82a08bde3cf7bb SeongJae Park 2025-04-20   86  	ctx = damon_new_ctx();
+82a08bde3cf7bb SeongJae Park 2025-04-20   87  	if (!ctx)
+82a08bde3cf7bb SeongJae Park 2025-04-20   88  		return NULL;
+82a08bde3cf7bb SeongJae Park 2025-04-20   89  	attrs = (struct damon_attrs) {
+82a08bde3cf7bb SeongJae Park 2025-04-20   90  		.sample_interval = 5 * USEC_PER_MSEC,
+82a08bde3cf7bb SeongJae Park 2025-04-20   91  		.aggr_interval = 100 * USEC_PER_MSEC,
+82a08bde3cf7bb SeongJae Park 2025-04-20   92  		.ops_update_interval = 60 * USEC_PER_MSEC * MSEC_PER_SEC,
+82a08bde3cf7bb SeongJae Park 2025-04-20   93  		.min_nr_regions = 10,
+82a08bde3cf7bb SeongJae Park 2025-04-20   94  		.max_nr_regions = 1000,
+82a08bde3cf7bb SeongJae Park 2025-04-20   95  	};
+82a08bde3cf7bb SeongJae Park 2025-04-20   96  
+82a08bde3cf7bb SeongJae Park 2025-04-20   97  	/*
+82a08bde3cf7bb SeongJae Park 2025-04-20   98  	 * auto-tune sampling and aggregation interval aiming 4% DAMON-observed
+82a08bde3cf7bb SeongJae Park 2025-04-20   99  	 * accesses ratio, keeping sampling interval in [5ms, 10s] range.
+82a08bde3cf7bb SeongJae Park 2025-04-20  100  	 */
+82a08bde3cf7bb SeongJae Park 2025-04-20  101  	attrs.intervals_goal = (struct damon_intervals_goal) {
+82a08bde3cf7bb SeongJae Park 2025-04-20  102  		.access_bp = 400, .aggrs = 3,
+82a08bde3cf7bb SeongJae Park 2025-04-20  103  		.min_sample_us = 5000, .max_sample_us = 10000000,
+82a08bde3cf7bb SeongJae Park 2025-04-20  104  	};
+82a08bde3cf7bb SeongJae Park 2025-04-20  105  	if (damon_set_attrs(ctx, &attrs))
+82a08bde3cf7bb SeongJae Park 2025-04-20  106  		goto free_out;
+82a08bde3cf7bb SeongJae Park 2025-04-20  107  	if (damon_select_ops(ctx, DAMON_OPS_PADDR))
+82a08bde3cf7bb SeongJae Park 2025-04-20  108  		goto free_out;
+82a08bde3cf7bb SeongJae Park 2025-04-20  109  
+82a08bde3cf7bb SeongJae Park 2025-04-20  110  	target = damon_new_target();
+82a08bde3cf7bb SeongJae Park 2025-04-20  111  	if (!target)
+82a08bde3cf7bb SeongJae Park 2025-04-20  112  		goto free_out;
+82a08bde3cf7bb SeongJae Park 2025-04-20  113  	damon_add_target(ctx, target);
+749cc6533b6621 Yunjeong Mun  2025-07-08  114  
+749cc6533b6621 Yunjeong Mun  2025-07-08  115  	if (detect_node_addresses) {
+749cc6533b6621 Yunjeong Mun  2025-07-08  116  		ret = promote ? nid_to_phys(1, &addr) : nid_to_phys(0, &addr);
+749cc6533b6621 Yunjeong Mun  2025-07-08  117  		if (ret)
+749cc6533b6621 Yunjeong Mun  2025-07-08  118  			goto free_out;
+749cc6533b6621 Yunjeong Mun  2025-07-08  119  	} else {
+749cc6533b6621 Yunjeong Mun  2025-07-08  120  		addr.start = promote ? node1_start_addr : node0_start_addr;
+749cc6533b6621 Yunjeong Mun  2025-07-08  121  		addr.end = promote ? node1_end_addr : node0_end_addr;
+749cc6533b6621 Yunjeong Mun  2025-07-08  122  	}
+749cc6533b6621 Yunjeong Mun  2025-07-08  123  
+52639cde20a988 SeongJae Park 2026-02-15  124  	range.start = addr.start;
+52639cde20a988 SeongJae Park 2026-02-15  125  	range.end = addr.end;
+52639cde20a988 SeongJae Park 2026-02-15  126  
+52639cde20a988 SeongJae Park 2026-02-15  127  	ret = damon_set_regions(target, &range, 1, DAMON_MIN_REGION_SZ);
+52639cde20a988 SeongJae Park 2026-02-15  128  	if (ret)
+82a08bde3cf7bb SeongJae Park 2025-04-20  129  		goto free_out;
+82a08bde3cf7bb SeongJae Park 2025-04-20  130  
+82a08bde3cf7bb SeongJae Park 2025-04-20  131  	scheme = damon_new_scheme(
+82a08bde3cf7bb SeongJae Park 2025-04-20  132  			/* access pattern */
+82a08bde3cf7bb SeongJae Park 2025-04-20  133  			&(struct damos_access_pattern) {
+82a08bde3cf7bb SeongJae Park 2025-04-20  134  				.min_sz_region = PAGE_SIZE,
+82a08bde3cf7bb SeongJae Park 2025-04-20  135  				.max_sz_region = ULONG_MAX,
+82a08bde3cf7bb SeongJae Park 2025-04-20  136  				.min_nr_accesses = promote ? 1 : 0,
+82a08bde3cf7bb SeongJae Park 2025-04-20  137  				.max_nr_accesses = promote ? UINT_MAX : 0,
+82a08bde3cf7bb SeongJae Park 2025-04-20  138  				.min_age_region = 0,
+82a08bde3cf7bb SeongJae Park 2025-04-20  139  				.max_age_region = UINT_MAX},
+82a08bde3cf7bb SeongJae Park 2025-04-20  140  			/* action */
+82a08bde3cf7bb SeongJae Park 2025-04-20  141  			promote ? DAMOS_MIGRATE_HOT : DAMOS_MIGRATE_COLD,
+82a08bde3cf7bb SeongJae Park 2025-04-20  142  			1000000,	/* apply interval (1s) */
+82a08bde3cf7bb SeongJae Park 2025-04-20  143  			&(struct damos_quota){
+82a08bde3cf7bb SeongJae Park 2025-04-20  144  				/* 200 MiB per sec by most */
+82a08bde3cf7bb SeongJae Park 2025-04-20  145  				.reset_interval = 1000,
+82a08bde3cf7bb SeongJae Park 2025-04-20  146  				.sz = 200 * 1024 * 1024,
+82a08bde3cf7bb SeongJae Park 2025-04-20  147  				/* ignore size of region when prioritizing */
+82a08bde3cf7bb SeongJae Park 2025-04-20  148  				.weight_sz = 0,
+82a08bde3cf7bb SeongJae Park 2025-04-20  149  				.weight_nr_accesses = 100,
+82a08bde3cf7bb SeongJae Park 2025-04-20  150  				.weight_age = 100,
+82a08bde3cf7bb SeongJae Park 2025-04-20  151  			},
+82a08bde3cf7bb SeongJae Park 2025-04-20  152  			&(struct damos_watermarks){},
+82a08bde3cf7bb SeongJae Park 2025-04-20  153  			promote ? 0 : 1);	/* migrate target node id */
+82a08bde3cf7bb SeongJae Park 2025-04-20  154  	if (!scheme)
+82a08bde3cf7bb SeongJae Park 2025-04-20  155  		goto free_out;
+82a08bde3cf7bb SeongJae Park 2025-04-20  156  	damon_set_schemes(ctx, &scheme, 1);
+82a08bde3cf7bb SeongJae Park 2025-04-20  157  	quota_goal = damos_new_quota_goal(
+82a08bde3cf7bb SeongJae Park 2025-04-20  158  			promote ? DAMOS_QUOTA_NODE_MEM_USED_BP :
+82a08bde3cf7bb SeongJae Park 2025-04-20  159  			DAMOS_QUOTA_NODE_MEM_FREE_BP,
+c5e67d40a10234 Yunjeong Mun  2025-06-27  160  			promote ? node0_mem_used_bp : node0_mem_free_bp);
+82a08bde3cf7bb SeongJae Park 2025-04-20  161  	if (!quota_goal)
+82a08bde3cf7bb SeongJae Park 2025-04-20  162  		goto free_out;
+82a08bde3cf7bb SeongJae Park 2025-04-20  163  	quota_goal->nid = 0;
+82a08bde3cf7bb SeongJae Park 2025-04-20  164  	damos_add_quota_goal(&scheme->quota, quota_goal);
+82a08bde3cf7bb SeongJae Park 2025-04-20  165  	filter = damos_new_filter(DAMOS_FILTER_TYPE_YOUNG, true, promote);
+82a08bde3cf7bb SeongJae Park 2025-04-20  166  	if (!filter)
+82a08bde3cf7bb SeongJae Park 2025-04-20  167  		goto free_out;
+82a08bde3cf7bb SeongJae Park 2025-04-20  168  	damos_add_filter(scheme, filter);
+82a08bde3cf7bb SeongJae Park 2025-04-20  169  	return ctx;
+82a08bde3cf7bb SeongJae Park 2025-04-20  170  free_out:
+82a08bde3cf7bb SeongJae Park 2025-04-20  171  	damon_destroy_ctx(ctx);
+82a08bde3cf7bb SeongJae Park 2025-04-20  172  	return NULL;
+82a08bde3cf7bb SeongJae Park 2025-04-20  173  }
+82a08bde3cf7bb SeongJae Park 2025-04-20  174  
 
-:::::: The code at line 251 was first introduced by commit
-:::::: 83460ec8dcac14142e7860a01fa59c267ac4657c syscalls.h: use gcc alias instead of assembler aliases for syscalls
+:::::: The code at line 78 was first introduced by commit
+:::::: 82a08bde3cf7bbbe90de57baa181bebf676582c7 samples/damon: implement a DAMON module for memory tiering
 
-:::::: TO: Andi Kleen <ak@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: SeongJae Park <sj@kernel.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
