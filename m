@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96F82848BB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 12:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B842361DBD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 13:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771332648; cv=none; b=pF6us/YCCZ82F8kZ/irr0RWzdmarmQ4gIAFntkN/VmCVHwgD9X2vhylfbxaI/NpieztcjD9f8QAs86v2gazrffR38hLuaSEnQKST3HERg4H/pLY1ZalFQuCRrrk8T6rFbx/jSTzQkS2ddr8coDpX9hLXQGtEhbGWtLUF8A4WkfE=
+	t=1771334567; cv=none; b=rF0G6+sCUBLsrWJaAahfITbTGlBVW1eY4XHzo7dcqSid0dWFPeADoBlo8CinxnPf3IXOuu5YdgeGEPDTsFaFV3XrI+AC0PH44wfkMUTDE+F+Qf4xtmXhPIbg4IaX0WjEk+Ku1mEPIApOuEt4lvoJ3zd2IeMwSEI3zz/jiiWeALg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771332648; c=relaxed/simple;
-	bh=l/zxZ2qn5LovQ1AtR1d0nAOvFk/Z6vRXwUjXztTWo4I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=N+bp2mmO64ggJdQkOt5wyjyTIfNjAxTfeDaoM+Lz5xlFSjDmSPHbRXcvkBnbqi73qtriMp8zca0WVcqRMMh8HHu6Lbq2/Cwj5ePtM3tmX7VmjORSTbWfGF2H6Gyh02TiHu809lohE6RPLL27LXliFdoywPirK/ojwmigP4lakyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EhJ+1Miu; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1771334567; c=relaxed/simple;
+	bh=xusPohBx2ntbbpZ3Z4LiaPjqkjwTc7J24tlroXnzhcI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=grSxzxZ7i3AOCGF8lg0SkSceMMynv/qFoZPF7CKO0p+88oLqkZlzAJPIuGChHZ3wck5Yc3iuuydteCVdZk7Gba4lV5mXsAHJdg7Tw/gJKAhvQ0T0uCqTDpJn2+HeBpF+FwfJ8efzGmy+KEAkrKePg+ZJKzWLIc3UV86QqRtjInc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GK72DoOL; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EhJ+1Miu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GK72DoOL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771332647; x=1802868647;
+  t=1771334566; x=1802870566;
   h=date:from:to:cc:subject:message-id;
-  bh=l/zxZ2qn5LovQ1AtR1d0nAOvFk/Z6vRXwUjXztTWo4I=;
-  b=EhJ+1MiunF6umkFyVg127kdG3wLse3NWREoe+gZ4s7K/0+okc7ULLxik
-   Fus7m3s0K/GsUlg8b1LKJGeH9uteLjJbIrp8+WnLVMfuVGaFpHNJFEb5V
-   VWbF84njTZnKc2cAbGg0icKJ4drC3qK8qPlVt7/5Jz8qNSqLNPVGQlIyr
-   u5BGD7qyaX27bSM1XwkFrtqfb5SamZIIBtWS/VV1fc5wYIGRCBHNWOnri
-   EGjJS3D+xUMe3SvOu2S84hIkLePKQLrh9gaUGF7wgxwDtTavmLjaBBaeE
-   HlIbPqjiieKE7yLcgpNvPPvofXAheQCDPJAHnQGrJqOdRJTsQRu2u0tEB
+  bh=xusPohBx2ntbbpZ3Z4LiaPjqkjwTc7J24tlroXnzhcI=;
+  b=GK72DoOLN+s3PC7f2xv1j8V/bvb+I/j1TlinxRT9nhJq8dfPP7K+wJwi
+   HoOEpwT/2PL3Nqe/w9SHc0tYw3j6UzuGpkZI0hD4a5B8UxTnAVmjKTLqI
+   bKsh2hFUM/CQv0+iZ9AoYZnlxMxj3HNApAMe7fDUsLKq7DQ6fXQukIm/O
+   KHx1u9A5/IttnywAHfE41Ag2jdzsxMTraYFfziC34+JVsF8tQtp1MfuFc
+   xCMmm/LMPXo4K7u5IBllHGw0+H34s87UaCXtg5f3qKMUJLdyui16X3tFu
+   Lc84PGPgfHeeMSiUltj0Dv3vVAV45QrE8wBhQZqSO+rVVgHFRJX3zZjzu
    g==;
-X-CSE-ConnectionGUID: 3uMd7eJgQvaUcQllw6vVxg==
-X-CSE-MsgGUID: AM5751pwTB+twc7NDnNWBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72306031"
+X-CSE-ConnectionGUID: t66jShm5TQqsLs2/wHiH+Q==
+X-CSE-MsgGUID: fz/vytXZSDm85IHJ3nIHOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="76241524"
 X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
-   d="scan'208";a="72306031"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 04:50:44 -0800
-X-CSE-ConnectionGUID: LBl/y3Q0SEOYBHmZTyLVzQ==
-X-CSE-MsgGUID: U8kHOwj3SV2DZ4OgVuO4rw==
+   d="scan'208";a="76241524"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 05:22:45 -0800
+X-CSE-ConnectionGUID: K7dnBk10R/aQvvJxpnMAcA==
+X-CSE-MsgGUID: wdIuz7K/Sn68jCOJDM8MtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
-   d="scan'208";a="213884272"
+   d="scan'208";a="212602913"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 17 Feb 2026 04:50:43 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 17 Feb 2026 05:22:43 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsKXI-000000010zC-2Drm;
-	Tue, 17 Feb 2026 12:50:40 +0000
-Date: Tue, 17 Feb 2026 20:49:57 +0800
+	id 1vsL2H-0000000111E-3WoI;
+	Tue, 17 Feb 2026 13:22:41 +0000
+Date: Tue, 17 Feb 2026 21:22:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 16/28]
- drivers/tty/serial/serial_core.c:3082:9: error: implicit declaration of
- function 'tty_port_link_device'; did you mean 'tty_port_register_device'?
-Message-ID: <202602172038.pwbyHlfu-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 53/53]
+ arch/x86/include/asm/kvm_pkvm.h:280:37: error: field 'iommu_map_param' has
+ incomplete type
+Message-ID: <202602172128.hbAY9wsO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,133 +60,64 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   7dfaca63ccbb107c245cabdb86641954abc5284e
-commit: a21e503ffebf61207f7b9623c1398b47fc16adf5 [16/28] hide tty_port_link_device
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20260217/202602172038.pwbyHlfu-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602172038.pwbyHlfu-lkp@intel.com/reproduce)
+Hi Vineeth,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   590a98f7b9783af3a52d4213d1f276148be94b4e
+commit: e3aff207324c14597db951ea892402226359276b [53/53] ANDROID: pkvm: x86: Hypercalls for domain pagetable management
+config: i386-randconfig-141-20260217 (https://download.01.org/0day-ci/archive/20260217/202602172128.hbAY9wsO-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602172128.hbAY9wsO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602172038.pwbyHlfu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602172128.hbAY9wsO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/serial_core.c: In function 'serial_core_add_one_port':
->> drivers/tty/serial/serial_core.c:3082:9: error: implicit declaration of function 'tty_port_link_device'; did you mean 'tty_port_register_device'? [-Wimplicit-function-declaration]
-    3082 |         tty_port_link_device(port, drv->tty_driver, uport->line);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         tty_port_register_device
+   In file included from arch/x86/kernel/setup.c:43:
+   arch/x86/include/asm/kvm_pkvm.h:275:38: error: field 'lm_context_param' has incomplete type
+     275 |         struct pkvm_lm_context_param lm_context_param;
+         |                                      ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:276:45: error: field 'clear_translation_param' has incomplete type
+     276 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:277:38: error: field 'sm_context_param' has incomplete type
+     277 |         struct pkvm_sm_context_param sm_context_param;
+         |                                      ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:278:39: error: field 'pasid_table_param' has incomplete type
+     278 |         struct pkvm_pasid_table_param pasid_table_param;
+         |                                       ^~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:279:34: error: field 'domain_param' has incomplete type
+     279 |         struct pkvm_domain_param domain_param;
+         |                                  ^~~~~~~~~~~~
+>> arch/x86/include/asm/kvm_pkvm.h:280:37: error: field 'iommu_map_param' has incomplete type
+     280 |         struct pkvm_iommu_map_param iommu_map_param;
+         |                                     ^~~~~~~~~~~~~~~
 
 
-vim +3082 drivers/tty/serial/serial_core.c
+vim +/iommu_map_param +280 arch/x86/include/asm/kvm_pkvm.h
 
-6915c0e487c822 drivers/tty/serial/serial_core.c Tomas Hlavacek        2012-09-06  3023  
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3024  /**
-84a9582fd20306 drivers/tty/serial/serial_core.c Tony Lindgren         2023-05-25  3025   * serial_core_add_one_port - attach a driver-defined port structure
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3026   * @drv: pointer to the uart low level driver structure for this port
-1b9894f342a396 drivers/serial/serial_core.c     Randy Dunlap          2009-09-21  3027   * @uport: uart port structure to use for this port.
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3028   *
-a157270fbf37f8 drivers/tty/serial/serial_core.c Ahmed S. Darwish      2021-02-08  3029   * Context: task context, might sleep
-a157270fbf37f8 drivers/tty/serial/serial_core.c Ahmed S. Darwish      2021-02-08  3030   *
-c4bd17a6ddf3b9 drivers/tty/serial/serial_core.c Jiri Slaby            2022-07-28  3031   * This allows the driver @drv to register its own uart_port structure with the
-c4bd17a6ddf3b9 drivers/tty/serial/serial_core.c Jiri Slaby            2022-07-28  3032   * core driver. The main purpose is to allow the low level uart drivers to
-c4bd17a6ddf3b9 drivers/tty/serial/serial_core.c Jiri Slaby            2022-07-28  3033   * expand uart_port, rather than having yet more levels of structures.
-84a9582fd20306 drivers/tty/serial/serial_core.c Tony Lindgren         2023-05-25  3034   * Caller must hold port_mutex.
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3035   */
-84a9582fd20306 drivers/tty/serial/serial_core.c Tony Lindgren         2023-05-25  3036  static int serial_core_add_one_port(struct uart_driver *drv, struct uart_port *uport)
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3037  {
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3038  	struct uart_state *state;
-a2bceae065ed8c drivers/serial/serial_core.c     Alan Cox              2009-09-19  3039  	struct tty_port *port;
-b3b708fa2780cd drivers/serial/serial_core.c     Guennadi Liakhovetski 2007-10-16  3040  	struct device *tty_dev;
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3041  	int num_groups;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3042  
-a2bceae065ed8c drivers/serial/serial_core.c     Alan Cox              2009-09-19  3043  	if (uport->line >= drv->nr)
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3044  		return -EINVAL;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3045  
-a2bceae065ed8c drivers/serial/serial_core.c     Alan Cox              2009-09-19  3046  	state = drv->state + uport->line;
-a2bceae065ed8c drivers/serial/serial_core.c     Alan Cox              2009-09-19  3047  	port = &state->port;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3048  
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3049) 	guard(mutex)(&port->mutex);
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3050) 	if (state->uart_port)
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3051) 		return -EINVAL;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3052  
-2b702b9b680cd1 drivers/tty/serial/serial_core.c Peter Hurley          2014-10-16  3053  	/* Link the port to the driver state table and vice versa */
-9ed19428a51d53 drivers/tty/serial/serial_core.c Peter Hurley          2016-04-09  3054  	atomic_set(&state->refcount, 1);
-9ed19428a51d53 drivers/tty/serial/serial_core.c Peter Hurley          2016-04-09  3055  	init_waitqueue_head(&state->remove_wait);
-a2bceae065ed8c drivers/serial/serial_core.c     Alan Cox              2009-09-19  3056  	state->uart_port = uport;
-2b702b9b680cd1 drivers/tty/serial/serial_core.c Peter Hurley          2014-10-16  3057  	uport->state = state;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3058  
-eabd4600dafacf drivers/tty/serial/serial_core.c John Ogness           2024-08-20  3059  	/*
-eabd4600dafacf drivers/tty/serial/serial_core.c John Ogness           2024-08-20  3060  	 * If this port is in use as a console then the spinlock is already
-eabd4600dafacf drivers/tty/serial/serial_core.c John Ogness           2024-08-20  3061  	 * initialised.
-eabd4600dafacf drivers/tty/serial/serial_core.c John Ogness           2024-08-20  3062  	 */
-eabd4600dafacf drivers/tty/serial/serial_core.c John Ogness           2024-08-20  3063  	if (!uart_console_registered(uport))
-eabd4600dafacf drivers/tty/serial/serial_core.c John Ogness           2024-08-20  3064  		uart_port_spin_lock_init(uport);
-eabd4600dafacf drivers/tty/serial/serial_core.c John Ogness           2024-08-20  3065  
-2b702b9b680cd1 drivers/tty/serial/serial_core.c Peter Hurley          2014-10-16  3066  	state->pm_state = UART_PM_STATE_UNDEFINED;
-eabd4600dafacf drivers/tty/serial/serial_core.c John Ogness           2024-08-20  3067  	uart_port_set_cons(uport, drv->cons);
-959801fef94b7e drivers/tty/serial/serial_core.c Peter Hurley          2015-02-24  3068  	uport->minor = drv->tty_driver->minor_start + uport->line;
-33a2515abd45c6 drivers/tty/serial/serial_core.c Joseph Tilahun        2025-06-09  3069  	uport->name = kasprintf(GFP_KERNEL, "%s%u", drv->dev_name,
-f7048b15900f36 drivers/tty/serial/serial_core.c Vignesh R             2017-03-24  3070  				drv->tty_driver->name_base + uport->line);
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3071) 	if (!uport->name)
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3072) 		return -ENOMEM;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3073  
-a208ffd251d08e drivers/tty/serial/serial_core.c Grant Likely          2014-03-27  3074  	if (uport->cons && uport->dev)
-dd8b7a1db5d0da drivers/tty/serial/serial_core.c Michal Simek          2019-10-16  3075  		of_console_check(uport->dev->of_node, uport->cons->name, uport->line);
-976ecd12b8144d drivers/serial/serial_core.c     Russell King          2005-07-03  3076  
-32f37e57583f86 drivers/tty/serial/serial_core.c Krzysztof Kozlowski   2026-01-23  3077  	/*
-32f37e57583f86 drivers/tty/serial/serial_core.c Krzysztof Kozlowski   2026-01-23  3078  	 * TTY port has to be linked with the driver before register_console()
-32f37e57583f86 drivers/tty/serial/serial_core.c Krzysztof Kozlowski   2026-01-23  3079  	 * in uart_configure_port(), because user-space could open the console
-32f37e57583f86 drivers/tty/serial/serial_core.c Krzysztof Kozlowski   2026-01-23  3080  	 * immediately after.
-32f37e57583f86 drivers/tty/serial/serial_core.c Krzysztof Kozlowski   2026-01-23  3081  	 */
-32f37e57583f86 drivers/tty/serial/serial_core.c Krzysztof Kozlowski   2026-01-23 @3082  	tty_port_link_device(port, drv->tty_driver, uport->line);
-a2bceae065ed8c drivers/serial/serial_core.c     Alan Cox              2009-09-19  3083  	uart_configure_port(drv, state, uport);
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3084  
-4dda864d73079a drivers/tty/serial/serial_core.c Geert Uytterhoeven    2016-10-28  3085  	port->console = uart_console(uport);
-4dda864d73079a drivers/tty/serial/serial_core.c Geert Uytterhoeven    2016-10-28  3086  
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3087  	num_groups = 2;
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3088  	if (uport->attr_group)
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3089  		num_groups++;
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3090  
-c2b703b807e3ab drivers/tty/serial/serial_core.c Yoshihiro YUNOMAE     2014-07-23  3091  	uport->tty_groups = kcalloc(num_groups, sizeof(*uport->tty_groups),
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3092  				    GFP_KERNEL);
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3093) 	if (!uport->tty_groups)
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3094) 		return -ENOMEM;
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3095) 
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3096  	uport->tty_groups[0] = &tty_dev_attr_group;
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3097  	if (uport->attr_group)
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3098  		uport->tty_groups[1] = uport->attr_group;
-266dcff03eed00 drivers/tty/serial/serial_core.c Greg Kroah-Hartman    2014-07-16  3099  
-e21de1455a721a drivers/tty/serial/serial_core.c Hans de Goede         2024-05-09  3100  	/* Ensure serdev drivers can call serdev_device_open() right away */
-e21de1455a721a drivers/tty/serial/serial_core.c Hans de Goede         2024-05-09  3101  	uport->flags &= ~UPF_DEAD;
-e21de1455a721a drivers/tty/serial/serial_core.c Hans de Goede         2024-05-09  3102  
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3103  	/*
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3104  	 * Register the port whether it's detected or not.  This allows
-015355b70e074a drivers/tty/serial/serial_core.c Geert Uytterhoeven    2014-03-11  3105  	 * setserial to be used to alter this port's parameters.
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3106  	 */
-da4c279942b057 drivers/tty/serial/serial_core.c Johan Hovold          2017-05-18  3107  	tty_dev = tty_port_register_device_attr_serdev(port, drv->tty_driver,
-b286f4e87e325b drivers/tty/serial/serial_core.c Tony Lindgren         2023-11-13  3108  			uport->line, uport->dev, &uport->port_dev->dev, port,
-b286f4e87e325b drivers/tty/serial/serial_core.c Tony Lindgren         2023-11-13  3109  			uport->tty_groups);
-b289c496e52a9b drivers/tty/serial/serial_core.c Chengguang Xu         2019-02-18  3110  	if (!IS_ERR(tty_dev)) {
-773598357c0baf drivers/tty/serial/serial_core.c Simon Glass           2012-01-19  3111  		device_set_wakeup_capable(tty_dev, 1);
-773598357c0baf drivers/tty/serial/serial_core.c Simon Glass           2012-01-19  3112  	} else {
-e21de1455a721a drivers/tty/serial/serial_core.c Hans de Goede         2024-05-09  3113  		uport->flags |= UPF_DEAD;
-33a2515abd45c6 drivers/tty/serial/serial_core.c Joseph Tilahun        2025-06-09  3114  		dev_err(uport->dev, "Cannot register tty device on line %u\n",
-a2bceae065ed8c drivers/serial/serial_core.c     Alan Cox              2009-09-19  3115  		       uport->line);
-773598357c0baf drivers/tty/serial/serial_core.c Simon Glass           2012-01-19  3116  	}
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3117  
-e52ed2dd8287f7 drivers/tty/serial/serial_core.c Jiri Slaby (SUSE      2024-12-11  3118) 	return 0;
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3119  }
-^1da177e4c3f41 drivers/serial/serial_core.c     Linus Torvalds        2005-04-16  3120  
-
-:::::: The code at line 3082 was first introduced by commit
-:::::: 32f37e57583f869140cff445feedeea8a5fea986 serial: Fix not set tty->port race condition
-
-:::::: TO: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   267	
+   268	union pkvm_pv_param {
+   269		struct kvm_segment seg;
+   270		struct msr_data msr;
+   271		struct desc_ptr desc;
+   272		struct eoi_exitmap eoi_exit_bitmap;
+   273	
+   274		/* IOMMU hypercall params */
+   275		struct pkvm_lm_context_param lm_context_param;
+   276		struct pkvm_clear_translation_param clear_translation_param;
+   277		struct pkvm_sm_context_param sm_context_param;
+   278		struct pkvm_pasid_table_param pasid_table_param;
+   279		struct pkvm_domain_param domain_param;
+ > 280		struct pkvm_iommu_map_param iommu_map_param;
+   281	} __aligned(PAGE_SIZE);
+   282	
 
 -- 
 0-DAY CI Kernel Test Service
