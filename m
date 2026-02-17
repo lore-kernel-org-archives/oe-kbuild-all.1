@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F7714D29B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 02:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4540A78F39
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 03:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771296854; cv=none; b=D+BNHwT7z88MQ145U92HKHYRwnSRFZA/kZSsUs2QSf6Cr1rOXXa01jrYRz8safw0GEx1P59TSs2OZyInd8Jcnyk5//GvobUs6cSfrL0t9Otj3xOSFC9FLXlhYdE1kuxN/TIzZ8ff33IVsIMeZwQcqK95++8jgdvD0JpbzgXR8Zs=
+	t=1771298685; cv=none; b=Ct8nJf8waiG60zuTv/8xNcGm++IgdAt5tPLkaiS+YFRgXqFs4sI526DStFqsnSBKMtsIbJlsQ6eM5ZxqnEohVhUwCrPscTYg52TSpi+0YfkRnuCa+S+SY8ALTi6efLE5I1EsYSs6mc1G6U8yXZcw7rrs8wsfbU6TI39Dhd9FtO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771296854; c=relaxed/simple;
-	bh=EP/MJl6uFl7O4p9b4Mp4t68tJjvpGiVanta+5lkXx9o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=feK10MSKFsUh4QGKA6b00ELL8TDb9385Xa1dXoXPSRlpg9ETJA4756/jgw03Ot8KNW3bOzjgzOKMaGMGhNuwpvcFpp5mYtbg2sZRSRK2QlEET+I7zXWEwbCNNakSON1637VrWMOY0RcdloExABHX6L+PpnOPHPis8gsSUBoF1E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fp/uQg5L; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1771298685; c=relaxed/simple;
+	bh=LPuKz4SWVNH82TqpP1h2em379lBcSDWR7MS0vzMn74U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=reXLGp5JZGaVAnpar2EeYACTRK7m/GjlIPZqVo8yQD4M/CeLJKPNwWOYlbeNDtjcv91uWfyzamNVrSHOYe4rA/gCXT9T7Y+n03RRmpogFahbYBGpEk3FL/ocCY1WdSUQNke2MMGLWN6pLB2zBeqPszFn/r7ggZOwgjHD/JkmTRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QMfHVQJO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fp/uQg5L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QMfHVQJO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771296853; x=1802832853;
+  t=1771298684; x=1802834684;
   h=date:from:to:cc:subject:message-id;
-  bh=EP/MJl6uFl7O4p9b4Mp4t68tJjvpGiVanta+5lkXx9o=;
-  b=Fp/uQg5LpIs47mo0lWKP2KpI6PWziz7FP+si9IohipF8FSvErEAuQmv+
-   w2cH4lQhTET/T58owipGvcF6OgiUMmV7dJ+59H+xOtqnfl5DxgjgdAIqt
-   NTvk3YQFGl9Zp787Jn5UxlDyCrHTAbDxSV7yyQeTAZuRWgNEfyUQ6xFrm
-   8SrSKQJF8cRLZ9kgTffFTnrMuWWzG5o3eaZYD04Bp5vspS9TPKIDIWHiT
-   B8iK6X0kzQEoINmdnPpiDdEp6ASyhOmuQHQiXywuzmLeOwB8gw9w5vaor
-   R1eVi3zaoSRC4LyX5Jg91LXKp5HXZjeUbC1q8x0SKSkKoO1YZA9ynFhIT
-   g==;
-X-CSE-ConnectionGUID: TjThefoiS1WiGWuQ4sOoQg==
-X-CSE-MsgGUID: LI0LXs+eRgaXNQrLN52kBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72267964"
+  bh=LPuKz4SWVNH82TqpP1h2em379lBcSDWR7MS0vzMn74U=;
+  b=QMfHVQJOh/nC0gtVLyrw+/t58aMV/4mib/BK7rXXnKhvP1wwQtke7uYP
+   nZdfSAoH8cQVOWKp96yPIfZ8om99rFWJdCD0T3MFHOZ5o8VZY1Et7aP2W
+   NVmrOynl4nM/rw5SLvRc8Bw4SAzwGso13meAha5+tf7Uv3bYaq3uy4l3X
+   PYtTyhdstwjS98SIRm+B1/Lr/Gmlsl/HbUUlFJYIh0mmiWO7VLXQZ29yy
+   d8awspkKmkps+pqivnRqYYCPaxXF/sYM9bFs5scR+fVO1oIhO2DOgx4Fu
+   9KDNoCVToAcUi1iBRZeWkY1U3BYDypB8XoH3b7Uq9JGelpl/JK35tm5wt
+   Q==;
+X-CSE-ConnectionGUID: b10VGbyISTmVHRcs2pZJhw==
+X-CSE-MsgGUID: tqa/Oin+TCyn2uPzU9iVZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="59935369"
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="72267964"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 18:54:12 -0800
-X-CSE-ConnectionGUID: sO0Sc/hYSXmqZHRGO7aAEw==
-X-CSE-MsgGUID: VawDrTWCTMa2tyve73ZB3g==
+   d="scan'208";a="59935369"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 19:24:43 -0800
+X-CSE-ConnectionGUID: uT826gnbQzCR8cNDgith4A==
+X-CSE-MsgGUID: W/zp6u/rSqiOEHp+COsssQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="244344676"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Feb 2026 18:54:10 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="217900334"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 16 Feb 2026 19:24:42 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsBE0-000000010ZE-0Ok0;
-	Tue, 17 Feb 2026 02:54:08 +0000
-Date: Tue, 17 Feb 2026 10:53:20 +0800
+	id 1vsBhX-000000002mH-2ZRw;
+	Tue, 17 Feb 2026 03:24:39 +0000
+Date: Tue, 17 Feb 2026 04:24:37 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Dave Airlie <airlied@redhat.com>, Timur Tabi <ttabi@nvidia.com>
-Subject: drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse:
- cast removes address space '__iomem' of expression
-Message-ID: <202602171020.IoX6CRFs-lkp@intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, Lucas Stach <l.stach@pengutronix.de>,
+ linux-doc@vger.kernel.org
+Subject: [pengutronix:mfe/v6.19/topic/touchscreen-axiom 5/5]
+ htmldocs: Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63:
+ WARNING: Block quote ends without a blank line; unexpected unindent.
+ [docutils]
+Message-ID: <202602170408.zNbIg5NA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,75 +62,38 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9702969978695d9a699a1f34771580cdbb153b33
-commit: b1ca384772b657df433acf0c36f0771d5ebe1138 drm/nouveau/gv100-: switch to volta semaphore methods
-date:   9 months ago
-config: loongarch-randconfig-r131-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171020.IoX6CRFs-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171020.IoX6CRFs-lkp@intel.com/reproduce)
+tree:   https://git.pengutronix.de/git/linux-0-day mfe/v6.19/topic/touchscreen-axiom
+head:   a2c0b8aee58d5ef254750920bb8a89e4caaadbab
+commit: a2c0b8aee58d5ef254750920bb8a89e4caaadbab [5/5] Input: Add TouchNetix aXiom I2C Touchscreen support
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260217/202602170408.zNbIg5NA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602171020.IoX6CRFs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602170408.zNbIg5NA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/nouveau/gv100_fence.c: note: in included file (through drivers/gpu/drm/nouveau/nouveau_drv.h):
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:9:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:10:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:11:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:12:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:13:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:14:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:17:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:18:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:20:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:21:1: sparse: sparse: directive in macro's argument list
->> drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:29:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:29:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:35:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:35:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:51:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:51:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:51:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:51:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:55:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:55:9: sparse: sparse: cast removes address space '__iomem' of expression
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +25 drivers/gpu/drm/nouveau/gv100_fence.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
+   Using alabaster theme
+   Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: ERROR: Unexpected indentation. [docutils]
+>> Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: ERROR: Unexpected indentation. [docutils]
+>> Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom:63: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   WARNING: ./include/crypto/skcipher.h:166 struct member 'SKCIPHER_ALG_COMMON' not described in 'skcipher_alg'
+   WARNING: ./include/linux/virtio.h:183 struct member 'map' not described in 'virtio_device'
+   WARNING: ./include/linux/virtio.h:183 struct member 'VIRTIO_DECLARE_FEATURES(features' not described in 'virtio_device'
+   WARNING: ./include/linux/virtio.h:183 struct member 'vmap' not described in 'virtio_device'
+   WARNING: ./drivers/gpu/drm/amd/display/dc/dc.h:2796 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
 
-    14	
-    15	static int
-    16	gv100_fence_emit32(struct nouveau_channel *chan, u64 virtual, u32 sequence)
-    17	{
-    18		struct nvif_push *push = &chan->chan.push;
-    19		int ret;
-    20	
-    21		ret = PUSH_WAIT(push, 8);
-    22		if (ret)
-    23			return ret;
-    24	
-  > 25		PUSH_MTHD(push, NVC36F, SEM_ADDR_LO, lower_32_bits(virtual),
-    26					SEM_ADDR_HI, upper_32_bits(virtual),
-    27					SEM_PAYLOAD_LO, sequence);
-    28	
-    29		PUSH_MTHD(push, NVC36F, SEM_EXECUTE,
-    30			  NVDEF(NVC36F, SEM_EXECUTE, OPERATION, RELEASE) |
-    31			  NVDEF(NVC36F, SEM_EXECUTE, RELEASE_WFI, EN) |
-    32			  NVDEF(NVC36F, SEM_EXECUTE, PAYLOAD_SIZE, 32BIT) |
-    33			  NVDEF(NVC36F, SEM_EXECUTE, RELEASE_TIMESTAMP, DIS));
-    34	
-    35		PUSH_MTHD(push, NVC36F, NON_STALL_INTERRUPT, 0);
-    36	
-    37		PUSH_KICK(push);
-    38		return 0;
-    39	}
-    40	
+
+vim +63 Documentation/ABI/testing/sysfs-driver-input-touchnetix-axiom
+
+  > 63	What:		/sys/bus/i2c/devices/xxx/device_state
 
 -- 
 0-DAY CI Kernel Test Service
