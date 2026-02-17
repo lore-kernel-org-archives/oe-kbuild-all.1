@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831052749EA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 05:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2449578F3E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Feb 2026 05:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771305261; cv=none; b=TFd1U6Wpf70TwzzzOEAEhOE3NsP5ODPpE96duT8KM4E8rfXmOogTba7sQA7At02pndGb0Zt5Nm5y4UgAE3JW6aa8w+ElZfSFAQkl4VuGv1Em5ChpPkCdk1Rqnoxtmnh+eLvVuiQ2hpmIOuBu/k5IZYX0wodouhO3aCHBgAc1WEA=
+	t=1771305858; cv=none; b=dVf5x4RCIrrATH23bO+/8rV2pJxg3W3GpOWijYDOPkTzEAvlmGsZHNeM7N4b7NRQptwF/UnI0iSVTC33QFXMFWvZHz5dr+abahmFEcDedc6t/iVVhtPqgbEVgD/rwdyoCuSzvKc4lyyL2TeZi6bDUhZbYACcyBA6qo7psNnLFcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771305261; c=relaxed/simple;
-	bh=4AsbFdAWsCtcCPmpmwch4smnpgukaOnM/aovJKQ2Y5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lLPr663EfOQUm2Db2mJwjq7WNuuU3HGe65TTRrKIR4oelBdF5NHI0xnlpu5703HdmEgKNxMdtfuxfKLG+lGY3ACZLI2fANBAJcySHZHZxQ9N74z2iRJTmGJDwZisNoqYfvxe+ZbKJyqOJkWH1onADOD3Y+T9beKCWdTPot9uHTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DKAoAsU5; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1771305858; c=relaxed/simple;
+	bh=NCfUeMwH0NPx6IRpYng8HMsWo91XgevavpaigaXegnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dftnYBbnju/In0uAb0R5gRGpo4gbZ9BFVOBS3p1EjOPDB78Va+DE/aeS/Omri0Ey/V6SIrAHdbW+VcmjVYAhTqXsg9weT6JllTMYIDYmJDragJBLPhZ0gdTlVXrCYP2Njj9qLS9B75KIngj5wR621U4Ji5a3+yF43apZlYjUbMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EE4WDFWm; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKAoAsU5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EE4WDFWm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771305260; x=1802841260;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4AsbFdAWsCtcCPmpmwch4smnpgukaOnM/aovJKQ2Y5c=;
-  b=DKAoAsU5R1+ObDCvlA9hQfDb+CR6n1AqutRSAAK2hngRp+yueWVzZwC4
-   FdJlzIBTtP6TF8XJIfIxfn9Pk6CVrCUZVH0u8JW5Ej6rjRgXw7BTY8YGO
-   ZIaZ0+D/W+RBBhLiT0BrekBAc6kER2MPMn1TL3CTnq/n9fdoI9FEFYMLK
-   SzNqCYKuQJ84PX2ePMtjAh4S+isgh0G4LYSCqIdQUsGy7qREq5VeBSsFn
-   jmCDSNB48wT63SDgfLixyvCLjMZYR6kXoXCfzby/gy3MUzDT7i5yQ/pK5
-   +FGL1x86eOdlsEPN0Xy5HK8tyw7zps+Qts3TavhTXJRetQOWHtuEFcJVm
-   w==;
-X-CSE-ConnectionGUID: dq55GDyeTAq4VJwJ/G47Lw==
-X-CSE-MsgGUID: ZxVPMahNQYikrmwuTnQS3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="89785728"
+  t=1771305857; x=1802841857;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NCfUeMwH0NPx6IRpYng8HMsWo91XgevavpaigaXegnM=;
+  b=EE4WDFWmy2LfWkWqi3UsWts0j+FnTO2V6yNYLyKaiQByrwwgtOfRa6l/
+   QiiFPOu/SCulHoPTFC4tDAbYoTPmJIAVtHMFyLDZjQIHbBWZVCbGY+xsH
+   boThkIMqRvX2fcD+CAj3XYY81WzjoiZx9QaYotElOPFi3FhvpA5Ay3N/c
+   UKxCxGxsaMbskccrIV0qtYVBUoGr1i1koaDD3tXZstqPXQUHwjXc0e+Vj
+   Snhl1REqY7ZywDtU+5OZZLRb8691RlTwRgMu11/o90/PHMz1Uzfn/QKvs
+   wniDhKFhP6uuzQUWboy7oNnufBCIbzZ9qTpko/cXJtIukePUgBTkw0pZf
+   g==;
+X-CSE-ConnectionGUID: xEujZ77RTVqlTvaj31FRjA==
+X-CSE-MsgGUID: UXPLjPUTSIKsKZzctQNKHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72279696"
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="89785728"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 21:14:19 -0800
-X-CSE-ConnectionGUID: UvN4Fvm1TmanATuYUzlP+w==
-X-CSE-MsgGUID: PmEu3jx7Rnivyu7Uk2ockw==
+   d="scan'208";a="72279696"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 21:24:16 -0800
+X-CSE-ConnectionGUID: 2Hs2ufHxSGilsrAOuIuNWw==
+X-CSE-MsgGUID: dXV3Ikw+TJiQP9EpXqEC7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,295,1763452800"; 
-   d="scan'208";a="213061276"
+   d="scan'208";a="212869108"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Feb 2026 21:14:14 -0800
+  by orviesa006.jf.intel.com with ESMTP; 16 Feb 2026 21:24:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsDPY-000000010dA-086V;
-	Tue, 17 Feb 2026 05:14:12 +0000
-Date: Tue, 17 Feb 2026 13:13:31 +0800
+	id 1vsDZE-000000010dq-3fn9;
+	Tue, 17 Feb 2026 05:24:12 +0000
+Date: Tue, 17 Feb 2026 13:24:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-	Robert Chiras <robert.chiras@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@puri.sm,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	"Oliver F. Brown" <oliver.brown@oss.nxp.com>,
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
-Subject: Re: [PATCH] drm/bridge: nwl-dsi: Correct MIPI DSI horizontal sync
- timing
-Message-ID: <202602171326.PoWR3Iye-lkp@intel.com>
-References: <20260216-nwl-sync-timing-v1-1-b0ff6ecf204a@puri.sm>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/vdso-compat_32bit_time 7/9] ld.lld:
+ error: version script assignment of 'LINUX_2.6.15' to symbol
+ '__kernel_gettimeofday' failed: symbol not defined
+Message-ID: <202602171341.Z9K0NZAA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,176 +61,35 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260216-nwl-sync-timing-v1-1-b0ff6ecf204a@puri.sm>
 
-Hi Sebastian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 0f2acd3148e0ef42bdacbd477f90e8533f96b2ac]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Krzyszkowiak/drm-bridge-nwl-dsi-Correct-MIPI-DSI-horizontal-sync-timing/20260217-015316
-base:   0f2acd3148e0ef42bdacbd477f90e8533f96b2ac
-patch link:    https://lore.kernel.org/r/20260216-nwl-sync-timing-v1-1-b0ff6ecf204a%40puri.sm
-patch subject: [PATCH] drm/bridge: nwl-dsi: Correct MIPI DSI horizontal sync timing
-config: i386-randconfig-006-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171326.PoWR3Iye-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171326.PoWR3Iye-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-compat_32bit_time
+head:   b08c091b9f1d126d4ec8f7e985f468fed0359793
+commit: cb6f40f194273a9f9ccc76e6a81edca2dd429ec2 [7/9] powerpc
+config: powerpc64-randconfig-r071-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171341.Z9K0NZAA-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602171341.Z9K0NZAA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602171326.PoWR3Iye-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602171341.Z9K0NZAA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/gpu/drm/bridge/nwl-dsi.o: in function `nwl_dsi_config_dpi':
->> drivers/gpu/drm/bridge/nwl-dsi.c:338:(.text+0x1dcb): undefined reference to `__udivdi3'
->> ld: drivers/gpu/drm/bridge/nwl-dsi.c:339:(.text+0x1e2e): undefined reference to `__udivdi3'
-   ld: drivers/gpu/drm/bridge/nwl-dsi.c:340:(.text+0x1e8f): undefined reference to `__udivdi3'
-
-
-vim +338 drivers/gpu/drm/bridge/nwl-dsi.c
-
-   255	
-   256	static int nwl_dsi_config_dpi(struct nwl_dsi *dsi)
-   257	{
-   258		u32 mode;
-   259		int color_format;
-   260		bool burst_mode;
-   261		int hfront_porch, hback_porch, vfront_porch, vback_porch;
-   262		int hsync_len, vsync_len;
-   263		int hfp, hbp, hsa;
-   264		unsigned long long pclk_period;
-   265		unsigned long long hs_period;
-   266		int h_blank, pkt_hdr_len, pkt_len;
-   267	
-   268		hfront_porch = dsi->mode.hsync_start - dsi->mode.hdisplay;
-   269		hsync_len = dsi->mode.hsync_end - dsi->mode.hsync_start;
-   270		hback_porch = dsi->mode.htotal - dsi->mode.hsync_end;
-   271	
-   272		vfront_porch = dsi->mode.vsync_start - dsi->mode.vdisplay;
-   273		vsync_len = dsi->mode.vsync_end - dsi->mode.vsync_start;
-   274		vback_porch = dsi->mode.vtotal - dsi->mode.vsync_end;
-   275	
-   276		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hfront_porch = %d\n", hfront_porch);
-   277		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hback_porch = %d\n", hback_porch);
-   278		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hsync_len = %d\n", hsync_len);
-   279		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hdisplay = %d\n", dsi->mode.hdisplay);
-   280		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vfront_porch = %d\n", vfront_porch);
-   281		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vback_porch = %d\n", vback_porch);
-   282		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vsync_len = %d\n", vsync_len);
-   283		DRM_DEV_DEBUG_DRIVER(dsi->dev, "vactive = %d\n", dsi->mode.vdisplay);
-   284		DRM_DEV_DEBUG_DRIVER(dsi->dev, "clock = %d kHz\n", dsi->mode.clock);
-   285	
-   286		color_format = nwl_dsi_get_dpi_pixel_format(dsi->format);
-   287		if (color_format < 0) {
-   288			DRM_DEV_ERROR(dsi->dev, "Invalid color format 0x%x\n",
-   289				      dsi->format);
-   290			return color_format;
-   291		}
-   292		DRM_DEV_DEBUG_DRIVER(dsi->dev, "pixel fmt = %d\n", dsi->format);
-   293	
-   294		nwl_dsi_write(dsi, NWL_DSI_INTERFACE_COLOR_CODING, NWL_DSI_DPI_24_BIT);
-   295		nwl_dsi_write(dsi, NWL_DSI_PIXEL_FORMAT, color_format);
-   296		nwl_dsi_write(dsi, NWL_DSI_VSYNC_POLARITY,
-   297			      dsi->mode.flags & DRM_MODE_FLAG_PVSYNC ?
-   298			      NWL_DSI_VSYNC_POLARITY_ACTIVE_HIGH :
-   299			      NWL_DSI_VSYNC_POLARITY_ACTIVE_LOW);
-   300		nwl_dsi_write(dsi, NWL_DSI_HSYNC_POLARITY,
-   301			      dsi->mode.flags & DRM_MODE_FLAG_PHSYNC ?
-   302			      NWL_DSI_HSYNC_POLARITY_ACTIVE_HIGH :
-   303			      NWL_DSI_HSYNC_POLARITY_ACTIVE_LOW);
-   304	
-   305		burst_mode = (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_BURST) &&
-   306			     !(dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE);
-   307	
-   308		if (burst_mode) {
-   309			nwl_dsi_write(dsi, NWL_DSI_VIDEO_MODE, NWL_DSI_VM_BURST_MODE);
-   310			nwl_dsi_write(dsi, NWL_DSI_PIXEL_FIFO_SEND_LEVEL, 256);
-   311		} else {
-   312			mode = ((dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) ?
-   313					NWL_DSI_VM_BURST_MODE_WITH_SYNC_PULSES :
-   314					NWL_DSI_VM_NON_BURST_MODE_WITH_SYNC_EVENTS);
-   315			nwl_dsi_write(dsi, NWL_DSI_VIDEO_MODE, mode);
-   316			nwl_dsi_write(dsi, NWL_DSI_PIXEL_FIFO_SEND_LEVEL,
-   317				      dsi->mode.hdisplay);
-   318		}
-   319	
-   320		pclk_period = ALIGN(PSEC_PER_SEC, dsi->mode.clock * 1000);
-   321		do_div(pclk_period, dsi->mode.clock * 1000);
-   322		DRM_DEV_DEBUG_DRIVER(dsi->dev, "pclk_period: %llu\n", pclk_period);
-   323	
-   324		hs_period = ALIGN(PSEC_PER_SEC, dsi->phy_cfg.mipi_dphy.hs_clk_rate);
-   325		do_div(hs_period, dsi->phy_cfg.mipi_dphy.hs_clk_rate);
-   326		DRM_DEV_DEBUG_DRIVER(dsi->dev, "hs_period: %llu\n", hs_period);
-   327	
-   328		/*
-   329		 * Calculate the bytes needed, according to the RM formula:
-   330		 * Time of DPI event = time to transmit x number of bytes on the DSI
-   331		 * interface
-   332		 * dpi_event_size * dpi_pclk_period = dsi_bytes * 8 * hs_bit_period /
-   333		 * num_lanes
-   334		 * ===>
-   335		 * dsi_bytes = dpi_event_size * dpi_pclk_period * num_lanes /
-   336		 * (8 * hs_bit_period)
-   337		 */
- > 338		hfp = hfront_porch * pclk_period * dsi->lanes / (8 * hs_period);
- > 339		hbp = hback_porch * pclk_period * dsi->lanes / (8 * hs_period);
-   340		hsa = hsync_len * pclk_period * dsi->lanes / (8 * hs_period);
-   341	
-   342		/* Make sure horizontal blankins are even numbers */
-   343		hfp = roundup(hfp, 2);
-   344		hbp = roundup(hbp, 2);
-   345		hsa = roundup(hsa, 2);
-   346	
-   347		/*
-   348		 * We need to subtract the packet header length: 32
-   349		 * In order to make sure we don't get negative values,
-   350		 * subtract a proportional value to the total length of the
-   351		 * horizontal blanking duration.
-   352		 */
-   353		h_blank = hfp + hbp + hsa;
-   354	
-   355		pkt_len = roundup(((hfp * 100 / h_blank) * 32) / 100, 2);
-   356		pkt_hdr_len = pkt_len;
-   357		hfp -= pkt_len;
-   358	
-   359		pkt_len = roundup(((hbp * 100 / h_blank) * 32) / 100, 2);
-   360		pkt_hdr_len += pkt_len;
-   361		hbp -= pkt_len;
-   362	
-   363		hsa -= (32 - pkt_hdr_len);
-   364	
-   365		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP)
-   366			hfp = hfront_porch;
-   367		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HBP)
-   368			hbp = hback_porch;
-   369		if (dsi->dsi_mode_flags & MIPI_DSI_MODE_VIDEO_NO_HSA)
-   370			hsa = hsync_len;
-   371	
-   372		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hfp: %d\n", hfp);
-   373		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hbp: %d\n", hbp);
-   374		DRM_DEV_DEBUG_DRIVER(dsi->dev, "Actual hsa: %d\n", hsa);
-   375	
-   376		nwl_dsi_write(dsi, NWL_DSI_HFP, hfp);
-   377		nwl_dsi_write(dsi, NWL_DSI_HBP, hbp);
-   378		nwl_dsi_write(dsi, NWL_DSI_HSA, hsa);
-   379	
-   380		nwl_dsi_write(dsi, NWL_DSI_ENABLE_MULT_PKTS, 0x0);
-   381		nwl_dsi_write(dsi, NWL_DSI_BLLP_MODE, 0x1);
-   382		nwl_dsi_write(dsi, NWL_DSI_USE_NULL_PKT_BLLP, 0x0);
-   383		nwl_dsi_write(dsi, NWL_DSI_VC, 0x0);
-   384	
-   385		nwl_dsi_write(dsi, NWL_DSI_PIXEL_PAYLOAD_SIZE, dsi->mode.hdisplay);
-   386		nwl_dsi_write(dsi, NWL_DSI_VACTIVE, dsi->mode.vdisplay - 1);
-   387		nwl_dsi_write(dsi, NWL_DSI_VBP, vback_porch);
-   388		nwl_dsi_write(dsi, NWL_DSI_VFP, vfront_porch);
-   389	
-   390		return nwl_dsi_clear_error(dsi);
-   391	}
-   392	
+>> ld.lld: error: version script assignment of 'LINUX_2.6.15' to symbol '__kernel_gettimeofday' failed: symbol not defined
+>> ld.lld: error: version script assignment of 'LINUX_2.6.15' to symbol '__kernel_clock_gettime' failed: symbol not defined
+>> ld.lld: error: version script assignment of 'LINUX_2.6.15' to symbol '__kernel_clock_getres' failed: symbol not defined
+>> ld.lld: error: version script assignment of 'LINUX_2.6.15' to symbol '__kernel_time' failed: symbol not defined
+   clang: error: linker command failed with exit code 1 (use -v to see invocation)
+   make[3]: *** [arch/powerpc/kernel/vdso/Makefile:79: arch/powerpc/kernel/vdso/vdso32.so.dbg] Error 1
+   make[3]: Target 'include/generated/vdso32-offsets.h' not remade because of errors.
+   make[2]: *** [arch/powerpc/Makefile:388: vdso_prepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
