@@ -1,144 +1,144 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E521E340A41
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 17:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6D3344DA7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 17:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771436406; cv=none; b=dTvuAeNL5+OJQbC0KKpi7uOY8LSnNB281MMoIEOhKO3hLRZQRM+q4i4iKsmWa21sVUX6e9mjDOPl5J1pwg+1dPsjHFuiTT441FmwAXXbQ+28MXuTbPhnX570dTlWtPGVOzAaC3sXetVENABXQm2DeKe7kKA8cPq8R+mBf6Iinso=
+	t=1771436407; cv=none; b=i/DKq9O1EDVKv7S3H+BtQKv2+/mu9fTf82H6fW/3ZU8G4El0a+ouninfdTolJ5L0kOVmSlZ9PmlEad1JWMgJrIPAN9h1BxKmOcaVw/zEoTcl87lbYK+vwHnaiKYmIZrD+j6jf9Yxp7knLvHj6FKwlwoRzUMnU309eqeJJ1mlkwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771436406; c=relaxed/simple;
-	bh=ccwoUDwafKqjVxfncmOt0F8r5BAgUQLUmRk2GHESV+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DrexH7yTo/JF4CnbyW2g1w04tTvCfSGEwDtyNzqXS1P0OdYeygtmKRp2zkivmbn+QmAZwBY68Ero96+zUozH/64IFiCo2MusZmDsb13cv6FLIC8rz6S3rFSgi9WdYW+I+6f1Hdr8ew8LtoPD+6yxAqBIBMUGmC3OgCrpPpkyaXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TkFH9M/N; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1771436407; c=relaxed/simple;
+	bh=J3fdovcl5xtRihItvrYLp65jBxuEyvykf2Yh5saczsE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Lft9bqdNuh5e8mm55otWhkMsf0UoEqGAUiDc/17YxLv/rt442dcHHxncXuz7ne22amXki7K46hZVsIGI6/R51MasT7Q3doWPoKAVwlSW5lRQW4ZXswTVUNbg8uUAt+FerQglTDDG44TYuvWAuVm+BhdaKJILSIwO3X4yLvcHJQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9a8TkXX; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TkFH9M/N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9a8TkXX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771436404; x=1802972404;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ccwoUDwafKqjVxfncmOt0F8r5BAgUQLUmRk2GHESV+s=;
-  b=TkFH9M/NOe2ye4/xcTf+ypVsjZEnGgvGbSya8PzwGtRRP7vmq7DiIKjw
-   Ka+3Gui4wnY5eX/pA6/Vbj/SRya5fZQLM0VJtVRrjhYR/Z+Ih3Hioz+k/
-   JV0NWZHR7CzFZ6E3NV+JCgS3Wdg4CaOVnfVeNMSLO0VvZAeEKpvafFf6G
-   nvm2vZrUT/DLhaEkpDI7F/Fj8uqdTNBrMehZb2eE7mBScbi9nZekqHUrb
-   lkrPoLxnEc9YNv7G3BrVaIsBSzDJLtzGAxKUcDIrGvvli462KeAQi29qb
-   ytZVdxaUvftk08DnQX7TBekOETwwLsvlvSIvLRAjw9EaSIS+kmCbyCt+1
+  t=1771436406; x=1802972406;
+  h=date:from:to:cc:subject:message-id;
+  bh=J3fdovcl5xtRihItvrYLp65jBxuEyvykf2Yh5saczsE=;
+  b=M9a8TkXXHCQnvB4/FJKtN+7FAWoLdfZunTCj5uhrfqovKowuV2X1lUcT
+   FIrTN8m+wdIt2R76I8mFkQQuxCaqbhrHL40jZeSD9zUDjX4vkg1TEXoCQ
+   8jrWD00oSeTx+ix8zyAazOKPp7jseuLqGfNnWNjf/1jbUKKgTeAoUqlNh
+   dXPA/VkRwVimTsSj8jBqIrloZO6X6CAwyzm5OLx+sKzJwn/pm9XBo1I/z
+   FvoonqbHS0ByEMG14IhhcWgM/MngsojwVegxOFECAy/kek0J5ND0WKO07
+   i9Nad6eaHZre5OvmFwbolneHFf7SHP0yco5gGNliPPQ/v+/nu0lOkgrmN
    g==;
-X-CSE-ConnectionGUID: rI+rl73PTjW30T/INSaabw==
-X-CSE-MsgGUID: vnYXVnINSeWf3YyVJTMhwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="90102688"
+X-CSE-ConnectionGUID: brj0egzEQ5ewKJID5qEdgA==
+X-CSE-MsgGUID: FjxNSkPiTuiDBY55iIsH8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="90102689"
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="90102688"
+   d="scan'208";a="90102689"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 09:40:03 -0800
-X-CSE-ConnectionGUID: aGu/IBg9SWCEAHmEcI4NRw==
-X-CSE-MsgGUID: GuOBYpScTh+rf9tsb60B8w==
+X-CSE-ConnectionGUID: dNQdBRzKRcyjHRk/DDDN9w==
+X-CSE-MsgGUID: 1vHy64OOSD2ziJdw6hJkhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="213015938"
+   d="scan'208";a="213015948"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 18 Feb 2026 09:40:02 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vslWp-000000012aK-42xD;
-	Wed, 18 Feb 2026 17:39:59 +0000
-Date: Thu, 19 Feb 2026 01:39:35 +0800
+	id 1vslWq-000000012aO-01Ga;
+	Wed, 18 Feb 2026 17:40:00 +0000
+Date: Thu, 19 Feb 2026 01:39:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiner Kallweit <hkall@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 06/10] driver core: make struct device_type member
- groups a constant array
-Message-ID: <202602190133.MGHdZxXo-lkp@intel.com>
-References: <66a78ec0-2980-4376-96fb-3193b6cbe943@kernel.org>
+Subject: [android-common:android16-6.12-desktop 7/7]
+ drivers/vfio/vfio_main.c:436:9: warning: variable 'fn' set but not used
+Message-ID: <202602190132.g7HIpQVV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66a78ec0-2980-4376-96fb-3193b6cbe943@kernel.org>
 
-Hi Heiner,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on driver-core/driver-core-testing]
-[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus abelloni/rtc-next rdma/for-next linus/master v6.19 next-20260218]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/IB-core-Prepare-for-immutable-device-groups/20260218-063407
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/66a78ec0-2980-4376-96fb-3193b6cbe943%40kernel.org
-patch subject: [PATCH RFC 06/10] driver core: make struct device_type member groups a constant array
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260219/202602190133.MGHdZxXo-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190133.MGHdZxXo-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   aaa1bf8bd54bdc7c0e7c525db0155d118cf49387
+commit: e43f03eb172d7e8ecac55bc3f9547c18f436ea82 [7/7] ANDROID: drivers/vfio: Call KVM directly
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260219/202602190132.g7HIpQVV-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190132.g7HIpQVV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602190133.MGHdZxXo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602190132.g7HIpQVV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/extcon/extcon.c: In function 'extcon_alloc_groups':
->> drivers/extcon/extcon.c:1223:53: error: assignment of read-only location '*(edev->extcon_dev_type.groups + (sizetype)((long unsigned int)index * 8))'
-    1223 |                 edev->extcon_dev_type.groups[index] = &edev->cables[index].attr_g;
-         |                                                     ^
-   drivers/extcon/extcon.c:1226:53: error: assignment of read-only location '*(edev->extcon_dev_type.groups + (sizetype)((long unsigned int)index * 8))'
-    1226 |                 edev->extcon_dev_type.groups[index] = &edev->attr_g_muex;
-         |                                                     ^
+>> drivers/vfio/vfio_main.c:436:9: warning: variable 'fn' set but not used [-Wunused-but-set-variable]
+     436 |         bool (*fn)(struct kvm *kvm);
+         |                ^
+>> drivers/vfio/vfio_main.c:437:7: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     437 |         bool ret;
+         |              ^
+   2 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
 
 
-vim +1223 drivers/extcon/extcon.c
+vim +/fn +436 drivers/vfio/vfio_main.c
 
-3e70a014abcdf7 Bumwoo Lee      2023-03-20  1196  
-04151575c507e7 Bumwoo Lee      2023-03-20  1197  /**
-04151575c507e7 Bumwoo Lee      2023-03-20  1198   * extcon_alloc_groups() - alloc the groups for extcon device
-04151575c507e7 Bumwoo Lee      2023-03-20  1199   * @edev:	extcon device
-04151575c507e7 Bumwoo Lee      2023-03-20  1200   *
-04151575c507e7 Bumwoo Lee      2023-03-20  1201   * Returns 0 if success or error number if fail.
-04151575c507e7 Bumwoo Lee      2023-03-20  1202   */
-04151575c507e7 Bumwoo Lee      2023-03-20  1203  static int extcon_alloc_groups(struct extcon_dev *edev)
-04151575c507e7 Bumwoo Lee      2023-03-20  1204  {
-04151575c507e7 Bumwoo Lee      2023-03-20  1205  	int index;
-04151575c507e7 Bumwoo Lee      2023-03-20  1206  
-04151575c507e7 Bumwoo Lee      2023-03-20  1207  	if (!edev)
-04151575c507e7 Bumwoo Lee      2023-03-20  1208  		return -EINVAL;
-04151575c507e7 Bumwoo Lee      2023-03-20  1209  
-04151575c507e7 Bumwoo Lee      2023-03-20  1210  	if (!edev->max_supported)
-04151575c507e7 Bumwoo Lee      2023-03-20  1211  		return 0;
-04151575c507e7 Bumwoo Lee      2023-03-20  1212  
-04151575c507e7 Bumwoo Lee      2023-03-20  1213  	edev->extcon_dev_type.groups = kcalloc(edev->max_supported + 2,
-ef753fb4e86607 Andy Shevchenko 2023-04-11  1214  					  sizeof(*edev->extcon_dev_type.groups),
-04151575c507e7 Bumwoo Lee      2023-03-20  1215  					  GFP_KERNEL);
-04151575c507e7 Bumwoo Lee      2023-03-20  1216  	if (!edev->extcon_dev_type.groups)
-04151575c507e7 Bumwoo Lee      2023-03-20  1217  		return -ENOMEM;
-04151575c507e7 Bumwoo Lee      2023-03-20  1218  
-04151575c507e7 Bumwoo Lee      2023-03-20  1219  	edev->extcon_dev_type.name = dev_name(&edev->dev);
-04151575c507e7 Bumwoo Lee      2023-03-20  1220  	edev->extcon_dev_type.release = dummy_sysfs_dev_release;
-04151575c507e7 Bumwoo Lee      2023-03-20  1221  
-04151575c507e7 Bumwoo Lee      2023-03-20  1222  	for (index = 0; index < edev->max_supported; index++)
-04151575c507e7 Bumwoo Lee      2023-03-20 @1223  		edev->extcon_dev_type.groups[index] = &edev->cables[index].attr_g;
-04151575c507e7 Bumwoo Lee      2023-03-20  1224  
-04151575c507e7 Bumwoo Lee      2023-03-20  1225  	if (edev->mutually_exclusive)
-04151575c507e7 Bumwoo Lee      2023-03-20  1226  		edev->extcon_dev_type.groups[index] = &edev->attr_g_muex;
-04151575c507e7 Bumwoo Lee      2023-03-20  1227  
-04151575c507e7 Bumwoo Lee      2023-03-20  1228  	edev->dev.type = &edev->extcon_dev_type;
-04151575c507e7 Bumwoo Lee      2023-03-20  1229  
-04151575c507e7 Bumwoo Lee      2023-03-20  1230  	return 0;
-04151575c507e7 Bumwoo Lee      2023-03-20  1231  }
-04151575c507e7 Bumwoo Lee      2023-03-20  1232  
+0bfc6a4ea63c2a drivers/vfio/vfio.c      Jason Gunthorpe 2021-03-30  431  
+09e33b04552608 drivers/vfio/vfio_main.c Paolo Bonzini   2024-01-04  432  #if IS_ENABLED(CONFIG_KVM)
+5c6de3ea73768d drivers/vfio/vfio_main.c Yi Liu          2023-07-18  433  void vfio_device_get_kvm_safe(struct vfio_device *device, struct kvm *kvm)
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  434  {
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  435  	void (*pfn)(struct kvm *kvm);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03 @436  	bool (*fn)(struct kvm *kvm);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03 @437  	bool ret;
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  438  
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  439  	lockdep_assert_held(&device->dev_set->lock);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  440  
+5c6de3ea73768d drivers/vfio/vfio_main.c Yi Liu          2023-07-18  441  	if (!kvm)
+5c6de3ea73768d drivers/vfio/vfio_main.c Yi Liu          2023-07-18  442  		return;
+5c6de3ea73768d drivers/vfio/vfio_main.c Yi Liu          2023-07-18  443  
+e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  444  	/* See kvm_vfio_file_set_kvm() */
+e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  445  #if IS_BUILTIN(CONFIG_KVM)
+e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  446  	ret = kvm_get_kvm_safe(kvm);
+e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  447  	pfn = kvm_put_kvm;
+e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  448  	/* silence compiler warning */
+e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  449  	fn = NULL;
+e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  450  #else
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  451  	pfn = symbol_get(kvm_put_kvm);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  452  	if (WARN_ON(!pfn))
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  453  		return;
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  454  
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  455  	fn = symbol_get(kvm_get_kvm_safe);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  456  	if (WARN_ON(!fn)) {
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  457  		symbol_put(kvm_put_kvm);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  458  		return;
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  459  	}
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  460  
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  461  	ret = fn(kvm);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  462  	symbol_put(kvm_get_kvm_safe);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  463  	if (!ret) {
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  464  		symbol_put(kvm_put_kvm);
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  465  		return;
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  466  	}
+e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  467  #endif
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  468  
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  469  	device->put_kvm = pfn;
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  470  	device->kvm = kvm;
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  471  }
+2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  472  
+
+:::::: The code at line 436 was first introduced by commit
+:::::: 2b48f52f2bff8e8926165983f3a3d7b89b33de08 vfio: fix deadlock between group lock and kvm lock
+
+:::::: TO: Matthew Rosato <mjrosato@linux.ibm.com>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
