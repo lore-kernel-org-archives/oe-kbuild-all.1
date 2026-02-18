@@ -1,144 +1,221 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6D3344DA7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386A43446B1
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 17:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771436407; cv=none; b=i/DKq9O1EDVKv7S3H+BtQKv2+/mu9fTf82H6fW/3ZU8G4El0a+ouninfdTolJ5L0kOVmSlZ9PmlEad1JWMgJrIPAN9h1BxKmOcaVw/zEoTcl87lbYK+vwHnaiKYmIZrD+j6jf9Yxp7knLvHj6FKwlwoRzUMnU309eqeJJ1mlkwk=
+	t=1771436407; cv=none; b=JY7/LjJse4OhccgZzoZovYBohefmu1xr0FnTthVkAMtd4eKGpQvYBcxjMPhvwoF9ge3NEI1Y2EAY9csoEJVNxb4XvOfdiA/nXMfALA7CLK3Gr/Gk/o+h2l+Qi51NmBBvCBhl3BvU06TnvhUkdDtareFBfej7DAxkc6MOyqA9YQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771436407; c=relaxed/simple;
-	bh=J3fdovcl5xtRihItvrYLp65jBxuEyvykf2Yh5saczsE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Lft9bqdNuh5e8mm55otWhkMsf0UoEqGAUiDc/17YxLv/rt442dcHHxncXuz7ne22amXki7K46hZVsIGI6/R51MasT7Q3doWPoKAVwlSW5lRQW4ZXswTVUNbg8uUAt+FerQglTDDG44TYuvWAuVm+BhdaKJILSIwO3X4yLvcHJQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9a8TkXX; arc=none smtp.client-ip=192.198.163.8
+	bh=gN7xzSDynnuIkXjLbXibgC4QIHlz87O2ZPWCcAcpXwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q6Lh0zTo54xGhxQbT53M2ANy4nPB56nuXXEGNsfDFHATo4k4yZ3eR/7AMyUpFTZH0s4VRk48J2ON3ALfaNheX3EkPvHYgivSqKvuR816K4GXhSJlxPGV9hqUtNmanXXT9c+TEPtDW/BahEDBmnM+WD4jfO04OIvAwvH0azMdNP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHJjhvgg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9a8TkXX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHJjhvgg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1771436406; x=1802972406;
-  h=date:from:to:cc:subject:message-id;
-  bh=J3fdovcl5xtRihItvrYLp65jBxuEyvykf2Yh5saczsE=;
-  b=M9a8TkXXHCQnvB4/FJKtN+7FAWoLdfZunTCj5uhrfqovKowuV2X1lUcT
-   FIrTN8m+wdIt2R76I8mFkQQuxCaqbhrHL40jZeSD9zUDjX4vkg1TEXoCQ
-   8jrWD00oSeTx+ix8zyAazOKPp7jseuLqGfNnWNjf/1jbUKKgTeAoUqlNh
-   dXPA/VkRwVimTsSj8jBqIrloZO6X6CAwyzm5OLx+sKzJwn/pm9XBo1I/z
-   FvoonqbHS0ByEMG14IhhcWgM/MngsojwVegxOFECAy/kek0J5ND0WKO07
-   i9Nad6eaHZre5OvmFwbolneHFf7SHP0yco5gGNliPPQ/v+/nu0lOkgrmN
-   g==;
-X-CSE-ConnectionGUID: brj0egzEQ5ewKJID5qEdgA==
-X-CSE-MsgGUID: FjxNSkPiTuiDBY55iIsH8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="90102689"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gN7xzSDynnuIkXjLbXibgC4QIHlz87O2ZPWCcAcpXwM=;
+  b=gHJjhvggVHqgs6bwlyHQhBf9SC2UaeRHjGoEov1SfSsq1Gs9n7gvNX0W
+   qHDrl7EZiD+zK3AaEIRa5sxM62kvnmn+zFeZkgxUQpJXZIRYDWx0ujYrk
+   9sZF1aOfPYHRg0u5KFXwi44/K40Re1ZGhHdKWWA7feuw2GsUpdPMF9LEk
+   Z6WujzKxXdHj6yNjbm4UTgHzmXZqhLxqE1xlLlHsXE9KsPqcPct8PTrJz
+   PHHLg1RjQBBhUrrjbAoRtkVmCqkeNTSsbrg1kZmrYNvl0yADUH1OjlfzS
+   Qol4wBvGp+y6ok7ppzAHX9TtqtG6xuGxY+qW472XZdqUZ5yFNAFupxWLb
+   A==;
+X-CSE-ConnectionGUID: CB4+gmyHTHqXXiSVOhI9sA==
+X-CSE-MsgGUID: jYsONgnFQpeDYIZC7M951Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="90102693"
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="90102689"
+   d="scan'208";a="90102693"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 09:40:03 -0800
-X-CSE-ConnectionGUID: dNQdBRzKRcyjHRk/DDDN9w==
-X-CSE-MsgGUID: 1vHy64OOSD2ziJdw6hJkhg==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 09:40:06 -0800
+X-CSE-ConnectionGUID: I7gzG4PNTECvIqmDd9mD6w==
+X-CSE-MsgGUID: +/xxbq81QXW7yDhhNlkuTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="213015948"
+   d="scan'208";a="213015939"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 18 Feb 2026 09:40:02 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vslWq-000000012aO-01Ga;
-	Wed, 18 Feb 2026 17:40:00 +0000
-Date: Thu, 19 Feb 2026 01:39:37 +0800
+	id 1vslWp-000000012aM-48ID;
+	Wed, 18 Feb 2026 17:39:59 +0000
+Date: Thu, 19 Feb 2026 01:39:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 7/7]
- drivers/vfio/vfio_main.c:436:9: warning: variable 'fn' set but not used
-Message-ID: <202602190132.g7HIpQVV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pavitrakumar Managutte <pavitrakumarm@vayavyalabs.com>,
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, herbert@gondor.apana.org.au,
+	robh@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, krzk+dt@kernel.org, conor+dt@kernel.org,
+	Ruud.Derwig@synopsys.com, manjunath.hadli@vayavyalabs.com,
+	adityak@vayavyalabs.com, navami.telsang@vayavyalabs.com,
+	bhoomikak@vayavyalabs.com,
+	Pavitrakumar Managutte <pavitrakumarm@vayavyalabs.com>
+Subject: Re: [PATCH v9 4/4] crypto: spacc - Add SPAcc Kconfig and Makefile
+Message-ID: <202602190145.feNzO6kD-lkp@intel.com>
+References: <20260218125805.615525-5-pavitrakumarm@vayavyalabs.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260218125805.615525-5-pavitrakumarm@vayavyalabs.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   aaa1bf8bd54bdc7c0e7c525db0155d118cf49387
-commit: e43f03eb172d7e8ecac55bc3f9547c18f436ea82 [7/7] ANDROID: drivers/vfio: Call KVM directly
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260219/202602190132.g7HIpQVV-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190132.g7HIpQVV-lkp@intel.com/reproduce)
+Hi Pavitrakumar,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0ce90934c0a6baac053029ad28566536ae50d604]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-Managutte/dt-bindings-crypto-Document-support-for-SPAcc/20260218-210308
+base:   0ce90934c0a6baac053029ad28566536ae50d604
+patch link:    https://lore.kernel.org/r/20260218125805.615525-5-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH v9 4/4] crypto: spacc - Add SPAcc Kconfig and Makefile
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260219/202602190145.feNzO6kD-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190145.feNzO6kD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602190132.g7HIpQVV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602190145.feNzO6kD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/vfio/vfio_main.c:436:9: warning: variable 'fn' set but not used [-Wunused-but-set-variable]
-     436 |         bool (*fn)(struct kvm *kvm);
-         |                ^
->> drivers/vfio/vfio_main.c:437:7: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     437 |         bool ret;
-         |              ^
-   2 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   drivers/crypto/dwc-spacc/spacc_device.c: In function 'spacc_init_device':
+>> drivers/crypto/dwc-spacc/spacc_device.c:35:13: warning: variable 'oldmode' set but not used [-Wunused-but-set-variable]
+      35 |         int oldmode;
+         |             ^~~~~~~
 
 
-vim +/fn +436 drivers/vfio/vfio_main.c
+vim +/oldmode +35 drivers/crypto/dwc-spacc/spacc_device.c
 
-0bfc6a4ea63c2a drivers/vfio/vfio.c      Jason Gunthorpe 2021-03-30  431  
-09e33b04552608 drivers/vfio/vfio_main.c Paolo Bonzini   2024-01-04  432  #if IS_ENABLED(CONFIG_KVM)
-5c6de3ea73768d drivers/vfio/vfio_main.c Yi Liu          2023-07-18  433  void vfio_device_get_kvm_safe(struct vfio_device *device, struct kvm *kvm)
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  434  {
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  435  	void (*pfn)(struct kvm *kvm);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03 @436  	bool (*fn)(struct kvm *kvm);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03 @437  	bool ret;
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  438  
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  439  	lockdep_assert_held(&device->dev_set->lock);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  440  
-5c6de3ea73768d drivers/vfio/vfio_main.c Yi Liu          2023-07-18  441  	if (!kvm)
-5c6de3ea73768d drivers/vfio/vfio_main.c Yi Liu          2023-07-18  442  		return;
-5c6de3ea73768d drivers/vfio/vfio_main.c Yi Liu          2023-07-18  443  
-e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  444  	/* See kvm_vfio_file_set_kvm() */
-e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  445  #if IS_BUILTIN(CONFIG_KVM)
-e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  446  	ret = kvm_get_kvm_safe(kvm);
-e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  447  	pfn = kvm_put_kvm;
-e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  448  	/* silence compiler warning */
-e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  449  	fn = NULL;
-e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  450  #else
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  451  	pfn = symbol_get(kvm_put_kvm);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  452  	if (WARN_ON(!pfn))
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  453  		return;
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  454  
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  455  	fn = symbol_get(kvm_get_kvm_safe);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  456  	if (WARN_ON(!fn)) {
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  457  		symbol_put(kvm_put_kvm);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  458  		return;
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  459  	}
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  460  
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  461  	ret = fn(kvm);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  462  	symbol_put(kvm_get_kvm_safe);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  463  	if (!ret) {
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  464  		symbol_put(kvm_put_kvm);
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  465  		return;
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  466  	}
-e43f03eb172d7e drivers/vfio/vfio_main.c Mostafa Saleh   2026-02-03  467  #endif
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  468  
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  469  	device->put_kvm = pfn;
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  470  	device->kvm = kvm;
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  471  }
-2b48f52f2bff8e drivers/vfio/vfio_main.c Matthew Rosato  2023-02-03  472  
-
-:::::: The code at line 436 was first introduced by commit
-:::::: 2b48f52f2bff8e8926165983f3a3d7b89b33de08 vfio: fix deadlock between group lock and kvm lock
-
-:::::: TO: Matthew Rosato <mjrosato@linux.ibm.com>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   27  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   28  static int spacc_init_device(struct platform_device *pdev)
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   29  {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   30  	void __iomem *baseaddr;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   31  	struct pdu_info   info;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   32  	struct spacc_priv *priv;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   33  	int err = 0;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   34  	int ret = 0;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  @35  	int oldmode;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   36  	int irq_num;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   37  	int irq_ret;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   38  	const u64 oldtimer = SPACC_OLD_TIMER;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   39  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   40  	/* initialize DDT DMA pools based on this device's resources */
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   41  	if (pdu_mem_init(&pdev->dev)) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   42  		dev_err(&pdev->dev, "Could not initialize DMA pools\n");
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   43  		return -ENOMEM;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   44  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   45  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   46  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   47  	if (!priv) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   48  		err = -ENOMEM;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   49  		goto free_ddt_mem_pool;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   50  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   51  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   52  	/* default to little-endian */
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   53  	priv->spacc.config.big_endian	 = false;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   54  	priv->spacc.config.little_endian = true;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   55  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   56  	priv->spacc.config.oldtimer = oldtimer;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   57  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   58  	/* Set the SPAcc internal counter value from kernel config */
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   59  	priv->spacc.config.timer = (u64)CONFIG_CRYPTO_DEV_SPACC_INTERNAL_COUNTER;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   60  	dev_dbg(&pdev->dev, "SPAcc internal counter set to: %llu\n",
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   61  		priv->spacc.config.timer);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   62  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   63  	baseaddr = devm_platform_ioremap_resource(pdev, 0);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   64  	if (IS_ERR(baseaddr)) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   65  		dev_err(&pdev->dev, "Unable to map iomem\n");
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   66  		err = PTR_ERR(baseaddr);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   67  		goto free_ddt_mem_pool;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   68  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   69  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   70  	pdu_get_version(baseaddr, &info);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   71  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   72  	ret = spacc_init(baseaddr, &priv->spacc, &info);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   73  	if (ret < 0) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   74  		dev_err(&pdev->dev, "Failed to initialize SPAcc device\n");
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   75  		err = ret;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   76  		goto free_ddt_mem_pool;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   77  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   78  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   79  	/* Set the priority from kernel config */
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   80  	priv->spacc.config.priority = CONFIG_CRYPTO_DEV_SPACC_PRIORITY;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   81  	dev_dbg(&pdev->dev, "VSPACC priority set from config: %u\n",
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   82  		priv->spacc.config.priority);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   83  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   84  	/* Set the priority for this virtual SPAcc instance */
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   85  	spacc_set_priority(&priv->spacc, priv->spacc.config.priority);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   86  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   87  	/* Initialize crypto engine */
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   88  	priv->engine = crypto_engine_alloc_init(&pdev->dev, true);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   89  	if (!priv->engine) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   90  		dev_err(&pdev->dev, "Could not allocate crypto engine\n");
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   91  		err = -ENOMEM;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   92  		goto free_spacc_ctx;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   93  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   94  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   95  	err = crypto_engine_start(priv->engine);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   96  	if (err) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   97  		dev_err(&pdev->dev, "Could not start crypto engine\n");
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   98  		goto free_engine;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18   99  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  100  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  101  	priv->spacc_wq = alloc_workqueue("spacc_workqueue", WQ_UNBOUND, 0);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  102  	if (!priv->spacc_wq) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  103  		err = -ENOMEM;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  104  		goto free_engine;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  105  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  106  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  107  	INIT_WORK(&priv->pop_jobs, spacc_pop_jobs);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  108  	spacc_irq_glbl_disable(&priv->spacc);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  109  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  110  	priv->spacc.dptr = &pdev->dev;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  111  	platform_set_drvdata(pdev, priv);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  112  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  113  	irq_num = platform_get_irq(pdev, 0);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  114  	if (irq_num < 0) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  115  		err = irq_num;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  116  		goto free_spacc_workq;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  117  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  118  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  119  	/* determine configured maximum message length */
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  120  	priv->max_msg_len = priv->spacc.config.max_msg_size;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  121  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  122  	irq_ret = devm_request_irq(&pdev->dev, irq_num, spacc_irq_handler,
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  123  			     IRQF_SHARED, dev_name(&pdev->dev),
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  124  			     &pdev->dev);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  125  	if (irq_ret) {
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  126  		dev_err(&pdev->dev, "Failed to request IRQ : %d\n", irq_ret);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  127  		err = irq_ret;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  128  		goto free_spacc_workq;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  129  	}
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  130  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  131  	priv->spacc.irq_cb_stat = spacc_stat_process;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  132  	priv->spacc.irq_cb_cmdx = spacc_cmd_process;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  133  	oldmode			= priv->spacc.op_mode;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  134  	priv->spacc.op_mode     = SPACC_OP_MODE_IRQ;
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  135  
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  136  	/* Enable STAT and CMD interrupts */
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  137  	SPACC_IRQ_STAT_CLEAR_STAT(&priv->spacc); //added to clear the fifo
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  138  	spacc_irq_stat_enable(&priv->spacc, 1);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  139  	spacc_irq_cmdx_enable(&priv->spacc, 0, 1);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  140  	spacc_irq_stat_wd_disable(&priv->spacc);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  141  	spacc_irq_glbl_enable(&priv->spacc);
+80e3d20d74a76e Pavitrakumar Managutte 2026-02-18  142  
 
 -- 
 0-DAY CI Kernel Test Service
