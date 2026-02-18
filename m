@@ -1,108 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB7932939C;
-	Wed, 18 Feb 2026 13:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3174831355F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 15:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771422602; cv=none; b=R3YChaMYEp+fsN3tuMSTVo+ccDYJfE/YD/7WBitJu8UJYkvM7wOphpCRrtatFYg7FMxu1PqmNvDnvDsaaKrafX8QQX4QevI0Fu6Rz0VxaILZrzOP+X3c2f3PdGDsn+x5crSu9uZS1WEIFa2P/tKL5EhCPeKJTwSPWKY56QB/m9Q=
+	t=1771427579; cv=none; b=pJqJYdBJ8H4BoWnvh3yLIXkLipb036o2oiGMDmVO6SSEpQglom+xuG/uA9p3JOepgZqnfFCwYnM+LDnXXGRXxbSvintWOOUmxGisYFWX+Mb7o/LV9n8ulv1X7ewAhm9loBQLbv8m2hBzxNSaHi2o4FltI0wBr9Qspu6cFMv5FBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771422602; c=relaxed/simple;
-	bh=W31iI7LLVILK7kkuE1ElHWcjo1PB1NNAmLYxWimCXC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uy/O10mLzT2y4CfeucyqE0Pc8aTQmM3wvYfiSKSLA84vSqILxgtgvRcShjDPpaRxITnlWfzyNwb0hDjIlNZw7f9AfLpYCBs5gT9XEaPS5jjE4+zGnJRTa3yJ+TPY8fQUj4nuv4MPU+Bz91c9kx9Kfw5bCDkF3xf+H+9jYl/TocI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V81VYmWP; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1771427579; c=relaxed/simple;
+	bh=vF/HQFfqNdLWYS3/7eZcml5WzQHNKt0VgdW2AHjAuP0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bQcavW7h63st9CDPSprCro97SZuUISkzubduvRRJfcZbxnCHnd3q/VNKwKEsnoHLF6F48E+a8DG5gk2RdHb8m0PIxgxj1NSZ+rnpTxJ254QVIiP9GX0Mt/mW5xqkagG9XxAxBlZkRdimPKJxyXKOHrGy5BoRL8ugcCCF951RYo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DUbVWifB; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V81VYmWP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DUbVWifB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771422601; x=1802958601;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W31iI7LLVILK7kkuE1ElHWcjo1PB1NNAmLYxWimCXC8=;
-  b=V81VYmWPQDw2QkAjhlVRF6fp9XVk9BEIEzCeaz6ApCrcc18NuKB8HV36
-   L5wo5wiFyeEin9YMBRFXKk1E6dn53yYAbLdQJaqMkGVmPUMc5g7D9fKXo
-   kECOiyl5xRHRGmxqgEf0ylZiSu8JIstAJ/0u1nywUhUNHdDvaRQgNelHd
-   hMgo+HAevaNMXpdbUmWZXzNkO7EoI7ApnYWHUF8e5liJzwUF0nCpGarSX
-   L9r3zXOztEBm0aLP52XUE15oM3jdN4ZXznA4cmYtFIYbUOCfnym8/sD95
-   /kCZi/0ngysZzWh7okvuB9oGut/kqPYn8EBDfae0QiFbB6BIIst61MWQN
-   Q==;
-X-CSE-ConnectionGUID: nw1xUfuXSQupm3SZqcywgg==
-X-CSE-MsgGUID: 8OLPrpRGTDSzfMxrmAOJTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="83120856"
+  t=1771427578; x=1802963578;
+  h=date:from:to:cc:subject:message-id;
+  bh=vF/HQFfqNdLWYS3/7eZcml5WzQHNKt0VgdW2AHjAuP0=;
+  b=DUbVWifBQBZSYqJ2GbG7cW7Jn/A+W0jxog5ZUblQ6nUAe5Dj1yIv782f
+   utvaP7dIkzABiswSpxEejTOL8vl68zPKMKPcTmIFaMIIjo76I5ucvopSp
+   RcCS5KCO+Z3ivyY1mmyXlqzcDXJtYp7axiRxLiARSE9kfX13fWZADwmsE
+   NmrfA0SLtSro71/yDvXtXkO4ppN5WbYAcuSud/HvopRmJQO9etKJIjI0h
+   +qrnrGu23/MVjObB9vfXer8wxPIERSWZeSAfBRvdKbeYsf5bamCd6e2bx
+   X3Mii11LNOpCVB9trfUDa5hOiGP4PYKMAxsFMUf/S5t+IR3ga07z4uBV9
+   w==;
+X-CSE-ConnectionGUID: yrfPBHh9QWm/emFQSM2XJw==
+X-CSE-MsgGUID: EJc3R3//SQi5f6YlNoQufQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="83221374"
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="83120856"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 05:49:57 -0800
-X-CSE-ConnectionGUID: ZD8PmMrXRNyK6JJMyH8kfw==
-X-CSE-MsgGUID: IULIxgMpT5WculU9T9y3Yw==
+   d="scan'208";a="83221374"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 07:12:57 -0800
+X-CSE-ConnectionGUID: iRg5cHFZTFiaFzoVU+/avw==
+X-CSE-MsgGUID: 5leKab3dSHmtWSMCK/pi5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="218040471"
+   d="scan'208";a="237211849"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Feb 2026 05:49:54 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 18 Feb 2026 07:12:56 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vshw7-000000012Oo-1N5a;
-	Wed, 18 Feb 2026 13:49:51 +0000
-Date: Wed, 18 Feb 2026 21:49:38 +0800
+	id 1vsjEU-000000012SQ-1e5a;
+	Wed, 18 Feb 2026 15:12:54 +0000
+Date: Wed, 18 Feb 2026 23:12:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com,
-	quic_mrana@quicinc.com, sherry.sun@nxp.com,
-	driver-core@lists.linux.dev,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Subject: Re: [PATCH v7 3/3] PCI: Add support for PCIe WAKE# interrupt
-Message-ID: <202602182100.CSUJWXc8-lkp@intel.com>
-References: <20260218-wakeirq_support-v7-3-0d4689830207@oss.qualcomm.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:iomap-pi 9/15] fs/ntfs3/inode.c:664:24: error:
+ initialization of 'void (*)(const struct iomap_iter *, struct
+ iomap_read_folio_ctx *)' from incompatible pointer type 'void (*)(struct
+ iomap_read_folio_ctx *)'
+Message-ID: <202602182355.72B97UnC-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260218-wakeirq_support-v7-3-0d4689830207@oss.qualcomm.com>
 
-Hi Krishna,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cee73b1e840c154f64ace682cb477c1ae2e29cc4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PM-sleep-wakeirq-Add-support-for-dedicated-shared-wake-IRQ-setup/20260218-162247
-base:   cee73b1e840c154f64ace682cb477c1ae2e29cc4
-patch link:    https://lore.kernel.org/r/20260218-wakeirq_support-v7-3-0d4689830207%40oss.qualcomm.com
-patch subject: [PATCH v7 3/3] PCI: Add support for PCIe WAKE# interrupt
-config: sparc-randconfig-001-20260218 (https://download.01.org/0day-ci/archive/20260218/202602182100.CSUJWXc8-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602182100.CSUJWXc8-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git iomap-pi
+head:   628dc95babe119df40320f418e2c63331354dedb
+commit: 3423f9cc930fcf7c36c214ba862ac1049f513151 [9/15] iomap: pass the iomap_iter to ->submit_read
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260218/202602182355.72B97UnC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602182355.72B97UnC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602182100.CSUJWXc8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602182355.72B97UnC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sparc64-linux-ld: drivers/pci/pci.o: in function `platform_pci_configure_wake':
->> pci.c:(.text+0x5d0c): undefined reference to `pci_configure_of_wake_gpio'
-   sparc64-linux-ld: drivers/pci/pci.o: in function `platform_pci_remove_wake':
->> pci.c:(.text+0x5d4c): undefined reference to `pci_remove_of_wake_gpio'
-   sparc64-linux-ld: drivers/pci/endpoint/functions/pci-epf-test.o: in function `pci_epf_test_add_cfs':
-   pci-epf-test.c:(.text+0xec): undefined reference to `config_group_init_type_name'
+>> fs/ntfs3/inode.c:664:24: error: initialization of 'void (*)(const struct iomap_iter *, struct iomap_read_folio_ctx *)' from incompatible pointer type 'void (*)(struct iomap_read_folio_ctx *)' [-Wincompatible-pointer-types]
+     664 |         .submit_read = ntfs_iomap_bio_submit_read,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/inode.c:664:24: note: (near initialization for 'ntfs_iomap_bio_read_ops.submit_read')
+
+
+vim +664 fs/ntfs3/inode.c
+
+82cae269cfa953 Konstantin Komarov 2021-08-13  661  
+099ef9ab9203df Konstantin Komarov 2025-12-26  662  static const struct iomap_read_ops ntfs_iomap_bio_read_ops = {
+099ef9ab9203df Konstantin Komarov 2025-12-26  663  	.read_folio_range = ntfs_iomap_bio_read_folio_range,
+099ef9ab9203df Konstantin Komarov 2025-12-26 @664  	.submit_read = ntfs_iomap_bio_submit_read,
+099ef9ab9203df Konstantin Komarov 2025-12-26  665  };
+82cae269cfa953 Konstantin Komarov 2021-08-13  666  
+
+:::::: The code at line 664 was first introduced by commit
+:::::: 099ef9ab9203dff327f2d61e44773f9acbc01f13 fs/ntfs3: implement iomap-based file operations
+
+:::::: TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+:::::: CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
 -- 
 0-DAY CI Kernel Test Service
