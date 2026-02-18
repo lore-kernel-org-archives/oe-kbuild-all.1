@@ -1,417 +1,538 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C73D30DD2F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 15:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3505342503
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 15:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771429752; cv=none; b=mVZTSUWerJ7xyGpXizBK9ZKGtEl6xJwsh9L1Hn5k2EHbDe2sruPV/UfHsZoxJ+xZTDvGGVmw1TJ30xHaqdMVvM0ftMC2WhBX8ima6Aap2RoyC02Xebxhc4k4KmTLlWxZf4851b0vHwYDthu7LxEET1tQZ8e63yeXQLjFR3C6Bng=
+	t=1771430102; cv=none; b=dquIzOtlDv5CKOzKuKU5/NlPX9tnHXtYRqQ7fBdV+qFjRVwXG9Qi+NR2mQHcfcvwKMM8JsBlyW2f3lU9i6cCt/IKA+Z5nw4t76xmIOWQKkKmKr+TWXnzCIwsEGm7oba7oWDRl9NQbxpiD9qdOv7Bi8Z9cWRz3SvYrwrsJp2gF+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771429752; c=relaxed/simple;
-	bh=j+UjPWKKgJn/JE+1V8JVxp5elgoIVNdOyz4ET4jIQOE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m8pKf+9ROj2nEUsOHGRgHcolO8AxjhZF326dSH34ffiE9/7zZdsKYrH5UM3f5Ankw/LULkUJuWU1BU8m40e3p80FRhSj8KURJ4DHlZZ18ZjHMZL7ySfFe7JSa+hBim+LZQUd+2Rp6T30/fA2DHYoY8Xr1Z5pHMkkvOEXlu7Q3js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TddBZB2Y; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1771430102; c=relaxed/simple;
+	bh=FBkeVMppITt5sfF0fmpGoJhFE3YHDFR/ZSiA8d6c0W4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BMHkfZkrHCY8xcD+a+sjOBSjW/Gbolg/1hEhfwnDqFShH1QQ0lNmBtbfz7RjYdgkaFd/oqJ2MKAKWLys89wzBxXvNHEvYMD7DRfIa2TqCntnkPXPWpZs3MCcqpx1+iha3cYiy5a0nKbOVfdzREgM1AC/EyngNbjfrzZO5UBIUHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ieg0r+dG; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TddBZB2Y"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b8849dc12f6so1421566b.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 07:49:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1771429748; x=1772034548; darn=lists.linux.dev;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=j+UjPWKKgJn/JE+1V8JVxp5elgoIVNdOyz4ET4jIQOE=;
-        b=TddBZB2YswUnoI0WiVKCh3uw9PEc7h91VZp2fx22QnewDOYMyj04gn7fgCpNUgX+Vw
-         LbYEyRPCquWCDMuP1WPa2ZQ84KStNCf0kW7Pw5OuTr2nP4MVhjYPYnvp/n0sQyQ1C+S0
-         1Sho9OL98nu2bmcx+gg+qf0I9xLdTQ2lgF7JRrBps/m2OFw42sHq2Wor90e1+wfwnFBd
-         wDMpeYPtbQZPD8Z7uWbsPmWe3VACsy8GDtfiVneABhZkWrxDsH/+pGo6gH9RqzqO42eg
-         /u1e+khjPnMpbf0kNKQ5ipKMEbsakbtHI/1f9fkkkYqtbt/AjkAvAQmEwRNy6XeiW+eD
-         3O2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771429748; x=1772034548;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j+UjPWKKgJn/JE+1V8JVxp5elgoIVNdOyz4ET4jIQOE=;
-        b=MU5ScO8gooeQxwjFSyiSi5TRR8qIpNQNbbAR5C9WExNghQqMK32xv2sODP5NHQSIqT
-         ma61T4+S8/i0LhEQw7PGEKTilyL3ICTCJv6YOhFQ4w/FWREGLGat6HAI57DZxh7VUdgn
-         nX25Nupj0pWbxqpt/VeR4OfBiRWswtP/MEtgkaqcrk0AqwqgYRqD5aAMqlFHn+LjBlVi
-         4+OwkuQCvOMMstFR9wtf9X9a7MchhJgkl0HJZCmpXSzKUQA5w8bccMJY9BoEz1HmIIos
-         XEjWNR6DwirJMbCpVYHZltNNmyzfNm+q8DD9ylm+xQti1IeX2qYkPCsWUS2p/1rGX1Pf
-         Y+vw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpCbQ6wQEhniUt7hBVVp13iN6jtDbcC1Qd2eiV8cb7kXBe5PxzcPpof/fZROX5QKxiwFonkZGs0LldyMK7@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLvRebQ1pgmBv3ZqJUcXrcGxCkGw7x0oI4bkCr88+0D3gtzNtN
-	2etv3qyOD0DL9l+cJBDQBrxAepkbw4lolh2NtNFOKk8u28VLQvmNJHxl219YgAlakVM=
-X-Gm-Gg: AZuq6aI0jFK+QzMOAM1ODa3WOxm8LoK2jmYmlA+1g7kNCGGF8HhTJHQfj2s8Ae4MDqD
-	XEfSPrXTAt6vDO9zRfBZB3ot3ZtTohbr6f9HuqQ7KOoLI/yY2oEgvMZ35mVP1LKuIRypq7JSUZa
-	FaNeutsdLZ2qoEqkJKaHohcr3wotL+NS5Yz/BBvNjv5ppkaA9K+552F2V8EASUrbxvwzQqufjXd
-	RVMp3x3siH/Bz4J6mrwu37Hs62EksWpWuLP44DlHz8G494ZWyaqCh9ekHGvMCjjPFW293xSe3cm
-	FQ2x0IbB/0XQFbAqZDtHEhkFjvCc/glnX+M1Npiey38oSkFHQC1P7iHrm3w9rQ88q5WAJE53ssD
-	/mUv0bKsfb71wRWly+Og6K+a9uBRHa/5ll5UuLxmLfvs1v4NEO91Lhg50+BUnLUFocE9CZXRO88
-	4Pxi9CMdAVdUY3D693EewukpVZ4utmBLuVgzJ0hIQO6+H+jEiJzi3ZqIkD8X19TPzWRB7YfRHce
-	pIlGJrCZCWJhTCjYT3wn4D/maHlg7O+PCtLSAzt5OU6BPW6YQ==
-X-Received: by 2002:a17:906:9f92:b0:b8f:87a9:27b1 with SMTP id a640c23a62f3a-b903daa5c44mr139053066b.3.1771429748258;
-        Wed, 18 Feb 2026 07:49:08 -0800 (PST)
-Received: from ?IPV6:2a00:12d0:af5b:2f01:4042:c03:ce4d:a5a1? (2a00-12d0-af5b-2f01-4042-c03-ce4d-a5a1.ip.tng.de. [2a00:12d0:af5b:2f01:4042:c03:ce4d:a5a1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc73f7c24sm474045166b.30.2026.02.18.07.49.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Feb 2026 07:49:07 -0800 (PST)
-Message-ID: <563413ad-35f0-4c95-9de9-ae196b6b8233@suse.com>
-Date: Wed, 18 Feb 2026 16:49:07 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ieg0r+dG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771430100; x=1802966100;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FBkeVMppITt5sfF0fmpGoJhFE3YHDFR/ZSiA8d6c0W4=;
+  b=ieg0r+dGLxe9y16bVjU3Uy3L22B1Z9oruWSa1TLdLP7izVYftq/IQ2iO
+   9WUhpdq6S0sNTyeRCOCvcJCATvn6C6rcxOm/SMZLyRFuiNH+e6vCnYpvq
+   WLQcI8QbuBHG3p1VQn/JthGnWrJ0SYxrGby7nLEXS67DeL6jE+i/T5M1v
+   gTciX9AtASkXkeDEEF6AWwFHOjsAC0UnfkiqEUV2bBi5Le48JTQ8N0gOr
+   +SXL+QOY4R6zNRY8LWvKewm6ETziMQSC5h7pCXfxwPBu3bJrW6JbE+R2V
+   w3RWM0NDEQra2I1zqpWVYrXDPRGdeIA1HFU5XQH456B97s6VExp82wyBb
+   Q==;
+X-CSE-ConnectionGUID: +fnCXzBmTg2nV7wkdlgl3A==
+X-CSE-MsgGUID: OgFyMww4TfaPr0gM3vwD9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="97967954"
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
+   d="scan'208";a="97967954"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 07:55:00 -0800
+X-CSE-ConnectionGUID: 72/C59WAQoG9B2ikMvsKIg==
+X-CSE-MsgGUID: /eJSaXxMRKOFMbi/UXqy5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
+   d="scan'208";a="214073093"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 18 Feb 2026 07:54:58 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vsjt9-000000012Uu-3I7C;
+	Wed, 18 Feb 2026 15:54:55 +0000
+Date: Wed, 18 Feb 2026 23:54:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-02-18 62/62]
+ sound/soc/codecs/max98088.c:948 max98088_dai1_hw_params() warn: inconsistent
+ indenting
+Message-ID: <202602182358.0TRouiIA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 16/16] x86/paravirt: Use alternatives for MSR access
- with paravirt
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, virtualization@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Ajay Kaher <ajay.kaher@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>
-References: <20260218082133.400602-17-jgross@suse.com>
- <202602182111.84MpXRx4-lkp@intel.com>
-Content-Language: en-US
-From: Juergen Gross <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <202602182111.84MpXRx4-lkp@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------HDQmVIRMei8a33Z3QI2SOzjP"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------HDQmVIRMei8a33Z3QI2SOzjP
-Content-Type: multipart/mixed; boundary="------------3yo30GlghRZuJN0fx0irCSGO";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, virtualization@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Ajay Kaher <ajay.kaher@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <563413ad-35f0-4c95-9de9-ae196b6b8233@suse.com>
-Subject: Re: [PATCH v3 16/16] x86/paravirt: Use alternatives for MSR access
- with paravirt
-References: <20260218082133.400602-17-jgross@suse.com>
- <202602182111.84MpXRx4-lkp@intel.com>
-In-Reply-To: <202602182111.84MpXRx4-lkp@intel.com>
-
---------------3yo30GlghRZuJN0fx0irCSGO
-Content-Type: multipart/mixed; boundary="------------SqDYeFWLSJtjwZQryUehYPcu"
-
---------------SqDYeFWLSJtjwZQryUehYPcu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-T24gMTguMDIuMjYgMTQ6NDksIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3RlOg0KPiBIaSBKdWVy
-Z2VuLA0KPiANCj4ga2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9sbG93aW5nIGJ1
-aWxkIGVycm9yczoNCj4gDQo+IFthdXRvIGJ1aWxkIHRlc3QgRVJST1Igb24gbGludXMvbWFz
-dGVyXQ0KPiBbYWxzbyBidWlsZCB0ZXN0IEVSUk9SIG9uIG5leHQtMjAyNjAyMTddDQo+IFtj
-YW5ub3QgYXBwbHkgdG8gdGlwL3g4Ni9jb3JlIGt2bS9xdWV1ZSBrdm0vbmV4dCBrdm0vbGlu
-dXgtbmV4dCB0aXAveDg2L3RkeCB2Ni4xOV0NCj4gW0lmIHlvdXIgcGF0Y2ggaXMgYXBwbGll
-ZCB0byB0aGUgd3JvbmcgZ2l0IHRyZWUsIGtpbmRseSBkcm9wIHVzIGEgbm90ZS4NCj4gQW5k
-IHdoZW4gc3VibWl0dGluZyBwYXRjaCwgd2Ugc3VnZ2VzdCB0byB1c2UgJy0tYmFzZScgYXMg
-ZG9jdW1lbnRlZCBpbg0KPiBodHRwczovL2dpdC1zY20uY29tL2RvY3MvZ2l0LWZvcm1hdC1w
-YXRjaCNfYmFzZV90cmVlX2luZm9ybWF0aW9uXQ0KPiANCj4gdXJsOiAgICBodHRwczovL2dp
-dGh1Yi5jb20vaW50ZWwtbGFiLWxrcC9saW51eC9jb21taXRzL0p1ZXJnZW4tR3Jvc3MveDg2
-LWFsdGVybmF0aXZlLVN1cHBvcnQtYWx0X3JlcGxhY2VfY2FsbC13aXRoLWluc3RydWN0aW9u
-cy1hZnRlci1jYWxsLzIwMjYwMjE4LTE2MzAzMQ0KPiBiYXNlOiAgIGxpbnVzL21hc3Rlcg0K
-PiBwYXRjaCBsaW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjYwMjE4MDgy
-MTMzLjQwMDYwMi0xNy1qZ3Jvc3MlNDBzdXNlLmNvbQ0KPiBwYXRjaCBzdWJqZWN0OiBbUEFU
-Q0ggdjMgMTYvMTZdIHg4Ni9wYXJhdmlydDogVXNlIGFsdGVybmF0aXZlcyBmb3IgTVNSIGFj
-Y2VzcyB3aXRoIHBhcmF2aXJ0DQo+IGNvbmZpZzogeDg2XzY0LXJhbmRjb25maWctMDAxLTIw
-MjYwMjE4IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyNjAy
-MTgvMjAyNjAyMTgyMTExLjg0TXBYUng0LWxrcEBpbnRlbC5jb20vY29uZmlnKQ0KPiBjb21w
-aWxlcjogY2xhbmcgdmVyc2lvbiAyMC4xLjggKGh0dHBzOi8vZ2l0aHViLmNvbS9sbHZtL2xs
-dm0tcHJvamVjdCA4N2YwMjI3Y2I2MDE0N2EyNmExZWViNGZiMDZlM2I1MDVlOWM3MjYxKQ0K
-PiByZXByb2R1Y2UgKHRoaXMgaXMgYSBXPTEgYnVpbGQpOiAoaHR0cHM6Ly9kb3dubG9hZC4w
-MS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjYwMjE4LzIwMjYwMjE4MjExMS44NE1wWFJ4NC1s
-a3BAaW50ZWwuY29tL3JlcHJvZHVjZSkNCj4gDQo+IElmIHlvdSBmaXggdGhlIGlzc3VlIGlu
-IGEgc2VwYXJhdGUgcGF0Y2gvY29tbWl0IChpLmUuIG5vdCBqdXN0IGEgbmV3IHZlcnNpb24g
-b2YNCj4gdGhlIHNhbWUgcGF0Y2gvY29tbWl0KSwga2luZGx5IGFkZCBmb2xsb3dpbmcgdGFn
-cw0KPiB8IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4N
-Cj4gfCBDbG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL29lLWtidWlsZC1hbGwvMjAy
-NjAyMTgyMTExLjg0TXBYUng0LWxrcEBpbnRlbC5jb20vDQo+IA0KPiBBbGwgZXJyb3JzIChu
-ZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6DQo+IA0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBm
-cm9tIGFyY2gveDg2L2tlcm5lbC9hc20tb2Zmc2V0cy5jOjk6DQo+ICAgICBJbiBmaWxlIGlu
-Y2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9jcnlwdG8uaDoxODoNCj4gICAgIEluIGZpbGUg
-aW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L3NsYWIuaDoxNzoNCj4gICAgIEluIGZpbGUg
-aW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L2dmcC5oOjc6DQo+ICAgICBJbiBmaWxlIGlu
-Y2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9tbXpvbmUuaDoyMjoNCj4gICAgIEluIGZpbGUg
-aW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L21tX3R5cGVzLmg6MTY6DQo+ICAgICBJbiBm
-aWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC91cHJvYmVzLmg6MTg6DQo+ICAgICBJ
-biBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC90aW1lci5oOjY6DQo+ICAgICBJ
-biBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9rdGltZS5oOjI1Og0KPiAgICAg
-SW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvamlmZmllcy5oOjEwOg0KPiAg
-ICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvdGltZS5oOjYwOg0KPiAg
-ICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvdGltZTMyLmg6MTM6DQo+
-ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC90aW1leC5oOjY3Og0K
-PiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGFyY2gveDg2L2luY2x1ZGUvYXNtL3RpbWV4
-Lmg6NjoNCj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBhcmNoL3g4Ni9pbmNsdWRlL2Fz
-bS90c2MuaDoxMToNCj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBhcmNoL3g4Ni9pbmNs
-dWRlL2FzbS9tc3IuaDozMDA6DQo+Pj4gYXJjaC94ODYvaW5jbHVkZS9hc20vcGFyYXZpcnQt
-bXNyLmg6MTE0OjIzOiBlcnJvcjogdW5zdXBwb3J0ZWQgaW5saW5lIGFzbTogaW5wdXQgd2l0
-aCB0eXBlICd1NjQnIChha2EgJ3Vuc2lnbmVkIGxvbmcgbG9uZycpIG1hdGNoaW5nIG91dHB1
-dCB3aXRoIHR5cGUgJ2ludCcNCj4gICAgICAgMTE0IHwgICAgICAgICAgICAgICAgIFBWX1dS
-TVNSX0NPTlNUKG1zciwgdmFsLCBFWF9UWVBFX1dSTVNSLCB3cml0ZV9tc3IsIGVycik7DQo+
-ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB+fn4NCj4gICAgIGFyY2gveDg2L2luY2x1ZGUv
-YXNtL3BhcmF2aXJ0LW1zci5oOjkxOjE2OiBub3RlOiBleHBhbmRlZCBmcm9tIG1hY3JvICdQ
-Vl9XUk1TUl9DT05TVCcNCj4gICAgICAgIDg5IHwgICAgICAgICAgICAgICAgIDogW2Vycl0g
-Ij1hIiAoX19lcnIpLCAiPWQiIChyZHgpLCBBU01fQ0FMTF9DT05TVFJBSU5UICAgXA0KPiAg
-ICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB+fn5+fg0KPiAgICAg
-ICAgOTAgfCAgICAgICAgICAgICAgICAgOiBwYXJhdmlydF9wdHIocHZfb3BzX21zciwgX19m
-dW5jKSwgICAgICAgICAgICAgICAgICAgICBcDQo+ICAgICAgICA5MSB8ICAgICAgICAgICAg
-ICAgICAgIFt2YWxdICIwIiAoX192YWwpLCAiMSIgKChfX3ZhbCkgPj4gMzIpLCAgICAgICAg
-ICAgICAgIFwNCj4gICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
-fn5+fg0KPiAgICAgYXJjaC94ODYvaW5jbHVkZS9hc20vcGFyYXZpcnQtbXNyLmg6MTE2OjIx
-OiBlcnJvcjogdW5zdXBwb3J0ZWQgaW5saW5lIGFzbTogaW5wdXQgd2l0aCB0eXBlICd1NjQn
-IChha2EgJ3Vuc2lnbmVkIGxvbmcgbG9uZycpIG1hdGNoaW5nIG91dHB1dCB3aXRoIHR5cGUg
-J2ludCcNCj4gICAgICAgMTE2IHwgICAgICAgICAgICAgICAgIFBWX1dSTVNSX1ZBUihtc3Is
-IHZhbCwgRVhfVFlQRV9XUk1TUiwgd3JpdGVfbXNyLCBlcnIpOw0KPiAgICAgICAgICAgfCAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIH5+fg0KPiAgICAgYXJjaC94ODYvaW5jbHVkZS9hc20vcGFyYXZpcnQtbXNy
-Lmg6NzM6MTA6IG5vdGU6IGV4cGFuZGVkIGZyb20gbWFjcm8gJ1BWX1dSTVNSX1ZBUicNCj4g
-ICAgICAgIDcxIHwgICAgICAgICAgICAgICAgIDogW2Vycl0gIj1hIiAoX19lcnIpLCAiPWQi
-IChyZHgpLCBBU01fQ0FMTF9DT05TVFJBSU5UICAgXA0KPiAgICAgICAgICAgfCAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB+fn5+fg0KPiAgICAgICAgNzIgfCAgICAgICAgICAg
-ICAgICAgOiBwYXJhdmlydF9wdHIocHZfb3BzX21zciwgX19mdW5jKSwgICAgICAgICAgICAg
-ICAgICAgICBcDQo+ICAgICAgICA3MyB8ICAgICAgICAgICAgICAgICAgICIwIiAoX192YWwp
-LCAiMSIgKChfX3ZhbCkgPj4gMzIpLCAiYyIgKF9fbXNyKSAgICAgICAgIFwNCj4gICAgICAg
-ICAgIHwgICAgICAgICAgICAgICAgICAgICAgICBefn5+fg0KPiAgICAgYXJjaC94ODYvaW5j
-bHVkZS9hc20vcGFyYXZpcnQtbXNyLmg6MTM2OjIzOiBlcnJvcjogdW5zdXBwb3J0ZWQgaW5s
-aW5lIGFzbTogaW5wdXQgd2l0aCB0eXBlICd1NjQnIChha2EgJ3Vuc2lnbmVkIGxvbmcgbG9u
-ZycpIG1hdGNoaW5nIG91dHB1dCB3aXRoIHR5cGUgJ2ludCcNCj4gICAgICAgMTM2IHwgICAg
-ICAgICAgICAgICAgIFBWX1dSTVNSX0NPTlNUKG1zciwgdmFsLCBFWF9UWVBFX1dSTVNSX1NB
-RkUsIHdyaXRlX21zcl9zYWZlLCBlcnIpOw0KPiAgICAgICAgICAgfCAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBefn4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIH5+fg0KPiAgICAgYXJjaC94ODYvaW5jbHVkZS9hc20vcGFyYXZpcnQtbXNy
-Lmg6OTE6MTY6IG5vdGU6IGV4cGFuZGVkIGZyb20gbWFjcm8gJ1BWX1dSTVNSX0NPTlNUJw0K
-PiAgICAgICAgODkgfCAgICAgICAgICAgICAgICAgOiBbZXJyXSAiPWEiIChfX2VyciksICI9
-ZCIgKHJkeCksIEFTTV9DQUxMX0NPTlNUUkFJTlQgICBcDQo+ICAgICAgICAgICB8ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIH5+fn5+DQo+ICAgICAgICA5MCB8ICAgICAgICAg
-ICAgICAgICA6IHBhcmF2aXJ0X3B0cihwdl9vcHNfbXNyLCBfX2Z1bmMpLCAgICAgICAgICAg
-ICAgICAgICAgIFwNCj4gICAgICAgIDkxIHwgICAgICAgICAgICAgICAgICAgW3ZhbF0gIjAi
-IChfX3ZhbCksICIxIiAoKF9fdmFsKSA+PiAzMiksICAgICAgICAgICAgICAgXA0KPiAgICAg
-ICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+DQo+ICAgICBhcmNo
-L3g4Ni9pbmNsdWRlL2FzbS9wYXJhdmlydC1tc3IuaDoxMzg6MjE6IGVycm9yOiB1bnN1cHBv
-cnRlZCBpbmxpbmUgYXNtOiBpbnB1dCB3aXRoIHR5cGUgJ3U2NCcgKGFrYSAndW5zaWduZWQg
-bG9uZyBsb25nJykgbWF0Y2hpbmcgb3V0cHV0IHdpdGggdHlwZSAnaW50Jw0KPiAgICAgICAx
-MzggfCAgICAgICAgICAgICAgICAgUFZfV1JNU1JfVkFSKG1zciwgdmFsLCBFWF9UWVBFX1dS
-TVNSX1NBRkUsIHdyaXRlX21zcl9zYWZlLCBlcnIpOw0KPiAgICAgICAgICAgfCAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB+fn4NCj4gICAgIGFyY2gveDg2L2luY2x1ZGUvYXNtL3BhcmF2aXJ0
-LW1zci5oOjczOjEwOiBub3RlOiBleHBhbmRlZCBmcm9tIG1hY3JvICdQVl9XUk1TUl9WQVIn
-DQo+ICAgICAgICA3MSB8ICAgICAgICAgICAgICAgICA6IFtlcnJdICI9YSIgKF9fZXJyKSwg
-Ij1kIiAocmR4KSwgQVNNX0NBTExfQ09OU1RSQUlOVCAgIFwNCj4gICAgICAgICAgIHwgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgfn5+fn4NCj4gICAgICAgIDcyIHwgICAgICAg
-ICAgICAgICAgIDogcGFyYXZpcnRfcHRyKHB2X29wc19tc3IsIF9fZnVuYyksICAgICAgICAg
-ICAgICAgICAgICAgXA0KPiAgICAgICAgNzMgfCAgICAgICAgICAgICAgICAgICAiMCIgKF9f
-dmFsKSwgIjEiICgoX192YWwpID4+IDMyKSwgImMiIChfX21zcikgICAgICAgICBcDQo+ICAg
-ICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn4NCj4gICAgIEluIGZpbGUg
-aW5jbHVkZWQgZnJvbSBhcmNoL3g4Ni9rZXJuZWwvYXNtLW9mZnNldHMuYzoxMDoNCj4gICAg
-IEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2NyeXB0by9hcmlhLmg6MjI6DQo+ICAg
-ICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9tb2R1bGUuaDoyMDoNCj4g
-ICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L2VsZi5oOjY6DQo+ICAg
-ICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gYXJjaC94ODYvaW5jbHVkZS9hc20vZWxmLmg6MTA6
-DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gYXJjaC94ODYvaW5jbHVkZS9hc20vaWEz
-Mi5oOjc6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9jb21w
-YXQuaDoxNzoNCj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L2Zz
-Lmg6NToNCj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L2ZzL3N1
-cGVyLmg6NToNCj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L2Zz
-L3N1cGVyX3R5cGVzLmg6MTM6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVk
-ZS9saW51eC9wZXJjcHUtcndzZW0uaDo3Og0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9t
-IGluY2x1ZGUvbGludXgvcmN1d2FpdC5oOjY6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZy
-b20gaW5jbHVkZS9saW51eC9zY2hlZC9zaWduYWwuaDo2Og0KPiAgICAgaW5jbHVkZS9saW51
-eC9zaWduYWwuaDo5ODoxMTogd2FybmluZzogYXJyYXkgaW5kZXggMyBpcyBwYXN0IHRoZSBl
-bmQgb2YgdGhlIGFycmF5ICh0aGF0IGhhcyB0eXBlICd1bnNpZ25lZCBsb25nWzFdJykgWy1X
-YXJyYXktYm91bmRzXQ0KPiAgICAgICAgOTggfCAgICAgICAgICAgICAgICAgcmV0dXJuIChz
-ZXQtPnNpZ1szXSB8IHNldC0+c2lnWzJdIHwNCj4gICAgICAgICAgIHwgICAgICAgICAgICAg
-ICAgICAgICAgICAgXiAgICAgICAgfg0KPiAgICAgYXJjaC94ODYvaW5jbHVkZS9hc20vc2ln
-bmFsLmg6MjQ6Mjogbm90ZTogYXJyYXkgJ3NpZycgZGVjbGFyZWQgaGVyZQ0KPiAgICAgICAg
-MjQgfCAgICAgICAgIHVuc2lnbmVkIGxvbmcgc2lnW19OU0lHX1dPUkRTXTsNCj4gICAgICAg
-ICAgIHwgICAgICAgICBeDQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gYXJjaC94ODYv
-a2VybmVsL2FzbS1vZmZzZXRzLmM6MTA6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20g
-aW5jbHVkZS9jcnlwdG8vYXJpYS5oOjIyOg0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9t
-IGluY2x1ZGUvbGludXgvbW9kdWxlLmg6MjA6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZy
-b20gaW5jbHVkZS9saW51eC9lbGYuaDo2Og0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9t
-IGFyY2gveDg2L2luY2x1ZGUvYXNtL2VsZi5oOjEwOg0KPiAgICAgSW4gZmlsZSBpbmNsdWRl
-ZCBmcm9tIGFyY2gveDg2L2luY2x1ZGUvYXNtL2lhMzIuaDo3Og0KPiAgICAgSW4gZmlsZSBp
-bmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvY29tcGF0Lmg6MTc6DQo+ICAgICBJbiBmaWxl
-IGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9mcy5oOjU6DQo+ICAgICBJbiBmaWxlIGlu
-Y2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9mcy9zdXBlci5oOjU6DQo+ICAgICBJbiBmaWxl
-IGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9mcy9zdXBlcl90eXBlcy5oOjEzOg0KPiAg
-ICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvcGVyY3B1LXJ3c2VtLmg6
-NzoNCj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L3JjdXdhaXQu
-aDo2Og0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvc2NoZWQv
-c2lnbmFsLmg6NjoNCj4gICAgIGluY2x1ZGUvbGludXgvc2lnbmFsLmg6OTg6MjU6IHdhcm5p
-bmc6IGFycmF5IGluZGV4IDIgaXMgcGFzdCB0aGUgZW5kIG9mIHRoZSBhcnJheSAodGhhdCBo
-YXMgdHlwZSAndW5zaWduZWQgbG9uZ1sxXScpIFstV2FycmF5LWJvdW5kc10NCj4gICAgICAg
-IDk4IHwgICAgICAgICAgICAgICAgIHJldHVybiAoc2V0LT5zaWdbM10gfCBzZXQtPnNpZ1sy
-XSB8DQo+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgXiAgICAgICAgfg0KPiAgICAgYXJjaC94ODYvaW5jbHVkZS9hc20vc2lnbmFsLmg6MjQ6
-Mjogbm90ZTogYXJyYXkgJ3NpZycgZGVjbGFyZWQgaGVyZQ0KPiAgICAgICAgMjQgfCAgICAg
-ICAgIHVuc2lnbmVkIGxvbmcgc2lnW19OU0lHX1dPUkRTXTsNCj4gICAgICAgICAgIHwgICAg
-ICAgICBeDQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gYXJjaC94ODYva2VybmVsL2Fz
-bS1vZmZzZXRzLmM6MTA6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9j
-cnlwdG8vYXJpYS5oOjIyOg0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUv
-bGludXgvbW9kdWxlLmg6MjA6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVk
-ZS9saW51eC9lbGYuaDo2Og0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGFyY2gveDg2
-L2luY2x1ZGUvYXNtL2VsZi5oOjEwOg0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGFy
-Y2gveDg2L2luY2x1ZGUvYXNtL2lhMzIuaDo3Og0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBm
-cm9tIGluY2x1ZGUvbGludXgvY29tcGF0Lmg6MTc6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVk
-IGZyb20gaW5jbHVkZS9saW51eC9mcy5oOjU6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZy
-b20gaW5jbHVkZS9saW51eC9mcy9zdXBlci5oOjU6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVk
-IGZyb20gaW5jbHVkZS9saW51eC9mcy9zdXBlcl90eXBlcy5oOjEzOg0KPiAgICAgSW4gZmls
-ZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvcGVyY3B1LXJ3c2VtLmg6NzoNCj4gICAg
-IEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L3JjdXdhaXQuaDo2Og0KPiAg
-ICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvc2NoZWQvc2lnbmFsLmg6
-NjoNCj4gICAgIGluY2x1ZGUvbGludXgvc2lnbmFsLmg6OTk6NDogd2FybmluZzogYXJyYXkg
-aW5kZXggMSBpcyBwYXN0IHRoZSBlbmQgb2YgdGhlIGFycmF5ICh0aGF0IGhhcyB0eXBlICd1
-bnNpZ25lZCBsb25nWzFdJykgWy1XYXJyYXktYm91bmRzXQ0KPiAgICAgICAgOTkgfCAgICAg
-ICAgICAgICAgICAgICAgICAgICBzZXQtPnNpZ1sxXSB8IHNldC0+c2lnWzBdKSA9PSAwOw0K
-PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICBeICAgICAgICB+DQo+ICAg
-ICBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9zaWduYWwuaDoyNDoyOiBub3RlOiBhcnJheSAnc2ln
-JyBkZWNsYXJlZCBoZXJlDQo+ICAgICAgICAyNCB8ICAgICAgICAgdW5zaWduZWQgbG9uZyBz
-aWdbX05TSUdfV09SRFNdOw0KPiAgICAgICAgICAgfCAgICAgICAgIF4NCj4gICAgIEluIGZp
-bGUgaW5jbHVkZWQgZnJvbSBhcmNoL3g4Ni9rZXJuZWwvYXNtLW9mZnNldHMuYzoxMDoNCj4g
-ICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2NyeXB0by9hcmlhLmg6MjI6DQo+
-ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9tb2R1bGUuaDoyMDoN
-Cj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L2VsZi5oOjY6DQo+
-ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gYXJjaC94ODYvaW5jbHVkZS9hc20vZWxmLmg6
-MTA6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gYXJjaC94ODYvaW5jbHVkZS9hc20v
-aWEzMi5oOjc6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9j
-b21wYXQuaDoxNzoNCj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4
-L2ZzLmg6NToNCj4gDQo+IA0KPiB2aW0gKzExNCBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9wYXJh
-dmlydC1tc3IuaA0KPiANCj4gICAgIDEwOAkNCj4gICAgIDEwOQlzdGF0aWMgX19hbHdheXNf
-aW5saW5lIHZvaWQgd3JpdGVfbXNyKHUzMiBtc3IsIHU2NCB2YWwpDQo+ICAgICAxMTAJew0K
-PiAgICAgMTExCQlpbnQgZXJyOw0KPiAgICAgMTEyCQ0KPiAgICAgMTEzCQlpZiAoX19idWls
-dGluX2NvbnN0YW50X3AobXNyKSkNCj4gICA+IDExNAkJCVBWX1dSTVNSX0NPTlNUKG1zciwg
-dmFsLCBFWF9UWVBFX1dSTVNSLCB3cml0ZV9tc3IsIGVycik7DQo+ICAgICAxMTUJCWVsc2UN
-Cj4gICAgIDExNgkJCVBWX1dSTVNSX1ZBUihtc3IsIHZhbCwgRVhfVFlQRV9XUk1TUiwgd3Jp
-dGVfbXNyLCBlcnIpOw0KPiAgICAgMTE3CX0NCj4gICAgIDExOAkNCj4gDQoNCldpbGwgYmUg
-Zml4ZWQgaW4gVjQuDQoNCg0KSnVlcmdlbg0K
---------------SqDYeFWLSJtjwZQryUehYPcu
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-02-18
+head:   da12f93d8f90b9a32fb4be525733575626ad927d
+commit: da12f93d8f90b9a32fb4be525733575626ad927d [62/62] dai
+config: arc-randconfig-r072-20260218 (https://download.01.org/0day-ci/archi=
+ve/20260218/202602182358.0TRouiIA-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
-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
-kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
-=3DeeAB
------END PGP PUBLIC KEY BLOCK-----
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602182358.0TRouiIA-lkp@i=
+ntel.com/
 
---------------SqDYeFWLSJtjwZQryUehYPcu--
+New smatch warnings:
+sound/soc/codecs/max98088.c:948 max98088_dai1_hw_params() warn: inconsisten=
+t indenting
+sound/soc/codecs/max98088.c:1018 max98088_dai2_hw_params() warn: inconsiste=
+nt indenting
+sound/soc/codecs/max98088.c:1131 max98088_dai1_set_fmt() warn: inconsistent=
+ indenting
+sound/soc/codecs/max98088.c:1201 max98088_dai2_set_fmt() warn: inconsistent=
+ indenting
+sound/soc/codecs/max98088.c:1268 max98088_dai1_mute() warn: inconsistent in=
+denting
+sound/soc/codecs/max98088.c:1284 max98088_dai2_mute() warn: inconsistent in=
+denting
 
---------------3yo30GlghRZuJN0fx0irCSGO--
+Old smatch warnings:
+sound/soc/codecs/max98088.c:651 max98088_line_pga() warn: inconsistent inde=
+nting
+sound/soc/codecs/max98088.c:1087 max98088_dai_set_sysclk() warn: inconsiste=
+nt indenting
+sound/soc/codecs/max98088.c:1091 max98088_dai_set_sysclk() warn: inconsiste=
+nt indenting
+sound/soc/codecs/max98088.c:1103 max98088_dai_set_sysclk() warn: inconsiste=
+nt indenting
+sound/soc/codecs/max98088.c:1521 max98088_put_eq_enum() warn: inconsistent =
+indenting
 
---------------HDQmVIRMei8a33Z3QI2SOzjP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+vim +948 sound/soc/codecs/max98088.c
 
------BEGIN PGP SIGNATURE-----
+e86e1244a41352 Mark Brown        2010-10-18   942 =20
+e86e1244a41352 Mark Brown        2010-10-18   943  static int max98088_dai1=
+_hw_params(struct snd_pcm_substream *substream,
+e86e1244a41352 Mark Brown        2010-10-18   944                          =
+          struct snd_pcm_hw_params *params,
+e86e1244a41352 Mark Brown        2010-10-18   945                          =
+          struct snd_soc_dai *dai)
+e86e1244a41352 Mark Brown        2010-10-18   946  {
+da12f93d8f90b9 Kuninori Morimoto 2026-02-13   947  	struct snd_soc_componen=
+t *component =3D snd_soc_dai_to_component(dai);
+3f64507697e32c Kuninori Morimoto 2018-01-29  @948         struct max98088_p=
+riv *max98088 =3D snd_soc_component_get_drvdata(component);
+e86e1244a41352 Mark Brown        2010-10-18   949         struct max98088_c=
+data *cdata;
+e86e1244a41352 Mark Brown        2010-10-18   950         unsigned long lon=
+g ni;
+e86e1244a41352 Mark Brown        2010-10-18   951         unsigned int rate;
+e86e1244a41352 Mark Brown        2010-10-18   952         u8 regval;
+e86e1244a41352 Mark Brown        2010-10-18   953 =20
+e86e1244a41352 Mark Brown        2010-10-18   954         cdata =3D &max980=
+88->dai[0];
+e86e1244a41352 Mark Brown        2010-10-18   955 =20
+e86e1244a41352 Mark Brown        2010-10-18   956         rate =3D params_r=
+ate(params);
+e86e1244a41352 Mark Brown        2010-10-18   957 =20
+793f77036d5ca9 Mark Brown        2014-01-08   958         switch (params_wi=
+dth(params)) {
+793f77036d5ca9 Mark Brown        2014-01-08   959         case 16:
+3f64507697e32c Kuninori Morimoto 2018-01-29   960                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_14_DAI1_FORMAT,
+e86e1244a41352 Mark Brown        2010-10-18   961                         M=
+98088_DAI_WS, 0);
+e86e1244a41352 Mark Brown        2010-10-18   962                 break;
+793f77036d5ca9 Mark Brown        2014-01-08   963         case 24:
+3f64507697e32c Kuninori Morimoto 2018-01-29   964                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_14_DAI1_FORMAT,
+e86e1244a41352 Mark Brown        2010-10-18   965                         M=
+98088_DAI_WS, M98088_DAI_WS);
+e86e1244a41352 Mark Brown        2010-10-18   966                 break;
+e86e1244a41352 Mark Brown        2010-10-18   967         default:
+e86e1244a41352 Mark Brown        2010-10-18   968                 return -E=
+INVAL;
+e86e1244a41352 Mark Brown        2010-10-18   969         }
+e86e1244a41352 Mark Brown        2010-10-18   970 =20
+3f64507697e32c Kuninori Morimoto 2018-01-29   971         snd_soc_component=
+_update_bits(component, M98088_REG_51_PWR_SYS, M98088_SHDNRUN, 0);
+e86e1244a41352 Mark Brown        2010-10-18   972 =20
+e86e1244a41352 Mark Brown        2010-10-18   973         if (rate_value(ra=
+te, &regval))
+e86e1244a41352 Mark Brown        2010-10-18   974                 return -E=
+INVAL;
+e86e1244a41352 Mark Brown        2010-10-18   975 =20
+3f64507697e32c Kuninori Morimoto 2018-01-29   976         snd_soc_component=
+_update_bits(component, M98088_REG_11_DAI1_CLKMODE,
+e86e1244a41352 Mark Brown        2010-10-18   977                 M98088_CL=
+KMODE_MASK, regval);
+e86e1244a41352 Mark Brown        2010-10-18   978         cdata->rate =3D r=
+ate;
+e86e1244a41352 Mark Brown        2010-10-18   979 =20
+e86e1244a41352 Mark Brown        2010-10-18   980         /* Configure NI w=
+hen operating as master */
+1227f601ba3477 Kuninori Morimoto 2020-06-16   981         if (snd_soc_compo=
+nent_read(component, M98088_REG_14_DAI1_FORMAT)
+e86e1244a41352 Mark Brown        2010-10-18   982                 & M98088_=
+DAI_MAS) {
+6c9762a78c3251 Marco Felsch      2021-04-23   983                 unsigned =
+long pclk;
+6c9762a78c3251 Marco Felsch      2021-04-23   984 =20
+e86e1244a41352 Mark Brown        2010-10-18   985                 if (max98=
+088->sysclk =3D=3D 0) {
+3f64507697e32c Kuninori Morimoto 2018-01-29   986                         d=
+ev_err(component->dev, "Invalid system clock frequency\n");
+e86e1244a41352 Mark Brown        2010-10-18   987                         r=
+eturn -EINVAL;
+e86e1244a41352 Mark Brown        2010-10-18   988                 }
+e86e1244a41352 Mark Brown        2010-10-18   989                 ni =3D 65=
+536ULL * (rate < 50000 ? 96ULL : 48ULL)
+e86e1244a41352 Mark Brown        2010-10-18   990                          =
+       * (unsigned long long int)rate;
+6c9762a78c3251 Marco Felsch      2021-04-23   991                 pclk =3D =
+DIV_ROUND_CLOSEST(max98088->sysclk, max98088->mclk_prescaler);
+6c9762a78c3251 Marco Felsch      2021-04-23   992                 ni =3D DI=
+V_ROUND_CLOSEST_ULL(ni, pclk);
+3f64507697e32c Kuninori Morimoto 2018-01-29   993                 snd_soc_c=
+omponent_write(component, M98088_REG_12_DAI1_CLKCFG_HI,
+e86e1244a41352 Mark Brown        2010-10-18   994                         (=
+ni >> 8) & 0x7F);
+3f64507697e32c Kuninori Morimoto 2018-01-29   995                 snd_soc_c=
+omponent_write(component, M98088_REG_13_DAI1_CLKCFG_LO,
+e86e1244a41352 Mark Brown        2010-10-18   996                         n=
+i & 0xFF);
+e86e1244a41352 Mark Brown        2010-10-18   997         }
+e86e1244a41352 Mark Brown        2010-10-18   998 =20
+e86e1244a41352 Mark Brown        2010-10-18   999         /* Update sample =
+rate mode */
+e86e1244a41352 Mark Brown        2010-10-18  1000         if (rate < 50000)
+3f64507697e32c Kuninori Morimoto 2018-01-29  1001                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_18_DAI1_FILTERS,
+e86e1244a41352 Mark Brown        2010-10-18  1002                         M=
+98088_DAI_DHF, 0);
+e86e1244a41352 Mark Brown        2010-10-18  1003         else
+3f64507697e32c Kuninori Morimoto 2018-01-29  1004                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_18_DAI1_FILTERS,
+e86e1244a41352 Mark Brown        2010-10-18  1005                         M=
+98088_DAI_DHF, M98088_DAI_DHF);
+e86e1244a41352 Mark Brown        2010-10-18  1006 =20
+3f64507697e32c Kuninori Morimoto 2018-01-29  1007         snd_soc_component=
+_update_bits(component, M98088_REG_51_PWR_SYS, M98088_SHDNRUN,
+e86e1244a41352 Mark Brown        2010-10-18  1008                 M98088_SH=
+DNRUN);
+e86e1244a41352 Mark Brown        2010-10-18  1009 =20
+e86e1244a41352 Mark Brown        2010-10-18  1010         return 0;
+e86e1244a41352 Mark Brown        2010-10-18  1011  }
+e86e1244a41352 Mark Brown        2010-10-18  1012 =20
+e86e1244a41352 Mark Brown        2010-10-18  1013  static int max98088_dai2=
+_hw_params(struct snd_pcm_substream *substream,
+e86e1244a41352 Mark Brown        2010-10-18  1014                          =
+          struct snd_pcm_hw_params *params,
+e86e1244a41352 Mark Brown        2010-10-18  1015                          =
+          struct snd_soc_dai *dai)
+e86e1244a41352 Mark Brown        2010-10-18  1016  {
+da12f93d8f90b9 Kuninori Morimoto 2026-02-13  1017  	struct snd_soc_componen=
+t *component =3D snd_soc_dai_to_component(dai);
+3f64507697e32c Kuninori Morimoto 2018-01-29 @1018         struct max98088_p=
+riv *max98088 =3D snd_soc_component_get_drvdata(component);
+e86e1244a41352 Mark Brown        2010-10-18  1019         struct max98088_c=
+data *cdata;
+e86e1244a41352 Mark Brown        2010-10-18  1020         unsigned long lon=
+g ni;
+e86e1244a41352 Mark Brown        2010-10-18  1021         unsigned int rate;
+e86e1244a41352 Mark Brown        2010-10-18  1022         u8 regval;
+e86e1244a41352 Mark Brown        2010-10-18  1023 =20
+e86e1244a41352 Mark Brown        2010-10-18  1024         cdata =3D &max980=
+88->dai[1];
+e86e1244a41352 Mark Brown        2010-10-18  1025 =20
+e86e1244a41352 Mark Brown        2010-10-18  1026         rate =3D params_r=
+ate(params);
+e86e1244a41352 Mark Brown        2010-10-18  1027 =20
+b05e16d21251e1 Mark Brown        2014-07-31  1028         switch (params_wi=
+dth(params)) {
+b05e16d21251e1 Mark Brown        2014-07-31  1029         case 16:
+3f64507697e32c Kuninori Morimoto 2018-01-29  1030                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_1C_DAI2_FORMAT,
+e86e1244a41352 Mark Brown        2010-10-18  1031                         M=
+98088_DAI_WS, 0);
+e86e1244a41352 Mark Brown        2010-10-18  1032                 break;
+b05e16d21251e1 Mark Brown        2014-07-31  1033         case 24:
+3f64507697e32c Kuninori Morimoto 2018-01-29  1034                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_1C_DAI2_FORMAT,
+e86e1244a41352 Mark Brown        2010-10-18  1035                         M=
+98088_DAI_WS, M98088_DAI_WS);
+e86e1244a41352 Mark Brown        2010-10-18  1036                 break;
+e86e1244a41352 Mark Brown        2010-10-18  1037         default:
+e86e1244a41352 Mark Brown        2010-10-18  1038                 return -E=
+INVAL;
+e86e1244a41352 Mark Brown        2010-10-18  1039         }
+e86e1244a41352 Mark Brown        2010-10-18  1040 =20
+3f64507697e32c Kuninori Morimoto 2018-01-29  1041         snd_soc_component=
+_update_bits(component, M98088_REG_51_PWR_SYS, M98088_SHDNRUN, 0);
+e86e1244a41352 Mark Brown        2010-10-18  1042 =20
+e86e1244a41352 Mark Brown        2010-10-18  1043         if (rate_value(ra=
+te, &regval))
+e86e1244a41352 Mark Brown        2010-10-18  1044                 return -E=
+INVAL;
+e86e1244a41352 Mark Brown        2010-10-18  1045 =20
+3f64507697e32c Kuninori Morimoto 2018-01-29  1046         snd_soc_component=
+_update_bits(component, M98088_REG_19_DAI2_CLKMODE,
+e86e1244a41352 Mark Brown        2010-10-18  1047                 M98088_CL=
+KMODE_MASK, regval);
+e86e1244a41352 Mark Brown        2010-10-18  1048         cdata->rate =3D r=
+ate;
+e86e1244a41352 Mark Brown        2010-10-18  1049 =20
+e86e1244a41352 Mark Brown        2010-10-18  1050         /* Configure NI w=
+hen operating as master */
+1227f601ba3477 Kuninori Morimoto 2020-06-16  1051         if (snd_soc_compo=
+nent_read(component, M98088_REG_1C_DAI2_FORMAT)
+e86e1244a41352 Mark Brown        2010-10-18  1052                 & M98088_=
+DAI_MAS) {
+6c9762a78c3251 Marco Felsch      2021-04-23  1053                 unsigned =
+long pclk;
+6c9762a78c3251 Marco Felsch      2021-04-23  1054 =20
+e86e1244a41352 Mark Brown        2010-10-18  1055                 if (max98=
+088->sysclk =3D=3D 0) {
+3f64507697e32c Kuninori Morimoto 2018-01-29  1056                         d=
+ev_err(component->dev, "Invalid system clock frequency\n");
+e86e1244a41352 Mark Brown        2010-10-18  1057                         r=
+eturn -EINVAL;
+e86e1244a41352 Mark Brown        2010-10-18  1058                 }
+e86e1244a41352 Mark Brown        2010-10-18  1059                 ni =3D 65=
+536ULL * (rate < 50000 ? 96ULL : 48ULL)
+e86e1244a41352 Mark Brown        2010-10-18  1060                          =
+       * (unsigned long long int)rate;
+6c9762a78c3251 Marco Felsch      2021-04-23  1061                 pclk =3D =
+DIV_ROUND_CLOSEST(max98088->sysclk, max98088->mclk_prescaler);
+6c9762a78c3251 Marco Felsch      2021-04-23  1062                 ni =3D DI=
+V_ROUND_CLOSEST_ULL(ni, pclk);
+3f64507697e32c Kuninori Morimoto 2018-01-29  1063                 snd_soc_c=
+omponent_write(component, M98088_REG_1A_DAI2_CLKCFG_HI,
+e86e1244a41352 Mark Brown        2010-10-18  1064                         (=
+ni >> 8) & 0x7F);
+3f64507697e32c Kuninori Morimoto 2018-01-29  1065                 snd_soc_c=
+omponent_write(component, M98088_REG_1B_DAI2_CLKCFG_LO,
+e86e1244a41352 Mark Brown        2010-10-18  1066                         n=
+i & 0xFF);
+e86e1244a41352 Mark Brown        2010-10-18  1067         }
+e86e1244a41352 Mark Brown        2010-10-18  1068 =20
+e86e1244a41352 Mark Brown        2010-10-18  1069         /* Update sample =
+rate mode */
+e86e1244a41352 Mark Brown        2010-10-18  1070         if (rate < 50000)
+3f64507697e32c Kuninori Morimoto 2018-01-29  1071                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_20_DAI2_FILTERS,
+e86e1244a41352 Mark Brown        2010-10-18  1072                         M=
+98088_DAI_DHF, 0);
+e86e1244a41352 Mark Brown        2010-10-18  1073         else
+3f64507697e32c Kuninori Morimoto 2018-01-29  1074                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_20_DAI2_FILTERS,
+e86e1244a41352 Mark Brown        2010-10-18  1075                         M=
+98088_DAI_DHF, M98088_DAI_DHF);
+e86e1244a41352 Mark Brown        2010-10-18  1076 =20
+3f64507697e32c Kuninori Morimoto 2018-01-29  1077         snd_soc_component=
+_update_bits(component, M98088_REG_51_PWR_SYS, M98088_SHDNRUN,
+e86e1244a41352 Mark Brown        2010-10-18  1078                 M98088_SH=
+DNRUN);
+e86e1244a41352 Mark Brown        2010-10-18  1079 =20
+e86e1244a41352 Mark Brown        2010-10-18  1080         return 0;
+e86e1244a41352 Mark Brown        2010-10-18  1081  }
+e86e1244a41352 Mark Brown        2010-10-18  1082 =20
+e86e1244a41352 Mark Brown        2010-10-18  1083  static int max98088_dai_=
+set_sysclk(struct snd_soc_dai *dai,
+e86e1244a41352 Mark Brown        2010-10-18  1084                          =
+          int clk_id, unsigned int freq, int dir)
+e86e1244a41352 Mark Brown        2010-10-18  1085  {
+da12f93d8f90b9 Kuninori Morimoto 2026-02-13  1086  	struct snd_soc_componen=
+t *component =3D snd_soc_dai_to_component(dai);
+3f64507697e32c Kuninori Morimoto 2018-01-29  1087         struct max98088_p=
+riv *max98088 =3D snd_soc_component_get_drvdata(component);
+da12f93d8f90b9 Kuninori Morimoto 2026-02-13  1088  	struct device *dai_dev =
+=3D snd_soc_dai_to_dev(dai);
+e86e1244a41352 Mark Brown        2010-10-18  1089 =20
+e86e1244a41352 Mark Brown        2010-10-18  1090         /* Requested cloc=
+k frequency is already setup */
+e86e1244a41352 Mark Brown        2010-10-18  1091         if (freq =3D=3D m=
+ax98088->sysclk)
+e86e1244a41352 Mark Brown        2010-10-18  1092                 return 0;
+e86e1244a41352 Mark Brown        2010-10-18  1093 =20
+62a7fc32a6289d Andreas F=C3=A4rber    2018-10-05  1094  	if (!IS_ERR(max980=
+88->mclk)) {
+62a7fc32a6289d Andreas F=C3=A4rber    2018-10-05  1095  		freq =3D clk_roun=
+d_rate(max98088->mclk, freq);
+62a7fc32a6289d Andreas F=C3=A4rber    2018-10-05  1096  		clk_set_rate(max9=
+8088->mclk, freq);
+62a7fc32a6289d Andreas F=C3=A4rber    2018-10-05  1097  	}
+62a7fc32a6289d Andreas F=C3=A4rber    2018-10-05  1098 =20
+e86e1244a41352 Mark Brown        2010-10-18  1099         /* Setup clocks f=
+or slave mode, and using the PLL
+e86e1244a41352 Mark Brown        2010-10-18  1100          * PSCLK =3D 0x01=
+ (when master clk is 10MHz to 20MHz)
+e86e1244a41352 Mark Brown        2010-10-18  1101          *         0x02 (=
+when master clk is 20MHz to 30MHz)..
+e86e1244a41352 Mark Brown        2010-10-18  1102          */
+e86e1244a41352 Mark Brown        2010-10-18  1103         if ((freq >=3D 10=
+000000) && (freq < 20000000)) {
+3f64507697e32c Kuninori Morimoto 2018-01-29  1104                 snd_soc_c=
+omponent_write(component, M98088_REG_10_SYS_CLK, 0x10);
+6c9762a78c3251 Marco Felsch      2021-04-23  1105                 max98088-=
+>mclk_prescaler =3D 1;
+e86e1244a41352 Mark Brown        2010-10-18  1106         } else if ((freq =
+>=3D 20000000) && (freq < 30000000)) {
+3f64507697e32c Kuninori Morimoto 2018-01-29  1107                 snd_soc_c=
+omponent_write(component, M98088_REG_10_SYS_CLK, 0x20);
+6c9762a78c3251 Marco Felsch      2021-04-23  1108                 max98088-=
+>mclk_prescaler =3D 2;
+e86e1244a41352 Mark Brown        2010-10-18  1109         } else {
+3f64507697e32c Kuninori Morimoto 2018-01-29  1110                 dev_err(c=
+omponent->dev, "Invalid master clock frequency\n");
+e86e1244a41352 Mark Brown        2010-10-18  1111                 return -E=
+INVAL;
+e86e1244a41352 Mark Brown        2010-10-18  1112         }
+e86e1244a41352 Mark Brown        2010-10-18  1113 =20
+1227f601ba3477 Kuninori Morimoto 2020-06-16  1114         if (snd_soc_compo=
+nent_read(component, M98088_REG_51_PWR_SYS)  & M98088_SHDNRUN) {
+3f64507697e32c Kuninori Morimoto 2018-01-29  1115                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_51_PWR_SYS,
+e86e1244a41352 Mark Brown        2010-10-18  1116                         M=
+98088_SHDNRUN, 0);
+3f64507697e32c Kuninori Morimoto 2018-01-29  1117                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_51_PWR_SYS,
+e86e1244a41352 Mark Brown        2010-10-18  1118                         M=
+98088_SHDNRUN, M98088_SHDNRUN);
+e86e1244a41352 Mark Brown        2010-10-18  1119         }
+e86e1244a41352 Mark Brown        2010-10-18  1120 =20
+da12f93d8f90b9 Kuninori Morimoto 2026-02-13  1121         dev_dbg(dai_dev, =
+"Clock source is %d at %uHz\n", clk_id, freq);
+e86e1244a41352 Mark Brown        2010-10-18  1122 =20
+e86e1244a41352 Mark Brown        2010-10-18  1123         max98088->sysclk =
+=3D freq;
+e86e1244a41352 Mark Brown        2010-10-18  1124         return 0;
+e86e1244a41352 Mark Brown        2010-10-18  1125  }
+e86e1244a41352 Mark Brown        2010-10-18  1126 =20
+e86e1244a41352 Mark Brown        2010-10-18  1127  static int max98088_dai1=
+_set_fmt(struct snd_soc_dai *codec_dai,
+e86e1244a41352 Mark Brown        2010-10-18  1128                          =
+        unsigned int fmt)
+e86e1244a41352 Mark Brown        2010-10-18  1129  {
+da12f93d8f90b9 Kuninori Morimoto 2026-02-13  1130  	struct snd_soc_componen=
+t *component =3D snd_soc_dai_to_component(codec_dai);
+3f64507697e32c Kuninori Morimoto 2018-01-29 @1131         struct max98088_p=
+riv *max98088 =3D snd_soc_component_get_drvdata(component);
+e86e1244a41352 Mark Brown        2010-10-18  1132         struct max98088_c=
+data *cdata;
+e86e1244a41352 Mark Brown        2010-10-18  1133         u8 reg15val;
+e86e1244a41352 Mark Brown        2010-10-18  1134         u8 reg14val =3D 0;
+e86e1244a41352 Mark Brown        2010-10-18  1135 =20
+e86e1244a41352 Mark Brown        2010-10-18  1136         cdata =3D &max980=
+88->dai[0];
+e86e1244a41352 Mark Brown        2010-10-18  1137 =20
+e86e1244a41352 Mark Brown        2010-10-18  1138         if (fmt !=3D cdat=
+a->fmt) {
+e86e1244a41352 Mark Brown        2010-10-18  1139                 cdata->fm=
+t =3D fmt;
+e86e1244a41352 Mark Brown        2010-10-18  1140 =20
+14688a14dac34a Mark Brown        2022-02-22  1141                 switch (f=
+mt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+14688a14dac34a Mark Brown        2022-02-22  1142                 case SND_=
+SOC_DAIFMT_CBC_CFC:
+14688a14dac34a Mark Brown        2022-02-22  1143                         /=
+* Consumer mode PLL */
+3f64507697e32c Kuninori Morimoto 2018-01-29  1144                         s=
+nd_soc_component_write(component, M98088_REG_12_DAI1_CLKCFG_HI,
+e86e1244a41352 Mark Brown        2010-10-18  1145                          =
+       0x80);
+3f64507697e32c Kuninori Morimoto 2018-01-29  1146                         s=
+nd_soc_component_write(component, M98088_REG_13_DAI1_CLKCFG_LO,
+e86e1244a41352 Mark Brown        2010-10-18  1147                          =
+       0x00);
+e86e1244a41352 Mark Brown        2010-10-18  1148                         b=
+reak;
+14688a14dac34a Mark Brown        2022-02-22  1149                 case SND_=
+SOC_DAIFMT_CBP_CFP:
+14688a14dac34a Mark Brown        2022-02-22  1150                         /=
+* Set to provider mode */
+e86e1244a41352 Mark Brown        2010-10-18  1151                         r=
+eg14val |=3D M98088_DAI_MAS;
+e86e1244a41352 Mark Brown        2010-10-18  1152                         b=
+reak;
+e86e1244a41352 Mark Brown        2010-10-18  1153                 default:
+3f64507697e32c Kuninori Morimoto 2018-01-29  1154                         d=
+ev_err(component->dev, "Clock mode unsupported");
+e86e1244a41352 Mark Brown        2010-10-18  1155                         r=
+eturn -EINVAL;
+e86e1244a41352 Mark Brown        2010-10-18  1156                 }
+e86e1244a41352 Mark Brown        2010-10-18  1157 =20
+e86e1244a41352 Mark Brown        2010-10-18  1158                 switch (f=
+mt & SND_SOC_DAIFMT_FORMAT_MASK) {
+e86e1244a41352 Mark Brown        2010-10-18  1159                 case SND_=
+SOC_DAIFMT_I2S:
+e86e1244a41352 Mark Brown        2010-10-18  1160                         r=
+eg14val |=3D M98088_DAI_DLY;
+e86e1244a41352 Mark Brown        2010-10-18  1161                         b=
+reak;
+e86e1244a41352 Mark Brown        2010-10-18  1162                 case SND_=
+SOC_DAIFMT_LEFT_J:
+e86e1244a41352 Mark Brown        2010-10-18  1163                         b=
+reak;
+e86e1244a41352 Mark Brown        2010-10-18  1164                 default:
+e86e1244a41352 Mark Brown        2010-10-18  1165                         r=
+eturn -EINVAL;
+e86e1244a41352 Mark Brown        2010-10-18  1166                 }
+e86e1244a41352 Mark Brown        2010-10-18  1167 =20
+e86e1244a41352 Mark Brown        2010-10-18  1168                 switch (f=
+mt & SND_SOC_DAIFMT_INV_MASK) {
+e86e1244a41352 Mark Brown        2010-10-18  1169                 case SND_=
+SOC_DAIFMT_NB_NF:
+e86e1244a41352 Mark Brown        2010-10-18  1170                         b=
+reak;
+e86e1244a41352 Mark Brown        2010-10-18  1171                 case SND_=
+SOC_DAIFMT_NB_IF:
+e86e1244a41352 Mark Brown        2010-10-18  1172                         r=
+eg14val |=3D M98088_DAI_WCI;
+e86e1244a41352 Mark Brown        2010-10-18  1173                         b=
+reak;
+e86e1244a41352 Mark Brown        2010-10-18  1174                 case SND_=
+SOC_DAIFMT_IB_NF:
+e86e1244a41352 Mark Brown        2010-10-18  1175                         r=
+eg14val |=3D M98088_DAI_BCI;
+e86e1244a41352 Mark Brown        2010-10-18  1176                         b=
+reak;
+e86e1244a41352 Mark Brown        2010-10-18  1177                 case SND_=
+SOC_DAIFMT_IB_IF:
+e86e1244a41352 Mark Brown        2010-10-18  1178                         r=
+eg14val |=3D M98088_DAI_BCI|M98088_DAI_WCI;
+e86e1244a41352 Mark Brown        2010-10-18  1179                         b=
+reak;
+e86e1244a41352 Mark Brown        2010-10-18  1180                 default:
+e86e1244a41352 Mark Brown        2010-10-18  1181                         r=
+eturn -EINVAL;
+e86e1244a41352 Mark Brown        2010-10-18  1182                 }
+e86e1244a41352 Mark Brown        2010-10-18  1183 =20
+3f64507697e32c Kuninori Morimoto 2018-01-29  1184                 snd_soc_c=
+omponent_update_bits(component, M98088_REG_14_DAI1_FORMAT,
+e86e1244a41352 Mark Brown        2010-10-18  1185                         M=
+98088_DAI_MAS | M98088_DAI_DLY | M98088_DAI_BCI |
+e86e1244a41352 Mark Brown        2010-10-18  1186                         M=
+98088_DAI_WCI, reg14val);
+e86e1244a41352 Mark Brown        2010-10-18  1187 =20
+e86e1244a41352 Mark Brown        2010-10-18  1188                 reg15val =
+=3D M98088_DAI_BSEL64;
+e86e1244a41352 Mark Brown        2010-10-18  1189                 if (max98=
+088->digmic)
+e86e1244a41352 Mark Brown        2010-10-18  1190                         r=
+eg15val |=3D M98088_DAI_OSR64;
+3f64507697e32c Kuninori Morimoto 2018-01-29  1191                 snd_soc_c=
+omponent_write(component, M98088_REG_15_DAI1_CLOCK, reg15val);
+e86e1244a41352 Mark Brown        2010-10-18  1192         }
+e86e1244a41352 Mark Brown        2010-10-18  1193 =20
+e86e1244a41352 Mark Brown        2010-10-18  1194         return 0;
+e86e1244a41352 Mark Brown        2010-10-18  1195  }
+e86e1244a41352 Mark Brown        2010-10-18  1196 =20
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmmV33MFAwAAAAAACgkQsN6d1ii/Ey9K
-mwf9FUNIAdbAJqYIlwNiwdM8PRgDQ7Omvkt0FEq+NdmFGxRATaL2y3CzhAViHENKM9U3ILpzxswj
-YaVyq2PE6cADlQ220lO9OYOoof724qmpby3owgf2oQKykdcJToi0y3pZQ3xcrX8ZC2x5ai5grZBH
-FFKRMCnCMf7El1T45lPBH+JZXHUBdzsDFD+QpvnLgoohWX7ybv6nRlvqGS5ByoZyGwcm7jXmZ0sV
-9sD7hG2OXX5eqiFMUK3vAgkgUcbCPK0NaEYGJKJNiKOBcwTla6q61NOzFNmkwY+iRQSfsgDW4TWf
-gge+0zeYu0TRDKxVPPbL3OKuCLn4kJtvym701bi/4w==
-=yUzy
------END PGP SIGNATURE-----
+:::::: The code at line 948 was first introduced by commit
+:::::: 3f64507697e32c2f491224f9f0656be5ae5d6d15 ASoC: max98088: replace cod=
+ec to component
 
---------------HDQmVIRMei8a33Z3QI2SOzjP--
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
+
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
