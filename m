@@ -1,71 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CF02EF64F;
-	Wed, 18 Feb 2026 10:40:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330D82FFDD5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 10:40:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771411254; cv=none; b=GNWCzihi/ykpZxlbE46OtPnXH/n0xYAnH5WC6Qki9eLUYdMvmd4nQLiPWaQ+QnAhic9ZMniR61wIPOePP/NImIVqPFWFz6x/NHvvHqlnFPRYTM1ndcN8wOaAyD8MqcQ8K1QpvXNl7w3kDVD4JlG9QD7a2ul77nyS4lk+90a5kPM=
+	t=1771411255; cv=none; b=BqwBHX8qyCqY7RQG1S2lTyMHUZXEPNBYUDj8zIxFstXrL6eSKXg9lO4GFrZi/I1iomYivr1c2YbyVHPa1e9biqVt6IUmxK37NqwcPMVxH6V0e8dVUsNBBfUu/yTx8Q7Nye1+ct+kCzqyxXru/PgW0E8HTL8blRKOZXygg/bnB44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771411254; c=relaxed/simple;
-	bh=Cd26PjeVkqMJVQiI+SjBkCnU4JV9CmmiLOsGMTatUp4=;
+	s=arc-20240116; t=1771411255; c=relaxed/simple;
+	bh=RJ3db4P7f6iZL9PjraP8K+gI4ily9Dn6WB2Z9jdSzdI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=edJFAW0uLeldlQoO74YxrYbFu0U6vk8FNcFDLpj9P8aLVinTfc2NNqEkjN+P/tDEUce5SQpX0RFUniuX3EbO395prksjtR6UOog7SXjjrKpcm754QWySIifyE3Es8jbKPRPXZuv6ZcjEgyNZHj4JDeyK3BVAiqdnIhS+UePyBiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BYkR/aFr; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=S/QZ5fcpKAAnhE3+9/bJhNU1OM3WOBH8Rv88jA+9OVUBs3ftjhFd+3zz85sWUzeSGui3w6gx0+WUbiub6o0QJq8/soAeLFH0fMM5j79ceIsa9ti1Nf7BNKv6TcqsS8sob6jbn/NjVOs/h75EvvJqmSJ4ELu0RaBrw2L+Ud6VFDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gao72Tz8; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BYkR/aFr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gao72Tz8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771411252; x=1802947252;
+  t=1771411254; x=1802947254;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Cd26PjeVkqMJVQiI+SjBkCnU4JV9CmmiLOsGMTatUp4=;
-  b=BYkR/aFrfIECyzKPDgkxPgpJ4vHRzJeIr+zTCr6XHumDPzSrNZneQG8r
-   6qI6lefpqgXPvr2TCMBBreSHXnNu5xDp3xOym1yuRm2NCDzKnd4M4Jkvz
-   J0hE32B61q5GoyQQB9agQEICVL2XgmvtSu8W07mmHjIKfOsTH3/uEu3hO
-   lL+cyDQw/C98k1T5TLgl8dw+euKTbA47nn0gdJYTR1N4Eyz9Neb5qIat9
-   Whz++mNq/6dVW9oqXRBeU+UAdhRcMWoQAoiZcb63yk0CtBsujah7Eoq9S
-   rbRaTHvfNNwQdTd7tRicG6Qq+Wv7a9Ea6Tvh95njFNESAaNdIJTDJdCiw
-   g==;
-X-CSE-ConnectionGUID: vWdceIIqRhKC880jWLfxBg==
-X-CSE-MsgGUID: JYyWM/LWQQW/5yz+KHk94Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="76344980"
+  bh=RJ3db4P7f6iZL9PjraP8K+gI4ily9Dn6WB2Z9jdSzdI=;
+  b=gao72Tz8Mf5xEHkMriiy65ftvlgmKSKlobPVoRLgZtXH9yA0DwQ9/Xc6
+   juuJiGdIeNEBkTo/sc66JaFj0jifUV1bvDXYOt2hHOY7mzWups+AbnZjz
+   GyC7opoSRRzWmYlB+Ix0Fx9OJGO/xWmjRdX+i2EJcSGlxF51ZKa5dwfIj
+   PEg2PnaxqPuvWu8bjFBZZK4jbegf4/UiH3SoWcSnQ0qfNQb8IcbeZo+ih
+   eGwgnYHtf2McjJlvPL0Ic98p9ULc3cFHk2GbrZEyiDxiChxTrBABobJZ9
+   bmaIaf7icDdCMmvB59blasGsQqn6GZNmXNnpPiWHq5MdRnB8Or9AcqJTd
+   Q==;
+X-CSE-ConnectionGUID: sbgf7yUnR/2me8mZKbpcHA==
+X-CSE-MsgGUID: 2yU6tXuXQKKWk8iQ6qqI4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="76344967"
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="76344980"
+   d="scan'208";a="76344967"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 02:40:51 -0800
-X-CSE-ConnectionGUID: d6xlXNzzQI+9kyepzCAGCw==
-X-CSE-MsgGUID: 2I4IkMg5TO6l4UKmR3Hdeg==
+X-CSE-ConnectionGUID: sLYSybasRgiOXb5BDWpu0g==
+X-CSE-MsgGUID: ETul5zvpTyWNRTSJaFeDtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="214148730"
+   d="scan'208";a="214148729"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 18 Feb 2026 02:40:46 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsez6-000000012HG-27wy;
+	id 1vsez6-000000012HE-1d79;
 	Wed, 18 Feb 2026 10:40:44 +0000
-Date: Wed, 18 Feb 2026 18:40:16 +0800
+Date: Wed, 18 Feb 2026 18:40:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org>,
-	linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Youngjun Park <youngjun.park@lge.com>, linux-kernel@vger.kernel.org,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>
-Subject: Re: [PATCH v3 09/12] mm, swap: use the swap table to track the swap
- count
-Message-ID: <202602181835.58TEynxc-lkp@intel.com>
-References: <20260218-swap-table-p3-v3-9-f4e34be021a7@tencent.com>
+To: Aelin Reidel <aelin@mainlining.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@mainlining.org, phone-devel@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht,
+	Aelin Reidel <aelin@mainlining.org>,
+	Piyush Raj Chouhan <pc1598@mainlining.org>
+Subject: Re: [PATCH 2/3] Input: add support for Goodix GTX8 Touchscreen ICs
+Message-ID: <202602181848.DK5Wc0iI-lkp@intel.com>
+References: <20260218-gtx8-v1-2-0d575b3dedc5@mainlining.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,89 +74,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260218-swap-table-p3-v3-9-f4e34be021a7@tencent.com>
+In-Reply-To: <20260218-gtx8-v1-2-0d575b3dedc5@mainlining.org>
 
-Hi Kairui,
+Hi Aelin,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on d9982f38eb6e9a0cb6bdd1116cc87f75a1084aad]
+[auto build test ERROR on fe9e3edb6a215515d1148d32a5c445c5bdd7916f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song-via-B4-Relay/mm-swap-protect-si-swap_file-properly-and-use-as-a-mount-indicator/20260218-040852
-base:   d9982f38eb6e9a0cb6bdd1116cc87f75a1084aad
-patch link:    https://lore.kernel.org/r/20260218-swap-table-p3-v3-9-f4e34be021a7%40tencent.com
-patch subject: [PATCH v3 09/12] mm, swap: use the swap table to track the swap count
-config: i386-buildonly-randconfig-001-20260218 (https://download.01.org/0day-ci/archive/20260218/202602181835.58TEynxc-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181835.58TEynxc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aelin-Reidel/dt-bindings-input-document-Goodix-GTX8-Touchscreen-ICs/20260218-075424
+base:   fe9e3edb6a215515d1148d32a5c445c5bdd7916f
+patch link:    https://lore.kernel.org/r/20260218-gtx8-v1-2-0d575b3dedc5%40mainlining.org
+patch subject: [PATCH 2/3] Input: add support for Goodix GTX8 Touchscreen ICs
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260218/202602181848.DK5Wc0iI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181848.DK5Wc0iI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602181835.58TEynxc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602181848.DK5Wc0iI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/swapfile.c:1627:6: warning: shift count >= width of type [-Wshift-count-overflow]
-    1626 |                 VM_WARN_ON_ONCE(ci->extend_table[ci_off] >=
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1627 |                                 (BIT(BITS_PER_TYPE(ci->extend_table[0]))) - 1);
-         |                                 ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^
-   include/linux/mmdebug.h:123:50: note: expanded from macro 'VM_WARN_ON_ONCE'
-     123 | #define VM_WARN_ON_ONCE(cond) (void)WARN_ON_ONCE(cond)
-         |                                     ~~~~~~~~~~~~~^~~~~
-   include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   1 warning generated.
+   drivers/input/touchscreen/goodix_gtx8.c: In function 'goodix_gtx8_report_state':
+>> drivers/input/touchscreen/goodix_gtx8.c:110:37: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     110 |                         finger_id = FIELD_GET(
+         |                                     ^~~~~~~~~
+   In file included from include/linux/kernel.h:35,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:17,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:14,
+                    from include/linux/i2c.h:13,
+                    from drivers/input/touchscreen/goodix_gtx8.c:16:
+   drivers/input/touchscreen/goodix_gtx8.c: At top level:
+>> drivers/input/touchscreen/goodix_gtx8.c:555:37: error: 'goodix_gtx8_pm_ops' undeclared here (not in a function); did you mean 'goodix_gtx8_probe'?
+     555 |                 .pm = pm_sleep_ptr(&goodix_gtx8_pm_ops),
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
+     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^~~
+   drivers/input/touchscreen/goodix_gtx8.c:555:23: note: in expansion of macro 'pm_sleep_ptr'
+     555 |                 .pm = pm_sleep_ptr(&goodix_gtx8_pm_ops),
+         |                       ^~~~~~~~~~~~
 
 
-vim +1627 mm/swapfile.c
+vim +/FIELD_GET +110 drivers/input/touchscreen/goodix_gtx8.c
 
-  1596	
-  1597	/* Increase the swap count of one slot. */
-  1598	static int __swap_cluster_dup_entry(struct swap_cluster_info *ci,
-  1599					    unsigned int ci_off)
-  1600	{
-  1601		int count;
-  1602		unsigned long swp_tb;
-  1603	
-  1604		lockdep_assert_held(&ci->lock);
-  1605		swp_tb = __swap_table_get(ci, ci_off);
-  1606		/* Bad or special slots can't be handled */
-  1607		if (WARN_ON_ONCE(swp_tb_is_bad(swp_tb)))
-  1608			return -EINVAL;
-  1609		count = __swp_tb_get_count(swp_tb);
-  1610		/* Must be either cached or have a count already */
-  1611		if (WARN_ON_ONCE(!count && !swp_tb_is_folio(swp_tb)))
-  1612			return -ENOENT;
-  1613	
-  1614		if (likely(count < (SWP_TB_COUNT_MAX - 1))) {
-  1615			__swap_table_set(ci, ci_off, __swp_tb_mk_count(swp_tb, count + 1));
-  1616			VM_WARN_ON_ONCE(ci->extend_table && ci->extend_table[ci_off]);
-  1617		} else if (count == (SWP_TB_COUNT_MAX - 1)) {
-  1618			if (ci->extend_table) {
-  1619				VM_WARN_ON_ONCE(ci->extend_table[ci_off]);
-  1620				ci->extend_table[ci_off] = SWP_TB_COUNT_MAX;
-  1621				__swap_table_set(ci, ci_off, __swp_tb_mk_count(swp_tb, SWP_TB_COUNT_MAX));
-  1622			} else {
-  1623				return -ENOMEM;
-  1624			}
-  1625		} else if (count == SWP_TB_COUNT_MAX) {
-  1626			VM_WARN_ON_ONCE(ci->extend_table[ci_off] >=
-> 1627					(BIT(BITS_PER_TYPE(ci->extend_table[0]))) - 1);
-  1628			++ci->extend_table[ci_off];
-  1629		} else {
-  1630			/* Never happens unless counting went wrong */
-  1631			WARN_ON_ONCE(1);
-  1632		}
-  1633	
-  1634		return 0;
-  1635	}
-  1636	
+    87	
+    88	static void goodix_gtx8_report_state(struct goodix_gtx8_core *cd, u8 touch_num,
+    89					     union goodix_gtx8_touch *touch_data)
+    90	{
+    91		union goodix_gtx8_touch *t;
+    92		int i;
+    93		u8 finger_id;
+    94	
+    95		for (i = 0; i < touch_num; i++) {
+    96			t = &touch_data[i];
+    97	
+    98			if (cd->ic_data->ic_type == IC_TYPE_NORMANDY) {
+    99				input_mt_slot(cd->input_dev, t->normandy.finger_id);
+   100				input_mt_report_slot_state(cd->input_dev,
+   101							   MT_TOOL_FINGER, true);
+   102	
+   103				touchscreen_report_pos(cd->input_dev, &cd->props,
+   104						       __le16_to_cpu(t->normandy.x),
+   105						       __le16_to_cpu(t->normandy.y),
+   106						       true);
+   107				input_report_abs(cd->input_dev, ABS_MT_TOUCH_MAJOR,
+   108						 t->normandy.w);
+   109			} else {
+ > 110				finger_id = FIELD_GET(
+   111					GOODIX_GTX8_FINGER_ID_MASK_YELLOWSTONE,
+   112					t->yellowstone.finger_id);
+   113				input_mt_slot(cd->input_dev, finger_id);
+   114				input_mt_report_slot_state(cd->input_dev,
+   115							   MT_TOOL_FINGER, true);
+   116	
+   117				touchscreen_report_pos(cd->input_dev, &cd->props,
+   118						       __be16_to_cpu(t->yellowstone.x),
+   119						       __be16_to_cpu(t->yellowstone.y),
+   120						       true);
+   121				input_report_abs(cd->input_dev, ABS_MT_TOUCH_MAJOR,
+   122						 t->yellowstone.w);
+   123			}
+   124		}
+   125	
+   126		input_mt_sync_frame(cd->input_dev);
+   127		input_sync(cd->input_dev);
+   128	}
+   129	
 
 -- 
 0-DAY CI Kernel Test Service
