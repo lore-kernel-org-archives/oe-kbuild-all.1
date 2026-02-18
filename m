@@ -1,42 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5BD26B777;
-	Wed, 18 Feb 2026 09:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B437294A10
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 10:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771408043; cv=none; b=bnKDeRsX8z75i9mQTUzAbHCsYzC5d1tqeH/ho1Y9+rvfQUdFxb1AJW53c5TZUj13Z0U6E+fKEr0KSDCzMRdArrW6PurmmQQdLpZZm5XXCl64OtosSxpKCsqU5TLFTDWLok0UYI/sc/4/E29D6d33HPiBPunj4izxUGo6poYTKls=
+	t=1771410205; cv=none; b=eYq9r3yZcVZlCYnZxFAHDHoTIL3F7CYXqxI6yPsElIJfGgBT53pDBRbqtrYpHYfY8do/a8nfSHTH75w8gd+JRD/RFPniuF9MYabEkT4VyGKcjMxoDYVGXsPTYiM7maAAbWnN5F9sBcNTQ8C1G/A6LEbJW7jb2iXieJm4CKeJgdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771408043; c=relaxed/simple;
-	bh=jeeOHjPXnJVmpeethi7dKscTaeQK34T+yExQIMEwedI=;
+	s=arc-20240116; t=1771410205; c=relaxed/simple;
+	bh=oXenyoOf6ubR0OAzaErVRJ09tPZl9ka/sy7cxMIfFgk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XBNNUm2/tNkt2yG1SpzCAOaQSSaNRQq5pz/m46LY7VqX70NfuTbPrAhP2eQN72z5gqzxZb26UH3/397/XIw5vJ+1j1Bh78/xgQACjvKX3+X8KAG8IpUN0bAqaUnoZiEa7+aqS7z5AiMOEAj35//jY3qkilcdJhzxsqLlcc26LIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+Z6It4g; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxCo6cJk3Jgp9HAJdvjSGpDi6BPzfctIFCP0OkJchjlgMAnl8UbBu1JTMnkmyDJ+oKyIOxWUY83YemwLIlvcijp8sHpsTGBrDbWbzMeb0ZjeC96bKH6NsZh7T43hpnusVYYfXl+DrkiAUyRWd/b24L+VFoQlPhzoYs2J09ZYOSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eN11PawY; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+Z6It4g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7F78C19421;
-	Wed, 18 Feb 2026 09:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771408043;
-	bh=jeeOHjPXnJVmpeethi7dKscTaeQK34T+yExQIMEwedI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U+Z6It4gJscQ1TGMP5ZyBVV1ztbUJh3oj69o8+lo3auE7TRKT8Fr7JhbdnpzoEdM8
-	 KhtlL6PJaWuNjx906o9PXyIhTOeP98YvFB6HP6g7iYny7rh/No1eQaG3aDBWRXeU7i
-	 6XE6uBIheQCFE7WuTytba5NhoIXm6qLIQ0fnV7x1Ty3ApiNkIrwtD/a8SvAyjIYQJV
-	 ulZovj/Vktf6p4qBC4qORAWnT6fiIWZjitvQ0C96SH4gY/yyRyaPLeYH/MUHjyoZqs
-	 75voG7cqEEyGfcRKFUi2WGlmhrPLnolSbifmy/B0eBpz3UAUT8PN2pwACEqmzC5Q1B
-	 MMRlBbrzaDlWA==
-Date: Wed, 18 Feb 2026 10:47:19 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>
-Subject: Re: pci-epf-test.c:undefined reference to
- `config_group_init_type_name'
-Message-ID: <aZWKp3WsRueo2fH1@ryzen>
-References: <202602180706.VtXkmtqL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eN11PawY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771410200; x=1802946200;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oXenyoOf6ubR0OAzaErVRJ09tPZl9ka/sy7cxMIfFgk=;
+  b=eN11PawY49pRa5ap08Zr4woiAdxQimf4ymxH+MUhccKe28nukRbVbS4w
+   GbFLGEdqGv5tn1b+zJpqRuU3AhoBuFYo5QEtA6Y3XWUI/jb5McXMhSBIU
+   CoT20pUsJbFAil6TBdyyLdzRBRYz4F5On2jMetRZwYeBkGgE0CynWmX1/
+   YMPs3qLj1UORqeqUElD63hrl2vjkRDvx7QVyOyMZrUM9FFmEo+bwz8uWc
+   qaZD28Rzen1HNRar+XKHgHvreVCNAurLAjmyytT84lHGMor4z8NB284zn
+   Bk+DxkVUIc27j2hLgLh/TeoWd3Zy6GXvyozX38iuvyYRUf7LazmsEL1Zp
+   w==;
+X-CSE-ConnectionGUID: qzPtwY7FQWilJtmITVKo0w==
+X-CSE-MsgGUID: SfIvNmkfSx6xjGFE8Y1EoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72195955"
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
+   d="scan'208";a="72195955"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 02:23:20 -0800
+X-CSE-ConnectionGUID: 3qDFRDz4QPC8MQHm8rM4GA==
+X-CSE-MsgGUID: fBOcfXBmSseTUcD99kqEAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
+   d="scan'208";a="218292192"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 18 Feb 2026 02:23:19 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vseiC-000000003Yf-17vP;
+	Wed, 18 Feb 2026 10:23:16 +0000
+Date: Wed, 18 Feb 2026 11:22:20 +0100
+From: kernel test robot <lkp@intel.com>
+To: Ethan Ferguson <ethan.ferguson@zetier.com>, hirofumi@mail.parknet.co.jp
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ethan Ferguson <ethan.ferguson@zetier.com>
+Subject: Re: [PATCH v2 2/2] fat: Add FS_IOC_SETFSLABEL ioctl
+Message-ID: <202602181149.k8dhUKY6-lkp@intel.com>
+References: <20260217230628.719475-3-ethan.ferguson@zetier.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,42 +64,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202602180706.VtXkmtqL-lkp@intel.com>
+In-Reply-To: <20260217230628.719475-3-ethan.ferguson@zetier.com>
 
-On Wed, Feb 18, 2026 at 08:05:16AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   e81dd54f62c753dd423d1a9b62481a1c599fb975
-> commit: ffcc4850a16133d8db0f11ee6dde319201800451 PCI: endpoint: pci-epf-test: Allow overriding default BAR sizes
-> date:   3 weeks ago
-> config: sparc-randconfig-001-20260218 (https://download.01.org/0day-ci/archive/20260218/202602180706.VtXkmtqL-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 14.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602180706.VtXkmtqL-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602180706.VtXkmtqL-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    sparc64-linux-ld: drivers/pci/endpoint/functions/pci-epf-test.o: in function `pci_epf_test_add_cfs':
-> >> pci-epf-test.c:(.text+0xec): undefined reference to `config_group_init_type_name'
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for CAN_DEV
->    Depends on [n]: NETDEVICES [=n] && CAN [=y]
->    Selected by [y]:
->    - CAN [=y] && NET [=y]
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Hi Ethan,
 
-Thank you for the report dear kernel test robot,
+kernel test robot noticed the following build errors:
 
-Arnd has already posted a fix for this here:
-https://lore.kernel.org/linux-pci/20260211070812.4087119-1-arnd@kernel.org/
+[auto build test ERROR on 9f2693489ef8558240d9e80bfad103650daed0af]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Ferguson/fat-Add-FS_IOC_GETFSLABEL-ioctl/20260218-071019
+base:   9f2693489ef8558240d9e80bfad103650daed0af
+patch link:    https://lore.kernel.org/r/20260217230628.719475-3-ethan.ferguson%40zetier.com
+patch subject: [PATCH v2 2/2] fat: Add FS_IOC_SETFSLABEL ioctl
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260218/202602181149.k8dhUKY6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181149.k8dhUKY6-lkp@intel.com/reproduce)
 
-Kind regards,
-Niklas
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602181149.k8dhUKY6-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "msdos_format_name" [fs/fat/fat.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
