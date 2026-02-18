@@ -1,112 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB132FE577
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 12:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596B9312819
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 12:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771416294; cv=none; b=AR7KXpNzIhT68bTeHM3+2YuvD3fxwzCeGZNtfXDzoA1NUrLst83w6Aui3C6BYEZ4vtEa0xLQ13mrmTUv1qrS3UtCH7nEXf9tMFcMGMByrS0L+ZbnT4Gub5bhcj1szEOPAJeDL3DHwCyGWpCD43aPLgYaJYtOCdQuFzkPNZOaFpM=
+	t=1771417385; cv=none; b=Wyv0z83PKLHms1AirBWa5c+deE04E2r5pv4oaaLEFDrqMZ+6tFmbSEtTukIztAKe5FUfw56nEJilpb7oRPFFxE2f+XOaxFXsO4nNCzKymVzR0RXg2Yt01EQuZvHjvfyl/eyRIRUTzRZCFi0amiTKxm24WJmcdeBlH9Y9ASFOZb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771416294; c=relaxed/simple;
-	bh=ddMC6eL/U7ma5ALwwnKywakcYVVcmVstJFTcs19mNwM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=STf3AfdKsBWIlskGKH8iaT4lFuWn0DuzW/UGLyy3A1jTSp2FKeRshJLuRIZDYVd2AK9W6yZ1103cIcfH4bc3J+4Monhxuq/A1o7bQBIi2TdbCkwbDVk+GmT4snSaCht/7/WzOa3yt8No47Enwx+o8bmWNmwnAbclPX+ePeWACzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWiXti79; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771417385; c=relaxed/simple;
+	bh=rSi/zGdLx94wonyB5Nc+KkoFxaiaTjxmDzpadVtJyR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LYbRqy+ivmQ9grEj2sZVftpIVaYpnTkE6X3gDCLDJLAIbW4vNQ07jWEe79NrA8WJa0KGGzMpOiXlzXyqgOfBbzxrJHrne8gVIJaB9Su0iB14gjo1yCaq5Dp+bJEmD+DdihxKNiWKZmv1ve1T6U5Tmmjum28Rjv0jBE852nitSDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GR8X2I+M; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWiXti79"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771416292; x=1802952292;
-  h=date:from:to:cc:subject:message-id;
-  bh=ddMC6eL/U7ma5ALwwnKywakcYVVcmVstJFTcs19mNwM=;
-  b=kWiXti79RKZ/eR7Uvh6wWAv0oqi3PZxq0OemX70E32FnHTspsowxWJ8U
-   4VCkkNUAochxbe/5XUFfX+fBWLmB3NXn+g5sZIBpmsWLsmYKjAL0tNNH8
-   RHvdFh7BwhZ9gPCm5/5inJeSN/5d71+6P1A5JhFdDBj9yj/4zMurtsFPW
-   nI/0SyIdWQPQ7C0j6Y/ei7X/aP1+yTvqmpWjuHrGYqA5QtU1t6BUAvrH4
-   qzEFeV473vPuUMKsikGAFWkM+zbM7BHtSX1MwBOR32znbFEtnP5ZOgv5N
-   /M5miuqijwbFT1SoeJac8I3V+depTumyAovVh6hE/sWUJstF9c617CbSv
-   A==;
-X-CSE-ConnectionGUID: MfKGo3eJQtO+qiKytGcxeA==
-X-CSE-MsgGUID: VUF5SXiHQeyYjSDYlsxz5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="71690122"
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="71690122"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 04:04:51 -0800
-X-CSE-ConnectionGUID: yLn/u7D7SKyn6KPXgWOQpA==
-X-CSE-MsgGUID: yRAUoEEbRh2KcweO+Ugu1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="218026246"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Feb 2026 04:04:50 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vsgIR-000000012Js-2wvb;
-	Wed, 18 Feb 2026 12:04:47 +0000
-Date: Wed, 18 Feb 2026 20:04:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:container 6/18] fs/namespace.c:5976:13:
- warning: unused variable 'ret'
-Message-ID: <202602181945.XRY4L8Ld-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GR8X2I+M"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c648bc907ebso2969298a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 04:23:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771417383; x=1772022183; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=x/l1g6wqb0NZRc7ZX34WwaHpuKkAAz4lIDkW1nuJe3Y=;
+        b=GR8X2I+Mf/kmYwFwktpuP4TJRBshJXFEmx+KTUismJWfTVSHYbqE+oQMkuuBYbdiqF
+         fdaonpi7F1CAi9livG8OSrLLQtF0fvutcqcStLp1/C+0AQkGOE2vZn1tiyyP6RPdu5G/
+         jjJZgGehQ5Dw1lIIfax6grsRi05PqEW1DO8SablpKIIH4GY6RrI9bFRVbtpqzXMoFVOd
+         aeWrTB+qAJryVXRPuc3Up3WbG662vN4HIRnw3iyeNuWT0InrQP+VVZVSzij+QWxCvQT5
+         lnwbn+dTiAUHTBdgMisu9Prw69mmc1Y1FqLQN9zP5/bK+aXKD6dVEGK1D4Wi6/rGXbje
+         IgpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771417383; x=1772022183;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x/l1g6wqb0NZRc7ZX34WwaHpuKkAAz4lIDkW1nuJe3Y=;
+        b=b/sPTX86YgL6YXeaSqlo30adWCmFV8sX9T9YnqlUXeRqWqHBXQdm0LFhT8XxLhrpGE
+         4G8xlccxRIwxHqxYRMQ+CDmi1ylP5C8tWV4JMASODHdh9kjslfB+uVz0XKZJ/Mfcoaay
+         z0iqPHH62y0daEBjLNmwNBNBf6Un+LW/+X47IFFmgAK48jiOBtPuwmounl85H56IvY3I
+         FJTUYHci0vBwM9adQ7NSAjUyHx8ev/CFv/g2Q7xXUbZn1tavVGfCnCQrgsVkSDZme9Cx
+         09feP2FKsGaipdIrN7oBFUc0t+8rCvu6F83Xo6QPSMaCgbAQ8S8NmQhI1vFT/MZvRfhd
+         ERVw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1tISFPMpGiX7GAmYdop31ylo2Peze0w/vRumYIYwqrqoxIqHiA0bOpOa6a+xb7nPdHuGM3I9tSFwNXWFm@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBioRY2TY+wG0euUzJiK9gxT1sXb6fDCLxU1J6TJLO/PsdUINr
+	M98aFGrumZe/G5ZEKahJ6tnfXTtbMF2MHDmMvCGXD94tM2LU/mXgo9QQ
+X-Gm-Gg: AZuq6aK1kytj9+7jj33wJg3a55KmBNZaseErWpQDC7tvjecrUAtuaqQ7/0XG3O22SnH
+	3vnelqlvFm7idh4cutRw4WcZVkmt2yWmXEfzT/3KrU9F84+CCw0M9ndmAvKuDFEUE+t7kcQ5jkh
+	HqGXgeS3UecgRx1EhQUt0nbMjsv1j2Hljb9ediAwphu/fE8OZe98mT+3Ri0iMWWuQfQWh6y0Vqu
+	ctpE3BjPmXMkCFGVmdV3xMtH6nBUa2iDZF0gmpT+PIpo+PSFCSQbumPr7m5CuG7caGk7ute4swb
+	OG3j6JRUbKg2mVOEG/0xriEuGRvp2Nc91vBzzJTGOGybS+T2G9OJO9FUOM0b/dhUSgu275KQERF
+	QL6CkP7WHpXRTjcbqTqTAcodnaW3Rhs4i3+O7NzmF58DCR314PmI83cijfScq2GztNWWX8opE0u
+	e6Evi+L8OLUE5/knTvA6NHXmHdnHw1T27ov6Yb7SrdTR9oVbomYgMyDmkNg6I=
+X-Received: by 2002:a17:902:cccf:b0:2a7:5751:5b30 with SMTP id d9443c01a7336-2ab4cf4f481mr176018015ad.12.1771417383553;
+        Wed, 18 Feb 2026 04:23:03 -0800 (PST)
+Received: from KASONG-MC4 ([101.32.222.185])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-358878c2a52sm1180707a91.6.2026.02.18.04.22.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Feb 2026 04:23:02 -0800 (PST)
+Date: Wed, 18 Feb 2026 20:22:54 +0800
+From: Kairui Song <ryncsn@gmail.com>
+To: linux-mm@kvack.org, kernel test robot <lkp@intel.com>
+Cc: Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org>, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Youngjun Park <youngjun.park@lge.com>, 
+	linux-kernel@vger.kernel.org, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>
+Subject: Re: [PATCH v3 09/12] mm, swap: use the swap table to track the swap
+ count
+Message-ID: <aZWuLZi-vYi3vAWe@KASONG-MC4>
+References: <20260218-swap-table-p3-v3-9-f4e34be021a7@tencent.com>
+ <202602181835.58TEynxc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202602181835.58TEynxc-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git container
-head:   322545d60dd20abbe7456256165d81cd33aa1689
-commit: cdad5d3d4674f6c790848cb76868c93e198950ae [6/18] fork: Handle copy_process() and do_exit()
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260218/202602181945.XRY4L8Ld-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181945.XRY4L8Ld-lkp@intel.com/reproduce)
+On Wed, Feb 18, 2026 at 06:40:16PM +0800, kernel test robot wrote:
+> Hi Kairui,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on d9982f38eb6e9a0cb6bdd1116cc87f75a1084aad]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song-via-B4-Relay/mm-swap-protect-si-swap_file-properly-and-use-as-a-mount-indicator/20260218-040852
+> base:   d9982f38eb6e9a0cb6bdd1116cc87f75a1084aad
+> patch link:    https://lore.kernel.org/r/20260218-swap-table-p3-v3-9-f4e34be021a7%40tencent.com
+> patch subject: [PATCH v3 09/12] mm, swap: use the swap table to track the swap count
+> config: i386-buildonly-randconfig-001-20260218 (https://download.01.org/0day-ci/archive/20260218/202602181835.58TEynxc-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181835.58TEynxc-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602181835.58TEynxc-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> mm/swapfile.c:1627:6: warning: shift count >= width of type [-Wshift-count-overflow]
+>     1626 |                 VM_WARN_ON_ONCE(ci->extend_table[ci_off] >=
+>          |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     1627 |                                 (BIT(BITS_PER_TYPE(ci->extend_table[0]))) - 1);
+>          |                                 ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+>        7 | #define BIT(nr)                 (UL(1) << (nr))
+>          |                                        ^
+>    include/linux/mmdebug.h:123:50: note: expanded from macro 'VM_WARN_ON_ONCE'
+>      123 | #define VM_WARN_ON_ONCE(cond) (void)WARN_ON_ONCE(cond)
+>          |                                     ~~~~~~~~~~~~~^~~~~
+>    include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
+>      120 |         int __ret_warn_on = !!(condition);                              \
+>          |                                ^~~~~~~~~
+>    1 warning generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602181945.XRY4L8Ld-lkp@intel.com/
+Nice catch from the bot. It's a new added sanity check in V3 just
+in case the swap count maybe grow larger than UINT_MAX, which should
+never happen, but just in case.
 
-All warnings (new ones prefixed by >>):
+I really should just use the existing helper macro for that:
 
-   fs/namespace.c: In function 'init_mount_tree':
->> fs/namespace.c:5976:13: warning: unused variable 'ret' [-Wunused-variable]
-    5976 |         int ret;
-         |             ^~~
-
-
-vim +/ret +5976 fs/namespace.c
-
-  5970	
-  5971	static void __init init_mount_tree(void)
-  5972	{
-  5973		struct vfsmount *mnt;
-  5974		struct mount *m;
-  5975		struct path root;
-> 5976		int ret;
-  5977	
-  5978		mnt = vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", initramfs_options);
-  5979		if (IS_ERR(mnt))
-  5980			panic("Can't create rootfs");
-  5981	
-  5982		m = real_mount(mnt);
-  5983		init_mnt_ns.root = m;
-  5984		init_mnt_ns.nr_mounts = 1;
-  5985		mnt_add_to_ns(&init_mnt_ns, m);
-  5986		init_task.nsproxy->mnt_ns = &init_mnt_ns;
-  5987		get_mnt_ns(&init_mnt_ns);
-  5988	
-  5989		root.mnt = mnt;
-  5990		root.dentry = mnt->mnt_root;
-  5991	
-  5992		set_fs_pwd(current->fs, &root);
-  5993		set_fs_root(current->fs, &root);
-  5994	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/mm/swapfile.c b/mm/swapfile.c
+index 801d8092be51..34b38255f72a 100644
+--- a/mm/swapfile.c
++++ b/mm/swapfile.c
+@@ -1624,7 +1624,7 @@ static int __swap_cluster_dup_entry(struct swap_cluster_info *ci,
+                }
+        } else if (count == SWP_TB_COUNT_MAX) {
+                VM_WARN_ON_ONCE(ci->extend_table[ci_off] >=
+-                               (BIT(BITS_PER_TYPE(ci->extend_table[0]))) - 1);
++                               type_max(typeof(ci->extend_table[0])));
+                ++ci->extend_table[ci_off];
+        } else {
+                /* Never happens unless counting went wrong */
