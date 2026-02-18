@@ -1,156 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14FD2FD698;
-	Wed, 18 Feb 2026 13:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1939C3271E4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 13:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771421400; cv=none; b=hFrkYifvK4/dH7xRUTerZGwt1Ce6Y0St1quC/8ZQScW0CBp+aN2kP8sERX+Zvti8+4ungmyZi/LiEoPeYSmFn76D7PulWPcFrp5luI+4V22G9cczmgL+fBEkwgb6eOtGhZ16HDd3aAx3Cz8BRnF/4cpVZcQ6098Fw+almKxe2j8=
+	t=1771422265; cv=none; b=tHrl8ob9WXMV9Y7B/6xMe+2IcJg78JOXO+W2lI46GMdMfyOZB3gyB73hgIpHQs/7tkBMWix2xw8dEbcXiGDbC92ybF7ymU7V6a6q1JBi9QMYmFgU8Dt8pXodz4JBPqpeyp4Co+v6xCdTjf20Me+/ZA7ST+extsfrft8wDeD+fpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771421400; c=relaxed/simple;
-	bh=+eEDQP7ZC+Sn7kLzL0NEWHh05rcZXqlQQIEzWs0DxtA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CHVe17yLa5CRgh724/Db8Zy126XfP7bi50MP9AGC0cUZuDnJP/8xX+IOjHIkj8qB5AFKrjT+aAu7G8RCVp4zwk+/xDmtKoBuUd8+vhdyjn0VhopASaCm90gSWeGAE0MCFMwnd5ugO7e0VWQqk+OGBqDFh609tpoayMUKuS0Ndz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iTXg9L3Q; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1771422265; c=relaxed/simple;
+	bh=47DoSOymGq3tdKSXldtOPHgPeKsoNetTVtmUJRQtVJM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FsnzBAyy8SoxxeqbPE4Gx7Ii1n0VrTqeaGRSaJfueKEmab0oNJiW+n4B/URvOFAdulu5CQGDTjefKvXss7h/Qz59WhSCB/aAAAv8RREILThue7kLYieGOUp/yS1AWmKHYdkUydOZa9Z81bQXAjHlgPgcKBw8d42f3yNTgxFLojc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AumaK4jc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iTXg9L3Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AumaK4jc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771421398; x=1802957398;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+eEDQP7ZC+Sn7kLzL0NEWHh05rcZXqlQQIEzWs0DxtA=;
-  b=iTXg9L3QjcJGmZGwJfzHj5LvLIq7/6MHSZXXufH675aOhyUPwGgNZ1lo
-   fths+1YDowTq3325CawCXjxOG7Qj7JtnBuaIvXY2NJubWjK40WKUFeer8
-   pMEo5Xw98cL/TZ3E+Mf84gioERUGuHSWoGnFuf95r/uTjacmNKurCtKbb
-   l361tM/PyJqTjis2OUEYNkP0cCc+BMEcqkuUGuezibXXpHpSk8/FVtQo7
-   k9DGpQa1mUVNOKw5x+qzU+xlICAVOaPhiaqsHMeH375m/4+wOk09UHfvr
-   EDG4GmMbmOmf3RU2zMvhY4yr2KerK5QGqets6lRAUnl7hjrnfTXwg1ZoL
-   g==;
-X-CSE-ConnectionGUID: MBLNGnJ1SwOYDOxpt6Uziw==
-X-CSE-MsgGUID: AiWtuf3XSBaxfqqrvbcOMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="97956445"
+  t=1771422264; x=1802958264;
+  h=date:from:to:cc:subject:message-id;
+  bh=47DoSOymGq3tdKSXldtOPHgPeKsoNetTVtmUJRQtVJM=;
+  b=AumaK4jc/VAx1KS89oUHl7cixYP52dJrnOhJUnpc3g2ZOABiLLdLVKJF
+   os6fCutaN4hfDx8Pw1g+pfZRGMx6Mf2Zp31qP/mSEzFiR4if8+FDp/0A9
+   X92O0BYtztmYTItKk6QngY6AZ5BmLxNJzxy4Wq4TSxgskJyXhyhIe/MIa
+   ISOEn0TGp4PklRbj03Bv5B0P8oHuc0Hu6TwLNqE9PnTiFCOjWK7SDtqHd
+   aoD6rOLJLMpD7/BlTSuVT76lkdouiWX9b01lWWqElNFcM13xTPwrzzGp8
+   1Vwa7aq+JN3ANw41qaM8Sq7inr7/Z6/U2NxAOjCQSgXjug9eFxvDUN8jW
+   Q==;
+X-CSE-ConnectionGUID: qmM5NtYTRBKH3q22vZPsgQ==
+X-CSE-MsgGUID: WHv9VZ+KS52Qlpy73mzDjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72207829"
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="97956445"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 05:29:56 -0800
-X-CSE-ConnectionGUID: Izloa6RIRcudyY2e/WdIxA==
-X-CSE-MsgGUID: dQzn2tmzSRSZRYfKJ5n1tA==
+   d="scan'208";a="72207829"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 05:44:24 -0800
+X-CSE-ConnectionGUID: LhwJQTO6QHS49AsQMnFyAw==
+X-CSE-MsgGUID: PzG02czCTa+LUJyW7AxOvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="212553047"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Feb 2026 05:29:52 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="213436857"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 18 Feb 2026 05:44:22 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vshck-000000012Nc-1WO1;
-	Wed, 18 Feb 2026 13:29:50 +0000
-Date: Wed, 18 Feb 2026 21:28:56 +0800
+	id 1vshqm-000000003dl-0kIa;
+	Wed, 18 Feb 2026 13:44:20 +0000
+Date: Wed, 18 Feb 2026 14:43:54 +0100
 From: kernel test robot <lkp@intel.com>
-To: Aelin Reidel <aelin@mainlining.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Henrik Rydberg <rydberg@bitmath.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux@mainlining.org,
-	phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-	Aelin Reidel <aelin@mainlining.org>,
-	Piyush Raj Chouhan <pc1598@mainlining.org>
-Subject: Re: [PATCH 2/3] Input: add support for Goodix GTX8 Touchscreen ICs
-Message-ID: <202602182104.ONBwXzkn-lkp@intel.com>
-References: <20260218-gtx8-v1-2-0d575b3dedc5@mainlining.org>
+To: Gary Guo <gary@garyguo.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [nbdd0121:io_projection 17/17] warning: lint
+ `clippy::invalid_null_ptr_usage` has been renamed to `invalid_null_arguments`
+Message-ID: <202602181425.lrS2OZL0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260218-gtx8-v1-2-0d575b3dedc5@mainlining.org>
 
-Hi Aelin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on fe9e3edb6a215515d1148d32a5c445c5bdd7916f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aelin-Reidel/dt-bindings-input-document-Goodix-GTX8-Touchscreen-ICs/20260218-075424
-base:   fe9e3edb6a215515d1148d32a5c445c5bdd7916f
-patch link:    https://lore.kernel.org/r/20260218-gtx8-v1-2-0d575b3dedc5%40mainlining.org
-patch subject: [PATCH 2/3] Input: add support for Goodix GTX8 Touchscreen ICs
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260218/202602182104.ONBwXzkn-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602182104.ONBwXzkn-lkp@intel.com/reproduce)
+tree:   https://github.com/nbdd0121/linux io_projection
+head:   79bb6c8ede08124171eab076bb4e55c4c16a1e09
+commit: 79bb6c8ede08124171eab076bb4e55c4c16a1e09 [17/17] rust: io: use pointer types instead of address
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260218/202602181425.lrS2OZL0-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181425.lrS2OZL0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602182104.ONBwXzkn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602181425.lrS2OZL0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/input/touchscreen/goodix_gtx8.c:110:16: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     110 |                         finger_id = FIELD_GET(
-         |                                     ^
-   drivers/input/touchscreen/goodix_gtx8.c:135:14: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     135 |         touch_num = FIELD_GET(GOODIX_GTX8_TOUCH_COUNT_MASK, touch_num);
-         |                     ^
-   2 errors generated.
-
-
-vim +/FIELD_GET +110 drivers/input/touchscreen/goodix_gtx8.c
-
-    87	
-    88	static void goodix_gtx8_report_state(struct goodix_gtx8_core *cd, u8 touch_num,
-    89					     union goodix_gtx8_touch *touch_data)
-    90	{
-    91		union goodix_gtx8_touch *t;
-    92		int i;
-    93		u8 finger_id;
-    94	
-    95		for (i = 0; i < touch_num; i++) {
-    96			t = &touch_data[i];
-    97	
-    98			if (cd->ic_data->ic_type == IC_TYPE_NORMANDY) {
-    99				input_mt_slot(cd->input_dev, t->normandy.finger_id);
-   100				input_mt_report_slot_state(cd->input_dev,
-   101							   MT_TOOL_FINGER, true);
-   102	
-   103				touchscreen_report_pos(cd->input_dev, &cd->props,
-   104						       __le16_to_cpu(t->normandy.x),
-   105						       __le16_to_cpu(t->normandy.y),
-   106						       true);
-   107				input_report_abs(cd->input_dev, ABS_MT_TOUCH_MAJOR,
-   108						 t->normandy.w);
-   109			} else {
- > 110				finger_id = FIELD_GET(
-   111					GOODIX_GTX8_FINGER_ID_MASK_YELLOWSTONE,
-   112					t->yellowstone.finger_id);
-   113				input_mt_slot(cd->input_dev, finger_id);
-   114				input_mt_report_slot_state(cd->input_dev,
-   115							   MT_TOOL_FINGER, true);
-   116	
-   117				touchscreen_report_pos(cd->input_dev, &cd->props,
-   118						       __be16_to_cpu(t->yellowstone.x),
-   119						       __be16_to_cpu(t->yellowstone.y),
-   120						       true);
-   121				input_report_abs(cd->input_dev, ABS_MT_TOUCH_MAJOR,
-   122						 t->yellowstone.w);
-   123			}
-   124		}
-   125	
-   126		input_mt_sync_frame(cd->input_dev);
-   127		input_sync(cd->input_dev);
-   128	}
-   129	
+>> warning: lint `clippy::invalid_null_ptr_usage` has been renamed to `invalid_null_arguments`
+   --> rust/kernel/pci/io.rs:78:9
+   |
+   78 |         clippy::invalid_null_ptr_usage,
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: use the new name: `invalid_null_arguments`
+   |
+   = note: `#[warn(renamed_and_removed_lints)]` on by default
+--
+>> warning: lint `clippy::invalid_null_ptr_usage` has been renamed to `invalid_null_arguments`
+   --> rust/kernel/pci/io.rs:94:9
+   |
+   94 |         clippy::invalid_null_ptr_usage,
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: use the new name: `invalid_null_arguments`
 
 -- 
 0-DAY CI Kernel Test Service
