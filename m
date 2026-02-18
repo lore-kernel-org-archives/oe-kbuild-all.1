@@ -1,87 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0305831D74C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 12:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14FD2FD698;
+	Wed, 18 Feb 2026 13:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771419476; cv=none; b=ETGyxJPg1ztr/yEFzcLHyhq/iBf3jnRtlOCKEUwFWcILFBRB6vr7EWoCd1+s5UIadpZkA87kAoDBRkKsqmXSNRMBMFaSQKd0B9w4Bf2QRuM44fOvMjQKqJWyOVBRbj3prvlJStjqytdatjynRKkz71JRgaILlwpuoS0Uv5qaW6A=
+	t=1771421400; cv=none; b=hFrkYifvK4/dH7xRUTerZGwt1Ce6Y0St1quC/8ZQScW0CBp+aN2kP8sERX+Zvti8+4ungmyZi/LiEoPeYSmFn76D7PulWPcFrp5luI+4V22G9cczmgL+fBEkwgb6eOtGhZ16HDd3aAx3Cz8BRnF/4cpVZcQ6098Fw+almKxe2j8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771419476; c=relaxed/simple;
-	bh=lq29dweUsDulwOyJe86GNAg7RQXT7CR0zM9WR9Es8rU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WlQMTiYwwvbDcPAqmyLpB+nLF9d+3VpXYejIj7DwpT0hDVls4dN/ID0t4KkcuEdaJlB4lslVUsbUxXMrvkbpAdWq8Li+ORp3IdPEE+iu5o18dwr+gRUkWXJfQVbFMrAAvuA8JNyLkLSJU32nSVMAYQ8inlK8BEY3HxJERDZYAyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/ACB8wY; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1771421400; c=relaxed/simple;
+	bh=+eEDQP7ZC+Sn7kLzL0NEWHh05rcZXqlQQIEzWs0DxtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CHVe17yLa5CRgh724/Db8Zy126XfP7bi50MP9AGC0cUZuDnJP/8xX+IOjHIkj8qB5AFKrjT+aAu7G8RCVp4zwk+/xDmtKoBuUd8+vhdyjn0VhopASaCm90gSWeGAE0MCFMwnd5ugO7e0VWQqk+OGBqDFh609tpoayMUKuS0Ndz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iTXg9L3Q; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/ACB8wY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iTXg9L3Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771419475; x=1802955475;
-  h=date:from:to:cc:subject:message-id;
-  bh=lq29dweUsDulwOyJe86GNAg7RQXT7CR0zM9WR9Es8rU=;
-  b=a/ACB8wY4n6ZDiT1mj/8wT7w0CArIiDXRvTw2EmfjJC5zFoNB9YtlWDV
-   +7cpz4zfwzVyToCOWzzH+ax9fBglDz/844L2byItBdM89IpzRtpnmEvrw
-   VLAKLssakVruf/g91RiYOHQWg3fmlWa2lG0JrL8rOzNwUsec0ZMVradvT
-   fUJLTl9ub969T2vzm1pQeu0ssGdprRWxooJKHrc1wmnj4xORVXluKh3rV
-   t/8pqnIfrQeh2mHn722q6IPor6tRsNbrq29pMn++zdDWdx07iYuIFCFBp
-   jdXjGGDtgWTmVJ0xUVBCDxJA6Z/zdhGp3jT7bmZx/wZ9Y+cjwFdS2ASoi
-   Q==;
-X-CSE-ConnectionGUID: oCdi4B1fSXiKQ1AFRmxDLg==
-X-CSE-MsgGUID: qoFdn/GKTXaBQ37Ufe12Gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72583014"
+  t=1771421398; x=1802957398;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+eEDQP7ZC+Sn7kLzL0NEWHh05rcZXqlQQIEzWs0DxtA=;
+  b=iTXg9L3QjcJGmZGwJfzHj5LvLIq7/6MHSZXXufH675aOhyUPwGgNZ1lo
+   fths+1YDowTq3325CawCXjxOG7Qj7JtnBuaIvXY2NJubWjK40WKUFeer8
+   pMEo5Xw98cL/TZ3E+Mf84gioERUGuHSWoGnFuf95r/uTjacmNKurCtKbb
+   l361tM/PyJqTjis2OUEYNkP0cCc+BMEcqkuUGuezibXXpHpSk8/FVtQo7
+   k9DGpQa1mUVNOKw5x+qzU+xlICAVOaPhiaqsHMeH375m/4+wOk09UHfvr
+   EDG4GmMbmOmf3RU2zMvhY4yr2KerK5QGqets6lRAUnl7hjrnfTXwg1ZoL
+   g==;
+X-CSE-ConnectionGUID: MBLNGnJ1SwOYDOxpt6Uziw==
+X-CSE-MsgGUID: AiWtuf3XSBaxfqqrvbcOMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="97956445"
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="72583014"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 04:57:53 -0800
-X-CSE-ConnectionGUID: L0g5vyaTTBSQSkPs+uApbQ==
-X-CSE-MsgGUID: 8CcmXftBQm+c1M6Y9X+/Fg==
+   d="scan'208";a="97956445"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 05:29:56 -0800
+X-CSE-ConnectionGUID: Izloa6RIRcudyY2e/WdIxA==
+X-CSE-MsgGUID: dQzn2tmzSRSZRYfKJ5n1tA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="213384349"
+   d="scan'208";a="212553047"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Feb 2026 04:57:51 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 18 Feb 2026 05:29:52 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsh7l-000000012M0-1Wuf;
-	Wed, 18 Feb 2026 12:57:49 +0000
-Date: Wed, 18 Feb 2026 20:56:57 +0800
+	id 1vshck-000000012Nc-1WO1;
+	Wed, 18 Feb 2026 13:29:50 +0000
+Date: Wed, 18 Feb 2026 21:28:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:container 10/18] <stdin>:1636:2: warning:
- #warning syscall container_enter not implemented
-Message-ID: <202602182040.LLf75ekt-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Aelin Reidel <aelin@mainlining.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux@mainlining.org,
+	phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+	Aelin Reidel <aelin@mainlining.org>,
+	Piyush Raj Chouhan <pc1598@mainlining.org>
+Subject: Re: [PATCH 2/3] Input: add support for Goodix GTX8 Touchscreen ICs
+Message-ID: <202602182104.ONBwXzkn-lkp@intel.com>
+References: <20260218-gtx8-v1-2-0d575b3dedc5@mainlining.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260218-gtx8-v1-2-0d575b3dedc5@mainlining.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git container
-head:   c9d7b30aee6e85e849373b80fb5e4ace5fd890ed
-commit: e8d2efa78c5d0d25517279fad58fee78cd05fcc3 [10/18] containers: Implement container_enter()
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260218/202602182040.LLf75ekt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602182040.LLf75ekt-lkp@intel.com/reproduce)
+Hi Aelin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on fe9e3edb6a215515d1148d32a5c445c5bdd7916f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aelin-Reidel/dt-bindings-input-document-Goodix-GTX8-Touchscreen-ICs/20260218-075424
+base:   fe9e3edb6a215515d1148d32a5c445c5bdd7916f
+patch link:    https://lore.kernel.org/r/20260218-gtx8-v1-2-0d575b3dedc5%40mainlining.org
+patch subject: [PATCH 2/3] Input: add support for Goodix GTX8 Touchscreen ICs
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260218/202602182104.ONBwXzkn-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602182104.ONBwXzkn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602182040.LLf75ekt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602182104.ONBwXzkn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   <stdin>:1627:2: warning: #warning syscall container_create not implemented [-Wcpp]
-   <stdin>:1630:2: warning: #warning syscall container_wait not implemented [-Wcpp]
-   <stdin>:1633:2: warning: #warning syscall container_kill not implemented [-Wcpp]
->> <stdin>:1636:2: warning: #warning syscall container_enter not implemented [-Wcpp]
---
-   <stdin>:1627:2: warning: #warning syscall container_create not implemented [-Wcpp]
-   <stdin>:1630:2: warning: #warning syscall container_wait not implemented [-Wcpp]
-   <stdin>:1633:2: warning: #warning syscall container_kill not implemented [-Wcpp]
->> <stdin>:1636:2: warning: #warning syscall container_enter not implemented [-Wcpp]
+>> drivers/input/touchscreen/goodix_gtx8.c:110:16: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     110 |                         finger_id = FIELD_GET(
+         |                                     ^
+   drivers/input/touchscreen/goodix_gtx8.c:135:14: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     135 |         touch_num = FIELD_GET(GOODIX_GTX8_TOUCH_COUNT_MASK, touch_num);
+         |                     ^
+   2 errors generated.
+
+
+vim +/FIELD_GET +110 drivers/input/touchscreen/goodix_gtx8.c
+
+    87	
+    88	static void goodix_gtx8_report_state(struct goodix_gtx8_core *cd, u8 touch_num,
+    89					     union goodix_gtx8_touch *touch_data)
+    90	{
+    91		union goodix_gtx8_touch *t;
+    92		int i;
+    93		u8 finger_id;
+    94	
+    95		for (i = 0; i < touch_num; i++) {
+    96			t = &touch_data[i];
+    97	
+    98			if (cd->ic_data->ic_type == IC_TYPE_NORMANDY) {
+    99				input_mt_slot(cd->input_dev, t->normandy.finger_id);
+   100				input_mt_report_slot_state(cd->input_dev,
+   101							   MT_TOOL_FINGER, true);
+   102	
+   103				touchscreen_report_pos(cd->input_dev, &cd->props,
+   104						       __le16_to_cpu(t->normandy.x),
+   105						       __le16_to_cpu(t->normandy.y),
+   106						       true);
+   107				input_report_abs(cd->input_dev, ABS_MT_TOUCH_MAJOR,
+   108						 t->normandy.w);
+   109			} else {
+ > 110				finger_id = FIELD_GET(
+   111					GOODIX_GTX8_FINGER_ID_MASK_YELLOWSTONE,
+   112					t->yellowstone.finger_id);
+   113				input_mt_slot(cd->input_dev, finger_id);
+   114				input_mt_report_slot_state(cd->input_dev,
+   115							   MT_TOOL_FINGER, true);
+   116	
+   117				touchscreen_report_pos(cd->input_dev, &cd->props,
+   118						       __be16_to_cpu(t->yellowstone.x),
+   119						       __be16_to_cpu(t->yellowstone.y),
+   120						       true);
+   121				input_report_abs(cd->input_dev, ABS_MT_TOUCH_MAJOR,
+   122						 t->yellowstone.w);
+   123			}
+   124		}
+   125	
+   126		input_mt_sync_frame(cd->input_dev);
+   127		input_sync(cd->input_dev);
+   128	}
+   129	
 
 -- 
 0-DAY CI Kernel Test Service
