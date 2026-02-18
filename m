@@ -1,58 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACE61FF7C7;
-	Wed, 18 Feb 2026 02:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B94A3EBF13
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Feb 2026 02:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771381352; cv=none; b=ncHsYEXakP9WiTaCXmA6UmPmHRtLZcoL4txWgkBbUbZ+UtxbaKzc4VuuPxk8UVmNft6Q1wEyyNxrnqLRNH4JKe8ZMsYhrXx3rCiDOVB3NR0A5nIZqk6KS1ArgWppHvnHzI7/XWOLLhmhAYQKVmW28sEtLB/Xs5uPC3+YK9JE+Ro=
+	t=1771382177; cv=none; b=H5rDUMY8PtTnS0SZubSx1WKrCEzy2Swc6KIoWYwVXvTBDar4tan/IAGqPbwtWfeXb+VhIinoh5kx/GrJbxIsJtP3NwnRA4Ck5MZErSXS5EEYGckD/I6jsF4779j2T3GyQV2V7ZwyZ1c9eYBKcwlw/9tj3ZZQE/ponHD7LeoZAUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771381352; c=relaxed/simple;
-	bh=gjekzyv017HkC8dltOomfJMrgz+qs6P8g8/ivFYMVNA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mUQ6hGUzWQjA+5EJCj2ZuPemqJoO/BuGBztOVklsapkvnRM4w9lg0E7x2VKRhy8AikLS8Dx+L7gjz5AU9R9zJza9dY5RfCIpjhzRf2y0F0PPT2f3VLfzCXypi8xtdrXLC7rylvUbBftrWwo4E1V2i8p0z4is4HaB5G1/hOamOQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0dVzC1J; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1771382177; c=relaxed/simple;
+	bh=F7QmxLEcFbzzsXQp14JfA/PknPm03H54WVV+lcDkUME=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Y4VHcBz/QHKnd2cE1WZVHT6a1JeCD2whR85F/DyAMDTh57RbhKHChaOfq2vq2qAq1OaY5Qtr6jOyQY9cGWhwKQBQZJT5EmrtUgOnFzTxnTzH1E54pg0AffGYvPSrsyATgCwvIsXWpbkNMldTD5mQv6wUgFTbaTjzKafWFZACius=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EU4r9zcW; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0dVzC1J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EU4r9zcW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771381351; x=1802917351;
+  t=1771382175; x=1802918175;
   h=date:from:to:cc:subject:message-id;
-  bh=gjekzyv017HkC8dltOomfJMrgz+qs6P8g8/ivFYMVNA=;
-  b=m0dVzC1JLUe6ThkJSmN/kKKl7lf9XhaGBkn9wvKRND8Q6il249VSth6X
-   +KKllrxzA4BMjc6NpyacOF4kesI5R4NTxjqjhuYZGpOqGxTmqZkCvBxCM
-   rPUJVbbHijCF19nva+CvOoHpOPlynFRpLB5tpzN3DSqgZk/2hMgNB/6v3
-   VJ+0jamaC6bkidNjR+yXHkKp8ct282fyz4TqdnnZ4XSwEQJQBQDxgY/za
-   5wmKMu5nJAzt43IYqWu8iSUTsnW7ink9rzxGIoDuBDUUkHlS5eA+8MdvS
-   VV+yrToNNZGqt368o/+duBbS20uztemjiskq47b5y77DngCfDPKxSbvIE
-   A==;
-X-CSE-ConnectionGUID: BPfyffVsQ5OSENla7HUOhQ==
-X-CSE-MsgGUID: pakQVzGQRlGOuXfcwPdzXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="83083176"
+  bh=F7QmxLEcFbzzsXQp14JfA/PknPm03H54WVV+lcDkUME=;
+  b=EU4r9zcWder1tsRuZToNvbu9NwDoR2hDU2/odyJ5UkD7D0IcxXj7N1Vj
+   9fe0VYD9FVF55+PfLQc/vTb96sAMRjJ69qNwAClJ7nqpoqSjOm2zE+/Td
+   B7E4rYTMMOZ4UD/odkERCUWG7BQBltlyRnyPKxxMu7vk6UvWk8z5aVpNt
+   gJ1cOm4yqIXo4zFryjCFknJhJEkOMxR5JUM8QH4N0tJ8xT6VQs3HjdVUV
+   N4puIZS6EPo11NFSfW08tJRB+v+J7w4ZvW6pCXzCSv0G/DO82MgnO/b46
+   f7rOJW6q0WjcyrqmqHuIAwY5OHrBhtrxbVP+fbfPHUI20rmQowI1gRTWG
+   w==;
+X-CSE-ConnectionGUID: yBW4o1nqQmWXs+S9bvdqlw==
+X-CSE-MsgGUID: cYSa9ZD3SVeHSZWQIIeHOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="83083798"
 X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
-   d="scan'208";a="83083176"
+   d="scan'208";a="83083798"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 18:22:30 -0800
-X-CSE-ConnectionGUID: WW/WivXmR/y7d4QCW80jwA==
-X-CSE-MsgGUID: RGbOyng8QOOCbG5x//C96A==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 18:36:14 -0800
+X-CSE-ConnectionGUID: IZPpdP1aSpGPeDO1ubX2ng==
+X-CSE-MsgGUID: 52u463RQSrO9KDhtsWE2Gg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
-   d="scan'208";a="251752802"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Feb 2026 18:22:29 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="251755338"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 17 Feb 2026 18:36:14 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsXCs-000000011wm-1a3N;
-	Wed, 18 Feb 2026 02:22:26 +0000
-Date: Wed, 18 Feb 2026 10:21:38 +0800
+	id 1vsXQA-000000003RN-3TOO;
+	Wed, 18 Feb 2026 02:36:10 +0000
+Date: Wed, 18 Feb 2026 03:35:34 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jul Lang <jullanggit@proton.me>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:pr/1059 2/3]
- fs/bcachefs/sb/members.c:173:21: warning: variable 'first_bucket' is
- uninitialized when used within its own initialization
-Message-ID: <202602181006.rLTgu86r-lkp@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/mm 15/29] Diff in
+ drivers/gpu/nova-core/mm/pagetable/mod.rs:298:
+Message-ID: <202602180308.XywRaTPu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,79 +59,205 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs pr/1059
-head:   b099347f62903a9a0a75f788e823066f10596d0f
-commit: b6aa2c934cb9d7bb0ada1345188237f32e24107d [2/3] bcachefs: validate_member(): extract variables
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260218/202602181006.rLTgu86r-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181006.rLTgu86r-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
+head:   37b89e17139395c3a1a0871785230f02e8c65622
+commit: 26a67ee3a41fd6a684566ef2b9157c1e48d29dab [15/29] nova-core: mm: Add unified page table entry wrapper enums
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260218/202602180308.XywRaTPu-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602180308.XywRaTPu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602181006.rLTgu86r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602180308.XywRaTPu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/bcachefs/sb/members.c:173:21: warning: variable 'first_bucket' is uninitialized when used within its own initialization [-Wuninitialized]
-     173 |         u16 first_bucket = first_bucket;
-         |             ~~~~~~~~~~~~   ^~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +/first_bucket +173 fs/bcachefs/sb/members.c
-
-   159	
-   160	static int validate_member(struct printbuf *err,
-   161				   struct bch_member m,
-   162				   struct bch_sb *sb,
-   163				   int i)
-   164	{
-   165		u64 nbuckets = le64_to_cpu(m.nbuckets);
-   166	
-   167		if (nbuckets > BCH_MEMBER_NBUCKETS_MAX) {
-   168			prt_printf(err, "device %u: too many buckets (got %llu, max %u)",
-   169				   i, nbuckets, BCH_MEMBER_NBUCKETS_MAX);
-   170			return -BCH_ERR_invalid_sb_members;
-   171		}
-   172	
- > 173		u16 first_bucket = first_bucket;
-   174	
-   175		if (nbuckets - first_bucket < BCH_MIN_NR_NBUCKETS) {
-   176			prt_printf(err, "device %u: not enough buckets (got %llu, min %u)",
-   177				   i, le64_to_cpu(m.nbuckets), BCH_MIN_NR_NBUCKETS);
-   178			return -BCH_ERR_invalid_sb_members;
-   179		}
-   180	
-   181		u16 bucket_size = le16_to_cpu(m.bucket_size);
-   182		u16 block_size = le16_to_cpu(sb->block_size);
-   183	
-   184		if (bucket_size < block_size) {
-   185			prt_printf(err, "device %u: bucket size %u smaller than block size %u",
-   186				   i, bucket_size, block_size);
-   187			return -BCH_ERR_invalid_sb_members;
-   188		}
-   189	
-   190		if (bucket_size < BCH_SB_BTREE_NODE_SIZE(sb)) {
-   191			prt_printf(err, "device %u: bucket size %u smaller than btree node size %llu",
-   192				   i, bucket_size, BCH_SB_BTREE_NODE_SIZE(sb));
-   193			return -BCH_ERR_invalid_sb_members;
-   194		}
-   195	
-   196		if (m.btree_bitmap_shift >= BCH_MI_BTREE_BITMAP_SHIFT_MAX) {
-   197			prt_printf(err, "device %u: invalid btree_bitmap_shift %u", i, m.btree_bitmap_shift);
-   198			return -BCH_ERR_invalid_sb_members;
-   199		}
-   200	
-   201		if (BCH_MEMBER_FREESPACE_INITIALIZED(&m) &&
-   202		    sb->features[0] & cpu_to_le64(BIT_ULL(BCH_FEATURE_no_alloc_info))) {
-   203			prt_printf(err, "device %u: freespace initialized but fs has no alloc info", i);
-   204			return -BCH_ERR_invalid_sb_members;
-   205		}
-   206	
-   207		return 0;
-   208	}
-   209	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:298:
+        }
+    
+        /// Write this `PTE` to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.raw_u64())
+        }
+    }
+   Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:382:
+        }
+    
+        /// Write this `PDE` to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.raw_u64())
+        }
+    }
+   Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:467:
+        }
+    
+        /// Write this dual PDE (128-bit) to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.big_raw_u64())?;
+            window.try_write64(addr.raw() + 8, self.small_raw_u64())
+        }
+>> Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:298:
+        }
+    
+        /// Write this `PTE` to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.raw_u64())
+        }
+    }
+   Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:382:
+        }
+    
+        /// Write this `PDE` to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.raw_u64())
+        }
+    }
+   Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:467:
+        }
+    
+        /// Write this dual PDE (128-bit) to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.big_raw_u64())?;
+            window.try_write64(addr.raw() + 8, self.small_raw_u64())
+        }
+>> Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:298:
+        }
+    
+        /// Write this `PTE` to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.raw_u64())
+        }
+    }
+   Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:382:
+        }
+    
+        /// Write this `PDE` to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.raw_u64())
+        }
+    }
+   Diff in drivers/gpu/nova-core/mm/pagetable/mod.rs:467:
+        }
+    
+        /// Write this dual PDE (128-bit) to VRAM.
+   -    pub(crate) fn write(
+   -        &self,
+   -        window: &mut pramin::PraminWindow<'_>,
+   -        addr: VramAddress,
+   -    ) -> Result {
+   +    pub(crate) fn write(&self, window: &mut pramin::PraminWindow<'_>, addr: VramAddress) -> Result {
+            window.try_write64(addr.raw(), self.big_raw_u64())?;
+            window.try_write64(addr.raw() + 8, self.small_raw_u64())
+        }
+   Diff in rust/kernel/ffi/clist.rs:98:
+    use pin_init::{
+        pin_data,
+        pin_init,
+   -    PinInit //
+   +    PinInit, //
+    };
+    
+    /// FFI wrapper for a C `list_head` object used in intrusive linked lists.
+   Diff in rust/kernel/ffi/clist.rs:98:
+    use pin_init::{
+        pin_data,
+        pin_init,
+   -    PinInit //
+   +    PinInit, //
+    };
+    
+    /// FFI wrapper for a C `list_head` object used in intrusive linked lists.
+   Diff in rust/kernel/gpu/buddy.rs:132:
+    //! ```
+    
+    use crate::{
+   -    bindings,
+   -    clist_create,
+   -    ffi::clist::CListHead,
+   +    bindings, clist_create,
+        error::to_result,
+   +    ffi::clist::CListHead,
+        new_mutex,
+        prelude::*,
+        sync::{
+   Diff in rust/kernel/gpu/buddy.rs:331:
+        /// Creates a buddy allocator that manages a contiguous address space of the given
+        /// size, with the specified minimum allocation unit (chunk_size must be at least 4KB).
+        pub fn new(params: GpuBuddyParams) -> Result<Self> {
+   -        Ok(Self(Arc::pin_init(
+   -            GpuBuddyInner::new(params),
+   -            GFP_KERNEL,
+   -        )?))
+   +        Ok(Self(Arc::pin_init(GpuBuddyInner::new(params), GFP_KERNEL)?))
+        }
+    
+        /// Get the base offset for allocations.
+   Diff in rust/kernel/gpu/buddy.rs:132:
+    //! ```
+    
+    use crate::{
+   -    bindings,
+   -    clist_create,
+   -    ffi::clist::CListHead,
+   +    bindings, clist_create,
+        error::to_result,
+   +    ffi::clist::CListHead,
+        new_mutex,
+        prelude::*,
+        sync::{
+   Diff in rust/kernel/gpu/buddy.rs:331:
+        /// Creates a buddy allocator that manages a contiguous address space of the given
+        /// size, with the specified minimum allocation unit (chunk_size must be at least 4KB).
+        pub fn new(params: GpuBuddyParams) -> Result<Self> {
+   -        Ok(Self(Arc::pin_init(
+   -            GpuBuddyInner::new(params),
 
 -- 
 0-DAY CI Kernel Test Service
