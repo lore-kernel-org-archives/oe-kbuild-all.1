@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523DB27AC4D;
-	Thu, 19 Feb 2026 19:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64592FFF9B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 19:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771528547; cv=none; b=a1e801jPIZfi2kq7aVajtnKXwmMeQjLzhkaIzYa/GqaFK0c8hkH9Jm7Rp33chZODcbYklGBGn3hVVpOdXnsEP8crw7oxK8asPXd41QURjROjWUaEqe7ZwZSzieGKYO26Us2caj7txI99kHL0Vzpf9c1WAF0CUp6Zj51rza9ZTKQ=
+	t=1771529929; cv=none; b=kBt3xh9thClerfLite75xC0/sFQFEGSR94pnYW6k92khx6Ya5h/tBzTAoL6KS5Sh870pOW7jaZcuxneflftCbon6Ni+FMKu1SnrtulH8XdL3SfUT6ImGdqFfeSTQEa377U4Si/YH00x+MOy3qvrj4wWHtTJUXsqgAxM/RkKSRs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771528547; c=relaxed/simple;
-	bh=6Z081LzIpGyYU0ubZNujB6ZYhzg/b0sDtJVLjBrdrp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EnmCMGWe3dgZF8czYPGK2TNBuMqjqDYl7Gnxe9EMeglNbWpy0FzxudMJdZ2HCoE08pofjIh91BBgwR87/a933DTuark+bIMBXa36ylWf4wYdldPy5HnzbiERSoaSnFLHunXOgxOB/5qtJOuiuEyTvs5yfLZTM4J4c2pYsdU3rqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V3Pp+hCr; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1771529929; c=relaxed/simple;
+	bh=8kHubjpDu220KEyxB6/Ej/qsTyxOBaywRGv7c0Adzr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AIpDbXttOdJaX8i2Cl/aWxPEGacmtPGx7eEPuIwOAtA11CEMmyFpC5pnynpSKbnMQ7AGB7lxNvLEzwRrvkM0A833IEI7oDk0lsaA6IjjGgDPAHTvD5hgtBrqYqNg3u69ov7BjV5SCmAro4qdKFLdAP4mi4Gp46fexH/E/CnwhQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ItVLM4Ah; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V3Pp+hCr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ItVLM4Ah"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771528545; x=1803064545;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6Z081LzIpGyYU0ubZNujB6ZYhzg/b0sDtJVLjBrdrp8=;
-  b=V3Pp+hCrmK25RGocSu5rOSRcn/IC5cBgkUbhX8Y8WKHRQEZf9YbMS2Fa
-   5anQ5R1EyuOA8cFUmp3R8u5YDv2nios9PLkQXBiVS4SXmdlmq60vXapAA
-   XAKp7VWz+Xu5Kw7PZknvhafZnKk2CvBdDedsQDbFiy/xywPMjyfntksDl
-   IU69ewuw3dW7a+plN8Az+oLqDM+Q4oGnZm4UvBYVhYgE1/m8oU0VYCpIr
-   kfQd61zbUFB7o1EdOrajeRfPSmyHV/oXlMvxtW07XI2U6gVZQqKmg/OMe
-   E2PIddsjXgnWeqDqGShwNGczplHjTAB8d6cIayPI93KLsxKMKqygw/QhY
-   w==;
-X-CSE-ConnectionGUID: 43cLS/rMTQGOiJE/v9XbDA==
-X-CSE-MsgGUID: xk+um6iNQEyIp9zwwEv47Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="72686934"
+  t=1771529927; x=1803065927;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8kHubjpDu220KEyxB6/Ej/qsTyxOBaywRGv7c0Adzr4=;
+  b=ItVLM4Ah24jgTPMt3sraTswECJsrdQk/ROZ5AvFVjq/pK0h7PUSVyXQt
+   91CZzdD2qLzcbL4LefPkWdj8bfCkteegbwCQw1p9fJfoa45qsedPr+K5m
+   H79qvfY6of0Chit2oVx5swDkpbQEfc02eRh56vtuwJQcu0DdpqJT/ggvd
+   B4/wwhxehNkWwG7DopbuN8wM+5/osb6GXE9s6aWd8RTPu/1cZxLUdvdvD
+   0HlAY83+royhmVlcninpGpzqlWKLjEfoEfnWnOjCJO5pryEKHQ28fn+ZX
+   GSkNAe11bSwnVW8ijqqPwB3YZRmnfEblQOX/yGMGtQU6WeCdjC3AOXXOh
+   g==;
+X-CSE-ConnectionGUID: Tj0H9vAjQ56SXuRxesjeyA==
+X-CSE-MsgGUID: 4yZ0gQgNQEOuA3HzUyqbMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="83250788"
 X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="72686934"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 11:15:44 -0800
-X-CSE-ConnectionGUID: 8k8p55yJTXqs+mXFZ5zjRw==
-X-CSE-MsgGUID: lUJFHNePR/qInLzE5s59Nw==
+   d="scan'208";a="83250788"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 11:38:47 -0800
+X-CSE-ConnectionGUID: JDLNCxH+SXSrZDIb4DlIlg==
+X-CSE-MsgGUID: YIjD1PtLQ1GfAcbdMQ8nXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="218774215"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 19 Feb 2026 11:15:42 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="214480870"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 19 Feb 2026 11:38:45 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vt9Uy-0000000042H-0Cnz;
-	Thu, 19 Feb 2026 19:15:40 +0000
-Date: Thu, 19 Feb 2026 20:14:58 +0100
+	id 1vt9rH-000000013Uu-1taO;
+	Thu, 19 Feb 2026 19:38:43 +0000
+Date: Fri, 20 Feb 2026 03:38:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tim Guttzeit <tgu@tuxedocomputers.com>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	wse@tuxedocomputers.com, Tim Guttzeit <tgu@tuxedocomputers.com>,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: generic: add LampArray support via hid-lamparray
- helper
-Message-ID: <202602192025.xrvVo680-lkp@intel.com>
-References: <20260219130217.2042972-1-tgu@tuxedocomputers.com>
+To: Joe Lawrence <joe.lawrence@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [joe-lawrence:klp-build-config-work 23/40]
+ =?us-ascii?Q?tools/testing/selftests/klp-build/tests/fail/quick/bad-co?=
+ =?us-ascii?Q?ntext/bad-context.patch:?= warning: ignored by one of the
+ .gitignore files
+Message-ID: <202602200310.WRmhB9Zn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,47 +62,32 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260219130217.2042972-1-tgu@tuxedocomputers.com>
 
-Hi Tim,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on linus/master v6.19 next-20260219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Guttzeit/HID-generic-add-LampArray-support-via-hid-lamparray-helper/20260219-211040
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20260219130217.2042972-1-tgu%40tuxedocomputers.com
-patch subject: [PATCH] HID: generic: add LampArray support via hid-lamparray helper
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260219/202602192025.xrvVo680-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602192025.xrvVo680-lkp@intel.com/reproduce)
+tree:   https://github.com/joe-lawrence/linux klp-build-config-work
+head:   54b8903c5c298f58d56cd7a8189b377cb660651f
+commit: e65c10290b5e3e64ec8c0c0ba53924483684d085 [23/40] selftests/klp-build: add more tests from klp-build-kselftests
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260220/202602200310.WRmhB9Zn-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602200310.WRmhB9Zn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602192025.xrvVo680-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602200310.WRmhB9Zn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: led_mc_calc_color_components
-   >>> referenced by hid-lamparray.c:585 (drivers/hid/hid-lamparray.c:585)
-   >>>               vmlinux.o:(lamparray_register_led)
-   >>> referenced by hid-lamparray.c:449 (drivers/hid/hid-lamparray.c:449)
-   >>>               vmlinux.o:(lamparray_led_brightness_set)
---
->> ld.lld: error: undefined symbol: led_classdev_multicolor_register_ext
-   >>> referenced by led-class-multicolor.h:70 (include/linux/led-class-multicolor.h:70)
-   >>>               vmlinux.o:(lamparray_register_led)
---
->> ld.lld: error: undefined symbol: led_classdev_multicolor_unregister
-   >>> referenced by hid-lamparray.c:615 (drivers/hid/hid-lamparray.c:615)
-   >>>               vmlinux.o:(lamparray_unregister_led)
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/klp-build/tests/fail/quick/bad-context/bad-context.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/klp-build/tests/pass/long/add-file-diff/add-file-diff.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/klp-build/tests/pass/long/add-file-git/add-file-git.patch: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/klp-build/tests/pass/long/multi-file/multi-file.patch: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/klp-build/tests/pass/long/multi-patch/0001-multi-patch.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/klp-build/tests/pass/long/multi-patch/0002-multi-patch.patch: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/klp-build/tests/pass/long/new-local-symbol/new-local-symbol.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/klp-build/tests/pass/long/remove-file-diff/remove-file-diff.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/klp-build/tests/pass/quick/simple-proc-cmdline/simple-proc-cmdline.patch: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/klp-build/tests/pass/quick/simple/simple.patch: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
