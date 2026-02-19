@@ -1,74 +1,69 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1040A29E110
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 08:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3D523BD06;
+	Thu, 19 Feb 2026 10:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771489727; cv=none; b=Tgs//qHwJMjfzgJJPMfj7uKV99chPvoYu49qmSRvhQMcOUD92xrpUdF23d/c7TmB8N/MkcWCEuR8H5xOlfL4NMGoQ3VLa0Akp6hqz3LDwUotO7tZUYLx3swqLBmBASAaL46W99C13U4iHUsCJZg+147Hc/G2yUIoDQkgI027llM=
+	t=1771495357; cv=none; b=njOSXpTGd4cU1EYWAzpb1hrqoE9Z/DnmOkhEoiycxaOBPDBxhhAY2hhWKp97h9JUBlCoYAqkVBDaOO5KovCKdwSJ1AzvRyH6ZFa3rg9zk7d3gH9cuh60vK8EDJhyLlupUDEA0ib4mj6KAkkqoz4jdK6KmoC74x8KhqP0p62OACo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771489727; c=relaxed/simple;
-	bh=CZdvF0NSmvpT3FQaL3yhFOnbzjIg5pEomEvylH7mBNs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Jz8ji2NxOS3zL0m8PmeIbywIYhrI8m5i6tTIcEPzqe8h2v1hqPHJ1NMjiX/iD9rigR6iM9K2TQubk04vCWPMcXjZNCbosJJJ7DiVvqu1posoRLjWzzH7J8l4q1p9qQv2FdtuqWGnc7vJ7i8+A/xp7mxRtATdguNv8Eg6Pja9aLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LTlcuUbl; arc=none smtp.client-ip=209.85.221.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1771495357; c=relaxed/simple;
+	bh=ZIySGTOKZjo5uD6GuM1RfNj9BJy2RdMmuIZWaUktJ4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TTFQXlccd24IOqbVQLrCduW6ls9AbMvUW3GHD3rmzLDzxMOhBFwG3O/Vg6mvS+NpHMpJMO86VcLrr0D5JahxYHB1guZpy2E2hpFj/jj/eVuOI4kdu9/cllHsNpzNAabvOOYL+mmODRPD/Vs3D0oRihs+sSnvKhi5uX99KW6+/94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jm1ivfsG; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LTlcuUbl"
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-43770c94dfaso686865f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 00:28:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1771489723; x=1772094523; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LlA0MoNwLthJ3WbFXT1GsIbvdxg0vIHk87hmvUw3AEo=;
-        b=LTlcuUbl8FYDqCvkHwX2nlLmvsCJhBf0XjQaQ1ybXlUXruh5WIfdKtZZxhG3/dUI0P
-         JNwv8WswHXQu+cjxXQkpz0OtJqpY2IXRs6hkTie6U8Yb1xiN2iMrhinlValtiMSjam/d
-         0vz94bxCSpzhvgvwjxo7UylFTkuBIblHPQvOKJqRVuTaHsw+C5g2UqS08tu+LimLx8kt
-         vae42wQsKr9zXXxSz48OluKJF8vv6SOAtsfb3zZLTKDQCZyZE0kpkEdyj4K7BCRUD2gx
-         AzGtOmFS26gFUuAUILKFjhG/sfOt5haJuvB1X+FjxQnuzqAJnzxypGKRFkPLruETRKgR
-         WoGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771489723; x=1772094523;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LlA0MoNwLthJ3WbFXT1GsIbvdxg0vIHk87hmvUw3AEo=;
-        b=sDWlKk5lkxVm3wPEWiG1sXq4cdA0WRnwezoCipMNUHCQhYyLzEKieS0nNqyDAqVRq7
-         +7YfCrvmECKYXYYyTDJBD0+YA+tH7CjSINbk3OgrBSJzOaUpdbxEkFVB0tyQX9Wmp9vI
-         H4vPYjRvpsWOxtAgWukxI3k/JVkjRd/m7dbAEXMqZFesZa9ZdJhENPnx6roszuzec2KB
-         ONm0FkK93Okhwu1wPQoQ+OH68vZTxnG2CykGsBEuO1KURJNb1gJUaQht23rIMq99jA1Z
-         fXUpHfxATX9p6N2KSGjVxzjr209LjdgELPjqjQr41G/PXDAneC96BM6HpO1qCMyXUVZP
-         +s7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUSmCXv36i4N+4VfEHjzlcoPOLMfKqRB9m9vEpdhfFOHyQNMvi1PWSFvS1fIOXcpwYzo+zL+Mjmuu/CzS5y@lists.linux.dev
-X-Gm-Message-State: AOJu0YxlYPspM3mB0zYuEl6zLUa0JQz7aNgGsLJWBUVkSHzTfHLCin8Z
-	+lBf3It/HFsZolptN0fnJQmaK/FHYQv6+Xm7tr0lMjDdm/XDQFNHR9/f6o+TGuugMuI=
-X-Gm-Gg: AZuq6aJPgVbQj/zN7MmXyFKMZ28i0uTVGNmqCmxUIwOuWX9r3x1LsD12eY5kjIaaCtP
-	YLpXc5LWEdNpOPPaxoldAVdEZb6fpHTOjBbV2K4LBem8vqhDzpVfQOHo1rryCsweE1Vrr+iIYAe
-	oeDpEAHvIGdncs0epd4FF87Du3CWtnpEs6w2Dw9vCst/xUOwKfNjCaVOzMKVnLG28hKO6VhRv/h
-	WmUr9FzOKd0jLTwNzznhVlKba9L5eUXVXjXtyd1dpaaV2isiqXHPq8xwvTdCedwKufKv9Sfg4Sb
-	ZLfv5qKNI4x+wxbKHEcIZjybCbDOuSrSOgkMI93uUY7ym6UFY4JyuAfp1eEIyjndyhkuxaZhDEk
-	XQ533LPao/tJGKocw6OYJNMk6+JsZno3x1tpit9x/GeZdj+LkfCzRZUfdZnHaUZS2f1lP/KiNwT
-	UkrYgHxLNomhYADAeL1BSOYuw/awHd
-X-Received: by 2002:a05:6000:402b:b0:437:678b:83c2 with SMTP id ffacd0b85a97d-43958e5794dmr8711741f8f.54.1771489723133;
-        Thu, 19 Feb 2026 00:28:43 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5ac7csm44982348f8f.7.2026.02.19.00.28.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 00:28:42 -0800 (PST)
-Date: Thu, 19 Feb 2026 11:28:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Akhil R <akhilrajeev@nvidia.com>,
-	dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	vkoul@kernel.org, Frank.Li@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, thierry.reding@gmail.com,
-	jonathanh@nvidia.com, p.zabel@pengutronix.de,
-	Akhil R <akhilrajeev@nvidia.com>
-Subject: Re: [PATCH 6/8] dmaengine: tegra: Use iommu-map for stream ID
-Message-ID: <202602181757.Amx49qCP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jm1ivfsG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771495355; x=1803031355;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZIySGTOKZjo5uD6GuM1RfNj9BJy2RdMmuIZWaUktJ4o=;
+  b=jm1ivfsGgwGyRwBP0Gv1Zu9z+SgJ/DNs/61hQlJ+SSHswBuljQFW8Xxi
+   TIUTxchPMVES9wIkzVH/Nh/2m5hn7TwgrFvguIUNh9T3H/ur1iraPCJW1
+   K92sn77/XwHo7nDPO2H/lEhoY2HOITNe4zS3jbZIscMalGKkI3DtyL2HA
+   ty4B8p/dv2WAIMSH2vSDdTAZDU6Rgm6tD0+Qw+vsE0qDazyVCWdRIzEN3
+   pgsuiYNstIcQEi5Z9tBY57tQcY3PIm13xJ5tuAsq3VKjHfZkADnIL/ABj
+   IXNakEGNWavoxW9VZA/xLqhU+fdJ5ILHMQeE6v40V2qM0iRR9dXuZXbJk
+   w==;
+X-CSE-ConnectionGUID: 4/+s16xPT7OjI0D49WcDBA==
+X-CSE-MsgGUID: QY1eF/R9TBu2fj29DmSZwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="82902067"
+X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
+   d="scan'208";a="82902067"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 02:02:34 -0800
+X-CSE-ConnectionGUID: yVQKBcOHQKa5qE7QL6FLVA==
+X-CSE-MsgGUID: /33pId8jSpWDFgIe5csG+Q==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 19 Feb 2026 02:02:28 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vt0rZ-0000000136e-37xd;
+	Thu, 19 Feb 2026 10:02:25 +0000
+Date: Thu, 19 Feb 2026 18:02:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: "JP Kobryn (Meta)" <jp.kobryn@linux.dev>, linux-mm@kvack.org,
+	mst@redhat.com, mhocko@suse.com, vbabka@suse.cz
+Cc: oe-kbuild-all@lists.linux.dev, apopple@nvidia.com,
+	akpm@linux-foundation.org, axelrasmussen@google.com,
+	byungchul@sk.com, cgroups@vger.kernel.org, david@kernel.org,
+	eperezma@redhat.com, gourry@gourry.net, jasowang@redhat.com,
+	hannes@cmpxchg.org, joshua.hahnjy@gmail.com,
+	Liam.Howlett@oracle.com, linux-kernel@vger.kernel.org,
+	lorenzo.stoakes@oracle.com, matthew.brost@intel.com,
+	rppt@kernel.org, muchun.song@linux.dev, zhengqi.arch@bytedance.com,
+	rakie.kim@sk.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	surenb@google.com, virtualization@lists.linux.dev,
+	weixugc@google.com, xuanzhuo@linux.alibaba.com,
+	ying.huang@linux.alibaba.com
+Subject: Re: [PATCH v3] mm: move pgscan, pgsteal, pgrefill to node stats
+Message-ID: <202602191719.7nkLTJOP-lkp@intel.com>
+References: <20260218222652.108411-1-jp.kobryn@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,95 +72,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260217173457.18628-7-akhilrajeev@nvidia.com>
+In-Reply-To: <20260218222652.108411-1-jp.kobryn@linux.dev>
 
-Hi Akhil,
+Hi JP,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-R/dt-bindings-dma-nvidia-tegra186-gpc-dma-Add-iommu-map-property/20260218-014114
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20260217173457.18628-7-akhilrajeev%40nvidia.com
-patch subject: [PATCH 6/8] dmaengine: tegra: Use iommu-map for stream ID
-config: sparc64-randconfig-r072-20260218 (https://download.01.org/0day-ci/archive/20260218/202602181757.Amx49qCP-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 10.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
+url:    https://github.com/intel-lab-lkp/linux/commits/JP-Kobryn-Meta/mm-move-pgscan-pgsteal-pgrefill-to-node-stats/20260219-063016
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260218222652.108411-1-jp.kobryn%40linux.dev
+patch subject: [PATCH v3] mm: move pgscan, pgsteal, pgrefill to node stats
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260219/202602191719.7nkLTJOP-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602191719.7nkLTJOP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202602181757.Amx49qCP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602191719.7nkLTJOP-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/tegra186-gpc-dma.c:1543 tegra_dma_probe() warn: missing error code 'ret'
+All warnings (new ones prefixed by >>):
 
-vim +/ret +1543 drivers/dma/tegra186-gpc-dma.c
+   mm/vmscan.c: In function 'scan_folios':
+>> mm/vmscan.c:4542:28: warning: unused variable 'memcg' [-Wunused-variable]
+    4542 |         struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+         |                            ^~~~~
 
-ee17028009d49f Akhil R         2022-02-25  1514  	tdma->dma_dev.residue_granularity = DMA_RESIDUE_GRANULARITY_BURST;
-ee17028009d49f Akhil R         2022-02-25  1515  
-ee17028009d49f Akhil R         2022-02-25  1516  	ret = dma_async_device_register(&tdma->dma_dev);
-ee17028009d49f Akhil R         2022-02-25  1517  	if (ret < 0) {
-ee17028009d49f Akhil R         2022-02-25  1518  		dev_err_probe(&pdev->dev, ret,
-ee17028009d49f Akhil R         2022-02-25  1519  			      "GPC DMA driver registration failed\n");
-ee17028009d49f Akhil R         2022-02-25  1520  		return ret;
-ee17028009d49f Akhil R         2022-02-25  1521  	}
-ee17028009d49f Akhil R         2022-02-25  1522  
-43f59d3fa0deca Akhil R         2026-02-17  1523  	list_for_each_entry(chan, &tdma->dma_dev.channels, device_node) {
-43f59d3fa0deca Akhil R         2026-02-17  1524  		struct device *chdev = &chan->dev->device;
-43f59d3fa0deca Akhil R         2026-02-17  1525  
-43f59d3fa0deca Akhil R         2026-02-17  1526  		tdc = to_tegra_dma_chan(chan);
-43f59d3fa0deca Akhil R         2026-02-17  1527  		if (use_iommu_map) {
-43f59d3fa0deca Akhil R         2026-02-17  1528  			chdev->coherent_dma_mask = pdev->dev.coherent_dma_mask;
-43f59d3fa0deca Akhil R         2026-02-17  1529  			chdev->dma_mask = &chdev->coherent_dma_mask;
-43f59d3fa0deca Akhil R         2026-02-17  1530  			chdev->bus = pdev->dev.bus;
-43f59d3fa0deca Akhil R         2026-02-17  1531  
-43f59d3fa0deca Akhil R         2026-02-17  1532  			ret = of_dma_configure_id(chdev, pdev->dev.of_node,
-43f59d3fa0deca Akhil R         2026-02-17  1533  						  true, &tdc->id);
-43f59d3fa0deca Akhil R         2026-02-17  1534  			if (ret) {
-43f59d3fa0deca Akhil R         2026-02-17  1535  				dev_err(chdev, "Failed to configure IOMMU for channel %d: %d\n",
-43f59d3fa0deca Akhil R         2026-02-17  1536  					tdc->id, ret);
-43f59d3fa0deca Akhil R         2026-02-17  1537  				goto err_unregister;
-43f59d3fa0deca Akhil R         2026-02-17  1538  			}
-43f59d3fa0deca Akhil R         2026-02-17  1539  
-43f59d3fa0deca Akhil R         2026-02-17  1540  			if (!tegra_dev_iommu_get_stream_id(chdev, &stream_id)) {
-43f59d3fa0deca Akhil R         2026-02-17  1541  				dev_err(chdev, "Failed to get stream ID for channel %d\n",
-43f59d3fa0deca Akhil R         2026-02-17  1542  					tdc->id);
-43f59d3fa0deca Akhil R         2026-02-17 @1543  				goto err_unregister;
 
-ret = -EINVAL;
+vim +/memcg +4542 mm/vmscan.c
 
-43f59d3fa0deca Akhil R         2026-02-17  1544  			}
-43f59d3fa0deca Akhil R         2026-02-17  1545  
-43f59d3fa0deca Akhil R         2026-02-17  1546  			chan->dev->chan_dma_dev = true;
-43f59d3fa0deca Akhil R         2026-02-17  1547  		}
-43f59d3fa0deca Akhil R         2026-02-17  1548  
-43f59d3fa0deca Akhil R         2026-02-17  1549  		/* program stream-id for this channel */
-43f59d3fa0deca Akhil R         2026-02-17  1550  		tegra_dma_program_sid(tdc, stream_id);
-43f59d3fa0deca Akhil R         2026-02-17  1551  		tdc->stream_id = stream_id;
-43f59d3fa0deca Akhil R         2026-02-17  1552  	}
-43f59d3fa0deca Akhil R         2026-02-17  1553  
-ee17028009d49f Akhil R         2022-02-25  1554  	ret = of_dma_controller_register(pdev->dev.of_node,
-ee17028009d49f Akhil R         2022-02-25  1555  					 tegra_dma_of_xlate, tdma);
-ee17028009d49f Akhil R         2022-02-25  1556  	if (ret < 0) {
-ee17028009d49f Akhil R         2022-02-25  1557  		dev_err_probe(&pdev->dev, ret,
-ee17028009d49f Akhil R         2022-02-25  1558  			      "GPC DMA OF registration failed\n");
-43f59d3fa0deca Akhil R         2026-02-17  1559  		goto err_unregister;
-ee17028009d49f Akhil R         2022-02-25  1560  	}
-ee17028009d49f Akhil R         2022-02-25  1561  
-43f59d3fa0deca Akhil R         2026-02-17  1562  	dev_info(&pdev->dev, "GPC DMA driver registered %lu channels\n",
-3a0c95b61385f5 Akhil R         2022-11-10  1563  		 hweight_long(tdma->chan_mask));
-ee17028009d49f Akhil R         2022-02-25  1564  
-ee17028009d49f Akhil R         2022-02-25  1565  	return 0;
-43f59d3fa0deca Akhil R         2026-02-17  1566  
-43f59d3fa0deca Akhil R         2026-02-17  1567  err_unregister:
-43f59d3fa0deca Akhil R         2026-02-17  1568  	dma_async_device_unregister(&tdma->dma_dev);
-43f59d3fa0deca Akhil R         2026-02-17  1569  	return ret;
-ee17028009d49f Akhil R         2022-02-25  1570  }
+ac35a490237446 Yu Zhao        2022-09-18  4527  
+af827e0904899f Koichiro Den   2025-05-31  4528  static int scan_folios(unsigned long nr_to_scan, struct lruvec *lruvec,
+af827e0904899f Koichiro Den   2025-05-31  4529  		       struct scan_control *sc, int type, int tier,
+af827e0904899f Koichiro Den   2025-05-31  4530  		       struct list_head *list)
+ac35a490237446 Yu Zhao        2022-09-18  4531  {
+669281ee7ef731 Kalesh Singh   2023-08-01  4532  	int i;
+669281ee7ef731 Kalesh Singh   2023-08-01  4533  	int gen;
+b0e9e710c6bb5a JP Kobryn      2026-02-18  4534  	enum node_stat_item item;
+ac35a490237446 Yu Zhao        2022-09-18  4535  	int sorted = 0;
+ac35a490237446 Yu Zhao        2022-09-18  4536  	int scanned = 0;
+ac35a490237446 Yu Zhao        2022-09-18  4537  	int isolated = 0;
+8c2214fc9a470a Jaewon Kim     2023-10-03  4538  	int skipped = 0;
+49d921b471c513 Chen Ridong    2025-12-04  4539  	int scan_batch = min(nr_to_scan, MAX_LRU_BATCH);
+49d921b471c513 Chen Ridong    2025-12-04  4540  	int remaining = scan_batch;
+391655fe08d1f9 Yu Zhao        2022-12-21  4541  	struct lru_gen_folio *lrugen = &lruvec->lrugen;
+ac35a490237446 Yu Zhao        2022-09-18 @4542  	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+ac35a490237446 Yu Zhao        2022-09-18  4543  
+ac35a490237446 Yu Zhao        2022-09-18  4544  	VM_WARN_ON_ONCE(!list_empty(list));
+ac35a490237446 Yu Zhao        2022-09-18  4545  
+ac35a490237446 Yu Zhao        2022-09-18  4546  	if (get_nr_gens(lruvec, type) == MIN_NR_GENS)
+ac35a490237446 Yu Zhao        2022-09-18  4547  		return 0;
+ac35a490237446 Yu Zhao        2022-09-18  4548  
+ac35a490237446 Yu Zhao        2022-09-18  4549  	gen = lru_gen_from_seq(lrugen->min_seq[type]);
+ac35a490237446 Yu Zhao        2022-09-18  4550  
+669281ee7ef731 Kalesh Singh   2023-08-01  4551  	for (i = MAX_NR_ZONES; i > 0; i--) {
+ac35a490237446 Yu Zhao        2022-09-18  4552  		LIST_HEAD(moved);
+8c2214fc9a470a Jaewon Kim     2023-10-03  4553  		int skipped_zone = 0;
+669281ee7ef731 Kalesh Singh   2023-08-01  4554  		int zone = (sc->reclaim_idx + i) % MAX_NR_ZONES;
+6df1b2212950aa Yu Zhao        2022-12-21  4555  		struct list_head *head = &lrugen->folios[gen][type][zone];
+ac35a490237446 Yu Zhao        2022-09-18  4556  
+ac35a490237446 Yu Zhao        2022-09-18  4557  		while (!list_empty(head)) {
+ac35a490237446 Yu Zhao        2022-09-18  4558  			struct folio *folio = lru_to_folio(head);
+ac35a490237446 Yu Zhao        2022-09-18  4559  			int delta = folio_nr_pages(folio);
+ac35a490237446 Yu Zhao        2022-09-18  4560  
+ac35a490237446 Yu Zhao        2022-09-18  4561  			VM_WARN_ON_ONCE_FOLIO(folio_test_unevictable(folio), folio);
+ac35a490237446 Yu Zhao        2022-09-18  4562  			VM_WARN_ON_ONCE_FOLIO(folio_test_active(folio), folio);
+ac35a490237446 Yu Zhao        2022-09-18  4563  			VM_WARN_ON_ONCE_FOLIO(folio_is_file_lru(folio) != type, folio);
+ac35a490237446 Yu Zhao        2022-09-18  4564  			VM_WARN_ON_ONCE_FOLIO(folio_zonenum(folio) != zone, folio);
+ac35a490237446 Yu Zhao        2022-09-18  4565  
+ac35a490237446 Yu Zhao        2022-09-18  4566  			scanned += delta;
+ac35a490237446 Yu Zhao        2022-09-18  4567  
+669281ee7ef731 Kalesh Singh   2023-08-01  4568  			if (sort_folio(lruvec, folio, sc, tier))
+ac35a490237446 Yu Zhao        2022-09-18  4569  				sorted += delta;
+ac35a490237446 Yu Zhao        2022-09-18  4570  			else if (isolate_folio(lruvec, folio, sc)) {
+ac35a490237446 Yu Zhao        2022-09-18  4571  				list_add(&folio->lru, list);
+ac35a490237446 Yu Zhao        2022-09-18  4572  				isolated += delta;
+ac35a490237446 Yu Zhao        2022-09-18  4573  			} else {
+ac35a490237446 Yu Zhao        2022-09-18  4574  				list_move(&folio->lru, &moved);
+8c2214fc9a470a Jaewon Kim     2023-10-03  4575  				skipped_zone += delta;
+ac35a490237446 Yu Zhao        2022-09-18  4576  			}
+ac35a490237446 Yu Zhao        2022-09-18  4577  
+8c2214fc9a470a Jaewon Kim     2023-10-03  4578  			if (!--remaining || max(isolated, skipped_zone) >= MIN_LRU_BATCH)
+ac35a490237446 Yu Zhao        2022-09-18  4579  				break;
+ac35a490237446 Yu Zhao        2022-09-18  4580  		}
+ac35a490237446 Yu Zhao        2022-09-18  4581  
+8c2214fc9a470a Jaewon Kim     2023-10-03  4582  		if (skipped_zone) {
+ac35a490237446 Yu Zhao        2022-09-18  4583  			list_splice(&moved, head);
+8c2214fc9a470a Jaewon Kim     2023-10-03  4584  			__count_zid_vm_events(PGSCAN_SKIP, zone, skipped_zone);
+8c2214fc9a470a Jaewon Kim     2023-10-03  4585  			skipped += skipped_zone;
+ac35a490237446 Yu Zhao        2022-09-18  4586  		}
+ac35a490237446 Yu Zhao        2022-09-18  4587  
+ac35a490237446 Yu Zhao        2022-09-18  4588  		if (!remaining || isolated >= MIN_LRU_BATCH)
+ac35a490237446 Yu Zhao        2022-09-18  4589  			break;
+ac35a490237446 Yu Zhao        2022-09-18  4590  	}
+ac35a490237446 Yu Zhao        2022-09-18  4591  
+e452872b40e3f1 Hao Jia        2025-03-18  4592  	item = PGSCAN_KSWAPD + reclaimer_offset(sc);
+b0e9e710c6bb5a JP Kobryn      2026-02-18  4593  	mod_lruvec_state(lruvec, item, isolated);
+b0e9e710c6bb5a JP Kobryn      2026-02-18  4594  	mod_lruvec_state(lruvec, PGREFILL, sorted);
+b0e9e710c6bb5a JP Kobryn      2026-02-18  4595  	mod_lruvec_state(lruvec, PGSCAN_ANON + type, isolated);
+49d921b471c513 Chen Ridong    2025-12-04  4596  	trace_mm_vmscan_lru_isolate(sc->reclaim_idx, sc->order, scan_batch,
+8c2214fc9a470a Jaewon Kim     2023-10-03  4597  				scanned, skipped, isolated,
+8c2214fc9a470a Jaewon Kim     2023-10-03  4598  				type ? LRU_INACTIVE_FILE : LRU_INACTIVE_ANON);
+1bc542c6a0d144 Zeng Jingxiang 2024-10-26  4599  	if (type == LRU_GEN_FILE)
+1bc542c6a0d144 Zeng Jingxiang 2024-10-26  4600  		sc->nr.file_taken += isolated;
+ac35a490237446 Yu Zhao        2022-09-18  4601  	/*
+e9d4e1ee788097 Yu Zhao        2022-12-21  4602  	 * There might not be eligible folios due to reclaim_idx. Check the
+e9d4e1ee788097 Yu Zhao        2022-12-21  4603  	 * remaining to prevent livelock if it's not making progress.
+ac35a490237446 Yu Zhao        2022-09-18  4604  	 */
+ac35a490237446 Yu Zhao        2022-09-18  4605  	return isolated || !remaining ? scanned : 0;
+ac35a490237446 Yu Zhao        2022-09-18  4606  }
+ac35a490237446 Yu Zhao        2022-09-18  4607  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
