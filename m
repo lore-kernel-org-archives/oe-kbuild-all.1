@@ -1,170 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDB62C08A2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 08:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31116291C1F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 08:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771488043; cv=none; b=UR+jeooRKs9DRHfFrgeE+WobOkK6u07/XGFJQcn94RlOh3oDdRZ41o8rkqE8Zwabo6ZfefIPeaeKLO4Brow1coWwQGMT046Tol5bsONsxdkyP5f5lToLh2GRvNO3KCGjGNyHlDwXwA/MO8FNGrTWUtphHpfu5wl/gCsN+QU9hqE=
+	t=1771489363; cv=none; b=fqcwaCN3oO9uBSJhTQ271Z9i1Fsel+CXJMZb94DUZcSypE7ya39NkzLR8fbvVN7IdmpvVZK9q2k+HM7nGEdn72TmrrDrOKHC3ts4HFAK+8ltA+LHktLXewjpU3VSr5Txw/b/CCmsK1Z+j2Ab0zknAoeWTbKOhjV9rrR5WmJoM3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771488043; c=relaxed/simple;
-	bh=KZ1N8ZjwQQbRte4wcvMZr9SVgxmLK9We4Mi+tTwcilk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CJBljswPHeGEZEuzlxUA7/RayBhl+2m3kjs8ZbxRLYQW9e+rVAHhiBukQdc54W6nxRMsvnct3fowCCpk96VTLEqmZLPjCpHQ0pYX7fH+lUbB7KuP+c66XpqjmAI53vs/Ol5VG3k/8UV2IcatC7N8BuvYk+ZmlKeQpjozKte1Ftw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uwtr7nP0; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771489363; c=relaxed/simple;
+	bh=yJ+COvpiMGz+oVO3xJ3UpYvs+If0stPqHups40gU1fM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=fUE9GQsVg7LzZFzhTudTSwhh8oBEFzihWu6QjcgOYOx1YLXG/4erBkhmeBUOw9GZwsgQqQ4eFsEVHfN29O8Q/FoufA3pxir98M/Ofj4kElWpSjI49WVQH7jsV5ruAeC0TaTkAnjlDsdhYfDR29hCj3AGg8u0bXX+pu5fEp2eC+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ddFexdqf; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uwtr7nP0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771488042; x=1803024042;
-  h=date:from:to:cc:subject:message-id;
-  bh=KZ1N8ZjwQQbRte4wcvMZr9SVgxmLK9We4Mi+tTwcilk=;
-  b=Uwtr7nP0Mbr9GyOy2j2kNwdS9jbsUX4g2gt0DMlPtvlgiLXSSvNurKvl
-   TOOEWQd8e6rTX6GbaMzqpHdetoOQtC9zFATwqGpM5P5jz+827Za9chb0Q
-   BxySnxhqjBBMunX97lhbR9KMS9rawEOnr0RzdA3i0N1o6zhS3dwqgGad1
-   ijxHkFb3GruWHUgf86XwQdEfkkG8o4L/SxsPVWAV5+9H7K9bX3Bwe0jGd
-   5RR4Ip+rSXzZqUIY6JOlqlonh/v6fHKdNpIwYqEeob2OhuMzkzh6kmtJ+
-   o9sqzpPfJ0E39uTpVftGCXTMdur1SbhNM0MOtuR9g7mtGYzg8u80rLs5P
-   w==;
-X-CSE-ConnectionGUID: IynWbnfdSk2LNzTesuMI1A==
-X-CSE-MsgGUID: EdJ8ZcaIQRCPREM5UzbIxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="98031019"
-X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="98031019"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 00:00:40 -0800
-X-CSE-ConnectionGUID: bUhIEx1fRtCP1qo4BUFcJw==
-X-CSE-MsgGUID: Es44zU44TBW69S46ho8YTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="214457242"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Feb 2026 00:00:25 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vsyxT-0000000132j-0c8M;
-	Thu, 19 Feb 2026 08:00:23 +0000
-Date: Thu, 19 Feb 2026 15:59:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Damien Le Moal <dlemoal@kernel.org>
-Subject: arch/mips/include/asm/bitops.h:104:2: warning: used $at
- (currently $1) without ".set noat"
-Message-ID: <202602191524.ahByivoK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ddFexdqf"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-483770e0b25so6756825e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 00:22:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1771489359; x=1772094159; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0D6P+pMy0FNkLSD5nYId8+lNUqZXXTENXB4evIwBeIY=;
+        b=ddFexdqfPKwk1KxmosfORi8DhuFiB04+IofuIPy0VdBpGKWgroijqzWV2xsZqnp6l4
+         FSIuJUw+69fxCDcd5EkG0gwCNcVzjFTsrjmGadOIi8njVkERlVt4nYX1+yHNVaqdN6BH
+         KJJyRJSllq74/cO72dVrpkJogkW37+Tu4443H+Ng/pfq3qpkJCYup9QbI3oQg2seqokT
+         cLbaSYnQtiE8njt8QwUbt5qNJ60khioXM/A6rBH9gs/S2HerM5XvE4AUNTDlvA1amcVk
+         s7OSpaKTb2a0Lw3BvIa1w3BD7p5OSCQ8HqEBJLvHbIRi58C87L7Dhbmyki/xS7OIAXIO
+         e+Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771489359; x=1772094159;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0D6P+pMy0FNkLSD5nYId8+lNUqZXXTENXB4evIwBeIY=;
+        b=WhCzwtawFYjCDRjOcaBDlHB31w8UWk6w3u80qsJ1z6bLBUQPLPDTsYNCUqfHQDQAGj
+         FYavBFUdfVyZayLE7F83Iq5I2gnVDTiO3KvgRqEf9889xOfqnZrzwgF66jNvC3StA6NN
+         p3uJO8xRP2/oBt7it19RHibbSX1gayCJbN1fDybrHYSOjqVMm7hMKIpLmo7xtxzpjJxS
+         bF2dFeqvD5AdVSFHMXif5l38vgBPeoA1yrd67VJgAuIlhDA2P2wk2jpl1eeWaCkR3xju
+         KTQtoGG/Nu6ZS8e2QKqM5YjX4FycGe/teUFRKYs9WX+L0C6zbHXbsSyRMvUFkfbpcs8r
+         Btow==
+X-Forwarded-Encrypted: i=1; AJvYcCUdqNjMPOd9ize0v+Fy5QuOEs2pBYXjSzghaHRJSPFYX/aBrUmjEUXpG/tIxyXvQYZET/hBe3jr3eigJSeG@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzz0M5twajq2tCIhJ4atyGPoDNbAeVARE3Vmx5D+CZcDCBFSn/k
+	26F8IJ0zDoGmw5uoFssDJt4TDNlVXXNXYH9kCBPt5AsieqxdME0J1Z3QoDZzRnYtRjw=
+X-Gm-Gg: AZuq6aLmRpihcUV8bwVQdoXQX0/V0m+JsGO9E/K2OmcUEIJFeAv0jDeq+XhaEYcPOHd
+	1HBVqROKzhMA7ARGkrfxg/newTTh82t/oj3GAZJ8mQRNZk6to3aEu467P/VMScBPl2GbxiTTl+X
+	kBZp8xhl1ftqrg1oz5spBU3XleA7ucik+ac7hiI6+zfuOnLaHvNxxtxTIE4bDgcnA3U4SCFWJSL
+	KU6Y9MLzslSBV66um+bfOoMkWN/xMXpFRdjHBQCyoKZNvzThjjGII10r0UvyTCswejMgRwuWfbs
+	xzkviqirYBQHvOwfPYWYc/HiCxS/n/Xv/E6bk1ub9T658voxFrYMJFGayFJ4XolV3godQW4IT5W
+	ujS/0xlB423V4yVUeymw6DOASiyt5hXPAh63vCjGvqIvPvdWng1KVbOmzPB8rEVujvAwHC2W7v8
+	boDsfvB8Jmd16ZwbQr73o4jy81jCg3
+X-Received: by 2002:a05:600c:870b:b0:483:6f37:1b56 with SMTP id 5b1f17b1804b1-48371051b15mr358346635e9.10.1771489359323;
+        Thu, 19 Feb 2026 00:22:39 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4839f986118sm12865185e9.21.2026.02.19.00.22.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 00:22:38 -0800 (PST)
+Date: Thu, 19 Feb 2026 11:22:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Larisa Grigore <larisa.grigore@oss.nxp.com>,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, sumit.semwal@linaro.org,
+	christian.koenig@amd.com, chester62515@gmail.com,
+	cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
+	stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com,
+	aruizrui@redhat.com, eballetb@redhat.com, echanude@redhat.com,
+	jkangas@redhat.com, Larisa Grigore <larisa.grigore@oss.nxp.com>,
+	Radu Pirea <radu-nicolae.pirea@nxp.com>,
+	Phu Luu An <phu.luuan@nxp.com>, Js Ha <js.ha@nxp.com>,
+	Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
+Subject: Re: [PATCH 12/13] serial: linflexuart: Add DMA support
+Message-ID: <202602171109.6YSFXcJ3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   956b9cbd7f156c8672dac94a00de3c6a0939c692
-commit: 511b3b644e28d9b66e32515a74c57ff599e89035 nvmet: pci-epf: move DMA initialization to EPC init callback
-date:   3 months ago
-config: mips-randconfig-r111-20260219 (https://download.01.org/0day-ci/archive/20260219/202602191524.ahByivoK-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602191524.ahByivoK-lkp@intel.com/reproduce)
+Hi Larisa,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Larisa-Grigore/serial-linflexuart-Fix-locking-in-set_termios/20260216-231403
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20260216150205.212318-13-larisa.grigore%40oss.nxp.com
+patch subject: [PATCH 12/13] serial: linflexuart: Add DMA support
+config: i386-randconfig-141-20260217 (https://download.01.org/0day-ci/archive/20260217/202602171109.6YSFXcJ3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602191524.ahByivoK-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202602171109.6YSFXcJ3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/tty/serial/fsl_linflexuart.c:1441 linflex_probe() warn: missing unwind goto?
 
-   In file included from drivers/nvme/target/pci-epf.c:11:
-   In file included from include/linux/delay.h:12:
-   In file included from include/linux/math.h:6:
-   In file included from arch/mips/include/asm/div64.h:89:
-   In file included from include/asm-generic/div64.h:55:
-   In file included from include/linux/log2.h:12:
-   In file included from include/linux/bitops.h:67:
->> arch/mips/include/asm/bitops.h:104:2: warning: used $at (currently $1) without ".set noat" [-Winline-asm]
-     104 |         __bit_op(*m, "or\t%0, %2", "ir"(BIT(bit)));
-         |         ^
-   arch/mips/include/asm/bitops.h:33:3: note: expanded from macro '__bit_op'
-      33 |         "1:     " __stringify(LONG_LL)  "       %0, %1  \n"     \
-         |          ^
-   <inline asm>:4:13: note: instantiated into assembly here
-       4 | 1:      ll      $3, 0($1)       
-         |                       ^
-   In file included from drivers/nvme/target/pci-epf.c:11:
-   In file included from include/linux/delay.h:12:
-   In file included from include/linux/math.h:6:
-   In file included from arch/mips/include/asm/div64.h:89:
-   In file included from include/asm-generic/div64.h:55:
-   In file included from include/linux/log2.h:12:
-   In file included from include/linux/bitops.h:67:
->> arch/mips/include/asm/bitops.h:104:2: warning: used $at (currently $1) without ".set noat" [-Winline-asm]
-     104 |         __bit_op(*m, "or\t%0, %2", "ir"(BIT(bit)));
-         |         ^
-   arch/mips/include/asm/bitops.h:35:3: note: expanded from macro '__bit_op'
-      35 |         "       " __stringify(LONG_SC)  "       %0, %1  \n"     \
-         |          ^
-   <inline asm>:6:11: note: instantiated into assembly here
-       6 |         sc      $3, 0($1)       
-         |                       ^
-   2 warnings generated.
+vim +1441 drivers/tty/serial/fsl_linflexuart.c
 
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1377  static int linflex_probe(struct platform_device *pdev)
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1378  {
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1379  	struct device_node *np = pdev->dev.of_node;
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1380  	struct linflex_port *lfport;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1381  	struct uart_port *sport;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1382  	struct resource *res;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1383  	int ret;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1384  
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1385  	lfport = devm_kzalloc(&pdev->dev, sizeof(*lfport), GFP_KERNEL);
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1386  	if (!lfport)
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1387  		return -ENOMEM;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1388  
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1389  	sport = &lfport->port;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1390  	sport->dev = &pdev->dev;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1391  
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1392  	lfport->dma_tx_chan = dma_request_chan(sport->dev, "tx");
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1393  	if (IS_ERR(lfport->dma_tx_chan)) {
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1394  		ret = PTR_ERR(lfport->dma_tx_chan);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1395  		if (ret == -EPROBE_DEFER)
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1396  			return ret;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1397  
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1398  		dev_info(sport->dev,
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1399  			 "DMA tx channel request failed, operating without tx DMA %ld\n",
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1400  			 PTR_ERR(lfport->dma_tx_chan));
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1401  		lfport->dma_tx_chan = NULL;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1402  	}
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1403  
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1404  	lfport->dma_rx_chan = dma_request_chan(sport->dev, "rx");
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1405  	if (IS_ERR(lfport->dma_rx_chan)) {
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1406  		ret = PTR_ERR(lfport->dma_rx_chan);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1407  		if (ret == -EPROBE_DEFER) {
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1408  			dma_release_channel(lfport->dma_tx_chan);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1409  			return ret;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1410  		}
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1411  
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1412  		dev_info(sport->dev,
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1413  			 "DMA rx channel request failed, operating without rx DMA %ld\n",
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1414  			 PTR_ERR(lfport->dma_rx_chan));
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1415  		lfport->dma_rx_chan = NULL;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1416  	}
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1417  
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1418  	ret = of_alias_get_id(np, "serial");
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1419  	if (ret < 0) {
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1420  		dev_err(&pdev->dev, "failed to get alias id, errno %d\n", ret);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1421  		goto linflex_probe_free_dma;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1422  	}
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1423  	if (ret >= UART_NR) {
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1424  		dev_err(&pdev->dev, "driver limited to %d serial ports\n",
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1425  			UART_NR);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1426  		ret = -ENOMEM;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1427  		goto linflex_probe_free_dma;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1428  	}
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1429  
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1430  	sport->line = ret;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1431  
+8c6d7e5fd50b45 Yangtao Li           2023-07-12  1432  	sport->membase = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1433  	if (IS_ERR(sport->membase)) {
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1434  		ret = PTR_ERR(sport->membase);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1435  		goto linflex_probe_free_dma;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1436  	}
+8c6d7e5fd50b45 Yangtao Li           2023-07-12  1437  	sport->mapbase = res->start;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1438  
+4e8da86fc1f767 Zhang Shurong        2023-08-26  1439  	ret = platform_get_irq(pdev, 0);
+4e8da86fc1f767 Zhang Shurong        2023-08-26  1440  	if (ret < 0)
+4e8da86fc1f767 Zhang Shurong        2023-08-26 @1441  		return ret;
 
-vim +104 arch/mips/include/asm/bitops.h
+No clean up?
 
-cc99987c375e49 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   62  
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   63  /*
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   64   * These are the "slower" versions of the functions and are in bitops.c.
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   65   * These functions call raw_local_irq_{save,restore}().
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   66   */
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   67  void __mips_set_bit(unsigned long nr, volatile unsigned long *addr);
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   68  void __mips_clear_bit(unsigned long nr, volatile unsigned long *addr);
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   69  void __mips_change_bit(unsigned long nr, volatile unsigned long *addr);
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   70  int __mips_test_and_set_bit_lock(unsigned long nr,
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   71  				 volatile unsigned long *addr);
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   72  int __mips_test_and_clear_bit(unsigned long nr,
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   73  			      volatile unsigned long *addr);
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   74  int __mips_test_and_change_bit(unsigned long nr,
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   75  			       volatile unsigned long *addr);
-8da36b26e3d864 arch/mips/include/asm/bitops.h Matthew Wilcox (Oracle  2023-10-04   76) bool __mips_xor_is_negative_byte(unsigned long mask,
-8da36b26e3d864 arch/mips/include/asm/bitops.h Matthew Wilcox (Oracle  2023-10-04   77) 		volatile unsigned long *addr);
-92d11594f688c8 arch/mips/include/asm/bitops.h Jim Quinlan             2012-09-06   78  
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   79  /*
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   80   * set_bit - Atomically set a bit in memory
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   81   * @nr: the bit to set
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   82   * @addr: the address to start counting from
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   83   *
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   84   * This function is atomic and may not be reordered.  See __set_bit()
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   85   * if you do not require the atomic guarantees.
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   86   * Note that @nr may be almost arbitrarily large; this function is not
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   87   * restricted to acting on a single-word quantity.
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   88   */
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   89  static inline void set_bit(unsigned long nr, volatile unsigned long *addr)
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   90  {
-c042be02d73053 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   91  	volatile unsigned long *m = &addr[BIT_WORD(nr)];
-c042be02d73053 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   92  	int bit = nr % BITS_PER_LONG;
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16   93  
-fe7cd97e68fac1 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   94  	if (!kernel_uses_llsc) {
-fe7cd97e68fac1 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   95  		__mips_set_bit(nr, addr);
-fe7cd97e68fac1 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   96  		return;
-fe7cd97e68fac1 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   97  	}
-fe7cd97e68fac1 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   98  
-59361e9975fd56 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01   99  	if ((MIPS_ISA_REV >= 2) && __builtin_constant_p(bit) && (bit >= 16)) {
-f0b7ddbd794bdf arch/mips/include/asm/bitops.h Huang Pei               2021-12-15  100  		__bit_op(*m, __stringify(LONG_INS) " %0, %3, %2, 1", "i"(bit), "r"(~0));
-fe7cd97e68fac1 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01  101  		return;
-fe7cd97e68fac1 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01  102  	}
-fe7cd97e68fac1 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01  103  
-cc99987c375e49 arch/mips/include/asm/bitops.h Paul Burton             2019-10-01 @104  	__bit_op(*m, "or\t%0, %2", "ir"(BIT(bit)));
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16  105  }
-^1da177e4c3f41 include/asm-mips/bitops.h      Linus Torvalds          2005-04-16  106  
-
-:::::: The code at line 104 was first introduced by commit
-:::::: cc99987c375e499a95572504d69c215591222072 MIPS: bitops: Abstract LL/SC loops
-
-:::::: TO: Paul Burton <paul.burton@mips.com>
-:::::: CC: Paul Burton <paul.burton@mips.com>
+4e8da86fc1f767 Zhang Shurong        2023-08-26  1442  
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1443  	sport->iotype = UPIO_MEM;
+4e8da86fc1f767 Zhang Shurong        2023-08-26  1444  	sport->irq = ret;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1445  	sport->ops = &linflex_pops;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1446  	sport->flags = UPF_BOOT_AUTOCONF;
+4151bbed79f98b Dmitry Safonov       2019-12-13  1447  	sport->has_sysrq = IS_ENABLED(CONFIG_SERIAL_FSL_LINFLEXUART_CONSOLE);
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1448  
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1449  	ret = linflex_init_clk(lfport);
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1450  	if (ret)
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1451  		goto linflex_probe_free_dma;
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1452  
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1453  	linflex_ports[sport->line] = sport;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1454  
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1455  	platform_set_drvdata(pdev, lfport);
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1456  
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1457  	ret = uart_add_one_port(&linflex_reg, sport);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1458  	if (ret) {
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1459  		clk_bulk_disable_unprepare(LINFLEX_CLK_NUM, lfport->clks);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1460  		goto linflex_probe_free_dma;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1461  	}
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1462  
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1463  	return 0;
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1464  
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1465  linflex_probe_free_dma:
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1466  	if (lfport->dma_tx_chan)
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1467  		dma_release_channel(lfport->dma_tx_chan);
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1468  	if (lfport->dma_rx_chan)
+0b34325c5f79f1 Larisa Grigore       2026-02-16  1469  		dma_release_channel(lfport->dma_rx_chan);
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1470  
+1d3f5f07fafc71 Radu Pirea           2026-02-16  1471  	return ret;
+09864c1cdf5c53 Stefan-gabriel Mirea 2019-08-09  1472  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
