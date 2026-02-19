@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18EE1F4176
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 00:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D2F22CBF1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 00:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771461980; cv=none; b=i5HLtEpYNAHkXGEIKLd0UvFqQJNYNZujx63lCw0kR6T7enLAnKlPokqBpsFCXF3oHvw/rt41vZcgbX7vtwgZKAIouhThwVzlxF95+KO8o6tm/8fDhI7TUVHksjoBSdDCeKafu3OnvH9IsuYHo7d30GGEJcV9fHnVEV8lZU6nN40=
+	t=1771462579; cv=none; b=WvrPNrT204yrv6r2hSAElMJLd1nEFrUzMscWY63zR6HG8CIxTK3gKm/o2nTF0+xVoBAlP1KCU8+Q20ppZ/zga1IAHFQtLPvxGPpWf20xfNn7EwobHIQGOe+YvO8NhLc5bY1fWSClVg/G3Tv695JtfQI2xb8JtjR7iTY8hEqQDX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771461980; c=relaxed/simple;
-	bh=dNMxUOIXA7R2XsiurMlPAyLIVsjE0GtP97Cz06LxbOA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cS3bBDhvVrYdFiyk4K5LASTCsJMY5zeRnFZK0K3/tEy/6+porJFwo3LYVcYNuTYMykmq5Jnk3RbS8ZKI3wC+SSxD8y13Rwz4g4vfeMdiu5WMS2ozFh9mGAI2PTCgZbK/bDMGAH/VkoJvOOGiWD2a7ir1dxgRGb3LEf08G7vYByk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTLkU60A; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1771462579; c=relaxed/simple;
+	bh=Kkta6q1NPdS+f8/+hjixo1fW+HfKIUnUAlcLmBweuxs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DXfhzHmB4frBF+TqEBakYglEgSOwNeUTa70HhreSRGkhcCxaItHshXj9K7DA0sbbTkMvCqmBUeL9YY341TwrWL2niS4P3Px1pnxO03khv2HMIWvnJUOcSwMDlDJ/aje+cxRw/Kf/TPWHt1rJAdKnVWfR4KQJNaCHeE0lgwKsZuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ak1wq4h8; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTLkU60A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ak1wq4h8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771461977; x=1802997977;
+  t=1771462577; x=1802998577;
   h=date:from:to:cc:subject:message-id;
-  bh=dNMxUOIXA7R2XsiurMlPAyLIVsjE0GtP97Cz06LxbOA=;
-  b=GTLkU60AvvIdl1xDfTPjdtzncq8Rw+qjVs+V1WEqANq/ZE8aWhlaMhK+
-   ZLn9tJrBoZ598WHOL/iFqqlCBlQm6Mg2Dlm8oSm3pB8BO9bv+VIgwY4Ce
-   hK2hMwP13ninWenzJNYzzuMQGi2Tu24TAjfthaaiO39UhVJPeQnUIXkfJ
-   Mklt8oyTEteYwUFOmeBnS1xpDMTnWBpzjfaaC4rcs9RPqHBkZEV3Y77iJ
-   xxWTccj5splVPTh/0jLV6pnuvGAheHK8pjATUlboSaK5iPoZ9MrNLwoTM
-   JOju71S98mLvePkZTrNqAflUJPcqEvRlCLeRhTCZ0JFnyCLAQIL306UdB
-   w==;
-X-CSE-ConnectionGUID: klQRH2R9RJ+vH8UE1aTGbw==
-X-CSE-MsgGUID: SAIyJR7VTJ+9DXIR3OCQ8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="98009243"
+  bh=Kkta6q1NPdS+f8/+hjixo1fW+HfKIUnUAlcLmBweuxs=;
+  b=Ak1wq4h8j2XyQEYkvgfwx8h14PlhIgdfKSJarJx+P9oWxnRwY+Olp+4f
+   tDH5GY2H9WvuogpoNk6nfnldQ4zd2NV8zj1EDYzbD3enciNvPCEgf/0To
+   vjl2mY2ED6fo8bsN8xPHYZLAzrjNLybSDWlRLa9b39i3ZbA9zbggBJ8gk
+   ubTaUXcwIa6muX9itk/OT6Rlw0kIm5ga5huvqae2EGsapqhRrCk+j67bH
+   MkKCtgv0FeZSlsisagETBV0yOI+m8Pj1XBVWrC3km6dnjwzUuy59TUAhi
+   vLgDIM/N8s81XiflqweBFHukyOCvQLirq/4EEwe4FCDqOhSqD0yHsIg09
+   Q==;
+X-CSE-ConnectionGUID: 8pLfxetnSR6IE656s1Kn2g==
+X-CSE-MsgGUID: hk2ADDLESVm2fRWsl1Zzzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="89958285"
 X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="98009243"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 16:46:17 -0800
-X-CSE-ConnectionGUID: GwBoEej9SBGkQONlQneAmA==
-X-CSE-MsgGUID: e9NigTZlTHCqyM/GcxOc4w==
+   d="scan'208";a="89958285"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 16:56:17 -0800
+X-CSE-ConnectionGUID: fYF1tNoRQlGefYZ2o93LJA==
+X-CSE-MsgGUID: QyH7B/jWShqM9A7UQM1lPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="218890037"
+   d="scan'208";a="213085991"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Feb 2026 16:46:15 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 18 Feb 2026 16:56:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vssBI-000000012qK-3Bx5;
-	Thu, 19 Feb 2026 00:46:12 +0000
-Date: Thu, 19 Feb 2026 08:45:30 +0800
+	id 1vssKz-000000012qu-0OC1;
+	Thu, 19 Feb 2026 00:56:13 +0000
+Date: Thu, 19 Feb 2026 08:55:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yishai Hadas <yishaih@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Leon Romanovsky <leon@kernel.org>, Edward Srouji <edwards@nvidia.com>
-Subject: drivers/infiniband/core/ib_core_uverbs.c:249:undefined
- reference to `dma_buf_move_notify'
-Message-ID: <202602190832.RTYwo5mP-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:prtpbf 8/12]
+ drivers/hwtracing/coresight/coresight-cti-sysfs.c:835:13: warning: unused
+ variable 'size'
+Message-ID: <202602190852.CLoIo642-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,70 +60,64 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   23b0f90ba871f096474e1c27c3d14f455189d2d9
-commit: 0ac6f4056c4a257f4b230b910e3e6fee6c6fc9b9 RDMA/uverbs: Add DMABUF object type and operations
-date:   10 days ago
-config: x86_64-randconfig-005-20250616 (https://download.01.org/0day-ci/archive/20260219/202602190832.RTYwo5mP-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190832.RTYwo5mP-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux prtpbf
+head:   183ff67aea429409014d667994833a8a6523f3d3
+commit: 93bc7d516822048f98184aa69a13bad5921eb580 [8/12] coresight: don't use bitmap_print_to_pagebuf()
+config: arm-randconfig-001-20260219 (https://download.01.org/0day-ci/archive/20260219/202602190852.CLoIo642-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190852.CLoIo642-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602190832.RTYwo5mP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602190852.CLoIo642-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/infiniband/core/ib_core_uverbs.o: in function `rdma_user_mmap_entry_remove':
->> drivers/infiniband/core/ib_core_uverbs.c:249:(.text+0x8bd): undefined reference to `dma_buf_move_notify'
->> ld: drivers/infiniband/core/ib_core_uverbs.c:250:(.text+0x8de): undefined reference to `dma_resv_wait_timeout'
-   ld: drivers/infiniband/core/ib_core_uverbs.o: in function `dma_resv_unlock':
->> include/linux/dma-resv.h:463:(.text+0x8f1): undefined reference to `dma_resv_reset_max_fences'
+   drivers/hwtracing/coresight/coresight-cti-sysfs.c: In function 'print_chan_list':
+>> drivers/hwtracing/coresight/coresight-cti-sysfs.c:835:13: warning: unused variable 'size' [-Wunused-variable]
+     835 |         int size, i;
+         |             ^~~~
 
 
-vim +249 drivers/infiniband/core/ib_core_uverbs.c
+vim +/size +835 drivers/hwtracing/coresight/coresight-cti-sysfs.c
 
-   223	
-   224	/**
-   225	 * rdma_user_mmap_entry_remove() - Drop reference to entry and
-   226	 *				   mark it as unmmapable
-   227	 *
-   228	 * @entry: the entry to insert into the mmap_xa
-   229	 *
-   230	 * Drivers can call this to prevent userspace from creating more mappings for
-   231	 * entry, however existing mmaps continue to exist and ops->mmap_free() will
-   232	 * not be called until all user mmaps are destroyed.
-   233	 */
-   234	void rdma_user_mmap_entry_remove(struct rdma_user_mmap_entry *entry)
-   235	{
-   236		struct ib_uverbs_dmabuf_file *uverbs_dmabuf, *tmp;
-   237	
-   238		if (!entry)
-   239			return;
-   240	
-   241		mutex_lock(&entry->dmabufs_lock);
-   242		xa_lock(&entry->ucontext->mmap_xa);
-   243		entry->driver_removed = true;
-   244		xa_unlock(&entry->ucontext->mmap_xa);
-   245		list_for_each_entry_safe(uverbs_dmabuf, tmp, &entry->dmabufs, dmabufs_elm) {
-   246			dma_resv_lock(uverbs_dmabuf->dmabuf->resv, NULL);
-   247			list_del(&uverbs_dmabuf->dmabufs_elm);
-   248			uverbs_dmabuf->revoked = true;
- > 249			dma_buf_move_notify(uverbs_dmabuf->dmabuf);
- > 250			dma_resv_wait_timeout(uverbs_dmabuf->dmabuf->resv,
-   251					      DMA_RESV_USAGE_BOOKKEEP, false,
-   252					      MAX_SCHEDULE_TIMEOUT);
-   253			dma_resv_unlock(uverbs_dmabuf->dmabuf->resv);
-   254			kref_put(&uverbs_dmabuf->kref, ib_uverbs_dmabuf_done);
-   255			wait_for_completion(&uverbs_dmabuf->comp);
-   256		}
-   257		mutex_unlock(&entry->dmabufs_lock);
-   258	
-   259		kref_put(&entry->ref, rdma_user_mmap_entry_free);
-   260	}
-   261	EXPORT_SYMBOL(rdma_user_mmap_entry_remove);
-   262	
+1bf82857b42b8b Mike Leach  2020-03-20  829  
+1bf82857b42b8b Mike Leach  2020-03-20  830  static ssize_t print_chan_list(struct device *dev,
+1bf82857b42b8b Mike Leach  2020-03-20  831  			       char *buf, bool inuse)
+1bf82857b42b8b Mike Leach  2020-03-20  832  {
+1bf82857b42b8b Mike Leach  2020-03-20  833  	struct cti_drvdata *drvdata = dev_get_drvdata(dev->parent);
+1bf82857b42b8b Mike Leach  2020-03-20  834  	struct cti_config *config = &drvdata->config;
+1bf82857b42b8b Mike Leach  2020-03-20 @835  	int size, i;
+1bf82857b42b8b Mike Leach  2020-03-20  836  	unsigned long inuse_bits = 0, chan_mask;
+1bf82857b42b8b Mike Leach  2020-03-20  837  
+1bf82857b42b8b Mike Leach  2020-03-20  838  	/* scan regs to get bitmap of channels in use. */
+e3044065fc2cf1 Yeoreum Yun 2025-03-06  839  	raw_spin_lock(&drvdata->spinlock);
+1bf82857b42b8b Mike Leach  2020-03-20  840  	for (i = 0; i < config->nr_trig_max; i++) {
+1bf82857b42b8b Mike Leach  2020-03-20  841  		inuse_bits |= config->ctiinen[i];
+1bf82857b42b8b Mike Leach  2020-03-20  842  		inuse_bits |= config->ctiouten[i];
+1bf82857b42b8b Mike Leach  2020-03-20  843  	}
+e3044065fc2cf1 Yeoreum Yun 2025-03-06  844  	raw_spin_unlock(&drvdata->spinlock);
+1bf82857b42b8b Mike Leach  2020-03-20  845  
+1bf82857b42b8b Mike Leach  2020-03-20  846  	/* inverse bits if printing free channels */
+1bf82857b42b8b Mike Leach  2020-03-20  847  	if (!inuse)
+1bf82857b42b8b Mike Leach  2020-03-20  848  		inuse_bits = ~inuse_bits;
+1bf82857b42b8b Mike Leach  2020-03-20  849  
+1bf82857b42b8b Mike Leach  2020-03-20  850  	/* list of channels, or 'none' */
+1bf82857b42b8b Mike Leach  2020-03-20  851  	chan_mask = GENMASK(config->nr_ctm_channels - 1, 0);
+1bf82857b42b8b Mike Leach  2020-03-20  852  	if (inuse_bits & chan_mask)
+93bc7d51682204 Yury Norov  2026-01-14  853  		return scnprintf(buf, rest_of_page(buf), "%*pbl\n",
+93bc7d51682204 Yury Norov  2026-01-14  854  				 config->nr_ctm_channels, &inuse_bits);
+93bc7d51682204 Yury Norov  2026-01-14  855  
+93bc7d51682204 Yury Norov  2026-01-14  856  	return sprintf(buf, "\n");
+1bf82857b42b8b Mike Leach  2020-03-20  857  }
+1bf82857b42b8b Mike Leach  2020-03-20  858  
+
+:::::: The code at line 835 was first introduced by commit
+:::::: 1bf82857b42b8b5eb0e5c64db09529b2df477367 coresight: cti: Add sysfs trigger / channel programming API
+
+:::::: TO: Mike Leach <mike.leach@linaro.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
