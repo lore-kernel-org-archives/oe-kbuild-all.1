@@ -1,180 +1,302 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291D12E973F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 17:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FE22DECCB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 18:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771523566; cv=none; b=F1JZqS9JxvvjzvRjC8GiYzkt9Mkisyzx4Dz6D9ISOW5/1OIlmcdIul/cf3YEkbxVEHsUcJhPIc5fM21ScubhxYm81qwpV7kXp4S3mR++vVuVDKaTxp1iby/4EdVEMVTtoK+o1uT+VSPFvqJ3HTisTzOO/l4TpDEzecGNJZfg0N8=
+	t=1771526688; cv=none; b=HvVKFOP8coHTx4FKE5CMjIEogdzvF3kKA4+X//YvsLcXQke6Rlrut1R1cm0ocjh3lbqyYz26NktbmS72CW4CVHsOoc10gzAamVRSXF5uQ3zTJbY+Ob89q7W33E+ByFFzUNyzDs2UWFAGq0vLgGbfSAqyREn9CFhLBpbqz8pFZso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771523566; c=relaxed/simple;
-	bh=rewaKEPWQgRL6T7y5NXhHQDs9qR4wr0rnEN8a1RRycI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E3lGGH6P4BW2JcTynt2tP7lHsPa/h9pFobXH2+vpj1KJNrpY5IUxy2RUH+excKyskrajZhC70jpSLm4KZeeDe1lrQXzXZxLwaxW/mYrAohrbpW0KN9Y67oLshj+NMVXzWSaCuThiB7Nc8yHBLMwQvoWwQR8iIYQyG8Vuk3idBhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3/ogsVE; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1771526688; c=relaxed/simple;
+	bh=gBvZ7dBfqN3/Mp1CcpT+ogRyRcA8N8lQL5QK4gxHGiw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b6BUSxTwOf9aefmML+uMBvUQBXmpPPSuug7Zr88lpn0IZsd0eYT/jcRz76gcYfEO0TJ5iFC9pg2XoKhzZIDzCBR/ULU1O8Lacjat8Rbbq43iEx4ASo6yJAYHHbwdCekPzFyMObrhzT3GeKDSuua2e9iBPjxJq5rASFfgfaYM+xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Swb+t6yl; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3/ogsVE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Swb+t6yl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771523565; x=1803059565;
-  h=date:from:to:cc:subject:message-id;
-  bh=rewaKEPWQgRL6T7y5NXhHQDs9qR4wr0rnEN8a1RRycI=;
-  b=g3/ogsVEOjnR5iu3FHSjVOM/XEPd2RD3ehTidv0dhjYDbZjRTuiX2f9b
-   2cGGJ5w9XI8muLusqqhEy+wa+JNAQnvdSnxXJB/JHbfY/LsJ173nzZUgh
-   KdfnRBiZ8vq/XvbbymrV8IHMoZJXYjONa60fVG6l7w1DYtP62WsJI5Atl
-   iEDPRFPpccYyUgssSAhHxCQdNni1K0IKXhOub6JPTnjFqFVvBIGyBX2r1
-   k8XUibjtZTlp95TuKq6r4hiKyT7tQkdIOOZBMByjiwDcH/AFWTeuomfPK
-   0jZQV5EKSb8axTLSjB2+ti4RVihZWkSzwJg+L0mbQjbfiQIRiA/C9QOjk
-   Q==;
-X-CSE-ConnectionGUID: E50HfgUdRHiJ+SutLp8XZw==
-X-CSE-MsgGUID: 1bwHhOWDSm21pmc89zbLrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="83334576"
+  t=1771526687; x=1803062687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gBvZ7dBfqN3/Mp1CcpT+ogRyRcA8N8lQL5QK4gxHGiw=;
+  b=Swb+t6ylfd3ucH5mBtV5EQczvU8UW5ILRfK9FTOBMmwax5cUiMnIHoy3
+   9J5/OrfM/TDHsDc9v/sH7owp5kAc4mK87Fh4tX5Mtj0sqglcVN0/U9nLb
+   Kg2GaOhati7/gXT18GMVO5ANztHhCMHhjllAJs8tv9rWjgrFRVdby1ypt
+   xaBGb4r7iuLmQjI+G6Dw4wIrkFf8YFmhN0bpDTHKuu9Z+z/uQssfCpFD8
+   +pOH9oZ5mHeaQFRDCeJ8hdUMP0NcjQ8F8AhyLup7CDC0NCCOXGM5+tQrT
+   Sn494oOtqKGcG8UuGjg4knP4ZJxjSp2vYbh0h3meOOXhLlQzWGCyJWtrr
+   g==;
+X-CSE-ConnectionGUID: 17t6vmW9S+aqa/GaethlGg==
+X-CSE-MsgGUID: 5qAJHYU6Q6KBuMgGzORlFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="84075831"
 X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="83334576"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 09:52:44 -0800
-X-CSE-ConnectionGUID: q5d9fzArT0iGG+jPKFlOJA==
-X-CSE-MsgGUID: 0aZzNUAYQpq9gcehlel5Vg==
+   d="scan'208";a="84075831"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 10:44:46 -0800
+X-CSE-ConnectionGUID: AgzecAM7SEGJtzZf3cmwcg==
+X-CSE-MsgGUID: rqmEgfLWRVmjip/hKse5vQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="252283372"
+   d="scan'208";a="219131914"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Feb 2026 09:52:42 -0800
+  by orviesa004.jf.intel.com with ESMTP; 19 Feb 2026 10:44:44 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vt8Ce-000000013Qe-0oBA;
-	Thu, 19 Feb 2026 17:52:40 +0000
-Date: Fri, 20 Feb 2026 01:52:07 +0800
+	id 1vt90z-000000013SO-10bc;
+	Thu, 19 Feb 2026 18:44:41 +0000
+Date: Fri, 20 Feb 2026 02:44:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Herve Codina <herve.codina@bootlin.com>
-Subject: [drm-misc:drm-misc-next 5/25]
- drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c:108:55: sparse: sparse:
- incorrect type in initializer (different base types)
-Message-ID: <202602200130.LjofC7YE-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tim Guttzeit <tgu@tuxedocomputers.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, wse@tuxedocomputers.com,
+	Tim Guttzeit <tgu@tuxedocomputers.com>,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: generic: add LampArray support via hid-lamparray
+ helper
+Message-ID: <202602200233.9Bwav9tZ-lkp@intel.com>
+References: <20260219130217.2042972-1-tgu@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260219130217.2042972-1-tgu@tuxedocomputers.com>
 
-tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-head:   948e195dfaa56e48eabda591f97630502ff7e27e
-commit: 0ff223d991477fa4677dcb0f1fb00065847e2212 [5/25] drm/tilcdc: Convert legacy panel binding via DT overlay at boot time
-config: arm-randconfig-r111-20260219 (https://download.01.org/0day-ci/archive/20260220/202602200130.LjofC7YE-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602200130.LjofC7YE-lkp@intel.com/reproduce)
+Hi Tim,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.19 next-20260219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Guttzeit/HID-generic-add-LampArray-support-via-hid-lamparray-helper/20260219-211040
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20260219130217.2042972-1-tgu%40tuxedocomputers.com
+patch subject: [PATCH] HID: generic: add LampArray support via hid-lamparray helper
+config: nios2-defconfig (https://download.01.org/0day-ci/archive/20260220/202602200233.9Bwav9tZ-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602200233.9Bwav9tZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602200130.LjofC7YE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602200233.9Bwav9tZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c:108:55: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c:108:55: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c:108:55: sparse:     got restricted __be32 [usertype]
-   drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c:115:55: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c:115:55: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c:115:55: sparse:     got restricted __be32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +108 drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c
+   nios2-linux-ld: drivers/hid/hid-lamparray.o: in function `lamparray_led_brightness_set':
+   drivers/hid/hid-lamparray.c:449:(.text+0x7b4): undefined reference to `led_mc_calc_color_components'
+>> drivers/hid/hid-lamparray.c:449:(.text+0x7b4): relocation truncated to fit: R_NIOS2_CALL26 against `led_mc_calc_color_components'
+   nios2-linux-ld: drivers/hid/hid-lamparray.o: in function `lamparray_register_led':
+   drivers/hid/hid-lamparray.c:585:(.text+0x96c): undefined reference to `led_mc_calc_color_components'
+   drivers/hid/hid-lamparray.c:585:(.text+0x96c): relocation truncated to fit: R_NIOS2_CALL26 against `led_mc_calc_color_components'
+   nios2-linux-ld: drivers/hid/hid-lamparray.o: in function `led_classdev_multicolor_register':
+   include/linux/led-class-multicolor.h:70:(.text+0x98c): undefined reference to `led_classdev_multicolor_register_ext'
+>> include/linux/led-class-multicolor.h:70:(.text+0x98c): relocation truncated to fit: R_NIOS2_CALL26 against `led_classdev_multicolor_register_ext'
+   nios2-linux-ld: drivers/hid/hid-lamparray.o: in function `lamparray_unregister_led':
+   drivers/hid/hid-lamparray.c:615:(.text+0xd28): undefined reference to `led_classdev_multicolor_unregister'
+>> drivers/hid/hid-lamparray.c:615:(.text+0xd28): relocation truncated to fit: R_NIOS2_CALL26 against `led_classdev_multicolor_unregister'
+>> nios2-linux-ld: drivers/hid/hid-lamparray.c:615:(.text+0xf48): undefined reference to `led_classdev_multicolor_unregister'
+   drivers/hid/hid-lamparray.c:615:(.text+0xf48): relocation truncated to fit: R_NIOS2_CALL26 against `led_classdev_multicolor_unregister'
+   nios2-linux-ld: drivers/hid/hid-lamparray.c:615:(.text+0x1094): undefined reference to `led_classdev_multicolor_unregister'
+   drivers/hid/hid-lamparray.c:615:(.text+0x1094): relocation truncated to fit: R_NIOS2_CALL26 against `led_classdev_multicolor_unregister'
 
-    41	
-    42	static int __init tilcdc_panel_copy_props(struct device_node *old_panel,
-    43						  struct device_node *new_panel)
-    44	{
-    45		struct device_node *old_timing __free(device_node) = NULL;
-    46		struct device_node *new_timing __free(device_node) = NULL;
-    47		struct device_node *panel_info __free(device_node) = NULL;
-    48		struct device_node *child __free(device_node) = NULL;
-    49		u32 invert_pxl_clk = 0, sync_edge = 0;
-    50		struct of_changeset ocs;
-    51		struct property *prop;
-    52		int ret;
-    53	
-    54		child = of_get_child_by_name(old_panel, "display-timings");
-    55		if (!child)
-    56			return -EINVAL;
-    57	
-    58		/* The default display timing is the one specified as native-mode.
-    59		 * If no native-mode is specified then the first node is assumed
-    60		 * to be the native mode.
-    61		 */
-    62		old_timing = of_parse_phandle(child, "native-mode", 0);
-    63		if (!old_timing) {
-    64			old_timing = of_get_next_child(child, NULL);
-    65			if (!old_timing)
-    66				return -EINVAL;
-    67		}
-    68	
-    69		panel_info = of_get_child_by_name(old_panel, "panel-info");
-    70		if (!panel_info)
-    71			return -EINVAL;
-    72	
-    73		of_changeset_init(&ocs);
-    74	
-    75		/* Copy all panel properties to the new panel node */
-    76		for_each_property_of_node(old_panel, prop) {
-    77			if (!strncmp(prop->name, "compatible", sizeof("compatible")))
-    78				continue;
-    79	
-    80			ret = tilcdc_panel_update_prop(&ocs, new_panel, prop->name,
-    81						       prop->value, prop->length);
-    82			if (ret)
-    83				goto destroy_ocs;
-    84		}
-    85	
-    86		new_timing = of_changeset_create_node(&ocs, new_panel, "panel-timing");
-    87		if (!new_timing) {
-    88			ret = -ENODEV;
-    89			goto destroy_ocs;
-    90		}
-    91	
-    92		/* Copy all panel timing properties to the new panel node */
-    93		for_each_property_of_node(old_timing, prop) {
-    94			ret = tilcdc_panel_update_prop(&ocs, new_timing, prop->name,
-    95						       prop->value, prop->length);
-    96			if (ret)
-    97				goto destroy_ocs;
-    98		}
-    99	
-   100		/* Looked only for these two parameter as all the other are always
-   101		 * set to default and not related to common DRM properties.
-   102		 */
-   103		of_property_read_u32(panel_info, "invert-pxl-clk", &invert_pxl_clk);
-   104		of_property_read_u32(panel_info, "sync-edge", &sync_edge);
-   105	
-   106		if (!invert_pxl_clk) {
-   107			ret = tilcdc_panel_update_prop(&ocs, new_timing, "pixelclk-active",
- > 108						       &(u32){cpu_to_be32(1)}, sizeof(u32));
-   109			if (ret)
-   110				goto destroy_ocs;
-   111		}
-   112	
-   113		if (!sync_edge) {
-   114			ret = tilcdc_panel_update_prop(&ocs, new_timing, "syncclk-active",
-   115						       &(u32){cpu_to_be32(1)}, sizeof(u32));
-   116			if (ret)
-   117				goto destroy_ocs;
-   118		}
-   119	
-   120		/* Remove compatible property to avoid any driver compatible match */
-   121		of_changeset_remove_property(&ocs, old_panel,
-   122					     of_find_property(old_panel, "compatible", NULL));
-   123	
-   124		of_changeset_apply(&ocs);
-   125		return 0;
-   126	
-   127	destroy_ocs:
-   128		of_changeset_destroy(&ocs);
-   129		return ret;
-   130	}
-   131	
+
+vim +449 drivers/hid/hid-lamparray.c
+
+   434	
+   435	static int lamparray_led_brightness_set(struct led_classdev *cdev,
+   436						enum led_brightness brightness)
+   437	{
+   438		struct led_classdev_mc *mc = lcdev_to_mccdev(cdev);
+   439		struct lamparray_device *ldev =
+   440			container_of(mc, struct lamparray_device, mc_cdev);
+   441		struct lamparray *la = container_of(ldev, struct lamparray, ldev);
+   442		u8 r, g, b;
+   443		int ret;
+   444	
+   445		if (!la)
+   446			return -ENODEV;
+   447		ldev = &la->ldev;
+   448	
+ > 449		ret = led_mc_calc_color_components(mc, brightness);
+   450		if (ret)
+   451			return ret;
+   452	
+   453		r = mc->subled_info[0].brightness;
+   454		g = mc->subled_info[1].brightness;
+   455		b = mc->subled_info[2].brightness;
+   456	
+   457		ret = lamparray_hw_set_state(ldev, r, g, b, brightness);
+   458		if (ret)
+   459			hid_err(ldev->hdev, "Failed to send LampArray update: %d\n",
+   460				ret);
+   461	
+   462		mutex_lock(&ldev->lock);
+   463		ldev->last_r = r;
+   464		ldev->last_g = g;
+   465		ldev->last_b = b;
+   466		ldev->last_brightness = brightness;
+   467		mutex_unlock(&ldev->lock);
+   468	
+   469		return 0;
+   470	}
+   471	
+   472	static enum led_brightness
+   473	lamparray_led_brightness_get(struct led_classdev *cdev)
+   474	{
+   475		struct led_classdev_mc *mc = lcdev_to_mccdev(cdev);
+   476		struct lamparray_device *ldev =
+   477			container_of(mc, struct lamparray_device, mc_cdev);
+   478		enum led_brightness brightness;
+   479		struct lamparray *la = container_of(ldev, struct lamparray, ldev);
+   480		u8 rr, gg, bb;
+   481		enum led_brightness br;
+   482		int ret;
+   483	
+   484		/* Default: cache (also used while registering LED classdev) */
+   485		mutex_lock(&ldev->lock);
+   486		brightness = ldev->last_brightness;
+   487		mutex_unlock(&ldev->lock);
+   488	
+   489		/* Only do HID readback after registration completed */
+   490		if (READ_ONCE(ldev->led_registered)) {
+   491			if (!la)
+   492				return brightness;
+   493			ldev = &la->ldev;
+   494	
+   495			ret = lamparray_hw_get_state(ldev, &rr, &gg, &bb, &br);
+   496			if (ret) {
+   497				hid_warn(ldev->hdev,
+   498					 "Failed to read LampArray state (%d), using cached brightness %u\n",
+   499					 ret, brightness);
+   500				return brightness;
+   501			}
+   502	
+   503			mutex_lock(&ldev->lock);
+   504			if (ldev->last_r != rr || ldev->last_g != gg ||
+   505			    ldev->last_b != bb || ldev->last_brightness != br) {
+   506				ldev->last_r = rr;
+   507				ldev->last_g = gg;
+   508				ldev->last_b = bb;
+   509				ldev->last_brightness = br;
+   510	
+   511				if (ldev->led_registered && ldev->mc_cdev.subled_info) {
+   512					ldev->mc_cdev.subled_info[0].brightness = rr;
+   513					ldev->mc_cdev.subled_info[1].brightness = gg;
+   514					ldev->mc_cdev.subled_info[2].brightness = bb;
+   515				}
+   516			}
+   517			mutex_unlock(&ldev->lock);
+   518			return br;
+   519		}
+   520		return brightness;
+   521	}
+   522	
+   523	static int lamparray_register_led(struct lamparray_device *ldev)
+   524	{
+   525		struct device *dev = &ldev->hdev->dev;
+   526		struct led_classdev *cdev = &ldev->mc_cdev.led_cdev;
+   527		u8 r_i, g_i, b_i;
+   528		int ret;
+   529	
+   530		mutex_lock(&ldev->lock);
+   531	
+   532		if (ldev->led_registered) {
+   533			mutex_unlock(&ldev->lock);
+   534			return 0;
+   535		}
+   536	
+   537		if (!cdev->name) {
+   538			cdev->name =
+   539				devm_kasprintf(dev, GFP_KERNEL, "%s", dev_name(dev));
+   540			if (!cdev->name) {
+   541				mutex_unlock(&ldev->lock);
+   542				return -ENOMEM;
+   543			}
+   544		}
+   545	
+   546		cdev->max_brightness = 255;
+   547		cdev->brightness_set_blocking = lamparray_led_brightness_set;
+   548		cdev->brightness_get = lamparray_led_brightness_get;
+   549		cdev->brightness = ldev->last_brightness;
+   550	
+   551		ldev->subleds[0].color_index = LED_COLOR_ID_RED;
+   552		ldev->subleds[1].color_index = LED_COLOR_ID_GREEN;
+   553		ldev->subleds[2].color_index = LED_COLOR_ID_BLUE;
+   554	
+   555		/*
+   556		 * Initialize the color mix (multi_intensity) from the last known HW/init
+   557		 * state so that writing only /brightness scales the expected default color
+   558		 * instead of white.
+   559		 *
+   560		 * If last_brightness is non-zero, treat last_r/g/b as per-channel
+   561		 * brightness and normalize back to intensities (0..255).
+   562		 * If last_brightness is zero, keep last_r/g/b as the intended mix.
+   563		 */
+   564		if (ldev->last_brightness) {
+   565			r_i = (u8)min_t(unsigned int, 255,
+   566					(ldev->last_r * 255u) / ldev->last_brightness);
+   567			g_i = (u8)min_t(unsigned int, 255,
+   568					(ldev->last_g * 255u) / ldev->last_brightness);
+   569			b_i = (u8)min_t(unsigned int, 255,
+   570					(ldev->last_b * 255u) / ldev->last_brightness);
+   571		} else {
+   572			r_i = ldev->last_r;
+   573			g_i = ldev->last_g;
+   574			b_i = ldev->last_b;
+   575		}
+   576	
+   577		ldev->subleds[0].intensity = r_i;
+   578		ldev->subleds[1].intensity = g_i;
+   579		ldev->subleds[2].intensity = b_i;
+   580	
+   581		ldev->mc_cdev.subled_info = ldev->subleds;
+   582		ldev->mc_cdev.num_colors = ARRAY_SIZE(ldev->subleds);
+   583	
+   584		/* Ensure subled_info[].brightness matches intensity + brightness */
+ > 585		led_mc_calc_color_components(&ldev->mc_cdev, cdev->brightness);
+   586	
+   587		ldev->mc_cdev.subled_info = ldev->subleds;
+   588		ldev->mc_cdev.num_colors = ARRAY_SIZE(ldev->subleds);
+   589	
+   590		mutex_unlock(&ldev->lock);
+   591	
+   592		ret = led_classdev_multicolor_register(dev, &ldev->mc_cdev);
+   593		if (ret)
+   594			return ret;
+   595	
+   596		mutex_lock(&ldev->lock);
+   597		ldev->led_registered = true;
+   598		mutex_unlock(&ldev->lock);
+   599	
+   600		return 0;
+   601	}
+   602	
+   603	static void lamparray_unregister_led(struct lamparray_device *ldev)
+   604	{
+   605		bool was_registered;
+   606	
+   607		mutex_lock(&ldev->lock);
+   608		was_registered = ldev->led_registered;
+   609		ldev->led_registered = false;
+   610		mutex_unlock(&ldev->lock);
+   611	
+   612		if (!was_registered)
+   613			return;
+   614	
+ > 615		led_classdev_multicolor_unregister(&ldev->mc_cdev);
+   616	}
+   617	
 
 -- 
 0-DAY CI Kernel Test Service
