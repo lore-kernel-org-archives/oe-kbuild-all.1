@@ -1,120 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A1E1C861A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 00:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB6519F40B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Feb 2026 00:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771461259; cv=none; b=CNeJOL9sVJtzrB2a8q4Ty//Zl5otn9YQLQtzvInFmfWPjzSUZl1c1DTh7X4Tak/oVfUHSlwiydkmHZVWSYBlYgeNRKGnFV1dy+66qhDcjTkmpuR3W2UBtF5I47WJQ+Jmk68lBFxnCbEKro616UOCfbogfsAAl2EqC8ZVRtOPGPs=
+	t=1771461267; cv=none; b=G/WnBbmAfLPloP0+XwNXHEJq9xyrm0YZ8iShkwlTxzcYcWWXjq49akvtw0Cceqv4gAdgRjlrQAu/K/FWDw1YBemH4RALzSHle3WooWCBaiWNK/ELBWHbtXeTzYk1zD8U39M5wRTJoBrABHpsDy+cZAwMVXpIRM3fXX5pHsgApok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771461259; c=relaxed/simple;
-	bh=6dCPg7iD5q15ZG1EV1/k1+vlVGaZqXrGn9/zen4jC1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gWydtA4DMuNL4uFhpLfeRaSX8WIIBaQoOc1PLVdqmfEVwQnR5CLmTHR7DOBkyDGFo+HWgBj/WGF8JJRC0W2z4vb8l41Q/BUOxifNE1U3qV0tnYsfJd6CSTVdTaBIHRkT1qMfrm7rOSl+IgbZebPssWo9hXYoKAGcAxdcfkRyUVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=REnxm6PT; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1771461267; c=relaxed/simple;
+	bh=ZZV3AnFP7tDa04xSdYe32lxB1P4mwYORB2B+xjnF+rs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=br06nWDwJtGlxZWr55yFZU5gQRijYQgQA0rXqT9nlVFn/OepR4dP26YLbnfRtpY6fJP+KRRKmg6XtFxzj87qGlthvpixNz9ZuhNXECNSJRUkL0bvId9X88GrH+WHxpsltjsA5NAtWNvAZ7urH5tbkfW0/ialtvx7pwvVIpwlftU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWyjVl0G; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="REnxm6PT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWyjVl0G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771461259; x=1802997259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6dCPg7iD5q15ZG1EV1/k1+vlVGaZqXrGn9/zen4jC1M=;
-  b=REnxm6PTDGL+2DgbXGoNGvahXwJ1dKacb9rL58/XqId/8bP9f+DiV8Wa
-   Jyii1Z6Z2jeQYOxgQyYYSgewAKWYX9VS8Il5aaTpeRkdkz8awk3He1AMn
-   Bo2cIM4Gc9dOW4zuDWDKlbJ49nLXhu7CzabznSkalU4xGcYGSItH/43Dg
-   iyC9DZNJK4/TMoH+Mc0NDVbckwru3ECtyl54ZHT4n8qJAS8nj6F4BmzEn
-   FMzG0/4fiI4hqxLJlylcDe0jNNmxDB3xSvoSnZVbj1DDlruy1Tn4cfwTF
-   +N360jey5KgMkr1hVa53xOr9MQPq2U/j+Emh3lv726bBOK0BTYPe92QNJ
-   g==;
-X-CSE-ConnectionGUID: SciVyuQeSBOCLGwsu6QENw==
-X-CSE-MsgGUID: 4OyQYQs/Qoil2H8jnKIbEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="72435043"
+  t=1771461266; x=1802997266;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZZV3AnFP7tDa04xSdYe32lxB1P4mwYORB2B+xjnF+rs=;
+  b=fWyjVl0GHkQnflbZIE9PYVc/fONdPmSIP2WoFhX0uGWcITDUr2RlUIlC
+   vJ7Yob4FbPsaJeBtTWIQNt29drlrTS/JLWX7fRpyev4Cs5HnNB/mz9rDV
+   Eqjs3Oh9g5XHaQcY3lUU8Rk69c1295FhJMEN1aVnF+Fa8DDVHyrnGA95L
+   FpkwYKoNWv8bPtRF+OgDk3HmFMTfcbawXUnZF+BSb1UgPxyclK4YIoxSI
+   IX+eoyILOeA6ihO80OmwtLEcvWBj55Je5N2nzlSqUUTA7/YgGfM7wfXvF
+   Ma/NIGqVXS92e/PmYq2M2ugqus7BVTJGDTlRNGOusS4Y5SE8EjX7H15st
+   w==;
+X-CSE-ConnectionGUID: GY6wEL5PQ2yeYZJszW02zg==
+X-CSE-MsgGUID: yqrVCp4MTYKfFNRrXtGUvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="72450019"
 X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="72435043"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 16:34:17 -0800
-X-CSE-ConnectionGUID: eikbvqaiSUuKl55eXoehkQ==
-X-CSE-MsgGUID: FWs6AVsBSB+L68Kc+Z3QCg==
+   d="scan'208";a="72450019"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 16:34:15 -0800
+X-CSE-ConnectionGUID: zjWzOzDSRmyi1SEgqITgrw==
+X-CSE-MsgGUID: 2IHiNfjFSRWsI0kgxjD0+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="252056758"
+   d="scan'208";a="213082428"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Feb 2026 16:34:15 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 18 Feb 2026 16:34:14 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vsrzg-000000012pk-08gZ;
+	id 1vsrzg-000000012po-0JAe;
 	Thu, 19 Feb 2026 00:34:12 +0000
-Date: Thu, 19 Feb 2026 08:33:22 +0800
+Date: Thu, 19 Feb 2026 08:33:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Reda CHERKAOUI <redacherkaoui67@gmail.com>, x86@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, tglx@kernel.org, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-	linux-kernel@vger.kernel.org,
-	Reda CHERKAOUI <redacherkaoui67@gmail.com>
-Subject: Re: [PATCH] x86/boot/compressed: make error() take const char *
-Message-ID: <202602190801.5xGbl6Eh-lkp@intel.com>
-References: <20260218160319.31884-1-redacherkaoui67@gmail.com>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kas:pte_size 9/27]
+ drivers/input/touchscreen/wdt87xx_i2c.c:40: warning: "PG_SIZE" redefined
+Message-ID: <202602190840.4CiM96V6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260218160319.31884-1-redacherkaoui67@gmail.com>
 
-Hi Reda,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on tip/master linus/master v6.19 next-20260218]
-[cannot apply to tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Reda-CHERKAOUI/x86-boot-compressed-make-error-take-const-char/20260219-000605
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20260218160319.31884-1-redacherkaoui67%40gmail.com
-patch subject: [PATCH] x86/boot/compressed: make error() take const char *
-config: x86_64-buildonly-randconfig-002-20260219 (https://download.01.org/0day-ci/archive/20260219/202602190801.5xGbl6Eh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190801.5xGbl6Eh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git pte_size
+head:   1903e57e83c0c0526b0ee193ce32e6aac90863af
+commit: 87ea5e388f0115d9a2ba856cf4d2fecb9880a845 [9/27] mm: Introduce PG_SIZE, PG_SHIFT and PG_MASK
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260219/202602190840.4CiM96V6-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190840.4CiM96V6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602190801.5xGbl6Eh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602190840.4CiM96V6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/boot/compressed/misc.c: In function 'extract_kernel':
->> arch/x86/boot/compressed/misc.c:521:61: warning: passing argument 3 of 'decompress_kernel' from incompatible pointer type [-Wincompatible-pointer-types]
-     521 |         entry_offset = decompress_kernel(output, virt_addr, error);
-         |                                                             ^~~~~
-         |                                                             |
-         |                                                             __attribute__((noreturn)) void (*)(const char *)
-   arch/x86/boot/compressed/misc.c:345:40: note: expected 'void (*)(char *)' but argument is of type '__attribute__((noreturn)) void (*)(const char *)'
-     345 |                                 void (*error)(char *x))
-         |                                 ~~~~~~~^~~~~~~~~~~~~~~
+>> drivers/input/touchscreen/wdt87xx_i2c.c:40: warning: "PG_SIZE" redefined
+      40 | #define PG_SIZE                         0x1000
+         | 
+   In file included from arch/nios2/include/asm/page.h:21,
+                    from arch/nios2/include/asm/processor.h:22,
+                    from include/linux/spinlock_up.h:8,
+                    from include/linux/spinlock.h:97,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from include/linux/i2c.h:13,
+                    from drivers/input/touchscreen/wdt87xx_i2c.c:12:
+   include/vdso/page.h:34: note: this is the location of the previous definition
+      34 | #define PG_SIZE         (_AC(1,UL) << CONFIG_PG_SHIFT)
+         | 
 
 
-vim +/decompress_kernel +521 arch/x86/boot/compressed/misc.c
+vim +/PG_SIZE +40 drivers/input/touchscreen/wdt87xx_i2c.c
 
-^1da177e4c3f41 arch/i386/boot/compressed/misc.c Linus Torvalds  2005-04-16  513  
-e605a425975b07 arch/x86/boot/compressed/misc.c  Joe Millenbach  2012-07-19  514  	debug_putstr("\nDecompressing Linux... ");
-3fd1239a783522 arch/x86/boot/compressed/misc.c  Kiryl Shutsemau 2023-06-06  515  
-3fd1239a783522 arch/x86/boot/compressed/misc.c  Kiryl Shutsemau 2023-06-06  516  	if (init_unaccepted_memory()) {
-3fd1239a783522 arch/x86/boot/compressed/misc.c  Kiryl Shutsemau 2023-06-06  517  		debug_putstr("Accepting memory... ");
-5adfeaecc487e7 arch/x86/boot/compressed/misc.c  Kiryl Shutsemau 2024-08-09  518  		accept_memory(__pa(output), needed_size);
-3fd1239a783522 arch/x86/boot/compressed/misc.c  Kiryl Shutsemau 2023-06-06  519  	}
-3fd1239a783522 arch/x86/boot/compressed/misc.c  Kiryl Shutsemau 2023-06-06  520  
-83381519352d6b arch/x86/boot/compressed/misc.c  Ard Biesheuvel  2023-08-07 @521  	entry_offset = decompress_kernel(output, virt_addr, error);
+3e30c11c8a902d HungNien Chen 2015-06-15  39  
+3e30c11c8a902d HungNien Chen 2015-06-15 @40  #define PG_SIZE				0x1000
+3e30c11c8a902d HungNien Chen 2015-06-15  41  #define MAX_RETRIES			3
+3e30c11c8a902d HungNien Chen 2015-06-15  42  
+
+:::::: The code at line 40 was first introduced by commit
+:::::: 3e30c11c8a902de350281a0d821e17cdb45ef156 Input: add a driver for wdt87xx touchscreen controller
+
+:::::: TO: HungNien Chen <hn.chen@weidahitech.com>
+:::::: CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
