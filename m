@@ -1,111 +1,125 @@
-Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF04D273816;
-	Fri, 20 Feb 2026 14:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DA21CD1E4;
+	Fri, 20 Feb 2026 14:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771598001; cv=none; b=uDSjAQbEs/5Rr3eZBi0iXiRjZVbU0mkr7qEH79GUjqr3T7bsaT9GB4tls2P3ZPDvBZqWrY4RrYkke4KzW+YJTSRzIob5SWluarfcwIJWmoVHXryjP7oIG2pz18ogog2U0MyHOI+M4RYtX8QbDYp5FzEkuJVMYVc6HQFbkzWoiLM=
+	t=1771598118; cv=none; b=ixpBn2AQrv8OC1q0glGiGwzuKGHUywgBHKp+w9QCkuxkWCGggr1lUWlopzWFBMq0tZ13+40/q+t9ra0yoKR1kgKKbLJZ0i4nDM2dlHHMdCCRfGMWZ/EK/2kLfxgaUH3pifQv9CiBr34WGPrsFVy9EaGDHfh1PDd/Hyfuki3QwYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771598001; c=relaxed/simple;
-	bh=TYJ30ChM6gcCS6QYe5Ckg+2S4lGk8QCdkrY13mptiiI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dRajZue2l/xr+by0DLKHRCNWK70l1m5EHONJZpTI7Mz2rHiDiZaRoyD7j+Myvp5z8dFoGW9aMezGjqhUwA1GoLPZBFWl2WcN0ORv2FSWpLF2mzh8x2IcRKA0qsAXRooFZc6nFLz1V2uIrDLFJS64CwUyEkR4B3zKQ64R9PQXKio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=NIKOiXNx; arc=none smtp.client-ip=79.135.106.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1771598118; c=relaxed/simple;
+	bh=65fhXrUGMLksU/tzif3tBwyoXu/ZoORUEpg7RQw/eBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ERlipzLXDPKmZswb30TI3zazVewVTsMKrEA6fmgeGOpqarvtpt9JMgXDs82Hy6IdnqfCMU8UPcSJpik0/M5qRv6lqtzpPjkc9jUXaY+FdWQvvZJlyOw0+dc4/6f35iPWOdQzLLGIBlQOLh+lZG74RiIju+Zhv3zmo5BqK/uYi80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJ+f7a66; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="NIKOiXNx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1771597987; x=1771857187;
-	bh=qlD/PNnYcqmWY7VC/XbBl5Mb7IvYgw6IfOHsy2m/ZS8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=NIKOiXNxYonLwfO4TAlXq4EB63vyM7/6bACW7FQTM7bkdXmHrz3sQWJqmbCXYc03l
-	 vkf4UlJQ87xHUfiigBjjjyuBTqG0wn4IAE70I/Y6HoT7rW59eEMgZMNVOdgJyzYX+w
-	 VBSWuYgy2OoAIvuuHcWYeWLFQQeYvTQ9XMGJiYhZrD2A3cVobzY/redLaChLZmcGV3
-	 /7g+N3bfKy5mLVkxrSS/uUhYBEDcI3YV/iq2yWVAalvylDSHVDYMn3Tc4ChuCbW5s+
-	 hIdtUr6Ya1BJm8KM8hqxUA4euBLiYlyd5S087cNIEPFjHvkU26oJyJc7uFc1Z11oVp
-	 +UwP/nH92sP2g==
-Date: Fri, 20 Feb 2026 14:33:04 +0000
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, Harry Austen <hpausten@protonmail.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michal Simek <monstr@monstr.eu>
-From: Harry Austen <hpausten@protonmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 2/2] clk: clocking-wizard: add user clock monitor support
-Message-ID: <DGJV2ICCB72N.39T6HN62PUHPE@protonmail.com>
-In-Reply-To: <202602151704.qepyfVlc-lkp@intel.com>
-References: <202602151704.qepyfVlc-lkp@intel.com>
-Feedback-ID: 53116287:user:proton
-X-Pm-Message-ID: 5b0edd8755628df423df7963b1dc7428928e5e67
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJ+f7a66"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771598118; x=1803134118;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=65fhXrUGMLksU/tzif3tBwyoXu/ZoORUEpg7RQw/eBk=;
+  b=DJ+f7a66GAguDHAyYWmO+wRZ7BLFlV7s1Qpl5P4xF2QxDhVNu8Jp1rT+
+   Hg6+WllvBPlmS5Msx/Fuu/8uWYnN/Gy/1y60Ku2oGx86fT6KC1/dpB1Xh
+   qNNi284XlNdr38IdN1zY00bM0AQQBcsT6jOtMCCnH5t2nvkc9j+v4qyMj
+   LqGF8gZrOH6rbnm+Qr/KKmZ/rMygA34tCbzr0QVmHyqjx7whKoI860wG0
+   N93MnIFzMHKAKMep9z1XiL3XW20sds3+kX0Q+X3+jQLS5OhWRUDq348fi
+   XM8FXqBzooXotgO2Ot8o+nCZ7ZmSY+dr9+oPJhq0Gj+xv3SFVKJHNc2w9
+   w==;
+X-CSE-ConnectionGUID: 8O6QMed+TaOGTy86qkpOIQ==
+X-CSE-MsgGUID: /vzAoLJyQliFEPOQqT2X1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="72391811"
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="72391811"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 06:35:17 -0800
+X-CSE-ConnectionGUID: ZSFKqU2JSyCx6FpH2eW0fg==
+X-CSE-MsgGUID: 1clzXpwbSyaIxx4PUVEa0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="213420626"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Feb 2026 06:35:14 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtRb6-000000014AS-1stg;
+	Fri, 20 Feb 2026 14:35:12 +0000
+Date: Fri, 20 Feb 2026 22:34:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: quic_utiwari@quicinc.com, konrad.dybcio@oss.qualcomm.com,
+	herbert@gondor.apana.org.au, thara.gopinath@gmail.com,
+	davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-crypto@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_neersoni@quicinc.com,
+	quic_utiwari@quicinc.com
+Subject: Re: [PATCH v7] crypto: qce - Add runtime PM and interconnect
+ bandwidth scaling support
+Message-ID: <202602202238.PjZ0zYoN-lkp@intel.com>
+References: <20260220072818.2921517-1-quic_utiwari@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260220072818.2921517-1-quic_utiwari@quicinc.com>
 
-On Thu Feb 19, 2026 at 6:52 AM GMT, Dan Carpenter wrote:
-> Hi Harry,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Austen/dt-bi=
-ndings-clock-xilinx-add-description-of-user-monitor-interrupt/20260215-0215=
-54
-> base:   ea7282e99ead6d2a294cef40acd2a29ada3ab71d
-> patch link:    https://lore.kernel.org/r/20260214180933.42143-3-hpausten%=
-40protonmail.com
-> patch subject: [PATCH v4 2/2] clk: clocking-wizard: add user clock monito=
-r support
-> config: microblaze-randconfig-r072-20260215 (https://download.01.org/0day=
--ci/archive/20260215/202602151704.qepyfVlc-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 14.3.0
-> smatch version: v0.5.0-8994-gd50c5a4c
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202602151704.qepyfVlc-lkp@intel.com/
->
-> smatch warnings:
-> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:1183 clk_wzrd_user_mon_work() =
-error: dereferencing freed memory 'dump' (line 1182)
->
-> vim +/dump +1183 drivers/clk/xilinx/clk-xlnx-clock-wizard.c
->
-> 68614f228e6cbe Harry Austen 2026-02-14  1176  static void clk_wzrd_user_m=
-on_work(struct work_struct *work)
-> 68614f228e6cbe Harry Austen 2026-02-14  1177  {
-> 68614f228e6cbe Harry Austen 2026-02-14  1178  =09struct clk_wzrd *clk_wzr=
-d =3D container_of(work, struct clk_wzrd, work.work);
-> 68614f228e6cbe Harry Austen 2026-02-14  1179  =09u32 *dump =3D vmalloc(WZ=
-RD_NUM_DUMP_REGS * sizeof(*dump));
-> 68614f228e6cbe Harry Austen 2026-02-14  1180
-> 68614f228e6cbe Harry Austen 2026-02-14  1181  =09ioread32_rep(clk_wzrd->b=
-ase, dump, WZRD_NUM_DUMP_REGS);
-> 68614f228e6cbe Harry Austen 2026-02-14 @1182  =09dev_coredumpv(&clk_wzrd-=
->pdev->dev, dump, WZRD_NUM_DUMP_REGS * sizeof(*dump), GFP_KERNEL);
-> 68614f228e6cbe Harry Austen 2026-02-14 @1183  =09iowrite32(dump[WZRD_INTR=
-_STATUS / sizeof(*dump)], clk_wzrd->base + WZRD_INTR_STATUS);
->                                                           ^^^^
-> dev_coredumpv() can free dump.
+Hi,
 
-Whoops. That makes total sense. Pretty sure this can be easily resolved by =
-moving the
-dev_coredumpv call after iowrite32. Will do in next patch version.
+kernel test robot noticed the following build errors:
 
->
-> 68614f228e6cbe Harry Austen 2026-02-14  1184  }
-> 68614f228e6cbe Harry Austen 2026-02-14  1185
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v6.19 next-20260219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks for the report!
-Harry
+url:    https://github.com/intel-lab-lkp/linux/commits/quic_utiwari-quicinc-com/crypto-qce-Add-runtime-PM-and-interconnect-bandwidth-scaling-support/20260220-153052
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20260220072818.2921517-1-quic_utiwari%40quicinc.com
+patch subject: [PATCH v7] crypto: qce - Add runtime PM and interconnect bandwidth scaling support
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260220/202602202238.PjZ0zYoN-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602202238.PjZ0zYoN-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602202238.PjZ0zYoN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/crypto/qce/core.c:285:23: error: called object type 'void *' is not a function or function pointer
+     285 |         return pm_clk_suspend(dev);
+         |                ~~~~~~~~~~~~~~^
+   drivers/crypto/qce/core.c:293:21: error: called object type 'void *' is not a function or function pointer
+     293 |         ret = pm_clk_resume(dev);
+         |               ~~~~~~~~~~~~~^
+   drivers/crypto/qce/core.c:304:16: error: called object type 'void *' is not a function or function pointer
+     304 |         pm_clk_suspend(dev);
+         |         ~~~~~~~~~~~~~~^
+   3 errors generated.
+
+
+vim +285 drivers/crypto/qce/core.c
+
+   278	
+   279	static int __maybe_unused qce_runtime_suspend(struct device *dev)
+   280	{
+   281		struct qce_device *qce = dev_get_drvdata(dev);
+   282	
+   283		icc_disable(qce->mem_path);
+   284	
+ > 285		return pm_clk_suspend(dev);
+   286	}
+   287	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
