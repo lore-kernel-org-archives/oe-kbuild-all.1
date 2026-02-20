@@ -1,136 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A765280324
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 20:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B0F28466C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 20:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771619013; cv=none; b=BOi+V1WyV1tm+7wH6G3QMwlDBlKk3nizaaZyLBS3TnSnwOgS+tgF/RrJ264GnUBMdGpBFLn27bnFXlAWkDNKHDtgdMm78uOg9TojO2X6ES3K7fUqmaOUS7xQvKEaruA+kpwrD82h6UIREx3/6OjMdxyhEU/fERmTdP2HBqZD9yI=
+	t=1771619879; cv=none; b=qFmHaiJPRaEmZpho5WjLGqknqDP67GFReYS25Nka7Om2XlIobx0ulXr2WU7Czd4bsC6w2kfkK78rhD/TaZeNXx6hayejhqrcyC8v1T7dWwhgdTOwPZfZ7J4jQkyMANfFy4sTtf/rO370Sz7yPHLajQkXLmagdUozFlDdz9UboxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771619013; c=relaxed/simple;
-	bh=VW7gqAhQGJeEPX4535oVHfTYvfT2lf7ccyx10rHOQP8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uiMJl4Bk6LJ0M/5Wul5PcTZF99tFr3yeKXAX1POjSUkK2WJwilwd9poxsnFuTMwqK09gjO2atbfyTYBVO48GncgIseuOQ9PiC1OkmTjXixuTLBUT6aOOXJht0Gzak52qK9RE+zdP1taxcBwZxGWtVyfo5gckgOrqXe5L8Rsrl8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GzujQF/r; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1771619879; c=relaxed/simple;
+	bh=ckjKERshFRnI0P3yH87wL8uIgFebZFNlaKRVVAP3lPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bw9I53c0TeEJ6ksaJTKqR12noyCH9tklDuetRoZhoEJ8Vh3jHBHSFAs/+BUttCH6Pl7KMYhFzcKipLk0yobsUuq6sE1PiZ6ViaxezJcI5WRaU8jRD97a7EfGZJGkmqYsfhoV8Hg4kWNN+3ESbeyeX/DM1Ih7+IiRbo8GigqOySQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j4yRJIVT; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GzujQF/r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j4yRJIVT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771619012; x=1803155012;
-  h=date:from:to:cc:subject:message-id;
-  bh=VW7gqAhQGJeEPX4535oVHfTYvfT2lf7ccyx10rHOQP8=;
-  b=GzujQF/rM5jD1lCykckJpSkR6Zw5fUm8Jg0coITgXEmzYilFtcWPDGZE
-   ljDmruaUFnP5p2wjaiczbM/+ifmC2guWqzeHGbqxa0ch+aJ/T9hf0P6RU
-   kjhKyn75nWHCjozWZHZ6UQNRSHbtTRB17aG+XFtrPrFT3qnRNnXzktuDI
-   PgUPy8l8+3QRgZQuEkHwrpUlvJQIpShJBC59vzItIvKNkUx4ZUz4N+pHR
-   iJnNXlcyGUPhMqrgINCzf8KWiO68T/SJR/GRaKBPftb7r95KKQjoqTbQ5
-   f/LbnUyRZblgcIyrWt6qmP0GOPSmBsIF/0o6yEmksXuT6Z7UqbLxOhz6k
-   Q==;
-X-CSE-ConnectionGUID: RuCyBcf5TRi95V7Y/V59Jw==
-X-CSE-MsgGUID: imMmaxwPQxifyh1Rw3ycmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="76578502"
+  t=1771619878; x=1803155878;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ckjKERshFRnI0P3yH87wL8uIgFebZFNlaKRVVAP3lPU=;
+  b=j4yRJIVTg2gswtHpy04rgGa6QhsWUwGCucllT6lZKlt08MjUf5auolZf
+   PGvGShSZhT1Z/AQQI78ZLG3L91nipOn6Rv9s/P0624IzHZloRm5y2sJjm
+   IVJ6IvwkxyzdBdt8hVDs0gM2Qi4Pm3w3Ujd1eKbb5Cho8yRH8GVXt3Khu
+   qFgvoIqT1kj6iD5rPPZFKv51fYazq2GmVZEN8+2vKBnE//sdhs5bHPiHL
+   7R9+ybbTMx/keJfH4O1CKYJGFdYkElYCTovQcWnMHfBpu8wnWiKo5llqG
+   u872m1I9As30oWhs8GADR/SHxn6E9M1m64lNsMj+uAiS2dUd2dHufUX8T
+   g==;
+X-CSE-ConnectionGUID: 16W/tRGPSNW0VEpHOck9aw==
+X-CSE-MsgGUID: 5w4JW88eQn2m2DqH6qbCxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="98179020"
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="76578502"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 12:23:31 -0800
-X-CSE-ConnectionGUID: 3U97ou+TTRK1CWUdEDBLfQ==
-X-CSE-MsgGUID: kVRbDWX5TYSurmLsYegw9w==
+   d="scan'208";a="98179020"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 12:37:58 -0800
+X-CSE-ConnectionGUID: X46EyZRnQnWMaZUnF4j4JA==
+X-CSE-MsgGUID: vJF2LLuERbesSX+Lp8dI8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="219457861"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Feb 2026 12:23:29 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="213971517"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Feb 2026 12:37:54 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtX26-000000014SS-47ww;
-	Fri, 20 Feb 2026 20:23:26 +0000
-Date: Sat, 21 Feb 2026 04:22:45 +0800
+	id 1vtXG3-000000004Gz-2pO2;
+	Fri, 20 Feb 2026 20:37:51 +0000
+Date: Fri, 20 Feb 2026 21:37:24 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:iino-u64 2/29] fs/crypto/keysetup.c:94:15: warning:
- format '%lu' expects argument of type 'long unsigned int', but argument 2 has
- type 'u64' {aka 'const long long unsigned int'}
-Message-ID: <202602210422.ai9mEoqW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ahmed Tiba <ahmed.tiba@arm.com>, devicetree@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ahmed Tiba <ahmed.tiba@arm.com>,
+	Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
+	robh@kernel.org, rafael@kernel.org, will@kernel.org,
+	conor@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, krzk+dt@kernel.org,
+	Michael.Zhao2@arm.com, tony.luck@intel.com
+Subject: Re: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
+Message-ID: <202602202148.CB8O9os9-lkp@intel.com>
+References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git iino-u64
-head:   5aef1b33e04ec98ed6f4a02ce457ecdc39b794dd
-commit: a84299eafee5781e2616860a83f947d8b2c7daee [2/29] vfs: change i_ino from unsigned long to u64
-config: m68k-randconfig-r072-20260221 (https://download.01.org/0day-ci/archive/20260221/202602210422.ai9mEoqW-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602210422.ai9mEoqW-lkp@intel.com/reproduce)
+Hi Ahmed,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8bf22c33e7a172fbc72464f4cc484d23a6b412ba]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ACPI-APEI-GHES-share-macros-via-a-private-header/20260220-214812
+base:   8bf22c33e7a172fbc72464f4cc484d23a6b412ba
+patch link:    https://lore.kernel.org/r/20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b%40arm.com
+patch subject: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260220/202602202148.CB8O9os9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602202148.CB8O9os9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602210422.ai9mEoqW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602202148.CB8O9os9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:18,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/crypto/skcipher.h:11,
-                    from fs/crypto/keysetup.c:11:
-   fs/crypto/keysetup.c: In function 'select_encryption_mode':
->> fs/crypto/keysetup.c:94:15: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'u64' {aka 'const long long unsigned int'} [-Wformat=]
-     WARN_ONCE(1, "fscrypt: filesystem tried to load encryption info for inode %lu, which is not encryptable (file type %d)\n",
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        inode->i_ino, (inode->i_mode & S_IFMT));
-        ~~~~~~~~~~~~
-   include/linux/printk.h:134:11: note: in definition of macro 'no_printk'
-      _printk(fmt, ##__VA_ARGS__);  \
-              ^~~
-   include/asm-generic/bug.h:219:41: note: in expansion of macro 'WARN'
-    #define WARN_ONCE(condition, format...) WARN(condition, format)
-                                            ^~~~
-   fs/crypto/keysetup.c:94:2: note: in expansion of macro 'WARN_ONCE'
-     WARN_ONCE(1, "fscrypt: filesystem tried to load encryption info for inode %lu, which is not encryptable (file type %d)\n",
-     ^~~~~~~~~
+   drivers/acpi/apei/ghes_cper.c: In function 'ghes_handle_arm_hw_error':
+>> drivers/acpi/apei/ghes_cper.c:261:34: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     261 |                                  FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+         |                                  ^~~~~~~~~
 
 
-vim +94 fs/crypto/keysetup.c
+vim +/FIELD_GET +261 drivers/acpi/apei/ghes_cper.c
 
-e3b1078bedd323 fs/crypto/keysetup.c Eric Biggers  2020-05-15  81  
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers  2018-05-18  82  static struct fscrypt_mode *
-5dae460c2292db fs/crypto/keysetup.c Eric Biggers  2019-08-04  83  select_encryption_mode(const union fscrypt_policy *policy,
-5dae460c2292db fs/crypto/keysetup.c Eric Biggers  2019-08-04  84  		       const struct inode *inode)
-8f39850dffa9cb fs/crypto/keyinfo.c  Eric Biggers  2016-09-15  85  {
-3ceb6543e9cf6e fs/crypto/keysetup.c Eric Biggers  2020-10-23  86  	BUILD_BUG_ON(ARRAY_SIZE(fscrypt_modes) != FSCRYPT_MODE_MAX + 1);
-3ceb6543e9cf6e fs/crypto/keysetup.c Eric Biggers  2020-10-23  87  
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers  2018-05-18  88  	if (S_ISREG(inode->i_mode))
-85af90e57ce969 fs/crypto/keysetup.c Eric Biggers  2019-12-09  89  		return &fscrypt_modes[fscrypt_policy_contents_mode(policy)];
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers  2018-05-18  90  
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers  2018-05-18  91  	if (S_ISDIR(inode->i_mode) || S_ISLNK(inode->i_mode))
-85af90e57ce969 fs/crypto/keysetup.c Eric Biggers  2019-12-09  92  		return &fscrypt_modes[fscrypt_policy_fnames_mode(policy)];
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers  2018-05-18  93  
-b7e7cf7a66a27e fs/crypto/keyinfo.c  Daniel Walter 2017-06-19 @94  	WARN_ONCE(1, "fscrypt: filesystem tried to load encryption info for inode %lu, which is not encryptable (file type %d)\n",
-b7e7cf7a66a27e fs/crypto/keyinfo.c  Daniel Walter 2017-06-19  95  		  inode->i_ino, (inode->i_mode & S_IFMT));
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers  2018-05-18  96  	return ERR_PTR(-EINVAL);
-8f39850dffa9cb fs/crypto/keyinfo.c  Eric Biggers  2016-09-15  97  }
-8f39850dffa9cb fs/crypto/keyinfo.c  Eric Biggers  2016-09-15  98  
-
-:::::: The code at line 94 was first introduced by commit
-:::::: b7e7cf7a66a27e62c5f873a0068cee34094bf5d7 fscrypt: add support for AES-128-CBC
-
-:::::: TO: Daniel Walter <dwalter@sigma-star.at>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
+   202	
+   203	bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
+   204					     int sev, bool sync)
+   205	{
+   206		struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
+   207		int flags = sync ? MF_ACTION_REQUIRED : 0;
+   208		int length = gdata->error_data_length;
+   209		char error_type[120];
+   210		bool queued = false;
+   211		int sec_sev, i;
+   212		char *p;
+   213	
+   214		sec_sev = ghes_severity(gdata->error_severity);
+   215		if (length >= sizeof(*err)) {
+   216			log_arm_hw_error(err, sec_sev);
+   217		} else {
+   218			pr_warn(FW_BUG "arm error length: %d\n", length);
+   219			pr_warn(FW_BUG "length is too small\n");
+   220			pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
+   221			return false;
+   222		}
+   223	
+   224		if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
+   225			return false;
+   226	
+   227		p = (char *)(err + 1);
+   228		length -= sizeof(err);
+   229	
+   230		for (i = 0; i < err->err_info_num; i++) {
+   231			struct cper_arm_err_info *err_info;
+   232			bool is_cache, has_pa;
+   233	
+   234			/* Ensure we have enough data for the error info header */
+   235			if (length < sizeof(*err_info))
+   236				break;
+   237	
+   238			err_info = (struct cper_arm_err_info *)p;
+   239	
+   240			/* Validate the claimed length before using it */
+   241			length -= err_info->length;
+   242			if (length < 0)
+   243				break;
+   244	
+   245			is_cache = err_info->type & CPER_ARM_CACHE_ERROR;
+   246			has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
+   247	
+   248			/*
+   249			 * The field (err_info->error_info & BIT(26)) is fixed to set to
+   250			 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
+   251			 * firmware won't mix corrected errors in an uncorrected section,
+   252			 * and don't filter out 'corrected' error here.
+   253			 */
+   254			if (is_cache && has_pa) {
+   255				queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
+   256				p += err_info->length;
+   257				continue;
+   258			}
+   259	
+   260			cper_bits_to_str(error_type, sizeof(error_type),
+ > 261					 FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+   262					 cper_proc_error_type_strs,
+   263					 ARRAY_SIZE(cper_proc_error_type_strs));
+   264	
+   265			pr_warn_ratelimited(FW_WARN GHES_PFX
+   266					    "Unhandled processor error type 0x%02x: %s%s\n",
+   267					    err_info->type, error_type,
+   268					    (err_info->type & ~CPER_ARM_ERR_TYPE_MASK) ? " with reserved bit(s)" : "");
+   269			p += err_info->length;
+   270		}
+   271	
+   272		return queued;
+   273	}
+   274	
 
 -- 
 0-DAY CI Kernel Test Service
