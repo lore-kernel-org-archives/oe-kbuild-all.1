@@ -1,301 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA88189F30
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 21:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4CD2FF67A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 21:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771621560; cv=none; b=M3LlVQ7WYYFSxf4UFf6RzUQCLbh8FoPGdKRX31iUR1ZvAFporzgIJx3+IFn5UvTfuot0Ur30R1v/0voMr+kEdKFMWFY2J7Bvn9eH5sLbRezhFq+jjz2mWrNJ4VzQA2UPMCCT+NRARjlIZfGBtMTLeloN/wiqwkg+hA/Y7/rzqrE=
+	t=1771621594; cv=none; b=ukNutxgWnHhhbuqw7ySpbO+KqlyTkJ42Ze4BWd9HR8G8i4TqYl5n8IOqTH62w6BmJOWYXJO4Yw0kzuLSRi/pLTkIJdAT/utI6POQTEF1t78LWGBZZtm1piH0DbHvUuPatdT2EkUyfXb1WIgXauXPqaqvacYjAhOrS7SgHAwZ3dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771621560; c=relaxed/simple;
-	bh=mFptfznoJXpcR+E0Htj4dfRl3M076Dua632A3J4rRLo=;
+	s=arc-20240116; t=1771621594; c=relaxed/simple;
+	bh=0l1zRn0BjjZyih9eoGFMd8k872C/OrBIh6RdpoOVbSM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d1YJu4q9S0dS58QV/Qk3X9kYatTZqEac3CNOCmt0OwzBUaNgtrvxQBaxuCJoqrjUXXvaWcdElsbdy+MUebRpjCRL8Cm6mOJ4I4RlVGbmiJbQk034IPXK5DSLc5oMa5XyFiWxTJHObPqdzD1+bqf6ik5A6J7lt1iOmsWjep8KLiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PpA0g1er; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=FQgkc8s38qB3gHVtya2pgNTf4jM6XdhKFcHJ9w2kHIIoL1M85LUkg/wA1d9RTf9xzEztsRn6aEXhgKK1DPlkx08uimHT5iC0LhlmGZKWuq/RLo5HwnC8AMHoCWaMOq4h839TNKTBzV55cu6BivC+A8E9jlazwcgEX3JGpJFvclQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gr+SIYgk; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PpA0g1er"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gr+SIYgk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771621558; x=1803157558;
+  t=1771621594; x=1803157594;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=mFptfznoJXpcR+E0Htj4dfRl3M076Dua632A3J4rRLo=;
-  b=PpA0g1eryY46G+QGE1Nb6AQqb57cYLadKs4I9oChRfLyOKT50dNQi+ob
-   MqqnPMGfdhPq46gl8/wRGFTUFum7ndlHOxn4SGtDuL0TYC0OKUWqCKAab
-   e0d50ushme9tl0UiCAhNeVgGh5nd6mLwyovEZevNMlCSlEIsfholj1ert
-   L2vqlB6G9x6vKLCYlI253Y8nN1n6frJuxQpWfVnZktbIWkNZm6mUrvmXO
-   pS3DRY4y1WIWpch1kySljQpU2m5vh7g6SqMsn45xwohEKT4aFQ7pBTk2Q
-   BWyMAIz1v1kz4oKSq6L6ZtuVuJZUiUf3Yj6UoDxORMcd/+/k4+zDHf+cy
+   mime-version:in-reply-to;
+  bh=0l1zRn0BjjZyih9eoGFMd8k872C/OrBIh6RdpoOVbSM=;
+  b=gr+SIYgk3pk5y0qss44NVy+X8t3Y+IWCfv7QzGj7Rfy93NS2mzLl696W
+   23vt5UciaaEt6XEDn3KLg3LMtCx+6VoOqZqFwIigfxwK/xmkwdm2lBxSh
+   lYuDaXT2GlybFTU9u1MgWI36bvLXSzdSCX/3DSerC6FeRQbXHrJ37oL52
+   oUNBrVbxIx21yK09172aAxyM7DOXXYeb9WBELtY2eSyvwtG1AmuQBvLjJ
+   Y4xW6Y7kS05DgbIxZ1VAey7DchLy6FQDF7T3KLDI6b4luiFRAsF4DWNuu
+   obQo3rbJYRuZyQ8L60Drj335MXR+GEEozTIYQTAHVk+XZnAtys+Bn72nt
    A==;
-X-CSE-ConnectionGUID: g0bNzbprRqCJQXX5zfxZ/A==
-X-CSE-MsgGUID: UcRJZvpETLSRZ7ladStL1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="90126667"
+X-CSE-ConnectionGUID: uZiwRdn7TGWqLmzRWBOL0Q==
+X-CSE-MsgGUID: 75Enw0UkRpyjT87y5rHsFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="83820528"
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="90126667"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 13:05:57 -0800
-X-CSE-ConnectionGUID: 9qyvXURCRT6+xJzCVaBkrQ==
-X-CSE-MsgGUID: sh2fQiEwRdaYHZkL9Wzpwg==
+   d="scan'208";a="83820528"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 13:06:34 -0800
+X-CSE-ConnectionGUID: VGF/h1lMSieZ3YzQ4bKR6g==
+X-CSE-MsgGUID: jKiZJGnbQCy6OuuX+DIAtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="213470627"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Feb 2026 13:05:54 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="213038238"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 20 Feb 2026 13:06:30 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtXh9-000000004H3-32SI;
-	Fri, 20 Feb 2026 21:05:51 +0000
-Date: Fri, 20 Feb 2026 22:05:48 +0100
+	id 1vtXhk-000000014Tc-1J1j;
+	Fri, 20 Feb 2026 21:06:28 +0000
+Date: Sat, 21 Feb 2026 05:05:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, Martin KaFai Lau <kafai@fb.com>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	Menglong Dong <menglong8.dong@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH bpf-next 04/17] bpf: Add struct bpf_tramp_node object
-Message-ID: <202602202212.yC5wLunx-lkp@intel.com>
-References: <20260220100649.628307-5-jolsa@kernel.org>
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, m.wieczorretman@pm.me,
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/3] x86/cpu: Check if feature string is non-zero
+Message-ID: <202602210429.MpUz6J91-lkp@intel.com>
+References: <bc0eebc8310acfae28a73e3780a67d721c739b89.1771590895.git.m.wieczorretman@pm.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260220100649.628307-5-jolsa@kernel.org>
+In-Reply-To: <bc0eebc8310acfae28a73e3780a67d721c739b89.1771590895.git.m.wieczorretman@pm.me>
 
-Hi Jiri,
+Hi Maciej,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on tip/smp/core v6.19]
+[cannot apply to peterz-queue/sched/core linus/master next-20260220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/ftrace-Add-ftrace_hash_count-function/20260220-181324
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260220100649.628307-5-jolsa%40kernel.org
-patch subject: [PATCH bpf-next 04/17] bpf: Add struct bpf_tramp_node object
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260220/202602202212.yC5wLunx-lkp@intel.com/config)
-compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602202212.yC5wLunx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Wieczor-Retman/x86-cpu-Clear-feature-bits-disabled-at-compile-time/20260220-204916
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/bc0eebc8310acfae28a73e3780a67d721c739b89.1771590895.git.m.wieczorretman%40pm.me
+patch subject: [PATCH v6 2/3] x86/cpu: Check if feature string is non-zero
+config: x86_64-randconfig-r051-20260221 (https://download.01.org/0day-ci/archive/20260221/202602210429.MpUz6J91-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602202212.yC5wLunx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602210429.MpUz6J91-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/cpu/common.c:1987:15-21: ERROR: application of sizeof to pointer
 
-   arch/riscv/net/bpf_jit_comp64.c: In function 'invoke_bpf_prog':
->> arch/riscv/net/bpf_jit_comp64.c:944:14: error: 'struct bpf_tramp_link' has no member named 'cookie'
-     944 |         if (l->cookie)
-         |              ^~
-   arch/riscv/net/bpf_jit_comp64.c:945:79: error: 'struct bpf_tramp_link' has no member named 'cookie'
-     945 |                 emit_store_stack_imm64(RV_REG_T1, -run_ctx_off + cookie_off, l->cookie, ctx);
-         |                                                                               ^~
-   arch/riscv/net/bpf_jit_comp64.c: At top level:
-   arch/riscv/net/bpf_jit_comp64.c:999:30: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-     999 | static int invoke_bpf(struct bpf_tramp_links *tl, int args_off, int retval_off,
-         |                              ^~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c: In function 'invoke_bpf':
->> arch/riscv/net/bpf_jit_comp64.c:1005:27: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1005 |         for (i = 0; i < tl->nr_links; i++) {
-         |                           ^~
-   arch/riscv/net/bpf_jit_comp64.c:1008:53: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1008 |                 if (bpf_prog_calls_session_cookie(tl->links[i])) {
-         |                                                     ^~
-   arch/riscv/net/bpf_jit_comp64.c:1014:41: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1014 |                 err = invoke_bpf_prog(tl->links[i], args_off, retval_off, run_ctx_off,
-         |                                         ^~
-   arch/riscv/net/bpf_jit_comp64.c: At top level:
-   arch/riscv/net/bpf_jit_comp64.c:1024:49: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-    1024 |                                          struct bpf_tramp_links *tlinks,
-         |                                                 ^~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c: In function '__arch_prepare_bpf_trampoline':
-   arch/riscv/net/bpf_jit_comp64.c:1033:49: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1033 |         struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
-         |                                                 ^
-   arch/riscv/net/bpf_jit_comp64.c:1034:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1034 |         struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
-         |                                                ^
-   arch/riscv/net/bpf_jit_comp64.c:1035:51: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1035 |         struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
-         |                                                   ^
-   arch/riscv/net/bpf_jit_comp64.c:1118:46: error: passing argument 1 of 'bpf_fsession_cookie_cnt' from incompatible pointer type [-Wincompatible-pointer-types]
-    1118 |         cookie_cnt = bpf_fsession_cookie_cnt(tlinks);
-         |                                              ^~~~~~
-         |                                              |
-         |                                              struct bpf_tramp_links *
-   In file included from arch/riscv/net/bpf_jit_comp64.c:9:
-   ./include/linux/bpf.h:2207:67: note: expected 'struct bpf_tramp_nodes *' but argument is of type 'struct bpf_tramp_links *'
-    2207 | static inline int bpf_fsession_cookie_cnt(struct bpf_tramp_nodes *nodes)
-         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1175:30: error: passing argument 1 of 'bpf_fsession_cnt' from incompatible pointer type [-Wincompatible-pointer-types]
-    1175 |         if (bpf_fsession_cnt(tlinks)) {
-         |                              ^~~~~~
-         |                              |
-         |                              struct bpf_tramp_links *
-   ./include/linux/bpf.h:2189:60: note: expected 'struct bpf_tramp_nodes *' but argument is of type 'struct bpf_tramp_links *'
-    2189 | static inline int bpf_fsession_cnt(struct bpf_tramp_nodes *nodes)
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1190:19: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1190 |         if (fentry->nr_links) {
-         |                   ^~
-   arch/riscv/net/bpf_jit_comp64.c:1191:34: error: passing argument 1 of 'invoke_bpf' from incompatible pointer type [-Wincompatible-pointer-types]
-    1191 |                 ret = invoke_bpf(fentry, args_off, retval_off, run_ctx_off, func_meta_off,
-         |                                  ^~~~~~
-         |                                  |
-         |                                  struct bpf_tramp_links *
-   arch/riscv/net/bpf_jit_comp64.c:999:47: note: expected 'struct bpf_tramp_links *' but argument is of type 'struct bpf_tramp_links *'
-     999 | static int invoke_bpf(struct bpf_tramp_links *tl, int args_off, int retval_off,
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~^~
-   arch/riscv/net/bpf_jit_comp64.c:1197:21: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1197 |         if (fmod_ret->nr_links) {
-         |                     ^~
-   In file included from ./include/linux/workqueue.h:9,
-                    from ./include/linux/bpf.h:11:
-   arch/riscv/net/bpf_jit_comp64.c:1198:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1198 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                                ^~
-   ./include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   ./include/linux/slab.h:1115:49: note: in expansion of macro 'alloc_hooks'
-    1115 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   ./include/linux/slab.h:1154:41: note: in expansion of macro 'kmalloc_array'
-    1154 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1198:32: note: in expansion of macro 'kcalloc'
-    1198 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                ^~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1198:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1198 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                                ^~
-   ./include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   ./include/linux/slab.h:1115:49: note: in expansion of macro 'alloc_hooks'
-    1115 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   ./include/linux/slab.h:1154:41: note: in expansion of macro 'kmalloc_array'
-    1154 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1198:32: note: in expansion of macro 'kcalloc'
-    1198 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                ^~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1198:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1198 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                                ^~
-   ./include/linux/alloc_tag.h:258:24: note: in definition of macro 'alloc_hooks_tag'
-     258 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   ./include/linux/slab.h:1115:49: note: in expansion of macro 'alloc_hooks'
-    1115 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   ./include/linux/slab.h:1154:41: note: in expansion of macro 'kmalloc_array'
-    1154 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1198:32: note: in expansion of macro 'kcalloc'
-    1198 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                ^~~~~~~
+vim +1987 arch/x86/kernel/cpu/common.c
 
-
-vim +944 arch/riscv/net/bpf_jit_comp64.c
-
-93fd420d71beed Menglong Dong 2026-02-08   936  
-49b5e77ae3e214 Pu Lehui      2023-02-15   937  static int invoke_bpf_prog(struct bpf_tramp_link *l, int args_off, int retval_off,
-49b5e77ae3e214 Pu Lehui      2023-02-15   938  			   int run_ctx_off, bool save_ret, struct rv_jit_context *ctx)
-49b5e77ae3e214 Pu Lehui      2023-02-15   939  {
-49b5e77ae3e214 Pu Lehui      2023-02-15   940  	int ret, branch_off;
-49b5e77ae3e214 Pu Lehui      2023-02-15   941  	struct bpf_prog *p = l->link.prog;
-49b5e77ae3e214 Pu Lehui      2023-02-15   942  	int cookie_off = offsetof(struct bpf_tramp_run_ctx, bpf_cookie);
-49b5e77ae3e214 Pu Lehui      2023-02-15   943  
-93fd420d71beed Menglong Dong 2026-02-08  @944  	if (l->cookie)
-93fd420d71beed Menglong Dong 2026-02-08   945  		emit_store_stack_imm64(RV_REG_T1, -run_ctx_off + cookie_off, l->cookie, ctx);
-93fd420d71beed Menglong Dong 2026-02-08   946  	else
-49b5e77ae3e214 Pu Lehui      2023-02-15   947  		emit_sd(RV_REG_FP, -run_ctx_off + cookie_off, RV_REG_ZERO, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   948  
-49b5e77ae3e214 Pu Lehui      2023-02-15   949  	/* arg1: prog */
-49b5e77ae3e214 Pu Lehui      2023-02-15   950  	emit_imm(RV_REG_A0, (const s64)p, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   951  	/* arg2: &run_ctx */
-49b5e77ae3e214 Pu Lehui      2023-02-15   952  	emit_addi(RV_REG_A1, RV_REG_FP, -run_ctx_off, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   953  	ret = emit_call((const u64)bpf_trampoline_enter(p), true, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   954  	if (ret)
-49b5e77ae3e214 Pu Lehui      2023-02-15   955  		return ret;
-49b5e77ae3e214 Pu Lehui      2023-02-15   956  
-10541b374aa05c Xu Kuohai     2024-04-16   957  	/* store prog start time */
-10541b374aa05c Xu Kuohai     2024-04-16   958  	emit_mv(RV_REG_S1, RV_REG_A0, ctx);
-10541b374aa05c Xu Kuohai     2024-04-16   959  
-49b5e77ae3e214 Pu Lehui      2023-02-15   960  	/* if (__bpf_prog_enter(prog) == 0)
-49b5e77ae3e214 Pu Lehui      2023-02-15   961  	 *	goto skip_exec_of_prog;
-49b5e77ae3e214 Pu Lehui      2023-02-15   962  	 */
-49b5e77ae3e214 Pu Lehui      2023-02-15   963  	branch_off = ctx->ninsns;
-49b5e77ae3e214 Pu Lehui      2023-02-15   964  	/* nop reserved for conditional jump */
-49b5e77ae3e214 Pu Lehui      2023-02-15   965  	emit(rv_nop(), ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   966  
-49b5e77ae3e214 Pu Lehui      2023-02-15   967  	/* arg1: &args_off */
-49b5e77ae3e214 Pu Lehui      2023-02-15   968  	emit_addi(RV_REG_A0, RV_REG_FP, -args_off, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   969  	if (!p->jited)
-49b5e77ae3e214 Pu Lehui      2023-02-15   970  		/* arg2: progs[i]->insnsi for interpreter */
-49b5e77ae3e214 Pu Lehui      2023-02-15   971  		emit_imm(RV_REG_A1, (const s64)p->insnsi, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   972  	ret = emit_call((const u64)p->bpf_func, true, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   973  	if (ret)
-49b5e77ae3e214 Pu Lehui      2023-02-15   974  		return ret;
-49b5e77ae3e214 Pu Lehui      2023-02-15   975  
-7112cd26e606c7 Björn Töpel   2023-10-04   976  	if (save_ret) {
-7112cd26e606c7 Björn Töpel   2023-10-04   977  		emit_sd(RV_REG_FP, -retval_off, RV_REG_A0, ctx);
-7112cd26e606c7 Björn Töpel   2023-10-04   978  		emit_sd(RV_REG_FP, -(retval_off - 8), regmap[BPF_REG_0], ctx);
-7112cd26e606c7 Björn Töpel   2023-10-04   979  	}
-49b5e77ae3e214 Pu Lehui      2023-02-15   980  
-49b5e77ae3e214 Pu Lehui      2023-02-15   981  	/* update branch with beqz */
-49b5e77ae3e214 Pu Lehui      2023-02-15   982  	if (ctx->insns) {
-49b5e77ae3e214 Pu Lehui      2023-02-15   983  		int offset = ninsns_rvoff(ctx->ninsns - branch_off);
-49b5e77ae3e214 Pu Lehui      2023-02-15   984  		u32 insn = rv_beq(RV_REG_A0, RV_REG_ZERO, offset >> 1);
-49b5e77ae3e214 Pu Lehui      2023-02-15   985  		*(u32 *)(ctx->insns + branch_off) = insn;
-49b5e77ae3e214 Pu Lehui      2023-02-15   986  	}
-49b5e77ae3e214 Pu Lehui      2023-02-15   987  
-49b5e77ae3e214 Pu Lehui      2023-02-15   988  	/* arg1: prog */
-49b5e77ae3e214 Pu Lehui      2023-02-15   989  	emit_imm(RV_REG_A0, (const s64)p, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   990  	/* arg2: prog start time */
-49b5e77ae3e214 Pu Lehui      2023-02-15   991  	emit_mv(RV_REG_A1, RV_REG_S1, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   992  	/* arg3: &run_ctx */
-49b5e77ae3e214 Pu Lehui      2023-02-15   993  	emit_addi(RV_REG_A2, RV_REG_FP, -run_ctx_off, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   994  	ret = emit_call((const u64)bpf_trampoline_exit(p), true, ctx);
-49b5e77ae3e214 Pu Lehui      2023-02-15   995  
-49b5e77ae3e214 Pu Lehui      2023-02-15   996  	return ret;
-49b5e77ae3e214 Pu Lehui      2023-02-15   997  }
-49b5e77ae3e214 Pu Lehui      2023-02-15   998  
-35b3515be0ecb9 Menglong Dong 2026-02-08   999  static int invoke_bpf(struct bpf_tramp_links *tl, int args_off, int retval_off,
-35b3515be0ecb9 Menglong Dong 2026-02-08  1000  		      int run_ctx_off, int func_meta_off, bool save_ret, u64 func_meta,
-35b3515be0ecb9 Menglong Dong 2026-02-08  1001  		      int cookie_off, struct rv_jit_context *ctx)
-35b3515be0ecb9 Menglong Dong 2026-02-08  1002  {
-35b3515be0ecb9 Menglong Dong 2026-02-08  1003  	int i, cur_cookie = (cookie_off - args_off) / 8;
-35b3515be0ecb9 Menglong Dong 2026-02-08  1004  
-35b3515be0ecb9 Menglong Dong 2026-02-08 @1005  	for (i = 0; i < tl->nr_links; i++) {
-35b3515be0ecb9 Menglong Dong 2026-02-08  1006  		int err;
-35b3515be0ecb9 Menglong Dong 2026-02-08  1007  
-35b3515be0ecb9 Menglong Dong 2026-02-08  1008  		if (bpf_prog_calls_session_cookie(tl->links[i])) {
-35b3515be0ecb9 Menglong Dong 2026-02-08  1009  			u64 meta = func_meta | ((u64)cur_cookie << BPF_TRAMP_COOKIE_INDEX_SHIFT);
-35b3515be0ecb9 Menglong Dong 2026-02-08  1010  
-35b3515be0ecb9 Menglong Dong 2026-02-08  1011  			emit_store_stack_imm64(RV_REG_T1, -func_meta_off, meta, ctx);
-35b3515be0ecb9 Menglong Dong 2026-02-08  1012  			cur_cookie--;
-35b3515be0ecb9 Menglong Dong 2026-02-08  1013  		}
-35b3515be0ecb9 Menglong Dong 2026-02-08  1014  		err = invoke_bpf_prog(tl->links[i], args_off, retval_off, run_ctx_off,
-35b3515be0ecb9 Menglong Dong 2026-02-08  1015  				      save_ret, ctx);
-35b3515be0ecb9 Menglong Dong 2026-02-08  1016  		if (err)
-35b3515be0ecb9 Menglong Dong 2026-02-08  1017  			return err;
-35b3515be0ecb9 Menglong Dong 2026-02-08  1018  	}
-35b3515be0ecb9 Menglong Dong 2026-02-08  1019  	return 0;
-35b3515be0ecb9 Menglong Dong 2026-02-08  1020  }
-35b3515be0ecb9 Menglong Dong 2026-02-08  1021  
+  1973	
+  1974	const char *x86_cap_name(unsigned int bit, char *buf)
+  1975	{
+  1976		unsigned int word = bit >> 5;
+  1977		const char *name = NULL;
+  1978	
+  1979		if (likely(word < NCAPINTS))
+  1980			name = x86_cap_flags[bit];
+  1981		else if (likely(word < NCAPINTS + NBUGINTS))
+  1982			name = x86_bug_flags[bit - 32 * NCAPINTS];
+  1983	
+  1984		if (name)
+  1985			return name;
+  1986	
+> 1987		snprintf(buf, sizeof(buf), "%u:%u", word, bit & 31);
+  1988		return buf;
+  1989	}
+  1990	
 
 -- 
 0-DAY CI Kernel Test Service
