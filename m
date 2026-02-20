@@ -1,64 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B26A315D35
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 19:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC09786353;
+	Fri, 20 Feb 2026 19:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771615174; cv=none; b=M+6MSqTRogSK4OpSzFhqg9SqDClx3gKkhwpPhzKHtKMqfigmcSbroxHMObHmsvt7XPKJ55lUbheqZOoCXWyzpQBjBaJ/j65yw9i/Daoa3VTeVJ7zh1OpXDShUhRvN50pFJy3d/pBf34JHzv74M0D7/jlKmmCfuTm833QKXkSB8A=
+	t=1771615498; cv=none; b=rUln5xlZYwMr1dzW2xqNCkQtSAHiOskj34rLPYX7GW13Iilka4dLuV5TA38uwCx6oyYBKajn5OB9QK8c1v3zouLropNzlgXmt1N718TGVopQrtyihrfAPtPwdsSaBY0dcIbscOgBWukDLGLvxpsMAAVlEPqE/qLsVB41RsG+fE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771615174; c=relaxed/simple;
-	bh=Er+hsh1gG5ejQ2qPbFqaijfyXtfPJmp/EnPNlRqDWck=;
+	s=arc-20240116; t=1771615498; c=relaxed/simple;
+	bh=CxGHMCvKqrgIEL1ZXttyxDNzGSQqXIwzxJ1W6l9MfYk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=omdCFhpfTCWvl6veyTjA8o+Ihr9pq/49ZCqQBTmOfdhvkkKmWKt+Npgrjh8l4nfg4IqbY3K4emj/pUvD+5Ynzwogx898kxMMB0mZUW11TjSLxVPNsgg2+C4mEWKo3ztzfNZERuZr4+s9rRrIPWi7a6J4fYMDuh5c9jMyinflic4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jUQ5LJ9O; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=GnONRQSDvezEFdJ4HkatDTYSPLp2wyeoaRYVyhMGNEcSTGwkdQ0cWatWLA68NW1WeY8dyXcg4J/7G3KbdOkpb62BbdzuHPLL2KeVG7nkgNxFRDolOlpwUGBOcFPqZtwN4hr9XvMHDK9Pz3tmfHwO96ywtlu550oC6nrw6Hul9nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=On57KZra; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jUQ5LJ9O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="On57KZra"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771615171; x=1803151171;
+  t=1771615498; x=1803151498;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Er+hsh1gG5ejQ2qPbFqaijfyXtfPJmp/EnPNlRqDWck=;
-  b=jUQ5LJ9OInbRFScsEHWzwn0oAV0FFo+guHgYFGapp+itFBo07YUQp1WC
-   rz/UMQso7wOPMXUoFTAc8c0/MTGuTANtSMFKTePlwLamXYvK4CtuPeh2v
-   gLGSMkgwc00Zwwry7UNdRzn5Jt4jNvqTfMXdzZeu110aOIJy3eeCkgkIb
-   NCUDmV3fM7vpOuaFa4jyHL+sPOfz9JmQerTKCBf0DiG6nH+RPLalig/py
-   PGYSqolzLLJA8rZ5Z7exrivYxrHkTjlVpGRq+pgxVMmtq6a0KdPjj+1h0
-   7bK1/b0B/y5n/Ef+EGqniLLGVszOt2py1cLCnEiJdtBu4W+zHKhID/wpi
-   Q==;
-X-CSE-ConnectionGUID: ydKcBK4nSymYnowU3DLg1Q==
-X-CSE-MsgGUID: lfvrN00yQFWLnfH1F/Fkiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="83031467"
+  bh=CxGHMCvKqrgIEL1ZXttyxDNzGSQqXIwzxJ1W6l9MfYk=;
+  b=On57KZraQG/ntB902DJOZRFrDEoQ9IhcaU1GQ+EH7OnlLJ4z2YScuF+v
+   VHLJ/VRbEg15D+a8pl5ZiNHG8oS/vWCi/hdRlXQ+5LxQcu6vv41+yYgSi
+   Xg250Xc5q9wkQ1Yzbaomry/OZCS1vHc5vu31GVEYFoU49w11o5yxSv0A1
+   RdSpj1/fbT56ekpbbyNVSXvvRdMPYz4Kdq+JJxJBmAz09OyxigndUqM7s
+   5Tjvw/AVB87kuwKB4AurnMS4sSo7y+lK4xvm6RKrQU/MH4cnyYGXB6DSV
+   LmRrAgjTqBNpzcXu4Bp73+ZKsWfxLJnQeflevshht8mJYpln2D8vElFSr
+   g==;
+X-CSE-ConnectionGUID: 29ynDhtSTTKiMDXTEkTCLg==
+X-CSE-MsgGUID: aV7uahPeQcSLvdq4Qxo4sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="71918912"
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="83031467"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 11:19:31 -0800
-X-CSE-ConnectionGUID: caaxDMaPSwuglvvX91K68w==
-X-CSE-MsgGUID: CNlHRdPdT3isOUcrHIwipw==
+   d="scan'208";a="71918912"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 11:24:57 -0800
+X-CSE-ConnectionGUID: avG6jDm0RIq8wolc3qY8Dg==
+X-CSE-MsgGUID: QL4BNvEpQw6lhkniQ2HCWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="213021977"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Feb 2026 11:19:27 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="213960545"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Feb 2026 11:24:53 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtW28-000000014QK-3xTk;
-	Fri, 20 Feb 2026 19:19:24 +0000
-Date: Sat, 21 Feb 2026 03:19:19 +0800
+	id 1vtW7P-000000004Gb-1NH8;
+	Fri, 20 Feb 2026 19:24:51 +0000
+Date: Fri, 20 Feb 2026 20:24:15 +0100
 From: kernel test robot <lkp@intel.com>
 To: Ahmed Tiba <ahmed.tiba@arm.com>, devicetree@vger.kernel.org,
 	linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ahmed Tiba <ahmed.tiba@arm.com>,
-	Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
-	robh@kernel.org, rafael@kernel.org, will@kernel.org,
-	conor@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, krzk+dt@kernel.org,
-	Michael.Zhao2@arm.com, tony.luck@intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ahmed Tiba <ahmed.tiba@arm.com>, Dmitry.Lamerov@arm.com,
+	catalin.marinas@arm.com, bp@alien8.de, robh@kernel.org,
+	rafael@kernel.org, will@kernel.org, conor@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	krzk+dt@kernel.org, Michael.Zhao2@arm.com, tony.luck@intel.com
 Subject: Re: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
-Message-ID: <202602210334.nHzuTUCB-lkp@intel.com>
+Message-ID: <202602202042.cliczLhi-lkp@intel.com>
 References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,21 +80,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ACPI-APEI-GHES
 base:   8bf22c33e7a172fbc72464f4cc484d23a6b412ba
 patch link:    https://lore.kernel.org/r/20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b%40arm.com
 patch subject: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
-config: i386-randconfig-012-20260220 (https://download.01.org/0day-ci/archive/20260221/202602210334.nHzuTUCB-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602210334.nHzuTUCB-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260220/202602202042.cliczLhi-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602202042.cliczLhi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602210334.nHzuTUCB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602202042.cliczLhi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/acpi/apei/ghes_cper.c: In function 'ghes_handle_arm_hw_error':
->> drivers/acpi/apei/ghes_cper.c:261:34: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+>> drivers/acpi/apei/ghes_cper.c:261:6: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      261 |                                  FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
-         |                                  ^~~~~~~~~
+         |                                  ^
+   1 error generated.
 
 
 vim +/FIELD_GET +261 drivers/acpi/apei/ghes_cper.c
