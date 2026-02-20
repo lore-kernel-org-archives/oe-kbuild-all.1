@@ -1,120 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7DC1D555
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 07:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1AF3242BA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 10:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771573866; cv=none; b=lmqFNkM+nrrBZp74mddRcoVwE3mmU7IT8hZkoXE/oo6BGUh6/g8z7GBn9SAr865rxOtYfpGPck+b5fJsQrjh+s9oIFYKewaTG3RzakUe3dUqnt3YaR3GeW+eJ6TD0qQmPuWdHgE/5VQeHvb5lEprw7sXY4vsJpS19QU4SxzhnDc=
+	t=1771583155; cv=none; b=CRP0bYXkpNBsEshNcFLi58lqqtzFsTBY3H77S9Iq/6txWiElUcE1vcHYcpI/wo5Bj7viHA5yJlZ7ol5nvZfLwTHczo95v3U2DZ0haXHancgro0TzSICxA8664s2hbOOJHJJ6gA0tq5AbZrk1MMraRW/WHmFPgxMyEGbCQ061hEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771573866; c=relaxed/simple;
-	bh=xg7qoRXWGDjQ5V4Y24xCaIDKsB06Vg3aSd5oVyo4c0M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=n5n+5o9NMNShY7Uot7Y//J3tqJAPxIvl0puqFwucT9GKdVxVpY05Uq+RtLosqVAPWFNickS9G27xvak+5qmkuRg9n40ZQaqtM1Am1/n0yyS4yzfZGohAFIS0JxP2EWTUARUkPJy0JUZoDpMxN0utGm2m7UIE5QLgNCj6+VvNXMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PF8JPfqt; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771583155; c=relaxed/simple;
+	bh=dCvPeAJW76/i+bvaStaj7xfjrDurZkY2/3HjRPxN9Ig=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qNmwXS4u3MpW93IOorDiSzgNcAFfEBxH5fNecAx/OX7F/2E55MpSejaR0yveBaDfrafnYxqTCHpl5We7DizT/I7S/VoAAtcxUvoUj9lMqlzEhUt2hck8S3bAXzG2RSgwdEKv2oUYuITY2vqvSz/cr93nGdlvSv1bwCKHsvo/KKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sT0QRcJO; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PF8JPfqt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771573865; x=1803109865;
-  h=date:from:to:cc:subject:message-id;
-  bh=xg7qoRXWGDjQ5V4Y24xCaIDKsB06Vg3aSd5oVyo4c0M=;
-  b=PF8JPfqtaNv2LbQP1yW9OwREF/Q9RoE7Rn90F6I8+g9H6dsJzrxGMNFl
-   giRAqId5gjREVHB7uAL8b4rBxGK6jiAg79Ce3ejOL/vyw1c4wXJy979Ur
-   phPewXEcTwvCg5pVBDts63t4CGQYdThnfN5N93F/w3sCb5qjoW1q+Mulq
-   c2BN+rK54PJndtEB8HEdbFxf/spjKA4mjUJrhphF8s7Vb3gXjRwK3v6XF
-   dYsbQe3D6Jf8F78PRQ/sJBvzY9kdzqSxpLUadvtNDaMfKrRD0QlM4PAdU
-   q0AMMY13vjbO2Oe2fc2aPnR8MSCI+ssFl1hRmOQCVc2Cp5Dd+LepEERQf
-   w==;
-X-CSE-ConnectionGUID: LMoMRyQARk6DADeyIA3slw==
-X-CSE-MsgGUID: ImLA+VMBS7aU5yUFkha0UQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="72650282"
-X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
-   d="scan'208";a="72650282"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 23:51:04 -0800
-X-CSE-ConnectionGUID: 2AR3FBEXTn+B1Tg5k6zFcA==
-X-CSE-MsgGUID: GDvuxKciQIWIVevw/6kAbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
-   d="scan'208";a="219333813"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Feb 2026 23:51:03 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vtLHx-000000013v6-1Z0t;
-	Fri, 20 Feb 2026 07:51:01 +0000
-Date: Fri, 20 Feb 2026 15:50:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/2]
- arch/x86/kvm/../../../virt/kvm/vfio.c:130:undefined reference to
- `vfio_file_iommu_group'
-Message-ID: <202602201521.87mIuAz7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sT0QRcJO"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-481188b7760so15627995e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 02:25:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1771583152; x=1772187952; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kYn+3Ywjl5NbsUInHvxsRp94AMznrrcXlSDarMtm8gU=;
+        b=sT0QRcJOFhauUmLmfRY1I9ZjpCe6GMvNbHZ69ZdOu9fJgdQlE/BhYKZFo4Rmqhu7wk
+         cAdGc8mIAs0X2Y8U88Wzc7A/CgCZxusEV1pVl726GaLx4RJZBtrZ0q1VZSSq7L9VlHMC
+         iX1IAt2KTHcN4gPT4zDk+b5QXZHtOl76MYZQ04h+HYemoVfNC4owdeB0Vb3u2anfCS7X
+         IpeK8t2tIQwI4FY5hU9in8avKKeMctxCknyed90NT0XGfai6BBxeEpjzaH+9iFnFnuDA
+         4gPDSYYOmuh5B6avUbay5CkUAFRVrWK3AryRXpDtlSgsn+tocQwx9BwJSw1gaIW43g66
+         dguA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771583152; x=1772187952;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kYn+3Ywjl5NbsUInHvxsRp94AMznrrcXlSDarMtm8gU=;
+        b=ZUKGj+2cn5glvHFQHhIFoZSW1Ka763v+nENnCGnP6BKpaxw6an+KTr5nAa4Gufr+9R
+         GvYDZxiwPm3onUXbtiDn1i+TJq7K3o2arDLZENwmdtQX9aq/ipoKq9enMZLZuMMiT5YE
+         49/9oTxCj2Zr6b7eH6KIJQNf1Vx1nUy7fIEY4TzmvvcJfBi3WGEsLvxVQRLpC+4rAw6d
+         Zhag7EsIs69rUkwlN4G5CrBp/J92rMU3BNlXplbWzjPobMVjFBDPpwRDYI9YaOKL3CoR
+         pOP0pc9fqLO9yY8UhHhr8n1mxXDbXaDNyimJ8AOF3R1tmJFds1NqJrrVfhpzffK/1okM
+         EiCA==
+X-Forwarded-Encrypted: i=1; AJvYcCUa7A9JxBw0+vENKgH8UmpSGECSF/PsMa2VhDcUJ1lHOvtV9qAs8+oqhnFKAF7x7MEwySDAVci7l/z2IROZ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8iyg3+C1dkEDjO47/yV9WI83Gwh+IbQ/j0QXzU2qBxDAqhyrS
+	Wv33jjKNGTHGhlJkc5EmtCTJxV5cywzM/fgouTzaeh+xbqnKqesZyxih75OI5BaTTM0=
+X-Gm-Gg: AZuq6aIyflhORZd5skU/A+rcZYQ/EcfABrgbSNxxrO6Sdz4pw7Q0Y6sA8sSCmCGPSz1
+	STcZutf3EIz5kzu9hwObWwm63XgCsFScHIib5Wbuqay1vi9MKSrfxU+k6IJjDPuftEgYwMslE5I
+	rxmglPUTSi63XXtTnEiiZbXUYRy5PqIRWw3bbSa7Shu97TXQue+H9KiwaJdNuj19xbFKUsfVdZl
+	htJU4J20wLYONtn5jnoFWYQlLhrBz3xH7oFOFFUhowP7lNjDRbMPWdeUAvtVTV8lHWFAU388tBy
+	+Q2lHX3g+vEfwydphaqMz04kWXHT4RjG4D5nX6YoYK5xeqd7ZXq/TC4KpiwoQcIsPJtUCqMLFK1
+	x0sTmQkxifSSQdEUx3PW1Pr+Dc9+tXZgpRgrmTx1KJzAZpNVo9q80X2jAjhToGXKZVAYY/3L+v1
+	RLZgG/7ZROOaKXbWCP3Rhw2ySeSnjz
+X-Received: by 2002:a05:600c:46c7:b0:483:7ce6:1efb with SMTP id 5b1f17b1804b1-4839e6614c4mr86530055e9.17.1771583151722;
+        Fri, 20 Feb 2026 02:25:51 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a316c2aasm61312035e9.0.2026.02.20.02.25.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Feb 2026 02:25:51 -0800 (PST)
+Date: Fri, 20 Feb 2026 13:25:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Linus Walleij <linusw@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/ks8995-fixups 5/7] drivers/net/dsa/ks8995.c:314
+ ks8995_get_revision() warn: was || intended here instead of &&?
+Message-ID: <202602201735.XhNCovu6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   879c70c908047abb1d46fd4ff9192626df8e33d3
-commit: e43f03eb172d7e8ecac55bc3f9547c18f436ea82 [0/2] ANDROID: drivers/vfio: Call KVM directly
-config: i386-randconfig-051-20260219 (https://download.01.org/0day-ci/archive/20260220/202602201521.87mIuAz7-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/ks8995-fixups
+head:   ea4d9288b053886fb1063467e90076b1bac75212
+commit: 8391defbf00b98a8458722096cc571e598e5b8da [5/7] net: dsa: ks8955: Delete KSZ8864 and KSZ8795 support
+config: i386-randconfig-141-20260220 (https://download.01.org/0day-ci/archive/20260220/202602201735.XhNCovu6-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602201521.87mIuAz7-lkp@intel.com/reproduce)
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602201521.87mIuAz7-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202602201735.XhNCovu6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/dsa/ks8995.c:314 ks8995_get_revision() warn: was || intended here instead of &&?
 
-   ld: virt/kvm/vfio.o: in function `kvm_vfio_file_iommu_group':
->> arch/x86/kvm/../../../virt/kvm/vfio.c:130:(.text+0x24b): undefined reference to `vfio_file_iommu_group'
->> ld: arch/x86/kvm/../../../virt/kvm/vfio.c:130:(.text+0x433): undefined reference to `vfio_file_iommu_group'
-   ld: arch/x86/kvm/../../../virt/kvm/vfio.c:130:(.text+0x5c1): undefined reference to `vfio_file_iommu_group'
+vim +314 drivers/net/dsa/ks8995.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  291  static int ks8995_get_revision(struct ks8995_switch *ks)
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  292  {
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  293  	int err;
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  294  	u8 id0, id1;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  295  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  296  	/* read family id */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  297  	err = ks8995_read_reg(ks, KS8995_REG_ID0, &id0);
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  298  	if (err)
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  299  		return -EIO;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  300  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  301  	/* verify family id */
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  302  	if (id0 != FAMILY_KS8995) {
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  303  		dev_err(&ks->spi->dev, "chip family id mismatch: expected 0x%02x but 0x%02x read\n",
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  304  			FAMILY_KS8995, id0);
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  305  		return -ENODEV;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  306  	}
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  307  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  308  	/* try reading chip id at CHIP ID1 */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  309  	err = ks8995_read_reg(ks, KS8995_REG_ID1, &id1);
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  310  	if (err)
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  311  		return -EIO;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  312  
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  313  	/* verify chip id */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09 @314  	if ((get_chip_id(id1) == CHIPID_M) &&
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  315  	    (get_chip_id(id1) == KS8995_CHIP_ID)) {
 
+It can't be both chip IDs at the same time.
 
-vim +130 arch/x86/kvm/../../../virt/kvm/vfio.c
-
-   125	
-   126	static struct iommu_group *kvm_vfio_file_iommu_group(struct file *file)
-   127	{
-   128		/* See kvm_vfio_file_set_kvm() */
-   129	#if IS_BUILTIN(CONFIG_VFIO)
- > 130		return vfio_file_iommu_group(file);
-   131	#else
-   132		struct iommu_group *(*fn)(struct file *file);
-   133		struct iommu_group *ret;
-   134	
-   135		fn = symbol_get(vfio_file_iommu_group);
-   136		if (!fn)
-   137			return NULL;
-   138	
-   139		ret = fn(file);
-   140	
-   141		symbol_put(vfio_file_iommu_group);
-   142	
-   143		return ret;
-   144	#endif
-   145	}
-   146	
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  316  		/* KS8995MA */
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  317  		ks->revision_id = get_chip_rev(id1);
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  318  	} else {
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  319  		dev_err(&ks->spi->dev, "unsupported chip id for KS8995 family: 0x%02x\n",
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  320  			id1);
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  321  		return -ENODEV;
+c0e6cb1fed5a73 drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  322  	}
+c0e6cb1fed5a73 drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  323  
+8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  324  	return 0;
+484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  325  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
