@@ -1,96 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F85346AFC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 13:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDA13451A6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 13:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771593559; cv=none; b=Qs6iksx9GvHbMqwIiDwBYM/yB2tVz0lzITF775NC1f8vFUlIAdPw7ycgoeIiESxwRQ2/zlI6xmm7Jl1y4U/L9qxJy3TAQA7zXLkoHc+1Dy+lyPUVRXgXAqokHGqJwIEW/OS/E7ILkVfaWeY3mmuuKih7NwZWUL7X9BdxBhckd/c=
+	t=1771594936; cv=none; b=cNDqub45cmyTLWRdWW/yfPMhzcnGxl8Xpo6XTQySJtH5p1uat4oG9DM4/WwDFIkp7efmvXfHdCjKt9p/YDboE2o/QaMql/vvkAhBDZ9A05m4QMA9VxUoFMbaS1TO2RV3cbZp2EF4GGf10i65QtWCwAHh3QlKSF5kWCAfmctWXhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771593559; c=relaxed/simple;
-	bh=NFrS2s19ZjYP5F+VHpTJ1OXLeDRGc29650+iadC8k80=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l4XtumDqb7pKBuUOK9CxLqVUv2cnVunjv95WW+U5hIjAhzKiUhzTVAufwni8OQXr8S8UtkeCbeWTS6CwGRrZP9bYnIqlefgZJV0SJXHc6+c7SXtlXP5SzqS0Jbr+4/0vtiHgIngcODbs5QY/HZHETHU34d/Ss8owTx6hEcpNPM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I02vcjDu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771594936; c=relaxed/simple;
+	bh=HVGbyQ/5nnEJNHbv7vf78T5FxW9uCDrAvea/wWtD9og=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VkYeANd4rCfDiMv6UqRjaQlWA3S5QlJqT7Wdcbu66pjN2HFbF+OyHWiJLZxOYa8qqZqoEKPZyxcRcyyV8oJatujF933Po/2Y/eZzt6t8PxSZcpgJ6S1sEEy3VayE1ogCWmKi7tgz3GiXDp5D3rH9o0S/8Szk1IbLTEq2gPYmQxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eVTNnb5Z; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I02vcjDu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF735C19425
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 13:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771593559;
-	bh=NFrS2s19ZjYP5F+VHpTJ1OXLeDRGc29650+iadC8k80=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=I02vcjDupkTiiiArlDYxMHJBzkIFY1Le8R77764xjIMJa9Y0g9oqg8YGhP2vKbz0F
-	 KGlvt1Ifc/s/hotUzz2WxCTXkoO55J1NIHJx0FiP/qDC50OV7DIK0OiT1YXquEZiCH
-	 Q1o7xghYss+nB9jC53N/SBTQ4Mop7CaE0D7DDrDjOagKzvRs2Qxjg5R9rwf/ic0Ae1
-	 geqvW9bqbR16dzK3N9d83g3PP2evSAkBFjW8Tut2zo3cx0N+ecRiM3r6FakvtfGGiU
-	 yK5t0pzXJ44CrLNwWTA0XNcBT9N/IIad5n2asx3G1a7BltCxIt0FeD6mws/pnYWCay
-	 4TckT234KaEcA==
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64aefa98fe6so2042090d50.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 05:19:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVnEr0fYfqXEymcjDTrqLBEuqHDcDzKkKuhtd+37XKSdCKt0d5Vsl8VloSF7bjA0xprfekwnEsTq1M1oSSJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyeKMGf0Advym5KtsRTwiCRrnbYSGwOxJ9y1mqncmHHS1SBS7qC
-	Lw9+ykEN8OaNnvS8OM15FgsZq2bIxMr724ETBGLhCyKnRc3dtR9Nz2SjVqKHdv94SBgEJdlwv4O
-	QrSolMuE2VCllxnKYGpjTy7Y6yWfPQqY=
-X-Received: by 2002:a05:690e:4091:b0:64a:cd80:7c77 with SMTP id
- 956f58d0204a3-64c55587d81mr5955807d50.23.1771593558071; Fri, 20 Feb 2026
- 05:19:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eVTNnb5Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771594935; x=1803130935;
+  h=date:from:to:cc:subject:message-id;
+  bh=HVGbyQ/5nnEJNHbv7vf78T5FxW9uCDrAvea/wWtD9og=;
+  b=eVTNnb5Z4w+KYTvwZbg8x6mH3cOJh2yW5rVt6M6TLSje98W7hoWfRGG7
+   tH3L6yyOMKY3LtKGUEtIbCneXja4x59FHnZXrVQD+jQ3uv76ZzrLQLchp
+   YypA4tR3RRRy1Z4hh+IzPcNk4Bq3yjJ2Ysza2XCuP49mPXb1MvTXLLu5s
+   dmnCZ0MnqyCAoOW5vK86Ucj+qmwbTCruWx/FszctRvfE6xzMOtjuSo3Wm
+   9o7wuI7/DNt630y7qwDmvqo20iZ1FYYgntMFAU5JQ8A5209ACo2r+xsDe
+   F6lKPE7HVkjJ9rrt3pAlSxj587F3Vn+Ewd7B5LWmBsJ/YcMLby02x8ZzS
+   A==;
+X-CSE-ConnectionGUID: Jf8+kpqoQjePwGxV3NzVEg==
+X-CSE-MsgGUID: CnpmGAXpQKSeH80Iz2QpUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="71711554"
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="71711554"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 05:42:14 -0800
+X-CSE-ConnectionGUID: KdMyKHyTRgydHyUoobvvYQ==
+X-CSE-MsgGUID: v4qMBswDTSKOYayApH5+QQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="213400644"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 20 Feb 2026 05:42:13 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtQln-0000000148Q-1KO2;
+	Fri, 20 Feb 2026 13:42:11 +0000
+Date: Fri, 20 Feb 2026 21:42:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-02-20 64/66]
+ sound/soc/pxa/mmp-sspa.c:110:30: error: dereferencing pointer to incomplete
+ type 'struct snd_soc_dai'
+Message-ID: <202602202110.hERmds2h-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202602201735.XhNCovu6-lkp@intel.com>
-In-Reply-To: <202602201735.XhNCovu6-lkp@intel.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 20 Feb 2026 14:19:07 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=wsSQDBLnPvoyE-3naFv_a5x8fk_aM5Wp_1Bvyr=NOsQ@mail.gmail.com>
-X-Gm-Features: AaiRm53VyKWYJVpg_DokU56Cp5okgS05-2w8T1SNzl0RawPJkK6xiBL7LAJ7EdM
-Message-ID: <CAD++jL=wsSQDBLnPvoyE-3naFv_a5x8fk_aM5Wp_1Bvyr=NOsQ@mail.gmail.com>
-Subject: Re: [arm-integrator:b4/ks8995-fixups 5/7] drivers/net/dsa/ks8995.c:314
- ks8995_get_revision() warn: was || intended here instead of &&?
-To: Dan Carpenter <dan.carpenter@linaro.org>, Helmut Buchsbaum <helmut.buchsbaum@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 20, 2026 at 11:25=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-02-20
+head:   e7fa84e2f755a12d6e0312da700bb8f6038c035c
+commit: c93b222fd35b0bc4dd175afaaf9ce4a08dc2b8d4 [64/66] move struct dai
+config: arm64-randconfig-001-20260220 (https://download.01.org/0day-ci/archive/20260220/202602202110.hERmds2h-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602202110.hERmds2h-lkp@intel.com/reproduce)
 
-> smatch warnings:
-> drivers/net/dsa/ks8995.c:314 ks8995_get_revision() warn: was || intended =
-here instead of &&?
-(...)
-> 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09  =
-313    /* verify chip id */
-> 484e36ff18341c drivers/net/phy/spi_ks8995.c Helmut Buchsbaum 2016-02-09 @=
-314    if ((get_chip_id(id1) =3D=3D CHIPID_M) &&
-> 8391defbf00b98 drivers/net/dsa/ks8995.c     Linus Walleij    2026-01-18  =
-315        (get_chip_id(id1) =3D=3D KS8995_CHIP_ID)) {
->
-> It can't be both chip IDs at the same time.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602202110.hERmds2h-lkp@intel.com/
 
-#define CHIPID_M               0
- #define KS8995_CHIP_ID         0x00
+All errors (new ones prefixed by >>):
 
-So this is always true and the branch was always taken.
+   sound/soc/pxa/mmp-sspa.c: In function 'mmp_sspa_set_dai_sysclk':
+>> sound/soc/pxa/mmp-sspa.c:110:30: error: dereferencing pointer to incomplete type 'struct snd_soc_dai'
+     struct device *dev = cpu_dai->component->dev;
+                                 ^~
 
-Before the deletion of the old chips support, CHIPID_M was 0x00,
-and what is now the constant KS8995_CHIP_ID
-used to be ks->chip->chip_id, but that was *also* always zero.
 
-This code has been here forever, this was always true as long
-as id1 was zero, which is what it is actually testing.
+vim +110 sound/soc/pxa/mmp-sspa.c
 
-See
-commit 484e36ff18341ca1fca4258139100b2e90530f53
-"net: phy: spi_ks8995: verify chip and determine revision"
+fa375d42f0e531 Zhangfei Gao   2012-06-11  102  
+fa375d42f0e531 Zhangfei Gao   2012-06-11  103  /*
+fa375d42f0e531 Zhangfei Gao   2012-06-11  104   * Set the SSP ports SYSCLK.
+fa375d42f0e531 Zhangfei Gao   2012-06-11  105   */
+fa375d42f0e531 Zhangfei Gao   2012-06-11  106  static int mmp_sspa_set_dai_sysclk(struct snd_soc_dai *cpu_dai,
+fa375d42f0e531 Zhangfei Gao   2012-06-11  107  				    int clk_id, unsigned int freq, int dir)
+fa375d42f0e531 Zhangfei Gao   2012-06-11  108  {
+3c4e89df3b4534 Lubomir Rintel 2020-05-11  109  	struct sspa_priv *sspa = snd_soc_dai_get_drvdata(cpu_dai);
+a97e384ba78fd8 Lubomir Rintel 2020-05-11 @110  	struct device *dev = cpu_dai->component->dev;
+fa375d42f0e531 Zhangfei Gao   2012-06-11  111  	int ret = 0;
+fa375d42f0e531 Zhangfei Gao   2012-06-11  112  
+a97e384ba78fd8 Lubomir Rintel 2020-05-11  113  	if (dev->of_node)
+a97e384ba78fd8 Lubomir Rintel 2020-05-11  114  		return -ENOTSUPP;
+a97e384ba78fd8 Lubomir Rintel 2020-05-11  115  
+fa375d42f0e531 Zhangfei Gao   2012-06-11  116  	switch (clk_id) {
+fa375d42f0e531 Zhangfei Gao   2012-06-11  117  	case MMP_SSPA_CLK_AUDIO:
+3c4e89df3b4534 Lubomir Rintel 2020-05-11  118  		ret = clk_set_rate(sspa->audio_clk, freq);
+fa375d42f0e531 Zhangfei Gao   2012-06-11  119  		if (ret)
+fa375d42f0e531 Zhangfei Gao   2012-06-11  120  			return ret;
+fa375d42f0e531 Zhangfei Gao   2012-06-11  121  		break;
+fa375d42f0e531 Zhangfei Gao   2012-06-11  122  	case MMP_SSPA_CLK_PLL:
+fa375d42f0e531 Zhangfei Gao   2012-06-11  123  	case MMP_SSPA_CLK_VCXO:
+fa375d42f0e531 Zhangfei Gao   2012-06-11  124  		/* not support yet */
+fa375d42f0e531 Zhangfei Gao   2012-06-11  125  		return -EINVAL;
+fa375d42f0e531 Zhangfei Gao   2012-06-11  126  	default:
+fa375d42f0e531 Zhangfei Gao   2012-06-11  127  		return -EINVAL;
+fa375d42f0e531 Zhangfei Gao   2012-06-11  128  	}
+fa375d42f0e531 Zhangfei Gao   2012-06-11  129  
+fa375d42f0e531 Zhangfei Gao   2012-06-11  130  	return 0;
+fa375d42f0e531 Zhangfei Gao   2012-06-11  131  }
+fa375d42f0e531 Zhangfei Gao   2012-06-11  132  
 
-I'll try to fix it up as part of this patch then... it makes no sense
-of course.
+:::::: The code at line 110 was first introduced by commit
+:::::: a97e384ba78fd8bf7ba8c32718424d8a7536416e ASoC: mmp-sspa: Add Device Tree support
 
-Helmut, any comments? Maybe I didn't quite get the old code.
+:::::: TO: Lubomir Rintel <lkundrak@v3.sk>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
-Yours,
-Linus Walleij
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
