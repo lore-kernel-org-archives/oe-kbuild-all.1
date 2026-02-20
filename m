@@ -1,86 +1,82 @@
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21FB29460
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 00:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5D21F5847
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Feb 2026 00:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771547587; cv=none; b=ZwPYVtS+31hJxdaxhELbCtvplJXKh3x2EuL+/Qnykq3HvADgkp+tuh4vEmHoZLlYDCbvIsNCrL6XMg9ciGR3snm+O4OVap1KU2qauHRdrqLct9qklD2gnE9IGxa9M64Qz95fzdggx24Vm89nAGDgYAXCaohIHOAULToqgIb00Iw=
+	t=1771548056; cv=none; b=RNmPOrKrR83QBy6z3j1KmIcAVwnKdWB5a4VtNJ+Z46iFEseqhFpeSSZkBG4c21SDdtYG77vDGWaYtT2euIWX0EpTXDNn4K/lTbAE/NHgcLfeiyG2f8MEcpG+/gw9LrfeOd+ujpvCzpDiHW2xYCOxK1y4n9MxjPwDSdq/MKYCU5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771547587; c=relaxed/simple;
-	bh=mI7ehixkqOm66V6E78mMneO9FJNSxNT5moOzyZ0ViyA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ahGgDkAgHw1NfidcwxiE4H42dPFLI0Vxs3NjrkG+sd+oZ/StBVgxm6UtWirSMAzS+2ojxIOVQEsJ/hjv1TsPvwG2KPPccdRUR5LqUcut74VDfcDYPzfOELeWh9o9RQzhlF+c/gR19MXiz6ueTu2+9fefHGG4azQYEdXDnZBwH0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 6958992009C; Fri, 20 Feb 2026 01:32:57 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 5ADA092009B;
-	Fri, 20 Feb 2026 00:32:57 +0000 (GMT)
-Date: Fri, 20 Feb 2026 00:32:57 +0000 (GMT)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>
-cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
-    oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    Keith Busch <kbusch@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
-    Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: arch/mips/include/asm/bitops.h:104:2: warning: used $at (currently
- $1) without ".set noat"
-In-Reply-To: <202602191524.ahByivoK-lkp@intel.com>
-Message-ID: <alpine.DEB.2.21.2602200009130.61446@angie.orcam.me.uk>
-References: <202602191524.ahByivoK-lkp@intel.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	s=arc-20240116; t=1771548056; c=relaxed/simple;
+	bh=jflXtUinxejhcFPokKLFTXJ780oj3/6UUfDGtMZle8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bo2BBH5Rb8m3V9gplZRN59umdvC06d9Rr+LkY7sbO9jBnD/DipD1clG6MKSk04XiJ/DWbEecUM0v3TPUfKPIdF+8C0AXyMF485qk5iyX4MXkTmVsbq5Wrtm9rt6ZF8d2NJImKf88D3LD/rIWUPa974EfQ09u+CMxFLkBsBH3yJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezovyv9c; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezovyv9c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771548055; x=1803084055;
+  h=date:from:to:cc:subject:message-id;
+  bh=jflXtUinxejhcFPokKLFTXJ780oj3/6UUfDGtMZle8Q=;
+  b=ezovyv9c1xsQghWIK5Lcw0V7/b1esGCxnsWBgu/gptd7CKdNm2/VdgPF
+   cSco9dwpufnGL8npgIPYYDpsX05vftr1ut1c9BDSGlbGeaCFhiiMO2vL7
+   WgqFENwVVKloQkKSE0EaK49Za5oMkVb6a7vlttdev/SY9UKBCQrGVZV9O
+   UNzq8omndoz1o3BrfKI126S6xQfJ0EDmWRghr6BIWqEd4rQ0kpnIzVzEd
+   v5vG3YibvnRxyXm8SXqerQsmEAxHdl/w3nbmeGzRpLpTzH3NSo5alpfFq
+   Ylh7OdVjvxfEDu8mqMtBMtBcjZLzChQ+dfDrlz2v0jbTspcUS3OorA5cw
+   g==;
+X-CSE-ConnectionGUID: zTk6ts+XQxKqSasn4hHLsw==
+X-CSE-MsgGUID: /w7/RJP0QFClQ7t8QmvDxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="71853587"
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="71853587"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 16:40:54 -0800
+X-CSE-ConnectionGUID: ayaSrMRWRTqqw52/Hyz+cQ==
+X-CSE-MsgGUID: lkNWfXNiThyCAUIG3DfbLw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="237682502"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 19 Feb 2026 16:40:53 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtEZf-000000013fg-08Yn;
+	Fri, 20 Feb 2026 00:40:51 +0000
+Date: Fri, 20 Feb 2026 08:40:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:rootns 7/18] <stdin>:1627:2: warning: #warning
+ syscall rootns_create not implemented
+Message-ID: <202602200829.dSaGk1DJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 19 Feb 2026, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
+head:   bbfe3fc31c861befc0d2aa15a02e672b2e248cd6
+commit: 0944dc7efffffb5c4acb8ab671e5a42109ea5c2b [7/18] rootns: Implement rootns_create()
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260220/202602200829.dSaGk1DJ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602200829.dSaGk1DJ-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   956b9cbd7f156c8672dac94a00de3c6a0939c692
-> commit: 511b3b644e28d9b66e32515a74c57ff599e89035 nvmet: pci-epf: move DMA initialization to EPC init callback
-> date:   3 months ago
-> config: mips-randconfig-r111-20260219 (https://download.01.org/0day-ci/archive/20260219/202602191524.ahByivoK-lkp@intel.com/config)
-> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602191524.ahByivoK-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602191524.ahByivoK-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/nvme/target/pci-epf.c:11:
->    In file included from include/linux/delay.h:12:
->    In file included from include/linux/math.h:6:
->    In file included from arch/mips/include/asm/div64.h:89:
->    In file included from include/asm-generic/div64.h:55:
->    In file included from include/linux/log2.h:12:
->    In file included from include/linux/bitops.h:67:
-> >> arch/mips/include/asm/bitops.h:104:2: warning: used $at (currently $1) without ".set noat" [-Winline-asm]
->      104 |         __bit_op(*m, "or\t%0, %2", "ir"(BIT(bit)));
->          |         ^
->    arch/mips/include/asm/bitops.h:33:3: note: expanded from macro '__bit_op'
->       33 |         "1:     " __stringify(LONG_LL)  "       %0, %1  \n"     \
->          |          ^
->    <inline asm>:4:13: note: instantiated into assembly here
->        4 | 1:      ll      $3, 0($1)       
->          |                       ^
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602200829.dSaGk1DJ-lkp@intel.com/
 
- FWIW, it seems to me like a compiler bug hitting the commit by chance.  
+All warnings (new ones prefixed by >>):
 
- The issue is $1 must not be supplied as a register operand to inline asm, 
-as MIPS inline asm is in the `noat' assembly mode by default (as correctly 
-reported here) and code authors are not supposed to switch the mode only 
-to make compiler output work and may assume $1 is available for use by 
-macro expansions.  Either the register allocator has to avoid choosing $1 
-for expressions that are used with inline asm or the register has to be 
-excluded from allocation altogether, such as with GCC where it's a fixed 
-register.
+>> <stdin>:1627:2: warning: #warning syscall rootns_create not implemented [-Wcpp]
+--
+>> <stdin>:1627:2: warning: #warning syscall rootns_create not implemented [-Wcpp]
 
-  Maciej
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
