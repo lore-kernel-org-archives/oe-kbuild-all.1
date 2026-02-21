@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D7E1758B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 08:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D78D286D73
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 09:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771662784; cv=none; b=auEFZh9IA92psBbgJ2R/bRSUMAtT5JtU9fiT7hITW4WXuJ2Li15dNWVjFiEcE4mQPo/AfDvVph7fMtMcP9VkU9Utrq83e3OtA6Kt7BJM5YaaTJBkv4l6iDTQjizyA0GLdtV50gtEGV02u+43hSshGhIm7I7upjyQ6PRhCTEgfrE=
+	t=1771665543; cv=none; b=R05odTOyocBXo1rok3xlg6IxXicbpFK8ppdoh1kuwvfvRwih4icr/LOTqVy2YH07DTAgXsRh9K8INbphk4uaSLNQabj4zEKcxE8n9B4lCZYQyuluq4GnH7CB6fVDT9FKM+F0jq4bE2qQPxjSziAU/jPwWz9CJ9zTwQ81XrnmB+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771662784; c=relaxed/simple;
-	bh=iMpW6hzhTllyectjNgtGuqQeORMk7sLYphQyikvQNdI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UzcY6PeURVxwL6IZiIgP3WeB25MmBNbc6uoj0wTPNw+pAIameDwaZLymxBEmmBZgza5rWKMugmCl8xK3Eh+esTkm0q3wRX0cpUYb+h9BF4edV6kOroMpqlZdMVfKCvsu/I57wlc2Uaz552schQ0NJz4Zq8Nyc4aBctmsUuAFhrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpJFMNk8; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1771665543; c=relaxed/simple;
+	bh=wuUlnMe/dS5dma+BQ8Vd/qk6/7aIRDKzYoIorKdUoaw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i8nZPeLRNe/S+rZeyeMbA8r0x3q/dE3vvmzIFMG6pf9GtgHCWnEaLSetG6rX0z8bQPruhK6AkcpOATFYGKb1aZHXgaWw/dcmh7TU58Z2gs/bOgdGE/nnXd2iGLivRLoG/IkAP8ghkqn2lbLji16u4ghvoxwVNT13PnYZ5D4VlZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GntVWxJF; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpJFMNk8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GntVWxJF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771662782; x=1803198782;
+  t=1771665541; x=1803201541;
   h=date:from:to:cc:subject:message-id;
-  bh=iMpW6hzhTllyectjNgtGuqQeORMk7sLYphQyikvQNdI=;
-  b=RpJFMNk89mWAoNMTZGp8/ttoZqh+vS0Cl8dFAbqJ8JFwJCJaMnK4xy5B
-   5ag7GNpotiC3n/aYovh4K//6ThDMcX0hW6cdTVMd6lwgGYWDkEa6gSdDX
-   AhtE/yuc4HjZcdrC9cITI4lXT/Po1r17TaGz+PoqwpYIpY3fOyJIcRO43
-   oSBYjbEQ2o8cqzDnwu9RTY2KfQC3ejw70xJQmHjNuUvOgBidgZtHZQOnV
-   xL08TYWGeDkocydYzk+LYISxFtM5IjhBRPM/e6OrMC3kjBI1orOIX8S+2
-   ct4+RVMxfDBMKzGxVwvFLuIY6PHgCWD0nHxERA8pLWVAcGQ/cRd1XG+Tp
-   Q==;
-X-CSE-ConnectionGUID: nXMWOM/KQqytTqFNiCpmKA==
-X-CSE-MsgGUID: w3RJUFWSTc2OgKjBhT+bUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="72920554"
+  bh=wuUlnMe/dS5dma+BQ8Vd/qk6/7aIRDKzYoIorKdUoaw=;
+  b=GntVWxJFC3hS+r7QqSLmnzqtPVZHaMFy4KWx+05LSnznIjQaNUAGoMaH
+   3CBrBa5TPOGTrvJyMewgiyb3aZan7LWA6mV+Dgm2fi67iKyqbeEFG6cZF
+   8vFVo6aKQynTSwcYzNmIaD5DGYKwDQNYFkGnCMlqADwxJtVPi5nWQ7IUj
+   YpJlbTYcrEyeMvXkYElVIlwsfVj2N5ZYSbsQjsH6dkI8RgEzpwdf6bmhn
+   QNJGqCS2nGEIUKTTV8g3Urkqqjhvw1a/S5ZqZ4o/v3G8aGbsbRZh3F+mb
+   LxRqepJ4X8BO582TIXXSOGQ+/kIbOs0KBqAtkW7XQjhHeeZbeR9tBfwp5
+   g==;
+X-CSE-ConnectionGUID: B4kggPahTieG4W34Ydy/uQ==
+X-CSE-MsgGUID: 7jd3Bv+5QdGTh9NvK0YQeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="76355422"
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="72920554"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 00:33:01 -0800
-X-CSE-ConnectionGUID: Gktb+SwyQ3ui/ce9SN2Avg==
-X-CSE-MsgGUID: ciiInVreSiGuDgHl8F36EA==
+   d="scan'208";a="76355422"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 01:19:01 -0800
+X-CSE-ConnectionGUID: 2RxWkMNqSpGuXjZyGcjZlA==
+X-CSE-MsgGUID: LzEvpQI9Q7+s8mVsNmsKZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="219202326"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 21 Feb 2026 00:33:00 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="213563771"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 21 Feb 2026 01:18:59 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtiQ5-000000014oO-0Tz0;
-	Sat, 21 Feb 2026 08:32:57 +0000
-Date: Sat, 21 Feb 2026 16:32:39 +0800
+	id 1vtj8a-000000004Nh-45Sw;
+	Sat, 21 Feb 2026 09:18:56 +0000
+Date: Sat, 21 Feb 2026 10:18:08 +0100
 From: kernel test robot <lkp@intel.com>
 To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [norov:for-620 11/15]
  drivers/net/ethernet/mellanox/mlx4/fw.c:1302:65: error: expected ';' before
  'for'
-Message-ID: <202602211620.F0N3QyLC-lkp@intel.com>
+Message-ID: <202602211039.mZY3LiKo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,14 +63,14 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/norov/linux for-620
 head:   3b794289e60f9e1cc26d239bef32c93543213772
 commit: 4bbf83126fa61f47dee406fc52f3821146561301 [11/15] mellanox: cleanup mlx5_cmd_all_stalled()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260221/202602211620.F0N3QyLC-lkp@intel.com/config)
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260221/202602211039.mZY3LiKo-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602211620.F0N3QyLC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602211039.mZY3LiKo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602211620.F0N3QyLC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602211039.mZY3LiKo-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
