@@ -1,81 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1688D1C28E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 13:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D96F2BCFB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 13:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771680853; cv=none; b=WsgICIw5C7a6NrNC7wjN1mOs3g73nI9+dYbKqxnrCChEht5WdPRoNbu/6Ae7hREqziAwvn+RkQ3sGrmu/u3c2AJJe1QkXCISEYptI8KbgIvTeZfQBzu8K82MU/JRg7Y4MZqKUXUp6Y+Cb8j6by5aGDYFiGyI6eI4aw8v8uO+aag=
+	t=1771681512; cv=none; b=Zs/czJLPNSy9oDsie/cc61YZ/HKTZUdIfeSeIhdbwJS3txiGbIwCbAc7g99BC7O/Uo5LCnqYK7QPvVVhyEk8cN2gxcM/K2LWyeKy84fFFARTZHFtufQwOSu3F3z6r4AyCGo/5yowggPAZCpbr5phG+QNfOnYOw2kvAMp18I9YUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771680853; c=relaxed/simple;
-	bh=3+4Yo0gn0/COZT4BeglDsJr70K3UcwB7e7s0IpFhDIc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iIqWyiBg3SZxIuLqJecQ30jq+ng28O11ZpvjfboP1vKM3v1364iLH7qc0ZlFXL4L/IbEpjabQVVdvh+i7wVqLyPJo6fiQ3OI8Bd8vadOX0xSydSncOjim41zvrMlQdEHy1Xl7rFNxX4t3gMIFBcc/gCwaVsaN5Iwb1ONf/d/vRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j5Z0Iw5c; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1771681512; c=relaxed/simple;
+	bh=j9mLpPmmkj5iALmUlbiD4bCPcvEQ/uprDhW79GL1tLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rw58c878v8V8wFxCenUOWIlG1x3Y7RvUrH4u5oWYgSiXNtKtc6ii0LWw310N+XGudnt7E3xy+VtGY7XX3vMWG7Olb8O4tfUuqhgzsigDd5sr4APAHSCD9eNntSCPPgTTc4P2CshxsvDI/ECfCkhC9Qr880TmAkksJJ5S2ucKMc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nI/mSWAh; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j5Z0Iw5c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nI/mSWAh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771680851; x=1803216851;
-  h=date:from:to:cc:subject:message-id;
-  bh=3+4Yo0gn0/COZT4BeglDsJr70K3UcwB7e7s0IpFhDIc=;
-  b=j5Z0Iw5cKY/580yhy9xuwekHmwktpb0zgJLwA1vjRkadg5V7Cn68bg2F
-   rjGLwdauAppJYpy2xdf5Wx4zz7iFXLFQiX5j4FSb/GLLPrF124ZcXAMvm
-   SeanF/ohpKYidI4cUGLhI6Czhib2D/KGzPKpzmB+Qu4YaEABd4VFm04/p
-   IAW+M0qP2ZN+V4P5Xg/6zOFgnMgEh0fuTqQXGceYCLSrVAc9zkSg/rRvO
-   YR1PRK/EkTcg2NB6RS9Nh++oqr3mmdZHA96kjCPK/h64HXkGuXnqB9GiK
-   55Ubr3bxkY6t4kOZoqg05Hslaap9ajW9iHvfZZdBYH4Wn4ZynO6wPlq16
+  t=1771681510; x=1803217510;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j9mLpPmmkj5iALmUlbiD4bCPcvEQ/uprDhW79GL1tLA=;
+  b=nI/mSWAhux6li3tUH+RO+KkrPy6OQUgTgYKVc2hqa2cfyi1GdTWV794R
+   hvUvAVRyZy0Idmoo6Fn3bGkDVEsGe/2o6THwDigi+PaC0VCURLC9J2I7K
+   InxFMNEYoPoWVlYLPk/N/2RWAVmdE+DvIZG+aoysZH5cv67iV6byLb8NY
+   tWOeJatzxUxbtepyXbPkVb/n6J2sRsezEqn+e5mo3BMPUUSXvGK3i3fcv
+   ZPgcuITsdrHUVWa0e05WTWi2AUQ61WSRH5xCtqmTckj1vQq1b+NTxC4h/
+   8ax7rpHdi3RCK8u5gXKnhaWT0aHeZjM1sIuzFJxDNeYA1aZ/1m5zn2VvP
    Q==;
-X-CSE-ConnectionGUID: N5HKxhJ7SJu5B/hUgEOFng==
-X-CSE-MsgGUID: QswTmnWPRlykabtzCt4oiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="72732608"
+X-CSE-ConnectionGUID: +7OgKnQdRwSOHKIkz2A55w==
+X-CSE-MsgGUID: QyTW6ZyPRy6k7hwUJwjylg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="72656735"
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="72732608"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 05:34:10 -0800
-X-CSE-ConnectionGUID: CC+xtXnNTCSkCATQ1o3J6A==
-X-CSE-MsgGUID: K1yrRD6PSD+KLspxGWPK1w==
+   d="scan'208";a="72656735"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 05:45:10 -0800
+X-CSE-ConnectionGUID: JMTUy+hlRRiwzLnpuxddVQ==
+X-CSE-MsgGUID: ArSPyctASx2kfyciROyByQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="219614845"
+   d="scan'208";a="218766921"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 21 Feb 2026 05:34:08 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 21 Feb 2026 05:45:08 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtn7W-000000014we-0Wdx;
-	Sat, 21 Feb 2026 13:34:06 +0000
-Date: Sat, 21 Feb 2026 21:34:02 +0800
+	id 1vtnIA-000000014x0-1XtK;
+	Sat, 21 Feb 2026 13:45:06 +0000
+Date: Sat, 21 Feb 2026 21:44:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bjackman:lkp/page_alloc-unmapped 20/20] ERROR: modpost:
- "mermap_mm_init" [mm/tests/page_alloc_kunit.ko] undefined!
-Message-ID: <202602212150.Brivt9UN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Vinod Govindapillai <vinod.govindapillai@intel.com>,
+	intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, vinod.govindapillai@intel.com,
+	ville.syrjala@intel.com, uma.shankar@intel.com
+Subject: Re: [PATCH v2 3/6] drm/i915/fbdev: Extract
+ intel_fbdev_fb_prefer_stolen()
+Message-ID: <202602212127.uexnS3FE-lkp@intel.com>
+References: <20260220170908.201422-4-vinod.govindapillai@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260220170908.201422-4-vinod.govindapillai@intel.com>
 
-tree:   https://github.com/bjackman/linux lkp/page_alloc-unmapped
-head:   bde871371ec16d6d1168f9ed687e60ba2e49acd0
-commit: bde871371ec16d6d1168f9ed687e60ba2e49acd0 [20/20] mm: Minimal KUnit tests for some new page_alloc logic
-config: x86_64-randconfig-071-20260221 (https://download.01.org/0day-ci/archive/20260221/202602212150.Brivt9UN-lkp@intel.com/config)
+Hi Vinod,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-i915/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip linus/master next-20260220]
+[cannot apply to drm-i915/for-linux-next-fixes drm-xe/drm-xe-next v6.19]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinod-Govindapillai/drm-xe-fbdev-Fix-BIOS-FB-vs-s-stolen-size-check/20260221-013114
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20260220170908.201422-4-vinod.govindapillai%40intel.com
+patch subject: [PATCH v2 3/6] drm/i915/fbdev: Extract intel_fbdev_fb_prefer_stolen()
+config: x86_64-randconfig-011-20260221 (https://download.01.org/0day-ci/archive/20260221/202602212127.uexnS3FE-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602212150.Brivt9UN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602212127.uexnS3FE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602212150.Brivt9UN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602212127.uexnS3FE-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/tests/page_alloc_kunit.o
->> ERROR: modpost: "mermap_mm_init" [mm/tests/page_alloc_kunit.ko] undefined!
->> ERROR: modpost: "kernel_page_present" [mm/tests/page_alloc_kunit.ko] undefined!
+>> ERROR: modpost: "intel_fbdev_fb_prefer_stolen" [drivers/gpu/drm/i915/i915.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
