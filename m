@@ -1,399 +1,230 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B013E2FE044
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 08:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A97C223702
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 08:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771661463; cv=none; b=hHaU2QvYF7FEfbNgs/qw2o9OSiSR+n854f13LNYRR5xDa0eGQcEh3yZdrco9wPMiko2wDfXep8x4blhM7vlQxcrWtLqjaqMo0VLJ0k+ku8djAKIm7UcRp2pLr9FsAP6yBjFhapShxIJppQ8fs39iZGBDPjMvEiwxMWe7AdcBWFI=
+	t=1771662183; cv=none; b=CMLQhtrLC5dP802KosY3yVGDehSPGnfTSRO3jdthhOGNZAg4KNrIa7t+Lv5LsbUMoxf3IBnez1m571fIyXqHQJKNjG0ljLoBMJwq1RwpvkeiHVIpu4Cm6E0r2mw7MP5UpnnxQNdNc3FmQ6rCd6JE8A5LG0pCDu0jh+WjvtH09+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771661463; c=relaxed/simple;
-	bh=BJG5xokfyy//iaMoWW5lsFRiso00rIS7x8O2Z+sMt6g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=opSNzukrsFKHH0+DLe9ejsxauxoKx4o+7logiLT1aqh0ouUqeR6Nq3jjaYuSUrd2DbAifgREvj8PMZr21SC2I2GHcSLxdBdyLFGw1Suin/PB382InFMleXgnluM2nbCZ3eI+vjjCYp3qCul7PQ0EqTDZ3NslfqrFQAV/gbx8N4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fdW7ALIO; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1771662183; c=relaxed/simple;
+	bh=0o5FjhAQw4cRv492FNm54HNevgckUiiSPf5Atdf2GsA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=obl864gtbDxk8wZL/KhI3/CJjnDrUDkNUZIPExhAr185kCtJCSj5ecy2hhpkGzgISUmBd6dSwK4C7eGYSIPw/j39jLNhH768wrvwiTZcnHQhFw+1menjxFaR4N1ELk6at9papy10n15OkyKFBcd/jWjSpF0reoCzX6GeV7IhYb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8EARc39; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fdW7ALIO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8EARc39"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771661460; x=1803197460;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BJG5xokfyy//iaMoWW5lsFRiso00rIS7x8O2Z+sMt6g=;
-  b=fdW7ALIOruFMVXd7JftZaGgz4+OYbHeksXVGnuFvVV0X6ydsKBt6f5db
-   hV52UhAzBuxl6RCBbFC2UEh6JVQFgUN/EoWBjNWrj15CkiwaTJM1/Xrmd
-   fG5XfuH+h9JojCUQQc1M61Hhin/1IgP5SrK0FWSyCGRCXNUkKbS1NsiuM
-   70KyCZCdKRruf4DK5Gw6PeFC9wSTUsBbKfAMtiHwzd1WHnI8Z/Ok40D61
-   WAV6XpJq+qQtEtq5SVK6OKaxPdGJlQXGnlFJhmbY/6BtMFiMNkbCyu21j
-   LKJwhaJpEl5ijZeybdyx2sjhH1/hjbD3TFqqw6S1vBFmU7qJlsoQ0a7U5
-   w==;
-X-CSE-ConnectionGUID: EuhR0bi/TQmnnGAKr3jayg==
-X-CSE-MsgGUID: YPoMBNypR3ykuAggQ6GsPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="83060677"
+  t=1771662181; x=1803198181;
+  h=date:from:to:cc:subject:message-id;
+  bh=0o5FjhAQw4cRv492FNm54HNevgckUiiSPf5Atdf2GsA=;
+  b=O8EARc39yjq4aFXEt5rNonnuMW+7TJonuvNFbJS+C60/4e0t6ySV78LE
+   Oo3Cykz9JSZWIi2XrfgdiLi3/tHKfI6S8MmpDB1GzaniOJdYKMUADMz7z
+   M6SvVQtsj9dfv7gca3kyW2LRvo43uFfqa/829OPByQ3FR/tyWl0jHQ9kk
+   H/OvXPBh2SeHXDGYBStaKijgF3QbF3epx2qxd21jP/WnGoAmZgYvRePdv
+   DnFVshgYFY5HfIY4a8O+/3/b739LGYL+df87iA3k7Xs/tN8MybERlfAsg
+   NTC3bdIIi8C2rtBtRChQHwhWYUtNl+Is0wkxlkCyfAs+6rKGrWAIaHOph
+   A==;
+X-CSE-ConnectionGUID: roZYn2OtQSKkjKpu6NLQ3A==
+X-CSE-MsgGUID: tiy1QIlgRv2RnN5YuQet2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="75352346"
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="83060677"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 00:11:00 -0800
-X-CSE-ConnectionGUID: UXPcArIMQ1+c1cR0whROfg==
-X-CSE-MsgGUID: 2zAF8LSsRWaoPwIvumZJ/A==
+   d="scan'208";a="75352346"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 00:23:01 -0800
+X-CSE-ConnectionGUID: 5DByuGwGQzyVafU2zYpWJQ==
+X-CSE-MsgGUID: BXXFdb8FQF+lRoPD4k5L5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="213568989"
+   d="scan'208";a="215076350"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Feb 2026 00:10:58 -0800
+  by orviesa008.jf.intel.com with ESMTP; 21 Feb 2026 00:22:59 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vti4m-000000014nc-1t7o;
-	Sat, 21 Feb 2026 08:10:56 +0000
-Date: Sat, 21 Feb 2026 16:10:37 +0800
+	id 1vtiGO-000000014o0-2tpA;
+	Sat, 21 Feb 2026 08:22:56 +0000
+Date: Sat, 21 Feb 2026 16:22:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 204/204] mm/hmm.c:379:7:
- warning: assignment makes pointer from integer without a cast
-Message-ID: <202602211607.iJYYNIa6-lkp@intel.com>
+Subject: [norov:for-620 5/15]
+ drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3711:19: error: use of
+ undeclared identifier 'flow_id'
+Message-ID: <202602211601.aO22wsZq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi Jihan,
+tree:   https://github.com/norov/linux for-620
+head:   3b794289e60f9e1cc26d239bef32c93543213772
+commit: d40765a7bbafbae8f4c7546d5ffdb1f97408f1ab [5/15] i40e: drop useless bitmap_weight() call
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260221/202602211601.aO22wsZq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602211601.aO22wsZq-lkp@intel.com/reproduce)
 
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   428f501f574bae8d1bb15211ccfdac399e4f4e7d
-commit: 2ea27b7efa3f6fd0b4fab6a748ab08322280f29b [204/204] ANDROID: GKI: Kc=
-onfig.gki: enable CONFIG_HMM_MIRROR with HIDDEN GPU
-config: arm-randconfig-002-20260221 (https://download.01.org/0day-ci/archiv=
-e/20260221/202602211607.iJYYNIa6-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260221/202602211607.iJYYNIa6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602211607.iJYYNIa6-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602211601.aO22wsZq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/hmm.c:181:29: note: each undeclared identifier is reported only once =
-for each function it appears in
-   mm/hmm.c: In function 'hmm_is_device_private_entry':
-   mm/hmm.c:216:9: error: implicit declaration of function 'is_device_priva=
-te_entry'; did you mean 'hmm_is_device_private_entry'? [-Werror=3Dimplicit-=
-function-declaration]
-     return is_device_private_entry(entry) &&
-            ^~~~~~~~~~~~~~~~~~~~~~~
-            hmm_is_device_private_entry
-   mm/hmm.c:217:3: error: implicit declaration of function 'device_private_=
-entry_to_page'; did you mean 'is_device_private_page'? [-Werror=3Dimplicit-=
-function-declaration]
-      device_private_entry_to_page(entry)->pgmap->owner =3D=3D
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      is_device_private_page
-   mm/hmm.c:217:38: error: invalid type argument of '->' (have 'int')
-      device_private_entry_to_page(entry)->pgmap->owner =3D=3D
-                                         ^~
-   mm/hmm.c: In function 'pte_to_hmm_pfn_flags':
-   mm/hmm.c:224:6: error: implicit declaration of function 'pte_none'; did =
-you mean 'p4d_none'? [-Werror=3Dimplicit-function-declaration]
-     if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
-         ^~~~~~~~
-         p4d_none
-   mm/hmm.c:224:24: error: implicit declaration of function 'pte_present'; =
-did you mean 'p4d_present'? [-Werror=3Dimplicit-function-declaration]
-     if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
-                           ^~~~~~~~~~~
-                           p4d_present
-   mm/hmm.c:224:44: error: implicit declaration of function 'pte_protnone';=
- did you mean 'p4d_none'? [-Werror=3Dimplicit-function-declaration]
-     if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
-                                               ^~~~~~~~~~~~
-                                               p4d_none
-   mm/hmm.c:226:9: error: implicit declaration of function 'pte_write'; did=
- you mean 'pgd_write'? [-Werror=3Dimplicit-function-declaration]
-     return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) : HMM_PFN_VALI=
-D;
-            ^~~~~~~~~
-            pgd_write
-   mm/hmm.c: In function 'hmm_vma_handle_pte':
-   mm/hmm.c:250:23: error: implicit declaration of function 'pte_to_swp_ent=
-ry'; did you mean 'pte_lockptr'? [-Werror=3Dimplicit-function-declaration]
-      swp_entry_t entry =3D pte_to_swp_entry(pte);
-                          ^~~~~~~~~~~~~~~~
-                          pte_lockptr
-   mm/hmm.c:250:23: error: invalid initializer
-   mm/hmm.c:258:8: error: implicit declaration of function 'is_write_device=
-_private_entry'; did you mean 'hmm_is_device_private_entry'? [-Werror=3Dimp=
-licit-function-declaration]
-       if (is_write_device_private_entry(entry))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           hmm_is_device_private_entry
-   mm/hmm.c:260:15: error: implicit declaration of function 'device_private=
-_entry_to_pfn'; did you mean 'device_create_with_groups'? [-Werror=3Dimplic=
-it-function-declaration]
-       *hmm_pfn =3D device_private_entry_to_pfn(entry) |
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-                  device_create_with_groups
-   mm/hmm.c:272:8: error: implicit declaration of function 'non_swap_entry'=
-; did you mean 'init_wait_entry'? [-Werror=3Dimplicit-function-declaration]
-      if (!non_swap_entry(entry))
-           ^~~~~~~~~~~~~~
-           init_wait_entry
-   mm/hmm.c:275:7: error: implicit declaration of function 'is_migration_en=
-try'; did you mean 'list_first_entry'? [-Werror=3Dimplicit-function-declara=
-tion]
-      if (is_migration_entry(entry)) {
-          ^~~~~~~~~~~~~~~~~~
-          list_first_entry
-   mm/hmm.c:276:4: error: implicit declaration of function 'pte_unmap'; did=
- you mean 'memunmap'? [-Werror=3Dimplicit-function-declaration]
-       pte_unmap(ptep);
-       ^~~~~~~~~
-       memunmap
-   mm/hmm.c:278:4: error: implicit declaration of function 'migration_entry=
-_wait'; did you mean 'in_entry_text'? [-Werror=3Dimplicit-function-declarat=
-ion]
-       migration_entry_wait(walk->mm, pmdp, addr);
-       ^~~~~~~~~~~~~~~~~~~~
-       in_entry_text
-   mm/hmm.c:297:39: error: implicit declaration of function 'pte_pfn'; did =
-you mean 'pte_val'? [-Werror=3Dimplicit-function-declaration]
-     if (pte_special(pte) && !is_zero_pfn(pte_pfn(pte))) {
-                                          ^~~~~~~
-                                          pte_val
-   mm/hmm.c: In function 'hmm_vma_walk_pmd':
-   mm/hmm.c:331:6: error: implicit declaration of function 'pmd_none'; did =
-you mean 'p4d_none'? [-Werror=3Dimplicit-function-declaration]
-     if (pmd_none(pmd))
-         ^~~~~~~~
-         p4d_none
-   mm/hmm.c:334:35: error: implicit declaration of function 'is_pmd_migrati=
-on_entry'; did you mean 'list_first_entry'? [-Werror=3Dimplicit-function-de=
-claration]
-     if (thp_migration_supported() && is_pmd_migration_entry(pmd)) {
-                                      ^~~~~~~~~~~~~~~~~~~~~~
-                                      list_first_entry
-   mm/hmm.c:337:4: error: implicit declaration of function 'pmd_migration_e=
-ntry_wait' [-Werror=3Dimplicit-function-declaration]
-       pmd_migration_entry_wait(walk->mm, pmdp);
-       ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hmm.c:343:7: error: implicit declaration of function 'pmd_present'; d=
-id you mean 'p4d_present'? [-Werror=3Dimplicit-function-declaration]
-     if (!pmd_present(pmd)) {
-          ^~~~~~~~~~~
-          p4d_present
-   mm/hmm.c:349:6: error: implicit declaration of function 'pmd_devmap'; di=
-d you mean 'pte_devmap'? [-Werror=3Dimplicit-function-declaration]
-     if (pmd_devmap(pmd) || pmd_trans_huge(pmd)) {
-         ^~~~~~~~~~
-         pte_devmap
-   mm/hmm.c:349:25: error: implicit declaration of function 'pmd_trans_huge=
-'; did you mean 'pmd_trans_huge_lock'? [-Werror=3Dimplicit-function-declara=
-tion]
-     if (pmd_devmap(pmd) || pmd_trans_huge(pmd)) {
-                            ^~~~~~~~~~~~~~
-                            pmd_trans_huge_lock
-   mm/hmm.c:359:9: error: implicit declaration of function 'pmd_read_atomic=
-'; did you mean 'kmap_atomic'? [-Werror=3Dimplicit-function-declaration]
-      pmd =3D pmd_read_atomic(pmdp);
-            ^~~~~~~~~~~~~~~
-            kmap_atomic
-   mm/hmm.c:373:6: error: implicit declaration of function 'pmd_bad'; did y=
-ou mean 'p4d_bad'? [-Werror=3Dimplicit-function-declaration]
-     if (pmd_bad(pmd)) {
-         ^~~~~~~
-         p4d_bad
-   mm/hmm.c:379:9: error: implicit declaration of function 'pte_offset_map'=
-; did you mean 'pte_offset_map_lock'? [-Werror=3Dimplicit-function-declarat=
-ion]
-     ptep =3D pte_offset_map(pmdp, addr);
-            ^~~~~~~~~~~~~~
-            pte_offset_map_lock
->> mm/hmm.c:379:7: warning: assignment makes pointer from integer without a=
- cast [-Wint-conversion]
-     ptep =3D pte_offset_map(pmdp, addr);
-          ^
-   mm/hmm.c: In function 'hmm_is_device_private_entry':
-   mm/hmm.c:219:1: warning: control reaches end of non-void function [-Wret=
-urn-type]
-    }
-    ^
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=3Dn] && !UML && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=3Dn] && !UML && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for DRM_TTM
-   Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dy] && MMU [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=3Dy] && HAS_IOMEM [=3Dy] && DRM [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=3Dn] && !UML && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=3Dn] && !UML && SND [=3Dn] && SND_JACK [=3Dy]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for HMM_MIRROR
-   Depends on [n]: MMU [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_GPU_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=3Dn] && !UML && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=3Dn] && MEMORY_BALLOON [=3Dy]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=3Dy]
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3711:19: error: use of undeclared identifier 'flow_id'
+    3711 |         for_each_set_bit(flow_id, flow_pctypes, FLOW_PCTYPES_SIZE) {
+         |                          ^
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3711:19: error: use of undeclared identifier 'flow_id'
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3711:19: error: use of undeclared identifier 'flow_id'
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3711:19: error: use of undeclared identifier 'flow_id'
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3711:19: error: use of undeclared identifier 'flow_id'
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3712:62: error: use of undeclared identifier 'flow_id'
+    3712 |                 i_setc = (u64)i40e_read_rx_ctl(hw, I40E_GLQF_HASH_INSET(0, flow_id)) |
+         |                                                                            ^
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3713:56: error: use of undeclared identifier 'flow_id'
+    3713 |                          ((u64)i40e_read_rx_ctl(hw, I40E_GLQF_HASH_INSET(1, flow_id)) << 32);
+         |                                                                             ^
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3716:49: error: use of undeclared identifier 'flow_id'
+    3716 |                 i40e_write_rx_ctl(hw, I40E_GLQF_HASH_INSET(0, flow_id),
+         |                                                               ^
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3718:49: error: use of undeclared identifier 'flow_id'
+    3718 |                 i40e_write_rx_ctl(hw, I40E_GLQF_HASH_INSET(1, flow_id),
+         |                                                               ^
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:3720:19: error: use of undeclared identifier 'flow_id'
+    3720 |                 hena |= BIT_ULL(flow_id);
+         |                                 ^
+   10 errors generated.
 
 
-vim +379 mm/hmm.c
+vim +/flow_id +3711 drivers/net/ethernet/intel/i40e/i40e_ethtool.c
 
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  314 =20
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  315  static int hmm_vm=
-a_walk_pmd(pmd_t *pmdp,
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  316  			    unsigned l=
-ong start,
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  317  			    unsigned l=
-ong end,
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  318  			    struct mm_=
-walk *walk)
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  319  {
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  320  	struct hmm_vma_w=
-alk *hmm_vma_walk =3D walk->private;
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  321  	struct hmm_range=
- *range =3D hmm_vma_walk->range;
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  322  	unsigned long *hmm_pfns =
-=3D
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  323  		&range->hmm_pfns[(start -=
- range->start) >> PAGE_SHIFT];
-2288a9a68175ce Jason Gunthorpe 2020-03-05  324  	unsigned long npages =3D (=
-end - start) >> PAGE_SHIFT;
-2288a9a68175ce Jason Gunthorpe 2020-03-05  325  	unsigned long addr =3D sta=
-rt;
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  326  	pte_t *ptep;
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  327  	pmd_t pmd;
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  328 =20
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  329  again:
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  330  	pmd =3D READ_ONC=
-E(*pmdp);
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  331  	if (pmd_none(pmd=
-))
-b7a16c7ad790d0 Steven Price    2020-02-03  332  		return hmm_vma_walk_hole(=
-start, end, -1, walk);
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  333 =20
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  334  	if (thp_migratio=
-n_supported() && is_pmd_migration_entry(pmd)) {
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  335  		if (hmm_range_need_fault(=
-hmm_vma_walk, hmm_pfns, npages, 0)) {
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  336  			hmm_vma_walk->=
-last =3D addr;
-d2e8d551165ccb Ralph Campbell  2019-07-25  337  			pmd_migration_entry_wait=
-(walk->mm, pmdp);
-73231612dc7c90 J=C3=A9r=C3=B4me Glisse   2019-05-13  338  			return -EBUSY;
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  339  		}
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  340  		return hmm_pfns_fill(star=
-t, end, range, 0);
-2288a9a68175ce Jason Gunthorpe 2020-03-05  341  	}
-2288a9a68175ce Jason Gunthorpe 2020-03-05  342 =20
-2288a9a68175ce Jason Gunthorpe 2020-03-05  343  	if (!pmd_present(pmd)) {
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  344  		if (hmm_range_need_fault(=
-hmm_vma_walk, hmm_pfns, npages, 0))
-2288a9a68175ce Jason Gunthorpe 2020-03-05  345  			return -EFAULT;
-d28c2c9a487708 Ralph Campbell  2019-11-04  346  		return hmm_pfns_fill(star=
-t, end, range, HMM_PFN_ERROR);
-2288a9a68175ce Jason Gunthorpe 2020-03-05  347  	}
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  348 =20
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  349  	if (pmd_devmap(p=
-md) || pmd_trans_huge(pmd)) {
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  350  		/*
-d2e8d551165ccb Ralph Campbell  2019-07-25  351  		 * No need to take pmd_lo=
-ck here, even if some other thread
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  352  		 * is splitting=
- the huge pmd we will get that event through
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  353  		 * mmu_notifier=
- callback.
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  354  		 *
-d2e8d551165ccb Ralph Campbell  2019-07-25  355  		 * So just read pmd value=
- and check again it's a transparent
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  356  		 * huge or devi=
-ce mapping one and compute corresponding pfn
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  357  		 * values.
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  358  		 */
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  359  		pmd =3D pmd_rea=
-d_atomic(pmdp);
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  360  		barrier();
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  361  		if (!pmd_devmap=
-(pmd) && !pmd_trans_huge(pmd))
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  362  			goto again;
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  363 =20
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  364  		return hmm_vma_handle_pmd=
-(walk, addr, end, hmm_pfns, pmd);
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  365  	}
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  366 =20
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  367  	/*
-d2e8d551165ccb Ralph Campbell  2019-07-25  368  	 * We have handled all the=
- valid cases above ie either none, migration,
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  369  	 * huge or trans=
-parent huge. At this point either it is a valid pmd
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  370  	 * entry pointin=
-g to pte directory or it is a bad pmd that will not
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  371  	 * recover.
-d08faca018c461 J=C3=A9r=C3=B4me Glisse   2018-10-30  372  	 */
-2288a9a68175ce Jason Gunthorpe 2020-03-05  373  	if (pmd_bad(pmd)) {
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  374  		if (hmm_range_need_fault(=
-hmm_vma_walk, hmm_pfns, npages, 0))
-2288a9a68175ce Jason Gunthorpe 2020-03-05  375  			return -EFAULT;
-d28c2c9a487708 Ralph Campbell  2019-11-04  376  		return hmm_pfns_fill(star=
-t, end, range, HMM_PFN_ERROR);
-2288a9a68175ce Jason Gunthorpe 2020-03-05  377  	}
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  378 =20
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10 @379  	ptep =3D pte_off=
-set_map(pmdp, addr);
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  380  	for (; addr < end; addr +=
-=3D PAGE_SIZE, ptep++, hmm_pfns++) {
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  381  		int r;
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  382 =20
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  383  		r =3D hmm_vma_handle_pte(=
-walk, addr, end, pmdp, ptep, hmm_pfns);
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  384  		if (r) {
-dfdc22078f3f06 Jason Gunthorpe 2020-02-28  385  			/* hmm_vma_handle_pte() =
-did pte_unmap() */
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  386  			return r;
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  387  		}
-da4c3c735ea4dc J=C3=A9r=C3=B4me Glisse   2017-09-08  388  	}
-da4c3c735ea4dc J=C3=A9r=C3=B4me Glisse   2017-09-08  389  	pte_unmap(ptep -=
- 1);
-da4c3c735ea4dc J=C3=A9r=C3=B4me Glisse   2017-09-08  390  	return 0;
-da4c3c735ea4dc J=C3=A9r=C3=B4me Glisse   2017-09-08  391  }
-da4c3c735ea4dc J=C3=A9r=C3=B4me Glisse   2017-09-08  392 =20
+eb0dd6e4a3b3df Carolyn Wyborny  2016-07-27  3614  
+3b32c9932853e1 Slawomir Laba    2022-10-24  3615  #define FLOW_PCTYPES_SIZE 64
+5a28983710b739 Jakub Kicinski   2025-06-14  3616  static int i40e_set_rxfh_fields(struct net_device *netdev,
+5a28983710b739 Jakub Kicinski   2025-06-14  3617  				const struct ethtool_rxfh_fields *nfc,
+5a28983710b739 Jakub Kicinski   2025-06-14  3618  				struct netlink_ext_ack *extack)
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3619  {
+5a28983710b739 Jakub Kicinski   2025-06-14  3620  	struct i40e_netdev_priv *np = netdev_priv(netdev);
+5a28983710b739 Jakub Kicinski   2025-06-14  3621  	struct i40e_vsi *vsi = np->vsi;
+5a28983710b739 Jakub Kicinski   2025-06-14  3622  	struct i40e_pf *pf = vsi->back;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3623  	struct i40e_hw *hw = &pf->hw;
+272cdaf2472ab7 Shannon Nelson   2016-02-17  3624  	u64 hena = (u64)i40e_read_rx_ctl(hw, I40E_PFQF_HENA(0)) |
+272cdaf2472ab7 Shannon Nelson   2016-02-17  3625  		   ((u64)i40e_read_rx_ctl(hw, I40E_PFQF_HENA(1)) << 32);
+3b32c9932853e1 Slawomir Laba    2022-10-24  3626  	DECLARE_BITMAP(flow_pctypes, FLOW_PCTYPES_SIZE);
+eb0dd6e4a3b3df Carolyn Wyborny  2016-07-27  3627  	u64 i_set, i_setc;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3628  
+3b32c9932853e1 Slawomir Laba    2022-10-24  3629  	bitmap_zero(flow_pctypes, FLOW_PCTYPES_SIZE);
+3b32c9932853e1 Slawomir Laba    2022-10-24  3630  
+70756d0a4727fe Ivan Vecera      2023-11-13  3631  	if (test_bit(I40E_FLAG_MFP_ENA, pf->flags)) {
+83d14c595e011f Carolyn Wyborny  2017-06-07  3632  		dev_err(&pf->pdev->dev,
+83d14c595e011f Carolyn Wyborny  2017-06-07  3633  			"Change of RSS hash input set is not supported when MFP mode is enabled\n");
+83d14c595e011f Carolyn Wyborny  2017-06-07  3634  		return -EOPNOTSUPP;
+83d14c595e011f Carolyn Wyborny  2017-06-07  3635  	}
+83d14c595e011f Carolyn Wyborny  2017-06-07  3636  
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3637  	/* RSS does not support anything other than hashing
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3638  	 * to queues on src and dst IPs and ports
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3639  	 */
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3640  	if (nfc->data & ~(RXH_IP_SRC | RXH_IP_DST |
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3641  			  RXH_L4_B_0_1 | RXH_L4_B_2_3))
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3642  		return -EINVAL;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3643  
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3644  	switch (nfc->flow_type) {
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3645  	case TCP_V4_FLOW:
+141d0c9037ca57 Jacob Keller     2025-05-05  3646  		set_bit(LIBIE_FILTER_PCTYPE_NONF_IPV4_TCP, flow_pctypes);
+0e8b9fdd40fe65 Ivan Vecera      2023-11-13  3647  		if (test_bit(I40E_HW_CAP_MULTI_TCP_UDP_RSS_PCTYPE,
+0e8b9fdd40fe65 Ivan Vecera      2023-11-13  3648  			     pf->hw.caps))
+141d0c9037ca57 Jacob Keller     2025-05-05  3649  			set_bit(LIBIE_FILTER_PCTYPE_NONF_IPV4_TCP_SYN_NO_ACK,
+3b32c9932853e1 Slawomir Laba    2022-10-24  3650  				flow_pctypes);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3651  		break;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3652  	case TCP_V6_FLOW:
+141d0c9037ca57 Jacob Keller     2025-05-05  3653  		set_bit(LIBIE_FILTER_PCTYPE_NONF_IPV6_TCP, flow_pctypes);
+0e8b9fdd40fe65 Ivan Vecera      2023-11-13  3654  		if (test_bit(I40E_HW_CAP_MULTI_TCP_UDP_RSS_PCTYPE,
+0e8b9fdd40fe65 Ivan Vecera      2023-11-13  3655  			     pf->hw.caps))
+141d0c9037ca57 Jacob Keller     2025-05-05  3656  			set_bit(LIBIE_FILTER_PCTYPE_NONF_IPV6_TCP_SYN_NO_ACK,
+3b32c9932853e1 Slawomir Laba    2022-10-24  3657  				flow_pctypes);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3658  		break;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3659  	case UDP_V4_FLOW:
+141d0c9037ca57 Jacob Keller     2025-05-05  3660  		set_bit(LIBIE_FILTER_PCTYPE_NONF_IPV4_UDP, flow_pctypes);
+0e8b9fdd40fe65 Ivan Vecera      2023-11-13  3661  		if (test_bit(I40E_HW_CAP_MULTI_TCP_UDP_RSS_PCTYPE,
+0e8b9fdd40fe65 Ivan Vecera      2023-11-13  3662  			     pf->hw.caps)) {
+141d0c9037ca57 Jacob Keller     2025-05-05  3663  			set_bit(LIBIE_FILTER_PCTYPE_NONF_UNICAST_IPV4_UDP,
+3b32c9932853e1 Slawomir Laba    2022-10-24  3664  				flow_pctypes);
+141d0c9037ca57 Jacob Keller     2025-05-05  3665  			set_bit(LIBIE_FILTER_PCTYPE_NONF_MULTICAST_IPV4_UDP,
+3b32c9932853e1 Slawomir Laba    2022-10-24  3666  				flow_pctypes);
+3b32c9932853e1 Slawomir Laba    2022-10-24  3667  		}
+141d0c9037ca57 Jacob Keller     2025-05-05  3668  		hena |= BIT_ULL(LIBIE_FILTER_PCTYPE_FRAG_IPV4);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3669  		break;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3670  	case UDP_V6_FLOW:
+141d0c9037ca57 Jacob Keller     2025-05-05  3671  		set_bit(LIBIE_FILTER_PCTYPE_NONF_IPV6_UDP, flow_pctypes);
+0e8b9fdd40fe65 Ivan Vecera      2023-11-13  3672  		if (test_bit(I40E_HW_CAP_MULTI_TCP_UDP_RSS_PCTYPE,
+0e8b9fdd40fe65 Ivan Vecera      2023-11-13  3673  			     pf->hw.caps)) {
+141d0c9037ca57 Jacob Keller     2025-05-05  3674  			set_bit(LIBIE_FILTER_PCTYPE_NONF_UNICAST_IPV6_UDP,
+3b32c9932853e1 Slawomir Laba    2022-10-24  3675  				flow_pctypes);
+141d0c9037ca57 Jacob Keller     2025-05-05  3676  			set_bit(LIBIE_FILTER_PCTYPE_NONF_MULTICAST_IPV6_UDP,
+3b32c9932853e1 Slawomir Laba    2022-10-24  3677  				flow_pctypes);
+3b32c9932853e1 Slawomir Laba    2022-10-24  3678  		}
+141d0c9037ca57 Jacob Keller     2025-05-05  3679  		hena |= BIT_ULL(LIBIE_FILTER_PCTYPE_FRAG_IPV6);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3680  		break;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3681  	case AH_ESP_V4_FLOW:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3682  	case AH_V4_FLOW:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3683  	case ESP_V4_FLOW:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3684  	case SCTP_V4_FLOW:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3685  		if ((nfc->data & RXH_L4_B_0_1) ||
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3686  		    (nfc->data & RXH_L4_B_2_3))
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3687  			return -EINVAL;
+141d0c9037ca57 Jacob Keller     2025-05-05  3688  		hena |= BIT_ULL(LIBIE_FILTER_PCTYPE_NONF_IPV4_OTHER);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3689  		break;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3690  	case AH_ESP_V6_FLOW:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3691  	case AH_V6_FLOW:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3692  	case ESP_V6_FLOW:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3693  	case SCTP_V6_FLOW:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3694  		if ((nfc->data & RXH_L4_B_0_1) ||
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3695  		    (nfc->data & RXH_L4_B_2_3))
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3696  			return -EINVAL;
+141d0c9037ca57 Jacob Keller     2025-05-05  3697  		hena |= BIT_ULL(LIBIE_FILTER_PCTYPE_NONF_IPV6_OTHER);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3698  		break;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3699  	case IPV4_FLOW:
+141d0c9037ca57 Jacob Keller     2025-05-05  3700  		hena |= BIT_ULL(LIBIE_FILTER_PCTYPE_NONF_IPV4_OTHER) |
+141d0c9037ca57 Jacob Keller     2025-05-05  3701  			BIT_ULL(LIBIE_FILTER_PCTYPE_FRAG_IPV4);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3702  		break;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3703  	case IPV6_FLOW:
+141d0c9037ca57 Jacob Keller     2025-05-05  3704  		hena |= BIT_ULL(LIBIE_FILTER_PCTYPE_NONF_IPV6_OTHER) |
+141d0c9037ca57 Jacob Keller     2025-05-05  3705  			BIT_ULL(LIBIE_FILTER_PCTYPE_FRAG_IPV6);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3706  		break;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3707  	default:
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3708  		return -EINVAL;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3709  	}
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3710  
+3b32c9932853e1 Slawomir Laba    2022-10-24 @3711  	for_each_set_bit(flow_id, flow_pctypes, FLOW_PCTYPES_SIZE) {
+3b32c9932853e1 Slawomir Laba    2022-10-24  3712  		i_setc = (u64)i40e_read_rx_ctl(hw, I40E_GLQF_HASH_INSET(0, flow_id)) |
+3b32c9932853e1 Slawomir Laba    2022-10-24  3713  			 ((u64)i40e_read_rx_ctl(hw, I40E_GLQF_HASH_INSET(1, flow_id)) << 32);
+54b5af5a438076 Slawomir Laba    2022-10-24  3714  		i_set = i40e_get_rss_hash_bits(&pf->hw, nfc, i_setc);
+3b32c9932853e1 Slawomir Laba    2022-10-24  3715  
+3b32c9932853e1 Slawomir Laba    2022-10-24  3716  		i40e_write_rx_ctl(hw, I40E_GLQF_HASH_INSET(0, flow_id),
+eb0dd6e4a3b3df Carolyn Wyborny  2016-07-27  3717  				  (u32)i_set);
+3b32c9932853e1 Slawomir Laba    2022-10-24  3718  		i40e_write_rx_ctl(hw, I40E_GLQF_HASH_INSET(1, flow_id),
+eb0dd6e4a3b3df Carolyn Wyborny  2016-07-27  3719  				  (u32)(i_set >> 32));
+3b32c9932853e1 Slawomir Laba    2022-10-24  3720  		hena |= BIT_ULL(flow_id);
+3b32c9932853e1 Slawomir Laba    2022-10-24  3721  	}
+eb0dd6e4a3b3df Carolyn Wyborny  2016-07-27  3722  
+272cdaf2472ab7 Shannon Nelson   2016-02-17  3723  	i40e_write_rx_ctl(hw, I40E_PFQF_HENA(0), (u32)hena);
+272cdaf2472ab7 Shannon Nelson   2016-02-17  3724  	i40e_write_rx_ctl(hw, I40E_PFQF_HENA(1), (u32)(hena >> 32));
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3725  	i40e_flush(hw);
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3726  
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3727  	return 0;
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3728  }
+c7d05ca89f8e40 Jesse Brandeburg 2013-09-11  3729  
 
-:::::: The code at line 379 was first introduced by commit
-:::::: 53f5c3f489ecddc7570a2e2422a6fc5b25007b9d mm/hmm: factor out pte and =
-pmd handling to simplify hmm_vma_walk_pmd()
+:::::: The code at line 3711 was first introduced by commit
+:::::: 3b32c9932853e11d71f9db012d69e92e4669ba23 i40e: Fix flow-type by setting GL_HASH_INSET registers
 
-:::::: TO: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Slawomir Laba <slawomirx.laba@intel.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
