@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE7F27F19F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 17:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E1C2D5412
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 18:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771694664; cv=none; b=ZbG5s5ux7qYHRbMKST/SiYELGl2t5UAxA7PiBkEu3D5nDBXQ4Os+c6AjRNJ9cVVP/zcPq1IocAxeO442FCpk8Vlz3ItiiDCDHxH236buuKnY8zbzBDd7Gw/djWLDePbUzz4Uxe+8RnE24DSNvJOPkiJ14YH0HHfYNduE9iHHQSQ=
+	t=1771697707; cv=none; b=hxFd4JoS3zfEZCKrfQ+DpQaB3UIUGD5/BO0s8Ls6zM01nhCDTyEU4lsKdk77WMYWX240LxktIEcMvqpW413ZToWyKPMeqoJEJ8fypnKECatMHgRUkduD6YoLXj5hHySUZ4gbUjo1UdMq+wd9qwZKLTwA2ImDg7r7JBtqpCwm9mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771694664; c=relaxed/simple;
-	bh=R8S2SwYWQZYSTos3aQYSJ8ld39eMZNPyyDufcfKpJNA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZuvJ2CN3k9vUlHkdtaBLq5AiMvYJaHGOXoFWnOfrlHg7pj6XAa5QNwCFGgBE4e1fqkoFtidQC6+G0L9VzBHAw/Jnmv/g+brkfomPQWpM+sdLWE9M9zqn+VLxdPqt9L8oyT3jJq9KFj8owwi+k0dnvsDnRZzOaaVoakCwj93lJQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJ5y/saZ; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1771697707; c=relaxed/simple;
+	bh=TloMzQueb8ycp5YBpe07YV+01+CRsXPNN2TvnuTjIsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JdzMxB1hZcgseyiil1cKLzsWLr6GQyZAyArB+gs52ZXqv1vQPDjVmkfCEH7poGYJ/L0JHJ2VXApRlUGrD5W3CLQEsTKPHN81iBqoKQWvhE4JfLx597ZRpdAChzKKCkNcU8AgGI8CdYrax4Q/q4sFLTuHxG0xFA5Di8GEHHWBXFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IsFqDoZz; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJ5y/saZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IsFqDoZz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771694662; x=1803230662;
+  t=1771697704; x=1803233704;
   h=date:from:to:cc:subject:message-id;
-  bh=R8S2SwYWQZYSTos3aQYSJ8ld39eMZNPyyDufcfKpJNA=;
-  b=nJ5y/saZGN5zeE6TmWdWSvZ10LvKKcBCReU7dgRMz3RaYQKwBWRYujKL
-   bY19DwwCcgQw2P58E4Q039BqJjxoadIj3ixF2i41lUYIEZSNWwMrXnsi3
-   TqSHM8XklFNQL1ag5tMyD65ongo9+IgGJFneG7kmbfuitf1fE+mkKjNN5
-   OJRTf8FBZG/mTgTzFr/46d7sgeUlDHrrFbpRP+sqJAXswRCtMn7XMBIgA
-   lY74A0I0NYUQIHyyCAWXlWz6YjjoMojQitn2aFdf8sgHEbCRsdkUBIaOR
-   XfaG9OJMLmCaTcUD20w2fcye7OQDQsaoQ6xjyUA34+5s4zdqUQsO8UEHc
-   w==;
-X-CSE-ConnectionGUID: 2/n/Z4AFRmCsmQM4iGiGag==
-X-CSE-MsgGUID: DIAMpHvPS6amcc89TPAnrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="75364126"
+  bh=TloMzQueb8ycp5YBpe07YV+01+CRsXPNN2TvnuTjIsQ=;
+  b=IsFqDoZzlMGRMcHLEfpewrLV7bTeCMlPPo4jRS+uYlwjnMIMozERlMT7
+   0FbFTm67OBQIBwf+f+QnqrOqrTlTbA/+BuaDJ8HnPQF9eNFF9fsrA6zEg
+   BppIX873cdH5r58CZ+U11ynx13OBiyMiuRkR0RiO+CJS4IssUgUV70358
+   SwDuaEcw2D0gFfltWCs0CKBNlGsx8oREWBGZaEwW2oTqpl/8ndkySV6he
+   VyqYnpllX5P4L287GripIL9Aiwd/VZqaI7PeZReXLQRaxVMIMHKUg+sxF
+   hzIz4DF7WvwE6YbWip1CRsKfq2ZO7V47ICwaX954t64FLEjUFtj1aTlvP
+   Q==;
+X-CSE-ConnectionGUID: LayCMSHNQ0Ws1GnzW0oKkQ==
+X-CSE-MsgGUID: VTjDhCEvQfySD0hPCgVHwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="95372300"
 X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="75364126"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 09:24:19 -0800
-X-CSE-ConnectionGUID: 63RMX/8DRLq3kcZ9kntyPQ==
-X-CSE-MsgGUID: pf6yuNP8TbGvhm8bL12SEg==
+   d="scan'208";a="95372300"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 10:15:04 -0800
+X-CSE-ConnectionGUID: 33kkYMooTnKzQjRxnl1D5g==
+X-CSE-MsgGUID: C1Kloq0dQui+/0y9DE9AWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="213185695"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Feb 2026 09:24:17 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="218794843"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 21 Feb 2026 10:15:02 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtqiF-0000000156H-17dY;
-	Sat, 21 Feb 2026 17:24:15 +0000
-Date: Sun, 22 Feb 2026 01:23:34 +0800
+	id 1vtrVL-000000004RJ-44Tb;
+	Sat, 21 Feb 2026 18:14:59 +0000
+Date: Sat, 21 Feb 2026 19:14:35 +0100
 From: kernel test robot <lkp@intel.com>
 To: Jarkko Sakkinen <jarkko@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:rootns 11/17] fs/namespace.c:4682:35: error:
+Subject: [jarkko-tpmdd:rootns 11/17] fs/namespace.c:4682:28: error:
  redefinition of 'to_name'
-Message-ID: <202602220101.khkdKdbN-lkp@intel.com>
+Message-ID: <202602211908.3kCaaLwr-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,75 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
 head:   359a5197d115ba7a640fac1b12e42be6820d9126
 commit: c1ecad0ba1ebca55274a8dd7c3b72634876ff531 [11/17] rootns, vfs: Install rootns root mount tree
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260222/202602220101.khkdKdbN-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260222/202602220101.khkdKdbN-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260221/202602211908.3kCaaLwr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602211908.3kCaaLwr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602220101.khkdKdbN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602211908.3kCaaLwr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/irqflags.h:17,
-                    from include/asm-generic/bitops.h:14,
-                    from ./arch/nios2/include/generated/asm/bitops.h:1,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/nios2/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from include/linux/syscalls.h:84,
-                    from fs/namespace.c:11:
-   fs/namespace.c: In function '__do_sys_move_mount':
->> fs/namespace.c:4682:35: error: redefinition of 'to_name'
+>> fs/namespace.c:4682:28: error: redefinition of 'to_name'
     4682 |         CLASS(filename_maybe_null,to_name)(to_pathname, uflags);
-         |                                   ^~~~~~~
-   include/linux/cleanup.h:299:27: note: in definition of macro 'CLASS'
-     299 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |                           ^~~
-   fs/namespace.c:4655:26: note: previous definition of 'to_name' with type 'struct filename *'
+         |                                   ^
+   fs/namespace.c:4655:19: note: previous definition is here
     4655 |         struct filename *to_name __free(putname) = NULL;
-         |                          ^~~~~~~
-   In file included from include/linux/irqflags.h:17,
-                    from include/asm-generic/bitops.h:14,
-                    from ./arch/nios2/include/generated/asm/bitops.h:1,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/nios2/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from include/linux/syscalls.h:84,
-                    from fs/namespace.c:11:
->> fs/namespace.c:4779:35: error: redefinition of 'from_name'
+         |                          ^
+>> fs/namespace.c:4779:28: error: redefinition of 'from_name'
     4779 |         CLASS(filename_maybe_null,from_name)(from_pathname, uflags);
-         |                                   ^~~~~~~~~
-   include/linux/cleanup.h:299:27: note: in definition of macro 'CLASS'
-     299 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |                           ^~~
-   fs/namespace.c:4656:26: note: previous definition of 'from_name' with type 'struct filename *'
+         |                                   ^
+   fs/namespace.c:4656:19: note: previous definition is here
     4656 |         struct filename *from_name __free(putname) = NULL;
-         |                          ^~~~~~~~~
-   fs/namespace.c:4659:14: warning: variable 'to_rootns' set but not used [-Wunused-but-set-variable]
-    4659 |         bool to_rootns = false;
-         |              ^~~~~~~~~
+         |                          ^
+   2 errors generated.
 
 
 vim +/to_name +4682 fs/namespace.c
