@@ -1,206 +1,201 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D800BA21
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 20:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FEC274FEB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 22:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771704429; cv=none; b=C/sl/xde+tjytzvDPv+hjEn5X3w7jdTrBW5E6VNtilGBX/vGxUoVUTaXOWAypDBnu8ZU64P+5sYqlzZ0qAxaO85KIPodK26uXbvD6pY3OSgqxnWou46msf9xSJm7UteSjp4IVwbQZo7SljCmQ6Gsx1QBx6fT8LaTvibmnEfQAzg=
+	t=1771712310; cv=none; b=aUlRMuwlxLFUJ0VTXPmL0O9JOCFZVQ1ZtU0XTFT872UQri4wBK/xqJMzULHvh68Sd6BgeWHd+wJWaZKhXTuU4eAt5CtTtTK1CMq2Mj0qLTa4qldtwLQSf6jgKZxAQKWCidruuknsN6JshscQZ663GOWgyCm0icNXpDxRr0KRUi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771704429; c=relaxed/simple;
-	bh=+QQsqSJx0+ZpFSLLwPkrnUaJ+QZasFfzuP+24I0zGY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fo5c5bAREfjg6CPTCos7vi2e4MT0zk4NjX/Su/I3jP26XzS9Wbg/PE0JTOzaJ+0e/YoQvpG6H54zpOXoRi6UT2VJpNUz1Kp2pxHUkXg/voNg3dk5drO+C/sBGzQjHJ06Ya/PjCtwgSL3i8Ac20D5mzx8Wj6/OkfVLJAFA2DJKKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bp9rRYOf; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771712310; c=relaxed/simple;
+	bh=LaZcY6yP24Mbx129wMiWkGxkE+5/+UOQmbbo0t4OemY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HZ+tCx6R/6h2wiOq5mbyhXIXK3ZYbomeJEMQju39Q/zP7aeWySbxG148uw5faMkbr/AdUgDpnqWKea7gJKybBFz9SdUSrWWjuroDz6CebFYhB/Nsdi4Cn5YqhMkFXUGe/lnhIsKmSy9yeclVAhiIRmyLsfrgz32mmuqrg1Zjdtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ioFX6SbT; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bp9rRYOf"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-503347dea84so32563341cf.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 12:07:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771704426; x=1772309226; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3ie30Qfev+sRyKQqoyrxQeAzD17ENRiuG5jOorvnh4M=;
-        b=bp9rRYOfvgcxdallaeDOq2DHJvAAyhq3AhDl4b7rZEAdPcSkeyr23LXXDAt8XxxkwF
-         0HaucGNYKR+KtqRt4Ga9tiZhVOIqvjrz9YMF0L0kD7ayFNgIs3n7nwMiYtgVcBahUTSX
-         e4tmVahWVA4s6oFRaDP+X8YQJaL3XH1E1fD99ApkZ8M+Yi+ZT9wpBuM8VOH856xXXgj1
-         mzNb3VUDp8oPgnYBQgw5t1VdZhxkU5395NySjamRcSMNDsNc652C6R73XjQRx/brEQBX
-         ZJ6sQ3ixx8C7m1zTVXmtNcqy4ew/auV2GtLKTTfmYZH5DNiAEJmkGFNI+1m9CdCC/1s4
-         ADJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771704426; x=1772309226;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3ie30Qfev+sRyKQqoyrxQeAzD17ENRiuG5jOorvnh4M=;
-        b=c6PpDtaxLNc57uMcVg4DJ8b/cYIy7aRxMUrEY8QZEatV8VlzuTOwMzS90p0Dy9ylmV
-         FgknbWjZo61o+D92JHBl5cYMfu/Y6yF0Yjui9UHx4uhyug9Y5BzdDLiAIQxva9qz8Da2
-         lsmqw5Ii/I+jqs32u4VjjR4OR4F0236KjFtOtwikRMDJVaG3GLKC5gnRVvTl9AatH6qI
-         lq/A4u6Sjb+SymyMek9O4EOOYny6g0wd9lyRGCscsvjz8VXV4VXxoJXgRlQbw2YAFXwC
-         rWVV9fStqQ25gPbc7PZWgKy2Rtx4S2sDV3iewdKGPcK2lzkGJPLo/Xx3wj96Q33DgSmH
-         7qeA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8RARV4ms1jfmeleh7aOhtwmW+rfxMdgmCN3/K+BbhNRt4hN9M8g632Xv5ec02y+Y/pq51P+XxsdiffGyp@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLbpLQiYGuhVNWwRLBlzU9ZnndnjR0P6lrdzg1mgocEn5Kt1aR
-	7wD1hk0ga3sTjJxe/xlT/WpXdPiFzvGqEBTYnA9siKaCjIpVRazMdGsW
-X-Gm-Gg: AZuq6aJWaGKEPlQVc0MnBXqauDILVmyuOwqs0E+k5euxEk0aCWzg+jd5rhwH/+zy8jp
-	TnFasYvIl0oAU5WVvHBwCgTNsUvBULizZz4cwAYY5v1xgjH4lhyexsNAc5ucXfnX1myNb5MU1bT
-	+O/sWBbm30LvRqzzPlaDLIFYHHiZDZzh1d7Fcmm+1s1mT+V7YCYIO5YgYVSftQCpzMa7hLTsRYT
-	4SGBeAbmqhpC5MDagNEEpYQUN0EJdYbwmS1noVxtJqKUGVIp3lIeiqYwIslm5eonBEcutmahpTd
-	9Rjg88sHUzVYixwDWOxtDakP+Psy8o13Ooa5aoNEe2LenJFfhenbb7PdVl0MSovVa+aJ6LUXhBq
-	KT59Chc3n6uZWinIFtEBcBiC6kT69gKHBPiCkSMqmAc5sW5ZS6IXFybfT4xOK/yUr8moWX2LJ46
-	B8KQPzhecwkpLwO2OfXwH9NG66zg==
-X-Received: by 2002:ac8:5794:0:b0:501:502b:8c6b with SMTP id d75a77b69052e-5070bba48b8mr58118421cf.9.1771704426505;
-        Sat, 21 Feb 2026 12:07:06 -0800 (PST)
-Received: from errol.ini.cmu.edu ([72.95.245.239])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8997c691243sm23869776d6.3.2026.02.21.12.07.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 12:07:06 -0800 (PST)
-Date: Sat, 21 Feb 2026 15:07:04 -0500
-From: "Gabriel L. Somlo" <gsomlo@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Pawel Czarnecki <pczarnecki@internships.antmicro.com>,
-	Mateusz Holenko <mholenko@antmicro.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [litex-hub:litex-rebase 14/15]
- drivers/clk/clk-litex.c:1579:1-23: WARNING: Function
- "for_each_child_of_node" should have of_node_put() before return around line
- 1592. (fwd)
-Message-ID: <aZoQaL5CWYxgUITm@errol.ini.cmu.edu>
-References: <ffa6cd9e-db1a-2e7d-a02b-3e7417789cf0@inria.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ioFX6SbT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771712307; x=1803248307;
+  h=date:from:to:cc:subject:message-id;
+  bh=LaZcY6yP24Mbx129wMiWkGxkE+5/+UOQmbbo0t4OemY=;
+  b=ioFX6SbTkfg34p2/ZceyrreC848OsIXwz818iNeuiUSZ2NOYeLvzP1vD
+   GtDr1AXYR0wlVanW26UieTYxhsy7mCif3IZfFVjbeTW28cPcoobdaIIEy
+   zjOfw0DaERFeTBL+bItCpVr5c+mV0P2s9m++DK3TlMAoEiVbb1Y2ewID4
+   EUOv7w04AxzOlHGseMw1+Wh7/BX9kcBYPvLh/JyAwsIcUe8L44k9hp6jT
+   NH73H1SEzo9e/faW3c5Q1U5WZMiNy1i1lmF+G01bnqlCdoJGql22As1Uj
+   gX20zAJ0HC+5p4yxKCn5I59t+R2UyONg1mXWNSfyiD92s7zPX/EZtbhIA
+   w==;
+X-CSE-ConnectionGUID: U7wYcPbwQAyY/4QACCHxjA==
+X-CSE-MsgGUID: 88lCQh83TCKSC9vbUGOXGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="84214168"
+X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
+   d="scan'208";a="84214168"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 14:18:27 -0800
+X-CSE-ConnectionGUID: gUdoCiYUS0CvyDa2dnq38g==
+X-CSE-MsgGUID: 5vppcOVLSfmmTdu6OI5MHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
+   d="scan'208";a="219686933"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 21 Feb 2026 14:18:25 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtvIs-000000015Do-0VXF;
+	Sat, 21 Feb 2026 22:18:22 +0000
+Date: Sun, 22 Feb 2026 06:17:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marco Elver <elver@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: lib/test_context-analysis.c:483:9: sparse: sparse: incorrect
+ type in argument 1 (different base types)
+Message-ID: <202602220623.h42T9E7T-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ffa6cd9e-db1a-2e7d-a02b-3e7417789cf0@inria.fr>
-X-Clacks-Overhead: GNU Terry Pratchett
 
-Hi Julia,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8934827db5403eae57d4537114a9ff88b0a8460f
+commit: d3febf16dee28a74b01ba43195ee4965edb6208f locking/local_lock: Support Clang's context analysis
+date:   7 weeks ago
+config: hexagon-randconfig-r111-20260222 (https://download.01.org/0day-ci/archive/20260222/202602220623.h42T9E7T-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260222/202602220623.h42T9E7T-lkp@intel.com/reproduce)
 
-Thanks for the heads-up! I've lined up a fix in the out-of-tree
-litex-rebase branch; this will eventually be subsumed (squashed)
-into the original patch introducing the driver being fixed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602220623.h42T9E7T-lkp@intel.com/
 
-Many thanks,
---Gabriel
+sparse warnings: (new ones prefixed by >>)
+   lib/test_context-analysis.c: note: in included file (through include/linux/local_lock.h):
+   include/linux/local_lock_internal.h:332:40: sparse: sparse: multiple definitions for function '__this_cpu_local_lock'
+   include/linux/local_lock_internal.h:326:37: sparse:  the previous one is here
+   lib/test_context-analysis.c:148:1: sparse: sparse: undefined identifier '__cond_acquire'
+>> lib/test_context-analysis.c:483:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:483:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:483:9: sparse:     got struct local_lock [noderef] __percpu *
+>> lib/test_context-analysis.c:483:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:483:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:483:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:485:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:485:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:485:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:485:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:485:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:485:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:487:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:487:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:487:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:487:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:487:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:487:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:489:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:489:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:489:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:489:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:489:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:489:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:491:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:491:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:491:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:491:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:491:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:491:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:493:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:493:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:493:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:493:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:493:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:493:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:495:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:495:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:495:9: sparse:     got struct local_lock [noderef] __percpu *
+>> lib/test_context-analysis.c:495:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_lock [usertype] *l @@     got struct local_trylock [usertype] * @@
+   lib/test_context-analysis.c:495:9: sparse:     expected struct local_lock [usertype] *l
+   lib/test_context-analysis.c:495:9: sparse:     got struct local_trylock [usertype] *
+   lib/test_context-analysis.c:497:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   lib/test_context-analysis.c:497:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   lib/test_context-analysis.c:497:9: sparse:     got struct local_lock [noderef] __percpu *
+   lib/test_context-analysis.c:497:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_lock [usertype] *l @@     got struct local_trylock [usertype] * @@
+   lib/test_context-analysis.c:497:9: sparse:     expected struct local_lock [usertype] *l
+   lib/test_context-analysis.c:497:9: sparse:     got struct local_trylock [usertype] *
+   lib/test_context-analysis.c:83:1: sparse: sparse: context imbalance in 'test_raw_spinlock_guard' - wrong count at exit
+   lib/test_context-analysis.c:90:20: sparse: sparse: context imbalance in 'test_raw_spinlock_trylock_extra' - wrong count at exit
+   lib/test_context-analysis.c:107:1: sparse: sparse: context imbalance in 'test_spinlock_guard' - wrong count at exit
+   lib/test_context-analysis.c:114:20: sparse: sparse: context imbalance in 'test_spinlock_trylock_extra' - wrong count at exit
+   lib/test_context-analysis.c:131:1: sparse: sparse: context imbalance in 'test_write_lock_guard' - wrong count at exit
+   lib/test_context-analysis.c:148:1: sparse: sparse: context imbalance in 'test_read_lock_guard' - wrong count at exit
+   lib/test_context-analysis.c:188:17: sparse: sparse: context imbalance in 'test_mutex_trylock' - unexpected unlock
+   lib/test_context-analysis.c:203:20: sparse: sparse: context imbalance in 'test_mutex_guard' - wrong count at exit
+   lib/test_context-analysis.c:209:20: sparse: sparse: context imbalance in 'test_mutex_cond_guard' - wrong count at exit
+   lib/test_context-analysis.c:263:9: sparse: sparse: context imbalance in 'test_seqlock_scoped' - wrong count at exit
+   lib/test_context-analysis.c:286:17: sparse: sparse: context imbalance in 'test_rwsem_reader' - unexpected unlock
+   lib/test_context-analysis.c:304:17: sparse: sparse: context imbalance in 'test_rwsem_writer' - unexpected unlock
+   lib/test_context-analysis.c:315:20: sparse: sparse: context imbalance in 'test_rwsem_guard' - wrong count at exit
+   lib/test_context-analysis.c:321:20: sparse: sparse: context imbalance in 'test_rwsem_cond_guard' - wrong count at exit
+   lib/test_context-analysis.c: note: in included file:
+   include/linux/bit_spinlock.h:78:25: sparse: sparse: context imbalance in 'test_bit_spin_lock' - unexpected unlock
+   lib/test_context-analysis.c:461:53: sparse: sparse: context imbalance in 'test_srcu_guard' - wrong count at exit
+   lib/test_context-analysis.c: note: in included file:
+>> include/linux/local_lock.h:86:1: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock @@
+   include/linux/local_lock.h:86:1: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/local_lock.h:86:1: sparse:     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock
+>> include/linux/local_lock.h:86:1: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock @@
+   include/linux/local_lock.h:86:1: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/local_lock.h:86:1: sparse:     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock
+   include/linux/local_lock.h:89:1: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock @@
+   include/linux/local_lock.h:89:1: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/local_lock.h:89:1: sparse:     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock
+   include/linux/local_lock.h:89:1: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock @@
+   include/linux/local_lock.h:89:1: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/local_lock.h:89:1: sparse:     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock
+   include/linux/local_lock.h:92:1: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock @@
+   include/linux/local_lock.h:92:1: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/local_lock.h:92:1: sparse:     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock
+   include/linux/local_lock.h:92:1: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock @@
+   include/linux/local_lock.h:92:1: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/local_lock.h:92:1: sparse:     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock
+   include/linux/local_lock.h:103:1: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock @@
+   include/linux/local_lock.h:103:1: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/local_lock.h:103:1: sparse:     got struct local_lock [noderef] [usertype] __percpu *[usertype] lock
+>> include/linux/local_lock.h:103:1: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_lock [usertype] *l @@     got struct local_trylock [usertype] * @@
+   include/linux/local_lock.h:103:1: sparse:     expected struct local_lock [usertype] *l
+   include/linux/local_lock.h:103:1: sparse:     got struct local_trylock [usertype] *
+   lib/test_context-analysis.c:505:68: sparse: sparse: context imbalance in 'test_local_lock_guard' - wrong count at exit
+   lib/test_context-analysis.c:530:17: sparse: sparse: context imbalance in 'test_local_trylock' - unexpected unlock
 
-On Sat, Feb 07, 2026 at 08:40:15AM -0500, Julia Lawall wrote:
-> 
-> 
-> ---------- Forwarded message ----------
-> Date: Sat, 07 Feb 2026 17:49:54 +0800
-> From: kernel test robot <lkp@intel.com>
-> To: oe-kbuild@lists.linux.dev
-> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> Subject: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:1579:1-23:
->     WARNING: Function "for_each_child_of_node" should have of_node_put() before
->     return around line 1592.
-> 
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> TO: Pawel Czarnecki <pczarnecki@internships.antmicro.com>
-> CC: Gabriel Somlo <gsomlo@gmail.com>
-> CC: Mateusz Holenko <mholenko@antmicro.com>
-> CC: Geert Uytterhoeven <geert@linux-m68k.org>
-> 
-> tree:   https://github.com/litex-hub/linux litex-rebase
-> head:   09ab312cebb66737cf7dc5c3c448b282dc937e16
-> commit: 6767f577aa05c563cba3399f2383b60f59a67806 [14/15] LiteX: driver for MMCM
-> :::::: branch date: 10 hours ago
-> :::::: commit date: 10 hours ago
-> config: alpha-randconfig-r053-20260207 (https://download.01.org/0day-ci/archive/20260207/202602071733.Nf6w84P8-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 11.5.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> | Closes: https://lore.kernel.org/r/202602071733.Nf6w84P8-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> drivers/clk/clk-litex.c:1579:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 1592.
->    drivers/clk/clk-litex.c:1579:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 1611.
->    drivers/clk/clk-litex.c:1579:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 1621.
->    drivers/clk/clk-litex.c:1579:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 1627.
-> 
-> vim +/for_each_child_of_node +1579 drivers/clk/clk-litex.c
-> 
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1564
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1565  static int litex_clk_init_clkouts(struct device *dev,
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1566  				  struct device_node *node,
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1567  				  struct litex_clk_device *l_dev)
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1568  {
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1569  	struct device_node *child_node;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1570  	struct clk_hw *hw;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1571  	struct clk_duty duty;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1572  	u32 dt_lock_timeout, dt_drdy_timeout;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1573  	int i = 0, ret;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1574
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1575  	ret = litex_clk_get_timeouts(node, &dt_lock_timeout, &dt_drdy_timeout);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1576  	if (ret != 0)
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1577  		return ret;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1578
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22 @1579  	for_each_child_of_node(node, child_node) {
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1580  		struct litex_clk_clkout *clkout;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1581  		struct clk_init_data clkout_init;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1582
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1583  		clkout = &l_dev->clkouts[i];
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1584  		clkout->is_clkout = true;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1585
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1586  		clkout->lock_timeout = dt_lock_timeout;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1587  		clkout->drdy_timeout = dt_drdy_timeout;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1588  		clkout->sys_clk_freq = l_dev->sys_clk_freq;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1589
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1590  		ret = litex_clk_read_clkout_dts(child_node, clkout);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1591  		if (ret != 0)
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22 @1592  			return ret;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1593
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1594  		clkout_init.name = child_node->name;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1595  		clkout_init.ops = &litex_clk_ops;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1596  		clkout_init.num_parents = 0;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1597  		clkout_init.flags = CLK_SET_RATE_UNGATE | CLK_GET_RATE_NOCACHE;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1598  		clkout->clk_hw.init = &clkout_init;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1599  		clkout->base = l_dev->base;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1600
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1601  		duty.num = clkout->default_duty_num;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1602  		duty.den = clkout->default_duty_den;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1603
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1604  		/* set global divider and multiplier once */
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1605  		if (i == 0) {
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1606  			hw = &l_dev->clkouts[i].clk_hw;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1607  			litex_clk_enable(hw);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1608  			ret = litex_clk_set_dm(hw);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1609  			litex_clk_disable(hw);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1610  			if (ret != 0)
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1611  				return ret;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1612  		}
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1613
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1614  		ret = litex_clk_set_def_clkout(&clkout->clk_hw,
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1615  						clkout->default_freq,
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1616  						clkout->default_phase, &duty);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1617  		ret = devm_clk_hw_register(dev, &clkout->clk_hw);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1618  		if (ret != 0) {
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1619  			pr_err("devm_clk_hw_register failure, %s ret: %d\n",
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1620  						child_node->name, ret);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1621  			return ret;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1622  		}
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1623
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1624  		ret = of_clk_add_hw_provider(child_node, of_clk_hw_simple_get,
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1625  							     &clkout->clk_hw);
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1626  		if (ret != 0)
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1627  			return ret;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1628  		i++;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1629  	}
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1630  	return 0;
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1631  }
-> 6767f577aa05c5 Pawel Czarnecki 2020-12-22  1632
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +483 lib/test_context-analysis.c
+
+   478	
+   479	static void __used test_local_lock(void)
+   480	{
+   481		unsigned long flags;
+   482	
+ > 483		local_lock(&test_local_lock_data.lock);
+   484		this_cpu_add(test_local_lock_data.counter, 1);
+   485		local_unlock(&test_local_lock_data.lock);
+   486	
+   487		local_lock_irq(&test_local_lock_data.lock);
+   488		this_cpu_add(test_local_lock_data.counter, 1);
+   489		local_unlock_irq(&test_local_lock_data.lock);
+   490	
+   491		local_lock_irqsave(&test_local_lock_data.lock, flags);
+   492		this_cpu_add(test_local_lock_data.counter, 1);
+ > 493		local_unlock_irqrestore(&test_local_lock_data.lock, flags);
+   494	
+ > 495		local_lock_nested_bh(&test_local_lock_data.lock);
+   496		this_cpu_add(test_local_lock_data.counter, 1);
+   497		local_unlock_nested_bh(&test_local_lock_data.lock);
+   498	}
+   499	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
