@@ -1,129 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9677E3090FD;
-	Sat, 21 Feb 2026 01:25:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE923254BA;
+	Sat, 21 Feb 2026 02:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771637144; cv=none; b=oLI1SyZ7WDugEjGlIfBWsGu87G8mYc83nuKVkZf2it8+PXCYLcQzoLKWLwVIUcSYDCy5pZSMRZKa0RJxqNwqylNDIi4z8h1HA63BDMDI1DXc/FbGydQINjRPZpKQTclRXhtW8ng0EB3jL6/rgO6yNa3Lxw4EYMBqbEFEZUlh4sY=
+	t=1771640875; cv=none; b=pxxFpNnFlMLynJTtlHYrCiwvOGJaDzgLv5fd9weJYsw9PEG+oU0CqAqgLFKlJRMM8g/mi9t5RowQAtC4/XdmI77iSY7vV6vqnggvg9yBmvN/wdOwTthVWnVoXJBVErWtkqIW1V11LdmEtwONoTvqazPBR6j3H4AnfUUV6WDU6yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771637144; c=relaxed/simple;
-	bh=VNO7bSe94E4iAwMvPPC6DF/o0jW6Va8cJdoPGHz0nRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V/vdzgMkVhoB/7OgnyY5MvnTFbgq79S6qwpxowHFJALF/rLjgz/xhkauiSEpLbQ5UCzuBaLC+wWsPVtvWlQqeMQErc/pFjpkNTT/lPqc2ohEQt8ctvpjaRg+LMCOTb2KMaXArLyfJuJDne0zku0l+p9Ura1ksRhoRhrHLpXzdTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkEoNEMs; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1771640875; c=relaxed/simple;
+	bh=iXkvACumn8HUTSn6VLPjRrbXejAQ/ip1aSdXmS/Vuy4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jjXlp9z8dAvRTEG6+s8E32uxKZL3124slY0VS7eYA1xse0gw2OwoaCCABeFIfwPYuOAQAitYZhE1Kq32ZI9VjtdmS3xPugjrp5mJWYEKmWSVZagE+QDhBQMQykLuCZil2ELy6Ux/Wh5Ld/hw3cl6kkJK7ZSAj9c8ln53dJknyvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ksw/ml+K; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkEoNEMs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ksw/ml+K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771637142; x=1803173142;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VNO7bSe94E4iAwMvPPC6DF/o0jW6Va8cJdoPGHz0nRE=;
-  b=RkEoNEMsDfOwxec3LsT/291fDRowohZeITlE2XBHwoy2LHRn9yol85t8
-   VqKpYl8E+5BjUTsIXzV1CoN/wql8gBIgZHFJnT6hNR+41uWRa6NP6LIMH
-   qIKwmZd3MuNKO3yP7leXYuXTcBsANgl138D71H3CQU32d1cWVpDmBE0+n
-   18lrJZ+hy2QbiGwYaKUYd2uat2DeIVQ6qs09W/uE4dfUYCq8VIiqAvoYY
-   ca36QQk2SRPevvhnpEKD8G24SzG0kFVgHqBQ0uQGQCIaXnyfDMvbUCdD/
-   vhhX1NFR2xXbfUFYI+mSjp10dskP68F70peXr1/s5aCH+LAZeYaW8KLLW
-   w==;
-X-CSE-ConnectionGUID: Ad60FXidRdayQmFB1ae6bg==
-X-CSE-MsgGUID: DtWnklytQkS+N1uec4h3mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="84091167"
+  t=1771640873; x=1803176873;
+  h=date:from:to:cc:subject:message-id;
+  bh=iXkvACumn8HUTSn6VLPjRrbXejAQ/ip1aSdXmS/Vuy4=;
+  b=ksw/ml+K3XeBb/LuikJZOhC/Wmhy3UQWPgwKOlRjtxdNJRcWJ1WX6cpL
+   BKZSmqk8z9k9wDFC6Mt9OblaaKvXnRERWbquPHvoo7PY90j2ltZqXVrTr
+   etHHXS/GiIem2ztJotnH5fyyqW2Ovh4iXa7/1CR1+wamfBBewjg0m2lbN
+   souPNLdSUw4H7QyMR6ax67PEZrnOTqO9XQWSwwqN7Bk1UHWc4O1lSucR6
+   5csLTamEnPacWFTCbY+BBtdZrTt8YwJ8g7c2EjU/+/dtQPKZXObV0ITdd
+   si60JzwKdktGU375nw3IQjdtaf/pgap+PUjRPpWVMsPVmENrOtUGCtQPb
+   g==;
+X-CSE-ConnectionGUID: C0qj4fsVSs+r7x6UnEBhaQ==
+X-CSE-MsgGUID: lId4MZLgSF+rLaOfsfZn0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="71758990"
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="84091167"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 17:25:41 -0800
-X-CSE-ConnectionGUID: dZEVgxKBQu25CKsW8FRAQA==
-X-CSE-MsgGUID: E9r7j119SJO4g6xM/6PyDg==
+   d="scan'208";a="71758990"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 18:27:53 -0800
+X-CSE-ConnectionGUID: p0YcUJ37SL6kkgWad/fH3Q==
+X-CSE-MsgGUID: 6a7CO6blRTSxvlwDUP3TZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="219542249"
+   d="scan'208";a="219522956"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Feb 2026 17:25:38 -0800
+  by orviesa004.jf.intel.com with ESMTP; 20 Feb 2026 18:27:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtbkV-000000014cC-1izw;
-	Sat, 21 Feb 2026 01:25:35 +0000
-Date: Sat, 21 Feb 2026 09:25:32 +0800
+	id 1vtcii-000000014e8-2FBJ;
+	Sat, 21 Feb 2026 02:27:48 +0000
+Date: Sat, 21 Feb 2026 10:27:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Priit Laes <plaes@plaes.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Priit Laes <plaes@plaes.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Artur Stupa <arthur.stupa@gmail.com>,
-	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
-	Navaneeth K <knavaneeth786@gmail.com>,
-	Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
-	Yuvraj Singh Chauhan <ysinghcin@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 11/11] staging: rtl8723bs: rtw_ieee80211: Reduce global
- symbols
-Message-ID: <202602210910.tUaMjS3m-lkp@intel.com>
-References: <20260220173104.2410217-1-plaes@plaes.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:exportd-netlink 14/14] fs/nfsd/export.c:385:3:
+ error: use of undeclared identifier 'ret'
+Message-ID: <202602211015.TmaKT3bd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260220173104.2410217-1-plaes@plaes.org>
 
-Hi Priit,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Priit-Laes/staging-rtl8723bs-Remove-unused-BIT32-BIT36-definitions/20260221-013719
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260220173104.2410217-1-plaes%40plaes.org
-patch subject: [PATCH 11/11] staging: rtl8723bs: rtw_ieee80211: Reduce global symbols
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260221/202602210910.tUaMjS3m-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git exportd-netlink
+head:   abe0e15ab9e913e4fb8b26466f8a2a4089ceba44
+commit: abe0e15ab9e913e4fb8b26466f8a2a4089ceba44 [14/14] nfsd: implement nfsd_nl_svc_export_get_reqs_dumpit()
+config: mips-jazz_defconfig (https://download.01.org/0day-ci/archive/20260221/202602211015.TmaKT3bd-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602210910.tUaMjS3m-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602211015.TmaKT3bd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602210910.tUaMjS3m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602211015.TmaKT3bd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/staging/rtl8723bs/core/rtw_ieee80211.c:19:17: warning: unused variable 'WPA_CIPHER_SUITE_WRAP' [-Wunused-const-variable]
-      19 | static const u8 WPA_CIPHER_SUITE_WRAP[] = { 0x00, 0x50, 0xf2, 3 };
-         |                 ^~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/rtl8723bs/core/rtw_ieee80211.c:27:17: warning: unused variable 'RSN_CIPHER_SUITE_WRAP' [-Wunused-const-variable]
-      27 | static const u8 RSN_CIPHER_SUITE_WRAP[] = { 0x00, 0x0f, 0xac, 3 };
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> fs/nfsd/export.c:385:3: error: use of undeclared identifier 'ret'
+     385 |                 ret = -ENODEV;
+         |                 ^
+>> fs/nfsd/export.c:386:8: error: use of undeclared label 'out_unlock'
+     386 |                 goto out_unlock;
+         |                      ^
+   2 errors generated.
 
 
-vim +/WPA_CIPHER_SUITE_WRAP +19 drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+vim +/ret +385 fs/nfsd/export.c
 
-    14	
-    15	#define WPA_SELECTOR_LEN 4
-    16	static const u8 WPA_CIPHER_SUITE_NONE[] = { 0x00, 0x50, 0xf2, 0 };
-    17	static const u8 WPA_CIPHER_SUITE_WEP40[] = { 0x00, 0x50, 0xf2, 1 };
-    18	static const u8 WPA_CIPHER_SUITE_TKIP[] = { 0x00, 0x50, 0xf2, 2 };
-  > 19	static const u8 WPA_CIPHER_SUITE_WRAP[] = { 0x00, 0x50, 0xf2, 3 };
-    20	static const u8 WPA_CIPHER_SUITE_CCMP[] = { 0x00, 0x50, 0xf2, 4 };
-    21	static const u8 WPA_CIPHER_SUITE_WEP104[] = { 0x00, 0x50, 0xf2, 5 };
-    22	
-    23	#define RSN_SELECTOR_LEN 4
-    24	static const u8 RSN_CIPHER_SUITE_NONE[] = { 0x00, 0x0f, 0xac, 0 };
-    25	static const u8 RSN_CIPHER_SUITE_WEP40[] = { 0x00, 0x0f, 0xac, 1 };
-    26	static const u8 RSN_CIPHER_SUITE_TKIP[] = { 0x00, 0x0f, 0xac, 2 };
-  > 27	static const u8 RSN_CIPHER_SUITE_WRAP[] = { 0x00, 0x0f, 0xac, 3 };
-    28	static const u8 RSN_CIPHER_SUITE_CCMP[] = { 0x00, 0x0f, 0xac, 4 };
-    29	static const u8 RSN_CIPHER_SUITE_WEP104[] = { 0x00, 0x0f, 0xac, 5 };
-    30	
+   378	
+   379	int nfsd_nl_svc_export_get_reqs_dumpit(struct sk_buff *skb, struct netlink_callback *cb)
+   380	{
+   381		struct nfsd_net *nn;
+   382	
+   383		nn = net_generic(sock_net(skb->sk), nfsd_net_id);
+   384		if (!nn->nfsd_serv) {
+ > 385			ret = -ENODEV;
+ > 386			goto out_unlock;
+   387		}
+   388	
+   389		return 0;
+   390	}
+   391	
 
 -- 
 0-DAY CI Kernel Test Service
