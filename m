@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECD72D5C68
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 11:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2052D1F419A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 12:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771674845; cv=none; b=kaUkap/aSXUvU+g4Cu/CAzlehupWpW8D9zSvQ6Y2TgvRRWfqM35ucXh6QImV2QUhIUzGA4JtynU9W934Vueb+vB20RfPlpXvBj9YxSjIv0eWG2gUuTi2rSbPpDVTbvSOgcwUHAGhmpwoe09CYKm5wM6Kvj5sl6vRxnS2XaUrmQs=
+	t=1771677132; cv=none; b=CdXCAqTJBmrDGF0ihWnAnNl01IoxKGOeW7paFSc5QAVzFhjm7pxfOSzWVgEu7UcD2hYVVz8NdpKCmVPRe6Q6EAROKtaUEZXyFpyKvGVia66HSaK6LR06OLjomDRa85fjchSEcJ/UhLk/Lx07/UkdNzGMz63DvhfcSFLB5/lipkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771674845; c=relaxed/simple;
-	bh=dgKcC2exrLX8LuLtBQ8GHknd+cf3zVoX32VHa3HY2CA=;
+	s=arc-20240116; t=1771677132; c=relaxed/simple;
+	bh=IIgCsmNHPWSAgIW2TNsY+ADF8o+W0JJ5I6dE3NtKe2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RoQ+zs5FUxk9IOtr1FeakpCg7vgEyAjVf95QxhhRYqLFtirPMJgpXuQBPcufaL/I0P8s65+76XjHRNnoekoaOsSD+sd6lkOlgYBTk8LiP4Rwx9d7a0EhEhA/JDsTxJWv9cwWtaxKMzZUywRpmzB1bIbLwdI7TSpMXyjtOERAvfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lEM1rxu6; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQ9xjq2GdnjDFQDJ9mzTXnyX88RZiblC33ONrr2L2eEJvVfk6UO4vi5YSlN6kHaA2KU0z/q4e/rvIZCcfwZ75bvxZGaGex8NOe1DUQ0NEICKLHVoXcMr21cRSolclwILltK6/bCiGq8jVZkMuvUNxw+bjoglB1MfhUEaVHbAePo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUa5Ux/6; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lEM1rxu6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUa5Ux/6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771674844; x=1803210844;
+  t=1771677130; x=1803213130;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dgKcC2exrLX8LuLtBQ8GHknd+cf3zVoX32VHa3HY2CA=;
-  b=lEM1rxu6WkdjFWbwkRaGyS6TEF5t9eCp3wNB7Ao8Ql/7M1s7ESqspmOm
-   vqx2jdTtUbdW01AcWe3M6Y2kMrDlaDRvCDo8KmDzc3az+KVY2KL1iY3R7
-   C7t37aBwPxzq34wrfQzKRNPO7eO+cZcKRYgqyJnAHb9UydPRAnChlOwZD
-   6WPq3zXyK9gAR7rSv4+tIaeKbNWEdoF42OP+Ei5kBmz+Xb+66DRvhsk4D
-   NwROpd16HJhyOgNwkNrXxB481k8vO0R1/7yxBiBksAZEGW33CPDX2AaP2
-   BMK4BnnGWxvjTylTbndtXK6/3+YyyflKcmnL1J7Hjrg4fNeYWA4KU5z7I
-   A==;
-X-CSE-ConnectionGUID: Fm8dZ0T7TW20ER0WlCYaUg==
-X-CSE-MsgGUID: tZgyF/7FQ+ao0ixWRxfAJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="83847109"
+  bh=IIgCsmNHPWSAgIW2TNsY+ADF8o+W0JJ5I6dE3NtKe2g=;
+  b=lUa5Ux/6szHX86dJDQZTOS3bq7dGFhSLypazb/IjZbhmh8VEF/3BKpVO
+   oCqPAU6WnCvxjbPRZIVZe7C7M9+cEnKxQ6dCUF/IaXH+dT7teX40BUDlU
+   5xGN7wYbzAGjZz7/LGtmiScFlQFindKtA+H5bipn6l5jWYcULXdPbZrxr
+   ywnlTWDD3oSf1mJBwnLsN84/MPT/GbI04RI9sx4YhUpH8kI6Aiu//hq9k
+   6CYD1QaBCOac5r7z3TMIPAW5Q0zIoPxrL4URM8LQHIvx69Hjosyty63Ph
+   ctMr8EZnYztfxYGZHGPkl7BxldZqT2OzKVrDsBPO/huwqr4SkUeOo52P1
+   Q==;
+X-CSE-ConnectionGUID: z6JQkMlSTEKdGo5I5IouKA==
+X-CSE-MsgGUID: AtzsVvZ8R6CYU7ja1Xo5Gg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="90330532"
 X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="83847109"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 03:54:04 -0800
-X-CSE-ConnectionGUID: Zc4RfbZLSleJ8Bpn6H7xPg==
-X-CSE-MsgGUID: Hi34OjvGSAyCf+QXL1nhCQ==
+   d="scan'208";a="90330532"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 04:32:07 -0800
+X-CSE-ConnectionGUID: im3Sg4SMQK6apam4cEeIDQ==
+X-CSE-MsgGUID: d58WRLltSJuiYac2t7IUIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="214938301"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 21 Feb 2026 03:54:00 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 21 Feb 2026 04:32:05 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vtlYb-000000004Of-3Fib;
-	Sat, 21 Feb 2026 11:53:57 +0000
-Date: Sat, 21 Feb 2026 12:53:27 +0100
+	id 1vtm9T-000000014uO-1bRa;
+	Sat, 21 Feb 2026 12:32:03 +0000
+Date: Sat, 21 Feb 2026 20:31:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, dan.j.williams@intel.com
-Subject: Re: [PATCH 1/2] cxl/region: fix region leak when attach_target fails
- in cxl_add_to_region
-Message-ID: <202602211252.7qKUA8jp-lkp@intel.com>
-References: <20260221043013.1420169-1-gourry@gourry.net>
+To: Vinod Govindapillai <vinod.govindapillai@intel.com>,
+	intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, vinod.govindapillai@intel.com,
+	ville.syrjala@intel.com, uma.shankar@intel.com
+Subject: Re: [PATCH v2 3/6] drm/i915/fbdev: Extract
+ intel_fbdev_fb_prefer_stolen()
+Message-ID: <202602212005.vv7AJP3Z-lkp@intel.com>
+References: <20260220170908.201422-4-vinod.govindapillai@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,110 +63,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260221043013.1420169-1-gourry@gourry.net>
+In-Reply-To: <20260220170908.201422-4-vinod.govindapillai@intel.com>
 
-Hi Gregory,
+Hi Vinod,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on cxl/next]
-[also build test ERROR on linus/master next-20260220]
-[cannot apply to cxl/pending v6.19]
+[auto build test ERROR on drm-i915/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip linus/master next-20260220]
+[cannot apply to drm-i915/for-linux-next-fixes drm-xe/drm-xe-next v6.19]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/cxl-region-skip-default-driver-attach-for-memdev-with-attach-callbacks/20260221-123300
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-patch link:    https://lore.kernel.org/r/20260221043013.1420169-1-gourry%40gourry.net
-patch subject: [PATCH 1/2] cxl/region: fix region leak when attach_target fails in cxl_add_to_region
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260221/202602211252.7qKUA8jp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602211252.7qKUA8jp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinod-Govindapillai/drm-xe-fbdev-Fix-BIOS-FB-vs-s-stolen-size-check/20260221-013114
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20260220170908.201422-4-vinod.govindapillai%40intel.com
+patch subject: [PATCH v2 3/6] drm/i915/fbdev: Extract intel_fbdev_fb_prefer_stolen()
+config: x86_64-randconfig-076-20260221 (https://download.01.org/0day-ci/archive/20260221/202602212005.vv7AJP3Z-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602212005.vv7AJP3Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602211252.7qKUA8jp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602212005.vv7AJP3Z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/cxl/core/region.c: In function 'cxl_add_to_region':
->> drivers/cxl/core/region.c:3964:25: error: implicit declaration of function 'drop_region' [-Wimplicit-function-declaration]
-    3964 |                         drop_region(cxlrd, cxlr);
-         |                         ^~~~~~~~~~~
+   ld: drivers/gpu/drm/i915/i915_initial_plane.o: in function `initial_plane_vma':
+>> drivers/gpu/drm/i915/i915_initial_plane.c:120:(.text+0x103c): undefined reference to `intel_fbdev_fb_prefer_stolen'
 
 
-vim +/drop_region +3964 drivers/cxl/core/region.c
+vim +120 drivers/gpu/drm/i915/i915_initial_plane.c
 
-  3920	
-  3921	int cxl_add_to_region(struct cxl_endpoint_decoder *cxled)
-  3922	{
-  3923		struct cxl_region_context ctx;
-  3924		struct cxl_region_params *p;
-  3925		bool attach = false;
-  3926		bool newly_created = false;
-  3927		int rc;
-  3928	
-  3929		ctx = (struct cxl_region_context) {
-  3930			.cxled = cxled,
-  3931			.hpa_range = cxled->cxld.hpa_range,
-  3932			.interleave_ways = cxled->cxld.interleave_ways,
-  3933			.interleave_granularity = cxled->cxld.interleave_granularity,
-  3934		};
-  3935	
-  3936		struct cxl_root_decoder *cxlrd __free(put_cxl_root_decoder) =
-  3937			get_cxl_root_decoder(cxled, &ctx);
-  3938	
-  3939		if (IS_ERR(cxlrd))
-  3940			return PTR_ERR(cxlrd);
-  3941	
-  3942		/*
-  3943		 * Ensure that, if multiple threads race to construct_region()
-  3944		 * for the HPA range, one does the construction and the others
-  3945		 * add to that.
-  3946		 */
-  3947		mutex_lock(&cxlrd->range_lock);
-  3948		struct cxl_region *cxlr __free(put_cxl_region) =
-  3949			cxl_find_region_by_range(cxlrd, &ctx.hpa_range);
-  3950		if (!cxlr) {
-  3951			cxlr = construct_region(cxlrd, &ctx);
-  3952			newly_created = !IS_ERR(cxlr);
-  3953		}
-  3954		mutex_unlock(&cxlrd->range_lock);
-  3955	
-  3956		rc = PTR_ERR_OR_ZERO(cxlr);
-  3957		if (rc)
-  3958			return rc;
-  3959	
-  3960		rc = attach_target(cxlr, cxled, -1, TASK_UNINTERRUPTIBLE);
-  3961		if (rc) {
-  3962			/* If endpoint was just created, tear it down to release HPA */
-  3963			if (newly_created)
-> 3964				drop_region(cxlrd, cxlr);
-  3965			return rc;
-  3966		}
-  3967	
-  3968		scoped_guard(rwsem_read, &cxl_rwsem.region) {
-  3969			p = &cxlr->params;
-  3970			attach = p->state == CXL_CONFIG_COMMIT;
-  3971		}
-  3972	
-  3973		if (attach) {
-  3974			/*
-  3975			 * If device_attach() fails the range may still be active via
-  3976			 * the platform-firmware memory map, otherwise the driver for
-  3977			 * regions is local to this file, so driver matching can't fail.
-  3978			 */
-  3979			if (device_attach(&cxlr->dev) < 0)
-  3980				dev_err(&cxlr->dev, "failed to enable, range: %pr\n",
-  3981					p->res);
-  3982		}
-  3983	
-  3984		return 0;
-  3985	}
-  3986	EXPORT_SYMBOL_NS_GPL(cxl_add_to_region, "CXL");
-  3987	
+    85	
+    86	static struct i915_vma *
+    87	initial_plane_vma(struct drm_i915_private *i915,
+    88			  struct intel_initial_plane_config *plane_config)
+    89	{
+    90		struct intel_memory_region *mem;
+    91		struct drm_i915_gem_object *obj;
+    92		struct drm_mm_node orig_mm = {};
+    93		struct i915_vma *vma;
+    94		resource_size_t phys_base;
+    95		unsigned int tiling;
+    96		u32 base, size;
+    97		u64 pinctl;
+    98	
+    99		if (plane_config->size == 0)
+   100			return NULL;
+   101	
+   102		if (!initial_plane_phys(i915, plane_config))
+   103			return NULL;
+   104	
+   105		phys_base = plane_config->phys_base;
+   106		mem = plane_config->mem;
+   107	
+   108		base = round_down(plane_config->base, I915_GTT_MIN_ALIGNMENT);
+   109		size = round_up(plane_config->base + plane_config->size,
+   110				mem->min_page_size);
+   111		size -= base;
+   112	
+   113		/*
+   114		 * If the FB is too big, just don't use it since fbdev is not very
+   115		 * important and we should probably use that space with FBC or other
+   116		 * features.
+   117		 */
+   118		if (IS_ENABLED(CONFIG_FRAMEBUFFER_CONSOLE) &&
+   119		    mem == i915->mm.stolen_region &&
+ > 120		    !intel_fbdev_fb_prefer_stolen(&i915->drm, size)) {
+   121			drm_dbg_kms(&i915->drm, "Initial FB size exceeds half of stolen, discarding\n");
+   122			return NULL;
+   123		}
+   124	
+   125		obj = i915_gem_object_create_region_at(mem, phys_base, size,
+   126						       I915_BO_ALLOC_USER |
+   127						       I915_BO_PREALLOC);
+   128		if (IS_ERR(obj)) {
+   129			drm_dbg_kms(&i915->drm, "Failed to preallocate initial FB in %s\n",
+   130				    mem->region.name);
+   131			return NULL;
+   132		}
+   133	
+   134		/*
+   135		 * Mark it WT ahead of time to avoid changing the
+   136		 * cache_level during fbdev initialization. The
+   137		 * unbind there would get stuck waiting for rcu.
+   138		 */
+   139		i915_gem_object_set_cache_coherency(obj, HAS_WT(i915) ?
+   140						    I915_CACHE_WT : I915_CACHE_NONE);
+   141	
+   142		tiling = intel_fb_modifier_to_tiling(plane_config->fb->base.modifier);
+   143	
+   144		switch (tiling) {
+   145		case I915_TILING_NONE:
+   146			break;
+   147		case I915_TILING_X:
+   148		case I915_TILING_Y:
+   149			obj->tiling_and_stride =
+   150				plane_config->fb->base.pitches[0] |
+   151				tiling;
+   152			break;
+   153		default:
+   154			MISSING_CASE(tiling);
+   155			goto err_obj;
+   156		}
+   157	
+   158		/*
+   159		 * MTL GOP likes to place the framebuffer high up in ggtt,
+   160		 * which can cause problems for ggtt_reserve_guc_top().
+   161		 * Try to pin it to a low ggtt address instead to avoid that.
+   162		 */
+   163		base = 0;
+   164	
+   165		if (base != plane_config->base) {
+   166			struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+   167			int ret;
+   168	
+   169			/*
+   170			 * Make sure the original and new locations
+   171			 * can't overlap. That would corrupt the original
+   172			 * PTEs which are still being used for scanout.
+   173			 */
+   174			ret = i915_gem_gtt_reserve(&ggtt->vm, NULL, &orig_mm,
+   175						   size, plane_config->base,
+   176						   I915_COLOR_UNEVICTABLE, PIN_NOEVICT);
+   177			if (ret)
+   178				goto err_obj;
+   179		}
+   180	
+   181		vma = i915_vma_instance(obj, &to_gt(i915)->ggtt->vm, NULL);
+   182		if (IS_ERR(vma))
+   183			goto err_obj;
+   184	
+   185	retry:
+   186		pinctl = PIN_GLOBAL | PIN_OFFSET_FIXED | base;
+   187		if (!i915_gem_object_is_lmem(obj))
+   188			pinctl |= PIN_MAPPABLE;
+   189		if (i915_vma_pin(vma, 0, 0, pinctl)) {
+   190			if (drm_mm_node_allocated(&orig_mm)) {
+   191				drm_mm_remove_node(&orig_mm);
+   192				/*
+   193				 * Try again, but this time pin
+   194				 * it to its original location.
+   195				 */
+   196				base = plane_config->base;
+   197				goto retry;
+   198			}
+   199			goto err_obj;
+   200		}
+   201	
+   202		if (i915_gem_object_is_tiled(obj) &&
+   203		    !i915_vma_is_map_and_fenceable(vma))
+   204			goto err_obj;
+   205	
+   206		if (drm_mm_node_allocated(&orig_mm))
+   207			drm_mm_remove_node(&orig_mm);
+   208	
+   209		drm_dbg_kms(&i915->drm,
+   210			    "Initial plane fb bound to 0x%x in the ggtt (original 0x%x)\n",
+   211			    i915_ggtt_offset(vma), plane_config->base);
+   212	
+   213		return vma;
+   214	
+   215	err_obj:
+   216		if (drm_mm_node_allocated(&orig_mm))
+   217			drm_mm_remove_node(&orig_mm);
+   218		i915_gem_object_put(obj);
+   219		return NULL;
+   220	}
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
