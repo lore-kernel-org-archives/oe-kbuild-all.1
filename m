@@ -1,132 +1,118 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77841C68F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 12:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E123B1B3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Feb 2026 12:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771678274; cv=none; b=EutvD6xcKzaG6J/OrAgBy20tIfVpt3Cu0z9XefNcS6WvXnlu3Ed/AQpCeLSimHDiiM/+BYSSNMWXi2mWalZLMVezNVCLkV4YzUtbfgi3XHNs1PItgxYh3LWpFld8ITUDEhq4LW3huObcvZlvPKCM8q9sCRs8OQD+dQAI9tZUioE=
+	t=1771678329; cv=none; b=V4SYSIT2iwLyguJSjsPYrhWo5TAM1nAgXX7f59C2l1nXcSofZrXqzNS7lN+VycZIEXAAlDWte16B94sZqyF/GiG6YLc1NDx9/ZFU/iMiAtjxAaVVyV1ZkRIkqgWBPuCf2wa8mMg7z7N83FT5tgV4653KTvmqjnJY9qDr+r0ZV+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771678274; c=relaxed/simple;
-	bh=EKERHVHJC4NJMe7ZGw3YG6p1liQYgkkEoRV8QXf/eTw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dAusoRgAkHtVj70Wbs4S3yYS1OI6J0X2CU1hiZoHYiCxRWc52JyQ0m0h0M2FTs6F3hn0WucOMSh/75vaqwjJTKemJ2JSWjTFArjjXrI2tmyKdWSq2mJtgoPyn34mZgSZDxu+u1j1PsqaWTrq18yldiw4IYDHnmJ4aGPLugERDAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=icNCDIkP; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1771678329; c=relaxed/simple;
+	bh=0jn+S+AMCzx4rV1xd9ZiUXhl6sq11xIjCnqI55ZP8iI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AI7parzMd1blQnS1ZCfAdD/rV9iqHsGt2xTj6uZd6B5+IeLorvLFAo8IZVdjCfpKDwgbBQXVtsHRVsQcliWlmnuQAEaDYCWj6KtDZRTLpI4apnhxa37xLUeZEPsRssZ9NDhiW1cLIZIntJl2GaKGwYCQD+P9wdVcOHIA/RgP8QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LxqFE64H; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="icNCDIkP"
-Message-ID: <206609d9-7bd7-4923-999a-2402388b8f64@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1771678260;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=br9Fo1dfeEMPffvOKFoumObqBOWwJq2Nx+QuBTPepjc=;
-	b=icNCDIkPBixppTwoG2YRcxRBDOFrPHs5wl46DQZbCCKYEWDIpUUWJM7LrHCsqbdvez2lmt
-	WcCr1ulB0f+kojp7ZyhjC+MKcy9vB9VrxcbDpMvUyc53mrxYFmfh27ZI2hgt1hDiDW+KSc
-	uYnmHfX2R4fnoSi9mpjtw/Jhc05YLnw=
-Date: Sat, 21 Feb 2026 20:50:35 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LxqFE64H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771678328; x=1803214328;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=0jn+S+AMCzx4rV1xd9ZiUXhl6sq11xIjCnqI55ZP8iI=;
+  b=LxqFE64HFHwa/qyLq+B4+KWb4X8JnyKVGAnZu25XWySyi7k2KQLqg4XQ
+   2UreWZlnfMw+sRQ6WPxbpmnWZ2dVnkrVR2n6NYecnZCh8Qqe+96cp3mR6
+   9qa9eo7Rs9q9QbMnKkCjQyyF4sJtyrPobzRA7ObqNiUa4bRRfY46KbHnv
+   hXfoBdnyrH/rpMYDumW8a7xlpgp4zC9KBp8M5Tcohw1NDiEZJMGkvb2wL
+   DXIohJ4pswTq9z3XA4+ectYnQ1PoRs3fwIX42f6SCICOcREAONjXJ55HF
+   rLKKFUKc6ZYorgbbUX4S9jgLwYZ/Fp8jzPWtc24or4cuAMF7bnjtGWAvX
+   Q==;
+X-CSE-ConnectionGUID: 2+oQmUseR1uXGA3g13HIjQ==
+X-CSE-MsgGUID: Z+kPjAHfSJWfo9rxBEQTUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="83848277"
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="83848277"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 04:52:07 -0800
+X-CSE-ConnectionGUID: zPJlTwHyTTKqWPEUgqNC+Q==
+X-CSE-MsgGUID: mLG27nyKR7Crwf4tEwdE3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="214341777"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 21 Feb 2026 04:52:06 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtmSq-000000014v8-08Ld;
+	Sat, 21 Feb 2026 12:52:04 +0000
+Date: Sat, 21 Feb 2026 20:51:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC net-next 2/4] ethtool: module: Add CMIS loopback GET/SET
+ support
+Message-ID: <202602212018.KttWESkB-lkp@intel.com>
+References: <20260219130050.2390226-3-bjorn@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v2 1/6] bpf: Introduce 64-bit bitops kfuncs
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- bpf@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Puranjay Mohan <puranjay@kernel.org>,
- Xu Kuohai <xukuohai@huaweicloud.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Peilin Ye <yepeilin@google.com>,
- Luis Gerhorst <luis.gerhorst@fau.de>, Viktor Malik <vmalik@redhat.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <202602210241.E7Q88vvq-lkp@intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <202602210241.E7Q88vvq-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260219130050.2390226-3-bjorn@kernel.org>
+
+Hi Björn,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 37a93dd5c49b5fda807fd204edf2547c3493319c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bj-rn-T-pel/ethtool-module-Define-CMIS-loopback-YAML-spec-and-UAPI/20260219-210654
+base:   37a93dd5c49b5fda807fd204edf2547c3493319c
+patch link:    https://lore.kernel.org/r/20260219130050.2390226-3-bjorn%40kernel.org
+patch subject: [RFC net-next 2/4] ethtool: module: Add CMIS loopback GET/SET support
+config: arm64-randconfig-004-20260221 (https://download.01.org/0day-ci/archive/20260221/202602212018.KttWESkB-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602212018.KttWESkB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602212018.KttWESkB-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   net/ethtool/module.c: In function 'module_is_cmis':
+>> net/ethtool/module.c:87:2: error: label at end of compound statement
+      87 |  default:
+         |  ^~~~~~~
 
 
+vim +87 net/ethtool/module.c
 
-On 2026/2/21 17:58, Dan Carpenter wrote:
-> Hi Leon,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-Introduce-64-bit-bitops-kfuncs/20260219-223550
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20260219142933.13904-2-leon.hwang%40linux.dev
-> patch subject: [PATCH bpf-next v2 1/6] bpf: Introduce 64-bit bitops kfuncs
-> config: i386-randconfig-141-20260220 (https://download.01.org/0day-ci/archive/20260221/202602210241.E7Q88vvq-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> smatch version: v0.5.0-8994-gd50c5a4c
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202602210241.E7Q88vvq-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/bpf/verifier.c:18245 bpf_kfunc_is_fastcall() error: buffer overflow 'special_kfunc_list' 64 <= 64
-> 
-> vim +/special_kfunc_list +18245 kernel/bpf/verifier.c
-> 
-> 966e89879bbea4 Leon Hwang       2026-02-19  18223  static bool bpf_kfunc_is_fastcall(struct bpf_verifier_env *env, u32 func_id, u32 flags)
-> 966e89879bbea4 Leon Hwang       2026-02-19  18224  {
-> 966e89879bbea4 Leon Hwang       2026-02-19  18225  	if (!(flags & KF_FASTCALL))
-> 966e89879bbea4 Leon Hwang       2026-02-19  18226  		return false;
-> 966e89879bbea4 Leon Hwang       2026-02-19  18227  
-> 966e89879bbea4 Leon Hwang       2026-02-19  18228  	if (!env->prog->jit_requested)
-> 966e89879bbea4 Leon Hwang       2026-02-19  18229  		return true;
-> 966e89879bbea4 Leon Hwang       2026-02-19  18230  
-> 966e89879bbea4 Leon Hwang       2026-02-19  18231  	if (func_id == special_kfunc_list[KF_bpf_clz64])
-> 966e89879bbea4 Leon Hwang       2026-02-19  18232  		return bpf_jit_inlines_kfunc_call(bpf_clz64);
-> 966e89879bbea4 Leon Hwang       2026-02-19  18233  	if (func_id == special_kfunc_list[KF_bpf_ctz64])
-> 966e89879bbea4 Leon Hwang       2026-02-19  18234  		return bpf_jit_inlines_kfunc_call(bpf_ctz64);
-> 966e89879bbea4 Leon Hwang       2026-02-19  18235  	if (func_id == special_kfunc_list[KF_bpf_ffs64])
-> 966e89879bbea4 Leon Hwang       2026-02-19  18236  		return bpf_jit_inlines_kfunc_call(bpf_ffs64);
-> 966e89879bbea4 Leon Hwang       2026-02-19  18237  	if (func_id == special_kfunc_list[KF_bpf_fls64])
-> 966e89879bbea4 Leon Hwang       2026-02-19  18238  		return bpf_jit_inlines_kfunc_call(bpf_fls64);
-> 966e89879bbea4 Leon Hwang       2026-02-19  18239  	if (func_id == special_kfunc_list[KF_bpf_bitrev64])
-> 966e89879bbea4 Leon Hwang       2026-02-19  18240  		return bpf_jit_inlines_kfunc_call(bpf_bitrev64);
-> 966e89879bbea4 Leon Hwang       2026-02-19  18241  	if (func_id == special_kfunc_list[KF_bpf_popcnt64])
-> 966e89879bbea4 Leon Hwang       2026-02-19  18242  		return bpf_jit_inlines_kfunc_call(bpf_popcnt64);
-> 966e89879bbea4 Leon Hwang       2026-02-19  18243  	if (func_id == special_kfunc_list[KF_bpf_rol64])
-> 966e89879bbea4 Leon Hwang       2026-02-19  18244  		return bpf_jit_inlines_kfunc_call(bpf_rol64);
-> 966e89879bbea4 Leon Hwang       2026-02-19 @18245  	if (func_id == special_kfunc_list[KF_bpf_ror64])
->                                                                                           ^^^^^^^^^^^^
-> special_kfunc_list[] has 64 elements and KF_bpf_ror64 is 64 so
-> this is out of bounds.
-> 
+    76	
+    77	static bool module_is_cmis(u8 phys_id)
+    78	{
+    79		switch (phys_id) {
+    80		case SFF8024_ID_QSFP_DD:
+    81		case SFF8024_ID_OSFP:
+    82		case SFF8024_ID_DSFP:
+    83		case SFF8024_ID_QSFP_PLUS_CMIS:
+    84		case SFF8024_ID_SFP_DD_CMIS:
+    85		case SFF8024_ID_SFP_PLUS_CMIS:
+    86			return true;
+  > 87		default:
+    88		}
+    89		return false;
+    90	}
+    91	
 
-Ack.
-
-I'll try a new way using KF_JIT_MAY_INLINE flag in the next revision,
-which will avoid adding these kfuncs to special_kfunc_list btw.
-
-Thanks,
-Leon
-
-> 966e89879bbea4 Leon Hwang       2026-02-19  18246  		return bpf_jit_inlines_kfunc_call(bpf_ror64);
-> 966e89879bbea4 Leon Hwang       2026-02-19  18247  
-> 966e89879bbea4 Leon Hwang       2026-02-19  18248  	return true;
-> 966e89879bbea4 Leon Hwang       2026-02-19  18249  }
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
