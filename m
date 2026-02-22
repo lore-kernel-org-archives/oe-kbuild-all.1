@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5F91D6195
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Feb 2026 07:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1AD1EB9F2;
+	Sun, 22 Feb 2026 08:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771746698; cv=none; b=Pc/9oyor4LV6nNCoRV5NdTv7gK5M7MirGQnPxHwTKZExa/j09DPmYJBlHuMylBwBNnQhumVBcZeDLz/v0TLMJYCMQVcwg7CPTxlvFpXCgzXsksZk0i9sb5Q2c3kpDdhnVx0v3roMk71SuEKKga8chPhjnlQeU3bplRjJcbPGpjA=
+	t=1771750359; cv=none; b=C0Sy+VLVkOoIvNzEblWEUguHfJB+sw24qoZip+lfs2sXiX0XQi/AN6REJqlOGktZriGvN1Up7k82Dml33eX8kt2cf61s+/zIUfmNRx/4Halxhdp2re6/YAJ6dS+JKlufOw88qRzitvJfRl1Ndhu8+vmOLXiaeSPjnSDLAcl7Tbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771746698; c=relaxed/simple;
-	bh=XC8xBQiDh0Wj2oTLXgVECN2VSZbZ4MUauK9ZN7ZgGQo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dGzLeuiPLcdPKgnt/aH39cHEz2gV0CUyONtM5DgirU9maNg4DOaRKdJOPNXRvvr188t3s3h0oV0cY9EFuocx+9K+z4VhuyXgkuJbfOtBiyYu1jIXjdQiQOUXh3W+oAT049p/vTQ4q4rGb5eb45G55anqDbafD232nvsANnpB6Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/T82fAW; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1771750359; c=relaxed/simple;
+	bh=A44LJojZI9oK6v0BSoppQGd3OtvCMUxhtQSKhaFd1J0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Fz5EO8kursWp/GuZ9zRprZ8dcOFLAwve7MwzqPDyKC9VoEpeG1cGYFImAnQ0Ffze8uaNCLv4cA9rOEzRXzK+0W6flssw6fOcrQ7Yjepen77u+wX97FY/fHTsa2kP6df25AsxV4GiDSJpxNCMB4dIaTVRV7JEiq5eoIZgXz1dwds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JS6vb0uV; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/T82fAW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JS6vb0uV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771746696; x=1803282696;
+  t=1771750357; x=1803286357;
   h=date:from:to:cc:subject:message-id;
-  bh=XC8xBQiDh0Wj2oTLXgVECN2VSZbZ4MUauK9ZN7ZgGQo=;
-  b=W/T82fAWnOEZOp37q/iHMMxjaCRlTPh/0nltADqCY82z3mPWcWBJjrgk
-   48YyeG0Cu2nhzlhl4DkWoHaY0LX1+vkYJ06MkpAiuToa1WV2ssBpRxPTY
-   e1zw8kNkA3BtR2FY02KMV0TKqrrm1Dld3kNfhGiHXGOEacFoxfmWf16NZ
-   IyKmMaAybEZTm3/o9K916k4T96VaGW8UpZ7+tkyXM1M5g+H8FYf3QiF9x
-   u5mh/L/yqVsTWr3GIZpWKcA1olaAe4exXIZWv85U2+jWHwCsiw6qB1InW
-   FA9ehTlS72bdTHznXOhqyuKHc2PdZ/cNW3lPsfJvNLoBXkVxAgoNNTNcQ
+  bh=A44LJojZI9oK6v0BSoppQGd3OtvCMUxhtQSKhaFd1J0=;
+  b=JS6vb0uV8/EgdLHZxHATYQYF/FaEKdJZdeu8I3hxgvlTvMepKN0lQ/Fa
+   Vv1rmRvEXdkcbFrR5H8LSdky6SgFIbFKvuW4QHYtW+m0dLfrTyui5wBZH
+   t8oTDTLm4LSq2TSRGY6mqEFzZTtPPfigSxVFXlVO17IPQAB96xibTwLv3
+   Vd3WptQ3jTQCPF1TGUH+peFhE7QYr/VfRn9JMdwfvj7hI/aqBQxs5yAVk
+   k+q2FsuJygfv6hA7RLIZZiFjPxPqGSVxIkxsfS71j6yWVKTBYtR6TvGkK
+   jg2uEMwvXs2T30KD2H1B1qVjWSi2mccQVObvpkjIgKIXrHi7686x+nFTi
    Q==;
-X-CSE-ConnectionGUID: IaZXauA2Q362+4jXw7TmyQ==
-X-CSE-MsgGUID: 6tY/bWY0TzO5Y+nhQiHGdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="71803458"
+X-CSE-ConnectionGUID: gIfauER1RlmHeOQlnY05Nw==
+X-CSE-MsgGUID: E1JcnCmcTHynxnQ4OfqQBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="76640652"
 X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="71803458"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 23:51:35 -0800
-X-CSE-ConnectionGUID: 2Q6l+nptQ2ugjUclFx3khg==
-X-CSE-MsgGUID: IoMRAzU4Q8GebYOipNhi7w==
+   d="scan'208";a="76640652"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 00:52:36 -0800
+X-CSE-ConnectionGUID: 20mzLyCCTTCjKVNsNTA+RQ==
+X-CSE-MsgGUID: gCXcRy8IS0K3dSjS9Uox9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="215389244"
+   d="scan'208";a="219800929"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 21 Feb 2026 23:51:34 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 22 Feb 2026 00:52:35 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vu4FX-000000015OG-3Ikp;
-	Sun, 22 Feb 2026 07:51:31 +0000
-Date: Sun, 22 Feb 2026 15:51:07 +0800
+	id 1vu5Ca-000000015Ou-46ZG;
+	Sun, 22 Feb 2026 08:52:32 +0000
+Date: Sun, 22 Feb 2026 16:52:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:rootns 4/16] fs/namespace.c:6192:9: error:
- 'ret' undeclared; did you mean 'net'?
-Message-ID: <202602221507.tYFWiCW3-lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [gourryinverse:private_compression 48/60]
+ mm/internal.h:1534:7: error: call to undeclared function 'pte_write'; ISO C99
+ and later do not support implicit function declarations
+Message-ID: <202602221615.CP75D6Df-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,113 +60,148 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
-head:   e262a74aea4b2561d2238508f7ce2498c2980c51
-commit: b0a7cde1c2a3f754d35c059d0455105b4a2df66a [4/16] fork: Handle copy_process() and do_exit()
-config: sh-defconfig (https://download.01.org/0day-ci/archive/20260222/202602221507.tYFWiCW3-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260222/202602221507.tYFWiCW3-lkp@intel.com/reproduce)
+tree:   https://github.com/gourryinverse/linux private_compression
+head:   9fa5ffee4fd4726e31f05deebb938cccfa0b460f
+commit: 48a8ea8dcaa2781e2ab529cf440334d15dca5512 [48/60] mm/mprotect: NP_OPS_PROTECT_WRITE - gate PTE/PMD write-upgrades
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260222/202602221615.CP75D6Df-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e86750b29fa0ff207cd43213d66dabe565417638)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260222/202602221615.CP75D6Df-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602221507.tYFWiCW3-lkp@intel.com/
-
-Note: the jarkko-tpmdd/rootns HEAD e262a74aea4b2561d2238508f7ce2498c2980c51 builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602221615.CP75D6Df-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/namespace.c: In function 'init_mount_tree':
->> fs/namespace.c:6192:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-    6192 |         ret = init_srcu_struct(&init_rootns.member_srcu);
-         |         ^~~
-         |         net
-   fs/namespace.c:6192:9: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from mm/filemap.c:54:
+>> mm/internal.h:1534:7: error: call to undeclared function 'pte_write'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1534 |                 if (pte_write(pte))
+         |                     ^
+   mm/internal.h:1534:7: note: did you mean 'pgd_write'?
+   include/linux/hugetlb.h:475:19: note: 'pgd_write' declared here
+     475 | static inline int pgd_write(pgd_t pgd)
+         |                   ^
+   In file included from mm/filemap.c:54:
+>> mm/internal.h:1535:12: error: call to undeclared function 'make_writable_device_private_entry'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1535 |                         entry = make_writable_device_private_entry(
+         |                                 ^
+>> mm/internal.h:1535:10: error: assigning to 'softleaf_t' (aka 'swp_entry_t') from incompatible type 'int'
+    1535 |                         entry = make_writable_device_private_entry(
+         |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1536 |                                                 page_to_pfn(new));
+         |                                                 ~~~~~~~~~~~~~~~~~
+>> mm/internal.h:1538:12: error: call to undeclared function 'make_readable_device_private_entry'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1538 |                         entry = make_readable_device_private_entry(
+         |                                 ^
+   mm/internal.h:1538:10: error: assigning to 'softleaf_t' (aka 'swp_entry_t') from incompatible type 'int'
+    1538 |                         entry = make_readable_device_private_entry(
+         |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1539 |                                                 page_to_pfn(new));
+         |                                                 ~~~~~~~~~~~~~~~~~
+>> mm/internal.h:1540:9: error: call to undeclared function 'softleaf_to_pte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1540 |                 pte = softleaf_to_pte(entry);
+         |                       ^
+>> mm/internal.h:1543:7: error: call to undeclared function 'pte_swp_uffd_wp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1543 |                 if (pte_swp_uffd_wp(old_pte))
+         |                     ^
+   mm/internal.h:1543:7: note: did you mean 'pte_swp_uffd_wp_any'?
+   include/linux/userfaultfd_k.h:463:20: note: 'pte_swp_uffd_wp_any' declared here
+     463 | static inline bool pte_swp_uffd_wp_any(pte_t pte)
+         |                    ^
+   In file included from mm/filemap.c:54:
+>> mm/internal.h:1544:10: error: call to undeclared function 'pte_swp_mkuffd_wp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1544 |                         pte = pte_swp_mkuffd_wp(pte);
+         |                               ^
+>> mm/internal.h:1546:9: error: call to undeclared function 'pte_wrprotect'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1546 |                 pte = pte_wrprotect(pte);
+         |                       ^
+   9 errors generated.
+--
+   In file included from mm/oom_kill.c:50:
+>> mm/internal.h:1534:7: error: call to undeclared function 'pte_write'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1534 |                 if (pte_write(pte))
+         |                     ^
+>> mm/internal.h:1535:12: error: call to undeclared function 'make_writable_device_private_entry'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1535 |                         entry = make_writable_device_private_entry(
+         |                                 ^
+>> mm/internal.h:1535:10: error: assigning to 'softleaf_t' (aka 'swp_entry_t') from incompatible type 'int'
+    1535 |                         entry = make_writable_device_private_entry(
+         |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1536 |                                                 page_to_pfn(new));
+         |                                                 ~~~~~~~~~~~~~~~~~
+>> mm/internal.h:1538:12: error: call to undeclared function 'make_readable_device_private_entry'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1538 |                         entry = make_readable_device_private_entry(
+         |                                 ^
+   mm/internal.h:1538:10: error: assigning to 'softleaf_t' (aka 'swp_entry_t') from incompatible type 'int'
+    1538 |                         entry = make_readable_device_private_entry(
+         |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1539 |                                                 page_to_pfn(new));
+         |                                                 ~~~~~~~~~~~~~~~~~
+>> mm/internal.h:1540:9: error: call to undeclared function 'softleaf_to_pte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1540 |                 pte = softleaf_to_pte(entry);
+         |                       ^
+>> mm/internal.h:1543:7: error: call to undeclared function 'pte_swp_uffd_wp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1543 |                 if (pte_swp_uffd_wp(old_pte))
+         |                     ^
+   mm/internal.h:1543:7: note: did you mean 'pte_swp_uffd_wp_any'?
+   include/linux/userfaultfd_k.h:463:20: note: 'pte_swp_uffd_wp_any' declared here
+     463 | static inline bool pte_swp_uffd_wp_any(pte_t pte)
+         |                    ^
+   In file included from mm/oom_kill.c:50:
+>> mm/internal.h:1544:10: error: call to undeclared function 'pte_swp_mkuffd_wp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1544 |                         pte = pte_swp_mkuffd_wp(pte);
+         |                               ^
+>> mm/internal.h:1546:9: error: call to undeclared function 'pte_wrprotect'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1546 |                 pte = pte_wrprotect(pte);
+         |                       ^
+   9 errors generated.
 
 
-vim +6192 fs/namespace.c
+vim +/pte_write +1534 mm/internal.h
 
-  6124	
-  6125	static void __init init_mount_tree(void)
-  6126	{
-  6127		struct vfsmount *mnt, *nullfs_mnt;
-  6128		struct mount *mnt_root;
-  6129		struct path root;
-  6130	
-  6131		/*
-  6132		 * We create two mounts:
-  6133		 *
-  6134		 * (1) nullfs with mount id 1
-  6135		 * (2) mutable rootfs with mount id 2
-  6136		 *
-  6137		 * with (2) mounted on top of (1).
-  6138		 */
-  6139		nullfs_mnt = vfs_kern_mount(&nullfs_fs_type, 0, "nullfs", NULL);
-  6140		if (IS_ERR(nullfs_mnt))
-  6141			panic("VFS: Failed to create nullfs");
-  6142	
-  6143		mnt = vfs_kern_mount(&rootfs_fs_type, 0, "rootfs", initramfs_options);
-  6144		if (IS_ERR(mnt))
-  6145			panic("Can't create rootfs");
-  6146	
-  6147		VFS_WARN_ON_ONCE(real_mount(nullfs_mnt)->mnt_id != 1);
-  6148		VFS_WARN_ON_ONCE(real_mount(mnt)->mnt_id != 2);
-  6149	
-  6150		/* The namespace root is the nullfs mnt. */
-  6151		mnt_root		= real_mount(nullfs_mnt);
-  6152		init_mnt_ns.root	= mnt_root;
-  6153	
-  6154		/* Mount mutable rootfs on top of nullfs. */
-  6155		root.mnt		= nullfs_mnt;
-  6156		root.dentry		= nullfs_mnt->mnt_root;
-  6157	
-  6158		LOCK_MOUNT_EXACT(mp, &root);
-  6159		if (unlikely(IS_ERR(mp.parent)))
-  6160			panic("VFS: Failed to mount rootfs on nullfs");
-  6161		scoped_guard(mount_writer)
-  6162			attach_mnt(real_mount(mnt), mp.parent, mp.mp);
-  6163	
-  6164		pr_info("VFS: Finished mounting rootfs on nullfs\n");
-  6165	
-  6166		/*
-  6167		 * We've dropped all locks here but that's fine. Not just are we
-  6168		 * the only task that's running, there's no other mount
-  6169		 * namespace in existence and the initial mount namespace is
-  6170		 * completely empty until we add the mounts we just created.
-  6171		 */
-  6172		for (struct mount *p = mnt_root; p; p = next_mnt(p, mnt_root)) {
-  6173			mnt_add_to_ns(&init_mnt_ns, p);
-  6174			init_mnt_ns.nr_mounts++;
-  6175		}
-  6176	
-  6177		init_task.nsproxy->mnt_ns = &init_mnt_ns;
-  6178		get_mnt_ns(&init_mnt_ns);
-  6179	
-  6180		/* The root and pwd always point to the mutable rootfs. */
-  6181		root.mnt	= mnt;
-  6182		root.dentry	= mnt->mnt_root;
-  6183		set_fs_pwd(current->fs, &root);
-  6184		set_fs_root(current->fs, &root);
-  6185	
-  6186	#ifdef CONFIG_ROOTNS
-  6187		init_task.rootns_member.next = &init_rootns.members,
-  6188		init_task.rootns_member.prev = &init_rootns.members,
-  6189		init_rootns.cred = kernel_cred();
-  6190		path_get(&root);
-  6191		init_rootns.root = root;
-> 6192		ret = init_srcu_struct(&init_rootns.member_srcu);
-  6193		if (ret) {
-  6194			path_put(&init_rootns.root);
-  6195			init_rootns.root = (struct path){};
-  6196			init_rootns.cred = NULL;
-  6197			pr_err("rootns: failed to initialize init SRCU: %d\n", ret);
-  6198		}
-  6199	#endif
-  6200	
-  6201		ns_tree_add(&init_mnt_ns);
-  6202	}
-  6203	
+  1509	
+  1510	/**
+  1511	 * folio_managed_fixup_migration_pte - Fixup PTE after migration for
+  1512	 *                                     managed memory pages.
+  1513	 * @new: the destination page
+  1514	 * @pte: the PTE being installed (normal PTE built by caller)
+  1515	 * @old_pte: the original PTE (before migration, for swap entry flags)
+  1516	 * @vma: the VMA
+  1517	 *
+  1518	 * For MEMORY_DEVICE_PRIVATE pages: replaces the PTE with a device-private
+  1519	 * swap entry, preserving soft_dirty and uffd_wp from old_pte.
+  1520	 *
+  1521	 * For N_MEMORY_PRIVATE pages with NP_OPS_PROTECT_WRITE: strips the write
+  1522	 * bit so the next write triggers the fault handler for promotion.
+  1523	 *
+  1524	 * For normal pages: returns pte unmodified.
+  1525	 */
+  1526	static inline pte_t folio_managed_fixup_migration_pte(struct page *new,
+  1527							      pte_t pte,
+  1528							      pte_t old_pte,
+  1529							      struct vm_area_struct *vma)
+  1530	{
+  1531		if (unlikely(is_device_private_page(new))) {
+  1532			softleaf_t entry;
+  1533	
+> 1534			if (pte_write(pte))
+> 1535				entry = make_writable_device_private_entry(
+  1536							page_to_pfn(new));
+  1537			else
+> 1538				entry = make_readable_device_private_entry(
+  1539							page_to_pfn(new));
+> 1540			pte = softleaf_to_pte(entry);
+  1541			if (pte_swp_soft_dirty(old_pte))
+  1542				pte = pte_swp_mksoft_dirty(pte);
+> 1543			if (pte_swp_uffd_wp(old_pte))
+> 1544				pte = pte_swp_mkuffd_wp(pte);
+  1545		} else if (folio_managed_wrprotect(page_folio(new))) {
+> 1546			pte = pte_wrprotect(pte);
+  1547		}
+  1548		return pte;
+  1549	}
+  1550	
 
 -- 
 0-DAY CI Kernel Test Service
