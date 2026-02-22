@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39904154425
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Feb 2026 09:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6FC2080C1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Feb 2026 09:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771754021; cv=none; b=GIKvOuOwKtWyuDswPeGFsabSzR44iCR1Xa348U1ubzRKzNpTFsQNcxKhTfrmIXJFln+J4rD6A16P6M+6vloWDGgnn/pvbhI21UiVJlktfTUfYs4kIuUmJbTNqTXmLvVPEzRCYRzNgd1LtskF06i9il5WH+5XBX6DlZzlAPQtZ98=
+	t=1771754236; cv=none; b=eFnotAho+MnIVfCFgLIBqpnATOzqnd1Myfej7bp5GD/bQeTnqJwuU1KnHYE+DB01E2ZJMWY+hJRPWpvTjGR4ZHRla0DULJOSkz9fIzlujplJ/GpvZhvswAaLBphKO83veLSFjBcv7LgpRn2tpByTIxdew7aRXd4GWSyG55ZYJ9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771754021; c=relaxed/simple;
-	bh=nP0hwfiu4lBNHHR4vV+xKY0TF/GiYkbIuUzoIcZVXRY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E3tGMvIrRqjI75IDXXTGcd6q+OZyr1QMmJA0aqFqdP+hKM4dBtHY1anZN4oSPfNjL+KjN65ZKK07VUtFXqLbw4GO5clRX98lCaJKsvoV9D/KtaKyt8SRQDVSlqZ1KS5oWWMRn1l6ubUqNs+XdhF9/Ts+1advgCt9Gs0V0AfWyMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VkDG1G7o; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1771754236; c=relaxed/simple;
+	bh=+dY0fRpXRSJ69H3p2QDNAci48mgdXANsuSfzFnWkOwE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uPZfHpVVB39SdDL24JKqj1P4UjHDVHgWvc8PedFDjJvOypKSVA1gJodUfv2eF9poK1k9mkSNKD0jN+xzuYL1pKa+P5+AluxlZoAs/5L+7cI8YMMpBCb9y/PR538lZWEFCrnneoXuh8LZtcgDDNbhUnRFmUXbOZYdyoKOtMWXY8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrYdSf0Z; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VkDG1G7o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrYdSf0Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771754019; x=1803290019;
+  t=1771754236; x=1803290236;
   h=date:from:to:cc:subject:message-id;
-  bh=nP0hwfiu4lBNHHR4vV+xKY0TF/GiYkbIuUzoIcZVXRY=;
-  b=VkDG1G7ovOPvQE9uj1oJkMeZQVp16oy2iUdsvRlTtalPHlfnOUBVXCoC
-   MGU8kGDaopX6FrN/XkTY463VWA5GjNef1vTEDWRGp1xCS2QLJPWvZPYtK
-   kN7HYebEADkDB2/t5P0TcuW8n7Zf0hEF2jwQQIC8RiGU1hhuKcDhGBR4l
-   WQCmnF1ke4y4z8xCNCS/asmdUp/ajFjqG4hJnrzzm922mtI9Ve6WkoGDN
-   gSzqmhL74k3nlgQkLX7/T61JzFKCJcopZGcvGc9G04WIr4sEZxK1mM9a6
-   TT5Ax6XiFCOlmZoYD+SLFu8IHa4ouf3+NvMiqkew8jCJpo/gJenzUjDHl
-   A==;
-X-CSE-ConnectionGUID: 2HrZmGsrQkec+4adhwaPDg==
-X-CSE-MsgGUID: 4fUaN0KrTsGG1SzAa8ph8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="72482144"
+  bh=+dY0fRpXRSJ69H3p2QDNAci48mgdXANsuSfzFnWkOwE=;
+  b=VrYdSf0ZgHrNO0+lVfszlVomBEc//h/ipvNVLxiHujA843/7OVc6nGJ/
+   AhaXRtJ2ObnTnqsV837YwTeLEn7YEwsHOC7YQC1BH6BcKnM/HZDEDIwjp
+   7Ud+KlcPsMYW9nuASCBIUKmEiq8upcRnAPstiLq7drbB6wV0HVhCCoCrZ
+   QeyZN1HcyfEGFlnspZTJIDixUVXbp3EOtwA3d9nMOmiuPzuDyTA+FdY/w
+   oW9Fy9Sb/7NLR8rDfjr0s2dJy4eQnpQ7Z9hnZc/RFhbyNNaCXR/OsAO7s
+   tRa0Zd3YMPVFPCLSI4DBssgD87XRfUxl+vVB26JiUJyCGt6D/I8T+RfE4
+   Q==;
+X-CSE-ConnectionGUID: q38L0DECQZeyOS5/m/1AAQ==
+X-CSE-MsgGUID: 0t5F4Ss6SBuqOU/SYZTs6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="72657907"
 X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="72482144"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 01:53:39 -0800
-X-CSE-ConnectionGUID: ffwVfEokSi+W4OEyPaJnoA==
-X-CSE-MsgGUID: T8drcTNUT4+djkI32hXUOQ==
+   d="scan'208";a="72657907"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 01:57:16 -0800
+X-CSE-ConnectionGUID: 6aVYcBoeRPS1S6gWhuYGzQ==
+X-CSE-MsgGUID: eZVz6Pn0QGmlrQ2J473a8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="238233013"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Feb 2026 01:53:37 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="245864293"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 22 Feb 2026 01:57:13 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vu69e-000000015QI-2dj8;
-	Sun, 22 Feb 2026 09:53:34 +0000
-Date: Sun, 22 Feb 2026 17:53:09 +0800
+	id 1vu6D5-000000004bB-3AGd;
+	Sun, 22 Feb 2026 09:57:07 +0000
+Date: Sun, 22 Feb 2026 10:56:59 +0100
 From: kernel test robot <lkp@intel.com>
 To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:private_compression 48/60]
- mm/internal.h:1535:33: error: implicit declaration of function
- 'make_writable_device_private_entry'
-Message-ID: <202602221734.cCodFOSw-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [gourryinverse:private_compression 14/60] htmldocs:
+ Documentation/core-api/mm-api:131: ./mm/memory_hotplug.c:1654: WARNING: Block
+ quote ends without a blank line; unexpected unindent. [docutils]
+Message-ID: <202602221029.AVw83S5w-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,89 +60,35 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
+Hi Gregory,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
 tree:   https://github.com/gourryinverse/linux private_compression
 head:   9fa5ffee4fd4726e31f05deebb938cccfa0b460f
-commit: 48a8ea8dcaa2781e2ab529cf440334d15dca5512 [48/60] mm/mprotect: NP_OPS_PROTECT_WRITE - gate PTE/PMD write-upgrades
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260222/202602221734.cCodFOSw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260222/202602221734.cCodFOSw-lkp@intel.com/reproduce)
+commit: b7d5dc2d24cff71c32c00feeb78dd5ea1902520e [14/60] mm/memory_hotplug: add __add_memory_driver_managed() with online_type arg
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260222/202602221029.AVw83S5w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602221734.cCodFOSw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602221029.AVw83S5w-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/filemap.c:54:
-   mm/internal.h: In function 'folio_managed_fixup_migration_pte':
->> mm/internal.h:1535:33: error: implicit declaration of function 'make_writable_device_private_entry' [-Wimplicit-function-declaration]
-    1535 |                         entry = make_writable_device_private_entry(
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/internal.h:1535:33: error: incompatible types when assigning to type 'softleaf_t' {aka 'swp_entry_t'} from type 'int'
->> mm/internal.h:1538:33: error: implicit declaration of function 'make_readable_device_private_entry' [-Wimplicit-function-declaration]
-    1538 |                         entry = make_readable_device_private_entry(
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/internal.h:1538:33: error: incompatible types when assigning to type 'softleaf_t' {aka 'swp_entry_t'} from type 'int'
->> mm/internal.h:1540:23: error: implicit declaration of function 'softleaf_to_pte' [-Wimplicit-function-declaration]
-    1540 |                 pte = softleaf_to_pte(entry);
-         |                       ^~~~~~~~~~~~~~~
->> mm/internal.h:1540:23: error: incompatible types when assigning to type 'pte_t' from type 'int'
->> mm/internal.h:1543:21: error: implicit declaration of function 'pte_swp_uffd_wp'; did you mean 'pte_swp_uffd_wp_any'? [-Wimplicit-function-declaration]
-    1543 |                 if (pte_swp_uffd_wp(old_pte))
-         |                     ^~~~~~~~~~~~~~~
-         |                     pte_swp_uffd_wp_any
->> mm/internal.h:1544:31: error: implicit declaration of function 'pte_swp_mkuffd_wp'; did you mean 'pte_swp_uffd_wp_any'? [-Wimplicit-function-declaration]
-    1544 |                         pte = pte_swp_mkuffd_wp(pte);
-         |                               ^~~~~~~~~~~~~~~~~
-         |                               pte_swp_uffd_wp_any
-   mm/internal.h:1544:31: error: incompatible types when assigning to type 'pte_t' from type 'int'
-
-
-vim +/make_writable_device_private_entry +1535 mm/internal.h
-
-  1509	
-  1510	/**
-  1511	 * folio_managed_fixup_migration_pte - Fixup PTE after migration for
-  1512	 *                                     managed memory pages.
-  1513	 * @new: the destination page
-  1514	 * @pte: the PTE being installed (normal PTE built by caller)
-  1515	 * @old_pte: the original PTE (before migration, for swap entry flags)
-  1516	 * @vma: the VMA
-  1517	 *
-  1518	 * For MEMORY_DEVICE_PRIVATE pages: replaces the PTE with a device-private
-  1519	 * swap entry, preserving soft_dirty and uffd_wp from old_pte.
-  1520	 *
-  1521	 * For N_MEMORY_PRIVATE pages with NP_OPS_PROTECT_WRITE: strips the write
-  1522	 * bit so the next write triggers the fault handler for promotion.
-  1523	 *
-  1524	 * For normal pages: returns pte unmodified.
-  1525	 */
-  1526	static inline pte_t folio_managed_fixup_migration_pte(struct page *new,
-  1527							      pte_t pte,
-  1528							      pte_t old_pte,
-  1529							      struct vm_area_struct *vma)
-  1530	{
-  1531		if (unlikely(is_device_private_page(new))) {
-  1532			softleaf_t entry;
-  1533	
-  1534			if (pte_write(pte))
-> 1535				entry = make_writable_device_private_entry(
-  1536							page_to_pfn(new));
-  1537			else
-> 1538				entry = make_readable_device_private_entry(
-  1539							page_to_pfn(new));
-> 1540			pte = softleaf_to_pte(entry);
-  1541			if (pte_swp_soft_dirty(old_pte))
-  1542				pte = pte_swp_mksoft_dirty(pte);
-> 1543			if (pte_swp_uffd_wp(old_pte))
-> 1544				pte = pte_swp_mkuffd_wp(pte);
-  1545		} else if (folio_managed_wrprotect(page_folio(new))) {
-  1546			pte = pte_wrprotect(pte);
-  1547		}
-  1548		return pte;
-  1549	}
-  1550	
+   Using alabaster theme
+   WARNING: ./include/linux/sched/mm.h:332 function parameter 'flags' not described in 'memalloc_flags_save'
+   WARNING: ./include/linux/textsearch.h:49 struct member 'list' not described in 'ts_ops'
+   WARNING: ./mm/vmalloc.c:4284 expecting prototype for vrealloc_node_align_noprof(). Prototype was for vrealloc_node_align() instead
+   Documentation/core-api/mm-api:131: ./mm/memory_hotplug.c:1653: ERROR: Unexpected indentation. [docutils]
+>> Documentation/core-api/mm-api:131: ./mm/memory_hotplug.c:1654: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   WARNING: ./include/crypto/skcipher.h:166 struct member 'SKCIPHER_ALG_COMMON' not described in 'skcipher_alg'
+   WARNING: ./include/linux/kfence.h:220 function parameter 'slab' not described in '__kfence_obj_info'
+   WARNING: ./include/linux/virtio.h:183 struct member 'map' not described in 'virtio_device'
+   WARNING: ./include/linux/virtio.h:183 struct member 'VIRTIO_DECLARE_FEATURES(features' not described in 'virtio_device'
+   WARNING: ./include/linux/virtio.h:183 struct member 'vmap' not described in 'virtio_device'
 
 -- 
 0-DAY CI Kernel Test Service
