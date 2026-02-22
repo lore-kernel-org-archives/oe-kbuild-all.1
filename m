@@ -1,196 +1,325 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C9A19E7F7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Feb 2026 13:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD4D1F936
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Feb 2026 15:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771768366; cv=none; b=dJ+/X9p03WRBf80eJbbWrn146CCC5TxnJ/bc7T6Zilvivkx0ta6q8OAaAvPsE8RQ79q8GqMtFZRElPlrKZxdvH5VNM0qcYDmEipY17KUIFfRyW14Wm6E3s8isXNkESQhg2kNt0o9ZuFkpjb92/mVmqg6FVenzZJfqx5pPQpcGPs=
+	t=1771772662; cv=none; b=ImQb1NJFEOGBynXdshKZOx/Qq776L4NOFgqeUddLGL9kbMFevL2a5BWrwke88ZfyRQvYnTiE+SlxfLd4Mew28wje+Oe2VmKwIC+rsdTmN8uPADONWhmEFWgE1TIuNf3vyI6bzmKuZZOYdFX1eXdCT7yBUKm9VTzQraUEbhGj7Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771768366; c=relaxed/simple;
-	bh=Y+ftN6SAloW9LRdsvk1SHuOgB4A3sWopk/8L8IQqoYM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qt9OkVh7/HOMu7R5gXYBGiB6LsvADRfho4gBq72dWKpVaR4qPPsg04gRYCEQSES6h8MiSKjHA9FbmnTuc8z8eDgY3CsrjP1d2zyeKHvX1w//chapN8d9cOvCfuYFBlp5FiZy7EKIE6j4DAvg+/prPrYtyjKhHPclI04pnl/2d0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGjQOpGp; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1771772662; c=relaxed/simple;
+	bh=p2HzsGrBB9l3h87LwYGr5/OAscQlTx9GIacVIt3o1Hk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MP3VNL7TppueCXFL8ycBEpREN0O7Rdmz6+J1UQA5zr0nn8vMQlnB0PhmWJj8ywGHODe6CKyx/N+/PeJ/sUfNZB7/2JdvCxT31vTivhgE6/Ig7y7fglOuBc6YX3VBXMj7gszHbmHZ117WkXwgGBy7Q3kupN84hXXsyiE+UsFtAZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfRcgXq1; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGjQOpGp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfRcgXq1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771768363; x=1803304363;
-  h=date:from:to:cc:subject:message-id;
-  bh=Y+ftN6SAloW9LRdsvk1SHuOgB4A3sWopk/8L8IQqoYM=;
-  b=VGjQOpGpDPmmvU8rGKG1q+Zi+igQJHYohO84KEsSjbsya1VEVwddfaYa
-   G6fpItoMl/0tc7R903f1m6YqvRqgXd9eJ60ErjpHU+ta7IElIaAEaYVLN
-   IA16wijm/D7DkXEpalTvJVZlV6p96PA3mVDIy42FhA3dcgJ6JbNvt9V4j
-   eXQDGwUhVGAzYRBV8u8JBLWWhUKRaaAIF31UJEwXdzXTqgssNZZSPenYq
-   pX13kJYRRKvi/932AZJyCkWdHJkD1rzN/wyin+VbQwvxgafI/gDH/MGTE
-   X7w4QLwRYFk9pcbl7xYiOtuAxieLJ96DDmeKj0SWWOXRErIeG6EpRmeJg
-   g==;
-X-CSE-ConnectionGUID: 1YsmJvjcTRWJ/1+SEMeG5w==
-X-CSE-MsgGUID: pNSwZfrGS324Vlec8EBfiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="90194503"
-X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="90194503"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 05:52:42 -0800
-X-CSE-ConnectionGUID: JcGnzbGIR3GdbH83Ny/hmg==
-X-CSE-MsgGUID: Gv3JRpDVQ6y9TBwiGLyhWQ==
+  t=1771772660; x=1803308660;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p2HzsGrBB9l3h87LwYGr5/OAscQlTx9GIacVIt3o1Hk=;
+  b=kfRcgXq1qv/vQfQq4qJ92HY4maXuosB4KiS9tTEOvW4hf5XLBRHbubgs
+   iPuU6uDxSRmm3+Kq7SCh2FEdfU7NiRIdiyU9j4lAAo/eonOQQ+qmObTVN
+   UY34rcm4fuWWPhW/7QemQdaL9SjSDKL+mS0AQ5Px5ePAEvNt111OEAMbw
+   BgCGC8XOqSfz7174OKyto4VtD+7CHPm2JoFbsdVGkPCpFiiFx3oh5Iaig
+   A/leW3GgxkuxJzf9TYX62lR4Xa4JWlnmBFFFgCyueWEDsFIrqNVr3ykYc
+   mNGuLnV6YtY2JnFenbAyIoScIAH1tyhkgNjL1O5w5YuYWVvA/Zwv6FLTg
+   w==;
+X-CSE-ConnectionGUID: r7WXUrVSQ32f2FKYoWN3Qg==
+X-CSE-MsgGUID: DOhSmzJvS6ycusj+o9lo8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="72693176"
+X-IronPort-AV: E=Sophos;i="6.21,305,1763452800"; 
+   d="scan'208";a="72693176"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 07:04:15 -0800
+X-CSE-ConnectionGUID: vUNSq+e5To6U3/WaNjd9rg==
+X-CSE-MsgGUID: +d3QC6MFSwqUd0pNV7xbgw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="253023432"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Feb 2026 05:52:41 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,305,1763452800"; 
+   d="scan'208";a="243587804"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Feb 2026 07:04:12 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vu9t1-000000015Uq-39m3;
-	Sun, 22 Feb 2026 13:52:39 +0000
-Date: Sun, 22 Feb 2026 21:52:37 +0800
+	id 1vuB0F-000000004fp-1CnZ;
+	Sun, 22 Feb 2026 15:04:11 +0000
+Date: Sun, 22 Feb 2026 16:03:30 +0100
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:private_compression 57/60]
- drivers/cxl/core/region_sysram.c:63:9: error: unknown type name 'mhp_t'
-Message-ID: <202602222149.KbvohNxR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pavel Nikulin <pavel@noa-labs.com>, Helge Deller <deller@gmx.de>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Pavel Nikulin <pavel@noa-labs.com>
+Subject: Re: [PATCH v3] Fonts: Adding all Terminus fronts from 12 to 32 in
+ bold, and normal versions
+Message-ID: <202602221658.VeY8kBpG-lkp@intel.com>
+References: <20260222125007.32407-1-pavel@noa-labs.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260222125007.32407-1-pavel@noa-labs.com>
 
-tree:   https://github.com/gourryinverse/linux private_compression
-head:   9fa5ffee4fd4726e31f05deebb938cccfa0b460f
-commit: baec60290631ac5603560724f70e769f8b71de4f [57/60] cxl/core: Add cxl_sysram region type
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260222/202602222149.KbvohNxR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260222/202602222149.KbvohNxR-lkp@intel.com/reproduce)
+Hi Pavel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 32a92f8c89326985e05dce8b22d3f0aa07a3e1bd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Nikulin/Fonts-Adding-all-Terminus-fronts-from-12-to-32-in-bold-and-normal-versions/20260222-205557
+base:   32a92f8c89326985e05dce8b22d3f0aa07a3e1bd
+patch link:    https://lore.kernel.org/r/20260222125007.32407-1-pavel%40noa-labs.com
+patch subject: [PATCH v3] Fonts: Adding all Terminus fronts from 12 to 32 in bold, and normal versions
+config: x86_64-rhel-9.4-ltp (attached as .config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260222/202602221658.VeY8kBpG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602222149.KbvohNxR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602221658.VeY8kBpG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/cxl/core/region_sysram.c: In function 'sysram_hotplug_add':
->> drivers/cxl/core/region_sysram.c:63:9: error: unknown type name 'mhp_t'
-      63 |         mhp_t mhp_flags;
-         |         ^~~~~
->> drivers/cxl/core/region_sysram.c:83:21: error: 'MHP_NID_IS_MGID' undeclared (first use in this function)
-      83 |         mhp_flags = MHP_NID_IS_MGID;
-         |                     ^~~~~~~~~~~~~~~
-   drivers/cxl/core/region_sysram.c:83:21: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/cxl/core/region_sysram.c:89:14: error: implicit declaration of function '__add_memory_driver_managed' [-Wimplicit-function-declaration]
-      89 |         rc = __add_memory_driver_managed(sysram->mgid,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/region_sysram.c: In function 'sysram_hotplug_remove':
->> drivers/cxl/core/region_sysram.c:111:14: error: implicit declaration of function 'offline_and_remove_memory'; did you mean 'offline_and_remove_private_memory'? [-Wimplicit-function-declaration]
-     111 |         rc = offline_and_remove_memory(sysram->hpa_range.start,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |              offline_and_remove_private_memory
-   drivers/cxl/core/region_sysram.c: In function 'cxl_sysram_release':
->> drivers/cxl/core/region_sysram.c:141:17: error: implicit declaration of function 'memory_group_unregister' [-Wimplicit-function-declaration]
-     141 |                 memory_group_unregister(sysram->mgid);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/region_sysram.c: In function 'devm_cxl_add_sysram':
->> drivers/cxl/core/region_sysram.c:318:14: error: implicit declaration of function 'memory_group_register_static' [-Wimplicit-function-declaration]
-     318 |         rc = memory_group_register_static(numa_node,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/fonts/Kconfig:115: syntax error
+   lib/fonts/Kconfig:115: invalid statement
+   lib/fonts/Kconfig:156: syntax error
+   lib/fonts/Kconfig:156: invalid statement
+   lib/fonts/Kconfig:157: invalid statement
+   lib/fonts/Kconfig:165: syntax error
+   lib/fonts/Kconfig:165: invalid statement
+   lib/fonts/Kconfig:249: syntax error
+   lib/fonts/Kconfig:249: invalid statement
+   lib/fonts/Kconfig:250:warning: multi-line strings not supported
+   lib/fonts/Kconfig:250: unknown statement "This"
+   lib/fonts/Kconfig:251:warning: ignoring unsupported character '.'
+   lib/fonts/Kconfig:251: unknown statement "It"
+   lib/fonts/Kconfig:252:warning: ignoring unsupported character ','
+   lib/fonts/Kconfig:252:warning: ignoring unsupported character ','
+   lib/fonts/Kconfig:252:warning: ignoring unsupported character '.'
+   lib/fonts/Kconfig:252: unknown statement "If"
+   lib/fonts/Kconfig:256: syntax error
+   lib/fonts/Kconfig:256: invalid statement
+   lib/fonts/Kconfig:257: invalid statement
+   lib/fonts/Kconfig:258: invalid statement
+   lib/fonts/Kconfig:259: invalid statement
+   lib/fonts/Kconfig:260:warning: ignoring unsupported character ','
+   lib/fonts/Kconfig:260:warning: ignoring unsupported character ','
+   lib/fonts/Kconfig:260: unknown statement "Terminus"
+   lib/fonts/Kconfig:261:warning: ignoring unsupported character '.'
+   lib/fonts/Kconfig:261: unknown statement "for"
+   lib/fonts/Kconfig:281: syntax error
+   lib/fonts/Kconfig:281: invalid statement
+   lib/fonts/Kconfig:282: invalid statement
+   lib/fonts/Kconfig:283: invalid statement
+   lib/fonts/Kconfig:284: invalid statement
+   lib/fonts/Kconfig:285: invalid statement
+   lib/fonts/Kconfig:286: invalid statement
+   lib/fonts/Kconfig:287: invalid statement
+   lib/fonts/Kconfig:288: invalid statement
+   lib/fonts/Kconfig:289: invalid statement
+   lib/fonts/Kconfig:290: invalid statement
+   lib/fonts/Kconfig:291: invalid statement
+   lib/fonts/Kconfig:292: invalid statement
+   lib/fonts/Kconfig:293: invalid statement
+   lib/fonts/Kconfig:294: invalid statement
+   lib/fonts/Kconfig:295: invalid statement
+   lib/fonts/Kconfig:296: invalid statement
+   lib/fonts/Kconfig:297: invalid statement
+   lib/fonts/Kconfig:298: invalid statement
+   lib/fonts/Kconfig:299: invalid statement
+   lib/fonts/Kconfig:300: invalid statement
+   lib/fonts/Kconfig:301: invalid statement
+   lib/fonts/Kconfig:302: invalid statement
+   lib/fonts/Kconfig:303: invalid statement
+   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1
+   make[2]: *** [Makefile:746: oldconfig] Error 2
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'oldconfig' not remade because of errors.
+--
+>> lib/fonts/Kconfig:115: syntax error
+   lib/fonts/Kconfig:115: invalid statement
+   lib/fonts/Kconfig:156: syntax error
+   lib/fonts/Kconfig:156: invalid statement
+   lib/fonts/Kconfig:157: invalid statement
+   lib/fonts/Kconfig:165: syntax error
+   lib/fonts/Kconfig:165: invalid statement
+   lib/fonts/Kconfig:249: syntax error
+   lib/fonts/Kconfig:249: invalid statement
+   lib/fonts/Kconfig:250:warning: multi-line strings not supported
+   lib/fonts/Kconfig:250: unknown statement "This"
+   lib/fonts/Kconfig:251:warning: ignoring unsupported character '.'
+   lib/fonts/Kconfig:251: unknown statement "It"
+   lib/fonts/Kconfig:252:warning: ignoring unsupported character ','
+   lib/fonts/Kconfig:252:warning: ignoring unsupported character ','
+   lib/fonts/Kconfig:252:warning: ignoring unsupported character '.'
+   lib/fonts/Kconfig:252: unknown statement "If"
+   lib/fonts/Kconfig:256: syntax error
+   lib/fonts/Kconfig:256: invalid statement
+   lib/fonts/Kconfig:257: invalid statement
+   lib/fonts/Kconfig:258: invalid statement
+   lib/fonts/Kconfig:259: invalid statement
+   lib/fonts/Kconfig:260:warning: ignoring unsupported character ','
+   lib/fonts/Kconfig:260:warning: ignoring unsupported character ','
+   lib/fonts/Kconfig:260: unknown statement "Terminus"
+   lib/fonts/Kconfig:261:warning: ignoring unsupported character '.'
+   lib/fonts/Kconfig:261: unknown statement "for"
+   lib/fonts/Kconfig:281: syntax error
+   lib/fonts/Kconfig:281: invalid statement
+   lib/fonts/Kconfig:282: invalid statement
+   lib/fonts/Kconfig:283: invalid statement
+   lib/fonts/Kconfig:284: invalid statement
+   lib/fonts/Kconfig:285: invalid statement
+   lib/fonts/Kconfig:286: invalid statement
+   lib/fonts/Kconfig:287: invalid statement
+   lib/fonts/Kconfig:288: invalid statement
+   lib/fonts/Kconfig:289: invalid statement
+   lib/fonts/Kconfig:290: invalid statement
+   lib/fonts/Kconfig:291: invalid statement
+   lib/fonts/Kconfig:292: invalid statement
+   lib/fonts/Kconfig:293: invalid statement
+   lib/fonts/Kconfig:294: invalid statement
+   lib/fonts/Kconfig:295: invalid statement
+   lib/fonts/Kconfig:296: invalid statement
+   lib/fonts/Kconfig:297: invalid statement
+   lib/fonts/Kconfig:298: invalid statement
+   lib/fonts/Kconfig:299: invalid statement
+   lib/fonts/Kconfig:300: invalid statement
+   lib/fonts/Kconfig:301: invalid statement
+   lib/fonts/Kconfig:302: invalid statement
+   lib/fonts/Kconfig:303: invalid statement
+   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1
+   make[2]: *** [Makefile:746: olddefconfig] Error 2
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'olddefconfig' not remade because of errors.
 
 
-vim +/mhp_t +63 drivers/cxl/core/region_sysram.c
+vim +115 lib/fonts/Kconfig
 
-    59	
-    60	static int sysram_hotplug_add(struct cxl_sysram *sysram, enum mmop online_type)
-    61	{
-    62		struct resource *res;
-  > 63		mhp_t mhp_flags;
-    64		int rc;
-    65	
-    66		if (sysram->res)
-    67			return -EBUSY;
-    68	
-    69		res = request_mem_region(sysram->hpa_range.start,
-    70					 range_len(&sysram->hpa_range),
-    71					 sysram->res_name);
-    72		if (!res)
-    73			return -EBUSY;
-    74	
-    75		sysram->res = res;
-    76	
-    77		/*
-    78		 * Set flags appropriate for System RAM. Leave ..._BUSY clear
-    79		 * so that add_memory() can add a child resource.
-    80		 */
-    81		res->flags = IORESOURCE_SYSTEM_RAM;
+    10	
+    11	config FONTS
+    12		bool "Select compiled-in fonts"
+    13		depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC || DRM_CLIENT_LOG
+    14		help
+    15		  Say Y here if you would like to use fonts other than the default
+    16		  your frame buffer console usually use.
+    17	
+    18		  Note that the answer to this question won't directly affect the
+    19		  kernel: saying N will just cause the configurator to skip all
+    20		  the questions about foreign fonts.
+    21	
+    22		  If unsure, say N (the default choices are safe).
+    23	
+    24	config FONT_8x8
+    25		bool "VGA 8x8 font" if FONTS
+    26		depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC
+    27		default y if !SPARC && !FONTS
+    28		help
+    29		  This is the "high resolution" font for the VGA frame buffer (the one
+    30		  provided by the text console 80x50 (and higher) modes).
+    31	
+    32		  Note that this is a poor quality font. The VGA 8x16 font is quite a
+    33		  lot more readable.
+    34	
+    35		  Given the resolution provided by the frame buffer device, answer N
+    36		  here is safe.
+    37	
+    38	config FONT_8x16
+    39		bool "VGA 8x16 font" if FONTS
+    40		default y if !SPARC && !FONTS
+    41		help
+    42		  This is the "high resolution" font for the VGA frame buffer (the one
+    43		  provided by the VGA text console 80x25 mode.
+    44	
+    45		  If unsure, say Y.
+    46	
+    47	config FONT_6x11
+    48		bool "Mac console 6x11 font (not supported by all drivers)" if FONTS
+    49		depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC
+    50		default y if !SPARC && !FONTS && MAC
+    51		help
+    52		  Small console font with Macintosh-style high-half glyphs.  Some Mac
+    53		  framebuffer drivers don't support this one at all.
+    54	
+    55	config FONT_7x14
+    56		bool "console 7x14 font (not supported by all drivers)" if FONTS
+    57		depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+    58		help
+    59		  Console font with characters just a bit smaller than the default.
+    60		  If the standard 8x16 font is a little too big for you, say Y.
+    61		  Otherwise, say N.
+    62	
+    63	config FONT_PEARL_8x8
+    64		bool "Pearl (old m68k) console 8x8 font" if FONTS
+    65		depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+    66		default y if !SPARC && !FONTS && AMIGA
+    67		help
+    68		  Small console font with PC-style control-character and high-half
+    69		  glyphs.
+    70	
+    71	config FONT_ACORN_8x8
+    72		bool "Acorn console 8x8 font" if FONTS
+    73		depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+    74		default y if !SPARC && !FONTS && ARM && ARCH_ACORN
+    75		help
+    76		  Small console font with PC-style control characters and high-half
+    77		  glyphs.
+    78	
+    79	config FONT_MINI_4x6
+    80		bool "Mini 4x6 font"
+    81		depends on !SPARC && FONTS
     82	
-  > 83		mhp_flags = MHP_NID_IS_MGID;
-    84	
-    85		/*
-    86		 * Ensure that future kexec'd kernels will not treat
-    87		 * this as RAM automatically.
-    88		 */
-  > 89		rc = __add_memory_driver_managed(sysram->mgid,
-    90						 sysram->hpa_range.start,
-    91						 range_len(&sysram->hpa_range),
-    92						 sysram_res_name, mhp_flags,
-    93						 online_type);
-    94		if (rc) {
-    95			remove_resource(res);
-    96			kfree(res);
-    97			sysram->res = NULL;
-    98			return rc;
-    99		}
-   100	
-   101		return 0;
-   102	}
-   103	
-   104	static int sysram_hotplug_remove(struct cxl_sysram *sysram)
-   105	{
-   106		int rc;
-   107	
-   108		if (!sysram->res)
-   109			return 0;
-   110	
- > 111		rc = offline_and_remove_memory(sysram->hpa_range.start,
-   112					       range_len(&sysram->hpa_range));
-   113		if (rc)
-   114			return rc;
-   115	
-   116		if (sysram->res) {
-   117			remove_resource(sysram->res);
-   118			kfree(sysram->res);
-   119			sysram->res = NULL;
-   120		}
-   121	
-   122		return 0;
-   123	}
-   124	
-   125	int cxl_sysram_offline_and_remove(struct cxl_sysram *sysram)
-   126	{
-   127		return sysram_hotplug_remove(sysram);
-   128	}
-   129	EXPORT_SYMBOL_NS_GPL(cxl_sysram_offline_and_remove, "CXL");
-   130	
-   131	static void cxl_sysram_release(struct device *dev)
-   132	{
-   133		struct cxl_sysram *sysram = to_cxl_sysram(dev);
-   134	
-   135		if (sysram->res)
-   136			sysram_hotplug_remove(sysram);
-   137	
-   138		kfree(sysram->res_name);
-   139	
-   140		if (sysram->mgid >= 0)
- > 141			memory_group_unregister(sysram->mgid);
-   142	
-   143		if (sysram->mtype)
-   144			clear_node_memory_type(sysram->numa_node, sysram->mtype);
-   145	
-   146		kfree(sysram);
-   147	}
-   148	
+    83	config FONT_6x10
+    84		bool "Medium-size 6x10 font"
+    85		depends on !SPARC && FONTS
+    86		help
+    87		  Medium-size console font. Suitable for framebuffer consoles on
+    88		  embedded devices with a 320x240 screen, to get a reasonable number
+    89		  of characters (53x24) that are still at a readable size.
+    90	
+    91	config FONT_10x18
+    92		bool "console 10x18 font (not supported by all drivers)" if FONTS
+    93		depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+    94		help
+    95		  This is a high resolution console font for machines with very
+    96		  big letters. It fits between the sun 12x22 and the normal 8x16 font.
+    97		  If other fonts are too big or too small for you, say Y, otherwise say N.
+    98	
+    99	config FONT_SUN8x16
+   100		bool "Sparc console 8x16 font"
+   101		depends on (FRAMEBUFFER_CONSOLE && (FONTS || SPARC)) || \
+   102			   BOOTX_TEXT || EARLYFB
+   103		help
+   104		  This is the high resolution console font for Sun machines. Say Y.
+   105	
+   106	config FONT_SUN12x22
+   107		bool "Sparc console 12x22 font (not supported by all drivers)"
+   108		depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+   109		depends on !SPARC && FONTS
+   110		help
+   111		  This is the high resolution console font for Sun machines with very
+   112		  big letters (like the letters used in the SPARC PROM). If the
+   113		  standard font is unreadable for you, say Y, otherwise say N.
+   114	
+ > 115	<<<<<<< HEAD
+   116	config FONT_TER6x12
+   117		bool "Terminus 6x12 font (not supported by all drivers)"
+   118		depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+   119		depends on !SPARC && FONTS || SPARC
+   120		help
+   121		  Terminus Font is a clean, fixed width bitmap font, designed
+   122		  for long (8 and more hours per day) work with computers.
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
