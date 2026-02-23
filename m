@@ -1,146 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11A31799F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Feb 2026 00:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4768F81AA8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Feb 2026 01:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771807975; cv=none; b=QmLfo3UDOS3VAvpdlAAaxOqWoNyusoJlSsuHvgv3tRAztcymvfX7+NzY3cxp1lujY2xpLXFBIgIJrKBvhVTJRPzCaujsg3rbwaQj3FYkpLTt/PutRKB6AR9dt8ZkYg8+8z0yJJoVOQlOneFXg8uL226LYEdigj0+q1LBxjkUf/s=
+	t=1771809837; cv=none; b=uEySvVv83EwLosRdMtXIAJ//+9FOlHl5Pfjp4cdQsRQ6hugE/5mmNrFBDDcJVHviuW0QIaEGNw7v5ZNZbs3s/PpNoFzwKzUW98F6T7nc8rRMmYt9qN8vYkaL/vU3NI0SGEXhynihYaFA6NZxnTRKlG6GbyBZooYwlsHmqQz+ciQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771807975; c=relaxed/simple;
-	bh=v3O/hJRhtaAfIBGB6kmmYnPZnpbQ1I1GcL6Vp1dZWrE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sMb4dTUo8R30mq2Hk+WbM3n77eD0WlHFxcsav5NeBrZYOaub7/jooBXFqRkx7r8BpypW2WjNcgHEIzstWvTjB/osUTZ3qH6xqA/KRRkBkYuA1I2Rd4BfVdQ2oLlrs+cxi2Cq1mWD2jQ6aVTTPkbaU+1AEc+2Id6pu30bgvGfJYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kRqJTC7i; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1771809837; c=relaxed/simple;
+	bh=EgJURIhKNndGrfoIol+JLsqI3/4F+vm1j8huA3pcpLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EGTYRetl6LsGsw6osbw4LJPNSyacLGByY+x0fHMypLMYlcrwpZItbMe9aELGcnw4Z0250rc+ZvgR79CI8h8P7AopD2dsOnCLLuLSJfWyHj1WPpA3IG1eiJmVHamzhhdHdyEkAMYY06TeKg6VsR5o6JlVfaVMSFQJQeey1f08l+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5mqAZ5m; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRqJTC7i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5mqAZ5m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771807973; x=1803343973;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=v3O/hJRhtaAfIBGB6kmmYnPZnpbQ1I1GcL6Vp1dZWrE=;
-  b=kRqJTC7iXrE/YYDZCXeBo2rbN+M/x9GpF2Z5JM6vNxYZV50HecatDuDC
-   L+anv1DJzqNh8tpJmsbdmT0rAkG77/huV17ARaaJpKJwYJsier8hr6mlN
-   JxovYrYmxl5dCRl1P9nqAcLvBSKKCs+ZuXP3m0VUUuoJM3Vu5WnTJ0yuu
-   ylIUg1DDk4FsDPvurryJ755fvF+E0AnRpVaxmtX/hKPr2mA3w7xKWRDvS
-   G4qAO1xpLeNXxi7mf7DOitw1u99GaMdGFpHp+V+1/bg4SvYJFKKraXOY2
-   ECnWDyWS3JgmgVxqt2Dz1kz461TyjopeMmp7Rc3wrwm4umz5YIAq6l0H4
-   w==;
-X-CSE-ConnectionGUID: vzPgIVk8TuyO6JbcfcGywQ==
-X-CSE-MsgGUID: WdbyeLDzRLCMpV6g5BCPkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="75410493"
+  t=1771809834; x=1803345834;
+  h=date:from:to:cc:subject:message-id;
+  bh=EgJURIhKNndGrfoIol+JLsqI3/4F+vm1j8huA3pcpLQ=;
+  b=W5mqAZ5muqV189dm4ephzl5xFFy6O8/LqmOL/YOVPAP/93eccTy5HfMF
+   byf9byUwxX7YXEZHQ3ZWuQfDlmXbJbdT+SBEDeQSFdcZ/fGRtyy+dKdJ+
+   AEYhh4nbGKzqJLZQmOIOB17NiT4k61KicA4CkzLLtEA9UEwDqafMktu7R
+   oUPHyworEzTG/yIuUgZUIjtWQYXL9i7/tjVegcK4cRGkOtStJBMCaLM4s
+   VaVQLxADjYxLZnuzsmM/fivoJDBtLiICnkDvDgbKgZAK2wPvfOSvpAs3A
+   JCHW85R9gPW5HihF+CEaVqu5+TB9Ym0VTjx96Vjx9tHhqGW07D7+JA7n/
+   Q==;
+X-CSE-ConnectionGUID: +NKD01ZPSjmYnR/pb/20SA==
+X-CSE-MsgGUID: De35FcXGRTKsteli6b7oMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="72981315"
 X-IronPort-AV: E=Sophos;i="6.21,305,1763452800"; 
-   d="scan'208";a="75410493"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 16:52:52 -0800
-X-CSE-ConnectionGUID: LDlkWnofToWijWfQSBvBGA==
-X-CSE-MsgGUID: V8Xq84WXR6yJFnoAkA+ScA==
+   d="scan'208";a="72981315"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 17:23:54 -0800
+X-CSE-ConnectionGUID: /epcqCYSRZWx8IsNRwvh7A==
+X-CSE-MsgGUID: SZIOylvHTHGJ/OoQLpBkoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,305,1763452800"; 
-   d="scan'208";a="238365912"
+   d="scan'208";a="219532766"
 Received: from lkp-server01.sh.intel.com (HELO c63097897875) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Feb 2026 16:52:51 -0800
+  by orviesa003.jf.intel.com with ESMTP; 22 Feb 2026 17:23:52 -0800
 Received: from kbuild by c63097897875 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vuKBs-000000000Dx-3dpO;
-	Mon, 23 Feb 2026 00:52:48 +0000
-Date: Mon, 23 Feb 2026 08:52:05 +0800
+	id 1vuKft-000000000Ev-3WIb;
+	Mon, 23 Feb 2026 01:23:49 +0000
+Date: Mon, 23 Feb 2026 09:23:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Simon Richter <Simon.Richter@hogyros.de>, linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	Simon Richter <Simon.Richter@hogyros.de>
-Subject: Re: [PATCH v2 3/5] vgaarb: mark vga_get family as __must_check
-Message-ID: <202602230802.stvvFCIZ-lkp@intel.com>
-References: <20260218134633.461181-4-Simon.Richter@hogyros.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, Eric Biggers <ebiggers@kernel.org>
+Subject: fs/crypto/bio.c:67:17: sparse: sparse: cast to restricted
+ blk_status_t
+Message-ID: <202602230947.uNRsPyBn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260218134633.461181-4-Simon.Richter@hogyros.de>
 
-Hi Simon,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus drm-misc/drm-misc-next drm/drm-next linus/master v6.19 next-20260220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Richter/vgaarb-pass-vga_get-errors-to-userspace/20260218-214939
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260218134633.461181-4-Simon.Richter%40hogyros.de
-patch subject: [PATCH v2 3/5] vgaarb: mark vga_get family as __must_check
-config: x86_64-randconfig-072-20250919 (https://download.01.org/0day-ci/archive/20260223/202602230802.stvvFCIZ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260223/202602230802.stvvFCIZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+commit: bc26e2efa2c5bb9289fa894834446840dea0bc31 fscrypt: keep multiple bios in flight in fscrypt_zeroout_range_inline_crypt
+date:   6 weeks ago
+config: arm64-randconfig-r134-20260223 (https://download.01.org/0day-ci/archive/20260223/202602230947.uNRsPyBn-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project d8f778935a5bf8a173a3c1d886fd736a4ef6cf05)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260223/202602230947.uNRsPyBn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602230802.stvvFCIZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602230947.uNRsPyBn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/crypto/bio.c:67:17: sparse: sparse: cast from restricted blk_status_t
+>> fs/crypto/bio.c:67:17: sparse: sparse: cast to restricted blk_status_t
 
-   drivers/gpu/drm/i915/display/intel_vga.c: In function 'intel_vga_disable':
->> drivers/gpu/drm/i915/display/intel_vga.c:68:9: error: ignoring return value of 'vga_get_uninterruptible' declared with attribute 'warn_unused_result' [-Werror=unused-result]
-      68 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_vga.c: In function 'intel_vga_reset_io_mem':
-   drivers/gpu/drm/i915/display/intel_vga.c:93:9: error: ignoring return value of 'vga_get_uninterruptible' declared with attribute 'warn_unused_result' [-Werror=unused-result]
-      93 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+vim +67 fs/crypto/bio.c
 
-
-vim +68 drivers/gpu/drm/i915/display/intel_vga.c
-
-0c80d60ae63461 Ville Syrjälä 2025-04-17  43  
-4fb8783165b7c6 Jani Nikula   2019-10-01  44  /* Disable the VGA plane that we never use */
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  45  void intel_vga_disable(struct intel_display *display)
-4fb8783165b7c6 Jani Nikula   2019-10-01  46  {
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  47  	struct pci_dev *pdev = to_pci_dev(display->drm->dev);
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  48  	i915_reg_t vga_reg = intel_vga_cntrl_reg(display);
-0c80d60ae63461 Ville Syrjälä 2025-04-17  49  	enum pipe pipe;
-0c80d60ae63461 Ville Syrjälä 2025-04-17  50  	u32 tmp;
-4fb8783165b7c6 Jani Nikula   2019-10-01  51  	u8 sr1;
-4fb8783165b7c6 Jani Nikula   2019-10-01  52  
-0c80d60ae63461 Ville Syrjälä 2025-04-17  53  	tmp = intel_de_read(display, vga_reg);
-0c80d60ae63461 Ville Syrjälä 2025-04-17  54  	if (tmp & VGA_DISP_DISABLE)
-a3af0140663dc3 Emil Velikov  2021-06-04  55  		return;
-a3af0140663dc3 Emil Velikov  2021-06-04  56  
-0c80d60ae63461 Ville Syrjälä 2025-04-17  57  	if (display->platform.cherryview)
-0c80d60ae63461 Ville Syrjälä 2025-04-17  58  		pipe = REG_FIELD_GET(VGA_PIPE_SEL_MASK_CHV, tmp);
-0c80d60ae63461 Ville Syrjälä 2025-04-17  59  	else if (has_vga_pipe_sel(display))
-0c80d60ae63461 Ville Syrjälä 2025-04-17  60  		pipe = REG_FIELD_GET(VGA_PIPE_SEL_MASK, tmp);
-0c80d60ae63461 Ville Syrjälä 2025-04-17  61  	else
-0c80d60ae63461 Ville Syrjälä 2025-04-17  62  		pipe = PIPE_A;
-0c80d60ae63461 Ville Syrjälä 2025-04-17  63  
-0c80d60ae63461 Ville Syrjälä 2025-04-17  64  	drm_dbg_kms(display->drm, "Disabling VGA plane on pipe %c\n",
-0c80d60ae63461 Ville Syrjälä 2025-04-17  65  		    pipe_name(pipe));
-0c80d60ae63461 Ville Syrjälä 2025-04-17  66  
-4fb8783165b7c6 Jani Nikula   2019-10-01  67  	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
-4fb8783165b7c6 Jani Nikula   2019-10-01 @68  	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-f0bb41fad02e03 Jani Nikula   2022-02-02  69  	outb(0x01, VGA_SEQ_I);
-f0bb41fad02e03 Jani Nikula   2022-02-02  70  	sr1 = inb(VGA_SEQ_D);
-f0bb41fad02e03 Jani Nikula   2022-02-02  71  	outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
-4fb8783165b7c6 Jani Nikula   2019-10-01  72  	vga_put(pdev, VGA_RSRC_LEGACY_IO);
-4fb8783165b7c6 Jani Nikula   2019-10-01  73  	udelay(300);
-4fb8783165b7c6 Jani Nikula   2019-10-01  74  
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  75  	intel_de_write(display, vga_reg, VGA_DISP_DISABLE);
-4b6e05c43b7542 Ville Syrjälä 2024-09-06  76  	intel_de_posting_read(display, vga_reg);
-4fb8783165b7c6 Jani Nikula   2019-10-01  77  }
-4fb8783165b7c6 Jani Nikula   2019-10-01  78  
+    61	
+    62	static void fscrypt_zeroout_range_end_io(struct bio *bio)
+    63	{
+    64		struct fscrypt_zero_done *done = bio->bi_private;
+    65	
+    66		if (bio->bi_status)
+  > 67			cmpxchg(&done->status, 0, bio->bi_status);
+    68		fscrypt_zeroout_range_done(done);
+    69		bio_put(bio);
+    70	}
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
