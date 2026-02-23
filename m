@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52799313540
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Feb 2026 16:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4515933B6F1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Feb 2026 18:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771864395; cv=none; b=UtDXxBQyUV3lNYWg5lGtDOkzM3aWkjCURoCyeG6jpUOHIPVJx9XPBPuUvQJWmWHtBkoDzSdz62smZwTu9OU5wyBv32qcVHuYdQuZZL8k5/dZMxS9xb2IypCSNtsgfgO2eQM9wWvFAvpzEDKADrItmUMUWZ9bsXNVgNXzqS3GzJQ=
+	t=1771870143; cv=none; b=rVVz8ZFSUOTzDrngYA5g8TNIYgpKXzXGYkFznbiMpOfvxT1rGDu67EGPSQpiathSPKrF9zt025WnzIY3k+rQupwZX4Id28yEb50OUCA1K5sqQx7k+25VH80mUo5ym6z61AhYVNRal366BLGzDS0Msbjl/8NLsDksnztcb6EkeJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771864395; c=relaxed/simple;
-	bh=Lx3d4xCCjQqM4hNnnOHqhZ8wgehpmy9M0RqpkyDnTVI=;
+	s=arc-20240116; t=1771870143; c=relaxed/simple;
+	bh=n5A2otkqY3X5ev25wBxCVE3Dc42I3URG4V9iekg0W80=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tq6xcnQ8yfEVqHYjENDXHpbmMw6nlHYgXgCCTKmEaGcS1EMuYYxt9+wL0l3UMNkDdDFq1uH9g/40Zji/ja94/jbWzxTuY6mMY0MS0JD/jUzKywiPdI+7xUv4BfwqpLVmpTttk2G8Ke2xulA8seKCQnt7vB56BsKv/bbbVFiILU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbVgKdin; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=oorrvF/Q52LLDmKbmkMRd/uIKi0one+GuGf9scRQuEVg0qofnLzm4bk5nGT+kDd4gemPV53MAxWHZp5ch2dhxI3cf2FFlSXMjNjpkUzRYN5g9VPYn7SiEFpZ+e09Ujb2A3I3i6T1wA905AQTjN7et4nxOeZoMhUAA51t1k8Ha5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pl6ao+q+; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbVgKdin"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pl6ao+q+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771864393; x=1803400393;
+  t=1771870142; x=1803406142;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Lx3d4xCCjQqM4hNnnOHqhZ8wgehpmy9M0RqpkyDnTVI=;
-  b=RbVgKdin5k0nOa4HFFL1/iWa1oHoI6xfuA880M76MiopqObWHb9LekNB
-   n16nRFCeVZKEV9L+h8XdBiQiuhhkOhBbLUaGHd+Sg4PWx8EHdeKckE8Dn
-   kTVZSXiBOvEIxeh7prWkiQnXD5beRv/ditPdlE01dRUTsD9OyWxmE7+Uz
-   FqS1IQ89m5QmRwT+xik/aFtGRoMFmhV3x5Y6JZFDltnAZamtA+7/ncwPy
-   wEtkRFpr5dizWPsgquliSfx+XZHHd9D5HMxzhgstLfVhs7de8NvTxYyHF
-   Nh8Vxh4Jkx5lldPkSOnKdSnO37SNN3ROML+WCQjtGpDf6kVZV3bRFcTgJ
-   g==;
-X-CSE-ConnectionGUID: iOKNvjn8Q2qbyY2kCphcvg==
-X-CSE-MsgGUID: o+WrPIHUTUGfhcg0hrSBjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="75473025"
+  bh=n5A2otkqY3X5ev25wBxCVE3Dc42I3URG4V9iekg0W80=;
+  b=Pl6ao+q+8LrWxgEQzHnMTm9EhHT4kKgMwvDf5jnqAbpj9xFbVVpB+Gvj
+   rg5uxIxtehmr5yNnPUUQX4xsx3R7wNev1uVu/bPGZzMGcSs6T12yxItK+
+   VBBz7nVryav+yuqM1j0oUF+qHA33gESF5AH+yoPDc0NcoOH3RJTmGIVqv
+   7asuP9WlfcUV/JhvMwafNgMXkdyFzSaSxb/RsUiaTGCePL+mmWEmBJy7V
+   mGgxdyQGp3LFJwLpUoQ4iQ5fC788LWkPOeqCnAovDXFPOmMB1UUOCm5Mb
+   h485ELLavKtbovdbwlcv3WZGNrpOKvkD+RAPshA7YeHSmheTPYwa/uCoy
+   A==;
+X-CSE-ConnectionGUID: XWVp1IWQR4O6uCnVFEm8Vw==
+X-CSE-MsgGUID: kdumYFzMTjKof2qx91+Shg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="98337398"
 X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
-   d="scan'208";a="75473025"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 08:33:13 -0800
-X-CSE-ConnectionGUID: 5eDstWmVSTuQYmT8trOspg==
-X-CSE-MsgGUID: xW3CMIadS5CwrtommhN3PQ==
+   d="scan'208";a="98337398"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 10:05:50 -0800
+X-CSE-ConnectionGUID: 8r6fIfEzTn63eK+nh6GMuA==
+X-CSE-MsgGUID: VDU/xa9CS6CX/SopIFHPRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
-   d="scan'208";a="213951680"
+   d="scan'208";a="220638348"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Feb 2026 08:33:10 -0800
+  by orviesa005.jf.intel.com with ESMTP; 23 Feb 2026 10:05:49 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vuYrr-000000000XF-2ez3;
-	Mon, 23 Feb 2026 16:33:07 +0000
-Date: Tue, 24 Feb 2026 00:32:45 +0800
+	id 1vuaJK-000000000dZ-1ILc;
+	Mon, 23 Feb 2026 18:05:36 +0000
+Date: Tue, 24 Feb 2026 02:05:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>, jlayton@kernel.org,
-	chuck.lever@oracle.com, alex.aring@gmail.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	arnd@arndb.de, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jkoolstra@xs4all.nl
-Subject: Re: [PATCH] Add support for empty path in openat and openat2 syscalls
-Message-ID: <202602240038.MTqLbuRR-lkp@intel.com>
-References: <20260223151652.582048-1-jkoolstra@xs4all.nl>
+To: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+	Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: Re: [PATCH v1 1/3] firmware: cs_dsp: Add API to hibernate the DSP
+Message-ID: <202602240126.0DhinYkl-lkp@intel.com>
+References: <20260223160614.754934-2-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,74 +65,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260223151652.582048-1-jkoolstra@xs4all.nl>
+In-Reply-To: <20260223160614.754934-2-sbinding@opensource.cirrus.com>
 
-Hi Jori,
+Hi Stefan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v7.0-rc1 next-20260220]
-[cannot apply to arnd-asm-generic/master]
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v7.0-rc1 next-20260220]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jori-Koolstra/Add-support-for-empty-path-in-openat-and-openat2-syscalls/20260223-232002
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260223151652.582048-1-jkoolstra%40xs4all.nl
-patch subject: [PATCH] Add support for empty path in openat and openat2 syscalls
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260224/202602240038.MTqLbuRR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602240038.MTqLbuRR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Binding/firmware-cs_dsp-Add-API-to-hibernate-the-DSP/20260224-002158
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260223160614.754934-2-sbinding%40opensource.cirrus.com
+patch subject: [PATCH v1 1/3] firmware: cs_dsp: Add API to hibernate the DSP
+config: loongarch-randconfig-r071-20260224 (https://download.01.org/0day-ci/archive/20260224/202602240126.0DhinYkl-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602240126.0DhinYkl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602240038.MTqLbuRR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602240126.0DhinYkl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   fs/fcntl.c: In function 'fcntl_init':
->> include/linux/compiler_types.h:705:45: error: call to '__compiletime_assert_393' declared with attribute error: BUILD_BUG_ON failed: 21 - 1 != HWEIGHT32( (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) | __FMODE_EXEC)
-     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:686:25: note: in definition of macro '__compiletime_assert'
-     686 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:705:9: note: in expansion of macro '_compiletime_assert'
-     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   fs/fcntl.c:1172:9: note: in expansion of macro 'BUILD_BUG_ON'
-    1172 |         BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_393 +705 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  691  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  693  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  694  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  695  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  696   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  701   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  702   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  703   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  704  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @705  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  706  
+>> Warning: drivers/firmware/cirrus/cs_dsp.c:1124 function parameter 'hibernate' not described in 'cs_dsp_hibernate'
+>> Warning: drivers/firmware/cirrus/cs_dsp.c:1124 function parameter 'hibernate' not described in 'cs_dsp_hibernate'
 
 -- 
 0-DAY CI Kernel Test Service
