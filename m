@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2811367;
-	Tue, 24 Feb 2026 06:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63551DE8BE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 07:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771915688; cv=none; b=W0NPOn6NT4xlIzgddzj7YRVF0DIol/BX4eXXIvLnE7nfHVdz7e39tvtzshai8sJcPbyiYw3L5sLrsE2H8u9jAoMNXRKOYH1Fnag98VoDtUSI7IK1XBOSjBCr2y7fx6yPM6wUXVI6jwlr5lIpnRDux5E2TYYJ0zvyYvFF0FMzsg0=
+	t=1771917054; cv=none; b=JBJujg/dtqqSFHyV8zsdV0lehbJcGkIawNenmqQ5Tjdz5hdKD1SUkd4GyBhb6WOiS04YYSkG630NuIOfiWpI41fQnh5GjYSzR3qf91Bifsd6sfD3jbQNjWxuyCz0z07mpyVUgrTXw4dYoalPhTzKfA1TrCiuxqyWp7XdMA35yZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771915688; c=relaxed/simple;
-	bh=GrUYzsXIDV+OH0yNz8hiPOIqFT9k72qgEKaXyytp+ig=;
+	s=arc-20240116; t=1771917054; c=relaxed/simple;
+	bh=sgVe6bmorh7tYciyVkwQ/sNrI0bBRs6mNUEZWXv/ru4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZnL4vpfuWxH22qg2iy401lDzBpfhxngsH/advn8+q/iyfw+aT/bt5yArqj2sTix6bz7Ovz+UXIOu3hXJ3gxHl3dEEHYthFtaaQ0cSK9BJMuyLmGRF0Pf8ob7WrxFHIpHZJquUxyDj9UtWXXkqgMlN6adFaYpjC+/RIbGk8V07o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQtgUB/v; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=V6455XpdY09QTWX0SeSIIZwLOkew1Kg1kevgnBpSlrnemwpy4NuGi+URihMPUJ21gT9UpVdO8I1fm3QKl9rvwGaY4ouqIL8gkbwP0j/D63zMP0tqTql+ICAJeD2bXGDYZvqofE96Kw3inbGPf1T/qrElk21ns1r1+KZ6SxCCg+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQuTjxlF; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQtgUB/v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQuTjxlF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771915685; x=1803451685;
+  t=1771917053; x=1803453053;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GrUYzsXIDV+OH0yNz8hiPOIqFT9k72qgEKaXyytp+ig=;
-  b=MQtgUB/v30hLif6aMaagGVbtdmLzJq0/PpPwhv7VfryyiwYJNuRUepNc
-   azLxgJfg5p38Wy3w3WZBfdpO3tiiK69IJUITbIYccWvyhaLXOh4LCenbC
-   IIFnZKtS5vti5H47beM+oH1bBFhfDbGctCU+BpDhx1OAJaII0RXds7u8S
-   zVkCBc3EXHqTvy9h0PugCO30SCa53KY6oM7OYd+sVDr3nyKOzYAu84tyk
-   jby1MCUAhLeHjO34Cxn/3q6caimtEx9GhDFb2uZTQkp2w3A7S7gtHk2Sv
-   65/DR+Tz6VxGWaTHrZv3qkyudKGcVrWR8CFl+h9mVGeLXJy8DxGyN3/2x
-   w==;
-X-CSE-ConnectionGUID: ceHJndZyQjW6L+ELfrj2tQ==
-X-CSE-MsgGUID: 58pNdnuQSMaEtJOcW5ahEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="73103867"
+  bh=sgVe6bmorh7tYciyVkwQ/sNrI0bBRs6mNUEZWXv/ru4=;
+  b=UQuTjxlFbM+qNK16qyQ8U3MX+JzPzHlBY4G8hX92T+2pGbmqQ71p7faQ
+   +XrjRZli6p+Snx6HdzIaJKXnT5v2fokOysXH2jKLUL6kPmLuquDiEE8Kd
+   7FsQdHWBzwThX31wbxdLA+cC6NmSd7NvYXtmNk5pqfpoHURQEzEX3fnPS
+   5jStRjQEaI2zA/7t9MSPTg8aIsV/n9XdO+mGLcAaVZsS5ensoirfQOxA8
+   6/s0ttTOlJgBuZyUkWWHojM1iLlvAcYPxqU98VZGCjz4CctQ1fk4a3BkJ
+   bBeNnQhjK+OSVSVeG+F5IQv8ggh3GtMwgCsQKxgpXUhkkFgunudbVlDZO
+   Q==;
+X-CSE-ConnectionGUID: A021fM1jSJmsVIcGSNvSbw==
+X-CSE-MsgGUID: Fc1BzNp/QSunFKVbP6Bw/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="72898000"
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="73103867"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 22:48:05 -0800
-X-CSE-ConnectionGUID: 6WZVwSgCSdSpL0s9jZV4lw==
-X-CSE-MsgGUID: Quk6GOUJT8GckrOXu0eLHw==
+   d="scan'208";a="72898000"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 23:10:53 -0800
+X-CSE-ConnectionGUID: +LUqEjoJTSWxMyk7Z4eFPQ==
+X-CSE-MsgGUID: wfQjcVEGQKO6HkA/RtiUHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="243820291"
+   d="scan'208";a="246401189"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Feb 2026 22:48:03 -0800
+  by orviesa002.jf.intel.com with ESMTP; 23 Feb 2026 23:10:52 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vumDB-000000001aj-2MJL;
-	Tue, 24 Feb 2026 06:48:01 +0000
-Date: Tue, 24 Feb 2026 14:47:52 +0800
+	id 1vumYv-000000001bV-294c;
+	Tue, 24 Feb 2026 07:10:45 +0000
+Date: Tue, 24 Feb 2026 15:09:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 6/6] mm/memcontrol: Make memory.high tier-aware
-Message-ID: <202602241456.9NrcMR6n-lkp@intel.com>
-References: <20260223223830.586018-7-joshua.hahnjy@gmail.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC V1 07/16] arm64/mm: Convert READ_ONCE() as p4dp_get() while
+ accessing P4D
+Message-ID: <202602241424.CuYju4BX-lkp@intel.com>
+References: <20260224051153.3150613-8-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,87 +63,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260223223830.586018-7-joshua.hahnjy@gmail.com>
+In-Reply-To: <20260224051153.3150613-8-anshuman.khandual@arm.com>
 
-Hi Joshua,
+Hi Anshuman,
 
 [This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on v7.0-rc1]
+[also build test ERROR on linus/master next-20260223]
+[cannot apply to arm64/for-next/core akpm-mm/mm-everything arm/for-next arm/fixes kvmarm/next soc/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-page_counter-Introduce-tiered-memory-awareness-to-page_counter/20260224-073845
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260223223830.586018-7-joshua.hahnjy%40gmail.com
-patch subject: [RFC PATCH 6/6] mm/memcontrol: Make memory.high tier-aware
-config: i386-buildonly-randconfig-002-20260224 (https://download.01.org/0day-ci/archive/20260224/202602241456.9NrcMR6n-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602241456.9NrcMR6n-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/mm-Abstract-printing-of-pxd_val/20260224-131447
+base:   v7.0-rc1
+patch link:    https://lore.kernel.org/r/20260224051153.3150613-8-anshuman.khandual%40arm.com
+patch subject: [RFC V1 07/16] arm64/mm: Convert READ_ONCE() as p4dp_get() while accessing P4D
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260224/202602241424.CuYju4BX-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602241424.CuYju4BX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602241456.9NrcMR6n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602241424.CuYju4BX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/memcontrol.c:2193:23: error: use of undeclared identifier 'tier_aware_memcg_limits'
-    2193 |                 toptier_high_ok = !(tier_aware_memcg_limits &&
-         |                                     ^
-   mm/memcontrol.c:2315:7: error: use of undeclared identifier 'tier_aware_memcg_limits'
-    2315 |         if (!tier_aware_memcg_limits)
-         |              ^
-   mm/memcontrol.c:2640:18: error: use of undeclared identifier 'tier_aware_memcg_limits'
-    2640 |                 toptier_high = tier_aware_memcg_limits &&
-         |                                ^
-   mm/memcontrol.c:4541:28: error: use of undeclared identifier 'tier_aware_memcg_limits'
-    4541 |                 bool toptier_high_ok = !(tier_aware_memcg_limits &&
-         |                                          ^
-   4 errors generated.
-
-
-vim +/tier_aware_memcg_limits +2193 mm/memcontrol.c
-
-  2178	
-  2179	static unsigned long reclaim_high(struct mem_cgroup *memcg,
-  2180					  unsigned int nr_pages,
-  2181					  gfp_t gfp_mask)
-  2182	{
-  2183		unsigned long nr_reclaimed = 0;
-  2184	
-  2185		do {
-  2186			unsigned long pflags;
-  2187			nodemask_t toptier_nodes, *reclaim_nodes;
-  2188			bool mem_high_ok, toptier_high_ok;
-  2189	
-  2190			mt_get_toptier_nodemask(&toptier_nodes, NULL);
-  2191			mem_high_ok = page_counter_read(&memcg->memory) <=
-  2192				      READ_ONCE(memcg->memory.high);
-> 2193			toptier_high_ok = !(tier_aware_memcg_limits &&
-  2194					    mem_cgroup_toptier_usage(memcg) >
-  2195					    page_counter_toptier_high(&memcg->memory));
-  2196			if (mem_high_ok && toptier_high_ok)
-  2197				continue;
-  2198	
-  2199			if (mem_high_ok && !toptier_high_ok)
-  2200				reclaim_nodes = &toptier_nodes;
-  2201			else
-  2202				reclaim_nodes = NULL;
-  2203	
-  2204			memcg_memory_event(memcg, MEMCG_HIGH);
-  2205	
-  2206			psi_memstall_enter(&pflags);
-  2207			nr_reclaimed += try_to_free_mem_cgroup_pages(memcg, nr_pages,
-  2208								gfp_mask,
-  2209								MEMCG_RECLAIM_MAY_SWAP,
-  2210								NULL, reclaim_nodes);
-  2211			psi_memstall_leave(&pflags);
-  2212		} while ((memcg = parent_mem_cgroup(memcg)) &&
-  2213			 !mem_cgroup_is_root(memcg));
-  2214	
-  2215		return nr_reclaimed;
-  2216	}
-  2217	
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: arch/arm64/mm/fault.o: in function `show_pte':
+   fault.c:(.text.unlikely+0x238): undefined reference to `pud_offset'
+   aarch64-linux-ld: arch/arm64/mm/mmu.o: in function `split_kernel_leaf_mapping_locked':
+   mmu.c:(.text+0xfd0): undefined reference to `pud_offset'
+   aarch64-linux-ld: arch/arm64/mm/mmu.o: in function `alloc_init_pud':
+>> mmu.c:(.text+0x1c38): undefined reference to `pud_offset_phys'
+   aarch64-linux-ld: arch/arm64/mm/fixmap.o: in function `early_fixmap_init_pud.constprop.0':
+>> fixmap.c:(.init.text+0xa0): undefined reference to `pud_offset_phys'
+   aarch64-linux-ld: mm/memory.o: in function `follow_pfnmap_start':
+>> memory.c:(.text+0x21d8): undefined reference to `pud_offset'
+   aarch64-linux-ld: mm/memory.o: in function `free_p4d_range':
+   memory.c:(.text+0x2984): undefined reference to `pud_offset'
+>> aarch64-linux-ld: memory.c:(.text+0x2bc8): undefined reference to `pud_offset'
+   aarch64-linux-ld: mm/memory.o: in function `unmap_page_range':
+   memory.c:(.text+0x5488): undefined reference to `pud_offset'
+   aarch64-linux-ld: mm/memory.o: in function `__handle_mm_fault':
+   memory.c:(.text+0x83f4): undefined reference to `pud_offset'
+   aarch64-linux-ld: mm/memory.o:memory.c:(.text+0x8b1c): more undefined references to `pud_offset' follow
 
 -- 
 0-DAY CI Kernel Test Service
