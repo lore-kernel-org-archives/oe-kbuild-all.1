@@ -1,151 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058D22882B6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 20:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771966722; cv=none; b=VuvZc0DdVTSszcAzL3LwqvKsVcGFTM5mBmwgH+qKhLhUB/++My2vw4EMLB1A6W4gAT3KKTExqKVMTww2Mx2hRmyIw6PXYY6fs4+Cd8s10cAjCbIg/jGOacuFekAYoRwZgwQ5TqgVNNnNCfCm3BZikWB8C0d+DM/MVEufoMBhJoI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771966722; c=relaxed/simple;
-	bh=IN3a9Jy+IKF8stfYbWaavU5ilhijPnODp/qEEXA0fNc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=r03UOkMU+HD7Ap0KbUKiSJ8kSQ1NFhGCh5VyD3DdS8iO+io/5H+XyWAqNCVxc/gHlefbo3c8K1Sl/xVijVcyWASbxROp/Of1vfo4SliWV3owFePapb5H9dRO3cdRfdm8lToJ8maDa0nuSPXnKbEkiR2ljQstRbIqCsHbuh6nEL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TftjoOWn; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8702D0606
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 21:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771967716; cv=pass; b=UQPufuPUdAIwYS9BZ8q7GmMQPfHlwxmsHECOOZ5gYR8Z8gxdClnPfwe/orKZIBMwMpU+6q0aV2Fw1slUK556XZaUoP8WlL0iVS1gljiYDF6s1o4Z4CQZ0cTi9mf6GYQS+ZsSNJJqafNh2YDJfP0XJujukGOvAeqyu5fhuNU9Q4c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771967716; c=relaxed/simple;
+	bh=eV1IYc9F8dk0DjERYXn1zCrf1jS4ysp8t+9Yjbb1pTg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j3REuUMFxAs0428bW6km8SookDjWAkVwXxjpIdhXxmssRG9nINKnATl+bKRk561l8Ie3jip3LVl/px9tahL87a2u4velI3e0ZWy7TQcmxVep6ErD9UeZ9Ih2u4dsWv0ge+uXuNGSrVbA6xpSNyx6QRdo3ToFr8DJ3veGdoZ51I4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WFas0X7F; arc=pass smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TftjoOWn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771966720; x=1803502720;
-  h=date:from:to:cc:subject:message-id;
-  bh=IN3a9Jy+IKF8stfYbWaavU5ilhijPnODp/qEEXA0fNc=;
-  b=TftjoOWnCRWJKcQrugkR8m4OJF31JAuYPUiFojQgRZ+yUPaTIOuTOj+7
-   0Y58qHoqew3Yn7aXrHL6wbJgqmMkhKj0JMnIoxk0eVoLkgadVQ+BwNRs5
-   HmjLxcIJOs33HIMEp1Tiqwy0Kyj+IVM65mr+4fYlz+ikMFXjMIyBmclHm
-   fnoMMnta7bzwkxJtV/amZgIdOxjBGd69Y2Tu6ME1AOQs7VWzKd+MZN9Ez
-   W/Z3rYRlMhbYce+PgqNsjuTPPn1yMVA60VBzgdo89hzN1QvnCbnpMlOED
-   Zy4nrdt47MhPBcWkAPcfctXsprJ9p69rIrqG8bUV8HWu2XpqUccNdI81B
-   A==;
-X-CSE-ConnectionGUID: 7/IIMcfzQSiF3BqPKbFJIQ==
-X-CSE-MsgGUID: +v+YuQaYQWG/WeARrirjEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="76830192"
-X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; 
-   d="scan'208";a="76830192"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 12:58:40 -0800
-X-CSE-ConnectionGUID: UNBmh6XATaaUFOrZIqV6Vw==
-X-CSE-MsgGUID: uApSTvr7R56IH4DRimf3DA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; 
-   d="scan'208";a="221019867"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 24 Feb 2026 12:58:38 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vuzUJ-000000002SH-0L4a;
-	Tue, 24 Feb 2026 20:58:35 +0000
-Date: Wed, 25 Feb 2026 04:57:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
- "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>
-Subject: [broonie-ci:20260223_ckeepax_sdca_improvements 4/4]
- sound/soc/soc-ops.c:228:4: warning: variable 'val_mask' is uninitialized when
- used here
-Message-ID: <202602250402.93S23s9p-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WFas0X7F"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-505d3baf1a7so35131cf.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 13:15:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771967714; cv=none;
+        d=google.com; s=arc-20240605;
+        b=i9ED0gagbZvXnd0Du1sJiDW9zKW1R0nkLoJzy6MDq63LYCcdorCrheSMOByUl6H8Q6
+         27gISruTPrWVN0HouK8KOT+CIDfzccd/Zg0KtMRgPnL6EELmr1Ow8xAqmX/SK+Uf0P5O
+         7d/jTS93OFmR4X438J68MqSwQQSWbJpkVTXeK6XAQ0r6hdmoknu+JdMC1R11nnEeNwi5
+         1CuTXH6kLkBEui4YGijus+Ef79dC+IMENPfm0Pd4c9Qbh9vdZStpokjHKHluesBUWtYM
+         6C7WgVuj+wrU5qVlM/hBci4Va+q5XiyHGc9bBROK3D/ZdtdSypVe4XbHtCjVdRIgviOs
+         aZ1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6p/EscjPc4RwdFKAEV1F/Hcd5UZ99lvhttD+tVMi300=;
+        fh=ReprmFisqYL35AD7HpfKhsS60Rz8KPuJctMzabDMvZ0=;
+        b=Ts/FXf4xJEpkA/U0TuGiDmxrXpSoBXqCokjJula3Kzbo5mmwRn3uoWA4qsGojEvxHP
+         6yKz4lRiQyhKi/gmmjzLXh0wcfhFTFEL0Z0XxChgzeD6QFEW+NOmM3UF9r0/BQrQWM9/
+         TwvhoyoV7pTXkTJ5NbBcipoZV1T+ObfFLtVtKr74v2na0sv06Dsqj5a4cIQCrVxwPKKB
+         ju6GNPnqZC3+03UVHtleucj7A8LsX5G0hZL2ADRy3zyveqgLjhQLbADmdbkK5tyrqQZm
+         yUM9c3004gbqgjH28PRe8h04yCNUnrZ/QnI0BnSMfInCcfgl7RCqkOG/6Ykirf/smEab
+         ntyA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771967714; x=1772572514; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6p/EscjPc4RwdFKAEV1F/Hcd5UZ99lvhttD+tVMi300=;
+        b=WFas0X7FHMdZKQV1xbPBKqytJzJfhru87ySWeH8lGtyL8t7mO/cwolymufCVlUfU3h
+         rKxsSpP7tXcYOCVTY1t5NvK2Gn7u8BuHelRNk8zQbpBw+WDhEV1zATKjdkEY51F97x6d
+         OjydMXivHwyuWfzwoeKAYqeGuiJkyhNUN8/dNEm1V5BAt0fRmT2GaVQl0k17MI7/8WMP
+         5xJbt7SnRIGqlk6UMUqHNQFTTHHMbceIDFIJDGOb/DjoEOplVCQc0lBBMoPDIqb4SOnE
+         NEL2+2DsIlG4/+1OsLhRTIlHr0MqUdzZRDE97l/e1QQhj4qYYrg/N1T+cYsd8Kdal/yc
+         3F7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771967714; x=1772572514;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6p/EscjPc4RwdFKAEV1F/Hcd5UZ99lvhttD+tVMi300=;
+        b=Nn8wx1kw6wd3EPjxeMcgXJBnZDM3PNr5Lr72Rt8UDbboZgDRWmuMNk94G+6CG4A/gt
+         GNUf97goyTm8zOyvTXBgaoIdP7Xo++aDT0uPTnfvDIsXJAXFdwCu/JhOHT58bOONMkcD
+         llKp+dROR3lMrlt3cHKUe0e+yrjz8Eeq2eqhOYYYdlp/ZHjnMmDYQ9+XCAWMZixAsy5F
+         CKBGaTa2exhuv7fONQIkxCHxxRQly+6wQLMYbFtlcPHP4P4bKCvfWcsrHSOy6EcpY80P
+         vA6QTDdehS3/M6PIt2u/Z5oDjYhTNgXleVIbwa6xtqWp2KpUdXRtuc6gbSrqhdUQZggb
+         mIXw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4lPkV9UvwW3HUUEf/r9xtnNaDnCUAJ7Pf5bzxGs3URjNgAZNPytp+aANeg801pzn+GEiz+/wb14wmvK73@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqIvAdB//fQUMXFxjXZS8+iU8z9/pu3F3Ote7/EdClcyp73wr/
+	dhammGtRCpMp6ZU+iBmfe0AeHLBWrzETu9niNrJ7xkOJrn7LkB0vXg6V9XBTO47T9wrPVMSb1Pq
+	IMcUkmSBKe6ZhIx9pYLgpT2FYAQmgIqRMczLMY2d5xEDNgXizZS40F9+T6CE=
+X-Gm-Gg: AZuq6aINU8DxH4Vw+5x2TvwFlCkly7ZRi6QkE84P3ahQPIU0cE8LU4q1DCOryCQZBrX
+	CB4pRRMDXFvnTG1In9ZiQPrJHFfVtu/mKEyzOy9WWMPxP19MypVafy1YqO7QZgqyfE+V8XAs7rx
+	1M6Mkc0fx5X3/Zg1FGAa6f5+vigeXfZGjDfJTRIi9+Fnh1aLwOH9MMLlw21TqtC6yft67nBPg+F
+	E3387kcSJZWuhRSilnWrCm1L1GB/jYVbpGfPu2tqb7pnke/AY4WQ3bBOon1HfPK4ZjQG1uW/Kxq
+	6BsSNuPx3r8pfhCsPjOIrE6aV9o4f4mlLay2ewta/9yJoQjs
+X-Received: by 2002:ac8:7d41:0:b0:4ff:bf96:db86 with SMTP id
+ d75a77b69052e-50739028793mr2962101cf.16.1771967711072; Tue, 24 Feb 2026
+ 13:15:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260224165250.1322946-1-surenb@google.com> <202602250250.n38q74JK-lkp@intel.com>
+In-Reply-To: <202602250250.n38q74JK-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 24 Feb 2026 13:14:59 -0800
+X-Gm-Features: AaiRm51WuymRTNAhPkBO-yVwq4mhRHWTiS7MnS75L9UZH8fj6ktQ_w2NQi6eNiI
+Message-ID: <CAJuCfpGcA7YmxzmJuEzjJyLAQrV-uGS1LH=B1eX50MSh09z21w@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm/slab: mark alloc tags empty for sheafs allocated
+ with __GFP_NO_OBJ_EXT
+To: kernel test robot <lkp@intel.com>
+Cc: akpm@linux-foundation.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, vbabka@suse.cz, harry.yoo@oracle.com, 
+	00107082@163.com, cl@gentwo.org, rientjes@google.com, 
+	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20260223_ckeepax_sdca_improvements
-head:   250e23c899e7bfa104fd141ca221f13d4df28d6b
-commit: 250e23c899e7bfa104fd141ca221f13d4df28d6b [4/4] ASoC: SDCA: Pull the Q7.8 volume helpers out of soc-ops
-config: arm-randconfig-r073-20260225 (https://download.01.org/0day-ci/archive/20260225/202602250402.93S23s9p-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260225/202602250402.93S23s9p-lkp@intel.com/reproduce)
+On Tue, Feb 24, 2026 at 10:54=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> Hi Suren,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 7dff99b354601dd01829e1511711846e04340a69]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan=
+/mm-slab-mark-alloc-tags-empty-for-sheafs-allocated-with-__GFP_NO_OBJ_EXT/2=
+0260225-005422
+> base:   7dff99b354601dd01829e1511711846e04340a69
+> patch link:    https://lore.kernel.org/r/20260224165250.1322946-1-surenb%=
+40google.com
+> patch subject: [PATCH 1/1] mm/slab: mark alloc tags empty for sheafs allo=
+cated with __GFP_NO_OBJ_EXT
+> config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260=
+225/202602250250.n38q74JK-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260225/202602250250.n38q74JK-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602250250.n38q74JK-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> mm/slub.c:2787:3: error: call to undeclared function 'mark_objexts_emp=
+ty'; ISO C99 and later do not support implicit function declarations [-Wimp=
+licit-function-declaration]
+>     2787 |                 mark_objexts_empty(sheaf);
+>          |                 ^
+>    1 error generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602250402.93S23s9p-lkp@intel.com/
+Thanks! In a hurry to post the fix I forgot to update the
+mark_objexts_empty() definition for !CONFIG_MEM_ALLOC_PROFILING_DEBUG.
+I'll post a fixed version shortly.
 
-All warnings (new ones prefixed by >>):
-
->> sound/soc/soc-ops.c:228:4: warning: variable 'val_mask' is uninitialized when used here [-Wuninitialized]
-     228 |                         val_mask |= mask << mc->rshift;
-         |                         ^~~~~~~~
-   sound/soc/soc-ops.c:207:29: note: initialize the variable 'val_mask' to silence this warning
-     207 |         unsigned int val1, val_mask;
-         |                                    ^
-         |                                     = 0
-   1 warning generated.
-
-
-vim +/val_mask +228 sound/soc/soc-ops.c
-
-9dfcafe2037acc Charles Keepax 2025-03-18  201  
-318e8794e05ca1 Charles Keepax 2025-03-18  202  static int soc_put_volsw(struct snd_kcontrol *kcontrol,
-318e8794e05ca1 Charles Keepax 2025-03-18  203  			 struct snd_ctl_elem_value *ucontrol,
-318e8794e05ca1 Charles Keepax 2025-03-18  204  			 struct soc_mixer_control *mc, int mask, int max)
-318e8794e05ca1 Charles Keepax 2025-03-18  205  {
-318e8794e05ca1 Charles Keepax 2025-03-18  206  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-318e8794e05ca1 Charles Keepax 2025-03-18  207  	unsigned int val1, val_mask;
-318e8794e05ca1 Charles Keepax 2025-03-18  208  	unsigned int val2 = 0;
-318e8794e05ca1 Charles Keepax 2025-03-18  209  	bool double_r = false;
-318e8794e05ca1 Charles Keepax 2025-03-18  210  	int ret;
-318e8794e05ca1 Charles Keepax 2025-03-18  211  
-318e8794e05ca1 Charles Keepax 2025-03-18  212  	ret = soc_mixer_valid_ctl(mc, ucontrol->value.integer.value[0], max);
-318e8794e05ca1 Charles Keepax 2025-03-18  213  	if (ret)
-318e8794e05ca1 Charles Keepax 2025-03-18  214  		return ret;
-318e8794e05ca1 Charles Keepax 2025-03-18  215  
-250e23c899e7bf Charles Keepax 2026-02-23  216  	val1 = soc_mixer_ctl_to_reg(mc, ucontrol->value.integer.value[0],
-318e8794e05ca1 Charles Keepax 2025-03-18  217  				    mask, mc->shift, max);
-318e8794e05ca1 Charles Keepax 2025-03-18  218  
-318e8794e05ca1 Charles Keepax 2025-03-18  219  	if (snd_soc_volsw_is_stereo(mc)) {
-318e8794e05ca1 Charles Keepax 2025-03-18  220  		ret = soc_mixer_valid_ctl(mc, ucontrol->value.integer.value[1], max);
-318e8794e05ca1 Charles Keepax 2025-03-18  221  		if (ret)
-318e8794e05ca1 Charles Keepax 2025-03-18  222  			return ret;
-318e8794e05ca1 Charles Keepax 2025-03-18  223  
-318e8794e05ca1 Charles Keepax 2025-03-18  224  		if (mc->reg == mc->rreg) {
-250e23c899e7bf Charles Keepax 2026-02-23  225  			val1 |= soc_mixer_ctl_to_reg(mc,
-250e23c899e7bf Charles Keepax 2026-02-23  226  						     ucontrol->value.integer.value[1],
-250e23c899e7bf Charles Keepax 2026-02-23  227  						     mask, mc->rshift, max);
-318e8794e05ca1 Charles Keepax 2025-03-18 @228  			val_mask |= mask << mc->rshift;
-318e8794e05ca1 Charles Keepax 2025-03-18  229  		} else {
-250e23c899e7bf Charles Keepax 2026-02-23  230  			val2 = soc_mixer_ctl_to_reg(mc,
-250e23c899e7bf Charles Keepax 2026-02-23  231  						    ucontrol->value.integer.value[1],
-250e23c899e7bf Charles Keepax 2026-02-23  232  						    mask, mc->shift, max);
-318e8794e05ca1 Charles Keepax 2025-03-18  233  			double_r = true;
-318e8794e05ca1 Charles Keepax 2025-03-18  234  		}
-318e8794e05ca1 Charles Keepax 2025-03-18  235  	}
-318e8794e05ca1 Charles Keepax 2025-03-18  236  
-318e8794e05ca1 Charles Keepax 2025-03-18  237  	ret = snd_soc_component_update_bits(component, mc->reg, val_mask, val1);
-318e8794e05ca1 Charles Keepax 2025-03-18  238  	if (ret < 0)
-318e8794e05ca1 Charles Keepax 2025-03-18  239  		return ret;
-318e8794e05ca1 Charles Keepax 2025-03-18  240  
-318e8794e05ca1 Charles Keepax 2025-03-18  241  	if (double_r) {
-318e8794e05ca1 Charles Keepax 2025-03-18  242  		int err = snd_soc_component_update_bits(component, mc->rreg,
-318e8794e05ca1 Charles Keepax 2025-03-18  243  							val_mask, val2);
-318e8794e05ca1 Charles Keepax 2025-03-18  244  		/* Don't drop change flag */
-318e8794e05ca1 Charles Keepax 2025-03-18  245  		if (err)
-318e8794e05ca1 Charles Keepax 2025-03-18  246  			return err;
-318e8794e05ca1 Charles Keepax 2025-03-18  247  	}
-318e8794e05ca1 Charles Keepax 2025-03-18  248  
-318e8794e05ca1 Charles Keepax 2025-03-18  249  	return ret;
-318e8794e05ca1 Charles Keepax 2025-03-18  250  }
-318e8794e05ca1 Charles Keepax 2025-03-18  251  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: 318e8794e05ca1879441a602e78c74f9d7e18309 ASoC: ops: Factor out common code from put callbacks
-
-:::::: TO: Charles Keepax <ckeepax@opensource.cirrus.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>
+> vim +/mark_objexts_empty +2787 mm/slub.c
+>
+>   2783
+>   2784  static void free_empty_sheaf(struct kmem_cache *s, struct slab_sh=
+eaf *sheaf)
+>   2785  {
+>   2786          if (s->flags & SLAB_KMALLOC)
+> > 2787                  mark_objexts_empty(sheaf);
+>   2788
+>   2789          kfree(sheaf);
+>   2790
+>   2791          stat(s, SHEAF_FREE);
+>   2792  }
+>   2793
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
