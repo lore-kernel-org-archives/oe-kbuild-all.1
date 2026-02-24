@@ -1,140 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E6B37A489;
-	Tue, 24 Feb 2026 10:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF5937AA81
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 11:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771930784; cv=none; b=EVZpYned7xHewdXot8bNxJkLF1c++2FQHuGeClTk04EUjZrQkozDpxm1SReVnzFjqOeKcDkB9VeKH/2msR0X4sxcUwuDrvA1TIEqHRbxZ+zYbgHXr7TBMrTC7caCHfgV+cgSYIxc5gJpS+HNmyROUVkyEOqTIPHhiU88ijBABt8=
+	t=1771931405; cv=none; b=LLcvJlrX4AtKKi+CCvVt8DIdJYttlPY5cb3ZyL8QeinmUEjiPBSEEpAq44Buv0TZs/HGXYY20AZl1yhrLYSc/V6WCfk6JbMAaweCpMAqhZOulD/FqfRifhETnbicO7llWndmaSvzx2H3ZvqzbuiIderxBTxDunF+j8MoRoCqdFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771930784; c=relaxed/simple;
-	bh=XqaIDn9C48D+kkCrdqXPpd/ftTaMNAglLCtmy9Nq4/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mjm5lEs/i4+xRnZKA5qf2EOvJjpjDZDzxOqDCe3W1elhCbwGIChWUIJHd1eUufcCyuqqhVScdlW7yXqM1EIDV05sTTQJotlm0Ay8p7DauvhsnqTt9p7lRhryEGk//43ZGQj5TFssV0gU4BhMJs5YgvW6pmLyhE+UAAyV5Rlj0l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DA5E40T0; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1771931405; c=relaxed/simple;
+	bh=C7ykLKItkPmxzpK06U5N23IcZ3OX+RJiF3Yu2+fGQIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SQYo+midDds0ks18dhKBrwqbrJtlPfv20nNxEPHrfMsSjKYV7pLZbW1ADS0iv4+dq1M6+Stp4HWSLV8FLMo6EEsWFz6wqL8Rm1brRoEgexLE/tgPw2DtehjBxUGcTvcfCF+ympY5rxSMm6cNaJlRHBVVuUuVncz2Jp/Vh9c2Bho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjd7Yw3D; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DA5E40T0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjd7Yw3D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771930783; x=1803466783;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XqaIDn9C48D+kkCrdqXPpd/ftTaMNAglLCtmy9Nq4/8=;
-  b=DA5E40T0GqphX7R4CkYeIpYobToHt8URswJxhoZruCHz+bNCQbszx4ak
-   dq+2rDimJCJXLzp3ewsG0qWSSBf6GXDeuYTXFZqM96NO9ZAE2qf2Muft6
-   2Pc4CUUTb1TCdF0v/6SNKkOrH80q2iU9Ws6ueNg568Dshj3J67462HilB
-   8TiwYUTVEEDzoRn0TRhW1ojnfHfkRy/w4SpEjs6ux/EL8KQzCBQhEt10V
-   XBYVosP1NhjX5HouWJ7eGwTu30ZnD3TF/VLH1QNvIX5QQ1pne3I4BVKtQ
-   g2u12NwFel+u9i1iKaxA4UGJxfsPGzvKOJj1ffq3eMPwpctgqVGi0mXh6
-   Q==;
-X-CSE-ConnectionGUID: yodzbHmPSVSK7oLzSDLmmg==
-X-CSE-MsgGUID: hINIv6ljRN6GwzAIM8ScgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="71973177"
+  t=1771931403; x=1803467403;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=C7ykLKItkPmxzpK06U5N23IcZ3OX+RJiF3Yu2+fGQIU=;
+  b=hjd7Yw3DSvYbqYlLIBFZmYPRN/a0KMwCj/U5FOT/FP2qaG+0Ew4xhkiL
+   K/UzA/AKl1LV4l4aUqZ9CpUk2e9jKemwF61tLukfsUYcWjRSONYQoBWVA
+   e1YSoBEnnNn81zYKcbH7YBzzT472SG+g593s9TsRFh0D+vw5iTwX1YwtY
+   jNVXJMMzmwlzWA+LwAemwjiMIHNdenTvWoIbUGxym5jVtRMQ+xiA+fq+c
+   vlOkyMQX0tv5jl5ipvcMSE2tWilUNw2Sgpk+RstX7gvKMeG4PWtdcBIvO
+   4PJUv9WpYlOBciBFSOEru6nGjgStVsOQYCZJ9yAfZG1gouLS5MyTwYpkg
+   g==;
+X-CSE-ConnectionGUID: ElmdvSiCRiW/mp4CQnN/sQ==
+X-CSE-MsgGUID: GYCOGot1Qu2ZwZnj+SGvzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="90354076"
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="71973177"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 02:59:42 -0800
-X-CSE-ConnectionGUID: ijAm9wCcTVSsG9qugLmgvQ==
-X-CSE-MsgGUID: niWxXs11R92R3xTpPw/6TQ==
+   d="scan'208";a="90354076"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 03:10:03 -0800
+X-CSE-ConnectionGUID: j52Lvbx+T+GGP/vPCKZG2g==
+X-CSE-MsgGUID: uficyZ2nQOyGkZnckF2S+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="216036294"
+   d="scan'208";a="220452388"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 24 Feb 2026 02:59:35 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 24 Feb 2026 03:10:01 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vuq8a-000000001qn-2vrd;
-	Tue, 24 Feb 2026 10:59:32 +0000
-Date: Tue, 24 Feb 2026 18:58:39 +0800
+	id 1vuqIg-000000001rV-3kqy;
+	Tue, 24 Feb 2026 11:09:58 +0000
+Date: Tue, 24 Feb 2026 19:09:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
-	Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
-	Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Zhou Wang <wangzhou1@hisilicon.com>,
-	Longfang Liu <liulongfang@huawei.com>,
-	Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>,
-	Jijie Shao <shaojijie@huawei.com>,
-	Jian Shen <shenjian15@huawei.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Maciej Falkowski <maciej.falkowski@linux.intel.com>,
-	Karol Wachowski <karol.wachowski@linux.intel.com>,
-	Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Will Deacon <will@kernel.org>,
-	Xinliang Liu <xinliang.liu@linaro.org>,
-	Tian Tao <tiantao6@hisilicon.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
-Message-ID: <202602241838.ucXGHodf-lkp@intel.com>
-References: <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:intel-6.6-DMR-APX-ANBZ29353 30/30]
+ mm/page_alloc.c:297:20: warning: 'add_to_free_list' declared 'static' but
+ never defined
+Message-ID: <202602241909.PxCWPKOt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Shawn,
+Hi Johannes,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus andi-shyti/i2c/i2c-host drm-misc/drm-misc-next linus/master v7.0-rc1 next-20260223]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-DMR-APX-A=
+NBZ29353
+head:   d8e6957edead90297a4f8cb1f247c54e559dbf8c
+commit: dce9170c150f27ea23a2a52e539cc02b6957b595 [30/30] mm: page_alloc: ba=
+tch vmstat updates in expand()
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/2026022=
+4/202602241909.PxCWPKOt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260224/202602241909.PxCWPKOt-lkp@intel.com/reproduce)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-MSI-Add-Devres-managed-IRQ-vectors-allocation/20260224-161502
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1771860581-82092-2-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260224/202602241838.ucXGHodf-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602241838.ucXGHodf-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602241838.ucXGHodf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602241909.PxCWPKOt-lkp@i=
+ntel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/pci/msi/api.c:304 function parameter 'dev' not described in 'pcim_alloc_irq_vectors'
->> Warning: drivers/pci/msi/api.c:304 function parameter 'min_vecs' not described in 'pcim_alloc_irq_vectors'
->> Warning: drivers/pci/msi/api.c:304 function parameter 'max_vecs' not described in 'pcim_alloc_irq_vectors'
->> Warning: drivers/pci/msi/api.c:304 function parameter 'flags' not described in 'pcim_alloc_irq_vectors'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'dev' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'min_vecs' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'max_vecs' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'flags' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'affd' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:304 function parameter 'dev' not described in 'pcim_alloc_irq_vectors'
->> Warning: drivers/pci/msi/api.c:304 function parameter 'min_vecs' not described in 'pcim_alloc_irq_vectors'
->> Warning: drivers/pci/msi/api.c:304 function parameter 'max_vecs' not described in 'pcim_alloc_irq_vectors'
->> Warning: drivers/pci/msi/api.c:304 function parameter 'flags' not described in 'pcim_alloc_irq_vectors'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'dev' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'min_vecs' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'max_vecs' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'flags' not described in 'pcim_alloc_irq_vectors_affinity'
->> Warning: drivers/pci/msi/api.c:317 function parameter 'affd' not described in 'pcim_alloc_irq_vectors_affinity'
+>> mm/page_alloc.c:297:20: warning: 'add_to_free_list' declared 'static' bu=
+t never defined [-Wunused-function]
+     297 | static inline void add_to_free_list(struct page *page, struct zo=
+ne *zone,
+         |                    ^~~~~~~~~~~~~~~~
 
--- 
+
+vim +297 mm/page_alloc.c
+
+418508c13222dd Miklos Szeredi     2007-05-23  292 =20
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  293  static bool page_contain=
+s_unaccepted(struct page *page, unsigned int order);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  294  static void accept_page(=
+struct page *page, unsigned int order);
+b77471c6760a22 Kirill A. Shutemov 2024-08-09  295  static bool cond_accept_=
+memory(struct zone *zone, unsigned int order);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  296  static bool __free_unacc=
+epted(struct page *page);
+8c8774fcbaf476 Johannes Weiner    2024-03-20 @297  static inline void add_t=
+o_free_list(struct page *page, struct zone *zone,
+8c8774fcbaf476 Johannes Weiner    2024-03-20  298                          =
+            unsigned int order, int migratetype,
+8c8774fcbaf476 Johannes Weiner    2024-03-20  299                          =
+            bool tail);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  300 =20
+
+:::::: The code at line 297 was first introduced by commit
+:::::: 8c8774fcbaf47634f07ee957e9cd9403f5e0ce2c mm: page_alloc: consolidate=
+ free page accounting
+
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: =E5=B0=8F=E9=BE=99 <wenqing.ly@alibaba-inc.com>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
