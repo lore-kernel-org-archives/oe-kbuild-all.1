@@ -1,95 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4041E36B07C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 09:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E17378D91
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 10:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771927121; cv=none; b=VGDTZvQtwT4R/qBftsSrbByaIlDj6Pf/XChU+Y+4sbnJjRO6HvIa9PUwOLH7031+MYHHYr/OqBBUDLZHcPRtsufxAOXKwHv2Al2FYpSl2dblXbqm0/V0xdS71+Onvs39+Abp4PvQGdHranMA03nbdsVDjYtqFK+obpD91ROo/Zg=
+	t=1771930779; cv=none; b=Nl/5KDFg2kbI08NLJCw1OesDhs6jm/4yl4ERd8xYZ3BanQNfvTd4Kfv5r8lhv1VJllNF4LTHl9fM0JnM1zIuzZ5ZGVSMoTuVP2v27+LA4o8zBh0hRs4z5AjfnWHRXXCxhX6TTqRSnqLvHHg0ALCcsmliDGujp1Zplxdlz831hLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771927121; c=relaxed/simple;
-	bh=ENJmh/Til4a4XOpJJAbv5bDvxnkPmJfPr5HM61fmrdI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Ho3xoRYlAWKR3ZX57ogOmUSaS5sY7JxsSUcq1mIVP5VJjjPq6vNLbqx5JaOc+iC5gFyHZgtVv2F/dxlvAJbDNp9ORNrglQ8uchsUgDDpm7oHPPDukehkw4GdCH6rpEQBhcUF9mYQxOgJWkxbxcLrEi64dFpBL21S+GowWRUf8Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hb5Nh8nn; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1771930779; c=relaxed/simple;
+	bh=rv1Ww8hcXcA0Lp6kJ6/mKCXoIYf2HoHpONaVsafQsHs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sAhsiDl02ZtVWJUVi4vRihJ7EIlHG+c/3EdH/E0l8r1A7dGfiMzcAv52VbUhrLPj5VndEiB/HKVnM/KTGIDu0C8SRV2GUEMOSpmTumTopSxUoVJAhy59yHwfeCRX+8aYqM0xzmHNXraD0Is8MbHJan1gZ1nBXPRIo59p6wyKNME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpCk6qv2; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hb5Nh8nn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpCk6qv2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771927120; x=1803463120;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ENJmh/Til4a4XOpJJAbv5bDvxnkPmJfPr5HM61fmrdI=;
-  b=Hb5Nh8nnJQuYyAp2t/C0JfbVjwMiDeo9E1mLF2veD/lqM4Ip/WSKyTNt
-   2ZiOTnlWwCl5r2NZkIP+FbGdrFx3fUvquzf6ZLKxdRliyXWyCnY8u2bWZ
-   7gIAQ4c2s0K5goTAHCBhtU5HOI1iNQlcP8eeEqiaicd/GRib9ILVYeLuq
-   mj//EG9aUfl52ooMADYdoaWGjponrAL2Lio//ZDMCR63VgdO5w4iDAcKz
-   uDSdXYTlyKWFAgdnmOY7zhFso0p8e1hkLB2yOzEJNYa6O5DRdXJ6UDqzP
-   YcT6fhJOW4fexqL7ThPTEyoVv34lJ7d0her5EzW5LoKfMoJUsSbHoooxM
+  t=1771930777; x=1803466777;
+  h=date:from:to:cc:subject:message-id;
+  bh=rv1Ww8hcXcA0Lp6kJ6/mKCXoIYf2HoHpONaVsafQsHs=;
+  b=YpCk6qv2wgFjWLCWF9QdeUAA8tEcV3HKvOYM7H4/7U02zEAW8go0I0SF
+   lVh7a/n9gnXp6P84lztABIij79wr23DrV6sAObR84640JVigu0+idubs8
+   DMJ54OdyMQAzkbRouR+0vErK0Mze0rnG4iW6PXMscRHGgePwgSc9VE6pt
+   hAvbkkd2VAGnHoLs47C34WPFy4PxDp5sEtdbINQV5Mn59lb+8SL8Fp8Rw
+   vdWfTKayAGxQ+cCF12PHd4sKWAo+Ev0eXlfmUryrEjs0x95VfhuTlGUX6
+   xgi7Gwo4ZB9JYXt1E+xm1caKrETTtv7uJQ2ium0+Wwe2lQ/BgMu9GawsW
    w==;
-X-CSE-ConnectionGUID: INuUzfmAThmvlOnWdXcZ+A==
-X-CSE-MsgGUID: zww6/ZFQRwy5qZMnYD6EQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="76798242"
+X-CSE-ConnectionGUID: VUtHEQ88SdKCytLLWudhJA==
+X-CSE-MsgGUID: zWdG7YbNQCCrldoddnlyBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="71973167"
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="76798242"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 01:58:39 -0800
-X-CSE-ConnectionGUID: 3ncLNXOGTOW0vVo4Vg7tTQ==
-X-CSE-MsgGUID: ATdq4Mg4QIGz6WqxYTRZDg==
+   d="scan'208";a="71973167"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 02:59:37 -0800
+X-CSE-ConnectionGUID: lJ7BKSfZQXOazVArd5hE2A==
+X-CSE-MsgGUID: MmySYZz0T5ecXRbuXY71Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="246435467"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 24 Feb 2026 01:58:38 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+   d="scan'208";a="216036275"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 24 Feb 2026 02:59:35 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vupBc-000000005Az-0HzK;
-	Tue, 24 Feb 2026 09:58:36 +0000
-Date: Tue, 24 Feb 2026 10:57:36 +0100
+	id 1vuq8a-000000001qp-33N1;
+	Tue, 24 Feb 2026 10:59:32 +0000
+Date: Tue, 24 Feb 2026 18:58:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [anolis-intel-cloud:intel-6.6-DMR-APX-ANBZ29353 30/30]
- dt-extract-compatibles: error: unrecognized arguments: -d
-Message-ID: <202602241009.nhIKN3SF-lkp@intel.com>
+ include/linux/fortify-string.h:597:25: error: call to
+ '__write_overflow_field' declared with attribute warning: detected write
+ beyond size of field (1st parameter); maybe use struct_group()?
+Message-ID: <202602241803.NHRCthMQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi N=C3=ADcolas,
+Hi liujie_answer,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-DMR-APX-A=
-NBZ29353
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-DMR-APX-ANBZ29353
 head:   d8e6957edead90297a4f8cb1f247c54e559dbf8c
-commit: e20861fb88ee3302349370c595e2498122732f3a [30/30] kselftest: Add new=
- test for detecting unprobed Devicetree devices
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/202=
-60224/202602241009.nhIKN3SF-lkp@intel.com/config)
+commit: 236157fc6d49320c9b1a91b501ccf01fe70f2853 [30/30] anolis: net: update linkdata ethernet driver features.
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260224/202602241803.NHRCthMQ-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260224/202602241009.nhIKN3SF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602241803.NHRCthMQ-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602241009.nhIKN3SF-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602241803.NHRCthMQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   usage: dt-extract-compatibles [-h] [-H] [cfile ...]
->> dt-extract-compatibles: error: unrecognized arguments: -d
+   In file included from include/linux/string.h:296,
+                    from include/linux/bitmap.h:12,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/paravirt.h:17,
+                    from arch/x86/include/asm/cpuid.h:63,
+                    from arch/x86/include/asm/processor.h:19,
+                    from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:53,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/percpu.h:6,
+                    from include/linux/prandom.h:13,
+                    from include/linux/random.h:153,
+                    from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:12:
+   In function 'fortify_memcpy_chk',
+       inlined from 'sxe_upgrade_flash' at drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:457:2:
+>> include/linux/fortify-string.h:597:25: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
+     597 |                         __write_overflow_field(p_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
---=20
+
+vim +/__write_overflow_field +597 include/linux/fortify-string.h
+
+a28a6e860c6cf2 Francis Laniel 2021-02-25  541  
+f68f2ff91512c1 Kees Cook      2021-04-20  542  /*
+f68f2ff91512c1 Kees Cook      2021-04-20  543   * To make sure the compiler can enforce protection against buffer overflows,
+f68f2ff91512c1 Kees Cook      2021-04-20  544   * memcpy(), memmove(), and memset() must not be used beyond individual
+f68f2ff91512c1 Kees Cook      2021-04-20  545   * struct members. If you need to copy across multiple members, please use
+f68f2ff91512c1 Kees Cook      2021-04-20  546   * struct_group() to create a named mirror of an anonymous struct union.
+f68f2ff91512c1 Kees Cook      2021-04-20  547   * (e.g. see struct sk_buff.) Read overflow checking is currently only
+f68f2ff91512c1 Kees Cook      2021-04-20  548   * done when a write overflow is also present, or when building with W=1.
+f68f2ff91512c1 Kees Cook      2021-04-20  549   *
+f68f2ff91512c1 Kees Cook      2021-04-20  550   * Mitigation coverage matrix
+f68f2ff91512c1 Kees Cook      2021-04-20  551   *					Bounds checking at:
+f68f2ff91512c1 Kees Cook      2021-04-20  552   *					+-------+-------+-------+-------+
+f68f2ff91512c1 Kees Cook      2021-04-20  553   *					| Compile time  |   Run time    |
+f68f2ff91512c1 Kees Cook      2021-04-20  554   * memcpy() argument sizes:		| write | read  | write | read  |
+f68f2ff91512c1 Kees Cook      2021-04-20  555   *        dest     source   length      +-------+-------+-------+-------+
+f68f2ff91512c1 Kees Cook      2021-04-20  556   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
+f68f2ff91512c1 Kees Cook      2021-04-20  557   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
+f68f2ff91512c1 Kees Cook      2021-04-20  558   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
+f68f2ff91512c1 Kees Cook      2021-04-20  559   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
+f68f2ff91512c1 Kees Cook      2021-04-20  560   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
+f68f2ff91512c1 Kees Cook      2021-04-20  561   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
+f68f2ff91512c1 Kees Cook      2021-04-20  562   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
+f68f2ff91512c1 Kees Cook      2021-04-20  563   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
+f68f2ff91512c1 Kees Cook      2021-04-20  564   *					+-------+-------+-------+-------+
+f68f2ff91512c1 Kees Cook      2021-04-20  565   *
+f68f2ff91512c1 Kees Cook      2021-04-20  566   * y = perform deterministic compile-time bounds checking
+f68f2ff91512c1 Kees Cook      2021-04-20  567   * n = cannot perform deterministic compile-time bounds checking
+f68f2ff91512c1 Kees Cook      2021-04-20  568   * n/a = no run-time bounds checking needed since compile-time deterministic
+f68f2ff91512c1 Kees Cook      2021-04-20  569   * B = can perform run-time bounds checking (currently unimplemented)
+f68f2ff91512c1 Kees Cook      2021-04-20  570   * V = vulnerable to run-time overflow (will need refactoring to solve)
+f68f2ff91512c1 Kees Cook      2021-04-20  571   *
+f68f2ff91512c1 Kees Cook      2021-04-20  572   */
+54d9469bc515dc Kees Cook      2021-06-24  573  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
+f68f2ff91512c1 Kees Cook      2021-04-20  574  					 const size_t p_size,
+f68f2ff91512c1 Kees Cook      2021-04-20  575  					 const size_t q_size,
+f68f2ff91512c1 Kees Cook      2021-04-20  576  					 const size_t p_size_field,
+f68f2ff91512c1 Kees Cook      2021-04-20  577  					 const size_t q_size_field,
+f68f2ff91512c1 Kees Cook      2021-04-20  578  					 const char *func)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  579  {
+a28a6e860c6cf2 Francis Laniel 2021-02-25  580  	if (__builtin_constant_p(size)) {
+f68f2ff91512c1 Kees Cook      2021-04-20  581  		/*
+f68f2ff91512c1 Kees Cook      2021-04-20  582  		 * Length argument is a constant expression, so we
+f68f2ff91512c1 Kees Cook      2021-04-20  583  		 * can perform compile-time bounds checking where
+fa35198f39571b Kees Cook      2022-09-19  584  		 * buffer sizes are also known at compile time.
+f68f2ff91512c1 Kees Cook      2021-04-20  585  		 */
+f68f2ff91512c1 Kees Cook      2021-04-20  586  
+f68f2ff91512c1 Kees Cook      2021-04-20  587  		/* Error when size is larger than enclosing struct. */
+fa35198f39571b Kees Cook      2022-09-19  588  		if (__compiletime_lessthan(p_size_field, p_size) &&
+fa35198f39571b Kees Cook      2022-09-19  589  		    __compiletime_lessthan(p_size, size))
+a28a6e860c6cf2 Francis Laniel 2021-02-25  590  			__write_overflow();
+fa35198f39571b Kees Cook      2022-09-19  591  		if (__compiletime_lessthan(q_size_field, q_size) &&
+fa35198f39571b Kees Cook      2022-09-19  592  		    __compiletime_lessthan(q_size, size))
+a28a6e860c6cf2 Francis Laniel 2021-02-25  593  			__read_overflow2();
+f68f2ff91512c1 Kees Cook      2021-04-20  594  
+f68f2ff91512c1 Kees Cook      2021-04-20  595  		/* Warn when write size argument larger than dest field. */
+fa35198f39571b Kees Cook      2022-09-19  596  		if (__compiletime_lessthan(p_size_field, size))
+f68f2ff91512c1 Kees Cook      2021-04-20 @597  			__write_overflow_field(p_size_field, size);
+f68f2ff91512c1 Kees Cook      2021-04-20  598  		/*
+f68f2ff91512c1 Kees Cook      2021-04-20  599  		 * Warn for source field over-read when building with W=1
+f68f2ff91512c1 Kees Cook      2021-04-20  600  		 * or when an over-write happened, so both can be fixed at
+f68f2ff91512c1 Kees Cook      2021-04-20  601  		 * the same time.
+f68f2ff91512c1 Kees Cook      2021-04-20  602  		 */
+fa35198f39571b Kees Cook      2022-09-19  603  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
+fa35198f39571b Kees Cook      2022-09-19  604  		     __compiletime_lessthan(p_size_field, size)) &&
+fa35198f39571b Kees Cook      2022-09-19  605  		    __compiletime_lessthan(q_size_field, size))
+f68f2ff91512c1 Kees Cook      2021-04-20  606  			__read_overflow2_field(q_size_field, size);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  607  	}
+f68f2ff91512c1 Kees Cook      2021-04-20  608  	/*
+f68f2ff91512c1 Kees Cook      2021-04-20  609  	 * At this point, length argument may not be a constant expression,
+f68f2ff91512c1 Kees Cook      2021-04-20  610  	 * so run-time bounds checking can be done where buffer sizes are
+f68f2ff91512c1 Kees Cook      2021-04-20  611  	 * known. (This is not an "else" because the above checks may only
+f68f2ff91512c1 Kees Cook      2021-04-20  612  	 * be compile-time warnings, and we want to still warn for run-time
+f68f2ff91512c1 Kees Cook      2021-04-20  613  	 * overflows.)
+f68f2ff91512c1 Kees Cook      2021-04-20  614  	 */
+f68f2ff91512c1 Kees Cook      2021-04-20  615  
+f68f2ff91512c1 Kees Cook      2021-04-20  616  	/*
+f68f2ff91512c1 Kees Cook      2021-04-20  617  	 * Always stop accesses beyond the struct that contains the
+f68f2ff91512c1 Kees Cook      2021-04-20  618  	 * field, when the buffer's remaining size is known.
+311fb40aa0569a Kees Cook      2022-09-02  619  	 * (The SIZE_MAX test is to optimize away checks where the buffer
+f68f2ff91512c1 Kees Cook      2021-04-20  620  	 * lengths are unknown.)
+f68f2ff91512c1 Kees Cook      2021-04-20  621  	 */
+311fb40aa0569a Kees Cook      2022-09-02  622  	if ((p_size != SIZE_MAX && p_size < size) ||
+311fb40aa0569a Kees Cook      2022-09-02  623  	    (q_size != SIZE_MAX && q_size < size))
+f68f2ff91512c1 Kees Cook      2021-04-20  624  		fortify_panic(func);
+54d9469bc515dc Kees Cook      2021-06-24  625  
+54d9469bc515dc Kees Cook      2021-06-24  626  	/*
+54d9469bc515dc Kees Cook      2021-06-24  627  	 * Warn when writing beyond destination field size.
+54d9469bc515dc Kees Cook      2021-06-24  628  	 *
+54d9469bc515dc Kees Cook      2021-06-24  629  	 * We must ignore p_size_field == 0 for existing 0-element
+54d9469bc515dc Kees Cook      2021-06-24  630  	 * fake flexible arrays, until they are all converted to
+54d9469bc515dc Kees Cook      2021-06-24  631  	 * proper flexible arrays.
+54d9469bc515dc Kees Cook      2021-06-24  632  	 *
+9f7d69c5cd2390 Kees Cook      2022-09-19  633  	 * The implementation of __builtin_*object_size() behaves
+54d9469bc515dc Kees Cook      2021-06-24  634  	 * like sizeof() when not directly referencing a flexible
+54d9469bc515dc Kees Cook      2021-06-24  635  	 * array member, which means there will be many bounds checks
+54d9469bc515dc Kees Cook      2021-06-24  636  	 * that will appear at run-time, without a way for them to be
+54d9469bc515dc Kees Cook      2021-06-24  637  	 * detected at compile-time (as can be done when the destination
+54d9469bc515dc Kees Cook      2021-06-24  638  	 * is specifically the flexible array member).
+54d9469bc515dc Kees Cook      2021-06-24  639  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
+54d9469bc515dc Kees Cook      2021-06-24  640  	 */
+54d9469bc515dc Kees Cook      2021-06-24  641  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
+54d9469bc515dc Kees Cook      2021-06-24  642  	    p_size != p_size_field && p_size_field < size)
+54d9469bc515dc Kees Cook      2021-06-24  643  		return true;
+54d9469bc515dc Kees Cook      2021-06-24  644  
+54d9469bc515dc Kees Cook      2021-06-24  645  	return false;
+a28a6e860c6cf2 Francis Laniel 2021-02-25  646  }
+a28a6e860c6cf2 Francis Laniel 2021-02-25  647  
+
+:::::: The code at line 597 was first introduced by commit
+:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
