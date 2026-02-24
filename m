@@ -1,222 +1,139 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E17378D91
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 10:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E6B37A489;
+	Tue, 24 Feb 2026 10:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771930779; cv=none; b=Nl/5KDFg2kbI08NLJCw1OesDhs6jm/4yl4ERd8xYZ3BanQNfvTd4Kfv5r8lhv1VJllNF4LTHl9fM0JnM1zIuzZ5ZGVSMoTuVP2v27+LA4o8zBh0hRs4z5AjfnWHRXXCxhX6TTqRSnqLvHHg0ALCcsmliDGujp1Zplxdlz831hLI=
+	t=1771930784; cv=none; b=EVZpYned7xHewdXot8bNxJkLF1c++2FQHuGeClTk04EUjZrQkozDpxm1SReVnzFjqOeKcDkB9VeKH/2msR0X4sxcUwuDrvA1TIEqHRbxZ+zYbgHXr7TBMrTC7caCHfgV+cgSYIxc5gJpS+HNmyROUVkyEOqTIPHhiU88ijBABt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771930779; c=relaxed/simple;
-	bh=rv1Ww8hcXcA0Lp6kJ6/mKCXoIYf2HoHpONaVsafQsHs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sAhsiDl02ZtVWJUVi4vRihJ7EIlHG+c/3EdH/E0l8r1A7dGfiMzcAv52VbUhrLPj5VndEiB/HKVnM/KTGIDu0C8SRV2GUEMOSpmTumTopSxUoVJAhy59yHwfeCRX+8aYqM0xzmHNXraD0Is8MbHJan1gZ1nBXPRIo59p6wyKNME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpCk6qv2; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1771930784; c=relaxed/simple;
+	bh=XqaIDn9C48D+kkCrdqXPpd/ftTaMNAglLCtmy9Nq4/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mjm5lEs/i4+xRnZKA5qf2EOvJjpjDZDzxOqDCe3W1elhCbwGIChWUIJHd1eUufcCyuqqhVScdlW7yXqM1EIDV05sTTQJotlm0Ay8p7DauvhsnqTt9p7lRhryEGk//43ZGQj5TFssV0gU4BhMJs5YgvW6pmLyhE+UAAyV5Rlj0l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DA5E40T0; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpCk6qv2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DA5E40T0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771930777; x=1803466777;
-  h=date:from:to:cc:subject:message-id;
-  bh=rv1Ww8hcXcA0Lp6kJ6/mKCXoIYf2HoHpONaVsafQsHs=;
-  b=YpCk6qv2wgFjWLCWF9QdeUAA8tEcV3HKvOYM7H4/7U02zEAW8go0I0SF
-   lVh7a/n9gnXp6P84lztABIij79wr23DrV6sAObR84640JVigu0+idubs8
-   DMJ54OdyMQAzkbRouR+0vErK0Mze0rnG4iW6PXMscRHGgePwgSc9VE6pt
-   hAvbkkd2VAGnHoLs47C34WPFy4PxDp5sEtdbINQV5Mn59lb+8SL8Fp8Rw
-   vdWfTKayAGxQ+cCF12PHd4sKWAo+Ev0eXlfmUryrEjs0x95VfhuTlGUX6
-   xgi7Gwo4ZB9JYXt1E+xm1caKrETTtv7uJQ2ium0+Wwe2lQ/BgMu9GawsW
-   w==;
-X-CSE-ConnectionGUID: VUtHEQ88SdKCytLLWudhJA==
-X-CSE-MsgGUID: zWdG7YbNQCCrldoddnlyBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="71973167"
+  t=1771930783; x=1803466783;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XqaIDn9C48D+kkCrdqXPpd/ftTaMNAglLCtmy9Nq4/8=;
+  b=DA5E40T0GqphX7R4CkYeIpYobToHt8URswJxhoZruCHz+bNCQbszx4ak
+   dq+2rDimJCJXLzp3ewsG0qWSSBf6GXDeuYTXFZqM96NO9ZAE2qf2Muft6
+   2Pc4CUUTb1TCdF0v/6SNKkOrH80q2iU9Ws6ueNg568Dshj3J67462HilB
+   8TiwYUTVEEDzoRn0TRhW1ojnfHfkRy/w4SpEjs6ux/EL8KQzCBQhEt10V
+   XBYVosP1NhjX5HouWJ7eGwTu30ZnD3TF/VLH1QNvIX5QQ1pne3I4BVKtQ
+   g2u12NwFel+u9i1iKaxA4UGJxfsPGzvKOJj1ffq3eMPwpctgqVGi0mXh6
+   Q==;
+X-CSE-ConnectionGUID: yodzbHmPSVSK7oLzSDLmmg==
+X-CSE-MsgGUID: hINIv6ljRN6GwzAIM8ScgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="71973177"
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="71973167"
+   d="scan'208";a="71973177"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 02:59:37 -0800
-X-CSE-ConnectionGUID: lJ7BKSfZQXOazVArd5hE2A==
-X-CSE-MsgGUID: MmySYZz0T5ecXRbuXY71Mw==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 02:59:42 -0800
+X-CSE-ConnectionGUID: ijAm9wCcTVSsG9qugLmgvQ==
+X-CSE-MsgGUID: niWxXs11R92R3xTpPw/6TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="216036275"
+   d="scan'208";a="216036294"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
   by orviesa007.jf.intel.com with ESMTP; 24 Feb 2026 02:59:35 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vuq8a-000000001qp-33N1;
+	id 1vuq8a-000000001qn-2vrd;
 	Tue, 24 Feb 2026 10:59:32 +0000
-Date: Tue, 24 Feb 2026 18:58:47 +0800
+Date: Tue, 24 Feb 2026 18:58:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-DMR-APX-ANBZ29353 30/30]
- include/linux/fortify-string.h:597:25: error: call to
- '__write_overflow_field' declared with attribute warning: detected write
- beyond size of field (1st parameter); maybe use struct_group()?
-Message-ID: <202602241803.NHRCthMQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Shawn Lin <shawn.lin@rock-chips.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
+	Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
+	Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Zhou Wang <wangzhou1@hisilicon.com>,
+	Longfang Liu <liulongfang@huawei.com>,
+	Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>,
+	Jijie Shao <shaojijie@huawei.com>,
+	Jian Shen <shenjian15@huawei.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+	Karol Wachowski <karol.wachowski@linux.intel.com>,
+	Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Tomasz Jeznach <tjeznach@rivosinc.com>,
+	Will Deacon <will@kernel.org>,
+	Xinliang Liu <xinliang.liu@linaro.org>,
+	Tian Tao <tiantao6@hisilicon.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
+Message-ID: <202602241838.ucXGHodf-lkp@intel.com>
+References: <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
 
-Hi liujie_answer,
+Hi Shawn,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-DMR-APX-ANBZ29353
-head:   d8e6957edead90297a4f8cb1f247c54e559dbf8c
-commit: 236157fc6d49320c9b1a91b501ccf01fe70f2853 [30/30] anolis: net: update linkdata ethernet driver features.
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260224/202602241803.NHRCthMQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602241803.NHRCthMQ-lkp@intel.com/reproduce)
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus andi-shyti/i2c/i2c-host drm-misc/drm-misc-next linus/master v7.0-rc1 next-20260223]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-MSI-Add-Devres-managed-IRQ-vectors-allocation/20260224-161502
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/1771860581-82092-2-git-send-email-shawn.lin%40rock-chips.com
+patch subject: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260224/202602241838.ucXGHodf-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602241838.ucXGHodf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602241803.NHRCthMQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602241838.ucXGHodf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:296,
-                    from include/linux/bitmap.h:12,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/paravirt.h:17,
-                    from arch/x86/include/asm/cpuid.h:63,
-                    from arch/x86/include/asm/processor.h:19,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:79,
-                    from include/linux/percpu.h:6,
-                    from include/linux/prandom.h:13,
-                    from include/linux/random.h:153,
-                    from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:12:
-   In function 'fortify_memcpy_chk',
-       inlined from 'sxe_upgrade_flash' at drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:457:2:
->> include/linux/fortify-string.h:597:25: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
-     597 |                         __write_overflow_field(p_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/__write_overflow_field +597 include/linux/fortify-string.h
-
-a28a6e860c6cf2 Francis Laniel 2021-02-25  541  
-f68f2ff91512c1 Kees Cook      2021-04-20  542  /*
-f68f2ff91512c1 Kees Cook      2021-04-20  543   * To make sure the compiler can enforce protection against buffer overflows,
-f68f2ff91512c1 Kees Cook      2021-04-20  544   * memcpy(), memmove(), and memset() must not be used beyond individual
-f68f2ff91512c1 Kees Cook      2021-04-20  545   * struct members. If you need to copy across multiple members, please use
-f68f2ff91512c1 Kees Cook      2021-04-20  546   * struct_group() to create a named mirror of an anonymous struct union.
-f68f2ff91512c1 Kees Cook      2021-04-20  547   * (e.g. see struct sk_buff.) Read overflow checking is currently only
-f68f2ff91512c1 Kees Cook      2021-04-20  548   * done when a write overflow is also present, or when building with W=1.
-f68f2ff91512c1 Kees Cook      2021-04-20  549   *
-f68f2ff91512c1 Kees Cook      2021-04-20  550   * Mitigation coverage matrix
-f68f2ff91512c1 Kees Cook      2021-04-20  551   *					Bounds checking at:
-f68f2ff91512c1 Kees Cook      2021-04-20  552   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  553   *					| Compile time  |   Run time    |
-f68f2ff91512c1 Kees Cook      2021-04-20  554   * memcpy() argument sizes:		| write | read  | write | read  |
-f68f2ff91512c1 Kees Cook      2021-04-20  555   *        dest     source   length      +-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  556   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  557   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  558   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  559   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  560   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  561   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  562   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  563   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  564   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  565   *
-f68f2ff91512c1 Kees Cook      2021-04-20  566   * y = perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  567   * n = cannot perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  568   * n/a = no run-time bounds checking needed since compile-time deterministic
-f68f2ff91512c1 Kees Cook      2021-04-20  569   * B = can perform run-time bounds checking (currently unimplemented)
-f68f2ff91512c1 Kees Cook      2021-04-20  570   * V = vulnerable to run-time overflow (will need refactoring to solve)
-f68f2ff91512c1 Kees Cook      2021-04-20  571   *
-f68f2ff91512c1 Kees Cook      2021-04-20  572   */
-54d9469bc515dc Kees Cook      2021-06-24  573  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
-f68f2ff91512c1 Kees Cook      2021-04-20  574  					 const size_t p_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  575  					 const size_t q_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  576  					 const size_t p_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  577  					 const size_t q_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  578  					 const char *func)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  579  {
-a28a6e860c6cf2 Francis Laniel 2021-02-25  580  	if (__builtin_constant_p(size)) {
-f68f2ff91512c1 Kees Cook      2021-04-20  581  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  582  		 * Length argument is a constant expression, so we
-f68f2ff91512c1 Kees Cook      2021-04-20  583  		 * can perform compile-time bounds checking where
-fa35198f39571b Kees Cook      2022-09-19  584  		 * buffer sizes are also known at compile time.
-f68f2ff91512c1 Kees Cook      2021-04-20  585  		 */
-f68f2ff91512c1 Kees Cook      2021-04-20  586  
-f68f2ff91512c1 Kees Cook      2021-04-20  587  		/* Error when size is larger than enclosing struct. */
-fa35198f39571b Kees Cook      2022-09-19  588  		if (__compiletime_lessthan(p_size_field, p_size) &&
-fa35198f39571b Kees Cook      2022-09-19  589  		    __compiletime_lessthan(p_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  590  			__write_overflow();
-fa35198f39571b Kees Cook      2022-09-19  591  		if (__compiletime_lessthan(q_size_field, q_size) &&
-fa35198f39571b Kees Cook      2022-09-19  592  		    __compiletime_lessthan(q_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  593  			__read_overflow2();
-f68f2ff91512c1 Kees Cook      2021-04-20  594  
-f68f2ff91512c1 Kees Cook      2021-04-20  595  		/* Warn when write size argument larger than dest field. */
-fa35198f39571b Kees Cook      2022-09-19  596  		if (__compiletime_lessthan(p_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20 @597  			__write_overflow_field(p_size_field, size);
-f68f2ff91512c1 Kees Cook      2021-04-20  598  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  599  		 * Warn for source field over-read when building with W=1
-f68f2ff91512c1 Kees Cook      2021-04-20  600  		 * or when an over-write happened, so both can be fixed at
-f68f2ff91512c1 Kees Cook      2021-04-20  601  		 * the same time.
-f68f2ff91512c1 Kees Cook      2021-04-20  602  		 */
-fa35198f39571b Kees Cook      2022-09-19  603  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
-fa35198f39571b Kees Cook      2022-09-19  604  		     __compiletime_lessthan(p_size_field, size)) &&
-fa35198f39571b Kees Cook      2022-09-19  605  		    __compiletime_lessthan(q_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20  606  			__read_overflow2_field(q_size_field, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  607  	}
-f68f2ff91512c1 Kees Cook      2021-04-20  608  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  609  	 * At this point, length argument may not be a constant expression,
-f68f2ff91512c1 Kees Cook      2021-04-20  610  	 * so run-time bounds checking can be done where buffer sizes are
-f68f2ff91512c1 Kees Cook      2021-04-20  611  	 * known. (This is not an "else" because the above checks may only
-f68f2ff91512c1 Kees Cook      2021-04-20  612  	 * be compile-time warnings, and we want to still warn for run-time
-f68f2ff91512c1 Kees Cook      2021-04-20  613  	 * overflows.)
-f68f2ff91512c1 Kees Cook      2021-04-20  614  	 */
-f68f2ff91512c1 Kees Cook      2021-04-20  615  
-f68f2ff91512c1 Kees Cook      2021-04-20  616  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  617  	 * Always stop accesses beyond the struct that contains the
-f68f2ff91512c1 Kees Cook      2021-04-20  618  	 * field, when the buffer's remaining size is known.
-311fb40aa0569a Kees Cook      2022-09-02  619  	 * (The SIZE_MAX test is to optimize away checks where the buffer
-f68f2ff91512c1 Kees Cook      2021-04-20  620  	 * lengths are unknown.)
-f68f2ff91512c1 Kees Cook      2021-04-20  621  	 */
-311fb40aa0569a Kees Cook      2022-09-02  622  	if ((p_size != SIZE_MAX && p_size < size) ||
-311fb40aa0569a Kees Cook      2022-09-02  623  	    (q_size != SIZE_MAX && q_size < size))
-f68f2ff91512c1 Kees Cook      2021-04-20  624  		fortify_panic(func);
-54d9469bc515dc Kees Cook      2021-06-24  625  
-54d9469bc515dc Kees Cook      2021-06-24  626  	/*
-54d9469bc515dc Kees Cook      2021-06-24  627  	 * Warn when writing beyond destination field size.
-54d9469bc515dc Kees Cook      2021-06-24  628  	 *
-54d9469bc515dc Kees Cook      2021-06-24  629  	 * We must ignore p_size_field == 0 for existing 0-element
-54d9469bc515dc Kees Cook      2021-06-24  630  	 * fake flexible arrays, until they are all converted to
-54d9469bc515dc Kees Cook      2021-06-24  631  	 * proper flexible arrays.
-54d9469bc515dc Kees Cook      2021-06-24  632  	 *
-9f7d69c5cd2390 Kees Cook      2022-09-19  633  	 * The implementation of __builtin_*object_size() behaves
-54d9469bc515dc Kees Cook      2021-06-24  634  	 * like sizeof() when not directly referencing a flexible
-54d9469bc515dc Kees Cook      2021-06-24  635  	 * array member, which means there will be many bounds checks
-54d9469bc515dc Kees Cook      2021-06-24  636  	 * that will appear at run-time, without a way for them to be
-54d9469bc515dc Kees Cook      2021-06-24  637  	 * detected at compile-time (as can be done when the destination
-54d9469bc515dc Kees Cook      2021-06-24  638  	 * is specifically the flexible array member).
-54d9469bc515dc Kees Cook      2021-06-24  639  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
-54d9469bc515dc Kees Cook      2021-06-24  640  	 */
-54d9469bc515dc Kees Cook      2021-06-24  641  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
-54d9469bc515dc Kees Cook      2021-06-24  642  	    p_size != p_size_field && p_size_field < size)
-54d9469bc515dc Kees Cook      2021-06-24  643  		return true;
-54d9469bc515dc Kees Cook      2021-06-24  644  
-54d9469bc515dc Kees Cook      2021-06-24  645  	return false;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  646  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  647  
-
-:::::: The code at line 597 was first introduced by commit
-:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+>> Warning: drivers/pci/msi/api.c:304 function parameter 'dev' not described in 'pcim_alloc_irq_vectors'
+>> Warning: drivers/pci/msi/api.c:304 function parameter 'min_vecs' not described in 'pcim_alloc_irq_vectors'
+>> Warning: drivers/pci/msi/api.c:304 function parameter 'max_vecs' not described in 'pcim_alloc_irq_vectors'
+>> Warning: drivers/pci/msi/api.c:304 function parameter 'flags' not described in 'pcim_alloc_irq_vectors'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'dev' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'min_vecs' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'max_vecs' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'flags' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'affd' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:304 function parameter 'dev' not described in 'pcim_alloc_irq_vectors'
+>> Warning: drivers/pci/msi/api.c:304 function parameter 'min_vecs' not described in 'pcim_alloc_irq_vectors'
+>> Warning: drivers/pci/msi/api.c:304 function parameter 'max_vecs' not described in 'pcim_alloc_irq_vectors'
+>> Warning: drivers/pci/msi/api.c:304 function parameter 'flags' not described in 'pcim_alloc_irq_vectors'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'dev' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'min_vecs' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'max_vecs' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'flags' not described in 'pcim_alloc_irq_vectors_affinity'
+>> Warning: drivers/pci/msi/api.c:317 function parameter 'affd' not described in 'pcim_alloc_irq_vectors_affinity'
 
 -- 
 0-DAY CI Kernel Test Service
