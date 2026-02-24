@@ -1,109 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491A31F30A9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 08:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD09366815
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Feb 2026 09:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771922561; cv=none; b=MDMtbCfMfLWQCL2dVhzIlKTBVVwCOtuhTk62SQqEe2X2xOfuii1nXSimc2J6RUjknHUaRvMdFwHYFEBVna7QhgoHLjaX/aAkk4FLe87ZJ1rg25GytWG1MGDU03/U46FwqbLFzL+BYngesRJAEb6KmyoGaCESslAJmdEG08Z9Y0Y=
+	t=1771923844; cv=none; b=ANnad+VVftcH/istwb64JfdGnSNT+YniEH/lHwWkEfaufjJ8l79PUfkWRr69ThdlBqJ4yFrnKDAtGJ4VmGZbrYkcPiU8A9ywOBh3/468HXQb+E6OEX1PDEBfCUtqqx+jqcgwtQZwP5LVTdIy3esnRfcl3LsIMeBEUSRmM4/I0mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771922561; c=relaxed/simple;
-	bh=NDxi//Dba1wbPUsIKoTjHMV/rNScnA7634AbsOEXxHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qeOYOQ1dYy63hEaKP6+TUpFL5ev92YuIhxzqFwMInjvUk3A5yCgxWI7bd/txKSXUDdAD6b5DQoae0khdXKGnn9LmWFbW6T0GzM0kSH8dKkK7bxKiayEZBGLXZJce4TpWZum4uzTdNCbMUXO8ibF0GY/vOWyN6p8TEgVBwMu3+C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bTLmWGuF; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1771923844; c=relaxed/simple;
+	bh=+8l5L0H/ojsjjrmSKSEie7KNIn3mw2arWnNAj71Vv3k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J1f4r32rera4MVQ71E1g6JlCCOBYsqEvu6TUMZAceZjqEJMOjzpyqfZseGMTGqWpc2Vb3EzyoN4paw6DbW9PuswHnXixATF4RmVkHf+OTOVGQTptlkPaF1Rp9GnRKid9L9AlegKTqMoll6r4QyiCc7C/tK9FD6+GcbYpRtMqWrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VfpXnPuZ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bTLmWGuF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfpXnPuZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771922560; x=1803458560;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NDxi//Dba1wbPUsIKoTjHMV/rNScnA7634AbsOEXxHg=;
-  b=bTLmWGuFsJWdjAaunP0z+gMQNtXx6AZQ2KH/cfb+8X2FQEvu9iIqFK5i
-   mt5KutF/GshqGA1IswyQ6oalZVox+abARM0sa+Y3dCGdIx4SMJJvbLVFm
-   cjdMZ7f8tXS5BxlaELA5vEO44/a0DjwZof3ML5EPT62TMlShX+GmiPLti
-   jSBktxpOgYaNk4HfuloEdsYcGZ+r3ylHAdhjltjHgNrLGNCT5S3emWZWz
-   i9u6RlY5lmWrrBRjk381cijIOYEwVoff5JmpPuLxTc0id1ivfxOjTOlHl
-   S0l/KgJbZqA3aDRgaNZMP20ca18e7HQw5rpoHML0OqpVv5EJQLrPQEuKz
-   Q==;
-X-CSE-ConnectionGUID: ympgmlocRxmpcjXeZYoLHg==
-X-CSE-MsgGUID: QIL3vELNTD+P60DMndaWpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="83642184"
+  t=1771923843; x=1803459843;
+  h=date:from:to:cc:subject:message-id;
+  bh=+8l5L0H/ojsjjrmSKSEie7KNIn3mw2arWnNAj71Vv3k=;
+  b=VfpXnPuZm1OM0LW+R88QwXeyeIcZiFDCGWu6cTOwMiceRlILw3m2iTJc
+   IsSSFQoOHecgRMzIl1udjOlW46vYDRfFs0y5YPXrlqN9gPerThggGMrdj
+   n0tR8g6Z6qFDeovlPpK0yNPQo/ne90NsIOzl0J+noDtZUb8++EH2Z6sbw
+   s5M3CnHbMlZzWJTWmai2PoMQwpJr2W6QG9pZ/ryIQYOtq8ikAx7G+y3j0
+   MWGkJnq+F1/DYg6VqP3b6QZcNVRQNYBrL/wEG424zZ8Mxv3fMHXDbtb/Y
+   OADql2lmBcluyegBBnkqB4Ww7sagidBYQ2gpytWC3DHZJXlJl4HE2TfGU
+   w==;
+X-CSE-ConnectionGUID: I0mPRlOHRiOvOYKDD+fS6g==
+X-CSE-MsgGUID: x8fiduDlQ02jaIlxMBh3yQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="71964105"
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="83642184"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 00:42:40 -0800
-X-CSE-ConnectionGUID: Ih7jRUjiRqeS0ekoFBczOw==
-X-CSE-MsgGUID: rAxfmtZlS9uByqyoIN3Itg==
+   d="scan'208";a="71964105"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 01:04:02 -0800
+X-CSE-ConnectionGUID: 4S5Jb4TITQ2gZcEN2iCCrg==
+X-CSE-MsgGUID: A760p3NtRHemPQg79Sfszw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="243832914"
+   d="scan'208";a="214932705"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Feb 2026 00:42:36 -0800
+  by orviesa006.jf.intel.com with ESMTP; 24 Feb 2026 01:04:00 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vuo02-000000001hQ-30Zg;
-	Tue, 24 Feb 2026 08:42:34 +0000
-Date: Tue, 24 Feb 2026 16:42:19 +0800
+	id 1vuoKY-000000001in-0E20;
+	Tue, 24 Feb 2026 09:03:46 +0000
+Date: Tue, 24 Feb 2026 17:02:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
-	tj@kernel.org, christian.koenig@amd.com,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
-	Dave Chinner <david@fromorbit.com>,
-	Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [PATCH 08/16] ttm: add a memcg accounting flag to the
- alloc/populate APIs
-Message-ID: <202602241625.E8sX98Qb-lkp@intel.com>
-References: <20260224020854.791201-9-airlied@gmail.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:fuse-iomap-bpf 82/83] /tmp/cc8gnjpB.s:25: Error:
+ invalid operands (*ABS* and *UND* sections) for `|'
+Message-ID: <202602241701.xls0tz6F-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260224020854.791201-9-airlied@gmail.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.0-rc1 next-20260223]
-[cannot apply to akpm-mm/mm-everything drm-xe/drm-xe-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations-v4/20260224-112019
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260224020854.791201-9-airlied%40gmail.com
-patch subject: [PATCH 08/16] ttm: add a memcg accounting flag to the alloc/populate APIs
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260224/202602241625.E8sX98Qb-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602241625.E8sX98Qb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-iomap-bpf
+head:   e7a25f132866607711789424623976accda88e82
+commit: 4051a03679bdf19232f8e02c09ea7284050ef9d3 [82/83] fuse: add kfuncs for iomap bpf programs to manage the cache
+config: riscv-randconfig-002-20260224 (https://download.01.org/0day-ci/archive/20260224/202602241701.xls0tz6F-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602241701.xls0tz6F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602241625.E8sX98Qb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602241701.xls0tz6F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/ttm/ttm_bo.c:1264 function parameter 'memcg_account' not described in 'ttm_bo_populate'
->> Warning: drivers/gpu/drm/ttm/ttm_bo.c:1264 function parameter 'memcg_account' not described in 'ttm_bo_populate'
---
->> Warning: drivers/gpu/drm/ttm/ttm_pool.c:867 function parameter 'memcg_account' not described in 'ttm_pool_alloc'
->> Warning: drivers/gpu/drm/ttm/ttm_pool.c:867 function parameter 'memcg_account' not described in 'ttm_pool_alloc'
+   In file included from fs/fuse/fuse_iomap_bpf.c:7:
+   fs/fuse/fuse_iomap_bpf.c: In function 'fuse_iomap_init_bpf':
+   include/linux/bpf.h:2142:50: warning: statement with no effect [-Wunused-value]
+    #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
+                                                     ^~~~~~~~~~~~~~~~
+   fs/fuse/fuse_iomap_bpf.c:366:9: note: in expansion of macro 'register_bpf_struct_ops'
+     return register_bpf_struct_ops(&fuse_iomap_bpf_struct_ops,
+            ^~~~~~~~~~~~~~~~~~~~~~~
+   /tmp/cc8gnjpB.s: Assembler messages:
+>> /tmp/cc8gnjpB.s:25: Error: invalid operands (*ABS* and *UND* sections) for `|'
+   /tmp/cc8gnjpB.s:34: Error: invalid operands (*ABS* and *UND* sections) for `|'
 
 -- 
 0-DAY CI Kernel Test Service
