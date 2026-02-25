@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C3931326A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 21:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958AF30F94B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 21:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772054834; cv=none; b=DFeVOmoBGQq20vLHsXO9yN40P+VhXMoACkjh8ea/646j7Kp0P+P34BQVUR3TS5tfszD5OkSF9SRdrF2kPf3XqknJasW/LB8+YC6UF+ezvPAdygb+PLxCgnNttakkKMuwT7fGFzwOR/F/OfswwqF721I/i2y7KoJtisSLGiDoT4Y=
+	t=1772055503; cv=none; b=E1UX9Gt1Weq6twjrqKOahWeX6ggDRe4EsAGedpOa8DKNZgO1oJKXh2N+xZRLyB413bPELEXevfTarjSYyvLSs5FYmAhWbQDFmFbSZKbLH7S7VF4aunDj1K1f6Rr9AmxOxkUpTvbqFOfSoeY8l78UALOSY1GAKcjQlhvS+qh1ZxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772054834; c=relaxed/simple;
-	bh=Nsorh1kh3hpyh+6trpLGSmBhLEg+aUTWDG1dOyA2OOs=;
+	s=arc-20240116; t=1772055503; c=relaxed/simple;
+	bh=Wk4UoQl72s+9QTyqX2dBCxC919tJAENrmFZzVWmpIdo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ghVsR51h5WIcp4AcIfrCbyOj40IpVWrbIMxH6KFphH+R4Heu0ScNOmZhi7a/MoNDs7XjJgPX+8ZjDXAprNL/MTSdaJjPVUOaCSYEasF+rHBCmUp/Bb7WGLaA8+AeF+OkHsufmIkSJes+Cr6JC5OU4AH/MjjKzONEjP6AOaxq0o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SiS2qVMj; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=YzoGwppI5oGNW0YUKKUlEpUs4Cu4uCijdTrVBVjCj9W0dhBxZkJ73cl27xfDyeTnxssexMUSnkv4QnbD9TngdEUAIXXQ7Oz/9p6ob2z1XDJecR/pRfdxb6VM5WlUgdf6m2E+spxC8e5xWKw6BH5vu5YiZNLu5O45p9HrC4MegEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JowOInYQ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SiS2qVMj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JowOInYQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772054832; x=1803590832;
+  t=1772055500; x=1803591500;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Nsorh1kh3hpyh+6trpLGSmBhLEg+aUTWDG1dOyA2OOs=;
-  b=SiS2qVMj5QKGAorNB452jrh/i8181+cLbheDeAAFyQWSaw3IT7Y3Uq5j
-   0QrMF72qUypl7DoZghwD2Cs5cPL/+MvARjxEbxBupqlJAwUga4NIVrJi1
-   53grCChuhlc4ia8a2DjcbzEKXu47tviIsB5fkqWvdmR7ZfYNQGnxJA0Ov
-   a/iwh/BSczW+9NGbO68UDtixM9QVwkjwWuK8SdwNxVuXTXnw8AATEfh5J
-   M077uuxVV+j8P6e4yCWOOxll2+EFQvYVtBHAefT6sC+V7SdnDsaxkEW/T
-   FTEuE38JlT0JD8kGv3ethpmdT6I8ny7FNwfSZHhJB1dBdRz0f0o6HcknO
-   w==;
-X-CSE-ConnectionGUID: IN0Tp2pGRe+5P6/eDg3ASA==
-X-CSE-MsgGUID: d5AUTTRkQ2uWAZy9lczXzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="73212171"
+  bh=Wk4UoQl72s+9QTyqX2dBCxC919tJAENrmFZzVWmpIdo=;
+  b=JowOInYQ6mzhj9vlEvZk9XIReyxP3Szl7/6CAh9dunkRocrW/Y3ZewYb
+   dX2wzG9AbCDoYeA58C+yPSD5ur2kCcC5fqnVGUx5yDn3LH9dS3eLT5ChO
+   wEabnUHsLDgnqee9Zcmf0AoMEM7IXxEA26A/fHaUitaIQUFDQB5dYE0lg
+   p+eIIuth5ldkyacy9/zni3tIZ3tOeGbNLRU9E2FZhbX2CqbCaysxJSdgG
+   dkhzjkZ29sSgzwQFBmieZhKZbqnXFbhMbe92y6V6/mEhVRrt9IMOtHVT8
+   aU1sHHXydso3HtUmRhYhImBllOX+Ng9SnkmNwz0PfKhaLolIC3U8T3J9b
+   Q==;
+X-CSE-ConnectionGUID: wm5UCPcsRJezXL3snmOTxA==
+X-CSE-MsgGUID: oauI6PwARrOfrhN5KoNQOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="73016682"
 X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
-   d="scan'208";a="73212171"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 13:27:12 -0800
-X-CSE-ConnectionGUID: p/nN14WxQ0aRuj/MGzeNRA==
-X-CSE-MsgGUID: lVGSLezITIOEQ/wel91mmQ==
+   d="scan'208";a="73016682"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 13:38:20 -0800
+X-CSE-ConnectionGUID: KFgPQ3ZMTa+oDBHD7CnioA==
+X-CSE-MsgGUID: eykxMU/JSo+bRXLMIY+0xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
-   d="scan'208";a="216243485"
+   d="scan'208";a="244052943"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 25 Feb 2026 13:27:11 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 25 Feb 2026 13:38:17 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvMPU-000000007PV-2A6h;
-	Wed, 25 Feb 2026 21:27:08 +0000
-Date: Thu, 26 Feb 2026 05:26:36 +0800
+	id 1vvMZq-000000007Qn-2ucw;
+	Wed, 25 Feb 2026 21:37:54 +0000
+Date: Thu, 26 Feb 2026 05:37:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <dev@lankhorst.se>, intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [i915-ci-only NO-REVIEW 24/25] PREEMPT_RT injection
-Message-ID: <202602260529.oLe52BkR-lkp@intel.com>
-References: <20260225131931.60724-25-dev@lankhorst.se>
+To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hch@lst.de, hare@suse.de,
+	chaitanyak@nvidia.com, bvanassche@acm.org,
+	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+	James.Bottomley@hansenpartnership.com, mlombard@arkamax.eu,
+	jmeneghi@redhat.com, emilne@redhat.com, bgurney@redhat.com
+Subject: Re: [PATCH V3 2/3] nvme-core: register namespaces in order during
+ async scan
+Message-ID: <202602260543.EHcJPG8y-lkp@intel.com>
+References: <20260225161203.76168-3-mlombard@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +67,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260225131931.60724-25-dev@lankhorst.se>
+In-Reply-To: <20260225161203.76168-3-mlombard@redhat.com>
 
-Hi Maarten,
+Hi Maurizio,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-i915/for-linux-next]
-[also build test WARNING on next-20260225]
-[cannot apply to drm-i915/for-linux-next-fixes drm-misc/drm-misc-next drm-xe/drm-xe-next linus/master v7.0-rc1]
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v7.0-rc1 next-20260225]
+[cannot apply to linux-nvme/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-vblank_work-Add-methods-to-schedule-vblank_work-in-2-stages/20260226-012447
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
-patch link:    https://lore.kernel.org/r/20260225131931.60724-25-dev%40lankhorst.se
-patch subject: [i915-ci-only NO-REVIEW 24/25] PREEMPT_RT injection
-config: i386-randconfig-141-20260226 (https://download.01.org/0day-ci/archive/20260226/202602260529.oLe52BkR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maurizio-Lombardi/lib-Introduce-completion-chain-helper/20260226-001842
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20260225161203.76168-3-mlombard%40redhat.com
+patch subject: [PATCH V3 2/3] nvme-core: register namespaces in order during async scan
+config: x86_64-randconfig-161-20260226 (https://download.01.org/0day-ci/archive/20260226/202602260543.EHcJPG8y-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602260529.oLe52BkR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602260543.EHcJPG8y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602260529.oLe52BkR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602260543.EHcJPG8y-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/lenovo/wmi-gamezone.c:34:31: warning: unused variable 'gz_chain_head' [-Wunused-variable]
-      34 | static BLOCKING_NOTIFIER_HEAD(gz_chain_head);
-         |                               ^~~~~~~~~~~~~
-   include/linux/notifier.h:119:32: note: expanded from macro 'BLOCKING_NOTIFIER_HEAD'
-     119 |         struct blocking_notifier_head name =                    \
-         |                                       ^~~~
-   1 warning generated.
-
-
-vim +/gz_chain_head +34 drivers/platform/x86/lenovo/wmi-gamezone.c
-
-22024ac5366f06 Derek J. Clark 2025-07-01  33  
-22024ac5366f06 Derek J. Clark 2025-07-01 @34  static BLOCKING_NOTIFIER_HEAD(gz_chain_head);
-22024ac5366f06 Derek J. Clark 2025-07-01  35  
+>> Warning: drivers/nvme/host/core.c:4117 struct member 'chain_entry' not described in 'async_scan_task'
+>> Warning: drivers/nvme/host/core.c:4117 struct member 'chain_entry' not described in 'async_scan_task'
 
 -- 
 0-DAY CI Kernel Test Service
