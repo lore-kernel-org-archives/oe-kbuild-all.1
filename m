@@ -1,142 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57D34369A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 04:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0518F2D73AD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 05:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771994594; cv=none; b=EeAcktZAffEmvxxPzD/oJMnX1rpgTspHuafCiDacVsozvut1x8KPkiPFXExO/pfY75AGThM8eH7g9q3oRZAgvhufkLJ9DbxL6+acXQBkwW3i1ygpE9DKMbivC92tKlGfSmZP7BH9Ppg/XNvbUbdvJosuUIpiTLxCHdxTXAPn9Fw=
+	t=1771997119; cv=none; b=YBtoK9MRYnu/G1XTNhHr/5YxFvHk7C3pA18f1E+OPLrd4EGT9Ctxb4YzTSJvXeIdfKfZqY5TM4mCV+WeSAXjkryhEb3/lGuZArVCyDeRXO4SP9qTnSha8hedricL47Qdl7GzZ9bjr30HvLMnI4BP7VNlpUhckBNNmhmhhC6rubE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771994594; c=relaxed/simple;
-	bh=t8D1jQ9ZuCv1Th6BUK3UHEMBCGLUWLXCWP6xRrFdjOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ui9kyWs7GozRjjkLIMvheBwcN46w/X5M5RkSS/2NJXdmjlRTrlL3ftZRH4G0dcTQk9ypD3KuXIkXZPDnnqYtLwe8gtYbO3v15b7KALMQ7iwxiKz6+axG8EFfuSFGPOHyCKEMCC17MpIKz6QzQdr8lm28NCYDUDQPUuPTX7EcISw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EuxQVyhP; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1771997119; c=relaxed/simple;
+	bh=tyi1dCK1k5czUw/cMzeXiV+nZxuml+BKLs+wWIgutng=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cBPXF2mZawTwFJTUNwvtrxQE0HwaQQPsPXpULXu+nWbTwIn38KJXdywtt6o2ja/jfLgSAd69/Zm+pbe3vNEAUcAVKGWBFmtcsfXku303ZV4TGbahHGCrPtNBn3kcTaCXXtLfIJxnK+fb0iFAxqB0JjHiLfu5RjoLB+lu32BLezk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gg8FnI4Q; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EuxQVyhP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gg8FnI4Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771994593; x=1803530593;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t8D1jQ9ZuCv1Th6BUK3UHEMBCGLUWLXCWP6xRrFdjOk=;
-  b=EuxQVyhPMy4OYbB5SmiUTcnVma9daepJnEYd2cI/W6vZZpznTiEJmB8m
-   ALrcwJoL1fsHkalk56k3bJt/GxzP1IA40g2Y+zrVNgYlIOer3HNKAbWef
-   bzz2IYH05mgrvNm2Q+zcQNnqZ5VJSaqYiJv/TDiRCVIsqGm2ihQAB5vNd
-   9NOuHvsipoLi5ruZ2eNpe5ztck5cFK16Hs4a1TWMmW7Ach8m72bM9Hxrr
-   GUurlofhPmhzS8XXdGMF50eubhYA8mRecOgOsFPcx4JyFplAugmBw5se4
-   vS5JTKQuZ+TkhL8rvsfEp4a045z4kl3oTNf6i85W3pzu9z/mvK/TPuOKW
-   Q==;
-X-CSE-ConnectionGUID: GDBz3HgGTyC8Q8HAeS6NSQ==
-X-CSE-MsgGUID: DwOTgtAUSvSPSTEXgp6b5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="76631496"
+  t=1771997118; x=1803533118;
+  h=date:from:to:cc:subject:message-id;
+  bh=tyi1dCK1k5czUw/cMzeXiV+nZxuml+BKLs+wWIgutng=;
+  b=Gg8FnI4QH0qFVFVVEhilpIAo5Fjat27lA5b15uJwprXC1+lXKQms1uOn
+   Nxaoco17l3CDaB9c+0yRfHHzZYt6FKs6f3iKD8Sx5cku4wLNSZft0C3De
+   mT+bPMJhNWHRhqTSU252QPkUwwOgxaLJp9MEFyi5N39ODi6mcF70VFjcB
+   1BMSY2YVao66FaoQ/nkXAFTOuFox73eNGn+A0/QsvHJWZhywrMlT/Me7x
+   Ytf4BLw4eoA6kQxrrUF1brrKBPfRQMmz5KZmOdRNw0TxT/HgKBFO4GpBS
+   NXCx1FUx0v+lUhZxQyCivAMh5N2QbjU5n8ibGWdfMP+KT+uLQMuxGjlsb
+   A==;
+X-CSE-ConnectionGUID: OL1noEmLQGiz+fCCzQ57Tg==
+X-CSE-MsgGUID: /ea9oS2ZQOichMhvkPRATQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="73098241"
 X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; 
-   d="scan'208";a="76631496"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 20:43:13 -0800
-X-CSE-ConnectionGUID: gJFov5EqTTK771rDhExCrw==
-X-CSE-MsgGUID: xQlg1DhiQgaLy7mOujti4Q==
+   d="scan'208";a="73098241"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 21:25:17 -0800
+X-CSE-ConnectionGUID: 3mK3EV7uRcCh/C+yp2mS/g==
+X-CSE-MsgGUID: 7SwDsmfMQIyoQLeQ08FrRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; 
-   d="scan'208";a="253871912"
+   d="scan'208";a="246684998"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 24 Feb 2026 20:43:10 -0800
+  by orviesa002.jf.intel.com with ESMTP; 24 Feb 2026 21:25:15 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vv6jV-000000003vV-0nt6;
-	Wed, 25 Feb 2026 04:42:52 +0000
-Date: Wed, 25 Feb 2026 12:42:31 +0800
+	id 1vv7Ob-000000003z3-1Utn;
+	Wed, 25 Feb 2026 05:25:13 +0000
+Date: Wed, 25 Feb 2026 13:24:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com, simona@ffwll.ch,
-	airlied@gmail.com, jani.nikula@linux.intel.com,
-	ville.syrjala@linux.intel.com, superm1@kernel.org,
-	Leo Li <sunpeng.li@amd.com>
-Subject: Re: [PATCH 2/5] drm/vblank: Introduce deferred vblank enable/disable
-Message-ID: <202602251257.hwgG2w64-lkp@intel.com>
-References: <20260224212639.390768-3-sunpeng.li@amd.com>
+To: Kees Cook <kees@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kees:for-next/kspp 1/3]
+ drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:99:undefined reference
+ to `__udivmoddi4'
+Message-ID: <202602251312.pq8yvrww-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260224212639.390768-3-sunpeng.li@amd.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.0-rc1 next-20260224]
-[cannot apply to drm-i915/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-vblank-Add-drm_crtc_vblank_is_off-helper/20260225-052945
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260224212639.390768-3-sunpeng.li%40amd.com
-patch subject: [PATCH 2/5] drm/vblank: Introduce deferred vblank enable/disable
-config: microblaze-randconfig-r053-20260225 (https://download.01.org/0day-ci/archive/20260225/202602251257.hwgG2w64-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/kspp
+head:   c471bbfb03f639ea9ec53a4b30ae6cba509eb2d1
+commit: a74a57773d43d87ab4cc8ac4fdfa0fa511e43da6 [1/3] drm/amd/ras: Fix type size of remainder argument
+config: i386-randconfig-141-20260225 (https://download.01.org/0day-ci/archive/20260225/202602251312.pq8yvrww-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260225/202602251312.pq8yvrww-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602251257.hwgG2w64-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602251312.pq8yvrww-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_vblank.c:1402:6-25: WARNING: atomic_dec_and_test variation before object free at line 1409.
-   drivers/gpu/drm/drm_vblank.c:1402:6-25: WARNING: atomic_dec_and_test variation before object free at line 1416.
+All errors (new ones prefixed by >>):
 
-vim +1402 drivers/gpu/drm/drm_vblank.c
+   ld: drivers/gpu/drm/amd/ras/rascore/ras_core.o: in function `ras_core_convert_timestamp_to_time':
+>> drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:99:(.text+0x23e): undefined reference to `__udivmoddi4'
+>> ld: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:100:(.text+0x253): undefined reference to `__udivdi3'
+>> ld: drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:101:(.text+0x265): undefined reference to `__umoddi3'
 
-  1385	
-  1386	void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
-  1387	{
-  1388		struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
-  1389		int vblank_offdelay = vblank->config.offdelay_ms;
-  1390		bool needs_deferred_disable;
-  1391	
-  1392		if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
-  1393			return;
-  1394	
-  1395		if (drm_WARN_ON(dev, atomic_read(&vblank->refcount) == 0))
-  1396			return;
-  1397	
-  1398		needs_deferred_disable =
-  1399			drm_crtc_needs_deferred_vblank(drm_crtc_from_index(dev, pipe));
-  1400	
-  1401		/* Last user schedules interrupt disable */
-> 1402		if (!atomic_dec_and_test(&vblank->refcount))
-  1403			return;
-  1404	
-  1405		if (!vblank_offdelay)
-  1406			return;
-  1407		else if (vblank_offdelay < 0) {
-  1408			if (needs_deferred_disable)
-> 1409				mod_delayed_work(dev->deferred_vblank_wq,
-  1410						 &vblank->disable_work,
-  1411						 0);
-  1412			else
-  1413				vblank_disable_fn(&vblank->disable_timer);
-  1414		} else if (!vblank->config.disable_immediate) {
-  1415			if (needs_deferred_disable)
-  1416				mod_delayed_work(dev->deferred_vblank_wq,
-  1417						 &vblank->disable_work,
-  1418						 msecs_to_jiffies(vblank_offdelay));
-  1419			else
-  1420				mod_timer(&vblank->disable_timer,
-  1421					  jiffies + ((vblank_offdelay * HZ) / 1000));
-  1422		}
-  1423	}
-  1424	
+
+vim +99 drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c
+
+13c91b5b4378b5 YiPeng Chai 2025-03-17   60  
+13c91b5b4378b5 YiPeng Chai 2025-03-17   61  int ras_core_convert_timestamp_to_time(struct ras_core_context *ras_core,
+13c91b5b4378b5 YiPeng Chai 2025-03-17   62  			uint64_t timestamp, struct ras_time *tm)
+13c91b5b4378b5 YiPeng Chai 2025-03-17   63  {
+13c91b5b4378b5 YiPeng Chai 2025-03-17   64  	int days_in_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+25c1e7414b2cab YiPeng Chai 2025-10-17   65  	uint64_t month = 0, day = 0, hour = 0, minute = 0, second = 0;
+a74a57773d43d8 Kees Cook   2026-02-12   66  	uint64_t remaining_seconds;
+25c1e7414b2cab YiPeng Chai 2025-10-17   67  	uint32_t year = 0;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   68  	int seconds_per_day = 24 * 60 * 60;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   69  	int seconds_per_hour = 60 * 60;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   70  	int seconds_per_minute = 60;
+a74a57773d43d8 Kees Cook   2026-02-12   71  	int days;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   72  
+a74a57773d43d8 Kees Cook   2026-02-12   73  	days = div64_u64_rem(timestamp, seconds_per_day, &remaining_seconds);
+13c91b5b4378b5 YiPeng Chai 2025-03-17   74  
+13c91b5b4378b5 YiPeng Chai 2025-03-17   75  	/* utc_timestamp follows the Unix epoch */
+13c91b5b4378b5 YiPeng Chai 2025-03-17   76  	year = 1970;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   77  	while (days >= 365) {
+13c91b5b4378b5 YiPeng Chai 2025-03-17   78  		if (IS_LEAP_YEAR(year)) {
+13c91b5b4378b5 YiPeng Chai 2025-03-17   79  			if (days < 366)
+13c91b5b4378b5 YiPeng Chai 2025-03-17   80  				break;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   81  			days -= 366;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   82  		} else {
+13c91b5b4378b5 YiPeng Chai 2025-03-17   83  			days -= 365;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   84  		}
+13c91b5b4378b5 YiPeng Chai 2025-03-17   85  		year++;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   86  	}
+13c91b5b4378b5 YiPeng Chai 2025-03-17   87  
+13c91b5b4378b5 YiPeng Chai 2025-03-17   88  	days_in_month[1] += IS_LEAP_YEAR(year);
+13c91b5b4378b5 YiPeng Chai 2025-03-17   89  
+13c91b5b4378b5 YiPeng Chai 2025-03-17   90  	month = 0;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   91  	while (days >= days_in_month[month]) {
+13c91b5b4378b5 YiPeng Chai 2025-03-17   92  		days -= days_in_month[month];
+13c91b5b4378b5 YiPeng Chai 2025-03-17   93  		month++;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   94  	}
+13c91b5b4378b5 YiPeng Chai 2025-03-17   95  	month++;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   96  	day = days + 1;
+13c91b5b4378b5 YiPeng Chai 2025-03-17   97  
+13c91b5b4378b5 YiPeng Chai 2025-03-17   98  	if (remaining_seconds) {
+13c91b5b4378b5 YiPeng Chai 2025-03-17  @99  		hour = remaining_seconds / seconds_per_hour;
+13c91b5b4378b5 YiPeng Chai 2025-03-17 @100  		minute = (remaining_seconds % seconds_per_hour) / seconds_per_minute;
+13c91b5b4378b5 YiPeng Chai 2025-03-17 @101  		second = remaining_seconds % seconds_per_minute;
+13c91b5b4378b5 YiPeng Chai 2025-03-17  102  	}
+13c91b5b4378b5 YiPeng Chai 2025-03-17  103  
+13c91b5b4378b5 YiPeng Chai 2025-03-17  104  	tm->tm_year = year;
+13c91b5b4378b5 YiPeng Chai 2025-03-17  105  	tm->tm_mon = month;
+13c91b5b4378b5 YiPeng Chai 2025-03-17  106  	tm->tm_mday = day;
+13c91b5b4378b5 YiPeng Chai 2025-03-17  107  	tm->tm_hour = hour;
+13c91b5b4378b5 YiPeng Chai 2025-03-17  108  	tm->tm_min = minute;
+13c91b5b4378b5 YiPeng Chai 2025-03-17  109  	tm->tm_sec = second;
+13c91b5b4378b5 YiPeng Chai 2025-03-17  110  
+13c91b5b4378b5 YiPeng Chai 2025-03-17  111  	return 0;
+13c91b5b4378b5 YiPeng Chai 2025-03-17  112  }
+13c91b5b4378b5 YiPeng Chai 2025-03-17  113  
+
+:::::: The code at line 99 was first introduced by commit
+:::::: 13c91b5b4378b5d08dc9ae9121b1645a0beec0bb drm/amd/ras: Add rascore unified interface function
+
+:::::: TO: YiPeng Chai <YiPeng.Chai@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
