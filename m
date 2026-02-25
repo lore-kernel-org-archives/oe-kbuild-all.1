@@ -1,81 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7222BEC2A;
-	Wed, 25 Feb 2026 07:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83E53115BC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 08:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772003976; cv=none; b=J7aTgX4FQOU5HXRi763izJ0hGEImlukrb5CE9vExv9O6ldh+xjEHGL3RukAXmPkLF8fEwlSmF43k/8N4BCmByQayOZdvdrVDEMmeYL5ju3cstxNFX6AS2HV6Fs/k9bEoDF8QJy9hil41uM/oLBMpTNtTukNEuAHf6HYt4gm/TiM=
+	t=1772007334; cv=none; b=DplhqRZZTlhPndnlhgTPG/1Q7CjbYcNNrE4pz1TvLDtYcCioJYgoXTa1X4J/SP9ut6tEy4cFelehGeoqCeEdl3yXqzVj9TonK+TJ5GxrHvGvDxVhhz+BsoSiR0G8jmnUI7aEsgxU6A7H4T23XmMnjfJ0H8A8ZmafpTY4rTxlklE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772003976; c=relaxed/simple;
-	bh=CbiotcYeTC/xNX/WWvgx2AOcqH/NVwgPal1VsDbilCU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hi3KZkELKULCpYj9AmToOLAEB03l7RhWzb3g1hAX7WYe9xV3mm/PNZNcDaQrlBSPNe7r+48/5ROaHKB2nWWUJYdojh/88zcsAa0t/npGCluHMMJZwQxqnEEXtMlJoiBkmJVeUQwhAef2aViE27uOhDz59wygUpH3ReNXK0N2HGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLZHT7g0; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772007334; c=relaxed/simple;
+	bh=b0IWS/Bv9HIrN/QIceN9IKsqWKFjysW6PbjVYvsdR2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RwVBBGRGLLaRISqeWjljrClUgNNIyJ0wvdLgaTUgObGbH6vZaXteN05v2ElE4bIDvw51pw2gOAiwb6TrGVMLLyzW15nG6qeVa7pllxVTcJLwOPm95au6pk4O65NIvJe2Wj2xB/g3sbNAPtelcPHHLZsYZ5eeOi+avd0pOIiv4IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X3ff96QQ; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLZHT7g0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772003975; x=1803539975;
-  h=date:from:to:cc:subject:message-id;
-  bh=CbiotcYeTC/xNX/WWvgx2AOcqH/NVwgPal1VsDbilCU=;
-  b=XLZHT7g0nAU6PUO7jWLpyl2AWKcTIXvYDKW+V2yJdOxvZ8BYv5b2YUUa
-   ir1Nbsz0RRMMbhs/ctjBrM6MiTSjCX8BwmJd1gfmd7TxXIAHPPAFMCOvB
-   rUCCmGFR390mQVSoou/tCjyNTzEl1w2xf1W/5t1/C3/80qWzFh4av+qz/
-   KASF5TUC8/Z0o13TcSeysAKtIOV5YNYsgsE+n5uLIe9dZkvkgEPilnJKw
-   6u8nZGoCwbPjN7Of7oBSxz6v1NAivCaL89Xxs+MOsFzXMmeXEY7AioueH
-   e4iSbtTadhTH8JCYEUR3IXf1OonlUfihsFAOAolqJ3yEIQ9UHbI9H6jKp
-   g==;
-X-CSE-ConnectionGUID: 8gJZoy4lSp+i3QbW5jSDZg==
-X-CSE-MsgGUID: xeJ7ByFQT/ChBOf1Vaw2xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="90452077"
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
-   d="scan'208";a="90452077"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 23:19:34 -0800
-X-CSE-ConnectionGUID: KhdnH8UoTBKb+MCigyfQHQ==
-X-CSE-MsgGUID: F7ILzBGSTxKstO8NaCxZAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
-   d="scan'208";a="220268724"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 24 Feb 2026 23:19:33 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vv9B9-000000004Rr-1pvn;
-	Wed, 25 Feb 2026 07:19:28 +0000
-Date: Wed, 25 Feb 2026 15:18:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [rafael-pm:acpi-rtc 13/14] ERROR: modpost:
- "devm_rtc_device_register" [drivers/acpi/acpi_tad.ko] undefined!
-Message-ID: <202602251547.aJzUhpzh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X3ff96QQ"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48370174e18so34773145e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 00:15:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772007331; x=1772612131; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=X225D5Ei9UC4pV2nV6End/Mxx7XQa7ZRi+IwmSgqyvo=;
+        b=X3ff96QQuV+ePCWXpn2APtNq0Mnt5sBlOKhttwZthXsI4RV/YRwGtqImxGxlW+Aofc
+         3f4vpV2JV6YvXSlziTsYmGM1POUe5UgvqUPM331HQ8pHy8hbs5gZRQRX1be+jIdbUW/P
+         faXUvUsQhuRRUkh35aR1AfMDQM0u00W5UhyMIJBcF/9B5lhrXkoQiJ/2U4FOogLfyQwy
+         pOEZIZuenYe0qrZn0SrbWmJ6/emLa4N3lToBOSq3w3Uxbk3F7yZrBJa2+C3RNnqE1FEK
+         AnWcORKYz1RdOG199fh/bVRflRS2n37GitkcANakO+u/SGLM0bK/XKnQa/PLmwNFfAaO
+         jGFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772007331; x=1772612131;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X225D5Ei9UC4pV2nV6End/Mxx7XQa7ZRi+IwmSgqyvo=;
+        b=pE3069RALT/ELwzkge4iCjDToqAtcV7DUb5YmBZExF0VB11+3EgaM14WtLJw7iEw+6
+         yQ/8PUY6tBHfFlbDkC4/F7pQ4SBe+KofjEvwsr0UeQQR3pK6KVoqUNlBk/+RAFBXaZ45
+         2gwIloXkN56ooSb9/eb1LZcSky+arcdBPqePCy2OANFAiEhe2UzymCH2PcORN1Gp96D1
+         V0SpwsYBsl9QBnHeVUFPWGa4nIRCnQm8Pmx9vN5aNBqd5tNTPzj22belOIMlG3s+ajfR
+         KHi54ay6EMYBAcewk7aJPlJamQIfzGpMiae/y0ZgkUlEdH50lP03YEyY1aFSTkgOYfs9
+         hSFA==
+X-Forwarded-Encrypted: i=1; AJvYcCVvVS+DCgvDKEnUn4hWaOJNmXj/M6Kf+JhPx4xteP6Wn4C5nCuzpw09LvNx0+zcMreOq5uRZHVa9f+RykOB@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBHy1yAgKahZlMgfvTA51u6JnwpaFq+tLkDQv1KBbczrqGPT9h
+	fdW6RSnRYJrc22sSlpBY5P7ke4jC8GAdynP1T57YbwcugpFMSqm3ZMNpeE+fMLGIrbE=
+X-Gm-Gg: ATEYQzxlLyKHH5otQsy6TAztVJsJROVvo86erBzSIO7FTI/8K3tKwHvBLMnAplEwumn
+	Z7YkNLl6AStMk4k15cx6NxVFP8jzhzWEFrzm/fW84/K/Ptx6rcKTtuPSeTJn/nX4n1+kU4Q0wKk
+	SKhb2KRA5vSPBuQ219ZIbaLssXUNsbL9gRy/oGPBeDpXm2ihZ4ECkAj2Swr65tbcyZal17U60pN
+	qH3BjD7zy/Gm5Z5CSgCc9KEEuKyiC4c+Bq2If0geqsBoQ7AZu/2OHQAKQ0wzCVC64ofxGShgc14
+	UD+DD0WVHXVj704zxRtZRb97Tkfkq9loj9hEYUPVFCatQaTCWbrES46KspNV9RoUQB/8ytfStyP
+	P+7sqvMGAXnHRO1vjqno8f+C01na/yIOLbYbWWdCQCpEeOme/JhrNByeyDWnOhWpPbvNopheVQX
+	3oybphkIA5cbTauDMOd4WmGJ/kgM4Ls1y6BBpFcxk=
+X-Received: by 2002:a05:600c:4e14:b0:483:702f:4641 with SMTP id 5b1f17b1804b1-483bef19d37mr25321705e9.3.1772007331299;
+        Wed, 25 Feb 2026 00:15:31 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm60197395e9.9.2026.02.25.00.15.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 00:15:30 -0800 (PST)
+Date: Wed, 25 Feb 2026 11:15:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	kernel test robot <lkp@intel.com>, Ian Rogers <irogers@google.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, sparse@chrisli.org, linux-sparse@vger.kernel.org,
+	Marco Elver <elver@google.com>
+Subject: Re: [PATCH] compiler: Use __typeof_unqual__() for
+ __unqual_scalar_typeof()
+Message-ID: <aZ6vn1NrIkv4UXFW@stanley.mountain>
+References: <202601150001.sKSN644a-lkp@intel.com>
+ <87v7h23cb0.ffs@tglx>
+ <20260115211120.GD831050@noisy.programming.kicks-ass.net>
+ <87ms2e32gw.ffs@tglx>
+ <87jyxh3ike.ffs@tglx>
+ <87ecnp2zh3.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ecnp2zh3.ffs@tglx>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git acpi-rtc
-head:   52b552ea2b0e12800942e22f4ed3dbc7f394dec9
-commit: ad9f759418050a355eb90ac010b8db05d4d6f23c [13/14] ACPI: TAD: Add RTC class device interface
-config: x86_64-randconfig-002-20260225 (https://download.01.org/0day-ci/archive/20260225/202602251547.aJzUhpzh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260225/202602251547.aJzUhpzh-lkp@intel.com/reproduce)
+On Fri, Jan 16, 2026 at 07:18:16PM +0100, Thomas Gleixner wrote:
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1178,6 +1178,14 @@ ifdef CONFIG_CC_IS_CLANG
+>  KBUILD_USERLDFLAGS += --ld-path=$(LD)
+>  endif
+>  
+> +# Validate the checker is available and functional
+> +ifneq ($(KBUILD_CHECKSRC), 0)
+> +  ifneq ($(shell $(srctree)/scripts/checker-valid.sh $(CHECK)), 1)
+> +    $(warning C=$(KBUILD_CHECKSRC) specified, but $(CHECK) is not available or not up to date)
+> +    KBUILD_CHECKSRC = 0
+> +  endif
+> +endif
+> +
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602251547.aJzUhpzh-lkp@intel.com/
+This means we can't run "CHECK="valgrind smatch -p=kernel" because
+valgrind always prints output to stderr.  So hopefully we can
+eventually remove this check.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+regards,
+dan carpenter
 
->> ERROR: modpost: "devm_rtc_device_register" [drivers/acpi/acpi_tad.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
