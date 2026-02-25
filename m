@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A4B33B940;
-	Wed, 25 Feb 2026 17:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7246627B353
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 17:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772040959; cv=none; b=X33gO4dk4ZTpmBpCMdlVFQ4gYGSkOQqAiP34z2k9rDsGdYUWW7Lp5MM46K9zYRluVvnqJa1CeIldRwz2/hyZyhRYzD43uXiqxCQ+PpRE5F5PobgTpqE/Bq4NRbP8Jyby+uxHqlysHSwQ+vyORfmHr22x6TitW8IVCYIjZOanZAw=
+	t=1772042269; cv=none; b=Q9rT0puhkZsUwxovkKwVyaKt2puQ8X8JCb5X8Yh/Ch1xNnC1mlUWEGVA6oqoOa9BYqwzONNSWOvSGKhVXF9Lpm1ZMc3FlCBLqK8AAoKgYTcX6fQmkXTMesoJiIfHbz5Yr/wCJTq6rz/JtuiVyaaYPhNLxCKtVw3iN6dxACkEOpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772040959; c=relaxed/simple;
-	bh=jTkuq+opRJ8JdWnn0p+R4+vuxQ1w+E8Ucex1LO69KGM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BYYS99vzl1L65n5XhgX2QM9aJSOlL+7e5kevUOKTy+EPo3qWI/eyjzu5jP/5AHfkwVWS1NYnIe7b8jK+pMxSJFibBKLcLU8EBpmnu2pehDK3bScB6fydY4tABGA/QrVFqr2tY6wZqZ8Q13/gYiY6U7mPCM4uVAnQ2GWTkHWDvbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFi4eQZt; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1772042269; c=relaxed/simple;
+	bh=0TQqBZjAfxG5TqNrJow9HjuFDUoCUGrKxrx2MhtAVNo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=akdCnZUFH6KXogjTzmZ9MXrKfiiuuUZ73JIeOcdsIgQXx95rZEbIi8PMaafknNEQLOxs1bNc5G/9tDJe9pt3d2DeeCNuBVekXkZvxjhMPkslyg+FjjhNUjl5FMreLnyDFT3w8OMJnCVfndCMjDHmOZV1JfKHJ1+aXwDnIUE8Fog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqoO58GE; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFi4eQZt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqoO58GE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772040956; x=1803576956;
+  t=1772042267; x=1803578267;
   h=date:from:to:cc:subject:message-id;
-  bh=jTkuq+opRJ8JdWnn0p+R4+vuxQ1w+E8Ucex1LO69KGM=;
-  b=cFi4eQZtSkFJsQzdcX7zw2dXefN2RkTDdcJCGLxesLl85mz7X2VWKFrV
-   61uaVPMzku9/DPAuH2aYCnvz3l49+yGH2oj0zZZCqEVMud7M/wT5PwAUf
-   QIDutrGyLIl1QzXZnd35FMdhjomJ3qzNhBwWPy60YHckMCuv/K5OevTrB
-   ADpm//DpYZUHbVSgtwxsFVtbuVSqm6wsTr1iSOpbp5EP+fw3KhXTijDt3
-   0NE2hGfWh7a6tJdiD4GFWclsJztZqOfWRfxP8YawKHWndEmy3BlGdc/DD
-   FHqwgD1Mbn3VR6E4UWS2C0yiYn2pxwOa0/n9leGwq2kJFFatG3ccKhr10
+  bh=0TQqBZjAfxG5TqNrJow9HjuFDUoCUGrKxrx2MhtAVNo=;
+  b=JqoO58GEFEnSnop0210hcu3pkx/beo8L61djEV14FHCo1uWHlfLuTQC3
+   NUWsQhpp+ZGuR0Ozkj0hZ04w/WdNti1tyR29sbIRwC0jQgL+pp9UnRsQh
+   aXktW/rYDr4WFCnoDxepZqI6V037C+yXl6qQpvs9r0gph0a+t7zchBu7C
+   v5dpJhGUWFGnqqjYf+yo8MIDGzG8IQozvK44z45ULPou/H5FZ05rAVP9O
+   XZTuIzQ8XB+JKgO7hBesOqnd760CmrUodw+w9g4ifiWsAS0/tCgaAr389
+   R4R6QBvfXcGoGoCgvYy2l1Mg5/z7XPtaSKX4JgObwrjGOxeQO6DdTVt9X
    w==;
-X-CSE-ConnectionGUID: pzCXqkR0RfGff+NMzYCSRg==
-X-CSE-MsgGUID: QBfbFcizS7St70RYbrgpoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="84182786"
+X-CSE-ConnectionGUID: hBHfyVUkQbeeWGNOkoX4Vw==
+X-CSE-MsgGUID: ID58fWlZT5K1g/DrEFCvTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="75696425"
 X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
-   d="scan'208";a="84182786"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 09:35:56 -0800
-X-CSE-ConnectionGUID: lRQqfHoJS7CPFodJMr/hYw==
-X-CSE-MsgGUID: BNOSVnv5Qh2FXNuzzhu5VA==
+   d="scan'208";a="75696425"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 09:57:46 -0800
+X-CSE-ConnectionGUID: SymyqQnqRBGkTANffxooxA==
+X-CSE-MsgGUID: R7Ulnz8MQKisBWhryfvbeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
-   d="scan'208";a="214576039"
+   d="scan'208";a="216451448"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Feb 2026 09:35:53 -0800
+  by orviesa007.jf.intel.com with ESMTP; 25 Feb 2026 09:57:45 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvInf-000000006ok-2aJt;
-	Wed, 25 Feb 2026 17:35:51 +0000
-Date: Thu, 26 Feb 2026 01:35:18 +0800
+	id 1vvJ8p-000000006u8-0q7c;
+	Wed, 25 Feb 2026 17:57:43 +0000
+Date: Thu, 26 Feb 2026 01:57:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [rafael-pm:bleeding-edge 76/102]
- drivers/platform/chrome/chromeos_tbmc.c:49:27: error: expected ';' at end of
- declaration
-Message-ID: <202602260154.XIWu0fTw-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_5 6/23]
+ kernel/bpf/syscall.c:3514:49: error: passing argument 1 of
+ 'bpf_trampoline_unlink_prog' from incompatible pointer type
+Message-ID: <202602260113.doKuRGW0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,45 +60,79 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   afb26ba421df11fad71fc4be9b874a901efb0388
-commit: 37ca8e5f81981188405d5722825b58173c275fb5 [76/102] platform/chrome: chromeos_tbmc: Convert to a platform driver
-config: x86_64-randconfig-072-20260225 (https://download.01.org/0day-ci/archive/20260226/202602260154.XIWu0fTw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602260154.XIWu0fTw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
+head:   2e9ff5967a4f3cb4d96c1fd04944036d9961099d
+commit: 8f7a9302fcb5575b82514340a6ceed2c5592a014 [6/23] bpf: Add struct bpf_tramp_node object
+config: csky-randconfig-r072-20260226 (https://download.01.org/0day-ci/archive/20260226/202602260113.doKuRGW0-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602260113.doKuRGW0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602260154.XIWu0fTw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602260113.doKuRGW0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/platform/chrome/chromeos_tbmc.c:49:27: error: expected ';' at end of declaration
-      49 |         struct device *dev = data
-         |                                  ^
-         |                                  ;
-   1 error generated.
+   In file included from kernel/bpf/syscall.c:5:
+   include/linux/bpf.h:1543:51: warning: 'struct bpf_tramp_link' declared inside parameter list will not be visible outside of this definition or declaration
+    1543 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
+         |                                                   ^~~~~~~~~~~~~~
+   include/linux/bpf.h:1549:53: warning: 'struct bpf_tramp_link' declared inside parameter list will not be visible outside of this definition or declaration
+    1549 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
+         |                                                     ^~~~~~~~~~~~~~
+   In file included from include/asm-generic/bug.h:7,
+                    from arch/csky/include/asm/bug.h:18,
+                    from include/linux/bug.h:5,
+                    from include/linux/alloc_tag.h:8,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11:
+   kernel/bpf/syscall.c: In function 'bpf_tracing_link_release':
+>> kernel/bpf/syscall.c:3514:49: error: passing argument 1 of 'bpf_trampoline_unlink_prog' from incompatible pointer type [-Wincompatible-pointer-types]
+    3514 |         WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
+         |                                                 ^~~~~~~~~~~~~~~~~~~
+         |                                                 |
+         |                                                 struct bpf_tramp_node *
+   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
+      28 |                 bool __ret_do_once = !!(condition);                     \
+         |                                         ^~~~~~~~~
+   kernel/bpf/syscall.c:3514:9: note: in expansion of macro 'WARN_ON_ONCE'
+    3514 |         WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
+         |         ^~~~~~~~~~~~
+   include/linux/bpf.h:1549:69: note: expected 'struct bpf_tramp_link *' but argument is of type 'struct bpf_tramp_node *'
+    1549 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   kernel/bpf/syscall.c: In function 'bpf_tracing_prog_attach':
+>> kernel/bpf/syscall.c:3746:40: error: passing argument 1 of 'bpf_trampoline_link_prog' from incompatible pointer type [-Wincompatible-pointer-types]
+    3746 |         err = bpf_trampoline_link_prog(&link->link.node, tr, tgt_prog);
+         |                                        ^~~~~~~~~~~~~~~~
+         |                                        |
+         |                                        struct bpf_tramp_node *
+   include/linux/bpf.h:1543:67: note: expected 'struct bpf_tramp_link *' but argument is of type 'struct bpf_tramp_node *'
+    1543 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~^~~~
 
 
-vim +49 drivers/platform/chrome/chromeos_tbmc.c
+vim +/bpf_trampoline_unlink_prog +3514 kernel/bpf/syscall.c
 
-    46	
-    47	static void chromeos_tbmc_notify(acpi_handle handle, u32 event, void *data)
-    48	{
-  > 49		struct device *dev = data
-    50		struct acpi_device *adev = ACPI_COMPANION(dev);
-    51	
-    52		acpi_pm_wakeup_event(&adev->dev);
-    53		switch (event) {
-    54		case 0x80:
-    55			chromeos_tbmc_query_switch(adev, dev_get_drvdata(dev));
-    56			break;
-    57		default:
-    58			dev_err(dev, "Unexpected event: 0x%08X\n", event);
-    59		}
-    60	}
-    61	
+  3508	
+  3509	static void bpf_tracing_link_release(struct bpf_link *link)
+  3510	{
+  3511		struct bpf_tracing_link *tr_link =
+  3512			container_of(link, struct bpf_tracing_link, link.link);
+  3513	
+> 3514		WARN_ON_ONCE(bpf_trampoline_unlink_prog(&tr_link->link.node,
+  3515							tr_link->trampoline,
+  3516							tr_link->tgt_prog));
+  3517	
+  3518		bpf_trampoline_put(tr_link->trampoline);
+  3519	
+  3520		/* tgt_prog is NULL if target is a kernel function */
+  3521		if (tr_link->tgt_prog)
+  3522			bpf_prog_put(tr_link->tgt_prog);
+  3523	}
+  3524	
 
 -- 
 0-DAY CI Kernel Test Service
