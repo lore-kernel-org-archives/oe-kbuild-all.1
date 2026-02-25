@@ -1,358 +1,382 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4803392C5A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 10:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8208D283FC9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 10:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772016296; cv=none; b=iwRsUhPbHP2u2LfwqwFjGLyKJV2svm9LjxCUUYd3eHW5aK1KUSKiIz5TLcM39N48cN/XTpwZROarNj8tGufbqXJPS3yjugLCMCDHXdZT7xsOLiUrVqripvMv0nXXPAlpRqne/kaAH2m4UUgksYjn+IehdoF4EsWRVdyCq4uwfFU=
+	t=1772016372; cv=none; b=eRSeU1X1LHt2nPoRaV3nXEKjTfJc6rTKD+J8f6nR67Jag/yTXDirs2YCywCR5SBfjRP2O4C4tUXjmgCbO7Eui7u+PGwoB0Krk2kRrbNfkCYksCmvlhlJ5ky7ab10ZUgxMupCSCjyhIKvaJS2uo4sQMNPxrg2Kp/lImexRKm2f3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772016296; c=relaxed/simple;
-	bh=Ysx9Js00f446MkSihKl9uvNfDSFf28vC9RzawOFMPMU=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=EECJvKkAMG8XU6Hnh1ZbDvWsTMt5Xal3W9KDl/hAbgdXfkJt+gVw56r8vISg5GCmgFH6s/rAmu1ZkRRFmElBkScN9CknFVMjt0b5GjkkAARFuhJveuVmipWFLKHJVwpcclYw/ijd7fwb3Ahid53isQnix/Y7cnk2jbehEVqgJvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Qiz84T9y; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1772016372; c=relaxed/simple;
+	bh=+QiEAqnPHchhC9MawvX+FUv/mFywbZaD5j6XBsHM0Jk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fEz1nxZ2QZjY0zJLxd5giG+EM9cY99SWGgJmVE+4aQJg68lVznsTsOmZa2KYFo+GmOxbMDoHl+YgJi4MqeZCJzLg6K46N7pn8MS88U9mejsh4MQ+wisoIs9tPb2mqfiiyrtekt8qRS7nJ3iGL0hwCbOSMTo7dl4mX6BJxZvz+vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+TIFJKT; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Qiz84T9y"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61P2J6eX3390406;
-	Wed, 25 Feb 2026 10:44:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=xp+fmy
-	g5YaGTIeutgO2mg1a+mQgH/dJtT9J5/WJVuzI=; b=Qiz84T9ycP1e4pYqWJ1Ye0
-	C1NZNjPLcOa8pkah40wKF8fzwugly3o2GDQg+rEIoB+jrF6ieS0q9je+wsRmxs3L
-	Au2Bwjt1Kvyoy95GuUfvD8rwyMH/N7RBakgbQV9AFYz+KUJ0O71+eqaBXbkotzVT
-	0lR9Gq+mhb6pHUmTDDUO1vdH/gArwCEQ1yppxgSV9zK9O3zKB9/pF8ni5BXgEA1z
-	8ROi2MOeetqTXNt5DJe5tShO8EYh6m+gdZLJnpsco220njhNyKJ3wa76lmyTJiUr
-	PIpt6dWCvrF/fnjpBZcHRxHLcpfLYbT/Q3UO53YzUaMM9Blp+Ke9lFkB6ptQHqzA
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf471yv6f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Feb 2026 10:44:32 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61P7UmXb013419;
-	Wed, 25 Feb 2026 10:44:31 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cfqdy5163-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Feb 2026 10:44:31 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61PAiVDB16843314
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Feb 2026 10:44:31 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2AD9758059;
-	Wed, 25 Feb 2026 10:44:31 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 16EE958058;
-	Wed, 25 Feb 2026 10:44:30 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 25 Feb 2026 10:44:29 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+TIFJKT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772016370; x=1803552370;
+  h=date:from:to:cc:subject:message-id;
+  bh=+QiEAqnPHchhC9MawvX+FUv/mFywbZaD5j6XBsHM0Jk=;
+  b=h+TIFJKTbh45gtSOdZu2anBYTbimueH6mJQtWceOYFQE4gjPREqh+vRU
+   Brxqbm3Hi/+0Us5ML+aOA7lJ531kDyLkD5BjcMnygc6N4LppcSEUdUOjs
+   KdQQ+fuiAgC++CLPyg5/qBfRvPCZ9ff9PNas2rXcLVtBqhTy9AC2pLKcd
+   wA0BDBvm/EnNftyjI+PHzgEykOKBcne7b9AdJtbfRIf/MY2fj8g7y3sXA
+   +Xxp8wHkZH7NQVkPGmm7D4A7sd9k8xfwZ4w7knwrh9gPbA9+Yj/BoIeCK
+   srwnXUcblN/KeX9yXL9rcLJtHM1DDL8szOtbry8bkkv3Nb9hqbA3kPvkJ
+   w==;
+X-CSE-ConnectionGUID: nDepCn/0RqOcfCWBDkWzxA==
+X-CSE-MsgGUID: YcUQhL0rSXqoKnzPVKInkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="72260311"
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
+   d="scan'208";a="72260311"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 02:46:09 -0800
+X-CSE-ConnectionGUID: jokFqWAtSKK+GJI7OoCq1Q==
+X-CSE-MsgGUID: 8Xvfhd1aSnSJyO20EIkjKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
+   d="scan'208";a="220315903"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 25 Feb 2026 02:46:07 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvCP7-000000005IS-2FUd;
+	Wed, 25 Feb 2026 10:46:05 +0000
+Date: Wed, 25 Feb 2026 18:45:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tj-sched-ext:scx-sub-sched-v2 27/40]
+ kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member
+ named 'sched'
+Message-ID: <202602251856.fZjGb03r-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Date: Wed, 25 Feb 2026 16:14:29 +0530
-From: adubey <adubey@linux.ibm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: bpf@vger.kernel.org, oe-kbuild-all@lists.linux.dev, hbathini@linux.ibm.com,
-        linuxppc-dev@lists.ozlabs.org, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, martin.lau@kernel.org, eddyz87@gmail.com,
-        yonghong.song@linux.dev, clm@meta.com, ihor.solodrai@linux.dev,
-        chleroy@kernel.org
-Subject: Re: [PATCH 1/2] powerpc64/bpf: Implement JIT support for private
- stack
-In-Reply-To: <202602170316.V2RZWuVa-lkp@intel.com>
-References: <20260216152234.36632-1-adubey@linux.ibm.com>
- <202602170316.V2RZWuVa-lkp@intel.com>
-Message-ID: <9551528cd98e18e6ee74d781a7ebdcf6@linux.ibm.com>
-X-Sender: adubey@linux.ibm.com
-Organization: IBM
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: bNb1eWSlQ6Tiz76DnbRIcTLI9rdZrCoK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDEwNCBTYWx0ZWRfX+ZZgqGxBhD6A
- LOJgh36nAYMRmZw4YZST0bhc05zShmMunuSpP+rHxk7EB4e0/bZUmM6HKpm8aFr1d/zYCnnJYr+
- udje6M+++08x3xCtpiqJcNQKrk9iNHINdcZ2TFbXxjmF7A84ftSr9OBOxQNYVBdQHpnIf07AXbS
- KVnpYpOoGWk/Bw9XDHKT3miPC3QOxcr1x1a6o2PylwbgtP+2iiVLrVo6bNRZJnbgxa76HGawbWf
- gC8VO78/Tn4bKtlIbA7b1KaY5sH1cEInIj56GGHM9ceEC4L8z5s/pc7Q5qCU79Pp5fxZ4WDPzpo
- UFVTe8ag6YgSDLts6LtS76EVaF5I9gxYLc3Jy/DfXMHonUSLBSz65KKYLgZSPj9KFfumFdfdr42
- 3sO55mTwk+wr4+xk2yq0XhmxhCLap85TF6SrneFfrY6Cun/Gizz4AaXmKEYD2OUoOGFcrWfUwRR
- De9sdTFSO9XvCQnEUxw==
-X-Authority-Analysis: v=2.4 cv=R7wO2NRX c=1 sm=1 tr=0 ts=699ed291 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=anyJmfQTAAAA:8
- a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=i3X5FwGiAAAA:8
- a=QyXUC8HyAAAA:8 a=Z0tam39agOwvZVY3ivQA:9 a=CjuIK1q_8ugA:10
- a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-GUID: M_C0ralGnt9FeYls6PKf0rnq7QmzJ5r3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-24_03,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1011 impostorscore=0 phishscore=0 spamscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602250104
 
-On 2026-02-17 00:44, kernel test robot wrote:
-> Hi,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on bpf-next/master]
-> [also build test WARNING on bpf/master powerpc/next linus/master 
-> next-20260216]
-> [cannot apply to bpf-next/net powerpc/fixes v6.19]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:
-> https://github.com/intel-lab-lkp/linux/commits/adubey-linux-ibm-com/selftests-bpf-Enable-private-stack-tests-for-powerpc64/20260216-182353
-> base:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:
-> https://lore.kernel.org/r/20260216152234.36632-1-adubey%40linux.ibm.com
-> patch subject: [PATCH 1/2] powerpc64/bpf: Implement JIT support for
-> private stack
-> config: powerpc-randconfig-001-20260217
-> (https://download.01.org/0day-ci/archive/20260217/202602170316.V2RZWuVa-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build):
-> (https://download.01.org/0day-ci/archive/20260217/202602170316.V2RZWuVa-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> https://lore.kernel.org/oe-kbuild-all/202602170316.V2RZWuVa-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_int_jit_compile':
->>> arch/powerpc/net/bpf_jit_comp.c:266:35: warning: cast from pointer to 
->>> integer of different size [-Wpointer-to-int-cast]
->      cgctx.priv_sp = priv_stack_ptr ? (u64)priv_stack_ptr : 0;
->                                       ^
-> 
-> 
-> vim +266 arch/powerpc/net/bpf_jit_comp.c
-> 
->    164
->    165	struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *fp)
->    166	{
->    167		u32 proglen;
->    168		u32 alloclen;
->    169		u8 *image = NULL;
->    170		u32 *code_base;
->    171		u32 *addrs;
->    172		struct powerpc_jit_data *jit_data;
->    173		struct codegen_context cgctx;
->    174		int pass;
->    175		int flen;
->    176		int priv_stack_alloc_size;
->    177		void __percpu *priv_stack_ptr = NULL;
->    178		struct bpf_binary_header *fhdr = NULL;
->    179		struct bpf_binary_header *hdr = NULL;
->    180		struct bpf_prog *org_fp = fp;
->    181		struct bpf_prog *tmp_fp;
->    182		bool bpf_blinded = false;
->    183		bool extra_pass = false;
->    184		u8 *fimage = NULL;
->    185		u32 *fcode_base;
->    186		u32 extable_len;
->    187		u32 fixup_len;
->    188
->    189		if (!fp->jit_requested)
->    190			return org_fp;
->    191
->    192		tmp_fp = bpf_jit_blind_constants(org_fp);
->    193		if (IS_ERR(tmp_fp))
->    194			return org_fp;
->    195
->    196		if (tmp_fp != org_fp) {
->    197			bpf_blinded = true;
->    198			fp = tmp_fp;
->    199		}
->    200
->    201		jit_data = fp->aux->jit_data;
->    202		if (!jit_data) {
->    203			jit_data = kzalloc(sizeof(*jit_data), GFP_KERNEL);
->    204			if (!jit_data) {
->    205				fp = org_fp;
->    206				goto out;
->    207			}
->    208			fp->aux->jit_data = jit_data;
->    209		}
->    210
->    211		if (!priv_stack_ptr && fp->aux->jits_use_priv_stack) {
->    212			/*
->    213			 * Allocate private stack of size equivalent to
->    214			 * verifier-calculated stack size plus two memory
->    215			 * guard regions to detect private stack overflow
->    216			 * and underflow.
->    217			 */
->    218			priv_stack_alloc_size = round_up(fp->aux->stack_depth, 16) +
->    219								2 * PRIV_STACK_GUARD_SZ;
->    220			priv_stack_ptr = __alloc_percpu_gfp(priv_stack_alloc_size,
-> 16, GFP_KERNEL);
->    221			if (!priv_stack_ptr) {
->    222				fp = org_fp;
->    223				goto out_priv_stack;
->    224			}
->    225
->    226			priv_stack_init_guard(priv_stack_ptr, priv_stack_alloc_size);
->    227			fp->aux->priv_stack_ptr = priv_stack_ptr;
->    228		}
->    229
->    230		flen = fp->len;
->    231		addrs = jit_data->addrs;
->    232		if (addrs) {
->    233			cgctx = jit_data->ctx;
->    234			/*
->    235			 * JIT compiled to a writable location (image/code_base) 
-> first.
->    236			 * It is then moved to the readonly final location 
-> (fimage/fcode_base)
->    237			 * using instruction patching.
->    238			 */
->    239			fimage = jit_data->fimage;
->    240			fhdr = jit_data->fhdr;
->    241			proglen = jit_data->proglen;
->    242			hdr = jit_data->hdr;
->    243			image = (void *)hdr + ((void *)fimage - (void *)fhdr);
->    244			extra_pass = true;
->    245			/* During extra pass, ensure index is reset before
-> repopulating extable entries */
->    246			cgctx.exentry_idx = 0;
->    247			goto skip_init_ctx;
->    248		}
->    249
->    250		addrs = kcalloc(flen + 1, sizeof(*addrs), GFP_KERNEL);
->    251		if (addrs == NULL) {
->    252			fp = org_fp;
->    253			goto out_addrs;
->    254		}
->    255
->    256		memset(&cgctx, 0, sizeof(struct codegen_context));
->    257		bpf_jit_init_reg_mapping(&cgctx);
->    258
->    259		/* Make sure that the stack is quadword aligned. */
->    260		cgctx.stack_size = round_up(fp->aux->stack_depth, 16);
->    261		cgctx.arena_vm_start = 
-> bpf_arena_get_kern_vm_start(fp->aux->arena);
->    262		cgctx.user_vm_start = 
-> bpf_arena_get_user_vm_start(fp->aux->arena);
->    263		cgctx.is_subprog = bpf_is_subprog(fp);
->    264		cgctx.exception_boundary = fp->aux->exception_boundary;
->    265		cgctx.exception_cb = fp->aux->exception_cb;
->  > 266		cgctx.priv_sp = priv_stack_ptr ? (u64)priv_stack_ptr : 0;
->    267
->    268		/* Scouting faux-generate pass 0 */
->    269		if (bpf_jit_build_body(fp, NULL, NULL, &cgctx, addrs, 0, 
-> false)) {
->    270			/* We hit something illegal or unsupported. */
->    271			fp = org_fp;
->    272			goto out_addrs;
->    273		}
->    274
->    275		/*
->    276		 * If we have seen a tail call, we need a second pass.
->    277		 * This is because bpf_jit_emit_common_epilogue() is called
->    278		 * from bpf_jit_emit_tail_call() with a not yet stable 
-> ctx->seen.
->    279		 * We also need a second pass if we ended up with too large
->    280		 * a program so as to ensure BPF_EXIT branches are in range.
->    281		 */
->    282		if (cgctx.seen & SEEN_TAILCALL ||
-> !is_offset_in_branch_range((long)cgctx.idx * 4)) {
->    283			cgctx.idx = 0;
->    284			if (bpf_jit_build_body(fp, NULL, NULL, &cgctx, addrs, 0, 
-> false)) {
->    285				fp = org_fp;
->    286				goto out_addrs;
->    287			}
->    288		}
->    289
->    290		bpf_jit_realloc_regs(&cgctx);
->    291		/*
->    292		 * Pretend to build prologue, given the features we've seen.  
-> This will
->    293		 * update ctgtx.idx as it pretends to output instructions, then 
-> we can
->    294		 * calculate total size from idx.
->    295		 */
->    296		bpf_jit_build_prologue(NULL, &cgctx);
->    297		addrs[fp->len] = cgctx.idx * 4;
->    298		bpf_jit_build_epilogue(NULL, &cgctx);
->    299
->    300		fixup_len = fp->aux->num_exentries * BPF_FIXUP_LEN * 4;
->    301		extable_len = fp->aux->num_exentries * sizeof(struct
-> exception_table_entry);
->    302
->    303		proglen = cgctx.idx * 4;
->    304		alloclen = proglen + FUNCTION_DESCR_SIZE + fixup_len + 
-> extable_len;
->    305
->    306		fhdr = bpf_jit_binary_pack_alloc(alloclen, &fimage, 4, &hdr, 
-> &image,
->    307						      bpf_jit_fill_ill_insns);
->    308		if (!fhdr) {
->    309			fp = org_fp;
->    310			goto out_addrs;
->    311		}
->    312
->    313		if (extable_len)
->    314			fp->aux->extable = (void *)fimage + FUNCTION_DESCR_SIZE +
-> proglen + fixup_len;
->    315
->    316	skip_init_ctx:
->    317		code_base = (u32 *)(image + FUNCTION_DESCR_SIZE);
->    318		fcode_base = (u32 *)(fimage + FUNCTION_DESCR_SIZE);
->    319
->    320		/* Code generation passes 1-2 */
->    321		for (pass = 1; pass < 3; pass++) {
->    322			/* Now build the prologue, body code & epilogue for real. */
->    323			cgctx.idx = 0;
->    324			cgctx.alt_exit_addr = 0;
->    325			bpf_jit_build_prologue(code_base, &cgctx);
->    326			if (bpf_jit_build_body(fp, code_base, fcode_base, &cgctx, 
-> addrs, pass,
->    327					       extra_pass)) {
->    328				bpf_arch_text_copy(&fhdr->size, &hdr->size, 
-> sizeof(hdr->size));
->    329				bpf_jit_binary_pack_free(fhdr, hdr);
->    330				fp = org_fp;
->    331				goto out_addrs;
->    332			}
->    333			bpf_jit_build_epilogue(code_base, &cgctx);
->    334
->    335			if (bpf_jit_enable > 1)
->    336				pr_info("Pass %d: shrink = %d, seen = 0x%x\n", pass,
->    337					proglen - (cgctx.idx * 4), cgctx.seen);
->    338		}
->    339
->    340		if (bpf_jit_enable > 1)
->    341			/*
->    342			 * Note that we output the base address of the code_base
->    343			 * rather than image, since opcodes are in code_base.
->    344			 */
->    345			bpf_jit_dump(flen, proglen, pass, code_base);
->    346
-Fixed in v2 : 
-https://lore.kernel.org/bpf/20260216152234.36632-1-adubey@linux.ibm.com/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git scx-sub-sched-v2
+head:   f2122e67cf5ccb9d8844e72cd437a6fd56f0ad80
+commit: f29a075bb677fcd452e67fed00034f2d55866449 [27/40] sched_ext: When calling ops.dispatch() @prev must be on the same scx_sched
+config: powerpc-randconfig-001-20260225 (https://download.01.org/0day-ci/archive/20260225/202602251856.fZjGb03r-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260225/202602251856.fZjGb03r-lkp@intel.com/reproduce)
 
--Abhishek
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602251856.fZjGb03r-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/rculist.h:11,
+                    from include/linux/sched/signal.h:5,
+                    from include/linux/sched/cputime.h:6,
+                    from kernel/sched/build_policy.c:17:
+   kernel/sched/ext.c: In function 'scx_dispatch_sched':
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/rcupdate.h:507:17: note: in definition of macro '__rcu_access_pointer'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                 ^
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/rcupdate.h:507:38: note: in definition of macro '__rcu_access_pointer'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                      ^
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:507:50: note: in expansion of macro 'READ_ONCE'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/rcupdate.h:626:31: note: in expansion of macro '__rcu_access_pointer'
+     626 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:507:50: note: in expansion of macro 'READ_ONCE'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/rcupdate.h:626:31: note: in expansion of macro '__rcu_access_pointer'
+     626 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:507:50: note: in expansion of macro 'READ_ONCE'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/rcupdate.h:626:31: note: in expansion of macro '__rcu_access_pointer'
+     626 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:507:50: note: in expansion of macro 'READ_ONCE'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/rcupdate.h:626:31: note: in expansion of macro '__rcu_access_pointer'
+     626 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:507:50: note: in expansion of macro 'READ_ONCE'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/rcupdate.h:626:31: note: in expansion of macro '__rcu_access_pointer'
+     626 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/compiler_types.h:633:27: note: in definition of macro '__unqual_scalar_typeof'
+     633 |                 _Generic((x),                                           \
+         |                           ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   include/linux/rcupdate.h:507:50: note: in expansion of macro 'READ_ONCE'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/rcupdate.h:626:31: note: in expansion of macro '__rcu_access_pointer'
+     626 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+   In file included from ./arch/powerpc/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:372,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/smp.h:12,
+                    from include/linux/sched/clock.h:5,
+                    from kernel/sched/build_policy.c:16:
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   include/linux/rcupdate.h:507:50: note: in expansion of macro 'READ_ONCE'
+     507 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/rcupdate.h:626:31: note: in expansion of macro '__rcu_access_pointer'
+     626 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:2394:52: error: 'struct sched_ext_entity' has no member named 'sched'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                                                    ^
+   include/linux/rcupdate.h:509:19: note: in definition of macro '__rcu_access_pointer'
+     509 |         ((typeof(*p) __force __kernel *)(local)); \
+         |                   ^
+   kernel/sched/ext.c:2394:24: note: in expansion of macro 'rcu_access_pointer'
+    2394 |                 sch == rcu_access_pointer(prev->scx.sched);
+         |                        ^~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/build_policy.c:62:
+   kernel/sched/ext.c: In function '__scx_init_task':
+   kernel/sched/ext.c:3118:28: warning: unused variable 'tg' [-Wunused-variable]
+    3118 |         struct task_group *tg = task_group(p);
+         |                            ^~
+   kernel/sched/ext.c: In function 'scx_root_disable':
+   kernel/sched/ext.c:4698:9: error: implicit declaration of function 'drain_descendants' [-Werror=implicit-function-declaration]
+    4698 |         drain_descendants(sch);
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/sched/ext.c:4759:29: error: 'struct scx_sched' has no member named 'cgrp'
+    4759 |         set_cgroup_sched(sch->cgrp, NULL);
+         |                             ^~
+   kernel/sched/ext.c: In function 'scx_vexit':
+   kernel/sched/ext.c:5232:9: warning: function 'scx_vexit' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    5232 |         vscnprintf(ei->msg, SCX_EXIT_MSG_LEN, fmt, args);
+         |         ^~~~~~~~~~
+   kernel/sched/ext.c: In function 'scx_root_enable':
+   kernel/sched/ext.c:5483:45: error: 'cgrp_dfl_root' undeclared (first use in this function)
+    5483 |         sch = scx_alloc_and_add_sched(ops, &cgrp_dfl_root.cgrp, NULL);
+         |                                             ^~~~~~~~~~~~~
+   kernel/sched/ext.c:5483:45: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/sched/ext.c:5609:29: error: 'struct scx_sched' has no member named 'cgrp'
+    5609 |         set_cgroup_sched(sch->cgrp, sch);
+         |                             ^~
+   kernel/sched/ext.c: At top level:
+   kernel/sched/ext.c:4685:13: warning: 'scx_propgate_disable' defined but not used [-Wunused-function]
+    4685 | static void scx_propgate_disable(struct scx_sched *sch) { }
+         |             ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +2394 kernel/sched/ext.c
+
+  2386	
+  2387	static bool scx_dispatch_sched(struct scx_sched *sch, struct rq *rq,
+  2388				       struct task_struct *prev)
+  2389	{
+  2390		struct scx_dsp_ctx *dspc = this_cpu_ptr(scx_dsp_ctx);
+  2391		int nr_loops = SCX_DSP_MAX_LOOPS;
+  2392		s32 cpu = cpu_of(rq);
+  2393		bool prev_on_sch = (prev->sched_class == &ext_sched_class) &&
+> 2394			sch == rcu_access_pointer(prev->scx.sched);
+  2395	
+  2396		if (consume_global_dsq(sch, rq))
+  2397			return true;
+  2398	
+  2399		if (scx_bypassing(sch, cpu))
+  2400			return consume_dispatch_q(sch, rq, bypass_dsq(sch, cpu));
+  2401	
+  2402		if (unlikely(!SCX_HAS_OP(sch, dispatch)) || !scx_rq_online(rq))
+  2403			return false;
+  2404	
+  2405		dspc->rq = rq;
+  2406	
+  2407		/*
+  2408		 * The dispatch loop. Because flush_dispatch_buf() may drop the rq lock,
+  2409		 * the local DSQ might still end up empty after a successful
+  2410		 * ops.dispatch(). If the local DSQ is empty even after ops.dispatch()
+  2411		 * produced some tasks, retry. The BPF scheduler may depend on this
+  2412		 * looping behavior to simplify its implementation.
+  2413		 */
+  2414		do {
+  2415			dspc->nr_tasks = 0;
+  2416	
+  2417			SCX_CALL_OP(sch, SCX_KF_DISPATCH, dispatch, rq, cpu,
+  2418				    prev_on_sch ? prev : NULL);
+  2419	
+  2420			flush_dispatch_buf(sch, rq);
+  2421	
+  2422			if ((prev->scx.flags & SCX_TASK_QUEUED) && prev->scx.slice) {
+  2423				rq->scx.flags |= SCX_RQ_BAL_KEEP;
+  2424				return true;
+  2425			}
+  2426			if (rq->scx.local_dsq.nr)
+  2427				return true;
+  2428			if (consume_global_dsq(sch, rq))
+  2429				return true;
+  2430	
+  2431			/*
+  2432			 * ops.dispatch() can trap us in this loop by repeatedly
+  2433			 * dispatching ineligible tasks. Break out once in a while to
+  2434			 * allow the watchdog to run. As IRQ can't be enabled in
+  2435			 * balance(), we want to complete this scheduling cycle and then
+  2436			 * start a new one. IOW, we want to call resched_curr() on the
+  2437			 * next, most likely idle, task, not the current one. Use
+  2438			 * __scx_bpf_kick_cpu() for deferred kicking.
+  2439			 */
+  2440			if (unlikely(!--nr_loops)) {
+  2441				scx_kick_cpu(sch, cpu, 0);
+  2442				break;
+  2443			}
+  2444		} while (dspc->nr_tasks);
+  2445	
+  2446		return false;
+  2447	}
+  2448	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
