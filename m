@@ -1,88 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC6C316905
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 22:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688583803CD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 22:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772145262; cv=none; b=ZgWgO9XMk6n+COeuUnfdHgh8MlvSc2fxq0ctU/4v172SBwhhYASML4Dz/edtgaV68ygRlF7Iqc96ZY4597AoBISMUydLO2xaa9F7G4aZ0StCJgyNuZu8GXXmlsSXuQnIvAWZYOOHPAB7Y4NKcUhCZ7PDKdE7emmk0CfJg36X6rc=
+	t=1772145668; cv=none; b=rPukGuunoh81bhW88Z+ahIUCwJoa6oL9AiPoBCWr7o7DREwAPyvhl1z90jSLekz45TxOgA2H+nwSnZsn9eSZK4kuRZmloS5EdQlRrWBZF1QFFYpPXelU3WkZ0G98dpXPXxjYfR0Q4ZrX/DvehZYd7VIuBfSfGwefn9/dE2RQkMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772145262; c=relaxed/simple;
-	bh=Rp4YrULsO/7pbiWFvUO3tnNv1U4Ua0kpuzSEqqMq9cA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pYmufh0Pqj+mSPY7khR+lnSiEoPlYynUL+BfMNgJSv4fGkH55lSmOmriEFekSyBPqt7PVT44H5ohWTVk2yJNJ3hVNdEfzg6oI9uS043dZtZkftZSvR1mUeCSxOWN73pexf9Pcqx/v6Bwba6KLWCd3TSa5Fe0Xar2aRqO/8l9C0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJePfgFU; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1772145668; c=relaxed/simple;
+	bh=d/6m10PYexKC1cVhq0Hde/ttL8fwWTtpBRAU/d9YlHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sE7pVd6y2+10Jr7yPv96cfyIcVGjGyVBYoGAwsjGlI7OiNhjvOpzKLG2P3i/6I0VNBBNvECAI7tDAzVdThF1DlChGKJFCCs/IkscAiO7bFN1dIgQh3sYTXYyRLwL4la0vCybhFb5uDXZbz4sNHYJxGhSt8hD1THHaIrZIXm+pTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c/lx2YUJ; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJePfgFU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/lx2YUJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772145261; x=1803681261;
-  h=date:from:to:cc:subject:message-id;
-  bh=Rp4YrULsO/7pbiWFvUO3tnNv1U4Ua0kpuzSEqqMq9cA=;
-  b=lJePfgFU6966bwv+66ztvvu+0AMLQP9Iq62f7UlV5nnWS0qjUU8wsksL
-   A1uwfWWH7+X6l4Vam3aHSdc1pI3Z/f5MgnjZIt/pjliIKv1uifBVpYbkF
-   vTcI6sVydYFLNXyyd4OgQ86v/sK9etejmGNm4dSK+xSqw2mBxIHPtabfz
-   9YE7m/P2NAwMIULAwrPdKyID7j1Ngucak6YRe+5s61r5jCQI2iPph7dww
-   x9v7BEg2gxDRtA6QAfj4y91GYSmW4a0F029UBQaowthoeXsjn1q2Awu6e
-   FcYszeeXRqA1q0lLt9GVlVAoYDtIQz9NcsYhTdV9ZdVeYGoevAayob9Wx
-   Q==;
-X-CSE-ConnectionGUID: 0T37tEzmTe2DOl2K5jk9Ww==
-X-CSE-MsgGUID: dUxuMLqKR/aCgqwjW7RZ3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="60798586"
+  t=1772145666; x=1803681666;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d/6m10PYexKC1cVhq0Hde/ttL8fwWTtpBRAU/d9YlHc=;
+  b=c/lx2YUJTNbl2OlR/CS+OZSDMcCfgmq6QgdiQ9XXI2TEIGiYzAeeQhQf
+   mzX7h4ttGRFq/WWP8ohbftf1DPuiGJ3wWT+PdmJfglzs4D5/yHT7g8yNo
+   L8A29UXo1xuYKsfmMJXLfZ8OmNYd5GOoX6oaTKOug3HOy3LI/6RjzaN8g
+   gSHxilh8KZymv1/zOpHNthcUyWHwP4FMeVBPUbhfD8tQE069bdi0cySxM
+   EpgtFqBGm03Fj6CIaVbGYkNNmo6Io44OcOahb/T534R0KGnkrjs33QnQf
+   1RVkug3voVrwEvQINTebaPdnCRRxBVWybCGIMqmivydkoSi36j/f52KGW
+   A==;
+X-CSE-ConnectionGUID: UXW+QOxAR6egKS0QaD5wFg==
+X-CSE-MsgGUID: g7YIFFnsSSS/jqgjocjrbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="84684602"
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="60798586"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 14:34:20 -0800
-X-CSE-ConnectionGUID: fSZ4HiQdSdKM1ZdOA3qBnA==
-X-CSE-MsgGUID: fjTpR6FkSHeLEC0y1KyXcQ==
+   d="scan'208";a="84684602"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 14:41:06 -0800
+X-CSE-ConnectionGUID: 0Ew5H71QQsm/kaO3gZMK8w==
+X-CSE-MsgGUID: NPS72Xj+SEqml45ybSgtXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="215391389"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Feb 2026 14:34:19 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="216833273"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 26 Feb 2026 14:41:01 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvjw1-000000000LR-1HTJ;
-	Thu, 26 Feb 2026 22:34:17 +0000
-Date: Thu, 26 Feb 2026 23:34:10 +0100
+	id 1vvk2T-000000009x9-42O4;
+	Thu, 26 Feb 2026 22:40:57 +0000
+Date: Fri, 27 Feb 2026 06:40:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 110/110]
- dirty_log_test.c:775:9: error: implicit declaration of function
- 'TEST_ASSERT_EQ'; did you mean 'GUEST_ASSERT_EQ'?
-Message-ID: <202602262332.xvFTxwwU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Joshua Hahn <joshua.hahnjy@gmail.com>, Minchan Kim <minchan@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>,
+	Yosry Ahmed <yosry.ahmed@linux.dev>,
+	Nhat Pham <hoangnhat.pham@linux.dev>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R . Howlett" <liam.howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH 8/8] mm/vmstat, memcontrol: Track ZSWAP_B, ZSWAPPED_B
+ per-memcg-lruvec
+Message-ID: <202602270607.dJP65LGH-lkp@intel.com>
+References: <20260226192936.3190275-9-joshua.hahnjy@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226192936.3190275-9-joshua.hahnjy@gmail.com>
 
-Hi Sean,
+Hi Joshua,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   8daf5694de38cda74d36b34a8eb8d82ff0392aa5
-commit: e5ed6c9225378b7ab6b0e305dd84da7c87219a1b [110/110] KVM: selftests: Fix a semaphore imbalance in the dirty ring logging test
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260226/202602262332.xvFTxwwU-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602262332.xvFTxwwU-lkp@intel.com/reproduce)
+[auto build test ERROR on axboe/for-next]
+[also build test ERROR on linus/master v7.0-rc1]
+[cannot apply to akpm-mm/mm-everything next-20260226]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-zsmalloc-Rename-zs_object_copy-to-zs_obj_copy/20260227-033239
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260226192936.3190275-9-joshua.hahnjy%40gmail.com
+patch subject: [PATCH 8/8] mm/vmstat, memcontrol: Track ZSWAP_B, ZSWAPPED_B per-memcg-lruvec
+config: powerpc64-randconfig-r072-20260227 (https://download.01.org/0day-ci/archive/20260227/202602270607.dJP65LGH-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270607.dJP65LGH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602262332.xvFTxwwU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602270607.dJP65LGH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   dirty_log_test.c: In function 'run_test':
->> dirty_log_test.c:775:9: error: implicit declaration of function 'TEST_ASSERT_EQ'; did you mean 'GUEST_ASSERT_EQ'? [-Wimplicit-function-declaration]
-     775 |         TEST_ASSERT_EQ(sem_val, 0);
-         |         ^~~~~~~~~~~~~~
-         |         GUEST_ASSERT_EQ
+>> mm/zsmalloc.c:813:17: error: call to undeclared function 'zpdesc_objcgs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     813 |         bool objcg = !!zpdesc_objcgs(zspage->first_zpdesc);
+         |                        ^
+   1 error generated.
+
+
+vim +/zpdesc_objcgs +813 mm/zsmalloc.c
+
+   808	
+   809	static void __free_zspage(struct zs_pool *pool, struct size_class *class,
+   810					struct zspage *zspage)
+   811	{
+   812		struct zpdesc *zpdesc, *next;
+ > 813		bool objcg = !!zpdesc_objcgs(zspage->first_zpdesc);
+   814	
+   815		assert_spin_locked(&class->lock);
+   816	
+   817		VM_BUG_ON(get_zspage_inuse(zspage));
+   818		VM_BUG_ON(zspage->fullness != ZS_INUSE_RATIO_0);
+   819	
+   820		next = zpdesc = get_first_zpdesc(zspage);
+   821		do {
+   822			VM_BUG_ON_PAGE(!zpdesc_is_locked(zpdesc), zpdesc_page(zpdesc));
+   823			next = get_next_zpdesc(zpdesc);
+   824			reset_zpdesc(zpdesc);
+   825			zpdesc_unlock(zpdesc);
+   826			zpdesc_dec_zone_page_state(zpdesc);
+   827			if (objcg)
+   828				dec_node_page_state(zpdesc_page(zpdesc), NR_ZSWAP_B);
+   829			zpdesc_put(zpdesc);
+   830			zpdesc = next;
+   831		} while (zpdesc != NULL);
+   832	
+   833		cache_free_zspage(zspage);
+   834	
+   835		class_stat_sub(class, ZS_OBJS_ALLOCATED, class->objs_per_zspage);
+   836		atomic_long_sub(class->pages_per_zspage, &pool->pages_allocated);
+   837	}
+   838	
 
 -- 
 0-DAY CI Kernel Test Service
