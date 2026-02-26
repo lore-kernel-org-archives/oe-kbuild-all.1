@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688583803CD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 22:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0453A466B51
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 23:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772145668; cv=none; b=rPukGuunoh81bhW88Z+ahIUCwJoa6oL9AiPoBCWr7o7DREwAPyvhl1z90jSLekz45TxOgA2H+nwSnZsn9eSZK4kuRZmloS5EdQlRrWBZF1QFFYpPXelU3WkZ0G98dpXPXxjYfR0Q4ZrX/DvehZYd7VIuBfSfGwefn9/dE2RQkMk=
+	t=1772146992; cv=none; b=Ce4gaO7sFoDwXNWoq6mSo5dkg1Ha8tzHSiCB1/dYlcvRoJvw3n+g/CUKTaDteQQf04KdB2S4SY1QQ5TnlTCxNPzL49LOYE7eQSqNI9nB6se9YnVwGt+IOPsQkxDKUpwvVOhMDrBewFB0XUlsxoJ52BcuZdYg9Gd5yJ2p9wLAzks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772145668; c=relaxed/simple;
-	bh=d/6m10PYexKC1cVhq0Hde/ttL8fwWTtpBRAU/d9YlHc=;
+	s=arc-20240116; t=1772146992; c=relaxed/simple;
+	bh=SreBxnXx9H5+1XCmaSIiW+VRtXmst8sQevpR2PIDGS8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sE7pVd6y2+10Jr7yPv96cfyIcVGjGyVBYoGAwsjGlI7OiNhjvOpzKLG2P3i/6I0VNBBNvECAI7tDAzVdThF1DlChGKJFCCs/IkscAiO7bFN1dIgQh3sYTXYyRLwL4la0vCybhFb5uDXZbz4sNHYJxGhSt8hD1THHaIrZIXm+pTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c/lx2YUJ; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=PDg8GvX0ENIsYjYrsUiMnOQOdaJWiDZ4H1SvqzvrCBq98OT87lGpPARKdDB+zs1xRx1r7OIVPATSwu6aaw1D/JLmSiJpWc7floSrhsTA1pRF9os8nvypTkFaNu3H91UiYC0Wr8y6FCX+KlHlzZB7xMykD4+FjMcNgthvXZ71zN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAhTvGnX; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/lx2YUJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAhTvGnX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772145666; x=1803681666;
+  t=1772146988; x=1803682988;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=d/6m10PYexKC1cVhq0Hde/ttL8fwWTtpBRAU/d9YlHc=;
-  b=c/lx2YUJTNbl2OlR/CS+OZSDMcCfgmq6QgdiQ9XXI2TEIGiYzAeeQhQf
-   mzX7h4ttGRFq/WWP8ohbftf1DPuiGJ3wWT+PdmJfglzs4D5/yHT7g8yNo
-   L8A29UXo1xuYKsfmMJXLfZ8OmNYd5GOoX6oaTKOug3HOy3LI/6RjzaN8g
-   gSHxilh8KZymv1/zOpHNthcUyWHwP4FMeVBPUbhfD8tQE069bdi0cySxM
-   EpgtFqBGm03Fj6CIaVbGYkNNmo6Io44OcOahb/T534R0KGnkrjs33QnQf
-   1RVkug3voVrwEvQINTebaPdnCRRxBVWybCGIMqmivydkoSi36j/f52KGW
-   A==;
-X-CSE-ConnectionGUID: UXW+QOxAR6egKS0QaD5wFg==
-X-CSE-MsgGUID: g7YIFFnsSSS/jqgjocjrbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="84684602"
+  bh=SreBxnXx9H5+1XCmaSIiW+VRtXmst8sQevpR2PIDGS8=;
+  b=nAhTvGnXJRlk6IquQuVJCU1VKwrMVEYFimKiAKCjNjgqXyxEV948Dwpq
+   saq4E+PhzclxTSiItvP1UWlMOyRAVduLlm29mewxAs+UVp8wdkS/3es3E
+   Cj0DxsSE4pH0N9cRHqw93w7IFOG9WdDqVHaGQAeG69dXyEbnoM7aNV/am
+   DTGExb2QHtnNz42EHihCikXeyd72r4LuihvP3pVoOgz6UYKsLopSPwkBc
+   SqCzqWCz2/vnkf6IJINgmKqOBJjkUvg2KrXMgkxCvkKmjs3wq6MF+WJtk
+   DTgeMRl3atSqtpHVnkDVBRX0H0RzmHWzY7cNYk5sLnSye0hFnBsVoLx+0
+   g==;
+X-CSE-ConnectionGUID: Q94cLOFFRQCaLziKHe6Ywg==
+X-CSE-MsgGUID: qf0dqbXUT0qyo8s33bbrCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73133993"
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="84684602"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 14:41:06 -0800
-X-CSE-ConnectionGUID: 0Ew5H71QQsm/kaO3gZMK8w==
-X-CSE-MsgGUID: NPS72Xj+SEqml45ybSgtXg==
+   d="scan'208";a="73133993"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 15:03:07 -0800
+X-CSE-ConnectionGUID: ZIvjQsmVT0qcB3SKaitltA==
+X-CSE-MsgGUID: APSr2F91RjeZTN3y3woKgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="216833273"
+   d="scan'208";a="221716270"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 26 Feb 2026 14:41:01 -0800
+  by orviesa005.jf.intel.com with ESMTP; 26 Feb 2026 15:03:02 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvk2T-000000009x9-42O4;
-	Thu, 26 Feb 2026 22:40:57 +0000
-Date: Fri, 27 Feb 2026 06:40:18 +0800
+	id 1vvkNm-000000009yZ-3u9j;
+	Thu, 26 Feb 2026 23:02:58 +0000
+Date: Fri, 27 Feb 2026 07:02:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Joshua Hahn <joshua.hahnjy@gmail.com>, Minchan Kim <minchan@kernel.org>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>
@@ -72,7 +72,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>,
 	kernel-team@meta.com
 Subject: Re: [PATCH 8/8] mm/vmstat, memcontrol: Track ZSWAP_B, ZSWAPPED_B
  per-memcg-lruvec
-Message-ID: <202602270607.dJP65LGH-lkp@intel.com>
+Message-ID: <202602270614.hOv7KIkV-lkp@intel.com>
 References: <20260226192936.3190275-9-joshua.hahnjy@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -99,25 +99,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-zsmalloc-R
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
 patch link:    https://lore.kernel.org/r/20260226192936.3190275-9-joshua.hahnjy%40gmail.com
 patch subject: [PATCH 8/8] mm/vmstat, memcontrol: Track ZSWAP_B, ZSWAPPED_B per-memcg-lruvec
-config: powerpc64-randconfig-r072-20260227 (https://download.01.org/0day-ci/archive/20260227/202602270607.dJP65LGH-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270607.dJP65LGH-lkp@intel.com/reproduce)
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20260227/202602270614.hOv7KIkV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270614.hOv7KIkV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602270607.dJP65LGH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602270614.hOv7KIkV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/zsmalloc.c:813:17: error: call to undeclared function 'zpdesc_objcgs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   mm/zsmalloc.c: In function '__free_zspage':
+>> mm/zsmalloc.c:813:24: error: implicit declaration of function 'zpdesc_objcgs'; did you mean 'zpdesc_lock'? [-Wimplicit-function-declaration]
      813 |         bool objcg = !!zpdesc_objcgs(zspage->first_zpdesc);
-         |                        ^
-   1 error generated.
+         |                        ^~~~~~~~~~~~~
+         |                        zpdesc_lock
 
 
-vim +/zpdesc_objcgs +813 mm/zsmalloc.c
+vim +813 mm/zsmalloc.c
 
    808	
    809	static void __free_zspage(struct zs_pool *pool, struct size_class *class,
