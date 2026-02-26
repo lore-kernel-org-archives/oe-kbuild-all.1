@@ -1,158 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC0232B994
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 19:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6C744B68F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 19:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772132981; cv=none; b=M90DdZzfc0bPjnQ2gdQXp6SeDTtdpK/76q6sMvDfidl6bzdrJ6ZdgopAVyXgMfL1QpPtXAHPUy2nov3GCCWiUbw+xsyHcg5anfuObAnahcAv9AIjbED7XUTuh1UkJnzDO7bn5T9Q428TvAq/DKQzxNrsly8PrvEVPx1ClGZtt+4=
+	t=1772133379; cv=none; b=kEhrB5rg5qKjn13XsElZlv1WXxJKpfxORbTCQGD51eWeeMa5X0naMeB2Ko+f1n1rvkduYqReEcm4HXABaSZUjTpGE67aJEF8E06jAfnwpVevpbYU2oHBQprCiknFBfv7KUMU+w2HxX8O2vo3nKjF/0o8eKaLPR/7YfDO7mQJCww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772132981; c=relaxed/simple;
-	bh=+Qh4hrPxf2csFk7l+Yv36sFqLv+jWtc8xUqmcxjBL90=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KnW9a/+3DXZprZjXjkyyxFixZqXs/BD71HgqPjLzIH4z6t2cVzzfsQVFo5Un04IH30vUXc1iEUn7b4BN+3IGfBBSQWwes8vSB83PNIBoo30JNSNikKKuipOoE09+sC2v8SvdgUHoFg2beueXMMvkg4KE9SmAq0TqLR2RhVA4kxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QgFH5kSC; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1772133379; c=relaxed/simple;
+	bh=sIFuQejimBVvLKR3VTyE4CsENi62nbBdr11RGnk7nls=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AgUe9z+OOhq6hFG8fFeI8qr6aSwSZ2F7HcnpDPZd14IazzDWUV4cjnyTD4QzrvM31QJO4QxMmeaGLVAO9lnNzyaHnplakma1ItlUuKC+pV5m1FKLf30jzZXmLAI+wYSqaSBV3RgeOLBbEa7yLL6tz7YiiKXDpknuc//qDbhpC0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dpi0N4Uf; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QgFH5kSC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dpi0N4Uf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772132978; x=1803668978;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+Qh4hrPxf2csFk7l+Yv36sFqLv+jWtc8xUqmcxjBL90=;
-  b=QgFH5kSCWKwZGdmBFo8py2AARIYJnMZNehAZvl8WMgJR8lUi861EfZT+
-   h3X98X9yOp/bHGtRHa1dKTPuWMGwDwbrNdIo1a46Wd56gBhTBzjVhqt3p
-   qpeMtd4GlMuJK8V6WrMhI2L5pNMtgVCRNPjzmfvqcxOe3nYJnyzqDEXIm
-   CUVOuinaTZmb7Rzl9aNITRMsBIDOQiRL9nYJejVZulJLK1Z5TRpppu9IR
-   YflBMugcMnNNvaxH0WnM14nWhvmAr3rvfpA+WkWcW/J9w7oFLpozX99V+
-   EjfDYis66B5wP3NlNelPSlptrmr6FfR61nq27M2cyCEF079gXk3dkxfi7
-   A==;
-X-CSE-ConnectionGUID: /G+q19QbSf+btGKkecKSMQ==
-X-CSE-MsgGUID: jWFz1J+IQR6RdCLS9pMD6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="75808680"
+  t=1772133377; x=1803669377;
+  h=date:from:to:cc:subject:message-id;
+  bh=sIFuQejimBVvLKR3VTyE4CsENi62nbBdr11RGnk7nls=;
+  b=Dpi0N4Uf64c2l7faSpSdXslrKGdWpuJOZ9yE2qCMd1ZqDsmDdUCcedCb
+   9lizc+yELwpuaStnuUM0nzIck+h6rEnBLK23C+7qjwk7p53Fl5hnU6qfR
+   9PTkfBbr65iRqaNIzkN2rY9e0KAJ0/TagGm+2ewZdrgV9AgnZzdrtmqPq
+   HzCHL0Wb2TiJQ+aHG+tXMox5IuZ0YacdQtoa59KWi+n7059GfWtkEfH26
+   tMnJJeElI/M14Ejl/a/hhL9RK84oW0SpaxbIyic6sLcp9xNOVoOLZq2/U
+   PxJhjsCaqkBlV/T5UC44NERaYQr7Nl+7hnR5lCJ1S89g5ASiyoGpI/HPJ
+   g==;
+X-CSE-ConnectionGUID: gYO8w1xqQ3GjCuSfDOd0Xg==
+X-CSE-MsgGUID: zN4qm3tkS62Icb8YGnNI5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="72908884"
 X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
-   d="scan'208";a="75808680"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 11:09:37 -0800
-X-CSE-ConnectionGUID: h1bTSjSBQJKUkTEZeLrEUQ==
-X-CSE-MsgGUID: UcUjbMz5TL25U93Fajby4A==
+   d="scan'208";a="72908884"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 11:16:17 -0800
+X-CSE-ConnectionGUID: bBAzXI6QT0ePBvJb3a4TcQ==
+X-CSE-MsgGUID: 5zez6Q67Qe66J7dJproH1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
-   d="scan'208";a="214596013"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Feb 2026 11:09:33 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+   d="scan'208";a="215792269"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 26 Feb 2026 11:16:16 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvgjq-000000009n3-1ZOv;
-	Thu, 26 Feb 2026 19:09:30 +0000
-Date: Fri, 27 Feb 2026 03:09:28 +0800
+	id 1vvgqL-000000000HN-3xwT;
+	Thu, 26 Feb 2026 19:16:13 +0000
+Date: Thu, 26 Feb 2026 20:16:05 +0100
 From: kernel test robot <lkp@intel.com>
-To: Rui Qi <qirui.001@bytedance.com>, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
-	cyrilbur@tenstorrent.com, tglx@kernel.org, peterz@infradead.org,
-	debug@rivosinc.com, andybnac@gmail.com, charlie@rivosinc.com,
-	geomatsi@gmail.com, thuth@redhat.com, bjorn@rivosinc.com,
-	songshuaishuai@tinylab.org, martin@kaiser.cx, masahiroy@kernel.org,
-	kees@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Rui Qi <qirui.001@bytedance.com>
-Subject: Re: [PATCH] riscv: add system error interrupt handler support
-Message-ID: <202602270355.h8QSG2vl-lkp@intel.com>
-References: <20260226082735.56108-1-qirui.001@bytedance.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 204/204]
+ Documentation/devicetree/bindings/arm/ete.yaml:44:60: mapping values are not
+ allowed here
+Message-ID: <202602261436.XfYv0vwo-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226082735.56108-1-qirui.001@bytedance.com>
 
-Hi Rui,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on tip/smp/core v7.0-rc1 next-20260226]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rui-Qi/riscv-add-system-error-interrupt-handler-support/20260226-163131
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260226082735.56108-1-qirui.001%40bytedance.com
-patch subject: [PATCH] riscv: add system error interrupt handler support
-config: riscv-randconfig-r064-20260226 (https://download.01.org/0day-ci/archive/20260227/202602270355.h8QSG2vl-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270355.h8QSG2vl-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   428f501f574bae8d1bb15211ccfdac399e4f4e7d
+commit: 4198bdb2cff86af72de536067e11d8783928c881 [204/204] ANDROID: coresight: Update ETE DT yaml file
+config: arm-randconfig-2052-20260226 (https://download.01.org/0day-ci/archive/20260226/202602261436.XfYv0vwo-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+dtschema: 2025.13.dev7+gd16dc68b0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602261436.XfYv0vwo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602270355.h8QSG2vl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602261436.XfYv0vwo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/errata_list.h:8,
-                    from arch/riscv/include/asm/vdso/processor.h:8,
-                    from include/vdso/processor.h:10,
-                    from arch/riscv/include/asm/processor.h:13,
-                    from arch/riscv/include/asm/cmpxchg.h:16,
-                    from arch/riscv/include/asm/barrier.h:14,
-                    from include/asm-generic/bitops/generic-non-atomic.h:7,
-                    from include/linux/bitops.h:28,
-                    from include/linux/kernel.h:23,
-                    from arch/riscv/kernel/sys_error.c:7:
-   arch/riscv/kernel/sys_error.c: In function 'riscv_serror_starting_cpu':
->> arch/riscv/kernel/sys_error.c:28:22: error: 'RV_IRQ_SYS_ERROR' undeclared (first use in this function); did you mean 'IRQ_SYS_ERROR'?
-     csr_set(CSR_IE, BIT(RV_IRQ_SYS_ERROR));
-                         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/csr.h:588:38: note: in definition of macro 'csr_set'
-     unsigned long __v = (unsigned long)(val);  \
-                                         ^~~
-   arch/riscv/kernel/sys_error.c:28:18: note: in expansion of macro 'BIT'
-     csr_set(CSR_IE, BIT(RV_IRQ_SYS_ERROR));
-                     ^~~
-   arch/riscv/kernel/sys_error.c:28:22: note: each undeclared identifier is reported only once for each function it appears in
-     csr_set(CSR_IE, BIT(RV_IRQ_SYS_ERROR));
-                         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/csr.h:588:38: note: in definition of macro 'csr_set'
-     unsigned long __v = (unsigned long)(val);  \
-                                         ^~~
-   arch/riscv/kernel/sys_error.c:28:18: note: in expansion of macro 'BIT'
-     csr_set(CSR_IE, BIT(RV_IRQ_SYS_ERROR));
-                     ^~~
-   arch/riscv/kernel/sys_error.c: In function 'riscv_serror_dying_cpu':
-   arch/riscv/kernel/sys_error.c:35:24: error: 'RV_IRQ_SYS_ERROR' undeclared (first use in this function); did you mean 'IRQ_SYS_ERROR'?
-     csr_clear(CSR_IE, BIT(RV_IRQ_SYS_ERROR));
-                           ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/csr.h:605:38: note: in definition of macro 'csr_clear'
-     unsigned long __v = (unsigned long)(val);  \
-                                         ^~~
-   arch/riscv/kernel/sys_error.c:35:20: note: in expansion of macro 'BIT'
-     csr_clear(CSR_IE, BIT(RV_IRQ_SYS_ERROR));
-                       ^~~
-   arch/riscv/kernel/sys_error.c: In function 'sys_error_init':
-   arch/riscv/kernel/sys_error.c:52:51: error: 'RV_IRQ_SYS_ERROR' undeclared (first use in this function); did you mean 'IRQ_SYS_ERROR'?
-     riscv_sys_error_irq = irq_create_mapping(domain, RV_IRQ_SYS_ERROR);
-                                                      ^~~~~~~~~~~~~~~~
-                                                      IRQ_SYS_ERROR
+>> make[2]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/arm/ete.example.dts] Error 1
+   make[2]: *** Deleting file 'Documentation/devicetree/bindings/arm/ete.example.dts'
+   make[2]: *** [Documentation/devicetree/bindings/Makefile:59: Documentation/devicetree/bindings/processed-schema-examples.json] Error 123
+   make[2]: Target '__build' not remade because of errors.
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_TTM
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=y]
+   WARNING: unmet direct dependencies detected for HMM_MIRROR
+   Depends on [n]: MMU [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_GPU_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
 
-vim +28 arch/riscv/kernel/sys_error.c
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/arm/ete.yaml:44:60: mapping values are not allowed here
 
-    25	
-    26	static int riscv_serror_starting_cpu(unsigned int cpu)
-    27	{
-  > 28		csr_set(CSR_IE, BIT(RV_IRQ_SYS_ERROR));
-    29		enable_percpu_irq(riscv_sys_error_irq, irq_get_trigger_type(riscv_sys_error_irq));
-    30		return 0;
-    31	}
-    32	
+vim +44 Documentation/devicetree/bindings/arm/ete.yaml
+
+     9	
+    10	maintainers:
+    11	  - Suzuki K Poulose <suzuki.poulose@arm.com>
+    12	  - Mathieu Poirier <mathieu.poirier@linaro.org>
+    13	
+    14	description: |
+    15	  Arm Embedded Trace Extension(ETE) is a per CPU trace component that
+    16	  allows tracing the CPU execution. It overlaps with the CoreSight ETMv4
+    17	  architecture and has extended support for future architecture changes.
+    18	  The trace generated by the ETE could be stored via legacy CoreSight
+    19	  components (e.g, TMC-ETR) or other means (e.g, using a per CPU buffer
+    20	  Arm Trace Buffer Extension (TRBE)). Since the ETE can be connected to
+    21	  legacy CoreSight components, a node must be listed per instance, along
+    22	  with any optional connection graph as per the coresight bindings.
+    23	  See bindings/arm/coresight.txt.
+    24	
+    25	properties:
+    26	  $nodename:
+    27	    pattern: "^ete([0-9a-f]+)$"
+    28	  compatible:
+    29	    items:
+    30	      - const: arm,embedded-trace-extension
+    31	
+    32	  cpu:
+    33	    description: |
+    34	      Handle to the cpu this ETE is bound to.
+    35	    $ref: /schemas/types.yaml#/definitions/phandle
+    36	
+    37	  out-ports:
+    38	    description: |
+    39	      Output connections from the ETE to legacy CoreSight trace bus.
+    40	    $ref: /schemas/graph.yaml#/properties/ports
+    41	    properties:
+    42	      port:
+    43	        description: Output connection from the ETE to legacy CoreSight Trace bus.
+  > 44	        $ref: /schemas/graph.yaml#/properties/port required:
+    45	
+    46	required:
+    47	  - compatible
+    48	  - cpu
+    49	
 
 -- 
 0-DAY CI Kernel Test Service
