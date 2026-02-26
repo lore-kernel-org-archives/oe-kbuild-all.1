@@ -1,67 +1,431 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F1F368955;
-	Thu, 26 Feb 2026 22:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28858368955
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 22:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772143728; cv=none; b=GeNIMKmO4PETOy7DgfqOd5NSpMkDvWTg0wQxAEtj21vJS/NJQRbRAUeOlntjD8iQQ1orQFmFK2ftptjUVz3haHpzh/95IgzpQn0mY+OHX5ungiJMC+kjEN6gokdWef7f/4sLdEnONIuHifH9Hc6IL+OnLuIBInWdEaZvmo0T9So=
+	t=1772143769; cv=none; b=o+r97/T744mxOZQBO/+NLr4dZXhtPopL4zU34+Qp/QNk6d2yRp4uFEIBR2Q2ZnNU9MupzFORhDLe34/aeGvxmd/nUjyjxDUgqugXOALFtSAABx/KMem2vWU+nssjKG5Hbizn+w2sll13SAe47+c+JVN1jXL4sABBpV8Et2ejgVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772143728; c=relaxed/simple;
-	bh=04u31OS8pHtQknBMGM0v9En/KT3xrx+KpMvq6UGaC9o=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=VNqlmB3GyMotpJhG2Z7tlaV3rO9/7h1KPTKwMCef47Vy5Hke+KuE/+mrsxNH3jup/2ZS6SPsDJd6IetUTy7UUpIWc/uiZblX85m6SiHS1yPy9YLOLjaaoGg8FBMLUhbiIUC2fYGgb0ByvZynZIW5KtJrijnOQFAq3S0cl+bjUdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=wVuWoyEo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772143769; c=relaxed/simple;
+	bh=I8XhkqKDZoqK0n33SUeteJKI0v/B1pbJQY7Hvfi2LrE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UbYauJTjER2dhmRmuroZgW14lnPI64vninjy3uG2a6OCx5kBeld+GslJ8XXxvr/LIa5GorNnsq9O0paC3APlj/Hhtybk7tVW7SjnqFmfH3gRjlcm3FAHFwcySANunZRL5u7kmckjvsIU3HVJx5vKjFJytV7birmIm9M7Dcf1nzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zs3Qzub0; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="wVuWoyEo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5C0CC116C6;
-	Thu, 26 Feb 2026 22:08:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1772143727;
-	bh=04u31OS8pHtQknBMGM0v9En/KT3xrx+KpMvq6UGaC9o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=wVuWoyEoWa6hkBNz5BZQM0u1SAhmT92KyWrGnw8SGD79sCKTc4r6NQlwSoVZiaOgg
-	 waV04VNXIDDAh+3UainQ+sHa3dTPAzXIsMsjEE8YSQFUY5b0z20fICqwVsaL+XXCfw
-	 UATodmqmOCaRws1NDXz98RFcrPgQql9TqEXQllak=
-Date: Thu, 26 Feb 2026 14:08:46 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Dmitry Ilvokhin <d@ilvokhin.com>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie
- <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Steven Rostedt
- <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Brendan Jackman
- <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan
- <ziy@nvidia.com>, Oscar Salvador <osalvador@suse.de>, Qi Zheng
- <zhengqi.arch@bytedance.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
- kernel-team@meta.com, Benjamin Cheatham <benjamin.cheatham@amd.com>
-Subject: Re: [PATCH v3 4/5] mm: rename zone->lock to zone->_lock
-Message-Id: <20260226140846.4d8b30f200b0194c4bb78d25@linux-foundation.org>
-In-Reply-To: <202602270508.8MKXotxZ-lkp@intel.com>
-References: <1221b8e7fa9f5694f3c4e411f01581b5aba9bc63.1772129168.git.d@ilvokhin.com>
-	<202602270508.8MKXotxZ-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zs3Qzub0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772143767; x=1803679767;
+  h=date:from:to:cc:subject:message-id;
+  bh=I8XhkqKDZoqK0n33SUeteJKI0v/B1pbJQY7Hvfi2LrE=;
+  b=Zs3Qzub0gFxzJxGB6nZqvR2bOCuWmEbJ3VScbevndnHkLiMYfBBwDb8j
+   WvgnM+AYyvsqhc77hO6crIxodJwK2rD77ro7P7QlJ2jcPvV3iGiE1L6ap
+   D18OnZafR30U+4GEaNgh16XBX7Rv6DuImw/6WoO8PSc+mxh5K8VRD955C
+   oXX2VrXj0qP//Irvu9dCE6UKAI63J9MiKqJP9YJg1p62ufeKmPFWcwx9O
+   p7O6PAA8U6MZ2GRxLe+gWiP88JXiz4afysWkzH8wv9fCGZNs4Yq4rEXYO
+   1whasrlNDNtLPaU9+iiCRZq5f9u271eQbrg20gy5qB6NJT/SQHMngh1Tg
+   Q==;
+X-CSE-ConnectionGUID: 2wAcFcR0Sy2SkpO5+NQVFw==
+X-CSE-MsgGUID: WoSDyb6UTsWtX9IQ7aeL2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73287829"
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
+   d="scan'208";a="73287829"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 14:09:26 -0800
+X-CSE-ConnectionGUID: /1fCZ5qqTdShwyfhkmvnwQ==
+X-CSE-MsgGUID: hvDHPklSSpGG6dbbcTb1Rg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
+   d="scan'208";a="221706228"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 26 Feb 2026 14:09:25 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvjXu-000000009vR-13px;
+	Thu, 26 Feb 2026 22:09:22 +0000
+Date: Fri, 27 Feb 2026 06:08:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 2563/2633] arm-linux-gnueabi-ld: warning:
+ orphan section `.modinfo' from `fs/ntfs/super.o' being placed in section
+ `.modinfo'
+Message-ID: <202602270620.f8yH2jlz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 27 Feb 2026 05:48:05 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7d6661873f6b54c75195780a40d66bad3d482d8f
+commit: 3dd5594f172069afc8b0db2b75d75a2e0c10d008 [2563/2633] Merge branch 'fs-next' of linux-next
+config: arm-randconfig-003-20260226 (https://download.01.org/0day-ci/archive/20260227/202602270620.f8yH2jlz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270620.f8yH2jlz-lkp@intel.com/reproduce)
 
-> Hi Dmitry,
-> 
-> kernel test robot noticed the following build errors:
-> 
->    mm/shuffle.c: In function '__shuffle_zone':
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602270620.f8yH2jlz-lkp@intel.com/
 
-yep, thanks.  And kernel/power/snapshot.c.  I've added fixups.
+All warnings (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/workqueue.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/locking/locktorture.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/locking/test-ww_mutex.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/printk/printk.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/irq/spurious.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/rcu/update.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/rcu/rcutorture.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/dma/map_benchmark.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/module/main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/time/test_udelay.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/configs.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/torture.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/scftorture.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `mm/dmapool_test.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `mm/page_reporting.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/crypto/crypto.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/binfmt_misc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/mbcache.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/configfs/mount.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/ext4/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/jbd2/journal.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/fat/inode.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/fat/namei_vfat.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/fat/namei_msdos.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/exfat/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/exportfs/expfs.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_base.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp437.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp850.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp861.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp864.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp932.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_euc-jp.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp936.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp950.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp1251.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_ascii.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_iso8859-4.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_iso8859-5.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_iso8859-6.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp1255.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-centeuro.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-croatian.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-cyrillic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-iceland.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-turkish.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/unicode/utf8data.o' being placed in section `.modinfo'
+>> arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/ntfs/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nilfs2/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/debugfs/inode.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/btrfs/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/btrfs/sysfs.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/gfs2/main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/gfs2/ops_fstype.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/zonefs/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/api.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/algapi.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/aead.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/geniv.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/skcipher.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/bpf_crypto_skcipher.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/seqiv.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/echainiv.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ahash.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/shash.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/akcipher.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/sig.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/kpp.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/rsa.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/rsa-pkcs1pad.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/rsassa-pkcs1.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/acompress.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/scompress.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/algboss.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/testmgr.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/hmac.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/xcbc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/sha256.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/sha512.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/sha3.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/streebog_generic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ecb.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cbc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cts.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/xts.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/chacha20poly1305.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/aegis128-core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/blowfish_generic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/blowfish_common.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/aes.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cast_common.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cast5_generic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cast6_generic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/chacha.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/deflate.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/crc32c.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/authenc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/authencesn.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/rng.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/drbg.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/jitterentropy-kcapi.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/zstd.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ecc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ecdh.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ecrdsa.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/xor.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/bsg.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/blk-cgroup.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/mq-deadline.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/kyber-iosched.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/bfq-iosched.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/blk-crypto.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/blk-crypto-fallback.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test_hexdump.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/find_bit_benchmark.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/dhry_run.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test_firmware.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test-kstrtox.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test_xarray.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test_free_pages.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/math/rational.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/math/test_mul_u64_u64_div_u64.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc8.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc16.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc-ccitt.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc-itu-t.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc-t10dif-main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc32-main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc64-main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/utils.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/aes.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/blake2b.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/blake2s.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/chacha.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/poly1305.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/sha256.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/sha512.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/sha3.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/mpi/mpiutil.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/linear_ranges.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/xxhash.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/zlib_inflate/inflate_syms.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/zlib_deflate/deflate_syms.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/lzo/lzo1x_compress_safe.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/lzo/lzo1x_decompress_safe.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/lz4/lz4_decompress.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/zstd/zstd_compress_module.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/zstd/zstd_decompress_module.o' being placed in section `.modinfo'
+--
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/core/core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/core/pwrseq_simple.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/core/mmc_test.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/core/sdio_uart.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/sdhci.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/sdhci_f_sdh30.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/dw_mmc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/dw_mmc-pltfm.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/dw_mmc-hi3798mv200.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/sdhci-pltfm.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/sdhci-cadence.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/sdhci-of-at91.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/sdhci-of-dwcmshc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/cqhci-core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mmc/host/mmc_hsq.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/firmware/arm_scmi/vendors/imx/imx-sm-bbm.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/firmware/arm_scmi/bus.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/firmware/arm_scmi/driver.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/firmware/cirrus/cs_dsp.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/ssb/main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/greybus/core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/greybus/gb-beagleplay.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/platform/goldfish/goldfish_pipe.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mailbox/platform_mhu.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/remoteproc/remoteproc_core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/rpmsg/rpmsg_core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/rpmsg/rpmsg_ns.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/rpmsg/virtio_rpmsg_bus.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/extcon/extcon.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/extcon/extcon-palmas.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/extcon/extcon-ptn5150.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/extcon/extcon-usb-gpio.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/perf/arm-ccn.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/hwtracing/stm/core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/hwtracing/stm/dummy_stm.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/nvmem/core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/nvmem/layouts/sl28vpd.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/nvmem/layouts/u-boot-env.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/nvmem/lpc18xx_eeprom.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/nvmem/max77759-nvmem.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/nvmem/rmem.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/fpga/fpga-mgr.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/fpga/ice40-spi.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/fpga/machxo2-spi.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mux/core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/mux/adg792a.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/gnss/core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/gnss/serial.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/gnss/sirf.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/gnss/ubx.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/most/core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `drivers/peci/core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `.vmlinux.export.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/workqueue.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/locking/locktorture.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/locking/test-ww_mutex.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/printk/printk.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/irq/spurious.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/rcu/update.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/rcu/rcutorture.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/dma/map_benchmark.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/module/main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/time/test_udelay.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/configs.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/torture.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `kernel/scftorture.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `mm/dmapool_test.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `mm/page_reporting.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/crypto/crypto.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/binfmt_misc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/mbcache.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/configfs/mount.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/ext4/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/jbd2/journal.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/fat/inode.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/fat/namei_vfat.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/fat/namei_msdos.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/exfat/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/exportfs/expfs.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_base.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp437.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp850.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp861.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp864.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp932.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_euc-jp.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp936.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp950.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp1251.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_ascii.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_iso8859-4.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_iso8859-5.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_iso8859-6.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/nls_cp1255.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-centeuro.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-croatian.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-cyrillic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-iceland.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nls/mac-turkish.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/unicode/utf8data.o' being placed in section `.modinfo'
+>> arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/ntfs/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/nilfs2/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/debugfs/inode.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/btrfs/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/btrfs/sysfs.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/gfs2/main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/gfs2/ops_fstype.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `fs/zonefs/super.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/api.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/algapi.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/aead.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/geniv.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/skcipher.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/bpf_crypto_skcipher.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/seqiv.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/echainiv.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ahash.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/shash.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/akcipher.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/sig.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/kpp.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/rsa.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/rsa-pkcs1pad.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/rsassa-pkcs1.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/acompress.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/scompress.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/algboss.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/testmgr.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/hmac.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/xcbc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/sha256.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/sha512.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/sha3.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/streebog_generic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ecb.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cbc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cts.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/xts.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/chacha20poly1305.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/aegis128-core.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/blowfish_generic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/blowfish_common.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/aes.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cast_common.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cast5_generic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/cast6_generic.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/chacha.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/deflate.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/crc32c.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/authenc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/authencesn.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/rng.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/drbg.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/jitterentropy-kcapi.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/zstd.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ecc.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ecdh.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/ecrdsa.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `crypto/xor.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/bsg.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/blk-cgroup.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/mq-deadline.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/kyber-iosched.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/bfq-iosched.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/blk-crypto.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `block/blk-crypto-fallback.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test_hexdump.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/find_bit_benchmark.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/dhry_run.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test_firmware.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test-kstrtox.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test_xarray.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/test_free_pages.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/math/rational.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/math/test_mul_u64_u64_div_u64.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc8.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc16.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc-ccitt.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc-itu-t.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc-t10dif-main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc32-main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crc/crc64-main.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/utils.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/aes.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/blake2b.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/blake2s.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/chacha.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/poly1305.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/sha256.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/sha512.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/sha3.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/crypto/mpi/mpiutil.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/linear_ranges.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/xxhash.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/zlib_inflate/inflate_syms.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/zlib_deflate/deflate_syms.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/lzo/lzo1x_compress_safe.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/lzo/lzo1x_decompress_safe.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/lz4/lz4_decompress.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/zstd/zstd_compress_module.o' being placed in section `.modinfo'
+   arm-linux-gnueabi-ld: warning: orphan section `.modinfo' from `lib/zstd/zstd_decompress_module.o' being placed in section `.modinfo'
+..
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
