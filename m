@@ -1,139 +1,143 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2448F1DF74F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 07:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772091431; cv=pass; b=pTkFWj0fPPRUNAO8L4UE5z67fDN66zTTHKKXtkNviKMn57oVzVoVKnmuEn7sqM21YBsUOkH4mBvjLEWWfw2M/HXhvd2zlOeZn5M4A9AKJP84sHZWlGScnDyfP6wGZ+KGn5cBz93axmnnxA9TyvDFqkywn59TkHNd+0jbiqv5h70=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772091431; c=relaxed/simple;
-	bh=zMMoC9tW+ovG5gEv/EikKuLCdiFcENkonHNXGvJwtY4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DIIXOWOCFr0k2u2mwcAcmLrXCEBisAEVb7njGOOq6zBxONFU+dy7vgviYNY1oygiWtuvka+1noPZQ0/Sn3bbg4FJ2RNzAaElyWP52tqfVLRHM+dxELU1qItZ29mnZEWsNsHkv5pW2Vh3868WrbWUvEhG48xvhEWWMlDZOKP8BKA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=CTOGHxJ4; arc=pass smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D99038B7BB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 07:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772091725; cv=none; b=JrLrTwTGoNAQcP5WbKH9xQONf/7hlj1nPvz+bSTjlu2J3w1wlzZqruNxfFG1VmgmooqYDdEiPq9ZZ+jCgWFu6cb7G0NX6hjI8Lap6jv7YpBJd51z52gXOwBtJ0fgxAnjxM+rCgfJLkreSPqRScCHJMG3YyH942s5bUYC/IFkTIE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772091725; c=relaxed/simple;
+	bh=wITukRR/ETFRAHxM9jR3Xxl55x4NZdhotKYiUwxEM18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HFfuCbwnxtQg2AsDL+CkCDbXtk4c22L0hbS6vOMGRjjHGD7X1CMhXFVkv+QHzsJokQ8UeJ4ndcCMRYR4c67Lll43ZqLKhASXThyYZXQduxHOB8p3IayYkdy1IiDVbxCTTVWWy073Z4G5xpbboWKFuRf2GW+HvxJ16BdyR5D0d0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8N/p80Q; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="CTOGHxJ4"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b904e1cd038so68719966b.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 23:37:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772091428; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HBkYKDHG9e8AtVq6KTv0F+ByJw1DNMwLjrCabplpRXGF02fSe6Y6rWxz7ribonXnHe
-         7hYILvA7Nzj5oFhgyxTIlDUiS8Ww5tE63wMy2NTSHe31RqiZSIeVc2eneruI10sgJUwq
-         5DxuO+BLCNPZbiFxnRc+aWrgV0iV88tcUd9i1dP513zteGMUvE5OUhIFBg/WXbUF+NPV
-         51xFTo9kO6QgRzToz+w6E6+DJQpH1rGpJBP39U8fuFrz5XoaDGwqpylD2QUvp7O4mhCZ
-         SiVF2EC1aQLDlyxNexFMVtHzZ864DGmEGmP34Vu7of3NDrd2exaObnXjyR/qefnS6WAR
-         KROg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Sy5pSpIT1+34GDUf2p6GIfTrx9hUeuZulWhjNSVORZ0=;
-        fh=uRR47Fksh1pzfwdqfC6b9pOfnC5lXAmBSR6kg6fkKoE=;
-        b=A8Dk18BOtym7aqaLOE7khWiahaK05/reD8FPt4anM+Om+CmOlrBImD/oR2wJcUXX2f
-         2NfhocCeqUnF6bJnA2P/brUKUtZlgOhyswAQ6ysBe1wx0KggBygyVw0JaoOnTdzM9lRZ
-         ogb3XACVPFq3K0QWflNt4KfaNcDo0+xDbZPC3M3ayYA+EgAZOZSn0X92rfS60NoF9Q0e
-         cRDriuoAkNOPNDY6aL+FbdyWfeYaFkp0Nzlv8k90CYnxV9969E+pRG78NrtzahLPwIOj
-         0e/1Bo3LV9Ff9BMEUf7rBkmx/ui9YM95zVmHuFMOFx/T9ULDm43iAezNZWfa61IMcKFE
-         QZOQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1772091428; x=1772696228; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Sy5pSpIT1+34GDUf2p6GIfTrx9hUeuZulWhjNSVORZ0=;
-        b=CTOGHxJ45PZEPcPG6rrMz9YcTo685zyt02xc8RzdvvWCeXpgFaLZt64zBTBvraowR0
-         dQ2NNJ4ucB1lVz1hu4EAXUu8+sY/2tZp7dXDNe4o5OToNUg41rE61jyDSaWU0CWzq9r7
-         8pIe721mbVVKWLXJYhkAMlwMQbMwisuDdK72CPNyKGxwaTJXpRwhGqJ/7kW7/Eah0L8t
-         RJAFo3u9vWNtYr286vICm4Fu+kQrMov0PKVrcqnWrRtwt1dhbWAN2NwF03eoMYy6qJOQ
-         GXeubBKaUzzRyqRCB8Tbgn/1o2GzkyoK7thnNElkFqtnLEeNOtVs+9m97WV7kBkxs0wS
-         bQpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772091428; x=1772696228;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Sy5pSpIT1+34GDUf2p6GIfTrx9hUeuZulWhjNSVORZ0=;
-        b=HUnh0n4h/Q8O2tvuJans4O49hEVu53A2WT4D+7h6e9jrqxMxKbScJ+bHI8D+9LVTHJ
-         yyq0zl2NVpsW1btyRYssP2HU4luxIU5RNmGcdNyWx/1jOB1S6EsBR98Wf4QePA1qVqgP
-         NLxYLvtqpbK6C7QsqGZIGadR5dZA/hSS0vtHCw2yYqTPjSReWwvOdI/IThGEoXbkHu5g
-         eUnoPtPRVqAxDqi+x/XZznDmZRujEOvOtbd0SNkkznz/2o6G0mQq5EUL3o4Pa0Ag6Woq
-         ucEprdAxSrpT6Z5lNUN0oNBkQYOTJQzpWr7fst3S1Uh8BSz+fXU6mj1Lse8S//0w58MH
-         ClPA==
-X-Forwarded-Encrypted: i=1; AJvYcCVlgmZHzxFlPGxikXBnl/tsSgGac47ZM4H8c4vyDzGKIgvGtdJWCqik6tsgAG4skxFv9PR1eG4A81/bDBe9@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQtOjZG0LkkzJ06vX9v5jFbph83qKGOFtWBDGXIqZeTQm45dte
-	Ph7vv6TuOo1HoVrEFTVnh+B3EiajeL18MqzK2rqIvPTj9m7aDNf77Y6pYlJ6mkngtZTFSejtAfe
-	egGCR388XDck9Hy0StvSRZn+gBqrgUbsl3NwtrQx+xA==
-X-Gm-Gg: ATEYQzwrCjd8KKUqaiYFMBdFc+6XSQneaz1E2Bip9PZ8eQmbCYKpt7KAcc0s+DQKrhq
-	0mJxA5Q5NQLeB9b5qV3I9Vqc8RkL8UYTsWE1h3ub7xE2lwJqWJoZKMoMKiPFD5r2FcUngx7JS89
-	XjvhIUCiwzOUmueenCSeE8SB3rTRrO0NdeeSXh8TSQV4ARFrpbRYrr0N6/ChZDd2BkkEDX0C8n3
-	tAAL47jA7SZSBBFdlk2K+1EhI/MYVh0KL8hj1DRVash2VXgZS5liLtK5cNJh3hSiWoepUSicdDA
-	OawCpg==
-X-Received: by 2002:a17:907:1b10:b0:b90:bc06:2abf with SMTP id
- a640c23a62f3a-b9351492d3bmr217956066b.4.1772091428009; Wed, 25 Feb 2026
- 23:37:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8N/p80Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772091723; x=1803627723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wITukRR/ETFRAHxM9jR3Xxl55x4NZdhotKYiUwxEM18=;
+  b=D8N/p80QNo4v871+5E2lu+oe9y5N9r+xWe2/AikfWmIKbSt75hcW+ajP
+   bkIdQ+kceuTT82T9U9Xv7GbPVMCAaimcAyA9H6KbbMK1TDYB5fLKjZaq9
+   ZmroQ+QhlHGEeBLGAtv801THeLBlZFWB0UMkoPZhy8hOY2BTQcT7atIo2
+   t2mQBOr/O3V7oKVgoD9nfrvGxgWwXM1rsElQ5KWcjFa9406VpvH9zO4hc
+   4cM8fkQoW9Z6rh5urdlhWPk0y6puaovGNV3pivEiKyiiUqZ6N/Z8iZgF5
+   Jp32KJb9/vpmmhNj7H6Yr8+pbZl1mwniRWzCYcTB4lwLgPztajPfa3vbz
+   Q==;
+X-CSE-ConnectionGUID: oDdFEAHvRmGKj7xjuw1I3g==
+X-CSE-MsgGUID: +xs2GyE3TuyHlrDh0K7dMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72355858"
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
+   d="scan'208";a="72355858"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 23:42:02 -0800
+X-CSE-ConnectionGUID: D+j+KB7YSmCPCqaLRHD7kA==
+X-CSE-MsgGUID: ls0x13YLSBmBVtqa72xp4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
+   d="scan'208";a="247022380"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 25 Feb 2026 23:42:02 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvW0U-000000008Pd-3BDl;
+	Thu, 26 Feb 2026 07:41:58 +0000
+Date: Thu, 26 Feb 2026 15:41:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maarten Lankhorst <dev@lankhorst.se>, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [i915-ci-only NO-REVIEW 24/25] PREEMPT_RT injection
+Message-ID: <202602261547.3bM6yVAS-lkp@intel.com>
+References: <20260225131931.60724-25-dev@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260225-ina4230-v1-2-92b1de981d46@flipper.net> <202602260418.XKPUlQmZ-lkp@intel.com>
-In-Reply-To: <202602260418.XKPUlQmZ-lkp@intel.com>
-From: Alexey Charkov <alchark@flipper.net>
-Date: Thu, 26 Feb 2026 11:36:58 +0400
-X-Gm-Features: AaiRm523uaAkpoMIzz0BIKHXKFT4QsucGv2thoPccSpDCoItrF8k9Gyi_Md5Wd0
-Message-ID: <CAKTNdwEoHEKeRGvz=XoMT1RON3ud4rMrUW2oY0M5Uhx2z_gyCQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hwmon: Add support for TI INA4230 power monitor
-To: kernel test robot <lkp@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260225131931.60724-25-dev@lankhorst.se>
 
-On Thu, Feb 26, 2026 at 12:33=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Alexey,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 3ef088b0c5772a6f75634e54aa34f5fc0a2c041c]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Charkov/dt-=
-bindings-hwmon-Add-DT-schema-for-TI-INA4230/20260225-173657
-> base:   3ef088b0c5772a6f75634e54aa34f5fc0a2c041c
-> patch link:    https://lore.kernel.org/r/20260225-ina4230-v1-2-92b1de981d=
-46%40flipper.net
-> patch subject: [PATCH 2/2] hwmon: Add support for TI INA4230 power monito=
-r
-> config: arm-allyesconfig (https://download.01.org/0day-ci/archive/2026022=
-6/202602260418.XKPUlQmZ-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260226/202602260418.XKPUlQmZ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602260418.XKPUlQmZ-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    arm-linux-gnueabi-ld: drivers/hwmon/ina4230.o: in function `ina4230_se=
-t_calibration':
-> >> ina4230.c:(.text.ina4230_set_calibration+0x584): undefined reference t=
-o `__aeabi_uldivmod'
+Hi Maarten,
 
-Alright, I'm spoiled by AArch64. Thanks bot, I'll rework this part in
-v2 to avoid the 64-bit division.
+kernel test robot noticed the following build errors:
 
-Best regards,
-Alexey
+[auto build test ERROR on drm-i915/for-linux-next]
+[also build test ERROR on next-20260225]
+[cannot apply to drm-i915/for-linux-next-fixes drm-misc/drm-misc-next drm-xe/drm-xe-next linus/master v7.0-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-vblank_work-Add-methods-to-schedule-vblank_work-in-2-stages/20260226-012447
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20260225131931.60724-25-dev%40lankhorst.se
+patch subject: [i915-ci-only NO-REVIEW 24/25] PREEMPT_RT injection
+config: arm64-randconfig-r123-20260226 (https://download.01.org/0day-ci/archive/20260226/202602261547.3bM6yVAS-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602261547.3bM6yVAS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602261547.3bM6yVAS-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:225:13: error: incompatible pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex *' [-Wincompatible-pointer-types]
+     225 |         mutex_lock(&bo->base.resv->lock.base);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:193:44: note: expanded from macro 'mutex_lock'
+     193 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                                            ^~~~
+   include/linux/mutex.h:185:45: note: passing argument to parameter 'lock' here
+     185 | extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass) __acquires(lock);
+         |                                             ^
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:231:15: error: incompatible pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex *' [-Wincompatible-pointer-types]
+     231 |         mutex_unlock(&bo->base.resv->lock.base);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:249:40: note: passing argument to parameter 'lock' here
+     249 | extern void mutex_unlock(struct mutex *lock) __releases(lock);
+         |                                        ^
+   2 errors generated.
+
+
+vim +225 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+
+995279d280d1ef Karolina Stolarek 2023-11-29  210  
+995279d280d1ef Karolina Stolarek 2023-11-29  211  static void ttm_bo_reserve_interrupted(struct kunit *test)
+995279d280d1ef Karolina Stolarek 2023-11-29  212  {
+995279d280d1ef Karolina Stolarek 2023-11-29  213  	struct ttm_buffer_object *bo;
+995279d280d1ef Karolina Stolarek 2023-11-29  214  	struct task_struct *task;
+995279d280d1ef Karolina Stolarek 2023-11-29  215  	int err;
+995279d280d1ef Karolina Stolarek 2023-11-29  216  
+588c4c8d58c413 Karolina Stolarek 2024-06-12  217  	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
+995279d280d1ef Karolina Stolarek 2023-11-29  218  
+995279d280d1ef Karolina Stolarek 2023-11-29  219  	task = kthread_create(threaded_ttm_bo_reserve, bo, "ttm-bo-reserve");
+995279d280d1ef Karolina Stolarek 2023-11-29  220  
+995279d280d1ef Karolina Stolarek 2023-11-29  221  	if (IS_ERR(task))
+995279d280d1ef Karolina Stolarek 2023-11-29  222  		KUNIT_FAIL(test, "Couldn't create ttm bo reserve task\n");
+995279d280d1ef Karolina Stolarek 2023-11-29  223  
+995279d280d1ef Karolina Stolarek 2023-11-29  224  	/* Take a lock so the threaded reserve has to wait */
+995279d280d1ef Karolina Stolarek 2023-11-29 @225  	mutex_lock(&bo->base.resv->lock.base);
+995279d280d1ef Karolina Stolarek 2023-11-29  226  
+995279d280d1ef Karolina Stolarek 2023-11-29  227  	wake_up_process(task);
+995279d280d1ef Karolina Stolarek 2023-11-29  228  	msleep(20);
+995279d280d1ef Karolina Stolarek 2023-11-29  229  	err = kthread_stop(task);
+995279d280d1ef Karolina Stolarek 2023-11-29  230  
+995279d280d1ef Karolina Stolarek 2023-11-29  231  	mutex_unlock(&bo->base.resv->lock.base);
+995279d280d1ef Karolina Stolarek 2023-11-29  232  
+995279d280d1ef Karolina Stolarek 2023-11-29  233  	KUNIT_ASSERT_EQ(test, err, -ERESTARTSYS);
+995279d280d1ef Karolina Stolarek 2023-11-29  234  }
+995279d280d1ef Karolina Stolarek 2023-11-29  235  #endif /* IS_BUILTIN(CONFIG_DRM_TTM_KUNIT_TEST) */
+995279d280d1ef Karolina Stolarek 2023-11-29  236  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
