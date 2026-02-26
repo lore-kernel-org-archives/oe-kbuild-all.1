@@ -1,121 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890263859C8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Feb 2026 23:50:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7892E7F08;
+	Thu, 26 Feb 2026 01:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772063456; cv=none; b=L6bXaszsXyP1W5TnNufpg6/deXAs++PfasvMG+WoHGkiu169jC9TJGteUEWvucaTmLUkMN4SnVeTPQlxvzab63/yskl19GtAYnqns6ABM4XAfyJi8RIj1eBptyZxvk5G+6P7EktV8fH4fe++GiEgLyx2pcYbUzgnL89fyczzjJg=
+	t=1772068476; cv=none; b=U3FMEQUTGLut2dSTir+f4rPMouSipNFOZRxOLKWfbizI9fLdieUSjc5+6PoM6/HD1p9rNJhdsX5dgVUL1/YkVx2rczwYPhrMXkEyObGAvEZFKMrgSVLadCXmtXTag1MV/keGGdoBmChULjiy53SpdIy7f+lpLwnqEjok9zhz9Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772063456; c=relaxed/simple;
-	bh=Kmrmr/w0DW94NSNwO8lR+Qt9k5CiwqCoLvdiDGWbDQU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gHEw+mRBu7CjCe2Lm91Fj7Sr5FMyRAnvRine4Mg9F/mWZC1K1s+mjZFPkWzfRMnyRTHoH1PM8afKLWfuHu4lP4BVHQ1QkWYArpILfw/mWw6ZckKKW7CM8mwl1Eg+Wv+/2LoMMu4ZACPmASTjoS3wyVPCQEkq7okqTGwhqR1Qc00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GhGtLxL2; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1772068476; c=relaxed/simple;
+	bh=EcPFw3fwdHKBUa9LIKaZnc+0flJAKUAS/QgR7EiNEGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NUVjJN963h9AeKg1Rd3fOMeCFxY+wy4jcSE20kPEQUPtFOwiPzLPdFfV7uTllJu6DOX08ZuN1FHPPKtcSHSeykPOXaku2RSaJYW+gWCM+j0bSXILcCe0esbfrpwmsbf1NjnR/uJi5hyz9YSkU/1eK4LiHNyg6rEFTUkjzvXvgmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zong3RjQ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GhGtLxL2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zong3RjQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772063456; x=1803599456;
-  h=date:from:to:cc:subject:message-id;
-  bh=Kmrmr/w0DW94NSNwO8lR+Qt9k5CiwqCoLvdiDGWbDQU=;
-  b=GhGtLxL2KKkZSyyn+XDlY9GIwQnKksjQmVNwVAoFsqtMjKRVNjBRe5qT
-   wvRzUZFZiwfxOGFR+lWc6aW/MFXD1Skkr8SY9kxd6zm3Ki8WIz/LOTqsX
-   /KAq5UO607yUe/6HcHoQqlxI/Zy8ak1HApsllatEQQcrB2VzbU6RuuvFD
-   dt2NGYcA9oePqYCV4tzSAtI6mCZoqx+4kiJIy31I4TpG2ZIA2tpUhIE1a
-   ZzkvUJbG34mZ/78FAtimFdsqycM76/nvx9vGaMe0fxfvjDrwnT5HWGbht
-   TF+NN6UQ9yUpPfh7dyxdekFB/dMGtsxqfBH9xrJXQEgbFGZ8vtfH8NDw1
-   A==;
-X-CSE-ConnectionGUID: 9GZEWhyJQsSwNSofJz8pCA==
-X-CSE-MsgGUID: QRmw7N/TSIimXadopf+F7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="90697494"
+  t=1772068475; x=1803604475;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EcPFw3fwdHKBUa9LIKaZnc+0flJAKUAS/QgR7EiNEGs=;
+  b=Zong3RjQy0gu2Btw4zmDUmKMStLgGCFXmAq6DGSZn1tAaMz06M1DBVe/
+   qi24aj3IpJE6vC4LO+L9vvA+3jdS+wSjGYmdkWZ1OTD3W6u3RTIKPEN/0
+   NLUbzizWl8vRqGr2D+rNECR+/YpQRA2V2i3ovBzIXMDkE8wuWRul/opVH
+   EEJ3t1bCOBgVn9enjtaDerfhNUX09QtWnaCHlAABOal58uO1sWp1M6VI5
+   M3EkdR8ldxsB/a7A6r7jv+y206K8uMFievwl3XJ9tXygH1+PPhDCxqpsE
+   TgfL9upHt8YT8JaWnFD8wiwM0o9Ag2spxxy6fzNNoqGlv+mrrPU5I6ut7
+   Q==;
+X-CSE-ConnectionGUID: 7VgHD7/tQByHQSLlV/3dSg==
+X-CSE-MsgGUID: WIO2HK6gSrGTGmIOIys9zA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="75726521"
 X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
-   d="scan'208";a="90697494"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 15:50:52 -0800
-X-CSE-ConnectionGUID: O/FhWl/QQ8+099q1/sWCMA==
-X-CSE-MsgGUID: cRVsSfg6QaaE8HobvzxDkg==
+   d="scan'208";a="75726521"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 17:14:34 -0800
+X-CSE-ConnectionGUID: ZDR4v/W6Rt2COLyzL1ABgg==
+X-CSE-MsgGUID: NFxp3jjOTeSap7c3rCMNog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
-   d="scan'208";a="221010328"
+   d="scan'208";a="219780931"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Feb 2026 15:50:50 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 25 Feb 2026 17:14:32 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvOeW-000000007g9-1QoB;
-	Wed, 25 Feb 2026 23:50:48 +0000
-Date: Thu, 26 Feb 2026 07:50:01 +0800
+	id 1vvPwY-000000007lJ-2etx;
+	Thu, 26 Feb 2026 01:13:55 +0000
+Date: Thu, 26 Feb 2026 09:12:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-poly-aosp-pixel-laj 1/1]
- drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c:79:27: sparse: sparse: symbol
- 'sdm660_lpi_pinctrl_groups' was not declared. Should it be static?
-Message-ID: <202602260746.mZqLL1Y6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: James Bottomley <James.Bottomley@hansenpartnership.com>,
+	linux-crypto@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Howells <dhowells@redhat.com>,
+	Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Subject: Re: [PATCH v3 5/5] crypto: pkcs7: add tests for pkcs7_get_authattr
+Message-ID: <202602260949.uDrsr8hd-lkp@intel.com>
+References: <20260225211907.7368-6-James.Bottomley@HansenPartnership.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260225211907.7368-6-James.Bottomley@HansenPartnership.com>
 
-tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-laj
-head:   43e1836e89aeef0247fa0ff6ae336dd6c7774421
-commit: 5e302106099efc8a309d92ad84cb37d35d6c3775 [1/1] pinctrl: qcom: Add SDM660 LPASS LPI TLMM
-config: arm64-randconfig-r123-20260225 (https://download.01.org/0day-ci/archive/20260226/202602260746.mZqLL1Y6-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602260746.mZqLL1Y6-lkp@intel.com/reproduce)
+Hi James,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v7.0-rc1 next-20260225]
+[cannot apply to herbert-cryptodev-2.6/master herbert-crypto-2.6/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/certs-break-out-pkcs7-check-into-its-own-function/20260226-052454
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260225211907.7368-6-James.Bottomley%40HansenPartnership.com
+patch subject: [PATCH v3 5/5] crypto: pkcs7: add tests for pkcs7_get_authattr
+config: i386-buildonly-randconfig-002-20260226 (https://download.01.org/0day-ci/archive/20260226/202602260949.uDrsr8hd-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260226/202602260949.uDrsr8hd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602260746.mZqLL1Y6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602260949.uDrsr8hd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c:79:27: sparse: sparse: symbol 'sdm660_lpi_pinctrl_groups' was not declared. Should it be static?
-   drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c:116:27: sparse: sparse: symbol 'sdm660_lpi_pinctrl_functions' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/sdm660_lpi_pinctrl_groups +79 drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c
+>> crypto/asymmetric_keys/pkcs7_key_type.c:99:52: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+      99 |         pr_info("Correctly Got message hash, size=%ld\n", len);
+         |                                                   ~~~     ^~~
+         |                                                   %zu
+   include/linux/printk.h:584:34: note: expanded from macro 'pr_info'
+     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                                 ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:511:60: note: expanded from macro 'printk'
+     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning generated.
 
-    78	
-  > 79	const struct lpi_pingroup sdm660_lpi_pinctrl_groups[] = {
-    80		LPI_PINGROUP_OFFSET(0, LPI_NO_SLEW, _, _, _, _, 0x0000),
-    81		LPI_PINGROUP_OFFSET(1, LPI_NO_SLEW, _, _, _, _, 0x1000),
-    82		LPI_PINGROUP_OFFSET(2, LPI_NO_SLEW, _, _, _, _, 0x2000),
-    83		LPI_PINGROUP_OFFSET(3, LPI_NO_SLEW, _, _, _, _, 0x2010),
-    84		LPI_PINGROUP_OFFSET(4, LPI_NO_SLEW, _, _, _, _, 0x3000),
-    85		LPI_PINGROUP_OFFSET(5, LPI_NO_SLEW, _, _, _, _, 0x3010),
-    86		LPI_PINGROUP_OFFSET(6, LPI_NO_SLEW, _, _, _, _, 0x4000),
-    87		LPI_PINGROUP_OFFSET(7, LPI_NO_SLEW, _, _, _, _, 0x4010),
-    88		LPI_PINGROUP_OFFSET(8, LPI_NO_SLEW, _, _, _, _, 0x5000),
-    89		LPI_PINGROUP_OFFSET(9, LPI_NO_SLEW, _, _, _, _, 0x5010),
-    90		LPI_PINGROUP_OFFSET(10, LPI_NO_SLEW, _, _, _, _, 0x5020),
-    91		LPI_PINGROUP_OFFSET(11, LPI_NO_SLEW, _, _, _, _, 0x5030),
-    92		LPI_PINGROUP_OFFSET(12, LPI_NO_SLEW, _, _, _, _, 0x6000),
-    93		LPI_PINGROUP_OFFSET(13, LPI_NO_SLEW, _, _, _, _, 0x6010),
-    94		LPI_PINGROUP_OFFSET(14, LPI_NO_SLEW, _, _, _, _, 0x7000),
-    95		LPI_PINGROUP_OFFSET(15, LPI_NO_SLEW, _, _, _, _, 0x7010),
-    96		LPI_PINGROUP_OFFSET(16, LPI_NO_SLEW, _, _, _, _, 0x5040),
-    97		LPI_PINGROUP_OFFSET(17, LPI_NO_SLEW, _, _, _, _, 0x5050),
-    98	
-    99		LPI_PINGROUP_OFFSET(18, LPI_NO_SLEW, pdm_clk, mclk0, _, _, 0x8000),
-   100		LPI_PINGROUP_OFFSET(19, LPI_NO_SLEW, pdm_sync, _, _, _, 0x8010),
-   101		LPI_PINGROUP_OFFSET(20, LPI_NO_SLEW, pdm_tx, _, _, _, 0x8020),
-   102		LPI_PINGROUP_OFFSET(21, LPI_NO_SLEW, pdm_rx, _, _, _, 0x8030),
-   103		LPI_PINGROUP_OFFSET(22, LPI_NO_SLEW, comp_rx, _, _, _, 0x8040),
-   104		LPI_PINGROUP_OFFSET(23, LPI_NO_SLEW, pdm_rx, _, _, _, 0x8050),
-   105		LPI_PINGROUP_OFFSET(24, LPI_NO_SLEW, comp_rx, _, _, _, 0x8060),
-   106		LPI_PINGROUP_OFFSET(25, LPI_NO_SLEW, pdm_rx, _, _, _, 0x8070),
-   107		LPI_PINGROUP_OFFSET(26, LPI_NO_SLEW, dmic1_clk, _, _, _, 0x9000),
-   108		LPI_PINGROUP_OFFSET(27, LPI_NO_SLEW, dmic1_data, _, _, _, 0x9010),
-   109		LPI_PINGROUP_OFFSET(28, LPI_NO_SLEW, dmic2_clk, _, _, _, 0xa000),
-   110		LPI_PINGROUP_OFFSET(29, LPI_NO_SLEW, dmic2_data, _, _, _, 0xa010),
-   111	
-   112		LPI_PINGROUP_OFFSET(30, LPI_NO_SLEW, _, _, _, _, 0xb000),
-   113		LPI_PINGROUP_OFFSET(31, LPI_NO_SLEW, _, _, _, _, 0xb010),
-   114	};
-   115	
+
+vim +99 crypto/asymmetric_keys/pkcs7_key_type.c
+
+    48	
+    49	/*
+    50	 * Preparse a PKCS#7 wrapped and validated data blob.
+    51	 */
+    52	static int pkcs7_preparse(struct key_preparsed_payload *prep)
+    53	{
+    54		enum key_being_used_for usage = pkcs7_usage;
+    55		int ret;
+    56		struct pkcs7_message *pkcs7;
+    57		const void *data;
+    58		size_t len;
+    59	
+    60		if (usage >= NR__KEY_BEING_USED_FOR) {
+    61			pr_err("Invalid usage type %d\n", usage);
+    62			return -EINVAL;
+    63		}
+    64	
+    65		ret = verify_pkcs7_signature(NULL, 0,
+    66					      prep->data, prep->datalen,
+    67					      VERIFY_USE_SECONDARY_KEYRING, usage,
+    68					      pkcs7_view_content, prep);
+    69		if (ret)
+    70			return ret;
+    71	
+    72		pkcs7 = pkcs7_parse_message(prep->data, prep->datalen);
+    73		if (IS_ERR(pkcs7)) {
+    74			pr_err("pkcs7 parse error\n");
+    75			return PTR_ERR(pkcs7);
+    76		}
+    77	
+    78		/*
+    79		 * the parsed message has no trusted signer, so nothing should
+    80		 * be returned here
+    81		 */
+    82		ret = pkcs7_get_authattr(pkcs7, OID_messageDigest, &data, &len);
+    83		if (ret == 0) {
+    84			pr_err("OID returned when no trust in signer\n");
+    85			goto out;
+    86		}
+    87		/* add trust and check again */
+    88		ret = validate_pkcs7_trust(pkcs7, VERIFY_USE_SECONDARY_KEYRING);
+    89		if (ret) {
+    90			pr_err("validate_pkcs7_trust failed!!\n");
+    91			goto out;
+    92		}
+    93		/* now we should find the OID */
+    94		ret = pkcs7_get_authattr(pkcs7, OID_messageDigest, &data, &len);
+    95		if (ret) {
+    96			pr_err("Failed to get message digest\n");
+    97			goto out;
+    98		}
+  > 99		pr_info("Correctly Got message hash, size=%ld\n", len);
+   100	
+   101	 out:
+   102		pkcs7_free_message(pkcs7);
+   103		return 0;
+   104	}
+   105	
 
 -- 
 0-DAY CI Kernel Test Service
