@@ -1,125 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99DD261B71
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 01:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71072D5C74
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 02:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772155650; cv=none; b=cdMxavEP5JylUo5/Yn4Pa/U2OtfeUlmkRKHWUUSxFIu0i2zn6TOlwIzwkOBzzN1RB3vEbd2DK+Zbd6ppPgOKoU6JzyGpKTHDN2rsolMTiiGQcd6NbhyIeJ99EpAuGCqbYBqfOLujlcnAUkdUZmajojzNc+fT5Q0Zqfivm6x46P0=
+	t=1772158418; cv=none; b=igjE+i0fnfNTpjqeAxFkjXMDq9d5yf4t/jsA9dnlPmi82LUjF8JhJBFL8JHrZAiOXQZy2kusZAWPohKhpMyLRSHB9TE+6uPTjI7iKW995gfkqFVJINbPO2li3zGcHMNWA7KoCYWFP4/Oh6Yy4jWxJywxqAE4lKOJyKmxgqNrqI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772155650; c=relaxed/simple;
-	bh=dTwqDKH5344b8y2sqsdutRu+zX5zbNMkERTJWXYPmaU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J6nWew43/D9i0vJjP7z7VBnxZRETYfcq0sFiZipcPtBr0DJEWuuYRKvScu7bvaAe8L6Le+V8BWHoH9AB4JCAFJ2VIY084UwdayZKmW64yFaZH5K16dN7A40N+Am8OYh+X43LgM9qgwG2ynoOcooAgt5BwnxpncT5SS+BelHgWho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doObAzSk; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1772158418; c=relaxed/simple;
+	bh=eII0Kt2t591P6CtL3ijbGSBIo7AchzHNR+Tc3/tlhlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFVRbqy1hWzL38ieGvWWatZ2P7sbYVSpqmhdv0n/DGtVk7A7ARzMtmP3STD5U1UCqMSwZieu2BS9XqaMQqJQlV72enYMY2Tl3/Kp+etYsK9DKMI+9em3/V4eXQiBCLU0lbWr6Refxz6aA1az++da31JylBjOFOeqvvODGnDr+94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ar5AjxSd; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doObAzSk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ar5AjxSd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772155649; x=1803691649;
-  h=date:from:to:cc:subject:message-id;
-  bh=dTwqDKH5344b8y2sqsdutRu+zX5zbNMkERTJWXYPmaU=;
-  b=doObAzSkIP0m9Yqa7Say03usF3vI1Y6iJtN2nUkbZqrkaKumpduOsrI0
-   Yceu7W+DFxmWvdyqRpN9s+DLxJQv7wzEAElRrvXempMDHjAur0aVPsRCH
-   RYKQPZTJLrRH+ce2KYfPCyT/NIRecZeXFEASQx2O25j+FLIcQ4maOD7sU
-   OoMDdJ/lSLuI9AJEP7iMgps095TEAvbf3sluGW1dgIiC9YTYjqMehRMrg
-   bPG6x7u5aVO1rImv+uNeLSHceltXExbQTCM8zsvIpFamNDo+WDfw7cLYE
-   wD+pvXJPh70bZuC1cyrfOJ0sTWv56+vlffTKgYkeOTBP8FI8BtX7hj1r0
+  t=1772158417; x=1803694417;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eII0Kt2t591P6CtL3ijbGSBIo7AchzHNR+Tc3/tlhlo=;
+  b=Ar5AjxSdslvpwYMGm0BwKIMC7vE+LmkR9bphekq/yYxoB5zbv4mId9qc
+   Kwp9oxSo1uowUi18bHl9e0SZqnmaAxorjCVeGSnSSumkoIZtGut877HFe
+   Hf1GEBRK1W21MIOuHxh8oRp2M71aVQ/7RxaS0DI5KsRHc2dkKdMPsEKhg
+   jAIFvHyxb/eTGz73OKeQn2cVNykhdtu4kDZn0LhFYOK8ku9ggKXxiyOMf
+   YOk1+botMveFJDmNB0lxkbWGKGmOu1JqQNDUncBXDPA2QRLvcDycVAm4o
+   IQR0T5XcVyvuHGid+JWlY0l6zEm6RaqJIYTQCR7rdUbI+1xV2QSpicpou
    g==;
-X-CSE-ConnectionGUID: 5wQCD/FLRNCy6ShNXkybwA==
-X-CSE-MsgGUID: HKHtKfRiQtq7cgB4dbjwhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="72266807"
+X-CSE-ConnectionGUID: kvmzM+PeTeyFxidVh4jDyQ==
+X-CSE-MsgGUID: i2cB2vmPSiWivn5BV3D4qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="77103756"
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="72266807"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 17:27:25 -0800
-X-CSE-ConnectionGUID: Ta2SsWeESGyj0gwVsQZ5wA==
-X-CSE-MsgGUID: Mqj4g5KQRmq0Dw+9aZWMiA==
+   d="scan'208";a="77103756"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 18:13:36 -0800
+X-CSE-ConnectionGUID: ztSgV7fxQKGa4zhZXG4W+w==
+X-CSE-MsgGUID: BYN/pRaVSUKKKSOsQ/0ivw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="247269219"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 26 Feb 2026 17:27:24 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="244220111"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 26 Feb 2026 18:13:35 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvmdV-000000000QD-1wAC;
-	Fri, 27 Feb 2026 01:27:21 +0000
-Date: Fri, 27 Feb 2026 02:26:58 +0100
+	id 1vvnLf-00000000A6d-0d7E;
+	Fri, 27 Feb 2026 02:13:12 +0000
+Date: Fri, 27 Feb 2026 10:12:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jakub Sitnicki <jakub@cloudflare.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1/1] vec-syscfg.c:24:9:
- warning: "ARRAY_SIZE" redefined
-Message-ID: <202602270201.MlLwuoyh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH RFC bpf-next 1/5] bpf: Introduce local storage for sk_buff
+Message-ID: <202602271043.OPCcB1AR-lkp@intel.com>
+References: <20260226-skb-local-storage-v1-1-4ca44f0dd9d1@cloudflare.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226-skb-local-storage-v1-1-4ca44f0dd9d1@cloudflare.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   b5e973f489e4928831610623d5e272716600ff94
-commit: c9e52db90031b7a89bf667057df5ca9c25cd68ff [1/1] tools: fix ARRAY_SIZE defines in tools and selftests hdrs
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260227/202602270201.MlLwuoyh-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270201.MlLwuoyh-lkp@intel.com/reproduce)
+Hi Jakub,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Sitnicki/bpf-Introduce-local-storage-for-sk_buff/20260227-051847
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260226-skb-local-storage-v1-1-4ca44f0dd9d1%40cloudflare.com
+patch subject: [PATCH RFC bpf-next 1/5] bpf: Introduce local storage for sk_buff
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260227/202602271043.OPCcB1AR-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271043.OPCcB1AR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602270201.MlLwuoyh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271043.OPCcB1AR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> vec-syscfg.c:24:9: warning: "ARRAY_SIZE" redefined
-      24 | #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-         |         ^~~~~~~~~~
-   In file included from vec-syscfg.c:21:
-   ../../kselftest.h:52:9: note: this is the location of the previous definition
-      52 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-         |         ^~~~~~~~~~
-   vec-syscfg.c: In function 'get_child_rdvl':
-   vec-syscfg.c:112:33: warning: too many arguments for format [-Wformat-extra-args]
-     112 |                 fprintf(stderr, "execl(%s) failed: %d\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   vec-syscfg.c: At top level:
-   vec-syscfg.c:326:13: warning: 'prctl_set_same' defined but not used [-Wunused-function]
-     326 | static void prctl_set_same(struct vec_data *data)
-         |             ^~~~~~~~~~~~~~
-   vec-syscfg.c: In function 'file_write_integer':
-   vec-syscfg.c:195:12: warning: 'ret' may be used uninitialized [-Wmaybe-uninitialized]
-     195 |         if (ret < 0) {
-         |            ^
-   vec-syscfg.c:183:13: note: 'ret' was declared here
-     183 |         int ret;
-         |             ^~~
---
->> vec-syscfg.c:24:9: warning: "ARRAY_SIZE" redefined
-      24 | #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-         |         ^~~~~~~~~~
-   In file included from vec-syscfg.c:21:
-   ../../kselftest.h:52:9: note: this is the location of the previous definition
-      52 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-         |         ^~~~~~~~~~
-   vec-syscfg.c: In function 'get_child_rdvl':
-   vec-syscfg.c:112:33: warning: too many arguments for format [-Wformat-extra-args]
-     112 |                 fprintf(stderr, "execl(%s) failed: %d\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   vec-syscfg.c: At top level:
-   vec-syscfg.c:326:13: warning: 'prctl_set_same' defined but not used [-Wunused-function]
-     326 | static void prctl_set_same(struct vec_data *data)
-         |             ^~~~~~~~~~~~~~
-   vec-syscfg.c: In function 'file_write_integer':
-   vec-syscfg.c:195:12: warning: 'ret' may be used uninitialized [-Wmaybe-uninitialized]
-     195 |         if (ret < 0) {
-         |            ^
-   vec-syscfg.c:183:13: note: 'ret' was declared here
-     183 |         int ret;
-         |             ^~~
-   /usr/lib/gcc-cross/aarch64-linux-gnu/14/../../../../aarch64-linux-gnu/bin/ld: /tmp/ccfQ44G7.o:(.data.rel+0x20): undefined reference to `rdvl_sve'
-   collect2: error: ld returned 1 exit status
+>> Warning: net/core/bpf_skb_storage.c:129 function parameter 'map__map' not described in 'bpf_skb_storage_get'
+>> Warning: net/core/bpf_skb_storage.c:129 function parameter 'value__nullable' not described in 'bpf_skb_storage_get'
+>> Warning: net/core/bpf_skb_storage.c:129 function parameter 'value__szk' not described in 'bpf_skb_storage_get'
+>> Warning: net/core/bpf_skb_storage.c:178 function parameter 'map__map' not described in 'bpf_skb_storage_delete'
+>> Warning: net/core/bpf_skb_storage.c:129 function parameter 'map__map' not described in 'bpf_skb_storage_get'
+>> Warning: net/core/bpf_skb_storage.c:129 function parameter 'value__nullable' not described in 'bpf_skb_storage_get'
+>> Warning: net/core/bpf_skb_storage.c:129 function parameter 'value__szk' not described in 'bpf_skb_storage_get'
+>> Warning: net/core/bpf_skb_storage.c:178 function parameter 'map__map' not described in 'bpf_skb_storage_delete'
 
 -- 
 0-DAY CI Kernel Test Service
