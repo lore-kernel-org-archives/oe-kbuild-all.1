@@ -1,155 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E579F2EBB99
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 06:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F110638A71C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 06:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772174859; cv=none; b=i0Mmbr0qS+lvVl4wlaIn3KmjP8MgqZyVQaYbYLHi5pcaEFa4I9Cr64zBR6B0HBvd/UOLftsWeoArsi+DPlkhj+QwvXPaifE0UHRpXt4ZpBSADB6VObRG/FIffivPfVUy2hDCkQStSk+WXOVQ/F6vCE0YZ5lh0pvFIgeDGOhC4Ak=
+	t=1772175480; cv=none; b=fiFCQyE+nbUG6LVUVvz2toNu3eDdLS0A/k+OcJ5Cl2kijkAtQkyfCgpFFfEvkJ3Mbmo9JSabRfa/mABoBcNbuUhHXtkzSkObe4h5tib9LY34aJbzCBXQ0JLBr99KaAv8BD80zNdIceTw1+jRNc2VysF2jA9EaWRoxgUGGscaIX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772174859; c=relaxed/simple;
-	bh=vRSeR0pfWkCntNewb8wkzkiAo5+Jp3IihkpawoKZMow=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M9+m8cVZUt/ijH9mUmRXR/GzDaRoNBnYSstWQWzpigvTRhWvjLz8zW5OPreOQUv7HXGVdDaQ3jT6X58PiE5mf/Xb3/L4ftVnpCs+tV+3gJsTxTWIiGy5/TjkB5mMRpIxCQAc2D6G8zqcq6qw3OIO/DYq7CLWev6PDWI9XixF73o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKuRXu5r; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1772175480; c=relaxed/simple;
+	bh=UJbderW4otTO6b1LtImNkneD3TUGIis4MErn2AGd7uE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pV96UVrwqHWyT/JqAphzT6v3/ZTBW0TB6jFtXGMMnMbEjpJUbT1co9eWbTV83y1Kvbu2XeM14eIEu3PBTP+lnCylM34BksRhb0ryNvmffRi7AvPcN1PFh3LzfuEKS9OV1gZCcOqpBvEBfJfLgyg7RVOmsfSmVnC/Xep+olZXNMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9w+0C51; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKuRXu5r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9w+0C51"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772174857; x=1803710857;
-  h=date:from:to:cc:subject:message-id;
-  bh=vRSeR0pfWkCntNewb8wkzkiAo5+Jp3IihkpawoKZMow=;
-  b=YKuRXu5rSuKSf8M9NAq0Za6fNdMDkqPqgUs4OA+XF6dxXs2+4LYIRp+S
-   r6HIyXB3dEBEyliT7eGJvo6E/Iq84RCzOgUENcKQzsNhOv8kx7ROSLqM5
-   qmgSH415BmH4SPyhGu30Fgbtvne1aUMr2bzSfiIt/ElB9TDGXmecioXUv
-   LeDJmxqex50wWmCDTzOSnpXh0PC7LDFZtNG+PNwJbIcVlpEYDRHBjV9r3
-   s5dt016/20lV7Jvjm1o9tfISrlak2itE6DSudwiJyxvoxaKLgwcb4s3TQ
-   TIdoOLoWtnJJb7jlNRuKed2mivoGdbO5/odoTbdpgGEUkqvF/SSJMwedn
-   w==;
-X-CSE-ConnectionGUID: f+yiygakQ329hTv7szIYWA==
-X-CSE-MsgGUID: 2vf5gKAGRfqvBMgUm7m/AQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73436877"
+  t=1772175479; x=1803711479;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UJbderW4otTO6b1LtImNkneD3TUGIis4MErn2AGd7uE=;
+  b=d9w+0C51LzdJeqF2ojt3zi9FEHY0eo+BHA06YEONzH/2vhbp62LyeTe7
+   e4czi2eBm+yHVsNKi8khq9chAgNI1CvJnqJ2uMoQ3QNzqhdgehFaS477t
+   i5fxYSrnpfxlv0hrkavC7TSMx2D7CWQmzCwjN2hgytI8O+qe5/8vWfSyX
+   0j2oWSJvXfGq28UkDJb5IHU8uuUglf767yrvDEyBFLXMxz97YVbhOXox9
+   IZVpbxvAHZb7xAvWbC1rOvqSHyEMDPBbYWPOftFFSAi8wbTWaYSGE7maI
+   Vr4UvPMgEyHnskDSXu059XoeL7EG3E9kSqLvcNlSGGPX01eqqpoHDi2sK
+   g==;
+X-CSE-ConnectionGUID: QEDxhjOKQ86yksO4puC5Zw==
+X-CSE-MsgGUID: FyfsmdMZT3SN0ZG0ASTUIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="83959735"
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="73436877"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 22:47:36 -0800
-X-CSE-ConnectionGUID: 2Gdw4etzQrqXmCEmhFpQ+w==
-X-CSE-MsgGUID: W6Pc74uKQuei6/P+8AANLg==
+   d="scan'208";a="83959735"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 22:56:59 -0800
+X-CSE-ConnectionGUID: oeUMi0x/TausyW+s1rBEig==
+X-CSE-MsgGUID: 0B+ioBECR7iHFg34FRF8HA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="214267370"
+   d="scan'208";a="254597993"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Feb 2026 22:47:35 -0800
+  by orviesa001.jf.intel.com with ESMTP; 26 Feb 2026 22:56:55 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvrcy-00000000AGk-0nZQ;
-	Fri, 27 Feb 2026 06:47:13 +0000
-Date: Fri, 27 Feb 2026 14:45:17 +0800
+	id 1vvrm5-00000000AHn-2QPw;
+	Fri, 27 Feb 2026 06:56:38 +0000
+Date: Fri, 27 Feb 2026 14:55:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-02-27 64/71]
- sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:188:20: error: expected '=', ',',
- ';', 'asm' or '__attribute__' before 'snd_soc_dai_id'
-Message-ID: <202602271410.623w6tH4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Morduan Zang <zhangdandan@uniontech.com>,
+	devnull+cryolitia.gmail.com@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, CoelacanthusHex@gmail.com,
+	Cryolitia@gmail.com, corbet@lwn.net, jdelvare@suse.com,
+	linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux@roeck-us.net,
+	marcin@stragowski.com, Morduan Zang <zhangdandan@uniontech.com>
+Subject: Re: [PATCH] hwmon: gpd-fan: replace custom EC I/O with kernel
+ ec_read/ec_write
+Message-ID: <202602271410.w0cX8IID-lkp@intel.com>
+References: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-02-27
-head:   70fac1227b8f4cff541671ddd98131030be53492
-commit: 0d2fc26b6b9e1b6dbf496f2e231460cdcae63f24 [64/71] move struct dai
-config: arm64-randconfig-002-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271410.623w6tH4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271410.623w6tH4-lkp@intel.com/reproduce)
+Hi Morduan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v7.0-rc1 next-20260226]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Morduan-Zang/hwmon-gpd-fan-replace-custom-EC-I-O-with-kernel-ec_read-ec_write/20260227-105255
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/53C09CAECC90EB98%2B20260227024945.151198-1-zhangdandan%40uniontech.com
+patch subject: [PATCH] hwmon: gpd-fan: replace custom EC I/O with kernel ec_read/ec_write
+config: x86_64-buildonly-randconfig-004-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271410.w0cX8IID-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271410.w0cX8IID-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602271410.623w6tH4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271410.w0cX8IID-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/soc/mediatek/mt6797/mt6797-dai-pcm.c: In function 'mtk_dai_pcm_hw_params':
->> sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:188:20: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'snd_soc_dai_id'
-     188 |         int dai_id snd_soc_dai_id(dai);
-         |                    ^~~~~~~~~~~~~~
->> sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:190:71: error: 'dai_id' undeclared (first use in this function)
-     190 |         unsigned int rate_reg = mt6797_rate_transform(afe->dev, rate, dai_id);
-         |                                                                       ^~~~~~
-   sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:190:71: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/hwmon/gpd-fan.c: In function 'gpd_ecram_read':
+>> drivers/hwmon/gpd-fan.c:255:16: error: implicit declaration of function 'ec_read'; did you mean 'up_read'? [-Wimplicit-function-declaration]
+     255 |         *val = ec_read(offset, val);
+         |                ^~~~~~~
+         |                up_read
+   drivers/hwmon/gpd-fan.c: In function 'gpd_ecram_write':
+>> drivers/hwmon/gpd-fan.c:260:9: error: implicit declaration of function 'ec_write'; did you mean 'up_write'? [-Wimplicit-function-declaration]
+     260 |         ec_write(offset, value);
+         |         ^~~~~~~~
+         |         up_write
 
 
-vim +188 sound/soc/mediatek/mt6797/mt6797-dai-pcm.c
+vim +255 drivers/hwmon/gpd-fan.c
 
-   179	
-   180	/* dai ops */
-   181	static int mtk_dai_pcm_hw_params(struct snd_pcm_substream *substream,
-   182					 struct snd_pcm_hw_params *params,
-   183					 struct snd_soc_dai *dai)
-   184	{
-   185		struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
-   186		struct snd_soc_dapm_widget *p = snd_soc_dai_stream_widget_get_playback(dai);
-   187		struct snd_soc_dapm_widget *c = snd_soc_dai_stream_widget_get_capture(dai);
- > 188		int dai_id snd_soc_dai_id(dai);
-   189		unsigned int rate = params_rate(params);
- > 190		unsigned int rate_reg = mt6797_rate_transform(afe->dev, rate, dai_id);
-   191		unsigned int pcm_con = 0;
-   192	
-   193		dev_dbg(afe->dev, "%s(), id %d, stream %d, rate %d, rate_reg %d, widget active p %d, c %d\n",
-   194			__func__,
-   195			dai_id,
-   196			substream->stream,
-   197			rate,
-   198			rate_reg,
-   199			p->active,
-   200			c->active);
-   201	
-   202		if (p->active || c->active)
-   203			return 0;
-   204	
-   205		switch (dai_id) {
-   206		case MT6797_DAI_PCM_1:
-   207			pcm_con |= AUD_BCLK_OUT_INV_NO_INVERSE << PCM_BCLK_OUT_INV_SFT;
-   208			pcm_con |= AUD_TX_LCH_RPT_NO_REPEAT << PCM_TX_LCH_RPT_SFT;
-   209			pcm_con |= AUD_VBT_16K_MODE_DISABLE << PCM_VBT_16K_MODE_SFT;
-   210			pcm_con |= AUD_EXT_MODEM_SELECT_INTERNAL << PCM_EXT_MODEM_SFT;
-   211			pcm_con |= 0 << PCM_SYNC_LENGTH_SFT;
-   212			pcm_con |= AUD_PCM_ONE_BCK_CYCLE_SYNC << PCM_SYNC_TYPE_SFT;
-   213			pcm_con |= AUD_BT_MODE_DUAL_MIC_ON_TX << PCM_BT_MODE_SFT;
-   214			pcm_con |= AUD_PCM_AFIFO_AFIFO << PCM_BYP_ASRC_SFT;
-   215			pcm_con |= AUD_PCM_CLOCK_SLAVE_MODE << PCM_SLAVE_SFT;
-   216			pcm_con |= rate_reg << PCM_MODE_SFT;
-   217			pcm_con |= AUD_PCM_FMT_PCM_MODE_B << PCM_FMT_SFT;
-   218	
-   219			regmap_update_bits(afe->regmap, PCM_INTF_CON1,
-   220					   0xfffffffe, pcm_con);
-   221			break;
-   222		case MT6797_DAI_PCM_2:
-   223			pcm_con |= AUD_TX_LCH_RPT_NO_REPEAT << PCM2_TX_LCH_RPT_SFT;
-   224			pcm_con |= AUD_VBT_16K_MODE_DISABLE << PCM2_VBT_16K_MODE_SFT;
-   225			pcm_con |= AUD_BT_MODE_DUAL_MIC_ON_TX << PCM2_BT_MODE_SFT;
-   226			pcm_con |= AUD_PCM_AFIFO_AFIFO << PCM2_AFIFO_SFT;
-   227			pcm_con |= AUD_PCM_WLEN_PCM_32_BCK_CYCLES << PCM2_WLEN_SFT;
-   228			pcm_con |= rate_reg << PCM2_MODE_SFT;
-   229			pcm_con |= AUD_PCM_FMT_PCM_MODE_B << PCM2_FMT_SFT;
-   230	
-   231			regmap_update_bits(afe->regmap, PCM2_INTF_CON,
-   232					   0xfffffffe, pcm_con);
-   233			break;
-   234		default:
-   235			dev_warn(afe->dev, "%s(), id %d not support\n",
-   236				 __func__, dai_id);
-   237			return -EINVAL;
-   238		}
-   239	
-   240		return 0;
-   241	}
-   242	
+   251	
+   252	// Helper functions to handle EC read/write
+   253	static void gpd_ecram_read(u16 offset, u8 *val)
+   254	{
+ > 255		*val = ec_read(offset, val);
+   256	}
+   257	
+   258	static void gpd_ecram_write(u16 offset, u8 value)
+   259	{
+ > 260		ec_write(offset, value);
+   261	}
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
