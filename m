@@ -1,166 +1,264 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC80348862
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 04:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772167703; cv=fail; b=KytDpypY/1gwbIZfGb3Sk932bjahUG3Lf0Rnn1lruIYPQrZ6KhC5N/ujhQYNpEgBf3ZCC2hh+NuFbAWfBoCN2JTJmi2Z9A7DuEnNp0RUbiibwaC/fJjC8pRgYoFmmghDST41QytgMlluJZXbd3pZVqfNxc7u3KGoidWNwJNnY0U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772167703; c=relaxed/simple;
-	bh=hxFM+KPm05ZNDjAWflpT/+/HptFiV5UmopcQ+n3hmQQ=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=d9X8eS4v5M1D+QIhF3zF9t7EohtfmP5eItTfqTBrjJYXPCH5/wUtnElbZm5EMiXdxOe1r8I98+af4QvKibQ4p+OqDnIDS2m+7DFI/JfuirfCxFxCqxCXtfVx0aZvxlucNI50FX0B7FyryxsuWMVzxfb4mikbGcJIO8xFDR8CkEc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N409sMd0; arc=fail smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96621361DB5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 04:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772167723; cv=none; b=Qfdrso0qS9gfs99MGORqcxRc+tXDQwEFRtGu3jqALKKSABKG/muydq6vPic0HhxPQ93wXMVDdhoL2t6mmovdN9Loka67ZrCSV/3jpcbLwBmLzRvQHwJri74JGGv6tliW/ZuZiAMJNOtL2v5yknlHDylQYUeIFKvFIDoDHjfxFjw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772167723; c=relaxed/simple;
+	bh=WchuL7gYLfakKQNaEa4AO2naSk8iWcf9yLlIJgnmPRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OX39nZPrDzntEBI9RLPZWk7oL27yX1nGW30DM+djdJRnm2W/FwJSkXtT45hC6EfDGmFnKUminpJGrGANj0dBydIkWyUXqn0oF8khK6xIJf5IXb2JVV2ZqaHalTuSZA93USW2QYpD+9HW+ZeR2peHIsx/O0KUBIo3qsevuEKAFck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=inqP1yow; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N409sMd0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="inqP1yow"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772167701; x=1803703701;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hxFM+KPm05ZNDjAWflpT/+/HptFiV5UmopcQ+n3hmQQ=;
-  b=N409sMd08R5kuVDrnWpRjmBJAJSvt4K/dDLDYWNTI6ZVF1ekHgynco+y
-   vPNmh+wyJicRIzYtd7xR6vYtThPdGpce29b0dbh8D9Ow4somGXBmo397Q
-   TY7GGl3kG0dzixW2Yvqh7rcW/opyOK6ylj0mOIpcYuRn9ewdyRGYfhpHt
-   RqlmNMqy6FznYSNXVx8xgCJFc1k8DYbRPHPW3RQMaPXGtnTQL0tlvFMNt
-   KpFqNJYRnIiYXBTG1iaoXQvl4vHGcvZbiczmFp28IOVO7SFdo4d3+VnIs
-   hC5UJAbCX5M0WevzxIaoiUe4AnkNsqRbF0qeaWXkhG+0MzqIGRSTA9kFS
-   g==;
-X-CSE-ConnectionGUID: KgoGEUD3S76chV+f0jcN+w==
-X-CSE-MsgGUID: U5qb97uCR4iIcHyBemQaKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="77111917"
+  t=1772167721; x=1803703721;
+  h=date:from:to:cc:subject:message-id;
+  bh=WchuL7gYLfakKQNaEa4AO2naSk8iWcf9yLlIJgnmPRQ=;
+  b=inqP1yowsHUmOJI/KWJ+jqcFoIZsfWvLfAksQjF/U3ymgqBjNz4KPyZU
+   mNJQ/sK+qog4K33n8Sa55ke2Bk5p/H0aVDcrdQ89i8JSpo65GD+gcZa3+
+   p9bU3MfXjuQuOSd6M8LubdAvMFhDrGcaJLzMlzUhRMGce/NeSN9ni+XVc
+   MOqZYZwSnxwBDbuoY2/Sp0iZ5H84U4TeLkVlAAkBS+rduHJqzO5zDUkq2
+   F1c1T3vHDqG4+yvPOk2KfRXScw/j6dvOw37S4No90+vqQA8ulQ+gYFaRL
+   ymL6UqY5K1funcOq9/Q3vhLi4Q2aAdEncRTsSpTGTHDsJjXeCCMWQSw/f
+   A==;
+X-CSE-ConnectionGUID: fAnb3sQNQrOWra0nr11dRA==
+X-CSE-MsgGUID: grpxBWseR/KECHErvXTweg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="72277468"
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="77111917"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 20:48:20 -0800
-X-CSE-ConnectionGUID: oQWIZ/AASWiYSqcbXK9s6Q==
-X-CSE-MsgGUID: WR+EnrAUQDW7WeQuxPEkww==
+   d="scan'208";a="72277468"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 20:48:41 -0800
+X-CSE-ConnectionGUID: HbIyTEH6QwWXt9Uo0nJzuA==
+X-CSE-MsgGUID: R/yR6PZxSQqt7P9hteFtvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="216692724"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 20:48:20 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 26 Feb 2026 20:48:19 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 26 Feb 2026 20:48:19 -0800
-Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.11) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 26 Feb 2026 20:48:19 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=be3TQhK0BAdgSM1PGuI3tuU0+R5M1cA7EOGZ7GPwjibE1QfuZrU+k1Jk1vlUL3PcGsIMsXe+hjbFyA/OIrtoJk4NUX2o48/SQrZ4/JI8I5lK8uv3hx9QOxFW53wl5ZMDMq+q1aUSrjnTygcoFngisp23TssBE367n6KyvryBlD6tUcRz5tt1mwXjA/2UXd6/ShrrC97Cus0+WnvxAhKkh+ZHqueqah/AsHVfmp6fQ3QwUZV6rDgQqFKvm5qp05FPzPz7TI+hFzJMOEXTjA9oWlDLc9xztWmEeJmnK/B+0WuD9S6Tz88um5rvMn5dVDwD+STLZCHNFw8v6bFYEgbFIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WWs37xHvCiILV1/j8vYTceO0sQgGti4tRWnq4jRU55o=;
- b=IGMeelinDTwkjcPjD1n7K+mZ0GtEPBO1hBRujHGQCAzmrcaRDIu4G/I6LOsN3Z+8P2zf0/1FlG0+7IBmxg2UIEi33ShSfmZKzd8R5nN2Kcd+oi2iwtg9AvddasyBQ4fN1JLq2kH2uk9e1Xa6agjnFy1DOo7DydQeWyFJnw1US2TNN4kSElMa1+vHM/E+SMQhk5MFZW4oINhnCznrIs8JEN2G90Fyi3a2jSmB/NLhdRpkmtQcmQ+9jM/hJZvZUEsGSiO3rOfHHIqtrKPXT6OxwZeYF5n28URdqggADeC7BZ2jtJR2V103NxS8AfoeQcYC6gKl20ElAVQlfYzehHCy2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
- by SA1PR11MB8376.namprd11.prod.outlook.com (2603:10b6:806:389::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Fri, 27 Feb
- 2026 04:48:17 +0000
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394]) by CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394%5]) with mapi id 15.20.9654.014; Fri, 27 Feb 2026
- 04:48:17 +0000
-Date: Fri, 27 Feb 2026 12:48:09 +0800
+   d="scan'208";a="214677825"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 26 Feb 2026 20:48:39 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvpmH-00000000ACZ-1YoF;
+	Fri, 27 Feb 2026 04:48:37 +0000
+Date: Fri, 27 Feb 2026 12:48:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conghui <conghui.chen@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [acrn:6.17/linux 4/8] checkpatch: WARNING:BLOCK_COMMENT_STYLE: Block
- comments should align the * on each line
-Message-ID: <aaEiCVGFcZxIyDZC@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0168.apcprd04.prod.outlook.com (2603:1096:4::30)
- To CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [broonie-ci:kvm-arm64-sme 3/31]
+ arch/arm64/kernel/fpsimd.c:406:87: warning: suggest parentheses around '-' in
+ operand of '&'
+Message-ID: <202602271250.Pt4alO0j-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8468:EE_|SA1PR11MB8376:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3704a024-3ec6-461e-034b-08de75bb6c47
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: WQrqO/X2ZzADuq9jx4gisx5sHsGY9cgfIprROOwZ7VAK04oh5eB3G3T/0AADe7yCv3GpXT3p77G2M/B6gFAIREsNUGRS3AAtDpzKxIXePNEM55ukRN69dDQqOC5dGxiPXhZ1b+C9obbvPcvZODzEHspE9cV9UbeipNbMudDSuS70iIG1H2Lfg4fJZWH9d0bLnRyHEzqqewOex5ZoJGVP3Xb38JfmVBxWaA14ZaHqSvL1IjywCn4gUmYhpCfhzV3pfTREeUn8bDsvGpfG2tBoW+uYlm5vciP/oqYlgKu1u5kptxBzCqKulMEFijYfXOSZJ9ozkTWNVpyvdEemgHId79xZxWKTPoFGJo0ycY1Rarc8NOGV1rcmuBMH+01z7Z+xHmbawG7GhAgSfjsdape1QpVPXulFrM2Gy9IxWR/k9jPTGNxItGftVaqKfGgnTATKn7Tn0XpeNGm0/XRoXvGq5MDjtVyFcvPJGbfzP0t1+wHohBm1eH6rDzeG8BHvhdtJyEetxU8J1eeedj96Ut1tj1MAjzxns6ODOGSPkLcx/pSXY3YC3M2g1g9UbmGZmi9o2La78SFZcXQxIvbgF/rzr4KijqKpfDM4QjZBmjBTHdJ2q6B3XbpGjPntaxdTKj6+aYVAtaK1YUyfV4PoIQietQqyw6UFxhXqbtM2HZQ3tvgoeODslm3TFr0NWZnxvt+A
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8468.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?m0QaHh7uHsjM+CquWiDqMSh8wdsDYODVq9llYADEZ1SyJoaJihn/B/r7v/3Y?=
- =?us-ascii?Q?WSk5232OV0bGAv3kLddHo7VnvBAUJJycUtkHhlF2Vj+3ALyH5UG2oRkYo35b?=
- =?us-ascii?Q?fQJcio3qao/xpxAAcE+F6fbPuudoRxIVFobAeqpNPSTr9LEaQ/goowPhY3IB?=
- =?us-ascii?Q?GMtwH32jdxXJ+ZXXkm0eY7a66FPl2KWTqQoMZi32jKjt9WEodoGCGDap7S2I?=
- =?us-ascii?Q?HodymWUt0bvHWU7Af08qkGdzoM6px3HuoBnDZl+fLyUJ63sDigsZIE4170vL?=
- =?us-ascii?Q?A09+scOVo0SQGIQWtAc3pJble0/qLV7BkUpqnkDQQWPt7ph1RHPkAGzzEWTO?=
- =?us-ascii?Q?P4T6gLiK2hWpbosFj95n1EGHpvuyU5MBYQEpBC2NyiQhV442WPS8yTLS2tWV?=
- =?us-ascii?Q?VV3L+vni7yG1IuRTAXsWRN6ahstxF+0Bcr6elgOIKZpQabSE3JQ1ENp/VA/K?=
- =?us-ascii?Q?TmI+/tep1/B5IkonzFgEubSDjjoh/PXrt5WfMcMcZwrl3IzDOYvUtARC6wzq?=
- =?us-ascii?Q?aKDxPPOdyEfTXYTjk4U9fqliU1WT/mWBNRTCHcvtkZdqPPNdUwW8f0zSEo1a?=
- =?us-ascii?Q?MKcfM7V6At9HLF2vAaUFn/8UU6UstV+Py2oA8n8rRG8WNT7lCbMbNbhz5k2P?=
- =?us-ascii?Q?+e3efPtwqmE/vcOLiYfzUgygyFxc8RrjgASUHTqIwnKPqcRzTtNcwEaePCQm?=
- =?us-ascii?Q?4a2gSLC413cwyJ/orud8G2vruE/G0TA0Qb1qS3EvRP/A/Oji8XVZPxIGYh/5?=
- =?us-ascii?Q?HB04gikI4J4xyBagLI/eGrTn6XHU/MWc34XOruuj9G88etmmetfswbBKenCX?=
- =?us-ascii?Q?TK5Be9veWJ2E/IWhoBqR2QF6PgwDTMVnDX05d69GEXScCDlzBVW3PZgTNFC+?=
- =?us-ascii?Q?eGRUe/ZO7zwIHCD/hTCkavvljjnERUx5GjNP5gy9k3a2lj0sIa94WCitDEnc?=
- =?us-ascii?Q?HDK19gxWqybLxhhYRKxDqttGljueCPHX3QWGOJdOEZ1PNpvI1QfZrq3q/oXY?=
- =?us-ascii?Q?m5CNZpyZDnedmfVqFeE3kMUrfJy2Dml1E6pl9rpXlw3+v26To1cFwUZdBzre?=
- =?us-ascii?Q?Zy3aQEIkUdM5xmzjRRuCrfFbbJLtxDgAWRU0CARHEKeOEiKc5JD4M85iawTv?=
- =?us-ascii?Q?g9kOMFOGsEQQKzvJHT5wAj80s/cqX15rD17iWnZ/mWlKU71Cw8a1Q6vUnn+r?=
- =?us-ascii?Q?n18n4aCE3imnzdj3ny8CkDX5Euy0uvJ7T12FD36hs9tDQ8kzVnPrcMYlOQwY?=
- =?us-ascii?Q?QhFuaHW/rKc5XOwG68UVTz1o/zwK+B+B4eqAQ4mfZVhRgP8JNwYywR2dWD5O?=
- =?us-ascii?Q?ZQMN5M4ECK37xn8PgDACI4mdy9z7Noni+LRJOZvFsgLnEhf0r5YmXCceKuyJ?=
- =?us-ascii?Q?GBZhvj00ATp8Kq118/j06NQnsYuxXWjlQ1b/BzF0Jtww2oCa8E0O1f05fZj+?=
- =?us-ascii?Q?g+rZXdgFgNIlNQVEvVInmnNwVwZoJpebwLpATTVobkaqKuUAUmXT1qJtl4vH?=
- =?us-ascii?Q?pjGb2aDPCZGkA1qWuQD/Oxy5gb4q7khPs33Y9y6ZnRMomWWxrS8CBCQleShy?=
- =?us-ascii?Q?7ScTf1LH8fFFBfBTB/FbNOJqCTkeKxhlBhO0hdgvb72mAoZVMXJ13SzTaOCU?=
- =?us-ascii?Q?6zCGUT8yRG5vhwIt+jQNYlF0UpoA7BEGHiSeUPE3LX4rnvbaLZn34mrArZLV?=
- =?us-ascii?Q?2+JfeeSg3UDM+dAki1mYyLEA+HbF9ffuq52c2QCgQHZkJ5nZZLwa9zzFD5aT?=
- =?us-ascii?Q?CgVclY+hLA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3704a024-3ec6-461e-034b-08de75bb6c47
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8468.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 04:48:17.1349
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cHCNdUh6rDce7mbQsQNNaEjVE80z8ZV3SVq9zvS1CJ+O7j6hA12V7jElWvn7GyjHxD2+dDLWBXk7yD/a9ExriQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8376
-X-OriginatorOrg: intel.com
 
-tree:   https://github.com/projectacrn/acrn-kernel 6.17/linux
-head:   eac6d3b7a20ffb9d3102dbdc152241a7184a63cd
-commit: 293fd159f5b3709147ae3ef5a79d4994c19bae53 [4/8] virt: acrn: Introduce acrntrace
-reproduce: (https://download.01.org/0day-ci/archive/20260227/202602270517.6O7Ql9pl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git kvm-arm64-sme
+head:   79741e868a2dc4a5ae221be3b068c42f951cc9c8
+commit: 02cba6e60712a9aef2e91e2a27f6e8b1ff08be07 [3/31] arm64/fpsimd: Update FA64 and ZT0 enables when loading SME state
+config: arm64-randconfig-002-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271250.Pt4alO0j-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271250.Pt4alO0j-lkp@intel.com/reproduce)
 
-# many are suggestions rather than must-fix
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271250.Pt4alO0j-lkp@intel.com/
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#75: FILE: drivers/virt/acrn/hvtrace.c:2:
-+/*
-+*
+All warnings (new ones prefixed by >>):
 
-WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
-#261: FILE: drivers/virt/acrn/hvtrace.c:188:
-+	pcpu_num = total_cpus;;
+   In file included from arch/arm64/include/asm/processor.h:416,
+                    from include/linux/sched.h:13,
+                    from include/linux/percpu.h:12,
+                    from arch/arm64/include/asm/arch_timer.h:18,
+                    from arch/arm64/include/asm/timex.h:8,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/compat.h:10,
+                    from arch/arm64/kernel/fpsimd.c:14:
+   arch/arm64/kernel/fpsimd.c: In function 'task_fpsimd_load':
+>> arch/arm64/kernel/fpsimd.c:406:87: warning: suggest parentheses around '-' in operand of '&' [-Wparentheses]
+     406 |                         sme_cond_update_smcr(sve_vq_from_vl(task_get_sme_vl(current)) - 1,
+   arch/arm64/include/asm/fpsimd.h:438:29: note: in definition of macro 'sme_cond_update_smcr'
+     438 |                 u64 __new = vl & SMCR_ELx_LEN_MASK;             \
+         |                             ^~
+   arch/arm64/kernel/fpsimd.c: In function 'do_sme_acc':
+   arch/arm64/kernel/fpsimd.c:1379:79: warning: suggest parentheses around '-' in operand of '&' [-Wparentheses]
+    1379 |                 sme_cond_update_smcr(sve_vq_from_vl(task_get_sme_vl(current)) - 1,
+   arch/arm64/include/asm/fpsimd.h:438:29: note: in definition of macro 'sme_cond_update_smcr'
+     438 |                 u64 __new = vl & SMCR_ELx_LEN_MASK;             \
+         |                             ^~
+
+
+vim +406 arch/arm64/kernel/fpsimd.c
+
+   277	
+   278	/*
+   279	 * TIF_SME controls whether a task can use SME without trapping while
+   280	 * in userspace, when TIF_SME is set then we must have storage
+   281	 * allocated in sve_state and sme_state to store the contents of both ZA
+   282	 * and the SVE registers for both streaming and non-streaming modes.
+   283	 *
+   284	 * If both SVCR.ZA and SVCR.SM are disabled then at any point we
+   285	 * may disable TIF_SME and reenable traps.
+   286	 */
+   287	
+   288	
+   289	/*
+   290	 * TIF_SVE controls whether a task can use SVE without trapping while
+   291	 * in userspace, and also (together with TIF_SME) the way a task's
+   292	 * FPSIMD/SVE state is stored in thread_struct.
+   293	 *
+   294	 * The kernel uses this flag to track whether a user task is actively
+   295	 * using SVE, and therefore whether full SVE register state needs to
+   296	 * be tracked.  If not, the cheaper FPSIMD context handling code can
+   297	 * be used instead of the more costly SVE equivalents.
+   298	 *
+   299	 *  * TIF_SVE or SVCR.SM set:
+   300	 *
+   301	 *    The task can execute SVE instructions while in userspace without
+   302	 *    trapping to the kernel.
+   303	 *
+   304	 *    During any syscall, the kernel may optionally clear TIF_SVE and
+   305	 *    discard the vector state except for the FPSIMD subset.
+   306	 *
+   307	 *  * TIF_SVE clear:
+   308	 *
+   309	 *    An attempt by the user task to execute an SVE instruction causes
+   310	 *    do_sve_acc() to be called, which does some preparation and then
+   311	 *    sets TIF_SVE.
+   312	 *
+   313	 * During any syscall, the kernel may optionally clear TIF_SVE and
+   314	 * discard the vector state except for the FPSIMD subset.
+   315	 *
+   316	 * The data will be stored in one of two formats:
+   317	 *
+   318	 *  * FPSIMD only - FP_STATE_FPSIMD:
+   319	 *
+   320	 *    When the FPSIMD only state stored task->thread.fp_type is set to
+   321	 *    FP_STATE_FPSIMD, the FPSIMD registers V0-V31 are encoded in
+   322	 *    task->thread.uw.fpsimd_state; bits [max : 128] for each of Z0-Z31 are
+   323	 *    logically zero but not stored anywhere; P0-P15 and FFR are not
+   324	 *    stored and have unspecified values from userspace's point of
+   325	 *    view.  For hygiene purposes, the kernel zeroes them on next use,
+   326	 *    but userspace is discouraged from relying on this.
+   327	 *
+   328	 *    task->thread.sve_state does not need to be non-NULL, valid or any
+   329	 *    particular size: it must not be dereferenced and any data stored
+   330	 *    there should be considered stale and not referenced.
+   331	 *
+   332	 *  * SVE state - FP_STATE_SVE:
+   333	 *
+   334	 *    When the full SVE state is stored task->thread.fp_type is set to
+   335	 *    FP_STATE_SVE and Z0-Z31 (incorporating Vn in bits[127:0] or the
+   336	 *    corresponding Zn), P0-P15 and FFR are encoded in in
+   337	 *    task->thread.sve_state, formatted appropriately for vector
+   338	 *    length task->thread.sve_vl or, if SVCR.SM is set,
+   339	 *    task->thread.sme_vl. The storage for the vector registers in
+   340	 *    task->thread.uw.fpsimd_state should be ignored.
+   341	 *
+   342	 *    task->thread.sve_state must point to a valid buffer at least
+   343	 *    sve_state_size(task) bytes in size. The data stored in
+   344	 *    task->thread.uw.fpsimd_state.vregs should be considered stale
+   345	 *    and not referenced.
+   346	 *
+   347	 *  * FPSR and FPCR are always stored in task->thread.uw.fpsimd_state
+   348	 *    irrespective of whether TIF_SVE is clear or set, since these are
+   349	 *    not vector length dependent.
+   350	 */
+   351	
+   352	/*
+   353	 * Update current's FPSIMD/SVE registers from thread_struct.
+   354	 *
+   355	 * This function should be called only when the FPSIMD/SVE state in
+   356	 * thread_struct is known to be up to date, when preparing to enter
+   357	 * userspace.
+   358	 */
+   359	static void task_fpsimd_load(void)
+   360	{
+   361		bool restore_sve_regs = false;
+   362		bool restore_ffr;
+   363	
+   364		WARN_ON(!system_supports_fpsimd());
+   365		WARN_ON(preemptible());
+   366		WARN_ON(test_thread_flag(TIF_KERNEL_FPSTATE));
+   367	
+   368		if (system_supports_sve() || system_supports_sme()) {
+   369			switch (current->thread.fp_type) {
+   370			case FP_STATE_FPSIMD:
+   371				/* Stop tracking SVE for this task until next use. */
+   372				clear_thread_flag(TIF_SVE);
+   373				break;
+   374			case FP_STATE_SVE:
+   375				if (!thread_sm_enabled(&current->thread))
+   376					WARN_ON_ONCE(!test_and_set_thread_flag(TIF_SVE));
+   377	
+   378				if (test_thread_flag(TIF_SVE))
+   379					sve_set_vq(sve_vq_from_vl(task_get_sve_vl(current)) - 1);
+   380	
+   381				restore_sve_regs = true;
+   382				restore_ffr = true;
+   383				break;
+   384			default:
+   385				/*
+   386				 * This indicates either a bug in
+   387				 * fpsimd_save_user_state() or memory corruption, we
+   388				 * should always record an explicit format
+   389				 * when we save. We always at least have the
+   390				 * memory allocated for FPSIMD registers so
+   391				 * try that and hope for the best.
+   392				 */
+   393				WARN_ON_ONCE(1);
+   394				clear_thread_flag(TIF_SVE);
+   395				break;
+   396			}
+   397		}
+   398	
+   399		/* Restore SME, override SVE register configuration if needed */
+   400		if (system_supports_sme()) {
+   401			/*
+   402			 * Ensure VL is set up for restoring data.  KVM might
+   403			 * disable subfeatures so we reset them each time.
+   404			 */
+   405			if (test_thread_flag(TIF_SME))
+ > 406				sme_cond_update_smcr(sve_vq_from_vl(task_get_sme_vl(current)) - 1,
+   407						     system_supports_fa64(),
+   408						     system_supports_sme2(),
+   409						     SYS_SMCR_EL1);
+   410	
+   411			write_sysreg_s(current->thread.svcr, SYS_SVCR);
+   412	
+   413			if (thread_za_enabled(&current->thread))
+   414				sme_load_state(current->thread.sme_state,
+   415					       system_supports_sme2());
+   416	
+   417			if (thread_sm_enabled(&current->thread))
+   418				restore_ffr = system_supports_fa64();
+   419		}
+   420	
+   421		if (system_supports_fpmr())
+   422			write_sysreg_s(current->thread.uw.fpmr, SYS_FPMR);
+   423	
+   424		if (restore_sve_regs) {
+   425			WARN_ON_ONCE(current->thread.fp_type != FP_STATE_SVE);
+   426			sve_load_state(sve_pffr(&current->thread),
+   427				       &current->thread.uw.fpsimd_state.fpsr,
+   428				       restore_ffr);
+   429		} else {
+   430			WARN_ON_ONCE(current->thread.fp_type != FP_STATE_FPSIMD);
+   431			fpsimd_load_state(&current->thread.uw.fpsimd_state);
+   432		}
+   433	}
+   434	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
