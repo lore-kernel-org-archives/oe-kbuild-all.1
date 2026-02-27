@@ -1,127 +1,167 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8323624B3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 07:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E7C346E6A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 07:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772177337; cv=none; b=DqW2QnikrjR6/IMuEVd6q6S3DuPMh6ypFfccYb9hbz8mulmdf72QwlBaWDQ1a1Qdq0sq0KEweoD1Y26EogZHs3I/2t7+p6g2mdUauUfmS7vATNR9bb5CqIztjU8nJCMO258jCKnLViZlZXPhvw9MS5ddFNuYAALn6/MGVkpbDHo=
+	t=1772178045; cv=none; b=KFqh7r3PtTb9XkHid+aDsAB24500ToNZDqWLqMGal1fPrN0DRmv8jTY9KzP3NGmdV0asXDV1tq1rG9FeQ7zF5DaHlsOsyd3j4PZDf5Y+HTiXr5FC9dnMVatH+cQcQL12Yzf3kfclTF4l1ly33cgbJkWRlM7wZb3K26fYN1lM9lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772177337; c=relaxed/simple;
-	bh=d8wGQfXyjLUS+c9lTdhX3W1UsX/w/wbGaKLj0hEPTHs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YiGNsP5D2dT/kO0dodxljSAisncUjJD+x1LYs+6qusGEEaUS9NAQN3qmLQxsRgyaR+H69+luiAzUOk3ZKZP/4sCVs18wVXRp38+h4CRqFW1hHY4j5vmJLZ/0GxoZeofFKt73O11yDu0gN9yU7lAtB1OjZgCQEE8rASg8MT8Fm2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SRucAIPb; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772178045; c=relaxed/simple;
+	bh=ciJEDmN1nzAOuOj+SIIO0fEnC0QxiBhEB+dTHMB/2hc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=k4M2Uc/Eev2h5bJiQfaZy9nubGta67fsuo0bnCXnBuKitA0ZOxCAu0TEv2vUansAoyF4MyifSw4OAd2/LOpinBHliRq6H1u7vjjx2U/F4FGpav0Aq2cHIuxTWXVovtX6GJkThXh/MHHi8nQwB0P+ISpqrHuKpIE0t+Mhnuc8dS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eg4zEaNp; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SRucAIPb"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-358e3cc5e7eso768428a91.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 23:28:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772177335; x=1772782135; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MiLwYlPuIiCWyjV0+TmHr2nfeKChD/cBXxOdPTgH9yA=;
-        b=SRucAIPbX/fsAn40ipjpMreGGPdaPn3HF0wTh8Y1YSzMnRBGiMiC5I9BX/BWggWMtT
-         NmuOqLauBNRK0cQAMx0qOxh14WoeYEa7oVeWezZZRLkKu9KZ7XQMowcEJ7JvGVQeHLRf
-         NtmbnUmHADOC/vdgbGT2gyzO+lESvYQZhqiURKTka4Da7vrJY9iKnMDdrdnX5PJ9N1Ru
-         0b7+7w8dTY4IDqwBHsVgJicw/2mp5bAwMcGvP8PG7s0SyuT+HXgJItnuH3rB1U+5hDWe
-         IqfQpMHEUKJYZmrbNgJ1HaczhVfHSvEaZLDJisAYN9+NBZV4Num8n3mWiPFdl2wrPoSv
-         jtOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772177335; x=1772782135;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MiLwYlPuIiCWyjV0+TmHr2nfeKChD/cBXxOdPTgH9yA=;
-        b=emvRDIBrLbhkluAzp1OIVsMs9q5L/kTQSlYBvwrafksWxUGdHqGHpnQB3G18GpOjxL
-         sf7d37m4wq3Cq+Vr4lplUjACtKvnKBHu7RyniStU0Z3hU+s1fI085cR/GEjHhbUJE1G3
-         zbhsUYSwsuUaeUv5H5d4lUA56Mi9xJM/5nOkme8JN2YVGWFdUfWdklZfuYjDXhnPg0iN
-         /sd1uF5Vs87OzQWVzlBBSLvjfgbuHeMO1kIbcbIO1eJdZJIiGej0WUP8bBqOh/2HMQct
-         hvQMVSbWuajuiv1x4OAscBFAAD7M6MyRTUOWXhCztIEZuGaxccyust2l1MwUZhiUz5SD
-         qdXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7syvrgWspCvvo/2TYqJcGq5TCVE/KuDA7aPoVqnTXy29/Q7nVoW9xX71i9R2CGWyj+eSI+n0kUJFCfQzv@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwtWQSwTNeN6w4pKEm7BvIGStXI1RZKhWpnMRGzfreKv/vGEmi
-	OkN9Tf9rhKOGjGiX/CaugDuzqGsOTpfpKM8JLRh7aFyO5SrS0659p4ZG
-X-Gm-Gg: ATEYQzynuZge9+ZJYTpukocIVSxeRIxRWua1W9kLi/l9k4MRq0tbyqrD3iXGBGDovbU
-	4F6DUwsligBfunC87OTnMz8lb0TZcuBgH7A75c7/4xmoRQOteo9U21pvjf0kLwpQOjVV8jKgBw1
-	0KGmtOorEyv3pbrb+OWlEuMhAHMfWdzMyYp+RZevskB3tofClN1Km6NibvEMMPe1oCXYfkOICyI
-	azvc6pVeT68V853u5/rCDgpsCrW0hgUGQk0eo83loJHlvPIY29XTc/K7RuH5GKe+VoOmG7eOyOF
-	aUh3MtzKEhTtwza8DIcYGE0syucRo+gTvAMQTiMyvq5MDg6Vd2wSPjvaJckHZc6jVDB3rfY/cH+
-	k7Tc9iH/DJ6jOchaGX/SkoVah61Py/gLojggTTg13TBcnE9krGCfPhFtEStmbRypRYOoteWFqGR
-	icjP64hRNYHUn0KO7ps5BPXqaj95qbn87E2g==
-X-Received: by 2002:a17:90b:2651:b0:34a:9d9a:3f67 with SMTP id 98e67ed59e1d1-35965cf18cbmr2266164a91.33.1772177335594;
-        Thu, 26 Feb 2026 23:28:55 -0800 (PST)
-Received: from Modern-15.. ([2401:4900:854b:40d:f564:fa7d:49b1:5b44])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3593dcc95a7sm4058374a91.6.2026.02.26.23.28.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 23:28:55 -0800 (PST)
-From: Mathura_Kumar <academic1mathura@gmail.com>
-To: lkp@intel.com
-Cc: academic1mathura@gmail.com,
-	brauner@kernel.org,
-	linux-ipc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: [PATCH 2/2] [PATCH-V2] mqueue: introduce new do_mq_timedreceive2() [ mq_peek syscall] for non-destructive       receive and inspection
-Date: Fri, 27 Feb 2026 12:58:21 +0530
-Message-ID: <20260227072822.204946-2-academic1mathura@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260227072822.204946-1-academic1mathura@gmail.com>
-References: <202602270443.k6N6t2u4-lkp@intel.com>
- <20260227072822.204946-1-academic1mathura@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eg4zEaNp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772178043; x=1803714043;
+  h=date:from:to:cc:subject:message-id;
+  bh=ciJEDmN1nzAOuOj+SIIO0fEnC0QxiBhEB+dTHMB/2hc=;
+  b=Eg4zEaNp/eLUlybqDQuzuzJjCYXhdayB8UVCwCAvk+l0zW1DhMzInwGV
+   HdiXKvFoy+NSRQR44RwtTJ1u9vwBaqKbbeVjZtGqp7ylF2FuV3H/+aGIp
+   hkZXPf+cJp1zOsDmpI+5YOf6DGfWTzaPCj5G7FVl5F4cNo2CDed5KA6Xi
+   0H/z/qF/zKzznHcKCrjXxWMTE6bJYvstjfMud6RS8ifplN2EJGwda376B
+   9tO1UW0DZW3ySWlcr/XSTyQMf7i3jUV5mFJBe7PsfmJArbcVj3T5wS+L6
+   pNl0lYfvP6d1WHNETtxRQcM7uQ8RViDUOVM4GJlRiJzSR4+f2NCiogUqF
+   A==;
+X-CSE-ConnectionGUID: ojwVW8X7QByWtn2vg3AIXQ==
+X-CSE-MsgGUID: F1QCf0+GRLKjQfzvnhRb6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="83589022"
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
+   d="scan'208";a="83589022"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 23:40:42 -0800
+X-CSE-ConnectionGUID: aiTFxb4aRjavciylOACufw==
+X-CSE-MsgGUID: /roUFu4wRxiO86fmU/jFtA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
+   d="scan'208";a="216932927"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 26 Feb 2026 23:40:42 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvsRt-00000000AKZ-1xr0;
+	Fri, 27 Feb 2026 07:40:05 +0000
+Date: Fri, 27 Feb 2026 15:39:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dapeng Mi <dapeng1.mi@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Lili Li <lili.li@intel.com>
+Subject: [acrn:6.17/linux 51/3102]
+ arch/x86/events/intel/ds.c:2881:24: warning: cast from pointer to integer of
+ different size
+Message-ID: <202602271552.8NPMraId-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Following Two warning issue by build and test on V1: Ignore Patch V2 that has small typo
-               in line 18 (corrected is warning due to it not has explicit handler)
+Hi Dapeng,
 
-1) include/linux/syscalls.h:750:42: warning: declaration of 'struct mq_timedreceive2_args'
-   will not be visible outside of this function [-Wvisibility]
-fix-included the missing header for global visibility
+FYI, the error/warning still remains.
 
-2)  warning: syscall mq_timedreceive2_time64 not implemented [-W#warnings]
+tree:   https://github.com/projectacrn/acrn-kernel 6.17/linux
+head:   eac6d3b7a20ffb9d3102dbdc152241a7184a63cd
+commit: 67977912bebfec14bf4c0ced6c01df309725fc8d [51/3102] perf/x86/intel: Process arch-PEBS records or record fragments
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260227/202602271552.8NPMraId-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271552.8NPMraId-lkp@intel.com/reproduce)
 
-fix- This seem false postive warning, script not able to correctly map syscall table
- with handler
-in file - ~/linux/arch/x86/entry/syscalls/syscall_32.tbl
-473 causing warning due to it not has explicit handler for name "mq_timedrecive2_time64",because
-it also handle by same normal SYS_DEFINE for  64 bit arch  because logically both are
-same if 32bit machine call 64 bit, if we add named defined then it create unnessary
- redudancy and duplicacy, so even at this time i am not changing this, if required kindlly
-once test in runtime and guide me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271552.8NPMraId-lkp@intel.com/
 
-472	i386	mq_timedreceive2	sys_mq_timedreceive2_time32
-473	i386	mq_timedreceive2_time64	sys_mq_timedreceive2
+All warnings (new ones prefixed by >>):
 
-Reported-by: kernel test robot <lkp@intel.com>
- Closes: https://lore.kernel.org/oe-kbuild-all/202602270443.k6N6t2u4-lkp@intel.com
+   arch/x86/events/intel/ds.c: In function 'intel_pmu_drain_arch_pebs':
+>> arch/x86/events/intel/ds.c:2881:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    2881 |         top = (void *)((u64)cpuc->ds_pebs_vaddr +
+         |                        ^
+>> arch/x86/events/intel/ds.c:2881:15: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    2881 |         top = (void *)((u64)cpuc->ds_pebs_vaddr +
+         |               ^
 
-Signed-off-by: Mathura_Kumar <academic1mathura@gmail.com>
----
- include/linux/syscalls.h | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 4db405159a8b..307cfd6f154c 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -93,6 +93,7 @@ struct file_attr;
- #include <linux/key.h>
- #include <linux/personality.h>
- #include <trace/syscall.h>
-+#include <linux/mqueue.h>
- 
- #ifdef CONFIG_ARCH_HAS_SYSCALL_WRAPPER
- /*
+vim +2881 arch/x86/events/intel/ds.c
+
+  2860	
+  2861	static void intel_pmu_drain_arch_pebs(struct pt_regs *iregs,
+  2862					      struct perf_sample_data *data)
+  2863	{
+  2864		short counts[INTEL_PMC_IDX_FIXED + MAX_FIXED_PEBS_EVENTS] = {};
+  2865		void *last[INTEL_PMC_IDX_FIXED + MAX_FIXED_PEBS_EVENTS];
+  2866		struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+  2867		union arch_pebs_index index;
+  2868		struct x86_perf_regs perf_regs;
+  2869		struct pt_regs *regs = &perf_regs.regs;
+  2870		void *base, *at, *top;
+  2871		u64 mask;
+  2872	
+  2873		rdmsrq(MSR_IA32_PEBS_INDEX, index.full);
+  2874	
+  2875		if (unlikely(!index.split.wr)) {
+  2876			intel_pmu_pebs_event_update_no_drain(cpuc, X86_PMC_IDX_MAX);
+  2877			return;
+  2878		}
+  2879	
+  2880		base = cpuc->ds_pebs_vaddr;
+> 2881		top = (void *)((u64)cpuc->ds_pebs_vaddr +
+  2882			       (index.split.wr << ARCH_PEBS_INDEX_WR_SHIFT));
+  2883	
+  2884		mask = hybrid(cpuc->pmu, arch_pebs_cap).counters & cpuc->pebs_enabled;
+  2885	
+  2886		if (!iregs)
+  2887			iregs = &dummy_iregs;
+  2888	
+  2889		/* Process all but the last event for each counter. */
+  2890		for (at = base; at < top;) {
+  2891			struct arch_pebs_header *header;
+  2892			struct arch_pebs_basic *basic;
+  2893			u64 pebs_status;
+  2894	
+  2895			header = at;
+  2896	
+  2897			if (WARN_ON_ONCE(!header->size))
+  2898				break;
+  2899	
+  2900			/* 1st fragment or single record must have basic group */
+  2901			if (!header->basic) {
+  2902				at += header->size;
+  2903				continue;
+  2904			}
+  2905	
+  2906			basic = at + sizeof(struct arch_pebs_header);
+  2907			pebs_status = mask & basic->applicable_counters;
+  2908			__intel_pmu_handle_pebs_record(iregs, regs, data, at,
+  2909						       pebs_status, counts, last,
+  2910						       setup_arch_pebs_sample_data);
+  2911	
+  2912			/* Skip non-last fragments */
+  2913			while (arch_pebs_record_continued(header)) {
+  2914				if (!header->size)
+  2915					break;
+  2916				at += header->size;
+  2917				header = at;
+  2918			}
+  2919	
+  2920			/* Skip last fragment or the single record */
+  2921			at += header->size;
+  2922		}
+  2923	
+  2924		__intel_pmu_handle_last_pebs_record(iregs, regs, data, mask, counts,
+  2925						    last, setup_arch_pebs_sample_data);
+  2926	
+  2927		index.split.wr = 0;
+  2928		index.split.full = 0;
+  2929		wrmsrq(MSR_IA32_PEBS_INDEX, index.full);
+  2930	}
+  2931	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
