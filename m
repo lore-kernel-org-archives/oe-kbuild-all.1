@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B6D34252B;
-	Fri, 27 Feb 2026 05:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F21C362123
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 06:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772171563; cv=none; b=VdvmJ4gz4mV2uf3q1oaVLukUoH/OMlgUm0ABIc9g/h7qubhYudDwKc5TzBhdYSBgK/6SSQ12dCz9+ZmTAAvm/GUk57EkyeMnI1bVShQpdPUkfDGTi8HMCrGc8LzOWwYJ2Jlc3OJ83r5PYs7YbYQQDJx9Sg13rvadHC6CwpoLPL0=
+	t=1772172226; cv=none; b=ld1nIv1CrC/3QCwyXMcfpqdwSEkf3mikBQXspaKWPFTHPojvt1M6TzU0ocuJXT8LknQhtheMPoqZKxDlBxVFFZcLOGvy9DqCZdphuOg3nwZ7FASOXxkocz1eVn30T59JkrJ68U3n3UQLFBoOD2Wy75shZIRIAno2VOngT7Pc9AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772171563; c=relaxed/simple;
-	bh=LWOdmL0uan22tNsv3PGdyHuaOVgzT4VqOM5Rm/fNGco=;
+	s=arc-20240116; t=1772172226; c=relaxed/simple;
+	bh=womFZoMcXmoknjkJ674fsDEBofqxqg/e+sw1HuqnxWc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dkexLui0M7AtbWNz9oeZgrLLwQ9QaCwcc1S43ZIGt5uv56YcdnDIxTMRCXHhRGoDX4u4WVpct8gea1OWXhb+cn6YeRk0FASVbU8B8kTP58UD2lGrWmpCCecHpdMN3aLgPyY0Z1wTrvId+51HaO/Tumpel152vE7q4iByuMb2J6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cjwBXqKB; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=KoRhzLmldH6z7i0fgnKR2WWvo4I1eTkSDYvvEerv1nMc4qdjrXHi98wH7Ocydd7McST9T0eM3tNNarAAruqcacvY95DV9q2ZclCH80GB5Ws0zlr+Lr8BKHs3KfCn3vrTJTRLaleRqE4wqMuLR9MzXitpPShtm+0jJCJMMA/w79s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DSqtfDLF; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cjwBXqKB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSqtfDLF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772171562; x=1803707562;
+  t=1772172225; x=1803708225;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LWOdmL0uan22tNsv3PGdyHuaOVgzT4VqOM5Rm/fNGco=;
-  b=cjwBXqKBaDRWYKsDGUBHcPgp8tFST9wsOMbwx1XQ4yiN2sL8h/QQKze4
-   4cUO6+UR3W0UVB2Ie4ezaesSPFktQf88KY28VoKxEMC/9a0ujPBRDKxGR
-   gfc0ISBmoEqsFQQ7J3PSkJJta6VcRKDkeUWbUy/0f3lc+h9s+d7mFsaXW
-   6wO4ORbIr1BXOX+HMORt6s0UM0FuiAOvr/BGYAGeqF4zQa8S8cCMK1UVe
-   wJAzDemJCxamUF4inFk24A6nqht/D1VowBT4SPxlRYTZRdNwIDnls2XA4
-   7z90vzLAENR9jTqJnlF1wepbo7JSBEwhz/Ab6b03kwXck8SYjwNyYBuei
-   g==;
-X-CSE-ConnectionGUID: VJ8KgzHTRj2QqNpC2/VbJQ==
-X-CSE-MsgGUID: 1qkZt4uFT1i50MrIoXjTKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73121985"
+  bh=womFZoMcXmoknjkJ674fsDEBofqxqg/e+sw1HuqnxWc=;
+  b=DSqtfDLFKm7JGuI/purbvs6xhjF4d/m2rTtSdrY6GIelvHjzI49RqOxh
+   7/soZyuIxORZF6lxqugAv/8vwQh/V+kiI8vhDo6EsHX+bkddr7xMNGAG1
+   hGVLhQaZ5u8zYiYTCVECQNJtdDIOy4ifZXz0aKVOmRIiYmCz312r5uava
+   rHkDO0NLbOgolFdznMdexTE0AYAbRHdjoYgo+BKUYHcu54+RO6buEKFEK
+   w9j+qRqav6Z3/CSpMPWSD2JJRba4ZrIMqIYPk9TkvtK/Ral2voMdTphA9
+   CzOOLjgpjsgftjneTqVBu8ZnVB1mNHF15AZMOSuv8jXP020ZMRcEhWPxA
+   Q==;
+X-CSE-ConnectionGUID: /7XzxYyBQI6EbYBOqvnx6Q==
+X-CSE-MsgGUID: bS6aQeirTTenwum/uP6gPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="95868717"
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="73121985"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 21:52:42 -0800
-X-CSE-ConnectionGUID: 62b9Y3uDQlyrKfLirF6oHQ==
-X-CSE-MsgGUID: vnQDeMXOQSSCRScW/BACmg==
+   d="scan'208";a="95868717"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 22:03:44 -0800
+X-CSE-ConnectionGUID: vtUqWWtBTrqQu561y1GaXQ==
+X-CSE-MsgGUID: VE5jgSE6RpmJV3IxR2vKag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="214993740"
+   d="scan'208";a="214690739"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Feb 2026 21:52:37 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 26 Feb 2026 22:03:40 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvqmA-00000000AE3-0V4y;
-	Fri, 27 Feb 2026 05:52:34 +0000
-Date: Fri, 27 Feb 2026 13:52:18 +0800
+	id 1vvqwq-00000000AEF-2p3i;
+	Fri, 27 Feb 2026 06:03:36 +0000
+Date: Fri, 27 Feb 2026 14:02:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Harry Yoo <harry.yoo@oracle.com>, venkat88@linux.ibm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	akpm@linux-foundation.org, ast@kernel.org, cgroups@vger.kernel.org,
-	cl@gentwo.org, hannes@cmpxchg.org, hao.li@linux.dev,
-	harry.yoo@oracle.com, linux-mm@kvack.org, mhocko@kernel.org,
-	muchun.song@linux.dev, rientjes@google.com,
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev, surenb@google.com,
-	vbabka@suse.cz
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	ast@kernel.org, cgroups@vger.kernel.org, cl@gentwo.org,
+	hannes@cmpxchg.org, hao.li@linux.dev, harry.yoo@oracle.com,
+	linux-mm@kvack.org, mhocko@kernel.org, muchun.song@linux.dev,
+	rientjes@google.com, roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev, surenb@google.com, vbabka@suse.cz
 Subject: Re: [PATCH] mm/slab: a debug patch to investigate the issue further
-Message-ID: <202602271320.ywOCYQx4-lkp@intel.com>
+Message-ID: <202602271339.xhIvS2iX-lkp@intel.com>
 References: <20260227030733.9517-1-harry.yoo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,34 +79,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Yoo/mm-slab-a-debug
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20260227030733.9517-1-harry.yoo%40oracle.com
 patch subject: [PATCH] mm/slab: a debug patch to investigate the issue further
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260227/202602271320.ywOCYQx4-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271320.ywOCYQx4-lkp@intel.com/reproduce)
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260227/202602271339.xhIvS2iX-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271339.xhIvS2iX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602271320.ywOCYQx4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271339.xhIvS2iX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/slub.c:1330:6: error: call to undeclared function 'obj_exts_in_slab'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   mm/slub.c: In function 'slab_pad_check':
+>> mm/slub.c:1330:13: error: implicit declaration of function 'obj_exts_in_slab'; did you mean 'obj_exts_in_object'? [-Werror=implicit-function-declaration]
     1330 |         if (obj_exts_in_slab(s, slab) && !obj_exts_in_object(s, slab)) {
-         |             ^
->> mm/slub.c:1332:16: error: call to undeclared function 'obj_exts_offset_in_slab'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |             ^~~~~~~~~~~~~~~~
+         |             obj_exts_in_object
+>> mm/slub.c:1332:30: error: implicit declaration of function 'obj_exts_offset_in_slab'; did you mean 'obj_exts_offset_in_object'? [-Werror=implicit-function-declaration]
     1332 |                 remainder -= obj_exts_offset_in_slab(s, slab);
-         |                              ^
-   mm/slub.c:1332:16: note: did you mean 'obj_exts_offset_in_object'?
-   mm/slub.c:793:28: note: 'obj_exts_offset_in_object' declared here
-     793 | static inline unsigned int obj_exts_offset_in_object(struct kmem_cache *s)
-         |                            ^
->> mm/slub.c:1333:16: error: call to undeclared function 'obj_exts_size_in_slab'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~
+         |                              obj_exts_offset_in_object
+>> mm/slub.c:1333:30: error: implicit declaration of function 'obj_exts_size_in_slab' [-Werror=implicit-function-declaration]
     1333 |                 remainder -= obj_exts_size_in_slab(slab);
-         |                              ^
-   3 errors generated.
+         |                              ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/obj_exts_in_slab +1330 mm/slub.c
+vim +1330 mm/slub.c
 
 81819f0fc8285a Christoph Lameter          2007-05-06  1311  
 39b264641a0c3b Christoph Lameter          2008-04-14  1312  /* Check the pad bytes at the end of a slab page */
