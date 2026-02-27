@@ -1,83 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D646D42EEDE;
-	Fri, 27 Feb 2026 15:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31DD2E92D4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 15:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772205013; cv=none; b=FEJy2YT77r7D2wxAjgqfSRAsOVItwxd2m5soPWsBVBOdDwkSRXIDnJpWRpnlxDPdL3NxVTfF3KFgpyc2++tXu1Y7VtdnH7XNz+5TLwWgg9hFXglthrqQvpUzJdjJ1z6+NKu/yFPDP9d4XRP0xVqlQx7h1u3Ka9bS/O2AcvfZh9c=
+	t=1772205320; cv=none; b=jK6mSGVhmDa9FeEXB2ZcNm8Zxx1gkK3NLtltip6UiZYnj41NjdMkTTnbNFM5YqG4RB1XeZGYPW+DVpGIyud33wu14yyN9JuF7+U6VQUNjIbepagrnBdEeBxJIOaGsmOP7ttMbk6BKK5Ub24bSInB/ZMJ6tgj7GeOSKGpRAniV1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772205013; c=relaxed/simple;
-	bh=GQmfSHcKDy0GffPbgpng0PxRwNUSytHhkEYddj7FZ0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h/z+gtS4RqBmTcCgt9VEvp2wP8nkKLJr38jlMndX6tAgCF959EygtsRq2k5QId4Md7RCHDVXEL82ehpA3Hjdb63TIrxeuWL5yf+gDuaZPFLAT38x3rdIvWzPsnyJIhmAZutNfj9TDjcoKikxf/ggsq4sBwWlYrwAzmBhnRcJtY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKog+K61; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772205320; c=relaxed/simple;
+	bh=PZHKQJ8URb2CFQKQ79A/Mr1idTMMD2vqZhg0Gc+6zRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S8Ch/VKRIQyBtPoOLWA/U9twSoKtAdGK/BQxEnJP+yCN4MEspVsl2VOf8cxwFoIKxRFz2qBYK/+5PnCYebahVSYga+n2FjfXJXsNxVfo/PxCvYJJRvwoDJ2wlNkpzkjG2lwBfO1jI2dH+pxWRcbaaNunq8tL0G87U6GBzb6l404=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mAOgUodB; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKog+K61"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mAOgUodB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772205012; x=1803741012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GQmfSHcKDy0GffPbgpng0PxRwNUSytHhkEYddj7FZ0I=;
-  b=SKog+K61GperPvvKjfQCRh0oMpgPnEl05cQrIXTJfmff1WhalC2tDPfD
-   EfI7GEWngLXWuHDnDwsTtETFIwUxNCabDWk8n7mxOKwpdFtZk0VNVW+7U
-   D8XuQiYlIv1ETiJocf4XsSJLfwxR/JNvf8v/cBIBOhEnmoHYNjTQ+O/sF
-   lmEzefdU+ZCJ5Tfz8FTp7yp9p8vYLB18xEYzJ715bX33KjbsoNus7cmCO
-   EbNQzukOKk7NLzgtu/RNKGgyDLK5XjuZ8MCqkZkORkeZhaJvAWJVl/V+S
-   49xNZPKtcve/8+D+ocep0VeXWT3fRAnkTJry4Dy/7aatRIIcRCpi98x9l
-   g==;
-X-CSE-ConnectionGUID: /7mJmyX/SS2nBendYqIoIQ==
-X-CSE-MsgGUID: PGQz5mbFQ+eCBswfk4ciyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="76897923"
+  t=1772205319; x=1803741319;
+  h=date:from:to:cc:subject:message-id;
+  bh=PZHKQJ8URb2CFQKQ79A/Mr1idTMMD2vqZhg0Gc+6zRQ=;
+  b=mAOgUodBjb5FxYe0qgNABdI+N59KIA9wa1E1/6G1HCNWl0akvjeVyNuR
+   AIrrbli2JfwJtDrAtZ6rH6JIL4SOu0AKgX4aVhoepO0b0cx8qYyJmlgUV
+   ga4aafSVHaUsr84RErAsSJoa/kSB2pi8vhAe0e171uxShWO0PGNyycXgQ
+   xG4LPOTQWW7oTBO8+PLuJLxdoKvZWdomD4EQqBs39jhMCfAKBi6KwgGBM
+   tp20NYQKuFLqKEJl0Td5+zewAQ6Ub9AAHuD4EP6voWJywu2zTtx1MGwKl
+   8dbGRr0htHAUR2zwyNy5ax9qdTcUtRhGiT2tCHRJXj6JLiexawDg4MCUo
+   w==;
+X-CSE-ConnectionGUID: wPOOebnhSNa/nWnnYoiO8Q==
+X-CSE-MsgGUID: ytd50oDFSjO1ttvHH77ebg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73195682"
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="76897923"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 07:10:11 -0800
-X-CSE-ConnectionGUID: k1wNGAb+TcySWkVIUwcShA==
-X-CSE-MsgGUID: bFCQlblcQnSyEp+VrFhWzw==
+   d="scan'208";a="73195682"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 07:15:19 -0800
+X-CSE-ConnectionGUID: LX10OvWTRNW191dEdnA8yA==
+X-CSE-MsgGUID: 27zbPqRhTmOrDWo6tPlViQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="247434646"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.180])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 07:10:09 -0800
-Date: Fri, 27 Feb 2026 17:10:06 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
-	Patrick Rudolph <patrick.rudolph@9elements.com>
-Subject: Re: [linusw-pinctrl:devel 16/22]
- drivers/pinctrl/pinctrl-cy8c95x0.c:1325 cy8c95x0_irq_setup() warn: passing
- positive error code '1' to 'dev_err_probe'
-Message-ID: <aaGzzsLMeW2DTjiE@ashevche-desk.local>
-References: <202602271847.vVWkqLBD-lkp@intel.com>
+   d="scan'208";a="215086257"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 27 Feb 2026 07:15:17 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvzYg-00000000Aht-1xjr;
+	Fri, 27 Feb 2026 15:15:14 +0000
+Date: Fri, 27 Feb 2026 23:13:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [riteshharjani:master-ppc-huge-pfnmap-rfc-v2-0day 1/2]
+ drivers/vfio/pci/vfio_pci_core.c:1676 vfio_pci_vmf_insert_pfn() warn:
+ inconsistent indenting
+Message-ID: <202602272359.eq4QAHyr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202602271847.vVWkqLBD-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Feb 27, 2026 at 02:40:45PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-> head:   a901e8705f89f3616fad3bb6aeddba33be86b08a
-> commit: 014884732095b982412d13d3220c3fe8483b9b3e [16/22] pinctrl: cy8c95x0: Unify messages with help of dev_err_probe()
+tree:   https://github.com/riteshharjani/linux master-ppc-huge-pfnmap-rfc-v2-0day
+head:   71a4d1ca6df51ec0941829be16833684c870af81
+commit: 8b24002497695bb11104a1f01c3e38a015584876 [1/2] drivers/vfio_pci_core: Change PXD_ORDER check from switch case to if/else block
+config: i386-randconfig-141-20260227 (https://download.01.org/0day-ci/archive/20260227/202602272359.eq4QAHyr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
-False positive. This commit didn't change the previous behaviour. Perhaps
-smatch complained earlier?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602272359.eq4QAHyr-lkp@intel.com/
 
-But thanks, I'm going to address this right away!
+smatch warnings:
+drivers/vfio/pci/vfio_pci_core.c:1676 vfio_pci_vmf_insert_pfn() warn: inconsistent indenting
+
+vim +1676 drivers/vfio/pci/vfio_pci_core.c
+
+  1662	
+  1663	vm_fault_t vfio_pci_vmf_insert_pfn(struct vfio_pci_core_device *vdev,
+  1664					   struct vm_fault *vmf,
+  1665					   unsigned long pfn,
+  1666					   unsigned int order)
+  1667	{
+  1668		lockdep_assert_held_read(&vdev->memory_lock);
+  1669	
+  1670		if (vdev->pm_runtime_engaged || !__vfio_pci_memory_enabled(vdev))
+  1671			return VM_FAULT_SIGBUS;
+  1672	
+  1673		if (!order)
+  1674			return vmf_insert_pfn(vmf->vma, vmf->address, pfn);
+  1675	
+> 1676		 if (IS_ENABLED(CONFIG_ARCH_SUPPORTS_PMD_PFNMAP) && order == PMD_ORDER)
+  1677			return vmf_insert_pfn_pmd(vmf, pfn, false);
+  1678	
+  1679		 if (IS_ENABLED(CONFIG_ARCH_SUPPORTS_PUD_PFNMAP) && order == PUD_ORDER)
+  1680			return vmf_insert_pfn_pud(vmf, pfn, false);
+  1681	
+  1682		return VM_FAULT_FALLBACK;
+  1683	}
+  1684	EXPORT_SYMBOL_GPL(vfio_pci_vmf_insert_pfn);
+  1685	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
