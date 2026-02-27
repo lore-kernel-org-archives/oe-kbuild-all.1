@@ -1,126 +1,86 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7338536215F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 07:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9538532ABF3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 07:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772176169; cv=none; b=lttd1LRoZ3kmHZYebittiKDK9RvDJ9K8iM0lrVGAx9FzoGUjmVNg8p24YKmivXknp6F5E/mvrKiRY10qznbSZZTYrTnGtQGOEc1VdLDUy8f8bFXB6utS9TFDCI7K0EmAYbiRtSpeg146FjCi7UHRBiBi2mFn1olUET7Sy5y7Q5U=
+	t=1772176767; cv=none; b=W4fMKm1K3qy2tymSeSm8ApVkWrUC7t4eBPFcF4jk398gv71GeCJQo7WAFsJCpX5CKdUlgZjCjbSyQCTSIVPq2DOSxurGGfcHu5ybztspAtAxE+LmM8HFdwhIh6qpUCgY/or4n+KB9fEuFL5aOqcV4NwqKqV6CPf01kslBQGF9gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772176169; c=relaxed/simple;
-	bh=Qd0rnZBE1xws3W96Pw5Blesuqote85Z9+msEuuIV0jA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YKm+1A9xiEiJbEMJzzgL1fPa8fx0XQEa2Z6MND/NBd9QmLRL/4lIysMrMMSG1lcL1hsEwYSzyBQf1QLWxeapGO2IelqjwslLCFbzxfVGB8OAFIIq/ez+mbnoMiXPSC7QBd40uzkU5pFFEYDmfoguwBgrwIFyQc9sEsKARCnmbE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cg+oRMnz; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772176767; c=relaxed/simple;
+	bh=b5zw1odScAL0AxiVV59MVY5FpAW0QUYpDTKBhsMiOG4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dd4+3PRgyRyE/n1LwCwJ6CUIPeqlCQ8YG71WHGvrCbGLJOXv6aXCyv2LNomtwGKcrP1Vm+jhsAc4/RXQoaZ7L6NMmmjbhSGxkAaN1xYGk19RJHC8vFqOTTjp22AyLO7FQ0zUpQSuNI64BLJySK4LyYtfhhyeWsKJk334uXi23Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gp3xv1iN; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cg+oRMnz"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ad617d5b80so11021885ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Feb 2026 23:09:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772176168; x=1772780968; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D2OLS1A4Uw6yTtRylm2HkzI1Tav6toxZGMwlbuYQ/RI=;
-        b=Cg+oRMnz7565sNyVr+7eMsDLm5HmnrpMtbGm++GFjOKWy6jsI4gwBxRtIom1ojpK9+
-         DOmq3HMBl6tpu/5Qn/ptObLqQoDtzE8oz5gRL37ZJJsjM2MyKLmJV0JDSIch4FkZ3h8V
-         NXIQ9nu/D/IspnPJhqLNNcGz3viasG3jnIbKG0uBc7/3gbe/L5GpdPfO7ftyGaTkCUVD
-         +Q/bWtU6nqvZJrlb6d+iBnWAk+gDwl6LEEDsaE0ToaqosO1TvGUkwKrjmGRB6EITOByD
-         purgY8+vNhR4wsJFfL3RhjKD6d8JPIe1GuqJx8/73d7PWTO2/ivG3csCsb1dQvMw2bOj
-         WdSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772176168; x=1772780968;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=D2OLS1A4Uw6yTtRylm2HkzI1Tav6toxZGMwlbuYQ/RI=;
-        b=XXk/gB3UhGLoZzQPB2LO59Kvy0rwPRSmF1I9TuU5DBAebo0uGkuezxYjPlI2z5Eok3
-         w4rmdRXEtOAyar7Sk+g56fXrFuQv2jrthJc9e/M9y1ljtGitcPWCOE+FVLHBObCYNSLw
-         wW8DVy87UMRytH8lhCsLuD5a8YafGK+TAluezyzLq+P149q8Jnd6DWNVwPXKIrtbOAvI
-         25pQKnDW8GdykgapWiI92eFmDW9sSQAWQ3NdKtyGCJi3wcs3vfs16OSCkeXiwRFx/ZE5
-         VEaBCOoBIsXtXsLfriFK0OwKxBYzyKaF8dZ848xJ2yYJbt2HZNL+ZI7lJRwEXUiTC+ES
-         cKcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW6dyRJa5JfLxlpvOKPyFDdYUdJKb1yBFvfcOXRGKu3/FRfJLL961e7jzP7Ajcro9vQvZ6nkB9bmW5/aSd3@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFS7TX6p7KQuLr1gAgLAC53VOpYOd96qNBAhc+UoAum1yLZCqf
-	T5axlRPGNYOvUXE0nhEpmiozxc5WCgr3QaQNAZ4JKoydsDY2mB0IMcZO
-X-Gm-Gg: ATEYQzx6ohiLzbujkSQ9A81DxL/dXKHrPlShEj2KklXgtbsc0DF4oOdDdUx4I7L2nDt
-	Su9DMT8D+Zh+d+oCd4JxftjbXBBP22AeT/2nscNnLPi+d4b93NPgjqK6VbpqlSlqe0AG4uUk16c
-	liSnI5YVzXlu+fUYPXsllLPO03kmhVpTQGv4bJdn+OntcGPfQYx+5L3A827UFBV4EOV5YhhXaXT
-	uq/cImF1JsYCkcpOQpiUjeTypfNUuPtM/LY/z8B4ncepLITh+jnHzZLl2Yu3PVAxCgtmd+FCEm0
-	aMMep/mq78GeyBefXT4MjJVXKvmdl48PfYv8UVimursv9jCJDB3I9c61oaFr0kGy9f5V+1sH+PR
-	HWuiBSD1V+slbsynhiHu6pLR+PuRzUcetB7+TTE9wYAExZrMZux0mTjG7TByl9jB5bCbswNkYOs
-	pCczKk+95rEKDk+oV1mDhOM2xjvqnzxDp5VzopU6BgBEx9
-X-Received: by 2002:a17:902:f689:b0:2ad:ba80:df62 with SMTP id d9443c01a7336-2ae2e480d5cmr19907925ad.37.1772176167724;
-        Thu, 26 Feb 2026 23:09:27 -0800 (PST)
-Received: from Modern-15.. ([2401:4900:854b:40d:f564:fa7d:49b1:5b44])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb5c1976sm46390785ad.22.2026.02.26.23.09.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 23:09:27 -0800 (PST)
-From: Mathura_Kumar <academic1mathura@gmail.com>
-To: lkp@intel.com
-Cc: academic1mathura@gmail.com,
-	brauner@kernel.org,
-	linux-ipc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: [PATCH 2/2] [PATCH-V2] mqueue: introduce new do_mq_timedreceive2() [ mq_peek syscall] for non-destructive       receive and inspection
-Date: Fri, 27 Feb 2026 12:38:37 +0530
-Message-ID: <20260227070838.201032-2-academic1mathura@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260227070838.201032-1-academic1mathura@gmail.com>
-References: <202602270443.k6N6t2u4-lkp@intel.com>
- <20260227070838.201032-1-academic1mathura@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gp3xv1iN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772176766; x=1803712766;
+  h=date:from:to:cc:subject:message-id;
+  bh=b5zw1odScAL0AxiVV59MVY5FpAW0QUYpDTKBhsMiOG4=;
+  b=Gp3xv1iNdzOEXuho3A472/aZr3nczafAAgQdB2cxrckCkW/OGmrDkzc1
+   JGBvw0wg3u86ELBCF610sOYL27y9G/3bkTqb0sXRjdS1nIQFtg8Ap5X+d
+   V0LOBK5iVrVmRSaW8cP2fqGuWPPczoqljGrrUZ/8iZ80J3+PrMvAle06+
+   47ne5qXQ0j3Q2VOYZ8NzCibtnT+TDPeGM7QOCg0onPafLoI4cKJ5H3d0Y
+   bIxYRcTyxXU3CSZBKw3elH428h+ywxmQZojuIaL8bbdvQv4ss4PE47tgE
+   qddizAI1G+eZnnl9YFw+Zmtqvj3JEtr8AL6Djj/fyenyp0Llnxf5ifTjx
+   g==;
+X-CSE-ConnectionGUID: xvp7Sw3cTxWSYbELZ2+3UA==
+X-CSE-MsgGUID: OoaIHUWkTvKBv8V6Y/VNrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="90658087"
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
+   d="scan'208";a="90658087"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 23:19:26 -0800
+X-CSE-ConnectionGUID: 1fGEOHoWTbSy2qT8NfLJFw==
+X-CSE-MsgGUID: iAsMFrgnT3Si4w6xpbf+tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
+   d="scan'208";a="216720758"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 26 Feb 2026 23:19:24 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvs7h-00000000AJH-2cBs;
+	Fri, 27 Feb 2026 07:19:09 +0000
+Date: Fri, 27 Feb 2026 15:17:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "sys_oak" <sys_oak@intel.com>,
+ Vitaly Lubart <lubvital@gmail.com>
+Subject: [acrn:6.17/linux 1627/3102] Warning:
+ drivers/misc/issei/host_client.c:419 function parameter 'cl' not described in
+ 'issei_cl_read'
+Message-ID: <202602271507.nL8RWsjG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Following Two warning issue by build and test on V1:
+Hi Alexander,
 
-1) include/linux/syscalls.h:750:42: warning: declaration of 'struct mq_timedreceive2_args'
-   will not be visible outside of this function [-Wvisibility]
-fix-included the missing header for global visibility
+First bad commit (maybe != root cause):
 
-2)  warning: syscall mq_timedreceive2_time64 not implemented [-W#warnings]
+tree:   https://github.com/projectacrn/acrn-kernel 6.17/linux
+head:   eac6d3b7a20ffb9d3102dbdc152241a7184a63cd
+commit: f6896065a2048df5ca9aa66bc01ee1058022ba10 [1627/3102] issei: add firmware and host clients implementation, finish character device
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260227/202602271507.nL8RWsjG-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271507.nL8RWsjG-lkp@intel.com/reproduce)
 
-fix- This seem false postive warning, script not able to correctly map syscall table
- with handler
-in file - ~/linux/arch/x86/entry/syscalls/syscall_32.tbl
-473 causing warning due to now explicit handler for name "mq_timedrecive2_time64",because
-it also handle by same normal SYS_DEFINE for  64 bit arch  because logically both are
-same if 32bit machine call 64 bit, if we add named defined then it create unnessary
- redudancy and duplicacy, so even at this time i am not changing this, if required kindlly
-once test in runtime and guide me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271507.nL8RWsjG-lkp@intel.com/
 
-472	i386	mq_timedreceive2	sys_mq_timedreceive2_time32
-473	i386	mq_timedreceive2_time64	sys_mq_timedreceive2
+All warnings (new ones prefixed by >>):
 
-Reported-by: kernel test robot <lkp@intel.com>
- Closes: https://lore.kernel.org/oe-kbuild-all/202602270443.k6N6t2u4-lkp@intel.com
+>> Warning: drivers/misc/issei/host_client.c:419 function parameter 'cl' not described in 'issei_cl_read'
 
-Signed-off-by: Mathura_Kumar <academic1mathura@gmail.com>
----
- include/linux/syscalls.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 4db405159a8b..307cfd6f154c 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -93,6 +93,7 @@ struct file_attr;
- #include <linux/key.h>
- #include <linux/personality.h>
- #include <trace/syscall.h>
-+#include <linux/mqueue.h>
- 
- #ifdef CONFIG_ARCH_HAS_SYSCALL_WRAPPER
- /*
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
