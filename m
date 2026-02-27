@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71953375C2;
-	Fri, 27 Feb 2026 06:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E579F2EBB99
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 06:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772174834; cv=none; b=HPIlWOUhXoTDN70RzLvPbI0NcWKdrmAPC/bo8lr2VzZG9yZZ27x5dKg48zwv0llL0fZIG2knCG8ICT5NNkZNv9ZXXWd4M1YideBiAIK1Vlt+aWgZ4f8QVhP3e6AzL8LP+lBTnsYk0VmD7yabtDkTM5vjoA1T77JcXDzuGy/aYHQ=
+	t=1772174859; cv=none; b=i0Mmbr0qS+lvVl4wlaIn3KmjP8MgqZyVQaYbYLHi5pcaEFa4I9Cr64zBR6B0HBvd/UOLftsWeoArsi+DPlkhj+QwvXPaifE0UHRpXt4ZpBSADB6VObRG/FIffivPfVUy2hDCkQStSk+WXOVQ/F6vCE0YZ5lh0pvFIgeDGOhC4Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772174834; c=relaxed/simple;
-	bh=FTBoem3N8wjs1l9Nc4rU9G3bNGjYtPHN4mgq35kA64A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XiZLvYELF7aDmIQGMTZ6SB1EvuFztEYngHhKC5+sT0PkSzyTjJi6O6OOFZRftMi+tCBTy8XrgwId8EEmVEafrGiG5lh4Z/LzYobAh45lL0sjQ+7JvBcasdLsPdAop4ykXwcnm2FETP70ppX3Pnaqq6IY3zZQD5+FYQl9hhQPCXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W6fsdAiU; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1772174859; c=relaxed/simple;
+	bh=vRSeR0pfWkCntNewb8wkzkiAo5+Jp3IihkpawoKZMow=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M9+m8cVZUt/ijH9mUmRXR/GzDaRoNBnYSstWQWzpigvTRhWvjLz8zW5OPreOQUv7HXGVdDaQ3jT6X58PiE5mf/Xb3/L4ftVnpCs+tV+3gJsTxTWIiGy5/TjkB5mMRpIxCQAc2D6G8zqcq6qw3OIO/DYq7CLWev6PDWI9XixF73o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKuRXu5r; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W6fsdAiU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKuRXu5r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772174833; x=1803710833;
+  t=1772174857; x=1803710857;
   h=date:from:to:cc:subject:message-id;
-  bh=FTBoem3N8wjs1l9Nc4rU9G3bNGjYtPHN4mgq35kA64A=;
-  b=W6fsdAiUjgbCA/Q4Yxv3Vb/Q3v1WpxSFIcRS6lFbmGgrS703dy86ZJ9t
-   FI1q783B5z2iIUmle6csnwQ68/Eew4PQKtj7Oc8bTN0NfyaC6bhaf7CDI
-   h2+7W+4yiq/C5k/TPiLIEF1leEs9quGgEmYk/lMYevpx9hEyNz/EEJI1N
-   2BUhkobxT1gm/7A1Dm2jRxqhkt6XrwY77lny7K/OfK2PH73Mc3q2oBQzY
-   H0q+L6yiP+IxqZUdKcd83IVtJeugiPrtfJanH21y5fdDBKthcVHQNNx0p
-   p8nMGehlgpu/s+HvoH2toTS0pTS+Kk4IH49KxSR8zSM/qg2NTNuynNCae
+  bh=vRSeR0pfWkCntNewb8wkzkiAo5+Jp3IihkpawoKZMow=;
+  b=YKuRXu5rSuKSf8M9NAq0Za6fNdMDkqPqgUs4OA+XF6dxXs2+4LYIRp+S
+   r6HIyXB3dEBEyliT7eGJvo6E/Iq84RCzOgUENcKQzsNhOv8kx7ROSLqM5
+   qmgSH415BmH4SPyhGu30Fgbtvne1aUMr2bzSfiIt/ElB9TDGXmecioXUv
+   LeDJmxqex50wWmCDTzOSnpXh0PC7LDFZtNG+PNwJbIcVlpEYDRHBjV9r3
+   s5dt016/20lV7Jvjm1o9tfISrlak2itE6DSudwiJyxvoxaKLgwcb4s3TQ
+   TIdoOLoWtnJJb7jlNRuKed2mivoGdbO5/odoTbdpgGEUkqvF/SSJMwedn
    w==;
-X-CSE-ConnectionGUID: Y87vdocbSf67ZuUu6BFScg==
-X-CSE-MsgGUID: KBFPLAmhTQy+uUSlArFT8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="83959004"
+X-CSE-ConnectionGUID: f+yiygakQ329hTv7szIYWA==
+X-CSE-MsgGUID: 2vf5gKAGRfqvBMgUm7m/AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73436877"
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="83959004"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 22:47:12 -0800
-X-CSE-ConnectionGUID: 9oTTLiAxTfOfVIaisM3JIQ==
-X-CSE-MsgGUID: SaQ8PP1MRqCd9f9he2NRpQ==
+   d="scan'208";a="73436877"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 22:47:36 -0800
+X-CSE-ConnectionGUID: 2Gdw4etzQrqXmCEmhFpQ+w==
+X-CSE-MsgGUID: W6Pc74uKQuei6/P+8AANLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="254595621"
+   d="scan'208";a="214267370"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 26 Feb 2026 22:47:11 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 26 Feb 2026 22:47:35 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvrcQ-00000000AGh-3VJx;
-	Fri, 27 Feb 2026 06:46:42 +0000
-Date: Fri, 27 Feb 2026 14:45:13 +0800
+	id 1vvrcy-00000000AGk-0nZQ;
+	Fri, 27 Feb 2026 06:47:13 +0000
+Date: Fri, 27 Feb 2026 14:45:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [morimoto:sound-cleanup-2026-02-27 64/71]
- sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:188:12: error: expected ';' at end
- of declaration
-Message-ID: <202602271436.slKE97Pg-lkp@intel.com>
+ sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:188:20: error: expected '=', ',',
+ ';', 'asm' or '__attribute__' before 'snd_soc_dai_id'
+Message-ID: <202602271410.623w6tH4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,22 +63,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/morimoto/linux sound-cleanup-2026-02-27
 head:   70fac1227b8f4cff541671ddd98131030be53492
 commit: 0d2fc26b6b9e1b6dbf496f2e231460cdcae63f24 [64/71] move struct dai
-config: arm64-randconfig-003-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271436.slKE97Pg-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271436.slKE97Pg-lkp@intel.com/reproduce)
+config: arm64-randconfig-002-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271410.623w6tH4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271410.623w6tH4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602271436.slKE97Pg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271410.623w6tH4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:188:12: error: expected ';' at end of declaration
+   sound/soc/mediatek/mt6797/mt6797-dai-pcm.c: In function 'mtk_dai_pcm_hw_params':
+>> sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:188:20: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'snd_soc_dai_id'
      188 |         int dai_id snd_soc_dai_id(dai);
-         |                   ^
-         |                   ;
-   1 error generated.
+         |                    ^~~~~~~~~~~~~~
+>> sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:190:71: error: 'dai_id' undeclared (first use in this function)
+     190 |         unsigned int rate_reg = mt6797_rate_transform(afe->dev, rate, dai_id);
+         |                                                                       ^~~~~~
+   sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:190:71: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +188 sound/soc/mediatek/mt6797/mt6797-dai-pcm.c
@@ -94,7 +97,7 @@ vim +188 sound/soc/mediatek/mt6797/mt6797-dai-pcm.c
    187		struct snd_soc_dapm_widget *c = snd_soc_dai_stream_widget_get_capture(dai);
  > 188		int dai_id snd_soc_dai_id(dai);
    189		unsigned int rate = params_rate(params);
-   190		unsigned int rate_reg = mt6797_rate_transform(afe->dev, rate, dai_id);
+ > 190		unsigned int rate_reg = mt6797_rate_transform(afe->dev, rate, dai_id);
    191		unsigned int pcm_con = 0;
    192	
    193		dev_dbg(afe->dev, "%s(), id %d, stream %d, rate %d, rate_reg %d, widget active p %d, c %d\n",
