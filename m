@@ -1,253 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927562DA749;
-	Fri, 27 Feb 2026 22:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CC63624A3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 22:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772229909; cv=none; b=agikgToP0/OCar0XUTye/niS8N7gi+bvRDJYpaJ19LataZChzcd3sPn3cA3EUFV6SK7Nvjo7FrgFSnstDhG8CHKGBvavyE1ADIHc5A6QKiCEYtUxFbjJ8Y2iCd+xFsq0tbnXh9+Mi3TPTFnW4a1g7/b6hX1ag5Xv/p1DmPxu6Vc=
+	t=1772231273; cv=none; b=q8EJzWXzCDM0S+hOb6aZTHV/igT8XwZ1aAH284GFhGcEr2JTkpR+tBPv1Xw6rmwO7y69CJ07rr1OtOC2ho3ss2gR1Cu/e17JkrCisE+PD941ov+8GEl1DHhZMgZs+Ff9YejGmvSZqS2hhZ0rDUAOrbBui/mZCQ4NbGV5hPPw3VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772229909; c=relaxed/simple;
-	bh=OqC1qVonI3zooIRbnQOaB86/3JV6TnHargoagHhcWYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oXlqA9zYvUk7B2N4IX/BrWKtZksK8UaMjKNc3NdQuj3606OdjzK9pX16LfY2k6jbnul/T9z2Jfo2mvTvMCiAU04kfj4BWaVni8wxAnnIUa9F6gZk5SuEEaqYB9X6oqMOaCgiBROzriWjP6LhLsi/GClgPWWfWQnobj+p4ErAPjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MLjABu7k; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1772231273; c=relaxed/simple;
+	bh=eRLoVnmvVKIVuaLa0zMtD/y2XDOAI00nZ5iJuPiNR6M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LHBaUEKTdvVzhChSZ3zExSbwro8jUpqDR1gL0tnzhtRTXnrIBo9QlId6ShxnfU9vahOg+8klOiiDGOhkZatL45pvRSeTsWeM6l9/QdfFipeGfQhwNWelA31Tt4a8cjQ+bokudoCB9q9n+Xj8PO+gnfVwBe5YkQA9muiorBR/xoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7a0hwZ/; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MLjABu7k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7a0hwZ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772229908; x=1803765908;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OqC1qVonI3zooIRbnQOaB86/3JV6TnHargoagHhcWYg=;
-  b=MLjABu7kwFTwpVm9nh6JH3WRN9SCDwbZq46PCwSSb+itQr3znTmhZUU9
-   joPlAVFzSavZ13dicMuu2OKWfYV45hAjTGU+u6rkVon6PT43UNpuezr39
-   EUmBxc7Ws2DmAhWcCUEiWyO7CcjkILxuzxx3yAoW3uhWvdX5RQpcMavBY
-   /rUXYwzQ7ju4Coqd/FNaqdQCoDJBgrE/ZQX1iOxyeMhrWvDfexI9i3ADP
-   2ILa52k1DfPYeG3DF6y+mnFec9ouebxSRbbyC80abTBXUmtdMpWkQ9JdN
-   J6Kq9GT4tg4H2vZ6LaxxdhkBdpdUsH8CZS5lCklYrdLK3JQEzV1vbYJUd
-   A==;
-X-CSE-ConnectionGUID: mO8r/veHQlGumbqr4bhwgQ==
-X-CSE-MsgGUID: wn7EzqFGS1SAG82IMLYYYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73191580"
+  t=1772231260; x=1803767260;
+  h=date:from:to:cc:subject:message-id;
+  bh=eRLoVnmvVKIVuaLa0zMtD/y2XDOAI00nZ5iJuPiNR6M=;
+  b=X7a0hwZ/NCgaH0RO9+b+DkqL9PETxnFKeRPDHy7vNtngby4k1aKqmfgV
+   SldPvcVgkruYVJamYPrsyISB4buYiHmSlt/UsJyG63BZ61OpTxeIVsWYf
+   SDhg7HrERZnwQCqcRzHvJzcDxwtZ0ujnEMhJKpCYTswtgvqy04cFGgcVi
+   IXTCw5NtdHjWPYPBN59WOdMrGkLnukVT6dI6tQWFYWtgCaTETKylUl225
+   qi2zrb0I2e+nX4uOBV3JR9G98Q9XMy1Om83N+IESbmBOhxRipEi0X0JTr
+   DLh4zgF3ht7a0umMeftdYMez5i2VhkdB+xi+avcxHS7bcFAr6E8SaaOgp
+   g==;
+X-CSE-ConnectionGUID: imJhil2jQAiHx2EATMrR4w==
+X-CSE-MsgGUID: SZmyl5xeSDmPBKmt4TCPAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73289534"
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="73191580"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 14:05:07 -0800
-X-CSE-ConnectionGUID: /Pw3yY2aTlayek20ToBb9A==
-X-CSE-MsgGUID: WhXEGy70Q1yQAmg2taSFfA==
+   d="scan'208";a="73289534"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 14:27:37 -0800
+X-CSE-ConnectionGUID: ejl9kkcjTc6ZT3eMomH3Sw==
+X-CSE-MsgGUID: Ew1Lfuh2STupSTDuvlw96Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="247522477"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2026 14:05:02 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+   d="scan'208";a="220237467"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 27 Feb 2026 14:27:35 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vw5wp-00000000B6X-0lcN;
-	Fri, 27 Feb 2026 22:04:44 +0000
-Date: Sat, 28 Feb 2026 06:03:30 +0800
+	id 1vw6J2-000000000dN-3YCH;
+	Fri, 27 Feb 2026 22:27:32 +0000
+Date: Fri, 27 Feb 2026 23:26:40 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jacob Pan <jacob.pan@linux.microsoft.com>, linux-kernel@vger.kernel.org,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>, Joerg Roedel <joro@8bytes.org>,
-	David Matlack <dmatlack@google.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	"Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-	Baolu Lu <baolu.lu@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, skhawaja@google.com,
-	pasha.tatashin@soleen.com,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jean Philippe-Brucker <jean-philippe@linaro.org>,
-	Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 08/11] vfio: Enable cdev noiommu mode under iommufd
-Message-ID: <202602280557.4SdsBbeJ-lkp@intel.com>
-References: <20260227175247.26103-9-jacob.pan@linux.microsoft.com>
+To: Kunal Rane <kunal.rane@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+ Michal Simek <monstr@monstr.eu>, Vishal Sagar <vishal.sagar@amd.com>
+Subject: [xilinx-xlnx:master 476/590] htmldocs:
+ include/uapi/linux/videodev2.h:1: WARNING: undefined label:
+ 'v4l2-pix-fmt-x423' [ref.ref]
+Message-ID: <202602272351.AlHYG3ey-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260227175247.26103-9-jacob.pan@linux.microsoft.com>
 
-Hi Jacob,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.0-rc1 next-20260227]
-[cannot apply to awilliam-vfio/next awilliam-vfio/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacob-Pan/iommufd-Support-a-HWPT-without-an-iommu-driver-for-noiommu/20260228-020145
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260227175247.26103-9-jacob.pan%40linux.microsoft.com
-patch subject: [PATCH 08/11] vfio: Enable cdev noiommu mode under iommufd
-config: sh-randconfig-001-20260228 (https://download.01.org/0day-ci/archive/20260228/202602280557.4SdsBbeJ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280557.4SdsBbeJ-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   865e73109750d465f06dee019396406a354eb9d2
+commit: 9e44ece1722a0b6190779ba1201c5da722fe2146 [476/590] media: videodev2.h: Add YUV444 12 bit video format support
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260227/202602272351.AlHYG3ey-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602280557.4SdsBbeJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602272351.AlHYG3ey-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:36,
-                    from drivers/iommu/generic_pt/fmt/iommu_amdv1.c:15:
-   drivers/iommu/generic_pt/fmt/amdv1.h: In function 'amdv1pt_install_table':
->> drivers/iommu/generic_pt/fmt/amdv1.h:255:16: error: implicit declaration of function 'pt_table_install64'; did you mean 'pt_table_install32'? [-Wimplicit-function-declaration]
-     255 |         return pt_table_install64(pts, entry);
-         |                ^~~~~~~~~~~~~~~~~~
-         |                pt_table_install32
-   In file included from include/linux/atomic.h:80,
-                    from drivers/iommu/generic_pt/fmt/../pt_defs.h:17,
-                    from drivers/iommu/generic_pt/fmt/iommu_template.h:35:
-   drivers/iommu/generic_pt/fmt/amdv1.h: In function 'amdv1pt_entry_make_write_dirty':
->> include/linux/atomic/atomic-arch-fallback.h:259:14: error: invalid use of void expression
-     259 |         ___r = raw_cmpxchg64((_ptr), ___o, (_new)); \
-         |              ^
-   include/linux/atomic/atomic-instrumented.h:4918:9: note: in expansion of macro 'raw_try_cmpxchg64'
-    4918 |         raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/amdv1.h:318:16: note: in expansion of macro 'try_cmpxchg64'
-     318 |         return try_cmpxchg64(tablep, &pts->entry, new);
-         |                ^~~~~~~~~~~~~
->> drivers/iommu/generic_pt/fmt/amdv1.h:316:13: warning: unused variable 'new' [-Wunused-variable]
-     316 |         u64 new = pts->entry | AMDV1PT_FMT_D;
-         |             ^~~
---
-   In file included from generic_pt/fmt/iommu_template.h:36,
-                    from generic_pt/fmt/iommu_amdv1.c:15:
-   generic_pt/fmt/amdv1.h: In function 'amdv1pt_install_table':
-   generic_pt/fmt/amdv1.h:255:16: error: implicit declaration of function 'pt_table_install64'; did you mean 'pt_table_install32'? [-Wimplicit-function-declaration]
-     255 |         return pt_table_install64(pts, entry);
-         |                ^~~~~~~~~~~~~~~~~~
-         |                pt_table_install32
-   In file included from include/linux/atomic.h:80,
-                    from generic_pt/fmt/../pt_defs.h:17,
-                    from generic_pt/fmt/iommu_template.h:35:
-   generic_pt/fmt/amdv1.h: In function 'amdv1pt_entry_make_write_dirty':
->> include/linux/atomic/atomic-arch-fallback.h:259:14: error: invalid use of void expression
-     259 |         ___r = raw_cmpxchg64((_ptr), ___o, (_new)); \
-         |              ^
-   include/linux/atomic/atomic-instrumented.h:4918:9: note: in expansion of macro 'raw_try_cmpxchg64'
-    4918 |         raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~
-   generic_pt/fmt/amdv1.h:318:16: note: in expansion of macro 'try_cmpxchg64'
-     318 |         return try_cmpxchg64(tablep, &pts->entry, new);
-         |                ^~~~~~~~~~~~~
-   generic_pt/fmt/amdv1.h:316:13: warning: unused variable 'new' [-Wunused-variable]
-     316 |         u64 new = pts->entry | AMDV1PT_FMT_D;
-         |             ^~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_PT
-   Depends on [n]: IOMMU_SUPPORT [=n] && GENERIC_PT [=y]
-   Selected by [y]:
-   - VFIO_NOIOMMU [=y] && VFIO [=y] && VFIO_GROUP [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_PT_AMDV1
-   Depends on [n]: GENERIC_PT [=y] && IOMMU_PT [=y] && !GENERIC_ATOMIC64 [=y]
-   Selected by [y]:
-   - VFIO_NOIOMMU [=y] && VFIO [=y] && VFIO_GROUP [=y]
+   include/uapi/linux/videodev2.h:1: WARNING: undefined label: 'v4l2-pix-fmt-x016m' [ref.ref]
+   include/uapi/linux/videodev2.h:1: WARNING: undefined label: 'v4l2-pix-fmt-x216m' [ref.ref]
+   include/uapi/linux/videodev2.h:1: WARNING: undefined label: 'v4l2-pix-fmt-x416m' [ref.ref]
+   include/uapi/linux/videodev2.h:1: WARNING: undefined label: 'v4l2-pix-fmt-yuv444p' [ref.ref]
+   include/uapi/linux/videodev2.h:1: WARNING: undefined label: 'v4l2-pix-fmt-x403' [ref.ref]
+>> include/uapi/linux/videodev2.h:1: WARNING: undefined label: 'v4l2-pix-fmt-x423' [ref.ref]
+   include/uapi/linux/videodev2.h:1: WARNING: undefined label: 'v4l2-ctrl-type-hdr' [ref.ref]
 
 
-vim +255 drivers/iommu/generic_pt/fmt/amdv1.h
+vim +1 include/uapi/linux/videodev2.h
 
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  236  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  237  static inline bool amdv1pt_install_table(struct pt_state *pts,
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  238  					 pt_oaddr_t table_pa,
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  239  					 const struct pt_write_attrs *attrs)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  240  {
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  241  	u64 entry;
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  242  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  243  	/*
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  244  	 * IR and IW are ANDed from the table levels along with the PTE. We
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  245  	 * always control permissions from the PTE, so always set IR and IW for
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  246  	 * tables.
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  247  	 */
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  248  	entry = AMDV1PT_FMT_PR |
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  249  		FIELD_PREP(AMDV1PT_FMT_NEXT_LEVEL, pts->level) |
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  250  		FIELD_PREP(AMDV1PT_FMT_OA,
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  251  			   log2_div(table_pa, PT_GRANULE_LG2SZ)) |
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  252  		AMDV1PT_FMT_IR | AMDV1PT_FMT_IW;
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  253  	if (pts_feature(pts, PT_FEAT_AMDV1_ENCRYPT_TABLES))
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  254  		entry = __sme_set(entry);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04 @255  	return pt_table_install64(pts, entry);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  256  }
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  257  #define pt_install_table amdv1pt_install_table
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  258  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  259  static inline void amdv1pt_attr_from_entry(const struct pt_state *pts,
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  260  					   struct pt_write_attrs *attrs)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  261  {
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  262  	attrs->descriptor_bits =
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  263  		pts->entry & (AMDV1PT_FMT_FC | AMDV1PT_FMT_IR | AMDV1PT_FMT_IW);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  264  }
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  265  #define pt_attr_from_entry amdv1pt_attr_from_entry
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  266  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  267  static inline void amdv1pt_clear_entries(struct pt_state *pts,
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  268  					 unsigned int num_contig_lg2)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  269  {
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  270  	u64 *tablep = pt_cur_table(pts, u64) + pts->index;
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  271  	u64 *end = tablep + log2_to_int(num_contig_lg2);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  272  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  273  	/*
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  274  	 * gcc generates rep stos for the io-pgtable code, and this difference
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  275  	 * can show in microbenchmarks with larger contiguous page sizes.
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  276  	 * rep is slower for small cases.
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  277  	 */
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  278  	if (num_contig_lg2 <= ilog2(32)) {
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  279  		for (; tablep != end; tablep++)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  280  			WRITE_ONCE(*tablep, 0);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  281  	} else {
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  282  		memset64(tablep, 0, log2_to_int(num_contig_lg2));
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  283  	}
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  284  }
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  285  #define pt_clear_entries amdv1pt_clear_entries
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  286  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  287  static inline bool amdv1pt_entry_is_write_dirty(const struct pt_state *pts)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  288  {
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  289  	unsigned int num_contig_lg2 = amdv1pt_entry_num_contig_lg2(pts);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  290  	u64 *tablep = pt_cur_table(pts, u64) +
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  291  		      log2_set_mod(pts->index, 0, num_contig_lg2);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  292  	u64 *end = tablep + log2_to_int(num_contig_lg2);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  293  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  294  	for (; tablep != end; tablep++)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  295  		if (READ_ONCE(*tablep) & AMDV1PT_FMT_D)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  296  			return true;
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  297  	return false;
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  298  }
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  299  #define pt_entry_is_write_dirty amdv1pt_entry_is_write_dirty
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  300  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  301  static inline void amdv1pt_entry_make_write_clean(struct pt_state *pts)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  302  {
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  303  	unsigned int num_contig_lg2 = amdv1pt_entry_num_contig_lg2(pts);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  304  	u64 *tablep = pt_cur_table(pts, u64) +
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  305  		      log2_set_mod(pts->index, 0, num_contig_lg2);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  306  	u64 *end = tablep + log2_to_int(num_contig_lg2);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  307  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  308  	for (; tablep != end; tablep++)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  309  		WRITE_ONCE(*tablep, READ_ONCE(*tablep) & ~(u64)AMDV1PT_FMT_D);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  310  }
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  311  #define pt_entry_make_write_clean amdv1pt_entry_make_write_clean
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  312  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  313  static inline bool amdv1pt_entry_make_write_dirty(struct pt_state *pts)
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  314  {
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  315  	u64 *tablep = pt_cur_table(pts, u64) + pts->index;
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04 @316  	u64 new = pts->entry | AMDV1PT_FMT_D;
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  317  
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  318  	return try_cmpxchg64(tablep, &pts->entry, new);
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  319  }
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  320  #define pt_entry_make_write_dirty amdv1pt_entry_make_write_dirty
-879ced2bab1ba9 Jason Gunthorpe 2025-11-04  321  
+e2be04c7f9958d Greg Kroah-Hartman    2017-11-01  @1  /* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR BSD-3-Clause) */
+607ca46e97a1b6 David Howells         2012-10-13   2  /*
+607ca46e97a1b6 David Howells         2012-10-13   3   *  Video for Linux Two header file
+607ca46e97a1b6 David Howells         2012-10-13   4   *
+607ca46e97a1b6 David Howells         2012-10-13   5   *  Copyright (C) 1999-2012 the contributors
+607ca46e97a1b6 David Howells         2012-10-13   6   *
+607ca46e97a1b6 David Howells         2012-10-13   7   *  This program is free software; you can redistribute it and/or modify
+607ca46e97a1b6 David Howells         2012-10-13   8   *  it under the terms of the GNU General Public License as published by
+607ca46e97a1b6 David Howells         2012-10-13   9   *  the Free Software Foundation; either version 2 of the License, or
+607ca46e97a1b6 David Howells         2012-10-13  10   *  (at your option) any later version.
+607ca46e97a1b6 David Howells         2012-10-13  11   *
+607ca46e97a1b6 David Howells         2012-10-13  12   *  This program is distributed in the hope that it will be useful,
+607ca46e97a1b6 David Howells         2012-10-13  13   *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+607ca46e97a1b6 David Howells         2012-10-13  14   *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+607ca46e97a1b6 David Howells         2012-10-13  15   *  GNU General Public License for more details.
+607ca46e97a1b6 David Howells         2012-10-13  16   *
+607ca46e97a1b6 David Howells         2012-10-13  17   *  Alternatively you can redistribute this file under the terms of the
+607ca46e97a1b6 David Howells         2012-10-13  18   *  BSD license as stated below:
+607ca46e97a1b6 David Howells         2012-10-13  19   *
+607ca46e97a1b6 David Howells         2012-10-13  20   *  Redistribution and use in source and binary forms, with or without
+607ca46e97a1b6 David Howells         2012-10-13  21   *  modification, are permitted provided that the following conditions
+607ca46e97a1b6 David Howells         2012-10-13  22   *  are met:
+607ca46e97a1b6 David Howells         2012-10-13  23   *  1. Redistributions of source code must retain the above copyright
+607ca46e97a1b6 David Howells         2012-10-13  24   *     notice, this list of conditions and the following disclaimer.
+607ca46e97a1b6 David Howells         2012-10-13  25   *  2. Redistributions in binary form must reproduce the above copyright
+607ca46e97a1b6 David Howells         2012-10-13  26   *     notice, this list of conditions and the following disclaimer in
+607ca46e97a1b6 David Howells         2012-10-13  27   *     the documentation and/or other materials provided with the
+607ca46e97a1b6 David Howells         2012-10-13  28   *     distribution.
+607ca46e97a1b6 David Howells         2012-10-13  29   *  3. The names of its contributors may not be used to endorse or promote
+607ca46e97a1b6 David Howells         2012-10-13  30   *     products derived from this software without specific prior written
+607ca46e97a1b6 David Howells         2012-10-13  31   *     permission.
+607ca46e97a1b6 David Howells         2012-10-13  32   *
+607ca46e97a1b6 David Howells         2012-10-13  33   *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+607ca46e97a1b6 David Howells         2012-10-13  34   *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+607ca46e97a1b6 David Howells         2012-10-13  35   *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+607ca46e97a1b6 David Howells         2012-10-13  36   *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+607ca46e97a1b6 David Howells         2012-10-13  37   *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+607ca46e97a1b6 David Howells         2012-10-13  38   *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+607ca46e97a1b6 David Howells         2012-10-13  39   *  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+607ca46e97a1b6 David Howells         2012-10-13  40   *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+607ca46e97a1b6 David Howells         2012-10-13  41   *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+607ca46e97a1b6 David Howells         2012-10-13  42   *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+607ca46e97a1b6 David Howells         2012-10-13  43   *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+607ca46e97a1b6 David Howells         2012-10-13  44   *
+607ca46e97a1b6 David Howells         2012-10-13  45   *	Header file for v4l or V4L2 drivers and applications
+607ca46e97a1b6 David Howells         2012-10-13  46   * with public API.
+607ca46e97a1b6 David Howells         2012-10-13  47   * All kernel-specific stuff were moved to media/v4l2-dev.h, so
+607ca46e97a1b6 David Howells         2012-10-13  48   * no #if __KERNEL tests are allowed here
+607ca46e97a1b6 David Howells         2012-10-13  49   *
+991ce92f8de24c Mauro Carvalho Chehab 2015-12-04  50   *	See https://linuxtv.org for more info
+607ca46e97a1b6 David Howells         2012-10-13  51   *
+607ca46e97a1b6 David Howells         2012-10-13  52   *	Author: Bill Dirks <bill@thedirks.org>
+607ca46e97a1b6 David Howells         2012-10-13  53   *		Justin Schoeman
+e8c8d961d8ad53 Hans Verkuil          2025-06-24  54   *              Hans Verkuil <hverkuil@kernel.org>
+607ca46e97a1b6 David Howells         2012-10-13  55   *		et al.
+607ca46e97a1b6 David Howells         2012-10-13  56   */
+607ca46e97a1b6 David Howells         2012-10-13  57  #ifndef _UAPI__LINUX_VIDEODEV2_H
+607ca46e97a1b6 David Howells         2012-10-13  58  #define _UAPI__LINUX_VIDEODEV2_H
+607ca46e97a1b6 David Howells         2012-10-13  59  
+
+:::::: The code at line 1 was first introduced by commit
+:::::: e2be04c7f9958dde770eeb8b30e829ca969b37bb License cleanup: add SPDX license identifier to uapi header files with a license
+
+:::::: TO: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
