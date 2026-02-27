@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291003876C3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 14:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1B01E570D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 14:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772201363; cv=none; b=qRPJ0cw4IMghtl1CidnYEK3RuNXm5knI3qjELPQZ11+41vLjZ8pVW5ORzLUWwV3PER8TLMlIsKyWMRuqzn3aOk/5SjL89WrbiPoK+mhw7q/wnxJ8QYTjnrBdjEgDaef4Ek7tCxDupewDxDiafauEGlUUr7I2o8bYHeq0ocqtW+I=
+	t=1772202090; cv=none; b=N8p6/SMA0kcm16togIEcbN1xlnxiaIBq6i5+OB/7nM62r6YrmTBp2yAzZtkxsluhGCGuzOh4LV5j2lQJ8Bpl/8zk567pyf6oTP6KDh1NWotq3X2ejcVdPrIbQq07ohvcXgVgah6Y6KYFy6hrdM9nhNXAT0uCvKIfpLCHMA5n5Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772201363; c=relaxed/simple;
-	bh=6aRLxmRufY/fzync8Bbs7FQ8Cd7uaAcimDl4MrijtZQ=;
+	s=arc-20240116; t=1772202090; c=relaxed/simple;
+	bh=ZOmTIo50fH6c4ujpWPybnS/mBqgKW8YwmdlzpgQ06gI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AMCwlgjz+RORubWfrBn4rIcBp5RfMI6WHqAd9DPkJMyuKWlcbomixvYNtkSsOL8/kisKh9uIrmpu3VzVD2UXv2AYHmmKIkjB4KuUbi7LES9fZTA40JCCdIOJ/osq1i3qc037TPBHMsUoF2B+DHQXkPcDWBebHeX/qbIhdpyTtGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hPiw8Yr8; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=ahgiR6wRvNkB3iZujiQH0SskZ8F12jz5I8qLNPUJkO3+q/I6+BOTbeKq/LKTwSJa4K2bTKnfvMttbYJqApa8/3rdTGoua1mT8M9sOqM/w0YvS0q33eHCWN1a/jXEIAsC9+8QqfaZ1OW/ezGfhnX+zDPRtq1ZC5Ue53Aple5L7oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5GlOZM0; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hPiw8Yr8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5GlOZM0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772201363; x=1803737363;
+  t=1772202090; x=1803738090;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6aRLxmRufY/fzync8Bbs7FQ8Cd7uaAcimDl4MrijtZQ=;
-  b=hPiw8Yr8TzXMAsbBlKUoShz6fRHUGqy8YFR72tJQ9klMVBhfz81J44Cq
-   joPzx4mGncC3MHAqXxqKGubq5RUFqcBNPYfTK+c8bQedUo/O8Kkon4OVl
-   QdIuq8ViPz0ofqvy95dnWg+pYjjp8HjIO9gyCeJVjHDB/Ej+o9AakQbgr
-   o9k5OVYWgex7dkBiaf/JO+ccdxyeUQnTMmGrMXZe+7RBWAa3BwSa2KVW4
-   BLsDznRJZmfSKOB+Np8mN27509UKKGkdYkLr4jcxl/xXaLFJz+HdhdidA
-   XYld4BCWh11Z0BjFTyZPy+OSE5dAsw3KmpihRFAhE+fc0QufozP8sQwK1
-   w==;
-X-CSE-ConnectionGUID: MJAX2RVCRm+DhDBvLBuJlA==
-X-CSE-MsgGUID: F0fQIhUfThuMsNRkCNk9cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="72986503"
+  bh=ZOmTIo50fH6c4ujpWPybnS/mBqgKW8YwmdlzpgQ06gI=;
+  b=g5GlOZM0OC9JUv3guVPtFRKdHg20XP1En7y4r1sYOrs3Y+A7iznO347N
+   2recQ0e+6xO08Hhc7YGNi5lZNSpFsSIPJUk/uPljRhmhC7iQiSqu2JDyA
+   mFVk4R91kTj6FFed8wmKXjs8QoQuW1pipcesSLfWeThw3bWW8o9cCw94Y
+   xAtZIEuxob4R2LDaMzJ+Tr8DlLF4ai1QfrkfXf0yZRIP7w+4bt3lP1Lqp
+   pgqcyCLUEYhmfPjQ0hUmIYaN+EGi1QbruHxbPl27UhyXAwcM+V2svAkSO
+   A8Tp+/imf7O7ZzYLKMgh9zUcFRXvkuEttneUj+fhAkWQw2Owy4pxd7LGD
+   g==;
+X-CSE-ConnectionGUID: HpZAl+2HSgeFnN0ZwlY3eg==
+X-CSE-MsgGUID: Deqa4IWgRIGqYm9HNDEuzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="83614927"
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="72986503"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 06:09:22 -0800
-X-CSE-ConnectionGUID: 9rxBEm+9QpamzRb+T86+pQ==
-X-CSE-MsgGUID: 7fIa+cwbQD66bavQqya4Tw==
+   d="scan'208";a="83614927"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 06:21:29 -0800
+X-CSE-ConnectionGUID: xg/LfvwLTdCzmHoL4C4PPQ==
+X-CSE-MsgGUID: o+6egniDQsiRNZi4nk7xjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="220156445"
+   d="scan'208";a="215546798"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Feb 2026 06:09:20 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 27 Feb 2026 06:21:26 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvyWr-00000000AeV-1t49;
-	Fri, 27 Feb 2026 14:09:17 +0000
-Date: Fri, 27 Feb 2026 22:08:51 +0800
+	id 1vvyhl-00000000Aep-419p;
+	Fri, 27 Feb 2026 14:21:20 +0000
+Date: Fri, 27 Feb 2026 22:20:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: edip@medip.dev, ilpo.jarvinen@linux.intel.com, hansg@kernel.org,
-	kuba@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Edip Hazuri <edip@medip.dev>
-Subject: Re: [PATCH] platform/x86: hp-wmi: Add keyboard backlight support
-Message-ID: <202602272206.TCDNUbu9-lkp@intel.com>
-References: <20260227063122.7184-2-edip@medip.dev>
+To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
+	jlayton@kernel.org, neil@brown.name, okorniev@redhat.com,
+	tom@talpey.com, hch@lst.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] NFSD: move accumulated callback ops to per-net
+ namespace
+Message-ID: <202602272240.e34pGKuR-lkp@intel.com>
+References: <20260225172624.707224-1-dai.ngo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,35 +65,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260227063122.7184-2-edip@medip.dev>
+In-Reply-To: <20260225172624.707224-1-dai.ngo@oracle.com>
 
-Hi,
+Hi Dai,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.0-rc1 next-20260226]
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v7.0-rc1 next-20260226]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/edip-medip-dev/platform-x86-hp-wmi-Add-keyboard-backlight-support/20260227-145259
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260227063122.7184-2-edip%40medip.dev
-patch subject: [PATCH] platform/x86: hp-wmi: Add keyboard backlight support
-config: i386-randconfig-006-20260227 (https://download.01.org/0day-ci/archive/20260227/202602272206.TCDNUbu9-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602272206.TCDNUbu9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/NFSD-move-accumulated-callback-ops-to-per-net-namespace/20260226-012940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260225172624.707224-1-dai.ngo%40oracle.com
+patch subject: [PATCH v3 1/1] NFSD: move accumulated callback ops to per-net namespace
+config: parisc-randconfig-002-20260227 (https://download.01.org/0day-ci/archive/20260227/202602272240.e34pGKuR-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602272240.e34pGKuR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602272206.TCDNUbu9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602272240.e34pGKuR-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ERROR: modpost: "devm_led_classdev_multicolor_register_ext" [drivers/platform/x86/hp/hp-wmi.ko] undefined!
->> ERROR: modpost: "led_mc_calc_color_components" [drivers/platform/x86/hp/hp-wmi.ko] undefined!
+>> ERROR: modpost: "nfsd_net_cb_stats_shutdown" [fs/nfsd/nfsd.ko] undefined!
+>> ERROR: modpost: "nfsd_net_cb_stats_init" [fs/nfsd/nfsd.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
