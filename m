@@ -1,69 +1,84 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB68121D3F4;
-	Fri, 27 Feb 2026 20:31:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE9845BD77
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 20:31:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772224263; cv=none; b=oyrKjnF+ocTIew+B118Bp2FVYl9ouVoPbSkDSRvW0GK5I1bB4xFVqD9+bJ+4YrcTTzzdKtYXdEZHNEK6aloJgx3i9dO1MnSPZFR3ODrvtFzfcL0cEJelpGpLJdKNxRKw4neQxhkNhtn8dCPV+UxhOfjF1hHmc8lSk/lloeKRPY8=
+	t=1772224266; cv=none; b=Y4wq813pHusp2AE7bkJxH9TO1AAnfmb4IbCP9rJWq2pGAQAmSuC/lqWq0va0mfyo3Q6zACy8qEvRRqZE+XqxmdR5vigMIOq8l0ewpEYjvcocxCdJyK+u6UuUz327J38vSJoSC0eJQFJX0Zr1WrGTWZw41x/5RV4nrV7v0IAt5xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772224263; c=relaxed/simple;
-	bh=7gMMXSmdmA1tBNKDTNrc8bRUDF2VVsAI+2IBxawq7Ls=;
+	s=arc-20240116; t=1772224266; c=relaxed/simple;
+	bh=fuAscArmYg357MsE3htAgFOOKf+t4SCUkyfha++zEk0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ttcdv+d1HyBICLZ4kCJWXYvdaCZmpIHe/1TntJQrEq1eCE2j5eKKaTOa8zgOSb1PD+Ws7LNGD0EqDlXeqHTk0zo08nWTot9zQOqomir+BCMk3/Xsiu8FWny4dK0Gb1/SwrQVIAi/pyh/ieL6uu+c8TKRZNzz6Dhq7eRncWKCjbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrkKNIe8; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=fq53duZeHC4OABWaqzDG4lwI8RiPxsEw3PuWeGfTow1zSky32KCA8m5lju3DXfop9gn0Szb2J6HBU3g3oFGAbS+XRhC+pQ7ynVbI19yt6fUxyQYezIu+vCbCe+ztQC+ENJ7SCCt4NIR/dpCkNMrOqI3LKEehX1y6akp4iykWkiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=leIYpou+; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrkKNIe8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="leIYpou+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772224261; x=1803760261;
+  t=1772224265; x=1803760265;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7gMMXSmdmA1tBNKDTNrc8bRUDF2VVsAI+2IBxawq7Ls=;
-  b=lrkKNIe8CWJiyp4+rIsBcAtzkfTi+GqCRXOZdIha4xf3G2Q2tsfeVyDF
-   IXV9RqJO0ILO9Ja96utd8sjtosZI2yRcOMLVJ/9QIn1+3wAJ3OOwb1a+u
-   JMnSWXUteK6lVTokpnNqeVQ0I4CHjrT9bhSAnXPjVo7YOunu+KR3JEbjj
-   6/sNf4rx8G32l4+YrAcADrq18VHyUk7lAl0278eauJ+kiqpubFTGC4fwN
-   3FueL6JJHrXH+aCfFqLsfQhaGxdU4/mgOhteLx77BhSyLDe4sXhTTODiN
-   WSK/0fg0VMj/AFR8DcLKUYImyqmQkclmeE+WeBGqwzIkH1oZJTrnKIQ3S
-   A==;
-X-CSE-ConnectionGUID: 5atQXcpRQbKeRPdXpEv0Fw==
-X-CSE-MsgGUID: fyh9yRVwSGWrlJzGIafmYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73225489"
+  bh=fuAscArmYg357MsE3htAgFOOKf+t4SCUkyfha++zEk0=;
+  b=leIYpou+O1Gb4XfdSlW6guZdWAWjgb7yHr/OHT4RHrtIdpfx9FNINRpP
+   cwoJHByC//gE/0BUki4+XK7Pxt3PPFYy4/klp1eOaDkiSpipsSNvlUZ9I
+   aY0m8tzI5W4Kw1+6BOkKlKBsGTPXf2gnJzjKH3YJ1iuXEUtUDjNYZ1op+
+   yP84PTAB/Rd5mMCoeG7RQqSPaYRapz/oHOMCncRvC5vWzDelywZwLicBE
+   CP3Pcmp0cZkmFfHgBrgjxPL4SPrRTkF+iHEUPbRFZb86+MmzNOwz+vVyh
+   mtinTVPRMWSvr4kGJTT0x05Ig8AGPyCIJv2C9cNv+EKiFhJQFNsmwWln0
+   g==;
+X-CSE-ConnectionGUID: N6yDY1GGQUSbgPz5xpvW8Q==
+X-CSE-MsgGUID: akptCf3RRUC1tktoWLp3jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73225505"
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="73225489"
+   d="scan'208";a="73225505"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 12:31:01 -0800
-X-CSE-ConnectionGUID: HMmeM1m4RHiSOwEk0dTWQw==
-X-CSE-MsgGUID: Mrhtn7flRSezBFQhe6Ft4w==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 12:31:05 -0800
+X-CSE-ConnectionGUID: n5E4HiogTn2++Omp7xOvsg==
+X-CSE-MsgGUID: ziHmHMINSxmQwCOKxmGv5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="240005938"
+   d="scan'208";a="240005993"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Feb 2026 12:30:57 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 27 Feb 2026 12:30:58 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vw4Te-00000000B2P-3TnR;
-	Fri, 27 Feb 2026 20:30:37 +0000
-Date: Sat, 28 Feb 2026 04:27:52 +0800
+	id 1vw4UA-00000000B2T-3vIz;
+	Fri, 27 Feb 2026 20:30:54 +0000
+Date: Sat, 28 Feb 2026 04:28:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Ryder Lee <ryder.lee@mediatek.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-pci@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/7] PCI: mediatek-gen3: Integrate new pwrctrl API
-Message-ID: <202602280453.4TGe7q2R-lkp@intel.com>
-References: <20260226074524.3808081-6-wenst@chromium.org>
+To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kevin Brodsky <kevin.brodsky@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Ira Weiny <ira.weiny@intel.com>, Jann Horn <jannh@google.com>,
+	Jeff Xu <jeffxu@chromium.org>, Joey Gouly <joey.gouly@arm.com>,
+	Kees Cook <kees@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Maxwell Bland <mbland@motorola.com>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pierre Langlois <pierre.langlois@arm.com>,
+	Quentin Perret <qperret@google.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
+	Yang Shi <yang@os.amperecomputing.com>
+Subject: Re: [PATCH v6 23/30] arm64: kpkeys: Ensure the linear map can be
+ modified
+Message-ID: <202602280415.zn69IEgu-lkp@intel.com>
+References: <20260227175518.3728055-24-kevin.brodsky@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,48 +87,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260226074524.3808081-6-wenst@chromium.org>
+In-Reply-To: <20260227175518.3728055-24-kevin.brodsky@arm.com>
 
-Hi Chen-Yu,
+Hi Kevin,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus robh/for-next linus/master v7.0-rc1 next-20260227]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/PCI-mediatek-gen3-Clean-up-mtk_pcie_parse_port-with-dev_err_probe/20260226-155647
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260226074524.3808081-6-wenst%40chromium.org
-patch subject: [PATCH v2 5/7] PCI: mediatek-gen3: Integrate new pwrctrl API
-config: um-randconfig-001-20260227 (https://download.01.org/0day-ci/archive/20260228/202602280453.4TGe7q2R-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280453.4TGe7q2R-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kevin-Brodsky/mm-Introduce-kpkeys/20260228-020115
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260227175518.3728055-24-kevin.brodsky%40arm.com
+patch subject: [PATCH v6 23/30] arm64: kpkeys: Ensure the linear map can be modified
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260228/202602280415.zn69IEgu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280415.zn69IEgu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602280453.4TGe7q2R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602280415.zn69IEgu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   /usr/bin/ld: drivers/pci/controller/pcie-mediatek-gen3.o: in function `mtk_pcie_probe':
->> pcie-mediatek-gen3.c:(.ltext+0x7e5): undefined reference to `pci_pwrctrl_create_devices'
->> /usr/bin/ld: pcie-mediatek-gen3.c:(.ltext+0xd45): undefined reference to `pci_pwrctrl_destroy_devices'
-   /usr/bin/ld: drivers/pci/controller/pcie-mediatek-gen3.o: in function `mtk_pcie_remove':
->> pcie-mediatek-gen3.c:(.ltext+0xefd): undefined reference to `pci_pwrctrl_power_off_devices'
-   /usr/bin/ld: pcie-mediatek-gen3.c:(.ltext+0xff0): undefined reference to `pci_pwrctrl_destroy_devices'
-   /usr/bin/ld: drivers/pci/controller/pcie-mediatek-gen3.o: in function `mtk_pcie_device_power_down':
-   pcie-mediatek-gen3.c:(.ltext+0x10cb): undefined reference to `pci_pwrctrl_power_off_devices'
-   /usr/bin/ld: drivers/pci/controller/pcie-mediatek-gen3.o: in function `mtk_pcie_startup_port':
->> pcie-mediatek-gen3.c:(.ltext+0x13f6): undefined reference to `pci_pwrctrl_power_on_devices'
->> /usr/bin/ld: pcie-mediatek-gen3.c:(.ltext+0x1ae1): undefined reference to `pci_pwrctrl_power_off_devices'
-   /usr/bin/ld: drivers/pci/controller/pcie-mediatek-gen3.o: in function `mtk_pcie_suspend_noirq':
-   pcie-mediatek-gen3.c:(.ltext+0x1d19): undefined reference to `pci_pwrctrl_power_off_devices'
-   clang: error: linker command failed with exit code 1 (use -v to see invocation)
+   arch/arm64/mm/mmu.c: In function 'force_pte_mapping':
+>> arch/arm64/mm/mmu.c:768:17: error: implicit declaration of function 'arm64_supports_kpkeys_hardened_pgtables' [-Wimplicit-function-declaration]
+     768 |                 arm64_supports_kpkeys_hardened_pgtables();
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   arch/arm64/mm/pageattr.c: In function 'can_set_direct_map':
+>> arch/arm64/mm/pageattr.c:100:17: error: implicit declaration of function 'arm64_supports_kpkeys_hardened_pgtables' [-Wimplicit-function-declaration]
+     100 |                 arm64_supports_kpkeys_hardened_pgtables();
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/arm64_supports_kpkeys_hardened_pgtables +768 arch/arm64/mm/mmu.c
+
+   757	
+   758	static inline bool force_pte_mapping(void)
+   759	{
+   760		const bool bbml2 = system_capabilities_finalized() ?
+   761			system_supports_bbml2_noabort() : cpu_supports_bbml2_noabort();
+   762	
+   763		if (debug_pagealloc_enabled())
+   764			return true;
+   765		if (bbml2)
+   766			return false;
+   767		return rodata_full || arm64_kfence_can_set_direct_map() || is_realm_world() ||
+ > 768			arm64_supports_kpkeys_hardened_pgtables();
+   769	}
+   770	
 
 -- 
 0-DAY CI Kernel Test Service
