@@ -1,105 +1,95 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AE734BA2E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 16:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA2B348880
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 16:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772210965; cv=none; b=JvCtndZa0Q4GAZz9N79VIHDGgsmu0BHfsE6boUYK9AhDMy53avAW+Cq5KUiwMd3YsDXHi6zaoqACmJ6TcRtTqux7qoZBdlIKQVgQKvSxQHwjBvSUIACJEx0NC83Gm3NL06p2a3vjPJskTBXHvCZ3M5B4Qas/MVZJIOkh4EbHAP0=
+	t=1772211022; cv=none; b=FXAOeV18doQJv/+bJTp9KWX/4h1OTVPkSBSAoVkmfDTgQAKua5ttdvWwzpWXQN+XV2cBYtin/JiC2pjwJqy/n2SOYgYpgqIthLFMO0d4PJq1LNvw6xU5IPUfFpNgA6zTjiuFyt7ThGHSXo6V6ePF8A8kBIADUBLByio7LWLqnOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772210965; c=relaxed/simple;
-	bh=nB8ACLDa/maVuyIonK23zA1TMYBPWmnsl35nExKZrIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P7vOjUZ52acL8/jZjn+Mg0hgWoEP85QGCyyOiFpIBED4jCb6wsBW0q6iuso2XfmpTg6eVbLidFDsh79zHugDWddjWqo317cV+npEvHu2G1KwkMOdoippKlxRhwUeoeS4YCneT27T3yY/dpt62tU1HIU69l2uZItHxmN6+OZ0p0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XTqs5B9X; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772211022; c=relaxed/simple;
+	bh=kb/vew87IGl1nyvvi4DxpDjnyDyP/rTcBkfuCZRMKig=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SPZJhGOGvoNpmGTFPRkTrEmWV6SKbi1HP03NxbwGpzpHInzFN4K7qKsDI3WxiL7IMxJ9IjTgC2Po3XaWl0dgpxtINWyMtWZoOydzTzNP08zbrdFJJIMlTObkOBoYiMk5lMrEX8pyJ7ll6QbGeJArvu++EWUffNlTgQ97evHdhvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kBc57beD; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XTqs5B9X"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43987b97701so1764306f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 08:49:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772210962; x=1772815762; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A/LFLpePUhhqI6yxDTeIBKOmLDg2carPPgsWLX2flrE=;
-        b=XTqs5B9XxSwnK7ycBxs9oMB1FJVCxm0jYl3iPBHmSUo1XZp/yH4mvtWQL6NIgujw3A
-         DCGHjt5nMRE8kyn4x917EWtzUfLxkhHndnLfZvSobZsmsrb+Hu0dLW9hxrIhMNosoIU6
-         uPanuBbdp+h/rONzivmpswcvNwDQwbP3KKgQ244cD9xbeOSFkp9idVenI+UTkKK1c5XN
-         vfPLwxRNNNMqU4Vj5aRCbZuOSAzQtrCFl9JNTP3Rw7Y4ddSBzOfAJ71Yow18SdRzDOTS
-         L3GpBxU5Z+fFAGOlULY0tkPgW0G9HyBiHOiVYEjrF9SbhpOwYjkO9DJVydgOfFHji8Sk
-         tIBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772210962; x=1772815762;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A/LFLpePUhhqI6yxDTeIBKOmLDg2carPPgsWLX2flrE=;
-        b=pdvGERpviVCTe+Prr7iQ64urbQtFyccD0nxUOfVOWqhnmevckKjn0trW4sSG6UP1Bj
-         xZ7FDbS9AEqifaPXbWSGUUHBKcyUYZuERzQpEYPDG9W+uUX+NYzHmecEV2xkxSWQso+e
-         3Pfi3Cz7kL70x1fxfKD8dlmlwLwGCDpICiQ/NEya9mkR9GEYRPzb5oYmj9TaL4Weo3uW
-         6bbui4kh/SpDYAuQOr8Gi8um7kO1REuysRym3b4GMBaUHZqzewdu752ttYwBg1tGv1p8
-         VWKtFo+sEqRddczmD1dN4Dm7ydij5IQPA331jhMr0BuYGqOyCkqybArtJXuih9XjIiTj
-         hk3A==
-X-Forwarded-Encrypted: i=1; AJvYcCVJKpjMN2ydTbZZ/Bi8qKg2PrmM7cMQGWx58Z5VIf2+7qdDFqRgdEuS0GgVm1Bgwbn0gHWWhfzsKx0K4hg/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxf9Xj03e+K4awCl8mbReUgUnMZovox1dM10y22yxM0d08rgLIG
-	qz7mIbsIuBcsNuf5oWSUaVbirHjzl4MYHO3dvuBDwG+LW7RrxGblJNHmAjHUVJqZyp0=
-X-Gm-Gg: ATEYQzwxp1cfHRHbAjg95zbUxNXmJOI3Q6gJptfhUjhm00gY8mmO1Kr7WeyGtt5jXRU
-	4Fenx5+QtGk+v9mHS8iUaIZiYd6DUjSDjm5B7WYLd0T30AT7uwf8qR8ETD8keFaruiW0x2H1Hj1
-	AA4XrhLCn1LIMl+ZM87WF5I3mTdJ+k4U843lFGS9T85yj4NdpS05SSbTeSnQWydOFyjnNEI+Nyy
-	Llfnb+6pNQjdTg6Y1wswL2unRk+mI4a1wf72Xd8Tu+YYit8xhOcfj+MlERSKE1LnZLI623IIrkQ
-	S87wz3VdxSxtuSOBOtQFNncq1kiLc0grzUWO1/0IFxZiuSN8EsQxI3KlaHVOr1Hz0XszcY1v/Va
-	uM7Wpb8m0e/dxsys27xRySSApDYTwYiml8CBDMz53Zq9Vz4hLiAb9XlBV7b/CHIYfXKlCjhkkJj
-	X0UK/zxk9fh797y1z1EWyFgmKXU4vJ
-X-Received: by 2002:a05:6000:1a8b:b0:436:34e8:e661 with SMTP id ffacd0b85a97d-4399de279aemr5867410f8f.31.1772210962058;
-        Fri, 27 Feb 2026 08:49:22 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60f8e5sm8838998f8f.4.2026.02.27.08.49.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 08:49:21 -0800 (PST)
-Date: Fri, 27 Feb 2026 19:49:18 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
-	Patrick Rudolph <patrick.rudolph@9elements.com>
-Subject: Re: [linusw-pinctrl:devel 16/22]
- drivers/pinctrl/pinctrl-cy8c95x0.c:1325 cy8c95x0_irq_setup() warn: passing
- positive error code '1' to 'dev_err_probe'
-Message-ID: <aaHLDnSHe--dR_63@stanley.mountain>
-References: <202602271847.vVWkqLBD-lkp@intel.com>
- <aaGzzsLMeW2DTjiE@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kBc57beD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772211021; x=1803747021;
+  h=date:from:to:cc:subject:message-id;
+  bh=kb/vew87IGl1nyvvi4DxpDjnyDyP/rTcBkfuCZRMKig=;
+  b=kBc57beDPFc0yELW0wxZr3q/YtV8xOgUzLoHO18sxZiBdOPxxJxLCsKJ
+   Mwv4rmejTybUxNVDTUPubGqsTe/vrio7R+4LOMCUkEhz+TWOmYWWcFp67
+   az63Ybj1TZ5t2pcW4/AD9YeYkOtldTvagEkzkDBBbxTjv+3UMSg46UXHo
+   cHnj1hNP1XKgXdzMb0TfYhUj0x38xC+XW3GLaJKt6N/7kt0D3nBgDM8tq
+   ylmYf9Eu7HRAGRgtmjJMeJR8kpuXo6aMOTkcyIj4v64u3LE2+UIB8Le5V
+   K/3NCblfLuno1SQ89rIfB2xjQrToO3lESSDxr2WRfuVZ595h7udjGVjIL
+   Q==;
+X-CSE-ConnectionGUID: C+XyCWGARR2s0tGzUhh66Q==
+X-CSE-MsgGUID: /UDqIQ03Rouo852TT9BJNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="77136937"
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="77136937"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 08:50:20 -0800
+X-CSE-ConnectionGUID: TN7gtk9JT1+kxx+iSilunQ==
+X-CSE-MsgGUID: phw2z1HFQoyarMD08kpCdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="247454706"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2026 08:50:18 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vw128-00000000AoZ-39kq;
+	Fri, 27 Feb 2026 16:49:54 +0000
+Date: Sat, 28 Feb 2026 00:48:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dragos Tatulea <dtatulea@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
+ Tariq Toukan <tariqt@nvidia.com>
+Subject: [linux-next:master 2225/2910]
+ drivers/net/ethernet/mellanox/mlx5/core/en_main.c:663
+ mlx5e_free_mpwqe_rq_drop_page() warn: inconsistent indenting
+Message-ID: <202602280022.guFf7QI9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aaGzzsLMeW2DTjiE@ashevche-desk.local>
 
-On Fri, Feb 27, 2026 at 05:10:06PM +0200, Andy Shevchenko wrote:
-> On Fri, Feb 27, 2026 at 02:40:45PM +0300, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-> > head:   a901e8705f89f3616fad3bb6aeddba33be86b08a
-> > commit: 014884732095b982412d13d3220c3fe8483b9b3e [16/22] pinctrl: cy8c95x0: Unify messages with help of dev_err_probe()
-> 
-> False positive. This commit didn't change the previous behaviour. Perhaps
-> smatch complained earlier?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3fa5e5702a82d259897bd7e209469bc06368bf31
+commit: 0285cc3dac1b4ceb3dacdfce43627d41d649cf47 [2225/2910] net/mlx5e: Alloc rq drop page based on calculated page_shift
+config: sparc-randconfig-r073-20260227 (https://download.01.org/0day-ci/archive/20260228/202602280022.guFf7QI9-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.3.0
+smatch version: v0.5.0-8994-gd50c5a4c
 
-Smatch only detected it when we changed to dev_err_probe().  We could
-make a check to detect the bug in the original code I suppose.  Let
-me add it as a todo.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602280022.guFf7QI9-lkp@intel.com/
 
-KTODO: create static checker rule about positive returns from probe()
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/en_main.c:663 mlx5e_free_mpwqe_rq_drop_page() warn: inconsistent indenting
 
-Description:  The cy8c95x0_irq_setup() is called from cy8c95x0_probe()
-and probe() should only return zero or negative error codes.  Make a
-list of positive returns.  Then check if this is a probe() function and
-we're returning a positive.  Ask on the smatch@vger.kernel.org mailing
-list if you want help writing this check.
+vim +663 drivers/net/ethernet/mellanox/mlx5/core/en_main.c
 
-regards,
-dan carpenter
+   655	
+   656	static void mlx5e_free_mpwqe_rq_drop_page(struct mlx5e_rq *rq)
+   657	{
+   658		u16 page_order = max_t(s16, rq->mpwqe.page_shift - PAGE_SHIFT, 0);
+   659		u32 page_size = BIT(PAGE_SHIFT + page_order);
+   660	
+   661		dma_unmap_page(rq->pdev, rq->wqe_overflow.addr, page_size,
+   662			       rq->buff.map_dir);
+ > 663		 __free_pages(rq->wqe_overflow.page, page_order);
+   664	}
+   665	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
