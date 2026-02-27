@@ -1,101 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902E43ED139;
-	Fri, 27 Feb 2026 11:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7604C36E467
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 11:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772190665; cv=none; b=uqRJM/qAlaGCknT0bf+76ST9uQC6qWXZzHnpX8TwlInCmSvu59uGzWvf54gGZ37e8lI521WmC2wXk3wigVBgO4FPXcUllaXiOuLtDZ/RnuRvFUWnSqBTXv85P5Bs9ro8JTg8GcNmhiokaB68dxVlyPVn7zANLyIurU8Fl+hVNao=
+	t=1772191775; cv=none; b=Ox9x6yl8LlpPMWj8i5sVvhJ//IWgpJAc4IyFzVh1gI6wAbBmicC7fGXHZPw1J2Bzy+M1mUqyMTw69Y1gZp7Nwy/qiqL1hlwTm7mpNCc8RzYCCPDUX51ApzKeouEFdhsGdkGgcLy9ROtbdUq7wWWroprqtlWo68Q6PfXl66ddwc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772190665; c=relaxed/simple;
-	bh=yUQAxqIlsz966wGsDqvB1YhJnmBsPKUfDEivZFSts60=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pAlkt32jCgAeQR08XmGFejjfZFvTBv8yQAdK52R+fTyRnuVURhL4FZNUZpM3ZNnRHJXWgEV+HGkRJtB/o5yOvbFV5ae6qO/198E3Wti00a9eGIniXLt/3irsl6/02dDAu1ByuvmPVVmlOq3fMr+giyVptBxj7IoC+fzYVR1H16g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQxpYIyd; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1772191775; c=relaxed/simple;
+	bh=hj6gLWle7rhdf6w0pAWD+AtitSlHFf6Wrh/QtD92mPc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KVlQiExZQolFbJzd5bcdPk9GubGLsLGr5KCFEGaxt44QF9MTXnfc9yJV+3IClL600ZwxA3FzN5FkOfw/V4T7XYafx4skOzZNWl42kFlYjYLltcbPKK4JH0lA4WxJmGwDNxRjGWRpfSb+oNCoPWaYhZ2lS/U/ldWmx+XZQh+b84w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXl99F59; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQxpYIyd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXl99F59"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772190665; x=1803726665;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yUQAxqIlsz966wGsDqvB1YhJnmBsPKUfDEivZFSts60=;
-  b=KQxpYIyd/GwJjl+Ek44e3Jt2zIBlQ8LJTlhKNGYSWhH69wDbO3d5ta7C
-   Z53RbcssRCjDBAYx6h8Vc0a8flQ2E+v9bcDAhY8kLWAa29vuud0rkcCpE
-   vrmpmr3ikGyGatK2tnsrbJrUODg7sx792CslZz0hPRozOn6RWLrpfxFpl
-   7NwADyJcz7Yn1KF2PG2KXtRzOdJadt8J6CxuEi7TOywn1+CN1dSzXuNsl
-   M9Vd51L+vaAOXoIeGVrXcXjIyIdtgVeLvtpQ90h9TEypnGKge9Vo29TaL
-   T2W83gOSFu4njUS1ItUBL/xNcBdzx7Ya5p2ngNV++FaPa4SLX6+TUZVrd
-   Q==;
-X-CSE-ConnectionGUID: JF4/+TSCS3C9qN8Xwe/yoQ==
-X-CSE-MsgGUID: S4ZLC9W5QSa8ECbnD1G3NA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="90674907"
+  t=1772191771; x=1803727771;
+  h=date:from:to:cc:subject:message-id;
+  bh=hj6gLWle7rhdf6w0pAWD+AtitSlHFf6Wrh/QtD92mPc=;
+  b=lXl99F59Sa1teXXWLrEfNKee22x8kLDX/C6n8GexjGmSJoqTh+/Z5w8I
+   Qk/IT0jENDIKgqhH6bwlpr0pRDuABZVSRKN8eAFFlyAMyh7SdsR2DNqY9
+   +kOWcOoWLod0s/rRwV+dhgaKaqIA7+W/ddj47sQaMhoS3qJjXNSOfEYq0
+   uKnopTOTZ9fgcWS4LpiS2y6F7pog4Djx15v+g1UFMW3qfyonONERn5PQ9
+   CO7OtoaC/49dk31SXC+AIWVwSJPmG8erlsFMvVMZ7proQH0AULLDSLavj
+   P0D3NQUtL7yd4Hi0S02MOxdtvIB9WTcjhQP4RvAT8dS8Ex1N/YQlnG0A9
+   A==;
+X-CSE-ConnectionGUID: MBeOWJcoSqmBYrUtgwGvkw==
+X-CSE-MsgGUID: 28zj926rQj2DCq5hwQwQnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="72975939"
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="90674907"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 03:11:04 -0800
-X-CSE-ConnectionGUID: 6m0FN7VlTGKYlJFSScBnCA==
-X-CSE-MsgGUID: G9KY5nb2S1OKBZgrxYq5VA==
+   d="scan'208";a="72975939"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 03:29:31 -0800
+X-CSE-ConnectionGUID: Mz5zWFBBRvOUlaj1iks34A==
+X-CSE-MsgGUID: Gvagr6HKThOTlzS9UR0Mvg==
 X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Feb 2026 03:10:54 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="221497065"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Feb 2026 03:29:30 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vvvjU-00000000AUZ-0u4I;
-	Fri, 27 Feb 2026 11:10:22 +0000
-Date: Fri, 27 Feb 2026 18:58:55 +0800
+	id 1vvw2B-000000000Xh-2R78;
+	Fri, 27 Feb 2026 11:29:27 +0000
+Date: Fri, 27 Feb 2026 12:29:14 +0100
 From: kernel test robot <lkp@intel.com>
-To: Morduan Zang <zhangdandan@uniontech.com>,
-	devnull+cryolitia.gmail.com@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	CoelacanthusHex@gmail.com, Cryolitia@gmail.com, corbet@lwn.net,
-	jdelvare@suse.com, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux@roeck-us.net, marcin@stragowski.com,
-	Morduan Zang <zhangdandan@uniontech.com>
-Subject: Re: [PATCH] hwmon: gpd-fan: replace custom EC I/O with kernel
- ec_read/ec_write
-Message-ID: <202602271850.wkrqotlH-lkp@intel.com>
-References: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 3/3]
+ arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb:
+ clock-controller@82800 (marvell,pxa1908-apmu): compatible: 'oneOf'
+ conditional failed, one must be fixed:
+Message-ID: <202602271241.yUjV56vU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
 
-Hi Morduan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v7.0-rc1 next-20260226]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Morduan-Zang/hwmon-gpd-fan-replace-custom-EC-I-O-with-kernel-ec_read-ec_write/20260227-105255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/53C09CAECC90EB98%2B20260227024945.151198-1-zhangdandan%40uniontech.com
-patch subject: [PATCH] hwmon: gpd-fan: replace custom EC I/O with kernel ec_read/ec_write
-config: x86_64-randconfig-014-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271850.wkrqotlH-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271850.wkrqotlH-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   71f2074b8c1e4e009b1e126ca1a2a9ce14201030
+commit: 5bcf9e1d0a5da750ff180e7385b0bd4041686516 [3/3] dt-bindings: clock: marvell,pxa1908: Add syscon compatible to apmu
+config: arm64-randconfig-2053-20260226 (https://download.01.org/0day-ci/archive/20260227/202602271241.yUjV56vU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271241.yUjV56vU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602271850.wkrqotlH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271241.yUjV56vU-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "ec_read" [drivers/hwmon/gpd-fan.ko] undefined!
->> ERROR: modpost: "ec_write" [drivers/hwmon/gpd-fan.ko] undefined!
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/marvell/mmp/pxa1908-samsung-coreprimevelte.dtb: clock-controller@82800 (marvell,pxa1908-apmu): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['marvell,pxa1908-apmu'] is too short
+   	'marvell,pxa1908-apmu' is not one of ['marvell,pxa1908-apbc', 'marvell,pxa1908-apbcp', 'marvell,pxa1908-mpmu']
+   	from schema $id: http://devicetree.org/schemas/clock/marvell,pxa1908.yaml
 
 -- 
 0-DAY CI Kernel Test Service
