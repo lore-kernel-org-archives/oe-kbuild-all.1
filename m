@@ -1,114 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC5F377562
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 22:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481FE3B52EA;
+	Fri, 27 Feb 2026 22:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772232459; cv=none; b=L+ZCs82yE9LXwuSmjPEJVOK2TOPuSXxl/72NF/L9Ikbo5Q+2S/LFERcvK1CZ1FbAEcGDCvSHBNHLsJ/crgLiV7Pt5YVUG5zY6/YsZUmmlj4DGHcaVqoxsBXFSsWFDhLeh0ksnVy+7R1AUqyZ4/+jNG/a5Wy9T8lBKM3RbryFkbg=
+	t=1772232989; cv=none; b=Xol4a9bsL//Mhw+sCNTzF+/YGAXeim/hQVXpyDks4hKwF02F6eVFMjKjI75l85uqB/KwmFddEqelF3kEDPNygLBHTaKX0lG6TLlhxPuWY0O7mcy2X92+0jlghSRPqMLEj8Ya87D9roYqcZc3vVSgo2LUXQJD9hHjBGBy4w6CE00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772232459; c=relaxed/simple;
-	bh=iPX9L6xOnXUmYvm+DAQjZGEfC7TzpI0M3vFygoeX8Pc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nyNPwHUqBEAuzDNbe562FbTL42mb4FPu18iq+3mC/IXpS/D03e8wNlqf9rr1tjrVuOjH5YVS5o865Gl/xhp2RM3KgT5C6mH1hk7H74hn4+r1H7z9TBGbKuLin3R6w6NHLlaySYdFWXbe/3N/TLsfzMKHXSfr8b32gYljJoiulq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWu+U//k; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1772232989; c=relaxed/simple;
+	bh=U0J17v32ksmWhx/78xpg+Nz3+Nk3kvxsdR51MuM0I70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BMQyf3okQJ1jAIFRvPOSKWc5SuEhJTtUuSe28M1Hjt8c2Sx6enKTXwmHvJ5LITXyyicRKs5lC6PbpvJ8+FSfIhxMBguiWR7DvEFL9RF7WoKmynQQcko98SNnSFDBTSxsAvrhC/YV4RxPQPgNf9gq9VnhCeaR2p/DNvEO8X0PP/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfLS52DG; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWu+U//k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfLS52DG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772232458; x=1803768458;
-  h=date:from:to:cc:subject:message-id;
-  bh=iPX9L6xOnXUmYvm+DAQjZGEfC7TzpI0M3vFygoeX8Pc=;
-  b=CWu+U//k9t5j5fyIpXX5msATYH1MQ4zzIoTvCCmPb/Pb+KPz7IEAL+IL
-   0U+yQupfMLcEkpSAtkV+mSpa4INjObZMjhWDIYrlcGrOg8HChaGbgmY5w
-   TGUkB+3lOvE6oHy1nOgp2yq85uepKOuzkPZ1eaAdDpoimi4HrKTd1nHbD
-   DFEeiJXQOlTtprBl5nINSgPQpc8NU9gq5YxjaQND6l8FujoGtjvMuVV6P
-   WB0Ut8eeNdeRWQ4ZhRzWG3PqMORaSvcQuO6vHbwMLKvacZWN5cVfo7LNN
-   iSLZboABkmJjrDdODOvIEzaVPzEi1IKPO5/fkeywPQIGxUbtqLkOmRcB1
-   g==;
-X-CSE-ConnectionGUID: 7sH+8aNQRoStfxU3CTfZmQ==
-X-CSE-MsgGUID: diPv6bOpSvKgpI8IYTGaKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="60897410"
+  t=1772232987; x=1803768987;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U0J17v32ksmWhx/78xpg+Nz3+Nk3kvxsdR51MuM0I70=;
+  b=QfLS52DGDgKxmRVt4ebtMJ7ldlJUcHHGCEtv3+imNW6A+WDN1jRZO2Oi
+   ABVdrjiyHP7ZXmme5SxpcgH9BCUqa/8pZd+JJiblrcKQT/XK4zZP78h+f
+   +NFQhpg4exJ8WBdmoSrlCVBJdyV90HtK2mni8geG1KayfzYVP7PJY7Lx/
+   ZPv+jNZicaPr82beukC6jcgYb1W9qGXlXg52/eHNsFpglAmaHCIK+Oz5e
+   4F7DxCPeqiz6VvmnmLPwxMfMNo/TXPkFuEzauy/D/vmmG8GpPdg6QlV5h
+   3QizeU1GB3cyNphiMxejCHyoFxfkGgZsRWeaiv08SWzk6ccH3JAHzvwJ5
+   w==;
+X-CSE-ConnectionGUID: s2Q6ghgESsOEYW9828MrpA==
+X-CSE-MsgGUID: 2dlZUEGNSaaK7KzQSfueqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="77190590"
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="60897410"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 14:47:37 -0800
-X-CSE-ConnectionGUID: ZE7jt3C8TPSfdjzh9yDwyQ==
-X-CSE-MsgGUID: M9nCQrdcRXmh8tJdiOOuVA==
+   d="scan'208";a="77190590"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 14:56:26 -0800
+X-CSE-ConnectionGUID: Gj8OruRNS5+rloaJ2M5xNw==
+X-CSE-MsgGUID: ehdBotFtTHOu+IA4PxmIIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="221533701"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 27 Feb 2026 14:47:36 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="221172735"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 27 Feb 2026 14:56:19 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vw6cP-000000000dZ-0ooD;
-	Fri, 27 Feb 2026 22:47:33 +0000
-Date: Fri, 27 Feb 2026 23:47:16 +0100
+	id 1vw6kp-00000000B8V-2dsg;
+	Fri, 27 Feb 2026 22:56:15 +0000
+Date: Sat, 28 Feb 2026 06:56:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 3/3]
- arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: vi@54080000
- (nvidia,tegra210-vi): 'avdd-dsi-csi-supply' does not match any of the
- regexes: '^csi@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-Message-ID: <202602272349.3hH2NOZM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-hardening@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Ira Weiny <ira.weiny@intel.com>, Jann Horn <jannh@google.com>,
+	Jeff Xu <jeffxu@chromium.org>, Joey Gouly <joey.gouly@arm.com>,
+	Kees Cook <kees@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Maxwell Bland <mbland@motorola.com>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pierre Langlois <pierre.langlois@arm.com>,
+	Quentin Perret <qperret@google.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
+	Yang Shi <yang@os.amperecomputing.com>
+Subject: Re: [PATCH v6 23/30] arm64: kpkeys: Ensure the linear map can be
+ modified
+Message-ID: <202602280610.KQRFmbR3-lkp@intel.com>
+References: <20260227175518.3728055-24-kevin.brodsky@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227175518.3728055-24-kevin.brodsky@arm.com>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   781b2c569af65bdd28b176733884d86c455b912e
-commit: 6b670e53ac6ecd531d90324e9ef87a029d2c98b9 [3/3] dt-bindings: display: tegra: Move avdd-dsi-csi-supply from VI to CSI
-config: arm64-randconfig-2053-20260226 (https://download.01.org/0day-ci/archive/20260227/202602272349.3hH2NOZM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602272349.3hH2NOZM-lkp@intel.com/reproduce)
+Hi Kevin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kevin-Brodsky/mm-Introduce-kpkeys/20260228-020115
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260227175518.3728055-24-kevin.brodsky%40arm.com
+patch subject: [PATCH v6 23/30] arm64: kpkeys: Ensure the linear map can be modified
+config: arm64-randconfig-001-20260228 (https://download.01.org/0day-ci/archive/20260228/202602280610.KQRFmbR3-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280610.KQRFmbR3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602272349.3hH2NOZM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602280610.KQRFmbR3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
->> arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: vi@54080000 (nvidia,tegra210-vi): 'avdd-dsi-csi-supply' does not match any of the regexes: '^csi@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dtb: pmic@3c (maxim,max77620): False schema does not allow [[60]]
+All errors (new ones prefixed by >>):
+
+>> arch/arm64/mm/pageattr.c:100:3: error: call to undeclared function 'arm64_supports_kpkeys_hardened_pgtables'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     100 |                 arm64_supports_kpkeys_hardened_pgtables();
+         |                 ^
+   1 error generated.
 --
-   	'google,nyan-big-rev9' was expected
-   	'google,nyan-big-rev6' was expected
-   	'nvidia,tegra186' was expected
-   	'nvidia,tegra194' was expected
-   	'nvidia,tegra234' was expected
-   	'nvidia,p3701-0008' was expected
-   	'nvidia,p3834-0008' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/tegra.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /: failed to match any schema with compatible: ['nvidia,p3450-0000', 'nvidia,tegra210']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /pcie@1003000: failed to match any schema with compatible: ['nvidia,tegra210-pcie']
->> arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: vi@54080000 (nvidia,tegra210-vi): 'avdd-dsi-csi-supply' does not match any of the regexes: '^csi@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vi.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml
-   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pmic@3c (maxim,max77620): False schema does not allow [[60]]
+>> arch/arm64/mm/mmu.c:768:3: error: call to undeclared function 'arm64_supports_kpkeys_hardened_pgtables'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     768 |                 arm64_supports_kpkeys_hardened_pgtables();
+         |                 ^
+   1 error generated.
+
+
+vim +/arm64_supports_kpkeys_hardened_pgtables +100 arch/arm64/mm/pageattr.c
+
+    86	
+    87	bool can_set_direct_map(void)
+    88	{
+    89		/*
+    90		 * rodata_full, DEBUG_PAGEALLOC and a Realm guest all require linear
+    91		 * map to be mapped at page granularity, so that it is possible to
+    92		 * protect/unprotect single pages.
+    93		 *
+    94		 * KFENCE pool requires page-granular mapping if initialized late.
+    95		 *
+    96		 * Realms need to make pages shared/protected at page granularity.
+    97		 */
+    98		return rodata_full || debug_pagealloc_enabled() ||
+    99			arm64_kfence_can_set_direct_map() || is_realm_world() ||
+ > 100			arm64_supports_kpkeys_hardened_pgtables();
+   101	}
+   102	
 
 -- 
 0-DAY CI Kernel Test Service
