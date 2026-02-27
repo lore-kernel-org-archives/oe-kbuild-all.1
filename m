@@ -1,165 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23302361DB5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 04:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772167729; cv=fail; b=DgXp47vHQZkoPVBJ+ZzrzvhUlNS0yxDefvl8HBL/MOKFn5u3Vx90DI0/zuEZM/awAlEYjz+u3gchI+s24QAEv4/3mR4AR/l4KRB7ctIMimoxIqLS6vZfdVQi1z1Vfeg+X34y4/pehr/gRYV49zduIasry1RKFSYbJ1yrRS9/LVI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772167729; c=relaxed/simple;
-	bh=ozi8yrrEwSbTtI5Yu0Vk+Idw+Bdgfuhc9PGoKfaY0dQ=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=M7+VBtrPDNvNJWWsMAesNUHYXF1Z60AELbU4L9y3ONefCco5x01B2cspJjTHwc+R1qcQB5xXDkHVcDhbie53fvYhxhxmu2t/+2/nko3+o/pRDJ6ZbLgiU/Irl16pk37NYWh0VwqqvUG7Q5pdp7fl2N9eAfaOrLfZzw4yEB85TNw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dVbV3Ybr; arc=fail smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B6D34252B;
+	Fri, 27 Feb 2026 05:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772171563; cv=none; b=VdvmJ4gz4mV2uf3q1oaVLukUoH/OMlgUm0ABIc9g/h7qubhYudDwKc5TzBhdYSBgK/6SSQ12dCz9+ZmTAAvm/GUk57EkyeMnI1bVShQpdPUkfDGTi8HMCrGc8LzOWwYJ2Jlc3OJ83r5PYs7YbYQQDJx9Sg13rvadHC6CwpoLPL0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772171563; c=relaxed/simple;
+	bh=LWOdmL0uan22tNsv3PGdyHuaOVgzT4VqOM5Rm/fNGco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dkexLui0M7AtbWNz9oeZgrLLwQ9QaCwcc1S43ZIGt5uv56YcdnDIxTMRCXHhRGoDX4u4WVpct8gea1OWXhb+cn6YeRk0FASVbU8B8kTP58UD2lGrWmpCCecHpdMN3aLgPyY0Z1wTrvId+51HaO/Tumpel152vE7q4iByuMb2J6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cjwBXqKB; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dVbV3Ybr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cjwBXqKB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772167728; x=1803703728;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ozi8yrrEwSbTtI5Yu0Vk+Idw+Bdgfuhc9PGoKfaY0dQ=;
-  b=dVbV3YbrFZvxMZqswcSvkdvoapYQSv//Bx4yUox8LfvnnIpCp7JYwhH5
-   qjMVyo81hcyvNTZcJogBwYuprZVIch9VxXnlyY+HuOOaa/I3fHh24FkqL
-   hhWrU5E8gNEzIlE7giJYfRm9oDuuTRCAo9WGWqzlOMp53JHVDuaUb3ENk
-   zZXRqrJ45/t60rL1NbAtgMYWlf+cZNzqEmgfMIC+JoIgr/x6fsveBY0u3
-   ECKosILeULGbgwvoYp4ARFtYMguPIFaYKPXjP97zTC7OZE0c/ySQwqEny
-   qA72nPOESxjHSoQ619gUqKBtRgM5QxiWIYvAmYfuwnLktpJzY/+hEmlWM
-   w==;
-X-CSE-ConnectionGUID: E+zipKJVTKKmnBmiyuUn9g==
-X-CSE-MsgGUID: U0sE6Vp+S8mjmjbIRjjtHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="83881116"
+  t=1772171562; x=1803707562;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LWOdmL0uan22tNsv3PGdyHuaOVgzT4VqOM5Rm/fNGco=;
+  b=cjwBXqKBaDRWYKsDGUBHcPgp8tFST9wsOMbwx1XQ4yiN2sL8h/QQKze4
+   4cUO6+UR3W0UVB2Ie4ezaesSPFktQf88KY28VoKxEMC/9a0ujPBRDKxGR
+   gfc0ISBmoEqsFQQ7J3PSkJJta6VcRKDkeUWbUy/0f3lc+h9s+d7mFsaXW
+   6wO4ORbIr1BXOX+HMORt6s0UM0FuiAOvr/BGYAGeqF4zQa8S8cCMK1UVe
+   wJAzDemJCxamUF4inFk24A6nqht/D1VowBT4SPxlRYTZRdNwIDnls2XA4
+   7z90vzLAENR9jTqJnlF1wepbo7JSBEwhz/Ab6b03kwXck8SYjwNyYBuei
+   g==;
+X-CSE-ConnectionGUID: VJ8KgzHTRj2QqNpC2/VbJQ==
+X-CSE-MsgGUID: 1qkZt4uFT1i50MrIoXjTKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73121985"
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="83881116"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 20:48:47 -0800
-X-CSE-ConnectionGUID: UKAaMp+QTRKsLZKSwPzKwg==
-X-CSE-MsgGUID: t+1AFPxQSmmMaB+KAUIxqw==
+   d="scan'208";a="73121985"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 21:52:42 -0800
+X-CSE-ConnectionGUID: 62b9Y3uDQlyrKfLirF6oHQ==
+X-CSE-MsgGUID: vnQDeMXOQSSCRScW/BACmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="220929386"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 20:48:47 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 26 Feb 2026 20:48:46 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 26 Feb 2026 20:48:46 -0800
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.21) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 26 Feb 2026 20:48:46 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RSC6Mewp0KGxOqyKyvk1q1/bY4MMydpuY7qYj9nP2akO9Sh/E6qIaYriJVQBuouj369oyaLo5Z4tElGzIVQHQqSojc3sHBdEaCvBe09WXuLEhpGkZPMz8BgXt2XMWALL3YWybQqccHcB/H6T2Uvwv+I83ftmdVWY1HEbbT5zOTralWdUifY9tGeVMWgl5w9TjGCbrMx6wj/3J1xBJZkCBXyQQ4AYbB1JwbbhzAxuKQcOUhDHPrJUBI+x+hi1R0prP8zy7kvbyGPvv+FQXcLN/J31mxaYnajUNRrrskZOce4a6h+5rud21CiD6br5FEINsB5bIokuDVccZNxRSeS5Fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kjes1N/uYd/sSDbExZ9u7ixomCP5RhOmPQlHt/HSrqs=;
- b=miJiwwDepvttw5M3pj2BuqG4uXRf+9NetsqbyPOJqQ74ULHrNsyTvUnpLtLZq4r9Q4BdlcpGDBaJRrT9n2QNiaxxgbPeUfVu6RsUwosYQoPJtAsbw56n4DN+RNRJepL4zWMQ9wkOquLhDQeozirtu4FToxN1bEOlr4ceqiOdaH0rBTLA/pPZ7IuSKg1o4LaNbLTFLRnHefzY6Y+jca6BN597O7CsZ6uQ2/lbDCQBi01tk388zfPKExzMW5yGl/vm/FGhJnR18pJ7Tl02NxysapinWZ5D7K8Ty+p6ZcViT+wH0Ajr4KW3VqE8ZvrWqvxNjGOt8DCqhOLD4ujHIvpeug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
- by SA1PR11MB8376.namprd11.prod.outlook.com (2603:10b6:806:389::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Fri, 27 Feb
- 2026 04:48:44 +0000
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394]) by CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394%5]) with mapi id 15.20.9654.014; Fri, 27 Feb 2026
- 04:48:44 +0000
-Date: Fri, 27 Feb 2026 12:48:35 +0800
+   d="scan'208";a="214993740"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 26 Feb 2026 21:52:37 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvqmA-00000000AE3-0V4y;
+	Fri, 27 Feb 2026 05:52:34 +0000
+Date: Fri, 27 Feb 2026 13:52:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fei Li <fei1.li@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [acrn:6.17/linux 5/8] checkpatch: ERROR:SPACING: space required
- before the open parenthesis '('
-Message-ID: <aaEiI0ujU/bDzqqj@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0173.apcprd04.prod.outlook.com (2603:1096:4::35)
- To CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
+To: Harry Yoo <harry.yoo@oracle.com>, venkat88@linux.ibm.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	akpm@linux-foundation.org, ast@kernel.org, cgroups@vger.kernel.org,
+	cl@gentwo.org, hannes@cmpxchg.org, hao.li@linux.dev,
+	harry.yoo@oracle.com, linux-mm@kvack.org, mhocko@kernel.org,
+	muchun.song@linux.dev, rientjes@google.com,
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev, surenb@google.com,
+	vbabka@suse.cz
+Subject: Re: [PATCH] mm/slab: a debug patch to investigate the issue further
+Message-ID: <202602271320.ywOCYQx4-lkp@intel.com>
+References: <20260227030733.9517-1-harry.yoo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8468:EE_|SA1PR11MB8376:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6016789-3969-44a3-27ad-08de75bb7c74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: gZUnmcOSyNBawsM+fqqh1OF990NeaM0d3uFWf6kwAI/ed9s4VLngrB1ELJrKKs9Dyl5Ie+OudZh3bI18cJ0WIHHxEmdREEhfIHGxn3C+a2pAGw2r67HYkm1QapLf6G6lv4gZqnuThx+wedAEg44O6BSVcYp584zf+RH9MV3Y5xt4EmmIPZm3N85gqnx0l7Je/O3/QZfKyuCo8BgiVwWIoHWrWpSkCG1c3lednEUMQeb9CVVBZgG1RLATZ9O62BDt7Paiiox4TCLcSzj0ELI1MYZp/aNL+C8vN1614L6luEk8gaPh46E0yeB4s0MsRWKHAne4motb3aoXCS1xtUmHVhwkN7FxpDq3u1akB9x/iW0qIv9HWgTheMltC43nsqtoaj12HTT565jeFuErBWwSVQjKsiNao6X/plqC4Vfu2UGibijBX8/lsqfRYifn4xF7nq4e6FbI36c3Z8ybjYIZlFFQcqr77TTJpHTrjRffLSgArxi0g7XX1d9gHcU0rEGbD4cRximJCOPwyVO9/h5wysF7Kqs+R7sEBzwimgjMA7h8fCOXpSmOR9U/QrUwE7Mzvt/LScJYeASiR9V6JYkxO0BqYJKJPqsoGZRN8N0rsrDgrhvVDDOP2G0xANNmv4MOO1Bsb6mgP2zrfU5a0DGzQXavm/+TWhgJNS3P1a0ORYhmPWIaDRiXhRW+WqG0knjY
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8468.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GRlYMXPCiGkR7x+h36BhhAsMq8pb2lPmoXr6K2hlY4YBaMWdKJr9b0GPEcKp?=
- =?us-ascii?Q?c/EWUUiTFG/oV7XEqz0qDMiSicYxshsCC/Sfps4QYQQBglOf4pwXE+Y5kjTL?=
- =?us-ascii?Q?KWFIURXcg2bd0tzeGzMuobTo2bHMEtDJvMhwq1P7onInIGV/JuKzVjDPeiq3?=
- =?us-ascii?Q?giYy06nZ9B94tdT8VxsqxYFVRg3yK81axd6cxC5y3hgdStMrvXR2ZGJM5sNU?=
- =?us-ascii?Q?7czliUVaUS00chQImeHDC/+xcTmH648zwkv6vlQOVMjSxE0TKyy6kIOjBalQ?=
- =?us-ascii?Q?qFqYGH3x5F3N3+hPhxxJHfUKG6WtYmcZbYMDRv1ql+7ODOZfE+odEhzrkNJE?=
- =?us-ascii?Q?aAyCbt4j9/+xvnqKdXDg+deN8eDVx4AjJ/zuYYNRA+HMP+52OHSTr121O2Vp?=
- =?us-ascii?Q?CMn7kqXDjbFGQ4+gdyPj9MWAJaUWehWmZu/UYAMA41snQh3+KWeKgSvwu8OG?=
- =?us-ascii?Q?UrZRg3J7T2K0wt7HMSEQjKn/gvNst8rvSd1EzUZR6WO7uS5BN/XIJtF0vduS?=
- =?us-ascii?Q?tjY9vt9R0U2/sr3W8Hjwl6cWb/clS9sNk0FK7Nju4mwLDcgZ6Vx4YO9AivfS?=
- =?us-ascii?Q?xzAZSU6P7Tbd7a1wJ+gm08fdDrP/DVkV4VLpUFWxOlB0FFbtiydQqUhyM6RW?=
- =?us-ascii?Q?lell/wqYIGt0QB+ZutoY+r5i6LLkzetQQOoDqQM85kVyY7pepSTQDrq6kR2X?=
- =?us-ascii?Q?g9S3JJK22fm/hx9sm9TMNFrKRpFxxUBI1nv0XZ/1dbMvqWs8QESKuWKG5frL?=
- =?us-ascii?Q?x2AN2U+c0RkHHEDHwO7zX/2wXBuy636pKDIvI8J9JF+LXIN8j4dWSh3FVTpV?=
- =?us-ascii?Q?gqTRSRRYd5W/zsimUb38o6qjPrg45vZfQj47dS5eVjwBwCv314/94iyggxtI?=
- =?us-ascii?Q?bbJEuWI5uqvfjJxb2eLWPOCiMue2loYB0nk7KUX3kFu4EW9bBzzIrsT5AAiG?=
- =?us-ascii?Q?oaDbMnONiBMcxbQ3TOSD5wQLQQayLKQlKUa1RHlRTzmOpEkB5KZUCn+k+kr1?=
- =?us-ascii?Q?PbFatMWzPjYFdRVRfLyOmS2exMNIt2BXShVRWTxMf3Mjy1cfrpjziwL8tzqS?=
- =?us-ascii?Q?zi/csBhW5RGl4qscXRm6jXFHZTvBSMYrfzBZEgtNPYfOcNO/Z8OzWTKD7BeF?=
- =?us-ascii?Q?vGWli26pbM1d73A1uTTGuvflKl/EDafLwpp4BxuaOW+Ec1fL3jmvNJTF8A+3?=
- =?us-ascii?Q?u6BMO1g3e9v+PQH06INaxImIv6Re7zc8f5CKVC/u3wX23UwgLOCb8aaKzics?=
- =?us-ascii?Q?6K/7zzVMXddQORorizboalqpAAP9VumSpv6iJaDE0OXGz5yij5h2Yc+4zWjL?=
- =?us-ascii?Q?eKphfQgJgOSiJd+8Tmsl8llD5PzOgSfnKjZPo4YIdr93l8dbdmP9tPi6DkLT?=
- =?us-ascii?Q?XkyVax+zKd+kImumV6JGTLTlThd2+BtuNjU83ByYoHrMHevMEriRpanZPXu2?=
- =?us-ascii?Q?CRme630BA6cWM3fKF7uoPYdyXNoOQ5JYbDGB3PRB3Zg040sjvJFJuft222bl?=
- =?us-ascii?Q?mSwp1v3AAnfrTfY87BPvuJnyQWwLDHokXgZfvQa/iI9hjxLiZx+QTJj8EwIW?=
- =?us-ascii?Q?rFxghOP0R1pInQL0V9kKSywuz2myu8/TSCWEmTWCGwKp6ZZYiD56Cp5G75dB?=
- =?us-ascii?Q?MlshU2Ogzv0MsQBqWU+FNuwvsQ87Zm4Iuq+H4iJFYDYbt1/EUSXZd7ZrqMYB?=
- =?us-ascii?Q?MNvtvi5NwZfU17t6nqNkoJZanPYITdqqAScHotXpwrjVEi1YDjfnsPW7apVZ?=
- =?us-ascii?Q?g+ELJRz+GQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6016789-3969-44a3-27ad-08de75bb7c74
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8468.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 04:48:44.1350
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0oX07wP6pwKxJko3KFAww5Q62xKYy4auTdY8CF2QuyNjR1Wu0AnkgAb6tx7jOSOIFyWNrlgyj8Ir9Qe1jim8mg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8376
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227030733.9517-1-harry.yoo@oracle.com>
 
-tree:   https://github.com/projectacrn/acrn-kernel 6.17/linux
-head:   eac6d3b7a20ffb9d3102dbdc152241a7184a63cd
-commit: a0a08e545dd9dc1bc3bdbd625684163595678fa6 [5/8] virt: acrn: add acrn hypervisor log back
-reproduce: (https://download.01.org/0day-ci/archive/20260227/202602270557.vOarA1h6-lkp@intel.com/reproduce)
+Hi Harry,
 
-# many are suggestions rather than must-fix
+kernel test robot noticed the following build errors:
 
-ERROR:SPACING: space required before the open parenthesis '('
-#460: FILE: drivers/virt/acrn/hvlog.c:394:
-+	if(!hvlog_buf_virtaddr_base) {
+[auto build test ERROR on akpm-mm/mm-everything]
 
-WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
-#465: FILE: drivers/virt/acrn/hvlog.c:399:
-+	pcpu_nr = total_cpus;;
+url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Yoo/mm-slab-a-debug-patch-to-investigate-the-issue-further/20260227-111246
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260227030733.9517-1-harry.yoo%40oracle.com
+patch subject: [PATCH] mm/slab: a debug patch to investigate the issue further
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260227/202602271320.ywOCYQx4-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271320.ywOCYQx4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271320.ywOCYQx4-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> mm/slub.c:1330:6: error: call to undeclared function 'obj_exts_in_slab'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1330 |         if (obj_exts_in_slab(s, slab) && !obj_exts_in_object(s, slab)) {
+         |             ^
+>> mm/slub.c:1332:16: error: call to undeclared function 'obj_exts_offset_in_slab'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1332 |                 remainder -= obj_exts_offset_in_slab(s, slab);
+         |                              ^
+   mm/slub.c:1332:16: note: did you mean 'obj_exts_offset_in_object'?
+   mm/slub.c:793:28: note: 'obj_exts_offset_in_object' declared here
+     793 | static inline unsigned int obj_exts_offset_in_object(struct kmem_cache *s)
+         |                            ^
+>> mm/slub.c:1333:16: error: call to undeclared function 'obj_exts_size_in_slab'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1333 |                 remainder -= obj_exts_size_in_slab(slab);
+         |                              ^
+   3 errors generated.
+
+
+vim +/obj_exts_in_slab +1330 mm/slub.c
+
+81819f0fc8285a Christoph Lameter          2007-05-06  1311  
+39b264641a0c3b Christoph Lameter          2008-04-14  1312  /* Check the pad bytes at the end of a slab page */
+adea9876180664 Ilya Leoshkevich           2024-06-21  1313  static pad_check_attributes void
+adea9876180664 Ilya Leoshkevich           2024-06-21  1314  slab_pad_check(struct kmem_cache *s, struct slab *slab)
+81819f0fc8285a Christoph Lameter          2007-05-06  1315  {
+2492268472e7d3 Christoph Lameter          2007-07-17  1316  	u8 *start;
+2492268472e7d3 Christoph Lameter          2007-07-17  1317  	u8 *fault;
+2492268472e7d3 Christoph Lameter          2007-07-17  1318  	u8 *end;
+5d682681f8a2bd Balasubramani Vivekanandan 2018-01-31  1319  	u8 *pad;
+2492268472e7d3 Christoph Lameter          2007-07-17  1320  	int length;
+2492268472e7d3 Christoph Lameter          2007-07-17  1321  	int remainder;
+81819f0fc8285a Christoph Lameter          2007-05-06  1322  
+81819f0fc8285a Christoph Lameter          2007-05-06  1323  	if (!(s->flags & SLAB_POISON))
+a204e6d626126d Miaohe Lin                 2022-04-19  1324  		return;
+81819f0fc8285a Christoph Lameter          2007-05-06  1325  
+bb192ed9aa7191 Vlastimil Babka            2021-11-03  1326  	start = slab_address(slab);
+bb192ed9aa7191 Vlastimil Babka            2021-11-03  1327  	length = slab_size(slab);
+39b264641a0c3b Christoph Lameter          2008-04-14  1328  	end = start + length;
+70089d01880750 Harry Yoo                  2026-01-13  1329  
+a77d6d33868502 Harry Yoo                  2026-01-13 @1330  	if (obj_exts_in_slab(s, slab) && !obj_exts_in_object(s, slab)) {
+70089d01880750 Harry Yoo                  2026-01-13  1331  		remainder = length;
+70089d01880750 Harry Yoo                  2026-01-13 @1332  		remainder -= obj_exts_offset_in_slab(s, slab);
+70089d01880750 Harry Yoo                  2026-01-13 @1333  		remainder -= obj_exts_size_in_slab(slab);
+70089d01880750 Harry Yoo                  2026-01-13  1334  	} else {
+39b264641a0c3b Christoph Lameter          2008-04-14  1335  		remainder = length % s->size;
+70089d01880750 Harry Yoo                  2026-01-13  1336  	}
+70089d01880750 Harry Yoo                  2026-01-13  1337  
+81819f0fc8285a Christoph Lameter          2007-05-06  1338  	if (!remainder)
+a204e6d626126d Miaohe Lin                 2022-04-19  1339  		return;
+81819f0fc8285a Christoph Lameter          2007-05-06  1340  
+5d682681f8a2bd Balasubramani Vivekanandan 2018-01-31  1341  	pad = end - remainder;
+a79316c6178ca4 Andrey Ryabinin            2015-02-13  1342  	metadata_access_enable();
+aa1ef4d7b3f67f Andrey Konovalov           2020-12-22  1343  	fault = memchr_inv(kasan_reset_tag(pad), POISON_INUSE, remainder);
+a79316c6178ca4 Andrey Ryabinin            2015-02-13  1344  	metadata_access_disable();
+2492268472e7d3 Christoph Lameter          2007-07-17  1345  	if (!fault)
+a204e6d626126d Miaohe Lin                 2022-04-19  1346  		return;
+2492268472e7d3 Christoph Lameter          2007-07-17  1347  	while (end > fault && end[-1] == POISON_INUSE)
+2492268472e7d3 Christoph Lameter          2007-07-17  1348  		end--;
+2492268472e7d3 Christoph Lameter          2007-07-17  1349  
+3f6f32b14ab354 Hyesoo Yu                  2025-02-26  1350  	slab_bug(s, "Padding overwritten. 0x%p-0x%p @offset=%tu",
+e1b70dd1e6429f Miles Chen                 2019-11-30  1351  		 fault, end - 1, fault - start);
+5d682681f8a2bd Balasubramani Vivekanandan 2018-01-31  1352  	print_section(KERN_ERR, "Padding ", pad, remainder);
+3f6f32b14ab354 Hyesoo Yu                  2025-02-26  1353  	__slab_err(slab);
+2492268472e7d3 Christoph Lameter          2007-07-17  1354  
+5d682681f8a2bd Balasubramani Vivekanandan 2018-01-31  1355  	restore_bytes(s, "slab padding", POISON_INUSE, fault, end);
+81819f0fc8285a Christoph Lameter          2007-05-06  1356  }
+81819f0fc8285a Christoph Lameter          2007-05-06  1357  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
