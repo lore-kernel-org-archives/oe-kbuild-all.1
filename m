@@ -1,73 +1,63 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFEA329E6B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 11:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B6F3EFD0A;
+	Fri, 27 Feb 2026 11:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772192452; cv=none; b=aYAEnCWEk+NHDZ7gdu6AJspK95s/inw4My6jKT6tZg9x/ocpY2bbev6hwKdcCiO+eXTFArE77T4peHOdeBjDka/39UmhKDDCuOlX1l0OoRccJhw0o9mGCejqwgc2bXacbZ1KIUtsSXs/nPsaDoIEm3bazVd9t+q4fVS8A+jJZVA=
+	t=1772192623; cv=none; b=VU0bgWPYS/rkUFw67R8sulUtGvtm6TTQFl+qYyryqrzMF/IVv95mLOoslB6yezDvd+eWXt5MWxsjXlyDxpEBa4XAJUk/5++haTs9zIcX+596YtU5j20kGM0a7edI1Ye515xhEIg+nBui2nnsFEy7ZdrpjaWvsrfmlzPKeK+CdpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772192452; c=relaxed/simple;
-	bh=Hpd11Qce3K0sAdGPwWx4jlL1XK202/cqdnbo4q1+/lM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L1bZc6s4Tha+q2k+ji/LsAfgKWJMVte0w8la+M6s7v7XJ9pxqmN2MlFkBzISC4JUfLnLk162bIRaygeQ3qCxxqDQzl374Nqb+SHSoXdBUD9q2nAPDrulEhXVQvkdNr/4FC8kd93CK/bHbgNl+8f6c9gD517gHbojK2wkJpcZ1H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i9R2UXYT; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772192623; c=relaxed/simple;
+	bh=k71+5wpnY+R4W/nYkxbAc1A91ldRLf5J5npGg7ll4SY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LsNYfxf/T2312Dn8X25Ed32G9WvvKjUHjNABG8QnbW9mrEH8/iIcXKSkbCyJY4OSYpl64sYauJ48Udwj6oh9dJeHh5U5ynPx43zjM5tpEgFqboRIWdddqiaAhRdqrWM5OD8QXKyldlJvEZKREgN3jDVdCUqIlK4FybUnGhpKcNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZfSI2v0; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i9R2UXYT"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-483770e0b25so17008205e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 03:40:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772192449; x=1772797249; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=trKEZykxB+kKVxup9W5xNfloninxPoc9C7n5gXHkqcY=;
-        b=i9R2UXYT7c+4+SlJkfUZuL2CCeymoBS9iqIks0Rsc/58GA8+9fcU7FpqhrdoLVbJnw
-         dzIjU/azxneem4bjdXJsZvsaFSO8omrFlnirL9o4ANqxlLvuoB2QbswfRqhWzmtrGnBs
-         K4OuwoGa5lvPscUnqk6z8CxuOMpWU93X5DKYjywHHDwWKM6Eub0dBbcXy/Bovi5uM0/U
-         J5sb3LXlpGGNN9blw0OQHExMBokykNL2RlcGEwgfN2iJtmfD6vsaI9PM8VQSYLMLeEpO
-         9SRk8rYlrEZggky9nbNF7NlWdG/ye/UPBZQ325sCWuGx06WLFtka2RwWjfgdSlF/6cac
-         uZ1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772192449; x=1772797249;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=trKEZykxB+kKVxup9W5xNfloninxPoc9C7n5gXHkqcY=;
-        b=F66iGahv73fY/1ZxfgkgLdcYUhO5UfjEbCOR0Ls75YM5ajTirHdq/HhCWc4qxsnu+T
-         QDZ7zXCOV6bWpWLjI3fzmuQ/thiN+hzOEGHhtB8Os8dJR5yf6c2AF6UnNUtRTVcRicz2
-         +UAQULRwlN9x57yMolGPWzzDCGYly2g7Do1qT0M/Dk9HX2iPCSpu8xTMQtwbV1Efkznl
-         ZGQw37cVAx6bDxvP71XZigKk4hCOiE1ZDR+5QSPxxZSzPXZ3/e1yDJW2A0GmppGzZfKa
-         6FUu7yEOdeg+0b2hkxYI9kzVCAHvId0bTQe1I5JxEZBBbBni1Rzr4+WL/szMC1956fuG
-         ekSw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhmz7yfEOzHq/XNVjOQD/obfdWHEPCjWkD0NcrFAzhytsM5y0KyIMbo0Z6/YKMJdnEUs0U50Cpyo7rIT+M@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1TtJvN+OwPbLy8oYuhycDuAuY6dIAopjZ7De3nJKhBasJ/6Hf
-	B2i9AQSsw8Trj3FWSCHjjdEnq0EL+lOLsLbUPsZxDmQzzY4Tvw1BZoPu8UXo1fQlYTk=
-X-Gm-Gg: ATEYQzzI38SI0avGeF9ox2CLvt5snIlEmFeYdvyWZyr3sczqbrHHxgs9eONTrayIKMI
-	708Y8yZiq6WKpK8bwNM31qaBOLissI32/ZOmQGY3NPKVlPb/Kbc71QtF8kWL/2TpOUCkc3eF4/p
-	qSKyG2mhpPgFTnxoz7Vj3D8Bp7j5pb6vIZ/Xnbvc68qpLA50Tcpq4xC5ePuiD5VNiQyrvo8HmNT
-	e/4VNsRUJTJnKBHngn9JBEAx3pDQ+gx6J4O/Ev7CJ87p6MLHc/6hKrZjTaXGn/9yaJ6bmnUDzvH
-	cAwCJ0PqzwEMzpC0tqpYI5kUxhtXKqsTIX1AiZXNdmeLgp5bzRdl/YrvDB/3FXAFkOQqYjhi3yt
-	wpAWZEws/NGsUtFTv9fA29lffm3PL6g36HHvLBMaDWGaAg5gwMVUbFzKlPAVH71VcgOyuLLsmQx
-	ies2l+d92QAMmleMcaSywjppIqyjCl
-X-Received: by 2002:a05:600c:3b22:b0:479:35e7:a0e3 with SMTP id 5b1f17b1804b1-483c9c2d29amr35477115e9.30.1772192449143;
-        Fri, 27 Feb 2026 03:40:49 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm232406355e9.9.2026.02.27.03.40.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 03:40:48 -0800 (PST)
-Date: Fri, 27 Feb 2026 14:40:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
-	Patrick Rudolph <patrick.rudolph@9elements.com>
-Subject: [linusw-pinctrl:devel 16/22] drivers/pinctrl/pinctrl-cy8c95x0.c:1325
- cy8c95x0_irq_setup() warn: passing positive error code '1' to
- 'dev_err_probe'
-Message-ID: <202602271847.vVWkqLBD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZfSI2v0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772192621; x=1803728621;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k71+5wpnY+R4W/nYkxbAc1A91ldRLf5J5npGg7ll4SY=;
+  b=kZfSI2v0p1kfKlVCug9VP6eIqp6jtMFjs90m/F2jJMe9gWwB5+ucVypo
+   NFKaoEc0DwH9vOjbPRVOKu9jhtndFecUMNFbekoL0i+tGz5n02hJgzQyS
+   KRH3MwBtKwjPbuo3oLoY7F0w+uoCENSwS+5riqlBMyGexoUz0Y+WCu7eH
+   wnlgqdkZFc/5RK826NhG/6pS7zaMcOrtSzmAx2DHIZSxNxKOEBTGmExOx
+   hJucsfUiaiCk81L/WTtzQkUSMw/9a2EQXZ91WPJukIpT8jruJgVUmie3x
+   JkO8dg0JYzYtoMTn9DqjJwhFS9eJBp2szaBwcNSSrn3TbMioUyfm65t/a
+   w==;
+X-CSE-ConnectionGUID: MwNHadp1T5+Gzrjn2cIGjg==
+X-CSE-MsgGUID: ckl9K/9RRAG3Yl5rNrsg2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73144985"
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="73144985"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 03:43:40 -0800
+X-CSE-ConnectionGUID: DI7r2TWIREOtq5yOW4njRw==
+X-CSE-MsgGUID: ZqsTWKdpQzSKdW0ZLZsWeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="216984966"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 27 Feb 2026 03:43:38 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvwFJ-00000000AX1-2Vfa;
+	Fri, 27 Feb 2026 11:43:09 +0000
+Date: Fri, 27 Feb 2026 19:42:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Yu Zhao <yuzhao@google.com>, linux-kernel@vger.kernel.org,
+	Zhaoyang Huang <huangzhaoyang@gmail.com>, steve.kang@unisoc.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH] mm: bail out when the PMD has been set in bloom filter
+Message-ID: <202602271916.OBNa34QU-lkp@intel.com>
+References: <20260227075250.1128175-1-zhaoyang.huang@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,67 +66,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260227075250.1128175-1-zhaoyang.huang@unisoc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-head:   a901e8705f89f3616fad3bb6aeddba33be86b08a
-commit: 014884732095b982412d13d3220c3fe8483b9b3e [16/22] pinctrl: cy8c95x0: Unify messages with help of dev_err_probe()
-config: x86_64-randconfig-161-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271847.vVWkqLBD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
+Hi zhaoyang.huang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhaoyang-huang/mm-bail-out-when-the-PMD-has-been-set-in-bloom-filter/20260227-155729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260227075250.1128175-1-zhaoyang.huang%40unisoc.com
+patch subject: [PATCH] mm: bail out when the PMD has been set in bloom filter
+config: sparc64-randconfig-002-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271916.OBNa34QU-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271916.OBNa34QU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202602271847.vVWkqLBD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602271916.OBNa34QU-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/pinctrl-cy8c95x0.c:1325 cy8c95x0_irq_setup() warn: passing positive error code '1' to 'dev_err_probe'
+All warnings (new ones prefixed by >>):
 
-vim +1325 drivers/pinctrl/pinctrl-cy8c95x0.c
+>> mm/vmscan.c:4206:24: warning: variable 'mm_state' is uninitialized when used here [-Wuninitialized]
+    4206 |         if (test_bloom_filter(mm_state, max_seq, pvmw->pmd))
+         |                               ^~~~~~~~
+   mm/vmscan.c:4185:35: note: initialize the variable 'mm_state' to silence this warning
+    4185 |         struct lru_gen_mm_state *mm_state;
+         |                                          ^
+         |                                           = NULL
+>> mm/vmscan.c:4206:34: warning: variable 'max_seq' is uninitialized when used here [-Wuninitialized]
+    4206 |         if (test_bloom_filter(mm_state, max_seq, pvmw->pmd))
+         |                                         ^~~~~~~
+   mm/vmscan.c:4186:23: note: initialize the variable 'max_seq' to silence this warning
+    4186 |         unsigned long max_seq;
+         |                              ^
+         |                               = 0
+   2 warnings generated.
 
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1309  static int cy8c95x0_irq_setup(struct cy8c95x0_pinctrl *chip, int irq)
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1310  {
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1311  	struct gpio_irq_chip *girq = &chip->gpio_chip.irq;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1312  	DECLARE_BITMAP(pending_irqs, MAX_LINE);
-970dacb3b9f0fe Andy Shevchenko 2026-02-23  1313  	struct device *dev = chip->dev;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1314  	int ret;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1315  
-5ffb2da4a38fd8 Andy Shevchenko 2026-02-23  1316  	ret = devm_mutex_init(chip->dev, &chip->irq_lock);
-5ffb2da4a38fd8 Andy Shevchenko 2026-02-23  1317  	if (ret)
-5ffb2da4a38fd8 Andy Shevchenko 2026-02-23  1318  		return ret;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1319  
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1320  	bitmap_zero(pending_irqs, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1321  
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1322  	/* Read IRQ status register to clear all pending interrupts */
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1323  	ret = cy8c95x0_irq_pending(chip, pending_irqs);
-014884732095b9 Andy Shevchenko 2026-02-23  1324  	if (ret)
-014884732095b9 Andy Shevchenko 2026-02-23 @1325  		return dev_err_probe(dev, ret, "failed to clear irq status register\n");
 
-cy8c95x0_irq_pending() returns true/false not error codes.  This was a
-bug in the original code as well, but it only was detected because of
-the conversion to dev_err_probe().
+vim +/mm_state +4206 mm/vmscan.c
 
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1326  
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1327  	/* Mask all interrupts */
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1328  	bitmap_fill(chip->irq_mask, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1329  
-f5d620254c9787 Andy Shevchenko 2022-09-02  1330  	gpio_irq_chip_set_chip(girq, &cy8c95x0_irqchip);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1331  
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1332  	/* This will let us handle the parent IRQ in the driver */
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1333  	girq->parent_handler = NULL;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1334  	girq->num_parents = 0;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1335  	girq->parents = NULL;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1336  	girq->default_type = IRQ_TYPE_NONE;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1337  	girq->handler = handle_simple_irq;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1338  	girq->threaded = true;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1339  
-970dacb3b9f0fe Andy Shevchenko 2026-02-23  1340  	return devm_request_threaded_irq(dev, irq, NULL, cy8c95x0_irq_handler,
-1ddee69108d305 Andy Shevchenko 2025-01-17  1341  					 IRQF_ONESHOT | IRQF_SHARED,
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1342  					 dev_name(chip->dev), chip);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  1343  }
+  4157	
+  4158	/******************************************************************************
+  4159	 *                          rmap/PT walk feedback
+  4160	 ******************************************************************************/
+  4161	
+  4162	/*
+  4163	 * This function exploits spatial locality when shrink_folio_list() walks the
+  4164	 * rmap. It scans the adjacent PTEs of a young PTE and promotes hot pages. If
+  4165	 * the scan was done cacheline efficiently, it adds the PMD entry pointing to
+  4166	 * the PTE table to the Bloom filter. This forms a feedback loop between the
+  4167	 * eviction and the aging.
+  4168	 */
+  4169	bool lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
+  4170	{
+  4171		int i;
+  4172		bool dirty;
+  4173		unsigned long start;
+  4174		unsigned long end;
+  4175		struct lru_gen_mm_walk *walk;
+  4176		struct folio *last = NULL;
+  4177		int young = 1;
+  4178		pte_t *pte = pvmw->pte;
+  4179		unsigned long addr = pvmw->address;
+  4180		struct vm_area_struct *vma = pvmw->vma;
+  4181		struct folio *folio = pfn_folio(pvmw->pfn);
+  4182		struct mem_cgroup *memcg;
+  4183		struct pglist_data *pgdat = folio_pgdat(folio);
+  4184		struct lruvec *lruvec;
+  4185		struct lru_gen_mm_state *mm_state;
+  4186		unsigned long max_seq;
+  4187		int gen;
+  4188	
+  4189		lockdep_assert_held(pvmw->ptl);
+  4190		VM_WARN_ON_ONCE_FOLIO(folio_test_lru(folio), folio);
+  4191	
+  4192		if (!ptep_clear_young_notify(vma, addr, pte))
+  4193			return false;
+  4194	
+  4195		if (spin_is_contended(pvmw->ptl))
+  4196			return true;
+  4197	
+  4198		/* exclude special VMAs containing anon pages from COW */
+  4199		if (vma->vm_flags & VM_SPECIAL)
+  4200			return true;
+  4201	
+  4202		/* avoid taking the LRU lock under the PTL when possible */
+  4203		walk = current->reclaim_state ? current->reclaim_state->mm_walk : NULL;
+  4204	
+  4205		/* may the pmd has been set in bloom filter */
+> 4206		if (test_bloom_filter(mm_state, max_seq, pvmw->pmd))
+  4207			return true;
+  4208	
+  4209		start = max(addr & PMD_MASK, vma->vm_start);
+  4210		end = min(addr | ~PMD_MASK, vma->vm_end - 1) + 1;
+  4211	
+  4212		if (end - start == PAGE_SIZE)
+  4213			return true;
+  4214	
+  4215		if (end - start > MIN_LRU_BATCH * PAGE_SIZE) {
+  4216			if (addr - start < MIN_LRU_BATCH * PAGE_SIZE / 2)
+  4217				end = start + MIN_LRU_BATCH * PAGE_SIZE;
+  4218			else if (end - addr < MIN_LRU_BATCH * PAGE_SIZE / 2)
+  4219				start = end - MIN_LRU_BATCH * PAGE_SIZE;
+  4220			else {
+  4221				start = addr - MIN_LRU_BATCH * PAGE_SIZE / 2;
+  4222				end = addr + MIN_LRU_BATCH * PAGE_SIZE / 2;
+  4223			}
+  4224		}
+  4225	
+  4226		memcg = get_mem_cgroup_from_folio(folio);
+  4227		lruvec = mem_cgroup_lruvec(memcg, pgdat);
+  4228		max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
+  4229		gen = lru_gen_from_seq(max_seq);
+  4230		mm_state = get_mm_state(lruvec);
+  4231	
+  4232		lazy_mmu_mode_enable();
+  4233	
+  4234		pte -= (addr - start) / PAGE_SIZE;
+  4235	
+  4236		for (i = 0, addr = start; addr != end; i++, addr += PAGE_SIZE) {
+  4237			unsigned long pfn;
+  4238			pte_t ptent = ptep_get(pte + i);
+  4239	
+  4240			pfn = get_pte_pfn(ptent, vma, addr, pgdat);
+  4241			if (pfn == -1)
+  4242				continue;
+  4243	
+  4244			folio = get_pfn_folio(pfn, memcg, pgdat);
+  4245			if (!folio)
+  4246				continue;
+  4247	
+  4248			if (!ptep_clear_young_notify(vma, addr, pte + i))
+  4249				continue;
+  4250	
+  4251			if (last != folio) {
+  4252				walk_update_folio(walk, last, gen, dirty);
+  4253	
+  4254				last = folio;
+  4255				dirty = false;
+  4256			}
+  4257	
+  4258			if (pte_dirty(ptent))
+  4259				dirty = true;
+  4260	
+  4261			young++;
+  4262		}
+  4263	
+  4264		walk_update_folio(walk, last, gen, dirty);
+  4265	
+  4266		lazy_mmu_mode_disable();
+  4267	
+  4268		/* feedback from rmap walkers to page table walkers */
+  4269		if (mm_state && suitable_to_scan(i, young))
+  4270			update_bloom_filter(mm_state, max_seq, pvmw->pmd);
+  4271	
+  4272		mem_cgroup_put(memcg);
+  4273	
+  4274		return true;
+  4275	}
+  4276	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
