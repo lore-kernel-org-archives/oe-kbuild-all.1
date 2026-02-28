@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE6834FF46
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 19:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C307363081;
+	Sat, 28 Feb 2026 19:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772305975; cv=none; b=eFm4Ebz1xZYKg9Eyk9i/Id2B996fvQLPP2Hi1nHPCt9IPWGI9Uf3rBnft6BgvGs8wn6Il1HBXD7JHQuZqsT2ZxWfqlFUWLCbKy2PqxN1mTOHMVBYANNjXeAM1jTQDKMahMJzKdcOWTqDUZOpWeDJ3+yv0YBCRT6E77tVww4vZ68=
+	t=1772306634; cv=none; b=UoaSVc1kI10hnvoRspbg0B5s334klbTrE28l5rBMitcR2ffq7ZOpBsD8KJQGGiEOhntDyLF72cGKBIqjx3N1SscPuUFmCgWTZEGnJbAGywkJVCVLbEvlPlUWUZV/YQg+ny4IioaRwBo2kca5YqVS0AZmCZsgsdklYKpspSDYj1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772305975; c=relaxed/simple;
-	bh=MckWxqbgh5DrSU/HBZQms30a1sgsvjX2SXgXhCL4lr4=;
+	s=arc-20240116; t=1772306634; c=relaxed/simple;
+	bh=z0YaTKoQyykIK7uZDjwfoLRsCjKJQeRAJv81t7QHMDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kf5p98z10nuVRYKOzntJE9vvwjYkkyjw2qfo70yjOnUqyfh7HODKmOtrioFCtF4UZ3MnrYeM8Tw/VF9KY3jLnI0ti9/vRA3y8eua01klsESzDlejA3G4z5KT4z8bndiw3IFI3DdMg5jFulFcDeLy1Od93aT+gtNS8gKK+AZqPwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gJq2+76T; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=hR23bOo0sa+PHeAHf6jL8f0QpwmLzG+8VQVDNGXVXw4FcAXxusUo74/1oe9WGzLUi4LFp4gU+TPMPyTroLAganXPYuPWRyHrXPDVLwVpKYtuQclAl1JlOOqTOwwgOgYSpYy1vhWxeZUjC8NgCSFvev7WL76o2Pq1aOLz41h/qW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQrCfGi1; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gJq2+76T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQrCfGi1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772305972; x=1803841972;
+  t=1772306632; x=1803842632;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MckWxqbgh5DrSU/HBZQms30a1sgsvjX2SXgXhCL4lr4=;
-  b=gJq2+76TozXFtx9xAQNzucrUDoA0jWK/cMRzr1PsuJ11D7b1+04GOL8p
-   i3Iqotkt4oNLx/4+U0pkW2Imsy5V6i21dNLxaPNmNnM9M+lyTD4l/nIEs
-   hh2qLkgwQYQTt1TQ+ixmK9OuVVQGxNZZ7KhDBqOd2e5gIf5TEAfxbT4OK
-   eRFAswnPy3cefRl/SngIUQK0TPwE0IHKishwl/B36+RWwBkaCA0EdpzZj
-   pki1m7p3v7IaSXWuL5kebeWwngjAvgjNg7ft5zh3UALIcjfFWOzjU9Cri
-   rQK8oKSBWKffe1miaac8GiggyQUajqzDfGFpLLY/Sh3Ud8agjABVYcq/T
+  bh=z0YaTKoQyykIK7uZDjwfoLRsCjKJQeRAJv81t7QHMDo=;
+  b=gQrCfGi1k5Nemuav2RVHCdBxtXfOu/ByK2FIB6Fjr4dJ8Td5ILfsqsIE
+   9VIgObhDgYMNLndfTlbE/1+SCSv7JN88IKI3/oTz6nh8bL8GmWKPB4ucN
+   /RW+31hEabFU/DyYcLkKyPsQ6qm5FaKdeysHGjtBBoHjvqRmXIK1Bn79A
+   wEP/b/zNBsj7p9kS0aYOGk98SatIPSvzvyzYrK8BGVKU8jiWRtnL9xf1K
+   1mpKsO1CKGbuju8luwLyYqsUtFZdAO6mE0dyTBAqArhaERCPUyGWzntMV
+   Plk3eDzn28Rynik7zcBGfDNRbft6vZ1LeUemfxtHl/UUc6/fVLoI7Z5Hp
    g==;
-X-CSE-ConnectionGUID: pJ1NLtG/QIO0ZLymQE/Bzw==
-X-CSE-MsgGUID: uM6NWewPTOCY+PeNSWkwtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11715"; a="84833294"
+X-CSE-ConnectionGUID: cuMm/oXdQUu4QrboTuk2qQ==
+X-CSE-MsgGUID: O26yK2WnRaOyn9a0H4v5HA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11715"; a="77233690"
 X-IronPort-AV: E=Sophos;i="6.21,316,1763452800"; 
-   d="scan'208";a="84833294"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 11:12:52 -0800
-X-CSE-ConnectionGUID: y1nGi1NdQYaXJjGfWT4TdA==
-X-CSE-MsgGUID: fEj4+ox+TGyLTEhQU+eH+g==
+   d="scan'208";a="77233690"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 11:23:51 -0800
+X-CSE-ConnectionGUID: EiPGYCTiTI6ZZJtYSEOXyg==
+X-CSE-MsgGUID: mKCrLRFHTfmk2fLG9wMivA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,316,1763452800"; 
-   d="scan'208";a="222193345"
+   d="scan'208";a="221854951"
 Received: from lkp-server01.sh.intel.com (HELO 59784f1c7b2a) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 28 Feb 2026 11:12:48 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 28 Feb 2026 11:23:48 -0800
 Received: from kbuild by 59784f1c7b2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwPk5-0000000007t-0dSZ;
-	Sat, 28 Feb 2026 19:12:45 +0000
-Date: Sun, 1 Mar 2026 03:12:38 +0800
+	id 1vwPuj-00000000089-2EHh;
+	Sat, 28 Feb 2026 19:23:45 +0000
+Date: Sun, 1 Mar 2026 03:23:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: Leno Hou <lenohou@gmail.com>, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Leno Hou <lenohou@gmail.com>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Leno Hou <lenohou@gmail.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Axel Rasmussen <axelrasmussen@google.com>,
@@ -59,7 +60,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Leno Hou <lenohou@gmail.com>,
 	Barry Song <21cnbao@gmail.com>, Jialing Wang <wjl.linux@gmail.com>,
 	Yafang Shao <laoar.shao@gmail.com>, Yu Zhao <yuzhao@google.com>
 Subject: Re: [PATCH] mm/mglru: fix cgroup OOM during MGLRU state switching
-Message-ID: <202603010315.rTOWjv41-lkp@intel.com>
+Message-ID: <202603010300.t6GYRWjK-lkp@intel.com>
 References: <20260228161008.707-1-lenohou@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -73,10 +74,10 @@ In-Reply-To: <20260228161008.707-1-lenohou@gmail.com>
 
 Hi Leno,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on v7.0-rc1]
-[also build test ERROR on linus/master next-20260227]
+[auto build test WARNING on v7.0-rc1]
+[also build test WARNING on linus/master next-20260227]
 [cannot apply to akpm-mm/mm-everything]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -86,385 +87,82 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Leno-Hou/mm-mglru-fix-cgr
 base:   v7.0-rc1
 patch link:    https://lore.kernel.org/r/20260228161008.707-1-lenohou%40gmail.com
 patch subject: [PATCH] mm/mglru: fix cgroup OOM during MGLRU state switching
-config: x86_64-randconfig-001-20260301 (https://download.01.org/0day-ci/archive/20260301/202603010315.rTOWjv41-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260301/202603010315.rTOWjv41-lkp@intel.com/reproduce)
+config: um-defconfig (https://download.01.org/0day-ci/archive/20260301/202603010300.t6GYRWjK-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260301/202603010300.t6GYRWjK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603010315.rTOWjv41-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603010300.t6GYRWjK-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7,
-                    from include/linux/bitops.h:28,
-                    from include/linux/thread_info.h:27,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:8,
-                    from mm/vmscan.c:15:
-   mm/vmscan.c: In function 'shrink_lruvec':
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   arch/x86/include/asm/barrier.h:68:17: note: in definition of macro '__smp_load_acquire'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                 ^
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
-   In file included from <command-line>:
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5785:50: error: no member named 'lrugen' in 'struct lruvec'
     5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:642:53: note: in definition of macro '__unqual_scalar_typeof'
-     642 | #define __unqual_scalar_typeof(x) __typeof_unqual__(x)
-         |                                                     ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:372,
-                    from include/linux/static_call_types.h:7,
-                    from arch/x86/include/asm/bug.h:141,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:7:
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:709:9: note: in expansion of macro 'compiletime_assert'
-     709 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:709:28: note: in expansion of macro '__native_word'
-     709 |         compiletime_assert(__native_word(t),                            \
-         |                            ^~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:69:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-      69 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:709:9: note: in expansion of macro 'compiletime_assert'
-     709 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:709:28: note: in expansion of macro '__native_word'
-     709 |         compiletime_assert(__native_word(t),                            \
-         |                            ^~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:69:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-      69 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:709:9: note: in expansion of macro 'compiletime_assert'
-     709 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:709:28: note: in expansion of macro '__native_word'
-     709 |         compiletime_assert(__native_word(t),                            \
-         |                            ^~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:69:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-      69 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
->> mm/vmscan.c:5785:55: error: 'struct lruvec' has no member named 'lrugen'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                                                       ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:709:9: note: in expansion of macro 'compiletime_assert'
-     709 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:709:28: note: in expansion of macro '__native_word'
-     709 |         compiletime_assert(__native_word(t),                            \
-         |                            ^~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:69:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-      69 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5785:31: note: in expansion of macro 'smp_load_acquire'
-    5785 |         bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
-         |                               ^~~~~~~~~~~~~~~~
-   mm/vmscan.c:5786:53: error: 'struct lruvec' has no member named 'lrugen'
+         |                                                 ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
     5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
-         |                                                     ^~
-   arch/x86/include/asm/barrier.h:68:17: note: in definition of macro '__smp_load_acquire'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                 ^
-   mm/vmscan.c:5786:29: note: in expansion of macro 'smp_load_acquire'
+         |                                               ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
     5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
-         |                             ^~~~~~~~~~~~~~~~
-   mm/vmscan.c:5786:53: error: 'struct lruvec' has no member named 'lrugen'
+         |                                               ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
     5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
-         |                                                     ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5786:29: note: in expansion of macro 'smp_load_acquire'
+         |                                               ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
     5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
-         |                             ^~~~~~~~~~~~~~~~
-   mm/vmscan.c:5786:53: error: 'struct lruvec' has no member named 'lrugen'
+         |                                               ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
     5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
-         |                                                     ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:68:28: note: in expansion of macro 'READ_ONCE'
-      68 |         typeof(*p) ___p1 = READ_ONCE(*p);                               \
-         |                            ^~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:5786:29: note: in expansion of macro 'smp_load_acquire'
+         |                                               ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
     5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
-         |                             ^~~~~~~~~~~~~~~~
-   mm/vmscan.c:5786:53: error: 'struct lruvec' has no member named 'lrugen'
+         |                                               ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
     5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
-         |                                                     ^~
-   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-..
+         |                                               ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
+    5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
+         |                                               ~~~~~~  ^
+   mm/vmscan.c:5786:48: error: no member named 'lrugen' in 'struct lruvec'
+    5786 |         bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
+         |                                               ~~~~~~  ^
+>> mm/vmscan.c:5788:37: warning: '&&' within '||' [-Wlogical-op-parentheses]
+    5788 |         if (lrugen_enabled || lru_draining && !root_reclaim(sc)) {
+         |                            ~~ ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c:5788:37: note: place parentheses around the '&&' expression to silence this warning
+    5788 |         if (lrugen_enabled || lru_draining && !root_reclaim(sc)) {
+         |                                            ^                   
+         |                               (                                )
+   1 warning and 18 errors generated.
 
 
-vim +5785 mm/vmscan.c
+vim +5788 mm/vmscan.c
 
   5774	
   5775	static void shrink_lruvec(struct lruvec *lruvec, struct scan_control *sc)
@@ -477,7 +175,7 @@ vim +5785 mm/vmscan.c
   5782		unsigned long nr_to_reclaim = sc->nr_to_reclaim;
   5783		bool proportional_reclaim;
   5784		struct blk_plug plug;
-> 5785		bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
+  5785		bool lrugen_enabled = smp_load_acquire(&lruvec->lrugen.enabled);
   5786		bool lru_draining = smp_load_acquire(&lruvec->lrugen.draining);
   5787	
 > 5788		if (lrugen_enabled || lru_draining && !root_reclaim(sc)) {
