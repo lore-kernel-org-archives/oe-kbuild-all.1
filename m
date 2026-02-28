@@ -1,318 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp37.cstnet.cn [159.226.251.37])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C1128641E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 06:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD1315C14F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 06:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772259405; cv=none; b=cHbqAAYxVTHNtbHO18rPVNAvTzd3sZoPLblN5Fm/le00jHMLGkhjOA0UEHhgP2dDQ4tQPPycAMbwPufae5B3lA0YMqGLLJ1rjeg3NKPGbya7cntfEnQEcnQ8oCijSxKQDodAnumczr+Wd9aJlck7mS98TDrP1dpsOm95ac2NGMI=
+	t=1772260672; cv=none; b=Ml8fPhsnA9+uDwbIMs5uVO1HJqFNxQYtWhqOxjzdR618zGgCKRrhAVR2YlfX1i7fpX8Nz7X9PZ72IoJz/BK75Zl+T6vCJZnYdslS4bEd3XRFvQwebSahh5V2jO/bsfLtcc68DTQjs+YYKUZ6eaupnQFWOrOQW5BDtAe5hU9RR/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772259405; c=relaxed/simple;
-	bh=+0BJCe6saYv0hdhutKOCNMJuBvSSDS3Lsm51iUj1uG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FkLn9kM34lMQw4EIxYJvB3BBVhEz6e8lXcdtTzcdkhBWLoBTAbbP+hq+Wi5CLG6POyZONNDBB/KVvKi2mjFyuNt/kOvR3lxow4eCpKH8D2i8fLJX2e/iPKeFclA4wLGaQtfRlT3zj0HPsvMG2HapcDtQ+DY3HKAvCjcmmYoQ0R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sl/LOt0u; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sl/LOt0u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772259401; x=1803795401;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+0BJCe6saYv0hdhutKOCNMJuBvSSDS3Lsm51iUj1uG8=;
-  b=Sl/LOt0uequh+rB58Ahs/Ms2m87rR0PMnvjSnivXwGANtcxhiDtlIuvK
-   CN0XFy/SYjYgHy9xudGed2R78QE3GwM8itIYOvneA0nStpvqNpJJfuk3R
-   5OQ5EE4xOue3+XrDeuhHMmcT8f6mlkjLZI2lCnzHt5IRkvxE7r+K4eFT/
-   XY8lROlhBJKepDiCKQn9L6DSjMF43y/f6m4xfHrcCkdL7AQS0FFGnmDu3
-   JHzu7OOOdPz135TkobbtXQYzsTXSHJ/hzxYIedze7ndYQsKK7xMf0PyWQ
-   DWFNk/zQthH9GtgkAAe4yExY3UkBpJ7FgGxBZjZY8pqHmn+QgN90xYnMK
-   w==;
-X-CSE-ConnectionGUID: kBQmywzCTiKF3nMqtCfRgw==
-X-CSE-MsgGUID: NOYGIvBHRYiDflE271tTDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="77208872"
-X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="77208872"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 22:16:40 -0800
-X-CSE-ConnectionGUID: ml8gOaWjRd2eH2wZ7OuGfw==
-X-CSE-MsgGUID: ly7iwZ6BQAuQYDtBfwQwPQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="220301822"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Feb 2026 22:16:39 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vwDcy-00000000BKr-2A96;
-	Sat, 28 Feb 2026 06:16:36 +0000
-Date: Sat, 28 Feb 2026 14:15:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2026-01 3/3]
- =?us-ascii?Q?arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgt?=
- =?us-ascii?Q?able-arm-common.c:143:5:?= warning: no previous prototype for
- '__arm_lpae_map'
-Message-ID: <202602281428.kaeWTkhr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1772260672; c=relaxed/simple;
+	bh=4G8Ov/J3yUqLsZRD35KOFvUNKf4mwcRFNuiNJkTmELQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=row81vPVXDcT3MR4jmTAv14zfN6p2GGp2Cjvf38MYq8BslCv3fFUAG2TcJ7GMdWEBCCtUbp/U5QgE9QGqvDkkFz8mq0zgh9eCZwF4ETKtJf+rA4CFF6W3qPLSQMIcl5tbMtTCUakf8NfW9aymtpY0aiKQ/IAkuuWt6RQ1wDkFGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from xujiakai2025$iscas.ac.cn ( [210.73.43.101] ) by
+ ajax-webmail-APP-12 (Coremail) ; Sat, 28 Feb 2026 14:30:25 +0800
+ (GMT+08:00)
+Date: Sat, 28 Feb 2026 14:30:25 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "Jiakai Xu" <xujiakai2025@iscas.ac.cn>
+To: "kernel test robot" <lkp@intel.com>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
+	kvm@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+	"Alexandre Ghiti" <alex@ghiti.fr>, 
+	"Paolo Bonzini" <pbonzini@redhat.com>, 
+	"Shuah Khan" <skhan@linuxfoundation.org>, 
+	"Paul Walmsley" <pjw@kernel.org>, 
+	"Palmer Dabbelt" <palmer@dabbelt.com>, 
+	"Andrew Jones" <ajones@ventanamicro.com>, 
+	"Anup Patel" <anup@brainfault.org>, 
+	"Atish Patra" <atish.patra@linux.dev>, 
+	"Albert Ou" <aou@eecs.berkeley.edu>
+Subject: Re: Re: [PATCH v9 2/3] KVM: selftests: Refactor UAPI tests into
+ dedicated function
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.1-cmXT5 build
+ 20240627(e6c6db66) Copyright (c) 2002-2026 www.mailtech.cn cnic.cn
+In-Reply-To: <202602280523.Y5Q8Pdft-lkp@intel.com>
+References: <20260228005355.823048-3-xujiakai2025@iscas.ac.cn>
+ <202602280523.Y5Q8Pdft-lkp@intel.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Message-ID: <6f5f1ca4.443dd.19ca2f0f358.Coremail.xujiakai2025@iscas.ac.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:tgCowABnc9OBi6Jp1RITAA--.46891W
+X-CM-SenderInfo: 50xmxthndljiysv6x2xfdvhtffof0/1tbiDAgMCWmiU3VFgAABso
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-Hi Jean-Philippe,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-01
-head:   350f378eb496c856c82d81aace74f992c9e2041e
-commit: cc07183cc836e2c8e29a55ae6e8e2aa431d59170 [3/3] BACKPORT: FROMLIST: KVM: arm64: smmu-v3: Support io-pgtable
-config: arm64-randconfig-002-20260227 (https://download.01.org/0day-ci/archive/20260228/202602281428.kaeWTkhr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602281428.kaeWTkhr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602281428.kaeWTkhr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:143:5: warning: no previous prototype for '__arm_lpae_map' [-Wmissing-prototypes]
-     143 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         |     ^~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:264:5: warning: no previous prototype for 'arm_lpae_map_pages' [-Wmissing-prototypes]
-     264 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |     ^~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype for '__arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     471 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:493:13: warning: no previous prototype for 'arm_lpae_iova_to_phys' [-Wmissing-prototypes]
-     493 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-         |             ^~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:529:8: warning: no previous prototype for 'arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     529 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:536:8: warning: no previous prototype for 'arm_lpae_unmap_pages_walk' [-Wmissing-prototypes]
-     536 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-
-
-vim +/__arm_lpae_map +143 arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c
-
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  142  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18 @143  int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  144  		   phys_addr_t paddr, size_t size, size_t pgcount,
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  145  		   arm_lpae_iopte prot, int lvl, arm_lpae_iopte *ptep,
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  146  		   gfp_t gfp, size_t *mapped)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  147  {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  148  	arm_lpae_iopte *cptep, pte;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  149  	size_t block_size = ARM_LPAE_BLOCK_SIZE(lvl, data);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  150  	size_t tblsz = ARM_LPAE_GRANULE(data);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  151  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  152  	int ret = 0, num_entries, max_entries, map_idx_start;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  153  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  154  	/* Find our entry at the current level */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  155  	map_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  156  	ptep += map_idx_start;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  157  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  158  	/* If we can install a leaf entry at this level, then do so */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  159  	if (size == block_size) {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  160  		max_entries = ARM_LPAE_PTES_PER_TABLE(data) - map_idx_start;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  161  		num_entries = min_t(int, pgcount, max_entries);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  162  		ret = arm_lpae_init_pte(data, iova, paddr, prot, lvl, num_entries, ptep);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  163  		if (!ret)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  164  			*mapped += num_entries * size;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  165  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  166  		return ret;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  167  	}
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  168  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  169  	/* We can't allocate tables at the final level */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  170  	if (WARN_ON(lvl >= ARM_LPAE_MAX_LEVELS - 1))
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  171  		return -EINVAL;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  172  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  173  	/* Grab a pointer to the next level */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  174  	pte = READ_ONCE(*ptep);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  175  	if (!pte) {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  176  		cptep = __arm_lpae_alloc_pages(tblsz, gfp, cfg);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  177  		if (!cptep)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  178  			return -ENOMEM;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  179  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  180  		pte = arm_lpae_install_table(cptep, ptep, 0, data);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  181  		if (pte)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  182  			__arm_lpae_free_pages(cptep, tblsz, cfg);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  183  	} else if (!cfg->coherent_walk && !(pte & ARM_LPAE_PTE_SW_SYNC)) {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  184  		__arm_lpae_sync_pte(ptep, 1, cfg);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  185  	}
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  186  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  187  	if (pte && !iopte_leaf(pte, lvl, data->iop.fmt)) {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  188  		cptep = iopte_deref(pte, data);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  189  	} else if (pte) {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  190  		/* We require an unmap first */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  191  		WARN_ON(!selftest_running);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  192  		return -EEXIST;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  193  	}
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  194  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  195  	/* Rinse, repeat */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  196  	return __arm_lpae_map(data, iova, paddr, size, pgcount, prot, lvl + 1,
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  197  			      cptep, gfp, mapped);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  198  }
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  199  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  200  static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  201  					   int prot)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  202  {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  203  	arm_lpae_iopte pte;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  204  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  205  	if (data->iop.fmt == ARM_64_LPAE_S1 ||
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  206  	    data->iop.fmt == ARM_32_LPAE_S1) {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  207  		pte = ARM_LPAE_PTE_nG;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  208  		if (!(prot & IOMMU_WRITE) && (prot & IOMMU_READ))
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  209  			pte |= ARM_LPAE_PTE_AP_RDONLY;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  210  		if (!(prot & IOMMU_PRIV))
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  211  			pte |= ARM_LPAE_PTE_AP_UNPRIV;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  212  	} else {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  213  		pte = ARM_LPAE_PTE_HAP_FAULT;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  214  		if (prot & IOMMU_READ)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  215  			pte |= ARM_LPAE_PTE_HAP_READ;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  216  		if (prot & IOMMU_WRITE)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  217  			pte |= ARM_LPAE_PTE_HAP_WRITE;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  218  	}
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  219  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  220  	/*
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  221  	 * Note that this logic is structured to accommodate Mali LPAE
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  222  	 * having stage-1-like attributes but stage-2-like permissions.
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  223  	 */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  224  	if (data->iop.fmt == ARM_64_LPAE_S2 ||
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  225  	    data->iop.fmt == ARM_32_LPAE_S2) {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  226  		if (prot & IOMMU_MMIO)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  227  			pte |= ARM_LPAE_PTE_MEMATTR_DEV;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  228  		else if (prot & IOMMU_CACHE)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  229  			pte |= ARM_LPAE_PTE_MEMATTR_OIWB;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  230  		else
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  231  			pte |= ARM_LPAE_PTE_MEMATTR_NC;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  232  	} else {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  233  		if (prot & IOMMU_MMIO)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  234  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_DEV
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  235  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  236  		else if (prot & IOMMU_CACHE)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  237  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  238  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  239  	}
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  240  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  241  	/*
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  242  	 * Also Mali has its own notions of shareability wherein its Inner
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  243  	 * domain covers the cores within the GPU, and its Outer domain is
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  244  	 * "outside the GPU" (i.e. either the Inner or System domain in CPU
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  245  	 * terms, depending on coherency).
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  246  	 */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  247  	if (prot & IOMMU_CACHE && data->iop.fmt != ARM_MALI_LPAE)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  248  		pte |= ARM_LPAE_PTE_SH_IS;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  249  	else
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  250  		pte |= ARM_LPAE_PTE_SH_OS;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  251  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  252  	if (prot & IOMMU_NOEXEC)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  253  		pte |= ARM_LPAE_PTE_XN;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  254  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  255  	if (data->iop.cfg.quirks & IO_PGTABLE_QUIRK_ARM_NS)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  256  		pte |= ARM_LPAE_PTE_NS;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  257  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  258  	if (data->iop.fmt != ARM_MALI_LPAE)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  259  		pte |= ARM_LPAE_PTE_AF;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  260  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  261  	return pte;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  262  }
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  263  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18 @264  int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  265  		       phys_addr_t paddr, size_t pgsize, size_t pgcount,
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  266  		       int iommu_prot, gfp_t gfp, size_t *mapped)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  267  {
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  268  	struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  269  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  270  	arm_lpae_iopte *ptep = data->pgd;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  271  	int ret, lvl = data->start_level;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  272  	arm_lpae_iopte prot;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  273  	long iaext = (s64)iova >> cfg->ias;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  274  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  275  	if (WARN_ON(!pgsize || (pgsize & cfg->pgsize_bitmap) != pgsize))
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  276  		return -EINVAL;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  277  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  278  	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1)
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  279  		iaext = ~iaext;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  280  	if (WARN_ON(iaext || paddr >> cfg->oas))
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  281  		return -ERANGE;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  282  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  283  	/* If no access, then nothing to do */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  284  	if (!(iommu_prot & (IOMMU_READ | IOMMU_WRITE)))
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  285  		return 0;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  286  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  287  	prot = arm_lpae_prot_to_pte(data, iommu_prot);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  288  	ret = __arm_lpae_map(data, iova, paddr, pgsize, pgcount, prot, lvl,
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  289  			     ptep, gfp, mapped);
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  290  	/*
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  291  	 * Synchronise all PTE updates for the new mapping before there's
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  292  	 * a chance for anything to kick off a table walk for the new iova.
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  293  	 */
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  294  	wmb();
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  295  
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  296  	return ret;
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  297  }
-cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  298  
-
-:::::: The code at line 143 was first introduced by commit
-:::::: cf616fc76f2555d91fc88a543badc8a051f749c9 BACKPORT: FROMLIST: iommu/io-pgtable-arm: Split the page table driver
-
-:::::: TO: Jean-Philippe Brucker <jean-philippe@linaro.org>
-:::::: CC: Mostafa Saleh <smostafa@google.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+SGkgYWxsLAoKSSByZWNlaXZlZCBhIG5vdGlmaWNhdGlvbiBmcm9tIHRoZSBrZXJuZWwgdGVzdCBy
+b2JvdCByZWdhcmRpbmcgbXkgcGF0Y2guIEl0IGluZGljYXRlcyB0aGF0IHZvaWQgY2hlY2tfc3Rl
+YWxfdGltZV91YXBpKCkgc2hvdWxkIGJlIGNoYW5nZWQgdG8gdm9pZCBjaGVja19zdGVhbF90aW1l
+X3VhcGkodm9pZCkgdG8gYXZvaWQgYSBjb21waWxlciB3YXJuaW5nLgoKSSB3b3VsZCBsaWtlIHRv
+IHdhaXQgZm9yIHRoZSByZXZpZXdlcnPigJkgZmVlZGJhY2sgb24gdGhpcyBwYXRjaC4gSWYgdGhl
+cmUgYXJlIG5vIGlzc3VlcyBhc2lkZSBmcm9tIHRoaXMgd2FybmluZywgSSB3aWxsIHN1Ym1pdCB0
+aGUgZmluYWwgdmVyc2lvbiBhZGRyZXNzaW5nIHRoZSBjb21waWxlciB3YXJuaW5nLiBJZiB0aGVy
+ZSBhcmUgb3RoZXIgc3VnZ2VzdGlvbnMsIEkgd2lsbCBpbmNvcnBvcmF0ZSB0aGVtIGFjY29yZGlu
+Z2x5LgoKVGhhbmtzLApKaWFrYWkKCiZxdW90O2tlcm5lbCB0ZXN0IHJvYm90JnF1b3Q7ICZsdDts
+a3BAaW50ZWwuY29tJmd0O+WGmemBk++8mgo+IEhpIEppYWthaSwNCj4gDQo+IGtlcm5lbCB0ZXN0
+IHJvYm90IG5vdGljZWQgdGhlIGZvbGxvd2luZyBidWlsZCB3YXJuaW5nczoNCj4gDQo+IFthdXRv
+IGJ1aWxkIHRlc3QgV0FSTklORyBvbiB2Ni4xOV0NCj4gW2Nhbm5vdCBhcHBseSB0byBrdm0vcXVl
+dWUga3ZtL25leHQgbGludXMvbWFzdGVyIGt2bS9saW51eC1uZXh0IHY3LjAtcmMxIG5leHQtMjAy
+NjAyMjddDQo+IFtJZiB5b3VyIHBhdGNoIGlzIGFwcGxpZWQgdG8gdGhlIHdyb25nIGdpdCB0cmVl
+LCBraW5kbHkgZHJvcCB1cyBhIG5vdGUuDQo+IEFuZCB3aGVuIHN1Ym1pdHRpbmcgcGF0Y2gsIHdl
+IHN1Z2dlc3QgdG8gdXNlICctLWJhc2UnIGFzIGRvY3VtZW50ZWQgaW4NCj4gaHR0cHM6Ly9naXQt
+c2NtLmNvbS9kb2NzL2dpdC1mb3JtYXQtcGF0Y2gjX2Jhc2VfdHJlZV9pbmZvcm1hdGlvbl0NCj4g
+DQo+IHVybDogICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgvY29tbWl0
+cy9KaWFrYWktWHUvUklTQy1WLUtWTS1WYWxpZGF0ZS1TQkktU1RBLXNobWVtLWFsaWdubWVudC1p
+bi1rdm1fc2JpX2V4dF9zdGFfc2V0X3JlZy8yMDI2MDIyOC0wODU2NDgNCj4gYmFzZTogICB2Ni4x
+OQ0KPiBwYXRjaCBsaW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjYwMjI4MDA1
+MzU1LjgyMzA0OC0zLXh1amlha2FpMjAyNSU0MGlzY2FzLmFjLmNuDQo+IHBhdGNoIHN1YmplY3Q6
+IFtQQVRDSCB2OSAyLzNdIEtWTTogc2VsZnRlc3RzOiBSZWZhY3RvciBVQVBJIHRlc3RzIGludG8g
+ZGVkaWNhdGVkIGZ1bmN0aW9uDQo+IGNvbmZpZzogYXJtNjQtYWxsbm9jb25maWctYnBmIChodHRw
+czovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyNjAyMjgvMjAyNjAyMjgwNTIz
+Llk1UThQZGZ0LWxrcEBpbnRlbC5jb20vY29uZmlnKQ0KPiBjb21waWxlcjogYWFyY2g2NC1saW51
+eC1nbnUtZ2NjIChEZWJpYW4gMTQuMi4wLTE5KSAxNC4yLjANCj4gcmVwcm9kdWNlICh0aGlzIGlz
+IGEgVz0xIGJ1aWxkKTogKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8y
+MDI2MDIyOC8yMDI2MDIyODA1MjMuWTVROFBkZnQtbGtwQGludGVsLmNvbS9yZXByb2R1Y2UpDQo+
+IA0KPiBJZiB5b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5l
+LiBub3QganVzdCBhIG5ldyB2ZXJzaW9uIG9mDQo+IHRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtp
+bmRseSBhZGQgZm9sbG93aW5nIHRhZ3MNCj4gfCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9i
+b3QgPGxrcEBpbnRlbC5jb20+DQo+IHwgQ2xvc2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9v
+ZS1rYnVpbGQtYWxsLzIwMjYwMjI4MDUyMy5ZNVE4UGRmdC1sa3BAaW50ZWwuY29tLw0KPiANCj4g
+QWxsIHdhcm5pbmdzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6DQo+IA0KPiA+PiBzdGVhbF90
+aW1lLmM6MjA3OjEzOiB3YXJuaW5nOiBmdW5jdGlvbiBkZWNsYXJhdGlvbiBpc24ndCBhIHByb3Rv
+dHlwZSBbLVdzdHJpY3QtcHJvdG90eXBlc10NCj4gICAgICAyMDcgfCBzdGF0aWMgdm9pZCBjaGVj
+a19zdGVhbF90aW1lX3VhcGkoKQ0KPiAgICAgICAgICB8ICAgICAgICAgICAgIF5+fn5+fn5+fn5+
+fn5+fn5+fn5+fg0KPiAgICBjYzE6IG5vdGU6IHVucmVjb2duaXplZCBjb21tYW5kLWxpbmUgb3B0
+aW9uICctV25vLWdudS12YXJpYWJsZS1zaXplZC10eXBlLW5vdC1hdC1lbmQnIG1heSBoYXZlIGJl
+ZW4gaW50ZW5kZWQgdG8gc2lsZW5jZSBlYXJsaWVyIGRpYWdub3N0aWNzDQo+IA0KPiAtLSANCj4g
+MC1EQVkgQ0kgS2VybmVsIFRlc3QgU2VydmljZQ0KPiBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwv
+bGtwLXRlc3RzL3dpa2kNCg==
