@@ -1,78 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFCB22157B;
-	Sat, 28 Feb 2026 09:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FE032C316
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 10:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772271124; cv=none; b=fgS7Myz6suUMYJ80oiNTY/u2YUbiLwqVFGSGP+Wmhc4Eggfm3ZaeXRkMbzWPwPMsJayjs6OEjY0GwOWFsep37E2676vYQwnhGOkwJLQ6e0NjvQi1nIVvNhIg1OmO9BUmp0ris5t48xqO1XSmUl3E3h0bte0H+zQtixpl7xaYgIE=
+	t=1772273042; cv=none; b=hkXn1hkUIPnvOntLUJcV1qRo0OdfuJSeUqsCBbY/st73VmXeCUSk1vsQceCZAUVOdSyP6CfrM4xDsE9LctHPkndCvHOnbV+kpHC0/IvtlBa5tC6Lu8xNlwoQuyN7w2bQDPplsLFViK8GsmmsBVmLts9JGFcGMrZ6BXdlpX6MMf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772271124; c=relaxed/simple;
-	bh=Rrx8y/C17jrzfE6kvyZzwZwuPU1bRbyLhVZrjF/dgcs=;
+	s=arc-20240116; t=1772273042; c=relaxed/simple;
+	bh=PbDLGt89NFjsAyp83UgRTs0VEEXSdks9u2vfwBm3pVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D+qgM0OJznjEenSfYnX+XrEpuyGi7XoiksHacOl/LU8OTvqgetDfXG/fsCUjzd3LwCB7znz8Xq1wukpAS2Vnr/dadF6I5+O5vg8di1tDiohRRphZoEJ8MAC6MfNCwcaqcLr+BGRShDG/GoOn0kiypINHCzy2tO7zUrshcDHThDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pn8OEm8F; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=JIKwWhvuit4fyqpIhTZd1MQmom6bhmCsHlnOyslP1mSPmRWbqpAo636SeBB+6hVlfMDGHD6Ntj5YNwaCeFPQtDLujykF2JemAmz2eXC3mKFrBawGb/3+tlITbeC6rw8Y0d4jKU+g9/AZPFnQubUR2jG6wbZXs3fEunHv6IX71qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cYuiK8WL; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pn8OEm8F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cYuiK8WL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772271122; x=1803807122;
+  t=1772273041; x=1803809041;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Rrx8y/C17jrzfE6kvyZzwZwuPU1bRbyLhVZrjF/dgcs=;
-  b=Pn8OEm8FZ+ZYdXCvTbA95qzxmrp6F7CiVEktOyzhmn13OCW4MjtbHKk9
-   9Rd8vhhaQPcaYiXjMIzTIayKlIcEgU2lwPJNPIYGLPJUf3bYd5QDHo/80
-   hZTK21QFYc06xp7nvoOf79O8MLKpj2prfduLMcR56SZkf+wUU0fNt4/VG
-   K1XsbRCiCr3neIoddkmLugHNWj1SWi0xaMY8VSlVcopaMfjINuhaDKavB
-   +Z6C/0PaJEBvKVgVawr/To4ZuJ4OtaYY+YkQ26Dh1QcMucW1VNjdaBenX
-   e8oTL+TQKukBwfrFsSHeqqBaHQyafD7LvExiUFMSUfkhqzWORIVdciamV
-   Q==;
-X-CSE-ConnectionGUID: t5p0aqw6Tb6/bWz4t859Rw==
-X-CSE-MsgGUID: iPIu5J+hSie9hdCgnuGdPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="84053349"
+  bh=PbDLGt89NFjsAyp83UgRTs0VEEXSdks9u2vfwBm3pVc=;
+  b=cYuiK8WL/BcNmKmQPqz887A0V7r2qDxc56X9JzvcvqmnWCG/gIsdiPpm
+   VhpOx+Szh5IARJhKKnCMc6knHHB5Ss/DFUchvBr67VxqmSAmlRHhufC5N
+   sVfCFZQ/G9brIcAAGXW9wZCVzHod8qAsITxnILnxD3PFpcrMx93i9l2p3
+   6DVw6adAJ+uoWzfB75UfIVIHVWk21yMsyJiZ6YDM+bGVq91Bflu18XTzo
+   Vw338CWNs3NvpZ78g3KBFo0+W3tmuwIMjSEGDOpoBgr35bNQ8bYNPmhf0
+   W+yRTrz9D+H3eVk16BDqerDs0g47vIH18JamBB3Rp5BFyWiH3OpmlrCsE
+   g==;
+X-CSE-ConnectionGUID: JxaeINBMSEuGbZujhcUu0w==
+X-CSE-MsgGUID: sqYNgFQSRKOsGiGl4XjH8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="77191394"
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="84053349"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 01:32:01 -0800
-X-CSE-ConnectionGUID: pykYmDP9SDaeLcRLYXMDlw==
-X-CSE-MsgGUID: M64QioP1Qv+fcwnEXOpsQg==
+   d="scan'208";a="77191394"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 02:04:00 -0800
+X-CSE-ConnectionGUID: pa8nyYIeQQGifVZE7S0OGg==
+X-CSE-MsgGUID: vRHI+vtoSKa3K3dr+IP5CQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="222113504"
+   d="scan'208";a="214911570"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 28 Feb 2026 01:31:55 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 28 Feb 2026 02:03:58 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwGfw-00000000BQt-0KRK;
-	Sat, 28 Feb 2026 09:31:52 +0000
-Date: Sat, 28 Feb 2026 17:31:40 +0800
+	id 1vwHAx-00000000BRv-2Hlv;
+	Sat, 28 Feb 2026 10:03:55 +0000
+Date: Sat, 28 Feb 2026 18:03:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v2 8/9] dma-buf: heaps: cma: Turn the heap into a module
-Message-ID: <202602281751.KRAYsRVG-lkp@intel.com>
-References: <20260227-dma-buf-heaps-as-modules-v2-8-454aee7e06cc@kernel.org>
+To: Eric Dumazet <edumazet@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>, netdev@vger.kernel.org,
+	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net-next 7/7] net-sysfs: use rps_tag_ptr and remove
+ metadata from rps_dev_flow_table
+Message-ID: <202602281743.ifacPvjH-lkp@intel.com>
+References: <20260228042503.3726451-8-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,30 +67,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260227-dma-buf-heaps-as-modules-v2-8-454aee7e06cc@kernel.org>
+In-Reply-To: <20260228042503.3726451-8-edumazet@google.com>
 
-Hi Maxime,
+Hi Eric,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 499a718536dc0e1c1d1b6211847207d58acd9916]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/dma-contiguous-Turn-heap-registration-logic-around/20260227-212606
-base:   499a718536dc0e1c1d1b6211847207d58acd9916
-patch link:    https://lore.kernel.org/r/20260227-dma-buf-heaps-as-modules-v2-8-454aee7e06cc%40kernel.org
-patch subject: [PATCH v2 8/9] dma-buf: heaps: cma: Turn the heap into a module
-config: x86_64-randconfig-002-20260227 (https://download.01.org/0day-ci/archive/20260228/202602281751.KRAYsRVG-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602281751.KRAYsRVG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-add-rps_tag_ptr-type-and-helpers/20260228-122855
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260228042503.3726451-8-edumazet%40google.com
+patch subject: [PATCH net-next 7/7] net-sysfs: use rps_tag_ptr and remove metadata from rps_dev_flow_table
+config: x86_64-randconfig-161-20260228 (https://download.01.org/0day-ci/archive/20260228/202602281743.ifacPvjH-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602281743.ifacPvjH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602281751.KRAYsRVG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602281743.ifacPvjH-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "dma_contiguous_get_reserved_region" [drivers/dma-buf/heaps/cma_heap.ko] undefined!
+>> Warning: net/core/dev.c:4990 function parameter 'log' not described in 'rps_flow_is_active'
+>> Warning: net/core/dev.c:4990 function parameter 'log' not described in 'rps_flow_is_active'
 
 -- 
 0-DAY CI Kernel Test Service
