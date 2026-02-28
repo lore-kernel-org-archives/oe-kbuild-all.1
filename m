@@ -1,84 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481FE3B52EA;
-	Fri, 27 Feb 2026 22:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8C51DE2C9;
+	Sat, 28 Feb 2026 00:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772232989; cv=none; b=Xol4a9bsL//Mhw+sCNTzF+/YGAXeim/hQVXpyDks4hKwF02F6eVFMjKjI75l85uqB/KwmFddEqelF3kEDPNygLBHTaKX0lG6TLlhxPuWY0O7mcy2X92+0jlghSRPqMLEj8Ya87D9roYqcZc3vVSgo2LUXQJD9hHjBGBy4w6CE00=
+	t=1772237957; cv=none; b=Ns/ogFuq73EJonckrzG9H8kdE3vc7a3vjuCGYHT8l38cC6pcLgeb3/dHAVdju08wAcIYnyvhRtYbS2KKjaHNN0dcUB79eqS/tCLUC3wwrENzwyI2rlxEOmXx6xy/A+5X53MAmCLr5gj0jY0WHjIjR7tTmIOYSRlP6hd8p052Y/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772232989; c=relaxed/simple;
-	bh=U0J17v32ksmWhx/78xpg+Nz3+Nk3kvxsdR51MuM0I70=;
+	s=arc-20240116; t=1772237957; c=relaxed/simple;
+	bh=oB71pr3p+SPnfGj2w0EGGZr3XAcxnfP18+UE9zUzAFY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BMQyf3okQJ1jAIFRvPOSKWc5SuEhJTtUuSe28M1Hjt8c2Sx6enKTXwmHvJ5LITXyyicRKs5lC6PbpvJ8+FSfIhxMBguiWR7DvEFL9RF7WoKmynQQcko98SNnSFDBTSxsAvrhC/YV4RxPQPgNf9gq9VnhCeaR2p/DNvEO8X0PP/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfLS52DG; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=m0/UaFvdA0RPEbQ/nRV7VuKZkzuKuvnPBOyMaLT4czIOamkVVFyzI73PpQUbol/wHZWJVw34o86+k+OK/hYZaBgTRpFsKtYitpVXmZPlUbeCcfa/Z7N4Q2HEKRoeQ7KqHdJ7vwLqayCH9gUrRLW7GFL7XiZYTEuLj5nj+HSdeR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nk0fokIw; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfLS52DG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nk0fokIw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772232987; x=1803768987;
+  t=1772237954; x=1803773954;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=U0J17v32ksmWhx/78xpg+Nz3+Nk3kvxsdR51MuM0I70=;
-  b=QfLS52DGDgKxmRVt4ebtMJ7ldlJUcHHGCEtv3+imNW6A+WDN1jRZO2Oi
-   ABVdrjiyHP7ZXmme5SxpcgH9BCUqa/8pZd+JJiblrcKQT/XK4zZP78h+f
-   +NFQhpg4exJ8WBdmoSrlCVBJdyV90HtK2mni8geG1KayfzYVP7PJY7Lx/
-   ZPv+jNZicaPr82beukC6jcgYb1W9qGXlXg52/eHNsFpglAmaHCIK+Oz5e
-   4F7DxCPeqiz6VvmnmLPwxMfMNo/TXPkFuEzauy/D/vmmG8GpPdg6QlV5h
-   3QizeU1GB3cyNphiMxejCHyoFxfkGgZsRWeaiv08SWzk6ccH3JAHzvwJ5
-   w==;
-X-CSE-ConnectionGUID: s2Q6ghgESsOEYW9828MrpA==
-X-CSE-MsgGUID: 2dlZUEGNSaaK7KzQSfueqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="77190590"
-X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="77190590"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 14:56:26 -0800
-X-CSE-ConnectionGUID: Gj8OruRNS5+rloaJ2M5xNw==
-X-CSE-MsgGUID: ehdBotFtTHOu+IA4PxmIIw==
+  bh=oB71pr3p+SPnfGj2w0EGGZr3XAcxnfP18+UE9zUzAFY=;
+  b=Nk0fokIwIRn5w8gtiPDc17haZ93Cs/vW0Uzuh97rDvsPCo31X0p+h+DK
+   Kn0sU+rBx1CMcFeR/PfVI4XkvMwKvphE41CdxKhSgBSAkj+QDf3H9kr2z
+   cLSGay/u9LDUeSAWkh7fTSqXRzVrdv03dXjCdm/HdZUrGMaVMJdlDzsJW
+   /0+888Dgie454qzg0kg93KYzue0kmm6fpRrorTRzWfQvcXzF+vVrAKv+k
+   +CTAfDk0XGFJGr1mu22+QqS2ustCOTcZ7/xUzvcI1gKiCjJhLHPJtnnWM
+   +20OrBgyfYpm6O4PBnrEfWsKkbde6o9AOT1EtvFPclt0Fdwdw3wJCBUl0
+   A==;
+X-CSE-ConnectionGUID: ijl6c+VrSnaSQ6VoOMYlaQ==
+X-CSE-MsgGUID: zD3M83NcR8O+uEWnYBdwog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73435982"
+X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
+   d="scan'208";a="73435982"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 16:19:14 -0800
+X-CSE-ConnectionGUID: lC2N043PQniljb3OPBQ8WA==
+X-CSE-MsgGUID: QtB3KE9UQOiEsww2tvnWrw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="221172735"
+X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
+   d="scan'208";a="221673880"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 27 Feb 2026 14:56:19 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 27 Feb 2026 16:19:10 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vw6kp-00000000B8V-2dsg;
-	Fri, 27 Feb 2026 22:56:15 +0000
-Date: Sat, 28 Feb 2026 06:56:15 +0800
+	id 1vw831-00000000BC7-1DD8;
+	Sat, 28 Feb 2026 00:19:07 +0000
+Date: Sat, 28 Feb 2026 08:18:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-hardening@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Ira Weiny <ira.weiny@intel.com>, Jann Horn <jannh@google.com>,
-	Jeff Xu <jeffxu@chromium.org>, Joey Gouly <joey.gouly@arm.com>,
-	Kees Cook <kees@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Maxwell Bland <mbland@motorola.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pierre Langlois <pierre.langlois@arm.com>,
-	Quentin Perret <qperret@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
-	Yang Shi <yang@os.amperecomputing.com>
-Subject: Re: [PATCH v6 23/30] arm64: kpkeys: Ensure the linear map can be
- modified
-Message-ID: <202602280610.KQRFmbR3-lkp@intel.com>
-References: <20260227175518.3728055-24-kevin.brodsky@arm.com>
+To: Jacob Pan <jacob.pan@linux.microsoft.com>, linux-kernel@vger.kernel.org,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>, Joerg Roedel <joro@8bytes.org>,
+	David Matlack <dmatlack@google.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	"Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+	Baolu Lu <baolu.lu@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, skhawaja@google.com,
+	pasha.tatashin@soleen.com,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jean Philippe-Brucker <jean-philippe@linaro.org>,
+	Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 08/11] vfio: Enable cdev noiommu mode under iommufd
+Message-ID: <202602280855.WxyIHCy5-lkp@intel.com>
+References: <20260227175247.26103-9-jacob.pan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,59 +73,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260227175518.3728055-24-kevin.brodsky@arm.com>
+In-Reply-To: <20260227175247.26103-9-jacob.pan@linux.microsoft.com>
 
-Hi Kevin,
+Hi Jacob,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v7.0-rc1 next-20260227]
+[cannot apply to awilliam-vfio/next awilliam-vfio/for-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kevin-Brodsky/mm-Introduce-kpkeys/20260228-020115
-base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-patch link:    https://lore.kernel.org/r/20260227175518.3728055-24-kevin.brodsky%40arm.com
-patch subject: [PATCH v6 23/30] arm64: kpkeys: Ensure the linear map can be modified
-config: arm64-randconfig-001-20260228 (https://download.01.org/0day-ci/archive/20260228/202602280610.KQRFmbR3-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280610.KQRFmbR3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacob-Pan/iommufd-Support-a-HWPT-without-an-iommu-driver-for-noiommu/20260228-020145
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260227175247.26103-9-jacob.pan%40linux.microsoft.com
+patch subject: [PATCH 08/11] vfio: Enable cdev noiommu mode under iommufd
+config: riscv-randconfig-r134-20260228 (https://download.01.org/0day-ci/archive/20260228/202602280855.WxyIHCy5-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280855.WxyIHCy5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602280610.KQRFmbR3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602280855.WxyIHCy5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/arm64/mm/pageattr.c:100:3: error: call to undeclared function 'arm64_supports_kpkeys_hardened_pgtables'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     100 |                 arm64_supports_kpkeys_hardened_pgtables();
-         |                 ^
-   1 error generated.
---
->> arch/arm64/mm/mmu.c:768:3: error: call to undeclared function 'arm64_supports_kpkeys_hardened_pgtables'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     768 |                 arm64_supports_kpkeys_hardened_pgtables();
-         |                 ^
-   1 error generated.
+   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:36,
+                    from drivers/iommu/generic_pt/fmt/iommu_amdv1.c:15:
+   drivers/iommu/generic_pt/fmt/amdv1.h: In function 'amdv1pt_install_table':
+   drivers/iommu/generic_pt/fmt/amdv1.h:255:9: error: implicit declaration of function 'pt_table_install64'; did you mean 'pt_table_install32'? [-Werror=implicit-function-declaration]
+     return pt_table_install64(pts, entry);
+            ^~~~~~~~~~~~~~~~~~
+            pt_table_install32
+   In file included from include/linux/generic_pt/common.h:10,
+                    from drivers/iommu/generic_pt/fmt/iommu_template.h:33,
+                    from drivers/iommu/generic_pt/fmt/iommu_amdv1.c:15:
+   drivers/iommu/generic_pt/fmt/amdv1.h: In function 'amdv1pt_entry_make_write_dirty':
+>> include/linux/bits.h:49:20: warning: right shift count >= width of type [-Wshift-count-overflow]
+           type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+                       ^~
+   include/linux/bits.h:51:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:152:18: note: in expansion of macro 'GENMASK'
+      ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0) \
+                     ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:224:3: note: in expansion of macro '__arch_cmpxchg_masked'
+      __arch_cmpxchg_masked(sc_sfx, ".b" cas_sfx,  \
+      ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:283:2: note: in expansion of macro '_arch_cmpxchg'
+     _arch_cmpxchg((ptr), (o), (n),     \
+     ^~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:294:2: note: in expansion of macro 'arch_cmpxchg'
+     arch_cmpxchg((ptr), (o), (n));     \
+     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:98:23: note: in expansion of macro 'arch_cmpxchg64'
+    #define raw_cmpxchg64 arch_cmpxchg64
+                          ^~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:259:9: note: in expansion of macro 'raw_cmpxchg64'
+     ___r = raw_cmpxchg64((_ptr), ___o, (_new)); \
+            ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4918:2: note: in expansion of macro 'raw_try_cmpxchg64'
+     raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+     ^~~~~~~~~~~~~~~~~
+   drivers/iommu/generic_pt/fmt/amdv1.h:318:9: note: in expansion of macro 'try_cmpxchg64'
+     return try_cmpxchg64(tablep, &pts->entry, new);
+            ^~~~~~~~~~~~~
+>> include/linux/bits.h:49:20: warning: right shift count >= width of type [-Wshift-count-overflow]
+           type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+                       ^~
+   include/linux/bits.h:51:24: note: in expansion of macro 'GENMASK_TYPE'
+    #define GENMASK(h, l)  GENMASK_TYPE(unsigned long, h, l)
+                           ^~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:152:18: note: in expansion of macro 'GENMASK'
+      ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0) \
+                     ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:230:3: note: in expansion of macro '__arch_cmpxchg_masked'
+      __arch_cmpxchg_masked(sc_sfx, ".h" cas_sfx,  \
+      ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:283:2: note: in expansion of macro '_arch_cmpxchg'
+     _arch_cmpxchg((ptr), (o), (n),     \
+     ^~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:294:2: note: in expansion of macro 'arch_cmpxchg'
+     arch_cmpxchg((ptr), (o), (n));     \
+     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:98:23: note: in expansion of macro 'arch_cmpxchg64'
+    #define raw_cmpxchg64 arch_cmpxchg64
+                          ^~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:259:9: note: in expansion of macro 'raw_cmpxchg64'
+     ___r = raw_cmpxchg64((_ptr), ___o, (_new)); \
+            ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4918:2: note: in expansion of macro 'raw_try_cmpxchg64'
+     raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+     ^~~~~~~~~~~~~~~~~
+   drivers/iommu/generic_pt/fmt/amdv1.h:318:9: note: in expansion of macro 'try_cmpxchg64'
+     return try_cmpxchg64(tablep, &pts->entry, new);
+            ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IOMMU_PT_AMDV1
+   Depends on [n]: GENERIC_PT [=y] && IOMMU_PT [=y] && !GENERIC_ATOMIC64 [=y]
+   Selected by [y]:
+   - VFIO_NOIOMMU [=y] && VFIO [=y] && VFIO_GROUP [=y]
 
 
-vim +/arm64_supports_kpkeys_hardened_pgtables +100 arch/arm64/mm/pageattr.c
+vim +49 include/linux/bits.h
 
-    86	
-    87	bool can_set_direct_map(void)
-    88	{
-    89		/*
-    90		 * rodata_full, DEBUG_PAGEALLOC and a Realm guest all require linear
-    91		 * map to be mapped at page granularity, so that it is possible to
-    92		 * protect/unprotect single pages.
-    93		 *
-    94		 * KFENCE pool requires page-granular mapping if initialized late.
-    95		 *
-    96		 * Realms need to make pages shared/protected at page granularity.
-    97		 */
-    98		return rodata_full || debug_pagealloc_enabled() ||
-    99			arm64_kfence_can_set_direct_map() || is_realm_world() ||
- > 100			arm64_supports_kpkeys_hardened_pgtables();
-   101	}
-   102	
+31299a5e021124 Vincent Mailhol 2025-03-26  35  
+19408200c09485 Vincent Mailhol 2025-03-26  36  /*
+19408200c09485 Vincent Mailhol 2025-03-26  37   * Generate a mask for the specified type @t. Additional checks are made to
+19408200c09485 Vincent Mailhol 2025-03-26  38   * guarantee the value returned fits in that type, relying on
+19408200c09485 Vincent Mailhol 2025-03-26  39   * -Wshift-count-overflow compiler check to detect incompatible arguments.
+19408200c09485 Vincent Mailhol 2025-03-26  40   * For example, all these create build errors or warnings:
+19408200c09485 Vincent Mailhol 2025-03-26  41   *
+19408200c09485 Vincent Mailhol 2025-03-26  42   * - GENMASK(15, 20): wrong argument order
+19408200c09485 Vincent Mailhol 2025-03-26  43   * - GENMASK(72, 15): doesn't fit unsigned long
+19408200c09485 Vincent Mailhol 2025-03-26  44   * - GENMASK_U32(33, 15): doesn't fit in a u32
+19408200c09485 Vincent Mailhol 2025-03-26  45   */
+19408200c09485 Vincent Mailhol 2025-03-26  46  #define GENMASK_TYPE(t, h, l)					\
+19408200c09485 Vincent Mailhol 2025-03-26  47  	((t)(GENMASK_INPUT_CHECK(h, l) +			\
+19408200c09485 Vincent Mailhol 2025-03-26  48  	     (type_max(t) << (l) &				\
+19408200c09485 Vincent Mailhol 2025-03-26 @49  	      type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+19408200c09485 Vincent Mailhol 2025-03-26  50  
 
 -- 
 0-DAY CI Kernel Test Service
