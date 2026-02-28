@@ -1,190 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7077E280338
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 05:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF90719C553
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 05:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772256873; cv=none; b=ewEpCPgzDUD890heONkiOOMG4hRhmmoRpa/c0oOiGZzUsPAiq03tAw01iKHPBOqBbRNVx9GGRYrAKlC9gmgFCRK0JglaZ6tKLZHltAX3UqSC0aT9UYrAgglZWOg5iYvR2U1Gop8hBzOxb4lDbODW6uFjxkykUrahUJ0MbcOw5mM=
+	t=1772257243; cv=none; b=Lueuzp4mtrDGjq5KfeWS0PFRs+hwGg5R8alYdU3YHuCD+Dls0z5LDrgW4BgNNAqosbiDWp295TTWGyG4skhc6wMMhLyEWRXsultXfALCidMXPf2ylrk7fnj2GErRjAx5N+i0KRy/16tUqSCUwrnCxYDIde1jY4R8ml9EDfJZoTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772256873; c=relaxed/simple;
-	bh=sTo7ttKxW4qkAJ7gPSFGQddJdAolYP33nHR3bLxdvBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F5KmzRgjQNXbzK9yG6pLHd0KGA4zxziD9QjRFvuGkaGS3dH5mc9o7e8pBnhcY2je3i+AoRmIMYBQcsqU/cBafEJv0WK0742fNrJXlGdGEU3Bze14+ZmAcU7qqSrK098H+5fTzo7Hx30VmB44gA1vwqNgdBdUcEBnuy3Oa40E8UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X44QETJD; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1772257243; c=relaxed/simple;
+	bh=DyBPhgYY8IoSLFiSD65DxhpHDLm5jXLHPkdxpDjXvO8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HoLc5D+hNx5QrGENvBWBrvCjr1fpxN5wsydjW3F0m8PjY4LDLTDwcGq7Q03+/myWRxefUbqP+Mct4xS6iZiQH23+m0XDXjRjMQUFdwAqEtTtUGBKtCqfdWm+NnN64OsWSnljeNYHxQ403T330JGYNf7yRZLXXsts/tX4MRGMMQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZudmKuOd; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X44QETJD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZudmKuOd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772256871; x=1803792871;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sTo7ttKxW4qkAJ7gPSFGQddJdAolYP33nHR3bLxdvBI=;
-  b=X44QETJDXZayc2zl75amAAnD0Mb8yFmJ+ce4RgJMmjXRCwgs7bG9vc52
-   5LuCXi9T15PtP6p9yBRxZqB/bwCrD8Gog34oMi4420S+HJWfrimtAHV7i
-   RnQXWP53/P4/ZUIEyCe56YPlM4qBA94eWXEsFQQ6znb6errWcBPlZq5Xj
-   ZPCwLzo09Qj68kXpFlVJPDQ96qWaViY6NOxngFWRWYY/yVZ4MnPNU0jxa
-   QByPKMpG3HoDlQRY2yLPVW/Y38ycyWaUNus/WS7tRc4EksCJzAapl6cxf
-   JFkuaN/t8/KBhrTozSwTNUuUVWnhGERF2wvvJs9p6ynosquMxjnUznupJ
+  t=1772257241; x=1803793241;
+  h=date:from:to:cc:subject:message-id;
+  bh=DyBPhgYY8IoSLFiSD65DxhpHDLm5jXLHPkdxpDjXvO8=;
+  b=ZudmKuOdUbaKRWHGwo92DINEyc5/pspVR0655u2w7r87IgPSYO00voSl
+   Q+TGem2Ze4i69lBQORX3qeFCt57Lg/iAbPfMAbVaRrgKRBgz/Ww4LXBdA
+   0weeuo97xwlKO0AM/gexe83S2uzQn68E6jZfMr4imhqG8Jz27+/eHZHNU
+   /szJbAMkaCfo7hTWA8iBLUnyT0qahmB9/XMy5KdCrwQljGoCoHi1O47VA
+   PYc8P5vpP8ii4aewtWwePQ9RM+c0heyXQP6EWd7mP53keJ7A82o+sl0hD
+   tC4c6xus9/aCU7QZUWCijqdl9ZpSriwNDBXwyWb9tGKlmZr86AzdiRiLs
    Q==;
-X-CSE-ConnectionGUID: J3UfnrGtT8249ZmZ0jjsaw==
-X-CSE-MsgGUID: z/k/6HA2RQW+Pnov7G5gow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="83675015"
+X-CSE-ConnectionGUID: suol28xKS1KmomFmLdNwgQ==
+X-CSE-MsgGUID: S+j0uU7WQy2gk6sSct4EeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="84806286"
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="83675015"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 21:34:30 -0800
-X-CSE-ConnectionGUID: S5AEptvYTtqF/GCtLPcCFA==
-X-CSE-MsgGUID: 9+Qbd53OQ5iLoWIw3O4tNw==
+   d="scan'208";a="84806286"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 21:40:40 -0800
+X-CSE-ConnectionGUID: untwuT/TSZCiZMI64b/j2Q==
+X-CSE-MsgGUID: N3Tl4vW3QAW8JD7A/w2CFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="214881695"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Feb 2026 21:34:25 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+   d="scan'208";a="214451411"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 27 Feb 2026 21:40:39 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwCy5-00000000BKB-3zAQ;
-	Sat, 28 Feb 2026 05:34:21 +0000
-Date: Sat, 28 Feb 2026 13:33:38 +0800
+	id 1vwD48-000000000hx-2lt1;
+	Sat, 28 Feb 2026 05:40:36 +0000
+Date: Sat, 28 Feb 2026 06:39:44 +0100
 From: kernel test robot <lkp@intel.com>
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
-	Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	James.Bottomley@hansenpartnership.com, dhowells@redhat.com,
-	Fan Wu <wufan@kernel.org>, Ryan Foster <foster.ryan.r@gmail.com>,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v2 07/10] security: Hornet LSM
-Message-ID: <202602281307.9DVHYnXF-lkp@intel.com>
-References: <20260227233930.2418522-8-bboscaccy@linux.microsoft.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 3/3]
+ arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@21300000
+ (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too
+ long
+Message-ID: <202602280634.lw3Mw5GJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260227233930.2418522-8-bboscaccy@linux.microsoft.com>
 
-Hi Blaise,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.0-rc1 next-20260227]
-[cannot apply to herbert-cryptodev-2.6/master herbert-crypto-2.6/master shuah-kselftest/next shuah-kselftest/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Blaise-Boscaccy/certs-break-out-pkcs7-check-into-its-own-function/20260228-074528
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260227233930.2418522-8-bboscaccy%40linux.microsoft.com
-patch subject: [PATCH v2 07/10] security: Hornet LSM
-config: csky-randconfig-r071-20260228 (https://download.01.org/0day-ci/archive/20260228/202602281307.9DVHYnXF-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602281307.9DVHYnXF-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   781b2c569af65bdd28b176733884d86c455b912e
+commit: 27357b61522f7c06e81ab71cc20329f695f8f346 [3/3] arm64: dts: qcom: sc8280xp: Add missing VDD_MXC links
+config: arm64-randconfig-2053-20260226 (https://download.01.org/0day-ci/archive/20260228/202602280634.lw3Mw5GJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280634.lw3Mw5GJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602281307.9DVHYnXF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602280634.lw3Mw5GJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   security/hornet/hornet_lsm.c: In function 'hornet_check_program':
->> security/hornet/hornet_lsm.c:183:15: error: implicit declaration of function 'verify_pkcs7_signature'; did you mean 'bpf_verify_pkcs7_signature'? [-Wimplicit-function-declaration]
-     183 |         err = verify_pkcs7_signature(prog->insnsi, prog->len * sizeof(struct bpf_insn),
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-         |               bpf_verify_pkcs7_signature
->> security/hornet/hornet_lsm.c:197:13: error: implicit declaration of function 'validate_pkcs7_trust' [-Wimplicit-function-declaration]
-     197 |         if (validate_pkcs7_trust(msg, VERIFY_USE_SECONDARY_KEYRING)) {
-         |             ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +183 security/hornet/hornet_lsm.c
-
-   153	
-   154	static int hornet_check_program(struct bpf_prog *prog, union bpf_attr *attr,
-   155					struct bpf_token *token, bool is_kernel)
-   156	{
-   157		struct hornet_maps maps = {0};
-   158		bpfptr_t usig = make_bpfptr(attr->signature, is_kernel);
-   159		struct pkcs7_message *msg;
-   160		struct hornet_parse_context *ctx;
-   161		void *sig;
-   162		int err;
-   163		const void *authattrs;
-   164		size_t authattrs_len;
-   165	
-   166		if (!attr->signature)
-   167			return LSM_INT_VERDICT_UNSIGNED;
-   168	
-   169		ctx = kzalloc(sizeof(struct hornet_parse_context), GFP_KERNEL);
-   170		if (!ctx)
-   171			return -ENOMEM;
-   172	
-   173		maps.fd_array = make_bpfptr(attr->fd_array, is_kernel);
-   174		sig = kzalloc(attr->signature_size, GFP_KERNEL);
-   175		if (!sig) {
-   176			err = -ENOMEM;
-   177			goto out;
-   178		}
-   179		err = copy_from_bpfptr(sig, usig, attr->signature_size);
-   180		if (err != 0)
-   181			goto cleanup_sig;
-   182	
- > 183		err = verify_pkcs7_signature(prog->insnsi, prog->len * sizeof(struct bpf_insn),
-   184					     sig, attr->signature_size, VERIFY_USE_SECONDARY_KEYRING,
-   185					     VERIFYING_BPF_SIGNATURE, NULL, NULL);
-   186		if (err < 0) {
-   187			err = LSM_INT_VERDICT_BADSIG;
-   188			goto cleanup_sig;
-   189		}
-   190	
-   191		msg = pkcs7_parse_message(sig, attr->signature_size);
-   192		if (IS_ERR(msg)) {
-   193			err = LSM_INT_VERDICT_BADSIG;
-   194			goto cleanup_sig;
-   195		}
-   196	
- > 197		if (validate_pkcs7_trust(msg, VERIFY_USE_SECONDARY_KEYRING)) {
-   198			err = LSM_INT_VERDICT_PARTIALSIG;
-   199			goto cleanup_msg;
-   200		}
-   201		if (pkcs7_get_authattr(msg, OID_hornet_data,
-   202				       &authattrs, &authattrs_len) == -ENODATA) {
-   203			err = LSM_INT_VERDICT_PARTIALSIG;
-   204			goto cleanup_msg;
-   205		}
-   206	
-   207		err = asn1_ber_decoder(&hornet_decoder, ctx, authattrs, authattrs_len);
-   208		if (err < 0 || authattrs == NULL) {
-   209			err = LSM_INT_VERDICT_PARTIALSIG;
-   210			goto cleanup_msg;
-   211		}
-   212		err = hornet_verify_hashes(&maps, ctx, prog);
-   213	
-   214	cleanup_msg:
-   215		pkcs7_free_message(msg);
-   216	cleanup_sig:
-   217		kfree(sig);
-   218	out:
-   219		kfree(ctx);
-   220		return err;
-   221	}
-   222	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[60, 13], [60, 0], [60, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[60, 13], [60, 0], [60, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:4541.12-4545.7: Warning (graph_child_address): /soc@0/camss@ac5a000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
 
 -- 
 0-DAY CI Kernel Test Service
