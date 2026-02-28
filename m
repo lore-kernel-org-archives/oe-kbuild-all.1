@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0F818A6A8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 05:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C1128641E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 06:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772258073; cv=none; b=qSYLcGse5l4hP9DpxuRotcBDdS1jxNIYq+8+9MbQYQ3aZEzkQ4x0mQYXiBEVHmTmwdOMfUhJOsDjl7zI3pvG3F/NgEeOPRmIKFY20LhryXnXMbezQnLH8oVRzmu0DO6DL/Ui33QgP1ALFoBdSqudrB4Co9cezYYqCPSQLESJprY=
+	t=1772259405; cv=none; b=cHbqAAYxVTHNtbHO18rPVNAvTzd3sZoPLblN5Fm/le00jHMLGkhjOA0UEHhgP2dDQ4tQPPycAMbwPufae5B3lA0YMqGLLJ1rjeg3NKPGbya7cntfEnQEcnQ8oCijSxKQDodAnumczr+Wd9aJlck7mS98TDrP1dpsOm95ac2NGMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772258073; c=relaxed/simple;
-	bh=38e/9bhyqD6L0Z1Ry3h1fDjv1caWFmpiq1ThBnCfS68=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NAIJCIyEdLbvOxjIISNRVLbhk+S8ehnpOHWmcfyH7FSIBCjoqVRdGu0F8wJ3vatWfagYcKQdblF1b8UGKO7ccW8wHa/EX0Spf1X3hg8HuQ9XZgv5P4pbZEn8O9XI7UnG+vV+9K3AmyFf02uuiS/+dKidpg2LK62G9BD9TE4jBo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I08sIf0r; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1772259405; c=relaxed/simple;
+	bh=+0BJCe6saYv0hdhutKOCNMJuBvSSDS3Lsm51iUj1uG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FkLn9kM34lMQw4EIxYJvB3BBVhEz6e8lXcdtTzcdkhBWLoBTAbbP+hq+Wi5CLG6POyZONNDBB/KVvKi2mjFyuNt/kOvR3lxow4eCpKH8D2i8fLJX2e/iPKeFclA4wLGaQtfRlT3zj0HPsvMG2HapcDtQ+DY3HKAvCjcmmYoQ0R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sl/LOt0u; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I08sIf0r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sl/LOt0u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772258071; x=1803794071;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=38e/9bhyqD6L0Z1Ry3h1fDjv1caWFmpiq1ThBnCfS68=;
-  b=I08sIf0rr4J3iFahEWvmYkjOYjLL7Ga3SV6GDhWuH65TX61/9UdVezzN
-   POuqQwNgkPIF5D0Hwt48lzUC8893CLAlltOs14adrePbfXSK6OTrlXfBX
-   oUl3kiIFepsnpc4cPs2PCjwyusrNDZzkq7gx2IezDiNJYXpoOuJa+Pkx/
-   jMhrl3ZFAkldQ3OT42PVPSwYqZu3TMIRO/NtVCZ9T9MEAMS7IkR6I32t9
-   TnRbZm9odbdizE1QXb2sSVgxIgzc0eOpNdagJTBi8g9T1L29FnfMjfJb9
-   LA5lpgvl3U5/Y6OtNAB09V135u/Q/nHUT1TsAy7s8FRwTbk7vFM82R0AP
-   Q==;
-X-CSE-ConnectionGUID: TdmNE4A4Sjq9u7iq1ksLww==
-X-CSE-MsgGUID: wEQyEqL7RKKeLuZCPArMYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73045244"
+  t=1772259401; x=1803795401;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+0BJCe6saYv0hdhutKOCNMJuBvSSDS3Lsm51iUj1uG8=;
+  b=Sl/LOt0uequh+rB58Ahs/Ms2m87rR0PMnvjSnivXwGANtcxhiDtlIuvK
+   CN0XFy/SYjYgHy9xudGed2R78QE3GwM8itIYOvneA0nStpvqNpJJfuk3R
+   5OQ5EE4xOue3+XrDeuhHMmcT8f6mlkjLZI2lCnzHt5IRkvxE7r+K4eFT/
+   XY8lROlhBJKepDiCKQn9L6DSjMF43y/f6m4xfHrcCkdL7AQS0FFGnmDu3
+   JHzu7OOOdPz135TkobbtXQYzsTXSHJ/hzxYIedze7ndYQsKK7xMf0PyWQ
+   DWFNk/zQthH9GtgkAAe4yExY3UkBpJ7FgGxBZjZY8pqHmn+QgN90xYnMK
+   w==;
+X-CSE-ConnectionGUID: kBQmywzCTiKF3nMqtCfRgw==
+X-CSE-MsgGUID: NOYGIvBHRYiDflE271tTDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="77208872"
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="73045244"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 21:54:31 -0800
-X-CSE-ConnectionGUID: LfzuqNsyR5yymZjMAIx+vQ==
-X-CSE-MsgGUID: AkxuN2yFQR6PR3/zFKlMlg==
+   d="scan'208";a="77208872"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 22:16:40 -0800
+X-CSE-ConnectionGUID: ml8gOaWjRd2eH2wZ7OuGfw==
+X-CSE-MsgGUID: ly7iwZ6BQAuQYDtBfwQwPQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
+   d="scan'208";a="220301822"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Feb 2026 21:54:28 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Feb 2026 22:16:39 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwDHV-00000000BKZ-3Q4Q;
-	Sat, 28 Feb 2026 05:54:25 +0000
-Date: Sat, 28 Feb 2026 13:54:19 +0800
+	id 1vwDcy-00000000BKr-2A96;
+	Sat, 28 Feb 2026 06:16:36 +0000
+Date: Sat, 28 Feb 2026 14:15:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master 2629/2633]
- arch/um/drivers/ubd_kern.c:1308:21: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202602281319.yqOdyCtI-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2026-01 3/3]
+ =?us-ascii?Q?arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgt?=
+ =?us-ascii?Q?able-arm-common.c:143:5:?= warning: no previous prototype for
+ '__arm_lpae_map'
+Message-ID: <202602281428.kaeWTkhr-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,422 +61,258 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   3fa5e5702a82d259897bd7e209469bc06368bf31
-commit: f5129f2f71ebf72c309430225b05d509abce6180 [2629/2633] Merge branch '=
-for-next/kspp' of https://git.kernel.org/pub/scm/linux/kernel/git/kees/linu=
-x.git
-config: um-randconfig-r123-20260228 (https://download.01.org/0day-ci/archiv=
-e/20260228/202602281319.yqOdyCtI-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a1=
-09fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260228/202602281319.yqOdyCtI-lkp@intel.com/reproduce)
+Hi Jean-Philippe,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-01
+head:   350f378eb496c856c82d81aace74f992c9e2041e
+commit: cc07183cc836e2c8e29a55ae6e8e2aa431d59170 [3/3] BACKPORT: FROMLIST: KVM: arm64: smmu-v3: Support io-pgtable
+config: arm64-randconfig-002-20260227 (https://download.01.org/0day-ci/archive/20260228/202602281428.kaeWTkhr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602281428.kaeWTkhr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602281319.yqOdyCtI-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602281428.kaeWTkhr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/um/drivers/ubd_kern.c:1308:21: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected int res @@     got restrict=
-ed blk_status_t [usertype] @@
-   arch/um/drivers/ubd_kern.c:1308:21: sparse:     expected int res
-   arch/um/drivers/ubd_kern.c:1308:21: sparse:     got restricted blk_statu=
-s_t [usertype]
-   arch/um/drivers/ubd_kern.c:1315:29: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected int res @@     got restrict=
-ed blk_status_t [usertype] @@
-   arch/um/drivers/ubd_kern.c:1315:29: sparse:     expected int res
-   arch/um/drivers/ubd_kern.c:1315:29: sparse:     got restricted blk_statu=
-s_t [usertype]
-   arch/um/drivers/ubd_kern.c:1317:29: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected int res @@     got restrict=
-ed blk_status_t [usertype] @@
-   arch/um/drivers/ubd_kern.c:1317:29: sparse:     expected int res
-   arch/um/drivers/ubd_kern.c:1317:29: sparse:     got restricted blk_statu=
-s_t [usertype]
->> arch/um/drivers/ubd_kern.c:1320:16: sparse: sparse: incorrect type in re=
-turn expression (different base types) @@     expected restricted blk_statu=
-s_t @@     got int res @@
-   arch/um/drivers/ubd_kern.c:1320:16: sparse:     expected restricted blk_=
-status_t
-   arch/um/drivers/ubd_kern.c:1320:16: sparse:     got int res
->> arch/um/drivers/ubd_kern.c:450:30: sparse: sparse: restricted blk_status=
-_t degrades to integer
->> arch/um/drivers/ubd_kern.c:456:47: sparse: sparse: incorrect type in arg=
-ument 2 (different base types) @@     expected restricted blk_status_t [use=
-rtype] error @@     got int error @@
-   arch/um/drivers/ubd_kern.c:456:47: sparse:     expected restricted blk_s=
-tatus_t [usertype] error
-   arch/um/drivers/ubd_kern.c:456:47: sparse:     got int error
->> arch/um/drivers/ubd_kern.c:1074:25: sparse: sparse: Using plain integer =
-as NULL pointer
-   arch/um/drivers/ubd_kern.c:1083:24: sparse: sparse: Using plain integer =
-as NULL pointer
->> arch/um/drivers/ubd_kern.c:1372:24: sparse: sparse: incorrect type in re=
-turn expression (different base types) @@     expected int @@     got restr=
-icted blk_status_t [usertype] @@
-   arch/um/drivers/ubd_kern.c:1372:24: sparse:     expected int
-   arch/um/drivers/ubd_kern.c:1372:24: sparse:     got restricted blk_statu=
-s_t [usertype]
-   arch/um/drivers/ubd_kern.c:1374:24: sparse: sparse: incorrect type in re=
-turn expression (different base types) @@     expected int @@     got restr=
-icted blk_status_t [usertype] @@
-   arch/um/drivers/ubd_kern.c:1374:24: sparse:     expected int
-   arch/um/drivers/ubd_kern.c:1374:24: sparse:     got restricted blk_statu=
-s_t [usertype]
-   arch/um/drivers/ubd_kern.c:1376:16: sparse: sparse: incorrect type in re=
-turn expression (different base types) @@     expected int @@     got restr=
-icted blk_status_t [usertype] @@
-   arch/um/drivers/ubd_kern.c:1376:16: sparse:     expected int
-   arch/um/drivers/ubd_kern.c:1376:16: sparse:     got restricted blk_statu=
-s_t [usertype]
->> arch/um/drivers/ubd_kern.c:1474:36: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected int error @@     got restri=
-cted blk_status_t [usertype] @@
-   arch/um/drivers/ubd_kern.c:1474:36: sparse:     expected int error
-   arch/um/drivers/ubd_kern.c:1474:36: sparse:     got restricted blk_statu=
-s_t [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +1308 arch/um/drivers/ubd_kern.c
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:143:5: warning: no previous prototype for '__arm_lpae_map' [-Wmissing-prototypes]
+     143 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
+         |     ^~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:264:5: warning: no previous prototype for 'arm_lpae_map_pages' [-Wmissing-prototypes]
+     264 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
+         |     ^~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype for '__arm_lpae_unmap_pages' [-Wmissing-prototypes]
+     471 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
+         |        ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:493:13: warning: no previous prototype for 'arm_lpae_iova_to_phys' [-Wmissing-prototypes]
+     493 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:529:8: warning: no previous prototype for 'arm_lpae_unmap_pages' [-Wmissing-prototypes]
+     529 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
+         |        ^~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c:536:8: warning: no previous prototype for 'arm_lpae_unmap_pages_walk' [-Wmissing-prototypes]
+     536 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-53766defb8c860 Anton Ivanov                   2018-11-14  1286 =20
-4e6da0fe8058df Richard Weinberger             2017-11-26  1287  static blk_=
-status_t ubd_queue_rq(struct blk_mq_hw_ctx *hctx,
-4e6da0fe8058df Richard Weinberger             2017-11-26  1288  				 const =
-struct blk_mq_queue_data *bd)
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1289  {
-6961cd4d0fde97 Jens Axboe                     2018-11-07  1290  	struct ubd=
- *ubd_dev =3D hctx->queue->queuedata;
-4e6da0fe8058df Richard Weinberger             2017-11-26  1291  	struct req=
-uest *req =3D bd->rq;
-53766defb8c860 Anton Ivanov                   2018-11-14  1292  	int ret =
-=3D 0, res =3D BLK_STS_OK;
-a0044bdf60c212 Jeff Dike                      2007-05-06  1293 =20
-4e6da0fe8058df Richard Weinberger             2017-11-26  1294  	blk_mq_sta=
-rt_request(req);
-a0044bdf60c212 Jeff Dike                      2007-05-06  1295 =20
-6961cd4d0fde97 Jens Axboe                     2018-11-07  1296  	spin_lock_=
-irq(&ubd_dev->lock);
-6961cd4d0fde97 Jens Axboe                     2018-11-07  1297 =20
-53766defb8c860 Anton Ivanov                   2018-11-14  1298  	switch (re=
-q_op(req)) {
-53766defb8c860 Anton Ivanov                   2018-11-14  1299  	case REQ_O=
-P_FLUSH:
-53766defb8c860 Anton Ivanov                   2018-11-14  1300  	case REQ_O=
-P_READ:
-53766defb8c860 Anton Ivanov                   2018-11-14  1301  	case REQ_O=
-P_WRITE:
-50109b5a03b402 Anton Ivanov                   2018-11-14  1302  	case REQ_O=
-P_DISCARD:
-50109b5a03b402 Anton Ivanov                   2018-11-14  1303  	case REQ_O=
-P_WRITE_ZEROES:
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1304  		ret =3D u=
-bd_submit_request(ubd_dev, req);
-50109b5a03b402 Anton Ivanov                   2018-11-14  1305  		break;
-53766defb8c860 Anton Ivanov                   2018-11-14  1306  	default:
-53766defb8c860 Anton Ivanov                   2018-11-14  1307  		WARN_ON_O=
-NCE(1);
-53766defb8c860 Anton Ivanov                   2018-11-14 @1308  		res =3D B=
-LK_STS_NOTSUPP;
-2adcec21978973 Jeff Dike                      2007-05-06  1309  	}
-53766defb8c860 Anton Ivanov                   2018-11-14  1310 =20
-6961cd4d0fde97 Jens Axboe                     2018-11-07  1311  	spin_unloc=
-k_irq(&ubd_dev->lock);
-6961cd4d0fde97 Jens Axboe                     2018-11-07  1312 =20
-d848074b2f1eb1 Anton Ivanov                   2019-10-29  1313  	if (ret < =
-0) {
-d848074b2f1eb1 Anton Ivanov                   2019-10-29  1314  		if (ret =
-=3D=3D -ENOMEM)
-d848074b2f1eb1 Anton Ivanov                   2019-10-29 @1315  			res =3D =
-BLK_STS_RESOURCE;
-d848074b2f1eb1 Anton Ivanov                   2019-10-29  1316  		else
-d848074b2f1eb1 Anton Ivanov                   2019-10-29 @1317  			res =3D =
-BLK_STS_DEV_RESOURCE;
-d848074b2f1eb1 Anton Ivanov                   2019-10-29  1318  	}
-6961cd4d0fde97 Jens Axboe                     2018-11-07  1319 =20
-53766defb8c860 Anton Ivanov                   2018-11-14 @1320  	return res;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1321  }
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1322 =20
-4fc8728aa34f54 Al Viro                        2024-05-21  1323  static int =
-ubd_getgeo(struct gendisk *disk, struct hd_geometry *geo)
-a885c8c4316e1c Christoph Hellwig              2006-01-08  1324  {
-4fc8728aa34f54 Al Viro                        2024-05-21  1325  	struct ubd=
- *ubd_dev =3D disk->private_data;
-a885c8c4316e1c Christoph Hellwig              2006-01-08  1326 =20
-a885c8c4316e1c Christoph Hellwig              2006-01-08  1327  	geo->heads=
- =3D 128;
-a885c8c4316e1c Christoph Hellwig              2006-01-08  1328  	geo->secto=
-rs =3D 32;
-7d314e346d6081 Paolo 'Blaisorblade' Giarrusso 2006-10-30  1329  	geo->cylin=
-ders =3D ubd_dev->size / (128 * 32 * 512);
-a885c8c4316e1c Christoph Hellwig              2006-01-08  1330  	return 0;
-a885c8c4316e1c Christoph Hellwig              2006-01-08  1331  }
-a885c8c4316e1c Christoph Hellwig              2006-01-08  1332 =20
-05bdb9965305bb Christoph Hellwig              2023-06-08  1333  static int =
-ubd_ioctl(struct block_device *bdev, blk_mode_t mode,
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1334  		     unsi=
-gned int cmd, unsigned long arg)
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1335  {
-a625c998e638c5 Al Viro                        2008-03-02  1336  	struct ubd=
- *ubd_dev =3D bdev->bd_disk->private_data;
-73855e13b2bce2 Bartlomiej Zolnierkiewicz      2009-04-01  1337  	u16 ubd_id=
-[ATA_ID_WORDS];
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1338 =20
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1339  	switch (cm=
-d) {
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1340  		struct cd=
-rom_volctrl volume;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1341  	case HDIO_=
-GET_IDENTITY:
-73855e13b2bce2 Bartlomiej Zolnierkiewicz      2009-04-01  1342  		memset(&u=
-bd_id, 0, ATA_ID_WORDS * 2);
-73855e13b2bce2 Bartlomiej Zolnierkiewicz      2009-04-01  1343  		ubd_id[AT=
-A_ID_CYLS]	=3D ubd_dev->size / (128 * 32 * 512);
-73855e13b2bce2 Bartlomiej Zolnierkiewicz      2009-04-01  1344  		ubd_id[AT=
-A_ID_HEADS]	=3D 128;
-73855e13b2bce2 Bartlomiej Zolnierkiewicz      2009-04-01  1345  		ubd_id[AT=
-A_ID_SECTORS]	=3D 32;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1346  		if(copy_t=
-o_user((char __user *) arg, (char *) &ubd_id,
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1347  				 sizeof=
-(ubd_id)))
-dc764e5087bcee Jeff Dike                      2007-05-06  1348  			return -=
-EFAULT;
-dc764e5087bcee Jeff Dike                      2007-05-06  1349  		return 0;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1350 =20
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1351  	case CDROM=
-VOLREAD:
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1352  		if(copy_f=
-rom_user(&volume, (char __user *) arg, sizeof(volume)))
-dc764e5087bcee Jeff Dike                      2007-05-06  1353  			return -=
-EFAULT;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1354  		volume.ch=
-annel0 =3D 255;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1355  		volume.ch=
-annel1 =3D 255;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1356  		volume.ch=
-annel2 =3D 255;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1357  		volume.ch=
-annel3 =3D 255;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1358  		if(copy_t=
-o_user((char __user *) arg, &volume, sizeof(volume)))
-dc764e5087bcee Jeff Dike                      2007-05-06  1359  			return -=
-EFAULT;
-dc764e5087bcee Jeff Dike                      2007-05-06  1360  		return 0;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1361  	}
-dc764e5087bcee Jeff Dike                      2007-05-06  1362  	return -EI=
-NVAL;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1363  }
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1364 =20
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1365  static int =
-map_error(int error_code)
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1366  {
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1367  	switch (er=
-ror_code) {
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1368  	case 0:
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1369  		return BL=
-K_STS_OK;
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1370  	case ENOSY=
-S:
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1371  	case EOPNO=
-TSUPP:
-a43c83161a5ec1 Anton Ivanov                   2018-11-14 @1372  		return BL=
-K_STS_NOTSUPP;
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1373  	case ENOSP=
-C:
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1374  		return BL=
-K_STS_NOSPC;
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1375  	}
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1376  	return BLK=
-_STS_IOERR;
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1377  }
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1378 =20
-a41421edb926fc Anton Ivanov                   2018-11-14  1379  /*
-a41421edb926fc Anton Ivanov                   2018-11-14  1380   * Everythi=
-ng from here onwards *IS NOT PART OF THE KERNEL*
-a41421edb926fc Anton Ivanov                   2018-11-14  1381   *
-a41421edb926fc Anton Ivanov                   2018-11-14  1382   * The foll=
-owing functions are part of UML hypervisor code.
-a41421edb926fc Anton Ivanov                   2018-11-14  1383   * All func=
-tions from here onwards are executed as a helper
-a41421edb926fc Anton Ivanov                   2018-11-14  1384   * thread a=
-nd are not allowed to execute any kernel functions.
-a41421edb926fc Anton Ivanov                   2018-11-14  1385   *
-a41421edb926fc Anton Ivanov                   2018-11-14  1386   * Any comm=
-unication must occur strictly via shared memory and IPC.
-a41421edb926fc Anton Ivanov                   2018-11-14  1387   *
-a41421edb926fc Anton Ivanov                   2018-11-14  1388   * Do not a=
-dd printks, locks, kernel memory operations, etc - it
-a41421edb926fc Anton Ivanov                   2018-11-14  1389   * will res=
-ult in unpredictable behaviour and/or crashes.
-a41421edb926fc Anton Ivanov                   2018-11-14  1390   */
-a41421edb926fc Anton Ivanov                   2018-11-14  1391 =20
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1392  static int =
-update_bitmap(struct io_thread_req *req, struct io_desc *segment)
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1393  {
-91acb21f084aa2 Jeff Dike                      2005-10-10  1394  	int n;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1395 =20
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1396  	if (segmen=
-t->cow_offset =3D=3D -1)
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1397  		return ma=
-p_error(0);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1398 =20
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1399  	n =3D os_p=
-write_file(req->fds[1], &segment->bitmap_words,
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1400  			  sizeof=
-(segment->bitmap_words), segment->cow_offset);
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1401  	if (n !=3D =
-sizeof(segment->bitmap_words))
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1402  		return ma=
-p_error(-n);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1403 =20
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1404  	return map=
-_error(0);
-09ace81c1d737b Jeff Dike                      2005-09-03  1405  }
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1406 =20
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1407  static void=
- do_io(struct io_thread_req *req, struct io_desc *desc)
-91acb21f084aa2 Jeff Dike                      2005-10-10  1408  {
-50109b5a03b402 Anton Ivanov                   2018-11-14  1409  	char *buf =
-=3D NULL;
-91acb21f084aa2 Jeff Dike                      2005-10-10  1410  	unsigned l=
-ong len;
-91acb21f084aa2 Jeff Dike                      2005-10-10  1411  	int n, nse=
-ctors, start, end, bit;
-91acb21f084aa2 Jeff Dike                      2005-10-10  1412  	__u64 off;
-91acb21f084aa2 Jeff Dike                      2005-10-10  1413 =20
-50109b5a03b402 Anton Ivanov                   2018-11-14  1414  	/* FLUSH i=
-s really a special case, we cannot "case" it with others */
-50109b5a03b402 Anton Ivanov                   2018-11-14  1415 =20
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1416  	if (req_op=
-(req->req) =3D=3D REQ_OP_FLUSH) {
-805f11a0d51565 Richard Weinberger             2013-08-18  1417  		/* fds[0]=
- is always either the rw image or our cow file */
-a41421edb926fc Anton Ivanov                   2018-11-14  1418  		req->erro=
-r =3D map_error(-os_sync_file(req->fds[0]));
-805f11a0d51565 Richard Weinberger             2013-08-18  1419  		return;
-805f11a0d51565 Richard Weinberger             2013-08-18  1420  	}
-805f11a0d51565 Richard Weinberger             2013-08-18  1421 =20
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1422  	nsectors =
-=3D desc->length / req->sectorsize;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1423  	start =3D =
-0;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1424  	do {
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1425  		bit =3D u=
-bd_test_bit(start, (unsigned char *) &desc->sector_mask);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1426  		end =3D s=
-tart;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1427  		while((en=
-d < nsectors) &&
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1428  		      (ub=
-d_test_bit(end, (unsigned char *) &desc->sector_mask) =3D=3D bit))
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1429  			end++;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1430 =20
-91acb21f084aa2 Jeff Dike                      2005-10-10  1431  		off =3D r=
-eq->offset + req->offsets[bit] +
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1432  			start * =
-req->sectorsize;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1433  		len =3D (=
-end - start) * req->sectorsize;
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1434  		if (desc-=
->buffer !=3D NULL)
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1435  			buf =3D =
-&desc->buffer[start * req->sectorsize];
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1436 =20
-50109b5a03b402 Anton Ivanov                   2018-11-14  1437  		switch (r=
-eq_op(req->req)) {
-50109b5a03b402 Anton Ivanov                   2018-11-14  1438  		case REQ_=
-OP_READ:
-91acb21f084aa2 Jeff Dike                      2005-10-10  1439  			n =3D 0;
-91acb21f084aa2 Jeff Dike                      2005-10-10  1440  			do {
-91acb21f084aa2 Jeff Dike                      2005-10-10  1441  				buf =3D =
-&buf[n];
-91acb21f084aa2 Jeff Dike                      2005-10-10  1442  				len -=
-=3D n;
-8c6157b6b30a76 Anton Ivanov                   2015-12-21  1443  				n =3D o=
-s_pread_file(req->fds[bit], buf, len, off);
-91acb21f084aa2 Jeff Dike                      2005-10-10  1444  				if (n <=
- 0) {
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1445  					req->e=
-rror =3D map_error(-n);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1446  					return;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1447  				}
-91acb21f084aa2 Jeff Dike                      2005-10-10  1448  			} while(=
-(n < len) && (n !=3D 0));
-91acb21f084aa2 Jeff Dike                      2005-10-10  1449  			if (n < =
-len) memset(&buf[n], 0, len - n);
-50109b5a03b402 Anton Ivanov                   2018-11-14  1450  			break;
-50109b5a03b402 Anton Ivanov                   2018-11-14  1451  		case REQ_=
-OP_WRITE:
-8c6157b6b30a76 Anton Ivanov                   2015-12-21  1452  			n =3D os=
-_pwrite_file(req->fds[bit], buf, len, off);
-91acb21f084aa2 Jeff Dike                      2005-10-10  1453  			if(n !=
-=3D len){
-a43c83161a5ec1 Anton Ivanov                   2018-11-14  1454  				req->er=
-ror =3D map_error(-n);
-91acb21f084aa2 Jeff Dike                      2005-10-10  1455  				return;
-91acb21f084aa2 Jeff Dike                      2005-10-10  1456  			}
-50109b5a03b402 Anton Ivanov                   2018-11-14  1457  			break;
-50109b5a03b402 Anton Ivanov                   2018-11-14  1458  		case REQ_=
-OP_DISCARD:
-50109b5a03b402 Anton Ivanov                   2018-11-14  1459  			n =3D os=
-_falloc_punch(req->fds[bit], off, len);
-50109b5a03b402 Anton Ivanov                   2018-11-14  1460  			if (n) {
-50109b5a03b402 Anton Ivanov                   2018-11-14  1461  				req->er=
-ror =3D map_error(-n);
-50109b5a03b402 Anton Ivanov                   2018-11-14  1462  				return;
-50109b5a03b402 Anton Ivanov                   2018-11-14  1463  			}
-50109b5a03b402 Anton Ivanov                   2018-11-14  1464  			break;
-d2a0a616ab2246 Fr=C3=A9d=C3=A9ric Danis                 2022-01-25  1465  	=
-	case REQ_OP_WRITE_ZEROES:
-d2a0a616ab2246 Fr=C3=A9d=C3=A9ric Danis                 2022-01-25  1466  	=
-		n =3D os_falloc_zeroes(req->fds[bit], off, len);
-d2a0a616ab2246 Fr=C3=A9d=C3=A9ric Danis                 2022-01-25  1467  	=
-		if (n) {
-d2a0a616ab2246 Fr=C3=A9d=C3=A9ric Danis                 2022-01-25  1468  	=
-			req->error =3D map_error(-n);
-d2a0a616ab2246 Fr=C3=A9d=C3=A9ric Danis                 2022-01-25  1469  	=
-			return;
-d2a0a616ab2246 Fr=C3=A9d=C3=A9ric Danis                 2022-01-25  1470  	=
-		}
-d2a0a616ab2246 Fr=C3=A9d=C3=A9ric Danis                 2022-01-25  1471  	=
-		break;
-50109b5a03b402 Anton Ivanov                   2018-11-14  1472  		default:
-50109b5a03b402 Anton Ivanov                   2018-11-14  1473  			WARN_ON_=
-ONCE(1);
-50109b5a03b402 Anton Ivanov                   2018-11-14 @1474  			req->err=
-or =3D BLK_STS_NOTSUPP;
-50109b5a03b402 Anton Ivanov                   2018-11-14  1475  			return;
-91acb21f084aa2 Jeff Dike                      2005-10-10  1476  		}
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1477 =20
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1478  		start =3D =
-end;
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1479  	} while(st=
-art < nsectors);
-91acb21f084aa2 Jeff Dike                      2005-10-10  1480 =20
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1481  	req->offse=
-t +=3D len;
-fc6b6a872dcd48 Gabriel Krisman Bertazi        2020-11-21  1482  	req->error=
- =3D update_bitmap(req, desc);
-^1da177e4c3f41 Linus Torvalds                 2005-04-16  1483  }
-91acb21f084aa2 Jeff Dike                      2005-10-10  1484 =20
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
-:::::: The code at line 1308 was first introduced by commit
-:::::: 53766defb8c860a47e2a965f5b4b05ed2848e2d0 um: Clean-up command proces=
-sing in UML UBD driver
 
-:::::: TO: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-:::::: CC: Richard Weinberger <richard@nod.at>
+vim +/__arm_lpae_map +143 arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/io-pgtable-arm-common.c
 
---=20
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  142  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18 @143  int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  144  		   phys_addr_t paddr, size_t size, size_t pgcount,
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  145  		   arm_lpae_iopte prot, int lvl, arm_lpae_iopte *ptep,
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  146  		   gfp_t gfp, size_t *mapped)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  147  {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  148  	arm_lpae_iopte *cptep, pte;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  149  	size_t block_size = ARM_LPAE_BLOCK_SIZE(lvl, data);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  150  	size_t tblsz = ARM_LPAE_GRANULE(data);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  151  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  152  	int ret = 0, num_entries, max_entries, map_idx_start;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  153  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  154  	/* Find our entry at the current level */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  155  	map_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  156  	ptep += map_idx_start;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  157  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  158  	/* If we can install a leaf entry at this level, then do so */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  159  	if (size == block_size) {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  160  		max_entries = ARM_LPAE_PTES_PER_TABLE(data) - map_idx_start;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  161  		num_entries = min_t(int, pgcount, max_entries);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  162  		ret = arm_lpae_init_pte(data, iova, paddr, prot, lvl, num_entries, ptep);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  163  		if (!ret)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  164  			*mapped += num_entries * size;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  165  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  166  		return ret;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  167  	}
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  168  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  169  	/* We can't allocate tables at the final level */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  170  	if (WARN_ON(lvl >= ARM_LPAE_MAX_LEVELS - 1))
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  171  		return -EINVAL;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  172  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  173  	/* Grab a pointer to the next level */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  174  	pte = READ_ONCE(*ptep);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  175  	if (!pte) {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  176  		cptep = __arm_lpae_alloc_pages(tblsz, gfp, cfg);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  177  		if (!cptep)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  178  			return -ENOMEM;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  179  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  180  		pte = arm_lpae_install_table(cptep, ptep, 0, data);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  181  		if (pte)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  182  			__arm_lpae_free_pages(cptep, tblsz, cfg);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  183  	} else if (!cfg->coherent_walk && !(pte & ARM_LPAE_PTE_SW_SYNC)) {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  184  		__arm_lpae_sync_pte(ptep, 1, cfg);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  185  	}
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  186  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  187  	if (pte && !iopte_leaf(pte, lvl, data->iop.fmt)) {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  188  		cptep = iopte_deref(pte, data);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  189  	} else if (pte) {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  190  		/* We require an unmap first */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  191  		WARN_ON(!selftest_running);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  192  		return -EEXIST;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  193  	}
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  194  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  195  	/* Rinse, repeat */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  196  	return __arm_lpae_map(data, iova, paddr, size, pgcount, prot, lvl + 1,
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  197  			      cptep, gfp, mapped);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  198  }
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  199  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  200  static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  201  					   int prot)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  202  {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  203  	arm_lpae_iopte pte;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  204  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  205  	if (data->iop.fmt == ARM_64_LPAE_S1 ||
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  206  	    data->iop.fmt == ARM_32_LPAE_S1) {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  207  		pte = ARM_LPAE_PTE_nG;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  208  		if (!(prot & IOMMU_WRITE) && (prot & IOMMU_READ))
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  209  			pte |= ARM_LPAE_PTE_AP_RDONLY;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  210  		if (!(prot & IOMMU_PRIV))
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  211  			pte |= ARM_LPAE_PTE_AP_UNPRIV;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  212  	} else {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  213  		pte = ARM_LPAE_PTE_HAP_FAULT;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  214  		if (prot & IOMMU_READ)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  215  			pte |= ARM_LPAE_PTE_HAP_READ;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  216  		if (prot & IOMMU_WRITE)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  217  			pte |= ARM_LPAE_PTE_HAP_WRITE;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  218  	}
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  219  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  220  	/*
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  221  	 * Note that this logic is structured to accommodate Mali LPAE
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  222  	 * having stage-1-like attributes but stage-2-like permissions.
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  223  	 */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  224  	if (data->iop.fmt == ARM_64_LPAE_S2 ||
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  225  	    data->iop.fmt == ARM_32_LPAE_S2) {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  226  		if (prot & IOMMU_MMIO)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  227  			pte |= ARM_LPAE_PTE_MEMATTR_DEV;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  228  		else if (prot & IOMMU_CACHE)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  229  			pte |= ARM_LPAE_PTE_MEMATTR_OIWB;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  230  		else
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  231  			pte |= ARM_LPAE_PTE_MEMATTR_NC;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  232  	} else {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  233  		if (prot & IOMMU_MMIO)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  234  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_DEV
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  235  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  236  		else if (prot & IOMMU_CACHE)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  237  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  238  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  239  	}
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  240  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  241  	/*
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  242  	 * Also Mali has its own notions of shareability wherein its Inner
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  243  	 * domain covers the cores within the GPU, and its Outer domain is
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  244  	 * "outside the GPU" (i.e. either the Inner or System domain in CPU
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  245  	 * terms, depending on coherency).
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  246  	 */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  247  	if (prot & IOMMU_CACHE && data->iop.fmt != ARM_MALI_LPAE)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  248  		pte |= ARM_LPAE_PTE_SH_IS;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  249  	else
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  250  		pte |= ARM_LPAE_PTE_SH_OS;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  251  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  252  	if (prot & IOMMU_NOEXEC)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  253  		pte |= ARM_LPAE_PTE_XN;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  254  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  255  	if (data->iop.cfg.quirks & IO_PGTABLE_QUIRK_ARM_NS)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  256  		pte |= ARM_LPAE_PTE_NS;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  257  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  258  	if (data->iop.fmt != ARM_MALI_LPAE)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  259  		pte |= ARM_LPAE_PTE_AF;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  260  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  261  	return pte;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  262  }
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  263  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18 @264  int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  265  		       phys_addr_t paddr, size_t pgsize, size_t pgcount,
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  266  		       int iommu_prot, gfp_t gfp, size_t *mapped)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  267  {
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  268  	struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  269  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  270  	arm_lpae_iopte *ptep = data->pgd;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  271  	int ret, lvl = data->start_level;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  272  	arm_lpae_iopte prot;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  273  	long iaext = (s64)iova >> cfg->ias;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  274  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  275  	if (WARN_ON(!pgsize || (pgsize & cfg->pgsize_bitmap) != pgsize))
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  276  		return -EINVAL;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  277  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  278  	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1)
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  279  		iaext = ~iaext;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  280  	if (WARN_ON(iaext || paddr >> cfg->oas))
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  281  		return -ERANGE;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  282  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  283  	/* If no access, then nothing to do */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  284  	if (!(iommu_prot & (IOMMU_READ | IOMMU_WRITE)))
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  285  		return 0;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  286  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  287  	prot = arm_lpae_prot_to_pte(data, iommu_prot);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  288  	ret = __arm_lpae_map(data, iova, paddr, pgsize, pgcount, prot, lvl,
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  289  			     ptep, gfp, mapped);
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  290  	/*
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  291  	 * Synchronise all PTE updates for the new mapping before there's
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  292  	 * a chance for anything to kick off a table walk for the new iova.
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  293  	 */
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  294  	wmb();
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  295  
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  296  	return ret;
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  297  }
+cf616fc76f2555 Jean-Philippe Brucker 2022-11-18  298  
+
+:::::: The code at line 143 was first introduced by commit
+:::::: cf616fc76f2555d91fc88a543badc8a051f749c9 BACKPORT: FROMLIST: iommu/io-pgtable-arm: Split the page table driver
+
+:::::: TO: Jean-Philippe Brucker <jean-philippe@linaro.org>
+:::::: CC: Mostafa Saleh <smostafa@google.com>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
