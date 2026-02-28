@@ -1,102 +1,198 @@
-Received: from cstnet.cn (smtp37.cstnet.cn [159.226.251.37])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD1315C14F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 06:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBE21C7012
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 08:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772260672; cv=none; b=Ml8fPhsnA9+uDwbIMs5uVO1HJqFNxQYtWhqOxjzdR618zGgCKRrhAVR2YlfX1i7fpX8Nz7X9PZ72IoJz/BK75Zl+T6vCJZnYdslS4bEd3XRFvQwebSahh5V2jO/bsfLtcc68DTQjs+YYKUZ6eaupnQFWOrOQW5BDtAe5hU9RR/M=
+	t=1772267328; cv=none; b=arHM6QPz41e3+JBVzU1lH8JXgh3jHyb87sMjzqmjmiV5dKf6GrP92xCkD3wajU3937SiLPkAkGPqnsvZpKIedKmAO23SpL44guORzZmRkCofc1OxlZ3gEsD2hQQD65pRlCGJIDS4Q2w+kGMIWsT++/q1wd5sLK5iwFIBA8XQ4tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772260672; c=relaxed/simple;
-	bh=4G8Ov/J3yUqLsZRD35KOFvUNKf4mwcRFNuiNJkTmELQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=row81vPVXDcT3MR4jmTAv14zfN6p2GGp2Cjvf38MYq8BslCv3fFUAG2TcJ7GMdWEBCCtUbp/U5QgE9QGqvDkkFz8mq0zgh9eCZwF4ETKtJf+rA4CFF6W3qPLSQMIcl5tbMtTCUakf8NfW9aymtpY0aiKQ/IAkuuWt6RQ1wDkFGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from xujiakai2025$iscas.ac.cn ( [210.73.43.101] ) by
- ajax-webmail-APP-12 (Coremail) ; Sat, 28 Feb 2026 14:30:25 +0800
- (GMT+08:00)
-Date: Sat, 28 Feb 2026 14:30:25 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Jiakai Xu" <xujiakai2025@iscas.ac.cn>
-To: "kernel test robot" <lkp@intel.com>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
-	kvm@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	"Alexandre Ghiti" <alex@ghiti.fr>, 
-	"Paolo Bonzini" <pbonzini@redhat.com>, 
-	"Shuah Khan" <skhan@linuxfoundation.org>, 
-	"Paul Walmsley" <pjw@kernel.org>, 
-	"Palmer Dabbelt" <palmer@dabbelt.com>, 
-	"Andrew Jones" <ajones@ventanamicro.com>, 
-	"Anup Patel" <anup@brainfault.org>, 
-	"Atish Patra" <atish.patra@linux.dev>, 
-	"Albert Ou" <aou@eecs.berkeley.edu>
-Subject: Re: Re: [PATCH v9 2/3] KVM: selftests: Refactor UAPI tests into
- dedicated function
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.1-cmXT5 build
- 20240627(e6c6db66) Copyright (c) 2002-2026 www.mailtech.cn cnic.cn
-In-Reply-To: <202602280523.Y5Q8Pdft-lkp@intel.com>
-References: <20260228005355.823048-3-xujiakai2025@iscas.ac.cn>
- <202602280523.Y5Q8Pdft-lkp@intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1772267328; c=relaxed/simple;
+	bh=476tbjcvb0ATLn5TaQT1P1hu18jzf2ZNNfG1k93M8jI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OdW40Irp2UP6gWxN4ALv9qmR2k+7ULNm0QM6WfswKU1/PwozxFPc6ebqPOlfUdHAL9XKSKR+Y0AX2Ow3AdBmrVQqRJIg1EUZxgmGBQhhV1emzfp96s4/JgzUGhfikEhjQvU/bW0EHW85Hxck6xfbrDdTf/AbWjnI45ejbGf5piQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z0+ebc0M; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z0+ebc0M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772267327; x=1803803327;
+  h=date:from:to:cc:subject:message-id;
+  bh=476tbjcvb0ATLn5TaQT1P1hu18jzf2ZNNfG1k93M8jI=;
+  b=Z0+ebc0MbdXmMbc6BogvoX5hrv4b76jAyOLHb/XYq0pU1X6K7trcU8ce
+   dmF9tBXAvphJpVZOdklSVIfWDtWEaFXbFrCKj7jIRak2zs/k/E2wSTsBd
+   MYEbO/BuhqR7dlvs0PQpq5nHmLLAf26uFIwZIuYBIihxpRlLAqepo7lcJ
+   Mycw0RgKXiVS6ujH0N50kVggeVsZUFCDSH3MeQ/bOkZ5CutTmEgKiRgls
+   /R0jjOQ9OyLOas44vc4crkcow/6OpAcbSPsKga22NDisU45Od4LjLzjUW
+   mgkJRflM05Q0n5mLDGesTFihCq6y/s60arp2Yn1Ic3QiCqiVyQaWqO3wp
+   w==;
+X-CSE-ConnectionGUID: 1rM8e1vcQmq4Q/ia1NnaBQ==
+X-CSE-MsgGUID: CIArCiq8RtaD6BtyOEyc6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="90746870"
+X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
+   d="scan'208";a="90746870"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 00:28:46 -0800
+X-CSE-ConnectionGUID: p1W6TCeHT1GJSa6uOXotTw==
+X-CSE-MsgGUID: fTlnmBYDQoyczdrt8NHE4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
+   d="scan'208";a="244388321"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 28 Feb 2026 00:28:44 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vwFgn-00000000BOx-3yZP;
+	Sat, 28 Feb 2026 08:28:41 +0000
+Date: Sat, 28 Feb 2026 16:28:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thierry Reding <treding@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thierryreding:tegra264-pcie 3/14]
+ drivers/pci/controller/pcie-tegra264.c:252:30: error: implicit declaration of
+ function 'tegra_bpmp_get_with_id'; did you mean 'tegra_bpmp_get'?
+Message-ID: <202602281637.3HVcq5Cu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Message-ID: <6f5f1ca4.443dd.19ca2f0f358.Coremail.xujiakai2025@iscas.ac.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:tgCowABnc9OBi6Jp1RITAA--.46891W
-X-CM-SenderInfo: 50xmxthndljiysv6x2xfdvhtffof0/1tbiDAgMCWmiU3VFgAABso
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
 
-SGkgYWxsLAoKSSByZWNlaXZlZCBhIG5vdGlmaWNhdGlvbiBmcm9tIHRoZSBrZXJuZWwgdGVzdCBy
-b2JvdCByZWdhcmRpbmcgbXkgcGF0Y2guIEl0IGluZGljYXRlcyB0aGF0IHZvaWQgY2hlY2tfc3Rl
-YWxfdGltZV91YXBpKCkgc2hvdWxkIGJlIGNoYW5nZWQgdG8gdm9pZCBjaGVja19zdGVhbF90aW1l
-X3VhcGkodm9pZCkgdG8gYXZvaWQgYSBjb21waWxlciB3YXJuaW5nLgoKSSB3b3VsZCBsaWtlIHRv
-IHdhaXQgZm9yIHRoZSByZXZpZXdlcnPigJkgZmVlZGJhY2sgb24gdGhpcyBwYXRjaC4gSWYgdGhl
-cmUgYXJlIG5vIGlzc3VlcyBhc2lkZSBmcm9tIHRoaXMgd2FybmluZywgSSB3aWxsIHN1Ym1pdCB0
-aGUgZmluYWwgdmVyc2lvbiBhZGRyZXNzaW5nIHRoZSBjb21waWxlciB3YXJuaW5nLiBJZiB0aGVy
-ZSBhcmUgb3RoZXIgc3VnZ2VzdGlvbnMsIEkgd2lsbCBpbmNvcnBvcmF0ZSB0aGVtIGFjY29yZGlu
-Z2x5LgoKVGhhbmtzLApKaWFrYWkKCiZxdW90O2tlcm5lbCB0ZXN0IHJvYm90JnF1b3Q7ICZsdDts
-a3BAaW50ZWwuY29tJmd0O+WGmemBk++8mgo+IEhpIEppYWthaSwNCj4gDQo+IGtlcm5lbCB0ZXN0
-IHJvYm90IG5vdGljZWQgdGhlIGZvbGxvd2luZyBidWlsZCB3YXJuaW5nczoNCj4gDQo+IFthdXRv
-IGJ1aWxkIHRlc3QgV0FSTklORyBvbiB2Ni4xOV0NCj4gW2Nhbm5vdCBhcHBseSB0byBrdm0vcXVl
-dWUga3ZtL25leHQgbGludXMvbWFzdGVyIGt2bS9saW51eC1uZXh0IHY3LjAtcmMxIG5leHQtMjAy
-NjAyMjddDQo+IFtJZiB5b3VyIHBhdGNoIGlzIGFwcGxpZWQgdG8gdGhlIHdyb25nIGdpdCB0cmVl
-LCBraW5kbHkgZHJvcCB1cyBhIG5vdGUuDQo+IEFuZCB3aGVuIHN1Ym1pdHRpbmcgcGF0Y2gsIHdl
-IHN1Z2dlc3QgdG8gdXNlICctLWJhc2UnIGFzIGRvY3VtZW50ZWQgaW4NCj4gaHR0cHM6Ly9naXQt
-c2NtLmNvbS9kb2NzL2dpdC1mb3JtYXQtcGF0Y2gjX2Jhc2VfdHJlZV9pbmZvcm1hdGlvbl0NCj4g
-DQo+IHVybDogICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgvY29tbWl0
-cy9KaWFrYWktWHUvUklTQy1WLUtWTS1WYWxpZGF0ZS1TQkktU1RBLXNobWVtLWFsaWdubWVudC1p
-bi1rdm1fc2JpX2V4dF9zdGFfc2V0X3JlZy8yMDI2MDIyOC0wODU2NDgNCj4gYmFzZTogICB2Ni4x
-OQ0KPiBwYXRjaCBsaW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjYwMjI4MDA1
-MzU1LjgyMzA0OC0zLXh1amlha2FpMjAyNSU0MGlzY2FzLmFjLmNuDQo+IHBhdGNoIHN1YmplY3Q6
-IFtQQVRDSCB2OSAyLzNdIEtWTTogc2VsZnRlc3RzOiBSZWZhY3RvciBVQVBJIHRlc3RzIGludG8g
-ZGVkaWNhdGVkIGZ1bmN0aW9uDQo+IGNvbmZpZzogYXJtNjQtYWxsbm9jb25maWctYnBmIChodHRw
-czovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyNjAyMjgvMjAyNjAyMjgwNTIz
-Llk1UThQZGZ0LWxrcEBpbnRlbC5jb20vY29uZmlnKQ0KPiBjb21waWxlcjogYWFyY2g2NC1saW51
-eC1nbnUtZ2NjIChEZWJpYW4gMTQuMi4wLTE5KSAxNC4yLjANCj4gcmVwcm9kdWNlICh0aGlzIGlz
-IGEgVz0xIGJ1aWxkKTogKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8y
-MDI2MDIyOC8yMDI2MDIyODA1MjMuWTVROFBkZnQtbGtwQGludGVsLmNvbS9yZXByb2R1Y2UpDQo+
-IA0KPiBJZiB5b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5l
-LiBub3QganVzdCBhIG5ldyB2ZXJzaW9uIG9mDQo+IHRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtp
-bmRseSBhZGQgZm9sbG93aW5nIHRhZ3MNCj4gfCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9i
-b3QgPGxrcEBpbnRlbC5jb20+DQo+IHwgQ2xvc2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9v
-ZS1rYnVpbGQtYWxsLzIwMjYwMjI4MDUyMy5ZNVE4UGRmdC1sa3BAaW50ZWwuY29tLw0KPiANCj4g
-QWxsIHdhcm5pbmdzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6DQo+IA0KPiA+PiBzdGVhbF90
-aW1lLmM6MjA3OjEzOiB3YXJuaW5nOiBmdW5jdGlvbiBkZWNsYXJhdGlvbiBpc24ndCBhIHByb3Rv
-dHlwZSBbLVdzdHJpY3QtcHJvdG90eXBlc10NCj4gICAgICAyMDcgfCBzdGF0aWMgdm9pZCBjaGVj
-a19zdGVhbF90aW1lX3VhcGkoKQ0KPiAgICAgICAgICB8ICAgICAgICAgICAgIF5+fn5+fn5+fn5+
-fn5+fn5+fn5+fg0KPiAgICBjYzE6IG5vdGU6IHVucmVjb2duaXplZCBjb21tYW5kLWxpbmUgb3B0
-aW9uICctV25vLWdudS12YXJpYWJsZS1zaXplZC10eXBlLW5vdC1hdC1lbmQnIG1heSBoYXZlIGJl
-ZW4gaW50ZW5kZWQgdG8gc2lsZW5jZSBlYXJsaWVyIGRpYWdub3N0aWNzDQo+IA0KPiAtLSANCj4g
-MC1EQVkgQ0kgS2VybmVsIFRlc3QgU2VydmljZQ0KPiBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwv
-bGtwLXRlc3RzL3dpa2kNCg==
+tree:   https://github.com/thierryreding/linux tegra264-pcie
+head:   069190c04b3bd60de4804e75e86379734ea834b5
+commit: 528472699bb868fe4e0f07fac9b4215d68a8594c [3/14] PCI: tegra: Add Tegra264 support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260228/202602281637.3HVcq5Cu-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602281637.3HVcq5Cu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602281637.3HVcq5Cu-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/pci/controller/pcie-tegra264.c: In function 'tegra264_pcie_probe':
+>> drivers/pci/controller/pcie-tegra264.c:252:30: error: implicit declaration of function 'tegra_bpmp_get_with_id'; did you mean 'tegra_bpmp_get'? [-Wimplicit-function-declaration]
+     252 |                 pcie->bpmp = tegra_bpmp_get_with_id(dev, &pcie->ctl_id);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+         |                              tegra_bpmp_get
+>> drivers/pci/controller/pcie-tegra264.c:252:28: error: assignment to 'struct tegra_bpmp *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     252 |                 pcie->bpmp = tegra_bpmp_get_with_id(dev, &pcie->ctl_id);
+         |                            ^
+
+
+vim +252 drivers/pci/controller/pcie-tegra264.c
+
+   181	
+   182	static int tegra264_pcie_probe(struct platform_device *pdev)
+   183	{
+   184		struct device *dev = &pdev->dev;
+   185		struct pci_host_bridge *bridge;
+   186		struct tegra264_pcie *pcie;
+   187		struct resource_entry *bus;
+   188		struct resource *res;
+   189		int ret;
+   190	
+   191		bridge = devm_pci_alloc_host_bridge(dev, sizeof(struct tegra264_pcie));
+   192		if (!bridge) {
+   193			dev_err(dev, "failed to allocate host bridge\n");
+   194			return -ENOMEM;
+   195		}
+   196	
+   197		pcie = pci_host_bridge_priv(bridge);
+   198		platform_set_drvdata(pdev, pcie);
+   199		pcie->bridge = bridge;
+   200		pcie->dev = dev;
+   201	
+   202		ret = pinctrl_pm_select_default_state(dev);
+   203		if (ret < 0) {
+   204			dev_err(dev, "failed to configure sideband pins: %d\n", ret);
+   205			return ret;
+   206		}
+   207	
+   208		ret = tegra264_pcie_parse_dt(pcie);
+   209		if (ret < 0)
+   210			return dev_err_probe(dev, ret, "failed to parse device tree");
+   211	
+   212		pcie->xtl = devm_platform_ioremap_resource_byname(pdev, "xtl-pri");
+   213		if (IS_ERR(pcie->xtl)) {
+   214			ret = PTR_ERR(pcie->xtl);
+   215			dev_err(dev, "failed to map xtl-pri memory: %d\n", ret);
+   216			return ret;
+   217		}
+   218	
+   219		bus = resource_list_first_type(&bridge->windows, IORESOURCE_BUS);
+   220		if (!bus) {
+   221			dev_err(dev, "failed to get bus resource\n");
+   222			return -ENODEV;
+   223		}
+   224	
+   225		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "ecam");
+   226		if (!res) {
+   227			dev_err(dev, "failed to get ECAM resource\n");
+   228			return -ENXIO;
+   229		}
+   230	
+   231		pcie->icc_path = devm_of_icc_get(&pdev->dev, "write");
+   232		if (IS_ERR(pcie->icc_path))
+   233			return dev_err_probe(&pdev->dev, PTR_ERR(pcie->icc_path),
+   234					     "failed to get ICC");
+   235	
+   236		pcie->cfg = pci_ecam_create(dev, res, bus->res, &pci_generic_ecam_ops);
+   237		if (IS_ERR(pcie->cfg)) {
+   238			ret = PTR_ERR(pcie->cfg);
+   239			dev_err(dev, "failed to create ECAM: %d\n", ret);
+   240			goto put;
+   241		}
+   242	
+   243		bridge->ops = (struct pci_ops *)&pci_generic_ecam_ops.pci_ops;
+   244		bridge->sysdata = pcie->cfg;
+   245		pcie->ecam = pcie->cfg->win;
+   246	
+   247		/*
+   248		 * Parse BPMP property only for silicon, as interaction with BPMP is
+   249		 * not needed for other platforms.
+   250		 */
+   251		if (tegra_is_silicon()) {
+ > 252			pcie->bpmp = tegra_bpmp_get_with_id(dev, &pcie->ctl_id);
+   253			if (IS_ERR(pcie->bpmp)) {
+   254				ret = PTR_ERR(pcie->bpmp);
+   255				dev_err(dev, "failed to get BPMP: %d\n", ret);
+   256				goto free;
+   257			}
+   258		}
+   259	
+   260		pm_runtime_enable(dev);
+   261		pm_runtime_get_sync(dev);
+   262	
+   263		tegra264_pcie_init(pcie);
+   264	
+   265		if (pcie->link_state == false)
+   266			goto put;
+   267	
+   268		ret = pci_host_probe(bridge);
+   269		if (ret < 0) {
+   270			dev_err(dev, "failed to register host: %d\n", ret);
+   271			goto put_pm;
+   272		}
+   273	
+   274		return ret;
+   275	
+   276	put_pm:
+   277		pm_runtime_put_sync(dev);
+   278		pm_runtime_disable(dev);
+   279	put:
+   280		if (tegra_is_silicon())
+   281			tegra_bpmp_put(pcie->bpmp);
+   282	free:
+   283		pci_ecam_free(pcie->cfg);
+   284		return ret;
+   285	}
+   286	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
