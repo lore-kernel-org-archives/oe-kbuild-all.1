@@ -1,138 +1,297 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012017.outbound.protection.outlook.com [52.101.48.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314F6253B42;
-	Sat, 28 Feb 2026 00:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880A886323
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 00:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.176
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772238949; cv=fail; b=ShnubTh9gPKiuje+qW1Yx1i2NWueFitS1h+NxgMYLt2ClFf6dSPOaIWhkGvMzLQ0K8T4SHdZFRSyS6wjKOx6LJGsnIPlCr0tB0QXEROrMNjM46vX7rVnZ+mhbNcp1xZkkae91ioGim/+6dSMaTL2ugLjsItFiw+Ke9/tSMogN00=
+	t=1772239833; cv=pass; b=JiM/OI9/hceb1NlGgzkC0n/MOiohmtXBkwPTo2ZCQI745yyH1jQYtrzRQvM8fwVm7DqBfvkmQ6d+yJSGIdq2Mm26Bf/8HjozGqVDXO0RHHdc0lbKvUpxByyS94uUnJojoTN8JEkgBM5FjuyrgYqPmGwV42HPn6+b5DIy3z7U5As=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772238949; c=relaxed/simple;
-	bh=Q+vYUx5hvVHQgXFWMl2+6jtbTqKjQSLz9eTdY+qNthM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=G/ojZWWL8AX20OpnEsWVtumH9JXBxzonn76trJQ3G2GDT3LmTPADjPUmB7InpVB64ZgbEzcRN++kRuXqkZb8bePhErgd4WeqKarrUgHmhW8qzwnNNc+6ky80nb1pCi1bgYy2a+xd0tBcgr8MT75gTouJX2xGaWviK9YvUSrjHRU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Nig1pkTZ; arc=fail smtp.client-ip=52.101.48.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1772239833; c=relaxed/simple;
+	bh=PSDN5yCVC0BV5bcehZDaSuIfMZf1xLmUhw94alfFXlw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XBpThi6UB3+2th+SUmpqpfKcZWgiNSLqCrWmIhUw/3j+JfXbZNAdXlihxKgulZqsyPQCYhyn1Co7q4gaWLNju1r9P24lnDpOKDO/wyODyPm4QgSWh64VKCuMlyCh+4AfY04g4yrpdOX4z8sg3FE2nR4WY/0zCSt8Xfr1onjAZVw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqpQHtV8; arc=pass smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Nig1pkTZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Sw9wu4qBSfHeHOM5tb6mufxMmeAPCZTX5+kBFXNzYgmNgwWQuvMpTD08W5husg0P/aoIAUsW2vl4O7yCUvZ0U3Gdv+YqkPxY/hfnBhhtq4nzYiewUwlMllsz4+Kknd3WklscG8F7GXZeziDVm98+lfzEHAgs30r7iJc9udUw5ifEvj1jroJFNke+vxKyVILOKWjZAy/L9S3jWI2ut37KpwONuatXLijXjF5P8WvuB0gPEtBVw5U4eIyP18+gzDxX1bxcdLC5u5N3bCgRE0LQaGBk+MwtBWL6i/03qodu+N1TJnRq2xqzzzbS+FbKSZWsBWXCmz+g25XLdfQjW089OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=whGamjcg4xBmpeXxtA2m51oN4pnyc+eTcQOz9hJKTiw=;
- b=TS96UuoY328vJNriaqbpRo5j8EF8gDms54zcVBAw9tfvmwAAetf1NTk3hoKPZX9olJYo1cdv0eOaElZRbnlm55DWXiszGez81y/jmx4r+w8C5+nZZglKgW+C5CocHn/DyQNgeWyO1Chaem1fD6Cz8MvqtJqGj4877NxDGeRV1ZufHegtODyyFb4j6BWfQFRDAk+mI/rnMrYKS2xgBgDGI/q1RdTrbrFLxPgXLmwxKVvsU6tp8Nc2d3Msi2/QhiqPA02X6mDazJgTqmGiZVXrvNvteHK5pPMvwd7IaJ6aBXtJnjLvwvjH+zQ2PlMtFqqCDIigaP8la82u9KjRlR14BQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=whGamjcg4xBmpeXxtA2m51oN4pnyc+eTcQOz9hJKTiw=;
- b=Nig1pkTZo1VzxWold1v9NkwHvSTFfsonAK/B6HnaQuNBsKx1ylz1pQ2I6hzMatwR16wCVUlz6TJ1lS2MXqGIkWLodoMChDDUjPQdB5bqGw/U4DhKMzC9juABC0b/aOLVwJr/29AtC6fbsmkO0ST+Jvoep1XWB1GNxuO+hb+Igm4CfwXe5i6jrVd1SRS0IYO0TIhyDWt698obuLxz7KAfsqeE/YgfHpwMdxev3yMp9IHjOPID7o7QX5JlRCLUhiTydwTd435/QerYnJllkNiOf/5gtne+lBWTMaC18myOZHGvG5Xqd/mA/rPZWwSxR4KSI0QEzXRgGkzRWowZ/X/7Fw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by DS7PR12MB8081.namprd12.prod.outlook.com (2603:10b6:8:e6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Sat, 28 Feb
- 2026 00:35:41 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9654.014; Sat, 28 Feb 2026
- 00:35:41 +0000
-Date: Fri, 27 Feb 2026 20:35:40 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Jacob Pan <jacob.pan@linux.microsoft.com>, linux-kernel@vger.kernel.org,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	Alex Williamson <alex@shazbot.org>, Joerg Roedel <joro@8bytes.org>,
-	David Matlack <dmatlack@google.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	"Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-	Baolu Lu <baolu.lu@linux.intel.com>, oe-kbuild-all@lists.linux.dev,
-	skhawaja@google.com, pasha.tatashin@soleen.com,
-	Jean Philippe-Brucker <jean-philippe@linaro.org>,
-	Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 08/11] vfio: Enable cdev noiommu mode under iommufd
-Message-ID: <20260228003540.GN5933@nvidia.com>
-References: <20260227175247.26103-9-jacob.pan@linux.microsoft.com>
- <202602280855.WxyIHCy5-lkp@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202602280855.WxyIHCy5-lkp@intel.com>
-X-ClientProxiedBy: BL1PR13CA0325.namprd13.prod.outlook.com
- (2603:10b6:208:2c1::30) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqpQHtV8"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-389fe0d8c72so3328261fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Feb 2026 16:50:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772239830; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WIAdnUpNvP4ZdwKIpJffnKOyqn7EEmVszK5giPOYmCJ6pKbaLwVXNMUhRW51XzRJ76
+         lPzDnScwK5hdtsothGOkQ6pR3zhdIylifYgOOOE1RajALabQu6hr28lrmK+jF/yR9gbH
+         pgrBWqp4GmsKKgNiNM9zp9S+zu5g9JB2T47CqT4OSzNzEPxz9HkA2eVn60Hm43Xxfk4U
+         /1DwFArB8zpFhh+YjRY1RRf6C7/EsDPlqGA3oo4zVO8yDZujb0ldfkncOAI9f4aVHE60
+         UG/V1lxkiW7m7QOd1dZV0yaaJe27AtCPdFaAC0drLGKTSvsiCM6Ksih9EFP/bfSCIcfN
+         C7tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GTVB5dWAl7VOze+/PX3CwHaUaq1aNmGLz1j8IVekX6I=;
+        fh=Vx1KDxg5dKPaW7PZ9xs431Fz7z3Ex0epZ5wsvFJgGXs=;
+        b=kbUSV+ADqHyp6Kv4iCfPjQXDS2GU4pqIaRcm2jEZTB+dDEe81cRRLum2tL/8nnd3Ot
+         4IYZe8oMgvfwkl+VDC/Ah5jnOSlexhHR89HVJ4EUE9L/uZdCtZqioTg9VCP4YRYRdV/d
+         JCmZgxCNq+Klnp9jDzPHxkjOLcdItTHiONFG8dyXzk9xci8cnEds+2rpIso20ZnxLZ6n
+         bWI0OqsjlCYaS+sVTddlz+koAD+6Uu5tn03sssHs23N2k6OaeoYOeS1W6nvY5kqvjQDQ
+         lU9cy3kDU9Er3afGHyQEyOgEqK14I4sfixmgOOxpS2WiIpQshDv6K+vDJjJeZHXag+wO
+         IkpQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772239830; x=1772844630; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GTVB5dWAl7VOze+/PX3CwHaUaq1aNmGLz1j8IVekX6I=;
+        b=fqpQHtV86jRPwnGGTt+TvXwZXtPIYhQj7I0iaXcXA48G1wHszla0WpGld48G/4BNod
+         5LUdh7m7YMR82Oh9K/4jhXWKNXSdhXTGLhXEq5pn2F09NTTMQnQkBQq7mZ5mLVoyNlCj
+         YBPSqH9INnGd4f/O4thziRVcP8Hd3U4RAnz3LX1Xr89KhIpq90t/Ngf/Zhdx9RvzokeQ
+         g9MBuJaCKzNoMFQYPjNGD+EJWVGEKcS0YMc0BQnjMSVEhy0fGuhQeLmu/iDaLYmrjXqR
+         BlFyhJ0V8m2BCTFYwAadGehpDgzUNFUgWNWhBLh86Z2rMCJ9aQW2iuTl+WU4a+hyU2kt
+         2XlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772239830; x=1772844630;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GTVB5dWAl7VOze+/PX3CwHaUaq1aNmGLz1j8IVekX6I=;
+        b=g4FQQnNEwcD/nzFvyfD3gBeMES+HryJJ/q1ovQ6mwKG28s/pUU5N9X3zRDMWJiq3t8
+         GX6B+XxoZBlZJupZ5Ei5p+zWpPmJxDAri4va63GkLeUw5cxZPp0rlYCNpQSgZg+8kh1k
+         LGq3hSVaE7oUQm6SWvH4CRjl9rjg70OsqMHF+RwpOMDEK9ehvMAU9Q2AqIPW6jwAl4B2
+         D9y1dd+jkO7WBjIf9RTv8RVaJHvslGlTTF1kRZT22MimallAaeLnJsvkGROO93PyN9cs
+         dzob0U7MM4Ig8GKaw7PEM8DHdZ5tOvcGJnzt3tpXxz9JhrVeoXWBBRO41jx0XD0Gk7m8
+         hQUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWkG3fcWfGWZ9FEM+9wuKKBxMEdWRrzGgFTl0c+EA5yBIAHbyM4UNd9KkWE7n9dAmaRpR6vcFj8rIKW3FmC@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKXZyt3F2P41Jz0DAbHVGNuGeq30+o2cm+JIIi5CjWptxTSnmk
+	JQomd7n6W5rqNGhpHEItdhSJNLIgXScgN4B6ejFIdogdTeCx9rBiZrqtm83Tdj9uN5L2ArDROV8
+	R3Qw/3bSts5BzHfkBJmeBbGrtApuui8w=
+X-Gm-Gg: ATEYQzx0Q2zGmyKRH9sDs8cDKH24cMCf2sUsOnGG/FjW2rpB+7V5pe+/GrGW+aOf6ke
+	RWrgdEp811IYgwrL3Krvg8AWRL4FxNU6AqO5+VGz08095A+GVbd76k7oX5dwaNLm0OHqOga7BP/
+	Fzdo9emMjYRNczcyAmxxE/tnNFmV8R33csXUUnl4DdyVp+No6E/93b2uHa65flE5gy2s1SXmZuI
+	EfP3ADTgQAbAseUAji2UIz6cMM11WJzktwcmSV3ZWB7bAOQL4acbrQIh9szJe5SBcwOdMZH0310
+	Q6ASm+AklyojNfh5GTU=
+X-Received: by 2002:a05:651c:4211:b0:385:c05a:4814 with SMTP id
+ 38308e7fff4ca-389ff34df78mr13920551fa.4.1772239829430; Fri, 27 Feb 2026
+ 16:50:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DS7PR12MB8081:EE_
-X-MS-Office365-Filtering-Correlation-Id: bfeebe84-0829-419d-dfb6-08de76614ce7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	vgAELwFI6fMtBI8Iq7G72WdJfmC71OLMRjNggPOs3wdLzJUVV7MPPWOzmzfr5TsqagI+HMt2d4ZAQ1FxbQRPAxZsBRHJNmiZ5AAlUBngSow2KSxdpD+bI6lRGcn55DDOx0CFC0BAEoFUkikWqv866ulHE42ep9KEJfgpS8l81toCyIDOV1k+CuMN3zJj4IeDz4PoarqlYDpsDyfRWZVXd+/zHcNYLiXHSw9HEFiCMKbwFy1PiFRFYhuAo92TuoovTGhMb2BS58tLXIDRCl35fNrCcrcaRkueVXX52DBulOehVgQ832C+vuswFmsMsP05h1bGdYf7eNlFz7G/snrNDHlmDoiGTFRdDceWhTolXDTYKbSho86h2vLl1x+Qqzoeyuzbdn0cQRcDRl/UX6oD/U+hpmEG/9H6I7vgt5uVorLudQ7CDbyQmt+XvxAgFHZL09AU8RqJnTR7Cgdzt5rj8PhDDjwatSVzqkVvqQUxCuwCNoIimoJdNKK5lmYniBkOmU/GrSHrWQ5Rro2BjmAW/1Jm4YvFu7sEa6GqyAue/lndagu6aHbDAgI01z/noWci4RHbqycxV3PRDvNQUPXp9NOCGrIIXF29VbufGO53CcHBH/6cR+RViiITbiOLGE8gHgiqaPuqSpJpsffVG/Ja5o2K5OB3UwDJLujOiLaeC/QAG+RLJuLS0hwS8pgpLKBJDgKKdYCvuCZ/DJTr/5H1jcDP1xT5AVYZWCgEjwh/aek=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xATD5K47iJeg/iNk7MSQkV4He59PdS+ntzBXHiI5GVeOZZVNpTFpoZdoRO8W?=
- =?us-ascii?Q?4fIx1/LbaTRvc+xNlxm2cgJrwXqcBhSPTtng81sVsFnEaIiIZn5//nAmFMhi?=
- =?us-ascii?Q?9UI759kvgTbJyJeYDTu4k8JSSe6SMlXot1eEJfVFpfi0KdEgpqkp+YaJurWp?=
- =?us-ascii?Q?NJPucaaX5DTYT9B2yz+WgwK4nT4b0h0G+g6vkzgbr5gIdJXZZ1SBLnjM/jqf?=
- =?us-ascii?Q?3Pmmb4g89fGR1ybY+F5bCkqhIjLJVonKsW8Eozu1ZRxsUleuf64aJ1emNHNd?=
- =?us-ascii?Q?eOm7oVNA7Hkxon72ZiFgXZC5lytfgRGRMg/SzK8ApWHMuNuABeBZBom7vxbS?=
- =?us-ascii?Q?IA9Jiq43MDDZ+ujqKo75r9jmxBcDwxxjdSlwIYdcl7ZADyqaRAX521x2QssZ?=
- =?us-ascii?Q?Ui3dxMzekoWfBElJ8k4vK5FAeTLsvwMueSl0JSdvZmlDeJhLeN8E5kg88oCY?=
- =?us-ascii?Q?Tzl4DnvMKcO+6nEP6w93/BaSQDqVxubY1Lab9s8MKEM5PB66KQJn/dOb7aTI?=
- =?us-ascii?Q?U+a9Uq5IdqY73u3KHkJ961XDGzR6MjipxOfbVS3lxbh5cBdKdrEu7Dw+6r9Q?=
- =?us-ascii?Q?GXBR9XY0dOBwZxQJqDl/pwqn6P75mGn0t91l9oAtEywDdg0FfpvjHzx4VNoi?=
- =?us-ascii?Q?6Bf2FP+5ji86lhl2YbDmLUDJBvKMCDafGMBndVS0SCFxD+PdZ70A2DOH+/4y?=
- =?us-ascii?Q?vEnj4tavxc0K+DkyRpwADopWEYg0THBeJVoNFMzMZ5W5jZU+XifiuEiqyzAK?=
- =?us-ascii?Q?GWm2QaSRZoq6fK/Ss5hun1+UOCUnAsDBqA4Cverxm3mkLQOkZhqt0tA30dzy?=
- =?us-ascii?Q?qwfowV/HlljKdK4iFzcMshX6V4f42RMu6AsVOIKQoWUjPUYfe1wYpIjXKHvJ?=
- =?us-ascii?Q?B5LvCqjkBiuRlhwQDBkLjQx8yZ5xLNC21a5mKDwxI1tAZZUc2uREfIRIb3AQ?=
- =?us-ascii?Q?aoFAfzoUX0N9WTzx02bY9d4SJMQTMv6IIXdj6nG67Vhc1LXMmrTjr++n0/1e?=
- =?us-ascii?Q?sOv8Xk6B8iQG1RKVhAp+xinG2D2TfvKvU6soPNL2ucduRY1FFeOIWY+majaM?=
- =?us-ascii?Q?iSmSun3yR5ANAMxO79KBEyMWk4Dy3Z+74z40pXwNp6BEzDkIFGmNdev9aWp7?=
- =?us-ascii?Q?IZp+6r6pwlzIReU5+1peJz8/TOzKy239BPn1Itf2tM+PTI3swLsqUF4RdVls?=
- =?us-ascii?Q?KfKRO17KWaCDKhzQ9klGVBVOuxU0MX08fnmfBSxjJDqWWiq2HM+GHRXBNCE/?=
- =?us-ascii?Q?e8ElfSZiN4br9sBO+EIJ7zFWXp7e8PMNa4LDlVadP6vp4CRB0ALF4hwB7Fmj?=
- =?us-ascii?Q?rFDSPVfXFwD0Tdl8IlA23ioZy+BWRHLIyUSSVbfhOaHBY4ga+EEQYLzo5MyF?=
- =?us-ascii?Q?OKVN4WA1NsTH8tlNDrq9AnFsOsGCK0JFOQMs6VOatk7am5VYrzZWMnlclDp8?=
- =?us-ascii?Q?LKZNGP2GeEPDBkCg760iI8vOXbN1t2UiKcXD+jaiw3zvD0lQet48fnXVs6K3?=
- =?us-ascii?Q?5cdVy+AGNJ4K18GlGynaD0ErL0BXMEtmQNir7KpuNjm0ZZw94e5FA9FDeNW3?=
- =?us-ascii?Q?Un8g2USxEFnWvW9++wXDBlATtTCwLhKUtRpxlfE3h2eab8uOptIqbrPpB+ug?=
- =?us-ascii?Q?GD2oI9vlywBaHKI4LC0IkkOxj+6ToSbmAfTjUrHyqC8eFIHeXXc6hCWd0S8G?=
- =?us-ascii?Q?9fbnExhTqm2wpQ3aPOlCEIyd9mBRSHxqz+5mCx7r1n7RGl+nPqHIXyGFRT1S?=
- =?us-ascii?Q?8J/VGpCJLw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfeebe84-0829-419d-dfb6-08de76614ce7
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2026 00:35:40.9084
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XOyw3jSi/uH/JLFoY4Hdwm41eB17LUNpKWnAUF8J/CSWm0o7gtrLu2i75mAZJa7J
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8081
+References: <20260227075250.1128175-1-zhaoyang.huang@unisoc.com> <202602271916.OBNa34QU-lkp@intel.com>
+In-Reply-To: <202602271916.OBNa34QU-lkp@intel.com>
+From: Zhaoyang Huang <huangzhaoyang@gmail.com>
+Date: Sat, 28 Feb 2026 08:50:17 +0800
+X-Gm-Features: AaiRm53m8KqzIMzrmY-RAKJ4NM9-fml6sIeBsXd4k5lqshVtOo5_TL5oO80n_ns
+Message-ID: <CAGWkznEBBRCNyxxXvcUnjJacxp1-UMcW6DS9YnhpAFntFo1H0g@mail.gmail.com>
+Subject: Re: [PATCH] mm: bail out when the PMD has been set in bloom filter
+To: kernel test robot <lkp@intel.com>
+Cc: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Yu Zhao <yuzhao@google.com>, linux-kernel@vger.kernel.org, steve.kang@unisoc.com, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 28, 2026 at 08:18:41AM +0800, kernel test robot wrote:
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for IOMMU_PT_AMDV1
->    Depends on [n]: GENERIC_PT [=y] && IOMMU_PT [=y] && !GENERIC_ATOMIC64 [=y]
->    Selected by [y]:
->    - VFIO_NOIOMMU [=y] && VFIO [=y] && VFIO_GROUP [=y]
-
-Some kconfig stuff is missing, the iommufd IOMMU would only work with
-GENERIC_ATOMIC64
-
-Jason
+On Fri, Feb 27, 2026 at 7:43=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi zhaoyang.huang,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on akpm-mm/mm-everything]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/zhaoyang-huang/mm-=
+bail-out-when-the-PMD-has-been-set-in-bloom-filter/20260227-155729
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
+erything
+> patch link:    https://lore.kernel.org/r/20260227075250.1128175-1-zhaoyan=
+g.huang%40unisoc.com
+> patch subject: [PATCH] mm: bail out when the PMD has been set in bloom fi=
+lter
+> config: sparc64-randconfig-002-20260227 (https://download.01.org/0day-ci/=
+archive/20260227/202602271916.OBNa34QU-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9=
+a109fbb6e184ec9bcce10615949f598f4c974a9)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260227/202602271916.OBNa34QU-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602271916.OBNa34QU-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> mm/vmscan.c:4206:24: warning: variable 'mm_state' is uninitialized whe=
+n used here [-Wuninitialized]
+>     4206 |         if (test_bloom_filter(mm_state, max_seq, pvmw->pmd))
+>          |                               ^~~~~~~~
+>    mm/vmscan.c:4185:35: note: initialize the variable 'mm_state' to silen=
+ce this warning
+>     4185 |         struct lru_gen_mm_state *mm_state;
+>          |                                          ^
+>          |                                           =3D NULL
+> >> mm/vmscan.c:4206:34: warning: variable 'max_seq' is uninitialized when=
+ used here [-Wuninitialized]
+>     4206 |         if (test_bloom_filter(mm_state, max_seq, pvmw->pmd))
+>          |                                         ^~~~~~~
+>    mm/vmscan.c:4186:23: note: initialize the variable 'max_seq' to silenc=
+e this warning
+>     4186 |         unsigned long max_seq;
+>          |                              ^
+>          |                               =3D 0
+>    2 warnings generated.
+>
+>
+> vim +/mm_state +4206 mm/vmscan.c
+>
+>   4157
+>   4158  /****************************************************************=
+**************
+>   4159   *                          rmap/PT walk feedback
+>   4160   ****************************************************************=
+**************/
+>   4161
+>   4162  /*
+>   4163   * This function exploits spatial locality when shrink_folio_list=
+() walks the
+>   4164   * rmap. It scans the adjacent PTEs of a young PTE and promotes h=
+ot pages. If
+>   4165   * the scan was done cacheline efficiently, it adds the PMD entry=
+ pointing to
+>   4166   * the PTE table to the Bloom filter. This forms a feedback loop =
+between the
+>   4167   * eviction and the aging.
+>   4168   */
+>   4169  bool lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
+>   4170  {
+>   4171          int i;
+>   4172          bool dirty;
+>   4173          unsigned long start;
+>   4174          unsigned long end;
+>   4175          struct lru_gen_mm_walk *walk;
+>   4176          struct folio *last =3D NULL;
+>   4177          int young =3D 1;
+>   4178          pte_t *pte =3D pvmw->pte;
+>   4179          unsigned long addr =3D pvmw->address;
+>   4180          struct vm_area_struct *vma =3D pvmw->vma;
+>   4181          struct folio *folio =3D pfn_folio(pvmw->pfn);
+>   4182          struct mem_cgroup *memcg;
+>   4183          struct pglist_data *pgdat =3D folio_pgdat(folio);
+>   4184          struct lruvec *lruvec;
+>   4185          struct lru_gen_mm_state *mm_state;
+>   4186          unsigned long max_seq;
+>   4187          int gen;
+>   4188
+>   4189          lockdep_assert_held(pvmw->ptl);
+>   4190          VM_WARN_ON_ONCE_FOLIO(folio_test_lru(folio), folio);
+>   4191
+>   4192          if (!ptep_clear_young_notify(vma, addr, pte))
+>   4193                  return false;
+>   4194
+>   4195          if (spin_is_contended(pvmw->ptl))
+>   4196                  return true;
+>   4197
+>   4198          /* exclude special VMAs containing anon pages from COW */
+>   4199          if (vma->vm_flags & VM_SPECIAL)
+>   4200                  return true;
+>   4201
+>   4202          /* avoid taking the LRU lock under the PTL when possible =
+*/
+>   4203          walk =3D current->reclaim_state ? current->reclaim_state-=
+>mm_walk : NULL;
+>   4204
+>   4205          /* may the pmd has been set in bloom filter */
+> > 4206          if (test_bloom_filter(mm_state, max_seq, pvmw->pmd))
+>   4207                  return true;
+>   4208
+>   4209          start =3D max(addr & PMD_MASK, vma->vm_start);
+>   4210          end =3D min(addr | ~PMD_MASK, vma->vm_end - 1) + 1;
+>   4211
+>   4212          if (end - start =3D=3D PAGE_SIZE)
+>   4213                  return true;
+>   4214
+>   4215          if (end - start > MIN_LRU_BATCH * PAGE_SIZE) {
+>   4216                  if (addr - start < MIN_LRU_BATCH * PAGE_SIZE / 2)
+>   4217                          end =3D start + MIN_LRU_BATCH * PAGE_SIZE=
+;
+>   4218                  else if (end - addr < MIN_LRU_BATCH * PAGE_SIZE /=
+ 2)
+>   4219                          start =3D end - MIN_LRU_BATCH * PAGE_SIZE=
+;
+>   4220                  else {
+>   4221                          start =3D addr - MIN_LRU_BATCH * PAGE_SIZ=
+E / 2;
+>   4222                          end =3D addr + MIN_LRU_BATCH * PAGE_SIZE =
+/ 2;
+>   4223                  }
+>   4224          }
+>   4225
+>   4226          memcg =3D get_mem_cgroup_from_folio(folio);
+>   4227          lruvec =3D mem_cgroup_lruvec(memcg, pgdat);
+>   4228          max_seq =3D READ_ONCE((lruvec)->lrugen.max_seq);
+>   4229          gen =3D lru_gen_from_seq(max_seq);
+>   4230          mm_state =3D get_mm_state(lruvec);
+I am confused about the code base which this test is based on. By
+checking the base that listed above and linux-next and 7.1-rc1, I
+can't find above merged result or I miss anything?
+>   4231
+>   4232          lazy_mmu_mode_enable();
+>   4233
+>   4234          pte -=3D (addr - start) / PAGE_SIZE;
+>   4235
+>   4236          for (i =3D 0, addr =3D start; addr !=3D end; i++, addr +=
+=3D PAGE_SIZE) {
+>   4237                  unsigned long pfn;
+>   4238                  pte_t ptent =3D ptep_get(pte + i);
+>   4239
+>   4240                  pfn =3D get_pte_pfn(ptent, vma, addr, pgdat);
+>   4241                  if (pfn =3D=3D -1)
+>   4242                          continue;
+>   4243
+>   4244                  folio =3D get_pfn_folio(pfn, memcg, pgdat);
+>   4245                  if (!folio)
+>   4246                          continue;
+>   4247
+>   4248                  if (!ptep_clear_young_notify(vma, addr, pte + i))
+>   4249                          continue;
+>   4250
+>   4251                  if (last !=3D folio) {
+>   4252                          walk_update_folio(walk, last, gen, dirty)=
+;
+>   4253
+>   4254                          last =3D folio;
+>   4255                          dirty =3D false;
+>   4256                  }
+>   4257
+>   4258                  if (pte_dirty(ptent))
+>   4259                          dirty =3D true;
+>   4260
+>   4261                  young++;
+>   4262          }
+>   4263
+>   4264          walk_update_folio(walk, last, gen, dirty);
+>   4265
+>   4266          lazy_mmu_mode_disable();
+>   4267
+>   4268          /* feedback from rmap walkers to page table walkers */
+>   4269          if (mm_state && suitable_to_scan(i, young))
+>   4270                  update_bloom_filter(mm_state, max_seq, pvmw->pmd)=
+;
+>   4271
+>   4272          mem_cgroup_put(memcg);
+>   4273
+>   4274          return true;
+>   4275  }
+>   4276
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
