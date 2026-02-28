@@ -1,218 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836842EBB90;
-	Sat, 28 Feb 2026 01:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4850F225760
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 01:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772241770; cv=none; b=mz9bgyL2zf/e/t2dDaxEtn1lEkJ57SldU6ew4da1JzypmvA5lC2vbJnjXWicLTla0l7UPizRPu33HXJbJiRZWSVv0oQfjQPHroVZPrlWRBjWhcSmL9ug6gDvqwYjpTCJOA74ZZRve8ZUMJNCkz9zUiWQcE5cAxbAU2N9J6CPlF0=
+	t=1772242388; cv=none; b=FyVgTf4NySm7cQxI/3dNzOPer6nhyK1lxHkrIBMxPYI2mlDoifQxm48mJVy0yF5T7S3r8xCDSEopdlVZwo1u9MsByAiDClPcL9bsjruiyIefcQTMBvpBdvoRejdDsA9YGq7j//Z1ROCY9Sp9i+v6/wILwOIk0cPe8UCuaDokZtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772241770; c=relaxed/simple;
-	bh=GKTGEJrfx7EBVAgyKuxiijOByb6UX2CLfdacpxzuSxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p91GQ/2V8EcATmSHowdw/FXuq5DfpRKy1OKdrsFT2MmmdC2EGiFRiH8IjL+1fYnnHhQfYCopEty7B33prN6eKixTD63MenYOi+eWAQLTA+8/FvibzMZz56iN+1naXmSXaYOJL50ZkVD2MFx6sJD+o7agPtgS1oZBhKMBnenHLX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZDRBTVr; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1772242388; c=relaxed/simple;
+	bh=PQ8rf4OkA0JCJ+8HupADPV9JYoe5+3GUC8F3HOYrS/M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tzl8zGWBf5hI6zIzcv3gsWjlG2Gx31Yh6VW2Zrrlhtb8R1keBM8qLoacsrPULBkYhFyLw5WWqD/A/JMUNvEYW5DrOuNjqoojj3XjBKN9s+57G7TCHENW9epZSKt9BYI0X1/zpb+2HD+0MAOCLVxkE30fgIJTqdFbtb3qV49f2cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4Is67qS; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZDRBTVr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4Is67qS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772241768; x=1803777768;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GKTGEJrfx7EBVAgyKuxiijOByb6UX2CLfdacpxzuSxk=;
-  b=YZDRBTVrDEzI8GyZEnyqAgpsI5Dw6varsxJwxC7SiwFpKf/AZSsexEOq
-   J8kNpELTt55Mro/8EQrnvP6fZ8KnVJ1FTFewauirbFjw48+OpdjAb8zLE
-   yZ6YBu4pnoJ7lT+zJ14EoTDs6E5spq7GStdtBVHc3nI0k/WGCFBIO+78o
-   2FC1mLDyAby2Dput22Jh/FwwRdiRmUJr9FjNBYv4koaCIcEgqLQxxk92i
-   GiXbQjH+WPj0I7NrLcy4Y6ODkJQoiecUbCCwPz2ChCUcbF0uf5JAE9IeS
-   p/Mp/P7v0Aal5Er03D89k2iPw3AjZNqnfgs7ZK+3x404AiDxYjZxFaoD9
+  t=1772242387; x=1803778387;
+  h=date:from:to:cc:subject:message-id;
+  bh=PQ8rf4OkA0JCJ+8HupADPV9JYoe5+3GUC8F3HOYrS/M=;
+  b=A4Is67qStuB/EIHqQj0yc0YxfaFi+s/8Pyt6SrqyO+g3yZYf0Q8Ei/dy
+   8qxuJGRoEkvIH8YO2wEvVZCYp9JtQeDlrf4pN0Wzu7r18d58dxwno7ikV
+   eDBxyKTU/+Xy+Wk46RuDQl1R8L/SR8CMQQ+N3elFr8/lAIGhKSmxfgb9k
+   +GYFEOJ5KdBVcqw+dSUK9KepUZPOzGMxL66ABN2RhXln62OI9sB3z/Tet
+   gSoLKU8rpOoxPqVDqaK+V+pVtebodxVx1os5APEeZbICnkHafSNnF02M3
+   ihfxVlVQnxEMAYS8eEivfaznmn6wPpKX2UtHIUxhT9o27ApHjsGNHztr4
    g==;
-X-CSE-ConnectionGUID: WkvB/VNvSIa8ctxUwpPIZA==
-X-CSE-MsgGUID: 2lTpeDHCS+qq/C0pZoeKBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="98801956"
+X-CSE-ConnectionGUID: ENzn+up5Ra6Dw4O0xrnykw==
+X-CSE-MsgGUID: Ct8EkbdGTm6yNSYyLYlfXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73237546"
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="98801956"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 17:22:47 -0800
-X-CSE-ConnectionGUID: Qxi4aMLCQfqHVYIDFut8Sw==
-X-CSE-MsgGUID: r1s0ap9FQg+EpTpRIqcK4Q==
+   d="scan'208";a="73237546"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 17:33:06 -0800
+X-CSE-ConnectionGUID: AvvJLtYqRj+9HJ1fKCNFww==
+X-CSE-MsgGUID: nVUatlqkS4abJv9qQ9l8WQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="244351451"
+   d="scan'208";a="247562707"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Feb 2026 17:22:44 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2026 17:33:06 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vw92X-00000000BEF-2GkD;
-	Sat, 28 Feb 2026 01:22:41 +0000
-Date: Sat, 28 Feb 2026 09:22:05 +0800
+	id 1vw9CY-00000000BEf-2Yvr;
+	Sat, 28 Feb 2026 01:33:02 +0000
+Date: Sat, 28 Feb 2026 09:32:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Emil Tsalapatis <emil@etsalapatis.com>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, andrii@kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, eddyz87@gmail.com,
-	martin.lau@kernel.org, memxor@gmail.com, song@kernel.org,
-	yonghong.song@linux.dev, Emil Tsalapatis <emil@etsalapatis.com>
-Subject: Re: [PATCH bpf-next v5 1/5] bpf: Factor out program return value
- calculation
-Message-ID: <202602280948.ZMhck27g-lkp@intel.com>
-References: <20260227154616.6846-2-emil@etsalapatis.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 3/3]
+ kernel/sched/core.c:4197:35: warning: function 'proxy_resched_idle' has
+ internal linkage but is not defined
+Message-ID: <202602280945.nlHnXHeI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260227154616.6846-2-emil@etsalapatis.com>
 
-Hi Emil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Emil-Tsalapatis/bpf-Factor-out-program-return-value-calculation/20260227-235723
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260227154616.6846-2-emil%40etsalapatis.com
-patch subject: [PATCH bpf-next v5 1/5] bpf: Factor out program return value calculation
-config: arm-randconfig-001-20260228 (https://download.01.org/0day-ci/archive/20260228/202602280948.ZMhck27g-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280948.ZMhck27g-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   1de239ac3464b167e07b59e5e91f7c58d4cc5166
+commit: 1de239ac3464b167e07b59e5e91f7c58d4cc5166 [3/3] ANDROID: sched: proxy-exec: Rework proxy_needs_return() to match v24 logic
+config: arm-exynos_defconfig (https://download.01.org/0day-ci/archive/20260228/202602280945.nlHnXHeI-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602280945.nlHnXHeI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602280948.ZMhck27g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602280945.nlHnXHeI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/verifier.c:17864:3: warning: label at end of compound statement is a C2x extension [-Wc2x-extensions]
-                   }
-                   ^
-   kernel/bpf/verifier.c:17923:6: warning: unused variable 'ret' [-Wunused-variable]
-           int ret, err;
-               ^
-   kernel/bpf/verifier.c:17926:7: warning: unused variable 'return_32bit' [-Wunused-variable]
-           bool return_32bit = false;
-                ^
-   3 warnings generated.
+   kernel/sched/core.c:5713:6: warning: no previous prototype for function '__balance_callbacks' [-Wmissing-prototypes]
+    5713 | void __balance_callbacks(struct rq *rq)
+         |      ^
+   kernel/sched/core.c:5713:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    5713 | void __balance_callbacks(struct rq *rq)
+         | ^
+         | static 
+>> kernel/sched/core.c:4197:35: warning: function 'proxy_resched_idle' has internal linkage but is not defined [-Wundefined-internal]
+    4197 | static inline struct task_struct *proxy_resched_idle(struct rq *rq);
+         |                                   ^
+   kernel/sched/core.c:4230:3: note: used here
+    4230 |                 proxy_resched_idle(rq);
+         |                 ^
+   2 warnings generated.
 
 
-vim +17864 kernel/bpf/verifier.c
+vim +/proxy_resched_idle +4197 kernel/sched/core.c
 
- 17805	
- 17806	
- 17807	static bool return_retval_range(struct bpf_verifier_env *env, struct bpf_retval_range *range)
- 17808	{
- 17809		enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
- 17810	
- 17811		/* Default return value range. */
- 17812		*range = retval_range(0, 1);
- 17813	
- 17814		switch (prog_type) {
- 17815		case BPF_PROG_TYPE_CGROUP_SOCK_ADDR:
- 17816			switch (env->prog->expected_attach_type) {
- 17817			case BPF_CGROUP_UDP4_RECVMSG:
- 17818			case BPF_CGROUP_UDP6_RECVMSG:
- 17819			case BPF_CGROUP_UNIX_RECVMSG:
- 17820			case BPF_CGROUP_INET4_GETPEERNAME:
- 17821			case BPF_CGROUP_INET6_GETPEERNAME:
- 17822			case BPF_CGROUP_UNIX_GETPEERNAME:
- 17823			case BPF_CGROUP_INET4_GETSOCKNAME:
- 17824			case BPF_CGROUP_INET6_GETSOCKNAME:
- 17825			case BPF_CGROUP_UNIX_GETSOCKNAME:
- 17826				*range = retval_range(1, 1);
- 17827				break;
- 17828			case BPF_CGROUP_INET4_BIND:
- 17829			case BPF_CGROUP_INET6_BIND:
- 17830				*range = retval_range(0, 3);
- 17831				break;
- 17832			default:
- 17833				break;
- 17834			}
- 17835			break;
- 17836		case BPF_PROG_TYPE_CGROUP_SKB:
- 17837			if (env->prog->expected_attach_type == BPF_CGROUP_INET_EGRESS)
- 17838				*range = retval_range(0, 3);
- 17839			break;
- 17840		case BPF_PROG_TYPE_CGROUP_SOCK:
- 17841		case BPF_PROG_TYPE_SOCK_OPS:
- 17842		case BPF_PROG_TYPE_CGROUP_DEVICE:
- 17843		case BPF_PROG_TYPE_CGROUP_SYSCTL:
- 17844		case BPF_PROG_TYPE_CGROUP_SOCKOPT:
- 17845			break;
- 17846		case BPF_PROG_TYPE_RAW_TRACEPOINT:
- 17847			if (!env->prog->aux->attach_btf_id)
- 17848				return false;
- 17849			*range = retval_range(0, 0);
- 17850			break;
- 17851		case BPF_PROG_TYPE_TRACING:
- 17852			switch (env->prog->expected_attach_type) {
- 17853			case BPF_TRACE_FENTRY:
- 17854			case BPF_TRACE_FEXIT:
- 17855			case BPF_TRACE_FSESSION:
- 17856				*range = retval_range(0, 0);
- 17857				break;
- 17858			case BPF_TRACE_RAW_TP:
- 17859			case BPF_MODIFY_RETURN:
- 17860				return false;
- 17861			case BPF_TRACE_ITER:
- 17862				break;
- 17863			default:
- 17864			}
- 17865			break;
- 17866		case BPF_PROG_TYPE_KPROBE:
- 17867			switch (env->prog->expected_attach_type) {
- 17868			case BPF_TRACE_KPROBE_SESSION:
- 17869			case BPF_TRACE_UPROBE_SESSION:
- 17870				break;
- 17871			default:
- 17872				return false;
- 17873			}
- 17874			break;
- 17875		case BPF_PROG_TYPE_SK_LOOKUP:
- 17876			*range = retval_range(SK_DROP, SK_PASS);
- 17877			break;
- 17878	
- 17879		case BPF_PROG_TYPE_LSM:
- 17880			if (env->prog->expected_attach_type != BPF_LSM_CGROUP) {
- 17881				/* no range found, any return value is allowed */
- 17882				if (!get_func_retval_range(env->prog, range))
- 17883					return false;
- 17884				/* no restricted range, any return value is allowed */
- 17885				if (range->minval == S32_MIN && range->maxval == S32_MAX)
- 17886					return false;
- 17887				range->return_32bit = true;
- 17888			} else if (!env->prog->aux->attach_func_proto->type) {
- 17889				/* Make sure programs that attach to void
- 17890				 * hooks don't try to modify return value.
- 17891				 */
- 17892				*range = retval_range(1, 1);
- 17893			}
- 17894			break;
- 17895	
- 17896		case BPF_PROG_TYPE_NETFILTER:
- 17897			*range = retval_range(NF_DROP, NF_ACCEPT);
- 17898			break;
- 17899		case BPF_PROG_TYPE_STRUCT_OPS:
- 17900			*range = retval_range(0, 0);
- 17901			break;
- 17902		case BPF_PROG_TYPE_EXT:
- 17903			/* freplace program can return anything as its return value
- 17904			 * depends on the to-be-replaced kernel func or bpf program.
- 17905			 */
- 17906		default:
- 17907			return false;
- 17908		}
- 17909	
- 17910		/* Continue calculating. */
- 17911	
- 17912		return true;
- 17913	}
- 17914	
+  4195	
+  4196	#ifdef CONFIG_SMP
+> 4197	static inline struct task_struct *proxy_resched_idle(struct rq *rq);
+  4198	/*
+  4199	 * Checks to see if task p has been proxy-migrated to another rq
+  4200	 * and needs to be returned. If so, we deactivate the task here
+  4201	 * so that it can be properly woken up on the p->wake_cpu
+  4202	 * (or whichever cpu select_task_rq() picks at the bottom of
+  4203	 * try_to_wake_up()
+  4204	 */
+  4205	static inline bool proxy_needs_return(struct rq *rq, struct task_struct *p)
+  4206	{
+  4207		if (!sched_proxy_exec())
+  4208			return false;
+  4209	
+  4210		guard(raw_spinlock)(&p->blocked_lock);
+  4211	
+  4212		/* If task isn't BO_WAKING, we don't need to do return migration */
+  4213		if (p->blocked_on_state != BO_WAKING)
+  4214			return false;
+  4215	
+  4216		__set_blocked_on_runnable(p);
+  4217	
+  4218		/* If already current, don't need to return migrate */
+  4219		if (task_current(rq, p))
+  4220			return false;
+  4221	
+  4222		/* If wake_cpu is targeting this cpu, don't bother return migrating */
+  4223		if (p->wake_cpu == cpu_of(rq)) {
+  4224			resched_curr(rq);
+  4225			return false;
+  4226		}
+  4227	
+  4228		/* If we're return migrating the rq->donor, switch it out for idle */
+  4229		if (task_current_donor(rq, p))
+  4230			proxy_resched_idle(rq);
+  4231	
+  4232		/* (ab)Use DEQUEUE_SPECIAL to ensure task is always blocked here. */
+  4233		block_task(rq, p, DEQUEUE_NOCLOCK | DEQUEUE_SPECIAL);
+  4234		return true;
+  4235	}
+  4236	
 
 -- 
 0-DAY CI Kernel Test Service
