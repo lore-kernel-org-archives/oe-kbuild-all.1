@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B63368948
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 05:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7077E280338
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Feb 2026 05:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772256208; cv=none; b=JdYP58/OOFCOHPHXrDR2P7RKdy9R57Mc/y/LIdWNWG/E28xiptch/18UFpDBnGVqDOxbNF9sak8eBrfoslLRkROdQO2cZnSdIzHwahjsdeTQ9sn8lBZqbhCQmyrdjESSFPpNc8n3ZJRyEuis86wjQprXyR1RRWA5vGqetJm/qto=
+	t=1772256873; cv=none; b=ewEpCPgzDUD890heONkiOOMG4hRhmmoRpa/c0oOiGZzUsPAiq03tAw01iKHPBOqBbRNVx9GGRYrAKlC9gmgFCRK0JglaZ6tKLZHltAX3UqSC0aT9UYrAgglZWOg5iYvR2U1Gop8hBzOxb4lDbODW6uFjxkykUrahUJ0MbcOw5mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772256208; c=relaxed/simple;
-	bh=mkxFIuSvUqZIvx4k/FLOk3kTUpkjeVjBp54cI70xBH8=;
+	s=arc-20240116; t=1772256873; c=relaxed/simple;
+	bh=sTo7ttKxW4qkAJ7gPSFGQddJdAolYP33nHR3bLxdvBI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jlmOIoAA5UGAfP3DGIG/tWx+6wUu58lSNjLTLETuKxCf+UYbm2C6PsG8+uIOPlDu/jXxqRku8uifQa5x4AN25Fyz9XJkW4DLd7rsJdZjlwf/yR51U62A5G9xFsbcoy0oomwNJghAaNXyhCD2Un2sM2Yr30RwxQi/5fyX/Zq06VA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HTzC6Xx+; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=F5KmzRgjQNXbzK9yG6pLHd0KGA4zxziD9QjRFvuGkaGS3dH5mc9o7e8pBnhcY2je3i+AoRmIMYBQcsqU/cBafEJv0WK0742fNrJXlGdGEU3Bze14+ZmAcU7qqSrK098H+5fTzo7Hx30VmB44gA1vwqNgdBdUcEBnuy3Oa40E8UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X44QETJD; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTzC6Xx+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X44QETJD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772256205; x=1803792205;
+  t=1772256871; x=1803792871;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mkxFIuSvUqZIvx4k/FLOk3kTUpkjeVjBp54cI70xBH8=;
-  b=HTzC6Xx+MmpTJaHhxR+Il6s49yyM16VW9+N3IFn46MZFGWV00TtBodWF
-   BEQw5zh1Ubb7pYA4f2JpGR3u8XTUdXm/tv54EO/o6dnpDSUftUVJ5vc1d
-   J9poDZlQ+r4wvW+t3DV34b2G+R+wx8ZdnpiJGZYI5R557JoC1FfgOjJ+Z
-   06mVUgCD0I3Cp95jeBmZ7JHgR2T77OhfBRNph22Eju81SNnm1WvEVc/U1
-   HWORuaG7U3xzEgihV6DKp4weejfLH7f51nvw/Cjq0BTxq6zLPHWL+FGO+
-   hnesu76QoLxYUQrZbzd0gr4EBpqjURWn+ScdQQ4yngkAsGzfIa0g/1YiM
-   g==;
-X-CSE-ConnectionGUID: A1AItkeBSNK9LlMieFCgKQ==
-X-CSE-MsgGUID: 0nywIR4IQEWuUO9dif9Ssw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73244069"
+  bh=sTo7ttKxW4qkAJ7gPSFGQddJdAolYP33nHR3bLxdvBI=;
+  b=X44QETJDXZayc2zl75amAAnD0Mb8yFmJ+ce4RgJMmjXRCwgs7bG9vc52
+   5LuCXi9T15PtP6p9yBRxZqB/bwCrD8Gog34oMi4420S+HJWfrimtAHV7i
+   RnQXWP53/P4/ZUIEyCe56YPlM4qBA94eWXEsFQQ6znb6errWcBPlZq5Xj
+   ZPCwLzo09Qj68kXpFlVJPDQ96qWaViY6NOxngFWRWYY/yVZ4MnPNU0jxa
+   QByPKMpG3HoDlQRY2yLPVW/Y38ycyWaUNus/WS7tRc4EksCJzAapl6cxf
+   JFkuaN/t8/KBhrTozSwTNUuUVWnhGERF2wvvJs9p6ynosquMxjnUznupJ
+   Q==;
+X-CSE-ConnectionGUID: J3UfnrGtT8249ZmZ0jjsaw==
+X-CSE-MsgGUID: z/k/6HA2RQW+Pnov7G5gow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="83675015"
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="73244069"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 21:23:24 -0800
-X-CSE-ConnectionGUID: OMuPZIl/REWGuPWP8IbgNw==
-X-CSE-MsgGUID: bH7wsoQHSDGBIgja9OgTZg==
+   d="scan'208";a="83675015"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 21:34:30 -0800
+X-CSE-ConnectionGUID: S5AEptvYTtqF/GCtLPcCFA==
+X-CSE-MsgGUID: 9+Qbd53OQ5iLoWIw3O4tNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="216229646"
+   d="scan'208";a="214881695"
 Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 27 Feb 2026 21:23:24 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 27 Feb 2026 21:34:25 -0800
 Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwCnR-00000000BJv-2kqX;
-	Sat, 28 Feb 2026 05:23:21 +0000
-Date: Sat, 28 Feb 2026 13:23:16 +0800
+	id 1vwCy5-00000000BKB-3zAQ;
+	Sat, 28 Feb 2026 05:34:21 +0000
+Date: Sat, 28 Feb 2026 13:33:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Jun <chenjun102@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] fbcon: Fix out-of-bounds memory in fbcon_putcs
-Message-ID: <202602281348.05dMV1Vd-lkp@intel.com>
-References: <20260227144358.101173-1-chenjun102@huawei.com>
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	James.Bottomley@hansenpartnership.com, dhowells@redhat.com,
+	Fan Wu <wufan@kernel.org>, Ryan Foster <foster.ryan.r@gmail.com>,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v2 07/10] security: Hornet LSM
+Message-ID: <202602281307.9DVHYnXF-lkp@intel.com>
+References: <20260227233930.2418522-8-bboscaccy@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,36 +74,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260227144358.101173-1-chenjun102@huawei.com>
+In-Reply-To: <20260227233930.2418522-8-bboscaccy@linux.microsoft.com>
 
-Hi Chen,
+Hi Blaise,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v7.0-rc1 next-20260227]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.0-rc1 next-20260227]
+[cannot apply to herbert-cryptodev-2.6/master herbert-crypto-2.6/master shuah-kselftest/next shuah-kselftest/fixes]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Jun/fbcon-Fix-out-of-bounds-memory-in-fbcon_putcs/20260227-225307
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260227144358.101173-1-chenjun102%40huawei.com
-patch subject: [RFC PATCH] fbcon: Fix out-of-bounds memory in fbcon_putcs
-config: x86_64-buildonly-randconfig-005-20260228 (https://download.01.org/0day-ci/archive/20260228/202602281348.05dMV1Vd-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602281348.05dMV1Vd-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Blaise-Boscaccy/certs-break-out-pkcs7-check-into-its-own-function/20260228-074528
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260227233930.2418522-8-bboscaccy%40linux.microsoft.com
+patch subject: [PATCH v2 07/10] security: Hornet LSM
+config: csky-randconfig-r071-20260228 (https://download.01.org/0day-ci/archive/20260228/202602281307.9DVHYnXF-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+smatch version: v0.5.0-8994-gd50c5a4c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260228/202602281307.9DVHYnXF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602281348.05dMV1Vd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602281307.9DVHYnXF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/video/fbdev/core/fbcon.o: in function `fbcon_do_set_font':
->> fbcon.c:(.text+0x3655): undefined reference to `fbcon_rotate_font'
+   security/hornet/hornet_lsm.c: In function 'hornet_check_program':
+>> security/hornet/hornet_lsm.c:183:15: error: implicit declaration of function 'verify_pkcs7_signature'; did you mean 'bpf_verify_pkcs7_signature'? [-Wimplicit-function-declaration]
+     183 |         err = verify_pkcs7_signature(prog->insnsi, prog->len * sizeof(struct bpf_insn),
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+         |               bpf_verify_pkcs7_signature
+>> security/hornet/hornet_lsm.c:197:13: error: implicit declaration of function 'validate_pkcs7_trust' [-Wimplicit-function-declaration]
+     197 |         if (validate_pkcs7_trust(msg, VERIFY_USE_SECONDARY_KEYRING)) {
+         |             ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +183 security/hornet/hornet_lsm.c
+
+   153	
+   154	static int hornet_check_program(struct bpf_prog *prog, union bpf_attr *attr,
+   155					struct bpf_token *token, bool is_kernel)
+   156	{
+   157		struct hornet_maps maps = {0};
+   158		bpfptr_t usig = make_bpfptr(attr->signature, is_kernel);
+   159		struct pkcs7_message *msg;
+   160		struct hornet_parse_context *ctx;
+   161		void *sig;
+   162		int err;
+   163		const void *authattrs;
+   164		size_t authattrs_len;
+   165	
+   166		if (!attr->signature)
+   167			return LSM_INT_VERDICT_UNSIGNED;
+   168	
+   169		ctx = kzalloc(sizeof(struct hornet_parse_context), GFP_KERNEL);
+   170		if (!ctx)
+   171			return -ENOMEM;
+   172	
+   173		maps.fd_array = make_bpfptr(attr->fd_array, is_kernel);
+   174		sig = kzalloc(attr->signature_size, GFP_KERNEL);
+   175		if (!sig) {
+   176			err = -ENOMEM;
+   177			goto out;
+   178		}
+   179		err = copy_from_bpfptr(sig, usig, attr->signature_size);
+   180		if (err != 0)
+   181			goto cleanup_sig;
+   182	
+ > 183		err = verify_pkcs7_signature(prog->insnsi, prog->len * sizeof(struct bpf_insn),
+   184					     sig, attr->signature_size, VERIFY_USE_SECONDARY_KEYRING,
+   185					     VERIFYING_BPF_SIGNATURE, NULL, NULL);
+   186		if (err < 0) {
+   187			err = LSM_INT_VERDICT_BADSIG;
+   188			goto cleanup_sig;
+   189		}
+   190	
+   191		msg = pkcs7_parse_message(sig, attr->signature_size);
+   192		if (IS_ERR(msg)) {
+   193			err = LSM_INT_VERDICT_BADSIG;
+   194			goto cleanup_sig;
+   195		}
+   196	
+ > 197		if (validate_pkcs7_trust(msg, VERIFY_USE_SECONDARY_KEYRING)) {
+   198			err = LSM_INT_VERDICT_PARTIALSIG;
+   199			goto cleanup_msg;
+   200		}
+   201		if (pkcs7_get_authattr(msg, OID_hornet_data,
+   202				       &authattrs, &authattrs_len) == -ENODATA) {
+   203			err = LSM_INT_VERDICT_PARTIALSIG;
+   204			goto cleanup_msg;
+   205		}
+   206	
+   207		err = asn1_ber_decoder(&hornet_decoder, ctx, authattrs, authattrs_len);
+   208		if (err < 0 || authattrs == NULL) {
+   209			err = LSM_INT_VERDICT_PARTIALSIG;
+   210			goto cleanup_msg;
+   211		}
+   212		err = hornet_verify_hashes(&maps, ctx, prog);
+   213	
+   214	cleanup_msg:
+   215		pkcs7_free_message(msg);
+   216	cleanup_sig:
+   217		kfree(sig);
+   218	out:
+   219		kfree(ctx);
+   220		return err;
+   221	}
+   222	
 
 -- 
 0-DAY CI Kernel Test Service
