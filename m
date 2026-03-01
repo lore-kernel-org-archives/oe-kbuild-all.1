@@ -1,69 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041EF26ED59
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Mar 2026 02:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0057E2FD7BE;
+	Sun,  1 Mar 2026 03:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772333084; cv=none; b=QKQz1h8xGYqtQf/vVUmu7n9/KVtBZaUkMxV0Uh/W90Ve/VFAtJ2iZPrNItRPNML1MX1xBt1ZlBsMi/meOLxdSI8HIg/WfltKlq6Tncm0gg8c7aXq6IoX/FdWMeZpsqViouEY+/zvi8zeZaJeog+pQXmch563ahhb032jxwqPPu8=
+	t=1772335548; cv=none; b=Te//hZwq+v7oxQxhsjc/wS7aWlq+vmJG1SN49ICzgfNdKXm5FOAV428nJzLc/JcoBMH8jAckerCi/j91ycyjfCvTVI0NRHG2oFc7QXNXp2an6RyqoC0dheafQ2PXGOhkt4FsXrSRPmlGaLRdnikvdiyQTUWvM/Kyjm5bAe/1xTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772333084; c=relaxed/simple;
-	bh=Lcvsy1/nFMPntqrLdhtQADgDpVMjx7JQ9RpemuAbrIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZPEYHjZHnsBPagyKmBAC7Rsnpjq6w3DZeaW8IfocGTB5AnsjZInv/Et8NW0WUDuv3tqpG58lZ+5ZsJ95vG+AYrN1gbuQNCA3lIEsFfDcwhs9XmgaUPI18unL4JoBvb/VWgMK9V+wZuqx1XuehDRfqDIGMTQ87h4qm87+PpnMVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2ri9Y7J; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1772335548; c=relaxed/simple;
+	bh=RhzQ3LZzwPkVYXc6nQPz1TpSyfdZr3vMiXd2xY3oJAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=aPAMXiG47AHq05r0Jd02SbrL+UIaoexnb7VxrhyrmzuvICLFHjEVQeXzvOZPn3r2G3Nzxl9cdlqsPr6Qq/ontZpPSZChsJCaCm3W6J+NzqngD6OrP/NS6gmZc+aIAkgqTNS/AY1ItLbw1SN0ebR1LqyaH10j4kp/EcdMXWdHRW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mq0GSNRF; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2ri9Y7J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mq0GSNRF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772333081; x=1803869081;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Lcvsy1/nFMPntqrLdhtQADgDpVMjx7JQ9RpemuAbrIg=;
-  b=L2ri9Y7Jgf7YSjmUM+YD8OYqxiBQ/OAfQ9/XxyXkuEHf0r5Yd/yrz/it
-   5WThv2eeG2ymgywPokliFGYtr+0+PzLZQELBhRyJbfLCw9xjgFK70rY19
-   Pl67AUZ/UvJbh0IlGSAVJkEnXi8gLw8aKF7TBxab8CX+IuKVSZr/Vh1Iw
-   obB7NckskbSb3hzRLbraYYeLFZTDgrybeIk7WW6wj++PgkQ40b5vXTFoK
-   AaydMRdtoi5zdQ3PKoSFVKaOZVFej3cRuswn/kVdkc+p61Y4yBkmz5Yuc
-   2OrqAzJjGBZ6t1B3SDLKMY3dPG5cL6Jg0Oj/JfHEc8XsAJmvgvteqgajt
-   g==;
-X-CSE-ConnectionGUID: JotrdfBDSSqMQCwqOF+kwA==
-X-CSE-MsgGUID: tLWM+iuATfS7dWuTtFwCZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11715"; a="90955171"
+  t=1772335546; x=1803871546;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RhzQ3LZzwPkVYXc6nQPz1TpSyfdZr3vMiXd2xY3oJAs=;
+  b=mq0GSNRFYFj1oYzihGOLvmwxXIv5D7VyRlDxDtyKxdKdm4pWWdiHXrGd
+   IpU+qAUGxGZyMdLPPCLsuoblpjovd69Faf6eTV5LrEiNh2x0lIBjG3eQ7
+   jKJM0J4CtQhRu0aLiqUJ6+SKl6XQCYotldIbsHpN22/XoIvGoSChBvuAN
+   LxAAL2lDUCtVSf1QDMVVu3yKmWcz3Kf/qtAbgEXSmKP6XeDnNlesbKiD8
+   QjA42vgMQkBfjb0GqEZh0ry0kErdTQXjGpVdc9zv35CxPcmCPtGYtwLjM
+   WNwXuH4yYgU4bHhOR1RuvAqVB1Y/9ZcyeALW+lHTq0WRRY3dA5/iUOlHA
+   w==;
+X-CSE-ConnectionGUID: QfbKw1gcR5qNgbThA1nhdw==
+X-CSE-MsgGUID: uwOB0fklRsqxYbVXJj9mAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11715"; a="73444424"
 X-IronPort-AV: E=Sophos;i="6.21,317,1763452800"; 
-   d="scan'208";a="90955171"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 18:44:40 -0800
-X-CSE-ConnectionGUID: YbvMI+g9RtCkRDyd7EJBwA==
-X-CSE-MsgGUID: rP2G94vzTP6C1525oYLZ/g==
+   d="scan'208";a="73444424"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 19:25:41 -0800
+X-CSE-ConnectionGUID: wQcd/xxLSvCEUaJQBRPg5w==
+X-CSE-MsgGUID: CrW+YH30R3CVeCOQbXMmeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,317,1763452800"; 
-   d="scan'208";a="216415922"
+   d="scan'208";a="216521234"
 Received: from lkp-server01.sh.intel.com (HELO 59784f1c7b2a) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Feb 2026 18:44:38 -0800
+  by orviesa010.jf.intel.com with ESMTP; 28 Feb 2026 19:25:40 -0800
 Received: from kbuild by 59784f1c7b2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwWnK-0000000018X-1CkV;
-	Sun, 01 Mar 2026 02:44:34 +0000
-Date: Sun, 1 Mar 2026 10:43:54 +0800
+	id 1vwXR3-000000001F9-1kPx;
+	Sun, 01 Mar 2026 03:25:37 +0000
+Date: Sun, 01 Mar 2026 11:24:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub =?utf-8?B?VmFuxJtr?= <linuxtardis@gmail.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Frank <Frank.Sae@motor-comm.com>,
-	Sai Krishna <saikrishnag@marvell.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Jakub =?utf-8?B?VmFuxJtr?= <linuxtardis@gmail.com>
-Subject: Re: [PATCH net-next v2 5/5] net: phy: motorcomm: yt8821: Disable
- MDIO broadcast
-Message-ID: <202603011047.rzQIXPzJ-lkp@intel.com>
-References: <20260228232241.1274236-6-linuxtardis@gmail.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/cros_kbd_led-cleanup 3/8] ld.lld:
+ error: duplicate symbol: acpi_dev_found
+Message-ID: <202603011102.CTx6UojI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,32 +60,50 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260228232241.1274236-6-linuxtardis@gmail.com>
 
-Hi Jakub,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Van-k/net-mdiobus-Scan-buses-in-reverse-order-31-0/20260301-072526
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260228232241.1274236-6-linuxtardis%40gmail.com
-patch subject: [PATCH net-next v2 5/5] net: phy: motorcomm: yt8821: Disable MDIO broadcast
-config: nios2-defconfig (https://download.01.org/0day-ci/archive/20260301/202603011047.rzQIXPzJ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260301/202603011047.rzQIXPzJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/cros_kbd_led-cleanup
+head:   1f8a06bba34bbd4d190a7c78f4f81d6a58f7489d
+commit: 2b182d193bb941d68d765d0e973c8494338794f0 [3/8] incl
+config: arm-assabet_defconfig (https://download.01.org/0day-ci/archive/20260301/202603011102.CTx6UojI-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260301/202603011102.CTx6UojI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603011047.rzQIXPzJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603011102.CTx6UojI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/net/phy/phy_common_fixups.c:16 function parameter 'phydev' not described in 'yt8821_disable_broadcast'
->> Warning: drivers/net/phy/phy_common_fixups.c:16 function parameter 'phydev' not described in 'yt8821_disable_broadcast'
+>> ld.lld: error: duplicate symbol: acpi_dev_found
+   >>> defined at 8250_core.c
+   >>>            drivers/tty/serial/8250/8250_core.o:(acpi_dev_found)
+   >>> defined at 8250_platform.c
+   >>>            drivers/tty/serial/8250/8250_platform.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: acpi_dev_present
+   >>> defined at 8250_core.c
+   >>>            drivers/tty/serial/8250/8250_core.o:(acpi_dev_present)
+   >>> defined at 8250_platform.c
+   >>>            drivers/tty/serial/8250/8250_platform.o:(.text+0x40)
+--
+>> ld.lld: error: duplicate symbol: acpi_reduced_hardware
+   >>> defined at 8250_core.c
+   >>>            drivers/tty/serial/8250/8250_core.o:(acpi_reduced_hardware)
+   >>> defined at 8250_platform.c
+   >>>            drivers/tty/serial/8250/8250_platform.o:(.text+0x80)
+--
+>> ld.lld: error: duplicate symbol: acpi_check_dsm
+   >>> defined at 8250_core.c
+   >>>            drivers/tty/serial/8250/8250_core.o:(acpi_check_dsm)
+   >>> defined at 8250_platform.c
+   >>>            drivers/tty/serial/8250/8250_platform.o:(.text+0xC0)
+--
+>> ld.lld: error: duplicate symbol: acpi_evaluate_dsm
+   >>> defined at 8250_core.c
+   >>>            drivers/tty/serial/8250/8250_core.o:(acpi_evaluate_dsm)
+   >>> defined at 8250_platform.c
+   >>>            drivers/tty/serial/8250/8250_platform.o:(.text+0x100)
 
 -- 
 0-DAY CI Kernel Test Service
