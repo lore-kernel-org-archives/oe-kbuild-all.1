@@ -1,102 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86955430B9E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Mar 2026 08:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68191DE2D3
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Mar 2026 09:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772353554; cv=none; b=UfR4WoxWJ4sqAMhBuAdxzQlRuIZ3NKFHQgdWq8fBNpDKZksoU0ni0dDkIZaB91oEQS9V/J36R59xtt4hjjkX07sJ8zikT+rDEAHJ4qhk0wBIBoir9EgE7kQGpgDywj+JPQRTcsAi3QEsU2xuhbitUUNYxDlO9NXEKK6zzV0hjX4=
+	t=1772359142; cv=none; b=OJ93ze7OAJO8jxTjP6sQcyzNNH0/NxtTlwsSC0x4JS4VKCR8rVr0Kc1u8X1v5NVArYHSJtaTGVyaqtsaOmKRTxaxfeeRKRLhP80+qb2m6yobGspr2Kuu+8yrNYlMfRLD6HDv/LahALC6Jmnu6IZrDAe0cA8M7JvWQsEMYRGUofo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772353554; c=relaxed/simple;
-	bh=f2Pvjk7JSG65hzMSwpYeBqHr6b2wxFUS0wZ+zeQcS7E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lPrAS8K35igrxKrVIUvgQeZVHXAETk4GcIpjz+PcYf+k9i6csXmMg8BITv4W2wRqjWC5q/q9Nsx6L7aQgViBNNMzdYHhYWH7CJS63T6kryp5f3iG5NG/WkHpcx4+uudsqKgyWTiAIqb/TlFMKodnzMMzEPJj24LJnELy9rDB9C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/kCfIDU; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1772359142; c=relaxed/simple;
+	bh=NCBld8mmxuLtKaHStIDh4/9H1baW1DIi3KJ2O6UMbls=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=REtI3/9MaDXlQw3BKQOeXmOpeojjPKCwuh2xNnFLg0jd0dUHL8F4k6ASthNkEMJsH2hll6NeGgkZ9hi9RI2LmiaJeQvqfyxIp5emgi3fI3E7GQTxoOXCdw61unBagLWdW/3pKpqoVP2gg1lGrDxs5jB3xYksAN37UewSge1zydc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HKmonwLp; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/kCfIDU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKmonwLp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772353553; x=1803889553;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f2Pvjk7JSG65hzMSwpYeBqHr6b2wxFUS0wZ+zeQcS7E=;
-  b=R/kCfIDUNaYx0Q1aUt6bVqKNcJMzzMEObsx3cLHoTUtrM3MPRk1Pny8e
-   I+5krWpZkevktLdu52H+Oy8O+bES0fEU4JKkvWy4ZtqZZjU6osDdtzyzY
-   Ms4x/GNXLMWO7MvbH81ggaAM2C/AZTVyaK2sJsAZpMY1wJ1dWD7zu2yZe
-   FgHnAXTP+wubobPTinpeqCY7Q6+eiZNblC2cpqpr2X4HaJnYisK+NjCLp
-   OZy/iUC9n2GSszw3lZMJxFPOY6jgmkfBAjahliVQemM8L5fgz2ewBqVdQ
-   CzPhDi21jaCAUEdo84PKOYXFxQeLqIpyeICKIrQWs2hfL+1Ycr1rN5ke2
+  t=1772359141; x=1803895141;
+  h=date:from:to:cc:subject:message-id;
+  bh=NCBld8mmxuLtKaHStIDh4/9H1baW1DIi3KJ2O6UMbls=;
+  b=HKmonwLpuTVctgA+Jmj4m9NdTpTpjdnXrkKO0eHrxprYBrvd2h/eZrcE
+   3wHJJ+GbveNdnkt12lxnB2krLeG9+ezNi4qR9PgmXNqzN1KWQm+MtGkd6
+   VOYxBE4rjlocl67nrgYrLRkaEoqTeFHDVIdbLUjdeDmgxYmqiBPbKa+sk
+   Bk4U17IhmVPNn3xLumCp2DxQ8mMAAVmXI/y4gBLn/z2o2qPX0saT/eepq
+   0Jl7avZCFJWZbAepozeqkVD2QMuqVXweH/Uvc75y7OEe3TTfOBXSp68WB
+   mxDLP+zRn9vj17ujvehXJv1QbdXhyU2HliBzdSoQ0F0yHzApwkQbyvkch
    A==;
-X-CSE-ConnectionGUID: s4iFufWcSBiYXWidaoer0A==
-X-CSE-MsgGUID: 6Pe88JBwSwWe3I6O3x8IrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11715"; a="73430622"
+X-CSE-ConnectionGUID: tqfRSv5jRV6FfiFl0aU+YA==
+X-CSE-MsgGUID: ehlSBuJlQNe8cEYxIajYVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11715"; a="96006346"
 X-IronPort-AV: E=Sophos;i="6.21,317,1763452800"; 
-   d="scan'208";a="73430622"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2026 00:25:53 -0800
-X-CSE-ConnectionGUID: d8hc9fy+SdWghNOIGBnFCg==
-X-CSE-MsgGUID: qnJsAdZPQF+KgJQozITTMw==
+   d="scan'208";a="96006346"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2026 01:59:00 -0800
+X-CSE-ConnectionGUID: 6kyd0bDwQQKQsDnZkHEIKQ==
+X-CSE-MsgGUID: eiQmyw1tT+mf9eFU1Ft7hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,317,1763452800"; 
-   d="scan'208";a="215056542"
+   d="scan'208";a="217245869"
 Received: from lkp-server01.sh.intel.com (HELO 59784f1c7b2a) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 Mar 2026 00:25:49 -0800
+  by orviesa009.jf.intel.com with ESMTP; 01 Mar 2026 01:58:59 -0800
 Received: from kbuild by 59784f1c7b2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwc7X-000000001LR-0n2u;
-	Sun, 01 Mar 2026 08:25:47 +0000
-Date: Sun, 1 Mar 2026 16:25:41 +0800
+	id 1vwdZf-000000001Nx-3MJP;
+	Sun, 01 Mar 2026 09:58:55 +0000
+Date: Sun, 01 Mar 2026 17:58:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matteo Croce <technoboy85@gmail.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Laight <david.laight.linux@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] KUnit: memcpy: add benchmark
-Message-ID: <202603011603.4178c0iZ-lkp@intel.com>
-References: <20260301011209.4160-1-teknoraver@meta.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jiri Kosina <jikos@kernel.org>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: [linux-next:master 2661/2910] mips-linux-ld:
+ drivers/hid/hid-lenovo-go-s.o:(.data.gamepad_mode+0x0): multiple definition
+ of `gamepad_mode'; drivers/hid/hid-lenovo-go.o:(.data.gamepad_mode+0x0):
+ first defined here
+Message-ID: <202603011759.KrN1OC07-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260301011209.4160-1-teknoraver@meta.com>
 
-Hi Matteo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on akpm-mm/mm-everything linus/master v7.0-rc1 next-20260227]
-[cannot apply to kees/for-next/hardening]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Croce/KUnit-memcpy-add-benchmark/20260301-091336
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20260301011209.4160-1-teknoraver%40meta.com
-patch subject: [PATCH v5] KUnit: memcpy: add benchmark
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260301/202603011603.4178c0iZ-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260301/202603011603.4178c0iZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3fa5e5702a82d259897bd7e209469bc06368bf31
+commit: 14651777fd67507d19574cd7e7835c16e6174853 [2661/2910] HID: hid-lenovo-go-s: Add Feature Status Attributes
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260301/202603011759.KrN1OC07-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260301/202603011759.KrN1OC07-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603011603.4178c0iZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603011759.KrN1OC07-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "__udivdi3" [lib/tests/memcpy_kunit.ko] undefined!
+   mips-linux-ld: drivers/hid/hid-lenovo-go-s.o:(.bss.drvdata+0x0): multiple definition of `drvdata'; drivers/hid/hid-lenovo-go.o:(.bss.drvdata+0x0): first defined here
+>> mips-linux-ld: drivers/hid/hid-lenovo-go-s.o:(.data.gamepad_mode+0x0): multiple definition of `gamepad_mode'; drivers/hid/hid-lenovo-go.o:(.data.gamepad_mode+0x0): first defined here
+>> mips-linux-ld: drivers/hid/hid-lenovo-go-s.o:(.data.touchpad_enabled+0x0): multiple definition of `touchpad_enabled'; drivers/hid/hid-lenovo-go.o:(.data.touchpad_enabled+0x0): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
