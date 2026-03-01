@@ -1,170 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E53B3112D0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Mar 2026 22:05:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB918430B8F;
+	Sun,  1 Mar 2026 23:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772402742; cv=none; b=oF8yHaQUZgVQPg+aGM4+O99n4Y/Okq2zeo1AxL724Ee11G8PFaCHN3qDz7lb0/iSWLfBCL+fAv3SdykJg7iWaGbreuFLhtYlJeB0wxG2mLkbRWfirtvvf4tGMcibakc2FHE+MOXcCMrSMzE+G8nXZ3UE7SZgSUGFEED0ykMUxJQ=
+	t=1772407122; cv=none; b=uDCSw3t/6UxtvZnd2bYHJwHpjnCntESfJGNp08lgeq6mIYFGDwLpdRVHF/hygoG4n4iiE0LkAGnF0Sh/8skBXpf99kAAfpkGKkBbNumqy70U8pg054FV/qTl8jjNPpx2+SEyibGmbr4lA733dn1Aro1KJzeFpyOSkV1Ko/W1JfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772402742; c=relaxed/simple;
-	bh=hIFvynwrg0mFOxpjKosbsObtRC54+v13MBvkOJqqoBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=poqFHAa0Ss8yMgshf1BvW8a5dLPVF5udvgVVZHSlpJhiMFqxoa8Sn09OQivEOPuOMs7HT0nJSHKRETrUfCPclh6yP4njV6FFlP3FOH8MEuFHNVUSyN7wXMEg19Z2WdvFd/dP9gSI7+t0l4KDWfDOTEf7aoiEVX6qAh7VZzGLx8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hk7o7rB/; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1772407122; c=relaxed/simple;
+	bh=SyIz5pa8r71nVYN5rxJ1p5UH81KB8f040ueLVAecbmg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qcA/y67Pe6yBFdD79yGN9/1AsC3Xkq9lBJCTdduBbY1+BiwNYloewA91AnWNXZOIeJLfTeDrjZ42ngt7EQPRyJtknYuAQdMj3zkxF9ld6PgMbsu4P9Aw2Mpm++iociMsyUPsbprJpp0ZsmlyVRStqQB5cPy/twpASgfYqdKnLfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqAPRXg6; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hk7o7rB/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqAPRXg6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772402739; x=1803938739;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hIFvynwrg0mFOxpjKosbsObtRC54+v13MBvkOJqqoBw=;
-  b=Hk7o7rB/XycvnwHJ2LTakf22Vzu/EXXwZZLIgFZS4/O8q26rW88yz1cs
-   q5ho5mSQsnTgk0AtKeFdNKKq3EDvxbJZu/elY9ihsV0phQwXqHeTLVmG4
-   OHi+nwU9WcwSN46pF1+/B6t7aRM/7jccv18FcGoI2a7d+68sG9FDA21Q0
-   4aiFhtc8+6iGmYqud5wPO7K6hoS8d85gbIE5Zv6TC5pralWDtO2kN/XSe
-   JemMxob6gBnZa2pdhgY4j4g6H9Z0nvc6uNqcyHIkaQlVLfVWiGfn7vWwX
-   /l+wv/+R27cgicxKIVGQod+bXHQhdviCdxlrlo1UBR3tMA5hph6HRf2eH
-   A==;
-X-CSE-ConnectionGUID: 2ezm8zEcRzSMgZYcMHy/Pw==
-X-CSE-MsgGUID: B7yaJZOfTjOnDFSxGvC2VA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="84117090"
+  t=1772407120; x=1803943120;
+  h=date:from:to:cc:subject:message-id;
+  bh=SyIz5pa8r71nVYN5rxJ1p5UH81KB8f040ueLVAecbmg=;
+  b=nqAPRXg6skgHoKdk2Eyri0w+87BB1gAswSTyU99XW7A1Ca2nmZrdolgQ
+   zFjelGsQZ1YpYXV3qPFh+OSeg36UYLAHTYKTNAiftxnv/g9DM/nYQ4gRH
+   YYq6t4kpObcSjStDOG57nLLia/Byqlfed6tBG9Znqi2FcXra36GMVyCSA
+   PixFWdoS176Hkfogzf8lP6LeY2YdYhMQ4723AIi3fgR0Tj1ATA5nfbcvP
+   4FpjslQcGF8Q4fxSyIEsNXsi18IGhGK0/tGLtvckM5VWkmQ/SH9cFEnP5
+   8QAvywTNnPq1rLJtztO0raaaftVj+6fQ3KMatyrPhXrV8ix61+o/ehrEL
+   Q==;
+X-CSE-ConnectionGUID: GqNOrHB7SvOWlBf+OvSieQ==
+X-CSE-MsgGUID: 6czywL1mSf6Gifqk3zl7AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="72615852"
 X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="84117090"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2026 14:05:39 -0800
-X-CSE-ConnectionGUID: yWgy/burTMGtqNyVKEN7/Q==
-X-CSE-MsgGUID: Qldj/B5ASb6xWBtw0mY1pw==
+   d="scan'208";a="72615852"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2026 15:18:39 -0800
+X-CSE-ConnectionGUID: 0G6/YGOyQ9ei2uEWjFHa9A==
+X-CSE-MsgGUID: kZ3kiirUTXmToTudG8T4hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="220569555"
+   d="scan'208";a="244605719"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Mar 2026 14:05:36 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 01 Mar 2026 15:18:38 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwour-0000000002f-2vnU;
-	Sun, 01 Mar 2026 22:05:33 +0000
-Date: Mon, 2 Mar 2026 06:05:13 +0800
+	id 1vwq3X-0000000004b-1Jsn;
+	Sun, 01 Mar 2026 23:18:35 +0000
+Date: Mon, 02 Mar 2026 07:17:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>, netdev@vger.kernel.org,
-	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH v2 net-next 7/7] net-sysfs: use rps_tag_ptr and remove
- metadata from rps_dev_flow_table
-Message-ID: <202603020519.4JHxNgoV-lkp@intel.com>
-References: <20260301181457.3539105-8-edumazet@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dakr:driver_override 5/7]
+ drivers/s390/crypto/ap_bus.c:1021:37: error: use of undeclared identifier
+ 'ap_dev'; did you mean 'ap_drv'?
+Message-ID: <202603020747.BWA0L4NT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260301181457.3539105-8-edumazet@google.com>
 
-Hi Eric,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-add-rps_tag_ptr-type-and-helpers/20260302-021900
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260301181457.3539105-8-edumazet%40google.com
-patch subject: [PATCH v2 net-next 7/7] net-sysfs: use rps_tag_ptr and remove metadata from rps_dev_flow_table
-config: sh-defconfig (https://download.01.org/0day-ci/archive/20260302/202603020519.4JHxNgoV-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603020519.4JHxNgoV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git driver_override
+head:   63683f9f4de28c3a84a02f22479c623ad187b05c
+commit: 979429bdfe6fefaa752d93c2c6e196d1835580d9 [5/7] WIP: treewide: make callsites use generic driver_override
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260302/202603020747.BWA0L4NT-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603020747.BWA0L4NT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603020519.4JHxNgoV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603020747.BWA0L4NT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/core/net-sysfs.c: In function 'store_rps_dev_flow_table_cnt':
->> net/core/net-sysfs.c:1104:41: error: implicit declaration of function 'RPS_DEV_FLOW_TABLE_SIZE' [-Wimplicit-function-declaration]
-    1104 |                 if (mask > (ULONG_MAX - RPS_DEV_FLOW_TABLE_SIZE(1))
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/s390/crypto/ap_bus.c:1021:37: error: use of undeclared identifier 'ap_dev'; did you mean 'ap_drv'?
+    1021 |         rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
+         |                                            ^~~~~~
+         |                                            ap_drv
+   drivers/s390/crypto/ap_bus.c:977:20: note: 'ap_drv' declared here
+     977 |         struct ap_driver *ap_drv = to_ap_drv(dev->driver);
+         |                           ^
+   1 error generated.
 
 
-vim +/RPS_DEV_FLOW_TABLE_SIZE +1104 net/core/net-sysfs.c
+vim +1021 drivers/s390/crypto/ap_bus.c
 
-fec5e652e58fa6 Tom Herbert       2010-04-16  1072  
-f5acb907dc24c3 Eric Dumazet      2010-04-19  1073  static ssize_t store_rps_dev_flow_table_cnt(struct netdev_rx_queue *queue,
-fec5e652e58fa6 Tom Herbert       2010-04-16  1074  					    const char *buf, size_t len)
-fec5e652e58fa6 Tom Herbert       2010-04-16  1075  {
-5b629854b594cd Eric Dumazet      2026-03-01  1076  	struct rps_dev_flow *table;
-5b629854b594cd Eric Dumazet      2026-03-01  1077  	rps_tag_ptr otag, tag_ptr = 0UL;
-60b778ce519625 Eric Dumazet      2011-12-24  1078  	unsigned long mask, count;
-5b629854b594cd Eric Dumazet      2026-03-01  1079  	size_t sz;
-60b778ce519625 Eric Dumazet      2011-12-24  1080  	int rc;
-fec5e652e58fa6 Tom Herbert       2010-04-16  1081  
-fec5e652e58fa6 Tom Herbert       2010-04-16  1082  	if (!capable(CAP_NET_ADMIN))
-fec5e652e58fa6 Tom Herbert       2010-04-16  1083  		return -EPERM;
-fec5e652e58fa6 Tom Herbert       2010-04-16  1084  
-60b778ce519625 Eric Dumazet      2011-12-24  1085  	rc = kstrtoul(buf, 0, &count);
-60b778ce519625 Eric Dumazet      2011-12-24  1086  	if (rc < 0)
-60b778ce519625 Eric Dumazet      2011-12-24  1087  		return rc;
-fec5e652e58fa6 Tom Herbert       2010-04-16  1088  
-fec5e652e58fa6 Tom Herbert       2010-04-16  1089  	if (count) {
-60b778ce519625 Eric Dumazet      2011-12-24  1090  		mask = count - 1;
-60b778ce519625 Eric Dumazet      2011-12-24  1091  		/* mask = roundup_pow_of_two(count) - 1;
-60b778ce519625 Eric Dumazet      2011-12-24  1092  		 * without overflows...
-60b778ce519625 Eric Dumazet      2011-12-24  1093  		 */
-60b778ce519625 Eric Dumazet      2011-12-24  1094  		while ((mask | (mask >> 1)) != mask)
-60b778ce519625 Eric Dumazet      2011-12-24  1095  			mask |= (mask >> 1);
-60b778ce519625 Eric Dumazet      2011-12-24  1096  		/* On 64 bit arches, must check mask fits in table->mask (u32),
-8e3bff96afa673 stephen hemminger 2013-12-08  1097  		 * and on 32bit arches, must check
-8e3bff96afa673 stephen hemminger 2013-12-08  1098  		 * RPS_DEV_FLOW_TABLE_SIZE(mask + 1) doesn't overflow.
-60b778ce519625 Eric Dumazet      2011-12-24  1099  		 */
-60b778ce519625 Eric Dumazet      2011-12-24  1100  #if BITS_PER_LONG > 32
-60b778ce519625 Eric Dumazet      2011-12-24  1101  		if (mask > (unsigned long)(u32)mask)
-a0a129f8b6cff5 Xi Wang           2011-12-22  1102  			return -EINVAL;
-60b778ce519625 Eric Dumazet      2011-12-24  1103  #else
-60b778ce519625 Eric Dumazet      2011-12-24 @1104  		if (mask > (ULONG_MAX - RPS_DEV_FLOW_TABLE_SIZE(1))
-a0a129f8b6cff5 Xi Wang           2011-12-22  1105  				/ sizeof(struct rps_dev_flow)) {
-fec5e652e58fa6 Tom Herbert       2010-04-16  1106  			/* Enforce a limit to prevent overflow */
-fec5e652e58fa6 Tom Herbert       2010-04-16  1107  			return -EINVAL;
-fec5e652e58fa6 Tom Herbert       2010-04-16  1108  		}
-60b778ce519625 Eric Dumazet      2011-12-24  1109  #endif
-5b629854b594cd Eric Dumazet      2026-03-01  1110  		sz = max_t(size_t, sizeof(*table) * (mask + 1),
-5b629854b594cd Eric Dumazet      2026-03-01  1111  			   PAGE_SIZE);
-5b629854b594cd Eric Dumazet      2026-03-01  1112  		if (sz <= (PAGE_SIZE << PAGE_ALLOC_COSTLY_ORDER) ||
-5b629854b594cd Eric Dumazet      2026-03-01  1113  		    is_power_of_2(sz))
-5b629854b594cd Eric Dumazet      2026-03-01  1114  			table = kvmalloc(sz, GFP_KERNEL);
-5b629854b594cd Eric Dumazet      2026-03-01  1115  		else
-5b629854b594cd Eric Dumazet      2026-03-01  1116  			table = vmalloc(sz);
-fec5e652e58fa6 Tom Herbert       2010-04-16  1117  		if (!table)
-fec5e652e58fa6 Tom Herbert       2010-04-16  1118  			return -ENOMEM;
-5b629854b594cd Eric Dumazet      2026-03-01  1119  		tag_ptr = (rps_tag_ptr)table;
-5b629854b594cd Eric Dumazet      2026-03-01  1120  		if (rps_tag_to_log(tag_ptr)) {
-5b629854b594cd Eric Dumazet      2026-03-01  1121  			pr_err_once("store_rps_dev_flow_table_cnt() got a non page aligned allocation.\n");
-5b629854b594cd Eric Dumazet      2026-03-01  1122  			kvfree(table);
-5b629854b594cd Eric Dumazet      2026-03-01  1123  			return -ENOMEM;
-5b629854b594cd Eric Dumazet      2026-03-01  1124  		}
-5b629854b594cd Eric Dumazet      2026-03-01  1125  		tag_ptr |= (ilog2(mask) + 1);
-97bcc5b6f45425 Krishna Kumar     2025-08-25  1126  		for (count = 0; count <= mask; count++) {
-5b629854b594cd Eric Dumazet      2026-03-01  1127  			table[count].cpu = RPS_NO_CPU;
-5b629854b594cd Eric Dumazet      2026-03-01  1128  			table[count].filter = RPS_NO_FILTER;
-97bcc5b6f45425 Krishna Kumar     2025-08-25  1129  		}
-6648c65e7ea72c stephen hemminger 2017-08-18  1130  	}
-fec5e652e58fa6 Tom Herbert       2010-04-16  1131  
-5b629854b594cd Eric Dumazet      2026-03-01  1132  	otag = xchg(&queue->rps_flow_table, tag_ptr);
-5b629854b594cd Eric Dumazet      2026-03-01  1133  	if (otag)
-5b629854b594cd Eric Dumazet      2026-03-01  1134  		kvfree_rcu_mightsleep(rps_tag_to_table(otag));
-fec5e652e58fa6 Tom Herbert       2010-04-16  1135  
-fec5e652e58fa6 Tom Herbert       2010-04-16  1136  	return len;
-fec5e652e58fa6 Tom Herbert       2010-04-16  1137  }
-fec5e652e58fa6 Tom Herbert       2010-04-16  1138  
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   974  
+1534c3820c26ac Martin Schwidefsky   2006-09-20   975  static int ap_device_probe(struct device *dev)
+1534c3820c26ac Martin Schwidefsky   2006-09-20   976  {
+1534c3820c26ac Martin Schwidefsky   2006-09-20   977  	struct ap_driver *ap_drv = to_ap_drv(dev->driver);
+979429bdfe6fef Danilo Krummrich     2026-03-01   978  	int card, queue, devres, drvres, rc = -ENODEV, ovrd;
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   979  
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   980  	if (!get_device(dev))
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   981  		return rc;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   982  
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   983  	if (is_queue_dev(dev)) {
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   984  		/*
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   985  		 * If the apqn is marked as reserved/used by ap bus and
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   986  		 * default drivers, only probe with drivers with the default
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   987  		 * flag set. If it is not marked, only probe with drivers
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   988  		 * with the default flag not set.
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   989  		 */
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   990  		card = AP_QID_CARD(to_ap_queue(dev)->qid);
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   991  		queue = AP_QID_QUEUE(to_ap_queue(dev)->qid);
+979429bdfe6fef Danilo Krummrich     2026-03-01   992  		ovrd = device_match_driver_override(dev, &ap_drv->driver);
+979429bdfe6fef Danilo Krummrich     2026-03-01   993  		if (ovrd > 0) {
+979429bdfe6fef Danilo Krummrich     2026-03-01   994  			/* override set and matches, nothing to do */
+979429bdfe6fef Danilo Krummrich     2026-03-01   995  		} else if (ovrd == 0) {
+d38a87d7c0643d Harald Freudenberger 2025-11-19   996  			goto out;
+d38a87d7c0643d Harald Freudenberger 2025-11-19   997  		} else {
+8babcc2b6a75d1 Harald Freudenberger 2025-11-19   998  			mutex_lock(&ap_attr_mutex);
+2004b57cde6b21 Harald Freudenberger 2022-04-04   999  			devres = test_bit_inv(card, ap_perms.apm) &&
+2004b57cde6b21 Harald Freudenberger 2022-04-04  1000  				test_bit_inv(queue, ap_perms.aqm);
+8babcc2b6a75d1 Harald Freudenberger 2025-11-19  1001  			mutex_unlock(&ap_attr_mutex);
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1002  			drvres = ap_drv->flags & AP_DRIVER_FLAG_DEFAULT;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1003  			if (!!devres != !!drvres)
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1004  				goto out;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1005  		}
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1006  	}
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1007  
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1008  	/*
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1009  	 * Rearm the bindings complete completion to trigger
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1010  	 * bindings complete when all devices are bound again
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1011  	 */
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1012  	reinit_completion(&ap_apqn_bindings_complete);
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1013  
+e385050873d1e1 Harald Freudenberger 2017-05-24  1014  	/* Add queue/card to list of active queues/cards */
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1015  	spin_lock_bh(&ap_queues_lock);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1016  	if (is_queue_dev(dev))
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1017  		hash_add(ap_queues, &to_ap_queue(dev)->hnode,
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1018  			 to_ap_queue(dev)->qid);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1019  	spin_unlock_bh(&ap_queues_lock);
+e385050873d1e1 Harald Freudenberger 2017-05-24  1020  
+666e68e0dde826 Ingo Tuchscherer     2014-07-14 @1021  	rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
+e385050873d1e1 Harald Freudenberger 2017-05-24  1022  
+e385050873d1e1 Harald Freudenberger 2017-05-24  1023  	if (rc) {
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1024  		spin_lock_bh(&ap_queues_lock);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1025  		if (is_queue_dev(dev))
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1026  			hash_del(&to_ap_queue(dev)->hnode);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1027  		spin_unlock_bh(&ap_queues_lock);
+2004b57cde6b21 Harald Freudenberger 2022-04-04  1028  	}
+e385050873d1e1 Harald Freudenberger 2017-05-24  1029  
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1030  out:
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1031  	if (rc) {
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1032  		put_device(dev);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1033  	} else {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1034  		if (is_queue_dev(dev)) {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1035  			pr_debug("queue=%02x.%04x new driver=%s\n",
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1036  				 card, queue, ap_drv->driver.name);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1037  		} else {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1038  			pr_debug("card=%02x new driver=%s\n",
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1039  				 to_ap_card(dev)->id, ap_drv->driver.name);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1040  		}
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1041  	}
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1042  	return rc;
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1043  }
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1044  
+
+:::::: The code at line 1021 was first introduced by commit
+:::::: 666e68e0dde826ae146b980099f1719f74fa968c s390/zcrypt: improve device probing for zcrypt adapter cards
+
+:::::: TO: Ingo Tuchscherer <ingo.tuchscherer@de.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
