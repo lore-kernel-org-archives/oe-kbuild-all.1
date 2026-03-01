@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9BE19E839
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Mar 2026 20:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E508175A7C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Mar 2026 21:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772397901; cv=none; b=aFQ38/CghTEWpEiKn/lbUIzG5ly4VYMMcUUf+yW/6v/HH2bS1pI23aa1bC7mri3fXkKyW/iEkTevz6rPNWmxtogBcy/TDOXLK6LKKDkVoyv4rl32+QZX9NQStBTeqh4O6txQwAFjlhVLASZKcusUVt5TEGG/3AmT2fX15o3ejjo=
+	t=1772400999; cv=none; b=KX2K5ZS9fcAgWpQojOTySlmPZDlFJx/2C4BiI+4ae5TmR5AbtruoNDbKSe33Ov+RjTy+Vs69AtRUwRg8AYPy7E/5x4T4EQbNOy3s7wV6AG1hw0hthzUmr2iScuNsCaj5znr9JJSJhmmTw2U4b7AUfl2dbJ4fSWoS1D1WPTv2k5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772397901; c=relaxed/simple;
-	bh=l8I8l2mP2i3DIxMzaqUFvMd10agMp4ytV4zlGLg/12s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EqlKLUujRePsNEYvvUu/tyP9XaVFKRRz9Uwn52g/cIbdmK8jaK3cjlSXnNOnApoD6px65zsLx6O/hMoisz5U4mEJ6JYTYIeepuuzozK5W3w7enipmPdzR1DM0fOavwaCDUGqLgrabmq1PYawj2hc8WaeIT0St2qZOUVDwp3rVbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6v//2/3; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1772400999; c=relaxed/simple;
+	bh=0cp90v4DrUocu8eo4w9Fw6kG4ZUGMnA+Zkr/7qumIiE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=urgUExRO++RptTqsRhz57dN5/VP/AwfibHQIpHKBzgYGf3X7oPZh65dj+W0G6VNvOXAlhOLBvpI6MNuY3eI6cCfD6JRKlo8ubQ5G6lvY0G527XGzVthXl6Jprv1VMj73Lf4RCUuF10PZ1p9vJPQXT58chgLd3wqPwRTqnJcP/DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCGmUGAQ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6v//2/3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCGmUGAQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772397900; x=1803933900;
+  t=1772400998; x=1803936998;
   h=date:from:to:cc:subject:message-id;
-  bh=l8I8l2mP2i3DIxMzaqUFvMd10agMp4ytV4zlGLg/12s=;
-  b=I6v//2/3gqSw5yxmSUbyvFvAVtomk/nLrFBIG2krfZ6Z4DcblAKFq0s4
-   llKTP7Jq002Fqj45dKoje51L4l2nIWhFLy2oTWLHJu8opari44rFNluFF
-   wlcxqMt+ZF1Cx4O2BmtWUe/lLIBQS1L9VwxrbT0QaYJyq/Ip2ASRmPKdk
-   HIWxS9ZCLocM4Z/jQcJHlFp4Eu1uC3+nom5fcSWkep0YWS06FsIeJaoTc
-   VituEo4+mQ8t8CQ3IgSCeE3FmwfZbvyLCySppCPmpIDtxbZtbkcdI4GDx
-   NpHpb48C/Icibvp40jrOX/qym38iI/w1ztL0FkhyReNLyR0hwOUQJ8ULK
-   g==;
-X-CSE-ConnectionGUID: zfXgA2QTT1yBmgmk0o8yJw==
-X-CSE-MsgGUID: 4dZ+whZERB2YXWyZV1SvDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="73374218"
+  bh=0cp90v4DrUocu8eo4w9Fw6kG4ZUGMnA+Zkr/7qumIiE=;
+  b=RCGmUGAQ12mtiqXZoHBnKI5XTi9BuXzTsPLzArseYALbQ/FDoaa9qw5w
+   xh20thJQHab+TuvevepCA/jpmpU5B1ns+GtHGVLWqLRfQX70BJEbzkHqY
+   vp76//XGOzc8UGfQbMYOFbYWTs1EYaiHYCe9ULoj1mh+aDLEYIVovXRRJ
+   FkIWAvYWuzMD6ePT6ajRP9z010YdsAtUaS6J6p5l/aly/Vl8pz9WLNFct
+   nJB72mcDkP/QV6JIz/2SOn0S4eZlwZ9n69wAOs9WezARhPqf0ueqviHye
+   azipO8d64TnePn/cOF94SEv9NsjMJfzwUloPfxDZTm99dP4y+xzeUreku
+   w==;
+X-CSE-ConnectionGUID: e/T+MUv3ShCSKUNDA7V8Yw==
+X-CSE-MsgGUID: icR5zhiWSTaZDtEv45zslw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="73375675"
 X-IronPort-AV: E=Sophos;i="6.21,318,1763452800"; 
-   d="scan'208";a="73374218"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2026 12:44:59 -0800
-X-CSE-ConnectionGUID: mSCmOqTNQmSbSxe6zZA2zg==
-X-CSE-MsgGUID: 8n+qlBQRQeKFDkmsNk7QRw==
+   d="scan'208";a="73375675"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2026 13:36:38 -0800
+X-CSE-ConnectionGUID: CzGeKgQeQMaMYTPaYhZ1LA==
+X-CSE-MsgGUID: bYzmUSrLScGkwzUqB7kq1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,318,1763452800"; 
-   d="scan'208";a="217338881"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 01 Mar 2026 12:44:57 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="244593138"
+Received: from lkp-server01.sh.intel.com (HELO 59784f1c7b2a) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 01 Mar 2026 13:36:35 -0800
+Received: from kbuild by 59784f1c7b2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwneo-0000000013R-3xdS;
-	Sun, 01 Mar 2026 20:44:54 +0000
-Date: Sun, 01 Mar 2026 21:44:26 +0100
+	id 1vwoSn-000000001jl-0pyt;
+	Sun, 01 Mar 2026 21:36:33 +0000
+Date: Mon, 02 Mar 2026 05:36:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/250-aop 48/57] warning: unresolved link to
- `remove`
-Message-ID: <202603012109.UIKVcjJi-lkp@intel.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dakr:driver_override 5/7]
+ drivers/s390/crypto/ap_bus.c:1021:44: error: 'ap_dev' undeclared; did you
+ mean 'ap_drv'?
+Message-ID: <202603020527.mKjcrdF6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,28 +60,107 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux bits/250-aop
-head:   01c00561a643db1264ba75e8b464a87ec2db6126
-commit: 3da6b620ceabe07e28ef2f85cd0aaa1f2ad4d7b4 [48/57] rust: alloc: kvec: WIP(?): Add swap_remove() for AOP series
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260301/202603012109.UIKVcjJi-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260301/202603012109.UIKVcjJi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git driver_override
+head:   2d1c80f3762e312b41582d1088d645244a24c4e8
+commit: 979429bdfe6fefaa752d93c2c6e196d1835580d9 [5/7] WIP: treewide: make callsites use generic driver_override
+config: s390-randconfig-001-20260302 (https://download.01.org/0day-ci/archive/20260302/202603020527.mKjcrdF6-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603020527.mKjcrdF6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603012109.UIKVcjJi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603020527.mKjcrdF6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: unresolved link to `remove`
-   --> rust/kernel/alloc/kvec.rs:807:58
-   |
-   807 |     /// If you need to preserve the element order, use [`remove`] instead.
-   |                                                          ^^^^^^ no item named `remove` in scope
-   |
-   = help: to escape `[` and `]` characters, add '\' before them like `\[` or `\]`
+   drivers/s390/crypto/ap_bus.c: In function 'ap_device_probe':
+>> drivers/s390/crypto/ap_bus.c:1021:44: error: 'ap_dev' undeclared (first use in this function); did you mean 'ap_drv'?
+    1021 |         rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
+         |                                            ^~~~~~
+         |                                            ap_drv
+   drivers/s390/crypto/ap_bus.c:1021:44: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +1021 drivers/s390/crypto/ap_bus.c
+
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   974  
+1534c3820c26ac Martin Schwidefsky   2006-09-20   975  static int ap_device_probe(struct device *dev)
+1534c3820c26ac Martin Schwidefsky   2006-09-20   976  {
+1534c3820c26ac Martin Schwidefsky   2006-09-20   977  	struct ap_driver *ap_drv = to_ap_drv(dev->driver);
+979429bdfe6fef Danilo Krummrich     2026-03-01   978  	int card, queue, devres, drvres, rc = -ENODEV, ovrd;
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   979  
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   980  	if (!get_device(dev))
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   981  		return rc;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   982  
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   983  	if (is_queue_dev(dev)) {
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   984  		/*
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   985  		 * If the apqn is marked as reserved/used by ap bus and
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   986  		 * default drivers, only probe with drivers with the default
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   987  		 * flag set. If it is not marked, only probe with drivers
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   988  		 * with the default flag not set.
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   989  		 */
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   990  		card = AP_QID_CARD(to_ap_queue(dev)->qid);
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   991  		queue = AP_QID_QUEUE(to_ap_queue(dev)->qid);
+979429bdfe6fef Danilo Krummrich     2026-03-01   992  		ovrd = device_match_driver_override(dev, &ap_drv->driver);
+979429bdfe6fef Danilo Krummrich     2026-03-01   993  		if (ovrd > 0) {
+979429bdfe6fef Danilo Krummrich     2026-03-01   994  			/* override set and matches, nothing to do */
+979429bdfe6fef Danilo Krummrich     2026-03-01   995  		} else if (ovrd == 0) {
+d38a87d7c0643d Harald Freudenberger 2025-11-19   996  			goto out;
+d38a87d7c0643d Harald Freudenberger 2025-11-19   997  		} else {
+8babcc2b6a75d1 Harald Freudenberger 2025-11-19   998  			mutex_lock(&ap_attr_mutex);
+2004b57cde6b21 Harald Freudenberger 2022-04-04   999  			devres = test_bit_inv(card, ap_perms.apm) &&
+2004b57cde6b21 Harald Freudenberger 2022-04-04  1000  				test_bit_inv(queue, ap_perms.aqm);
+8babcc2b6a75d1 Harald Freudenberger 2025-11-19  1001  			mutex_unlock(&ap_attr_mutex);
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1002  			drvres = ap_drv->flags & AP_DRIVER_FLAG_DEFAULT;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1003  			if (!!devres != !!drvres)
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1004  				goto out;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1005  		}
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1006  	}
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1007  
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1008  	/*
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1009  	 * Rearm the bindings complete completion to trigger
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1010  	 * bindings complete when all devices are bound again
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1011  	 */
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1012  	reinit_completion(&ap_apqn_bindings_complete);
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1013  
+e385050873d1e1 Harald Freudenberger 2017-05-24  1014  	/* Add queue/card to list of active queues/cards */
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1015  	spin_lock_bh(&ap_queues_lock);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1016  	if (is_queue_dev(dev))
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1017  		hash_add(ap_queues, &to_ap_queue(dev)->hnode,
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1018  			 to_ap_queue(dev)->qid);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1019  	spin_unlock_bh(&ap_queues_lock);
+e385050873d1e1 Harald Freudenberger 2017-05-24  1020  
+666e68e0dde826 Ingo Tuchscherer     2014-07-14 @1021  	rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
+e385050873d1e1 Harald Freudenberger 2017-05-24  1022  
+e385050873d1e1 Harald Freudenberger 2017-05-24  1023  	if (rc) {
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1024  		spin_lock_bh(&ap_queues_lock);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1025  		if (is_queue_dev(dev))
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1026  			hash_del(&to_ap_queue(dev)->hnode);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1027  		spin_unlock_bh(&ap_queues_lock);
+2004b57cde6b21 Harald Freudenberger 2022-04-04  1028  	}
+e385050873d1e1 Harald Freudenberger 2017-05-24  1029  
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1030  out:
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1031  	if (rc) {
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1032  		put_device(dev);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1033  	} else {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1034  		if (is_queue_dev(dev)) {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1035  			pr_debug("queue=%02x.%04x new driver=%s\n",
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1036  				 card, queue, ap_drv->driver.name);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1037  		} else {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1038  			pr_debug("card=%02x new driver=%s\n",
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1039  				 to_ap_card(dev)->id, ap_drv->driver.name);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1040  		}
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1041  	}
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1042  	return rc;
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1043  }
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1044  
+
+:::::: The code at line 1021 was first introduced by commit
+:::::: 666e68e0dde826ae146b980099f1719f74fa968c s390/zcrypt: improve device probing for zcrypt adapter cards
+
+:::::: TO: Ingo Tuchscherer <ingo.tuchscherer@de.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
