@@ -1,137 +1,103 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD2A3803F2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 06:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772431396; cv=pass; b=GEG19tSa8tuft3grs6EoHCQev7o8ZhhDRODrKj8S9MWTRYb6ZmOyxMNSKK/pB2bmv0GFZXeKPEdsgTrkHDUZNNj7g7Q/by3kyMGfGiIdkd6ppS9KpdcbDiJGOTFffMKjUqpLLu2UTOctf3mVCoECyJFyBh66Cfe2+5r/v7TPjxw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772431396; c=relaxed/simple;
-	bh=VoL9+Q5vKBh/stH6CbzLSnBWXCrGTyp5hmi39PUL9ZM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CJVTqX1dSGYmJAJl5EWN53aQNBQBy9sOxFS2EDSoPkZj607d9Wosp76MjVMyar/o1WTKqgOiydv3NxePnoJXStBdVqX+iZpjcmPXcp0SCQe5f/5jKpKPWbc1aJ19QRO1bE5/CuGVUZ70wIAQNLEMK3Y2GhCjgPNLr8+2ECK6vq8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rDkRMd2Z; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1B93164D6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 06:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772433004; cv=none; b=SKula1sj++5vuktApHY0mNrAKryKgizz7rpjio8RdX8Y3SvP74KhrCQeL/EkCGhKdAWd9kSVT8pZGk23oe5ID3GO343715y2xfpg2/n+MMSmu3hP7oV9PSDIvU+YJmZZwH8zt9AcpLIzeZqTV2J0uCgxKTBejD8olG4pEzySWdo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772433004; c=relaxed/simple;
+	bh=wFvxACPpVlh40S629/b/hc/YxkaQx4s0siNmiGg2+tM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Cr7EAo5kHpEG+7kjB/7OGhOMzKTE9vq/iqgDgEuO8pcRKX7qMogLaNZ44u2+cYDN1om1L/+jM/+3w+th4f4dxHchUv8iQoNiTkrGefEkP2ziAyivUlViHnxXJ2DUrIsuC6bwGJlf1f0uiyIZvWXWxGAqWmlL0XaFj4l9lL1Ez9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGgnVSQY; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rDkRMd2Z"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-506a321cc53so47971961cf.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Mar 2026 22:03:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772431388; cv=none;
-        d=google.com; s=arc-20240605;
-        b=a6KowpNaCR8r5p29HT56VCyKZqjP2m2JnNHKpiNRvQJ4nE0W9v8ru08KAHvPKprTH1
-         jdoZVe0rXfj9Pl3nlELEEkEpsq+s+XyRc2NDKv+3YBeTbF60wD85SJtipsjZiehX+VRM
-         OBy9S+EPOvW1DJdt49zzL4xc8mJL2xu8cGTqhR6nnny9wrnV00AHrvtQDJ/kfGFWo8nd
-         ktVJKJGU5RGi17KmDSh/BxEOfZeq5k5taw0+xxM23x3gMgCCFTYtT8jyvb29P6MkdaSo
-         1/JkPYRpQXOCAlCQcTgUsamJLEKsME63h8KGuTUfCgI3NP2UfDXRaEAZvO9XCJRXm78q
-         +LZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UjR2Jso0hAuDoeUEgb8RQHlOodoa5Tiq2cd7ca0LZWk=;
-        fh=YMivqOkP726gur4nf7heYyT+ZnHaWCgGm8YOpsgpgQg=;
-        b=HgVVJoy8rMhdJMO9QWk4yiIh8rFqBkPTRCrjT6UChKrbLRA3E2XfaOIaGultn6QDim
-         xgtkKSC2VTGBG8fTWTgTOlR+cevaf4kp2Y6PDbTyzF43eCuTwYIwB0CD0Vn56CDsKj7f
-         DIPrZOjvQqW81J+35p9YB9W1axDlcgsr+05LfP7ARqyLtLWlLvPpKi6fvmebHxo4CgBs
-         fr2OcGKWYeqJgQIOk6auIS77nkIS5IjBTlYOnqTED6uttBGI/oe/ljerixtBj/Eb/CKJ
-         /S0lrOkJ9zM8ECWbfHIu6f5Po/jAT+fw66p90WAbnB0tJCdhvxEcIGF8lXRnqUjyDYd/
-         zFgQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772431388; x=1773036188; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UjR2Jso0hAuDoeUEgb8RQHlOodoa5Tiq2cd7ca0LZWk=;
-        b=rDkRMd2ZOFss4L04qF557h70F/NLoSaCGyP1LWDueoHiJ8dtiaE6cHF7eA3onW2/Z0
-         xTMnkn7oM8EKI3vkGF9c0Yn99wBVmQWPrjyCR67xa/OkX5kxphfnG/TvIjWaqNje+Scc
-         lp96cGC1zBQPQvWPjGXORmPq3fA+7CPls3IY9sLizW8ob8J98tpf/Bnr/zUJWAoQOE8/
-         22FA5E3cByZC8yQZnU1lwqeOVuzDYbL/tBPP45E0ZQ10ychX17JHNEwDZc31Kj51hiBN
-         WUzunu4ZKLJiwsokN5pZOYF2GC3g5geER4lz5BaWkAjoJ8v+8W8DbnfeZ6u+liljdAeR
-         4x/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772431388; x=1773036188;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UjR2Jso0hAuDoeUEgb8RQHlOodoa5Tiq2cd7ca0LZWk=;
-        b=LnY5gp3dfzcjIHKwAcz8HnB2StNr1pYvxfkZGEkuEN8hLM2Ekwmi0aPTGu8xgs5lnA
-         hj2ABneW8LYuElJjGUrawaMPR5ptWnj5DnFHxh8yLyssU8XFIvtzlm+f0CnS6GaSN8FD
-         DeFKCS0ReKkeeGfRxgWzRdeHF6ycryGP9DkaDSAX2Pe3+n5ZI9euEjMQNtlJgn9C4kCB
-         HX8Ba5DLl4HvjTY/VteCzBMj3RcLKEwkUG6VhaEC/1JGqSYshdKrtp8yiJ8KVH8wwLqA
-         q0NILhNC4H97ymffLT0Nm9rDx+NmR6IT0imJWFXrx4QdtEgtY6Q4s36WaeqQrFlAcRs8
-         hBDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSdD4dPLlkHYSRevhGMxjSqBECoA7dwU0zuXV2nH4Al2bOeCppCbA5N/2ssf6BMuGjuqlAt2qUtCiXjFSd@lists.linux.dev
-X-Gm-Message-State: AOJu0YylD3diL0Sw9mKXs9TRCfvrdtr6eiSBf1IM3QF2l4F/XK+FpD1n
-	vxhXYrUQ/wyw9k7+GcgDi74zoEUGlSzLdXxm30RGuHGVNQc5T7p9PeKilmNMhKGk+2y6C5CNXsk
-	amNG5m/wpozgQzajqm4eDdQYX6Mr2AMt7G1wsjzo7
-X-Gm-Gg: ATEYQzwPVMeUJ7xKF2gpXzkKpO66I0iBXZj+3WeX9RYDCcs8vguKMk3MLXo9mHlr6sU
-	nIek6pE4moCIF5kiWICkL1EAQSesteB3OU3C5Yh9mdlhU6dGOVfJK5wDAedsFejgIWGUz8SwkIV
-	O8jSNeI4rSqd/JgnaoZahwCkJKlDqpz02kva2tSixmPGePcqs/3/6dB+++XyemoXtT0L9yVKTD6
-	OTa0Xt/VjctAtWpG1tDlKePFC0k2hcdyeA9UguufxFzSIbK20tZ24An7u8AfqHRd9DjupyeHTqR
-	pnQ7jAs=
-X-Received: by 2002:a05:622a:5ca:b0:4ee:bac:e3a9 with SMTP id
- d75a77b69052e-50752a0a185mr159644611cf.68.1772431387431; Sun, 01 Mar 2026
- 22:03:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGgnVSQY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772433003; x=1803969003;
+  h=date:from:to:cc:subject:message-id;
+  bh=wFvxACPpVlh40S629/b/hc/YxkaQx4s0siNmiGg2+tM=;
+  b=WGgnVSQYohnd3auX7Rr1IAMeX08d9tAOz8dAIzbCnTjT/oKbVWDkVLyu
+   v7elvPCEvaPy/Bq83T6O1WyGrIKMAwAULAUy1WnGTH29MlzZuj84CnBR+
+   u8WVuuJlyRW779LCN9RExwE7S3n+YpVHRygkaSQbFxQLWFEuCljQdjTZx
+   dLuXv+61XTqz3+NoLFhvaykZ+sKH6dMUt0E5hTiFAdr2s1ZQFvuNFKMfc
+   Xz/9at20KNglWpjbnb2l+hwgILwc17UUw5YNL121yLt8KT52nIfnDZsKK
+   WufvrT1buxAtWkVYnQg5yTM+m4zMIho2lg2Vbunee+qRbEtd/8EKZArwb
+   A==;
+X-CSE-ConnectionGUID: mTvmFPmLQ5607/UlQESRAQ==
+X-CSE-MsgGUID: SfchZZMRS3irJNXfyy5ZRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="98902927"
+X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
+   d="scan'208";a="98902927"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2026 22:30:02 -0800
+X-CSE-ConnectionGUID: clX9V226SQKSxtv1paSt8A==
+X-CSE-MsgGUID: dZIvSpuUQiGo86rmD+pS+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
+   d="scan'208";a="216041266"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 01 Mar 2026 22:30:01 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vwwn0-0000000017V-1VEb;
+	Mon, 02 Mar 2026 06:29:58 +0000
+Date: Mon, 02 Mar 2026 07:29:46 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 3/3]
+ arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: tps@2d (ti,tps65910):
+ 'interrupt-controller' is a required property
+Message-ID: <202603020702.6v3FuG88-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260301181457.3539105-8-edumazet@google.com> <202603020743.NEL0agrx-lkp@intel.com>
-In-Reply-To: <202603020743.NEL0agrx-lkp@intel.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 2 Mar 2026 07:02:55 +0100
-X-Gm-Features: AaiRm53wQGM3WwCV3bQMeh1Dn2GLN-C3-snKzACE_E-q2yOPyIOVSeKUAVhiYKE
-Message-ID: <CANn89iLCXFOuMSrNQY27CfOwTfzUoVMkq1Zd+-O50YtCMSEmDw@mail.gmail.com>
-Subject: Re: [PATCH v2 net-next 7/7] net-sysfs: use rps_tag_ptr and remove
- metadata from rps_dev_flow_table
-To: kernel test robot <lkp@intel.com>
-Cc: "David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Simon Horman <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, netdev@vger.kernel.org, 
-	eric.dumazet@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 2, 2026 at 12:39=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Eric,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-a=
-dd-rps_tag_ptr-type-and-helpers/20260302-021900
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20260301181457.3539105-8-edumaze=
-t%40google.com
-> patch subject: [PATCH v2 net-next 7/7] net-sysfs: use rps_tag_ptr and rem=
-ove metadata from rps_dev_flow_table
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/202=
-60302/202603020743.NEL0agrx-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
-708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260302/202603020743.NEL0agrx-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603020743.NEL0agrx-lkp=
-@intel.com/
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   781b2c569af65bdd28b176733884d86c455b912e
+commit: 006aa8f57f55dd5bf68c4ada1e0d3f4e59027d71 [3/3] mfd: dt-bindings: Convert TPS65910 to DT schema
+config: arm-randconfig-2051-20260226 (https://download.01.org/0day-ci/archive/20260302/202603020702.6v3FuG88-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603020702.6v3FuG88-lkp@intel.com/reproduce)
 
-Yeah, in V3 I will remove the BITS_PER_LONG distinction, prone to
-errors like this one.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603020702.6v3FuG88-lkp@intel.com/
 
- #if BITS_PER_LONG > 32
- ...
-#else
-  ...
-#endif
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/cm@48004000/clockdomains/dss_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/cm@48004000/clockdomains/core_l4_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/cm@48004000/clockdomains/dpll5_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/cm@48004000/clockdomains/sgx_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/cm@48004000/clockdomains/usbhost_clkdm: failed to match any schema with compatible: ['ti,clockdomain']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/target-module@48320000/counter@0: failed to match any schema with compatible: ['ti,omap-counter32k']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap3430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: tps@2d (ti,tps65910): regulators: '#address-cells', '#size-cells', 'regulator@0', 'regulator@1', 'regulator@10', 'regulator@11', 'regulator@12', 'regulator@13', 'regulator@2', 'regulator@3', 'regulator@4', 'regulator@5', 'regulator@6', 'regulator@7', 'regulator@8', 'regulator@9' do not match any of the regexes: '^(vdd[1-3]|vaux([1-2]|33)|vdig[1-2])$', '^(vrtc|vio|vpll|vdac|vmmc|vbb|vddctrl)$', '^ldo[1-8]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+>> arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: tps@2d (ti,tps65910): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+>> arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: tps@2d (ti,tps65910): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: tps@2d (ti,tps65910): 'gpio-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: tps@2d (ti,tps65910): '#gpio-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/1w@480b2000: failed to match any schema with compatible: ['ti,omap3-1w']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/mmc@4809c000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/mmc@480b4000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/mmc@480ad000: failed to match any schema with compatible: ['ti,omap3-hsmmc']
+   arch/arm/boot/dts/ti/omap/am3517-craneboard.dtb: /ocp@68000000/mmu@480bd400: failed to match any schema with compatible: ['ti,omap2-iommu']
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
