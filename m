@@ -1,101 +1,106 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D28A3FD13B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 14:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F156D3D6CDB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 15:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772462832; cv=none; b=KlS3tN6lyI9FFcJnhOHuKm98VGrjRw+CgGrqkYK4M0sAAH3VGjWIyL215clCbh/xrr443zPngr+jM0WtjYbPFU5QYauCxOgsW/a8OwD6htkPYWDZbEAlFDhbiiJVoWzcsLyJZbRaUOwDQNFr9wnwbxN0aMUWvN1KE75a0nr43c0=
+	t=1772464621; cv=none; b=TvKIb+SwCKd4wCwbueMO3WjYJhhvaYnrcNP1HFt0nS/xr7iLb78WZdelnx2hH2HW0/uvOFm9o5dqym+0I/fLIvOc+f53uNxENdWGUBPZFGING1k5+R5sha7oghOPaAU3YoyEFjUFvP/5Wx5UN61HS70Xk0A3Wf7crTA2D0xcjjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772462832; c=relaxed/simple;
-	bh=lFaVpBDMVckcopr2zeCg2SsVMYfdP3orDdCTDaWmc/0=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
-	 Message-ID:Content-Type; b=ugMgZPko1Tz6NnslduXsSw3Fw1vCYYTurW3LULBZUC2bdOA7xkHW25ojaBofbQQcTvJNZqhpNl8lJlydMuthR9qM3oG8SxChqvxU3/1CNclKFEsJvE47tlLrxHB0l8d1DS4wx2rwD7HLFTIHzxGQaIS+Lu662OgwjqQUSGXUzZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VOAvUpz2; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1772464621; c=relaxed/simple;
+	bh=rIZmxtfgkEH+ycPP4ycdwnxRZzNEKp2MNqT+MPMbIg4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=K0E2mYgobH2mzlJT1uAyuPZm89O3xxhRpywLO8UG4S3bj3s3WdlRmWZhwcRU26JZoNEMrLn94x0HI4ZuYyh4Eq+0wmwU/fosI9c54jsVRTjDsw8REzVWCZZCJeGUUr/8JYWETHnlNQg6uy7jsRLDA3xL3NYx6LZ7Y+ltrzLVwqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCMmF5+a; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VOAvUpz2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772462830;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l8ldJK7DOHN6VTwoFTFzdASy/2kR+CmChdK9wuzdqro=;
-	b=VOAvUpz2sZGACP3shaq5zAKbHZMzUd1/MUjHM5sTLLkIm9j1AvKzIqI4FdaK59rzNgsdzU
-	Ttmm3/fkmZmOEiABNP3KNQmZ2igdSC9i/Ri/pqDHqRC83GT3P0QIQYzmir4LGLyP18zU+z
-	9kwYT3cWfSHs3d1gjbrkqhCdWOJTPRs=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-623-1QMJFQ13OEWN9LaEzo9fhw-1; Mon,
- 02 Mar 2026 09:47:07 -0500
-X-MC-Unique: 1QMJFQ13OEWN9LaEzo9fhw-1
-X-Mimecast-MFC-AGG-ID: 1QMJFQ13OEWN9LaEzo9fhw_1772462826
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 35DBB1800473;
-	Mon,  2 Mar 2026 14:47:06 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.45.224.2])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A372519560A7;
-	Mon,  2 Mar 2026 14:47:04 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <aaV8D4RTkIrcn6jd@stanley.mountain>
-References: <aaV8D4RTkIrcn6jd@stanley.mountain> <202603011243.LsWeX4QE-lkp@intel.com> <1276684.1772450239@warthog.procyon.org.uk>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
-    oe-kbuild-all@lists.linux.dev
-Subject: Re: [dhowells-fs:netfs-next 10/16] fs/netfs/write_issue.c:850 netfs_writeback_single() warn: inconsistent returns '&ictx->wb_lock'.
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCMmF5+a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772464620; x=1804000620;
+  h=date:from:to:cc:subject:message-id;
+  bh=rIZmxtfgkEH+ycPP4ycdwnxRZzNEKp2MNqT+MPMbIg4=;
+  b=eCMmF5+aeR0ynhyhGIaaZ6drDDhebrsARAVkVmmpmqyBn/I3yYBmC76A
+   VvV1XyqIqby7sCDcCOUKtCC7yGkyubacWlZikpXrX3AhV2hFvqNWRW1o+
+   PLFm7bMZ6TMUCsmTmelVbX6zlaKK8CLIGxVhYMscSCtpL9igXJTOKhsoQ
+   A8Sgis8qmlNGe47m7EilfvcEhLSdmkfnbNkOlUzzzFAnHGJp9r6LLtHOT
+   uCfst7Sok1s4SZrWePpEnWVVpRTwMv54Fvwd22+UIA4EEuyRUHa1zYz+W
+   LqIaEQK/4hykI456MBckRwrlEJm3IqfRq8hxr7ccS8NVKjii6BlSfJVp+
+   A==;
+X-CSE-ConnectionGUID: oIUG/AnXS4WV4korg6PUpQ==
+X-CSE-MsgGUID: KpJ/qe3aQ5eEQACV6kUt9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73584885"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="73584885"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 07:16:59 -0800
+X-CSE-ConnectionGUID: u3Fc7DEtSaa+yQO3NGbxsg==
+X-CSE-MsgGUID: tCpewv9tSeCwuHINppS2Ng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="215652992"
+Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 02 Mar 2026 07:16:49 -0800
+Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vx50j-0000000010T-3qEE;
+	Mon, 02 Mar 2026 15:16:41 +0000
+Date: Mon, 02 Mar 2026 23:16:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sun Jian <sun.jian.kdev@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Florian Westphal <fw@strlen.de>
+Subject: net/netfilter/nf_nat_amanda.c:75:9: sparse: sparse:
+ incorrect type in assignment (different modifiers)
+Message-ID: <202603022359.3dGE9fwI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Date: Mon, 02 Mar 2026 14:47:03 +0000
-Message-ID: <1439398.1772462823@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: -HQhficnpLr1qa1qly88NEDASXUMbv7FGVSKDT_aCCQ_1772462826
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1439397.1772462823.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
 
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+Hi Sun,
 
-> a1cee75a302b7a David Howells 2026-02-28  842  cleanup_free:
->=20
-> But the goto cleanup_free gotos are still holding the lock.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-I see it now, thanks.  I'm going to move cleanup_free: and change the end o=
-f
-the function:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   11439c4635edd669ae435eec308f4ab8a0804808
+commit: 07919126ecfc392102555a70016db3e591abcb3d netfilter: annotate NAT helper hook pointers with __rcu
+date:   13 days ago
+config: x86_64-randconfig-r123-20260302 (https://download.01.org/0day-ci/archive/20260302/202603022359.3dGE9fwI-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603022359.3dGE9fwI-lkp@intel.com/reproduce)
 
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -839,11 +839,12 @@ int netfs_writeback_single(struct address_space *mapp=
-ing,
- =09 */
- =09ret =3D netfs_wait_for_write(wreq);
-=20
--cleanup_free:
- =09netfs_put_request(wreq, netfs_rreq_trace_put_return);
- =09_leave(" =3D %d", ret);
- =09return ret;
-=20
-+cleanup_free:
-+=09netfs_put_request(wreq, netfs_rreq_trace_put_return);
- couldnt_start:
- =09mutex_unlock(&ictx->wb_lock);
- =09_leave(" =3D %d", ret);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603022359.3dGE9fwI-lkp@intel.com/
 
-David
+sparse warnings: (new ones prefixed by >>)
+>> net/netfilter/nf_nat_amanda.c:75:9: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected unsigned int ( [noderef] __rcu *volatile  )( ... ) @@     got unsigned int ( [noderef] __rcu * )( ... ) @@
+   net/netfilter/nf_nat_amanda.c:75:9: sparse:     expected unsigned int ( [noderef] __rcu *volatile  )( ... )
+   net/netfilter/nf_nat_amanda.c:75:9: sparse:     got unsigned int ( [noderef] __rcu * )( ... )
 
+vim +75 net/netfilter/nf_nat_amanda.c
+
+16958900578b945 net/ipv4/netfilter/nf_nat_amanda.c Patrick McHardy   2006-12-02  70  
+16958900578b945 net/ipv4/netfilter/nf_nat_amanda.c Patrick McHardy   2006-12-02  71  static int __init nf_nat_amanda_init(void)
+16958900578b945 net/ipv4/netfilter/nf_nat_amanda.c Patrick McHardy   2006-12-02  72  {
+d1332e0ab84479d net/ipv4/netfilter/nf_nat_amanda.c Patrick McHardy   2007-11-05  73  	BUG_ON(nf_nat_amanda_hook != NULL);
+53b11308a1b53d7 net/netfilter/nf_nat_amanda.c      Flavio Leitner    2019-04-17  74  	nf_nat_helper_register(&nat_helper_amanda);
+a9b3cd7f323b2e5 net/ipv4/netfilter/nf_nat_amanda.c Stephen Hemminger 2011-08-01 @75  	RCU_INIT_POINTER(nf_nat_amanda_hook, help);
+16958900578b945 net/ipv4/netfilter/nf_nat_amanda.c Patrick McHardy   2006-12-02  76  	return 0;
+16958900578b945 net/ipv4/netfilter/nf_nat_amanda.c Patrick McHardy   2006-12-02  77  }
+16958900578b945 net/ipv4/netfilter/nf_nat_amanda.c Patrick McHardy   2006-12-02  78  
+
+:::::: The code at line 75 was first introduced by commit
+:::::: a9b3cd7f323b2e57593e7215362a7b02fc933e3a rcu: convert uses of rcu_assign_pointer(x, NULL) to RCU_INIT_POINTER
+
+:::::: TO: Stephen Hemminger <shemminger@vyatta.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
