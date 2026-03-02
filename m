@@ -1,172 +1,242 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03222332EBB
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 08:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C6330E0DC
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 08:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772439681; cv=none; b=AkgevyYgMUNt3bqCZELDUgFcZFddjzcklV8dFBZsSrR/OGgYhwpghZ957ujBxu2JPPGaiGc0un4FHUAeKSQ4yNkv+dLr0pqWCC2UixyMEYFKnZ+G37qfSZpcKd7tY5P3LtnTcvm7IsIYZFrDEskUg3wwhp0EnHF0wNBSfJ/52X8=
+	t=1772441179; cv=none; b=i9mt3twNPgkg/i/wgj65Gorrckon2bjVnTBhGxrADN6jbJZKOE2nndkEMYpKGW9VyzbdwSS10QdlaQIR1jbzvY+DiaxBxSBRmJG+v/tYB/6AJPu7ZDLfvLKzxzW+a+MTo021CJbS5hRh3pQaM65M8CDUg24zOKcmw8sZw/IrAVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772439681; c=relaxed/simple;
-	bh=5dUPwyCtxjZAiWAyLmb4rk55T7Eulvbaef+41AomuyM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jTrisSzNy9hylZ8SJzsorh0hPyXft6eMOF5s0iINH5ATV5Z9gSaYW031R3eDDJQSNC4bq63cydHIqKVktu4Gbdk5ZeBWyuVpPh+bf1ZvBQnhCjopV3wk3uktWHbDMIftFC/VRQL8hrkAGzjSTTwM/kMO6dL6HZpAYLmoP9zTbfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DOrSWqbs; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772441179; c=relaxed/simple;
+	bh=Q0gZk7svUBefQ/A5MPwWsKU99Yc6w3fK0LE0Qh88r7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=iyKSeUI+yy4rQlLxVG4LXR9qjan/dhiqALg1yPXbrwsulcmBChJMsuVfcpgEzpZfyR6IZFfC87c5RGEUG4iu7iZTFOd6Q2iTwSAAtXeHbRFvDAvtGtb9WsQXfKQIBGGB9FrqrOsG8UZoZ2czJLnMUuqzMVGxlKPscdLucq7+gmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PZOWF2QU; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DOrSWqbs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772439680; x=1803975680;
-  h=date:from:to:cc:subject:message-id;
-  bh=5dUPwyCtxjZAiWAyLmb4rk55T7Eulvbaef+41AomuyM=;
-  b=DOrSWqbsB07u9HnxcS8hV5GHCBCmj4EjSUu8GIwj+m9jATiE24JDIQZD
-   5EZxxXzifxH0RQk6KZKw/weRG5bA+AGHZ36m7xasg7N6L88+/32H4nA0A
-   lTO96PqHJEnPr5WiKWCwMrmNE+qd/Das7XfcAHlEz009DTUCS+S3jV84t
-   DYe0FRBoPU/z8dQ8idipYOKeK4kyneTuAYAWx2yTOuDjnAiA6uzYXM9Bk
-   J1eKqTxXWJNuAkPfpScKTbvlxrJTK6S7uGBXmTJ7jQ2m2a+PQiJTaxu4A
-   Dy6VnQgcx04AcZJj7j1SJAFvJeIacDcqP/2bDtVwrUQQ/mRU7Vw+8fBNy
-   w==;
-X-CSE-ConnectionGUID: lcM+3YRoR3mag4GcC/IpEA==
-X-CSE-MsgGUID: CN5nL8WdT++Z+h8wGrgQfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="73308574"
-X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="73308574"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 00:21:20 -0800
-X-CSE-ConnectionGUID: Ckra6k/ES4aIA1KKEoUVTg==
-X-CSE-MsgGUID: e+/Xm8mzSYeRDXgoibXK/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="214825735"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Mar 2026 00:21:18 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vwyWh-000000000cT-3xU3;
-	Mon, 02 Mar 2026 08:21:15 +0000
-Date: Mon, 02 Mar 2026 16:20:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dakr:driver_override 7/8]
- drivers/s390/crypto/ap_bus.c:1021:37: error: incompatible pointer types
- passing 'struct ap_driver *' to parameter of type 'struct ap_device *'
-Message-ID: <202603021600.zqyNUmVs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PZOWF2QU"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439b6d9c981so470325f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Mar 2026 00:46:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772441175; x=1773045975; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FdlDDX8VXPcYa2UYA/DhAef+/wnl+VGalN90V2Vta0I=;
+        b=PZOWF2QUqe6mMGWvpovbond1dZrMtGPKsmiVzAAQdwj6gHRwNYsY78d9iK+KPO65GQ
+         AiVw/882qfuTj+tpzQ7BuEM5nsFP/e1t31u31j4FYLF+2cOyq9KH6QtnOgRyS/H9tgdN
+         gGxznD7YLp/n0JrIYRIDvx3rWYLA+ASb0CJNvi+rh0c5ZOeZAareKTrES1aDnEE3JT7M
+         KFVY0VMlp1XWx+bCeUAhnqFA6hCNpnzBLlCw+ZTK6/mgPDOyt8YztLGJk+TW67xne/tS
+         G2+ZWkU+pq5sPJKYMljQpbSMAiurbiBM3WjQOmizwkzEW96IFtyStW8P2WnQQewZCo9V
+         uRDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772441175; x=1773045975;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FdlDDX8VXPcYa2UYA/DhAef+/wnl+VGalN90V2Vta0I=;
+        b=xC0mzWa0AN/fkrVBRdrnz1Z6T7FAR++ZRgd7s0Ff69W7wi2pKmkR6+hZ5LGAZDpHpf
+         dkckaQ8yspZU0BucctDZl8BWDx3FxJjlOdvKHKFlh88Fq3lZww7RISp7Vi5YVuEsXwpU
+         aje0ZIJTb8aBcaJq8nEntra817Hr9QBH0+0pZGYQ9AO6AEyOnQy540oPdlful6hRWsh9
+         8j3rx5G6beiW9omjOWl+Pvr8M53OXOQLAibBorIxUzyflCAdCDmJB90N5qn/8Y5dVD79
+         wq/odiTbYu6FVzwPk41QB8xUCv+YaRBsgBsl8Sakz2QkAUxYQ26h8goppF+8uphzrXzF
+         Fwug==
+X-Forwarded-Encrypted: i=1; AJvYcCVcjVCureXXXIyyhV0duof5knxIMcQe0qbeh1lIUh/WPLfqxzoW7pblZNZDBeIDCGi1YgxUjh3hLwu3ZpQp@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw+p4ZKsP0lgWFEiMMeRpQX8GgfYVL4wyQJ+HMC2QS8jn802YgS
+	q9gLnxPaPpMJ1sAxdBdKzcgKXLTyOXfRIe6nluHG7jcF4XJooodYQLdw3TmiTrtQKJQ=
+X-Gm-Gg: ATEYQzwAW/m/YAflOq2M5BAvM/ejVSpR82oJFdJndVUCUU2K1zXVGrko0q1xpwq5A3Y
+	PtXM7st9/0CgoqPerEfLZfAHpF04QIp6bBjXZvNidJubzj1v9bhazD/gIRo2oDXKhWZXUlX08cg
+	kHurq/R/dr6SDL3LzejTTEzQi8KrNOyt/RCK93YaFM4SGZxpXSBIWNhwGQ9Woi1uUhvZUdijfdB
+	WGRoW8E37QiCVDgV91ytUY0D7DkenoUFaYY6DyGBZwsZTlQzn8ueCjMQcUgtIkPawvioYnUlA8n
+	NP8kM51GkuCl+ePnk91jh0rU6/JJ09HsyGrXu0dmOdBo2B0HohwE7JJZHUki9+hB0oenWfOM0Yo
+	80B3J0+Sr0I+hRkPsWYj3Um4wvFvE3m0qYGDubGnQqHzhoDHwJVFFkMFubFhQ+oBdbhZmPXbBhI
+	wH8FXLZH4ctj+Yb7kzuW/Ml65o5ZHx
+X-Received: by 2002:a05:6000:238a:b0:439:b835:f939 with SMTP id ffacd0b85a97d-439b835fb59mr3557141f8f.19.1772441174946;
+        Mon, 02 Mar 2026 00:46:14 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439ba2a5970sm3360634f8f.33.2026.03.02.00.46.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 00:46:13 -0800 (PST)
+Date: Mon, 2 Mar 2026 11:46:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-amlogic@lists.infradead.org, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>
+Subject: Re: [PATCH v4 2/3] dma: amlogic: Add general DMA driver for A9
+Message-ID: <202603020642.3hq2CxZ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227-amlogic-dma-v4-2-f25e4614e9b7@amlogic.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git driver_override
-head:   268a990c3f5423afd328f3b8006a627b37979da7
-commit: 67f27ae64f38893378fdfb8dad6cfd1dd00c1804 [7/8] WIP: treewide: make callsites use generic driver_override
-config: s390-randconfig-r062-20260302 (https://download.01.org/0day-ci/archive/20260302/202603021600.zqyNUmVs-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603021600.zqyNUmVs-lkp@intel.com/reproduce)
+Hi Xianwei,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-dma-Add-Amlogic-A9-SoC-DMA/20260227-152743
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260227-amlogic-dma-v4-2-f25e4614e9b7%40amlogic.com
+patch subject: [PATCH v4 2/3] dma: amlogic: Add general DMA driver for A9
+config: arm-randconfig-r073-20260228 (https://download.01.org/0day-ci/archive/20260302/202603020642.3hq2CxZ7-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+smatch version: v0.5.0-8994-gd50c5a4c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603021600.zqyNUmVs-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202603020642.3hq2CxZ7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/dma/amlogic-dma.c:354 aml_dma_interrupt_handler() warn: variable dereferenced before check 'aml_chan' (see line 353)
+drivers/dma/amlogic-dma.c:483 aml_dma_probe() warn: passing zero to 'PTR_ERR'
 
-   drivers/s390/crypto/ap_bus.c:1021:37: error: use of undeclared identifier 'ap_dev'; did you mean 'ap_drv'?
-    1021 |         rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
-         |                                            ^~~~~~
-         |                                            ap_drv
-   drivers/s390/crypto/ap_bus.c:977:20: note: 'ap_drv' declared here
-     977 |         struct ap_driver *ap_drv = to_ap_drv(dev->driver);
-         |                           ^
->> drivers/s390/crypto/ap_bus.c:1021:37: error: incompatible pointer types passing 'struct ap_driver *' to parameter of type 'struct ap_device *' [-Wincompatible-pointer-types]
-    1021 |         rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
-         |                                            ^~~~~~
-   2 errors generated.
+Old smatch warnings:
+drivers/dma/amlogic-dma.c:384 aml_dma_interrupt_handler() warn: variable dereferenced before check 'aml_chan' (see line 383)
+
+vim +/aml_chan +354 drivers/dma/amlogic-dma.c
+
+c01d15789f1d15b Xianwei Zhao 2026-02-27  335  static irqreturn_t aml_dma_interrupt_handler(int irq, void *dev_id)
+c01d15789f1d15b Xianwei Zhao 2026-02-27  336  {
+c01d15789f1d15b Xianwei Zhao 2026-02-27  337  	struct aml_dma_dev *aml_dma = dev_id;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  338  	struct aml_dma_chan *aml_chan;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  339  	u32 done, eoc_done, err, err_l, end;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  340  	int i = 0;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  341  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  342  	/* deal with rch normal complete and error */
+c01d15789f1d15b Xianwei Zhao 2026-02-27  343  	regmap_read(aml_dma->regmap, RCH_DONE, &done);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  344  	regmap_read(aml_dma->regmap, RCH_ERR, &err);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  345  	regmap_read(aml_dma->regmap, RCH_LEN_ERR, &err_l);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  346  	err = err | err_l;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  347  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  348  	done = done | err;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  349  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  350  	while (done) {
+c01d15789f1d15b Xianwei Zhao 2026-02-27  351  		i = ffs(done) - 1;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  352  		aml_chan = aml_dma->aml_rch[i];
+c01d15789f1d15b Xianwei Zhao 2026-02-27 @353  		regmap_write(aml_dma->regmap, CLEAR_RCH, BIT(aml_chan->chan_id));
+                                                                                                     ^^^^^^^^^^^^^^^^^^
+Move this dereference
+
+c01d15789f1d15b Xianwei Zhao 2026-02-27 @354  		if (!aml_chan) {
+                                                             ^^^^^^^^
+after this NULL check?
+
+c01d15789f1d15b Xianwei Zhao 2026-02-27  355  			dev_err(aml_dma->dma_device.dev, "idx %d rch not initialized\n", i);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  356  			done &= ~BIT(i);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  357  			continue;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  358  		}
+c01d15789f1d15b Xianwei Zhao 2026-02-27  359  		aml_chan->status = (err & (1 << i)) ? DMA_ERROR : DMA_COMPLETE;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  360  		dma_cookie_complete(&aml_chan->desc);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  361  		dmaengine_desc_get_callback_invoke(&aml_chan->desc, NULL);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  362  		done &= ~BIT(i);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  363  	}
+c01d15789f1d15b Xianwei Zhao 2026-02-27  364  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  365  	/* deal with wch normal complete and error */
+c01d15789f1d15b Xianwei Zhao 2026-02-27  366  	regmap_read(aml_dma->regmap, DMA_BATCH_END, &end);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  367  	if (end)
+c01d15789f1d15b Xianwei Zhao 2026-02-27  368  		regmap_write(aml_dma->regmap, CLEAR_W_BATCH, end);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  369  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  370  	regmap_read(aml_dma->regmap, WCH_DONE, &done);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  371  	regmap_read(aml_dma->regmap, WCH_EOC_DONE, &eoc_done);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  372  	done = done | eoc_done;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  373  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  374  	regmap_read(aml_dma->regmap, WCH_ERR, &err);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  375  	regmap_read(aml_dma->regmap, WDMA_RESP_ERR, &err_l);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  376  	err = err | err_l;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  377  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  378  	done = done | err;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  379  	i = 0;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  380  	while (done) {
+c01d15789f1d15b Xianwei Zhao 2026-02-27  381  		i = ffs(done) - 1;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  382  		aml_chan = aml_dma->aml_wch[i];
+c01d15789f1d15b Xianwei Zhao 2026-02-27  383  		regmap_write(aml_dma->regmap, CLEAR_WCH, BIT(aml_chan->chan_id));
+c01d15789f1d15b Xianwei Zhao 2026-02-27  384  		if (!aml_chan) {
+
+Same.
+
+c01d15789f1d15b Xianwei Zhao 2026-02-27  385  			dev_err(aml_dma->dma_device.dev, "idx %d wch not initialized\n", i);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  386  			done &= ~BIT(i);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  387  			continue;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  388  		}
+c01d15789f1d15b Xianwei Zhao 2026-02-27  389  		aml_chan->status = (err & (1 << i)) ? DMA_ERROR : DMA_COMPLETE;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  390  		dma_cookie_complete(&aml_chan->desc);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  391  		dmaengine_desc_get_callback_invoke(&aml_chan->desc, NULL);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  392  		done &= ~BIT(i);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  393  	}
+c01d15789f1d15b Xianwei Zhao 2026-02-27  394  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  395  	return IRQ_HANDLED;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  396  }
+
+[ snip ]
+
+c01d15789f1d15b Xianwei Zhao 2026-02-27  450  static int aml_dma_probe(struct platform_device *pdev)
+c01d15789f1d15b Xianwei Zhao 2026-02-27  451  {
+c01d15789f1d15b Xianwei Zhao 2026-02-27  452  	struct device_node *np = pdev->dev.of_node;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  453  	struct dma_device *dma_dev;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  454  	struct aml_dma_dev *aml_dma;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  455  	int ret, i, len;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  456  	u32 chan_nr;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  457  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  458  	const struct regmap_config aml_regmap_config = {
+c01d15789f1d15b Xianwei Zhao 2026-02-27  459  		.reg_bits = 32,
+c01d15789f1d15b Xianwei Zhao 2026-02-27  460  		.val_bits = 32,
+c01d15789f1d15b Xianwei Zhao 2026-02-27  461  		.reg_stride = 4,
+c01d15789f1d15b Xianwei Zhao 2026-02-27  462  		.max_register = 0x3000,
+c01d15789f1d15b Xianwei Zhao 2026-02-27  463  	};
+c01d15789f1d15b Xianwei Zhao 2026-02-27  464  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  465  	ret = of_property_read_u32(np, "dma-channels", &chan_nr);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  466  	if (ret)
+c01d15789f1d15b Xianwei Zhao 2026-02-27  467  		return dev_err_probe(&pdev->dev, ret, "failed to read dma-channels\n");
+c01d15789f1d15b Xianwei Zhao 2026-02-27  468  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  469  	len = sizeof(struct aml_dma_dev) + sizeof(struct aml_dma_chan) * chan_nr;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  470  	aml_dma = devm_kzalloc(&pdev->dev, len, GFP_KERNEL);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  471  	if (!aml_dma)
+c01d15789f1d15b Xianwei Zhao 2026-02-27  472  		return -ENOMEM;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  473  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  474  	aml_dma->chan_nr = chan_nr;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  475  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  476  	aml_dma->base = devm_platform_ioremap_resource(pdev, 0);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  477  	if (IS_ERR(aml_dma->base))
+c01d15789f1d15b Xianwei Zhao 2026-02-27  478  		return PTR_ERR(aml_dma->base);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  479  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  480  	aml_dma->regmap = devm_regmap_init_mmio(&pdev->dev, aml_dma->base,
+c01d15789f1d15b Xianwei Zhao 2026-02-27  481  						&aml_regmap_config);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  482  	if (IS_ERR_OR_NULL(aml_dma->regmap))
+
+This should just be if (IS_ERR(aml_dma->regmap)) since
+devm_regmap_init_mmio() can't return NULL.
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
 
 
-vim +1021 drivers/s390/crypto/ap_bus.c
-
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   974  
-1534c3820c26aca Martin Schwidefsky   2006-09-20   975  static int ap_device_probe(struct device *dev)
-1534c3820c26aca Martin Schwidefsky   2006-09-20   976  {
-1534c3820c26aca Martin Schwidefsky   2006-09-20   977  	struct ap_driver *ap_drv = to_ap_drv(dev->driver);
-67f27ae64f38893 Danilo Krummrich     2026-03-01   978  	int card, queue, devres, drvres, rc = -ENODEV, ovrd;
-29c2680fd2bf386 Harald Freudenberger 2020-10-20   979  
-29c2680fd2bf386 Harald Freudenberger 2020-10-20   980  	if (!get_device(dev))
-29c2680fd2bf386 Harald Freudenberger 2020-10-20   981  		return rc;
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   982  
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   983  	if (is_queue_dev(dev)) {
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   984  		/*
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   985  		 * If the apqn is marked as reserved/used by ap bus and
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   986  		 * default drivers, only probe with drivers with the default
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   987  		 * flag set. If it is not marked, only probe with drivers
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   988  		 * with the default flag not set.
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   989  		 */
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   990  		card = AP_QID_CARD(to_ap_queue(dev)->qid);
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20   991  		queue = AP_QID_QUEUE(to_ap_queue(dev)->qid);
-67f27ae64f38893 Danilo Krummrich     2026-03-01   992  		ovrd = device_match_driver_override(dev, &ap_drv->driver);
-67f27ae64f38893 Danilo Krummrich     2026-03-01   993  		if (ovrd > 0) {
-67f27ae64f38893 Danilo Krummrich     2026-03-01   994  			/* override set and matches, nothing to do */
-67f27ae64f38893 Danilo Krummrich     2026-03-01   995  		} else if (ovrd == 0) {
-d38a87d7c0643db Harald Freudenberger 2025-11-19   996  			goto out;
-d38a87d7c0643db Harald Freudenberger 2025-11-19   997  		} else {
-8babcc2b6a75d1e Harald Freudenberger 2025-11-19   998  			mutex_lock(&ap_attr_mutex);
-2004b57cde6b211 Harald Freudenberger 2022-04-04   999  			devres = test_bit_inv(card, ap_perms.apm) &&
-2004b57cde6b211 Harald Freudenberger 2022-04-04  1000  				test_bit_inv(queue, ap_perms.aqm);
-8babcc2b6a75d1e Harald Freudenberger 2025-11-19  1001  			mutex_unlock(&ap_attr_mutex);
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20  1002  			drvres = ap_drv->flags & AP_DRIVER_FLAG_DEFAULT;
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20  1003  			if (!!devres != !!drvres)
-29c2680fd2bf386 Harald Freudenberger 2020-10-20  1004  				goto out;
-7e0bdbe5c21cb83 Harald Freudenberger 2018-07-20  1005  		}
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1006  	}
-1534c3820c26aca Martin Schwidefsky   2006-09-20  1007  
-306d6bda8f97432 Harald Freudenberger 2024-05-13  1008  	/*
-306d6bda8f97432 Harald Freudenberger 2024-05-13  1009  	 * Rearm the bindings complete completion to trigger
-306d6bda8f97432 Harald Freudenberger 2024-05-13  1010  	 * bindings complete when all devices are bound again
-306d6bda8f97432 Harald Freudenberger 2024-05-13  1011  	 */
-306d6bda8f97432 Harald Freudenberger 2024-05-13  1012  	reinit_completion(&ap_apqn_bindings_complete);
-306d6bda8f97432 Harald Freudenberger 2024-05-13  1013  
-e385050873d1e19 Harald Freudenberger 2017-05-24  1014  	/* Add queue/card to list of active queues/cards */
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1015  	spin_lock_bh(&ap_queues_lock);
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1016  	if (is_queue_dev(dev))
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1017  		hash_add(ap_queues, &to_ap_queue(dev)->hnode,
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1018  			 to_ap_queue(dev)->qid);
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1019  	spin_unlock_bh(&ap_queues_lock);
-e385050873d1e19 Harald Freudenberger 2017-05-24  1020  
-666e68e0dde826a Ingo Tuchscherer     2014-07-14 @1021  	rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
-e385050873d1e19 Harald Freudenberger 2017-05-24  1022  
-e385050873d1e19 Harald Freudenberger 2017-05-24  1023  	if (rc) {
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1024  		spin_lock_bh(&ap_queues_lock);
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1025  		if (is_queue_dev(dev))
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1026  			hash_del(&to_ap_queue(dev)->hnode);
-bc4b295e87a86bf Harald Freudenberger 2020-05-08  1027  		spin_unlock_bh(&ap_queues_lock);
-2004b57cde6b211 Harald Freudenberger 2022-04-04  1028  	}
-e385050873d1e19 Harald Freudenberger 2017-05-24  1029  
-29c2680fd2bf386 Harald Freudenberger 2020-10-20  1030  out:
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1031  	if (rc) {
-29c2680fd2bf386 Harald Freudenberger 2020-10-20  1032  		put_device(dev);
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1033  	} else {
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1034  		if (is_queue_dev(dev)) {
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1035  			pr_debug("queue=%02x.%04x new driver=%s\n",
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1036  				 card, queue, ap_drv->driver.name);
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1037  		} else {
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1038  			pr_debug("card=%02x new driver=%s\n",
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1039  				 to_ap_card(dev)->id, ap_drv->driver.name);
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1040  		}
-d38a87d7c0643db Harald Freudenberger 2025-11-19  1041  	}
-1534c3820c26aca Martin Schwidefsky   2006-09-20  1042  	return rc;
-1534c3820c26aca Martin Schwidefsky   2006-09-20  1043  }
-1534c3820c26aca Martin Schwidefsky   2006-09-20  1044  
-
-:::::: The code at line 1021 was first introduced by commit
-:::::: 666e68e0dde826ae146b980099f1719f74fa968c s390/zcrypt: improve device probing for zcrypt adapter cards
-
-:::::: TO: Ingo Tuchscherer <ingo.tuchscherer@de.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+c01d15789f1d15b Xianwei Zhao 2026-02-27 @483  		return PTR_ERR(aml_dma->regmap);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  484  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  485  	aml_dma->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  486  	if (IS_ERR(aml_dma->clk))
+c01d15789f1d15b Xianwei Zhao 2026-02-27  487  		return PTR_ERR(aml_dma->clk);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  488  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  489  	aml_dma->irq = platform_get_irq(pdev, 0);
+c01d15789f1d15b Xianwei Zhao 2026-02-27  490  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  491  	aml_dma->pdev = pdev;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  492  	aml_dma->dma_device.dev = &pdev->dev;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  493  
+c01d15789f1d15b Xianwei Zhao 2026-02-27  494  	dma_dev = &aml_dma->dma_device;
+c01d15789f1d15b Xianwei Zhao 2026-02-27  495  	INIT_LIST_HEAD(&dma_dev->channels);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
