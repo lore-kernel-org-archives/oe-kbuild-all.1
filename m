@@ -1,100 +1,90 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88E1359A69
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 14:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81B21A2C0B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 14:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772461581; cv=none; b=CxuBH9b7AoipdMiriZaabmse1xNZGZrbx9Dzrx77QVQOGxFikJl1jBiw4RtZ6CMq+l25O6xDf1PZ3jzHsYpl9KLhPc5j/WpMN7hFxSQM9GjMxhMQqQ/LGa8aUx87zmMs14qCcFOCH5Lhk34tt1DOxONXiB2SuI48roLffimmkzg=
+	t=1772462086; cv=none; b=B/hZrdPitwLNwYas8MyWWnYcjGX58Fh8QoeHhElBocTlANzyuMxoGYWCc+5VsvkFLPEJWirr5j32HfIsIFOLAhFK8/SWLI95LPkP8FCY2nCq1EaPHUV8gihj3v4X+gehKX4BQLT2kfwJVwQqHz/wV3BcsmB1l+Gwly4wlikJhJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772461581; c=relaxed/simple;
-	bh=0hG1QjIkWIfhocmwTRXnXu3qV5JYo6/t3gNgOnTcMBU=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
-	 Message-ID:Content-Type; b=JxAgBkz1n+iFyIQfqDYS4XGstc2w0dVXTqBB8nDpH0ad2eNRNQdDU1FglT57gVj2G2FmT1ZrhzgmmvZKlICxH4R3lypauwGAO6SXPuzdSSXvPr3D+CdMog+tPT3lHDgeSiJaUjFuZvmUGxw5LW3skbtGekc2k9yC4IBqIpLVRf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O0/7FvI/; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1772462086; c=relaxed/simple;
+	bh=Frra1jAuqP0lA2FBR+OsaYzxbEsrwM4NjrOL9x2JbFM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bqYppKKzppQw6ozx5dcDKExmUfmlLQKt/wbobciBcn5v0ak0r4MBrdF1Yxbd73lUfe2lMDl6nb0zeIRK7AyNUqi+zyr1mzeBgrqbi8ETw8AgGWTdLdT7HYcMH5YJITH6ikMP6hVeSxr9EcJpqq2OOwmUD/EJ2KsGgnnifmD5ktQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hWXYMyFy; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O0/7FvI/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772461579;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pO7nnLi7UW4tWy7PIEl56a/uNI1PWrPELBHJi4rpaTs=;
-	b=O0/7FvI/XNq/VO82SyhLu4v5bp6lec6PmvuMDJRq6bQaZWKhRc3EyiWilFZj31KZ5SZyBM
-	s7i5hRpDrn7SJMez74QdLNCdQGjXNkU+3HtIP//ejjWtsfG3t2G3tYhFBxyuWcvh4MontQ
-	VXz/5nF8HW2ETxNkYFqaigWDAMM5d9o=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-116-21J3nBu5PHa1VJ2vb8lNYg-1; Mon,
- 02 Mar 2026 09:26:18 -0500
-X-MC-Unique: 21J3nBu5PHa1VJ2vb8lNYg-1
-X-Mimecast-MFC-AGG-ID: 21J3nBu5PHa1VJ2vb8lNYg_1772461577
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 69C051800370;
-	Mon,  2 Mar 2026 14:26:17 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.45.224.2])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8287A1956053;
-	Mon,  2 Mar 2026 14:26:15 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <202603011130.BCCzYGYx-lkp@intel.com>
-References: <202603011130.BCCzYGYx-lkp@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
-    oe-kbuild-all@lists.linux.dev
-Subject: Re: [dhowells-fs:netfs-next 5/16] fs/netfs/bvecq.c:299 netfs_shorten_bvecq_buffer() error: we previously assumed 'bq' could be null (see line 289)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hWXYMyFy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772462085; x=1803998085;
+  h=date:from:to:cc:subject:message-id;
+  bh=Frra1jAuqP0lA2FBR+OsaYzxbEsrwM4NjrOL9x2JbFM=;
+  b=hWXYMyFylNDfihFvZtsN6iZ3f8tjyhbWFsrO3lCNGz5cfhVEeFF0uFJn
+   4CmK+rhRPdHzec+F4WyZV/kFhhydIlZUGXXe7f2zySPYwbwsgwrfIwEn0
+   oyo1zt8pTKXMLHzROmoiogskUfSgjdTKv/BJsT+6TKtpV8zeRmXiEXp/G
+   iP/6GDkIH2psvsT7jfA6H8SkDDBxpi9HMru9N+T8qhDRLqn9ZSWLCNu5U
+   +Fg/CMsVKuD0AhijDpS1+1gnEjqxXl0EwClBWChgAQk1mw3YC3rabiJB3
+   DUvxvQZUZ71MUqhbG+Q0L7lA0z7tZeD4YJu+0XnBMDP7nawDph7YuikbC
+   Q==;
+X-CSE-ConnectionGUID: nLxAg2EVQ5KExpPf07QZwg==
+X-CSE-MsgGUID: 9P3yFazFQdCY5akRmbG5Hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="90865833"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="90865833"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 06:34:45 -0800
+X-CSE-ConnectionGUID: 9doUQ6WKRhaIpaXCG5vdKQ==
+X-CSE-MsgGUID: lPsdchhzQYWBAapsK851LQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="220730471"
+Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 02 Mar 2026 06:34:43 -0800
+Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vx4M4-000000000y9-1OyA;
+	Mon, 02 Mar 2026 14:34:40 +0000
+Date: Mon, 02 Mar 2026 22:34:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: undefined reference to
+ `drm_connector_hdmi_audio_plugged_notify'
+Message-ID: <202603022229.VyYP9sfI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Date: Mon, 02 Mar 2026 14:26:13 +0000
-Message-ID: <1409207.1772461573@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qGdeF7ZUELeAPuRQpzYedQXhMLccILpAD5CnrxQYPzA_1772461577
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1409206.1772461573.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
 
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   11439c4635edd669ae435eec308f4ab8a0804808
+commit: c08c123d4cd6ec3ee482d607e29388d0db2d3f1d drm/bridge: lontium-lt9611uxc: switch to HDMI audio helpers
+date:   10 weeks ago
+config: parisc-randconfig-r053-20260302 (https://download.01.org/0day-ci/archive/20260302/202603022229.VyYP9sfI-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603022229.VyYP9sfI-lkp@intel.com/reproduce)
 
->   int netfs_shorten_bvecq_buffer(struct bvecq *bq, unsigned int seg, size=
-_t size)
->   {
->   =09ssize_t retain =3D size;
->  =20
->   =09/* Skip through the segments we want to keep. */
->   =09for (; bq; bq =3D bq->next) {
->   =09=09for (; seg < bq->nr_segs; seg++) {
->   =09=09=09retain -=3D bq->bv[seg].bv_len;
->   =09=09=09if (retain < 0)
->   =09=09=09=09goto found;
->   =09=09}
->   =09=09seg =3D 0;
->   =09}
->=20
->  break statements.
->=20
->   =09if (WARN_ON_ONCE(retain > 0))
->   =09=09return -EMSGSIZE;
->   =09bq->bv[seg].bv_len +=3D retain;
->       ^^^^^^
-> NULL dereference.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603022229.VyYP9sfI-lkp@intel.com/
 
-I think I should just remove this line.  retain can only be 0 here.
+All errors (new ones prefixed by >>):
 
-David
+   hppa-linux-ld: drivers/gpu/drm/bridge/lontium-lt9611uxc.o: in function `lt9611uxc_bridge_hpd_notify':
+>> (.text+0x50c): undefined reference to `drm_connector_hdmi_audio_plugged_notify'
+>> hppa-linux-ld: (.text+0x560): undefined reference to `drm_connector_hdmi_audio_plugged_notify'
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=y]
+   Selected by [y]:
+   - CAN [=y] && NET [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
