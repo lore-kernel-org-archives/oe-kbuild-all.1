@@ -1,103 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B732340148A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 14:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D28A3FD13B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 14:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772462709; cv=none; b=WCZheMTQthgguxlkAKTmOKNK2hd0LC5xrOXDSAf5TRzU1QMda9cMUQwukEqtFDsJK46hJzPc0tSDHZnFeLkgqbn+/ZPDW8OLCxtmLdz/JVZhiEPoRFAtD+CgTgosxbpLMshfr5mez1KFi74geZZhSIfJEfVs/4+vkXAQ8VUXh14=
+	t=1772462832; cv=none; b=KlS3tN6lyI9FFcJnhOHuKm98VGrjRw+CgGrqkYK4M0sAAH3VGjWIyL215clCbh/xrr443zPngr+jM0WtjYbPFU5QYauCxOgsW/a8OwD6htkPYWDZbEAlFDhbiiJVoWzcsLyJZbRaUOwDQNFr9wnwbxN0aMUWvN1KE75a0nr43c0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772462709; c=relaxed/simple;
-	bh=LvcVjutaQ5itsACoMwFQ3xfs+DWwSkEUaG85E4fZGgw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Edxa7NhUHQbf9uvf4gmRZes7rptePn+mG1F0Whxd8iVntkvQ881/bt8KV4KeGgWN3KcFb4VafaSZ2iwZyOcC0RqO9bvVPRdQ582j+pfQIHT2c66e/qLo2lRHATsxxaImNv/KelUrUq78e5msqNtTHakM4yD9Ltmw5d6IAWTtnJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J0HYnfVv; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772462832; c=relaxed/simple;
+	bh=lFaVpBDMVckcopr2zeCg2SsVMYfdP3orDdCTDaWmc/0=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
+	 Message-ID:Content-Type; b=ugMgZPko1Tz6NnslduXsSw3Fw1vCYYTurW3LULBZUC2bdOA7xkHW25ojaBofbQQcTvJNZqhpNl8lJlydMuthR9qM3oG8SxChqvxU3/1CNclKFEsJvE47tlLrxHB0l8d1DS4wx2rwD7HLFTIHzxGQaIS+Lu662OgwjqQUSGXUzZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VOAvUpz2; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J0HYnfVv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772462708; x=1803998708;
-  h=date:from:to:cc:subject:message-id;
-  bh=LvcVjutaQ5itsACoMwFQ3xfs+DWwSkEUaG85E4fZGgw=;
-  b=J0HYnfVvC5WHzXrhV7Ic4cZIUutsBLhsGUJMMeP5OsryLX0WfFRLygJv
-   EU4/vejNkfNrSqvtM+fsClYZYgHIWhEYpm4LCjvIeRuL0y4c3mD4IFLvH
-   yTIxNKiTsW0utbC44jWfEV0xEiilDdRWQ4QdIIHjuozcPy2gJhnEMCfee
-   Oms4jtw6/bT1v7GQLWf0CfLj82Tl2EH4Ceo5HngrTzl54raB0bwgv2f0I
-   LRjrXNNzomQ2rEfnIGstwC5BqXghHj1cQSkltjSXcH+ef0TD8AB7zIgWj
-   CXRMlbtATbyK01yblC54cWGLBbZLu8city2DuDnKIwyfYucvtPjoJqlP0
-   w==;
-X-CSE-ConnectionGUID: 15gt+TAKQqWs6s1S2Y+0wA==
-X-CSE-MsgGUID: oKWQ+3EfTLKPYE9XxudocQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73370791"
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="73370791"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 06:45:07 -0800
-X-CSE-ConnectionGUID: lS4KJfbtQDeKSG1cVnr6IQ==
-X-CSE-MsgGUID: T/B/pzjCTR+hCdoy9MRH0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="244719211"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Mar 2026 06:45:06 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vx4W7-000000001E9-32z1;
-	Mon, 02 Mar 2026 14:45:03 +0000
-Date: Mon, 02 Mar 2026 15:44:45 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 0/6] htmldocs:
- Warning: Documentation/filesystems/erofs.rst references a file that doesn't
- exist: Documentation/filesystems/dax.rst
-Message-ID: <202603021544.QGt5nDLD-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VOAvUpz2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772462830;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l8ldJK7DOHN6VTwoFTFzdASy/2kR+CmChdK9wuzdqro=;
+	b=VOAvUpz2sZGACP3shaq5zAKbHZMzUd1/MUjHM5sTLLkIm9j1AvKzIqI4FdaK59rzNgsdzU
+	Ttmm3/fkmZmOEiABNP3KNQmZ2igdSC9i/Ri/pqDHqRC83GT3P0QIQYzmir4LGLyP18zU+z
+	9kwYT3cWfSHs3d1gjbrkqhCdWOJTPRs=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-623-1QMJFQ13OEWN9LaEzo9fhw-1; Mon,
+ 02 Mar 2026 09:47:07 -0500
+X-MC-Unique: 1QMJFQ13OEWN9LaEzo9fhw-1
+X-Mimecast-MFC-AGG-ID: 1QMJFQ13OEWN9LaEzo9fhw_1772462826
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 35DBB1800473;
+	Mon,  2 Mar 2026 14:47:06 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.45.224.2])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A372519560A7;
+	Mon,  2 Mar 2026 14:47:04 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <aaV8D4RTkIrcn6jd@stanley.mountain>
+References: <aaV8D4RTkIrcn6jd@stanley.mountain> <202603011243.LsWeX4QE-lkp@intel.com> <1276684.1772450239@warthog.procyon.org.uk>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
+    oe-kbuild-all@lists.linux.dev
+Subject: Re: [dhowells-fs:netfs-next 10/16] fs/netfs/write_issue.c:850 netfs_writeback_single() warn: inconsistent returns '&ictx->wb_lock'.
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Date: Mon, 02 Mar 2026 14:47:03 +0000
+Message-ID: <1439398.1772462823@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: -HQhficnpLr1qa1qly88NEDASXUMbv7FGVSKDT_aCCQ_1772462826
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1439397.1772462823.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   8426c769398ef6f4ac3f61df3f3ec10bd11b0e50
-commit: e745179c76d0b623f7fe543a8c905cc198145c69 [0/6] FROMGIT: erofs: dax support for non-tailpacking regular file
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260302/202603021544.QGt5nDLD-lkp@intel.com/reproduce)
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603021544.QGt5nDLD-lkp@intel.com/
+> a1cee75a302b7a David Howells 2026-02-28  842  cleanup_free:
+>=20
+> But the goto cleanup_free gotos are still holding the lock.
 
-All warnings (new ones prefixed by >>):
+I see it now, thanks.  I'm going to move cleanup_free: and change the end o=
+f
+the function:
 
-   Warning: Documentation/devicetree/bindings/usb/dwc3-st.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
-   Warning: Documentation/devicetree/bindings/usb/dwc3-st.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/generic.txt
-   Warning: Documentation/devicetree/bindings/usb/exynos-usb.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
-   Warning: Documentation/devicetree/bindings/usb/omap-usb.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
-   Warning: Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
->> Warning: Documentation/filesystems/erofs.rst references a file that doesn't exist: Documentation/filesystems/dax.rst
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
-   Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
---
-   Warning: Documentation/devicetree/bindings/usb/dwc3-st.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
-   Warning: Documentation/devicetree/bindings/usb/dwc3-st.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/generic.txt
-   Warning: Documentation/devicetree/bindings/usb/exynos-usb.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
-   Warning: Documentation/devicetree/bindings/usb/omap-usb.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
-   Warning: Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/usb/dwc3.txt
->> Warning: Documentation/filesystems/erofs.rst references a file that doesn't exist: Documentation/filesystems/dax.rst
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
-   Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
+--- a/fs/netfs/write_issue.c
++++ b/fs/netfs/write_issue.c
+@@ -839,11 +839,12 @@ int netfs_writeback_single(struct address_space *mapp=
+ing,
+ =09 */
+ =09ret =3D netfs_wait_for_write(wreq);
+=20
+-cleanup_free:
+ =09netfs_put_request(wreq, netfs_rreq_trace_put_return);
+ =09_leave(" =3D %d", ret);
+ =09return ret;
+=20
++cleanup_free:
++=09netfs_put_request(wreq, netfs_rreq_trace_put_return);
+ couldnt_start:
+ =09mutex_unlock(&ictx->wb_lock);
+ =09_leave(" =3D %d", ret);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+David
+
