@@ -1,141 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2217638F655
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 09:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF2C396B6A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 10:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772445330; cv=none; b=jN+DoodqWx4SXok3jb33ucy9rklUMJZgYOcbROuVaD+42bxJLIhr346w9QSSaAcmeb7FU/K46qr/cFiAXdu/SqMr0nVf7Cj1fwQgZzXNmy2bV3a/SIsWU9TndMY0pfoq3kRyp8PI+4cXGW9cNnMkRUU+eYTi64SfkAnif6Fszj4=
+	t=1772446386; cv=none; b=UlaDgYba/DvYZfe6vcQmOhvOm+paHA7Z5ofjGUo1GDSarNEqIsXZ95ObeZP8SU67/d8oTTo6NNgtMQZ/Lo1onleQmWGnGQEd1LPib9iLmvS5kANjHOQt3voYkXwSpRmDU36sXUwYbiyG6zNL1iodbqiV8gIlJZKPb6gwBaDFDhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772445330; c=relaxed/simple;
-	bh=E0Qpz/RhQo5XXhMAWqQ0oC09M0nFCI5jlleeZZJ8Tuo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=sjIhV6H5RYNxsur+75i7KplacesWfiiWKOB27XyMYuRsLunc42bNa9kixyZoq7SygqvDcuJ4MkoI9awUFMqMuiHHydt5Pgu+FkqSanyZbVegHfzSqt7B9jSJO101ygX8QrqqBoT0Fp9AJi6PHIwhPplFp5+0FmrwLzJzagW6iTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aaykeh59; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1772446386; c=relaxed/simple;
+	bh=E4yofgBC4IKIPSxfw42oUbmtWie6+upsID46pBUeKIs=;
+	h=Date:From:Cc:Subject:Message-ID; b=CbvQE5IYC7DGBbSuHv54W64Xzc/tZ3mLHPra4zjjpnbAcJ99Uo99yefxlCaGAk7MIlCpepSHfxhEZrMLVBjMR2ylyhe7ZWd87PLC/Pz/faXikP6njf5NVqAPUBRAOp3WrRUT5+uRYI9dH4T/6//5giZUKHSIa7IMDsGpx/vNoy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFdU7JCq; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aaykeh59"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFdU7JCq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772445328; x=1803981328;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E0Qpz/RhQo5XXhMAWqQ0oC09M0nFCI5jlleeZZJ8Tuo=;
-  b=aaykeh59qp3QyrpetdFOh+xhBU/WirfcIeOsBl3z+0h08v05vYJZMo/m
-   koNtG9c10PjKJqa7yMAhORRCNZOT0eWcDx2dfiiHv9rrW9Toj3f2wy8bP
-   cB9CW3gQvUVnMWmYOuLiwAQ7BqSJSRMga7TCkDM26Bc66oxZvG6tc3Xm+
-   UICIh4dvqIBF036ioo1vFN3qBCFYpMqWYk2PVBk5x4HGQUkdkDpkM3yeS
-   Jz6K9iTAb7Nb9JTXpU/xeVO1iQ15XVmV803xop8NVfaK8KBhbRPi47XPA
-   pQQSxQ4opHrECgKzS/103qIljdy4YThS63WGq/XPh2G8UQ6m+Zhyrqbm1
-   w==;
-X-CSE-ConnectionGUID: N8eB8a6uTrCjcsyIckqrzA==
-X-CSE-MsgGUID: JgO0hawaTKmz4+K0o0U5qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="84151031"
+  t=1772446384; x=1803982384;
+  h=date:from:cc:subject:message-id;
+  bh=E4yofgBC4IKIPSxfw42oUbmtWie6+upsID46pBUeKIs=;
+  b=eFdU7JCqQN5qGoMDrf7yO42rbDcIrkYKmohVbNsoePr+8zujFKizdStI
+   SskIOmt7i2UMQGiMNipzM6h7NC5YsNa9f0rMwStsXDOY713OV/2JT55qe
+   unYJM8CqWhp6NZ1z6iNyddKaT2j13E+643rx7H0gLUXKZiTy9r8y2G1eg
+   KpVxLHtg/u2N6zpVF6a/AVPFORe6912arq0mLcFB/8fmHGZROuve/Sisr
+   xH0+LRXaDgFyhpYqa23FotmgAmcw6REU5OI8aCGLuq9QTIBWqvRx6rYe/
+   sFxtyXRa/flOfxZQaXgtB79LrWQNvTs1Lp+QAjjG77s+c15wOyL/Dxn1H
+   g==;
+X-CSE-ConnectionGUID: j/WXzJjqSsiDfWRohtQcPg==
+X-CSE-MsgGUID: iMPJbXceS56JOo7g49DmWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="72651680"
 X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="84151031"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 01:55:26 -0800
-X-CSE-ConnectionGUID: bz92VzzkSNCbpH/bJL3LJg==
-X-CSE-MsgGUID: qC80Pt90QTa5PdTrRfoELg==
+   d="scan'208";a="72651680"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 02:13:04 -0800
+X-CSE-ConnectionGUID: GsWG/eYvTO+V9Mdvj5BMeg==
+X-CSE-MsgGUID: JUWTyF93TwGZsVxdg2PCjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="216737061"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 Mar 2026 01:55:25 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+   d="scan'208";a="215614843"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 02 Mar 2026 02:13:03 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vwzzl-000000000he-2HGf;
-	Mon, 02 Mar 2026 09:55:21 +0000
-Date: Mon, 02 Mar 2026 17:54:21 +0800
+	id 1vx0Gq-000000001AT-2nUM;
+	Mon, 02 Mar 2026 10:13:00 +0000
+Date: Mon, 02 Mar 2026 11:12:03 +0100
 From: kernel test robot <lkp@intel.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Viresh Kumar <viresh.kumar@linaro.org>,
- "Jernej =?utf-8?Q?=C5=A0krabec"?= <jernej.skrabec@gmail.com>
-Subject: drivers/cpufreq/sun50i-cpufreq-nvmem.c:229:20: sparse:
- sparse: cast to restricted __le32
-Message-ID: <202603021703.aBD0w99y-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "sys_oak" <sys_oak@intel.com>
+Subject: [intel-lts:6.18/linux 1/1] netlink_dumper.c:60:36: warning:
+ format '%d' expects argument of type 'int', but argument 3 has type 'unsigned
+ int'
+Message-ID: <202603021139.BooAz09b-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   11439c4635edd669ae435eec308f4ab8a0804808
-commit: 14c8a418159e541d70dbf8fc71225d1623beaf0f cpufreq: sun50i: prevent out-of-bounds access
-date:   11 months ago
-config: riscv-randconfig-r133-20260302 (https://download.01.org/0day-ci/archive/20260302/202603021703.aBD0w99y-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603021703.aBD0w99y-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
+head:   c7c481f14ae7838859098e9873d18c44e73fa7cc
+commit: 03189c50b96902c65b0a7f1bd39a3b720c0755ae [1/1] tools/bpf: Query XDP metadata BTF ID
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260302/202603021139.BooAz09b-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603021139.BooAz09b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603021703.aBD0w99y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603021139.BooAz09b-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/cpufreq/sun50i-cpufreq-nvmem.c:229:20: sparse: sparse: cast to restricted __le32
+All warnings (new ones prefixed by >>):
 
-vim +229 drivers/cpufreq/sun50i-cpufreq-nvmem.c
-
-   184	
-   185	/**
-   186	 * sun50i_cpufreq_get_efuse() - Determine speed grade from efuse value
-   187	 *
-   188	 * Returns non-negative speed bin index on success, a negative error
-   189	 * value otherwise.
-   190	 */
-   191	static int sun50i_cpufreq_get_efuse(void)
-   192	{
-   193		const struct sunxi_cpufreq_data *opp_data;
-   194		struct nvmem_cell *speedbin_nvmem;
-   195		const struct of_device_id *match;
-   196		struct device *cpu_dev;
-   197		void *speedbin_ptr;
-   198		u32 speedbin = 0;
-   199		size_t len;
-   200		int ret;
-   201	
-   202		cpu_dev = get_cpu_device(0);
-   203		if (!cpu_dev)
-   204			return -ENODEV;
-   205	
-   206		struct device_node *np __free(device_node) =
-   207			dev_pm_opp_of_get_opp_desc_node(cpu_dev);
-   208		if (!np)
-   209			return -ENOENT;
-   210	
-   211		match = of_match_node(cpu_opp_match_list, np);
-   212		if (!match)
-   213			return -ENOENT;
-   214	
-   215		opp_data = match->data;
-   216	
-   217		speedbin_nvmem = of_nvmem_cell_get(np, NULL);
-   218		if (IS_ERR(speedbin_nvmem))
-   219			return dev_err_probe(cpu_dev, PTR_ERR(speedbin_nvmem),
-   220					     "Could not get nvmem cell\n");
-   221	
-   222		speedbin_ptr = nvmem_cell_read(speedbin_nvmem, &len);
-   223		nvmem_cell_put(speedbin_nvmem);
-   224		if (IS_ERR(speedbin_ptr))
-   225			return PTR_ERR(speedbin_ptr);
-   226	
-   227		if (len <= 4)
-   228			memcpy(&speedbin, speedbin_ptr, len);
- > 229		speedbin = le32_to_cpu(speedbin);
-   230	
-   231		ret = opp_data->efuse_xlate(speedbin);
-   232	
-   233		kfree(speedbin_ptr);
-   234	
-   235		return ret;
-   236	};
-   237	
+   In file included from netlink_dumper.c:12:
+   netlink_dumper.c: In function 'do_xdp_dump_one':
+>> netlink_dumper.c:60:36: warning: format '%d' expects argument of type 'int', but argument 3 has type 'unsigned int' [-Wformat=]
+      60 |         NET_DUMP_UINT("md_btf_id", " md_btf_id(%d)", md_btf_id);
+         |                                    ^~~~~~~~~~~~~~~~  ~~~~~~~~~
+         |                                                      |
+         |                                                      unsigned int
+   netlink_dumper.h:76:33: note: in definition of macro 'NET_DUMP_UINT'
+      76 |                 fprintf(stdout, fmt_str, val);          \
+         |                                 ^~~~~~~
+   netlink_dumper.c:60:49: note: format string is defined here
+      60 |         NET_DUMP_UINT("md_btf_id", " md_btf_id(%d)", md_btf_id);
+         |                                                ~^
+         |                                                 |
+         |                                                 int
+         |                                                %d
 
 -- 
 0-DAY CI Kernel Test Service
