@@ -1,83 +1,86 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CD3336ECC
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Mar 2026 11:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E56732FA2E;
+	Mon,  2 Mar 2026 11:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772450249; cv=none; b=l0cc2e0tXgS2VQVVrJzSL4We4AkLv/utS/D/Aj9vz5fl0tAZh5jV7lr7oLCGWkqR+UkHlcsm16vFy/hIwuBH5c/0Wd6zdh51OWRfo1tpKs7GDlsddrDG3w3EtfBpZ5vAa9B2t9KoSnGSOCZPpFtIGl8xZBszj5AZwofulbHXfnM=
+	t=1772450976; cv=none; b=L5+HrpTVl1Yiibdc5mnZdSGXQP2IeXVArouVKXOVdG2xjkdXlQ6QPGn4xyrGIu4Fa+a4NlIgTzxfjTc/i/H7IzxvI/bKPYsEmnd9JhRMTfNe/JcNnEdOqICtrj/utTT2AvFd+lTs9AI61olQ+hLIkKi7qrN9NIezHIZ74k5yleQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772450249; c=relaxed/simple;
-	bh=9je2vzVvmtDnuHThA0jXAb2rfvHFErguZIVNmRYClIU=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
-	 Message-ID:Content-Type; b=gNP1gOzOVqBmz++/TsW14QFfnIKgjSZFBsQcOzx3EhWmYgACSVwZEWYanAigJe5iDK6yOwhrlV0Y5DhK0RE1DDe9qKM94U+/sfaFmWhTu+IeNUzl7w3aZRTHmgYhKCgkgtUOFy1wbxcUvsoIfPUACXN4btklC1Tn3qoHRZ4L4DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PJgIS8KB; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1772450976; c=relaxed/simple;
+	bh=gOPJt1HbZxWKq4xWH2JT+8mUyqnlw74sRaHxmR/D9Qs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=urBA7orEHl90pQwG2Kh4EmfGGwqVB26G9l56yaQgZa9pGbORxe/QmGTtm11tC0dYbO5KtxMiWEdpS60KR0jE+vyAZum+pjRgWUEvIe1gXFDSHwKKzDQ6GTRTOY8D+dQhlLHbqJO7M0/yGcpH0MwecWHVljM9nvoew0yxjJFXXcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CK8dNRNg; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PJgIS8KB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772450246;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XLVPOyaWslcAM2zCXXGtXo8fCMopkqqWHLE8OBk4ANw=;
-	b=PJgIS8KByZwaauSxtGrMUzTvDF5knXoNst9bvhdEugAhI8+5gLkatMamRGGfGGgkf3DiD9
-	ChHa8zWOL9kirRPZhrir1gOaix/NHcdvgcE3ZV6slmJoRVKSa58Fne7tBFHuKuqfEV8TjV
-	4aEB2IO2PIfhnLp487Sm4fVVg/tYkCw=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-617-OvMZ13qDOLeOE3ntGioR8Q-1; Mon,
- 02 Mar 2026 06:17:23 -0500
-X-MC-Unique: OvMZ13qDOLeOE3ntGioR8Q-1
-X-Mimecast-MFC-AGG-ID: OvMZ13qDOLeOE3ntGioR8Q_1772450242
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D38E61800348;
-	Mon,  2 Mar 2026 11:17:22 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.45.224.2])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 14F901800348;
-	Mon,  2 Mar 2026 11:17:20 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <202603011243.LsWeX4QE-lkp@intel.com>
-References: <202603011243.LsWeX4QE-lkp@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
-    oe-kbuild-all@lists.linux.dev
-Subject: Re: [dhowells-fs:netfs-next 10/16] fs/netfs/write_issue.c:850 netfs_writeback_single() warn: inconsistent returns '&ictx->wb_lock'.
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CK8dNRNg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772450974; x=1803986974;
+  h=date:from:to:cc:subject:message-id;
+  bh=gOPJt1HbZxWKq4xWH2JT+8mUyqnlw74sRaHxmR/D9Qs=;
+  b=CK8dNRNgb5P2BQcQdfIv8SrYkjdyo3EYbx513iMTVG92QCDhssMw2oem
+   RnMGeYQQHl697w47EYZZybgPvGh9GtYY621b5Mpa9SVHTcM2015boUjnI
+   dODDnUHP/4ubMvWrBOZoWBqSpNYT5zH6Hu+oGzatqMLSFxR7kRb7/hWhw
+   OAkNAjqNmVH7REgAvFHPR5wTicb44dGjAJ29iCmUTO3OEQudOgnCeaCf8
+   C4VFIzb1Tja5g6L4uKB4PB5RE+WpHRzbM+gUhp6X5iP5+9ibrVk0tnbh1
+   sFO1XscaIZY3nQ3TH2/YUiPM1NFJklvIADuvkJBi9LbIV2kcNzZ+rzbDP
+   g==;
+X-CSE-ConnectionGUID: JlqFWIskQ8OH97FVIaNKYg==
+X-CSE-MsgGUID: yO6G0IL1RFKZUS4dxDvDBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="76058047"
+X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
+   d="scan'208";a="76058047"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 03:29:33 -0800
+X-CSE-ConnectionGUID: PXRZuDjgQj2qJH/sYiyytQ==
+X-CSE-MsgGUID: KtXOWk0JS96Jek/UsLsGbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
+   d="scan'208";a="217651032"
+Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 02 Mar 2026 03:29:32 -0800
+Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vx1Sr-000000000nJ-1GRO;
+	Mon, 02 Mar 2026 11:29:29 +0000
+Date: Mon, 02 Mar 2026 19:29:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:irq/core 7/14] ld.lld: error: undefined symbol:
+ irq_proc_calc_prec
+Message-ID: <202603021928.vz1Gc3vd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Date: Mon, 02 Mar 2026 11:17:19 +0000
-Message-ID: <1276684.1772450239@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: vwhqnks5xPvhwXSzp9BIqitXw-SptiFtX939lUtDhZs_1772450242
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1276683.1772450239.1@warthog.procyon.org.uk>
 
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/core
+head:   81f5ad552e6edb1dcf872e7c1f4ea54298056007
+commit: f4153c1b78f7bcf77d6f5c45a8fdf9fe17b09f66 [7/14] genirq: Calculate precision only when required
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260302/202603021928.vz1Gc3vd-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260302/202603021928.vz1Gc3vd-lkp@intel.com/reproduce)
 
->   	if (!mutex_trylock(&ictx->wb_lock)) {
->   		if (wbc->sync_mode == WB_SYNC_NONE) {
->   			netfs_stat(&netfs_n_wb_lock_skip);
->   			return 0;
-> 
-> Unlock before returning?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603021928.vz1Gc3vd-lkp@intel.com/
 
-If mutex_trylock() returns false, we don't have the lock.  Note that it's a
-"try" so it's not guaranteed to work.
+All errors (new ones prefixed by >>):
 
-David
+>> ld.lld: error: undefined symbol: irq_proc_calc_prec
+   >>> referenced by irqdesc.c
+   >>>               kernel/irq/irqdesc.o:(irq_set_nr_irqs) in archive vmlinux.a
+   >>> referenced by irqdesc.c
+   >>>               kernel/irq/irqdesc.o:(early_irq_init) in archive vmlinux.a
+   >>> referenced by irqdesc.c
+   >>>               kernel/irq/irqdesc.o:(__irq_alloc_descs) in archive vmlinux.a
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
