@@ -1,367 +1,104 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B8939A07B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Mar 2026 10:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9CE43CEE4;
+	Tue,  3 Mar 2026 11:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772532940; cv=none; b=g137+rv+dGtr1Dk47EaZdqBVCIW/pi92pFBnPvauhube0LmewXJeNX6ICFcSbSD7nR2lS8DHvaquUKfv4+FjCLmOzBtcchRGYY3OotLl3MvY0GPnkxcX4LtPIpxA2ALUKa9ZJwXnn58vbJSv1NT6yse7KWKaNw72UP78du4gBY0=
+	t=1772537594; cv=none; b=JyjKF/orbsmy5YAVmCYC9ZZpErcq4iVvVfROVKDoTJ1ESGBQXRE3PzUyr08OBAw09PFocd2tRTkeZ6Hl3YQ1wFVxEpLvd9VKMFDQt95M6YFQ/kfAWdoPwgKQ3aatulW6/kvqB3dIIz1ngRMJCjA7kOjgdmlJqeTDWlc8UmWbPFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772532940; c=relaxed/simple;
-	bh=wG+PfAc9u5g+XK1/1uZnooNHSSVXyzVxjzW6bzkc8Xo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J1myGGPTIz114JgPAc6W8cx/5A0AbEFXWMvIUZv0fwQwYHGV1BvndjCayOAgFB8R4BPHeIbkLHbh6pORYREm925hMPi88CBU9WD012/Wr3GvqguVy2UDku+Fmc0tkmp3mJGLYGLMM2Gwopw1fkxmUTPej3D7anIMEydkJtWkVbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ANC8I6rp; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772537594; c=relaxed/simple;
+	bh=YhF703JejSHeGWDlsnpoDuz4Ym7czh/WmbFvtBx61Cw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bqureS8EoY+zFsOsKmwwcpra5n4ZXLQuEQkJnbRXO5UuskVbj1Grzwm+P+/CY0X00etHGySG7b6SNhboycijLBWwCW/GaQTRTm4gN6kYAaGq6r/EBaXFey8KTtd2o4trgJH2YF97AhkLN2FWcAV8645NDep82s993mKO3VwOpgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAlDp+rh; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ANC8I6rp"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c7059b9df33so2073358a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Mar 2026 02:15:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772532938; x=1773137738; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=14lPXQTL6fOBBMLPXur54Ks1pMsPobynplfnVPlunBM=;
-        b=ANC8I6rpYnBcUIBeR4CImlvQxyCqctDNIsrjCzei0teM3H06kO2t7SUqEc5jbHDChM
-         c/i0vyWgL5MK+3U3cBj+IhXzN2Qv2Kvnx2Pff3PIR3DCaQJn2FflcA8NAyvRpoBkuoHy
-         vViV6Fo7/AbscNTeIJVEvN4TRjQ8ixlcx5SE0D/r6LJUbVQHMiKB6TeeIDKbfe2JNTYA
-         Rol9Rypr6aVHNWfeS/6cV2ahfjhIqAVedgFahO4DZVnzM68spyJmq6URwqJ9sXelOUQG
-         maD+LfKEOo/XKa83KaRdOkrG2ILNheAuXOl1/DpWhH7HkE+WD/O2L3JoSI/DSYB23VaG
-         IZhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772532938; x=1773137738;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=14lPXQTL6fOBBMLPXur54Ks1pMsPobynplfnVPlunBM=;
-        b=F3n4+XCHfVWyCefzB2RmZrFOn62r2e/O5/s3EYdw3SmwI3dB/G49qoS0yV3TeO8J45
-         /NAETRXrhUQ/33g7PAmMSFq9x2YA7j58TWNPeTiam2kWYYRqVB8oMkvAhSCYPbJI2YSH
-         vSmeXtiISG6vJGGoFRpgMPX45HN35goKW6R3Lfw4RUQNupj0JU0B66ITY0Rscj5h3+U2
-         DuL0J5KIZB4klBiQiVRhqo+f4r36x1m9Mzl/CQF70aMsaWAD8me93Xh0UfYmty7TwqWs
-         uyqxjiaonHIC2y3eM7PUDIYiEY8tt/AqhgVivoVVucavyqVf3LlVx6y5KufWt4lzgGB0
-         L6CA==
-X-Forwarded-Encrypted: i=1; AJvYcCWFfxv76pdP89WxijR/if26XgQEo0xhnIIFlBD+nNJYdm+0RZEg+lXdXwiAwI/bOpPx98517CStCcRQNIDy@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8qmyqwUdWz6gU4M/voJTLKQTIUmFNqSz9cVb9cBVfoqwIwwIE
-	h/mBjQb+p+0hYgyArBvCTUsIKRcSV3Kb9v+dX8/WVrje8eo1H/yz1hUOejsURpoAPTpZpw==
-X-Gm-Gg: ATEYQzxhXfdCc+VXjUP75QYOu3JsfxZuxOVEuWXj96QPHkWmEhaFydHMJ0Zbrtb6exT
-	ARVjLfVKNXG5OrYBPS1B7FzpwEhgseJZu7kQc4r8l2zHVkE+wEe8Po3UTtxFovLUyVqWdtwpnGV
-	Ib+a2Y4alnGz7ov/V1rzMkxr/Wft7bSmEF2ahIc9ivAz0+f/yhDd4MAIySyN3FhHOMXj1q6K6mW
-	WBVkdG0Zvy+eg2jGCjLLAiPE7PtytyvLV7yUcKflVdlsoMK3+zxAkzR0rShVJnjiuQbR7htRKmT
-	ehb4tWJd+B65Us0hvOtOPu++oH3lxpeS/mpGktb6YYqejDddBI0iTwfCHaCGxN5IeQ8JfnZ0p/7
-	JFRhuCiIFtSE8Gk/BXd7x5i8mZ7UOV4QQp/enIVVx2eOBkJgeNBgbfN3IYMt1voIEP+dWUBbZw9
-	segdQzooA1yr03jh1TrUq7ZbNgeJDfdAD3dAlC4bS3tBNPvuwbWn8rlncM9QUps400BEVL0l4xp
-	ePy2g36
-X-Received: by 2002:a17:90b:3b8a:b0:356:24c8:2291 with SMTP id 98e67ed59e1d1-3599ccc96bbmr1553164a91.0.1772532937988;
-        Tue, 03 Mar 2026 02:15:37 -0800 (PST)
-Received: from u2404-VMware-Virtual-Platform.localdomain ([117.71.53.159])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3599c090a6csm2395322a91.6.2026.03.03.02.15.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 02:15:37 -0800 (PST)
-From: Sun Jian <sun.jian.kdev@gmail.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>
-Cc: Phil Sutter <phil@nwl.cc>,
-	netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>,
-	Sun Jian <sun.jian.kdev@gmail.com>
-Subject: [PATCH] netfilter: use function typedefs for __rcu NAT helper hook pointers
-Date: Tue,  3 Mar 2026 18:15:25 +0800
-Message-ID: <20260303101525.329974-1-sun.jian.kdev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAlDp+rh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772537589; x=1804073589;
+  h=date:from:to:cc:subject:message-id;
+  bh=YhF703JejSHeGWDlsnpoDuz4Ym7czh/WmbFvtBx61Cw=;
+  b=dAlDp+rhNFH45HBPjv27L5gnGjAhej0y9ygWY9CdV3yby1MR1kCfi669
+   ai/afeQDJ1H5uGI+LDx6iRW45KqRn0vszirNTdmWUDC2uvZsejeN40nkD
+   3na6FFPru/JvvJQtdk56f/E55EMFKrkUOapPYjRt4aPmC0sn8oG9nFfp9
+   3bPl6I+VSYa4pPqOqRdCf+Omp++YJR3ufzL9B0I88cLk8RMsylEEd1hhm
+   zJPWHFNxy/gCIVvnuTTODpr7sWE5Fjjky7fuPmnBJw6VlLLgwjemxgors
+   vuQh/+8eFa9hWUUXnBty31Se6rHXhBJ1mxXBc0zMD0N/CtFS08M5yNXn6
+   g==;
+X-CSE-ConnectionGUID: bEkDfAuQT66KBthQuXeotQ==
+X-CSE-MsgGUID: S1uC+/lkTnOsS7GNtOaxiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73479250"
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
+   d="scan'208";a="73479250"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 03:33:09 -0800
+X-CSE-ConnectionGUID: 5+gPOIHTQIO1J/iwkCHtAw==
+X-CSE-MsgGUID: OV2r5X3QTiGifyNw7f0fjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
+   d="scan'208";a="244843941"
+Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 03 Mar 2026 03:33:06 -0800
+Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vxNzr-0000000029H-3fax;
+	Tue, 03 Mar 2026 11:33:03 +0000
+Date: Tue, 03 Mar 2026 19:32:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Farhan Ali <alifm@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+ Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [pci:wip/2603-farhan-s390-err-v10 1/9]
+ drivers/pci/slot.c:40:19: warning: result of comparison of constant -1 with
+ expression of type 'u16' (aka 'unsigned short') is always false
+Message-ID: <202603031955.4B1fQXSq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-After commit 07919126ecfc ("netfilter: annotate NAT helper hook pointers
-with __rcu"), sparse can warn about type/address-space mismatches when
-RCU-dereferencing NAT helper hook function pointers.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git wip/2603-farhan-s390-err-v10
+head:   d72875f0a4958f51f7196e6fada9357799418a52
+commit: 77c0762d2e847cf2e8d6d79e6f88a1c2b1ca4d06 [1/9] PCI: Allow per function PCI slots
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260303/202603031955.4B1fQXSq-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603031955.4B1fQXSq-lkp@intel.com/reproduce)
 
-The hooks are __rcu-annotated and accessed via rcu_dereference(), but the
-combination of complex function pointer declarators and the WRITE_ONCE()
-machinery used by RCU_INIT_POINTER()/rcu_assign_pointer() can confuse
-sparse and trigger false positives.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603031955.4B1fQXSq-lkp@intel.com/
 
-Introduce typedefs for the NAT helper function types, so __rcu applies to
-a simple "fn_t __rcu *" pointer form. Also replace local typeof(hook)
-variables with "fn_t *" to avoid propagating __rcu address space into
-temporaries.
+All warnings (new ones prefixed by >>):
 
-No functional change intended.
+>> drivers/pci/slot.c:40:19: warning: result of comparison of constant -1 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+      40 |         if (slot->number == -1)
+         |             ~~~~~~~~~~~~ ^  ~~
+   1 warning generated.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202603022359.3dGE9fwI-lkp@intel.com/
 
-Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
----
- include/linux/netfilter/nf_conntrack_amanda.h | 15 +++++++++------
- include/linux/netfilter/nf_conntrack_ftp.h    | 17 ++++++++++-------
- include/linux/netfilter/nf_conntrack_irc.h    | 15 +++++++++------
- include/linux/netfilter/nf_conntrack_snmp.h   | 11 +++++++----
- include/linux/netfilter/nf_conntrack_tftp.h   |  9 ++++++---
- net/netfilter/nf_conntrack_amanda.c           | 10 ++--------
- net/netfilter/nf_conntrack_ftp.c              | 10 ++--------
- net/netfilter/nf_conntrack_irc.c              | 10 ++--------
- net/netfilter/nf_conntrack_snmp.c             |  7 ++-----
- net/netfilter/nf_conntrack_tftp.c             |  7 ++-----
- 10 files changed, 51 insertions(+), 60 deletions(-)
+vim +40 drivers/pci/slot.c
 
-diff --git a/include/linux/netfilter/nf_conntrack_amanda.h b/include/linux/netfilter/nf_conntrack_amanda.h
-index dfe89f38d1f7..1719987e8fd8 100644
---- a/include/linux/netfilter/nf_conntrack_amanda.h
-+++ b/include/linux/netfilter/nf_conntrack_amanda.h
-@@ -7,10 +7,13 @@
- #include <linux/skbuff.h>
- #include <net/netfilter/nf_conntrack_expect.h>
- 
--extern unsigned int (__rcu *nf_nat_amanda_hook)(struct sk_buff *skb,
--					  enum ip_conntrack_info ctinfo,
--					  unsigned int protoff,
--					  unsigned int matchoff,
--					  unsigned int matchlen,
--					  struct nf_conntrack_expect *exp);
-+typedef unsigned int
-+nf_nat_amanda_hook_fn(struct sk_buff *skb,
-+		      enum ip_conntrack_info ctinfo,
-+		      unsigned int protoff,
-+		      unsigned int matchoff,
-+		      unsigned int matchlen,
-+		      struct nf_conntrack_expect *exp);
-+
-+extern nf_nat_amanda_hook_fn __rcu *nf_nat_amanda_hook;
- #endif /* _NF_CONNTRACK_AMANDA_H */
-diff --git a/include/linux/netfilter/nf_conntrack_ftp.h b/include/linux/netfilter/nf_conntrack_ftp.h
-index f31292642035..7b62446ccec4 100644
---- a/include/linux/netfilter/nf_conntrack_ftp.h
-+++ b/include/linux/netfilter/nf_conntrack_ftp.h
-@@ -26,11 +26,14 @@ struct nf_ct_ftp_master {
- 
- /* For NAT to hook in when we find a packet which describes what other
-  * connection we should expect. */
--extern unsigned int (__rcu *nf_nat_ftp_hook)(struct sk_buff *skb,
--				       enum ip_conntrack_info ctinfo,
--				       enum nf_ct_ftp_type type,
--				       unsigned int protoff,
--				       unsigned int matchoff,
--				       unsigned int matchlen,
--				       struct nf_conntrack_expect *exp);
-+typedef unsigned int
-+nf_nat_ftp_hook_fn(struct sk_buff *skb,
-+		   enum ip_conntrack_info ctinfo,
-+		   enum nf_ct_ftp_type type,
-+		   unsigned int protoff,
-+		   unsigned int matchoff,
-+		   unsigned int matchlen,
-+		   struct nf_conntrack_expect *exp);
-+
-+extern nf_nat_ftp_hook_fn __rcu *nf_nat_ftp_hook;
- #endif /* _NF_CONNTRACK_FTP_H */
-diff --git a/include/linux/netfilter/nf_conntrack_irc.h b/include/linux/netfilter/nf_conntrack_irc.h
-index 4f3ca5621998..ce07250afb4e 100644
---- a/include/linux/netfilter/nf_conntrack_irc.h
-+++ b/include/linux/netfilter/nf_conntrack_irc.h
-@@ -8,11 +8,14 @@
- 
- #define IRC_PORT	6667
- 
--extern unsigned int (__rcu *nf_nat_irc_hook)(struct sk_buff *skb,
--				       enum ip_conntrack_info ctinfo,
--				       unsigned int protoff,
--				       unsigned int matchoff,
--				       unsigned int matchlen,
--				       struct nf_conntrack_expect *exp);
-+typedef unsigned int
-+nf_nat_irc_hook_fn(struct sk_buff *skb,
-+		   enum ip_conntrack_info ctinfo,
-+		   unsigned int protoff,
-+		   unsigned int matchoff,
-+		   unsigned int matchlen,
-+		   struct nf_conntrack_expect *exp);
-+
-+extern nf_nat_irc_hook_fn __rcu *nf_nat_irc_hook;
- 
- #endif /* _NF_CONNTRACK_IRC_H */
-diff --git a/include/linux/netfilter/nf_conntrack_snmp.h b/include/linux/netfilter/nf_conntrack_snmp.h
-index 99107e4f5234..bb39f04a9977 100644
---- a/include/linux/netfilter/nf_conntrack_snmp.h
-+++ b/include/linux/netfilter/nf_conntrack_snmp.h
-@@ -5,9 +5,12 @@
- #include <linux/netfilter.h>
- #include <linux/skbuff.h>
- 
--extern int (__rcu *nf_nat_snmp_hook)(struct sk_buff *skb,
--				unsigned int protoff,
--				struct nf_conn *ct,
--				enum ip_conntrack_info ctinfo);
-+typedef int
-+nf_nat_snmp_hook_fn(struct sk_buff *skb,
-+		    unsigned int protoff,
-+		    struct nf_conn *ct,
-+		    enum ip_conntrack_info ctinfo);
-+
-+extern nf_nat_snmp_hook_fn __rcu *nf_nat_snmp_hook;
- 
- #endif /* _NF_CONNTRACK_SNMP_H */
-diff --git a/include/linux/netfilter/nf_conntrack_tftp.h b/include/linux/netfilter/nf_conntrack_tftp.h
-index 1490b68dd7d1..90b334bbce3c 100644
---- a/include/linux/netfilter/nf_conntrack_tftp.h
-+++ b/include/linux/netfilter/nf_conntrack_tftp.h
-@@ -19,8 +19,11 @@ struct tftphdr {
- #define TFTP_OPCODE_ACK		4
- #define TFTP_OPCODE_ERROR	5
- 
--extern unsigned int (__rcu *nf_nat_tftp_hook)(struct sk_buff *skb,
--				        enum ip_conntrack_info ctinfo,
--				        struct nf_conntrack_expect *exp);
-+typedef unsigned int
-+nf_nat_tftp_hook_fn(struct sk_buff *skb,
-+		    enum ip_conntrack_info ctinfo,
-+		    struct nf_conntrack_expect *exp);
-+
-+extern nf_nat_tftp_hook_fn __rcu *nf_nat_tftp_hook;
- 
- #endif /* _NF_CONNTRACK_TFTP_H */
-diff --git a/net/netfilter/nf_conntrack_amanda.c b/net/netfilter/nf_conntrack_amanda.c
-index c0132559f6af..d2c09e8dd872 100644
---- a/net/netfilter/nf_conntrack_amanda.c
-+++ b/net/netfilter/nf_conntrack_amanda.c
-@@ -37,13 +37,7 @@ MODULE_PARM_DESC(master_timeout, "timeout for the master connection");
- module_param(ts_algo, charp, 0400);
- MODULE_PARM_DESC(ts_algo, "textsearch algorithm to use (default kmp)");
- 
--unsigned int (__rcu *nf_nat_amanda_hook)(struct sk_buff *skb,
--					 enum ip_conntrack_info ctinfo,
--					 unsigned int protoff,
--					 unsigned int matchoff,
--					 unsigned int matchlen,
--					 struct nf_conntrack_expect *exp)
--					 __read_mostly;
-+nf_nat_amanda_hook_fn __rcu *nf_nat_amanda_hook __read_mostly;
- EXPORT_SYMBOL_GPL(nf_nat_amanda_hook);
- 
- enum amanda_strings {
-@@ -98,7 +92,7 @@ static int amanda_help(struct sk_buff *skb,
- 	u_int16_t len;
- 	__be16 port;
- 	int ret = NF_ACCEPT;
--	typeof(nf_nat_amanda_hook) nf_nat_amanda;
-+	nf_nat_amanda_hook_fn *nf_nat_amanda;
- 
- 	/* Only look at packets from the Amanda server */
- 	if (CTINFO2DIR(ctinfo) == IP_CT_DIR_ORIGINAL)
-diff --git a/net/netfilter/nf_conntrack_ftp.c b/net/netfilter/nf_conntrack_ftp.c
-index 5e00f9123c38..de83bf9e6c61 100644
---- a/net/netfilter/nf_conntrack_ftp.c
-+++ b/net/netfilter/nf_conntrack_ftp.c
-@@ -43,13 +43,7 @@ module_param_array(ports, ushort, &ports_c, 0400);
- static bool loose;
- module_param(loose, bool, 0600);
- 
--unsigned int (__rcu *nf_nat_ftp_hook)(struct sk_buff *skb,
--				      enum ip_conntrack_info ctinfo,
--				      enum nf_ct_ftp_type type,
--				      unsigned int protoff,
--				      unsigned int matchoff,
--				      unsigned int matchlen,
--				      struct nf_conntrack_expect *exp);
-+nf_nat_ftp_hook_fn __rcu *nf_nat_ftp_hook;
- EXPORT_SYMBOL_GPL(nf_nat_ftp_hook);
- 
- static int try_rfc959(const char *, size_t, struct nf_conntrack_man *,
-@@ -385,7 +379,7 @@ static int help(struct sk_buff *skb,
- 	struct nf_conntrack_man cmd = {};
- 	unsigned int i;
- 	int found = 0, ends_in_nl;
--	typeof(nf_nat_ftp_hook) nf_nat_ftp;
-+	nf_nat_ftp_hook_fn *nf_nat_ftp;
- 
- 	/* Until there's been traffic both ways, don't look in packets. */
- 	if (ctinfo != IP_CT_ESTABLISHED &&
-diff --git a/net/netfilter/nf_conntrack_irc.c b/net/netfilter/nf_conntrack_irc.c
-index b8e6d724acd1..522183b9a604 100644
---- a/net/netfilter/nf_conntrack_irc.c
-+++ b/net/netfilter/nf_conntrack_irc.c
-@@ -30,13 +30,7 @@ static unsigned int dcc_timeout __read_mostly = 300;
- static char *irc_buffer;
- static DEFINE_SPINLOCK(irc_buffer_lock);
- 
--unsigned int (__rcu *nf_nat_irc_hook)(struct sk_buff *skb,
--				      enum ip_conntrack_info ctinfo,
--				      unsigned int protoff,
--				      unsigned int matchoff,
--				      unsigned int matchlen,
--				      struct nf_conntrack_expect *exp)
--				      __read_mostly;
-+nf_nat_irc_hook_fn __rcu *nf_nat_irc_hook __read_mostly;
- EXPORT_SYMBOL_GPL(nf_nat_irc_hook);
- 
- #define HELPER_NAME "irc"
-@@ -122,7 +116,7 @@ static int help(struct sk_buff *skb, unsigned int protoff,
- 	__be16 port;
- 	int i, ret = NF_ACCEPT;
- 	char *addr_beg_p, *addr_end_p;
--	typeof(nf_nat_irc_hook) nf_nat_irc;
-+	nf_nat_irc_hook_fn *nf_nat_irc;
- 	unsigned int datalen;
- 
- 	/* If packet is coming from IRC server */
-diff --git a/net/netfilter/nf_conntrack_snmp.c b/net/netfilter/nf_conntrack_snmp.c
-index 387dd6e58f88..7b7eed43c54f 100644
---- a/net/netfilter/nf_conntrack_snmp.c
-+++ b/net/netfilter/nf_conntrack_snmp.c
-@@ -25,17 +25,14 @@ static unsigned int timeout __read_mostly = 30;
- module_param(timeout, uint, 0400);
- MODULE_PARM_DESC(timeout, "timeout for master connection/replies in seconds");
- 
--int (__rcu *nf_nat_snmp_hook)(struct sk_buff *skb,
--			      unsigned int protoff,
--			      struct nf_conn *ct,
--			      enum ip_conntrack_info ctinfo);
-+nf_nat_snmp_hook_fn __rcu *nf_nat_snmp_hook;
- EXPORT_SYMBOL_GPL(nf_nat_snmp_hook);
- 
- static int snmp_conntrack_help(struct sk_buff *skb, unsigned int protoff,
- 			       struct nf_conn *ct,
- 			       enum ip_conntrack_info ctinfo)
- {
--	typeof(nf_nat_snmp_hook) nf_nat_snmp;
-+	nf_nat_snmp_hook_fn *nf_nat_snmp;
- 
- 	nf_conntrack_broadcast_help(skb, ct, ctinfo, timeout);
- 
-diff --git a/net/netfilter/nf_conntrack_tftp.c b/net/netfilter/nf_conntrack_tftp.c
-index 89e9914e5d03..a2e6833a0bf7 100644
---- a/net/netfilter/nf_conntrack_tftp.c
-+++ b/net/netfilter/nf_conntrack_tftp.c
-@@ -32,10 +32,7 @@ static unsigned int ports_c;
- module_param_array(ports, ushort, &ports_c, 0400);
- MODULE_PARM_DESC(ports, "Port numbers of TFTP servers");
- 
--unsigned int (__rcu *nf_nat_tftp_hook)(struct sk_buff *skb,
--				       enum ip_conntrack_info ctinfo,
--				       struct nf_conntrack_expect *exp)
--				       __read_mostly;
-+nf_nat_tftp_hook_fn __rcu *nf_nat_tftp_hook __read_mostly;
- EXPORT_SYMBOL_GPL(nf_nat_tftp_hook);
- 
- static int tftp_help(struct sk_buff *skb,
-@@ -48,7 +45,7 @@ static int tftp_help(struct sk_buff *skb,
- 	struct nf_conntrack_expect *exp;
- 	struct nf_conntrack_tuple *tuple;
- 	unsigned int ret = NF_ACCEPT;
--	typeof(nf_nat_tftp_hook) nf_nat_tftp;
-+	nf_nat_tftp_hook_fn *nf_nat_tftp;
- 
- 	tfh = skb_header_pointer(skb, protoff + sizeof(struct udphdr),
- 				 sizeof(_tftph), &_tftph);
+    37	
+    38	static ssize_t address_read_file(struct pci_slot *slot, char *buf)
+    39	{
+  > 40		if (slot->number == -1)
+    41			return sysfs_emit(buf, "%04x:%02x\n",
+    42					  pci_domain_nr(slot->bus),
+    43					  slot->bus->number);
+    44	
+    45		return sysfs_emit(buf, "%04x:%02x:%02x\n",
+    46				  pci_domain_nr(slot->bus),
+    47				  slot->bus->number,
+    48				  slot->number);
+    49	}
+    50	
 
-base-commit: af4e9ef3d78420feb8fe58cd9a1ab80c501b3c08
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
