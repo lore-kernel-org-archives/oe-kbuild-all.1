@@ -1,144 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F43537E1;
-	Tue,  3 Mar 2026 17:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788213A5E65
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Mar 2026 17:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772558499; cv=none; b=jIsJ7cuiuSjwNI0FjKxl8VN72ZOR4E5ZjENbya5xlmugVjh9dVfH8ynuR5Gn24w4rLpb/RVVMO5t5J8RIt1hhdn70zl/BD2CUsUb1YcJls4JZt3H/E0gBKlTfD7PmGdHBOSUT1Ro7qKzcLJEqlxbXDU1eguUl0qVlks/JdEKTz8=
+	t=1772558846; cv=none; b=QsVIc/pjd7yd83TBkwHFZH8Kmhlz+hZvZXJiXV5Q+7HsBqepgwgUwWBzFkgT2g4xsETpvYPF4VtzsF8TMh/o9+unM0OtwEnW1LTpfVnJCJ8xQIDYPQuEuqCx97keUveUxucu2uxtjXdrkdz2gkJB7PHyrYfMayNGgSuqqG/7EUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772558499; c=relaxed/simple;
-	bh=4qginQjDpHPEs3rblyMRaQLMKuOrwk/UkWTAej7TX+A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ivc58KNewP02oo3Urz0mfdbeEywOJUqNvB/tA6WfMSUh8r0cCnKpiU+kGR5/eAfN1xhyFabE8emsDZ8sxT0i1RltZ+lLN7KRWpkvdGy6wViPP2khqmlV0PCxbs9dlgdX6IAf0SK90Dmjg86Z9LmvaYLCqI7lvlNoSi7kUPlKvtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ioiQeFeu; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1772558846; c=relaxed/simple;
+	bh=H09CzigIw7VeAJHHxpSok63bu1latf/JXhXN4L1NfZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sYv4iHGHqHb1X3wX2EcVW50taX9BvHNM7p3xW+cEQa/Oh7FaHCzEtgm66sUGPwjk/IgxYeMufSH07elfTjlazuiBAyZV4+khVdlmdWik/cuXiMa/7ZFBt72IsYCfSX5TGYbPhGV76SgL8njlQQYB8oRPDlZpa9F8mGKXOYtJ0eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DZz0d35L; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ioiQeFeu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZz0d35L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772558497; x=1804094497;
-  h=date:from:to:cc:subject:message-id;
-  bh=4qginQjDpHPEs3rblyMRaQLMKuOrwk/UkWTAej7TX+A=;
-  b=ioiQeFeuAUaHb0lAVF8QM5H0RT8ZUd0zVEPSgkthDp46ga+dzyaX3j2B
-   SpE0XhoVtDjcPCSh/+DZB7EmwhbEx8ziLHSIibJI6OB2c6cD76x8gVy/V
-   f9RytMqyoYvgo5RwJneZZTlkdg884JWWFa8LxDhYO/Zs5tT+tQ5WcE9yM
-   KLg2cVuYt1PdLxxjU7ecoxHFbCKF8z81Cl+tJYtwgzLzM/wBTcOy9Wd8J
-   ZcFvF3CBnH2UEe2ZIdVzjIBDmIUo1GFlKioWsWUygsWGE0BDGYh1AorDi
-   zCvtgsPozw52z6kMkG0utLTunZnuKlh6EZyLPV8Rjz+D+IdSAbSF141Pj
+  t=1772558843; x=1804094843;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H09CzigIw7VeAJHHxpSok63bu1latf/JXhXN4L1NfZM=;
+  b=DZz0d35LGndWnM7yo/9+NDb56C5wFmiLGenWSLktWL0NCKOZVcO5+IUd
+   LNJnmXLF2+Bw/0+TcwBSm5OSBXYGCFX1qGQnnU6GBLsvBcyvDoXa+FKGI
+   uP/LcOpdTttuL0UWUkm3/MadGQADwsnsrMP72xVA7itwnv9/XkSTgRBI1
+   +a2SAZztf83F2ET1Wl31JfrfxNtBPM79oipSqAvTEBTW9VGc10BE1sHD5
+   eM0Y0lVGVi3FcJeKLPaLTD8tu1rBemX7zT1bWciS/uiADTzVuAVFqAv18
+   uSafnTV7RjzaQhBtWnnS/TH6T3FtVTGXVcsJh/lild5oQQvRJujP7fNW8
    A==;
-X-CSE-ConnectionGUID: wd+JzJ/RSDGvdCJOIYq8Bw==
-X-CSE-MsgGUID: ltep9AkPQV2JRhQk/TkG4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="73512056"
+X-CSE-ConnectionGUID: 2MUx2wr7QUuk3rFBOZAhtA==
+X-CSE-MsgGUID: LijgDwuOR0q+ZJYiwH87VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="77474974"
 X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="73512056"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 09:21:36 -0800
-X-CSE-ConnectionGUID: tn48ElcuRJ2GULxcD/4Bug==
-X-CSE-MsgGUID: u935PBcoRZCUplpD8RonvA==
+   d="scan'208";a="77474974"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 09:27:23 -0800
+X-CSE-ConnectionGUID: 8ZhSIOPKR+OzFv7fTjk7gA==
+X-CSE-MsgGUID: a3K4UJemS/285Bk9s+1SQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="216424401"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Mar 2026 09:21:34 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+   d="scan'208";a="218189779"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 03 Mar 2026 09:27:21 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxTR5-000000002bx-17xq;
-	Tue, 03 Mar 2026 17:21:31 +0000
-Date: Wed, 04 Mar 2026 01:20:36 +0800
+	id 1vxTWf-000000001Vx-2re1;
+	Tue, 03 Mar 2026 17:27:17 +0000
+Date: Tue, 3 Mar 2026 18:26:54 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20260302 4/12]
- drivers/scsi/hisi_sas/hisi_sas.h:617:26: error: field has incomplete type
- 'struct ssp_command_iu'
-Message-ID: <202603040130.7mpFGwpP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tommaso Cucinotta <tommaso.cucinotta@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sched/deadline: document new sched_getattr() feature for
+ retrieving current parameters for DEADLINE tasks
+Message-ID: <202603031858.JyW2vicC-lkp@intel.com>
+References: <20260303104215.1324243-1-tommaso.cucinotta@santannapisa.it>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260303104215.1324243-1-tommaso.cucinotta@santannapisa.it>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20260302
-head:   759ff201de93e9bf74683ac6d4414b9141b12c27
-commit: 052ea0d6ef438e32950d71cec77517e300b94872 [4/12] scsi: libsas/aci94xx: Avoid multiple -Wflex-array-member-not-at-end warnings
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260304/202603040130.7mpFGwpP-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603040130.7mpFGwpP-lkp@intel.com/reproduce)
+Hi Tommaso,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on f74d204baf9febf96237af6c1d7eff57fba7de36]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Cucinotta/sched-deadline-document-new-sched_getattr-feature-for-retrieving-current-parameters-for-DEADLINE-tasks/20260303-184545
+base:   f74d204baf9febf96237af6c1d7eff57fba7de36
+patch link:    https://lore.kernel.org/r/20260303104215.1324243-1-tommaso.cucinotta%40santannapisa.it
+patch subject: [PATCH] sched/deadline: document new sched_getattr() feature for retrieving current parameters for DEADLINE tasks
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260303/202603031858.JyW2vicC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603040130.7mpFGwpP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603031858.JyW2vicC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/scsi/hisi_sas/hisi_sas_main.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:26: error: field has incomplete type 'struct ssp_command_iu'
-     617 |                         struct ssp_command_iu task;
-         |                                               ^
-   drivers/scsi/hisi_sas/hisi_sas.h:617:11: note: forward declaration of 'struct ssp_command_iu'
-     617 |                         struct ssp_command_iu task;
-         |                                ^
-   1 error generated.
---
-   In file included from drivers/scsi/hisi_sas/hisi_sas_v1_hw.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:26: error: field has incomplete type 'struct ssp_command_iu'
-     617 |                         struct ssp_command_iu task;
-         |                                               ^
-   drivers/scsi/hisi_sas/hisi_sas.h:617:11: note: forward declaration of 'struct ssp_command_iu'
-     617 |                         struct ssp_command_iu task;
-         |                                ^
->> drivers/scsi/hisi_sas/hisi_sas_v1_hw.c:1002:11: error: invalid application of 'sizeof' to an incomplete type 'struct ssp_command_iu'
-    1002 |                 dw2 = ((sizeof(struct ssp_command_iu) +
-         |                         ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/hisi_sas/hisi_sas.h:617:11: note: forward declaration of 'struct ssp_command_iu'
-     617 |                         struct ssp_command_iu task;
-         |                                ^
-   2 errors generated.
---
-   In file included from drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:26: error: field has incomplete type 'struct ssp_command_iu'
-     617 |                         struct ssp_command_iu task;
-         |                                               ^
-   drivers/scsi/hisi_sas/hisi_sas.h:617:11: note: forward declaration of 'struct ssp_command_iu'
-     617 |                         struct ssp_command_iu task;
-         |                                ^
-   drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:1779:11: error: invalid application of 'sizeof' to an incomplete type 'struct ssp_command_iu'
-    1779 |         dw2 = (((sizeof(struct ssp_command_iu) + sizeof(struct ssp_frame_hdr)
-         |                  ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/hisi_sas/hisi_sas.h:617:11: note: forward declaration of 'struct ssp_command_iu'
-     617 |                         struct ssp_command_iu task;
-         |                                ^
-   2 errors generated.
+   Checksumming on output with GSO
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+>> Documentation/scheduler/sched-deadline.rst:631: WARNING: Inline interpreted text or phrase reference start-string without end-string. [docutils]
+   Documentation/userspace-api/landlock:480: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
 
 
-vim +617 drivers/scsi/hisi_sas/hisi_sas.h
+vim +631 Documentation/scheduler/sched-deadline.rst
 
-b3cce125cb1e2e Xiang Chen          2019-02-06  610  
-4ca7fe99fc8485 Yihang Li           2025-04-14  611  #define PROT_BUF_SIZE 7
-c799d6bd8fe4a8 John Garry          2015-11-18  612  struct hisi_sas_command_table_ssp {
-c799d6bd8fe4a8 John Garry          2015-11-18  613  	struct ssp_frame_hdr hdr;
-c799d6bd8fe4a8 John Garry          2015-11-18  614  	union {
-c799d6bd8fe4a8 John Garry          2015-11-18  615  		struct {
-4ca7fe99fc8485 Yihang Li           2025-04-14  616  			u32 prot[PROT_BUF_SIZE];
-a0227bfe8d6594 Gustavo A. R. Silva 2025-09-19 @617  			struct ssp_command_iu task;
-c799d6bd8fe4a8 John Garry          2015-11-18  618  		};
-c799d6bd8fe4a8 John Garry          2015-11-18  619  		struct ssp_tmf_iu ssp_task;
-c799d6bd8fe4a8 John Garry          2015-11-18  620  		struct xfer_rdy_iu xfer_rdy;
-c799d6bd8fe4a8 John Garry          2015-11-18  621  		struct ssp_response_iu ssp_res;
-c799d6bd8fe4a8 John Garry          2015-11-18  622  	} u;
-c799d6bd8fe4a8 John Garry          2015-11-18  623  };
-c799d6bd8fe4a8 John Garry          2015-11-18  624  
-
-:::::: The code at line 617 was first introduced by commit
-:::::: a0227bfe8d659406e59a181150f9ff5ce4fda588 scsi: hisi_sas: Avoid a couple -Wflex-array-member-not-at-end warnings
-
-:::::: TO: Gustavo A. R. Silva <gustavoars@kernel.org>
-:::::: CC: Gustavo A. R. Silva <gustavoars@kernel.org>
+   615	
+   616	 Specifying a periodic/sporadic task that executes for a given amount of
+   617	 runtime at each instance, and that is scheduled according to the urgency of
+   618	 its own timing constraints needs, in general, a way of declaring:
+   619	
+   620	  - a (maximum/typical) instance execution time,
+   621	  - a minimum interval between consecutive instances,
+   622	  - a time constraint by which each instance must be completed.
+   623	
+   624	 Therefore:
+   625	
+   626	  * a new struct sched_attr, containing all the necessary fields is
+   627	    provided;
+   628	  * the new scheduling related syscalls that manipulate it, i.e.,
+   629	    sched_setattr() and sched_getattr() are implemented.
+   630	
+ > 631	 The leftover runtime and absolute deadline of a SCHED_DEADLINE task can be
+   632	 read using the sched_getattr() syscall, setting the last syscall parameter
+   633	 `flags' to the SCHED_GETATTR_FLAG_DL_DYNAMIC=1 value. This updates the
+   634	 runtime left, converts the absolute deadline in CLOCK_MONOTONIC reference,
+   635	 then returns these parameters to user-space. The absolute deadline is
+   636	 returned as the number of nanoseconds since the CLOCK_MONOTONIC time
+   637	 reference (boot instant), as a u64 in the sched_deadline field of sched_attr,
+   638	 which can represent nearly 585 years since boot time (calling sched_getattr()
+   639	 with flags=0 causes retrieval of the static parameters instead).
+   640	
+   641	 For debugging purposes, these parameters can also be retrieved through
+   642	 /proc/<pid>/sched (entries dl.runtime and dl.deadline, both values in ns),
+   643	 but: this is highly inefficient; the returned runtime left is not updated as
+   644	 done by sched_getattr(); the deadline is provided in kernel rq_clock time
+   645	 reference, that is not directly usable from user-space.
+   646	
+   647	
 
 -- 
 0-DAY CI Kernel Test Service
