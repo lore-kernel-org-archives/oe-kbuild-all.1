@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366E238911B;
-	Tue,  3 Mar 2026 20:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE1F3C276E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Mar 2026 20:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772568025; cv=none; b=Z9vy9fIJrjrPqMpbGhGg1A8nCTFq2MA3U3XXqkOVG+6+JFk0aWCi/Z5RVw+SLkEoKO+xgGP2esKV0b3EQNUdXYngVf26yemAlGe8czZKTI9r+H4pIwxbhlsdIGo9wvRkvS4H5s7jJ3vDSbTlLgXyGZAU8WVlibSBGOpWn0iMAh8=
+	t=1772569227; cv=none; b=OPE2wwp7y+pLkhU4Pr+Y5nLO/TuXukAm5GB7FIlORFA7txUmYjCbDG52F2uFSwMF2vt2UIE3uVmmJKfVSMaGTdHED9YllTm9vtB1O536dtyYrmmtbFUoQf6se+Seg3fDZ3PdW4x892iIjjKdV4nB8TIYRh3+1wGCodeUQP03bbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772568025; c=relaxed/simple;
-	bh=l0NRmqCSwvMMJfhAAhWcTftXOi58vTjWIdo1iNAcfnw=;
+	s=arc-20240116; t=1772569227; c=relaxed/simple;
+	bh=F1hHJ/sotoblirnB/RpEL8X1IptsHMonLkEUopXl/XY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BUtEAlFbx4Qx0afBv8O8zfdutuboMNmKrkaXYUJfwKASlFF+3r5VGweoOyNQMlJjPx0TtOKVAsQQwXvBsKIe74mqNgc4MICyb/CUCFHCnR9wLl/pCseTjWCY/v5eiYg+84pI7az8EQWCEfsQrU3yWCWVymTGUoPYMppCNhwf+B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=av7YzfTG; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=i5u27Krk1qFjVf2PuX/h5QJpNCQeb7qX3gWw036XrEBiBjmYPG6foHXiffvGHrzM/chiO6+uVW+c+WLhKCC2/zGFmmIqSF3x3WfRBSZdA0gWfd+oNKlH8r7aSYHeUzCOOikT1i68f8nno/Dp8k7+rhStZvEkiyPSeWrGSFM8Wwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+llwDmz; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="av7YzfTG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+llwDmz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772568023; x=1804104023;
+  t=1772569223; x=1804105223;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=l0NRmqCSwvMMJfhAAhWcTftXOi58vTjWIdo1iNAcfnw=;
-  b=av7YzfTGasAEWzmI+hZ8sUBDqqdvQGWP9DC4pdUCV7aAic9tEpSINzxd
-   vv2cEWaI3rpvGipZpthb6ziIRjdDXf6RWXfkNvZZ4/ZtiZUAhB64Ub7/+
-   oGYYriefDLjuszcS1XQHBnDIJi3C8q/b0yjyfTR7mcg3CPJtLfYQQS+jB
-   dpFskMXElTjIZAnw9Q/AEvh0jRfLZV4cwVX15psSI/MVCUkx9xJu8ltGE
-   3Wx3S/LLAeNt5cAJFK1/sr3OXzM5whmVbjYqXbPrFX1lopVKbGJmdLA3W
-   NCU+tnUdS6Z1FHwFRiowww9AgJ7wHFXUBkAmMTZSJ1DrmoTNCAVh6s+IX
+  bh=F1hHJ/sotoblirnB/RpEL8X1IptsHMonLkEUopXl/XY=;
+  b=F+llwDmzUTjRtXnpaIO3j2aOV24dLqAD9zfqBRZvN58P4m5p3EUFRCYi
+   bN2ukHMGekDYay4oIsr481VfEgyxKwt5BX0VRTdZ4s4Ac1+qBT0fRg6Cb
+   tTL9306zugvwtocey3CLE2akvWSSDGgdn4OudEs+G9TzyBC1FgtYEVO+C
+   pMo2txP3ObhUYgaxxfH/o2MWtvwFmlEQIoKWr4TrfNTVUq755P1lHBYZM
+   KgvaIx9q8zdB/5FXT6NpLFupHUUIcR+JaSTK/U090nG/l277X0j9YNdcw
+   HnuMfnt7bAUUna/H2Tf6yPcZGLaL7JjeIEWrvq1yezfoUjJOCyl9sBuFK
    g==;
-X-CSE-ConnectionGUID: V9UkJ0jGSwmjNP59SMACkQ==
-X-CSE-MsgGUID: ITM3Cvi0RIClHD+nSYX+dA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="73583318"
+X-CSE-ConnectionGUID: f9mhXFpCQQeY62AFM/PJ9w==
+X-CSE-MsgGUID: WtfhpwJfSZuGXONX2B09YQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="84963710"
 X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="73583318"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 12:00:23 -0800
-X-CSE-ConnectionGUID: zulcs+BmRwSfZAdlMyaWxw==
-X-CSE-MsgGUID: E0c3EzSTS0ODwMfLRe2AXg==
+   d="scan'208";a="84963710"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 12:20:22 -0800
+X-CSE-ConnectionGUID: edBBUoDbRy6Y9WQ2dFzm2g==
+X-CSE-MsgGUID: CSc/ZxjOReGFNVZ7Js90rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="222582179"
+   d="scan'208";a="222778211"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 03 Mar 2026 12:00:21 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 03 Mar 2026 12:20:21 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxVuk-000000001Wp-1q3E;
-	Tue, 03 Mar 2026 20:00:18 +0000
-Date: Tue, 3 Mar 2026 20:59:20 +0100
+	id 1vxWE6-000000001X3-2R1D;
+	Tue, 03 Mar 2026 20:20:18 +0000
+Date: Tue, 3 Mar 2026 21:19:55 +0100
 From: kernel test robot <lkp@intel.com>
 To: Johannes Berg <johannes@sipsolutions.net>,
 	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>
 Subject: Re: [PATCH wireless-next] wifi: nl80211: split out UHR operation
  information
-Message-ID: <202603032000.hvuqXXkv-lkp@intel.com>
+Message-ID: <202603032131.yShfv7Yn-lkp@intel.com>
 References: <20260303152558.00e7bc8e9f4b.Iafdf37fb0f4304bdcdb824977d61e17b38c47685@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -73,7 +72,7 @@ kernel test robot noticed the following build errors:
 
 [auto build test ERROR on wireless-next/main]
 [also build test ERROR on next-20260303]
-[cannot apply to wireless/main linus/master v6.16-rc1]
+[cannot apply to wireless/main linus/master v7.0-rc2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -82,21 +81,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-nl8021
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
 patch link:    https://lore.kernel.org/r/20260303152558.00e7bc8e9f4b.Iafdf37fb0f4304bdcdb824977d61e17b38c47685%40changeid
 patch subject: [PATCH wireless-next] wifi: nl80211: split out UHR operation information
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260303/202603032000.hvuqXXkv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603032000.hvuqXXkv-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260303/202603032131.yShfv7Yn-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603032131.yShfv7Yn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603032000.hvuqXXkv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603032131.yShfv7Yn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> net/wireless/nl80211.c:961:3: error: expected expression
+>> net/wireless/nl80211.c:961:10: error: expected expression before '[' token
      961 |         [[NL80211_ATTR_UHR_OPERATION] =
          |          ^
-   1 error generated.
+   net/wireless/nl80211.c:963:1: error: expected expression before '}' token
+     963 | };
+         | ^
+   net/wireless/nl80211.c: In function 'nl80211_parse_key_new':
+>> net/wireless/nl80211.c:1454:47: error: 'nl80211_key_policy' undeclared (first use in this function); did you mean 'nl80211_rekey_policy'?
+    1454 |                                               nl80211_key_policy,
+         |                                               ^~~~~~~~~~~~~~~~~~
+         |                                               nl80211_rekey_policy
+   net/wireless/nl80211.c:1454:47: note: each undeclared identifier is reported only once for each function it appears in
+   net/wireless/nl80211.c: At top level:
+>> net/wireless/nl80211.c:345:12: warning: 'validate_uhr_operation' defined but not used [-Wunused-function]
+     345 | static int validate_uhr_operation(const struct nlattr *attr,
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +961 net/wireless/nl80211.c
