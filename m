@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FA93845BE
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Mar 2026 08:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52560386549
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Mar 2026 08:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772527137; cv=none; b=KLk7OH2eezvRxphTCB33tQ8sGZjOMmpTJzrq/Ic8cJyJQOHCMDaTFGGydz5u3gscSznyl+OvtT4YpodQmRmZKtpHns1Sw47s5RcNNC+34TAL449wAvADDzbbCHNJvgSMk56vypPbHYeI/KTr7Bon1K1uB+70CG9izWpiIQfVEhQ=
+	t=1772528403; cv=none; b=X/yFo0iegF8vj9LORCpmEVGWrovYWY9zMGjY2uOJYU7iO6wfGvNQPKGHnL3kbrFhWwSB/M7bCLyhmql3F3z8Uw+HrkNfLL27zyC4Ci1vlIaY7x/lVGbkUcA1PgUtM89zVE1ObmD4irmnQ5BPqU63pg5g8Uvx01nPu712jhU8A44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772527137; c=relaxed/simple;
-	bh=Z3TjDeoAaDmtw48YqzucD4ucOTZlfZPtM6mAHxt2vhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BuWgFUTRcqZf7IVyUgXHRDYyep+se8hA+ZG7uqJOtGRWul4EDNsACRVrYGFp7xUkV5pcjrXkC39x/Pzwit9EVuMBCi+jzdp1zvMT6t1JGMAKR5iMgYZiqraboATMiVv6vgrdko/0wGgmLn6FFe8NUjVxkJykyd2W10vFpRxuDeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DQqx6m3R; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1772528403; c=relaxed/simple;
+	bh=IHgGEDraPs+OnJSNFJlsXXlf+3FzHlBWQ620b6NPRcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=g3/zACUG1KkXtY/ipm4Mxg3yXg8v9NE+wIjDxi7T/k2OGo0WyDqiSrLw0VuT45UOjeJb7JaWcWvnSYYoYRpe5IBRdkT9MTU6P66ZZYAxx96ORioOdMg1oGaYc18Kk0ASJIWvz23MDCjhdNWA9x0HG/Fekdfdq1ui7xpxWwoEV5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gp0vLcvE; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQqx6m3R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gp0vLcvE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772527135; x=1804063135;
+  t=1772528398; x=1804064398;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z3TjDeoAaDmtw48YqzucD4ucOTZlfZPtM6mAHxt2vhQ=;
-  b=DQqx6m3Rixv2dq81621iHQFlrgE3f9zR2rPPUShKYevZZOdv1Uk8Z+zP
-   3ggL7iqSl69IX/hX3KjV/z/ku0DT+CKYgkkKdLIXc23sfHCzx3JlF2P1G
-   re3eUGsgO7b74L8L3OQRbZZt/ykQOis8NzaIZ3aX6NmEhl+gCNngCy1yS
-   P5kDVHJSPoZ1/Kz5CDLSlkN6Y4GH1wPEEswG8rWb1eMSKk+Z1TZT10Wsa
-   SYmhJDVnYhSr6nbz7hMzFLehyDE5efFdpWluMeZM1nCWrKDpn/ny58rmu
-   I61f0Y4ZqyTYN7H35U3aZg5LuHHlMxQxLTL3Vgu3ufquF4+dzw9wemN/l
-   A==;
-X-CSE-ConnectionGUID: JyIS203ESQy0gFVOw/HPqw==
-X-CSE-MsgGUID: 6s7gaXe7QbiwWeWarD2hIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="99029011"
+  bh=IHgGEDraPs+OnJSNFJlsXXlf+3FzHlBWQ620b6NPRcw=;
+  b=gp0vLcvEDeADf2U3+v2TVKEv5ZQMAykIPUTr/OoJrzzYETdrwvkjv7ZC
+   2VvWEiuBd24Fbp00LMrC38FgIhJVlfS+faE37q4JmOs44D2/F8GZwe7bZ
+   iPAAuKprr83Q2hfn7ZX6+hNdrzjkTP/hqSMioA//YuBmnRZ2Eg4X+yFBm
+   fNmH56b2W1ZAToq9cxcUp9wCA1Nc/VDriJTBELs7jdtnaxFNHWQgwoF0k
+   fJhs4n/cwI7KBpOuAee/DjVGiElV/DbeI2EL5aGE86LUx3EKGyiRggYF0
+   KDN6Dc78sOA5IIf7/SCTnVrn1ei8fHPCNrW16xhX6tAUBJ25l1EtqXZaF
+   w==;
+X-CSE-ConnectionGUID: RmSQLEw8TbC3UKDq4oUtsA==
+X-CSE-MsgGUID: OveqzXMtSii9sZt+JnAXQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73428815"
 X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="99029011"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 00:38:54 -0800
-X-CSE-ConnectionGUID: lzjjhaEqRD2Pmgv/Ni4JMw==
-X-CSE-MsgGUID: WcIhv7hlRfyW1K1WRVdiqA==
+   d="scan'208";a="73428815"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 00:59:56 -0800
+X-CSE-ConnectionGUID: jKIBmJ2USzyMYwl9cAgC2Q==
+X-CSE-MsgGUID: oPBtYMG3Tuui5oiJatOzuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="244827798"
+   d="scan'208";a="255816242"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Mar 2026 00:38:53 -0800
+  by orviesa001.jf.intel.com with ESMTP; 03 Mar 2026 00:59:54 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxLHG-000000001tj-2XWo;
-	Tue, 03 Mar 2026 08:38:50 +0000
-Date: Tue, 03 Mar 2026 16:38:36 +0800
+	id 1vxLbb-000000001uj-3vsO;
+	Tue, 03 Mar 2026 08:59:51 +0000
+Date: Tue, 03 Mar 2026 16:59:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/uapi-reloc 12/29]
- arch/parisc/kernel/module.c:193:30: error: 'R_PARISC_PCREL17F' undeclared
-Message-ID: <202603031634.BVQ6IRcT-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/uapi-reloc 21/29]
+ arch/nios2/kernel/module.c:51:22: error: 'R_NIOS2_NONE' undeclared; did you
+ mean 'R_MIPS_NONE'?
+Message-ID: <202603031626.kgxPJjjn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,105 +64,146 @@ Content-Type: text/plain; charset=us-ascii
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/uapi-reloc
 head:   33f42a1893f9a3bf636eca78853700f3e57e9e36
-commit: c7ea73cd189832801b6293176679b7514d82df2e [12/29] ARM: elf: Move relocation constants to the UAPI
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260303/202603031634.BVQ6IRcT-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603031634.BVQ6IRcT-lkp@intel.com/reproduce)
+commit: eec9dfe8147b97eaa34c713fea1879d97e896e5e [21/29] hexagon: move relocation constants to the UAPI
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260303/202603031626.kgxPJjjn-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603031626.kgxPJjjn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603031634.BVQ6IRcT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603031626.kgxPJjjn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/parisc/kernel/module.c: In function 'count_stubs':
->> arch/parisc/kernel/module.c:193:30: error: 'R_PARISC_PCREL17F' undeclared (first use in this function)
-     193 |                         case R_PARISC_PCREL17F:
-         |                              ^~~~~~~~~~~~~~~~~
-   arch/parisc/kernel/module.c:193:30: note: each undeclared identifier is reported only once for each function it appears in
->> arch/parisc/kernel/module.c:194:30: error: 'R_PARISC_PCREL22F' undeclared (first use in this function)
-     194 |                         case R_PARISC_PCREL22F:
-         |                              ^~~~~~~~~~~~~~~~~
-   arch/parisc/kernel/module.c: In function 'apply_relocate_add':
->> arch/parisc/kernel/module.c:548:22: error: 'R_PARISC_PLABEL32' undeclared (first use in this function); did you mean 'R_PPC_PLTREL32'?
-     548 |                 case R_PARISC_PLABEL32:
-         |                      ^~~~~~~~~~~~~~~~~
-         |                      R_PPC_PLTREL32
->> arch/parisc/kernel/module.c:553:22: error: 'R_PARISC_DIR32' undeclared (first use in this function)
-     553 |                 case R_PARISC_DIR32:
+   arch/nios2/kernel/module.c: In function 'apply_relocate_add':
+>> arch/nios2/kernel/module.c:51:22: error: 'R_NIOS2_NONE' undeclared (first use in this function); did you mean 'R_MIPS_NONE'?
+      51 |                 case R_NIOS2_NONE:
+         |                      ^~~~~~~~~~~~
+         |                      R_MIPS_NONE
+   arch/nios2/kernel/module.c:51:22: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/nios2/kernel/module.c:53:22: error: 'R_NIOS2_BFD_RELOC_32' undeclared (first use in this function)
+      53 |                 case R_NIOS2_BFD_RELOC_32:
+         |                      ^~~~~~~~~~~~~~~~~~~~
+>> arch/nios2/kernel/module.c:56:22: error: 'R_NIOS2_PCREL16' undeclared (first use in this function); did you mean 'R_MIPS_GPREL16'?
+      56 |                 case R_NIOS2_PCREL16:
+         |                      ^~~~~~~~~~~~~~~
+         |                      R_MIPS_GPREL16
+>> arch/nios2/kernel/module.c:68:22: error: 'R_NIOS2_CALL26' undeclared (first use in this function); did you mean 'R_MIPS_CALL16'?
+      68 |                 case R_NIOS2_CALL26:
          |                      ^~~~~~~~~~~~~~
->> arch/parisc/kernel/module.c:557:22: error: 'R_PARISC_DIR21L' undeclared (first use in this function)
-     557 |                 case R_PARISC_DIR21L:
+         |                      R_MIPS_CALL16
+>> arch/nios2/kernel/module.c:81:22: error: 'R_NIOS2_HI16' undeclared (first use in this function); did you mean 'R_MIPS_HI16'?
+      81 |                 case R_NIOS2_HI16:
+         |                      ^~~~~~~~~~~~
+         |                      R_MIPS_HI16
+>> arch/nios2/kernel/module.c:86:22: error: 'R_NIOS2_LO16' undeclared (first use in this function); did you mean 'R_MIPS_LO16'?
+      86 |                 case R_NIOS2_LO16:
+         |                      ^~~~~~~~~~~~
+         |                      R_MIPS_LO16
+>> arch/nios2/kernel/module.c:91:22: error: 'R_NIOS2_HIADJ16' undeclared (first use in this function)
+      91 |                 case R_NIOS2_HIADJ16:
          |                      ^~~~~~~~~~~~~~~
->> arch/parisc/kernel/module.c:562:22: error: 'R_PARISC_DIR14R' undeclared (first use in this function)
-     562 |                 case R_PARISC_DIR14R:
-         |                      ^~~~~~~~~~~~~~~
->> arch/parisc/kernel/module.c:567:22: error: 'R_PARISC_SEGREL32' undeclared (first use in this function)
-     567 |                 case R_PARISC_SEGREL32:
-         |                      ^~~~~~~~~~~~~~~~~
->> arch/parisc/kernel/module.c:574:22: error: 'R_PARISC_SECREL32' undeclared (first use in this function)
-     574 |                 case R_PARISC_SECREL32:
-         |                      ^~~~~~~~~~~~~~~~~
->> arch/parisc/kernel/module.c:578:22: error: 'R_PARISC_DPREL21L' undeclared (first use in this function)
-     578 |                 case R_PARISC_DPREL21L:
-         |                      ^~~~~~~~~~~~~~~~~
->> arch/parisc/kernel/module.c:583:22: error: 'R_PARISC_DPREL14R' undeclared (first use in this function)
-     583 |                 case R_PARISC_DPREL14R:
-         |                      ^~~~~~~~~~~~~~~~~
-   arch/parisc/kernel/module.c:588:22: error: 'R_PARISC_PCREL17F' undeclared (first use in this function)
-     588 |                 case R_PARISC_PCREL17F:
-         |                      ^~~~~~~~~~~~~~~~~
-   arch/parisc/kernel/module.c:603:22: error: 'R_PARISC_PCREL22F' undeclared (first use in this function)
-     603 |                 case R_PARISC_PCREL22F:
-         |                      ^~~~~~~~~~~~~~~~~
->> arch/parisc/kernel/module.c:618:22: error: 'R_PARISC_PCREL32' undeclared (first use in this function)
-     618 |                 case R_PARISC_PCREL32:
-         |                      ^~~~~~~~~~~~~~~~
 
 
-vim +/R_PARISC_PCREL17F +193 arch/parisc/kernel/module.c
+vim +51 arch/nios2/kernel/module.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  185  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  186  static inline unsigned long count_stubs(const Elf_Rela *rela, unsigned long n)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  187  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  188  	unsigned long cnt = 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  189  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  190  	for (; n > 0; n--, rela++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  191  	{
-^1da177e4c3f41 Linus Torvalds 2005-04-16  192  		switch (ELF32_R_TYPE(rela->r_info)) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @193  			case R_PARISC_PCREL17F:
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @194  			case R_PARISC_PCREL22F:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  195  				cnt++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  196  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  197  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  198  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  199  	return cnt;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  200  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  201  #else
-^1da177e4c3f41 Linus Torvalds 2005-04-16  202  static inline unsigned long count_gots(const Elf_Rela *rela, unsigned long n)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  203  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  204  	unsigned long cnt = 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  205  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  206  	for (; n > 0; n--, rela++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  207  	{
-^1da177e4c3f41 Linus Torvalds 2005-04-16  208  		switch (ELF64_R_TYPE(rela->r_info)) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  209  			case R_PARISC_LTOFF21L:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  210  			case R_PARISC_LTOFF14R:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  211  			case R_PARISC_PCREL22F:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  212  				cnt++;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  213  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  214  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  215  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  216  	return cnt;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  217  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  218  
+42381bf1f2de13 Ley Foon Tan 2014-11-06   22  
+42381bf1f2de13 Ley Foon Tan 2014-11-06   23  int apply_relocate_add(Elf32_Shdr *sechdrs, const char *strtab,
+42381bf1f2de13 Ley Foon Tan 2014-11-06   24  			unsigned int symindex, unsigned int relsec,
+42381bf1f2de13 Ley Foon Tan 2014-11-06   25  			struct module *mod)
+42381bf1f2de13 Ley Foon Tan 2014-11-06   26  {
+42381bf1f2de13 Ley Foon Tan 2014-11-06   27  	unsigned int i;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   28  	Elf32_Rela *rela = (void *)sechdrs[relsec].sh_addr;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   29  
+42381bf1f2de13 Ley Foon Tan 2014-11-06   30  	pr_debug("Applying relocate section %u to %u\n", relsec,
+42381bf1f2de13 Ley Foon Tan 2014-11-06   31  		 sechdrs[relsec].sh_info);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   32  
+42381bf1f2de13 Ley Foon Tan 2014-11-06   33  	for (i = 0; i < sechdrs[relsec].sh_size / sizeof(*rela); i++) {
+42381bf1f2de13 Ley Foon Tan 2014-11-06   34  		/* This is where to make the change */
+42381bf1f2de13 Ley Foon Tan 2014-11-06   35  		uint32_t word;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   36  		uint32_t *loc
+42381bf1f2de13 Ley Foon Tan 2014-11-06   37  			= ((void *)sechdrs[sechdrs[relsec].sh_info].sh_addr
+42381bf1f2de13 Ley Foon Tan 2014-11-06   38  			   + rela[i].r_offset);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   39  		/* This is the symbol it is referring to.  Note that all
+42381bf1f2de13 Ley Foon Tan 2014-11-06   40  		   undefined symbols have been resolved.  */
+42381bf1f2de13 Ley Foon Tan 2014-11-06   41  		Elf32_Sym *sym
+42381bf1f2de13 Ley Foon Tan 2014-11-06   42  			= ((Elf32_Sym *)sechdrs[symindex].sh_addr
+42381bf1f2de13 Ley Foon Tan 2014-11-06   43  				+ ELF32_R_SYM(rela[i].r_info));
+42381bf1f2de13 Ley Foon Tan 2014-11-06   44  		uint32_t v = sym->st_value + rela[i].r_addend;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   45  
+42381bf1f2de13 Ley Foon Tan 2014-11-06   46  		pr_debug("reltype %d 0x%x name:<%s>\n",
+42381bf1f2de13 Ley Foon Tan 2014-11-06   47  			ELF32_R_TYPE(rela[i].r_info),
+42381bf1f2de13 Ley Foon Tan 2014-11-06   48  			rela[i].r_offset, strtab + sym->st_name);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   49  
+42381bf1f2de13 Ley Foon Tan 2014-11-06   50  		switch (ELF32_R_TYPE(rela[i].r_info)) {
+42381bf1f2de13 Ley Foon Tan 2014-11-06  @51  		case R_NIOS2_NONE:
+42381bf1f2de13 Ley Foon Tan 2014-11-06   52  			break;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  @53  		case R_NIOS2_BFD_RELOC_32:
+42381bf1f2de13 Ley Foon Tan 2014-11-06   54  			*loc += v;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   55  			break;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  @56  		case R_NIOS2_PCREL16:
+42381bf1f2de13 Ley Foon Tan 2014-11-06   57  			v -= (uint32_t)loc + 4;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   58  			if ((int32_t)v > 0x7fff ||
+42381bf1f2de13 Ley Foon Tan 2014-11-06   59  				(int32_t)v < -(int32_t)0x8000) {
+42381bf1f2de13 Ley Foon Tan 2014-11-06   60  				pr_err("module %s: relocation overflow\n",
+42381bf1f2de13 Ley Foon Tan 2014-11-06   61  					mod->name);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   62  				return -ENOEXEC;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   63  			}
+42381bf1f2de13 Ley Foon Tan 2014-11-06   64  			word = *loc;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   65  			*loc = ((((word >> 22) << 16) | (v & 0xffff)) << 6) |
+42381bf1f2de13 Ley Foon Tan 2014-11-06   66  				(word & 0x3f);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   67  			break;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  @68  		case R_NIOS2_CALL26:
+42381bf1f2de13 Ley Foon Tan 2014-11-06   69  			if (v & 3) {
+42381bf1f2de13 Ley Foon Tan 2014-11-06   70  				pr_err("module %s: dangerous relocation\n",
+42381bf1f2de13 Ley Foon Tan 2014-11-06   71  					mod->name);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   72  				return -ENOEXEC;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   73  			}
+42381bf1f2de13 Ley Foon Tan 2014-11-06   74  			if ((v >> 28) != ((uint32_t)loc >> 28)) {
+42381bf1f2de13 Ley Foon Tan 2014-11-06   75  				pr_err("module %s: relocation overflow\n",
+42381bf1f2de13 Ley Foon Tan 2014-11-06   76  					mod->name);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   77  				return -ENOEXEC;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   78  			}
+42381bf1f2de13 Ley Foon Tan 2014-11-06   79  			*loc = (*loc & 0x3f) | ((v >> 2) << 6);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   80  			break;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  @81  		case R_NIOS2_HI16:
+42381bf1f2de13 Ley Foon Tan 2014-11-06   82  			word = *loc;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   83  			*loc = ((((word >> 22) << 16) |
+42381bf1f2de13 Ley Foon Tan 2014-11-06   84  				((v >> 16) & 0xffff)) << 6) | (word & 0x3f);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   85  			break;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  @86  		case R_NIOS2_LO16:
+42381bf1f2de13 Ley Foon Tan 2014-11-06   87  			word = *loc;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   88  			*loc = ((((word >> 22) << 16) | (v & 0xffff)) << 6) |
+42381bf1f2de13 Ley Foon Tan 2014-11-06   89  					(word & 0x3f);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   90  			break;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  @91  		case R_NIOS2_HIADJ16:
+42381bf1f2de13 Ley Foon Tan 2014-11-06   92  			{
+42381bf1f2de13 Ley Foon Tan 2014-11-06   93  				Elf32_Addr word2;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   94  
+42381bf1f2de13 Ley Foon Tan 2014-11-06   95  				word = *loc;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   96  				word2 = ((v >> 16) + ((v >> 15) & 1)) & 0xffff;
+42381bf1f2de13 Ley Foon Tan 2014-11-06   97  				*loc = ((((word >> 22) << 16) | word2) << 6) |
+42381bf1f2de13 Ley Foon Tan 2014-11-06   98  						(word & 0x3f);
+42381bf1f2de13 Ley Foon Tan 2014-11-06   99  			}
+42381bf1f2de13 Ley Foon Tan 2014-11-06  100  			break;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  101  
+42381bf1f2de13 Ley Foon Tan 2014-11-06  102  		default:
+42381bf1f2de13 Ley Foon Tan 2014-11-06  103  			pr_err("module %s: Unknown reloc: %u\n",
+42381bf1f2de13 Ley Foon Tan 2014-11-06  104  				mod->name, ELF32_R_TYPE(rela[i].r_info));
+42381bf1f2de13 Ley Foon Tan 2014-11-06  105  			return -ENOEXEC;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  106  		}
+42381bf1f2de13 Ley Foon Tan 2014-11-06  107  	}
+42381bf1f2de13 Ley Foon Tan 2014-11-06  108  
+42381bf1f2de13 Ley Foon Tan 2014-11-06  109  	return 0;
+42381bf1f2de13 Ley Foon Tan 2014-11-06  110  }
+42381bf1f2de13 Ley Foon Tan 2014-11-06  111  
 
-:::::: The code at line 193 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 51 was first introduced by commit
+:::::: 42381bf1f2de13bbfbdea74b78af9768ab65b80c nios2: Module support
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Ley Foon Tan <lftan@altera.com>
+:::::: CC: Ley Foon Tan <lftan@altera.com>
 
 -- 
 0-DAY CI Kernel Test Service
