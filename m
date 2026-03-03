@@ -1,160 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3501726E711
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Mar 2026 03:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799C81E1A3D;
+	Tue,  3 Mar 2026 03:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772506964; cv=none; b=ppRs1HfVMxpR3GdfTGonvZmHqz5pPOhF7oGiAx+DPeoAFHAjtDDQ9/XjqUPN9cmBkOiix2XTfnmy+5JIM1lK5b6S46JdRwsdJj2kfih75Ke4yzEb9mpb+VV/U4AZLoP+3dZGbBE98qQcYeZmPPhiqWKk/E7AUW3fBnEAFzP2ZBM=
+	t=1772507718; cv=none; b=XbX/5+ZGEd4hzbiykHqM0URswkKbju/BwatDRaP1vFGHTOnTcIbm+A3Kv36PKFjOvf/4XCHEp3VhnIvjuQDIG5VedvFbUH3wHIL+y59Ivh0w7rCMZwfW+A/zKqQruAvAJzvhs34lu3hZnIhRRqwrD8w3rTpMATi0kpcuxfK8Q6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772506964; c=relaxed/simple;
-	bh=oRaHFfti3NbI8jcDiWgZJ9zVLyiwaL3Qg9H0dkcuOgI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Y2szlxrjRlrZo5qUg8eQ8z1PB5C9vQC+btQdPwgtPlINrDVfZFOSFbtBUOp+XaUeukzJNcR6l5QnYfxZhIAHfMMsUN68vV24lluzmencawippWtOYKpsfP7Dq712MuDjjfXecP0RTbeyMhOIXSB0uG4kLYaiwyJ7OTqQjLajczc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrlB0CvS; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1772507718; c=relaxed/simple;
+	bh=xsz3XbahbxkD1Tne3qCV3REAPK8gj5He5vgtDqEZX58=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b9ElQRU2hWOXWxrTpxEvR9wlhiJkLLBGVmbeUBeYvI4j7vF6LUEK97c5k5V0ZPBKHv3NR+DYWnU0Abn47pXokIWJ+XjlWDPfeoFWdyeKhDyjZFmNnBiuplTEbZ0MeMYnIcQCEZ2+2Uj302iHr7PcpVPvA+o48k+hyuhegkBH2xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fwYbzICV; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrlB0CvS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fwYbzICV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772506961; x=1804042961;
-  h=date:from:to:cc:subject:message-id;
-  bh=oRaHFfti3NbI8jcDiWgZJ9zVLyiwaL3Qg9H0dkcuOgI=;
-  b=QrlB0CvSX6FjAJ7cIcrOfry3UT91hQ+XBqOAJBX0eQTueQdiLC8CM2+7
-   cz9YpV/tgjVdkunCrRfqd/lX53W2rlB8r55PgG8by8Pw6ckdNQcFf6kHk
-   F5ioQ2zvFtIOweyW05bWO/QIKz59018XP98N6450IbU427/6VWN846qqA
-   vw0Dn6FDghv+qCIuMK/9SBNeS5GdT7wrD2IP6oMB+GVv0jstKNVXXJ03K
-   Q43NDOumg7XMziYZ9eLwzZtoboNUvA4PMjN5pSkhNtSnuPZ33I268FPjL
-   HzrjASCwH14jFqxhE9K762umsNtfTvoeNiER4Fgs+rKFhqAvu1pper4qK
-   A==;
-X-CSE-ConnectionGUID: MUTE/qI/RpqIrf214JrvKw==
-X-CSE-MsgGUID: bDNBiZxORrucZdmSM8wsvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73402709"
+  t=1772507715; x=1804043715;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xsz3XbahbxkD1Tne3qCV3REAPK8gj5He5vgtDqEZX58=;
+  b=fwYbzICVdTtA31jaUiH+EZoXjkP0QUsyVT8qK16sqfldHaaJydY0g4A/
+   yolU5pPxgnYGhewPdt2ggmTDGoAob7IK6NGMqP1Km1SHM3q5QCzviov1I
+   XLCZA8cRtieOGm4aLNN/bLds1cvHMxdGHuwPNB5hcq2VkmQ7meHV4BCy8
+   5W9PQBcFpp5kAPsQT9OQJmFgROQ1hhkpdvMrXaOCOpn5Ozb9hMrPN7kIL
+   dU2JfwTYo0KN93EeedPnaf2FhJdFwDerb5f2U6KhGyPZXWuK+Sk4NvcSG
+   qiQuRAKgzTaF83gjzLmfDhQjgoGdA2qYShOJNBQ10sZ7rEgP8cUEcrhi8
+   Q==;
+X-CSE-ConnectionGUID: ZQYuU4NlS0iEb55VUSGGFw==
+X-CSE-MsgGUID: LuvJPmjvQC+cl0SCLizjdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="77398529"
 X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="73402709"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 19:02:41 -0800
-X-CSE-ConnectionGUID: VzYdsN4ZQ5iE6V54NcWXXQ==
-X-CSE-MsgGUID: OVsOxqMmSGiL302UH6V94g==
+   d="scan'208";a="77398529"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 19:15:14 -0800
+X-CSE-ConnectionGUID: +4ipEaLzRSy9T0JOCTZuNg==
+X-CSE-MsgGUID: shjD0TQqSjK4KJB1ww6AcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="217082356"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 02 Mar 2026 19:02:39 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+   d="scan'208";a="220886311"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 02 Mar 2026 19:15:12 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxG1t-000000001gP-0Rd6;
-	Tue, 03 Mar 2026 03:02:37 +0000
-Date: Tue, 03 Mar 2026 11:01:54 +0800
+	id 1vxGE2-000000001MD-0EEX;
+	Tue, 03 Mar 2026 03:15:10 +0000
+Date: Tue, 3 Mar 2026 04:14:32 +0100
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-next 17/17] fs/netfs/internal.h:569:16:
- warning: format '%lx' expects argument of type 'long unsigned int', but
- argument 4 has type 'size_t' {aka 'unsigned int'}
-Message-ID: <202603031029.uS3vdEpc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Dan Williams <dan.j.williams@intel.com>, linux-coco@lists.linux.dev,
+	linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org, aik@amd.com,
+	aneesh.kumar@kernel.org, yilun.xu@linux.intel.com,
+	bhelgaas@google.com, alistair23@gmail.com, lukas@wunner.de,
+	jgg@nvidia.com, Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH v2 08/19] PCI/TSM: Add "evidence" support
+Message-ID: <202603030451.0ZpbO6ex-lkp@intel.com>
+References: <20260303000207.1836586-9-dan.j.williams@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260303000207.1836586-9-dan.j.williams@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   955516269df2e8601e8736e89e91820dc3d053c2
-commit: 9d1961d5a401497bb7d93ad67d38d2d96d29c4ab [17/17] netfs: Combine prepare and issue ops and grab the buffers on request
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260303/202603031029.uS3vdEpc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603031029.uS3vdEpc-lkp@intel.com/reproduce)
+Hi Dan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c2012263047689e495e81c96d7d5b0586299578d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/PCI-TSM-Report-active-IDE-streams-per-host-bridge/20260303-080409
+base:   c2012263047689e495e81c96d7d5b0586299578d
+patch link:    https://lore.kernel.org/r/20260303000207.1836586-9-dan.j.williams%40intel.com
+patch subject: [PATCH v2 08/19] PCI/TSM: Add "evidence" support
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260303/202603030451.0ZpbO6ex-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603031029.uS3vdEpc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603030451.0ZpbO6ex-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/instrumented.h:10,
-                    from include/linux/atomic/atomic-instrumented.h:17,
-                    from include/linux/atomic.h:82,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/sh/include/asm/bitops.h:23,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/sh/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from fs/netfs/write_issue.c:34:
-   fs/netfs/write_issue.c: In function 'netfs_writeback_single':
->> fs/netfs/internal.h:569:16: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     569 |         printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
-         |                ^~~~~~~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   fs/netfs/internal.h:569:9: note: in expansion of macro 'printk'
-     569 |         printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
-         |         ^~~~~~
-   fs/netfs/internal.h:571:26: note: in expansion of macro 'dbgprintk'
-     571 | #define kenter(FMT, ...) dbgprintk("==> %s("FMT")", __func__, ##__VA_ARGS__)
-         |                          ^~~~~~~~~
-   fs/netfs/internal.h:584:17: note: in expansion of macro 'kenter'
-     584 |                 kenter(FMT, ##__VA_ARGS__);     \
-         |                 ^~~~~~
-   fs/netfs/write_issue.c:918:9: note: in expansion of macro '_enter'
-     918 |         _enter("%lx,%lx", iov_iter_count(iter), len);
-         |         ^~~~~~
-   fs/netfs/internal.h:569:16: warning: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     569 |         printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
-         |                ^~~~~~~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   fs/netfs/internal.h:569:9: note: in expansion of macro 'printk'
-     569 |         printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
-         |         ^~~~~~
-   fs/netfs/internal.h:571:26: note: in expansion of macro 'dbgprintk'
-     571 | #define kenter(FMT, ...) dbgprintk("==> %s("FMT")", __func__, ##__VA_ARGS__)
-         |                          ^~~~~~~~~
-   fs/netfs/internal.h:584:17: note: in expansion of macro 'kenter'
-     584 |                 kenter(FMT, ##__VA_ARGS__);     \
-         |                 ^~~~~~
-   fs/netfs/write_issue.c:918:9: note: in expansion of macro '_enter'
-     918 |         _enter("%lx,%lx", iov_iter_count(iter), len);
-         |         ^~~~~~
---
-   fs/smb/client/smb2pdu.c: In function 'smb2_new_read_req':
->> fs/smb/client/smb2pdu.c:4531:25: warning: unused variable 'iter' [-Wunused-variable]
-    4531 |         struct iov_iter iter;
-         |                         ^~~~
-
-
-vim +569 fs/netfs/internal.h
-
-915cd30cdea8811 David Howells 2023-11-20  563  
-3d3c95046742e4e David Howells 2020-05-13  564  /*****************************************************************************/
-3d3c95046742e4e David Howells 2020-05-13  565  /*
-3d3c95046742e4e David Howells 2020-05-13  566   * debug tracing
-3d3c95046742e4e David Howells 2020-05-13  567   */
-3d3c95046742e4e David Howells 2020-05-13  568  #define dbgprintk(FMT, ...) \
-a9d47a50cf257ff David Howells 2024-07-18 @569  	printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
-3d3c95046742e4e David Howells 2020-05-13  570  
-
-:::::: The code at line 569 was first introduced by commit
-:::::: a9d47a50cf257ff1019a4e30d573777882fd785c netfs: Revert "netfs: Switch debug logging to pr_debug()"
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
+   Using alabaster theme
+   WARNING: ./include/crypto/skcipher.h:166 struct member 'SKCIPHER_ALG_COMMON' not described in 'skcipher_alg'
+   Documentation/driver-api/pci/tsm:147: ./include/linux/pci-tsm.h:112: ERROR: Unexpected indentation. [docutils]
+>> Documentation/driver-api/pci/tsm:147: ./include/linux/pci-tsm.h:113: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/driver-api/pci/tsm:147: ./include/linux/pci-tsm.h:116: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./drivers/pci/tsm.c
+   ERROR: Cannot find file ./drivers/pci/tsm.c
+   WARNING: No kernel-doc for file ./drivers/pci/tsm.c
+   WARNING: ./include/linux/virtio.h:183 struct member 'map' not described in 'virtio_device'
+   WARNING: ./include/linux/virtio.h:183 struct member 'VIRTIO_DECLARE_FEATURES(features' not described in 'virtio_device'
 
 -- 
 0-DAY CI Kernel Test Service
