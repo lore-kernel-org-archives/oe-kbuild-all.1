@@ -1,210 +1,367 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52560386549
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Mar 2026 08:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B8939A07B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Mar 2026 10:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772528403; cv=none; b=X/yFo0iegF8vj9LORCpmEVGWrovYWY9zMGjY2uOJYU7iO6wfGvNQPKGHnL3kbrFhWwSB/M7bCLyhmql3F3z8Uw+HrkNfLL27zyC4Ci1vlIaY7x/lVGbkUcA1PgUtM89zVE1ObmD4irmnQ5BPqU63pg5g8Uvx01nPu712jhU8A44=
+	t=1772532940; cv=none; b=g137+rv+dGtr1Dk47EaZdqBVCIW/pi92pFBnPvauhube0LmewXJeNX6ICFcSbSD7nR2lS8DHvaquUKfv4+FjCLmOzBtcchRGYY3OotLl3MvY0GPnkxcX4LtPIpxA2ALUKa9ZJwXnn58vbJSv1NT6yse7KWKaNw72UP78du4gBY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772528403; c=relaxed/simple;
-	bh=IHgGEDraPs+OnJSNFJlsXXlf+3FzHlBWQ620b6NPRcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=g3/zACUG1KkXtY/ipm4Mxg3yXg8v9NE+wIjDxi7T/k2OGo0WyDqiSrLw0VuT45UOjeJb7JaWcWvnSYYoYRpe5IBRdkT9MTU6P66ZZYAxx96ORioOdMg1oGaYc18Kk0ASJIWvz23MDCjhdNWA9x0HG/Fekdfdq1ui7xpxWwoEV5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gp0vLcvE; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772532940; c=relaxed/simple;
+	bh=wG+PfAc9u5g+XK1/1uZnooNHSSVXyzVxjzW6bzkc8Xo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J1myGGPTIz114JgPAc6W8cx/5A0AbEFXWMvIUZv0fwQwYHGV1BvndjCayOAgFB8R4BPHeIbkLHbh6pORYREm925hMPi88CBU9WD012/Wr3GvqguVy2UDku+Fmc0tkmp3mJGLYGLMM2Gwopw1fkxmUTPej3D7anIMEydkJtWkVbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ANC8I6rp; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gp0vLcvE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772528398; x=1804064398;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IHgGEDraPs+OnJSNFJlsXXlf+3FzHlBWQ620b6NPRcw=;
-  b=gp0vLcvEDeADf2U3+v2TVKEv5ZQMAykIPUTr/OoJrzzYETdrwvkjv7ZC
-   2VvWEiuBd24Fbp00LMrC38FgIhJVlfS+faE37q4JmOs44D2/F8GZwe7bZ
-   iPAAuKprr83Q2hfn7ZX6+hNdrzjkTP/hqSMioA//YuBmnRZ2Eg4X+yFBm
-   fNmH56b2W1ZAToq9cxcUp9wCA1Nc/VDriJTBELs7jdtnaxFNHWQgwoF0k
-   fJhs4n/cwI7KBpOuAee/DjVGiElV/DbeI2EL5aGE86LUx3EKGyiRggYF0
-   KDN6Dc78sOA5IIf7/SCTnVrn1ei8fHPCNrW16xhX6tAUBJ25l1EtqXZaF
-   w==;
-X-CSE-ConnectionGUID: RmSQLEw8TbC3UKDq4oUtsA==
-X-CSE-MsgGUID: OveqzXMtSii9sZt+JnAXQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73428815"
-X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="73428815"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 00:59:56 -0800
-X-CSE-ConnectionGUID: jKIBmJ2USzyMYwl9cAgC2Q==
-X-CSE-MsgGUID: oPBtYMG3Tuui5oiJatOzuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="255816242"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Mar 2026 00:59:54 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vxLbb-000000001uj-3vsO;
-	Tue, 03 Mar 2026 08:59:51 +0000
-Date: Tue, 03 Mar 2026 16:59:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/uapi-reloc 21/29]
- arch/nios2/kernel/module.c:51:22: error: 'R_NIOS2_NONE' undeclared; did you
- mean 'R_MIPS_NONE'?
-Message-ID: <202603031626.kgxPJjjn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ANC8I6rp"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c7059b9df33so2073358a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 03 Mar 2026 02:15:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772532938; x=1773137738; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=14lPXQTL6fOBBMLPXur54Ks1pMsPobynplfnVPlunBM=;
+        b=ANC8I6rpYnBcUIBeR4CImlvQxyCqctDNIsrjCzei0teM3H06kO2t7SUqEc5jbHDChM
+         c/i0vyWgL5MK+3U3cBj+IhXzN2Qv2Kvnx2Pff3PIR3DCaQJn2FflcA8NAyvRpoBkuoHy
+         vViV6Fo7/AbscNTeIJVEvN4TRjQ8ixlcx5SE0D/r6LJUbVQHMiKB6TeeIDKbfe2JNTYA
+         Rol9Rypr6aVHNWfeS/6cV2ahfjhIqAVedgFahO4DZVnzM68spyJmq6URwqJ9sXelOUQG
+         maD+LfKEOo/XKa83KaRdOkrG2ILNheAuXOl1/DpWhH7HkE+WD/O2L3JoSI/DSYB23VaG
+         IZhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772532938; x=1773137738;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=14lPXQTL6fOBBMLPXur54Ks1pMsPobynplfnVPlunBM=;
+        b=F3n4+XCHfVWyCefzB2RmZrFOn62r2e/O5/s3EYdw3SmwI3dB/G49qoS0yV3TeO8J45
+         /NAETRXrhUQ/33g7PAmMSFq9x2YA7j58TWNPeTiam2kWYYRqVB8oMkvAhSCYPbJI2YSH
+         vSmeXtiISG6vJGGoFRpgMPX45HN35goKW6R3Lfw4RUQNupj0JU0B66ITY0Rscj5h3+U2
+         DuL0J5KIZB4klBiQiVRhqo+f4r36x1m9Mzl/CQF70aMsaWAD8me93Xh0UfYmty7TwqWs
+         uyqxjiaonHIC2y3eM7PUDIYiEY8tt/AqhgVivoVVucavyqVf3LlVx6y5KufWt4lzgGB0
+         L6CA==
+X-Forwarded-Encrypted: i=1; AJvYcCWFfxv76pdP89WxijR/if26XgQEo0xhnIIFlBD+nNJYdm+0RZEg+lXdXwiAwI/bOpPx98517CStCcRQNIDy@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy8qmyqwUdWz6gU4M/voJTLKQTIUmFNqSz9cVb9cBVfoqwIwwIE
+	h/mBjQb+p+0hYgyArBvCTUsIKRcSV3Kb9v+dX8/WVrje8eo1H/yz1hUOejsURpoAPTpZpw==
+X-Gm-Gg: ATEYQzxhXfdCc+VXjUP75QYOu3JsfxZuxOVEuWXj96QPHkWmEhaFydHMJ0Zbrtb6exT
+	ARVjLfVKNXG5OrYBPS1B7FzpwEhgseJZu7kQc4r8l2zHVkE+wEe8Po3UTtxFovLUyVqWdtwpnGV
+	Ib+a2Y4alnGz7ov/V1rzMkxr/Wft7bSmEF2ahIc9ivAz0+f/yhDd4MAIySyN3FhHOMXj1q6K6mW
+	WBVkdG0Zvy+eg2jGCjLLAiPE7PtytyvLV7yUcKflVdlsoMK3+zxAkzR0rShVJnjiuQbR7htRKmT
+	ehb4tWJd+B65Us0hvOtOPu++oH3lxpeS/mpGktb6YYqejDddBI0iTwfCHaCGxN5IeQ8JfnZ0p/7
+	JFRhuCiIFtSE8Gk/BXd7x5i8mZ7UOV4QQp/enIVVx2eOBkJgeNBgbfN3IYMt1voIEP+dWUBbZw9
+	segdQzooA1yr03jh1TrUq7ZbNgeJDfdAD3dAlC4bS3tBNPvuwbWn8rlncM9QUps400BEVL0l4xp
+	ePy2g36
+X-Received: by 2002:a17:90b:3b8a:b0:356:24c8:2291 with SMTP id 98e67ed59e1d1-3599ccc96bbmr1553164a91.0.1772532937988;
+        Tue, 03 Mar 2026 02:15:37 -0800 (PST)
+Received: from u2404-VMware-Virtual-Platform.localdomain ([117.71.53.159])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3599c090a6csm2395322a91.6.2026.03.03.02.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 02:15:37 -0800 (PST)
+From: Sun Jian <sun.jian.kdev@gmail.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>
+Cc: Phil Sutter <phil@nwl.cc>,
+	netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org,
+	oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>,
+	Sun Jian <sun.jian.kdev@gmail.com>
+Subject: [PATCH] netfilter: use function typedefs for __rcu NAT helper hook pointers
+Date: Tue,  3 Mar 2026 18:15:25 +0800
+Message-ID: <20260303101525.329974-1-sun.jian.kdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/uapi-reloc
-head:   33f42a1893f9a3bf636eca78853700f3e57e9e36
-commit: eec9dfe8147b97eaa34c713fea1879d97e896e5e [21/29] hexagon: move relocation constants to the UAPI
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260303/202603031626.kgxPJjjn-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260303/202603031626.kgxPJjjn-lkp@intel.com/reproduce)
+After commit 07919126ecfc ("netfilter: annotate NAT helper hook pointers
+with __rcu"), sparse can warn about type/address-space mismatches when
+RCU-dereferencing NAT helper hook function pointers.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603031626.kgxPJjjn-lkp@intel.com/
+The hooks are __rcu-annotated and accessed via rcu_dereference(), but the
+combination of complex function pointer declarators and the WRITE_ONCE()
+machinery used by RCU_INIT_POINTER()/rcu_assign_pointer() can confuse
+sparse and trigger false positives.
 
-All errors (new ones prefixed by >>):
+Introduce typedefs for the NAT helper function types, so __rcu applies to
+a simple "fn_t __rcu *" pointer form. Also replace local typeof(hook)
+variables with "fn_t *" to avoid propagating __rcu address space into
+temporaries.
 
-   arch/nios2/kernel/module.c: In function 'apply_relocate_add':
->> arch/nios2/kernel/module.c:51:22: error: 'R_NIOS2_NONE' undeclared (first use in this function); did you mean 'R_MIPS_NONE'?
-      51 |                 case R_NIOS2_NONE:
-         |                      ^~~~~~~~~~~~
-         |                      R_MIPS_NONE
-   arch/nios2/kernel/module.c:51:22: note: each undeclared identifier is reported only once for each function it appears in
->> arch/nios2/kernel/module.c:53:22: error: 'R_NIOS2_BFD_RELOC_32' undeclared (first use in this function)
-      53 |                 case R_NIOS2_BFD_RELOC_32:
-         |                      ^~~~~~~~~~~~~~~~~~~~
->> arch/nios2/kernel/module.c:56:22: error: 'R_NIOS2_PCREL16' undeclared (first use in this function); did you mean 'R_MIPS_GPREL16'?
-      56 |                 case R_NIOS2_PCREL16:
-         |                      ^~~~~~~~~~~~~~~
-         |                      R_MIPS_GPREL16
->> arch/nios2/kernel/module.c:68:22: error: 'R_NIOS2_CALL26' undeclared (first use in this function); did you mean 'R_MIPS_CALL16'?
-      68 |                 case R_NIOS2_CALL26:
-         |                      ^~~~~~~~~~~~~~
-         |                      R_MIPS_CALL16
->> arch/nios2/kernel/module.c:81:22: error: 'R_NIOS2_HI16' undeclared (first use in this function); did you mean 'R_MIPS_HI16'?
-      81 |                 case R_NIOS2_HI16:
-         |                      ^~~~~~~~~~~~
-         |                      R_MIPS_HI16
->> arch/nios2/kernel/module.c:86:22: error: 'R_NIOS2_LO16' undeclared (first use in this function); did you mean 'R_MIPS_LO16'?
-      86 |                 case R_NIOS2_LO16:
-         |                      ^~~~~~~~~~~~
-         |                      R_MIPS_LO16
->> arch/nios2/kernel/module.c:91:22: error: 'R_NIOS2_HIADJ16' undeclared (first use in this function)
-      91 |                 case R_NIOS2_HIADJ16:
-         |                      ^~~~~~~~~~~~~~~
+No functional change intended.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202603022359.3dGE9fwI-lkp@intel.com/
 
-vim +51 arch/nios2/kernel/module.c
+Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
+---
+ include/linux/netfilter/nf_conntrack_amanda.h | 15 +++++++++------
+ include/linux/netfilter/nf_conntrack_ftp.h    | 17 ++++++++++-------
+ include/linux/netfilter/nf_conntrack_irc.h    | 15 +++++++++------
+ include/linux/netfilter/nf_conntrack_snmp.h   | 11 +++++++----
+ include/linux/netfilter/nf_conntrack_tftp.h   |  9 ++++++---
+ net/netfilter/nf_conntrack_amanda.c           | 10 ++--------
+ net/netfilter/nf_conntrack_ftp.c              | 10 ++--------
+ net/netfilter/nf_conntrack_irc.c              | 10 ++--------
+ net/netfilter/nf_conntrack_snmp.c             |  7 ++-----
+ net/netfilter/nf_conntrack_tftp.c             |  7 ++-----
+ 10 files changed, 51 insertions(+), 60 deletions(-)
 
-42381bf1f2de13 Ley Foon Tan 2014-11-06   22  
-42381bf1f2de13 Ley Foon Tan 2014-11-06   23  int apply_relocate_add(Elf32_Shdr *sechdrs, const char *strtab,
-42381bf1f2de13 Ley Foon Tan 2014-11-06   24  			unsigned int symindex, unsigned int relsec,
-42381bf1f2de13 Ley Foon Tan 2014-11-06   25  			struct module *mod)
-42381bf1f2de13 Ley Foon Tan 2014-11-06   26  {
-42381bf1f2de13 Ley Foon Tan 2014-11-06   27  	unsigned int i;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   28  	Elf32_Rela *rela = (void *)sechdrs[relsec].sh_addr;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   29  
-42381bf1f2de13 Ley Foon Tan 2014-11-06   30  	pr_debug("Applying relocate section %u to %u\n", relsec,
-42381bf1f2de13 Ley Foon Tan 2014-11-06   31  		 sechdrs[relsec].sh_info);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   32  
-42381bf1f2de13 Ley Foon Tan 2014-11-06   33  	for (i = 0; i < sechdrs[relsec].sh_size / sizeof(*rela); i++) {
-42381bf1f2de13 Ley Foon Tan 2014-11-06   34  		/* This is where to make the change */
-42381bf1f2de13 Ley Foon Tan 2014-11-06   35  		uint32_t word;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   36  		uint32_t *loc
-42381bf1f2de13 Ley Foon Tan 2014-11-06   37  			= ((void *)sechdrs[sechdrs[relsec].sh_info].sh_addr
-42381bf1f2de13 Ley Foon Tan 2014-11-06   38  			   + rela[i].r_offset);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   39  		/* This is the symbol it is referring to.  Note that all
-42381bf1f2de13 Ley Foon Tan 2014-11-06   40  		   undefined symbols have been resolved.  */
-42381bf1f2de13 Ley Foon Tan 2014-11-06   41  		Elf32_Sym *sym
-42381bf1f2de13 Ley Foon Tan 2014-11-06   42  			= ((Elf32_Sym *)sechdrs[symindex].sh_addr
-42381bf1f2de13 Ley Foon Tan 2014-11-06   43  				+ ELF32_R_SYM(rela[i].r_info));
-42381bf1f2de13 Ley Foon Tan 2014-11-06   44  		uint32_t v = sym->st_value + rela[i].r_addend;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   45  
-42381bf1f2de13 Ley Foon Tan 2014-11-06   46  		pr_debug("reltype %d 0x%x name:<%s>\n",
-42381bf1f2de13 Ley Foon Tan 2014-11-06   47  			ELF32_R_TYPE(rela[i].r_info),
-42381bf1f2de13 Ley Foon Tan 2014-11-06   48  			rela[i].r_offset, strtab + sym->st_name);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   49  
-42381bf1f2de13 Ley Foon Tan 2014-11-06   50  		switch (ELF32_R_TYPE(rela[i].r_info)) {
-42381bf1f2de13 Ley Foon Tan 2014-11-06  @51  		case R_NIOS2_NONE:
-42381bf1f2de13 Ley Foon Tan 2014-11-06   52  			break;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  @53  		case R_NIOS2_BFD_RELOC_32:
-42381bf1f2de13 Ley Foon Tan 2014-11-06   54  			*loc += v;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   55  			break;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  @56  		case R_NIOS2_PCREL16:
-42381bf1f2de13 Ley Foon Tan 2014-11-06   57  			v -= (uint32_t)loc + 4;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   58  			if ((int32_t)v > 0x7fff ||
-42381bf1f2de13 Ley Foon Tan 2014-11-06   59  				(int32_t)v < -(int32_t)0x8000) {
-42381bf1f2de13 Ley Foon Tan 2014-11-06   60  				pr_err("module %s: relocation overflow\n",
-42381bf1f2de13 Ley Foon Tan 2014-11-06   61  					mod->name);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   62  				return -ENOEXEC;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   63  			}
-42381bf1f2de13 Ley Foon Tan 2014-11-06   64  			word = *loc;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   65  			*loc = ((((word >> 22) << 16) | (v & 0xffff)) << 6) |
-42381bf1f2de13 Ley Foon Tan 2014-11-06   66  				(word & 0x3f);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   67  			break;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  @68  		case R_NIOS2_CALL26:
-42381bf1f2de13 Ley Foon Tan 2014-11-06   69  			if (v & 3) {
-42381bf1f2de13 Ley Foon Tan 2014-11-06   70  				pr_err("module %s: dangerous relocation\n",
-42381bf1f2de13 Ley Foon Tan 2014-11-06   71  					mod->name);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   72  				return -ENOEXEC;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   73  			}
-42381bf1f2de13 Ley Foon Tan 2014-11-06   74  			if ((v >> 28) != ((uint32_t)loc >> 28)) {
-42381bf1f2de13 Ley Foon Tan 2014-11-06   75  				pr_err("module %s: relocation overflow\n",
-42381bf1f2de13 Ley Foon Tan 2014-11-06   76  					mod->name);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   77  				return -ENOEXEC;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   78  			}
-42381bf1f2de13 Ley Foon Tan 2014-11-06   79  			*loc = (*loc & 0x3f) | ((v >> 2) << 6);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   80  			break;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  @81  		case R_NIOS2_HI16:
-42381bf1f2de13 Ley Foon Tan 2014-11-06   82  			word = *loc;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   83  			*loc = ((((word >> 22) << 16) |
-42381bf1f2de13 Ley Foon Tan 2014-11-06   84  				((v >> 16) & 0xffff)) << 6) | (word & 0x3f);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   85  			break;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  @86  		case R_NIOS2_LO16:
-42381bf1f2de13 Ley Foon Tan 2014-11-06   87  			word = *loc;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   88  			*loc = ((((word >> 22) << 16) | (v & 0xffff)) << 6) |
-42381bf1f2de13 Ley Foon Tan 2014-11-06   89  					(word & 0x3f);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   90  			break;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  @91  		case R_NIOS2_HIADJ16:
-42381bf1f2de13 Ley Foon Tan 2014-11-06   92  			{
-42381bf1f2de13 Ley Foon Tan 2014-11-06   93  				Elf32_Addr word2;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   94  
-42381bf1f2de13 Ley Foon Tan 2014-11-06   95  				word = *loc;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   96  				word2 = ((v >> 16) + ((v >> 15) & 1)) & 0xffff;
-42381bf1f2de13 Ley Foon Tan 2014-11-06   97  				*loc = ((((word >> 22) << 16) | word2) << 6) |
-42381bf1f2de13 Ley Foon Tan 2014-11-06   98  						(word & 0x3f);
-42381bf1f2de13 Ley Foon Tan 2014-11-06   99  			}
-42381bf1f2de13 Ley Foon Tan 2014-11-06  100  			break;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  101  
-42381bf1f2de13 Ley Foon Tan 2014-11-06  102  		default:
-42381bf1f2de13 Ley Foon Tan 2014-11-06  103  			pr_err("module %s: Unknown reloc: %u\n",
-42381bf1f2de13 Ley Foon Tan 2014-11-06  104  				mod->name, ELF32_R_TYPE(rela[i].r_info));
-42381bf1f2de13 Ley Foon Tan 2014-11-06  105  			return -ENOEXEC;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  106  		}
-42381bf1f2de13 Ley Foon Tan 2014-11-06  107  	}
-42381bf1f2de13 Ley Foon Tan 2014-11-06  108  
-42381bf1f2de13 Ley Foon Tan 2014-11-06  109  	return 0;
-42381bf1f2de13 Ley Foon Tan 2014-11-06  110  }
-42381bf1f2de13 Ley Foon Tan 2014-11-06  111  
+diff --git a/include/linux/netfilter/nf_conntrack_amanda.h b/include/linux/netfilter/nf_conntrack_amanda.h
+index dfe89f38d1f7..1719987e8fd8 100644
+--- a/include/linux/netfilter/nf_conntrack_amanda.h
++++ b/include/linux/netfilter/nf_conntrack_amanda.h
+@@ -7,10 +7,13 @@
+ #include <linux/skbuff.h>
+ #include <net/netfilter/nf_conntrack_expect.h>
+ 
+-extern unsigned int (__rcu *nf_nat_amanda_hook)(struct sk_buff *skb,
+-					  enum ip_conntrack_info ctinfo,
+-					  unsigned int protoff,
+-					  unsigned int matchoff,
+-					  unsigned int matchlen,
+-					  struct nf_conntrack_expect *exp);
++typedef unsigned int
++nf_nat_amanda_hook_fn(struct sk_buff *skb,
++		      enum ip_conntrack_info ctinfo,
++		      unsigned int protoff,
++		      unsigned int matchoff,
++		      unsigned int matchlen,
++		      struct nf_conntrack_expect *exp);
++
++extern nf_nat_amanda_hook_fn __rcu *nf_nat_amanda_hook;
+ #endif /* _NF_CONNTRACK_AMANDA_H */
+diff --git a/include/linux/netfilter/nf_conntrack_ftp.h b/include/linux/netfilter/nf_conntrack_ftp.h
+index f31292642035..7b62446ccec4 100644
+--- a/include/linux/netfilter/nf_conntrack_ftp.h
++++ b/include/linux/netfilter/nf_conntrack_ftp.h
+@@ -26,11 +26,14 @@ struct nf_ct_ftp_master {
+ 
+ /* For NAT to hook in when we find a packet which describes what other
+  * connection we should expect. */
+-extern unsigned int (__rcu *nf_nat_ftp_hook)(struct sk_buff *skb,
+-				       enum ip_conntrack_info ctinfo,
+-				       enum nf_ct_ftp_type type,
+-				       unsigned int protoff,
+-				       unsigned int matchoff,
+-				       unsigned int matchlen,
+-				       struct nf_conntrack_expect *exp);
++typedef unsigned int
++nf_nat_ftp_hook_fn(struct sk_buff *skb,
++		   enum ip_conntrack_info ctinfo,
++		   enum nf_ct_ftp_type type,
++		   unsigned int protoff,
++		   unsigned int matchoff,
++		   unsigned int matchlen,
++		   struct nf_conntrack_expect *exp);
++
++extern nf_nat_ftp_hook_fn __rcu *nf_nat_ftp_hook;
+ #endif /* _NF_CONNTRACK_FTP_H */
+diff --git a/include/linux/netfilter/nf_conntrack_irc.h b/include/linux/netfilter/nf_conntrack_irc.h
+index 4f3ca5621998..ce07250afb4e 100644
+--- a/include/linux/netfilter/nf_conntrack_irc.h
++++ b/include/linux/netfilter/nf_conntrack_irc.h
+@@ -8,11 +8,14 @@
+ 
+ #define IRC_PORT	6667
+ 
+-extern unsigned int (__rcu *nf_nat_irc_hook)(struct sk_buff *skb,
+-				       enum ip_conntrack_info ctinfo,
+-				       unsigned int protoff,
+-				       unsigned int matchoff,
+-				       unsigned int matchlen,
+-				       struct nf_conntrack_expect *exp);
++typedef unsigned int
++nf_nat_irc_hook_fn(struct sk_buff *skb,
++		   enum ip_conntrack_info ctinfo,
++		   unsigned int protoff,
++		   unsigned int matchoff,
++		   unsigned int matchlen,
++		   struct nf_conntrack_expect *exp);
++
++extern nf_nat_irc_hook_fn __rcu *nf_nat_irc_hook;
+ 
+ #endif /* _NF_CONNTRACK_IRC_H */
+diff --git a/include/linux/netfilter/nf_conntrack_snmp.h b/include/linux/netfilter/nf_conntrack_snmp.h
+index 99107e4f5234..bb39f04a9977 100644
+--- a/include/linux/netfilter/nf_conntrack_snmp.h
++++ b/include/linux/netfilter/nf_conntrack_snmp.h
+@@ -5,9 +5,12 @@
+ #include <linux/netfilter.h>
+ #include <linux/skbuff.h>
+ 
+-extern int (__rcu *nf_nat_snmp_hook)(struct sk_buff *skb,
+-				unsigned int protoff,
+-				struct nf_conn *ct,
+-				enum ip_conntrack_info ctinfo);
++typedef int
++nf_nat_snmp_hook_fn(struct sk_buff *skb,
++		    unsigned int protoff,
++		    struct nf_conn *ct,
++		    enum ip_conntrack_info ctinfo);
++
++extern nf_nat_snmp_hook_fn __rcu *nf_nat_snmp_hook;
+ 
+ #endif /* _NF_CONNTRACK_SNMP_H */
+diff --git a/include/linux/netfilter/nf_conntrack_tftp.h b/include/linux/netfilter/nf_conntrack_tftp.h
+index 1490b68dd7d1..90b334bbce3c 100644
+--- a/include/linux/netfilter/nf_conntrack_tftp.h
++++ b/include/linux/netfilter/nf_conntrack_tftp.h
+@@ -19,8 +19,11 @@ struct tftphdr {
+ #define TFTP_OPCODE_ACK		4
+ #define TFTP_OPCODE_ERROR	5
+ 
+-extern unsigned int (__rcu *nf_nat_tftp_hook)(struct sk_buff *skb,
+-				        enum ip_conntrack_info ctinfo,
+-				        struct nf_conntrack_expect *exp);
++typedef unsigned int
++nf_nat_tftp_hook_fn(struct sk_buff *skb,
++		    enum ip_conntrack_info ctinfo,
++		    struct nf_conntrack_expect *exp);
++
++extern nf_nat_tftp_hook_fn __rcu *nf_nat_tftp_hook;
+ 
+ #endif /* _NF_CONNTRACK_TFTP_H */
+diff --git a/net/netfilter/nf_conntrack_amanda.c b/net/netfilter/nf_conntrack_amanda.c
+index c0132559f6af..d2c09e8dd872 100644
+--- a/net/netfilter/nf_conntrack_amanda.c
++++ b/net/netfilter/nf_conntrack_amanda.c
+@@ -37,13 +37,7 @@ MODULE_PARM_DESC(master_timeout, "timeout for the master connection");
+ module_param(ts_algo, charp, 0400);
+ MODULE_PARM_DESC(ts_algo, "textsearch algorithm to use (default kmp)");
+ 
+-unsigned int (__rcu *nf_nat_amanda_hook)(struct sk_buff *skb,
+-					 enum ip_conntrack_info ctinfo,
+-					 unsigned int protoff,
+-					 unsigned int matchoff,
+-					 unsigned int matchlen,
+-					 struct nf_conntrack_expect *exp)
+-					 __read_mostly;
++nf_nat_amanda_hook_fn __rcu *nf_nat_amanda_hook __read_mostly;
+ EXPORT_SYMBOL_GPL(nf_nat_amanda_hook);
+ 
+ enum amanda_strings {
+@@ -98,7 +92,7 @@ static int amanda_help(struct sk_buff *skb,
+ 	u_int16_t len;
+ 	__be16 port;
+ 	int ret = NF_ACCEPT;
+-	typeof(nf_nat_amanda_hook) nf_nat_amanda;
++	nf_nat_amanda_hook_fn *nf_nat_amanda;
+ 
+ 	/* Only look at packets from the Amanda server */
+ 	if (CTINFO2DIR(ctinfo) == IP_CT_DIR_ORIGINAL)
+diff --git a/net/netfilter/nf_conntrack_ftp.c b/net/netfilter/nf_conntrack_ftp.c
+index 5e00f9123c38..de83bf9e6c61 100644
+--- a/net/netfilter/nf_conntrack_ftp.c
++++ b/net/netfilter/nf_conntrack_ftp.c
+@@ -43,13 +43,7 @@ module_param_array(ports, ushort, &ports_c, 0400);
+ static bool loose;
+ module_param(loose, bool, 0600);
+ 
+-unsigned int (__rcu *nf_nat_ftp_hook)(struct sk_buff *skb,
+-				      enum ip_conntrack_info ctinfo,
+-				      enum nf_ct_ftp_type type,
+-				      unsigned int protoff,
+-				      unsigned int matchoff,
+-				      unsigned int matchlen,
+-				      struct nf_conntrack_expect *exp);
++nf_nat_ftp_hook_fn __rcu *nf_nat_ftp_hook;
+ EXPORT_SYMBOL_GPL(nf_nat_ftp_hook);
+ 
+ static int try_rfc959(const char *, size_t, struct nf_conntrack_man *,
+@@ -385,7 +379,7 @@ static int help(struct sk_buff *skb,
+ 	struct nf_conntrack_man cmd = {};
+ 	unsigned int i;
+ 	int found = 0, ends_in_nl;
+-	typeof(nf_nat_ftp_hook) nf_nat_ftp;
++	nf_nat_ftp_hook_fn *nf_nat_ftp;
+ 
+ 	/* Until there's been traffic both ways, don't look in packets. */
+ 	if (ctinfo != IP_CT_ESTABLISHED &&
+diff --git a/net/netfilter/nf_conntrack_irc.c b/net/netfilter/nf_conntrack_irc.c
+index b8e6d724acd1..522183b9a604 100644
+--- a/net/netfilter/nf_conntrack_irc.c
++++ b/net/netfilter/nf_conntrack_irc.c
+@@ -30,13 +30,7 @@ static unsigned int dcc_timeout __read_mostly = 300;
+ static char *irc_buffer;
+ static DEFINE_SPINLOCK(irc_buffer_lock);
+ 
+-unsigned int (__rcu *nf_nat_irc_hook)(struct sk_buff *skb,
+-				      enum ip_conntrack_info ctinfo,
+-				      unsigned int protoff,
+-				      unsigned int matchoff,
+-				      unsigned int matchlen,
+-				      struct nf_conntrack_expect *exp)
+-				      __read_mostly;
++nf_nat_irc_hook_fn __rcu *nf_nat_irc_hook __read_mostly;
+ EXPORT_SYMBOL_GPL(nf_nat_irc_hook);
+ 
+ #define HELPER_NAME "irc"
+@@ -122,7 +116,7 @@ static int help(struct sk_buff *skb, unsigned int protoff,
+ 	__be16 port;
+ 	int i, ret = NF_ACCEPT;
+ 	char *addr_beg_p, *addr_end_p;
+-	typeof(nf_nat_irc_hook) nf_nat_irc;
++	nf_nat_irc_hook_fn *nf_nat_irc;
+ 	unsigned int datalen;
+ 
+ 	/* If packet is coming from IRC server */
+diff --git a/net/netfilter/nf_conntrack_snmp.c b/net/netfilter/nf_conntrack_snmp.c
+index 387dd6e58f88..7b7eed43c54f 100644
+--- a/net/netfilter/nf_conntrack_snmp.c
++++ b/net/netfilter/nf_conntrack_snmp.c
+@@ -25,17 +25,14 @@ static unsigned int timeout __read_mostly = 30;
+ module_param(timeout, uint, 0400);
+ MODULE_PARM_DESC(timeout, "timeout for master connection/replies in seconds");
+ 
+-int (__rcu *nf_nat_snmp_hook)(struct sk_buff *skb,
+-			      unsigned int protoff,
+-			      struct nf_conn *ct,
+-			      enum ip_conntrack_info ctinfo);
++nf_nat_snmp_hook_fn __rcu *nf_nat_snmp_hook;
+ EXPORT_SYMBOL_GPL(nf_nat_snmp_hook);
+ 
+ static int snmp_conntrack_help(struct sk_buff *skb, unsigned int protoff,
+ 			       struct nf_conn *ct,
+ 			       enum ip_conntrack_info ctinfo)
+ {
+-	typeof(nf_nat_snmp_hook) nf_nat_snmp;
++	nf_nat_snmp_hook_fn *nf_nat_snmp;
+ 
+ 	nf_conntrack_broadcast_help(skb, ct, ctinfo, timeout);
+ 
+diff --git a/net/netfilter/nf_conntrack_tftp.c b/net/netfilter/nf_conntrack_tftp.c
+index 89e9914e5d03..a2e6833a0bf7 100644
+--- a/net/netfilter/nf_conntrack_tftp.c
++++ b/net/netfilter/nf_conntrack_tftp.c
+@@ -32,10 +32,7 @@ static unsigned int ports_c;
+ module_param_array(ports, ushort, &ports_c, 0400);
+ MODULE_PARM_DESC(ports, "Port numbers of TFTP servers");
+ 
+-unsigned int (__rcu *nf_nat_tftp_hook)(struct sk_buff *skb,
+-				       enum ip_conntrack_info ctinfo,
+-				       struct nf_conntrack_expect *exp)
+-				       __read_mostly;
++nf_nat_tftp_hook_fn __rcu *nf_nat_tftp_hook __read_mostly;
+ EXPORT_SYMBOL_GPL(nf_nat_tftp_hook);
+ 
+ static int tftp_help(struct sk_buff *skb,
+@@ -48,7 +45,7 @@ static int tftp_help(struct sk_buff *skb,
+ 	struct nf_conntrack_expect *exp;
+ 	struct nf_conntrack_tuple *tuple;
+ 	unsigned int ret = NF_ACCEPT;
+-	typeof(nf_nat_tftp_hook) nf_nat_tftp;
++	nf_nat_tftp_hook_fn *nf_nat_tftp;
+ 
+ 	tfh = skb_header_pointer(skb, protoff + sizeof(struct udphdr),
+ 				 sizeof(_tftph), &_tftph);
 
-:::::: The code at line 51 was first introduced by commit
-:::::: 42381bf1f2de13bbfbdea74b78af9768ab65b80c nios2: Module support
-
-:::::: TO: Ley Foon Tan <lftan@altera.com>
-:::::: CC: Ley Foon Tan <lftan@altera.com>
-
+base-commit: af4e9ef3d78420feb8fe58cd9a1ab80c501b3c08
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
