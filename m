@@ -1,134 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4127839B946
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 14:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961AC26ED4F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 15:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772635558; cv=none; b=QZQBeYnVmHekgX+siemcWhCmWPSyFvib94ba1p4vZC0d8ZV5jASc/jCUB1Vwg5BKw2Bkkvy9d2ijNgsA0K2Oau6R3t3JcIDzMdTBziJTq3AC3SZ4w6ktf94SgJL22xlED1ORLH3TxjadydeGfulquRMjWGSfCBA/5Ypc6/6eCUg=
+	t=1772637156; cv=none; b=b83lsNW+0P243qcp2rN1G5yAN/X2DAdj9tf2ZVo7vC7qcPKdafhvaNED9umx/SkjgaC0Xl2smKc2cv+v2wCS/gYmlCJF6prRlw1gH15poOrD9UCHkDUy9qvSICSFh9focDb2bDcno58Bw4QnP+snr7TPmgL1EwTEzOIZKjsbVEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772635558; c=relaxed/simple;
-	bh=RY6tppb3O6pl4Z9e1pgawW9i8gze98nbRnXvKwFvvfI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LUchKeIMV5XOEpKbMxkhmH53OrjGUt9wnu5qTHSZ58UiRZl69j7opLv0vajtv61AkDeI8Ak+Rcs7BblGUdGNdWVExiqFXguUtp9c25+25pDcsT9oSQS5ZYWwUAq0BDxxcOMtvXtriLx8DXJYa8rXsNGsCYP8bgVKuyscrl4r9Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8v3DlyP; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1772637156; c=relaxed/simple;
+	bh=j0cB9JI/3pBFDaTTSPAGIi8TfsKNqQ/pygSAUVmpmsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m7yL8q8keuDW+VEzdSs1WCQotwH/gWpa0goYT86Zj31zR24NwM7ghE9z3C9nROH6p7HaFyPSlVEOkl0CVaWXc74Lx9xx4rXsIqmlrfFCRwCWbIic6kBJRQ7akSNNw/Z2HnUp7Y+WvCeboxfelPu4/ovJ+ZDtoPnjsGf6uQnFD0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ijg9bGZ2; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8v3DlyP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijg9bGZ2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772635556; x=1804171556;
-  h=date:from:to:cc:subject:message-id;
-  bh=RY6tppb3O6pl4Z9e1pgawW9i8gze98nbRnXvKwFvvfI=;
-  b=D8v3DlyPdlp0y1klMHu8ThKgbe1XhKp3T3yW83UFjmjhvYHTgy6zlW1Z
-   BeujGe2wYOw3Ou9CFxwocRq8PNVQj1vo0X+3hdPC48HOGURuRjyvsKNET
-   EV2rZkWTzk86mwuvQibp/A6OYK8Hxfdv9ox3FsF7ioD3/FIN68nkwLev9
-   1Rz/9/MNEPtCw9IAqB6K/dBnLy7EkxLzyMoxkkXA1DvoQC9uYP/9Ycj+6
-   zhtN7BwmNiFyTs1L+RAsfM12+N7dtAXC8Wf7L3L9H7KB8GlzhoOpzotsM
-   /QMPj1XahpmLDxBMNx1CObMQu2z4BTE4RIt4A5cbhUHpQO89cAm2AyUXp
-   w==;
-X-CSE-ConnectionGUID: w7SneTyZTfm+GcSGkenxsg==
-X-CSE-MsgGUID: zB3GiOtDTkCi82Mp5fJf+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73744506"
+  t=1772637154; x=1804173154;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j0cB9JI/3pBFDaTTSPAGIi8TfsKNqQ/pygSAUVmpmsk=;
+  b=ijg9bGZ2K4fYosLgsvgaPORz2/JLzfWF0ndocfRtaZSgclJH2k7wXAyr
+   lBQN5K9sgNOJAFxnXZaBXjPkVNS4Ra0eDeO8Ei2rld0H4Kvp+qrN8EzyV
+   BfzZppxkBBoZr6TAL9HNsBxB/GKjve7UZOf+N/NzUYo3Yv8Go/4VRlpUO
+   rP2w6PTPToMcS1gFcvl84vEVImyrG5tz07b8k5BwyZs5bf5a9QZlLPIer
+   cBpLYVjtQNJ8LqwBxvvvCTGZc+fCfY7motfUnWC8GdVnHQHn49z9Hu/te
+   i+SGTCb9E5Z1bEsRie7JarcBd42kKiL2LW7CiMgDSgLRuZJK/kj+bZz+C
+   A==;
+X-CSE-ConnectionGUID: cqVFa5KjQGWdFuKC14Xbww==
+X-CSE-MsgGUID: SXC8JxK3Sbqbv0hfxfJr3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77569653"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="73744506"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 06:45:56 -0800
-X-CSE-ConnectionGUID: amIujs9YTSiTE8dl6cHxMA==
-X-CSE-MsgGUID: bX3YgpDPRl6n592FqPVubg==
+   d="scan'208";a="77569653"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 07:12:34 -0800
+X-CSE-ConnectionGUID: HlA1aqOrRL+e2MqcXgKEnw==
+X-CSE-MsgGUID: xKpDG5G4QoOsVnZC7XVPLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="218310003"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Mar 2026 06:45:54 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+   d="scan'208";a="223345674"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 04 Mar 2026 07:12:31 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxnTz-000000003qf-0pwO;
-	Wed, 04 Mar 2026 14:45:51 +0000
-Date: Wed, 04 Mar 2026 22:45:20 +0800
+	id 1vxntk-000000001jd-2ZgE;
+	Wed, 04 Mar 2026 15:12:28 +0000
+Date: Wed, 4 Mar 2026 16:11:44 +0100
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Miklos Szeredi <mszeredi@redhat.com>,
- Jingbo Xu <jefflexu@linux.alibaba.com>,
- "Darrick J. Wong" <djwong@kernel.org>
-Subject: [linux-next:master 3223/3431]
- include/linux/compiler_types.h:706:38: error: call to
- '__compiletime_assert_430' declared with attribute error: min(outarg.size,
- ((loff_t)(~0UL) << 14) - pos) signedness error
-Message-ID: <202603042237.M1MDFjps-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Haifeng Xu <haifeng.xu@shopee.com>, rafael@kernel.org, lenb@kernel.org,
+	dan.j.williams@intel.com, jonathan.cameron@huawei.com
+Cc: oe-kbuild-all@lists.linux.dev, dave@stgolabs.net, dave.jiang@intel.com,
+	alison.schofield@intel.com, vishal.l.verma@intel.com,
+	ira.weiny@intel.com, linux-cxl@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Haifeng Xu <haifeng.xu@shopee.com>
+Subject: Re: [PATCH] ACPI: add a boot parameter to disable parsing CFMWS
+ during NUMA init
+Message-ID: <202603041621.Ykqrqowb-lkp@intel.com>
+References: <20260304080647.169434-1-haifeng.xu@shopee.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304080647.169434-1-haifeng.xu@shopee.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c025f6cf4209e1542ec2afebe49f42bbaf1a5c7b
-commit: db64b9107f146940606d512f1d6214323b905565 [3223/3431] fuse: simplify logic in fuse_notify_store() and fuse_retrieve()
-config: arc-randconfig-002-20260304 (https://download.01.org/0day-ci/archive/20260304/202603042237.M1MDFjps-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603042237.M1MDFjps-lkp@intel.com/reproduce)
+Hi Haifeng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge cxl/next tip/x86/mm linus/master v7.0-rc2 next-20260303]
+[cannot apply to cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haifeng-Xu/ACPI-add-a-boot-parameter-to-disable-parsing-CFMWS-during-NUMA-init/20260304-160933
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20260304080647.169434-1-haifeng.xu%40shopee.com
+patch subject: [PATCH] ACPI: add a boot parameter to disable parsing CFMWS during NUMA init
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260304/202603041621.Ykqrqowb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041621.Ykqrqowb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603042237.M1MDFjps-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603041621.Ykqrqowb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   fs/fuse/dev.c: In function 'fuse_notify_store':
->> include/linux/compiler_types.h:706:38: error: call to '__compiletime_assert_430' declared with attribute error: min(outarg.size, ((loff_t)(~0UL) << 14) - pos) signedness error
-     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                      ^
-   include/linux/compiler_types.h:687:4: note: in definition of macro '__compiletime_assert'
-     687 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/compiler_types.h:706:2: note: in expansion of macro '_compiletime_assert'
-     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |  BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-         |  ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
-      98 |  __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |  ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y) __careful_cmp(min, x, y)
-         |                   ^~~~~~~~~~~~~
-   fs/fuse/dev.c:1790:8: note: in expansion of macro 'min'
-    1790 |  num = min(outarg.size, MAX_LFS_FILESIZE - pos);
-         |        ^~~
+>> drivers/acpi/numa/srat.c:323:12: warning: no previous prototype for 'cfmws_disabled' [-Wmissing-prototypes]
+     323 | int __init cfmws_disabled(void)
+         |            ^~~~~~~~~~~~~~
 
 
-vim +/__compiletime_assert_430 +706 include/linux/compiler_types.h
+vim +/cfmws_disabled +323 drivers/acpi/numa/srat.c
 
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  695  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  696  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  703   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  704   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  707  
-
-:::::: The code at line 706 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   322	
+ > 323	int __init cfmws_disabled(void)
+   324	{
+   325		return cfmws_numa < 0;
+   326	}
+   327	
 
 -- 
 0-DAY CI Kernel Test Service
