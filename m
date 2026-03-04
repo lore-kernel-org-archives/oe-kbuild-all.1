@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2498A372ED3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 11:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261633976AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 11:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772623784; cv=none; b=WEfRcWLa5T8mjssqRvO8z9iWoyR8TWq1zlitdKbOG75HMJ27KZGJB7TrHHGIxl4XCiVS66QrxxEsEac46i0vUccbnHFtYCqg+/AQiO9OPIa/4AJ3N+QCesvpIjSCKHBuq39oX05zUusRee20FWxhS9hCdWPMbxXi1wxYq7++hlI=
+	t=1772625404; cv=none; b=qD0ahBEA5c9XD80u8VaP9UCc5YXdgAqD/o+EEd7RYijdXNtHiu0IeXLOCdd6XQI052LdRAJoBrmMs4DKHjdlPAk6w5i6cB6KUywXng2FeMpCSHNy1LLygNT0MGNvhFiDbqKNon7Dmk0/25alC7eD8XoVktacEKGZnI+VwtKaw3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772623784; c=relaxed/simple;
-	bh=1TQlMpU6hmoK4qwk6KP9PeW6GPyus3gxEyfT0uObLtE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qbHYkNnRW4np4qwr4yyVWuozA/LcjtUds9oGHHwNwP6ntfR0PzKEf5BPuHIOk68kuXSSWjKy5qqgQb0NJFwhsUueDtVRqsioT8N6kc/Z/CUqOqL8UtC4MkO4doAwHGdhWHShKgQoeAqsNc2lR9NmGrYVsb9U/D5zYwVwgpXVqTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeucZZbs; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1772625404; c=relaxed/simple;
+	bh=JtpKg+qENV034Nrz1sc4aIJOIBhEP0a0kIizUs4Qggo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rxga7l527A2c58sPNsRSRlfxGHLHtf8kt3JN7P8qPR7PBabGEyMP7TrMUeVTDBV0Ai9u3rZhyeFtacDGajQucyTKM3Foi2N1a60kSaUt9b2v1GTtqZQFn66YjNNhjhcfyyoyJy8z5V/yVTo4tYRaYVAPOMQPyopw64plQR/Wbys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LF5ckJQW; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeucZZbs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LF5ckJQW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772623782; x=1804159782;
+  t=1772625391; x=1804161391;
   h=date:from:to:cc:subject:message-id;
-  bh=1TQlMpU6hmoK4qwk6KP9PeW6GPyus3gxEyfT0uObLtE=;
-  b=TeucZZbsp6XLLtr/pCNUOoXYoTSNbWr+RZoIP1/WIl/WwbdzngFZO1u1
-   +hX2uLruSyfv1gfATAUWJafZYGWsz+nff/JLvTyrsuWNfFVc/zIO9bi1z
-   5gssvPsUG3uXMTfHQn4WiEfQll9ZKfpNhe5N70ucMOEeuBsy6bbE+qT1K
-   +jhOisYfs8KNF5IMH6L00soKCbI21RwHOtBkTNcAC7hTii8ZGjzq0a7CZ
-   rfc5+ZJHOFAfgFXHT3YI2ZXN2SHTlj2aVtUQpKZMD7ONlSVHqSgRpQXHd
-   9bf0bX4kIFJ95OSG3KEWwOjf0hR47Y28VpaLwgSXfaTS4zbrfgMS9WryO
-   g==;
-X-CSE-ConnectionGUID: PEaGKYeaQzKezs+JBRZ7zw==
-X-CSE-MsgGUID: D6UqQbdlREmlllQGnCOA+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="99153587"
+  bh=JtpKg+qENV034Nrz1sc4aIJOIBhEP0a0kIizUs4Qggo=;
+  b=LF5ckJQW5a+kj3oDuAhb2IGZBjBnMAzDiZCSo/sM3+bdhr2OX/egVL6x
+   +8Lz4H77fnmfOVQBHz8Bp4WLJtje93VlUf2xFMJ4QdRwvhCYc28K0MDB+
+   Hlo57w2HxijM7NDya7dl08TxY/0ldBCvlF+QenIhc/KpE/bEROvnnPU9L
+   g+YHcKpL8uOwVt8MnL3fKr14jUgiIRNMhzNsin5QCBs246HoiTER1ujeK
+   n32ATnZES4K+rgQDCTy4L1Ctpz9ioGzwAciTssDiV+x8eTo08q4TGoSEN
+   Ga9WbSSVkFOad+fCe80W5qY0menhrzu1xEIon8uemK4o0ctK+NQN0Y52X
+   w==;
+X-CSE-ConnectionGUID: Ow+1tpH0TfaRF+HzWUIlGg==
+X-CSE-MsgGUID: fbZIFXkgQJaPAgPJOhNBmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="72880315"
 X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="99153587"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 03:29:42 -0800
-X-CSE-ConnectionGUID: I3thCLj0QM6k4dS9fOjy3w==
-X-CSE-MsgGUID: gfqTVne3RFGWv6vIfO9PcQ==
+   d="scan'208";a="72880315"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 03:56:30 -0800
+X-CSE-ConnectionGUID: jKvR3/ATQemz5uLDcBMstA==
+X-CSE-MsgGUID: vUGigkPWQBWLoXy43/1aiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="218265265"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Mar 2026 03:29:39 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+   d="scan'208";a="215275867"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 04 Mar 2026 03:56:28 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxkQ4-000000003ez-1rm0;
-	Wed, 04 Mar 2026 11:29:36 +0000
-Date: Wed, 04 Mar 2026 19:29:09 +0800
+	id 1vxkq2-000000001gD-0dWe;
+	Wed, 04 Mar 2026 11:56:26 +0000
+Date: Wed, 04 Mar 2026 12:56:22 +0100
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Antipov <dmantipov@yandex.ru>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: [akpm-mm:mm-nonmm-unstable 49/110]
- __efistub_cmdline.c:undefined reference to `__efistub___lshrdi3'
-Message-ID: <202603041925.KLKqpK6N-lkp@intel.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [linux-next:master 1591/3431]
+ arch/arm64/boot/dts/qcom/apq8096sg-db820c.dtb: usb@6af8800
+ (qcom,msm8996-dwc3): 'extcon' does not match any of the regexes:
+ '^pinctrl-[0-9]+$', '^usb@[0-9a-f]+$'
+Message-ID: <202603041222.EC2MeSag-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,22 +63,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   09c4ad73ba08ac959a6afb5e019826743837e0aa
-commit: 7c5bff091374a7980431237af80e6da21dce74fe [49/110] lib: fix memparse() to handle overflow
-config: riscv-randconfig-001-20260304 (https://download.01.org/0day-ci/archive/20260304/202603041925.KLKqpK6N-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041925.KLKqpK6N-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c025f6cf4209e1542ec2afebe49f42bbaf1a5c7b
+commit: db24f1fa263fdb473a23af461f82b4bc97af28b1 [1591/3431] arm64: dts: qcom: add apq8096sg-db820c, AP8096SG variant of DB820c
+config: arm64-randconfig-2051-20260304 (https://download.01.org/0day-ci/archive/20260304/202603041222.EC2MeSag-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041222.EC2MeSag-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603041925.KLKqpK6N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603041222.EC2MeSag-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   riscv32-linux-ld: drivers/firmware/efi/libstub/lib-cmdline.stub.o: in function `__efistub_.L38':
->> __efistub_cmdline.c:(.init.text+0x1d4): undefined reference to `__efistub___lshrdi3'
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8996.dtsi:1052.26-1103.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@900000/dsi@994000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/msm8996.dtsi:1122.26-1173.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@900000/dsi@996000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pm8994.dtsi:131.9-150.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@400f000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/apq8096sg-db820c.dtb: usb@6af8800 (qcom,msm8996-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml
+>> arch/arm64/boot/dts/qcom/apq8096sg-db820c.dtb: usb@76f8800 (qcom,msm8996-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml
+>> arch/arm64/boot/dts/qcom/apq8096sg-db820c.dtb: syscon@9a10000 (syscon): compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
 
 -- 
 0-DAY CI Kernel Test Service
