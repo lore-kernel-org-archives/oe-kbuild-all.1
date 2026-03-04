@@ -1,107 +1,128 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0299A371886
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 10:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772618540; cv=pass; b=gNtTcs7zcvS5+lYcGeHwv8QmvwzohcPRKDyQOKpCwM5BwE/YV2GiGB6l8KX4YpLDGMmIAb9PSteFah/yftM6VnElrxdkpCd1bbkJVsdYfjaP5PB1j95EQyQ1akxhj40J3LgqLaGfhfrrkmdeoB7cNCC57a/BqiF4vAZMVV5lByE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772618540; c=relaxed/simple;
-	bh=LIXUkQND/XUYwmiVyoCn3iAB4eY7xw2BT+VhHfmIACs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ICXyuXETgAXudgaQ9/uOxC0kYJsxD2QJ8zQ6XgvbsHUIWIaBoBsE0qL2oJfp2I1in7A0trD+z/9aX+wZk0pXNqlGVnZ+y3qqmj4cgVYsuv9AiLzaV9MJBTWkQBQblc3qpX3QUdTfgNdczZ9b+VZBHSLFaJvgdzoZIlb8FR2qoGw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=T6Z013fc; arc=pass smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DD13A2545;
+	Wed,  4 Mar 2026 10:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772621137; cv=none; b=NWh+Fu1emvSQwFuO+BcIg2gtY+2crYLFrlDy03Sr6DmgdKqhPF5T7CT03OoDR9MmfoZ8fY5JmyRRw1VpEwD08oUptNPCxmMn2/WoG59ie3Zqd4k7I5nmN45hKvB5fQHY4nCc8z+75G98hH5ykXWCRD0ydf6KqbJ4mmBIr8agp+U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772621137; c=relaxed/simple;
+	bh=h7E/8o1/7HTV0SVvlIZbDHxgfXZolheekA9fIw186h4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RWGJbXeRTwq6ij34xhbtZmYS8DPO8LZx/Gv2IKxq4EVeTEuUF4bs+99J2SVf7HBZSspsD4WSr6Qe2/Q/JFflBi7oKL0HaJ05IugKDfALWpIUJlnJTUqGbLCHIpWcxXsrfwplawbVM3XEiAGf+Jvjc2LE36Jz7Wf43BU20/z+ehk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G6geBob7; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="T6Z013fc"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-506a321cc53so76074221cf.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Mar 2026 02:02:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772618538; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XfsFCaG+uq38ngqIhXzdwuUOHgtw/oOkytepmKb5zE6pRB+66C7Pqv3LSh6sGQXGv7
-         ivcziJ0gmaApTQFmlo+Nb/mbAsB/3oijcIclyzQnQPsp9zrPPqBzIs3Rk9GGc5mRwpJT
-         l8v5RQaf1e9nKok72MEvWuGVLKuqYlglQh8Z1IZk1258lNbRUP2R1nMruhPoRZ2/t31Q
-         cQfOk0K+02VTuJ7vEEc1aehirzVZOnMNfg7tsWY6l10daJPUDe8+q+RGpeAze3JrMeub
-         GbYRuNsuJ654mUdxTMRYZC281zT6/FYRh+4TldvOQsTGxolPfsa6x3oWFEYHznX6JDcA
-         +o1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5rljX6QFPComIDSDQ1Skhem5NjDWFGniNxooYJEikxQ=;
-        fh=QCb9tUV2pRDPBmx29iVGTN3dYwSGeBKfiqDJi9vn2K4=;
-        b=OZuKf3m4SeZ2IcDb8aUgmRt2A/4UsdUky+d/chRoT4AhQulti3dGsHAaH8rArP2WZm
-         khaSDnBTXOpiPEUgsihTlt8bMj9WUwP6cTlwAu0JS/IZFqPQHfRzqUOQ3zxPFLIhHV2D
-         6BnoYN9FrgJKq2Eddyp2APQ2QpSatWpGfXmvr4zZxfXYaRs6Y26+NKQf5CszQLjHC9Jy
-         dD+MAdOB03S1qwIVdR2KcWRb1TJRkJw7c7eA4kFcxyzWCP5YWM+P3K4IUxohT1pruiT6
-         jlO5PE7urTCTHNCFkgNEAvaMwQixDcPRM2CZ19FL0LRhmgeHnNu5cvu+L8oHBrMBiucQ
-         cvaA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1772618538; x=1773223338; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5rljX6QFPComIDSDQ1Skhem5NjDWFGniNxooYJEikxQ=;
-        b=T6Z013fctX8tQpV1DjmBc4mZ5jvqqcC0NNW4C+5YZzFLYBDUZOSF4tkllEyEL8f2YZ
-         +zlUbcX0h2i7zzekqdx4Zi8gcdNFmJ6N+ClxG2s9Swa1dKYtqM8SjuNzBr1xsJNHYIrj
-         CE9N/4PUOmE9XV+qmZ0+BZWq5Zasz9ka86AqE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772618538; x=1773223338;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5rljX6QFPComIDSDQ1Skhem5NjDWFGniNxooYJEikxQ=;
-        b=fG0HJOEc7jgnpRtnjIJOW70QlfLrgqQLrIVp6c1aTq4xdC719tA4cjNi2lt4n0ujyl
-         JWSVgEZNbcLo78CYyhvsIV+CxMFwGZDZ+GjdFMU/lQE7shmknz4yJ/0XFOb4XLrkD9vx
-         GpEzxUAOSE5SAebN7sljF553rdaeIMF9G9D63G4+Cei3kKBiNbLzOce993shtabHyYBu
-         vg2jqLICdbGg8n3Vgrxn63rgi7Jdo6DuW1pnTnKlTwVook7a+Y8RE244TzNhdm/6Csoc
-         qnYUSeMpEf6w8mgof/qOOrC7M5u4pNIkZELUkZxTWge7ZO/PD8WEYCzELCqKxDSp0g/G
-         JRFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWwufJeBeu05xnw7gQPsd3LqYci1DWBVSQoY6jCn2Rmyf2R+RYnV6/Ihimpvf4uRbj4q7BhF4ACUm7pfGX1@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpEIL6EPDWAu7+h9KGDinmgxrHMcgpPo3uOYJo5FKsPRUSyqYL
-	IRaMduYRcJGmpBO59kp3l/6f+VUe4xKVpzGBnf8+AMvUaf9Bvp28VMWeGEUQrOJI3adoOK5U9AF
-	hBvDsMFIvTTDljyLHGnPakOticAoNBZgIgOKV8oQ7Rw==
-X-Gm-Gg: ATEYQzwud7C7L6H3JLQAm0abgNoiaLTq1AubWeB9Ucd4L45IwafKWnQsdGQEOgIIBzd
-	4jO1tYSAjjwslFBwiP1RB8bCu3y1TCvLjRnsEoVHozR4ylCJEfcRMfTf1wPCjJoa3c02We9DKB2
-	wcqEpqxc3ryMQhl0NTJWLjdUffZhZ/4rYEUCWSpHp5sqEV8EqIDSDVrnk+lDcXiVrviIvuZUGVw
-	9d0MzDQLeTDru8SpJY6FjKPV7lzGb1z6Rz2H9qPw72x8/pyZBnfE+PbA/+sfQKceD0Kb34oomCn
-	Hx+qDQvNqw==
-X-Received: by 2002:ac8:5d08:0:b0:4ee:42e5:f5ae with SMTP id
- d75a77b69052e-508db2a0f46mr19747451cf.25.1772618537934; Wed, 04 Mar 2026
- 02:02:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G6geBob7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772621132; x=1804157132;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h7E/8o1/7HTV0SVvlIZbDHxgfXZolheekA9fIw186h4=;
+  b=G6geBob7K/5KL+XR9FSXG/nq1wu3hznueZY0h5Swp+iD0HAvIsxJVGjp
+   +Rt8iKAEm9NtfPXvnsoBt0Ltj9/BNifuB7gnMLI1jWyoGDMk55iFEL1tt
+   jhmUGITt7a8Wf0fbEgi0z7N4nB4Eu3Wt/MEu1JYWoaxoN/ZhO+ITf0dhG
+   oyZxHFbBBVA02mDqKgNWhWpXO9gooNlJDYmxtk1d0+nYg3LrkJnSJ2vs+
+   wfs9+Y///J1p70mgTMwRK5QaWxCJoUVjAgmloUnD2THGdzmRrgIjbmQuz
+   LcrjUlIS5JtVkpDDt/pCiNatJbMB7fwirmH+/E/KOrJqY8QqcWCqKA2XZ
+   g==;
+X-CSE-ConnectionGUID: j5b4f6O2RUaDBaNtL/yqkw==
+X-CSE-MsgGUID: pN7q65IyRSmcPjG3+vHNBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="77522357"
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="77522357"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 02:45:32 -0800
+X-CSE-ConnectionGUID: oVDTgMTCR6Gc0LsRhX4bPw==
+X-CSE-MsgGUID: 5mOij3zGQFObPS2/aj14bA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="222799590"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 04 Mar 2026 02:45:28 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vxjjJ-000000001fd-2npX;
+	Wed, 04 Mar 2026 10:45:25 +0000
+Date: Wed, 4 Mar 2026 11:44:26 +0100
+From: kernel test robot <lkp@intel.com>
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, kch@nvidia.com, hare@suse.de,
+	alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+Message-ID: <202603041124.uCwVY2n8-lkp@intel.com>
+References: <20260304053500.590630-5-alistair.francis@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202603031522.e4lroM3J-lkp@intel.com> <CAJnrk1Zj=U7DkaQRRfbqqAUQ3+3R2hS6agtj5iOLKO5+ucBRmg@mail.gmail.com>
-In-Reply-To: <CAJnrk1Zj=U7DkaQRRfbqqAUQ3+3R2hS6agtj5iOLKO5+ucBRmg@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 4 Mar 2026 11:02:06 +0100
-X-Gm-Features: AaiRm51FsggTwyckvNK359mX--xhf-NMyHgCYBKJtOAb9mDYPUQDjmmmHDb7Z1o
-Message-ID: <CAJfpegvgbMMmxt7P6XeWt=ZWqsF=db-u8YmpyFz4inW-gZe0cA@mail.gmail.com>
-Subject: Re: [fuse-devel] [mszeredi-fuse:for-next 9/12] fs/fuse/dev.c:1818:43:
- warning: variable 'folio_offset' is uninitialized when used here
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.sourceforge.net, 
-	"Darrick J. Wong" <djwong@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Jingbo Xu <jefflexu@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304053500.590630-5-alistair.francis@wdc.com>
 
-On Tue, 3 Mar 2026 at 18:19, Joanne Koong <joannelkoong@gmail.com> wrote:
+Hi,
 
-> got switched around. These two lines should be swapped.
->
-> Are you able to fix this up locally Miklos or do you prefer that a
-> fixup patch be sent for this?
+kernel test robot noticed the following build errors:
 
-Already fixed up, but the push failed (I was travelling) and forgot to
-retry.   Sorry for the trouble.
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on net/main net-next/main linus/master v7.0-rc2 next-20260303]
+[cannot apply to linux-nvme/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Now pushed.
+url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20260304-134148
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20260304053500.590630-5-alistair.francis%40wdc.com
+patch subject: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260304/202603041124.uCwVY2n8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041124.uCwVY2n8-lkp@intel.com/reproduce)
 
-Thanks,
-Miklos
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603041124.uCwVY2n8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/nvme/host/tcp.c: In function 'nvme_tcp_try_recv':
+>> drivers/nvme/host/tcp.c:1429:31: error: 'const struct proto_ops' has no member named 'read_sock_cmsg'; did you mean 'read_sock'?
+    1429 |         consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+         |                               ^~~~~~~~~~~~~~
+         |                               read_sock
+
+
+vim +1429 drivers/nvme/host/tcp.c
+
+  1417	
+  1418	static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+  1419	{
+  1420		struct socket *sock = queue->sock;
+  1421		struct sock *sk = sock->sk;
+  1422		read_descriptor_t rd_desc;
+  1423		int consumed;
+  1424	
+  1425		rd_desc.arg.data = queue;
+  1426		rd_desc.count = 1;
+  1427		lock_sock(sk);
+  1428		queue->nr_cqe = 0;
+> 1429		consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+  1430						     nvme_tcp_recv_cmsg);
+  1431		release_sock(sk);
+  1432		return consumed == -EAGAIN ? 0 : consumed;
+  1433	}
+  1434	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
