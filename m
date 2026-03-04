@@ -1,64 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DD13A2545;
-	Wed,  4 Mar 2026 10:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC3F1C84AB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 11:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772621137; cv=none; b=NWh+Fu1emvSQwFuO+BcIg2gtY+2crYLFrlDy03Sr6DmgdKqhPF5T7CT03OoDR9MmfoZ8fY5JmyRRw1VpEwD08oUptNPCxmMn2/WoG59ie3Zqd4k7I5nmN45hKvB5fQHY4nCc8z+75G98hH5ykXWCRD0ydf6KqbJ4mmBIr8agp+U=
+	t=1772622333; cv=none; b=TW7iMzfyZ1COz+ghwCFjBEMXnpLrc3PWUJgB9r4ODG53HWLXk1qt06Oywoguv7FgOOwZqCKgxcDjZWzE12K/vsp5kMkKTZuhPY1vmnraAPdLbc8vPiYkFGspwtoBYK+UPS1TAYO7spLYh7CGiAkI5nC2SpGSJ3ioEXHwhlKW6Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772621137; c=relaxed/simple;
-	bh=h7E/8o1/7HTV0SVvlIZbDHxgfXZolheekA9fIw186h4=;
+	s=arc-20240116; t=1772622333; c=relaxed/simple;
+	bh=/Pp8xd0MR53jkbmdo8SmhG/HDAzp5ECtWSf22t4Ir9Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RWGJbXeRTwq6ij34xhbtZmYS8DPO8LZx/Gv2IKxq4EVeTEuUF4bs+99J2SVf7HBZSspsD4WSr6Qe2/Q/JFflBi7oKL0HaJ05IugKDfALWpIUJlnJTUqGbLCHIpWcxXsrfwplawbVM3XEiAGf+Jvjc2LE36Jz7Wf43BU20/z+ehk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G6geBob7; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=h7dtzVm8lLlraooazlgiokiAsy8V4A0NDXiltUlhresfTKXiWFepacYkVXBUKGjTHkMzdSNIcYeu03j+btw5z6Fr+eJ6eIDhG0lhbjkAsC8CbME3nN+gOYuxazXehkWDKwe3COo6KpkovE3cpLDq2K+tqrS0TlGCuWGoGz90zrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZTR737A; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G6geBob7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZTR737A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772621132; x=1804157132;
+  t=1772622331; x=1804158331;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=h7E/8o1/7HTV0SVvlIZbDHxgfXZolheekA9fIw186h4=;
-  b=G6geBob7K/5KL+XR9FSXG/nq1wu3hznueZY0h5Swp+iD0HAvIsxJVGjp
-   +Rt8iKAEm9NtfPXvnsoBt0Ltj9/BNifuB7gnMLI1jWyoGDMk55iFEL1tt
-   jhmUGITt7a8Wf0fbEgi0z7N4nB4Eu3Wt/MEu1JYWoaxoN/ZhO+ITf0dhG
-   oyZxHFbBBVA02mDqKgNWhWpXO9gooNlJDYmxtk1d0+nYg3LrkJnSJ2vs+
-   wfs9+Y///J1p70mgTMwRK5QaWxCJoUVjAgmloUnD2THGdzmRrgIjbmQuz
-   LcrjUlIS5JtVkpDDt/pCiNatJbMB7fwirmH+/E/KOrJqY8QqcWCqKA2XZ
-   g==;
-X-CSE-ConnectionGUID: j5b4f6O2RUaDBaNtL/yqkw==
-X-CSE-MsgGUID: pN7q65IyRSmcPjG3+vHNBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="77522357"
+  bh=/Pp8xd0MR53jkbmdo8SmhG/HDAzp5ECtWSf22t4Ir9Q=;
+  b=iZTR737AbBow32u27dy4kK+89mXzFd1UukxzyPnK9mG2NKUKW0QReCZx
+   pZ4w8fS32Tc0NNB4JEhEKUT9brjAY5sAU6ayxGscDj6oJ3xD0jfMhYDTq
+   uFNTFQgXTEx1MQMSXyZvd2KvbbnTdgFPXsZzmIJZvUSppxH5vIz0/Notp
+   PkymIdIO2BuFCWU7xPX7wTk8IzatJKgtgZRSRVIMx9c2qeVIfnOpSt7z5
+   gdkBE5gmim3PfRGFNPuFDEhE2DJ8oCrXd9kln2JS7eOWFZ59T0Td0AJde
+   k2vxB3VKAoiz1gGgRU6boTHd6iMcTzPSgphEyFM9rvtPpooo58rABhr3B
+   w==;
+X-CSE-ConnectionGUID: lbuEfJvySLuFm9LCEZFAug==
+X-CSE-MsgGUID: qVTN0iezSu+Fd6d6A10h+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="76281175"
 X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="77522357"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 02:45:32 -0800
-X-CSE-ConnectionGUID: oVDTgMTCR6Gc0LsRhX4bPw==
-X-CSE-MsgGUID: 5mOij3zGQFObPS2/aj14bA==
+   d="scan'208";a="76281175"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 03:05:30 -0800
+X-CSE-ConnectionGUID: ChR8CHo2Rjma9c6r6eCz2w==
+X-CSE-MsgGUID: kQr/68s/S6W37euO0DGe1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="222799590"
+   d="scan'208";a="216624885"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 04 Mar 2026 02:45:28 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 04 Mar 2026 03:05:27 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxjjJ-000000001fd-2npX;
-	Wed, 04 Mar 2026 10:45:25 +0000
-Date: Wed, 4 Mar 2026 11:44:26 +0100
+	id 1vxk2f-000000001fp-3THD;
+	Wed, 04 Mar 2026 11:05:25 +0000
+Date: Wed, 4 Mar 2026 12:05:00 +0100
 From: kernel test robot <lkp@intel.com>
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org, axboe@kernel.dk,
-	hch@lst.de, sagi@grimberg.me, kch@nvidia.com, hare@suse.de,
-	alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-Message-ID: <202603041124.uCwVY2n8-lkp@intel.com>
-References: <20260304053500.590630-5-alistair.francis@wdc.com>
+To: Nuno =?iso-8859-1?Q?S=E1?= via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
+	linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>
+Subject: Re: [PATCH v6 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+Message-ID: <202603041109.HFnPWnj8-lkp@intel.com>
+References: <20260303-ltc4283-support-v6-2-efe11502fad2@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,61 +70,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260304053500.590630-5-alistair.francis@wdc.com>
+In-Reply-To: <20260303-ltc4283-support-v6-2-efe11502fad2@analog.com>
 
-Hi,
+Hi Nuno,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on net/main net-next/main linus/master v7.0-rc2 next-20260303]
-[cannot apply to linux-nvme/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 78558965440b27814592ec82d8f3668395953b1b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20260304-134148
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260304053500.590630-5-alistair.francis%40wdc.com
-patch subject: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260304/202603041124.uCwVY2n8-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041124.uCwVY2n8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S-via-B4-Relay/dt-bindings-hwmon-Document-the-LTC4283-Swap-Controller/20260304-010255
+base:   78558965440b27814592ec82d8f3668395953b1b
+patch link:    https://lore.kernel.org/r/20260303-ltc4283-support-v6-2-efe11502fad2%40analog.com
+patch subject: [PATCH v6 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap Controller
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260304/202603041109.HFnPWnj8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603041124.uCwVY2n8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603041109.HFnPWnj8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/nvme/host/tcp.c: In function 'nvme_tcp_try_recv':
->> drivers/nvme/host/tcp.c:1429:31: error: 'const struct proto_ops' has no member named 'read_sock_cmsg'; did you mean 'read_sock'?
-    1429 |         consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
-         |                               ^~~~~~~~~~~~~~
-         |                               read_sock
+   =======================         ========================================== [docutils]
+>> Documentation/hwmon/ltc4283.rst:258: WARNING: Blank line required after table. [docutils]
+   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
 
 
-vim +1429 drivers/nvme/host/tcp.c
+vim +258 Documentation/hwmon/ltc4283.rst
 
-  1417	
-  1418	static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
-  1419	{
-  1420		struct socket *sock = queue->sock;
-  1421		struct sock *sk = sock->sk;
-  1422		read_descriptor_t rd_desc;
-  1423		int consumed;
-  1424	
-  1425		rd_desc.arg.data = queue;
-  1426		rd_desc.count = 1;
-  1427		lock_sock(sk);
-  1428		queue->nr_cqe = 0;
-> 1429		consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
-  1430						     nvme_tcp_recv_cmsg);
-  1431		release_sock(sk);
-  1432		return consumed == -EAGAIN ? 0 : consumed;
-  1433	}
-  1434	
+   256	
+   257	=======================		==========================================
+ > 258	power1_failed_fault_log		Set to 1 by a power1 fault occurring.
 
 -- 
 0-DAY CI Kernel Test Service
