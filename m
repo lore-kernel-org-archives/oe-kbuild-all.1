@@ -1,64 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9812F3054EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 13:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE197312837
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 13:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772632234; cv=none; b=sUvlALABLhwqnDuAZzqyHqMuwwUgwtMBugDPDS3smpYE1Upszxpp02tx6p/PSNbqhmgM6UMWSSj1+noBm7+c9N46fuG82gLMmn/gI1kD238YKFlccaAcRhejPUu4gcTXxDGqQs8pbP8lJam7xl2wx/4oXTvIOKwu4kBj9n0G5rU=
+	t=1772632236; cv=none; b=fPpAmz9FcFI6Z1pFiDj+tSXnF91uJZla55Z7+f8p6Nv1u5L778k8MTQ5bph/oFDBd/RifvXATr1wiAu6PvdXF/bYd4RfrxRqJfsguc49uvoactgDaWlIG4fox38VuWXuSSMAkACoNYbcYbiXZBr/Sxf2APDP/EytrWZ4fhYadE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772632234; c=relaxed/simple;
-	bh=CvBFSLoX33HHaYixzYhjVgKTwhFEBX5XLgiyHC53qns=;
+	s=arc-20240116; t=1772632236; c=relaxed/simple;
+	bh=VPIbwl7qvJoAZJvI2vTr8h/by7c54vjlTr/7L55yv/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pabMMP92p8LUAsZb/jKMGyMhh9qSb5uP+/XaxJ/sbR1OqIplbel8KLxxA+7FlbdAEkEB3fOkcU7bfGSba9B4fD3HBCOr/nXK7syD49E2BxWUyVPzKvzWZcMpdCNBSbRsRBgaxUli9hbFSVv6W1uxdrUu+RmHDbnG2UGW/lm5ydo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J+9Z3qy9; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=GIo/PkKvHfvfiSUHDOK2+Urb673xWd/g60mdXFQ1g84aUV+jxmp7w0i3ghAOWe7yTqp9Kmm+9yMGeWErTmrbgyGFRxkpMQjBhelLHJmBT5gnCPSd6CIQej7fIWXKhn12MaODXRXQqlqjpOpJj4T3CT35uHM0DwAaihd21+kKtCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UXJe5DzS; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+9Z3qy9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXJe5DzS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772632234; x=1804168234;
+  t=1772632235; x=1804168235;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CvBFSLoX33HHaYixzYhjVgKTwhFEBX5XLgiyHC53qns=;
-  b=J+9Z3qy9p47deuk1OT8+mxD7vXonikGQptVKJGI6o9Py/twgDhJzsImG
-   r8ItJoP0nov6suE0MHjAEVt+DdohGKIqfmuD6cL7lP6R7OK8YddHT56ki
-   5m/v9RmkM8eE2ON9ji0OivwB98q5RTX1zPZnkj7vkjkuVTvIZjfvSyQpC
-   Xdh3PxFZBrNHdtlwtQoMZUqSY+XAvrK0LDe1F7fU1qzF5R8m6C2UwQD6r
-   7RSkYzt6kIw9om5PHmph+OlbXJzm7xbAY+/M+pvokVEaUtD4ug4J7HLCg
-   mqN/fuQaq81sC6ydKtHvroZl7TcrIbo2iZO2pVVBxsfd8NoKDsqBWKSQr
+  bh=VPIbwl7qvJoAZJvI2vTr8h/by7c54vjlTr/7L55yv/k=;
+  b=UXJe5DzSxa6sE6lYGGk82kAXh8PA2932N4E/lAdgz399Jw/ln0NuO8Ku
+   VcKa/7LR1exDHLbkR/faBSDXF22EdzbqI8nUD2QeAULqEemMtBirpYgV2
+   EO05f0PCR17hVmz6UsOZCl2o1qta25utYkJtUrpOW495M9EmlGwVtc04M
+   J0N7YYh0KvaoitysLWpsKtu5OVlhNIp0ewzymAtvMLDecd40KTnUt04Yk
+   S6/TnP2gS9cOL3Tq/mWIE5I3W8g4hIuVrX1/2EmsYz0V+rBAtSWXH7Nal
+   Yp0FVTisIflLMpJeLP4JirPUXrHiGAVria2X/Ih1pm3/oX709mDlOK22/
    Q==;
-X-CSE-ConnectionGUID: k5P3JWI8Q0KRN8PZEd8xiA==
-X-CSE-MsgGUID: FhKPpEyCSyiSLBZlxqUmPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="72716437"
+X-CSE-ConnectionGUID: GToZQtEfSume5/qNcDg8+g==
+X-CSE-MsgGUID: a72//yqqTOynPyQI7yAjAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="72716446"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="72716437"
+   d="scan'208";a="72716446"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 05:50:33 -0800
-X-CSE-ConnectionGUID: qyz74MoRSr6dtWijARqkUA==
-X-CSE-MsgGUID: yyvgiF75S7qCuY+bN4KKCA==
+X-CSE-ConnectionGUID: IQyLqEp1QnC3Gzcds3GumQ==
+X-CSE-MsgGUID: 6O0J0BxeQHqLkHzS6cSrEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="217502197"
+   d="scan'208";a="217502196"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
   by orviesa006.jf.intel.com with ESMTP; 04 Mar 2026 05:50:31 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxmcN-000000001iR-2yOe;
+	id 1vxmcN-000000001iP-2nrn;
 	Wed, 04 Mar 2026 13:50:27 +0000
-Date: Wed, 4 Mar 2026 14:50:07 +0100
+Date: Wed, 4 Mar 2026 14:50:08 +0100
 From: kernel test robot <lkp@intel.com>
-To: Yang Xiuwei <yangxiuwei@kylinos.cn>, fujita.tomonori@lab.ntt.co.jp,
-	axboe@kernel.dk, James.Bottomley@hansenpartnership.com,
-	martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, bvanassche@acm.org,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yang Xiuwei <yangxiuwei@kylinos.cn>
-Subject: Re: [PATCH v5 3/3] scsi: bsg: add io_uring passthrough handler
-Message-ID: <202603041450.tuj48h9Q-lkp@intel.com>
-References: <20260304080313.675768-4-yangxiuwei@kylinos.cn>
+To: Chengwen Feng <fengchengwen@huawei.com>, linux-pci@vger.kernel.org,
+	bhelgaas@google.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	rafael@kernel.org, lenb@kernel.org, wei.huang2@amd.com,
+	Eric.VanTassell@amd.com, jonathan.cameron@huawei.com,
+	wangzhou1@hisilicon.com, wanghuiqiang@huawei.com,
+	liuyonglong@huawei.com, Chengwen Feng <fengchengwen@huawei.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
+Message-ID: <202603041459.Mw33vD7S-lkp@intel.com>
+References: <20260303003625.39035-1-fengchengwen@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,91 +68,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260304080313.675768-4-yangxiuwei@kylinos.cn>
+In-Reply-To: <20260303003625.39035-1-fengchengwen@huawei.com>
 
-Hi Yang,
+Hi Chengwen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on axboe/for-next]
-[also build test ERROR on jejb-scsi/for-next mkp-scsi/for-next linus/master v7.0-rc2 next-20260303]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v7.0-rc2 next-20260303]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Xiuwei/bsg-add-bsg_uring_cmd-uapi-structure/20260304-160717
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260304080313.675768-4-yangxiuwei%40kylinos.cn
-patch subject: [PATCH v5 3/3] scsi: bsg: add io_uring passthrough handler
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260304/202603041450.tuj48h9Q-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chengwen-Feng/PCI-TPH-Fix-get-cpu-steer-tag-fail-on-ARM64-platform/20260303-084305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20260303003625.39035-1-fengchengwen%40huawei.com
+patch subject: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
+config: i386-randconfig-2006-20250804 (https://download.01.org/0day-ci/archive/20260304/202603041459.Mw33vD7S-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041450.tuj48h9Q-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041459.Mw33vD7S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603041450.tuj48h9Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603041459.Mw33vD7S-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/scsi/scsi_bsg.c: In function 'scsi_bsg_map_user_buffer':
->> drivers/scsi/scsi_bsg.c:111:71: error: macro "io_uring_sqe_cmd" requires 2 arguments, but only 1 given
-     111 |         const struct bsg_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
-         |                                                                       ^
-   In file included from drivers/scsi/scsi_bsg.c:3:
-   include/linux/io_uring/cmd.h:29:9: note: macro "io_uring_sqe_cmd" defined here
-      29 | #define io_uring_sqe_cmd(sqe, type)     ({                                      \
-         |         ^~~~~~~~~~~~~~~~
->> drivers/scsi/scsi_bsg.c:111:43: error: 'io_uring_sqe_cmd' undeclared (first use in this function); did you mean 'io_uring_sqe'?
-     111 |         const struct bsg_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
-         |                                           ^~~~~~~~~~~~~~~~
-         |                                           io_uring_sqe
-   drivers/scsi/scsi_bsg.c:111:43: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/scsi/scsi_bsg.c: In function 'scsi_bsg_uring_cmd':
-   drivers/scsi/scsi_bsg.c:137:71: error: macro "io_uring_sqe_cmd" requires 2 arguments, but only 1 given
-     137 |         const struct bsg_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
-         |                                                                       ^
-   include/linux/io_uring/cmd.h:29:9: note: macro "io_uring_sqe_cmd" defined here
-      29 | #define io_uring_sqe_cmd(sqe, type)     ({                                      \
-         |         ^~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_bsg.c:137:43: error: 'io_uring_sqe_cmd' undeclared (first use in this function); did you mean 'io_uring_sqe'?
-     137 |         const struct bsg_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
-         |                                           ^~~~~~~~~~~~~~~~
-         |                                           io_uring_sqe
-   drivers/scsi/scsi_bsg.c:203:21: error: assignment to 'enum rq_end_io_ret (*)(struct request *, blk_status_t,  const struct io_comp_batch *)' {aka 'enum rq_end_io_ret (*)(struct request *, unsigned char,  const struct io_comp_batch *)'} from incompatible pointer type 'enum rq_end_io_ret (*)(struct request *, blk_status_t)' {aka 'enum rq_end_io_ret (*)(struct request *, unsigned char)'} [-Wincompatible-pointer-types]
-     203 |         req->end_io = scsi_bsg_uring_cmd_done;
-         |                     ^
+   drivers/acpi/processor_core.c: In function 'acpi_get_cpu_acpi_id':
+>> drivers/acpi/processor_core.c:344:16: error: implicit declaration of function 'cpu_acpi_id' [-Wimplicit-function-declaration]
+     344 |         return cpu_acpi_id(cpu);
+         |                ^~~~~~~~~~~
 
 
-vim +/io_uring_sqe_cmd +111 drivers/scsi/scsi_bsg.c
+vim +/cpu_acpi_id +344 drivers/acpi/processor_core.c
 
-   106	
-   107	static int scsi_bsg_map_user_buffer(struct request *req,
-   108					    struct io_uring_cmd *ioucmd,
-   109					    unsigned int issue_flags, gfp_t gfp_mask)
-   110	{
- > 111		const struct bsg_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
-   112		struct iov_iter iter;
-   113		bool is_write = cmd->dout_xfer_len > 0;
-   114		u64 buf_addr = is_write ? cmd->dout_xferp : cmd->din_xferp;
-   115		unsigned long buf_len = is_write ? cmd->dout_xfer_len : cmd->din_xfer_len;
-   116		int ret;
-   117	
-   118		if (ioucmd->flags & IORING_URING_CMD_FIXED) {
-   119			ret = io_uring_cmd_import_fixed(buf_addr, buf_len,
-   120							is_write ? WRITE : READ,
-   121							&iter, ioucmd, issue_flags);
-   122			if (ret < 0)
-   123				return ret;
-   124			ret = blk_rq_map_user_iov(req->q, req, NULL, &iter, gfp_mask);
-   125		} else {
-   126			ret = blk_rq_map_user(req->q, req, NULL, uptr64(buf_addr),
-   127					      buf_len, gfp_mask);
-   128		}
-   129	
-   130		return ret;
-   131	}
-   132	
+   337	
+   338	#ifdef CONFIG_ARCH_HAS_GET_CPU_ACPI_ID_API
+   339	unsigned int acpi_get_cpu_acpi_id(unsigned int cpu)
+   340	{
+   341		if (cpu >= nr_cpu_ids)
+   342			return 0;
+   343	#ifdef CONFIG_X86
+ > 344		return cpu_acpi_id(cpu);
+   345	#elif CONFIG_ARM64
+   346		return get_acpi_id_for_cpu(cpu);
+   347	#endif
+   348	}
+   349	#endif /* CONFIG_ARCH_HAS_GET_CPU_ACPI_ID_API */
+   350	
 
 -- 
 0-DAY CI Kernel Test Service
