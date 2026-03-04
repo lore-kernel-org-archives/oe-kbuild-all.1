@@ -1,65 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D05156677
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 23:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A51D32D7FF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 23:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772666387; cv=none; b=seP4cBZQdKBc/Y6XZhVmcDGa0okyrT8NNE0OeXt2xzWnSTAZlRynCvpnaTaeUhVW/aMZrVrbRsrYvwy5ZuJgXQbzludtTwVORNIBtPh74e/fc3nS8D57L441sUPe4fR2rDI7IDH7qx6YNpsRmsB7VnXbUf4EF502OXUogkx6LZs=
+	t=1772666388; cv=none; b=LhHo/67RAXQnFTsWYawEJIuwqKnnFGzQLIKIAFSKFFr9+rKQ/QjDFZt6rfuBbhqMCjBoHvWUr4fcUJUTl2pruqkAN0d7MTlEhUp+crCcbuGRth+YcEyLotosKPVTY6rqVwTB7pGj9+lepY371ANhzeipHsMgtI1Jz0sjmYRfWJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772666387; c=relaxed/simple;
-	bh=bcqb7+4Nl2dEF2pVEob9OM4sCf3lXXZ7uBV46iRTyjc=;
+	s=arc-20240116; t=1772666388; c=relaxed/simple;
+	bh=gmB/622tq9mZd/Wm9Ty746uquKblIhpsL7ubn7iZpxo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ul+CdR9R0UsP2JaGUUHRBNI5c3xqtw+8chMN6XH9x0WvlNpv7dCcapJSnYHSkQm22V2JB0JaTk1TogYOa4+ZfcKkpU0aDAMoJTSkQ2VlXh2M7ah8SNU1qH6X6PQluSXMR5IXBZvtdgUjBntAJ/nhIHhFp5Qn4PtQfZTDfOibKo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NZpKkk5S; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZMlVJQ3zmlx3Y6du1Ek9ZddRVnPidYUJQmwgXoxgyjvTogS5nsOu48moVO4k45S6y/TtayCqI14oxw30XQLzFmFczC0ehvzhhAAhZ3lDLqsBR2FsTSxstyBdVlhlTUQZ4NB+IX2d8YncSxrnrlEQ47pzLCZzW1+wFHzahxviOxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iKwODQmv; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NZpKkk5S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iKwODQmv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772666386; x=1804202386;
+  t=1772666387; x=1804202387;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bcqb7+4Nl2dEF2pVEob9OM4sCf3lXXZ7uBV46iRTyjc=;
-  b=NZpKkk5SC2aAHiW0hIpuw8HFbWnmdzRUiLnuUEhIHXL9z/mgqey4qDF4
-   0dZ2nK1USQH5ZByqZgpshjti1upRE/HqbhAQNVc48TR8N0aYbCtrz/kMw
-   T4c2H5zH86pmPACyrzNoOK2jC4rTyc9jVK+/BvTQvnDSC3GQ6wD434KfW
-   Zo/1PHuXqoedPxiVyvsu6meXzDAEiE7KFJPNpptFuPE4xEjhnJOGU/8jb
-   NE7dmwzXd7/hfn2V04gdjWOXL1bADLQ55SXDxN6Wra6pJpDcjokBTfzsJ
-   C7AKGK4090wfghWk/eugeWli8aX0KLYaFfE79mx9dneQ/4dyhCXtxmEvt
-   w==;
-X-CSE-ConnectionGUID: K5d1NmvURyqNLW8kxh22Qg==
-X-CSE-MsgGUID: 20tUiU6eQOSDrwGE0rwBcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73649266"
+  bh=gmB/622tq9mZd/Wm9Ty746uquKblIhpsL7ubn7iZpxo=;
+  b=iKwODQmvi5jZ8vfNwcn5wl1EqGne2y6RBL+2NO9BLwntE8F5DKEr+JkQ
+   ZQRYKRCC+5BXRy0GqqkP1lEUOyXm+5SsgwxaJfDuaSIaqD7zkU9gwxxRb
+   0LflNlA4yPyXwvFYM1eJM/YT4hto4tHx5yN5AkIWd9AsYIfpb7+ttM+As
+   6Qjbl63+myztEvJA7dukCnyt/kKP8+ElAk+OyAYeF6TxKqyY8O/WhFgQm
+   J7n49PTBpar0Kjc9zOm/AOByj7SpldSO0QGc/a2GriJVPnuP7ucn5ekGL
+   ofz7qfj7FUfdjGu8z7caGSjQ+KE9f09daZMw8v1wHVioDgi9v9kAikD5x
+   A==;
+X-CSE-ConnectionGUID: TjGdDPc0T4uG5NTdFEq0+A==
+X-CSE-MsgGUID: BeL/W82GS22OFsfDO+kIDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73649271"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="73649266"
+   d="scan'208";a="73649271"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 15:19:45 -0800
-X-CSE-ConnectionGUID: 0b0UzEUCRhyaKCw7/s+V5A==
-X-CSE-MsgGUID: YtNESRb3S9K7ARbWcgyH5g==
+X-CSE-ConnectionGUID: D2ooWo0dSpunHAYZCODyJg==
+X-CSE-MsgGUID: WxW7KA5DRn+vSMbpBddQ/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="245061401"
+   d="scan'208";a="245061410"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 04 Mar 2026 15:19:42 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxvVD-000000004fd-0K0L;
+	id 1vxvVD-000000004ff-0RKh;
 	Wed, 04 Mar 2026 23:19:39 +0000
-Date: Thu, 5 Mar 2026 07:18:49 +0800
+Date: Thu, 5 Mar 2026 07:18:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chengwen Feng <fengchengwen@huawei.com>, linux-pci@vger.kernel.org,
-	bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	rafael@kernel.org, lenb@kernel.org, wei.huang2@amd.com,
-	Eric.VanTassell@amd.com, jonathan.cameron@huawei.com,
-	wangzhou1@hisilicon.com, wanghuiqiang@huawei.com,
-	liuyonglong@huawei.com, Chengwen Feng <fengchengwen@huawei.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
-Message-ID: <202603050711.whqDobKh-lkp@intel.com>
-References: <20260303003625.39035-1-fengchengwen@huawei.com>
+To: Can Guo <can.guo@oss.qualcomm.com>, avri.altman@wdc.com,
+	bvanassche@acm.org, beanhuo@micron.com, martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	Can Guo <can.guo@oss.qualcomm.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Peter Wang <peter.wang@mediatek.com>,
+	"Bao D. Nguyen" <quic_nguyenb@quicinc.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 04/11] scsi: ufs: core: Add support for TX Equalization
+Message-ID: <202603050737.IgToFD5G-lkp@intel.com>
+References: <20260304135313.413688-5-can.guo@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,56 +70,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260303003625.39035-1-fengchengwen@huawei.com>
+In-Reply-To: <20260304135313.413688-5-can.guo@oss.qualcomm.com>
 
-Hi Chengwen,
+Hi Can,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v7.0-rc2 next-20260304]
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next krzk/for-next linus/master v7.0-rc2 next-20260303]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chengwen-Feng/PCI-TPH-Fix-get-cpu-steer-tag-fail-on-ARM64-platform/20260303-084305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260303003625.39035-1-fengchengwen%40huawei.com
-patch subject: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
-config: x86_64-randconfig-r072-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050711.whqDobKh-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Can-Guo/scsi-ufs-core-Introduce-a-new-ufshcd-vops-negotiate_pwr_mode/20260304-220245
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20260304135313.413688-5-can.guo%40oss.qualcomm.com
+patch subject: [PATCH v2 04/11] scsi: ufs: core: Add support for TX Equalization
+config: i386-randconfig-r071-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050737.IgToFD5G-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050711.whqDobKh-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050737.IgToFD5G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050711.whqDobKh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050737.IgToFD5G-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/acpi/processor_core.c: In function 'acpi_get_cpu_acpi_id':
->> drivers/acpi/processor_core.c:344:16: error: implicit declaration of function 'cpu_acpi_id' [-Wimplicit-function-declaration]
-     344 |         return cpu_acpi_id(cpu);
-         |                ^~~~~~~~~~~
-
-
-vim +/cpu_acpi_id +344 drivers/acpi/processor_core.c
-
-   337	
-   338	#ifdef CONFIG_ARCH_HAS_GET_CPU_ACPI_ID_API
-   339	unsigned int acpi_get_cpu_acpi_id(unsigned int cpu)
-   340	{
-   341		if (cpu >= nr_cpu_ids)
-   342			return 0;
-   343	#ifdef CONFIG_X86
- > 344		return cpu_acpi_id(cpu);
-   345	#elif CONFIG_ARM64
-   346		return get_acpi_id_for_cpu(cpu);
-   347	#endif
-   348	}
-   349	#endif /* CONFIG_ARCH_HAS_GET_CPU_ACPI_ID_API */
-   350	
+>> Warning: drivers/ufs/core/ufs-txeq.c:56 cannot understand function prototype: 'const struct __ufs_tx_eq_preset'
+>> Warning: drivers/ufs/core/ufs-txeq.c:77 cannot understand function prototype: 'const u32 pa_peer_rx_adapt_initial[UFS_HS_GEAR_MAX] ='
+>> Warning: drivers/ufs/core/ufs-txeq.c:91 cannot understand function prototype: 'const u32 rx_adapt_initial_cap[UFS_HS_GEAR_MAX] ='
+>> Warning: drivers/ufs/core/ufs-txeq.c:104 cannot understand function prototype: 'const u32 pa_tx_eq_setting[UFS_HS_GEAR_MAX] ='
 
 -- 
 0-DAY CI Kernel Test Service
