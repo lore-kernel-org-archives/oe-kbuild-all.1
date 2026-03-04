@@ -1,115 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961AC26ED4F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 15:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D991A34BA21
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 15:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772637156; cv=none; b=b83lsNW+0P243qcp2rN1G5yAN/X2DAdj9tf2ZVo7vC7qcPKdafhvaNED9umx/SkjgaC0Xl2smKc2cv+v2wCS/gYmlCJF6prRlw1gH15poOrD9UCHkDUy9qvSICSFh9focDb2bDcno58Bw4QnP+snr7TPmgL1EwTEzOIZKjsbVEE=
+	t=1772638522; cv=none; b=pfDQjYaVng67v14gwR1pjCJv5MsGGGjRMjM2r6d8wVYc5q+6noMXwfwi/pQ92xEGMsWe2Gmz/y3jP/P0YIEeXDqzcVKKlSLNCDx9Eb2UkVtji1x6pGAw2tqqIL8LCstjT4yzJ1lmo6plz6/E4k7Ax5VEMbPO/G6Qw0mtui8cmAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772637156; c=relaxed/simple;
-	bh=j0cB9JI/3pBFDaTTSPAGIi8TfsKNqQ/pygSAUVmpmsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m7yL8q8keuDW+VEzdSs1WCQotwH/gWpa0goYT86Zj31zR24NwM7ghE9z3C9nROH6p7HaFyPSlVEOkl0CVaWXc74Lx9xx4rXsIqmlrfFCRwCWbIic6kBJRQ7akSNNw/Z2HnUp7Y+WvCeboxfelPu4/ovJ+ZDtoPnjsGf6uQnFD0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ijg9bGZ2; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772638522; c=relaxed/simple;
+	bh=lj0Pz9TkA8wMfvIqwopRi6nT7hU93c7m1ZyRNGoTF7k=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Qrg/nyyzx06g+PsdYjzulvVN+YnWXxB2gv96lr8vEeVFPBLkT9x/Wp2o4v8Tp0s/k5d/qwPW0J689+cH1BHSqMXlLg7neSzM2DBV8LK3HNAbg6zrrw/drCFXP3jyhmeUhRzxpyu9PNnTVvcNXFKGKHN3v6LFu+9aYo5WLUHEHfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQ79D0uP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijg9bGZ2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772637154; x=1804173154;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j0cB9JI/3pBFDaTTSPAGIi8TfsKNqQ/pygSAUVmpmsk=;
-  b=ijg9bGZ2K4fYosLgsvgaPORz2/JLzfWF0ndocfRtaZSgclJH2k7wXAyr
-   lBQN5K9sgNOJAFxnXZaBXjPkVNS4Ra0eDeO8Ei2rld0H4Kvp+qrN8EzyV
-   BfzZppxkBBoZr6TAL9HNsBxB/GKjve7UZOf+N/NzUYo3Yv8Go/4VRlpUO
-   rP2w6PTPToMcS1gFcvl84vEVImyrG5tz07b8k5BwyZs5bf5a9QZlLPIer
-   cBpLYVjtQNJ8LqwBxvvvCTGZc+fCfY7motfUnWC8GdVnHQHn49z9Hu/te
-   i+SGTCb9E5Z1bEsRie7JarcBd42kKiL2LW7CiMgDSgLRuZJK/kj+bZz+C
-   A==;
-X-CSE-ConnectionGUID: cqVFa5KjQGWdFuKC14Xbww==
-X-CSE-MsgGUID: SXC8JxK3Sbqbv0hfxfJr3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77569653"
-X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="77569653"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 07:12:34 -0800
-X-CSE-ConnectionGUID: HlA1aqOrRL+e2MqcXgKEnw==
-X-CSE-MsgGUID: xKpDG5G4QoOsVnZC7XVPLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="223345674"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 04 Mar 2026 07:12:31 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vxntk-000000001jd-2ZgE;
-	Wed, 04 Mar 2026 15:12:28 +0000
-Date: Wed, 4 Mar 2026 16:11:44 +0100
-From: kernel test robot <lkp@intel.com>
-To: Haifeng Xu <haifeng.xu@shopee.com>, rafael@kernel.org, lenb@kernel.org,
-	dan.j.williams@intel.com, jonathan.cameron@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev, dave@stgolabs.net, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, linux-cxl@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Haifeng Xu <haifeng.xu@shopee.com>
-Subject: Re: [PATCH] ACPI: add a boot parameter to disable parsing CFMWS
- during NUMA init
-Message-ID: <202603041621.Ykqrqowb-lkp@intel.com>
-References: <20260304080647.169434-1-haifeng.xu@shopee.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQ79D0uP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EFF5C2BC87;
+	Wed,  4 Mar 2026 15:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772638522;
+	bh=lj0Pz9TkA8wMfvIqwopRi6nT7hU93c7m1ZyRNGoTF7k=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=PQ79D0uPVur1I/JzPUtC/Ge6V7LNj8a+buEGlh4pSIYahKAeI5bC+v6D8nOHBLCMP
+	 nNV7sCH0v5asB12D4zPI0GYeV1wEqfhcSTm+kf6Gz3DIZdfoBJ2XXBvRuUVGfi3I56
+	 ljgVxBfHg8qt8NYol2ypteWpDoeJEL1cwj0M6gLhME3nNyqydNJ18yuncw9KdMop+a
+	 sB1ZcmaNF3NCKHgJroF7WvArPZ/BB9MiB+plOvGDqU+ew06uvFsYKKFAjtXXAZgLt8
+	 Bqc9icxgTgdeC7AK4zJfsN4v2JIS8lJgKWZKqIMa+1KCXhnnwir5Rd6RsDfLAnmj2c
+	 yt6G0jS8cMPJw==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 878ABF40069;
+	Wed,  4 Mar 2026 10:35:21 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-01.internal (MEProxy); Wed, 04 Mar 2026 10:35:21 -0500
+X-ME-Sender: <xms:OVGoaU-GLJssz3YlKWJHxbryAg3Mn9Y1wMBeAbTNIh7mcTVHvlBOHw>
+    <xme:OVGoaXj9AkFdulceWnhVBkEbV83QvCvNgH5SsVrpe5peh6jC-qM0KWwqve1aAFuG7
+    C7Vuz1F8YOglwu8YZAExknXK2apaQISmlI-BU5d-pfwWKsCnBAXkFo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvieefkeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrugcu
+    uehivghshhgvuhhvvghlfdcuoegrrhgusgeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
+    htthgvrhhnpedvueehiedtvedtleekuddutefgffdtleetfeetveejveejieehfefhjeei
+    jeefudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieejtdehtddtjeel
+    qdeffedvudeigeduhedqrghruggspeepkhgvrhhnvghlrdhorhhgseifohhrkhhofhgrrh
+    gurdgtohhmpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheprghouhesvg
+    gvtghsrdgsvghrkhgvlhgvhidrvgguuhdprhgtphhtthhopehgvggvrhhtodhrvghnvghs
+    rghssehglhhiuggvrhdrsggvpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnh
+    hkohesihhnthgvlhdrtghomhdprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhr
+    tghpthhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvvghsse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehpjhifsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehlihhnuhigqdhmmheskhhvrggtkhdrohhrgh
+X-ME-Proxy: <xmx:OVGoaZXi0YeXJduP9NY19WM-5e4wN2a5n57lD3z0hY9VeG3db93rbg>
+    <xmx:OVGoaRspSqiqAg6Q-zTr8gR9ysJ3UU_HbpwQbrk_t0qMxvKFpLja7w>
+    <xmx:OVGoaU7Q_mBhtX2DgOD0n3k8LmCUR2iPLs5qOPyli-v1kt5J5nSIFA>
+    <xmx:OVGoacRD9zmODc_tHhYkrw9EWwqcm5EZUcepTMdxX1qS0SxFk2M08A>
+    <xmx:OVGoafsTysKZ1bWOpeXrR9p5o5fiUTFsYk_Fg7ObybbLu_4jv3Zsj_Wh>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3E9E4700065; Wed,  4 Mar 2026 10:35:21 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260304080647.169434-1-haifeng.xu@shopee.com>
+X-ThreadId: AFCgwcuzDHfo
+Date: Wed, 04 Mar 2026 16:35:01 +0100
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Andy Shevchenko" <andriy.shevchenko@intel.com>,
+ "kernel test robot" <lkp@intel.com>, "Kees Cook" <kees@kernel.org>,
+ "Paul Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>
+Cc: "Dmitry Antipov" <dmantipov@yandex.ru>, oe-kbuild-all@lists.linux.dev,
+ "David Hildenbrand" <david@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Linux Memory Management List" <linux-mm@kvack.org>
+Message-Id: <529d4fa6-e163-4b4b-9c51-f9f880492b76@app.fastmail.com>
+In-Reply-To: <aahAgJ0G1uYSCFnF@ashevche-desk.local>
+References: <202603041925.KLKqpK6N-lkp@intel.com>
+ <aag95SSwClx4IzJU@ashevche-desk.local> <aahAgJ0G1uYSCFnF@ashevche-desk.local>
+Subject: Re: [akpm-mm:mm-nonmm-unstable 49/110] __efistub_cmdline.c:undefined reference
+ to `__efistub___lshrdi3'
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Haifeng,
+Hi Andy,
 
-kernel test robot noticed the following build warnings:
+On Wed, 4 Mar 2026, at 15:24, Andy Shevchenko wrote:
+> And since it's riscv, adding people from there.
+>
+> It might be that they simply need to include the corresponding library to their
+> architecture builds (we have lib/lshrdi3.c)
+>
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge cxl/next tip/x86/mm linus/master v7.0-rc2 next-20260303]
-[cannot apply to cxl/pending]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I didn't manage to reproduce this, but if EFI boot on 32-bit RISC-V is really a thing, then doing the below should be sufficient. Alternatively, we might just disable EFI boot on 32-bit RISC-V, as I don't think it is likely to be used by anyone in practice.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haifeng-Xu/ACPI-add-a-boot-parameter-to-disable-parsing-CFMWS-during-NUMA-init/20260304-160933
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260304080647.169434-1-haifeng.xu%40shopee.com
-patch subject: [PATCH] ACPI: add a boot parameter to disable parsing CFMWS during NUMA init
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260304/202603041621.Ykqrqowb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041621.Ykqrqowb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603041621.Ykqrqowb-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/acpi/numa/srat.c:323:12: warning: no previous prototype for 'cfmws_disabled' [-Wmissing-prototypes]
-     323 | int __init cfmws_disabled(void)
-         |            ^~~~~~~~~~~~~~
-
-
-vim +/cfmws_disabled +323 drivers/acpi/numa/srat.c
-
-   322	
- > 323	int __init cfmws_disabled(void)
-   324	{
-   325		return cfmws_numa < 0;
-   326	}
-   327	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/arch/riscv/kernel/image-vars.h
++++ b/arch/riscv/kernel/image-vars.h
+@@ -31,6 +31,7 @@ __efistub___init_text_end     = __init_text_end;
+ #if defined(CONFIG_EFI_EARLYCON) || defined(CONFIG_SYSFB)
+ __efistub_sysfb_primary_display        = sysfb_primary_display;
+ #endif
++PROVIDE(__efistub___lshrdi3    = __lshrdi3);
+ 
+ #endif
+ 
