@@ -1,135 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6F6288514
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 19:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F118137F002;
+	Wed,  4 Mar 2026 20:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772653651; cv=none; b=D7lf5ho3OaTuCdEo2oGWGbRu/FGBihzkQ0a0hRZWAWiAvmP+6Pv4qHEnYG7B204T2yQ9N020Q43n6BHLdesGGGZHDX5w7/uxbbOV6rFPSnoiamisBt9ZRLeFABJbk2S0cRgZx4fTp4oO8W7iv1p+ZgKB894my49uTwFzliHQkJc=
+	t=1772655575; cv=none; b=mnvQ1GHCVam+j3GgQSJtjlbgESdDTn57Z+kfPVCZ02jDo/2k5DdBBpRhgCtP2saP0alyNHrLMx1z6+OXP/T+F+UUPHknf1Hlo0Ab1Bf/suioD6SOlgbsTz0x24bF7jPTUjkx8NqDqnBli0LLA6vto1VSvCsKQ/zb6rT80qrzg3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772653651; c=relaxed/simple;
-	bh=+l/jVvgg3VbXuFQoxZ8lOjWA02ggDIpf3HZiHYYiNB8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SEfzRXD/BmVvChwfn9MA/wy4bP+tjbBHYgUFaHYbtxUpKaK/2yhLpMs9fq2W4ZPdYj6lQID1kb4/6pdRv6yDFl05P4vcKMiRY4sVmzIauh9yaySCUc/OrNJAKh27c2pOjuZOIv4SoJ792NX4HXWIUtqT5Ma19ZqdZLB8PV5R7xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jU8xrx52; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1772655575; c=relaxed/simple;
+	bh=iikIQE7d5BrMbz5QoKczt9e+EFI540Qu1haop92OMoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gN+pItCxEnffCAaVdfYTYDNVwr+c0K4NvJibgHsMD+oxZioL+1yF8g9HjbqG5FbKMzwF3HZAjdY8yGxv6CHcHHGn5Y31Fh6CJpKfozrDHfcMF5iM/t/7kPUWFA8cAkjLYlxcfMsfDT6I/Nczku31Vppu7cfa/cjpmtHJV9HkTgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORzk4Lnx; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jU8xrx52"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORzk4Lnx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772653649; x=1804189649;
-  h=date:from:to:cc:subject:message-id;
-  bh=+l/jVvgg3VbXuFQoxZ8lOjWA02ggDIpf3HZiHYYiNB8=;
-  b=jU8xrx52RU2eloxnoFBAC3mjU+fPhlLU5QJ+x+97jsfixUfzBJKYOshY
-   hkxLGQc8SPwAu5Meodn4v+RczHPxPQxobGC1U8/6eZiZ7iKASPEOkTsUn
-   ZQ3w5OeZNkWUrZ82DQpWFLX8nqCLkd1Pm5dxTohK+8X0tLQAeUJsFEPVt
-   BRPYSmai+NuW4rZ731C0cRYMZFd705UHpj6fRsjsZDwG9Q/SY6BuHr5uM
-   pHRrfFogr3FGpxMoJezFw+in4heHxsgIQOjW6UzEPzn8pEnuLn3mbk/E+
-   7atef+6Q7dCcJQ3TeHwaTJEU3eAEIWGdusS68CSU9av9uy4P/mq0MGGzY
-   g==;
-X-CSE-ConnectionGUID: vM4jgOO+ShWLKXUQ8IFuXA==
-X-CSE-MsgGUID: pSASn0ldQjyZImj8P8jzoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77569877"
+  t=1772655573; x=1804191573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iikIQE7d5BrMbz5QoKczt9e+EFI540Qu1haop92OMoM=;
+  b=ORzk4Lnxxu/1lhQfzlriJETq1dIEcJ0SJRbx0davkU/8XLIobXT+iBZG
+   z0uyvVIRy9P6CKJgs7D6fefIfHZQp5RXwo/6KyVsyxg1wGYvsk7KXfK2E
+   oOQo+HD/fIJ42Fno03WRhFbrCAyWix9xTPH1m/6rbQPSdAhPtP0ziZg5a
+   c65IpyTZgn6Ie2hVunVmvj0doUVnwS0s3VGbp+XW46/AM+fi75bO2jKR0
+   NxNeWb/maS6yGKf9/dMn93SYu4xojAqueNCYv6tOBEaLKZEq1nhjcKTpL
+   x4bdFOlkFgq0eVMy31g8l2DfwczJ5lXEeXVnOcdAIoJZxm4TQWJ7qFg3z
+   w==;
+X-CSE-ConnectionGUID: TQRiZYTwSzS2ypp7u1dMDg==
+X-CSE-MsgGUID: TYC9Vq6ARtKBsJtNtU7RHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84815870"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="77569877"
+   d="scan'208";a="84815870"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 11:47:28 -0800
-X-CSE-ConnectionGUID: 57L8n4YuQ86I70p5Or9WYQ==
-X-CSE-MsgGUID: mG8xALttSYqGT1LEjrSmyw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 12:19:32 -0800
+X-CSE-ConnectionGUID: Ya7/Uf4pRGabToPTi0eQCw==
+X-CSE-MsgGUID: 8GePQ8mUR2+NTCVoDJpoKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="256325204"
+   d="scan'208";a="256331372"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Mar 2026 11:47:27 -0800
+  by orviesa001.jf.intel.com with ESMTP; 04 Mar 2026 12:19:29 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxsBo-000000004Qj-0FU8;
-	Wed, 04 Mar 2026 19:47:24 +0000
-Date: Thu, 05 Mar 2026 03:47:09 +0800
+	id 1vxsgn-000000004S5-2C0D;
+	Wed, 04 Mar 2026 20:19:25 +0000
+Date: Thu, 5 Mar 2026 04:18:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Subject: [chao:bugfix/syzbot 2/2] include/linux/lockdep.h:158:38:
- error: 'struct f2fs_rwsem' has no member named 'dep_map'
-Message-ID: <202603050313.1AJLPkym-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Andrew Lunn <andrew@lunn.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH net-next 8/8] net: stmmac: make pcs_mask and phy_mask u32
+Message-ID: <202603050424.TDlVj9FT-lkp@intel.com>
+References: <E1vxjNj-0000000Br1c-2Fg7@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <E1vxjNj-0000000Br1c-2Fg7@rmk-PC.armlinux.org.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/syzbot
-head:   3b19564b95e9ba9803ef30e90eace0977b9d140d
-commit: 3b19564b95e9ba9803ef30e90eace0977b9d140d [2/2] f2fs: fix false alarm of lockdep on cp_global_sem lock
-config: sh-randconfig-r072-20260304 (https://download.01.org/0day-ci/archive/20260305/202603050313.1AJLPkym-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050313.1AJLPkym-lkp@intel.com/reproduce)
+Hi Russell,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-mdio-use-same-test-for-MDC-clock-divisor-lookups/20260304-183416
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/E1vxjNj-0000000Br1c-2Fg7%40rmk-PC.armlinux.org.uk
+patch subject: [PATCH net-next 8/8] net: stmmac: make pcs_mask and phy_mask u32
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260305/202603050424.TDlVj9FT-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050424.TDlVj9FT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050313.1AJLPkym-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050424.TDlVj9FT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from fs/f2fs/super.c:8:
-   fs/f2fs/super.c: In function 'f2fs_fill_super':
->> include/linux/lockdep.h:158:38: error: 'struct f2fs_rwsem' has no member named 'dep_map'
-     158 |         lockdep_init_map_type(&(lock)->dep_map, #key, key, 0,   \
-         |                                      ^~
-   fs/f2fs/super.c:4952:9: note: in expansion of macro 'lockdep_set_class'
-    4952 |         lockdep_set_class(&sbi->cp_global_sem, &sbi->cp_global_sem_key);
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:159:37: error: 'struct f2fs_rwsem' has no member named 'dep_map'
-     159 |                               (lock)->dep_map.wait_type_inner,  \
-         |                                     ^~
-   fs/f2fs/super.c:4952:9: note: in expansion of macro 'lockdep_set_class'
-    4952 |         lockdep_set_class(&sbi->cp_global_sem, &sbi->cp_global_sem_key);
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:160:37: error: 'struct f2fs_rwsem' has no member named 'dep_map'
-     160 |                               (lock)->dep_map.wait_type_outer,  \
-         |                                     ^~
-   fs/f2fs/super.c:4952:9: note: in expansion of macro 'lockdep_set_class'
-    4952 |         lockdep_set_class(&sbi->cp_global_sem, &sbi->cp_global_sem_key);
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:161:37: error: 'struct f2fs_rwsem' has no member named 'dep_map'
-     161 |                               (lock)->dep_map.lock_type)
-         |                                     ^~
-   fs/f2fs/super.c:4952:9: note: in expansion of macro 'lockdep_set_class'
-    4952 |         lockdep_set_class(&sbi->cp_global_sem, &sbi->cp_global_sem_key);
-         |         ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:171:35: error: call to undeclared function 'BIT_u32'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     171 |         plat->mdio_bus_data->phy_mask = ~BIT_u32(2);
+         |                                          ^
+   1 error generated.
 
 
-vim +158 include/linux/lockdep.h
+vim +/BIT_u32 +171 drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
 
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  150  
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  151  /*
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  152   * Reinitialize a lock key - for cases where there is special locking or
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  153   * special initialization of locks so that the validator gets the scope
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  154   * of dependencies wrong: they are either too broad (they need a class-split)
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  155   * or they are too narrow (they suffer from a false class-split):
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  156   */
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  157  #define lockdep_set_class(lock, key)				\
-eae6d58d67d973 Peter Zijlstra 2022-06-17 @158  	lockdep_init_map_type(&(lock)->dep_map, #key, key, 0,	\
-de8f5e4f2dc1f0 Peter Zijlstra 2020-03-21  159  			      (lock)->dep_map.wait_type_inner,	\
-eae6d58d67d973 Peter Zijlstra 2022-06-17  160  			      (lock)->dep_map.wait_type_outer,	\
-eae6d58d67d973 Peter Zijlstra 2022-06-17  161  			      (lock)->dep_map.lock_type)
-de8f5e4f2dc1f0 Peter Zijlstra 2020-03-21  162  
-
-:::::: The code at line 158 was first introduced by commit
-:::::: eae6d58d67d9739be5f7ae2dbead1d0ef6528243 locking/lockdep: Fix lockdep_init_map_*() confusion
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+   164	
+   165	static int loongson_gnet_data(struct pci_dev *pdev,
+   166				      struct plat_stmmacenet_data *plat)
+   167	{
+   168		loongson_default_data(pdev, plat);
+   169	
+   170		plat->phy_interface = PHY_INTERFACE_MODE_GMII;
+ > 171		plat->mdio_bus_data->phy_mask = ~BIT_u32(2);
+   172		plat->fix_mac_speed = loongson_gnet_fix_speed;
+   173	
+   174		return 0;
+   175	}
+   176	
 
 -- 
 0-DAY CI Kernel Test Service
