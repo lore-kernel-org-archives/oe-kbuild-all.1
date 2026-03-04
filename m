@@ -1,138 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9948B378833;
-	Wed,  4 Mar 2026 22:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA298373C0B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Mar 2026 23:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772665003; cv=none; b=RD2iK1sDFTuWuNaJkiYtubymD+JOuWWONPbHZMZLQeBFz6qptbCn8yCd5hmXc2q3SX6excMsfFY5H05ed6JNz0OeYsvcTT3tt1JRJzvgfFafme14tZAjz2JM8kWEV7xbSODDMQ1Vfzc97vzWD2j31wnOVwfWtiHbLDtFvfo59aY=
+	t=1772665724; cv=none; b=COPmKfrGW98vVkX5VIHGxpMDZGDuL3jumRWxshrNyKDE25IK5ZALew8JfRW9e+xKi8wfmtiVkXTb33aj0Tbo7bDxuaTe3MVnCEuKvZUhHYaJnpBWy12ZjD8CJoifcfIfRvokCxMnoepEdx+Y+If9KGKgj3WUCBzIAS8C59Q3jls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772665003; c=relaxed/simple;
-	bh=0rXkdgSsjeXUw9O29HMod7MgndTa2Hf8FCWu+uPgaMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fyPonv6L8nwAfqVGiEl9sqnF/+qrKV4Z+VlXrcUfmLGU1TAP5TslPHwia2HDIGvH5mT2CQQdbfTu/YLwBu/EcUoJ85J6FjHNUZZi8TEmM9oITzV5M52ksdnI9XuMnTtZmrudYUH3DV78DjnJeF2KE1QmsaX5ATTyOqmVvM+WT7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFh4P833; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1772665724; c=relaxed/simple;
+	bh=aEXr7X3BLKmn7cRTQwgpWAd54v7nvgfr3Ol418/xFl0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=G0Y9U9qatqwaZ/YzoE4PL0JFc12uHGR7CPjbKWJv11GhanB5NaP3TQpjGQIMBQwwni0lo6ee7d0LDNoK9dMDDsDpSdyLZcbL5lG5fWLbCllRFpBms53mZ4tHfFWRWhJ+ZMhZUa6g7eMGP+tepPGlVXjwLjQOr/7GKmk3npBeL9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BBM2qR0R; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFh4P833"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BBM2qR0R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772665002; x=1804201002;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0rXkdgSsjeXUw9O29HMod7MgndTa2Hf8FCWu+uPgaMY=;
-  b=WFh4P833Sug1XkOZIHvYijZPDxiu54CiwqCQinqojkdH0fYmd9abrm9H
-   KB5jEAHa8cv6DvlMa3OdBtwUBkgemnV4f6mKw6mEB4a1e8n1/m/B1pJCq
-   bdkzPL5Ywup8Z1dqIC0fs7pD+qjbXdyQF3xovZ6mN2KxNh/QhsizQyh0M
-   24xZuIJ+4hMhGeIVrTFmomwKpB2ArPXEnsBS/Pf+p5FPq7r/Hx5JGBtPu
-   NSHXa9H5AfXOt2lOZh/Z0ilDY2zmUIjo1JDKexISD/5H2OqEAgFvJh8+l
-   MwycHwYfgqdR7tfSH0k1CHAVQv/+OP3mG36VLXAv7XYdWs3SYhhEYuTch
-   Q==;
-X-CSE-ConnectionGUID: UrjoHBH1SNWqW9CSqVhG6w==
-X-CSE-MsgGUID: AYndNFlBTxe5tM5D19CDGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="99209042"
+  t=1772665722; x=1804201722;
+  h=date:from:to:cc:subject:message-id;
+  bh=aEXr7X3BLKmn7cRTQwgpWAd54v7nvgfr3Ol418/xFl0=;
+  b=BBM2qR0RatCNwDU9nbvnRTCaLVRSWL2eBxSZDPWYnlIq4yfR/xey+S9F
+   zeGy8XkLauZTrljdoVMeP93aXNtN2LIsXnpcEz5Qe9p7gU5PAA8cRwPz4
+   qyZwb1kGdcc9xGe137WJx1OACsqme3KQdikA3CB8i0kmUWwrpetm6El35
+   /IdO4E/Ivkl2unIkwdukHbrdKS7B5Lc8LTEUcKNjSTD17ue43APAaiUpr
+   X0ZLsJztGn/AyHpbQDa997981pG56pmRdhpd5SMxphDbNxBfYoVmlTkHq
+   7khpAil72ssCILiiH9PoG39Z1U/hQWsG0KHYKomCRms+aIAPJM5IfKy7f
+   A==;
+X-CSE-ConnectionGUID: i2k5AxbbSRywbk0mWV3rhA==
+X-CSE-MsgGUID: W3h3g8H1QLKm6sEHkrYAAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77585184"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="99209042"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 14:56:42 -0800
-X-CSE-ConnectionGUID: VlbvOeV6QSemWMbmWJyJ+Q==
-X-CSE-MsgGUID: xrxG+dIDSqalZu71ln8rHA==
+   d="scan'208";a="77585184"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 15:08:42 -0800
+X-CSE-ConnectionGUID: d46c8Vf0SbmHs1+hQA/hBA==
+X-CSE-MsgGUID: emcxlx5JQ9ybTNCMb7LIfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="222628482"
+   d="scan'208";a="217733334"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Mar 2026 14:56:40 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Mar 2026 15:08:41 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxv8v-000000004eH-09jN;
-	Wed, 04 Mar 2026 22:56:37 +0000
-Date: Thu, 5 Mar 2026 06:56:17 +0800
+	id 1vxvKY-000000004ex-1FLw;
+	Wed, 04 Mar 2026 23:08:38 +0000
+Date: Thu, 05 Mar 2026 07:07:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>
-Subject: Re: [PATCH] PM: Move to_device() out of CONFIG_PM_SLEEP protection
-Message-ID: <202603050651.Tp7mTeNL-lkp@intel.com>
-References: <20260302105456.4134882-1-pengpeng.hou@isrc.iscas.ac.cn>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 6/6]
+ arch/arm64/kvm/hyp/include/hyp/switch.h:216:2: error: implicit declaration of
+ function 'sve_cond_update_zcr_vq'
+Message-ID: <202603050723.qjU9POZT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260302105456.4134882-1-pengpeng.hou@isrc.iscas.ac.cn>
 
-Hi Pengpeng,
+Hi Marc,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.0-rc2 next-20260303]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengpeng-Hou/PM-Move-to_device-out-of-CONFIG_PM_SLEEP-protection/20260302-190351
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260302105456.4134882-1-pengpeng.hou%40isrc.iscas.ac.cn
-patch subject: [PATCH] PM: Move to_device() out of CONFIG_PM_SLEEP protection
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260305/202603050651.Tp7mTeNL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050651.Tp7mTeNL-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   8426c769398ef6f4ac3f61df3f3ec10bd11b0e50
+commit: 1105b4d1cef4bc19ad20129a716194268c937eaf [6/6] BACKPORT: FROMGIT: KVM: arm64: Rework SVE host-save/guest-restore
+config: arm64-randconfig-001-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050723.qjU9POZT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050723.qjU9POZT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050651.Tp7mTeNL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050723.qjU9POZT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/base/core.c:38:
->> drivers/base/power/power.h:163:50: error: no member named 'entry' in 'struct dev_pm_info'
-     163 |         return container_of(entry, struct device, power.entry);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   include/linux/container_of.h:21:49: note: expanded from macro 'container_of'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-      22 |                       __same_type(*(ptr), void),                        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      23 |                       "pointer type mismatch in container_of()");       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:617:74: note: expanded from macro '__same_type'
-     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   In file included from drivers/base/core.c:38:
->> drivers/base/power/power.h:163:9: error: no member named 'entry' in 'dev_pm_info'
-     163 |         return container_of(entry, struct device, power.entry);
-         |                ^                                       ~~~~~~
-   include/linux/container_of.h:24:21: note: expanded from macro 'container_of'
-      24 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   2 errors generated.
+   In file included from arch/arm64/kvm/hyp/vhe/switch.c:8:
+   arch/arm64/kvm/hyp/include/hyp/switch.h: In function '__hyp_sve_restore_guest':
+>> arch/arm64/kvm/hyp/include/hyp/switch.h:216:2: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
+     216 |  sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/vhe/switch.c: At top level:
+   arch/arm64/kvm/hyp/vhe/switch.c:227:17: warning: no previous prototype for 'kvm_unexpected_el2_exception' [-Wmissing-prototypes]
+     227 | asmlinkage void kvm_unexpected_el2_exception(void)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:7:
+   arch/arm64/kvm/hyp/include/hyp/switch.h: In function '__hyp_sve_restore_guest':
+>> arch/arm64/kvm/hyp/include/hyp/switch.h:216:2: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
+     216 |  sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:233:6: warning: no previous prototype for 'handle_trap' [-Wmissing-prototypes]
+     233 | void handle_trap(struct kvm_cpu_context *host_ctxt)
+         |      ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:15:
+   arch/arm64/kvm/hyp/include/hyp/switch.h: In function '__hyp_sve_restore_guest':
+>> arch/arm64/kvm/hyp/include/hyp/switch.h:216:2: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
+     216 |  sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:8:
+   arch/arm64/kvm/hyp/include/hyp/switch.h: In function '__hyp_sve_restore_guest':
+>> arch/arm64/kvm/hyp/include/hyp/switch.h:216:2: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
+     216 |  sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
+         |  ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/switch.c:282:17: warning: no previous prototype for 'kvm_unexpected_el2_exception' [-Wmissing-prototypes]
+     282 | asmlinkage void kvm_unexpected_el2_exception(void)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +163 drivers/base/power/power.h
+vim +/sve_cond_update_zcr_vq +216 arch/arm64/kvm/hyp/include/hyp/switch.h
 
-   160	
-   161	static inline struct device *to_device(struct list_head *entry)
-   162	{
- > 163		return container_of(entry, struct device, power.entry);
-   164	}
-   165	
+   213	
+   214	static inline void __hyp_sve_restore_guest(struct kvm_vcpu *vcpu)
+   215	{
+ > 216		sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
+   217		__sve_restore_state(vcpu_sve_pffr(vcpu),
+   218				    &vcpu->arch.ctxt.fp_regs.fpsr);
+   219		write_sysreg_el1(__vcpu_sys_reg(vcpu, ZCR_EL1), SYS_ZCR);
+   220	}
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
