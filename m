@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18563368B7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F262723F431
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772672820; cv=none; b=gAdWWUHccRipTCkUlcGmcygnDmFfPBV5FFeTDk/Rh9oRTOR0uVNT5Li66yGsnzPTr/OnbIfj3XrUT2W+USQAeozZJ9xwqtGY/tBvMZ2YLjh3lPKFkC+BS2+gJHACEXyHSMZVqaThumLyG/Yw6dydtPTQNHFpX7p+cT9wuf2ls44=
+	t=1772674203; cv=none; b=jp1OrSfWV9hxk68RxqsvatHHpC4AIpksFBIEDPU7CNBqKcFmB5tZBWmWUQ2dXgaGMg1ik0sjykjEUQQia6HXoGhPwZM3mxrlFD1dZTSH2/jSXKBITfqh9c+vEEJlGK7aZoXmqHYB5f4+NcMPxdWQjGne2OlOLB0h/27bnvRqWWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772672820; c=relaxed/simple;
-	bh=RoFiYj0mdXv8Bnl+L1lPnzntEdDjvH75InjGQmA7dMI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mMIrKpuI15wHqqBSXvRU9lXw0mYdvyWhKiIuNchTZs5BtGr1FolxJ0xRbnwmmFsfNjMSwKmDa0VnzvoNH/TyEMqaQ/olc1xp2GLkxzNvY9LMcLhhqwCl4smd33aT2nRWdr2Qm2ku7260fWOVUq/nQRkoVWs4DygFQ4zOUgzOHJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qa1MC5qr; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1772674203; c=relaxed/simple;
+	bh=5eAJrlVESjOXxJgE7S6hHnBZfz0Zweldvt25Yx3SUps=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Re3ALZAmvI5fetNjx1nLEn9d97hKumMZGw3pPxbv8TRjEKq0QOGBkVN/9LBArBnTkMdtOFIKx/6pbEMHUf72izECxux5ZULHTldojPlOxMxr4KapD6487weMMTzAV4eCDrZA/tTVPNUbQxLSQ8SQ/xhHvooD6DML5CN3S1HzLjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGCI2ArH; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qa1MC5qr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGCI2ArH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772672818; x=1804208818;
+  t=1772674201; x=1804210201;
   h=date:from:to:cc:subject:message-id;
-  bh=RoFiYj0mdXv8Bnl+L1lPnzntEdDjvH75InjGQmA7dMI=;
-  b=Qa1MC5qrtAfTLwWHzLHKZNhMggaHGm+upKyd+Trhgt1QSFCNHXoomnKs
-   nWZq68lJHJc8UA+yzsWlMvZVVFYyJ3zg0tSIqCdfuCSUtLFwhvrwrhIDV
-   ngRXHRA/wb8rBu0ZwUP5YR2HqnFxrPJMcKTWCMtc3PoYvDRz1m6VVB5KW
-   Pr297M5f9WapgJ29ugDqEaw0nzvnTILtgi9J8r/K3d65ZBVMreBbc6z+E
-   OEE9CSARKLck16IE3kNkIqDB/fM5qKcSEONI653IhuKFviPJJoC3H8M8F
-   GnnmTtjNs196ag/2Dibz3f09R/wW2VMv1tObNKbE+DRhSmGA+4ShguCMb
-   Q==;
-X-CSE-ConnectionGUID: cPE/D0/hT5mfIjmHiA2E9w==
-X-CSE-MsgGUID: MOXBt2BhQQaSBJX0jg8+CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84084246"
+  bh=5eAJrlVESjOXxJgE7S6hHnBZfz0Zweldvt25Yx3SUps=;
+  b=WGCI2ArHoHoPwzRrpKwpOLB0IU5OKscmUk3H1IKsLK1PqoGixV+qAtU5
+   yCtuw6y8Dpta5LEtnZbsaXUy98DOHLKbjgSQgEafMLBrq7tYnkHcOLAAK
+   cZepXfKO2xaRBU0Ngz9OxAjRns8XLhCM/uGMiFMEICRmOqVwLS7f6nxxi
+   NsqqmExytCCqJM+5545HBKNnSkf5739EwjA/J/LnXBNZTFxYZ/4IEght4
+   /bjX2OYAcg1rsQbPKmk2A1uCsZLrILFuc8SQw/92+tmALusb4q4Ri4si1
+   qYi/Goyu77808WNKt0JAI4ZGMC48Kq+OzeDBy/5WyYPAX25wzeCen4nF5
+   w==;
+X-CSE-ConnectionGUID: P+TlFkfwQrOByobaCqg5SQ==
+X-CSE-MsgGUID: 2UfaOkaGRxmPNGFPj4NQ2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73941194"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="84084246"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:06:57 -0800
-X-CSE-ConnectionGUID: SPqvPcCYQYyuhcHtaCjRjA==
-X-CSE-MsgGUID: vFLHf1aiRKyUeIM9OE7MHw==
+   d="scan'208";a="73941194"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:30:00 -0800
+X-CSE-ConnectionGUID: sNYU705FQbmEeq67Gp1WRA==
+X-CSE-MsgGUID: 5xOSC/h9TLiwQJ4N/P56/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="216353094"
+   d="scan'208";a="216813734"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Mar 2026 17:06:55 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 04 Mar 2026 17:29:58 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxxAy-000000004tR-3wnS;
-	Thu, 05 Mar 2026 01:06:52 +0000
-Date: Thu, 05 Mar 2026 09:06:49 +0800
+	id 1vxxXI-000000004wJ-0axC;
+	Thu, 05 Mar 2026 01:29:56 +0000
+Date: Thu, 05 Mar 2026 09:29:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Elver <elver@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>
-Subject: kernel/kcov.c:877:9: sparse: sparse: incorrect type in
- argument 1 (different base types)
-Message-ID: <202603050933.Q4XeFgSb-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:upstream-linux-5.10.y 0/334]
+ drivers/media/dvb-frontends/dib7000p.c:2203:6: warning: mixing declarations
+ and code is a C99 extension
+Message-ID: <202603050956.DLVOlTz5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,194 +60,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0b3bb205808195159be633a8cefb602670e856fb
-commit: 6556fde265a7bd408ad8ff15ec08970f99f6201c kcov: Enable context analysis
-date:   8 weeks ago
-config: powerpc64-randconfig-r111-20260304 (https://download.01.org/0day-ci/archive/20260305/202603050933.Q4XeFgSb-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common upstream-linux-5.10.y
+head:   aed5c3b77cd53ba74f66767b03bfb9177662af4b
+commit: b3d77a3fc71c084575d3df4ec6544b3fb6ce587d [0/334] media: dvb-frontends: w7090p: fix null-ptr-deref in w7090p_tuner_write_serpar and w7090p_tuner_read_serpar
+config: x86_64-buildonly-randconfig-004-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050956.DLVOlTz5-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050933.Q4XeFgSb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050956.DLVOlTz5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050933.Q4XeFgSb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050956.DLVOlTz5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/kcov.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:332:40: sparse: sparse: multiple definitions for function '__this_cpu_local_lock'
-   include/linux/local_lock_internal.h:326:37: sparse:  the previous one is here
->> kernel/kcov.c:877:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:877:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:877:9: sparse:     got struct local_lock [noderef] __percpu *
->> kernel/kcov.c:877:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:877:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:877:9: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:885:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:885:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:885:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:885:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:885:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:885:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:894:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:894:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:894:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:894:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:894:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:894:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:902:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:902:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:902:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:902:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:902:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:902:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:929:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:929:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:929:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:929:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:929:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:929:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:935:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:935:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:935:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:935:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:935:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:935:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:947:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:947:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:947:9: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:947:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:947:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:947:9: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1030:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1030:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1030:9: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1030:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1030:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1030:9: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1035:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1035:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1035:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1035:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1035:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1035:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1043:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1043:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1043:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1043:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1043:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1043:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1048:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1048:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1048:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1048:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1048:17: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1048:17: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1078:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1078:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1078:9: sparse:     got struct local_lock [noderef] __percpu *
-   kernel/kcov.c:1078:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
-   kernel/kcov.c:1078:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
-   kernel/kcov.c:1078:9: sparse:     got struct local_lock [noderef] __percpu *
+All warnings (new ones prefixed by >>):
 
-vim +877 kernel/kcov.c
+>> drivers/media/dvb-frontends/dib7000p.c:2203:6: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+    2203 |         u16 serpar_num = msg[0].buf[0];
+         |             ^
+   drivers/media/dvb-frontends/dib7000p.c:2224:6: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+    2224 |         u16 serpar_num = msg[0].buf[0];
+         |             ^
+   2 warnings generated.
 
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  860  
-eec028c9386ed1 Andrey Konovalov          2019-12-04  861  void kcov_remote_start(u64 handle)
-eec028c9386ed1 Andrey Konovalov          2019-12-04  862  {
-5fe7042dc0a2e8 Andrey Konovalov          2020-06-04  863  	struct task_struct *t = current;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  864  	struct kcov_remote *remote;
-67b3d3cca38550 Andrey Konovalov          2020-06-04  865  	struct kcov *kcov;
-5fe7042dc0a2e8 Andrey Konovalov          2020-06-04  866  	unsigned int mode;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  867  	void *area;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  868  	unsigned int size;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  869  	int sequence;
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  870  	unsigned long flags;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  871  
-eec028c9386ed1 Andrey Konovalov          2019-12-04  872  	if (WARN_ON(!kcov_check_handle(handle, true, true, true)))
-eec028c9386ed1 Andrey Konovalov          2019-12-04  873  		return;
-7d4df2dad312f2 Andrey Konovalov          2024-07-29  874  	if (!in_task() && !in_softirq_really())
-eec028c9386ed1 Andrey Konovalov          2019-12-04  875  		return;
-5fe7042dc0a2e8 Andrey Konovalov          2020-06-04  876  
-d5d2c51f1e5f56 Sebastian Andrzej Siewior 2021-11-08 @877  	local_lock_irqsave(&kcov_percpu_data.lock, flags);
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  878  
-eec028c9386ed1 Andrey Konovalov          2019-12-04  879  	/*
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  880  	 * Check that kcov_remote_start() is not called twice in background
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  881  	 * threads nor called by user tasks (with enabled kcov).
-eec028c9386ed1 Andrey Konovalov          2019-12-04  882  	 */
-5fe7042dc0a2e8 Andrey Konovalov          2020-06-04  883  	mode = READ_ONCE(t->kcov_mode);
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  884  	if (WARN_ON(in_task() && kcov_mode_enabled(mode))) {
-d5d2c51f1e5f56 Sebastian Andrzej Siewior 2021-11-08  885  		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  886  		return;
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  887  	}
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  888  	/*
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  889  	 * Check that kcov_remote_start() is not called twice in softirqs.
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  890  	 * Note, that kcov_remote_start() can be called from a softirq that
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  891  	 * happened while collecting coverage from a background thread.
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  892  	 */
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  893  	if (WARN_ON(in_serving_softirq() && t->kcov_softirq)) {
-d5d2c51f1e5f56 Sebastian Andrzej Siewior 2021-11-08  894  		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  895  		return;
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  896  	}
-eec028c9386ed1 Andrey Konovalov          2019-12-04  897  
-eec028c9386ed1 Andrey Konovalov          2019-12-04  898  	spin_lock(&kcov_remote_lock);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  899  	remote = kcov_remote_find(handle);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  900  	if (!remote) {
-d5d2c51f1e5f56 Sebastian Andrzej Siewior 2021-11-08  901  		spin_unlock(&kcov_remote_lock);
-d5d2c51f1e5f56 Sebastian Andrzej Siewior 2021-11-08  902  		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  903  		return;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  904  	}
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  905  	kcov_debug("handle = %llx, context: %s\n", handle,
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  906  			in_task() ? "task" : "softirq");
-67b3d3cca38550 Andrey Konovalov          2020-06-04  907  	kcov = remote->kcov;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  908  	/* Put in kcov_remote_stop(). */
-67b3d3cca38550 Andrey Konovalov          2020-06-04  909  	kcov_get(kcov);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  910  	/*
-6556fde265a7bd Marco Elver               2025-12-19  911  	 * Read kcov fields before unlocking kcov_remote_lock to prevent races
-6556fde265a7bd Marco Elver               2025-12-19  912  	 * with KCOV_DISABLE and kcov_remote_reset(); cannot acquire kcov->lock
-6556fde265a7bd Marco Elver               2025-12-19  913  	 * here, because it might lead to deadlock given kcov_remote_lock is
-6556fde265a7bd Marco Elver               2025-12-19  914  	 * acquired _after_ kcov->lock elsewhere.
-eec028c9386ed1 Andrey Konovalov          2019-12-04  915  	 */
-6556fde265a7bd Marco Elver               2025-12-19  916  	mode = context_unsafe(kcov->mode);
-67b3d3cca38550 Andrey Konovalov          2020-06-04  917  	sequence = kcov->sequence;
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  918  	if (in_task()) {
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  919  		size = kcov->remote_size;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  920  		area = kcov_remote_area_get(size);
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  921  	} else {
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  922  		size = CONFIG_KCOV_IRQ_AREA_SIZE;
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  923  		area = this_cpu_ptr(&kcov_percpu_data)->irq_area;
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  924  	}
-22036abe17c9f6 Sebastian Andrzej Siewior 2021-11-08  925  	spin_unlock(&kcov_remote_lock);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  926  
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  927  	/* Can only happen when in_task(). */
-eec028c9386ed1 Andrey Konovalov          2019-12-04  928  	if (!area) {
-d5d2c51f1e5f56 Sebastian Andrzej Siewior 2021-11-08  929  		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  930  		area = vmalloc(size * sizeof(unsigned long));
-eec028c9386ed1 Andrey Konovalov          2019-12-04  931  		if (!area) {
-67b3d3cca38550 Andrey Konovalov          2020-06-04  932  			kcov_put(kcov);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  933  			return;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  934  		}
-d5d2c51f1e5f56 Sebastian Andrzej Siewior 2021-11-08  935  		local_lock_irqsave(&kcov_percpu_data.lock, flags);
-22036abe17c9f6 Sebastian Andrzej Siewior 2021-11-08  936  	}
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  937  
-eec028c9386ed1 Andrey Konovalov          2019-12-04  938  	/* Reset coverage size. */
-eec028c9386ed1 Andrey Konovalov          2019-12-04  939  	*(u64 *)area = 0;
-eec028c9386ed1 Andrey Konovalov          2019-12-04  940  
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  941  	if (in_serving_softirq()) {
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  942  		kcov_remote_softirq_start(t);
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  943  		t->kcov_softirq = 1;
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  944  	}
-76484b1c77242b Andrey Konovalov          2020-06-04  945  	kcov_start(t, kcov, size, area, mode, sequence);
-eec028c9386ed1 Andrey Konovalov          2019-12-04  946  
-d5d2c51f1e5f56 Sebastian Andrzej Siewior 2021-11-08  947  	local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
-5ff3b30ab57da8 Andrey Konovalov          2020-06-04  948  
 
-:::::: The code at line 877 was first introduced by commit
-:::::: d5d2c51f1e5f56ed01d2c773974630c007e5e5f5 kcov: replace local_irq_save() with a local_lock_t
+vim +2203 drivers/media/dvb-frontends/dib7000p.c
 
-:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2195  
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2196  static int w7090p_tuner_write_serpar(struct i2c_adapter *i2c_adap, struct i2c_msg msg[], int num)
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2197  {
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2198  	struct dib7000p_state *state = i2c_get_adapdata(i2c_adap);
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2199  	u8 n_overflow = 1;
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2200  	u16 i = 1000;
+b3d77a3fc71c084 drivers/media/dvb-frontends/dib7000p.c Alex Guo              2025-06-15  2201  	if (msg[0].len < 3)
+b3d77a3fc71c084 drivers/media/dvb-frontends/dib7000p.c Alex Guo              2025-06-15  2202  		return -EOPNOTSUPP;
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04 @2203  	u16 serpar_num = msg[0].buf[0];
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2204  
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2205  	while (n_overflow == 1 && i) {
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2206  		n_overflow = (dib7000p_read_word(state, 1984) >> 1) & 0x1;
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2207  		i--;
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2208  		if (i == 0)
+5a0e2a4e936d04a drivers/media/dvb-frontends/dib7000p.c Mauro Carvalho Chehab 2016-10-14  2209  			dprintk("Tuner ITF: write busy (overflow)\n");
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2210  	}
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2211  	dib7000p_write_word(state, 1985, (1 << 6) | (serpar_num & 0x3f));
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2212  	dib7000p_write_word(state, 1986, (msg[0].buf[1] << 8) | msg[0].buf[2]);
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2213  
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2214  	return num;
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2215  }
+713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2216  
+
+:::::: The code at line 2203 was first introduced by commit
+:::::: 713d54a8bd812229410a1902cd9b332a2a27af9f [media] DiB7090: add support for the dib7090 based
+
+:::::: TO: Olivier Grenie <olivier.grenie@dibcom.fr>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
