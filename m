@@ -1,275 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8811DE4EF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 05:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55FF26E6F2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 06:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772690109; cv=none; b=FeVLKpmOC50b/taRUEMYjF0FjnaC34TyOO09kPkgV7EKVGAEPu//WMq+Lj01ORAHRIWpOqAQCJOf80iodJ4qCiNY94QdKe2arkqXJV0nSrZz4cGTf20Y+pOyIQUfDKaLHVmHtPH1rFApdwOZmG6lJkUCpL90X/8xyH2Zqxzbmno=
+	t=1772691044; cv=none; b=ZIm+rdFDzwO6g2FpN3pGQl3krejgJfq188ob/HsRqb7azw0EOjg5DYi0/W+T7mgrYR9xnEmAx5b0Whtzw1b6Zg8BqEirfNrip8stXrDtYZm3NIYUCzpfZ2ttO1/XCEjc+ZBGUC9h3cMHm3OzFfg4AnCbDQrCvZWZrIKxT+6E38M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772690109; c=relaxed/simple;
-	bh=FLQoTFQUo4QiFSgYR9UU3E7n7VY4bud+kKDsw6E++t8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lVk6WUyE7YwCU4iyANac+9ab2RU3TN3kA/RnJE3w/11eoXhga5pMxacYjm52GTGBruuUS9Z/3GR3YS+48wVXZvVMHcFZfG51t8UucmaGswIhVZ+JLrlq/p2ogLtLOv3AsRYtHy0MkloH+rnYGy2PrpexlnrQPAQm9EtTfBCFdro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9Mq6hVc; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1772691044; c=relaxed/simple;
+	bh=IUji2mnUNSFEoK3a2Xfm/n2k5APl+7vfWs6TyDO5LZM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iRfIoMYNe19Vg8vV+rS1jQ24AZKHRHG12pXsDgzAAfMsPbref5QvMcKvdIwuqlCe5UW48zSnTc1DmKmSj3S3WoncY2rQTGhJ1qDayLjPvhvqHduG6Cat6jC+OavvDixCnrUZOWSxWb4uQJtOso61cM5dtSHWeb/TMYCvDd5V3oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l0MCpSSa; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9Mq6hVc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l0MCpSSa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772690106; x=1804226106;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FLQoTFQUo4QiFSgYR9UU3E7n7VY4bud+kKDsw6E++t8=;
-  b=Y9Mq6hVcHfdtRR543yJlo7gLQAMjLX1zXw0yHqWkHk17E9gy5EncSmjG
-   kas2nkuA/DHn1mtjXh0Qa2X2PWAyh/jLS7Cw1JW7wWI65jhU4menE3a2C
-   wX5mfxfCNE6HHIhSdBX00On6SfaOCdz9bTyDVJVRneNS1afXh8P21J/gG
-   qxlk+0w2Ozf6PfgKzkO3Z8W2LYTwxwWlFbKWhvh+wpx8uyYm4dfJeUmkb
-   /Cb/ldklybMmNtAu0A1npXMNAkyEhGrObYxei1nU685LTL7wvKfaPFzxS
-   xtFZ/4s0rFBWOkj1pIiMflLzW6JndH5Pg2lKbT7IZH5gKP0wxNEZdlPpX
-   Q==;
-X-CSE-ConnectionGUID: JnbeB0l6SZuOYnbuoW7sFg==
-X-CSE-MsgGUID: 7brD95iXQxuT/mANfUzgag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="85115188"
+  t=1772691043; x=1804227043;
+  h=date:from:to:cc:subject:message-id;
+  bh=IUji2mnUNSFEoK3a2Xfm/n2k5APl+7vfWs6TyDO5LZM=;
+  b=l0MCpSSal/npiTQmGmqATvWVqU7JJTfyXVm0yyyxRs1ffSYCdJptfkML
+   w3Gcc4t6yUMoiQyjtlek5/CoVxMqn0PsvvwIjufjXs1KgMQuxrWFw86Jc
+   lxf7R0zw66j2YM4TReAzjsdCGaU4n9m+mqEWHILro6zoMSB05zUft1gT1
+   +Ex726W659D9SHXI0+/146uGlUUKvKgZQRcd9nuPDItVn+aV9+yxw2CZB
+   42Xuj6gqwVqCkej32r1/YVWlr93UmGYnfiyPtW2bxDYxobfY2I2g8BJsX
+   6oqWIy8iQ8+Cq4UIEpZaMvpjr+QW/V/YjgnQD+Eopd0fjcfa+coSTrHhI
+   g==;
+X-CSE-ConnectionGUID: 9350Mm3tSS2c4xR2wo0RMA==
+X-CSE-MsgGUID: f0wogroaQPeoPcEbnaeP9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84853440"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="85115188"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 21:55:04 -0800
-X-CSE-ConnectionGUID: TzH3e4CxT22RkWBFlSXM/g==
-X-CSE-MsgGUID: 4NCjl+xsS6GpWGEBWTqy6A==
+   d="scan'208";a="84853440"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 22:10:42 -0800
+X-CSE-ConnectionGUID: A815avG/RyukjF0iyX1H6A==
+X-CSE-MsgGUID: C3SgMgH9Td2Ax55wqBXnLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="218574984"
-Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 04 Mar 2026 21:55:02 -0800
-Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
+   d="scan'208";a="222731184"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 04 Mar 2026 22:10:42 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vy1fn-00000000015-0UYI;
-	Thu, 05 Mar 2026 05:54:59 +0000
-Date: Thu, 5 Mar 2026 13:51:30 +0800
+	id 1vy1ux-000000001xl-1YpH;
+	Thu, 05 Mar 2026 06:10:39 +0000
+Date: Thu, 05 Mar 2026 07:10:04 +0100
 From: kernel test robot <lkp@intel.com>
-To: Mathura_Kumar <academic1mathura@gmail.com>, brauner@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, academic1mathura@gmail.com,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH 3/3] [PATCH]-This patch series completes the
- implementation of do_mq_timedreceive2 new        system calls that provide
- non-destructive peek functionality        on POSIX message queues
-Message-ID: <202603051353.0aNGnszx-lkp@intel.com>
-References: <20260304135126.77270-3-academic1mathura@gmail.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/mm 2/24] warning: unreachable `pub` item
+Message-ID: <202603050640.sYZQvdDq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260304135126.77270-3-academic1mathura@gmail.com>
 
-Hi Mathura_Kumar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes linus/master v7.0-rc2 next-20260303]
-[cannot apply to arnd-asm-generic/master tip/x86/asm]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathura_Kumar/mqueue-introduce-new-do_mq_timedreceive2-mq_peek-syscall-for-non-destructive-receive-and-inspection/20260305-020107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20260304135126.77270-3-academic1mathura%40gmail.com
-patch subject: [PATCH 3/3] [PATCH]-This patch series completes the implementation of do_mq_timedreceive2 new        system calls that provide non-destructive peek functionality        on POSIX message queues
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260305/202603051353.0aNGnszx-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051353.0aNGnszx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
+head:   1332f2111dd980926c1437960a555ac5e2049edc
+commit: 975169ffd1f36d4847b08d9994e2059be762eaa5 [2/24] rust: gpu: Add GPU buddy allocator bindings
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260305/202603050640.sYZQvdDq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050640.sYZQvdDq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603051353.0aNGnszx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050640.sYZQvdDq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arc/include/uapi/asm/unistd.h:10,
-                    from arch/arc/include/asm/unistd.h:5,
-                    from <stdin>:2:
->> ./arch/arc/include/generated/uapi/asm/unistd_32.h:356:9: warning: '__NR_mq_timedreceive_time64' redefined
-     356 | #define __NR_mq_timedreceive_time64 474
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./arch/arc/include/generated/uapi/asm/unistd_32.h:303:9: note: this is the location of the previous definition
-     303 | #define __NR_mq_timedreceive_time64 419
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   <stdin>:1634:2: warning: #warning syscall mq_timedreceive2_time64 not implemented [-Wcpp]
+>> warning: unreachable `pub` item
+   --> rust/kernel/gpu/buddy.rs:562:5
+   |
+   562 |     pub fn offset(&self) -> u64 {
+   |     ---^^^^^^^^^^^^^^^^^^^^^^^^
+   |     |
+   |     help: consider restricting its visibility: `pub(crate)`
+   |
+   = note: requested on the command line with `-W unreachable-pub`
 --
-   In file included from arch/arc/include/uapi/asm/unistd.h:10,
-                    from arch/arc/include/asm/unistd.h:5,
-                    from arch/arc/include/asm/entry.h:10,
-                    from arch/arc/kernel/head.S:14:
->> ./arch/arc/include/generated/uapi/asm/unistd_32.h:356:9: warning: '__NR_mq_timedreceive_time64' redefined
-     356 | #define __NR_mq_timedreceive_time64 474
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./arch/arc/include/generated/uapi/asm/unistd_32.h:303:9: note: this is the location of the previous definition
-     303 | #define __NR_mq_timedreceive_time64 419
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> warning: unreachable `pub` item
+   --> rust/kernel/gpu/buddy.rs:568:5
+   |
+   568 |     pub fn order(&self) -> u32 {
+   |     ---^^^^^^^^^^^^^^^^^^^^^^^
+   |     |
+   |     help: consider restricting its visibility: `pub(crate)`
 --
-   In file included from arch/arc/include/uapi/asm/unistd.h:10,
-                    from arch/arc/include/asm/unistd.h:5,
-                    from include/uapi/linux/unistd.h:8,
-                    from arch/arc/kernel/process.c:16:
->> ./arch/arc/include/generated/uapi/asm/unistd_32.h:356:9: warning: '__NR_mq_timedreceive_time64' redefined
-     356 | #define __NR_mq_timedreceive_time64 474
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./arch/arc/include/generated/uapi/asm/unistd_32.h:303:9: note: this is the location of the previous definition
-     303 | #define __NR_mq_timedreceive_time64 419
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arc/kernel/process.c:19:
-   include/linux/syscalls.h:751:42: warning: 'struct mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
-     751 | sys_mq_timedreceive2(mqd_t mqdes, struct mq_timedreceive2_args __user *uargs,
-         |                                          ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:756:36: warning: 'struct mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
-     756 |                             struct mq_timedreceive2_args __user *uargs,
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
+>> warning: public documentation for `AllocatedBlocks` links to private item `Block`
+   --> rust/kernel/gpu/buddy.rs:483:1
+   |
+   483 | / /// Allocated blocks from the buddy allocator with automatic cleanup.
+   484 | | ///
+   485 | | /// This structure owns a list of allocated blocks and ensures they are
+   486 | | /// automatically freed when dropped. Use `iter()` to iterate over all
+   ...   |
+   490 | | ///
+   491 | | /// - `list` is an initialized, valid list head containing allocated blocks.
+   | |____________________________________________________________________________^
+   |
+   = note: the link appears in this line:
 --
-   In file included from arch/arc/include/uapi/asm/unistd.h:10,
-                    from arch/arc/include/asm/unistd.h:5,
-                    from include/uapi/linux/unistd.h:8,
-                    from include/linux/syscalls.h:91,
-                    from arch/arc/kernel/sys.c:3:
->> ./arch/arc/include/generated/uapi/asm/unistd_32.h:356:9: warning: '__NR_mq_timedreceive_time64' redefined
-     356 | #define __NR_mq_timedreceive_time64 474
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./arch/arc/include/generated/uapi/asm/unistd_32.h:303:9: note: this is the location of the previous definition
-     303 | #define __NR_mq_timedreceive_time64 419
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:751:42: warning: 'struct mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
-     751 | sys_mq_timedreceive2(mqd_t mqdes, struct mq_timedreceive2_args __user *uargs,
-         |                                          ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:756:36: warning: 'struct mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
-     756 |                             struct mq_timedreceive2_args __user *uargs,
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   arch/arc/kernel/sys.c:14:52: note: in expansion of macro '__SYSCALL'
-      14 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
-         |                                                    ^~~~~~~~~
-   ./arch/arc/include/generated/asm/syscall_table_32.h:1:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
-       1 | __SYSCALL_WITH_COMPAT(0, sys_io_setup, compat_sys_io_setup)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[0]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   arch/arc/kernel/sys.c:14:52: note: in expansion of macro '__SYSCALL'
-      14 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
-         |                                                    ^~~~~~~~~
-   ./arch/arc/include/generated/asm/syscall_table_32.h:1:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
-       1 | __SYSCALL_WITH_COMPAT(0, sys_io_setup, compat_sys_io_setup)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:2:1: note: in expansion of macro '__SYSCALL'
-       2 | __SYSCALL(1, sys_io_destroy)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[1]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:2:1: note: in expansion of macro '__SYSCALL'
-       2 | __SYSCALL(1, sys_io_destroy)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   arch/arc/kernel/sys.c:14:52: note: in expansion of macro '__SYSCALL'
-      14 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
-         |                                                    ^~~~~~~~~
-   ./arch/arc/include/generated/asm/syscall_table_32.h:3:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
-       3 | __SYSCALL_WITH_COMPAT(2, sys_io_submit, compat_sys_io_submit)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[2]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   arch/arc/kernel/sys.c:14:52: note: in expansion of macro '__SYSCALL'
-      14 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
-         |                                                    ^~~~~~~~~
-   ./arch/arc/include/generated/asm/syscall_table_32.h:3:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
-       3 | __SYSCALL_WITH_COMPAT(2, sys_io_submit, compat_sys_io_submit)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:4:1: note: in expansion of macro '__SYSCALL'
-       4 | __SYSCALL(3, sys_io_cancel)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[3]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:4:1: note: in expansion of macro '__SYSCALL'
-       4 | __SYSCALL(3, sys_io_cancel)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:5:1: note: in expansion of macro '__SYSCALL'
-       5 | __SYSCALL(4, sys_io_getevents_time32)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[4]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:5:1: note: in expansion of macro '__SYSCALL'
-       5 | __SYSCALL(4, sys_io_getevents_time32)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:6:1: note: in expansion of macro '__SYSCALL'
-       6 | __SYSCALL(5, sys_setxattr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[5]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:6:1: note: in expansion of macro '__SYSCALL'
-       6 | __SYSCALL(5, sys_setxattr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   ./arch/arc/include/generated/asm/syscall_table_32.h:7:1: note: in expansion of macro '__SYSCALL'
-       7 | __SYSCALL(6, sys_lsetxattr)
+>> warning: public documentation for `AllocatedBlock` links to private item `Block`
+   --> rust/kernel/gpu/buddy.rs:582:9
+   |
+   582 | /// A [`Block`] paired with its owning [`AllocatedBlocks`] context.
+   |         ^^^^^ this item is private
+   |
+   = note: this link will resolve properly if you pass `--document-private-items`
 --
-   In file included from arch/arc/include/uapi/asm/unistd.h:10,
-                    from arch/arc/include/asm/unistd.h:5,
-                    from include/uapi/linux/unistd.h:8,
-                    from include/linux/syscalls.h:91,
-                    from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:64,
-                    from kernel/sched/rq-offsets.c:5:
->> ./arch/arc/include/generated/uapi/asm/unistd_32.h:356:9: warning: '__NR_mq_timedreceive_time64' redefined
-     356 | #define __NR_mq_timedreceive_time64 474
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./arch/arc/include/generated/uapi/asm/unistd_32.h:303:9: note: this is the location of the previous definition
-     303 | #define __NR_mq_timedreceive_time64 419
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:751:42: warning: 'struct mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
-     751 | sys_mq_timedreceive2(mqd_t mqdes, struct mq_timedreceive2_args __user *uargs,
-         |                                          ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:756:36: warning: 'struct mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
-     756 |                             struct mq_timedreceive2_args __user *uargs,
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arc/include/uapi/asm/unistd.h:10,
-                    from arch/arc/include/asm/unistd.h:5,
-                    from <stdin>:2:
->> ./arch/arc/include/generated/uapi/asm/unistd_32.h:356:9: warning: '__NR_mq_timedreceive_time64' redefined
-     356 | #define __NR_mq_timedreceive_time64 474
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./arch/arc/include/generated/uapi/asm/unistd_32.h:303:9: note: this is the location of the previous definition
-     303 | #define __NR_mq_timedreceive_time64 419
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   <stdin>:1634:2: warning: #warning syscall mq_timedreceive2_time64 not implemented [-Wcpp]
+>> warning: public documentation for `AllocatedBlock` links to private item `Block`
+   --> rust/kernel/gpu/buddy.rs:584:20
+   |
+   584 | /// Unlike a raw [`Block`], which only knows its offset within the buddy address
+   |                    ^^^^^ this item is private
+   |
+   = note: this link will resolve properly if you pass `--document-private-items`
 
 -- 
 0-DAY CI Kernel Test Service
