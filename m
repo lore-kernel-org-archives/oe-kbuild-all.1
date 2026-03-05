@@ -1,105 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57B420E6E2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B7C33688A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772674803; cv=none; b=jvXgvh87BmglY8Cbbxh7V23M/VRUMcKeP0+m2kBvj12I8cDQXRHQldkI3+D94RoJifF2KDhTi7mBVaExDSsJH7MvFro0ALAaxJrgrWHC5Jx18AuGH0dhv17HtF0zBvOYsQ65btnUWamNivLwNF8v9XPUzrxc3h+yaiXWA8d2d0o=
+	t=1772675425; cv=none; b=APRr7pgc3k5SgqF/jyrHqulkRHBg3DsaQGKDIrBfXTCg4PNawGAYS3PnVjBn0trV0E91oL7UwDvCcMl61xFwA9jRixBI2adQfERPAGQbdvfGyPTp8PyOR3Rs8mumXY9NxCmQC0bq6SE2W2es3R0GZYTTNKptwZr0d/BIhjvareo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772674803; c=relaxed/simple;
-	bh=kjH5uGFqOk1e651lQiMVYdVPJgOquhre1/Cbpb0SlU0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DaSp0DXymMJj0L7LE0tIyw8UFLHbb/WVU11ya/ZKk005PaE2dioFiDNEtdE00d3aG+zPyU+pFPhHq0pIsJ5pi1qFgZDW27n+lE0dhaFb891GkFN1d+bOOmYnvt0XOJRC4fto1UrYGpBoh5+OBodpVQx+QwKdM6Qd3LlQZHzVr2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iwaonEKF; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1772675425; c=relaxed/simple;
+	bh=6XenjEFbgCsNbNahIN0nRsl0RREHKOxIJncSB/bYAxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EFpuFpTa/FpSaIOtalUfhuLqmPBFEfigEt+OQeEP6FvA7q0hbKNOETUAwa3EKI947ZeGYETGhkD6tWAgHWnmUcxRN+ctSfyWd0z6hX8ZRQFYr+JCyOnZPYMNMyf+V0Vp9yZDMRD3Fc+Szx/2PxieIdEGcWOI/flyNwThjgYh/vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jwgsrYrY; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iwaonEKF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jwgsrYrY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772674802; x=1804210802;
-  h=date:from:to:cc:subject:message-id;
-  bh=kjH5uGFqOk1e651lQiMVYdVPJgOquhre1/Cbpb0SlU0=;
-  b=iwaonEKFZDrLXpU27HmHh6LQg5qligM/dWe2hN+O5LhNtYMZY4XlEje/
-   aUELelwP+fUqsr33uysztnbWhQTRh+4tKAAHxMwSVYu3ikpnfngJ9fxYB
-   gF0MnSiFwmhMP6New6dGKhmJceGC8wvvRsjRR0mvISUSb3kBTOMIzs59K
-   LTgoEtIy171fLMZR6c6Yrc0UyznoQ3YnjQdG2WnXf20veBwJGl+CCphJ9
-   bPh/TPhR0YbVubKuSUTQZUZLAmNZqC69KSKv10Ca5PXV8zhHScMK1WqRW
-   oi03EjpbHH7BN1UG7BruZ4a9qP1xAC9GzogXfrVlXiUJx0NG+7AnT05sG
-   A==;
-X-CSE-ConnectionGUID: cWS6ge4QTFOM01H4oU+iRg==
-X-CSE-MsgGUID: snHHmxQkQxKTRjrUqNZY0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77623060"
+  t=1772675424; x=1804211424;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6XenjEFbgCsNbNahIN0nRsl0RREHKOxIJncSB/bYAxY=;
+  b=jwgsrYrYj1FjG6wByafw3SVAzs/uUDNdpjxOMpxCzqFxk4+VIL5TPOpL
+   fLkP1bV2IMqgYsx/Y7Jk1oG5T8wAucn96o7c7REbVq1wJVD0ZsDvKVJ9f
+   lLoZVsjTNQhRr3TTdNCOrZqlwyQ/twdXCHkKW4r1jRnig1Kao2BO1l5Yr
+   hCYK2Pd6T4OYvmosjLtsrExH7yI0KoD1/ihbnbyAbokvq3/XD678jwTJk
+   0tKXccAvyfabiEmrY0YwfWxtONc53veUmdn9zyhyac/h9oecVcogD2n8j
+   QmK7HR0STGHQ1SUQYefR4dSoRLD3Zl7tG5oQXYNqRtyfl9wUWsCr5S+E1
+   g==;
+X-CSE-ConnectionGUID: F+76H4SvR2SvtuMHCruGfQ==
+X-CSE-MsgGUID: 4itnOPcWTBWKfRPJNcaM3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73665454"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="77623060"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:40:01 -0800
-X-CSE-ConnectionGUID: Q00k3BC9QgG7EG+APN0WMA==
-X-CSE-MsgGUID: ppeVf/oiSlabXcq62GtFUA==
+   d="scan'208";a="73665454"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:50:18 -0800
+X-CSE-ConnectionGUID: gz0vQlFtQh6SUHmpLGvffw==
+X-CSE-MsgGUID: awafH/+BQKKQXvHD8LnX8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="215816848"
+   d="scan'208";a="223487856"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Mar 2026 17:40:00 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Mar 2026 17:50:03 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxxgz-000000004xV-1b2p;
-	Thu, 05 Mar 2026 01:39:57 +0000
-Date: Thu, 05 Mar 2026 09:39:29 +0800
+	id 1vxxqh-000000004yn-1aHW;
+	Thu, 05 Mar 2026 01:49:59 +0000
+Date: Thu, 5 Mar 2026 09:49:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- ./usr/include/linux/vbox_vmmdev_types.h:239:4: warning: field u within
- 'struct vmmdev_hgcm_function_parameter32' is less aligned than 'union
- (unnamed at ./usr/include/linux/vbox_vmmdev_types.h:223:2)' and is usually
- due to 'struct vmmdev_hgcm_function_par...
-Message-ID: <202603050904.fU7j00Xv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Thanos Makatos <thanos.makatos@nutanix.com>,
+	"seanjc@google.com" <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>,
+	John Levon <john.levon@nutanix.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	Thanos Makatos <thanos.makatos@nutanix.com>
+Subject: Re: [PATCH] KVM: optionally post write on ioeventfd write
+Message-ID: <202603050920.Lmf80GaE-lkp@intel.com>
+References: <20260302122826.2572-1-thanos.makatos@nutanix.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260302122826.2572-1-thanos.makatos@nutanix.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   7f9e000083563dd4928fb8eafa7cae2a1a3d8a88
-commit: 26fa53553b6950c7dc242605991e34e7b96760f4 [1/1] kbuild: hdrcheck: fix cross build with clang
-config: arm-randconfig-002-20260304 (https://download.01.org/0day-ci/archive/20260305/202603050904.fU7j00Xv-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050904.fU7j00Xv-lkp@intel.com/reproduce)
+Hi Thanos,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next linus/master v7.0-rc2 next-20260304]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thanos-Makatos/KVM-optionally-post-write-on-ioeventfd-write/20260302-204031
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260302122826.2572-1-thanos.makatos%40nutanix.com
+patch subject: [PATCH] KVM: optionally post write on ioeventfd write
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260305/202603050920.Lmf80GaE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050920.Lmf80GaE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050904.fU7j00Xv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050920.Lmf80GaE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from <built-in>:1:
->> ./usr/include/linux/vbox_vmmdev_types.h:239:4: warning: field u within 'struct vmmdev_hgcm_function_parameter32' is less aligned than 'union (unnamed at ./usr/include/linux/vbox_vmmdev_types.h:223:2)' and is usually due to 'struct vmmdev_hgcm_function_parameter32' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-     239 |         } u;
-         |           ^
->> ./usr/include/linux/vbox_vmmdev_types.h:254:6: warning: field u within 'struct vmmdev_hgcm_function_parameter64::(unnamed union)::(unnamed at ./usr/include/linux/vbox_vmmdev_types.h:249:3)' is less aligned than 'union (unnamed at ./usr/include/linux/vbox_vmmdev_types.h:251:4)' and is usually due to 'struct vmmdev_hgcm_function_parameter64::(unnamed union)::(unnamed at ./usr/include/linux/vbox_vmmdev_types.h:249:3)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-     254 |                         } u;
-         |                           ^
-   2 warnings generated.
---
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/vboxguest.h:14:
->> usr/include/linux/vbox_vmmdev_types.h:239:4: warning: field u within 'struct vmmdev_hgcm_function_parameter32' is less aligned than 'union (unnamed at usr/include/linux/vbox_vmmdev_types.h:223:2)' and is usually due to 'struct vmmdev_hgcm_function_parameter32' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-     239 |         } u;
-         |           ^
->> usr/include/linux/vbox_vmmdev_types.h:254:6: warning: field u within 'struct vmmdev_hgcm_function_parameter64::(unnamed union)::(unnamed at usr/include/linux/vbox_vmmdev_types.h:249:3)' is less aligned than 'union (unnamed at usr/include/linux/vbox_vmmdev_types.h:251:4)' and is usually due to 'struct vmmdev_hgcm_function_parameter64::(unnamed union)::(unnamed at usr/include/linux/vbox_vmmdev_types.h:249:3)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-     254 |                         } u;
-         |                           ^
-   2 warnings generated.
---
-   In file included from <built-in>:1:
->> ./usr/include/linux/hyperv.h:361:2: warning: field  within 'struct hv_kvp_exchg_msg_value' is less aligned than 'union hv_kvp_exchg_msg_value::(anonymous at ./usr/include/linux/hyperv.h:361:2)' and is usually due to 'struct hv_kvp_exchg_msg_value' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-     361 |         union {
-         |         ^
-   1 warning generated.
+   In file included from include/linux/kvm_host.h:40,
+                    from arch/x86/events/intel/core.c:17:
+>> include/uapi/linux/kvm.h:669:1: error: static assertion failed: "bad size"
+     669 | _Static_assert(sizeof(struct kvm_ioeventfd) == 1 << 6, "bad size");
+         | ^~~~~~~~~~~~~~
+
+
+vim +669 include/uapi/linux/kvm.h
+
+   659	
+   660	struct kvm_ioeventfd {
+   661		__u64 datamatch;
+   662		__u64 addr;        /* legal pio/mmio address */
+   663		__u32 len;         /* 1, 2, 4, or 8 bytes; or 0 to ignore length */
+   664		__s32 fd;
+   665		__u32 flags;
+   666		void __user *post_addr; /* address to write to if POST_WRITE is set */
+   667		__u8  pad[24];
+   668	};
+ > 669	_Static_assert(sizeof(struct kvm_ioeventfd) == 1 << 6, "bad size");
+   670	
 
 -- 
 0-DAY CI Kernel Test Service
