@@ -1,257 +1,222 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F44733ADAB;
-	Thu,  5 Mar 2026 22:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A6435DA70
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 22:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772751024; cv=none; b=l+Te4QKjPBWiYZOVkEbgbJp71Fqp/lmGx5ja3B2t/DcoXaGGSQ2CQE2tTVS6UHBYMT7AGDGpzcpMPOkJyPP45gWVPdzwoQyAXPA6Mx83k67/6jZ9/cJ0482lSOk3YVpzmuiLGBrL9z01QmrNbc3MGCa6ou2/q2glr3098VzTUwQ=
+	t=1772751027; cv=none; b=OwwzpJWIPGDLfZ+DYhdwCyYxO7LSHeDaN8V6LBrE3CQwaWgJTM8mMcO7RFYFJxjDbc8J2a3LtWyM176Ps8lR2bCSx9djZcsND7fqbLBA7XoVNuBoEj5SV+e/yasQVYH3aBjdLKV3TCVWP0X+7TKGfwaZ3+9tcilIk4kBq5P1W5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772751024; c=relaxed/simple;
-	bh=A3JNYCbQ1bI2Ru//fHlbOZ83rS5jtOWcTTZ5KORXoFg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Wzot9aW0VBnHcVN4kNA4hdhE2Ydvs7M2idJyWV38qQcmZa953RCjkq/75ojtYc1cU7jpC76zhuqEz8xCIwCmT75RJsS2MjC5y9iK140W8+yBZwY6Ot+9vboQesKkPpW4TEYGUC6jpbyzY573LfEbCEbya7kO5sCaKj9PUKgk3vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZluMXzh; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1772751027; c=relaxed/simple;
+	bh=AXcQLqJR6MHEFQyxqAUlhup/MYRqwrCOoZI2iZsqhss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E5MyHKjZenW212NNIlnEDyLyus7bJyisKI4S/HfYMGNaBwbcDALmLi7/8aJcVbANUzM3jKYc08PzTBZpqGHqkSEm1jV0K2q9u50w7UEfd/5wfw+D20y9BgG2gcdSkFa+64FkDjkhQfBqJQZvURWXaQt8aJF2jokMzXlGRQJlo9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W9MIqkrR; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZluMXzh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W9MIqkrR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772751024; x=1804287024;
-  h=date:from:to:cc:subject:message-id;
-  bh=A3JNYCbQ1bI2Ru//fHlbOZ83rS5jtOWcTTZ5KORXoFg=;
-  b=FZluMXzhj9DUTVpBpYZqM4+/4AQfX5XvNdYV4bdstxkv7hUPHg77F5Zu
-   H/KU9oH5FLi6UsrBReX/h/OqZgZuYxdHGsCRPcc9qIlTXjzueB0k5vtiH
-   H/QNJhuhNR6Rz+iTnlp1FNetCQL4Apy6GDw786/FW4FUmzOoJhqXRr1wc
-   ATBfrl9laRREq3EUdfYEKcrPqZzXP/XMVQTRyZ6VKlHq2f92aoEKap4wa
-   AXvwWKMwKEEOOiaDAq5AnsqSms2uCg/sa6HqTB/37wkVMpucq9ZHhjsbk
-   miZ8gTbgs6mVUEHoFwFJchQ91Jqd8CCBC0P5ouU/QawWCCO+QYx9HSkMS
-   Q==;
-X-CSE-ConnectionGUID: JX+s4/b4TpaTJbJKasq9bw==
-X-CSE-MsgGUID: Q+XTG6IJTmiJUJAPeJuXXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="76456763"
+  t=1772751025; x=1804287025;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AXcQLqJR6MHEFQyxqAUlhup/MYRqwrCOoZI2iZsqhss=;
+  b=W9MIqkrRCOKs/PG01uz0FgczwYWGcWYSOeydy9Ul/y6Z1x7hDOB79Q+Z
+   60UuFXgThLlvk2MBcICxHHqZxOwZt8nfpWREPSQnQ7HSknNt9raPcSV1b
+   z7Ffj5sTQt3a56qR5BSPzqH6BYhYOC5Jv2BhyAEWmQMOWHwUM/pPqiU6x
+   8/q7DYwIpDJu6MM7gLLmTvkzfwJlHDJ57xdwdinWmwBq4Ep7CGpoNqMWJ
+   3qGmqbgSD1Stu6cj0yDzbcBTiQRI8/4juVhgB8U/vth0wAwpWi8IfUYHm
+   UbIEBfCUnUbVC+BaoS1f6FGg2moKP1de9aWx/nf97ZiuSWpi1epqaI/vJ
+   A==;
+X-CSE-ConnectionGUID: RCaZptUXRnKE0Pmp9oUBIA==
+X-CSE-MsgGUID: 8H15nXExQdC6Z1MJah/ywg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="76456765"
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="76456763"
+   d="scan'208";a="76456765"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 14:50:23 -0800
-X-CSE-ConnectionGUID: 5wuXcS9UQqGdltdMvzDncw==
-X-CSE-MsgGUID: 9SPRmRgYRiSCviu3f26rMw==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 14:50:24 -0800
+X-CSE-ConnectionGUID: ol+cioCtR0SOYCvxEP96cw==
+X-CSE-MsgGUID: 1SKehThuSAC5/DeLfDGq7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="223313268"
+   d="scan'208";a="223313262"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Mar 2026 14:50:20 -0800
+  by orviesa004.jf.intel.com with ESMTP; 05 Mar 2026 14:50:21 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyHWL-00000000023-3kN8;
+	id 1vyHWL-00000000021-3UOl;
 	Thu, 05 Mar 2026 22:50:17 +0000
-Date: Fri, 06 Mar 2026 06:50:08 +0800
+Date: Fri, 6 Mar 2026 06:50:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [axboe:rw_iter 135/467]
- drivers/gpu/drm/i915/display/intel_wm.c:45:6: error: conflicting types for
- 'intel_update_watermarks'
-Message-ID: <202603060654.qzHEPK65-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Su Yue <glass.su@suse.com>, linux-raid@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, song@kernel.org, xni@redhat.com,
+	linan122@huawei.com, yukuai@fnnas.com, heming.zhao@suse.com,
+	l@damenly.org, Su Yue <glass.su@suse.com>
+Subject: Re: [PATCH 1/3] md: restore bitmap/location to fix wrong bitmap
+ offset while growing
+Message-ID: <202603060614.AZY6J9w9-lkp@intel.com>
+References: <20260303033731.83885-2-glass.su@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260303033731.83885-2-glass.su@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   9d549a35a0c4585bfc4ff24185c5d8cb7485078e
-commit: cad0bb9e353bf6c4224c6fd99335dd17f6da67c7 [135/467] drm/i915: convert to read/write iterators
-config: x86_64-randconfig-014-20260305 (https://download.01.org/0day-ci/archive/20260306/202603060654.qzHEPK65-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603060654.qzHEPK65-lkp@intel.com/reproduce)
+Hi Su,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.0-rc2 next-20260305]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Su-Yue/md-restore-bitmap-location-to-fix-wrong-bitmap-offset-while-growing/20260303-114108
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260303033731.83885-2-glass.su%40suse.com
+patch subject: [PATCH 1/3] md: restore bitmap/location to fix wrong bitmap offset while growing
+config: i386-randconfig-051-20260305 (https://download.01.org/0day-ci/archive/20260306/202603060614.AZY6J9w9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603060614.AZY6J9w9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603060654.qzHEPK65-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603060614.AZY6J9w9-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_wm.c:45:6: error: conflicting types for 'intel_update_watermarks'
-      45 | void intel_update_watermarks(struct drm_i915_private *i915)
-         |      ^
-   drivers/gpu/drm/i915/display/intel_wm.h:17:6: note: previous declaration is here
-      17 | void intel_update_watermarks(struct intel_display *display);
-         |      ^
->> drivers/gpu/drm/i915/display/intel_wm.c:47:19: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      47 |         if (i915->display.funcs.wm->update_wm)
-         |             ~~~~~~~~~~~~~^
-         |                          ->
->> drivers/gpu/drm/i915/display/intel_wm.c:47:19: error: incomplete definition of type 'struct intel_display'
-      47 |         if (i915->display.funcs.wm->update_wm)
-         |             ~~~~~~~~~~~~~^
-   drivers/gpu/drm/i915/i915_drv.h:64:8: note: forward declaration of 'struct intel_display'
-      64 | struct intel_display;
-         |        ^
-   drivers/gpu/drm/i915/display/intel_wm.c:48:16: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      48 |                 i915->display.funcs.wm->update_wm(i915);
-         |                 ~~~~~~~~~~~~~^
-         |                              ->
-   drivers/gpu/drm/i915/display/intel_wm.c:48:16: error: incomplete definition of type 'struct intel_display'
-      48 |                 i915->display.funcs.wm->update_wm(i915);
-         |                 ~~~~~~~~~~~~~^
-   drivers/gpu/drm/i915/i915_drv.h:64:8: note: forward declaration of 'struct intel_display'
-      64 | struct intel_display;
-         |        ^
-   drivers/gpu/drm/i915/display/intel_wm.c:56:19: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      56 |         if (i915->display.funcs.wm->compute_pipe_wm)
-         |             ~~~~~~~~~~~~~^
-         |                          ->
-   drivers/gpu/drm/i915/display/intel_wm.c:56:19: error: incomplete definition of type 'struct intel_display'
-      56 |         if (i915->display.funcs.wm->compute_pipe_wm)
-         |             ~~~~~~~~~~~~~^
-   drivers/gpu/drm/i915/i915_drv.h:64:8: note: forward declaration of 'struct intel_display'
-      64 | struct intel_display;
-         |        ^
-   drivers/gpu/drm/i915/display/intel_wm.c:57:23: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      57 |                 return i915->display.funcs.wm->compute_pipe_wm(state, crtc);
-         |                        ~~~~~~~~~~~~~^
-         |                                     ->
-   drivers/gpu/drm/i915/display/intel_wm.c:57:23: error: incomplete definition of type 'struct intel_display'
-      57 |                 return i915->display.funcs.wm->compute_pipe_wm(state, crtc);
-         |                        ~~~~~~~~~~~~~^
-   drivers/gpu/drm/i915/i915_drv.h:64:8: note: forward declaration of 'struct intel_display'
-      64 | struct intel_display;
-         |        ^
->> drivers/gpu/drm/i915/display/intel_wm.c:51:5: warning: no previous prototype for function 'intel_compute_pipe_wm' [-Wmissing-prototypes]
-      51 | int intel_compute_pipe_wm(struct intel_atomic_state *state,
-         |     ^
-   drivers/gpu/drm/i915/display/intel_wm.c:51:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      51 | int intel_compute_pipe_wm(struct intel_atomic_state *state,
-         | ^
-         | static 
-   drivers/gpu/drm/i915/display/intel_wm.c:67:20: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      67 |         if (!i915->display.funcs.wm->compute_intermediate_wm)
-         |              ~~~~~~~~~~~~~^
-         |                           ->
-   drivers/gpu/drm/i915/display/intel_wm.c:67:20: error: incomplete definition of type 'struct intel_display'
-      67 |         if (!i915->display.funcs.wm->compute_intermediate_wm)
-         |              ~~~~~~~~~~~~~^
-   drivers/gpu/drm/i915/i915_drv.h:64:8: note: forward declaration of 'struct intel_display'
-      64 | struct intel_display;
-         |        ^
->> drivers/gpu/drm/i915/display/intel_wm.c:70:6: error: call to undeclared function 'drm_WARN_ON'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      70 |         if (drm_WARN_ON(&i915->drm, !i915->display.funcs.wm->compute_pipe_wm))
-         |             ^
-   drivers/gpu/drm/i915/display/intel_wm.c:70:44: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      70 |         if (drm_WARN_ON(&i915->drm, !i915->display.funcs.wm->compute_pipe_wm))
-         |                                      ~~~~~~~~~~~~~^
-         |                                                   ->
-   drivers/gpu/drm/i915/display/intel_wm.c:70:44: error: incomplete definition of type 'struct intel_display'
-      70 |         if (drm_WARN_ON(&i915->drm, !i915->display.funcs.wm->compute_pipe_wm))
-         |                                      ~~~~~~~~~~~~~^
-   drivers/gpu/drm/i915/i915_drv.h:64:8: note: forward declaration of 'struct intel_display'
-      64 | struct intel_display;
-         |        ^
-   drivers/gpu/drm/i915/display/intel_wm.c:73:22: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      73 |         return i915->display.funcs.wm->compute_intermediate_wm(state, crtc);
-         |                ~~~~~~~~~~~~~^
-         |                             ->
-   drivers/gpu/drm/i915/display/intel_wm.c:73:22: error: incomplete definition of type 'struct intel_display'
-      73 |         return i915->display.funcs.wm->compute_intermediate_wm(state, crtc);
-         |                ~~~~~~~~~~~~~^
-   drivers/gpu/drm/i915/i915_drv.h:64:8: note: forward declaration of 'struct intel_display'
-      64 | struct intel_display;
-         |        ^
->> drivers/gpu/drm/i915/display/intel_wm.c:62:5: warning: no previous prototype for function 'intel_compute_intermediate_wm' [-Wmissing-prototypes]
-      62 | int intel_compute_intermediate_wm(struct intel_atomic_state *state,
-         |     ^
-   drivers/gpu/drm/i915/display/intel_wm.c:62:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      62 | int intel_compute_intermediate_wm(struct intel_atomic_state *state,
-         | ^
-         | static 
-   drivers/gpu/drm/i915/display/intel_wm.c:81:19: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      81 |         if (i915->display.funcs.wm->initial_watermarks) {
-         |             ~~~~~~~~~~~~~^
-         |                          ->
-   drivers/gpu/drm/i915/display/intel_wm.c:81:19: error: incomplete definition of type 'struct intel_display'
-      81 |         if (i915->display.funcs.wm->initial_watermarks) {
-         |             ~~~~~~~~~~~~~^
-   drivers/gpu/drm/i915/i915_drv.h:64:8: note: forward declaration of 'struct intel_display'
-      64 | struct intel_display;
-         |        ^
-   drivers/gpu/drm/i915/display/intel_wm.c:82:16: error: member reference type 'struct intel_display *' is a pointer; did you mean to use '->'?
-      82 |                 i915->display.funcs.wm->initial_watermarks(state, crtc);
-         |                 ~~~~~~~~~~~~~^
-         |                              ->
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   2 warnings and 20 errors generated.
+   ld: drivers/md/md.o: in function `md_alloc':
+>> drivers/md/md.c:6376:(.text+0xb36c): undefined reference to `md_sysfs_create_common_group'
 
 
-vim +/intel_update_watermarks +45 drivers/gpu/drm/i915/display/intel_wm.c
+vim +6376 drivers/md/md.c
 
-    11	
-    12	/**
-    13	 * intel_update_watermarks - update FIFO watermark values based on current modes
-    14	 * @i915: i915 device
-    15	 *
-    16	 * Calculate watermark values for the various WM regs based on current mode
-    17	 * and plane configuration.
-    18	 *
-    19	 * There are several cases to deal with here:
-    20	 *   - normal (i.e. non-self-refresh)
-    21	 *   - self-refresh (SR) mode
-    22	 *   - lines are large relative to FIFO size (buffer can hold up to 2)
-    23	 *   - lines are small relative to FIFO size (buffer can hold more than 2
-    24	 *     lines), so need to account for TLB latency
-    25	 *
-    26	 *   The normal calculation is:
-    27	 *     watermark = dotclock * bytes per pixel * latency
-    28	 *   where latency is platform & configuration dependent (we assume pessimal
-    29	 *   values here).
-    30	 *
-    31	 *   The SR calculation is:
-    32	 *     watermark = (trunc(latency/line time)+1) * surface width *
-    33	 *       bytes per pixel
-    34	 *   where
-    35	 *     line time = htotal / dotclock
-    36	 *     surface width = hdisplay for normal plane and 64 for cursor
-    37	 *   and latency is assumed to be high, as above.
-    38	 *
-    39	 * The final value programmed to the register should always be rounded up,
-    40	 * and include an extra 2 entries to account for clock crossings.
-    41	 *
-    42	 * We don't use the sprite, so we can ignore that.  And on Crestline we have
-    43	 * to set the non-SR watermarks to 8.
-    44	 */
-  > 45	void intel_update_watermarks(struct drm_i915_private *i915)
-    46	{
-  > 47		if (i915->display.funcs.wm->update_wm)
-    48			i915->display.funcs.wm->update_wm(i915);
-    49	}
-    50	
-  > 51	int intel_compute_pipe_wm(struct intel_atomic_state *state,
-    52				  struct intel_crtc *crtc)
-    53	{
-    54		struct drm_i915_private *i915 = to_i915(state->base.dev);
-    55	
-    56		if (i915->display.funcs.wm->compute_pipe_wm)
-  > 57			return i915->display.funcs.wm->compute_pipe_wm(state, crtc);
-    58	
-    59		return 0;
-    60	}
-    61	
-  > 62	int intel_compute_intermediate_wm(struct intel_atomic_state *state,
-    63					  struct intel_crtc *crtc)
-    64	{
-    65		struct drm_i915_private *i915 = to_i915(state->base.dev);
-    66	
-  > 67		if (!i915->display.funcs.wm->compute_intermediate_wm)
-    68			return 0;
-    69	
-  > 70		if (drm_WARN_ON(&i915->drm, !i915->display.funcs.wm->compute_pipe_wm))
-    71			return 0;
-    72	
-  > 73		return i915->display.funcs.wm->compute_intermediate_wm(state, crtc);
-    74	}
-    75	
+  6276	
+  6277	struct mddev *md_alloc(dev_t dev, char *name)
+  6278	{
+  6279		/*
+  6280		 * If dev is zero, name is the name of a device to allocate with
+  6281		 * an arbitrary minor number.  It will be "md_???"
+  6282		 * If dev is non-zero it must be a device number with a MAJOR of
+  6283		 * MD_MAJOR or mdp_major.  In this case, if "name" is NULL, then
+  6284		 * the device is being created by opening a node in /dev.
+  6285		 * If "name" is not NULL, the device is being created by
+  6286		 * writing to /sys/module/md_mod/parameters/new_array.
+  6287		 */
+  6288		static DEFINE_MUTEX(disks_mutex);
+  6289		struct mddev *mddev;
+  6290		struct gendisk *disk;
+  6291		int partitioned;
+  6292		int shift;
+  6293		int unit;
+  6294		int error;
+  6295	
+  6296		/*
+  6297		 * Wait for any previous instance of this device to be completely
+  6298		 * removed (mddev_delayed_delete).
+  6299		 */
+  6300		flush_workqueue(md_misc_wq);
+  6301	
+  6302		mutex_lock(&disks_mutex);
+  6303		mddev = mddev_alloc(dev);
+  6304		if (IS_ERR(mddev)) {
+  6305			error = PTR_ERR(mddev);
+  6306			goto out_unlock;
+  6307		}
+  6308	
+  6309		partitioned = (MAJOR(mddev->unit) != MD_MAJOR);
+  6310		shift = partitioned ? MdpMinorShift : 0;
+  6311		unit = MINOR(mddev->unit) >> shift;
+  6312	
+  6313		if (name && !dev) {
+  6314			/* Need to ensure that 'name' is not a duplicate.
+  6315			 */
+  6316			struct mddev *mddev2;
+  6317			spin_lock(&all_mddevs_lock);
+  6318	
+  6319			list_for_each_entry(mddev2, &all_mddevs, all_mddevs)
+  6320				if (mddev2->gendisk &&
+  6321				    strcmp(mddev2->gendisk->disk_name, name) == 0) {
+  6322					spin_unlock(&all_mddevs_lock);
+  6323					error = -EEXIST;
+  6324					goto out_free_mddev;
+  6325				}
+  6326			spin_unlock(&all_mddevs_lock);
+  6327		}
+  6328		if (name && dev)
+  6329			/*
+  6330			 * Creating /dev/mdNNN via "newarray", so adjust hold_active.
+  6331			 */
+  6332			mddev->hold_active = UNTIL_STOP;
+  6333	
+  6334		disk = blk_alloc_disk(NULL, NUMA_NO_NODE);
+  6335		if (IS_ERR(disk)) {
+  6336			error = PTR_ERR(disk);
+  6337			goto out_free_mddev;
+  6338		}
+  6339	
+  6340		disk->major = MAJOR(mddev->unit);
+  6341		disk->first_minor = unit << shift;
+  6342		disk->minors = 1 << shift;
+  6343		if (name)
+  6344			strcpy(disk->disk_name, name);
+  6345		else if (partitioned)
+  6346			sprintf(disk->disk_name, "md_d%d", unit);
+  6347		else
+  6348			sprintf(disk->disk_name, "md%d", unit);
+  6349		disk->fops = &md_fops;
+  6350		disk->private_data = mddev;
+  6351	
+  6352		disk->events |= DISK_EVENT_MEDIA_CHANGE;
+  6353		mddev->gendisk = disk;
+  6354		error = add_disk(disk);
+  6355		if (error)
+  6356			goto out_put_disk;
+  6357	
+  6358		kobject_init(&mddev->kobj, &md_ktype);
+  6359		error = kobject_add(&mddev->kobj, &disk_to_dev(disk)->kobj, "%s", "md");
+  6360		if (error) {
+  6361			/*
+  6362			 * The disk is already live at this point.  Clear the hold flag
+  6363			 * and let mddev_put take care of the deletion, as it isn't any
+  6364			 * different from a normal close on last release now.
+  6365			 */
+  6366			mddev->hold_active = 0;
+  6367			mutex_unlock(&disks_mutex);
+  6368			mddev_put(mddev);
+  6369			return ERR_PTR(error);
+  6370		}
+  6371	
+  6372		/*
+  6373		 * md_sysfs_remove_common_group is not needed because mddev_delayed_delete
+  6374		 * calls kobject_put(&mddev->kobj) if mddev is to be deleted.
+  6375		 */
+> 6376		if (md_sysfs_create_common_group(mddev))
+  6377			pr_warn("md: cannot register common bitmap attributes for %s\n",
+  6378				mdname(mddev));
+  6379	
+  6380		kobject_uevent(&mddev->kobj, KOBJ_ADD);
+  6381		mddev->sysfs_state = sysfs_get_dirent_safe(mddev->kobj.sd, "array_state");
+  6382		mddev->sysfs_level = sysfs_get_dirent_safe(mddev->kobj.sd, "level");
+  6383		mutex_unlock(&disks_mutex);
+  6384		return mddev;
+  6385	
+  6386	out_put_disk:
+  6387		put_disk(disk);
+  6388	out_free_mddev:
+  6389		mddev_free(mddev);
+  6390	out_unlock:
+  6391		mutex_unlock(&disks_mutex);
+  6392		return ERR_PTR(error);
+  6393	}
+  6394	
 
 -- 
 0-DAY CI Kernel Test Service
