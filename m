@@ -1,72 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309691494C3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 00:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067411B4F09;
+	Thu,  5 Mar 2026 00:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772670895; cv=none; b=rqVn4BXMen6iwfM72yFCTvuv2oGJKqOpHJeR/W3ojLdxJV2wpYheGWGtLBN6jIX/Awh80IsjCoh4cblCEgtL7R6TbqbADIy1k9ljNzs02wPiMZBQeGyouf+tAAYW84Pd0A52XU9JNemMEHpbgMFQIVtD4iQMvMY7xC+y7VTr+OY=
+	t=1772670898; cv=none; b=JOdkNN/Ajnij2mU9mauOJRgb5etUjHuBXDlIz0svRlhusGdPa2GbaphPMuyJS7HOnj9qsAIjNjSi8+zygwimStB3iipiVg/IIuDrm2+R93AuAbAieVGcC+FHba4AoB9lhWlTKqLvzxeGmnDgqyu2+D/OKdlMFPmPUXQhI+C0yRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772670895; c=relaxed/simple;
-	bh=Bxrd2fiwvhsKyZsl+nxo29zi+60R+/EN/vFklSOWd+8=;
+	s=arc-20240116; t=1772670898; c=relaxed/simple;
+	bh=Y5tNmD/z+hXbUS3yPmpQI37LjZuCPtMHumMJgkI4cWs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MS/8vpUaE6TcVw799QsumKmlE5N+Ltsssdc7Zxrlo/2CylsuHWOaYLqDCV9hrCVar3uMjzVAQxqgh1SrXff0rXQNF+5UREqxZpw0aVtlbaZuiF+RebCi+VCEivovo3bMzR+alSv9cNwaAeRRTi23FZ5ZGQt/ccuX/Lj4ZXiD298=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zm/iCaix; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=dtDQfxhEZCYEm+9DM+qiQttnlEQBvhPi/e53jsMhR1RBNOvouXBepZFcrTXLe72e81kkepUi1TT6rDB8tXEZXWLXCtt4ogtaJgt6c6CNIhHUDXilS+RkbBEQunMWP7EN5wAEbobLDWtWsNDlQJ8g1wnWD3DP/24s+o93mAFkUDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/UOcpdy; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zm/iCaix"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/UOcpdy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1772670895; x=1804206895;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Bxrd2fiwvhsKyZsl+nxo29zi+60R+/EN/vFklSOWd+8=;
-  b=Zm/iCaix0T0q6iZtCx6PWkdBbtHAjbuMi5hIUiIUjofunklhBYDfB5Vz
-   /4ADf4Jml4yitzp/f79W6ODV3ML/DCsCUg7Ngt6TiatryFaE8vWcdQqgI
-   4QUiZ8sRSrXbYSu+r9iRhGXsV6i8h5eM9J6k/mUJoxGMNpx3e1bEr8SNd
-   vK+UlWTqFsT44z4smz/0VKB7bnQ/5WtjHYI4Cllddbcd3nWTdlMo4JHaE
-   KgzEMYcZ1ILvYu9ZEnlPnbJpcaUjZ+rfqhz4afiPkX9McHMuj84UDpEt0
-   XP5rMRtk4YRZ/MuPHnB2G4tn5o5zlWtSnrCGFjzxsV74vYmiJ1HXrtOLl
-   Q==;
-X-CSE-ConnectionGUID: rhPbZp5zTCKI/qBntlIdKA==
-X-CSE-MsgGUID: Rcs1DXaWTsyD7OEmnZq6XA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73653562"
+  bh=Y5tNmD/z+hXbUS3yPmpQI37LjZuCPtMHumMJgkI4cWs=;
+  b=b/UOcpdySy07E3Uxr9LDXMjk1wv/vfjKYOFzoiPui6bOtwfFutsIe3yC
+   HOAeZybyZegYyZmXy26J/a3NTcxbyTsMsNk5ggiSKgOt1/nfzXDnuzqdf
+   39r4TPvPXqYHI9LuhwphgtJoKyrlF40B0ObCS0Dvi1CqZdWsc+2h5vsBH
+   DafTFlp/J8KJzfTVrFWoQSj36+oUkD6CoqRKSgfkq6zlPDzm02RrHTj9Q
+   4526c73tI7uS0Jkppn1HX/OC0f5gik2uf13dRPmL1lsSY1qMRnpEENJkm
+   jSOdQf5tjS8ykmKjTRBu0a5BRsKaLQMoh0Gy4BrK6I7I7IEGVDOHA/q9s
+   A==;
+X-CSE-ConnectionGUID: 8EEprg/mRb+gD59m8NFHLw==
+X-CSE-MsgGUID: Ti5HjESERVS7fQXWVYFrsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84459109"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="73653562"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 16:34:54 -0800
-X-CSE-ConnectionGUID: sUWpvx1ITcW6G79rW8WCKA==
-X-CSE-MsgGUID: y/9N3ZxqS7ePC3zmt8m0sQ==
+   d="scan'208";a="84459109"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 16:34:55 -0800
+X-CSE-ConnectionGUID: LOotDxHPRmiOXDTieOinqg==
+X-CSE-MsgGUID: EUAw/1PeRvGvpJ5nvfuCcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="217751914"
+   d="scan'208";a="256389751"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 04 Mar 2026 16:34:51 -0800
+  by orviesa001.jf.intel.com with ESMTP; 04 Mar 2026 16:34:51 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxwfv-000000004r7-2iLs;
+	id 1vxwfv-000000004r9-2oNh;
 	Thu, 05 Mar 2026 00:34:47 +0000
-Date: Thu, 5 Mar 2026 08:33:54 +0800
+Date: Thu, 5 Mar 2026 08:34:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maximilian Pezzullo via B4 Relay <devnull+maximilianpezzullo.gmail.com@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	Terry M <terrym3201@bugzilla.kernel.org>,
-	Maximilian Pezzullo <maximilianpezzullo@gmail.com>
-Subject: Re: [PATCH] mm/vmstat: reject zero vm.stat_interval to prevent
- busy-loop
-Message-ID: <202603050819.oMnaHoIC-lkp@intel.com>
-References: <20260304-mm-vmstat-reject-zero-vm-stat_interval-to-prevent-busy-loop-v1-1-c03c9555ff15@gmail.com>
+To: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>,
+	linux-iio@vger.kernel.org, jic23@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] iio: temperature: add support for Analog Devices
+ MAX30210
+Message-ID: <202603050819.rN8MJLQm-lkp@intel.com>
+References: <20260304122509.67931-3-johnerasmusmari.geronimo@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,49 +66,215 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260304-mm-vmstat-reject-zero-vm-stat_interval-to-prevent-busy-loop-v1-1-c03c9555ff15@gmail.com>
+In-Reply-To: <20260304122509.67931-3-johnerasmusmari.geronimo@analog.com>
 
-Hi Maximilian,
+Hi John,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on af4e9ef3d78420feb8fe58cd9a1ab80c501b3c08]
+[auto build test ERROR on 70a9ae59c5b1f2f5501e78e2d85bfeefd153f854]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Pezzullo-via-B4-Relay/mm-vmstat-reject-zero-vm-stat_interval-to-prevent-busy-loop/20260304-153052
-base:   af4e9ef3d78420feb8fe58cd9a1ab80c501b3c08
-patch link:    https://lore.kernel.org/r/20260304-mm-vmstat-reject-zero-vm-stat_interval-to-prevent-busy-loop-v1-1-c03c9555ff15%40gmail.com
-patch subject: [PATCH] mm/vmstat: reject zero vm.stat_interval to prevent busy-loop
-config: parisc-randconfig-002-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050819.oMnaHoIC-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050819.oMnaHoIC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Erasmus-Mari-Geronimo/dt-bindings-iio-temperature-add-ADI-MAX30210/20260304-202920
+base:   70a9ae59c5b1f2f5501e78e2d85bfeefd153f854
+patch link:    https://lore.kernel.org/r/20260304122509.67931-3-johnerasmusmari.geronimo%40analog.com
+patch subject: [PATCH v2 2/2] iio: temperature: add support for Analog Devices MAX30210
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260305/202603050819.rN8MJLQm-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050819.rN8MJLQm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050819.oMnaHoIC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050819.rN8MJLQm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/vmstat.c:2117:12: warning: 'vmstat_interval_handler' defined but not used [-Wunused-function]
-    static int vmstat_interval_handler(const struct ctl_table *table, int write,
-               ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/temperature/max30210.c:136:13: error: call to undeclared function 'get_unaligned_be24'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     136 |                 u32 raw = get_unaligned_be24(&st->fifo_buf[3 * i]);
+         |                           ^
+>> drivers/iio/temperature/max30210.c:272:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     272 |                         return FIELD_GET(MAX30210_STATUS_TEMP_HI_MASK, val);
+         |                                ^
+   drivers/iio/temperature/max30210.c:279:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     279 |                         return FIELD_GET(MAX30210_STATUS_TEMP_LO_MASK, val);
+         |                                ^
+   drivers/iio/temperature/max30210.c:336:10: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     336 |                 uval = FIELD_GET(MAX30210_TEMPCONF2_TEMP_PERIOD_MASK, uval);
+         |                        ^
+>> drivers/iio/temperature/max30210.c:418:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     418 |                                                 FIELD_PREP(MAX30210_TEMPCONF2_TEMP_PERIOD_MASK, i));
+         |                                                 ^
+   5 errors generated.
 
 
-vim +/vmstat_interval_handler +2117 mm/vmstat.c
+vim +/get_unaligned_be24 +136 drivers/iio/temperature/max30210.c
 
-  2116	
-> 2117	static int vmstat_interval_handler(const struct ctl_table *table, int write,
-  2118					    void *buffer, size_t *lenp, loff_t *ppos)
-  2119	{
-  2120		int ret = proc_dointvec_jiffies(table, write, buffer, lenp, ppos);
-  2121	
-  2122		if (ret == 0 && write && sysctl_stat_interval == 0) {
-  2123			sysctl_stat_interval = HZ;
-  2124			return -EINVAL;
-  2125		}
-  2126		return ret;
-  2127	}
-  2128	
+   122	
+   123	static void max30210_fifo_read(struct iio_dev *indio_dev)
+   124	{
+   125		struct max30210_state *st = iio_priv(indio_dev);
+   126		int ret;
+   127	
+   128		ret = regmap_bulk_read(st->regmap, MAX30210_FIFO_DATA_REG,
+   129				       st->fifo_buf, 3 * st->watermark);
+   130		if (ret) {
+   131			dev_err(&indio_dev->dev, "Failed to read from fifo.\n");
+   132			return;
+   133		}
+   134	
+   135		for (unsigned int i = 0; i < st->watermark; i++) {
+ > 136			u32 raw = get_unaligned_be24(&st->fifo_buf[3 * i]);
+   137	
+   138			if (raw == MAX30210_FIFO_INVAL_DATA) {
+   139				dev_err_ratelimited(&indio_dev->dev, "Invalid data\n");
+   140				continue;
+   141			}
+   142	
+   143			s16 temp = (s16)(raw & 0xFFFF);
+   144	
+   145			iio_push_to_buffers(indio_dev, &temp);
+   146		}
+   147	}
+   148	
+   149	static irqreturn_t max30210_irq_handler(int irq, void *dev_id)
+   150	{
+   151		struct iio_dev *indio_dev = dev_id;
+   152		struct max30210_state *st = iio_priv(indio_dev);
+   153		unsigned int status;
+   154		int ret;
+   155	
+   156		ret = regmap_read(st->regmap, MAX30210_STATUS_REG, &status);
+   157		if (ret) {
+   158			dev_err(&indio_dev->dev, "Status read failed\n");
+   159			return IRQ_NONE;
+   160		}
+   161	
+   162		if (status & MAX30210_STATUS_A_FULL_MASK)
+   163			max30210_fifo_read(indio_dev);
+   164	
+   165		if (status & MAX30210_STATUS_TEMP_HI_MASK)
+   166			iio_push_event(indio_dev,
+   167				       IIO_UNMOD_EVENT_CODE(IIO_TEMP, 0,
+   168							    IIO_EV_TYPE_THRESH,
+   169							    IIO_EV_DIR_RISING),
+   170				       iio_get_time_ns(indio_dev));
+   171	
+   172		if (status & MAX30210_STATUS_TEMP_LO_MASK)
+   173			iio_push_event(indio_dev,
+   174				       IIO_UNMOD_EVENT_CODE(IIO_TEMP, 0,
+   175							    IIO_EV_TYPE_THRESH,
+   176							    IIO_EV_DIR_FALLING),
+   177				       iio_get_time_ns(indio_dev));
+   178	
+   179		return IRQ_HANDLED;
+   180	}
+   181	
+   182	static int max30210_reg_access(struct iio_dev *indio_dev, unsigned int reg,
+   183				       unsigned int writeval, unsigned int *readval)
+   184	{
+   185		struct max30210_state *st = iio_priv(indio_dev);
+   186	
+   187		if (!readval)
+   188			return regmap_write(st->regmap, reg, writeval);
+   189	
+   190		return regmap_read(st->regmap, reg, readval);
+   191	}
+   192	
+   193	static int max30210_read_event(struct iio_dev *indio_dev,
+   194				       const struct iio_chan_spec *chan,
+   195				       enum iio_event_type type,
+   196				       enum iio_event_direction dir,
+   197				       enum iio_event_info info, int *val, int *val2)
+   198	{
+   199		struct max30210_state *st = iio_priv(indio_dev);
+   200	
+   201		if (info != IIO_EV_INFO_VALUE)
+   202			return -EINVAL;
+   203	
+   204		switch (dir) {
+   205		case IIO_EV_DIR_RISING:
+   206			switch (type) {
+   207			case IIO_EV_TYPE_THRESH:
+   208				return max30210_read_temp(st->regmap, MAX30210_TEMP_ALM_HI_REG, val);
+   209			default:
+   210				return -EINVAL;
+   211			}
+   212		case IIO_EV_DIR_FALLING:
+   213			switch (type) {
+   214			case IIO_EV_TYPE_THRESH:
+   215				return max30210_read_temp(st->regmap, MAX30210_TEMP_ALM_LO_REG, val);
+   216			default:
+   217				return -EINVAL;
+   218			}
+   219		default:
+   220			return -EINVAL;
+   221		}
+   222	}
+   223	
+   224	static int max30210_write_event(struct iio_dev *indio_dev,
+   225					const struct iio_chan_spec *chan,
+   226					enum iio_event_type type,
+   227					enum iio_event_direction dir,
+   228					enum iio_event_info info, int val, int val2)
+   229	{
+   230		struct max30210_state *st = iio_priv(indio_dev);
+   231	
+   232		if (info != IIO_EV_INFO_VALUE)
+   233			return -EINVAL;
+   234	
+   235		switch (dir) {
+   236		case IIO_EV_DIR_RISING:
+   237			switch (type) {
+   238			case IIO_EV_TYPE_THRESH:
+   239				return max30210_write_temp(st->regmap, MAX30210_TEMP_ALM_HI_REG, val);
+   240			default:
+   241				return -EINVAL;
+   242			}
+   243		case IIO_EV_DIR_FALLING:
+   244			switch (type) {
+   245			case IIO_EV_TYPE_THRESH:
+   246				return max30210_write_temp(st->regmap, MAX30210_TEMP_ALM_LO_REG, val);
+   247			default:
+   248				return -EINVAL;
+   249			}
+   250		default:
+   251			return -EINVAL;
+   252		}
+   253	}
+   254	
+   255	static int max30210_read_event_config(struct iio_dev *indio_dev,
+   256					      const struct iio_chan_spec *chan,
+   257					      enum iio_event_type type,
+   258					      enum iio_event_direction dir)
+   259	{
+   260		struct max30210_state *st = iio_priv(indio_dev);
+   261		unsigned int val;
+   262		int ret;
+   263	
+   264		ret = regmap_read(st->regmap, MAX30210_INT_EN_REG, &val);
+   265		if (ret)
+   266			return ret;
+   267	
+   268		switch (dir) {
+   269		case IIO_EV_DIR_RISING:
+   270			switch (type) {
+   271			case IIO_EV_TYPE_THRESH:
+ > 272				return FIELD_GET(MAX30210_STATUS_TEMP_HI_MASK, val);
+   273			default:
+   274				return -EINVAL;
+   275			}
+   276		case IIO_EV_DIR_FALLING:
+   277			switch (type) {
+   278			case IIO_EV_TYPE_THRESH:
+   279				return FIELD_GET(MAX30210_STATUS_TEMP_LO_MASK, val);
+   280			default:
+   281				return -EINVAL;
+   282			}
+   283		default:
+   284			return -EINVAL;
+   285		}
+   286	}
+   287	
 
 -- 
 0-DAY CI Kernel Test Service
