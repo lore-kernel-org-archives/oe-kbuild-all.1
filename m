@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE563A5E7D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 13:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02AA3947B1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 14:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772719028; cv=none; b=L/wkcazl1DoznUXYVaJQJ8BwfZiQoTJsYlRFnPMVmY4wqVgqbjRCy3G5Y13S/San4l/U1u+MpPh9hSp8514TRxoILtjNsSDJPsgpvfjO8g5EPCBQWFrTSLc07GXnb1OYwxABoG9/4hA30cO0swfK0PMJLy9ebqiwT54+G4yIwzY=
+	t=1772720409; cv=none; b=Byva04Yr+7vLzzODKE4H0AoXD2YVg92Wv9TYkL5IYZnP8tdaS1nyez/0oGSSHZ6o6BjkIKKLdrCW6epMGCh3R0ANz2MV0PZWlinGGexK5d9ZF2MpYP0TMQ22imPcec9GebtYKyH2OdxnB1qHxhgdVfhzqt7mfOW4OCQm5uWZk8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772719028; c=relaxed/simple;
-	bh=poGK/GShrrB4V3g54WLVcWMToHkSf+Zwx4XTf2hdksQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sU7K+lkOyT621Pvo37bMFoZR/ZbARCXUGn6UumTO5iQaEbOTeUHaKxAhAK8R3PRv0C3bFUsaSHAxyAQSfcwKGZyPXAtm3impC/BMmn7GUsnp4qNmSYqsTnX8tH5+W7kSUxlpnv+RJshICzvVuxiDWPhmdGKnMKQn02vTnlZK31c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DlHGMYut; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1772720409; c=relaxed/simple;
+	bh=b8AYffq2MDymJ4+t2YPcaSSJcUCrWjjZwk3iDcat2RI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=B8bgd5TVWpPOn/aSPbR0Bo67+tT0zSqWvRaTfMcwt9AEsee737sd4c/LL2zGmlTuvMDm/0X+vyqZ1l2O7GhzRP0ji6zs0v6fVyoEVxWmJz/T9ElXe1z0IJQMV9bZuqh4ghd54OVLPQWvUd+G1w+OvN7047kauczGF2Wd8/f1VPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eqIQ4I0i; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DlHGMYut"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eqIQ4I0i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772719027; x=1804255027;
+  t=1772720407; x=1804256407;
   h=date:from:to:cc:subject:message-id;
-  bh=poGK/GShrrB4V3g54WLVcWMToHkSf+Zwx4XTf2hdksQ=;
-  b=DlHGMYutHrz/4y/XGnIHikZ+ovIhoA9zgkMVGjz4HGVNz1IOnoGrF2xE
-   ryodTIaqSxS5/VwYgKe0hpqRTB3eJrfd2cv4iAgDpiE8MIObNYYrdsK1k
-   Jw8eXR3hZGIgj7yuxecRe47j1bG/ZXfCO5U15xozptqHCBDuhNRtZwAWj
-   CP7iX8dgqg9W7bE/3xBvercynHYIDRfTlnteNAj9uzH2KR6K1esR4ADmK
-   KIcclRq2YSMHcgxmJcdPzzr5WShyxrqU8WFaPDXmOtzBh3bO5PaPM9hVK
-   zKud71/Q7iQH8XJHd5lnikvRXnZ4r+Kiz+RZsf8fyKsPwTHvRdlZbJEbV
-   g==;
-X-CSE-ConnectionGUID: 3U32w6bDQjSnNcm64TBjTQ==
-X-CSE-MsgGUID: ucuy+Li0RIu0EXIhz7Aqcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73721594"
+  bh=b8AYffq2MDymJ4+t2YPcaSSJcUCrWjjZwk3iDcat2RI=;
+  b=eqIQ4I0i3KYXIKBnzFEmtDgMOtCMKO296b3G1JxJHp91+0Qk6KecyQ0X
+   eQpk8JkiuaBj0zPr8RTBEhIU3WDTDUfjRdrkcYgbGZ4bgeQVV0NBxFexY
+   nz9b/X8apE4I3TWlEFgzlMZIa1tlXTyqvNwa5UGgzyHn2k7PqwL+XdbgX
+   TcNjGYTCAOkH3jTdIgRzaeQmwU9/JEH23JLHVwMln1qU/cdg80wjLww3O
+   xeb9J156mirvjpZdoJBxOvleNBgyCMVluGLea7+eQgMAkv9GkLHRbxIfa
+   bAfIOxrGW1tQ+QSBWXrb14jlqF4j/goCLtuLD99PPg+ii6DNweaR1llTw
+   Q==;
+X-CSE-ConnectionGUID: 8URycfQ9S+6ewzn2j+kfmg==
+X-CSE-MsgGUID: CAWLXWaDTkuVavfr/32OJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73007267"
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="73721594"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 05:57:06 -0800
-X-CSE-ConnectionGUID: kvKfOdtbSluntJPK3DWhng==
-X-CSE-MsgGUID: 4JtaVjoFRQ23UWuzd0DVRg==
+   d="scan'208";a="73007267"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 06:20:07 -0800
+X-CSE-ConnectionGUID: L3vxWZY6ReSvlfWOi3N5wQ==
+X-CSE-MsgGUID: kPigkSc6RFWAlqQV4xz0JA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="223179386"
+   d="scan'208";a="245154776"
 Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Mar 2026 05:57:04 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2026 06:20:06 -0800
 Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vy9CH-000000000hE-3qGW;
-	Thu, 05 Mar 2026 13:57:01 +0000
-Date: Thu, 05 Mar 2026 21:56:35 +0800
+	id 1vy9YZ-000000000j4-2hmX;
+	Thu, 05 Mar 2026 14:20:03 +0000
+Date: Thu, 05 Mar 2026 22:19:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-linux-6.1.y 533/533]
- drivers/clk/mediatek/clk-mtk.c:502:2-3: Unneeded semicolon
-Message-ID: <202603052151.i9yKYpCo-lkp@intel.com>
+Subject: [android-common:upstream-linux-6.12.y 955/955]
+ drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c:366
+ kfd_dbg_set_mes_debug_mode() warn: inconsistent indenting
+Message-ID: <202603052239.SSi2BKcz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,136 +60,57 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common upstream-linux-6.1.y
-head:   2f66dd9cff421f27dbe192f2035ce61b811561b1
-commit: c1d87d56af063c87961511ee25f6b07a5676d27d [533/533] clk: mediatek: clk-mtk: Extend mtk_clk_simple_probe()
-config: arm64-randconfig-r053-20260305 (https://download.01.org/0day-ci/archive/20260305/202603052151.i9yKYpCo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
+tree:   https://android.googlesource.com/kernel/common upstream-linux-6.12.y
+head:   c1924e059c728edf4138c6343fafb2c6d234ac35
+commit: 3e279ecb4233f85794cd1d751f1affbd852d1cd9 [955/955] drm/amdkfd: fixed page fault when enable MES shader debugger
+config: arm64-randconfig-r071-20260305 (https://download.01.org/0day-ci/archive/20260305/202603052239.SSi2BKcz-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603052151.i9yKYpCo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603052239.SSi2BKcz-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/mediatek/clk-mtk.c:502:2-3: Unneeded semicolon
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c:366 kfd_dbg_set_mes_debug_mode() warn: inconsistent indenting
 
-vim +502 drivers/clk/mediatek/clk-mtk.c
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c:445 kfd_dbg_trap_clear_dev_address_watch() error: buffer overflow 'pdd->watch_points' 4 <= u32max
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c:794 kfd_dbg_trap_enable() warn: fd re-used after fget(): 'fd'
 
-   449	
-   450	int mtk_clk_simple_probe(struct platform_device *pdev)
-   451	{
-   452		const struct mtk_clk_desc *mcd;
-   453		struct clk_hw_onecell_data *clk_data;
-   454		struct device_node *node = pdev->dev.of_node;
-   455		void __iomem *base;
-   456		int num_clks, r;
-   457	
-   458		mcd = of_device_get_match_data(&pdev->dev);
-   459		if (!mcd)
-   460			return -EINVAL;
-   461	
-   462		/* Composite clocks needs us to pass iomem pointer */
-   463		if (mcd->composite_clks) {
-   464			if (!mcd->shared_io)
-   465				base = devm_platform_ioremap_resource(pdev, 0);
-   466			else
-   467				base = of_iomap(node, 0);
-   468	
-   469			if (IS_ERR_OR_NULL(base))
-   470				return IS_ERR(base) ? PTR_ERR(base) : -ENOMEM;
-   471		}
-   472	
-   473		/* Calculate how many clk_hw_onecell_data entries to allocate */
-   474		num_clks = mcd->num_clks + mcd->num_composite_clks;
-   475		num_clks += mcd->num_fixed_clks + mcd->num_factor_clks;
-   476		num_clks += mcd->num_mux_clks;
-   477	
-   478		clk_data = mtk_alloc_clk_data(num_clks);
-   479		if (!clk_data)
-   480			return -ENOMEM;
-   481	
-   482		if (mcd->fixed_clks) {
-   483			r = mtk_clk_register_fixed_clks(mcd->fixed_clks,
-   484							mcd->num_fixed_clks, clk_data);
-   485			if (r)
-   486				goto free_data;
-   487		}
-   488	
-   489		if (mcd->factor_clks) {
-   490			r = mtk_clk_register_factors(mcd->factor_clks,
-   491						     mcd->num_factor_clks, clk_data);
-   492			if (r)
-   493				goto unregister_fixed_clks;
-   494		}
-   495	
-   496		if (mcd->mux_clks) {
-   497			r = mtk_clk_register_muxes(&pdev->dev, mcd->mux_clks,
-   498						   mcd->num_mux_clks, node,
-   499						   mcd->clk_lock, clk_data);
-   500			if (r)
-   501				goto unregister_factors;
- > 502		};
-   503	
-   504		if (mcd->composite_clks) {
-   505			/* We don't check composite_lock because it's optional */
-   506			r = mtk_clk_register_composites(&pdev->dev,
-   507							mcd->composite_clks,
-   508							mcd->num_composite_clks,
-   509							base, mcd->clk_lock, clk_data);
-   510			if (r)
-   511				goto unregister_muxes;
-   512		}
-   513	
-   514		if (mcd->clks) {
-   515			r = mtk_clk_register_gates(&pdev->dev, node, mcd->clks,
-   516						   mcd->num_clks, clk_data);
-   517			if (r)
-   518				goto unregister_composites;
-   519		}
-   520	
-   521		r = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
-   522		if (r)
-   523			goto unregister_clks;
-   524	
-   525		platform_set_drvdata(pdev, clk_data);
-   526	
-   527		if (mcd->rst_desc) {
-   528			r = mtk_register_reset_controller_with_dev(&pdev->dev,
-   529								   mcd->rst_desc);
-   530			if (r)
-   531				goto unregister_clks;
-   532		}
-   533	
-   534		return r;
-   535	
-   536	unregister_clks:
-   537		if (mcd->clks)
-   538			mtk_clk_unregister_gates(mcd->clks, mcd->num_clks, clk_data);
-   539	unregister_composites:
-   540		if (mcd->composite_clks)
-   541			mtk_clk_unregister_composites(mcd->composite_clks,
-   542						      mcd->num_composite_clks, clk_data);
-   543	unregister_muxes:
-   544		if (mcd->mux_clks)
-   545			mtk_clk_unregister_muxes(mcd->mux_clks,
-   546						 mcd->num_mux_clks, clk_data);
-   547	unregister_factors:
-   548		if (mcd->factor_clks)
-   549			mtk_clk_unregister_factors(mcd->factor_clks,
-   550						   mcd->num_factor_clks, clk_data);
-   551	unregister_fixed_clks:
-   552		if (mcd->fixed_clks)
-   553			mtk_clk_unregister_fixed_clks(mcd->fixed_clks,
-   554						      mcd->num_fixed_clks, clk_data);
-   555	free_data:
-   556		mtk_free_clk_data(clk_data);
-   557		if (mcd->shared_io && base)
-   558			iounmap(base);
-   559		return r;
-   560	}
-   561	EXPORT_SYMBOL_GPL(mtk_clk_simple_probe);
-   562	
+vim +366 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c
+
+   348	
+   349	int kfd_dbg_set_mes_debug_mode(struct kfd_process_device *pdd, bool sq_trap_en)
+   350	{
+   351		uint32_t spi_dbg_cntl = pdd->spi_dbg_override | pdd->spi_dbg_launch_mode;
+   352		uint32_t flags = pdd->process->dbg_flags;
+   353		struct amdgpu_device *adev = pdd->dev->adev;
+   354		int r;
+   355	
+   356		if (!kfd_dbg_is_per_vmid_supported(pdd->dev))
+   357			return 0;
+   358	
+   359		if (!pdd->proc_ctx_cpu_ptr) {
+   360				r = amdgpu_amdkfd_alloc_gtt_mem(adev,
+   361					AMDGPU_MES_PROC_CTX_SIZE,
+   362					&pdd->proc_ctx_bo,
+   363					&pdd->proc_ctx_gpu_addr,
+   364					&pdd->proc_ctx_cpu_ptr,
+   365					false);
+ > 366			if (r) {
+   367				dev_err(adev->dev,
+   368				"failed to allocate process context bo\n");
+   369				return r;
+   370			}
+   371			memset(pdd->proc_ctx_cpu_ptr, 0, AMDGPU_MES_PROC_CTX_SIZE);
+   372		}
+   373	
+   374		return amdgpu_mes_set_shader_debugger(pdd->dev->adev, pdd->proc_ctx_gpu_addr, spi_dbg_cntl,
+   375							pdd->watch_points, flags, sq_trap_en);
+   376	}
+   377	
 
 -- 
 0-DAY CI Kernel Test Service
