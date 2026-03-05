@@ -1,245 +1,926 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADA617B50A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 16:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BAF39C653
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 17:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772728251; cv=none; b=aP7rUgmD+gHkt6oBsEwRpvUXugi/9eEsLp5mnN1piM0+fC/69l5gF5uk3twaWJgPrNT3zmhKLVC4PDCb7V1BXSRVHXuUI5haADqwy/+0jdyvMS4YlkTX7TfV00u69PO6sa8nhbKC5O5T4pnE6xg4uecGQoGCMi+eC5jbctZIR4c=
+	t=1772731311; cv=none; b=mo0HAAHYDEEix/Gt2ZQnkE8JqVcIee3Hzy7W4FmZntPVlICgWtfjkUkGYc5rMP3lF4vohO003GbbEKWUwtSNfW0mDEjGI81HJ5SG141Igfw2CJjimgca8nrEyJWqTJqBpOrukjHQY5FTFj459tbWBE7YlODR62f+6hgnEk7iQGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772728251; c=relaxed/simple;
-	bh=Jj5jf+rN0Jgq1wnZ1221vZG7gvCfoAzGJxGkRGCmPr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=no4V5I+qtHfYTwQGPULxQHxj2C+vgVWd5nY5tz1mmCRo5+pNQC5wSyqFXtbzFnr4ky/jRo8aMf2uXuBEYnuM4zQ7/IRJPbsAcfU3fINDdsLhzzysK+23G9moJkT63Zn2kYfWbSjfr7MNv1K7wv0hYauwU0Wpl+bJ6HA62wWemsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=VxdJ5fMr; arc=none smtp.client-ip=209.85.221.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1772731311; c=relaxed/simple;
+	bh=cA0ZqrjKU4Pvi23sNS+mvoCif4u5QQMxWfvijavxiJU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NUT2fbpUZ/p7OUQiL+F2RJbmcQOwZXXEoEagM6DkO8zONbbFCgmOkXuzJIZHO0bb6klEAag90nsA06NQC+9FEoQsJpQDSDTca5p1whx9FAMvckAd9ihqAEqUHpNLZXMdos/JAawQAqcwZHlQe/VLDPnzcDGTODWXtXhSWlS2g3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nb0ESeLb; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="VxdJ5fMr"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-439b78b638eso4960677f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Mar 2026 08:30:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772728246; x=1773333046; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wecMzxUhSry0xK7CAZ67a+eo784PL38etV6eDTIVF8U=;
-        b=VxdJ5fMr268FwqACM0HUeOn7TJwEJoNZsXzRkIjRkuG8m483Vg+k0SQ9PSyn0pkR+1
-         r48a/NsWg/OudLweVZKSBpW3orozxpxTGZONFfH6dZ9KKRUrBRCNAkhvtMNR4UkdXrrf
-         HKGi9RuUg8RbVoqbTL4DwGZxTY25uSjb4uAtHVncv+x5a2Ci5KF1eZjPe2ccxZg1HPy7
-         Lf4ue3cEkC7pQGnJWxYR6rrxqhPqKjQKwrtQlYeimGj63asLJRCMexEY95a73PFoCmGm
-         KJVNSlRrQYtfNQpDLrqjJSAPleO53YeYgr5yRNKuXmlspWlY0TqnuORSBGipfuAuHJ5v
-         uxxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772728246; x=1773333046;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wecMzxUhSry0xK7CAZ67a+eo784PL38etV6eDTIVF8U=;
-        b=G9vBL/ygC8Y7T9ujT2ALLw/qNcNuvvjDz9w5KYGaCvyAcQn8XUdg2AU3QhkkuZznt2
-         +18pcR/NN3QcHnUOomES3HI5dlZb6bTAesaLpKxhtW+UAZvSAAnzKI1Ce6GcQrEZwN+v
-         jcES39bHFDKos1CK/j+ISD/cwzgnSdZni26tU7f2FrnpSKnEY6qmHR4H7GB1llp8sdyP
-         jBjY6HWXAf+h/XLEjy4KAqzc99jSUYDhVSkZOEFs1zuN2BLSnvI1soiT+wWr6joLOwG0
-         UDoaK2zNXJrzukRK8disLajWbzHy30Kz56U9tagNIcFrV5j8simutQ38gbI4fZeppwSR
-         sinw==
-X-Forwarded-Encrypted: i=1; AJvYcCXaAcwYSvYAls3rzECqwBpAbcHyN1PWyNP8+t1OxPTFJn5Vt94sTd3ALHyyBiD+/t9MdTmdhPXA+ChnU/1B@lists.linux.dev
-X-Gm-Message-State: AOJu0YycGAyASSlSSsoE127uRDuSpFMAWSwq6+2pcKdaM1oL6Uw5dPSe
-	YnI8YgRTFfMKS5fplQgjjTDk9B1sBkCNK6+70GsR0jH2xnNts1fWySStQfTC85Swep63gpDIPFC
-	3w8Z4pNKjIg==
-X-Gm-Gg: ATEYQzx9eKWzIOE7LupteeV58ZcnLkLApsyhsTebIeZFRpdIy+8MFMd+Mhd6x23B1LC
-	mKsbYcayNwt8zQHLHPwMH9RjNbgfHlJmhHm5pARmWNzNI2KWwca8OF8E8kk+9PuGqGvpaTKzRMn
-	/XaPbgAl6Z5RtUU09p5K4F+rl2G/d2DI5om4xbvPEZtUDJK4tA7p9x1iviOf1xVEPpV0QdS4s4v
-	Mi2to0/yN9bznCZs5r4QHqR9fn/rpBYBBHF2YkxYMnOzgl88gbWQEQGINr7IQGtUNd1xVHTVz4K
-	JtjgZcV+FDE1/7jaAOAmgg1X69ZD46cqe0f4/F9c4MvZFoPxiJx9oFOq7Z/4FBqNsfQneyMGNNY
-	QJDOmxxX6PJhg4Q4onRIpC6helMUTYss56/2UzRYP4FEj9w223jwC4FD46YoHO6n/iXDTMWgd7i
-	+MLgN5U26bl307in9Y7JBfzGk5VJQOiuXl0W/pwXJNWYUM1eQ4egB6Ae/T1OZ1iiCHY3O5WXM54
-	xEDLi411iq9Y8o=
-X-Received: by 2002:a05:6000:2c10:b0:439:b1c3:84bc with SMTP id ffacd0b85a97d-439c7f6501cmr11965699f8f.7.1772728246180;
-        Thu, 05 Mar 2026 08:30:46 -0800 (PST)
-Received: from localhost (p200300f65f20eb04a10d5fdc728271aa.dip0.t-ipconnect.de. [2003:f6:5f20:eb04:a10d:5fdc:7282:71aa])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-439bb69e098sm25537393f8f.9.2026.03.05.08.30.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 08:30:45 -0800 (PST)
-Date: Thu, 5 Mar 2026 17:30:44 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Helge Deller <deller@gmx.de>
-Cc: Helge Deller <deller@kernel.org>, kernel test robot <lkp@intel.com>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/video/fbdev/au1100fb.c:448:46: error: implicit
- declaration of function 'KSEG1ADDR'; did you mean 'CKSEG1ADDR'?
-Message-ID: <aamvTDsdQWWVfsR-@monoceros>
-References: <202603042127.PT6LuKqi-lkp@intel.com>
- <aah4opTMZeDDfWFG@carbonx1>
- <aak3k24kjfD55xNQ@monoceros>
- <eccfd2eb-f635-400c-9517-1cf574da70d7@gmx.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nb0ESeLb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772731308; x=1804267308;
+  h=date:from:to:cc:subject:message-id;
+  bh=cA0ZqrjKU4Pvi23sNS+mvoCif4u5QQMxWfvijavxiJU=;
+  b=nb0ESeLbimbs17ByrkO+wr0I0UrWP8no/4WYsG8EM/K66ge7PR6M+Qph
+   hc0q+OtsOP9DvegH0udFB5f/IXgXYkd1phBvEGkSdE6z7BO0ly6mM53tL
+   TBxo5oGbcYLN+qvzqfmrDCyFw/M0Mr+wfjNdj1IAjxI18sEPEEbxOS8lu
+   vVfa0z5WFwnmjO6LH9tRYmnjE9KzO0JAAR3WIvoanFEPdrbQ0QyqC5fuh
+   8XbF3cg1S/7CorwhxgwoYa53y5p4N+z9iPitHgLtWpeEcAMeWdu9rxla1
+   8kyJLdqmlscsUhw4dXpeU+YMmE0MY84bcLflYO0NntbQ6B7BHibAJ77Td
+   Q==;
+X-CSE-ConnectionGUID: 6wOA55HRSi2U/bzcyEEAjg==
+X-CSE-MsgGUID: zmMu6j0vSySCKXJNXG5eCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="85299450"
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="85299450"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 09:21:48 -0800
+X-CSE-ConnectionGUID: wQA2NiI5QamUj9/B5B9f6A==
+X-CSE-MsgGUID: SiAVL41wTWagUCFs1gNEyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="218728936"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 05 Mar 2026 09:21:46 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vyCON-0000000022H-2phV;
+	Thu, 05 Mar 2026 17:21:43 +0000
+Date: Thu, 05 Mar 2026 18:21:35 +0100
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-03-05-5 87/88]
+ include/trace/events/asoc.h:31:114: error: invalid use of undefined type
+ 'struct snd_soc_component'
+Message-ID: <202603051825.sxMPQCVv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yo2bgx5vsettjtxq"
-Content-Disposition: inline
-In-Reply-To: <eccfd2eb-f635-400c-9517-1cf574da70d7@gmx.de>
+
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-03-05-5
+head:   bfb54f3735c9a8e0faed8d460d5051dd1a1eda2d
+commit: 4245653edad7843d44522649c3af92184db6d306 [87/88] move component
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260305/202603051825.sxMPQCVv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051825.sxMPQCVv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603051825.sxMPQCVv-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/trace/define_trace.h:132,
+                    from include/trace/events/asoc.h:280,
+                    from sound/soc/soc-core.c:43:
+   include/trace/events/asoc.h: In function 'trace_event_get_offsets_snd_soc_dapm':
+>> include/trace/events/asoc.h:31:114: error: invalid use of undefined type 'struct snd_soc_component'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                                                                                                                  ^~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:59:29: note: in expansion of macro '__dynamic_array'
+      59 | #define __string(item, src) __dynamic_array(char, item,                 \
+         |                             ^~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:256:31: note: in expansion of macro '__is_constexpr'
+     256 |         __builtin_choose_expr(__is_constexpr(__builtin_strlen(p)),      \
+         |                               ^~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:60:21: note: in expansion of macro 'strlen'
+      60 |                     strlen(__string_src(src)) + 1)                      \
+         |                     ^~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+>> include/trace/events/asoc.h:31:114: error: invalid use of undefined type 'struct snd_soc_component'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                                                                                                                  ^~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:59:29: note: in expansion of macro '__dynamic_array'
+      59 | #define __string(item, src) __dynamic_array(char, item,                 \
+         |                             ^~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:60:21: note: in expansion of macro 'strlen'
+      60 |                     strlen(__string_src(src)) + 1)                      \
+         |                     ^~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+>> include/trace/events/asoc.h:31:114: error: invalid use of undefined type 'struct snd_soc_component'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                                                                                                                  ^~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:59:29: note: in expansion of macro '__dynamic_array'
+      59 | #define __string(item, src) __dynamic_array(char, item,                 \
+         |                             ^~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:60:21: note: in expansion of macro 'strlen'
+      60 |                     strlen(__string_src(src)) + 1)                      \
+         |                     ^~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+>> include/linux/fortify-string.h:256:9: error: first argument to '__builtin_choose_expr' not a constant
+     256 |         __builtin_choose_expr(__is_constexpr(__builtin_strlen(p)),      \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:59:29: note: in expansion of macro '__dynamic_array'
+      59 | #define __string(item, src) __dynamic_array(char, item,                 \
+         |                             ^~~~~~~~~~~~~~~
+   include/trace/stages/stage5_get_offsets.h:60:21: note: in expansion of macro 'strlen'
+      60 |                     strlen(__string_src(src)) + 1)                      \
+         |                     ^~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+>> include/trace/events/asoc.h:31:114: error: invalid use of undefined type 'struct snd_soc_component'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                                                                                                                  ^~
+   include/trace/trace_events.h:285:9: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^~~~~~~
+   include/trace/events/asoc.h:29:9: note: in expansion of macro 'TP_STRUCT__entry'
+      29 |         TP_STRUCT__entry(
+         |         ^~~~~~~~~~~~~~~~
+   include/trace/events/asoc.h:31:17: note: in expansion of macro '__string'
+      31 |                 __string(       comp_name,      snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+         |                 ^~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from sound/soc/soc-core.c:20:
+   sound/soc/soc-core.c: In function 'dai_list_show':
+>> include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct snd_soc_component'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:5,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:372,
+                    from include/linux/build_bug.h:5:
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct snd_soc_component'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/list.h:773:26: error: invalid use of undefined type 'struct snd_soc_component'
+     773 |         list_is_head(&pos->member, (head))
+         |                          ^~
+   include/linux/list.h:783:15: note: in expansion of macro 'list_entry_is_head'
+     783 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct snd_soc_component'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:22:23: note: in expansion of macro '__same_type'
+      22 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct snd_soc_component'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:132:9: note: in expansion of macro 'for_each_component'
+     132 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c: In function 'component_list_show':
+>> include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct snd_soc_component'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct snd_soc_component'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/list.h:773:26: error: invalid use of undefined type 'struct snd_soc_component'
+     773 |         list_is_head(&pos->member, (head))
+         |                          ^~
+   include/linux/list.h:783:15: note: in expansion of macro 'list_entry_is_head'
+     783 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct snd_soc_component'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:22:23: note: in expansion of macro '__same_type'
+      22 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct snd_soc_component'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:145:9: note: in expansion of macro 'for_each_component'
+     145 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> sound/soc/soc-core.c:146:48: error: invalid use of undefined type 'struct snd_soc_component'
+     146 |                 seq_printf(m, "%s\n", component->name);
+         |                                                ^~
+   sound/soc/soc-core.c: In function 'snd_soc_rtdcom_lookup':
+   sound/soc/soc-core.c:227:55: error: invalid use of undefined type 'struct snd_soc_component'
+     227 |                 const char *component_name = component->driver->name;
+         |                                                       ^~
+   sound/soc/soc-core.c: In function 'snd_soc_lookup_component_by_name':
+>> include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct snd_soc_component'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct snd_soc_component'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/list.h:773:26: error: invalid use of undefined type 'struct snd_soc_component'
+     773 |         list_is_head(&pos->member, (head))
+         |                          ^~
+   include/linux/list.h:783:15: note: in expansion of macro 'list_entry_is_head'
+     783 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+>> include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct snd_soc_component'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:667:25: error: invalid use of undefined type 'struct snd_soc_component'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:22:23: note: in expansion of macro '__same_type'
+      22 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct snd_soc_component'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:784:20: note: in expansion of macro 'list_next_entry'
+     784 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   sound/soc/soc.h:44:9: note: in expansion of macro 'list_for_each_entry'
+      44 |         list_for_each_entry(component, soc_component_get_list_head(), list)
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-core.c:262:9: note: in expansion of macro 'for_each_component'
+     262 |         for_each_component(component)
+..
 
 
---yo2bgx5vsettjtxq
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: drivers/video/fbdev/au1100fb.c:448:46: error: implicit
- declaration of function 'KSEG1ADDR'; did you mean 'CKSEG1ADDR'?
-MIME-Version: 1.0
+vim +31 include/trace/events/asoc.h
 
-On Thu, Mar 05, 2026 at 09:57:29AM +0100, Helge Deller wrote:
-> Hi Uwe,
->=20
-> On 3/5/26 09:07, Uwe Kleine-K=F6nig wrote:
-> > On Wed, Mar 04, 2026 at 07:23:30PM +0100, Helge Deller wrote:
-> > > * kernel test robot <lkp@intel.com>:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/li=
-nux.git master
-> > > > head:   0031c06807cfa8aa51a759ff8aa09e1aa48149af
-> > > > commit: 6f366e86481a7503a821de82930df517dddd4047 fbdev: au1100fb: M=
-ake driver compilable on non-mips platforms
-> > > > date:   13 days ago
-> > > > config: mips-randconfig-r052-20260304 (https://download.01.org/0day=
--ci/archive/20260304/202603042127.PT6LuKqi-lkp@intel.com/config)
-> > > > compiler: mips64-linux-gcc (GCC) 14.3.0
-> > > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci=
-/archive/20260304/202603042127.PT6LuKqi-lkp@intel.com/reproduce)
-> > > >=20
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a ne=
-w version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202603042127.PT6LuK=
-qi-lkp@intel.com/
-> > > >=20
-> > > > All error/warnings (new ones prefixed by >>):
-> > > >=20
-> > > >     drivers/video/fbdev/au1100fb.c: In function 'au1100fb_drv_probe=
-':
-> > > > > > drivers/video/fbdev/au1100fb.c:448:46: error: implicit declarat=
-ion of function 'KSEG1ADDR'; did you mean 'CKSEG1ADDR'? [-Wimplicit-functio=
-n-declaration]
-> > > >       448 |         fbdev->regs =3D (struct au1100fb_regs*)KSEG1ADD=
-R(fbdev->info.fix.mmio_start);
-> > > >           |                                              ^~~~~~~~~
-> > > >           |                                              CKSEG1ADDR
-> > > > > > drivers/video/fbdev/au1100fb.c:448:23: warning: cast to pointer=
- from integer of different size [-Wint-to-pointer-cast]
-> > > >       448 |         fbdev->regs =3D (struct au1100fb_regs*)KSEG1ADD=
-R(fbdev->info.fix.mmio_start);
-> > > >           |                       ^
-> > >=20
-> > > I've pushed the patch below into the fbdev git tree.
-> > > It should (hopefully) fix the issue.
-> > >=20
-> > > Helge
-> > >=20
-> > >=20
-> > > From: Helge Deller <deller@gmx.de>
-> > > Subject: [PATCH] fbdev: au1100fb: Fix build on MIPS64
-> > >=20
-> > > Fix an error reported by the kernel test robot:
-> > >   au1100fb.c: error: implicit declaration of function 'KSEG1ADDR'; di=
-d you mean 'CKSEG1ADDR'?
-> > >=20
-> > > The header asm/mach-au1x00/au1000.h is unused apart from pulling in
-> > > <linux/delay.h> (for mdelay()) and <linux/io.h> (for KSEG1ADDR()). Th=
-en
-> > > the only platform specific part in the driver is the usage of the KSE=
-G1ADDR
-> > > macro, which for the non-mips case can be stubbed.
-> >=20
-> > This paragraph is copied from 6f366e86481a and doesn't make sense here.
->=20
-> Yes, I noticed that later and removed it already.
->=20
-> > I'd write something like:
-> >=20
-> > 	arch/mips/include/asm/addrspace.h defines KSEG1ADDR only for 32 bit
-> > 	configurations. So provide its compile-test stub also for 64bit
-> > 	mips builds.
->=20
-> Ok, added.
->=20
-> > > Fixes: 6f366e86481a ("fbdev: au1100fb: Make driver compilable on non-=
-mips platforms")
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202603042127.PT6LuKqi-l=
-kp@intel.com/
-> > > Signed-off-by: Helge Deller <deller@gmx.de>
-> > > Cc: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
-> > >=20
-> > > diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1=
-100fb.c
-> > > index 1a04154bc535..3b104d377d28 100644
-> > > --- a/drivers/video/fbdev/au1100fb.c
-> > > +++ b/drivers/video/fbdev/au1100fb.c
-> > > @@ -380,7 +380,7 @@ static struct au1100fb_panel known_lcd_panels[] =
-=3D
-> > >   #define panel_is_color(panel) (panel->control_base & LCD_CONTROL_PC)
-> > >   #define panel_swap_rgb(panel) (panel->control_base & LCD_CONTROL_CC=
-O)
-> > > -#if defined(CONFIG_COMPILE_TEST) && !defined(CONFIG_MIPS)
-> > > +#if defined(CONFIG_COMPILE_TEST) && !(defined(CONFIG_MIPS) && !defin=
-ed(CONFIG_64BIT))
-> >=20
-> > The condition is equivalent to
-> >=20
-> > 	defined(CONFIG_COMPILE_TEST) && (!defined(CONFIG_MIPS) || defined(CONF=
-IG_64BIT))
-> >=20
-> > which is logically a bit easier, but I'm unsure if it's easier to
-> > understand (IMHO both are bad).
->=20
-> Yes, both are bad. I changed it to your proposal.
-> > >   /* This is only defined to be able to compile this driver on non-mi=
-ps platforms */
-> >=20
-> > Maybe adapt the comment here, too? Something like:
-> >=20
-> > 	/*
-> > 	 * KSEG1ADDR() is defined in arch/mips/include/asm/addrspace.h
-> > 	 * for 32 bit configurations. Provide a stub for compile testing
-> > 	 * on other platforms.
-> > 	 */
->=20
-> done.
->=20
-> I've updated the patch in the fbdev git tree, which you can find here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git/lo=
-g/?h=3Dfor-next
->=20
-> I'll keep the patch a few days in there and will push next week.
+a8b1d34f3ee1bc Mark Brown              2010-11-03  24  
+6ef46a69ec32fe Luca Ceresoli           2024-03-06  25  	TP_PROTO(struct snd_soc_dapm_context *dapm, int val),
+84e909303dbd3c Mark Brown              2010-11-04  26  
+6ef46a69ec32fe Luca Ceresoli           2024-03-06  27  	TP_ARGS(dapm, val),
+84e909303dbd3c Mark Brown              2010-11-04  28  
+84e909303dbd3c Mark Brown              2010-11-04  29  	TP_STRUCT__entry(
+8855eb7d29400f Kuninori Morimoto       2025-11-11  30  		__string(	card_name,	snd_soc_dapm_to_card(dapm)->name)
+8855eb7d29400f Kuninori Morimoto       2025-11-11 @31  		__string(	comp_name,	snd_soc_dapm_to_component(dapm) ? snd_soc_dapm_to_component(dapm)->name : "(none)")
+84e909303dbd3c Mark Brown              2010-11-04  32  		__field(	int,		val)
+84e909303dbd3c Mark Brown              2010-11-04  33  	),
+84e909303dbd3c Mark Brown              2010-11-04  34  
+84e909303dbd3c Mark Brown              2010-11-04  35  	TP_fast_assign(
+2c92ca849fcc6e Steven Rostedt (Google  2024-05-16  36) 		__assign_str(card_name);
+2c92ca849fcc6e Steven Rostedt (Google  2024-05-16  37) 		__assign_str(comp_name);
+84e909303dbd3c Mark Brown              2010-11-04  38  		__entry->val = val;
+84e909303dbd3c Mark Brown              2010-11-04  39  	),
+84e909303dbd3c Mark Brown              2010-11-04  40  
+6ef46a69ec32fe Luca Ceresoli           2024-03-06  41  	TP_printk("card=%s component=%s val=%d",
+6ef46a69ec32fe Luca Ceresoli           2024-03-06  42  		  __get_str(card_name), __get_str(comp_name), (int)__entry->val)
+84e909303dbd3c Mark Brown              2010-11-04  43  );
+84e909303dbd3c Mark Brown              2010-11-04  44  
 
-https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git/comm=
-it/?h=3Dfor-next&id=3D93bf32c3d571a9e160306659cef096fe4f79a7f0
-looks good to me, feel free to replace the Cc: for my by an
+:::::: The code at line 31 was first introduced by commit
+:::::: 8855eb7d29400fb7b2882da33725db2801c410e4 ASoC: asoc.h: convert to snd_soc_dapm_xxx()
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
-=2E And let me note that "fbdev: au1100fb: Make driver compilable on
-non-mips platforms" is very accurate :-D.
-
-Best regards
-Uwe
-
---yo2bgx5vsettjtxq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmpr7EACgkQj4D7WH0S
-/k4sOQf/b3H264Z6fTdkQ/zRLaCAPsWHccANfwe/Gi3b3K3khgUp0/UICFFBlCUe
-JbmZIdy4dpsTh0vB1rIbsVek+cZI5jKePPaRTYYdUjx+9rqd9h+A85cHuvxaqYb0
-6LrsTd/6dvDNPdRwU+o0WWPcGsdRgZj/R58Z1zax5+f6n8nLiq/QSwwHUmV+qSMY
-o5Nmdx5cDhnTxKxm+g7EK1nuhZx4dAmy8KXUe3R+joNOtVhKhxnkt6/Zn6vXTpFs
-Ng3J8CS9JEHYPJvb5Dy9wWfYO9xpckzpZxb9aFTGtUeH/v4UhKpkgvDzRl8fU60D
-8wMeC66Tf2c/8i+CaiJAAn8if6yzEQ==
-=TEf1
------END PGP SIGNATURE-----
-
---yo2bgx5vsettjtxq--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
