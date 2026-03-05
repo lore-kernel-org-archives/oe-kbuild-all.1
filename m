@@ -1,112 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29DD1F4CA9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 23:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 667B5354AC7;
+	Thu,  5 Mar 2026 23:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772751687; cv=none; b=kZcGe230qUS6jvKiOeEhgA5S7iKP+vlf0c/VAwsDZ1IDDH0RO/F5+530D4t7qvAT5FOmnPUBIwMsQc4IZ6+9epstUgYUjoRMfKX4e3V4+y1TvlEI4u8hopQu2a53gI7cmCqvK3cz5eq7aF+BcJHPlAf9QDBRTT3v1U/iVtyOR8o=
+	t=1772753178; cv=none; b=jB+PCB4YQw4WX80sys7G/jc24YZNyRrbZFlWlXESF1sFdPDOUma4rl2QUJwGmozr3GIiYzGCMeV1BRO3alChgawPI9AXgrGOPseR8fXQMzVGvPuigVSVJVzhbFu8uQdwmyuPFchtIATQLCkmyl0zfKML1HAFDTsirV3R9OsNAck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772751687; c=relaxed/simple;
-	bh=PHQYA+3ODj8Z0jhwDvxeCHGYytqRZCCsl9F3HYya9J4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJPFlTiikkenr3KmNM71LHG0BTelRz5i0SbjuxZl7YlW5nkT1AaqSwHSj0gpZvZV5rb89es83hEXpUDaKhMVQV8nyYHIbYIpM8DN6SHNxZgKkyqrcV1LcZWm0eEARaEDx8Rr4LeLQ11KCwOVgeHB064AVMvh5K4BoV127bD9tPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W81u0WsB; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772753178; c=relaxed/simple;
+	bh=EiJJXyryo+HKuVx66S49BeciXHgI7om9dfPV1VsHETE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TFpqV4TWKK4nvTbfFerjyutrHCm0k+9lGC5MWFmpm7w1HL2l7dpHKFTPS6EBRpH/q6jlPu9QqQcfULWXyWhS68Ti3Wv+xVMpfxCauj90hYucIjSpndmMOLhGn6Y4ArmQOjf3FFSnw8QBm2+A8Yq4ke54mhYmBdMRNZNOeMDbDXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=rea9cN1H; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W81u0WsB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772751686; x=1804287686;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PHQYA+3ODj8Z0jhwDvxeCHGYytqRZCCsl9F3HYya9J4=;
-  b=W81u0WsBzVd/r1u4mlmihcdb3EDDKjauPEbiungHh7XhOOty6VDhjYiB
-   bFhhTtL06QoUywr1Yu5+1c79s6Q2rtnBMpI/boQEGbWGBdcNIkvJuMzCQ
-   dBLIqUqVb7l1xkjiVko8I4TZxcRfqsZkujPgIJFcHqtD42SB2ypyU7it7
-   G1jPeNarL39ZM3Q5b2uQBMxkZD5LV0A6Yp3W0hlWEHvvZc0IcDt1uIvH3
-   t4/JbHrhV9W0z4/i7lW28L5tPop09/RSWeMjcSCjgUag3NjshiU5cVHqL
-   WqozPAAK8/Z9Z4+58NmUiITipij/HHl2AYCAR5l+13FbuMAPBRy+o3Rxg
-   Q==;
-X-CSE-ConnectionGUID: dLFDlOLgQKWKRfOrl5Z7/A==
-X-CSE-MsgGUID: A5U6gzMKTcSgzGfDsskKyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="85203678"
-X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="85203678"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 15:01:25 -0800
-X-CSE-ConnectionGUID: MkLBjoWHTx2WDalC9yxBuA==
-X-CSE-MsgGUID: BHdtxPvpQdyBhzegB1swIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="218777587"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2026 15:01:22 -0800
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vyHh0-00000000037-30Zz;
-	Thu, 05 Mar 2026 23:01:18 +0000
-Date: Fri, 6 Mar 2026 07:00:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Haifeng Xu <haifeng.xu@shopee.com>, rafael@kernel.org, lenb@kernel.org,
-	dan.j.williams@intel.com, jonathan.cameron@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev, dave@stgolabs.net, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, linux-cxl@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Haifeng Xu <haifeng.xu@shopee.com>
-Subject: Re: [PATCH] ACPI: add a boot parameter to disable parsing CFMWS
- during NUMA init
-Message-ID: <202603060605.Fa8yGC4u-lkp@intel.com>
-References: <20260304080647.169434-1-haifeng.xu@shopee.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rea9cN1H"
+Received: from localhost (unknown [20.29.225.195])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 79E6F20B6F02;
+	Thu,  5 Mar 2026 15:26:15 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 79E6F20B6F02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1772753175;
+	bh=QDKfwN/5O+T5oubvSWKw3kAtVIG3s2Nyz61U0vnOzD4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rea9cN1HUPKVP2hX6TJsgD2Ud5CdDwdS2GWWk9OkUCstLzRLyrJQLGqfNGJy+Fvez
+	 Q8AWO7fgBh+U0Hh1oo9Df2a7aqAkBOiaPMRtNpcejPvPwlBIK3sd0KEay3Pgx1x/39
+	 FSnhPE9x0+8zcYCrcIQMPC8ToYg9PQ3+s/irrm88=
+Date: Thu, 5 Mar 2026 15:26:14 -0800
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>, Alex Williamson
+ <alex@shazbot.org>, Joerg Roedel <joro@8bytes.org>, David Matlack
+ <dmatlack@google.com>, Nicolin Chen <nicolinc@nvidia.com>, "Tian, Kevin"
+ <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>, Baolu Lu
+ <baolu.lu@linux.intel.com>, oe-kbuild-all@lists.linux.dev,
+ skhawaja@google.com, pasha.tatashin@soleen.com, Jean Philippe-Brucker
+ <jean-philippe@linaro.org>, Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 08/11] vfio: Enable cdev noiommu mode under iommufd
+Message-ID: <20260305152614.00001a0f@linux.microsoft.com>
+In-Reply-To: <20260228003540.GN5933@nvidia.com>
+References: <20260227175247.26103-9-jacob.pan@linux.microsoft.com>
+	<202602280855.WxyIHCy5-lkp@intel.com>
+	<20260228003540.GN5933@nvidia.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260304080647.169434-1-haifeng.xu@shopee.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Haifeng,
+Hi Jason,
 
-kernel test robot noticed the following build warnings:
+On Fri, 27 Feb 2026 20:35:40 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge cxl/next tip/x86/mm linus/master v7.0-rc2 next-20260305]
-[cannot apply to cxl/pending]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> On Sat, Feb 28, 2026 at 08:18:41AM +0800, kernel test robot wrote:
+> > Kconfig warnings: (for reference only)
+> >    WARNING: unmet direct dependencies detected for IOMMU_PT_AMDV1
+> >    Depends on [n]: GENERIC_PT [=y] && IOMMU_PT [=y] &&
+> > !GENERIC_ATOMIC64 [=y] Selected by [y]:
+> >    - VFIO_NOIOMMU [=y] && VFIO [=y] && VFIO_GROUP [=y]  
+> 
+> Some kconfig stuff is missing, the iommufd IOMMU would only work with
+> GENERIC_ATOMIC64
+I don't quite understand this dependency on GENERIC_ATOMIC64, or you
+mean the opposite? since we currently have:
+config IOMMU_PT_AMDV1
+	tristate "IOMMU page table for 64-bit AMD IOMMU v1"
+	depends on !GENERIC_ATOMIC64 # for cmpxchg64
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haifeng-Xu/ACPI-add-a-boot-parameter-to-disable-parsing-CFMWS-during-NUMA-init/20260304-160933
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260304080647.169434-1-haifeng.xu%40shopee.com
-patch subject: [PATCH] ACPI: add a boot parameter to disable parsing CFMWS during NUMA init
-config: loongarch-randconfig-r134-20260306 (https://download.01.org/0day-ci/archive/20260306/202603060605.Fa8yGC4u-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603060605.Fa8yGC4u-lkp@intel.com/reproduce)
+And I already have noiommu depends on AMDV1 for mock page tables.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603060605.Fa8yGC4u-lkp@intel.com/
+Anyway, this particular build issue can be fixed by adding
+IOMMU_SUPPORT. i.e.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/acpi/numa/srat.c:323:12: sparse: sparse: symbol 'cfmws_disabled' was not declared. Should it be static?
+diff --git a/drivers/vfio/Kconfig b/drivers/vfio/Kconfig
+index 1f3fd7140604..78feca3d0c8b 100644
+--- a/drivers/vfio/Kconfig
++++ b/drivers/vfio/Kconfig
+@@ -65,6 +65,7 @@ config VFIO_NOIOMMU
+        select GENERIC_PT
+        select IOMMU_PT
+        select IOMMU_PT_AMDV1
++       depends on IOMMU_SUPPORT
+        help
 
-vim +/cfmws_disabled +323 drivers/acpi/numa/srat.c
 
-   322	
- > 323	int __init cfmws_disabled(void)
-   324	{
-   325		return cfmws_numa < 0;
-   326	}
-   327	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
