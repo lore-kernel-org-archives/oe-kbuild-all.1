@@ -1,163 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6A52AD16
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 04:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007CD175A72
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 04:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772683609; cv=none; b=OVz+5tw/OPANDv5mp0j1mCut3OgRTJ6loeFR0KWoRd0mYMKR/pAc3VWW9sYtDN/2/SVliiiR/tIkSudCAMQHTF/ShIzsrj8HMMCZ5YZIVjbYj34B9NPojvyb+P6SAqz4LQM3NRRXVN1nfij9RfbM1yQtvY3I1Tp8xZjr+AlkC0U=
+	t=1772684267; cv=none; b=Z8NpSQWLYC3dsJ9URkL+BuTz8FgtVq6OS+wkznSfINMk5ZNMfMxCtwUwyJLft3FQmFuIsntUI5ChLtpjw8aRuzEcX/IPBbAF56HfMa/1GL4TqlybJR8HPjjcMHHvgf1s1lBWK6RLmnCXR2Qyec9NNZ66NF7cn4QOLFppVVPG0Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772683609; c=relaxed/simple;
-	bh=26/aiZXHR9be3AGcF2Tr/OPZm/6fP8KQXz9C9VZdu4o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XH5RUjHCSgDp7xS8KGkOhPKTBsml7mkXlLwV3G1tNP7z5yarbW9rnRdx/eCkdu+gG/x0NkymsV5OWcXutar/n4DQih40lTSvyiedDmYH3RYu0rv8u6WeaL8Syai3cZZbeJGsHxubWHWOznysNkStdinbFJAOV9TwGBjw6mURq90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QB24xRnf; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1772684267; c=relaxed/simple;
+	bh=ju0G5UZ2rCJU+V3SLjPep3HnbLt/EM2wPBSuA/6zSAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LY1Qkajygl861dolIpJu3zzhUGGkWX0n7R7yHI7guvdX/rrWTnU6aPXKpb8qGnskgRpISoNMviCwC05aNd5W1Wl9Qk4QJSnW9prXaBmfWnKGr9KsLZUybHInvDFJ13B/CFa308W/gwUhNJYxtuFNB0/kfqh9CDgEKO6y/nMYyAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iy1qf1p8; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QB24xRnf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iy1qf1p8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772683607; x=1804219607;
-  h=date:from:to:cc:subject:message-id;
-  bh=26/aiZXHR9be3AGcF2Tr/OPZm/6fP8KQXz9C9VZdu4o=;
-  b=QB24xRnfQ9Hiee6nMtExduWpcR/ObZ5y8+elqBZbZsCfBz76aHnDjTIw
-   /Vbko2BVB4KQVWx9H0AGi4F24Nudh71mu/XZqXI6Suv8Gf7jScMF75IQP
-   Lp2k7IbRiLcbxvSrqa9AQBVLxxSnhfoyEmy/uL27uislOmIWm0Rc3sCxW
-   c2U0j6yTFXBRMdVDEy46y3dTbAD53Fpd4AyNKkat+gjzmKmmjR8DApjI7
-   wolfYMcNnVrRZIVyJBSYwwTjClkgmgBNmyXDID2IGba9+OgRmYCopTJcN
-   tCvu8KQKa06dzyjh545xufYVtibBP1RojY8SdoKWB67nr8ttti4W67NMO
+  t=1772684265; x=1804220265;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ju0G5UZ2rCJU+V3SLjPep3HnbLt/EM2wPBSuA/6zSAY=;
+  b=Iy1qf1p8aSKL8u7NrTInlMeyrr6g2HqHsDdjTRkuW+Gshi3tRodlLgcC
+   Vw9vXKuGUmLLLJXTT/eO92Q0gVv2vNq1Qj5Z1rzNLki+ysqSMK1uY4tRJ
+   9a61016JzDP895N+5yG2tpkER+VhBM4wzlsUmSPy046QqOwRr0j1Gi10m
+   bt9TMg6bgvDkr2ehaiDqnpQvLLMi1/UHHwrm+TX0DHcsKfYugJrQMfG37
+   sNu4GEar1nX3uEFbZ9K+ozdKHQGMw8T7KWoWviQhbljdjZ7bKgBhKUaHS
+   Y0Q5pqQ0aBi/reIHblbiL0n7e83Lhy8c3tdZwMZe6Ks2rqQPjlr1T2mmZ
    g==;
-X-CSE-ConnectionGUID: t4ZftyRHSSWN2/3vIi1+JQ==
-X-CSE-MsgGUID: 2tfDC4ciQ82/1S6wWn9gYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="91332010"
+X-CSE-ConnectionGUID: g72edbNJR9KIC4uo+zoNaw==
+X-CSE-MsgGUID: lS5jcZHlSZ2KgMHVUAZdFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="84095133"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="91332010"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 20:06:47 -0800
-X-CSE-ConnectionGUID: StKKqYpZTzOWO7A8Ds02ag==
-X-CSE-MsgGUID: xP9o5f5gSmawMqD2lgjtiQ==
+   d="scan'208";a="84095133"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 20:17:45 -0800
+X-CSE-ConnectionGUID: Z0Ncu36vSUSh/gW40dxtLQ==
+X-CSE-MsgGUID: ZfeOJtbTQ7u/NXImdFn6Zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="221454984"
-Received: from lkp-server02.sh.intel.com (HELO 456988d8841c) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Mar 2026 20:06:45 -0800
-Received: from kbuild by 456988d8841c with local (Exim 4.98.2)
+   d="scan'208";a="218675068"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 04 Mar 2026 20:17:42 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxzz0-0000000003T-3LZA;
-	Thu, 05 Mar 2026 04:06:42 +0000
-Date: Thu, 05 Mar 2026 11:56:37 +0800
+	id 1vy09a-000000001wb-1w88;
+	Thu, 05 Mar 2026 04:17:38 +0000
+Date: Thu, 5 Mar 2026 05:17:13 +0100
 From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [wsa:mailbox/improvements 2/3]
- drivers/mailbox/mailbox-test.c:367:14: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202603051154.wOOM3bne-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Praveen Kumar Kannoju <praveen.kannoju@oracle.com>, saeedm@nvidia.com,
+	leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, rama.nichanamatlu@oracle.com,
+	manjunath.b.patil@oracle.com, anand.a.khoje@oracle.com,
+	Praveen Kumar Kannoju <praveen.kannoju@oracle.com>
+Subject: Re: [PATCH] net/mlx5: poll mlx5 eq during irq migration
+Message-ID: <202603050528.5JWnahEr-lkp@intel.com>
+References: <20260304161704.910564-1-praveen.kannoju@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304161704.910564-1-praveen.kannoju@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git mailbox/improvements
-head:   c3534a875b3862a64739bc852655406c8e82ee45
-commit: 7464f83095f348420d3ee11e075120ed23ac807b [2/3] mailbox: test: really ignore optional memory resources
-config: x86_64-randconfig-121-20260305 (https://download.01.org/0day-ci/archive/20260305/202603051154.wOOM3bne-lkp@intel.com/config)
+Hi Praveen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.16-rc1 next-20260304]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Praveen-Kumar-Kannoju/net-mlx5-poll-mlx5-eq-during-irq-migration/20260305-003505
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260304161704.910564-1-praveen.kannoju%40oracle.com
+patch subject: [PATCH] net/mlx5: poll mlx5 eq during irq migration
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260305/202603050528.5JWnahEr-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051154.wOOM3bne-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050528.5JWnahEr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603051154.wOOM3bne-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050528.5JWnahEr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mailbox/mailbox-test.c:367:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mmio @@     got void [noderef] __iomem * @@
-   drivers/mailbox/mailbox-test.c:367:14: sparse:     expected void *mmio
-   drivers/mailbox/mailbox-test.c:367:14: sparse:     got void [noderef] __iomem *
->> drivers/mailbox/mailbox-test.c:370:36: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   drivers/mailbox/mailbox-test.c:370:36: sparse:     expected void *
-   drivers/mailbox/mailbox-test.c:370:36: sparse:     got void [noderef] __iomem *
->> drivers/mailbox/mailbox-test.c:386:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *tx_mmio @@     got void * @@
-   drivers/mailbox/mailbox-test.c:386:23: sparse:     expected void [noderef] __iomem *tx_mmio
-   drivers/mailbox/mailbox-test.c:386:23: sparse:     got void *
->> drivers/mailbox/mailbox-test.c:389:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *rx_mmio @@     got void * @@
-   drivers/mailbox/mailbox-test.c:389:23: sparse:     expected void [noderef] __iomem *rx_mmio
-   drivers/mailbox/mailbox-test.c:389:23: sparse:     got void *
+All warnings (new ones prefixed by >>):
 
-vim +367 drivers/mailbox/mailbox-test.c
+>> drivers/net/ethernet/mellanox/mlx5/core/eq.c:958:6: warning: no previous prototype for 'mlx5_eq_reap_irq_notify' [-Wmissing-prototypes]
+     958 | void mlx5_eq_reap_irq_notify(struct irq_affinity_notify *notify, const cpumask_t *mask)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/mellanox/mlx5/core/eq.c:978:6: warning: no previous prototype for 'mlx5_eq_reap_irq_release' [-Wmissing-prototypes]
+     978 | void mlx5_eq_reap_irq_release(struct kref *ref) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
-   357	
-   358	static void *mbox_test_ioremap(struct platform_device *pdev, unsigned int res_num)
-   359	{
-   360		struct resource *res;
-   361		void *mmio;
-   362	
-   363		res = platform_get_resource(pdev, IORESOURCE_MEM, res_num);
-   364		if (!res)
-   365			return NULL;
-   366	
- > 367		mmio = devm_ioremap_resource(&pdev->dev, res);
-   368		if (PTR_ERR(mmio) == -EBUSY) {
-   369			dev_info(&pdev->dev, "trying workaround with plain ioremap\n");
- > 370			return devm_ioremap(&pdev->dev, res->start, resource_size(res));
-   371		}
-   372	
-   373		return IS_ERR(mmio) ? NULL : mmio;
-   374	}
-   375	
-   376	static int mbox_test_probe(struct platform_device *pdev)
-   377	{
-   378		struct mbox_test_device *tdev;
-   379		int ret;
-   380	
-   381		tdev = devm_kzalloc(&pdev->dev, sizeof(*tdev), GFP_KERNEL);
-   382		if (!tdev)
-   383			return -ENOMEM;
-   384	
-   385		/* It's okay for MMIO to be NULL */
- > 386		tdev->tx_mmio = mbox_test_ioremap(pdev, 0);
-   387	
-   388		/* If specified, second reg entry is Rx MMIO */
- > 389		tdev->rx_mmio = mbox_test_ioremap(pdev, 1);
-   390		if (!tdev->rx_mmio)
-   391			tdev->rx_mmio = tdev->tx_mmio;
-   392	
-   393		tdev->tx_channel = mbox_test_request_channel(pdev, "tx");
-   394		tdev->rx_channel = mbox_test_request_channel(pdev, "rx");
-   395	
-   396		if (IS_ERR_OR_NULL(tdev->tx_channel) && IS_ERR_OR_NULL(tdev->rx_channel))
-   397			return -EPROBE_DEFER;
-   398	
-   399		/* If Rx is not specified but has Rx MMIO, then Rx = Tx */
-   400		if (!tdev->rx_channel && (tdev->rx_mmio != tdev->tx_mmio))
-   401			tdev->rx_channel = tdev->tx_channel;
-   402	
-   403		tdev->dev = &pdev->dev;
-   404		platform_set_drvdata(pdev, tdev);
-   405	
-   406		spin_lock_init(&tdev->lock);
-   407		mutex_init(&tdev->mutex);
-   408	
-   409		if (tdev->rx_channel) {
-   410			tdev->rx_buffer = devm_kzalloc(&pdev->dev,
-   411						       MBOX_MAX_MSG_LEN, GFP_KERNEL);
-   412			if (!tdev->rx_buffer)
-   413				return -ENOMEM;
-   414		}
-   415	
-   416		ret = mbox_test_add_debugfs(pdev, tdev);
-   417		if (ret)
-   418			return ret;
-   419	
-   420		init_waitqueue_head(&tdev->waitq);
-   421		dev_info(&pdev->dev, "Successfully registered\n");
-   422	
-   423		return 0;
-   424	}
-   425	
+
+vim +/mlx5_eq_reap_irq_notify +958 drivers/net/ethernet/mellanox/mlx5/core/eq.c
+
+   957	
+ > 958	void mlx5_eq_reap_irq_notify(struct irq_affinity_notify *notify, const cpumask_t *mask)
+   959	{
+   960		u32 eqe_count;
+   961		struct mlx5_eq_comp *eq = container_of(notify, struct mlx5_eq_comp, notify);
+   962	
+   963		if (mlx5_reap_eq_irq_aff_change) {
+   964			mlx5_core_warn(eq->core.dev, "irqn = 0x%x migration notified, EQ 0x%x: Cons = 0x%x\n",
+   965				       eq->core.irqn, eq->core.eqn, eq->core.cons_index);
+   966	
+   967			while (!rtnl_trylock())
+   968				msleep(20);
+   969	
+   970			eqe_count = mlx5_eq_poll_irq_disabled(eq);
+   971			if (eqe_count)
+   972				mlx5_core_warn(eq->core.dev, "Recovered %d eqes on EQ 0x%x\n",
+   973					       eqe_count, eq->core.eqn);
+   974			rtnl_unlock();
+   975		}
+   976	}
+   977	
+ > 978	void mlx5_eq_reap_irq_release(struct kref *ref) {}
+   979	
 
 -- 
 0-DAY CI Kernel Test Service
