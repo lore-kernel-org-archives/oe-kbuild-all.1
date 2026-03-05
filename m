@@ -1,123 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AFC70818
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 00:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D135695
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 00:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772668970; cv=none; b=pyw9j2gI+AHTdOaka7O04O2BxleM/tIMqjXF1OqSFuxxpv8qcCpIvlBkx0zxSedp6lmC7bmyB59i12Z2KqBeeZVLNA4MBVYYn+QRRxrv9rvtIbGxmeHk4toM65Q5DjyjDpG++zuT+qtoZnui/x+Zz5Gex/PjWPrTfVU5Qp9OXK8=
+	t=1772670231; cv=none; b=N46xZsHlsocMbkW6bW/n+PTkn5lu08CHjZFFqMbOYT+WCmvdMVqiuSa19vBibVWs8oGQnSmNo9qzJD8jy86DCAKCGJO48xoKUEF+iNs2qcaJgDHCwNyDwz3WYyUF3g6bs3tVJ1QKTK7S7cTyB0utognVUPr+l1UlRMPGIuSP3r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772668970; c=relaxed/simple;
-	bh=EvNQexAL85C3eOmkJAT7oc88RZq8E/bM2KOB2OJFNHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BNhc39qCj7gYw0+5dfV/hwhkKVyMqLkx9eDAiGbD9C6qVnAJXvV6QroyQqYQhHuReDQceBoauMt+Fn7VdgyiKAfHu0Wyusgq5UAVQJd08XwqWYsJprD4gl/RRidURgtBJ+Tqop4+sF9w+kjLjyvLRWX1CPcGAyeSptNI7vuZWYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WOwpa454; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1772670231; c=relaxed/simple;
+	bh=gFiJgei9kzVtHFdY6C1mSm4BYpqpqBI+XmrXd7Jm0VQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Iwq/2QstL9AnWlOrCzS03mh+b2PtQqMDjHHCZw1FCPjUygP4kjRePEyxG1jo16XfsTT7/AIqYD+c6OYKfvZ/5N5hoo+cQUMOsMN7m8WuFaX6MCfbjeIHJAy9bCI038KJ3tHTzmHE/duH2oBcI5NIK+qSVyVzTBIpcNINFMm837U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W6IjXvPf; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WOwpa454"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W6IjXvPf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772668968; x=1804204968;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EvNQexAL85C3eOmkJAT7oc88RZq8E/bM2KOB2OJFNHg=;
-  b=WOwpa454B5RHJ3uaU4MqAO9F2p+6w/w5+rGxDpyY239N//KerXtPN6Js
-   sLsJ80bxPHSlJJ45hNnv6i7/PZAmWbOnQdLjmbm+a71IJ8VCV66vC1vBN
-   9Pi9tDzp6a39rVPjRR3ATGMbfkXPIcbzejNzLCsBN0KyUh/RDl6xAyGYQ
-   VEyFdxs/Kl+59/pVBzf7GkTgbtfABif0ApDDItuo2K89Wnwyd9nls9mfo
-   cGw/WVTP4L06M2HAoBG8NusapOPURIHK7eekbK7de7HOPtd6VRxJcnRmS
-   3BQc4+kly/HNG62rqRXzFMh9Dz2qQ8+9YoJilOQslBSXe8UwNJ6d+iEIL
-   Q==;
-X-CSE-ConnectionGUID: CJR0ERHaRDmXxYSk3YeQ8Q==
-X-CSE-MsgGUID: 3tUsQAM9SJCOC+WOMYoQVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="76348799"
+  t=1772670230; x=1804206230;
+  h=date:from:to:cc:subject:message-id;
+  bh=gFiJgei9kzVtHFdY6C1mSm4BYpqpqBI+XmrXd7Jm0VQ=;
+  b=W6IjXvPfo1M2+cDj7eEatG2lG8d8GRorY8kACScR6isVUmVwPVrXuIh1
+   oqVXP8PUSbTuZEQszjCdCk6qu9j7ZEgvf76yQtRtvIZGkfJ8PaA/V4WOK
+   ZxnvAEGgXkgnBN30XQthRtu/zgrtlQCUDL+zBoQDLSAO10KKghbfAxqrB
+   H5JG6913mcI1dnb9ggIWEVdiYpGc+PhdOLhmH8XQ+07OUcCGNnRGIASz8
+   Dq1xk33dpwnUAawoR49/K7W091QHFWXPwqtL5nniVFZk58Anrat/a2DLA
+   eHrGZdRyCgOPpihFTdCIWRdpx+ona/R+IO+kl8WdyX5toO8SLBvNtKK3R
+   g==;
+X-CSE-ConnectionGUID: q1V7A136Q0enPryLzEcaTQ==
+X-CSE-MsgGUID: /QQrstbTRjeB7qgkFLX9VA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73445722"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="76348799"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 16:02:48 -0800
-X-CSE-ConnectionGUID: tV70856wTSC3HyuYjAzjVg==
-X-CSE-MsgGUID: oX55X8+ASqCsAM1tVN4aoA==
+   d="scan'208";a="73445722"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 16:23:50 -0800
+X-CSE-ConnectionGUID: Mq1BPbaPRVqWvHrPbntZUw==
+X-CSE-MsgGUID: BMyK6c+PQRyw/3zKRFyZVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="256382620"
+   d="scan'208";a="215383108"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Mar 2026 16:02:44 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Mar 2026 16:23:47 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxwAr-000000004j3-1cRe;
-	Thu, 05 Mar 2026 00:02:41 +0000
-Date: Thu, 5 Mar 2026 08:02:18 +0800
+	id 1vxwVF-000000004nu-212I;
+	Thu, 05 Mar 2026 00:23:45 +0000
+Date: Thu, 05 Mar 2026 08:22:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chengwen Feng <fengchengwen@huawei.com>, linux-pci@vger.kernel.org,
-	bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	rafael@kernel.org, lenb@kernel.org, wei.huang2@amd.com,
-	Eric.VanTassell@amd.com, jonathan.cameron@huawei.com,
-	wangzhou1@hisilicon.com, wanghuiqiang@huawei.com,
-	liuyonglong@huawei.com, Chengwen Feng <fengchengwen@huawei.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
-Message-ID: <202603050748.kO9QwTCh-lkp@intel.com>
-References: <20260303003625.39035-1-fengchengwen@huawei.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [wsa:renesas/hwspinlock/refactor-alloc-buildtest 7/15]
+ drivers/hwspinlock/sprd_hwspinlock.c:75:30: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202603050852.A6WYAQG7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260303003625.39035-1-fengchengwen@huawei.com>
 
-Hi Chengwen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v7.0-rc2 next-20260303]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chengwen-Feng/PCI-TPH-Fix-get-cpu-steer-tag-fail-on-ARM64-platform/20260303-084305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260303003625.39035-1-fengchengwen%40huawei.com
-patch subject: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
-config: i386-randconfig-141-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050748.kO9QwTCh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050748.kO9QwTCh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+head:   f2fc589840b1a727d4318cd5e9fc99d23fb3a35c
+commit: a2e0dd64061bc41ef377813e9a1626e8b1fa54c7 [7/15] hwspinlock: sprd: use new callback to initialize hwspinlock priv
+config: microblaze-randconfig-r121-20260304 (https://download.01.org/0day-ci/archive/20260305/202603050852.A6WYAQG7-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050852.A6WYAQG7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050748.kO9QwTCh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050852.A6WYAQG7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/hwspinlock/sprd_hwspinlock.c:44:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
+   drivers/hwspinlock/sprd_hwspinlock.c:44:50: sparse:     expected void [noderef] __iomem *addr
+   drivers/hwspinlock/sprd_hwspinlock.c:44:50: sparse:     got void *
+   drivers/hwspinlock/sprd_hwspinlock.c:62:55: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void * @@
+   drivers/hwspinlock/sprd_hwspinlock.c:62:55: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/sprd_hwspinlock.c:62:55: sparse:     got void *
+>> drivers/hwspinlock/sprd_hwspinlock.c:75:30: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got void *init_data @@
+   drivers/hwspinlock/sprd_hwspinlock.c:75:30: sparse:     expected void [noderef] __iomem *base
+   drivers/hwspinlock/sprd_hwspinlock.c:75:30: sparse:     got void *init_data
+>> drivers/hwspinlock/sprd_hwspinlock.c:77:21: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   drivers/hwspinlock/sprd_hwspinlock.c:77:21: sparse:     expected void *
+   drivers/hwspinlock/sprd_hwspinlock.c:77:21: sparse:     got void [noderef] __iomem *
+>> drivers/hwspinlock/sprd_hwspinlock.c:137:71: sparse: sparse: incorrect type in argument 6 (different address spaces) @@     expected void *init_data @@     got void [noderef] __iomem *base @@
+   drivers/hwspinlock/sprd_hwspinlock.c:137:71: sparse:     expected void *init_data
+   drivers/hwspinlock/sprd_hwspinlock.c:137:71: sparse:     got void [noderef] __iomem *base
 
->> drivers/acpi/processor_core.c:344:9: error: call to undeclared function 'cpu_acpi_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     344 |         return cpu_acpi_id(cpu);
-         |                ^
-   1 error generated.
+vim +75 drivers/hwspinlock/sprd_hwspinlock.c
 
-
-vim +/cpu_acpi_id +344 drivers/acpi/processor_core.c
-
-   337	
-   338	#ifdef CONFIG_ARCH_HAS_GET_CPU_ACPI_ID_API
-   339	unsigned int acpi_get_cpu_acpi_id(unsigned int cpu)
-   340	{
-   341		if (cpu >= nr_cpu_ids)
-   342			return 0;
-   343	#ifdef CONFIG_X86
- > 344		return cpu_acpi_id(cpu);
-   345	#elif CONFIG_ARM64
-   346		return get_acpi_id_for_cpu(cpu);
-   347	#endif
-   348	}
-   349	#endif /* CONFIG_ARCH_HAS_GET_CPU_ACPI_ID_API */
-   350	
+    72	
+    73	static void *sprd_hwspinlock_init_priv(int local_id, void *init_data)
+    74	{
+  > 75		void __iomem *base = init_data;
+    76	
+  > 77		return base + HWSPINLOCK_TOKEN(local_id);
+    78	}
+    79	
+    80	static const struct hwspinlock_ops sprd_hwspinlock_ops = {
+    81		.trylock = sprd_hwspinlock_trylock,
+    82		.unlock = sprd_hwspinlock_unlock,
+    83		.relax = sprd_hwspinlock_relax,
+    84		.init_priv = sprd_hwspinlock_init_priv,
+    85	};
+    86	
+    87	static void sprd_hwspinlock_disable(void *data)
+    88	{
+    89		struct sprd_hwspinlock_dev *sprd_hwlock = data;
+    90	
+    91		clk_disable_unprepare(sprd_hwlock->clk);
+    92	}
+    93	
+    94	static int sprd_hwspinlock_probe(struct platform_device *pdev)
+    95	{
+    96		struct sprd_hwspinlock_dev *sprd_hwlock;
+    97		int ret;
+    98	
+    99		if (!pdev->dev.of_node)
+   100			return -ENODEV;
+   101	
+   102		sprd_hwlock = devm_kzalloc(&pdev->dev,
+   103					   struct_size(sprd_hwlock, bank.lock, SPRD_HWLOCKS_NUM),
+   104					   GFP_KERNEL);
+   105		if (!sprd_hwlock)
+   106			return -ENOMEM;
+   107	
+   108		sprd_hwlock->base = devm_platform_ioremap_resource(pdev, 0);
+   109		if (IS_ERR(sprd_hwlock->base))
+   110			return PTR_ERR(sprd_hwlock->base);
+   111	
+   112		sprd_hwlock->clk = devm_clk_get(&pdev->dev, "enable");
+   113		if (IS_ERR(sprd_hwlock->clk)) {
+   114			dev_err(&pdev->dev, "get hwspinlock clock failed!\n");
+   115			return PTR_ERR(sprd_hwlock->clk);
+   116		}
+   117	
+   118		ret = clk_prepare_enable(sprd_hwlock->clk);
+   119		if (ret)
+   120			return ret;
+   121	
+   122		ret = devm_add_action_or_reset(&pdev->dev, sprd_hwspinlock_disable,
+   123					       sprd_hwlock);
+   124		if (ret) {
+   125			dev_err(&pdev->dev,
+   126				"Failed to add hwspinlock disable action\n");
+   127			return ret;
+   128		}
+   129	
+   130		/* set the hwspinlock to record user id to identify subsystems */
+   131		writel(HWSPINLOCK_USER_BITS, sprd_hwlock->base + HWSPINLOCK_RECCTRL);
+   132	
+   133		platform_set_drvdata(pdev, sprd_hwlock);
+   134	
+   135		return devm_hwspin_lock_register(&pdev->dev, &sprd_hwlock->bank,
+   136						 &sprd_hwspinlock_ops, 0,
+ > 137						 SPRD_HWLOCKS_NUM, sprd_hwlock->base);
+   138	}
+   139	
 
 -- 
 0-DAY CI Kernel Test Service
