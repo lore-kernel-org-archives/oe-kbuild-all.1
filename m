@@ -1,129 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFAF30AD0A;
-	Thu,  5 Mar 2026 07:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A40366552
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 08:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772697215; cv=none; b=QRef379oMsSc0yyeU1ORkJqUzLIC/M5qJk2l4+56BPkAIcnaM0uRRl43E/1PVSW/Eq4B1R3RmOTO61rqCiQIpLwMz1UmffMoP17mT5LobUC9QRLU2j1+amZ5T1SR2ofDBKuUgAY5b01hTl4AI4a4MAuIabB8O4+iChR6jM320ws=
+	t=1772698077; cv=none; b=TQ9+9Oeg6ITNGaov6rlopCgQMhBDUFHTeyYuqBecWCRe2Fl4L1Ipfa7NEf14HSx934oCAcVPmNW1WHkGBOHGeGxeaxI9CabP6efjk8ORHxpUW5KVPvNVfo32xk2Xt3z625Q4wKT/Y9IiI26WP5YTfzWlsaydpuJ8SHY+Hg7/DTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772697215; c=relaxed/simple;
-	bh=0IRCN5orXpBlDp5bbe+hP/a4OpxCZ/kKP/mq46MHsUc=;
+	s=arc-20240116; t=1772698077; c=relaxed/simple;
+	bh=MEN4t6jJ7e2OHmB5U6p2JOmY/bDl8ADWl53m94Mp7pQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRww7kr2Xd0TImVHdzFy2PMMb0ksQPvZrY10vder3xolgZ++DfmSDI/a3ZKxTwSVU3pMl7cGIZwRrQyhS89aXsEC8JmlqN2vBk5uCiRnUSTtBE97v0J79uWc1hPH41c9L9ZioX2w714nZEoAhDnDn+3ESyRCVC2syd8FPN6+KrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ku4RhVWj; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cbi3UnU9wlfzK+Q/jdb6p6gmF6N4ZgC6rfab6JLI6KMU7Ir2BGk4hPeiGJrn+MyVjgERTZRNs/L8TFh/JV1hSHwyv5lgi/MZxL5GhL2f5KcLOwlPuNC2T8CUpjv5OF+Qg4PNZ7KcsGdHg5aUH/MgDkwaz7woA8fsFp0vdgqvnHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zO2VY2S4; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ku4RhVWj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772697214; x=1804233214;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0IRCN5orXpBlDp5bbe+hP/a4OpxCZ/kKP/mq46MHsUc=;
-  b=ku4RhVWjH8Y7sbPrjrY2nOl8fKf5gE31ZDAIsoI4ljsRBHenNpCh8mBT
-   vc6QuuKPcgENAVqRadzecw3s3IYWNPcEUkzGmM00lyO+sovbyqb8I2mLe
-   icajiDrmvYFA8914q6AJZ1TOkwlgFI85sHg7VYTZ3v0hfcxE2mqWJu1b9
-   aRh32O4hzRi6KzXTB7aKzd0ty2cdVeZURRrvg/md3kKF6sN64Br5m+EGP
-   DPpx6UcGEnGfPJSJV5zwG2IJs56RU3Yp5WH6mYWlxDT50mSAHOxFCXH4S
-   3G70Ltyj+5DvehKeFJXA3DCQbRF2wJw0NSUMJkUc90i6ZYgBVcfJwv2CM
-   Q==;
-X-CSE-ConnectionGUID: C0OvAfa8RfyDysZR2qcTUg==
-X-CSE-MsgGUID: YBV/GBd+Q/+PKL21V2GLNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77646909"
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="77646909"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 23:53:32 -0800
-X-CSE-ConnectionGUID: w663kWYfQVa8o27u4O5rSw==
-X-CSE-MsgGUID: kwe5FhppRZ2RDxvcFi9xoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="221500100"
-Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Mar 2026 23:53:27 -0800
-Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vy3WF-000000000Du-3zCf;
-	Thu, 05 Mar 2026 07:53:15 +0000
-Date: Thu, 5 Mar 2026 15:52:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kbusch@kernel.org,
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
-	hare@suse.de, alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-Message-ID: <202603051502.9qxZ0noK-lkp@intel.com>
-References: <20260304053500.590630-5-alistair.francis@wdc.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zO2VY2S4"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4837907f535so69680415e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Mar 2026 00:07:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772698071; x=1773302871; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CpywyGgnXVMi7zDh09DftParmGasnoIPMVnYCXsoHgQ=;
+        b=zO2VY2S4qWImLAtnHYKMP7nGr0MDxP0948YvZ/V5s2xJepVur50Y4Bhpm/CFtH7eMn
+         xtfm6u7glPMI2kwlV7ATnAwG0Y3DvPfLPmq3vALFpLIerMoNEeujsTckfbnuZlHAaX+U
+         hWT1DN32C1BP3xLm1Tha4Nd89wKC7UQy+AoKQA0yWXTrTYIXQtz4PqdL4h9BUKyKEIef
+         H92s94HfIRBY4PU8b0JgL1zdlr6k0BoRbtNlXWnCOI/jf6j3iYqw2lhPD612c5CMYfQV
+         E7JrwEAydZQUsv0DbvHh6ZlbJdgP9uDQtQfPlCYUMGSrc/0uXyIx/5jw/hXiKEKnq36y
+         CKhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772698071; x=1773302871;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CpywyGgnXVMi7zDh09DftParmGasnoIPMVnYCXsoHgQ=;
+        b=qqZtmmGRkqW8b9wRZ3DZS/gmGp+5Oi4MIpUsa16kNLZvPXw2owlClRUNnDdD5dcGEr
+         qOBdg/xn+9Qeb8MtnsnxQySSF21+QsO04mVGPtItJsfDal+iV58AVGktMAmfGXTm0c/T
+         jRdhycMI511yTAkUbZ60gwvGzohvTUEOtNRCmz0lsp4q3FWM0XozBm83X6LhSnkiX1gC
+         6oLATwxWnrpRmsuhNs+DLK9cbOD9Pbqw1LzrgNk3KvhVqvaPREmQeYmLi2NzYWLz/hOX
+         2CoYPMHzi/wP82WuuLydn6MjW3WFzuF1rXDfG9QWK1FScRxzjhUMaog6lCCU+nDK8lyK
+         vtwA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZ5+mzPdtU+2G3SE/F0Dd3GbUwrjmfh2Kh+20ytwuNPFww5uf5QaiSr1dfk8Xdg28XI07YCtLBj33QzXyP@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/5UxLDTPiyUj0NhkzU3WMvwok/oCZ+SSZIZCkFbVeIUmTGroV
+	VyQjyGQDP2jF45xQrDEQcb1uxw59fX1GwLWe5Zzsttabt/bOzn43SMK1CprZBYW18Rg=
+X-Gm-Gg: ATEYQzz1FJdV6kPxRf4Qk7PJmrW4DmmZ/bvuJ93NQb5xE74fukM/nAKTtH4OpOKTy9M
+	v+P14ty5yaB+X+GFcWSvRSw8QeRs2JeeORt5JydQVHc7CkePMBSbI+kCCup5khTkSDen/pWuiHW
+	Te6E5JztmMdOSDOHXcwDtGA+4Cydsi9nukaeibgsZt0Jfms36cnH/EQgtECWD2mWRfX0q/PbZzb
+	QV4pVJaBX8De7mxcofO2/xEyCeqV0LrY1xE39vjxCaFxfcmFIfZv0BmwX4ijCUl228/yPue51jD
+	ueLhiGM2ZoTXIqkri8y6zS16B07egeRhpXozpVkLyUM59qymBKWcetf3JvIpw+oU41APMnTlj1n
+	qcrKKyOc1BU39W5tArZ3D63ma+YRp+jJhdtDQWXCoKAqClW1VmjXRrIKjpKBPseQChvpFFQ5ftW
+	v6ancJwVL/3AIBcEFYkHeUmZ6d/Pw0vyj8/aDxNETeACN1nsETQz6+ZX/lV4eVae/BN44KuKEB+
+	gmajgxaCe4S9co=
+X-Received: by 2002:a05:600c:8105:b0:482:f12f:f35e with SMTP id 5b1f17b1804b1-48519837ec2mr74771565e9.12.1772698071201;
+        Thu, 05 Mar 2026 00:07:51 -0800 (PST)
+Received: from localhost (p200300f65f20eb044d629f1ad692a1c8.dip0.t-ipconnect.de. [2003:f6:5f20:eb04:4d62:9f1a:d692:a1c8])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4851fae475csm23291195e9.8.2026.03.05.00.07.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 00:07:50 -0800 (PST)
+Date: Thu, 5 Mar 2026 09:07:49 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Helge Deller <deller@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: drivers/video/fbdev/au1100fb.c:448:46: error: implicit
+ declaration of function 'KSEG1ADDR'; did you mean 'CKSEG1ADDR'?
+Message-ID: <aak3k24kjfD55xNQ@monoceros>
+References: <202603042127.PT6LuKqi-lkp@intel.com>
+ <aah4opTMZeDDfWFG@carbonx1>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sx7nivqyo7vfvdjy"
 Content-Disposition: inline
-In-Reply-To: <20260304053500.590630-5-alistair.francis@wdc.com>
-
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on net/main net-next/main linus/master v7.0-rc2 next-20260304]
-[cannot apply to linux-nvme/for-next horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20260304-134148
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260304053500.590630-5-alistair.francis%40wdc.com
-patch subject: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-config: x86_64-buildonly-randconfig-006-20260305 (https://download.01.org/0day-ci/archive/20260305/202603051502.9qxZ0noK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051502.9qxZ0noK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603051502.9qxZ0noK-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/nvme/host/tcp.c:1429:24: error: no member named 'read_sock_cmsg' in 'struct proto_ops'
-    1429 |         consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
-         |                    ~~~~~~~~~  ^
-   1 error generated.
+In-Reply-To: <aah4opTMZeDDfWFG@carbonx1>
 
 
-vim +1429 drivers/nvme/host/tcp.c
+--sx7nivqyo7vfvdjy
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: drivers/video/fbdev/au1100fb.c:448:46: error: implicit
+ declaration of function 'KSEG1ADDR'; did you mean 'CKSEG1ADDR'?
+MIME-Version: 1.0
 
-  1417	
-  1418	static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
-  1419	{
-  1420		struct socket *sock = queue->sock;
-  1421		struct sock *sk = sock->sk;
-  1422		read_descriptor_t rd_desc;
-  1423		int consumed;
-  1424	
-  1425		rd_desc.arg.data = queue;
-  1426		rd_desc.count = 1;
-  1427		lock_sock(sk);
-  1428		queue->nr_cqe = 0;
-> 1429		consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
-  1430						     nvme_tcp_recv_cmsg);
-  1431		release_sock(sk);
-  1432		return consumed == -EAGAIN ? 0 : consumed;
-  1433	}
-  1434	
+Hello,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Wed, Mar 04, 2026 at 07:23:30PM +0100, Helge Deller wrote:
+> * kernel test robot <lkp@intel.com>:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   0031c06807cfa8aa51a759ff8aa09e1aa48149af
+> > commit: 6f366e86481a7503a821de82930df517dddd4047 fbdev: au1100fb: Make =
+driver compilable on non-mips platforms
+> > date:   13 days ago
+> > config: mips-randconfig-r052-20260304 (https://download.01.org/0day-ci/=
+archive/20260304/202603042127.PT6LuKqi-lkp@intel.com/config)
+> > compiler: mips64-linux-gcc (GCC) 14.3.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20260304/202603042127.PT6LuKqi-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202603042127.PT6LuKqi-l=
+kp@intel.com/
+> >=20
+> > All error/warnings (new ones prefixed by >>):
+> >=20
+> >    drivers/video/fbdev/au1100fb.c: In function 'au1100fb_drv_probe':
+> > >> drivers/video/fbdev/au1100fb.c:448:46: error: implicit declaration o=
+f function 'KSEG1ADDR'; did you mean 'CKSEG1ADDR'? [-Wimplicit-function-dec=
+laration]
+> >      448 |         fbdev->regs =3D (struct au1100fb_regs*)KSEG1ADDR(fbd=
+ev->info.fix.mmio_start);
+> >          |                                              ^~~~~~~~~
+> >          |                                              CKSEG1ADDR
+> > >> drivers/video/fbdev/au1100fb.c:448:23: warning: cast to pointer from=
+ integer of different size [-Wint-to-pointer-cast]
+> >      448 |         fbdev->regs =3D (struct au1100fb_regs*)KSEG1ADDR(fbd=
+ev->info.fix.mmio_start);
+> >          |                       ^
+>=20
+> I've pushed the patch below into the fbdev git tree.
+> It should (hopefully) fix the issue.
+>=20
+> Helge
+>=20
+>=20
+> From: Helge Deller <deller@gmx.de>
+> Subject: [PATCH] fbdev: au1100fb: Fix build on MIPS64
+>=20
+> Fix an error reported by the kernel test robot:
+>  au1100fb.c: error: implicit declaration of function 'KSEG1ADDR'; did you=
+ mean 'CKSEG1ADDR'?
+>=20
+> The header asm/mach-au1x00/au1000.h is unused apart from pulling in
+> <linux/delay.h> (for mdelay()) and <linux/io.h> (for KSEG1ADDR()). Then
+> the only platform specific part in the driver is the usage of the KSEG1AD=
+DR
+> macro, which for the non-mips case can be stubbed.
+
+This paragraph is copied from 6f366e86481a and doesn't make sense here.
+I'd write something like:
+
+	arch/mips/include/asm/addrspace.h defines KSEG1ADDR only for 32 bit
+	configurations. So provide its compile-test stub also for 64bit
+	mips builds.
+=09
+>=20
+> Fixes: 6f366e86481a ("fbdev: au1100fb: Make driver compilable on non-mips=
+ platforms")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202603042127.PT6LuKqi-lkp@i=
+ntel.com/
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> Cc: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+>=20
+> diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100f=
+b.c
+> index 1a04154bc535..3b104d377d28 100644
+> --- a/drivers/video/fbdev/au1100fb.c
+> +++ b/drivers/video/fbdev/au1100fb.c
+> @@ -380,7 +380,7 @@ static struct au1100fb_panel known_lcd_panels[] =3D
+>  #define panel_is_color(panel) (panel->control_base & LCD_CONTROL_PC)
+>  #define panel_swap_rgb(panel) (panel->control_base & LCD_CONTROL_CCO)
+> =20
+> -#if defined(CONFIG_COMPILE_TEST) && !defined(CONFIG_MIPS)
+> +#if defined(CONFIG_COMPILE_TEST) && !(defined(CONFIG_MIPS) && !defined(C=
+ONFIG_64BIT))
+
+The condition is equivalent to
+
+	defined(CONFIG_COMPILE_TEST) && (!defined(CONFIG_MIPS) || defined(CONFIG_6=
+4BIT))
+
+which is logically a bit easier, but I'm unsure if it's easier to
+understand (IMHO both are bad).
+
+>  /* This is only defined to be able to compile this driver on non-mips pl=
+atforms */
+
+Maybe adapt the comment here, too? Something like:
+
+	/*
+	 * KSEG1ADDR() is defined in arch/mips/include/asm/addrspace.h
+	 * for 32 bit configurations. Provide a stub for compile testing
+	 * on other platforms.
+	 */
+
+>  #define KSEG1ADDR(x) (x)
+>  #endif
+
+Best regards
+Uwe
+
+--sx7nivqyo7vfvdjy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmpOdIACgkQj4D7WH0S
+/k4M1QgAnufkIZRtUdQ4cmY1U5fdSOJSlsuzq0bUmxZjNlGMF8GgZFMN1EdBFR10
+klcTxwCWs+LilgolbuNUKBDT6l2kxCHIAxO8IuVrCT7CfgRk1ej0LBZOcWTvoqyv
+CLuu8IAp01kelaAg58eCPeFgRvDMsTk7UuakLB5NVJr/7B/P5WAExYp+6PlDdHnn
+bz+BRg8aKAl61TItvo7K+aw01dozKrIEG+0UgWw/AcPjHsAqMD3Oq7SvvC176cDt
+wHGpLYgtYaMDHXd/z3XuPTe5VnQr9rC/WGLWXiFxLbSgJgWOGTpEVyO3N8aJWnM4
+bS96m5AwqBd4I2VZJGCTobMy8Cf37g==
+=cM5A
+-----END PGP SIGNATURE-----
+
+--sx7nivqyo7vfvdjy--
