@@ -1,135 +1,130 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555683BD63C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 19:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772739789; cv=pass; b=P3/ek+Wi5BFRNu+G/IoBS+cF2HBNypv27iG/v9aJNpXc98K6pMVYZk2xDPO4QYu779veyPY2sZJy3oKUb1dXXxCu8D5ddQmt/IWRlvzlBEyrHq2/fSfoYFAR2c0WBjxPAwVyI1cO+k5j55TM7ypsvav5WiWXazXarwNuGw3EZ7c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772739789; c=relaxed/simple;
-	bh=fR1TXWfd4CA+egVR32d5wNh0tx0iKYkAsimEICO08/A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PkY3WfO+1Zb8mv5qlflztIFMdxYgyDj5jZKPcaAtQ5YeGLXeKukB3V2x+uuYeNjCOMzrZptDyyacxvcLEghit+VvYL59j1Umm1VFZFreAr3PNR8FgIGexyNIGbHhwtdq3EmF7WTexWdRm/8/1+MVNNYJ+6zmmARIEF4eDA/AjcE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XsWuKYGd; arc=pass smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792941CAA78
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 19:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772739962; cv=none; b=C0U366hRkICwUCR92UdcsJQ4sPKb00WvH04qDojd3dFbTAPFDdwGrscLG7lSckNOykIgI2emPn+Ftk1eEdayOgD41InNPxQkDw80uGAEIGTkCI7uUPb8K1llhudNpnIXLKJCHnWVVbJwnglQrGO/UimpnH0Hn000EOkoh7B8MTc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772739962; c=relaxed/simple;
+	bh=RReiofGCrUO6nwMX8iVoBq69kNrZZw8cQVjsjE/iCag=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZlGfNn8smVtAN5M1bI/InqX3x+++22A/eUjCzaa2GloWQet5OXAILyrVopi9qKGZ+bcbTpZ0mL42lMep3FWlIeIQv7MyZSUxH+xKCy5nEYNQ9uWe8SNKaH4+gNtMmdoiPeilTyFC27m81L5BhM9n9mo8s/mpgV9H5YnxODYJ3Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hAsfmR5s; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XsWuKYGd"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1271257ae53so10243909c88.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Mar 2026 11:43:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772739787; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YbrZbXObToIqLJQcV/jcqbS9tTQ6IrrnV2TNLMOlAUvmCZl3DlQARTbHXq+X2LR+xK
-         Q876R07AtTd7NNxkW/9AWBNuP0iLghwckUK6SucKB/rTmsArueDQAgPq3X7NYueSzVt2
-         Ji99xJqdo8H2ZSkfb5iCm8DC96QguGEmi8WzJXClHSB+F54Lef4eBGla2r5I09C29DZJ
-         eNO5vJaKUOXfT6MdWSoIPwJOL9di9WDcHiiSSkPX3l7EQS9KSYKgZWVVeLhHzuUJVhfV
-         29eUGyI800ZmUc1XLzSm662bc4W46vGyAuvM4taZXucjLF0MuANxUep6WjYXbc/Ru7eg
-         pOpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oX1aoye6X+Uzh2BOw07U5xvyxILQi2uKYkUCyKCeMXs=;
-        fh=id7VqteWGV73BeATVkuDX5UdLHV7m18WRk0qpuD/868=;
-        b=F4qpvErnHFwsM3OjzEV3/0myEdlnchju+SAAILFznamQcpJH/KappB9oCraidPDtki
-         HU/8OO+TccKEZ2qVHb5JE3W9W9S+f7LYZCDxO6WqoA6EG32+oI7eUCM2JeJK0tbjYOne
-         PaeRH2nywL8QYz9ImfrIhDJYSsHTp9xvp2wjXHOrj+OuK4aKWV9g9kw1AdMRa+EcARla
-         r2cc+3n8IDDwRZADdmvX2DsmMGWSqnFSgZmOgesjAU864lKC+JHFjvbWj0U+t/aS2Kt7
-         sJAUgJ6Fb5uNzuDaG6wYgteqdCPJyZeH9CHN84JWq5bnZj+EqcvrZ6yO0R1u4qwwmDKA
-         MB9Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772739787; x=1773344587; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oX1aoye6X+Uzh2BOw07U5xvyxILQi2uKYkUCyKCeMXs=;
-        b=XsWuKYGdp6xbHRdkEW1cQS92xYmf1iOzl4G/UKJs/M+YEN5LfA4klsyAQPlxzZPKrX
-         MOO8YcrAZME8XJIGzprukRkCpHg3UIBJct5OlLN2p9X1uigRFGXB2VJMpPMZ31wke8dP
-         Ou5VwjwiVjuPOrRtHz+L3vFzvewYoHojLBYUw+UznS7d1A9gNbTMtSb7gGR+WMvSnKor
-         tlEHqkIR2yocRGp1WR1XtmsE4NJpFcWW7beWoUb5NOgSPu7PAZnRjlNUepKJx397y1jY
-         nDN5mNcuyDSDd14zaFcoJMd7RRVJ0Ahftzjx9lM3rEpuWaNox44C27d5SIhKG2mJI9rM
-         ZaDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772739787; x=1773344587;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oX1aoye6X+Uzh2BOw07U5xvyxILQi2uKYkUCyKCeMXs=;
-        b=uhB7iGhylrQWb7i9GbAPi+sx2w/+mODbxlKB84Hcvj4aFaEUgPfb3fQW1sDgXl3HWV
-         XDOeibmcMk1YyiQj4jWTUHOL7ZYatBouBuHyNHyr3dVmp2XZVQa3ilYPLOOucRmOImJ5
-         jRzfFYmc0PQ4S+yTYhMGAyJqMrGuuZQL16G7lGBZRanSiLw8sb07qU8BGgXTkNUa6Ljm
-         ivLKx8qH096bz/T0BcAwMHpzyofcxYOFYJcfv+xsmufmHMFgqUbJ0AZ/2YYBAwoNXQ4a
-         IB7JoQA/gU57RaGniguamBYauEXoWHoVMrXFGXzFsIC9Yw9YbyYjIQYhLtGJuJi7Q1zo
-         xywA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdPEIUFu89ppASaM7zH3/bYiIP3dvUKszO7fGGZB0Z7bBCzI/n8Z9VFMv28Ai4Kya8bGD2WFrYmVAB9jVO@lists.linux.dev
-X-Gm-Message-State: AOJu0YywTeZKdj7pQ7tJbk1OOxo7kvnQDHC9g5KrUijwpoqF8w/ubyvf
-	0e0NK2omoZqNG0Po6NoF/2R3hL/hXGb7npmuLZ4lpdsuCjK0CbNrFm0JWDS0Px2shS2G2hD2bhn
-	NkJNI6O54zYkJ0ty/r16gXYgVOwrHG84ZjZm6dRVs
-X-Gm-Gg: ATEYQzwIdl8w2N0nNpWJhLCaggKPkdUxRiUG/UaMuCWn32zdx4k7RbucrqYyf3DJmsF
-	yW6EhV5ZiI3rnOTs3xXV9xswCwcdMZxHunIVBqLBupxku6ld96gvGTf+PNRVNanpZpw0/4akx4r
-	UNY8Ehcmd7FUZJgvsJjazNiYiOTjQdxx7V7GlcNJ9v5kycn7OBqXmrAufHcj/ITbptsJKwtjNcU
-	tKw0cwfMwV7lnPgi4K/BLVB7lkBYIldvadsZdVmLkNDifHfSAgnuHybgFMAHn3DMDzruEHsYiHK
-	LVZjPfXm0RxvLcGLldqmAlmbv6ThY1ZEcG1un9HF6HTozItSvzumq0j6rvNpI9xopZvORf9M
-X-Received: by 2002:a05:7022:128b:b0:124:9f67:6b6f with SMTP id
- a92af1059eb24-128c10ad55dmr449281c88.20.1772739786763; Thu, 05 Mar 2026
- 11:43:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hAsfmR5s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772739960; x=1804275960;
+  h=date:from:to:cc:subject:message-id;
+  bh=RReiofGCrUO6nwMX8iVoBq69kNrZZw8cQVjsjE/iCag=;
+  b=hAsfmR5sICsInbu9v3Zt3CgE0ZfYepextgL/9K5zpd8DkIKkGtqK9tHC
+   KkUmPonitzczZDnz+io2ra/1o72X5Tpz3kVuuNSI5S0+WiJ67+L2CXk/T
+   ztPnjosgI4gfyXROlFX8c/7ycCwSb2GbrLJf6SKePijB1LH5oCMzAz7zP
+   m62IgUrTHcSNDJ2c3XQOf53IdUxH6hitGAjhFWxnE2l8og54UgXewbgs0
+   H+TYWBXzVvN5XjnUeMEvwjHxA6NfsLb2lLwLsIGzM+WBSHb+F3X+a66ut
+   LShRTAZS6IQp3daZtfmvja+NqAMqp5Av7kC+lOiE8lHIYOEj/Gntregp8
+   A==;
+X-CSE-ConnectionGUID: FZ/1u8SRTTqQcyBsoqNLiA==
+X-CSE-MsgGUID: cwpWY9iaSH2/y/IXunLuWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73808814"
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="73808814"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 11:46:00 -0800
+X-CSE-ConnectionGUID: 9YFxGyCfTqm5sqt1bLibLA==
+X-CSE-MsgGUID: DavUr5aaQ/WJ1d87OTLZoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="221641858"
+Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Mar 2026 11:45:58 -0800
+Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vyEdv-0000000019w-2QSk;
+	Thu, 05 Mar 2026 19:45:55 +0000
+Date: Fri, 06 Mar 2026 03:45:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Joseph Guo <qijian.guo@nxp.com>
+Subject: [linux-next:master 3018/4342]
+ drivers/gpu/drm/bridge/waveshare-dsi.c:70 ws_bridge_attach_dsi() warn:
+ unsigned 'dsi->lanes' is never less than zero.
+Message-ID: <202603060341.hNj0pl9L-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260304193034.1870586-5-kuniyu@google.com> <202603052252.qcNefHFm-lkp@intel.com>
-In-Reply-To: <202603052252.qcNefHFm-lkp@intel.com>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Thu, 5 Mar 2026 11:42:54 -0800
-X-Gm-Features: AaiRm508G-v6MJNuY-4iHqxIFwZuCKLIrOOkb_pTH11Y7XuxTur_rvFnh0604sA
-Message-ID: <CAAVpQUBbsRin3NO7-zARiBbOBTMZN=zr017_zYMaOo_VZr9Tfg@mail.gmail.com>
-Subject: Re: [PATCH v1 net-next 04/15] ipv4: Retire UDP-Lite.
-To: kernel test robot <lkp@intel.com>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, David Ahern <dsahern@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, oe-kbuild-all@lists.linux.dev, 
-	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 5, 2026 at 7:04=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Kuniyuki,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/=
-udp-Make-udp-46-_seq_show-static/20260305-033454
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20260304193034.1870586-5-kuniyu%=
-40google.com
-> patch subject: [PATCH v1 net-next 04/15] ipv4: Retire UDP-Lite.
-> config: nios2-randconfig-r131-20260305 (https://download.01.org/0day-ci/a=
-rchive/20260305/202603052252.qcNefHFm-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 8.5.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260305/202603052252.qcNefHFm-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603052252.qcNefHFm-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> net/ipv4/udp.c:3748:29: sparse: sparse: symbol 'udp_seq_ops' was not d=
-eclared. Should it be static?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3f9cd19e764b782706dbaacc69e502099cb014ba
+commit: fca11428425e92bf21d4a7f5865708c5e64430e4 [3018/4342] drm/bridge: waveshare-dsi: Add support for 1..4 DSI data lanes
+config: powerpc-randconfig-r073-20260305 (https://download.01.org/0day-ci/archive/20260306/202603060341.hNj0pl9L-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
+smatch: v0.5.0-9004-gb810ac53
 
-Ah, I forgot to make udp_seq_ops static.
-udp6_seq_ops was done properly
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603060341.hNj0pl9L-lkp@intel.com/
 
-Will fix in v2.
+smatch warnings:
+drivers/gpu/drm/bridge/waveshare-dsi.c:70 ws_bridge_attach_dsi() warn: unsigned 'dsi->lanes' is never less than zero.
+
+vim +70 drivers/gpu/drm/bridge/waveshare-dsi.c
+
+    38	
+    39	static int ws_bridge_attach_dsi(struct ws_bridge *ws)
+    40	{
+    41		const struct mipi_dsi_device_info info = {
+    42			.type = "ws-bridge",
+    43			.channel = 0,
+    44			.node = NULL,
+    45		};
+    46		struct device_node *dsi_host_node;
+    47		struct device *dev = ws->dev;
+    48		struct mipi_dsi_device *dsi;
+    49		struct mipi_dsi_host *host;
+    50		int ret;
+    51	
+    52		dsi_host_node = of_graph_get_remote_node(dev->of_node, 0, 0);
+    53		if (!dsi_host_node) {
+    54			dev_err(dev, "Failed to get remote port\n");
+    55			return -ENODEV;
+    56		}
+    57		host = of_find_mipi_dsi_host_by_node(dsi_host_node);
+    58		of_node_put(dsi_host_node);
+    59		if (!host)
+    60			return dev_err_probe(dev, -EPROBE_DEFER, "Failed to find dsi_host\n");
+    61	
+    62		dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+    63		if (IS_ERR(dsi))
+    64			return dev_err_probe(dev, PTR_ERR(dsi), "Failed to create dsi device\n");
+    65	
+    66		dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+    67				  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+    68		dsi->format = MIPI_DSI_FMT_RGB888;
+    69		dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
+  > 70		if (dsi->lanes < 0) {
+    71			dev_warn(dev, "Invalid or missing DSI lane count %d, falling back to 2 lanes\n",
+    72				 dsi->lanes);
+    73			dsi->lanes = 2;	/* Old DT backward compatibility */
+    74		}
+    75	
+    76		ret = devm_mipi_dsi_attach(dev, dsi);
+    77		if (ret < 0)
+    78			return dev_err_probe(dev, ret, "Failed to attach dsi to host\n");
+    79	
+    80		return 0;
+    81	}
+    82	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
