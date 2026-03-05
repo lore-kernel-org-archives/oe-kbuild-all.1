@@ -1,107 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4A73A453E;
-	Thu,  5 Mar 2026 13:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FE93A5E73
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 13:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772718310; cv=none; b=nfvbsXfVh0pZIV+I/ehxqoIxeHMHZbD/sizrbXkpcv3tOS/kRQJBUdpC0vqgX4c8Pa+Sd+QKqInMFkFhyqiKrP6w5LwAFRPTYasoa/MVJkuifbc0FpKw3ho36AkJyd3bRx+B6SJIGRb67iyCfHr/WJU3SWSlQe9cJeJk7UQ4oLc=
+	t=1772719027; cv=none; b=jzkocjPMC8oCaWX7U5cZqYck0L5Rcp7qxl0lw5lgqqr1iGJ1CXyHQ+lfoTYcrNzJwIOPPcMrT61YSPP0YkRslPuK3IJTfKR8SBXAbbOGP5rEn4Pv/5q5FxjinJRLUI5mOs+0E16oa8s1BmHg9hwbnLVbHkX9zD8Vs3+clIs4wVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772718310; c=relaxed/simple;
-	bh=4Gh2NcoJDAdmYkWLxN8oOm0bK5ef8GB8TLuWTWL3eXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pc8wbD0XiBCMP3xesEwJBd18NyMgQS768oVhtV20b6AE+B+aY16fCHYcqOThCVM5fx1/bcHEwQJOhnncH4WRxmrtdSi1nz+YfFocUFpTs7KoD4BhBzUpE/VoVXe37ZfNdr2ENscERGDsq1p3yBj8cvPpIoGMhBe7eKCbfHanEvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lHbIkzqm; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1772719027; c=relaxed/simple;
+	bh=TGNMXCKMqKvWG6VvE4eJYbXvY6x2DT7dYwJggRb2K7I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ujjnDSedP7o8rQIWH29g3MBsZVuchcJmd30Wz80Emw+3UjZCkNwKsRScIQU0U2+Po+s0HA4gVEiU/rOIhhjBS5vw0vMgRaM7SQIlgcXSgwPtDgTugrcOF/vn/P1O7EOZ0UPxzahNWt0QPQ2CYLOjNc/LqSrHlz7Cx58zPLxWIgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TE+NGYZz; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lHbIkzqm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TE+NGYZz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772718306; x=1804254306;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4Gh2NcoJDAdmYkWLxN8oOm0bK5ef8GB8TLuWTWL3eXE=;
-  b=lHbIkzqmfeW2E6ldl4YamFGUzvm5vwqQRBBkup+zE5g82NRKUukIhdWD
-   MxstHsI+Yod/pSDPWoWJzLi7t75rlRNs54O6AedJTkjkKdHsh9+5SEjxX
-   Bd0dBLEyrM6u6Uns906bfejRDhQSXwO+rg46f/lxPAzJp9+ZyIJmXXRQe
-   AHrdttnvWPyxwTl7mHZLNB6ntTjROYv0mn1mZ7zV6BIbWRlMcVcq0iNcS
-   w+w0/QCUYgGz433XdD4Tf1o8/NFf1XVJVcTzEO28Q1IKvNMM+8gJL79K+
-   7ydln7ZbMpw4cCxCFupK4YpNRie/6RYyBTQ6wjLQ/Uu4Ph/9aIYnLGHh9
+  t=1772719026; x=1804255026;
+  h=date:from:to:cc:subject:message-id;
+  bh=TGNMXCKMqKvWG6VvE4eJYbXvY6x2DT7dYwJggRb2K7I=;
+  b=TE+NGYZzK90OiGIW0CfyOmv5IBoBUlfSpyfb8KtSNDX85XWydvMTCyPW
+   0aARa0PWff17AS5DNAXwia3ah3UUeZuk90cIqc5zTh0xgS8E/le17sKeb
+   5XZTO8IHEzYgGuRn2Pxane2sAZvRKo0ByyaZFTJiBcxN0jxBwrXQmjnFX
+   k+G6bI+MzRSZCRa1OCJQS4VT8r9vu60iGkcw5MRbBJLIFm5E+eqbbXjLb
+   ulB47xSOaPmcLkyDdnbPS2ASB+0JatsbkVW320SyHNCpQuwaUhIP34U+w
+   07PPu9df7ZPlHbUsToVRQBjvfxJ2/69XDjyGC0ZatM741RxMyo2hjFuzO
    A==;
-X-CSE-ConnectionGUID: jElWDaH+QBuQlv3EMntQQg==
-X-CSE-MsgGUID: p8PtmvhYSOuir9//Hrc4Hw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="99271037"
+X-CSE-ConnectionGUID: 9GEDMTilSp+CcBmcl3vQ5A==
+X-CSE-MsgGUID: X87dIGrbSMGwaSuI9boQ1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73004875"
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="99271037"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 05:45:06 -0800
-X-CSE-ConnectionGUID: WlNWW7IaR2iERV9Yw03yIA==
-X-CSE-MsgGUID: Jb3UhAIkTTKgczClbrXASw==
+   d="scan'208";a="73004875"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 05:57:05 -0800
+X-CSE-ConnectionGUID: 1wVKmQWtTg2/edX/+CbHHA==
+X-CSE-MsgGUID: FEKLPgB5SyK++RwFPf+xrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="216956271"
+   d="scan'208";a="223376996"
 Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Mar 2026 05:45:01 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 05 Mar 2026 05:57:04 -0800
 Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vy90c-000000000g2-24iQ;
-	Thu, 05 Mar 2026 13:44:58 +0000
-Date: Thu, 5 Mar 2026 21:44:36 +0800
+	id 1vy9CH-000000000hG-3xED;
+	Thu, 05 Mar 2026 13:57:01 +0000
+Date: Thu, 05 Mar 2026 21:56:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhipeng Wang <zhipeng.wang_1@nxp.com>, daniel.lezcano@linaro.org,
-	tglx@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chun-hung.wu@mediatek.com,
-	walter.chang@mediatek.com, jstultz@google.com,
-	amergnat@baylibre.com, aisheng.dong@nxp.com, jindong.yue@nxp.com,
-	xuegang.liu@nxp.com
-Subject: Re: [PATCH v4 4/4] clocksource/drivers/imx-tpm: Support building
- imx-tpm driver as module
-Message-ID: <202603052149.00j5uebB-lkp@intel.com>
-References: <20260304081207.4030882-5-zhipeng.wang_1@nxp.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe:rw_iter 23/467] Warning:
+ drivers/char/tpm/tpm_vtpm_proxy.c:72 function parameter 'iocb' not described
+ in 'vtpm_proxy_fops_read'
+Message-ID: <202603052122.4hP5MMEu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260304081207.4030882-5-zhipeng.wang_1@nxp.com>
 
-Hi Zhipeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/timers/core]
-[also build test WARNING on soc/for-next linus/master v7.0-rc2 next-20260304]
-[cannot apply to daniel-lezcano/clockevents/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhipeng-Wang/clocksource-drivers-mmio-Export-clocksource_mmio_init/20260304-162226
-base:   tip/timers/core
-patch link:    https://lore.kernel.org/r/20260304081207.4030882-5-zhipeng.wang_1%40nxp.com
-patch subject: [PATCH v4 4/4] clocksource/drivers/imx-tpm: Support building imx-tpm driver as module
-config: arm-randconfig-001-20260305 (https://download.01.org/0day-ci/archive/20260305/202603052149.00j5uebB-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603052149.00j5uebB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
+head:   9d549a35a0c4585bfc4ff24185c5d8cb7485078e
+commit: 80ebe9ed0a70b5e09fe3a7a474a77852ee6a15bf [23/467] char/tpm: convert to read/write iterators
+config: m68k-randconfig-r071-20260305 (https://download.01.org/0day-ci/archive/20260305/202603052122.4hP5MMEu-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603052122.4hP5MMEu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603052149.00j5uebB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603052122.4hP5MMEu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: tpm_timer_init+0x111 (section: .text) -> register_current_timer_delay (section: .init.text)
+>> Warning: drivers/char/tpm/tpm_vtpm_proxy.c:72 function parameter 'iocb' not described in 'vtpm_proxy_fops_read'
+>> Warning: drivers/char/tpm/tpm_vtpm_proxy.c:72 function parameter 'to' not described in 'vtpm_proxy_fops_read'
+>> Warning: drivers/char/tpm/tpm_vtpm_proxy.c:127 function parameter 'iocb' not described in 'vtpm_proxy_fops_write'
+>> Warning: drivers/char/tpm/tpm_vtpm_proxy.c:127 function parameter 'from' not described in 'vtpm_proxy_fops_write'
+>> Warning: drivers/char/tpm/tpm_vtpm_proxy.c:72 function parameter 'iocb' not described in 'vtpm_proxy_fops_read'
+>> Warning: drivers/char/tpm/tpm_vtpm_proxy.c:72 function parameter 'to' not described in 'vtpm_proxy_fops_read'
+>> Warning: drivers/char/tpm/tpm_vtpm_proxy.c:127 function parameter 'iocb' not described in 'vtpm_proxy_fops_write'
+>> Warning: drivers/char/tpm/tpm_vtpm_proxy.c:127 function parameter 'from' not described in 'vtpm_proxy_fops_write'
 
 -- 
 0-DAY CI Kernel Test Service
