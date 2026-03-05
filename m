@@ -1,190 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA09E21A95D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B2A6FC5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772674204; cv=none; b=l2UJ3UlY5BYxW4ieO2cQvkow2ToRhm34odEluQw5p9h5jCzst9RYx7GbPcw4rkf0e42+/Icitz4DDeD4uEagK87zlj6/CgnrHlwlRNz5B2LooNClM+ZSJ89SOw5V+EnjgIeR1XDf8BC6jejHgKvAuLps3xI+uZUvX8j1xZMrlR0=
+	t=1772674237; cv=none; b=NQ/JVOg0rp6LMe42KQLWni+c1EDdutR8dNYUBVina+RBviYXFxGLUlZ8ZJVw0/raAIm4QnP7YKhqjYQMPazN/oVV2vkxZOq3zw7/LymWYcwHiG4innYO7mq8pGcXO/qh+Foh9T8VYkz4RNuLFrp+3dA/goJVqoMwb4uVmv5ph40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772674204; c=relaxed/simple;
-	bh=oNU/jaVVUf/SRNVN4crRULN++oHkeGDmQU+FnUaIOCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FyyHvKmf4I10TR4WPqyZ7jZfYPi62qcXmng/YhhVdpjer5z/wF+Wl9aKBGFv4GE0rdsVc+tGwwF7Mxxsx8eqjhpsTdhJz29tO0KN+rPVEsdu6/otSnE1qx1T5F/fNc2zuhB5bwWG/yfHYhakXAtcnGNFB8VpntGotxszWdkw0js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OypenRTl; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1772674237; c=relaxed/simple;
+	bh=/xOcypORm4W2zvrLzgozjYsvYgo+3T3jpS91OiIkm1U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bqmZeg1ccR6EWg1NetgbuYUVmjjolklOOBSzJ3PjqGb5eGRh5M6pVK+MjrwQlKnOCEb1V06aqZVAKsFxH6/vy2roMT1vc+qu+o2mLpo4XeeUkw6FbexdaN8YP6tVZHM4sqRRj7Jk+fxB/J8JceCWbA1YRkOWFAzQybDo8QWUJas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JctSXcMw; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OypenRTl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JctSXcMw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772674203; x=1804210203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oNU/jaVVUf/SRNVN4crRULN++oHkeGDmQU+FnUaIOCo=;
-  b=OypenRTlTYeP51hzCX4N9mCrbiZAwM8dFqec3rLzrSAFmawoW1YXQwhx
-   jxdYPjXu4rwxlfTEfoqxEUIERDBWKbXkDOPdJIbL0yhQ9+rIjZ+OpkDge
-   mPxLN0c1d1xlgcpwdEr21/USkhOue0iRNzJTS3KjFjsjU6KirF/Iu8YQq
-   kY6bni6o61k+Vhy3QwScy/oFFoic8xxSyRabI/dsC8ZcrToUlHrtpx75x
-   hcK3VOPcb9wZgqNl49mfpkD9N0HFQ/3p9LNlZRumyZ0z11en8tUQjV01J
-   fXmavEunI5mGmtdPUSycy7qA9fS9XvahZMYQtbc1pcs3roPD1BnQC5c6y
-   A==;
-X-CSE-ConnectionGUID: M63/WCE8TwqZMxm2IDDNQw==
-X-CSE-MsgGUID: GGFweXq7SrSbp546FFEuOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="61324295"
+  t=1772674236; x=1804210236;
+  h=date:from:to:cc:subject:message-id;
+  bh=/xOcypORm4W2zvrLzgozjYsvYgo+3T3jpS91OiIkm1U=;
+  b=JctSXcMwB/epd/Vk/HE3aX7n+uXB8D2yLTzYKMJkK5U37p3411k/Ls15
+   /ZtGdlQ8T48lVE4lhtoh8HM8Yk+/BE6bQ+y89lg2MAVJ8iOU7BXVq+Nu8
+   hBVIj8cmqoH7/DXravwohYDmFjdM1MAo9g4U1ODv05/l7POzJeitCbH0J
+   KtivUhtGvWtMKdndcDPrIAMHPSMpLRJVIu/Ugyt/WJyn5WorD34RrUFcb
+   shqPkHy7RjhGSyITafk4tje2Gkcql78o194pP4N1cWs0MK2frFa+1w5hs
+   asuf94HGo5j9WDzJee0fPmkg1mL8jrmmkf+cKElt0jSQBSehaPFt6Hkqf
+   Q==;
+X-CSE-ConnectionGUID: MNeseJwjRpKFc9Ygw8RL1Q==
+X-CSE-MsgGUID: 5IFnVg0KRAGe7RrCGzl8dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73796316"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="61324295"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:30:02 -0800
-X-CSE-ConnectionGUID: ApuRj/gDTbm8wBpDlrHS9Q==
-X-CSE-MsgGUID: dUdZd7y+RDSoxwR4pi0CbQ==
+   d="scan'208";a="73796316"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:30:36 -0800
+X-CSE-ConnectionGUID: cwmPWxUMSVK3chi1Cd80NQ==
+X-CSE-MsgGUID: yid+EMkZSuGF3MRGePS7Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="215391454"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Mar 2026 17:29:58 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+   d="scan'208";a="218641977"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 04 Mar 2026 17:30:36 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxxXI-000000004wH-0Oif;
-	Thu, 05 Mar 2026 01:29:56 +0000
-Date: Thu, 5 Mar 2026 09:29:03 +0800
+	id 1vxxXt-000000001oj-071n;
+	Thu, 05 Mar 2026 01:30:33 +0000
+Date: Thu, 05 Mar 2026 02:29:50 +0100
 From: kernel test robot <lkp@intel.com>
-To: Chengwen Feng <fengchengwen@huawei.com>, linux-pci@vger.kernel.org,
-	bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	rafael@kernel.org, lenb@kernel.org, wei.huang2@amd.com,
-	Eric.VanTassell@amd.com, jonathan.cameron@huawei.com,
-	wangzhou1@hisilicon.com, wanghuiqiang@huawei.com,
-	liuyonglong@huawei.com, Chengwen Feng <fengchengwen@huawei.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
-Message-ID: <202603050927.IVSflNry-lkp@intel.com>
-References: <20260303003625.39035-1-fengchengwen@huawei.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 1487/3989]
+ arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb:
+ /soc/bus@80000000/memory-controller@83fda000/fpga-bus@0,0/syscon@10000/wdt:
+ failed to match any schema with compatible: ['technologic,ts4800-wdt']
+Message-ID: <202603050211.IS8teSSo-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260303003625.39035-1-fengchengwen@huawei.com>
 
-Hi Chengwen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v7.0-rc2 next-20260303]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chengwen-Feng/PCI-TPH-Fix-get-cpu-steer-tag-fail-on-ARM64-platform/20260303-084305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260303003625.39035-1-fengchengwen%40huawei.com
-patch subject: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
-config: loongarch-randconfig-002-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050927.IVSflNry-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050927.IVSflNry-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d
+commit: cf1215fd56cfe552f4d7df17fb995f52a88a2181 [1487/3989] ARM: dts: imx51-ts4800: rename fpga@0 to fpga@0,0
+config: arm-randconfig-2051-20260301 (https://download.01.org/0day-ci/archive/20260305/202603050211.IS8teSSo-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050211.IS8teSSo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050927.IVSflNry-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050211.IS8teSSo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/pci/tph.c:92:20: warning: 'tph_invoke_dsm' defined but not used [-Wunused-function]
-      92 | static acpi_status tph_invoke_dsm(acpi_handle handle, u32 cpu_uid,
-         |                    ^~~~~~~~~~~~~~
->> drivers/pci/tph.c:56:12: warning: 'tph_extract_tag' defined but not used [-Wunused-function]
-      56 | static u16 tph_extract_tag(enum tph_mem_type mem_type, u8 req_type,
-         |            ^~~~~~~~~~~~~~~
-
-
-vim +/tph_invoke_dsm +92 drivers/pci/tph.c
-
-d2e8a34876ce69b Wei Huang 2024-10-02   55  
-d2e8a34876ce69b Wei Huang 2024-10-02  @56  static u16 tph_extract_tag(enum tph_mem_type mem_type, u8 req_type,
-d2e8a34876ce69b Wei Huang 2024-10-02   57  			   union st_info *info)
-d2e8a34876ce69b Wei Huang 2024-10-02   58  {
-d2e8a34876ce69b Wei Huang 2024-10-02   59  	switch (req_type) {
-d2e8a34876ce69b Wei Huang 2024-10-02   60  	case PCI_TPH_REQ_TPH_ONLY: /* 8-bit tag */
-d2e8a34876ce69b Wei Huang 2024-10-02   61  		switch (mem_type) {
-d2e8a34876ce69b Wei Huang 2024-10-02   62  		case TPH_MEM_TYPE_VM:
-d2e8a34876ce69b Wei Huang 2024-10-02   63  			if (info->vm_st_valid)
-d2e8a34876ce69b Wei Huang 2024-10-02   64  				return info->vm_st;
-d2e8a34876ce69b Wei Huang 2024-10-02   65  			break;
-d2e8a34876ce69b Wei Huang 2024-10-02   66  		case TPH_MEM_TYPE_PM:
-d2e8a34876ce69b Wei Huang 2024-10-02   67  			if (info->pm_st_valid)
-d2e8a34876ce69b Wei Huang 2024-10-02   68  				return info->pm_st;
-d2e8a34876ce69b Wei Huang 2024-10-02   69  			break;
-d2e8a34876ce69b Wei Huang 2024-10-02   70  		}
-d2e8a34876ce69b Wei Huang 2024-10-02   71  		break;
-d2e8a34876ce69b Wei Huang 2024-10-02   72  	case PCI_TPH_REQ_EXT_TPH: /* 16-bit tag */
-d2e8a34876ce69b Wei Huang 2024-10-02   73  		switch (mem_type) {
-d2e8a34876ce69b Wei Huang 2024-10-02   74  		case TPH_MEM_TYPE_VM:
-d2e8a34876ce69b Wei Huang 2024-10-02   75  			if (info->vm_xst_valid)
-d2e8a34876ce69b Wei Huang 2024-10-02   76  				return info->vm_xst;
-d2e8a34876ce69b Wei Huang 2024-10-02   77  			break;
-d2e8a34876ce69b Wei Huang 2024-10-02   78  		case TPH_MEM_TYPE_PM:
-d2e8a34876ce69b Wei Huang 2024-10-02   79  			if (info->pm_xst_valid)
-d2e8a34876ce69b Wei Huang 2024-10-02   80  				return info->pm_xst;
-d2e8a34876ce69b Wei Huang 2024-10-02   81  			break;
-d2e8a34876ce69b Wei Huang 2024-10-02   82  		}
-d2e8a34876ce69b Wei Huang 2024-10-02   83  		break;
-d2e8a34876ce69b Wei Huang 2024-10-02   84  	default:
-d2e8a34876ce69b Wei Huang 2024-10-02   85  		return 0;
-d2e8a34876ce69b Wei Huang 2024-10-02   86  	}
-d2e8a34876ce69b Wei Huang 2024-10-02   87  
-d2e8a34876ce69b Wei Huang 2024-10-02   88  	return 0;
-d2e8a34876ce69b Wei Huang 2024-10-02   89  }
-d2e8a34876ce69b Wei Huang 2024-10-02   90  
-d2e8a34876ce69b Wei Huang 2024-10-02   91  #define TPH_ST_DSM_FUNC_INDEX	0xF
-d2e8a34876ce69b Wei Huang 2024-10-02  @92  static acpi_status tph_invoke_dsm(acpi_handle handle, u32 cpu_uid,
-d2e8a34876ce69b Wei Huang 2024-10-02   93  				  union st_info *st_out)
-d2e8a34876ce69b Wei Huang 2024-10-02   94  {
-d2e8a34876ce69b Wei Huang 2024-10-02   95  	union acpi_object arg3[3], in_obj, *out_obj;
-d2e8a34876ce69b Wei Huang 2024-10-02   96  
-d2e8a34876ce69b Wei Huang 2024-10-02   97  	if (!acpi_check_dsm(handle, &pci_acpi_dsm_guid, 7,
-d2e8a34876ce69b Wei Huang 2024-10-02   98  			    BIT(TPH_ST_DSM_FUNC_INDEX)))
-d2e8a34876ce69b Wei Huang 2024-10-02   99  		return AE_ERROR;
-d2e8a34876ce69b Wei Huang 2024-10-02  100  
-d2e8a34876ce69b Wei Huang 2024-10-02  101  	/* DWORD: feature ID (0 for processor cache ST query) */
-d2e8a34876ce69b Wei Huang 2024-10-02  102  	arg3[0].integer.type = ACPI_TYPE_INTEGER;
-d2e8a34876ce69b Wei Huang 2024-10-02  103  	arg3[0].integer.value = 0;
-d2e8a34876ce69b Wei Huang 2024-10-02  104  
-d2e8a34876ce69b Wei Huang 2024-10-02  105  	/* DWORD: target UID */
-d2e8a34876ce69b Wei Huang 2024-10-02  106  	arg3[1].integer.type = ACPI_TYPE_INTEGER;
-d2e8a34876ce69b Wei Huang 2024-10-02  107  	arg3[1].integer.value = cpu_uid;
-d2e8a34876ce69b Wei Huang 2024-10-02  108  
-d2e8a34876ce69b Wei Huang 2024-10-02  109  	/* QWORD: properties, all 0's */
-d2e8a34876ce69b Wei Huang 2024-10-02  110  	arg3[2].integer.type = ACPI_TYPE_INTEGER;
-d2e8a34876ce69b Wei Huang 2024-10-02  111  	arg3[2].integer.value = 0;
-d2e8a34876ce69b Wei Huang 2024-10-02  112  
-d2e8a34876ce69b Wei Huang 2024-10-02  113  	in_obj.type = ACPI_TYPE_PACKAGE;
-d2e8a34876ce69b Wei Huang 2024-10-02  114  	in_obj.package.count = ARRAY_SIZE(arg3);
-d2e8a34876ce69b Wei Huang 2024-10-02  115  	in_obj.package.elements = arg3;
-d2e8a34876ce69b Wei Huang 2024-10-02  116  
-d2e8a34876ce69b Wei Huang 2024-10-02  117  	out_obj = acpi_evaluate_dsm(handle, &pci_acpi_dsm_guid, 7,
-d2e8a34876ce69b Wei Huang 2024-10-02  118  				    TPH_ST_DSM_FUNC_INDEX, &in_obj);
-d2e8a34876ce69b Wei Huang 2024-10-02  119  	if (!out_obj)
-d2e8a34876ce69b Wei Huang 2024-10-02  120  		return AE_ERROR;
-d2e8a34876ce69b Wei Huang 2024-10-02  121  
-d2e8a34876ce69b Wei Huang 2024-10-02  122  	if (out_obj->type != ACPI_TYPE_BUFFER) {
-d2e8a34876ce69b Wei Huang 2024-10-02  123  		ACPI_FREE(out_obj);
-d2e8a34876ce69b Wei Huang 2024-10-02  124  		return AE_ERROR;
-d2e8a34876ce69b Wei Huang 2024-10-02  125  	}
-d2e8a34876ce69b Wei Huang 2024-10-02  126  
-d2e8a34876ce69b Wei Huang 2024-10-02  127  	st_out->value = *((u64 *)(out_obj->buffer.pointer));
-d2e8a34876ce69b Wei Huang 2024-10-02  128  
-d2e8a34876ce69b Wei Huang 2024-10-02  129  	ACPI_FREE(out_obj);
-d2e8a34876ce69b Wei Huang 2024-10-02  130  
-d2e8a34876ce69b Wei Huang 2024-10-02  131  	return AE_OK;
-d2e8a34876ce69b Wei Huang 2024-10-02  132  }
-d2e8a34876ce69b Wei Huang 2024-10-02  133  #endif
-d2e8a34876ce69b Wei Huang 2024-10-02  134  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: syscon@10000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+>> arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: /soc/bus@80000000/memory-controller@83fda000/fpga-bus@0,0/syscon@10000/wdt: failed to match any schema with compatible: ['technologic,ts4800-wdt']
+>> arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: /soc/bus@80000000/memory-controller@83fda000/fpga-bus@0,0/touchscreen@12000: failed to match any schema with compatible: ['technologic,ts4800-ts']
+   arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: /soc/bus@80000000/nand-controller@83fdb000: failed to match any schema with compatible: ['fsl,imx51-nand']
+   arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: nand-controller@83fdb000 (fsl,imx51-nand): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
+   arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: disp1 (fsl,imx-parallel-display): 'display-timings', 'port' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/imx/fsl,imx-parallel-display.yaml
 
 -- 
 0-DAY CI Kernel Test Service
