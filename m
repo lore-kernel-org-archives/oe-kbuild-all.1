@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B2A6FC5
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57B420E6E2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772674237; cv=none; b=NQ/JVOg0rp6LMe42KQLWni+c1EDdutR8dNYUBVina+RBviYXFxGLUlZ8ZJVw0/raAIm4QnP7YKhqjYQMPazN/oVV2vkxZOq3zw7/LymWYcwHiG4innYO7mq8pGcXO/qh+Foh9T8VYkz4RNuLFrp+3dA/goJVqoMwb4uVmv5ph40=
+	t=1772674803; cv=none; b=jvXgvh87BmglY8Cbbxh7V23M/VRUMcKeP0+m2kBvj12I8cDQXRHQldkI3+D94RoJifF2KDhTi7mBVaExDSsJH7MvFro0ALAaxJrgrWHC5Jx18AuGH0dhv17HtF0zBvOYsQ65btnUWamNivLwNF8v9XPUzrxc3h+yaiXWA8d2d0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772674237; c=relaxed/simple;
-	bh=/xOcypORm4W2zvrLzgozjYsvYgo+3T3jpS91OiIkm1U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bqmZeg1ccR6EWg1NetgbuYUVmjjolklOOBSzJ3PjqGb5eGRh5M6pVK+MjrwQlKnOCEb1V06aqZVAKsFxH6/vy2roMT1vc+qu+o2mLpo4XeeUkw6FbexdaN8YP6tVZHM4sqRRj7Jk+fxB/J8JceCWbA1YRkOWFAzQybDo8QWUJas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JctSXcMw; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1772674803; c=relaxed/simple;
+	bh=kjH5uGFqOk1e651lQiMVYdVPJgOquhre1/Cbpb0SlU0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DaSp0DXymMJj0L7LE0tIyw8UFLHbb/WVU11ya/ZKk005PaE2dioFiDNEtdE00d3aG+zPyU+pFPhHq0pIsJ5pi1qFgZDW27n+lE0dhaFb891GkFN1d+bOOmYnvt0XOJRC4fto1UrYGpBoh5+OBodpVQx+QwKdM6Qd3LlQZHzVr2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iwaonEKF; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JctSXcMw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iwaonEKF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772674236; x=1804210236;
+  t=1772674802; x=1804210802;
   h=date:from:to:cc:subject:message-id;
-  bh=/xOcypORm4W2zvrLzgozjYsvYgo+3T3jpS91OiIkm1U=;
-  b=JctSXcMwB/epd/Vk/HE3aX7n+uXB8D2yLTzYKMJkK5U37p3411k/Ls15
-   /ZtGdlQ8T48lVE4lhtoh8HM8Yk+/BE6bQ+y89lg2MAVJ8iOU7BXVq+Nu8
-   hBVIj8cmqoH7/DXravwohYDmFjdM1MAo9g4U1ODv05/l7POzJeitCbH0J
-   KtivUhtGvWtMKdndcDPrIAMHPSMpLRJVIu/Ugyt/WJyn5WorD34RrUFcb
-   shqPkHy7RjhGSyITafk4tje2Gkcql78o194pP4N1cWs0MK2frFa+1w5hs
-   asuf94HGo5j9WDzJee0fPmkg1mL8jrmmkf+cKElt0jSQBSehaPFt6Hkqf
-   Q==;
-X-CSE-ConnectionGUID: MNeseJwjRpKFc9Ygw8RL1Q==
-X-CSE-MsgGUID: 5IFnVg0KRAGe7RrCGzl8dQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73796316"
+  bh=kjH5uGFqOk1e651lQiMVYdVPJgOquhre1/Cbpb0SlU0=;
+  b=iwaonEKFZDrLXpU27HmHh6LQg5qligM/dWe2hN+O5LhNtYMZY4XlEje/
+   aUELelwP+fUqsr33uysztnbWhQTRh+4tKAAHxMwSVYu3ikpnfngJ9fxYB
+   gF0MnSiFwmhMP6New6dGKhmJceGC8wvvRsjRR0mvISUSb3kBTOMIzs59K
+   LTgoEtIy171fLMZR6c6Yrc0UyznoQ3YnjQdG2WnXf20veBwJGl+CCphJ9
+   bPh/TPhR0YbVubKuSUTQZUZLAmNZqC69KSKv10Ca5PXV8zhHScMK1WqRW
+   oi03EjpbHH7BN1UG7BruZ4a9qP1xAC9GzogXfrVlXiUJx0NG+7AnT05sG
+   A==;
+X-CSE-ConnectionGUID: cWS6ge4QTFOM01H4oU+iRg==
+X-CSE-MsgGUID: snHHmxQkQxKTRjrUqNZY0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77623060"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="73796316"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:30:36 -0800
-X-CSE-ConnectionGUID: cwmPWxUMSVK3chi1Cd80NQ==
-X-CSE-MsgGUID: yid+EMkZSuGF3MRGePS7Jg==
+   d="scan'208";a="77623060"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:40:01 -0800
+X-CSE-ConnectionGUID: Q00k3BC9QgG7EG+APN0WMA==
+X-CSE-MsgGUID: ppeVf/oiSlabXcq62GtFUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="218641977"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 04 Mar 2026 17:30:36 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="215816848"
+Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 04 Mar 2026 17:40:00 -0800
+Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxxXt-000000001oj-071n;
-	Thu, 05 Mar 2026 01:30:33 +0000
-Date: Thu, 05 Mar 2026 02:29:50 +0100
+	id 1vxxgz-000000004xV-1b2p;
+	Thu, 05 Mar 2026 01:39:57 +0000
+Date: Thu, 05 Mar 2026 09:39:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 1487/3989]
- arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb:
- /soc/bus@80000000/memory-controller@83fda000/fpga-bus@0,0/syscon@10000/wdt:
- failed to match any schema with compatible: ['technologic,ts4800-wdt']
-Message-ID: <202603050211.IS8teSSo-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 1/1]
+ ./usr/include/linux/vbox_vmmdev_types.h:239:4: warning: field u within
+ 'struct vmmdev_hgcm_function_parameter32' is less aligned than 'union
+ (unnamed at ./usr/include/linux/vbox_vmmdev_types.h:223:2)' and is usually
+ due to 'struct vmmdev_hgcm_function_par...
+Message-ID: <202603050904.fU7j00Xv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,29 +62,44 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d
-commit: cf1215fd56cfe552f4d7df17fb995f52a88a2181 [1487/3989] ARM: dts: imx51-ts4800: rename fpga@0 to fpga@0,0
-config: arm-randconfig-2051-20260301 (https://download.01.org/0day-ci/archive/20260305/202603050211.IS8teSSo-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050211.IS8teSSo-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   7f9e000083563dd4928fb8eafa7cae2a1a3d8a88
+commit: 26fa53553b6950c7dc242605991e34e7b96760f4 [1/1] kbuild: hdrcheck: fix cross build with clang
+config: arm-randconfig-002-20260304 (https://download.01.org/0day-ci/archive/20260305/202603050904.fU7j00Xv-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050904.fU7j00Xv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050211.IS8teSSo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050904.fU7j00Xv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: syscon@10000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
->> arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: /soc/bus@80000000/memory-controller@83fda000/fpga-bus@0,0/syscon@10000/wdt: failed to match any schema with compatible: ['technologic,ts4800-wdt']
->> arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: /soc/bus@80000000/memory-controller@83fda000/fpga-bus@0,0/touchscreen@12000: failed to match any schema with compatible: ['technologic,ts4800-ts']
-   arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: /soc/bus@80000000/nand-controller@83fdb000: failed to match any schema with compatible: ['fsl,imx51-nand']
-   arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: nand-controller@83fdb000 (fsl,imx51-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
-   arch/arm/boot/dts/nxp/imx/imx51-ts4800.dtb: disp1 (fsl,imx-parallel-display): 'display-timings', 'port' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/imx/fsl,imx-parallel-display.yaml
+All warnings (new ones prefixed by >>):
+
+   In file included from <built-in>:1:
+>> ./usr/include/linux/vbox_vmmdev_types.h:239:4: warning: field u within 'struct vmmdev_hgcm_function_parameter32' is less aligned than 'union (unnamed at ./usr/include/linux/vbox_vmmdev_types.h:223:2)' and is usually due to 'struct vmmdev_hgcm_function_parameter32' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     239 |         } u;
+         |           ^
+>> ./usr/include/linux/vbox_vmmdev_types.h:254:6: warning: field u within 'struct vmmdev_hgcm_function_parameter64::(unnamed union)::(unnamed at ./usr/include/linux/vbox_vmmdev_types.h:249:3)' is less aligned than 'union (unnamed at ./usr/include/linux/vbox_vmmdev_types.h:251:4)' and is usually due to 'struct vmmdev_hgcm_function_parameter64::(unnamed union)::(unnamed at ./usr/include/linux/vbox_vmmdev_types.h:249:3)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     254 |                         } u;
+         |                           ^
+   2 warnings generated.
+--
+   In file included from <built-in>:1:
+   In file included from ./usr/include/linux/vboxguest.h:14:
+>> usr/include/linux/vbox_vmmdev_types.h:239:4: warning: field u within 'struct vmmdev_hgcm_function_parameter32' is less aligned than 'union (unnamed at usr/include/linux/vbox_vmmdev_types.h:223:2)' and is usually due to 'struct vmmdev_hgcm_function_parameter32' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     239 |         } u;
+         |           ^
+>> usr/include/linux/vbox_vmmdev_types.h:254:6: warning: field u within 'struct vmmdev_hgcm_function_parameter64::(unnamed union)::(unnamed at usr/include/linux/vbox_vmmdev_types.h:249:3)' is less aligned than 'union (unnamed at usr/include/linux/vbox_vmmdev_types.h:251:4)' and is usually due to 'struct vmmdev_hgcm_function_parameter64::(unnamed union)::(unnamed at usr/include/linux/vbox_vmmdev_types.h:249:3)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     254 |                         } u;
+         |                           ^
+   2 warnings generated.
+--
+   In file included from <built-in>:1:
+>> ./usr/include/linux/hyperv.h:361:2: warning: field  within 'struct hv_kvp_exchg_msg_value' is less aligned than 'union hv_kvp_exchg_msg_value::(anonymous at ./usr/include/linux/hyperv.h:361:2)' and is usually due to 'struct hv_kvp_exchg_msg_value' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     361 |         union {
+         |         ^
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
