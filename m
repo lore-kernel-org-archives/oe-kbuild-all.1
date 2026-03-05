@@ -1,119 +1,173 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A00739150F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 12:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7AC378821
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 12:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772714926; cv=none; b=jZaDRZgo8HT0tx+UuM+zX01kWKpbMMp7nmJdrJVeVii67B5A5a9zWq5ojyrQ9lSFdrxAMgtgXwEFDnaxIq2cq1FPR9ISOsn328N7slMjdaUpx1WsadY7Srv/LRWrMqrOLRpaMg91VopQFlEJXINgnXXhel9HI+mjHCqQGzD2zeo=
+	t=1772714928; cv=none; b=FgeNEap29TUbzkVAnHuP5j9Rnl7ljFSwFJOJ17PEoIUcDl2ri3bLBQBMB7sIjRKHTSAboXIeBgPbyax9TeWbgtvgc9/HkLG48YF4c5n5uN1xetU2mgzh3sBSKSbRXJwr5sIpmswCKdkDHJcU8hnuZyaDNAKgcRuIHEsQVqCOybY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772714926; c=relaxed/simple;
-	bh=xgkABJ9B8ONELAl8NPb+eTgwheFOkrLUjxqole2DWOA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=INX8BzG7lXbcpxpFQiwefbpeHoCXZDqr8sTY9Sj4snTJ1psVslLfiRL1JsPOOTfeyE0dRRbfVc5AA7aYWMU2Urjh8itbV5UgIFwCmaxtfUs1Z8zS4Mli0Ukv0il4KazgErJ0UaYVIr6G9NhS9UX2AjzuQuPTWJvgnQMX1QYtArE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nm4XaUZW; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772714928; c=relaxed/simple;
+	bh=moMV8HVJX7p9jmRdJK8ze+fOWbsQ1VQt5HqWB90F7VE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPsaig8XlIOH+T7Bkp4Fh0XqFs026MgS76CXl3JM4aoycIxQwVO9aqo4QUznT5VQv54U2rtLUX/Fbp/BjBD1PALemZDf+ZjxErle8gpe2GBFzTbQr8+FwzACtPqRXTAa/N0kTb+jgd77FiEw9TDbRCTVz5jY2HtsNYamCHvO2hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E37P6H+l; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nm4XaUZW"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4837584120eso60683635e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Mar 2026 04:48:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772714924; x=1773319724; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bF3Jt8+kZfWxPSpR81XkdalwEBQNNmKeqG6z7c/Rlac=;
-        b=Nm4XaUZW57eD/KuVSMY9vP3uMkpNsiqdyLH6wDtv3Ik7rYMGxjXYGs68Cdn3BYmxzy
-         Yq0Yf0ys5qtEB8t9QNsUDsEpkda58K7Td8QtDmJYUcR4LAoxuC5C0tJGThmuDPYo+Zba
-         SU0dvR+/MV2KwGFEAUJ+iYbU+6S22WKEsJ3rXnPYeD10XB8gqUD7OmYfftt2gIRBJNoq
-         OBbNhNAQYIJK58LQs0zSiFNPkkt/M2TkT4lY4I6s29K76qlGMBweMtJ9/SdpsJmyp9ve
-         4eZTTC5T9sT2NOKOAy6AzTFsxJ6/hbNT0JzUd6sY2S9WBLq0OPDAvqzCxut3ncfpVGO9
-         0Vhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772714924; x=1773319724;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bF3Jt8+kZfWxPSpR81XkdalwEBQNNmKeqG6z7c/Rlac=;
-        b=EgIzU0Q7MJ4szyD+X+Gf3eerTGmsSb3CSVopOO2Gg//BVoFRY007EMl3UT/RDG+1ah
-         bgGrlJVVSX9obomp4UOCpd77mz5CJgoZN550VTZkzBtxUBx3bptN9o15NIZ9glELE3R2
-         hBHAvfCUVGoikDxFD9cAxsSy4kze4zXtfOOA/HT11WlofNjO23Pecnl+2OO0zmPwdUbq
-         NwPdFrf24azHTfwU3yfR9lr0UDm80kRTYqUKjaAW5br0EiCibjuR2VCeRMTCefBM8AwI
-         nbNqoYQxR8oMrxgLYwQd5MQUT+g+vIGqrkyelY+XS2xKuEiNa6tyYyWLL/Ly46+Kghrh
-         LqXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUazVsIC7fjThz8TKV5ckLuat/MrIEq9vHrETF3xDBdXjIN8L7f+BoPUNn9mktKcfWL2xuGXjhApFdaSoyR@lists.linux.dev
-X-Gm-Message-State: AOJu0YzxfsnFIe2fDSQ8G40AdPKNKD+fTHt1R7BN9FYD17+DouuvVcKE
-	55WFQTMSUIsQEa3O1UTguG+MmHuWjhl2WcoS0eO3UxGDFA6l1stV2N1G1jkncWbs8XbZSsUfik/
-	/4srF
-X-Gm-Gg: ATEYQzxJ2Gp/oSFPZXHzkIQp5Qgc5UrzSeV5tdDhMZEWcof9OmdxQpsvDJP69n1CMhR
-	339Su3HAufpICoxt0+DNvz4E/F41x6X4/SHLG7wmaTkVJ9mUOKdYZEhRcOGvPTcu9xoT1jQGTGc
-	5cB37ZR/RS0FC5lqUZ/+6M+CaMvdCDxBAnsildRvNkpP7RQ71wtL77gkSERynUAQuSk3pGoE9W/
-	D1UMLo4eDs4ldOlZvCXR+egFXcJZCQfk2C5ZK2FlNMVnUds5SsXyKsqS3rHNAXdQ4n4nOHCT4I6
-	y2wdVyubGd+1ewryMTu5Sw7nKIiK8KpKdIiYcX5X8cpFIq/BWceQfBPBHveM1Fn+ZhHf3CnH1W0
-	n+jAbRiDqD2FknvgQF+DOyEiwRboG/SPxvJWAA/YQa511l7FzdRbEwmhpcbs1TtQquFj2UC1WYu
-	o6bNc5ZQRBJeB42Ts+7iGHugyGndk0s/UUrxdJA+4=
-X-Received: by 2002:a05:600c:6389:b0:480:4b5d:9ec with SMTP id 5b1f17b1804b1-485198a3c2cmr91882675e9.33.1772714923573;
-        Thu, 05 Mar 2026 04:48:43 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851a895553sm92101715e9.1.2026.03.05.04.48.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 04:48:43 -0800 (PST)
-Date: Thu, 5 Mar 2026 15:48:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Farhan Ali <alifm@linux.ibm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Niklas Schnelle <schnelle@linux.ibm.com>
-Subject: [pci:wip/2603-farhan-s390-err-v10 1/9] drivers/pci/slot.c:40
- address_read_file() warn: impossible condition '(slot->number == -1) =>
- (0-u16max == (-1))'
-Message-ID: <202603051816.NIWQx7m0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E37P6H+l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772714927; x=1804250927;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=moMV8HVJX7p9jmRdJK8ze+fOWbsQ1VQt5HqWB90F7VE=;
+  b=E37P6H+lfRoxbmdsZx8A7Rtn1Ku6cupITLi3dTKqRAEAcasw+25qYoh+
+   Dv1aSUYV5C5bmymR2HgYcRyjcinUvnaFeBCpsjJNczL4KM/YEfnkmNFsZ
+   T/xk+oU66qzlaxOQ3FF6KF/pMvSTm0KFo+SE2b3UNHc8goSJnRkQTGxjt
+   yQqXd9P8tPwMEJRh7pi9hCnTn/buezCCZ1Id61udib0zOnbBbPGGu62Zd
+   tOOLT6hRub5RSKITbplRsvZAsyeGF2HQMlsQwkvGCXWaSoDSnNjGpAm+u
+   74y0+UWmTRX9lxENNbi/wiikMMLUhfPnFPL3Hz0fN3LoKs1Qjmq/nc/6P
+   g==;
+X-CSE-ConnectionGUID: EaFfomH2SNmWZYAh+38abA==
+X-CSE-MsgGUID: Tw2KuIv6S2OO5m3DLvks/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="72826373"
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="72826373"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 04:48:46 -0800
+X-CSE-ConnectionGUID: vhPSk0zeSMm+HfNAiAc++w==
+X-CSE-MsgGUID: k6gZUd9oQ3asz6R9tmGFlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="249143099"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 05 Mar 2026 04:48:44 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vy889-000000001zl-1Rk7;
+	Thu, 05 Mar 2026 12:48:41 +0000
+Date: Thu, 5 Mar 2026 13:48:00 +0100
+From: kernel test robot <lkp@intel.com>
+To: Mathura_Kumar <academic1mathura@gmail.com>, brauner@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, academic1mathura@gmail.com,
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH] mqueue: introduce new do_mq_timedreceive2() [ mq_peek
+ syscall] for non-destructive receive and inspection,fix minor issue,prepared
+ doc.
+Message-ID: <202603051326.wnlF51YD-lkp@intel.com>
+References: <20260305065212.83213-1-academic1mathura@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260305065212.83213-1-academic1mathura@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git wip/2603-farhan-s390-err-v10
-head:   d72875f0a4958f51f7196e6fada9357799418a52
-commit: 77c0762d2e847cf2e8d6d79e6f88a1c2b1ca4d06 [1/9] PCI: Allow per function PCI slots
-config: i386-randconfig-r071-20260305 (https://download.01.org/0day-ci/archive/20260305/202603051816.NIWQx7m0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Mathura_Kumar,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes brauner-vfs/vfs.all linus/master v7.0-rc2 next-20260304]
+[cannot apply to tip/x86/asm]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mathura_Kumar/mqueue-introduce-new-do_mq_timedreceive2-mq_peek-syscall-for-non-destructive-receive-and-inspection-fix-minor-issue-prep/20260305-145412
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20260305065212.83213-1-academic1mathura%40gmail.com
+patch subject: [PATCH] mqueue: introduce new do_mq_timedreceive2() [ mq_peek syscall] for non-destructive receive and inspection,fix minor issue,prepared doc.
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260305/202603051326.wnlF51YD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603051816.NIWQx7m0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603051326.wnlF51YD-lkp@intel.com/
 
-smatch warnings:
-drivers/pci/slot.c:40 address_read_file() warn: impossible condition '(slot->number == -1) => (0-u16max == (-1))'
+All warnings (new ones prefixed by >>):
 
-vim +40 drivers/pci/slot.c
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:166: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:189: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/userspace-api/syscall.rst:88: WARNING: Inline emphasis start-string without end-string. [docutils]
+>> Documentation/userspace-api/syscall.rst:88: WARNING: Inline emphasis start-string without end-string. [docutils]
+>> Documentation/userspace-api/syscall.rst:91: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/userspace-api/syscall.rst:94: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/userspace-api/syscall.rst:94: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/userspace-api/syscall.rst:110: ERROR: Unexpected indentation. [docutils]
+>> Documentation/userspace-api/syscall.rst:111: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/userspace-api/syscall.rst:145: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/userspace-api/syscall.rst:181: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/userspace-api/syscall.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
 
-f46753c5e354b8 Alex Chiang          2008-06-10  38  static ssize_t address_read_file(struct pci_slot *slot, char *buf)
-f46753c5e354b8 Alex Chiang          2008-06-10  39  {
-77c0762d2e847c Farhan Ali           2026-03-02 @40  	if (slot->number == -1)
-                                                            ^^^^^^^^^^^^^^^^^^
-u16 can't be -1.
 
-f8cf6e513ec4f0 Krzysztof Wilczyński 2021-06-03  41  		return sysfs_emit(buf, "%04x:%02x\n",
-f46753c5e354b8 Alex Chiang          2008-06-10  42  				  pci_domain_nr(slot->bus),
-f46753c5e354b8 Alex Chiang          2008-06-10  43  				  slot->bus->number);
-f8cf6e513ec4f0 Krzysztof Wilczyński 2021-06-03  44  
-f8cf6e513ec4f0 Krzysztof Wilczyński 2021-06-03  45  	return sysfs_emit(buf, "%04x:%02x:%02x\n",
-f46753c5e354b8 Alex Chiang          2008-06-10  46  			  pci_domain_nr(slot->bus),
-f46753c5e354b8 Alex Chiang          2008-06-10  47  			  slot->bus->number,
-f46753c5e354b8 Alex Chiang          2008-06-10  48  			  slot->number);
-f46753c5e354b8 Alex Chiang          2008-06-10  49  }
+vim +88 Documentation/userspace-api/syscall.rst
+
+    79	
+    80	NAME
+    81	        mq_timedreceive2 - receive or peek at a message from a
+    82	        POSIX message queue
+    83	
+    84	SYNOPSIS
+    85	        #include <mqueue.c>
+    86	
+    87	        struct mq_timedreceive2_args {
+  > 88	                size_t         msg_len;
+    89	                unsigned int  *msg_prio;
+    90	                char          *msg_ptr;
+  > 91	        };
+    92	
+    93	        ssize_t mq_timedreceive2(mqd_t mqdes,
+    94	                                 struct mq_timedreceive2_args *uargs,
+    95	                                 unsigned int flags,
+    96	                                 unsigned long index,
+    97	                                 const struct timespec *abs_timeout);
+    98	
+    99	        Note: As of now,no glibc wrapper exists for this syscall. Callers must
+   100	        invoke it directly using syscall().
+   101	
+   102	DESCRIPTION
+   103	        mq_timedreceive2() receives or peeks at a message from the
+   104	        message queue referred to by the descriptor mqdes.
+   105	
+   106	        The uargs structure provides the message buffer parameters:
+   107	
+   108	          msg_ptr   userspace buffer to receive the message body
+   109	          msg_len   size of msg_ptr in bytes, must be >= mq_msgsize
+   110	                    of the queue
+ > 111	          msg_prio  if not NULL, the priority of the received message
+   112	                    is stored here
+   113	
+   114	        The flags argument controls receive behavior. The following
+   115	        flags are defined:
+   116	
+   117	          MQ_PEEK
+   118	                    Copy the message into msg_ptr without removing it
+   119	                    from the queue. The queue is not modified. If this
+   120	                    flag is not set, behavior is identical to
+   121	                    mq_timedreceive() and the message is consumed.
+   122	
+   123	        The index argument selects which message to operate on within
+   124	        the priority-ordered queue. index 0 refers to the highest
+   125	        priority message. When MQ_PEEK is not set, index will be ignored but must be 0.
+   126	
+   127	        The abs_timeout argument specifies an absolute timeout. If
+   128	        MQ_PEEK is set,this take control to peek path and so timeout 
+   129	        will be ignored otherwise it will behave as mq_timedreceive().
+   130	
+   131	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
