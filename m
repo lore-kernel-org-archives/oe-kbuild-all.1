@@ -1,118 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F262723F431
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA09E21A95D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 01:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772674203; cv=none; b=jp1OrSfWV9hxk68RxqsvatHHpC4AIpksFBIEDPU7CNBqKcFmB5tZBWmWUQ2dXgaGMg1ik0sjykjEUQQia6HXoGhPwZM3mxrlFD1dZTSH2/jSXKBITfqh9c+vEEJlGK7aZoXmqHYB5f4+NcMPxdWQjGne2OlOLB0h/27bnvRqWWM=
+	t=1772674204; cv=none; b=l2UJ3UlY5BYxW4ieO2cQvkow2ToRhm34odEluQw5p9h5jCzst9RYx7GbPcw4rkf0e42+/Icitz4DDeD4uEagK87zlj6/CgnrHlwlRNz5B2LooNClM+ZSJ89SOw5V+EnjgIeR1XDf8BC6jejHgKvAuLps3xI+uZUvX8j1xZMrlR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772674203; c=relaxed/simple;
-	bh=5eAJrlVESjOXxJgE7S6hHnBZfz0Zweldvt25Yx3SUps=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Re3ALZAmvI5fetNjx1nLEn9d97hKumMZGw3pPxbv8TRjEKq0QOGBkVN/9LBArBnTkMdtOFIKx/6pbEMHUf72izECxux5ZULHTldojPlOxMxr4KapD6487weMMTzAV4eCDrZA/tTVPNUbQxLSQ8SQ/xhHvooD6DML5CN3S1HzLjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGCI2ArH; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1772674204; c=relaxed/simple;
+	bh=oNU/jaVVUf/SRNVN4crRULN++oHkeGDmQU+FnUaIOCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FyyHvKmf4I10TR4WPqyZ7jZfYPi62qcXmng/YhhVdpjer5z/wF+Wl9aKBGFv4GE0rdsVc+tGwwF7Mxxsx8eqjhpsTdhJz29tO0KN+rPVEsdu6/otSnE1qx1T5F/fNc2zuhB5bwWG/yfHYhakXAtcnGNFB8VpntGotxszWdkw0js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OypenRTl; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGCI2ArH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OypenRTl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772674201; x=1804210201;
-  h=date:from:to:cc:subject:message-id;
-  bh=5eAJrlVESjOXxJgE7S6hHnBZfz0Zweldvt25Yx3SUps=;
-  b=WGCI2ArHoHoPwzRrpKwpOLB0IU5OKscmUk3H1IKsLK1PqoGixV+qAtU5
-   yCtuw6y8Dpta5LEtnZbsaXUy98DOHLKbjgSQgEafMLBrq7tYnkHcOLAAK
-   cZepXfKO2xaRBU0Ngz9OxAjRns8XLhCM/uGMiFMEICRmOqVwLS7f6nxxi
-   NsqqmExytCCqJM+5545HBKNnSkf5739EwjA/J/LnXBNZTFxYZ/4IEght4
-   /bjX2OYAcg1rsQbPKmk2A1uCsZLrILFuc8SQw/92+tmALusb4q4Ri4si1
-   qYi/Goyu77808WNKt0JAI4ZGMC48Kq+OzeDBy/5WyYPAX25wzeCen4nF5
-   w==;
-X-CSE-ConnectionGUID: P+TlFkfwQrOByobaCqg5SQ==
-X-CSE-MsgGUID: 2UfaOkaGRxmPNGFPj4NQ2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73941194"
+  t=1772674203; x=1804210203;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oNU/jaVVUf/SRNVN4crRULN++oHkeGDmQU+FnUaIOCo=;
+  b=OypenRTlTYeP51hzCX4N9mCrbiZAwM8dFqec3rLzrSAFmawoW1YXQwhx
+   jxdYPjXu4rwxlfTEfoqxEUIERDBWKbXkDOPdJIbL0yhQ9+rIjZ+OpkDge
+   mPxLN0c1d1xlgcpwdEr21/USkhOue0iRNzJTS3KjFjsjU6KirF/Iu8YQq
+   kY6bni6o61k+Vhy3QwScy/oFFoic8xxSyRabI/dsC8ZcrToUlHrtpx75x
+   hcK3VOPcb9wZgqNl49mfpkD9N0HFQ/3p9LNlZRumyZ0z11en8tUQjV01J
+   fXmavEunI5mGmtdPUSycy7qA9fS9XvahZMYQtbc1pcs3roPD1BnQC5c6y
+   A==;
+X-CSE-ConnectionGUID: M63/WCE8TwqZMxm2IDDNQw==
+X-CSE-MsgGUID: GGFweXq7SrSbp546FFEuOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="61324295"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="73941194"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:30:00 -0800
-X-CSE-ConnectionGUID: sNYU705FQbmEeq67Gp1WRA==
-X-CSE-MsgGUID: 5xOSC/h9TLiwQJ4N/P56/g==
+   d="scan'208";a="61324295"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:30:02 -0800
+X-CSE-ConnectionGUID: ApuRj/gDTbm8wBpDlrHS9Q==
+X-CSE-MsgGUID: dUdZd7y+RDSoxwR4pi0CbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="216813734"
+   d="scan'208";a="215391454"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Mar 2026 17:29:58 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Mar 2026 17:29:58 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxxXI-000000004wJ-0axC;
+	id 1vxxXI-000000004wH-0Oif;
 	Thu, 05 Mar 2026 01:29:56 +0000
-Date: Thu, 05 Mar 2026 09:29:04 +0800
+Date: Thu, 5 Mar 2026 09:29:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-linux-5.10.y 0/334]
- drivers/media/dvb-frontends/dib7000p.c:2203:6: warning: mixing declarations
- and code is a C99 extension
-Message-ID: <202603050956.DLVOlTz5-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Chengwen Feng <fengchengwen@huawei.com>, linux-pci@vger.kernel.org,
+	bhelgaas@google.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	rafael@kernel.org, lenb@kernel.org, wei.huang2@amd.com,
+	Eric.VanTassell@amd.com, jonathan.cameron@huawei.com,
+	wangzhou1@hisilicon.com, wanghuiqiang@huawei.com,
+	liuyonglong@huawei.com, Chengwen Feng <fengchengwen@huawei.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
+Message-ID: <202603050927.IVSflNry-lkp@intel.com>
+References: <20260303003625.39035-1-fengchengwen@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260303003625.39035-1-fengchengwen@huawei.com>
 
-tree:   https://android.googlesource.com/kernel/common upstream-linux-5.10.y
-head:   aed5c3b77cd53ba74f66767b03bfb9177662af4b
-commit: b3d77a3fc71c084575d3df4ec6544b3fb6ce587d [0/334] media: dvb-frontends: w7090p: fix null-ptr-deref in w7090p_tuner_write_serpar and w7090p_tuner_read_serpar
-config: x86_64-buildonly-randconfig-004-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050956.DLVOlTz5-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050956.DLVOlTz5-lkp@intel.com/reproduce)
+Hi Chengwen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v7.0-rc2 next-20260303]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chengwen-Feng/PCI-TPH-Fix-get-cpu-steer-tag-fail-on-ARM64-platform/20260303-084305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20260303003625.39035-1-fengchengwen%40huawei.com
+patch subject: [PATCH] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
+config: loongarch-randconfig-002-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050927.IVSflNry-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050927.IVSflNry-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050956.DLVOlTz5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050927.IVSflNry-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/dvb-frontends/dib7000p.c:2203:6: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-    2203 |         u16 serpar_num = msg[0].buf[0];
-         |             ^
-   drivers/media/dvb-frontends/dib7000p.c:2224:6: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-    2224 |         u16 serpar_num = msg[0].buf[0];
-         |             ^
-   2 warnings generated.
+>> drivers/pci/tph.c:92:20: warning: 'tph_invoke_dsm' defined but not used [-Wunused-function]
+      92 | static acpi_status tph_invoke_dsm(acpi_handle handle, u32 cpu_uid,
+         |                    ^~~~~~~~~~~~~~
+>> drivers/pci/tph.c:56:12: warning: 'tph_extract_tag' defined but not used [-Wunused-function]
+      56 | static u16 tph_extract_tag(enum tph_mem_type mem_type, u8 req_type,
+         |            ^~~~~~~~~~~~~~~
 
 
-vim +2203 drivers/media/dvb-frontends/dib7000p.c
+vim +/tph_invoke_dsm +92 drivers/pci/tph.c
 
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2195  
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2196  static int w7090p_tuner_write_serpar(struct i2c_adapter *i2c_adap, struct i2c_msg msg[], int num)
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2197  {
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2198  	struct dib7000p_state *state = i2c_get_adapdata(i2c_adap);
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2199  	u8 n_overflow = 1;
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2200  	u16 i = 1000;
-b3d77a3fc71c084 drivers/media/dvb-frontends/dib7000p.c Alex Guo              2025-06-15  2201  	if (msg[0].len < 3)
-b3d77a3fc71c084 drivers/media/dvb-frontends/dib7000p.c Alex Guo              2025-06-15  2202  		return -EOPNOTSUPP;
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04 @2203  	u16 serpar_num = msg[0].buf[0];
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2204  
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2205  	while (n_overflow == 1 && i) {
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2206  		n_overflow = (dib7000p_read_word(state, 1984) >> 1) & 0x1;
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2207  		i--;
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2208  		if (i == 0)
-5a0e2a4e936d04a drivers/media/dvb-frontends/dib7000p.c Mauro Carvalho Chehab 2016-10-14  2209  			dprintk("Tuner ITF: write busy (overflow)\n");
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2210  	}
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2211  	dib7000p_write_word(state, 1985, (1 << 6) | (serpar_num & 0x3f));
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2212  	dib7000p_write_word(state, 1986, (msg[0].buf[1] << 8) | msg[0].buf[2]);
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2213  
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2214  	return num;
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2215  }
-713d54a8bd81222 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2216  
-
-:::::: The code at line 2203 was first introduced by commit
-:::::: 713d54a8bd812229410a1902cd9b332a2a27af9f [media] DiB7090: add support for the dib7090 based
-
-:::::: TO: Olivier Grenie <olivier.grenie@dibcom.fr>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+d2e8a34876ce69b Wei Huang 2024-10-02   55  
+d2e8a34876ce69b Wei Huang 2024-10-02  @56  static u16 tph_extract_tag(enum tph_mem_type mem_type, u8 req_type,
+d2e8a34876ce69b Wei Huang 2024-10-02   57  			   union st_info *info)
+d2e8a34876ce69b Wei Huang 2024-10-02   58  {
+d2e8a34876ce69b Wei Huang 2024-10-02   59  	switch (req_type) {
+d2e8a34876ce69b Wei Huang 2024-10-02   60  	case PCI_TPH_REQ_TPH_ONLY: /* 8-bit tag */
+d2e8a34876ce69b Wei Huang 2024-10-02   61  		switch (mem_type) {
+d2e8a34876ce69b Wei Huang 2024-10-02   62  		case TPH_MEM_TYPE_VM:
+d2e8a34876ce69b Wei Huang 2024-10-02   63  			if (info->vm_st_valid)
+d2e8a34876ce69b Wei Huang 2024-10-02   64  				return info->vm_st;
+d2e8a34876ce69b Wei Huang 2024-10-02   65  			break;
+d2e8a34876ce69b Wei Huang 2024-10-02   66  		case TPH_MEM_TYPE_PM:
+d2e8a34876ce69b Wei Huang 2024-10-02   67  			if (info->pm_st_valid)
+d2e8a34876ce69b Wei Huang 2024-10-02   68  				return info->pm_st;
+d2e8a34876ce69b Wei Huang 2024-10-02   69  			break;
+d2e8a34876ce69b Wei Huang 2024-10-02   70  		}
+d2e8a34876ce69b Wei Huang 2024-10-02   71  		break;
+d2e8a34876ce69b Wei Huang 2024-10-02   72  	case PCI_TPH_REQ_EXT_TPH: /* 16-bit tag */
+d2e8a34876ce69b Wei Huang 2024-10-02   73  		switch (mem_type) {
+d2e8a34876ce69b Wei Huang 2024-10-02   74  		case TPH_MEM_TYPE_VM:
+d2e8a34876ce69b Wei Huang 2024-10-02   75  			if (info->vm_xst_valid)
+d2e8a34876ce69b Wei Huang 2024-10-02   76  				return info->vm_xst;
+d2e8a34876ce69b Wei Huang 2024-10-02   77  			break;
+d2e8a34876ce69b Wei Huang 2024-10-02   78  		case TPH_MEM_TYPE_PM:
+d2e8a34876ce69b Wei Huang 2024-10-02   79  			if (info->pm_xst_valid)
+d2e8a34876ce69b Wei Huang 2024-10-02   80  				return info->pm_xst;
+d2e8a34876ce69b Wei Huang 2024-10-02   81  			break;
+d2e8a34876ce69b Wei Huang 2024-10-02   82  		}
+d2e8a34876ce69b Wei Huang 2024-10-02   83  		break;
+d2e8a34876ce69b Wei Huang 2024-10-02   84  	default:
+d2e8a34876ce69b Wei Huang 2024-10-02   85  		return 0;
+d2e8a34876ce69b Wei Huang 2024-10-02   86  	}
+d2e8a34876ce69b Wei Huang 2024-10-02   87  
+d2e8a34876ce69b Wei Huang 2024-10-02   88  	return 0;
+d2e8a34876ce69b Wei Huang 2024-10-02   89  }
+d2e8a34876ce69b Wei Huang 2024-10-02   90  
+d2e8a34876ce69b Wei Huang 2024-10-02   91  #define TPH_ST_DSM_FUNC_INDEX	0xF
+d2e8a34876ce69b Wei Huang 2024-10-02  @92  static acpi_status tph_invoke_dsm(acpi_handle handle, u32 cpu_uid,
+d2e8a34876ce69b Wei Huang 2024-10-02   93  				  union st_info *st_out)
+d2e8a34876ce69b Wei Huang 2024-10-02   94  {
+d2e8a34876ce69b Wei Huang 2024-10-02   95  	union acpi_object arg3[3], in_obj, *out_obj;
+d2e8a34876ce69b Wei Huang 2024-10-02   96  
+d2e8a34876ce69b Wei Huang 2024-10-02   97  	if (!acpi_check_dsm(handle, &pci_acpi_dsm_guid, 7,
+d2e8a34876ce69b Wei Huang 2024-10-02   98  			    BIT(TPH_ST_DSM_FUNC_INDEX)))
+d2e8a34876ce69b Wei Huang 2024-10-02   99  		return AE_ERROR;
+d2e8a34876ce69b Wei Huang 2024-10-02  100  
+d2e8a34876ce69b Wei Huang 2024-10-02  101  	/* DWORD: feature ID (0 for processor cache ST query) */
+d2e8a34876ce69b Wei Huang 2024-10-02  102  	arg3[0].integer.type = ACPI_TYPE_INTEGER;
+d2e8a34876ce69b Wei Huang 2024-10-02  103  	arg3[0].integer.value = 0;
+d2e8a34876ce69b Wei Huang 2024-10-02  104  
+d2e8a34876ce69b Wei Huang 2024-10-02  105  	/* DWORD: target UID */
+d2e8a34876ce69b Wei Huang 2024-10-02  106  	arg3[1].integer.type = ACPI_TYPE_INTEGER;
+d2e8a34876ce69b Wei Huang 2024-10-02  107  	arg3[1].integer.value = cpu_uid;
+d2e8a34876ce69b Wei Huang 2024-10-02  108  
+d2e8a34876ce69b Wei Huang 2024-10-02  109  	/* QWORD: properties, all 0's */
+d2e8a34876ce69b Wei Huang 2024-10-02  110  	arg3[2].integer.type = ACPI_TYPE_INTEGER;
+d2e8a34876ce69b Wei Huang 2024-10-02  111  	arg3[2].integer.value = 0;
+d2e8a34876ce69b Wei Huang 2024-10-02  112  
+d2e8a34876ce69b Wei Huang 2024-10-02  113  	in_obj.type = ACPI_TYPE_PACKAGE;
+d2e8a34876ce69b Wei Huang 2024-10-02  114  	in_obj.package.count = ARRAY_SIZE(arg3);
+d2e8a34876ce69b Wei Huang 2024-10-02  115  	in_obj.package.elements = arg3;
+d2e8a34876ce69b Wei Huang 2024-10-02  116  
+d2e8a34876ce69b Wei Huang 2024-10-02  117  	out_obj = acpi_evaluate_dsm(handle, &pci_acpi_dsm_guid, 7,
+d2e8a34876ce69b Wei Huang 2024-10-02  118  				    TPH_ST_DSM_FUNC_INDEX, &in_obj);
+d2e8a34876ce69b Wei Huang 2024-10-02  119  	if (!out_obj)
+d2e8a34876ce69b Wei Huang 2024-10-02  120  		return AE_ERROR;
+d2e8a34876ce69b Wei Huang 2024-10-02  121  
+d2e8a34876ce69b Wei Huang 2024-10-02  122  	if (out_obj->type != ACPI_TYPE_BUFFER) {
+d2e8a34876ce69b Wei Huang 2024-10-02  123  		ACPI_FREE(out_obj);
+d2e8a34876ce69b Wei Huang 2024-10-02  124  		return AE_ERROR;
+d2e8a34876ce69b Wei Huang 2024-10-02  125  	}
+d2e8a34876ce69b Wei Huang 2024-10-02  126  
+d2e8a34876ce69b Wei Huang 2024-10-02  127  	st_out->value = *((u64 *)(out_obj->buffer.pointer));
+d2e8a34876ce69b Wei Huang 2024-10-02  128  
+d2e8a34876ce69b Wei Huang 2024-10-02  129  	ACPI_FREE(out_obj);
+d2e8a34876ce69b Wei Huang 2024-10-02  130  
+d2e8a34876ce69b Wei Huang 2024-10-02  131  	return AE_OK;
+d2e8a34876ce69b Wei Huang 2024-10-02  132  }
+d2e8a34876ce69b Wei Huang 2024-10-02  133  #endif
+d2e8a34876ce69b Wei Huang 2024-10-02  134  
 
 -- 
 0-DAY CI Kernel Test Service
