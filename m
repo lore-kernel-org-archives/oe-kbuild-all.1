@@ -1,85 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866AB39B49E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 12:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A00739150F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 12:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772713195; cv=none; b=IdCKjPqQ0t1OXL7DijrGNfQrIcNMl1dCobhsIywGvNTg6N/+NoGkn/W3HnGwCa2MyCEk4VhrEreqq//8thNQBzPq/Tccoe89wjJz/N7FYA934lE0X/RCjqm2gLPCKuTPgFD8H/96tPircUx9HEWeF3E7wyMf2HbeHml6DdspGCU=
+	t=1772714926; cv=none; b=jZaDRZgo8HT0tx+UuM+zX01kWKpbMMp7nmJdrJVeVii67B5A5a9zWq5ojyrQ9lSFdrxAMgtgXwEFDnaxIq2cq1FPR9ISOsn328N7slMjdaUpx1WsadY7Srv/LRWrMqrOLRpaMg91VopQFlEJXINgnXXhel9HI+mjHCqQGzD2zeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772713195; c=relaxed/simple;
-	bh=JcVfoqvxLTN3oUPdUsi++vRZhGmqV5gIeRZTzEXeiK8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nIsj+8hAhFzcgmyOea4k3qP6VvMgqKeTr2xNqIlzv3eeXdxpaZpkkncqs+JTeQCHnk7p9qQDWy4LbR8tytAolqkaHxPhx1Dlk0N8eYFfJL49CaQfNm2t6Y5pYsV3o3NG93yP45PVr3dyKfMWka6Jj46BnuDxXjYNV+voKUgqpS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBrLiBS2; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772714926; c=relaxed/simple;
+	bh=xgkABJ9B8ONELAl8NPb+eTgwheFOkrLUjxqole2DWOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=INX8BzG7lXbcpxpFQiwefbpeHoCXZDqr8sTY9Sj4snTJ1psVslLfiRL1JsPOOTfeyE0dRRbfVc5AA7aYWMU2Urjh8itbV5UgIFwCmaxtfUs1Z8zS4Mli0Ukv0il4KazgErJ0UaYVIr6G9NhS9UX2AjzuQuPTWJvgnQMX1QYtArE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nm4XaUZW; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBrLiBS2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772713195; x=1804249195;
-  h=date:from:to:cc:subject:message-id;
-  bh=JcVfoqvxLTN3oUPdUsi++vRZhGmqV5gIeRZTzEXeiK8=;
-  b=DBrLiBS21BJVpHHZAviEHG4jxF6pcVwCXxHog4Gy+8MvMfYgFtV+Gqh6
-   ZcOwDZLOKUxZI+fiH8oWIUVXVM1K6oO2cG1pAM9E5VeswZrZqimoWUBFW
-   rqbzzESbTIrxMIsYB/B4wMhTgjttu2V5OJTSV546nJyYWTjk9P6qTLpoF
-   H0mtNKIhMZgPS4J+m3bFvlino1EsJroi9jkB5QyXaJyo2Lfyn+CiJoM0j
-   XuB/dRmW61P5IhM1CDD/A9m8h2IqM/KVoks8V1bxObzz1caize0ib0w1F
-   0bk/FOf0kOp9enUYqVKDm9K4kLV8Gf5k/2QwXwL072g1r/C2Vgy+Zl2CM
-   g==;
-X-CSE-ConnectionGUID: 34IcZoB1SmCZxmCG1lI2Pw==
-X-CSE-MsgGUID: ilJQLaxCQSiR0VyOjkxeJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73988100"
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; 
-   d="scan'208";a="73988100"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 04:19:55 -0800
-X-CSE-ConnectionGUID: eD4zJU6vSJqSpFXA5SQpvA==
-X-CSE-MsgGUID: MYVQb/PKQ7620YKlJPhEOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; 
-   d="scan'208";a="249136337"
-Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Mar 2026 04:19:53 -0800
-Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vy7gE-000000000aI-2hlL;
-	Thu, 05 Mar 2026 12:19:50 +0000
-Date: Thu, 05 Mar 2026 20:19:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-linux-6.18.y 757/757] Warning:
- drivers/gpu/drm/msm/dp/dp_drm.c:24 function parameter 'connector' not
- described in 'msm_dp_bridge_detect'
-Message-ID: <202603052008.yyFc64Zg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nm4XaUZW"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4837584120eso60683635e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Mar 2026 04:48:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772714924; x=1773319724; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bF3Jt8+kZfWxPSpR81XkdalwEBQNNmKeqG6z7c/Rlac=;
+        b=Nm4XaUZW57eD/KuVSMY9vP3uMkpNsiqdyLH6wDtv3Ik7rYMGxjXYGs68Cdn3BYmxzy
+         Yq0Yf0ys5qtEB8t9QNsUDsEpkda58K7Td8QtDmJYUcR4LAoxuC5C0tJGThmuDPYo+Zba
+         SU0dvR+/MV2KwGFEAUJ+iYbU+6S22WKEsJ3rXnPYeD10XB8gqUD7OmYfftt2gIRBJNoq
+         OBbNhNAQYIJK58LQs0zSiFNPkkt/M2TkT4lY4I6s29K76qlGMBweMtJ9/SdpsJmyp9ve
+         4eZTTC5T9sT2NOKOAy6AzTFsxJ6/hbNT0JzUd6sY2S9WBLq0OPDAvqzCxut3ncfpVGO9
+         0Vhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772714924; x=1773319724;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bF3Jt8+kZfWxPSpR81XkdalwEBQNNmKeqG6z7c/Rlac=;
+        b=EgIzU0Q7MJ4szyD+X+Gf3eerTGmsSb3CSVopOO2Gg//BVoFRY007EMl3UT/RDG+1ah
+         bgGrlJVVSX9obomp4UOCpd77mz5CJgoZN550VTZkzBtxUBx3bptN9o15NIZ9glELE3R2
+         hBHAvfCUVGoikDxFD9cAxsSy4kze4zXtfOOA/HT11WlofNjO23Pecnl+2OO0zmPwdUbq
+         NwPdFrf24azHTfwU3yfR9lr0UDm80kRTYqUKjaAW5br0EiCibjuR2VCeRMTCefBM8AwI
+         nbNqoYQxR8oMrxgLYwQd5MQUT+g+vIGqrkyelY+XS2xKuEiNa6tyYyWLL/Ly46+Kghrh
+         LqXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUazVsIC7fjThz8TKV5ckLuat/MrIEq9vHrETF3xDBdXjIN8L7f+BoPUNn9mktKcfWL2xuGXjhApFdaSoyR@lists.linux.dev
+X-Gm-Message-State: AOJu0YzxfsnFIe2fDSQ8G40AdPKNKD+fTHt1R7BN9FYD17+DouuvVcKE
+	55WFQTMSUIsQEa3O1UTguG+MmHuWjhl2WcoS0eO3UxGDFA6l1stV2N1G1jkncWbs8XbZSsUfik/
+	/4srF
+X-Gm-Gg: ATEYQzxJ2Gp/oSFPZXHzkIQp5Qgc5UrzSeV5tdDhMZEWcof9OmdxQpsvDJP69n1CMhR
+	339Su3HAufpICoxt0+DNvz4E/F41x6X4/SHLG7wmaTkVJ9mUOKdYZEhRcOGvPTcu9xoT1jQGTGc
+	5cB37ZR/RS0FC5lqUZ/+6M+CaMvdCDxBAnsildRvNkpP7RQ71wtL77gkSERynUAQuSk3pGoE9W/
+	D1UMLo4eDs4ldOlZvCXR+egFXcJZCQfk2C5ZK2FlNMVnUds5SsXyKsqS3rHNAXdQ4n4nOHCT4I6
+	y2wdVyubGd+1ewryMTu5Sw7nKIiK8KpKdIiYcX5X8cpFIq/BWceQfBPBHveM1Fn+ZhHf3CnH1W0
+	n+jAbRiDqD2FknvgQF+DOyEiwRboG/SPxvJWAA/YQa511l7FzdRbEwmhpcbs1TtQquFj2UC1WYu
+	o6bNc5ZQRBJeB42Ts+7iGHugyGndk0s/UUrxdJA+4=
+X-Received: by 2002:a05:600c:6389:b0:480:4b5d:9ec with SMTP id 5b1f17b1804b1-485198a3c2cmr91882675e9.33.1772714923573;
+        Thu, 05 Mar 2026 04:48:43 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851a895553sm92101715e9.1.2026.03.05.04.48.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 04:48:43 -0800 (PST)
+Date: Thu, 5 Mar 2026 15:48:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Farhan Ali <alifm@linux.ibm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [pci:wip/2603-farhan-s390-err-v10 1/9] drivers/pci/slot.c:40
+ address_read_file() warn: impossible condition '(slot->number == -1) =>
+ (0-u16max == (-1))'
+Message-ID: <202603051816.NIWQx7m0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Andy,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common upstream-linux-6.18.y
-head:   6258e292d7463f96d0f06dff2a39093a54c9d16f
-commit: 5d156a9c3d5ea3dbec192121259dee2c2f938fa1 [757/757] drm/bridge: Pass down connector to drm bridge detect hook
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260305/202603052008.yyFc64Zg-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git wip/2603-farhan-s390-err-v10
+head:   d72875f0a4958f51f7196e6fada9357799418a52
+commit: 77c0762d2e847cf2e8d6d79e6f88a1c2b1ca4d06 [1/9] PCI: Allow per function PCI slots
+config: i386-randconfig-r071-20260305 (https://download.01.org/0day-ci/archive/20260305/202603051816.NIWQx7m0-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603052008.yyFc64Zg-lkp@intel.com/reproduce)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603052008.yyFc64Zg-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202603051816.NIWQx7m0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/pci/slot.c:40 address_read_file() warn: impossible condition '(slot->number == -1) => (0-u16max == (-1))'
 
->> Warning: drivers/gpu/drm/msm/dp/dp_drm.c:24 function parameter 'connector' not described in 'msm_dp_bridge_detect'
+vim +40 drivers/pci/slot.c
+
+f46753c5e354b8 Alex Chiang          2008-06-10  38  static ssize_t address_read_file(struct pci_slot *slot, char *buf)
+f46753c5e354b8 Alex Chiang          2008-06-10  39  {
+77c0762d2e847c Farhan Ali           2026-03-02 @40  	if (slot->number == -1)
+                                                            ^^^^^^^^^^^^^^^^^^
+u16 can't be -1.
+
+f8cf6e513ec4f0 Krzysztof Wilczyński 2021-06-03  41  		return sysfs_emit(buf, "%04x:%02x\n",
+f46753c5e354b8 Alex Chiang          2008-06-10  42  				  pci_domain_nr(slot->bus),
+f46753c5e354b8 Alex Chiang          2008-06-10  43  				  slot->bus->number);
+f8cf6e513ec4f0 Krzysztof Wilczyński 2021-06-03  44  
+f8cf6e513ec4f0 Krzysztof Wilczyński 2021-06-03  45  	return sysfs_emit(buf, "%04x:%02x:%02x\n",
+f46753c5e354b8 Alex Chiang          2008-06-10  46  			  pci_domain_nr(slot->bus),
+f46753c5e354b8 Alex Chiang          2008-06-10  47  			  slot->bus->number,
+f46753c5e354b8 Alex Chiang          2008-06-10  48  			  slot->number);
+f46753c5e354b8 Alex Chiang          2008-06-10  49  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
