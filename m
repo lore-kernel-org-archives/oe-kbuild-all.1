@@ -1,76 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB28B30FF1C;
-	Thu,  5 Mar 2026 07:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01C3315D35
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 07:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772694708; cv=none; b=s1IlQM8OApo1vatRxQuCkiBA6UCc0gXbOm/SwoPlUfb/r0GQc5YobgkJEGvebKpatzYH0+TqeReoPRHh7KxXW78ixVCkR4QC4kF2HoxQmnFZ0zjNpFoJ7yOwXnK8qh6cDfdRV4uvvrr4oUULEnmfcJpiuK2MkOTk2U4VO6TqZx8=
+	t=1772694737; cv=none; b=rpXkrUQ31n5BHFbueJxxq9n4WfSpTV9kZsFxvOs6i+FS6ZoHhzLUN3W+554UownVfJTpKxMY7M7W0P+CfX4W+gu5G+0JOVmxlJhOv8aavT/HXB16KVCPF5TGaFZRTECj3yBbSJ0PzX/nUdQISnhxuqe4x1HdZtTFkZhiwVcNdr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772694708; c=relaxed/simple;
-	bh=mh7TqYGtwyz8BNhFD30DS+eTl5ENs1RwMsa8SpKQyfA=;
+	s=arc-20240116; t=1772694737; c=relaxed/simple;
+	bh=ckd6RCQ6IONLsgaMWgrBIGYHcBsTJjJ9DdtVhSQ9KCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WUDYgFHmt8YkxTDbx4bXeyN6+lI2Tph772MBw48lW59GUROYQUtIpCdbbs6nzEoy+iqVOTpjkqkyMB7ypJWOUPkvGcZmbTHl+9JUFCPFQgx/ay3hpYL2JFvVLqVKGIFtc4+HfJ+3ulpQvYT3A9RR1zWaNLXsdu8dlFuvft9xIY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QjcfWv0L; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=kP4hEU6ZWLy6uFIX+ydA+66ZqfXLL5w+8i1LB6doe1AzlZirPFleg9J+K+ZGsbqTcC8HEtycKsSDAuYqFWEx5KSwI21XWcGTF3xhncMl34JFq69YQ9jr6AocQviR+SKILjeB2dlcp4DIi5bJ5yeAXXsbLzsznzeqzzlOejoW3Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAq7K6bH; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QjcfWv0L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAq7K6bH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772694707; x=1804230707;
+  t=1772694736; x=1804230736;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mh7TqYGtwyz8BNhFD30DS+eTl5ENs1RwMsa8SpKQyfA=;
-  b=QjcfWv0L8UzoMjC9zl2GmwGsLypqTWpedVkMe4DdWTWg4Qu5CqAQawAg
-   0Hew030BZEEDf5paPV7Bqc36JvDw8mRhXoxa6Fb0E6Uqhv6EAnHotmxNU
-   0FrbTcGY87qhTR7kxZKMlKSbQE8Fdg62QrUSynVyLP1h/7M1go0EwwRze
-   rp13Tsx40ouXHbrRe/reU4oasN4ddG9DBfwUHtXjBpG0b188428FxtbYz
-   uQaC18XBqFQ54RlWt1IUZOhlgMjFTLlKWTb9P7+9eJJgFJnF0FVe5qIfs
-   5qk2s+RMbSXVy6oWI+45yGstrzyqVM9tdZRmHBjs9hJdcEYj3uW1+vOxk
+  bh=ckd6RCQ6IONLsgaMWgrBIGYHcBsTJjJ9DdtVhSQ9KCA=;
+  b=AAq7K6bHTDzfEC2IaKsokyzBLAS3rBe8ZAU/SSD4eBiMaKEgqkmMvk1i
+   pPXe6QAOOfQZTvjx0y9N7Ym4wKhsIuzd3jzHnDKr+JbAuF2hENWnGdQP3
+   WwZPlBBxKkJpE1USIqNsLQ0aw2Q0Mn9S+wmAiC0ffelzxvs32mfk9ZQ98
+   nFCoAD2Hw0Pl9qQCJ/mETZ11r+TUfv4hoLMeplwUv+tkOgSTsoApPCTTi
+   S0T7pJMkZ7wGgOxKmSAH9MyA/ItfVn8STRuaRK9bpGdMwRjf3AFu6h1k2
+   v4Gk2DuJxHEm6gip6EntkQjeCdbfkxPNwYhM8iMZ3D6propUgWhAy+ttJ
    Q==;
-X-CSE-ConnectionGUID: D2fSBTmaTQG2iWJ1nDPIkA==
-X-CSE-MsgGUID: JDFW5bGBQmuEFXaQFMzKug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73687283"
+X-CSE-ConnectionGUID: /YDUSY99QD69VBYiK0J9zA==
+X-CSE-MsgGUID: GUQfq1iASZOs9Jo0L1CmEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73472872"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="73687283"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 23:11:47 -0800
-X-CSE-ConnectionGUID: 4I7EZlacT7CX44ivW2zzbA==
-X-CSE-MsgGUID: tDPbyxNBSTmeAN8d90KA2Q==
+   d="scan'208";a="73472872"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 23:12:15 -0800
+X-CSE-ConnectionGUID: 20c1cHnATj2V3cSCBoXeAg==
+X-CSE-MsgGUID: TSBDjWCGSiSURjZallYWzg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="241600936"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Mar 2026 23:11:41 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 04 Mar 2026 23:12:08 -0800
+Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vy2rz-000000001y1-2aM6;
-	Thu, 05 Mar 2026 07:11:39 +0000
-Date: Thu, 5 Mar 2026 08:11:29 +0100
+	id 1vy2sP-0000000007i-0QK2;
+	Thu, 05 Mar 2026 07:12:05 +0000
+Date: Thu, 5 Mar 2026 15:11:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	arnaud.pouliquen@foss.st.com
-Cc: oe-kbuild-all@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>,
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com
-Subject: Re: [PATCH v9 1/5] docs: driver-api: gpio: rpmsg gpio driver over
- rpmsg bus
-Message-ID: <202603050819.478UbJ2l-lkp@intel.com>
-References: <20260304211808.1437846-2-shenwei.wang@nxp.com>
+To: lizhi2@eswincomputing.com, devicetree@vger.kernel.org,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+	rmk+kernel@armlinux.org.uk, wens@kernel.org, pjw@kernel.org,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ningyu@eswincomputing.com,
+	linmin@eswincomputing.com, pinkesh.vaghela@einfochips.com,
+	pritesh.patel@einfochips.com, weishangjuan@eswincomputing.com,
+	Zhi Li <lizhi2@eswincomputing.com>
+Subject: Re: [PATCH net-next v3 2/3] net: stmmac: eic7700: enable clocks
+ before syscon access and correct RX sampling timing
+Message-ID: <202603051555.5m64TOiy-lkp@intel.com>
+References: <20260303061711.895-1-lizhi2@eswincomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,49 +73,186 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260304211808.1437846-2-shenwei.wang@nxp.com>
+In-Reply-To: <20260303061711.895-1-lizhi2@eswincomputing.com>
 
-Hi Shenwei,
+Hi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on remoteproc/rproc-next robh/for-next next-20260304]
-[cannot apply to linus/master v6.16-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/docs-driver-api-gpio-rpmsg-gpio-driver-over-rpmsg-bus/20260305-052440
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20260304211808.1437846-2-shenwei.wang%40nxp.com
-patch subject: [PATCH v9 1/5] docs: driver-api: gpio: rpmsg gpio driver over rpmsg bus
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260305/202603050819.478UbJ2l-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/lizhi2-eswincomputing-com/dt-bindings-ethernet-eswin-add-clock-sampling-control/20260303-142311
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260303061711.895-1-lizhi2%40eswincomputing.com
+patch subject: [PATCH net-next v3 2/3] net: stmmac: eic7700: enable clocks before syscon access and correct RX sampling timing
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260305/202603051555.5m64TOiy-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051555.5m64TOiy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050819.478UbJ2l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603051555.5m64TOiy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   .. code-block:: none
-   +-----+-----+-----+-----+-----+----+
-   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05|
-   | 1   | 2   |port |line | err | dir|
-   +-----+-----+-----+-----+-----+----+ [docutils]
->> Documentation/driver-api/gpio/gpio-rpmsg.rst:115: WARNING: Title underline too short.
+   drivers/net/ethernet/stmicro/stmmac/dwmac-eic7700.c: In function 'eic7700_dwmac_probe':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-eic7700.c:290:33: error: assignment to 'void (*)(void *, phy_interface_t,  int,  unsigned int)' from incompatible pointer type 'void (*)(void *, int,  unsigned int)' [-Wincompatible-pointer-types]
+     290 |         plat_dat->fix_mac_speed = eic7700_dwmac_fix_speed;
+         |                                 ^
+   drivers/net/ethernet/stmicro/stmmac/dwmac-eic7700.c:129:13: note: 'eic7700_dwmac_fix_speed' declared here
+     129 | static void eic7700_dwmac_fix_speed(void *priv, int speed, unsigned int mode)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +115 Documentation/driver-api/gpio/gpio-rpmsg.rst
+vim +290 drivers/net/ethernet/stmicro/stmmac/dwmac-eic7700.c
 
-   112	
-   113	
-   114	GET_VALUE (Cmd=4)
- > 115	~~~~~~~~~~~~~~~~
-   116	
+   149	
+   150	static int eic7700_dwmac_probe(struct platform_device *pdev)
+   151	{
+   152		const struct eic7700_dwmac_data *data;
+   153		struct plat_stmmacenet_data *plat_dat;
+   154		struct stmmac_resources stmmac_res;
+   155		struct eic7700_qos_priv *dwc_priv;
+   156		u32 delay_ps, val;
+   157		int i, ret;
+   158	
+   159		ret = stmmac_get_platform_resources(pdev, &stmmac_res);
+   160		if (ret)
+   161			return dev_err_probe(&pdev->dev, ret,
+   162					"failed to get resources\n");
+   163	
+   164		plat_dat = devm_stmmac_probe_config_dt(pdev, stmmac_res.mac);
+   165		if (IS_ERR(plat_dat))
+   166			return dev_err_probe(&pdev->dev, PTR_ERR(plat_dat),
+   167					"dt configuration failed\n");
+   168	
+   169		dwc_priv = devm_kzalloc(&pdev->dev, sizeof(*dwc_priv), GFP_KERNEL);
+   170		if (!dwc_priv)
+   171			return -ENOMEM;
+   172	
+   173		dwc_priv->dev = &pdev->dev;
+   174	
+   175		data = device_get_match_data(&pdev->dev);
+   176		if (!data)
+   177			return dev_err_probe(&pdev->dev,
+   178					     -EINVAL, "no match data found\n");
+   179	
+   180		dwc_priv->eth_rx_clk_inv = data->rgmii_rx_clk_invert;
+   181	
+   182		/* Read rx-internal-delay-ps and update rx_clk delay */
+   183		if (!of_property_read_u32(pdev->dev.of_node,
+   184					  "rx-internal-delay-ps", &delay_ps)) {
+   185			if (delay_ps % EIC7700_DELAY_STEP_PS)
+   186				return dev_err_probe(&pdev->dev, -EINVAL,
+   187					"rx delay must be multiple of %dps\n",
+   188					EIC7700_DELAY_STEP_PS);
+   189	
+   190			if (delay_ps > EIC7700_MAX_DELAY_PS)
+   191				return dev_err_probe(&pdev->dev, -EINVAL,
+   192					"rx delay out of range\n");
+   193	
+   194			val = delay_ps / EIC7700_DELAY_STEP_PS;
+   195	
+   196			dwc_priv->eth_clk_dly_param &= ~EIC7700_ETH_RX_ADJ_DELAY;
+   197			dwc_priv->eth_clk_dly_param |=
+   198					 FIELD_PREP(EIC7700_ETH_RX_ADJ_DELAY, val);
+   199		}
+   200	
+   201		/* Read tx-internal-delay-ps and update tx_clk delay */
+   202		if (!of_property_read_u32(pdev->dev.of_node,
+   203					  "tx-internal-delay-ps", &delay_ps)) {
+   204			if (delay_ps % EIC7700_DELAY_STEP_PS)
+   205				return dev_err_probe(&pdev->dev, -EINVAL,
+   206					"tx delay must be multiple of %dps\n",
+   207					EIC7700_DELAY_STEP_PS);
+   208	
+   209			if (delay_ps > EIC7700_MAX_DELAY_PS)
+   210				return dev_err_probe(&pdev->dev, -EINVAL,
+   211					"tx delay out of range\n");
+   212	
+   213			val = delay_ps / EIC7700_DELAY_STEP_PS;
+   214	
+   215			dwc_priv->eth_clk_dly_param &= ~EIC7700_ETH_TX_ADJ_DELAY;
+   216			dwc_priv->eth_clk_dly_param |=
+   217					 FIELD_PREP(EIC7700_ETH_TX_ADJ_DELAY, val);
+   218		}
+   219	
+   220		dwc_priv->eic7700_hsp_regmap =
+   221				syscon_regmap_lookup_by_phandle(pdev->dev.of_node,
+   222								"eswin,hsp-sp-csr");
+   223		if (IS_ERR(dwc_priv->eic7700_hsp_regmap))
+   224			return dev_err_probe(&pdev->dev,
+   225					PTR_ERR(dwc_priv->eic7700_hsp_regmap),
+   226					"Failed to get hsp-sp-csr regmap\n");
+   227	
+   228		ret = of_property_read_u32_index(pdev->dev.of_node,
+   229						 "eswin,hsp-sp-csr",
+   230						 1, &dwc_priv->eth_phy_ctrl_offset);
+   231		if (ret)
+   232			return dev_err_probe(&pdev->dev, ret,
+   233					     "can't get eth_phy_ctrl_offset\n");
+   234	
+   235		ret = of_property_read_u32_index(pdev->dev.of_node,
+   236						 "eswin,hsp-sp-csr",
+   237						 2, &dwc_priv->eth_axi_lp_ctrl_offset);
+   238		if (ret)
+   239			return dev_err_probe(&pdev->dev, ret,
+   240					     "can't get eth_axi_lp_ctrl_offset\n");
+   241	
+   242		ret = of_property_read_u32_index(pdev->dev.of_node,
+   243						 "eswin,hsp-sp-csr",
+   244						 3, &dwc_priv->eth_txd_offset);
+   245		if (ret)
+   246			return dev_err_probe(&pdev->dev, ret,
+   247					     "can't get eth_txd_offset\n");
+   248	
+   249		ret = of_property_read_u32_index(pdev->dev.of_node,
+   250						 "eswin,hsp-sp-csr",
+   251						 4, &dwc_priv->eth_clk_offset);
+   252		if (ret)
+   253			return dev_err_probe(&pdev->dev, ret,
+   254					     "can't get eth_clk_offset\n");
+   255	
+   256		ret = of_property_read_u32_index(pdev->dev.of_node,
+   257						 "eswin,hsp-sp-csr",
+   258						 5, &dwc_priv->eth_rxd_offset);
+   259		if (ret)
+   260			return dev_err_probe(&pdev->dev, ret,
+   261					     "can't get eth_rxd_offset\n");
+   262	
+   263		plat_dat->num_clks = ARRAY_SIZE(eic7700_clk_names);
+   264		plat_dat->clks = devm_kcalloc(&pdev->dev,
+   265					      plat_dat->num_clks,
+   266					      sizeof(*plat_dat->clks),
+   267					      GFP_KERNEL);
+   268		if (!plat_dat->clks)
+   269			return -ENOMEM;
+   270	
+   271		for (i = 0; i < ARRAY_SIZE(eic7700_clk_names); i++)
+   272			plat_dat->clks[i].id = eic7700_clk_names[i];
+   273	
+   274		ret = devm_clk_bulk_get_optional(&pdev->dev,
+   275						 plat_dat->num_clks,
+   276						 plat_dat->clks);
+   277		if (ret)
+   278			return dev_err_probe(&pdev->dev, ret,
+   279					     "Failed to get clocks\n");
+   280	
+   281		plat_dat->clk_tx_i = stmmac_pltfr_find_clk(plat_dat, "tx");
+   282		plat_dat->set_clk_tx_rate = stmmac_set_clk_tx_rate;
+   283		plat_dat->clks_config = eic7700_clks_config;
+   284		plat_dat->bsp_priv = dwc_priv;
+   285		dwc_priv->plat_dat = plat_dat;
+   286		plat_dat->init = eic7700_dwmac_init;
+   287		plat_dat->exit = eic7700_dwmac_exit;
+   288		plat_dat->suspend = eic7700_dwmac_suspend;
+   289		plat_dat->resume = eic7700_dwmac_resume;
+ > 290		plat_dat->fix_mac_speed = eic7700_dwmac_fix_speed;
+   291	
+   292		return devm_stmmac_pltfr_probe(pdev, plat_dat, &stmmac_res);
+   293	}
+   294	
 
 -- 
 0-DAY CI Kernel Test Service
