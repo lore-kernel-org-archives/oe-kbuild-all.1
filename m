@@ -1,165 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D135695
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 00:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309691494C3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Mar 2026 00:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772670231; cv=none; b=N46xZsHlsocMbkW6bW/n+PTkn5lu08CHjZFFqMbOYT+WCmvdMVqiuSa19vBibVWs8oGQnSmNo9qzJD8jy86DCAKCGJO48xoKUEF+iNs2qcaJgDHCwNyDwz3WYyUF3g6bs3tVJ1QKTK7S7cTyB0utognVUPr+l1UlRMPGIuSP3r4=
+	t=1772670895; cv=none; b=rqVn4BXMen6iwfM72yFCTvuv2oGJKqOpHJeR/W3ojLdxJV2wpYheGWGtLBN6jIX/Awh80IsjCoh4cblCEgtL7R6TbqbADIy1k9ljNzs02wPiMZBQeGyouf+tAAYW84Pd0A52XU9JNemMEHpbgMFQIVtD4iQMvMY7xC+y7VTr+OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772670231; c=relaxed/simple;
-	bh=gFiJgei9kzVtHFdY6C1mSm4BYpqpqBI+XmrXd7Jm0VQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Iwq/2QstL9AnWlOrCzS03mh+b2PtQqMDjHHCZw1FCPjUygP4kjRePEyxG1jo16XfsTT7/AIqYD+c6OYKfvZ/5N5hoo+cQUMOsMN7m8WuFaX6MCfbjeIHJAy9bCI038KJ3tHTzmHE/duH2oBcI5NIK+qSVyVzTBIpcNINFMm837U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W6IjXvPf; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1772670895; c=relaxed/simple;
+	bh=Bxrd2fiwvhsKyZsl+nxo29zi+60R+/EN/vFklSOWd+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MS/8vpUaE6TcVw799QsumKmlE5N+Ltsssdc7Zxrlo/2CylsuHWOaYLqDCV9hrCVar3uMjzVAQxqgh1SrXff0rXQNF+5UREqxZpw0aVtlbaZuiF+RebCi+VCEivovo3bMzR+alSv9cNwaAeRRTi23FZ5ZGQt/ccuX/Lj4ZXiD298=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zm/iCaix; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W6IjXvPf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zm/iCaix"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772670230; x=1804206230;
-  h=date:from:to:cc:subject:message-id;
-  bh=gFiJgei9kzVtHFdY6C1mSm4BYpqpqBI+XmrXd7Jm0VQ=;
-  b=W6IjXvPfo1M2+cDj7eEatG2lG8d8GRorY8kACScR6isVUmVwPVrXuIh1
-   oqVXP8PUSbTuZEQszjCdCk6qu9j7ZEgvf76yQtRtvIZGkfJ8PaA/V4WOK
-   ZxnvAEGgXkgnBN30XQthRtu/zgrtlQCUDL+zBoQDLSAO10KKghbfAxqrB
-   H5JG6913mcI1dnb9ggIWEVdiYpGc+PhdOLhmH8XQ+07OUcCGNnRGIASz8
-   Dq1xk33dpwnUAawoR49/K7W091QHFWXPwqtL5nniVFZk58Anrat/a2DLA
-   eHrGZdRyCgOPpihFTdCIWRdpx+ona/R+IO+kl8WdyX5toO8SLBvNtKK3R
-   g==;
-X-CSE-ConnectionGUID: q1V7A136Q0enPryLzEcaTQ==
-X-CSE-MsgGUID: /QQrstbTRjeB7qgkFLX9VA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73445722"
-X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="73445722"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 16:23:50 -0800
-X-CSE-ConnectionGUID: Mq1BPbaPRVqWvHrPbntZUw==
-X-CSE-MsgGUID: BMyK6c+PQRyw/3zKRFyZVw==
+  t=1772670895; x=1804206895;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bxrd2fiwvhsKyZsl+nxo29zi+60R+/EN/vFklSOWd+8=;
+  b=Zm/iCaix0T0q6iZtCx6PWkdBbtHAjbuMi5hIUiIUjofunklhBYDfB5Vz
+   /4ADf4Jml4yitzp/f79W6ODV3ML/DCsCUg7Ngt6TiatryFaE8vWcdQqgI
+   4QUiZ8sRSrXbYSu+r9iRhGXsV6i8h5eM9J6k/mUJoxGMNpx3e1bEr8SNd
+   vK+UlWTqFsT44z4smz/0VKB7bnQ/5WtjHYI4Cllddbcd3nWTdlMo4JHaE
+   KgzEMYcZ1ILvYu9ZEnlPnbJpcaUjZ+rfqhz4afiPkX9McHMuj84UDpEt0
+   XP5rMRtk4YRZ/MuPHnB2G4tn5o5zlWtSnrCGFjzxsV74vYmiJ1HXrtOLl
+   Q==;
+X-CSE-ConnectionGUID: rhPbZp5zTCKI/qBntlIdKA==
+X-CSE-MsgGUID: Rcs1DXaWTsyD7OEmnZq6XA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73653562"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="73653562"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 16:34:54 -0800
+X-CSE-ConnectionGUID: sUWpvx1ITcW6G79rW8WCKA==
+X-CSE-MsgGUID: y/9N3ZxqS7ePC3zmt8m0sQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="215383108"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="217751914"
 Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Mar 2026 16:23:47 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Mar 2026 16:34:51 -0800
 Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vxwVF-000000004nu-212I;
-	Thu, 05 Mar 2026 00:23:45 +0000
-Date: Thu, 05 Mar 2026 08:22:48 +0800
+	id 1vxwfv-000000004r7-2iLs;
+	Thu, 05 Mar 2026 00:34:47 +0000
+Date: Thu, 5 Mar 2026 08:33:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [wsa:renesas/hwspinlock/refactor-alloc-buildtest 7/15]
- drivers/hwspinlock/sprd_hwspinlock.c:75:30: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202603050852.A6WYAQG7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Maximilian Pezzullo via B4 Relay <devnull+maximilianpezzullo.gmail.com@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org,
+	Terry M <terrym3201@bugzilla.kernel.org>,
+	Maximilian Pezzullo <maximilianpezzullo@gmail.com>
+Subject: Re: [PATCH] mm/vmstat: reject zero vm.stat_interval to prevent
+ busy-loop
+Message-ID: <202603050819.oMnaHoIC-lkp@intel.com>
+References: <20260304-mm-vmstat-reject-zero-vm-stat_interval-to-prevent-busy-loop-v1-1-c03c9555ff15@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304-mm-vmstat-reject-zero-vm-stat_interval-to-prevent-busy-loop-v1-1-c03c9555ff15@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
-head:   f2fc589840b1a727d4318cd5e9fc99d23fb3a35c
-commit: a2e0dd64061bc41ef377813e9a1626e8b1fa54c7 [7/15] hwspinlock: sprd: use new callback to initialize hwspinlock priv
-config: microblaze-randconfig-r121-20260304 (https://download.01.org/0day-ci/archive/20260305/202603050852.A6WYAQG7-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050852.A6WYAQG7-lkp@intel.com/reproduce)
+Hi Maximilian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on af4e9ef3d78420feb8fe58cd9a1ab80c501b3c08]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Pezzullo-via-B4-Relay/mm-vmstat-reject-zero-vm-stat_interval-to-prevent-busy-loop/20260304-153052
+base:   af4e9ef3d78420feb8fe58cd9a1ab80c501b3c08
+patch link:    https://lore.kernel.org/r/20260304-mm-vmstat-reject-zero-vm-stat_interval-to-prevent-busy-loop-v1-1-c03c9555ff15%40gmail.com
+patch subject: [PATCH] mm/vmstat: reject zero vm.stat_interval to prevent busy-loop
+config: parisc-randconfig-002-20260305 (https://download.01.org/0day-ci/archive/20260305/202603050819.oMnaHoIC-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603050819.oMnaHoIC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603050852.A6WYAQG7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603050819.oMnaHoIC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/hwspinlock/sprd_hwspinlock.c:44:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
-   drivers/hwspinlock/sprd_hwspinlock.c:44:50: sparse:     expected void [noderef] __iomem *addr
-   drivers/hwspinlock/sprd_hwspinlock.c:44:50: sparse:     got void *
-   drivers/hwspinlock/sprd_hwspinlock.c:62:55: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void * @@
-   drivers/hwspinlock/sprd_hwspinlock.c:62:55: sparse:     expected void [noderef] __iomem *lock_addr
-   drivers/hwspinlock/sprd_hwspinlock.c:62:55: sparse:     got void *
->> drivers/hwspinlock/sprd_hwspinlock.c:75:30: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got void *init_data @@
-   drivers/hwspinlock/sprd_hwspinlock.c:75:30: sparse:     expected void [noderef] __iomem *base
-   drivers/hwspinlock/sprd_hwspinlock.c:75:30: sparse:     got void *init_data
->> drivers/hwspinlock/sprd_hwspinlock.c:77:21: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   drivers/hwspinlock/sprd_hwspinlock.c:77:21: sparse:     expected void *
-   drivers/hwspinlock/sprd_hwspinlock.c:77:21: sparse:     got void [noderef] __iomem *
->> drivers/hwspinlock/sprd_hwspinlock.c:137:71: sparse: sparse: incorrect type in argument 6 (different address spaces) @@     expected void *init_data @@     got void [noderef] __iomem *base @@
-   drivers/hwspinlock/sprd_hwspinlock.c:137:71: sparse:     expected void *init_data
-   drivers/hwspinlock/sprd_hwspinlock.c:137:71: sparse:     got void [noderef] __iomem *base
+All warnings (new ones prefixed by >>):
 
-vim +75 drivers/hwspinlock/sprd_hwspinlock.c
+>> mm/vmstat.c:2117:12: warning: 'vmstat_interval_handler' defined but not used [-Wunused-function]
+    static int vmstat_interval_handler(const struct ctl_table *table, int write,
+               ^~~~~~~~~~~~~~~~~~~~~~~
 
-    72	
-    73	static void *sprd_hwspinlock_init_priv(int local_id, void *init_data)
-    74	{
-  > 75		void __iomem *base = init_data;
-    76	
-  > 77		return base + HWSPINLOCK_TOKEN(local_id);
-    78	}
-    79	
-    80	static const struct hwspinlock_ops sprd_hwspinlock_ops = {
-    81		.trylock = sprd_hwspinlock_trylock,
-    82		.unlock = sprd_hwspinlock_unlock,
-    83		.relax = sprd_hwspinlock_relax,
-    84		.init_priv = sprd_hwspinlock_init_priv,
-    85	};
-    86	
-    87	static void sprd_hwspinlock_disable(void *data)
-    88	{
-    89		struct sprd_hwspinlock_dev *sprd_hwlock = data;
-    90	
-    91		clk_disable_unprepare(sprd_hwlock->clk);
-    92	}
-    93	
-    94	static int sprd_hwspinlock_probe(struct platform_device *pdev)
-    95	{
-    96		struct sprd_hwspinlock_dev *sprd_hwlock;
-    97		int ret;
-    98	
-    99		if (!pdev->dev.of_node)
-   100			return -ENODEV;
-   101	
-   102		sprd_hwlock = devm_kzalloc(&pdev->dev,
-   103					   struct_size(sprd_hwlock, bank.lock, SPRD_HWLOCKS_NUM),
-   104					   GFP_KERNEL);
-   105		if (!sprd_hwlock)
-   106			return -ENOMEM;
-   107	
-   108		sprd_hwlock->base = devm_platform_ioremap_resource(pdev, 0);
-   109		if (IS_ERR(sprd_hwlock->base))
-   110			return PTR_ERR(sprd_hwlock->base);
-   111	
-   112		sprd_hwlock->clk = devm_clk_get(&pdev->dev, "enable");
-   113		if (IS_ERR(sprd_hwlock->clk)) {
-   114			dev_err(&pdev->dev, "get hwspinlock clock failed!\n");
-   115			return PTR_ERR(sprd_hwlock->clk);
-   116		}
-   117	
-   118		ret = clk_prepare_enable(sprd_hwlock->clk);
-   119		if (ret)
-   120			return ret;
-   121	
-   122		ret = devm_add_action_or_reset(&pdev->dev, sprd_hwspinlock_disable,
-   123					       sprd_hwlock);
-   124		if (ret) {
-   125			dev_err(&pdev->dev,
-   126				"Failed to add hwspinlock disable action\n");
-   127			return ret;
-   128		}
-   129	
-   130		/* set the hwspinlock to record user id to identify subsystems */
-   131		writel(HWSPINLOCK_USER_BITS, sprd_hwlock->base + HWSPINLOCK_RECCTRL);
-   132	
-   133		platform_set_drvdata(pdev, sprd_hwlock);
-   134	
-   135		return devm_hwspin_lock_register(&pdev->dev, &sprd_hwlock->bank,
-   136						 &sprd_hwspinlock_ops, 0,
- > 137						 SPRD_HWLOCKS_NUM, sprd_hwlock->base);
-   138	}
-   139	
+
+vim +/vmstat_interval_handler +2117 mm/vmstat.c
+
+  2116	
+> 2117	static int vmstat_interval_handler(const struct ctl_table *table, int write,
+  2118					    void *buffer, size_t *lenp, loff_t *ppos)
+  2119	{
+  2120		int ret = proc_dointvec_jiffies(table, write, buffer, lenp, ppos);
+  2121	
+  2122		if (ret == 0 && write && sysctl_stat_interval == 0) {
+  2123			sysctl_stat_interval = HZ;
+  2124			return -EINVAL;
+  2125		}
+  2126		return ret;
+  2127	}
+  2128	
 
 -- 
 0-DAY CI Kernel Test Service
