@@ -1,159 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC04329BD91
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 04:52:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBEEA2DB791
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 05:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772772781; cv=none; b=UXkc5Se/gYVSBCTxs1zveDXaVW7NC4GtfA27ZW3rHUwmQZ0jU9T8Fctxt7SlpUu6NslF8E2xIPXbh1y0OQ9rU0Nu8o0b2xVSEkUrOIAUD2qXcEr6C/oTT7Uldmv2+eBXGtuHhMIrS7sMX58vlzOX+sMJLGaXTDwWY+BwxtqmzE4=
+	t=1772775063; cv=none; b=Mwn1oyKKJYem8kBk3NeUL0VrizJUrZ74zPOi3ILDr8YcAS39DkBsvDBcW/mo4KdSGwuPiDoAng0LS/yMY3HgzvTDb9aAMkaKgV3DRQtL4vFDwTvMVkfNBkLWi7GgbEyrDGnRK/PqUoVW4OMtOodZUTLGv0GebqVFuIAv5GKPBcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772772781; c=relaxed/simple;
-	bh=YmayjqeoeBzN6EAo79bnD+2H2/jvhVtSXZqsTRn7F/8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S/7H1lsIVMRjrS8TtVwpYccDixoKIOZhxoq2WALlD06B//g9A9nl0b79lNFG2fcDmWz6wRZj1EPhUduvTOxSgJc3g3NRXQBBt5j2sEEfnWEppFkl+hP3UYK8pJr3XhiF1WPXAGwT2uxyl/PLBhxsqXTOnZSBtStruqsOiJZBS3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDrmTChI; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1772775063; c=relaxed/simple;
+	bh=UQVj+4TB1lno7CjQqt7Cp72eJsa9hK96zF25KWsGLkU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hERvHG/xNz2AQKwH55JWZOnj4SvgPyzJEpxsWnwxeydrxiiyIvsgqlZKMFksbeI+A3q+gXS8GEhX4p7WSDFlhCFFqBQ4gOfxlvd7y9mAQo2x4z6pDRNsYWTr+yyKbOdcjPbRchtDfBHPPpxRJp/SjXUwLNbNnBk5+diPbwXhBu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7+ySN7f; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDrmTChI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7+ySN7f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772772780; x=1804308780;
-  h=date:from:to:cc:subject:message-id;
-  bh=YmayjqeoeBzN6EAo79bnD+2H2/jvhVtSXZqsTRn7F/8=;
-  b=TDrmTChI0So3C58J56TDUMQkdkmdYgYCo+CqD2DRPdArxOua3S54bCaL
-   VxMz6/gQWx56vwUuGmvwgn2DbPwbN9ro7rAo7eMgi6rciUps1Wk3oyoVL
-   oIkvhDHcR5URgOf6dOe/ve8qOJvTU4InxgLz/stHsLed/srG0MHDBH385
-   C51uH5iLE4eaFdojEZSusVId2bMCidX0EKtEu4uY9D628TRx+1lGLbP94
-   h7RI3VF76uvHPVRAZMLgRQ8DJYf1yiYTx9iOdhxD3lcxr9cf+nNasa04k
-   ejm50Z4QkvHc0kWq2p3SyFNYYW0VgvKABHbqL0GugykRy0/ecKhhk4TQT
-   g==;
-X-CSE-ConnectionGUID: t2b1lNXKTZ2UfG54GPWkkw==
-X-CSE-MsgGUID: pwlRQq+UQE6LyZPD+qbKtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73952110"
+  t=1772775061; x=1804311061;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UQVj+4TB1lno7CjQqt7Cp72eJsa9hK96zF25KWsGLkU=;
+  b=i7+ySN7f64vVTVjbT17eMlTjnc2hBGB49eXXMIwfJZeiBUK+2ugevexy
+   FZwKJqXm2NwwrQ5mt2uM/D1eFJv9E35ItKoaXiPv3hEzSAt8I22gGGvCA
+   UkqT5BcVNqUAdeizHMLKJ05Y85VPo8+4c2MGlzHBhZhv5ZdZxlRRS+5YN
+   NOOAEqJ0ANR17Rca6DFpWQZKNwSJZDz+loyv1HmOoN6jQPY7yOxLxLD6/
+   bFrVJg92Ejcr+YyA+o+d85ql24JrvvJJX7ufXgLV0VM5LFkIqmL98tARg
+   3e7fsPJsmlpzfKEue1kJKzD87/S9FmjWsxpGzgO+sCtmz6M1tbU7bXEbH
+   A==;
+X-CSE-ConnectionGUID: j6veGxw4T9mRb5NtcNjdbA==
+X-CSE-MsgGUID: ln4XegS1TYiU/g6PtKv06g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="84962235"
 X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="73952110"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 20:52:59 -0800
-X-CSE-ConnectionGUID: zeXZLJGwSFWQBJP1Wo4cNw==
-X-CSE-MsgGUID: Bx9N5QUcQPiz/pRhODe7VA==
+   d="scan'208";a="84962235"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 21:31:00 -0800
+X-CSE-ConnectionGUID: IyWP3rrCSNSM77tXvLClcw==
+X-CSE-MsgGUID: 6z5QUK0KT4iHtgWvKA6zRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="218854225"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2026 20:52:57 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="221730623"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Mar 2026 21:30:58 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyNBD-000000002C5-0qsM;
-	Fri, 06 Mar 2026 04:52:51 +0000
-Date: Fri, 06 Mar 2026 05:52:07 +0100
+	id 1vyNm3-000000000PJ-3h44;
+	Fri, 06 Mar 2026 05:30:55 +0000
+Date: Fri, 6 Mar 2026 13:30:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, Doug Ledford <dledford@redhat.com>,
- Jason Gunthorpe <jgg+lists@ziepe.ca>, linux-rdma@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: [rdma:wip/jgg-for-next 18/19]
- drivers/infiniband/hw/bnxt_re/ib_verbs.c:3478:37: warning: variable 'cctx'
- set but not used
-Message-ID: <202603060549.g4df8HXz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, greybus-dev@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] greybus: es2: drop redundant device reference
+Message-ID: <202603061306.GsnCxitD-lkp@intel.com>
+References: <20260305125036.10856-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260305125036.10856-1-johan@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git wip/jgg-for-next
-head:   7f022cadde7e1fa6e5f7abac05e01bdcff5e19a3
-commit: 387f31e96d46cd6ba0cf6b2439c367440f60255f [18/19] RDMA/bnxt_re: Separate kernel and user CQ creation paths
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260306/202603060549.g4df8HXz-lkp@intel.com/config)
+Hi Johan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v7.0-rc2 next-20260305]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/greybus-es2-drop-redundant-device-reference/20260305-210146
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260305125036.10856-1-johan%40kernel.org
+patch subject: [PATCH] greybus: es2: drop redundant device reference
+config: i386-buildonly-randconfig-001-20260306 (https://download.01.org/0day-ci/archive/20260306/202603061306.GsnCxitD-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603060549.g4df8HXz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603061306.GsnCxitD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603060549.g4df8HXz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603061306.GsnCxitD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/infiniband/hw/bnxt_re/ib_verbs.c: In function 'bnxt_re_create_cq':
->> drivers/infiniband/hw/bnxt_re/ib_verbs.c:3478:37: warning: variable 'cctx' set but not used [-Wunused-but-set-variable]
-    3478 |         struct bnxt_qplib_chip_ctx *cctx;
-         |                                     ^~~~
+   drivers/greybus/es2.c: In function 'es2_destroy':
+>> drivers/greybus/es2.c:775:28: warning: variable 'udev' set but not used [-Wunused-but-set-variable]
+     775 |         struct usb_device *udev;
+         |                            ^~~~
 
 
-vim +/cctx +3478 drivers/infiniband/hw/bnxt_re/ib_verbs.c
+vim +/udev +775 drivers/greybus/es2.c
 
-  3468	
-  3469	int bnxt_re_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
-  3470			      struct uverbs_attr_bundle *attrs)
-  3471	{
-  3472		struct bnxt_re_cq *cq = container_of(ibcq, struct bnxt_re_cq, ib_cq);
-  3473		struct bnxt_re_dev *rdev = to_bnxt_re_dev(ibcq->device, ibdev);
-  3474		struct ib_udata *udata = &attrs->driver_udata;
-  3475		struct bnxt_re_ucontext *uctx =
-  3476			rdma_udata_to_drv_context(udata, struct bnxt_re_ucontext, ib_uctx);
-  3477		struct bnxt_qplib_dev_attr *dev_attr = rdev->dev_attr;
-> 3478		struct bnxt_qplib_chip_ctx *cctx;
-  3479		int cqe = attr->cqe;
-  3480		int rc, entries;
-  3481		u32 active_cqs;
-  3482	
-  3483		if (udata)
-  3484			return bnxt_re_create_user_cq(ibcq, attr, attrs);
-  3485	
-  3486		if (attr->flags)
-  3487			return -EOPNOTSUPP;
-  3488	
-  3489		/* Validate CQ fields */
-  3490		if (cqe < 1 || cqe > dev_attr->max_cq_wqes) {
-  3491			ibdev_err(&rdev->ibdev, "Failed to create CQ -max exceeded");
-  3492			return -EINVAL;
-  3493		}
-  3494	
-  3495		cq->rdev = rdev;
-  3496		cctx = rdev->chip_ctx;
-  3497		cq->qplib_cq.cq_handle = (u64)(unsigned long)(&cq->qplib_cq);
-  3498	
-  3499		entries = bnxt_re_init_depth(cqe + 1, uctx);
-  3500		if (entries > dev_attr->max_cq_wqes + 1)
-  3501			entries = dev_attr->max_cq_wqes + 1;
-  3502	
-  3503		cq->max_cql = min_t(u32, entries, MAX_CQL_PER_POLL);
-  3504		cq->cql = kcalloc(cq->max_cql, sizeof(struct bnxt_qplib_cqe),
-  3505				  GFP_KERNEL);
-  3506		if (!cq->cql)
-  3507			return -ENOMEM;
-  3508	
-  3509		cq->qplib_cq.sg_info.pgsize = SZ_4K;
-  3510		cq->qplib_cq.sg_info.pgshft = __builtin_ctz(SZ_4K);
-  3511		cq->qplib_cq.dpi = &rdev->dpi_privileged;
-  3512		cq->qplib_cq.max_wqe = entries;
-  3513		cq->qplib_cq.coalescing = &rdev->cq_coalescing;
-  3514		cq->qplib_cq.nq = bnxt_re_get_nq(rdev);
-  3515		cq->qplib_cq.cnq_hw_ring_id = cq->qplib_cq.nq->ring_id;
-  3516	
-  3517		rc = bnxt_qplib_create_cq(&rdev->qplib_res, &cq->qplib_cq);
-  3518		if (rc) {
-  3519			ibdev_err(&rdev->ibdev, "Failed to create HW CQ");
-  3520			goto fail;
-  3521		}
-  3522	
-  3523		cq->ib_cq.cqe = entries;
-  3524		cq->cq_period = cq->qplib_cq.period;
-  3525		active_cqs = atomic_inc_return(&rdev->stats.res.cq_count);
-  3526		if (active_cqs > rdev->stats.res.cq_watermark)
-  3527			rdev->stats.res.cq_watermark = active_cqs;
-  3528		spin_lock_init(&cq->cq_lock);
-  3529	
-  3530		return 0;
-  3531	
-  3532	fail:
-  3533		kfree(cq->cql);
-  3534		return rc;
-  3535	}
-  3536	
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  772  
+57bc17ffc566de drivers/staging/greybus/es2.c    Johan Hovold       2015-11-04  773  static void es2_destroy(struct es2_ap_dev *es2)
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  774  {
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21 @775  	struct usb_device *udev;
+1521eb6b6995dd drivers/staging/greybus/es2.c    Greg Kroah-Hartman 2016-08-17  776  	struct urb *urb;
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  777  	int i;
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  778  
+74cd6503e5d4f0 drivers/staging/greybus/es2.c    Johan Hovold       2015-11-04  779  	debugfs_remove(es2->apb_log_enable_dentry);
+4b1d82047ebbb1 drivers/staging/greybus/es2.c    Alex Elder         2015-10-27  780  	usb_log_disable(es2);
+ca3ec299c2d090 drivers/staging/greybus/es2.c    Greg Kroah-Hartman 2015-03-27  781  
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  782  	/* Tear down everything! */
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  783  	for (i = 0; i < NUM_CPORT_OUT_URB; ++i) {
+1521eb6b6995dd drivers/staging/greybus/es2.c    Greg Kroah-Hartman 2016-08-17  784  		urb = es2->cport_out_urb[i];
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  785  		usb_kill_urb(urb);
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  786  		usb_free_urb(urb);
+4b1d82047ebbb1 drivers/staging/greybus/es2.c    Alex Elder         2015-10-27  787  		es2->cport_out_urb[i] = NULL;
+4b1d82047ebbb1 drivers/staging/greybus/es2.c    Alex Elder         2015-10-27  788  		es2->cport_out_urb_busy[i] = false;	/* just to be anal */
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  789  	}
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  790  
+9d9d3777a9db5c drivers/staging/greybus/es2.c    Alexandre Bailon   2016-07-07  791  	for (i = 0; i < NUM_ARPC_IN_URB; ++i) {
+1521eb6b6995dd drivers/staging/greybus/es2.c    Greg Kroah-Hartman 2016-08-17  792  		usb_free_urb(es2->arpc_urb[i]);
+9d9d3777a9db5c drivers/staging/greybus/es2.c    Alexandre Bailon   2016-07-07  793  		kfree(es2->arpc_buffer[i]);
+9d9d3777a9db5c drivers/staging/greybus/es2.c    Alexandre Bailon   2016-07-07  794  		es2->arpc_buffer[i] = NULL;
+9d9d3777a9db5c drivers/staging/greybus/es2.c    Alexandre Bailon   2016-07-07  795  	}
+9d9d3777a9db5c drivers/staging/greybus/es2.c    Alexandre Bailon   2016-07-07  796  
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  797  	for (i = 0; i < NUM_CPORT_IN_URB; ++i) {
+7330c48ec09367 drivers/staging/greybus/es2.c    Greg Kroah-Hartman 2016-08-17  798  		usb_free_urb(es2->cport_in.urb[i]);
+7330c48ec09367 drivers/staging/greybus/es2.c    Greg Kroah-Hartman 2016-08-17  799  		kfree(es2->cport_in.buffer[i]);
+7330c48ec09367 drivers/staging/greybus/es2.c    Greg Kroah-Hartman 2016-08-17  800  		es2->cport_in.buffer[i] = NULL;
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  801  	}
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  802  
+52033fdebc9202 drivers/staging/greybus/es2.c    Vaibhav Agarwal    2016-05-27  803  	/* release reserved CDSI0 and CDSI1 cports */
+52033fdebc9202 drivers/staging/greybus/es2.c    Vaibhav Agarwal    2016-05-27  804  	gb_hd_cport_release_reserved(es2->hd, ES2_CPORT_CDSI1);
+52033fdebc9202 drivers/staging/greybus/es2.c    Vaibhav Agarwal    2016-05-27  805  	gb_hd_cport_release_reserved(es2->hd, ES2_CPORT_CDSI0);
+52033fdebc9202 drivers/staging/greybus/es2.c    Vaibhav Agarwal    2016-05-27  806  
+4b1d82047ebbb1 drivers/staging/greybus/es2.c    Alex Elder         2015-10-27  807  	udev = es2->usb_dev;
+c1700479845bc3 drivers/staging/greybus/es2.c    Johan Hovold       2015-11-04  808  	gb_hd_put(es2->hd);
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  809  }
+f587027e793cf8 drivers/staging/greybus/gb-es2.c Greg Kroah-Hartman 2015-01-21  810  
 
 -- 
 0-DAY CI Kernel Test Service
