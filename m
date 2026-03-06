@@ -1,91 +1,275 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181EB23C4E9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 04:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D0831E854
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 04:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772770317; cv=none; b=ZYPZperjcCi5DYG40EEVO20K0lnAKvXZMo9jBYOT6wHeSqFgTb9VcjxN2xyDa1u6uYUMnCsls3pl+jutkjLPBJqqzCo85zHUM8NW6KRyTeQgdRh79aGcP9ACKanqyyby25hYrhcd05LhW3QRNDqzoohb0OuhFCQtRNxWdIctUWs=
+	t=1772771139; cv=none; b=e/qzH4nxGL2KqfWtsiXebxQ7IO+j3FLoVSD7RBMVyYudMqoy5iPe8C1ImFstk2QKP42N8wnhuGHOqL4Kc+yMoKu7QubvWvO7R4f+GfxJ9QlNO9/0W/eMXW+pgADERAZzyFEm3KSKHeSIgZLsLWxihRrmRSB0GmZPaptZFHAZ65g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772770317; c=relaxed/simple;
-	bh=iAlZVufoXy2b4iQYPE/V+bZgjnhOYLQt8OWUXaqThDo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GqUCpIZ03U9JAbwsXyYN291y0jog1fb2/+6NpiuClS3HzJf07TyWKepo7pf2lRDO5rifu1aupOP7zmguj45VCWaF3KxfU1DS8GDWo/9DecRjbj2nSUTCDXqKELUJPLaEVV0h9/sHRZwMb+pRzYhG8qgoym0I6CWNefgzyJdWUrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h4CBAypz; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772771139; c=relaxed/simple;
+	bh=3xlmtB2PFFJoc9WG8mIDsCqppWWwbZ7rLVmpPFx2GjA=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=fbYE+l3TyL0ZEQl9JNhUgxo0PFpS5PoLeWpHP/OAwYPK4RfBV9Y4Yz10W5I+9MgFu12c2TjnbdLcqfaN+JZbomFW3oYYZWvP/YWzb+u379FP3A8UE1ZkZvchQYrrIcQpaYn7QwssnEvdR29Tx2RQdNFFYrJEqDsMpnNlYMW8M1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GlH49Ii3; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h4CBAypz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772770315; x=1804306315;
-  h=date:from:to:cc:subject:message-id;
-  bh=iAlZVufoXy2b4iQYPE/V+bZgjnhOYLQt8OWUXaqThDo=;
-  b=h4CBAypzX91ahLDd9c2rswuSFEeDr82h6xGu2fPTIBFlV4Gpn57uxWPM
-   itwhcYpq2So16hvH5obAlJtWPxIpZmRGTjwDNg/JboJyMu6VCfHEowLXa
-   5I5e+btYnUNSEyGvlZ7Wl2sxSUykXehQuoYCpg4bFCmooiQkLv4DyJ29k
-   nLB5m2EwJB2z7vJcrLeApcZE2MJOHRPKx99Scp17UEhN/dFd6Z4hbS8GZ
-   GwfcY9PHq2xLsFIZZyv1vUdeWaGDLRej3wifj2m+OvGz6S5G1icbJtnSB
-   QUpCjx1UxwAgl60vutNu8ni5i4wkpQZ4Ss091rI40zo4YGz+vbZoD+3in
-   A==;
-X-CSE-ConnectionGUID: TYVOqkX8RVeG7r626955iw==
-X-CSE-MsgGUID: Wfkz81mnQDidBc8Qoy6RQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="84508701"
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="84508701"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 20:11:54 -0800
-X-CSE-ConnectionGUID: 0B5PrmLKS32zFZDkD0cjkw==
-X-CSE-MsgGUID: X32Q12sVRIKDWrmoQiL5Sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="216060023"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Mar 2026 20:11:53 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vyMXW-000000002Bt-44Fr;
-	Fri, 06 Mar 2026 04:11:50 +0000
-Date: Fri, 06 Mar 2026 05:11:12 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Pierre-Henry Moussay" <pierre-henry.moussay@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: [linux-next:master 3130/4342]
- arch/riscv/boot/dts/microchip/pic64gx-curiosity-kit.dtb: syscon@20002000
- (microchip,pic64gx-mss-top-sysreg): compatible:2: 'simple-mfd' was expected
-Message-ID: <202603060519.TkotroOy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GlH49Ii3"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4837907f535so79563155e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Mar 2026 20:25:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1772771135; x=1773375935; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KA1lszZwUH3EqTcHfpy8Dr7ptwzwhEjwl9qaPj5djgU=;
+        b=GlH49Ii3J8D95ZmNQw4qLF5fEcFwUPxK+4LeDilOhoW8Ctm+vADjizpd/pYbDmewsi
+         d2XbV9sXb4aE4wwndAYSenaA9JOO4BPGLCQUbzbS7d38+IFDGokmp8MTbrh75vHOZMOy
+         JnX5sC0Yp/X1KVmvnkWEm7svz0c2kdSeCBTnXlSLl+sDXw0cnHGB9pKXPYvVIgPSplsA
+         t++F76CxX8NXsVjpCAhYNswrrN1PWCyWGGbJgYA3W8h5UM3Fr03h86fc0JMETXEdvtWu
+         GBK/4z95xDpBXkwh3S3yqddJz+YT5O0YH4JUKIxB5LQQrDgGGLOV67yoBRQfu57DCtQw
+         AjoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772771135; x=1773375935;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KA1lszZwUH3EqTcHfpy8Dr7ptwzwhEjwl9qaPj5djgU=;
+        b=bbJ5v2aauS+IMifysONTkmhhfuBRF8YmUrnMg7+IDZwPgpnFV6BhgnzJ1SCmjCEzo5
+         xen6i2vmdehk/nz/l9T6B2mPvuP4q0s9zyMcoYAFvqOrIJIXq0pw3vUMLzfjwzG09c/D
+         xzTGVTNLhHpSfBuagORa3CRmerAcdb92xjVB38KZQynlx4oXDqKqcauA7ONfg3UK0ZnQ
+         qrY+MT4p9aeC+pdvTIttGfdBPFqF1pPJ2dniaZuSTj9mFxCV68BieZpmjPD8cgoU98Zh
+         jYM5/F0hMdPJ+U41cf9A5a+YyRt1D5puu3LNuMzI3Zdygh2vsynsf3XREAkC6vEpGEnD
+         PMAw==
+X-Forwarded-Encrypted: i=1; AJvYcCURhooa5wT+jxMLg/tF1Bh0CdTBr9sOjVKOez6VOd/1T6f9OSvFnWWFn/0ZDZhlebMkCoYCZpnzCagJcCgc@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcJLtP3DpHDkpII8I5N7dyLpoQCNYhsMH/3eIgXVxpfOknfo1T
+	orwHsFpC8ovEdk9e7c3N8piD7njTTHuljQHRYyQH4bw5YlVdZ2tcJl5FgD/CTlH6Q1Q=
+X-Gm-Gg: ATEYQzwJnggsqXCFcxBfmE2yYDX2ehfscQzLynUOB45aRrXIlnYlZuQ7xatYL4oUe6/
+	fktPb8azpxEi0c70s5uZVY4JIqYjb/y5+PMUPcxmS322yml3lQWj5/Y4TpQ/fPha00je8bS4P1p
+	hSZGbY4mvQFdiYuTxJV3joBbdxi6AeUfRxyjGOEXG2bpa82fLaA8fwVFIFyBTqkfRL1FolXKeZC
+	f6gvY4+JOs4Gll3gKA3la/kcBrxt+mL/jhTEBiV6Gb3+PYgtq9gCMsUY/X0Yb7eLAZe86qDtruB
+	K8e9qKgD8KS/31nwdSArhpDtSFpPNznwdq3t0SB6mA8n5DFbpoVDyJpw1GmHgYRlfpZZOoIHeYW
+	iz8PQ/6+wy0NX99zAKJ/xCNc1YkIw7SJB12KrbhHIoSJXEhU2TyHxZNhSbpBi6uhMTAOcbkxxsY
+	USBB7c4lNi1Ox/G78L3U1/UBz5sg==
+X-Received: by 2002:a05:600c:46d1:b0:47a:814c:eea1 with SMTP id 5b1f17b1804b1-4852697956amr9208445e9.35.1772771135261;
+        Thu, 05 Mar 2026 20:25:35 -0800 (PST)
+Received: from smtpclient.apple ([154.26.180.185])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be4f828b30sm353805eec.8.2026.03.05.20.25.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 Mar 2026 20:25:33 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
+Subject: Re: [PATCH 1/3] md: restore bitmap/location to fix wrong bitmap
+ offset while growing
+From: Glass Su <glass.su@suse.com>
+In-Reply-To: <202603060614.AZY6J9w9-lkp@intel.com>
+Date: Fri, 6 Mar 2026 12:25:15 +0800
+Cc: linux-raid@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev,
+ song@kernel.org,
+ xni@redhat.com,
+ linan122@huawei.com,
+ yukuai@fnnas.com,
+ Heming Zhao <heming.zhao@suse.com>,
+ Su Yue <l@damenly.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <56C72373-16C6-46D7-8DB7-A12E704CE480@suse.com>
+References: <20260303033731.83885-2-glass.su@suse.com>
+ <202603060614.AZY6J9w9-lkp@intel.com>
+To: kernel test robot <lkp@intel.com>
+X-Mailer: Apple Mail (2.3864.400.21)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3f9cd19e764b782706dbaacc69e502099cb014ba
-commit: a3c02b37a6316c5dbb918a836a43ac8a37e7a0be [3130/4342] riscv: dts: microchip: add pic64gx and its curiosity kit
-config: riscv-randconfig-2051-20260305 (https://download.01.org/0day-ci/archive/20260306/202603060519.TkotroOy-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603060519.TkotroOy-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603060519.TkotroOy-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/riscv/boot/dts/microchip/pic64gx-curiosity-kit.dtb: /syscontroller: failed to match any schema with compatible: ['microchip,pic64gx-sys-controller']
-   arch/riscv/boot/dts/microchip/pic64gx-curiosity-kit.dtb: syscon@20002000 (microchip,pic64gx-mss-top-sysreg): compatible:0: 'microchip,mpfs-mss-top-sysreg' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
-   arch/riscv/boot/dts/microchip/pic64gx-curiosity-kit.dtb: syscon@20002000 (microchip,pic64gx-mss-top-sysreg): compatible:1: 'syscon' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
->> arch/riscv/boot/dts/microchip/pic64gx-curiosity-kit.dtb: syscon@20002000 (microchip,pic64gx-mss-top-sysreg): compatible:2: 'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
-   arch/riscv/boot/dts/microchip/pic64gx-curiosity-kit.dtb: syscon@20002000 (microchip,pic64gx-mss-top-sysreg): compatible: ['microchip,pic64gx-mss-top-sysreg', 'microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd'] is too long
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/microchip,mpfs-mss-top-sysreg.yaml
-   arch/riscv/boot/dts/microchip/pic64gx-curiosity-kit.dtb: /soc/syscon@20002000: failed to match any schema with compatible: ['microchip,pic64gx-mss-top-sysreg', 'microchip,mpfs-mss-top-sysreg', 'syscon', 'simple-mfd']
+> On Mar 6, 2026, at 06:50, kernel test robot <lkp@intel.com> wrote:
+>=20
+> Hi Su,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v7.0-rc2 next-20260305]
+> [If your patch is applied to the wrong git tree, kindly drop us a =
+note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:    =
+https://github.com/intel-lab-lkp/linux/commits/Su-Yue/md-restore-bitmap-lo=
+cation-to-fix-wrong-bitmap-offset-while-growing/20260303-114108
+> base:   linus/master
+> patch link:    =
+https://lore.kernel.org/r/20260303033731.83885-2-glass.su%40suse.com
+> patch subject: [PATCH 1/3] md: restore bitmap/location to fix wrong =
+bitmap offset while growing
+> config: i386-randconfig-051-20260305 =
+(https://download.01.org/0day-ci/archive/20260306/202603060614.AZY6J9w9-lk=
+p@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build): =
+(https://download.01.org/0day-ci/archive/20260306/202603060614.AZY6J9w9-lk=
+p@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: =
+https://lore.kernel.org/oe-kbuild-all/202603060614.AZY6J9w9-lkp@intel.com/=
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>   ld: drivers/md/md.o: in function `md_alloc':
+>>> drivers/md/md.c:6376:(.text+0xb36c): undefined reference to =
+`md_sysfs_create_common_group'
+
+Forget to test it with=20
+
+# CONFIG_MD_BITMAP is not set
+
+Anyway, I will do  revision as Yu Kuai=E2=80=99s suggestion.
+
+=E2=80=94=20
+Su
+
+>=20
+
+>=20
+> vim +6376 drivers/md/md.c
+>=20
+>  6276=20
+>  6277 struct mddev *md_alloc(dev_t dev, char *name)
+>  6278 {
+>  6279 /*
+>  6280 * If dev is zero, name is the name of a device to allocate with
+>  6281 * an arbitrary minor number.  It will be "md_???"
+>  6282 * If dev is non-zero it must be a device number with a MAJOR of
+>  6283 * MD_MAJOR or mdp_major.  In this case, if "name" is NULL, then
+>  6284 * the device is being created by opening a node in /dev.
+>  6285 * If "name" is not NULL, the device is being created by
+>  6286 * writing to /sys/module/md_mod/parameters/new_array.
+>  6287 */
+>  6288 static DEFINE_MUTEX(disks_mutex);
+>  6289 struct mddev *mddev;
+>  6290 struct gendisk *disk;
+>  6291 int partitioned;
+>  6292 int shift;
+>  6293 int unit;
+>  6294 int error;
+>  6295=20
+>  6296 /*
+>  6297 * Wait for any previous instance of this device to be completely
+>  6298 * removed (mddev_delayed_delete).
+>  6299 */
+>  6300 flush_workqueue(md_misc_wq);
+>  6301=20
+>  6302 mutex_lock(&disks_mutex);
+>  6303 mddev =3D mddev_alloc(dev);
+>  6304 if (IS_ERR(mddev)) {
+>  6305 error =3D PTR_ERR(mddev);
+>  6306 goto out_unlock;
+>  6307 }
+>  6308=20
+>  6309 partitioned =3D (MAJOR(mddev->unit) !=3D MD_MAJOR);
+>  6310 shift =3D partitioned ? MdpMinorShift : 0;
+>  6311 unit =3D MINOR(mddev->unit) >> shift;
+>  6312=20
+>  6313 if (name && !dev) {
+>  6314 /* Need to ensure that 'name' is not a duplicate.
+>  6315 */
+>  6316 struct mddev *mddev2;
+>  6317 spin_lock(&all_mddevs_lock);
+>  6318=20
+>  6319 list_for_each_entry(mddev2, &all_mddevs, all_mddevs)
+>  6320 if (mddev2->gendisk &&
+>  6321    strcmp(mddev2->gendisk->disk_name, name) =3D=3D 0) {
+>  6322 spin_unlock(&all_mddevs_lock);
+>  6323 error =3D -EEXIST;
+>  6324 goto out_free_mddev;
+>  6325 }
+>  6326 spin_unlock(&all_mddevs_lock);
+>  6327 }
+>  6328 if (name && dev)
+>  6329 /*
+>  6330 * Creating /dev/mdNNN via "newarray", so adjust hold_active.
+>  6331 */
+>  6332 mddev->hold_active =3D UNTIL_STOP;
+>  6333=20
+>  6334 disk =3D blk_alloc_disk(NULL, NUMA_NO_NODE);
+>  6335 if (IS_ERR(disk)) {
+>  6336 error =3D PTR_ERR(disk);
+>  6337 goto out_free_mddev;
+>  6338 }
+>  6339=20
+>  6340 disk->major =3D MAJOR(mddev->unit);
+>  6341 disk->first_minor =3D unit << shift;
+>  6342 disk->minors =3D 1 << shift;
+>  6343 if (name)
+>  6344 strcpy(disk->disk_name, name);
+>  6345 else if (partitioned)
+>  6346 sprintf(disk->disk_name, "md_d%d", unit);
+>  6347 else
+>  6348 sprintf(disk->disk_name, "md%d", unit);
+>  6349 disk->fops =3D &md_fops;
+>  6350 disk->private_data =3D mddev;
+>  6351=20
+>  6352 disk->events |=3D DISK_EVENT_MEDIA_CHANGE;
+>  6353 mddev->gendisk =3D disk;
+>  6354 error =3D add_disk(disk);
+>  6355 if (error)
+>  6356 goto out_put_disk;
+>  6357=20
+>  6358 kobject_init(&mddev->kobj, &md_ktype);
+>  6359 error =3D kobject_add(&mddev->kobj, &disk_to_dev(disk)->kobj, =
+"%s", "md");
+>  6360 if (error) {
+>  6361 /*
+>  6362 * The disk is already live at this point.  Clear the hold flag
+>  6363 * and let mddev_put take care of the deletion, as it isn't any
+>  6364 * different from a normal close on last release now.
+>  6365 */
+>  6366 mddev->hold_active =3D 0;
+>  6367 mutex_unlock(&disks_mutex);
+>  6368 mddev_put(mddev);
+>  6369 return ERR_PTR(error);
+>  6370 }
+>  6371=20
+>  6372 /*
+>  6373 * md_sysfs_remove_common_group is not needed because =
+mddev_delayed_delete
+>  6374 * calls kobject_put(&mddev->kobj) if mddev is to be deleted.
+>  6375 */
+>> 6376 if (md_sysfs_create_common_group(mddev))
+>  6377 pr_warn("md: cannot register common bitmap attributes for %s\n",
+>  6378 mdname(mddev));
+>  6379=20
+>  6380 kobject_uevent(&mddev->kobj, KOBJ_ADD);
+>  6381 mddev->sysfs_state =3D sysfs_get_dirent_safe(mddev->kobj.sd, =
+"array_state");
+>  6382 mddev->sysfs_level =3D sysfs_get_dirent_safe(mddev->kobj.sd, =
+"level");
+>  6383 mutex_unlock(&disks_mutex);
+>  6384 return mddev;
+>  6385=20
+>  6386 out_put_disk:
+>  6387 put_disk(disk);
+>  6388 out_free_mddev:
+>  6389 mddev_free(mddev);
+>  6390 out_unlock:
+>  6391 mutex_unlock(&disks_mutex);
+>  6392 return ERR_PTR(error);
+>  6393 }
+>  6394=20
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
