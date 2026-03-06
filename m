@@ -1,147 +1,181 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7F821CC71;
-	Fri,  6 Mar 2026 21:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B27299931
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 21:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772831825; cv=none; b=AY1pgUuxnVYRHccYo3BohpukNZ4MojvQxiHVP/T4zzaJYi1ERxhzkrVX/ASf9Sl6Uue+gYXOmBAZVixDkVr6VIRr5lFatp8D7lU2x28b5gw0rMBHseZ9njBd9xtVqdyxentvMYNS4ZfUxUQyVBOEDgIS+563HA/DaFPDXIIWD+Q=
+	t=1772832419; cv=none; b=Ch9gkzT56/k7UbT+IXSo07hxqK6DngSZfSWD86qidFwq7Ug1XMsx4Y5bFEPa6Y/jtKt0CNd5/AnZbhMP0br+3lZ8hktWRWFP2ZWopCMYbhsyhTgPTicWziTwzixAhr/fpBso57q97T5VtEEdHmBVYLpk8YJp5NPAadhScmBZRME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772831825; c=relaxed/simple;
-	bh=uZuCakPLyV0YhkoEiRG1KRnO5yknVI+iOX2e2p0KbCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lgMf+eokxlC8lEW42Egj3K1GHgjJvzr6FuUMN7RhfmZYLgg87ut+coDV7arals2Krb0wM7Qm2ffZ/bSyudlC++8jbaVYCeZ7Rg0sJrOmiC3bAjAtwMFzg1DIUJo/HAiY4cUsMJjSDyI2m2jaS8tVbbOOVMXxqkYHQC42ZsxMEIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nA6CgNUj; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1772832419; c=relaxed/simple;
+	bh=ArOiI866cwwN4U0rPj98rD6fCiVizEqBDGdmR0BPEbw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lSl88J0ncmcE7z1x40kqZddKC7LAZXhQDw6nVKp4CF3Yaj1R5JmMdzHzrRBgCwI7mNhICXgJWkAP3Sbdu6uNEtHjp04v9SHm7ETcCoAUNrQREZzhUvTmvutQr+neFX5nVggr6wsR42LGGrmFFcuTPosVTmw3aR6wzzFXhBchsBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eoEEBZyR; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nA6CgNUj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eoEEBZyR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772831823; x=1804367823;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uZuCakPLyV0YhkoEiRG1KRnO5yknVI+iOX2e2p0KbCI=;
-  b=nA6CgNUjXPKOsOdpaQjz0H3kCxHeHYmlL/kzsxSn6HZHO6Iz7jaZdR7Y
-   WThBAKu2VxKjLEmyinmcbzFDJdhmtv8Otx6oCzxLRtKgzy4g/HKTaJoeV
-   OcbhOI3gU6HjKhm/liH8rSbBU0nZw0Ic6W/H3bJ+bTpohOMDAv+7b0u62
-   SEERAFpvYMzJECnNfDTnggi/E35CSJogU1McW3v6MVyIYLvzG5hLIdmS9
-   VbQMKzAIRv5ikM6hDS0WZDuFrBcwDqVP1DNA0FohV4tCZA+b1qQadZtKV
-   igd6RWCA/iVkfln1zDWGBA63XCR80ypEpDgXcLAB6XT9XBJitw0mzhgI0
-   g==;
-X-CSE-ConnectionGUID: AsyFocmnTkmYn3sfQNEnRg==
-X-CSE-MsgGUID: N6EBuOMSSNyHcy5viyNkmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73864517"
+  t=1772832418; x=1804368418;
+  h=date:from:to:cc:subject:message-id;
+  bh=ArOiI866cwwN4U0rPj98rD6fCiVizEqBDGdmR0BPEbw=;
+  b=eoEEBZyR9GXUunpOxSIVcoPLgc0F2QgRdvYF/RHsq3nVmRJdE8U9qHzR
+   1rrhUqJs/IfKaBlcCjTaheW7xcgAgYdlSryoUz+PFUh5LpHEEPKsFhEiM
+   xhu6miwMugvONbQoBImTe5NKru7hiUeywm+FHt8n/RIq6V7if6H+fXc/r
+   fYyyK1kiUuBh8XNdLWPgy5+9JLTM7DGXv3CCYtybXVpL6qr2Vc2Q5Y2AM
+   Vgcyt4fmQG6autEGAsuVq2U3tjaofr8vsjKsvVVoVntnamC9cOINAi0O3
+   v1i79uWCYc6bXfx8cjrg2oC8QUQKinxRjaPpjLTir1ZwAtraC93d8wPoN
+   A==;
+X-CSE-ConnectionGUID: PNZ9jWhXQXqdNOh8vqAA1w==
+X-CSE-MsgGUID: RcxOLGhhQPG7gOiYJFL7ng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73143132"
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="73864517"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 13:17:03 -0800
-X-CSE-ConnectionGUID: sLCBQ4W5SDmWOS6uvkx/UQ==
-X-CSE-MsgGUID: udzCn7C5Rlef9WYbwV9VVA==
+   d="scan'208";a="73143132"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 13:26:57 -0800
+X-CSE-ConnectionGUID: XzO7zQlRSQCmjlr1++70Fg==
+X-CSE-MsgGUID: tCz/UaKVQFi5VQCvP9iDQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="219065605"
+   d="scan'208";a="242132663"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Mar 2026 13:16:55 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 06 Mar 2026 13:26:56 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vycXT-000000001Nx-1b5J;
-	Fri, 06 Mar 2026 21:16:51 +0000
-Date: Sat, 7 Mar 2026 05:16:00 +0800
+	id 1vychC-000000001Ob-0YSP;
+	Fri, 06 Mar 2026 21:26:54 +0000
+Date: Sat, 07 Mar 2026 05:26:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vasily Gorbik <gor@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-integrity@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
-	Alexander Egorenkov <egorenar@linux.ibm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Dave Hansen <dave.hansen@intel.com>, Coiby Xu <coxu@redhat.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" <linuxppc-dev@lists.ozlabs.org>,
-	"open list:S390 ARCHITECTURE" <linux-s390@vger.kernel.org>,
-	"open list:EXTENSIBLE FIRMWARE INTERFACE (EFI)" <linux-efi@vger.kernel.org>
-Subject: Re: [PATCH 1/1] s390/ipl: Fix missing arch_get_secureboot()
- prototype warning
-Message-ID: <202603070500.3pafeTNF-lkp@intel.com>
-References: <p01-01.g9ec0a81d34d1.ttbfdx5@ub.hpns>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 1/1]
+ arch/arm64/mm/dma-mapping-noalias.c:562:33: error: 'arm64_iommu_ops'
+ undeclared; did you mean 'arm64_noalias_ops'?
+Message-ID: <202603070522.eJWKBP9r-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <p01-01.g9ec0a81d34d1.ttbfdx5@ub.hpns>
 
-Hi Vasily,
+Hi Robin,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on v7.0-rc2]
-[also build test ERROR on linus/master]
-[cannot apply to next-20260306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vasily-Gorbik/s390-ipl-Fix-missing-arch_get_secureboot-prototype-warning/20260305-230453
-base:   v7.0-rc2
-patch link:    https://lore.kernel.org/r/p01-01.g9ec0a81d34d1.ttbfdx5%40ub.hpns
-patch subject: [PATCH 1/1] s390/ipl: Fix missing arch_get_secureboot() prototype warning
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260307/202603070500.3pafeTNF-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070500.3pafeTNF-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   2fa386e94ce07aeb64438dcb7652d51a0dfd6609
+commit: 3c75a6fb7fd1cd149d7af1a2e200b064a2d12782 [1/1] ANDROID: arm64: Work around Cortex-A510 erratum 2454944
+config: arm64-randconfig-r051-20260307 (https://download.01.org/0day-ci/archive/20260307/202603070522.eJWKBP9r-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070522.eJWKBP9r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603070500.3pafeTNF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603070522.eJWKBP9r-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/s390/kernel/ipl.c:24:10: fatal error: 'linux/secure_boot.h' file not found
-      24 | #include <linux/secure_boot.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   arch/arm64/mm/dma-mapping-noalias.c:550:6: warning: no previous prototype for 'arm64_noalias_setup_dma_ops' [-Wmissing-prototypes]
+     550 | void arm64_noalias_setup_dma_ops(struct device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/mm/dma-mapping-noalias.c: In function 'arm64_noalias_setup_dma_ops':
+>> arch/arm64/mm/dma-mapping-noalias.c:562:33: error: 'arm64_iommu_ops' undeclared (first use in this function); did you mean 'arm64_noalias_ops'?
+     562 |                 dev->dma_ops = &arm64_iommu_ops;
+         |                                 ^~~~~~~~~~~~~~~
+         |                                 arm64_noalias_ops
+   arch/arm64/mm/dma-mapping-noalias.c:562:33: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/arm64/mm/dma-mapping-noalias.c:563:21: error: 'iommu_dma_ops' undeclared (first use in this function); did you mean 'iommu_map'?
+     563 |                 if (iommu_dma_ops)
+         |                     ^~~~~~~~~~~~~
+         |                     iommu_map
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=n])
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +24 arch/s390/kernel/ipl.c
+vim +562 arch/arm64/mm/dma-mapping-noalias.c
 
-  > 24	#include <linux/secure_boot.h>
-    25	#include <asm/asm-extable.h>
-    26	#include <asm/machine.h>
-    27	#include <asm/diag.h>
-    28	#include <asm/ipl.h>
-    29	#include <asm/smp.h>
-    30	#include <asm/setup.h>
-    31	#include <asm/cpcmd.h>
-    32	#include <asm/ebcdic.h>
-    33	#include <asm/sclp.h>
-    34	#include <asm/checksum.h>
-    35	#include <asm/debug.h>
-    36	#include <asm/abs_lowcore.h>
-    37	#include <asm/os_info.h>
-    38	#include <asm/sections.h>
-    39	#include <asm/boot_data.h>
-    40	#include "entry.h"
-    41	
+   549	
+   550	void arm64_noalias_setup_dma_ops(struct device *dev)
+   551	{
+   552		if (dev_is_dma_coherent(dev))
+   553			return;
+   554	
+   555		dev_info(dev, "applying no-alias DMA workaround\n");
+   556		if (!dev->dma_ops) {
+   557			dev->dma_ops = &arm64_noalias_ops;
+   558			goto done;
+   559		}
+   560	
+   561		if (IS_ENABLED(CONFIG_IOMMU_DMA)) {
+ > 562			dev->dma_ops = &arm64_iommu_ops;
+ > 563			if (iommu_dma_ops)
 
 -- 
 0-DAY CI Kernel Test Service
