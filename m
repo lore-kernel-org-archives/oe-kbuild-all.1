@@ -1,166 +1,149 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012049.outbound.protection.outlook.com [52.101.48.49])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5944F36828B;
-	Thu,  5 Mar 2026 23:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772753915; cv=fail; b=l64eQMcTL4sUWvpPXPsv+6Db3393t8Ck8zOMsXtz6klkDoEjZCEL051yFOL551cIU7XAv/NB/wcbaBnloy9iLDFmeoae0JwWFvyWUKxWa/qs1Pv7J0hQsxTzseLSNgDOWD5DiyhE+UbFkqBZhWnt3MRdlx+9KGmeJV9pXrMhiFU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772753915; c=relaxed/simple;
-	bh=GAyTa1DhumNHzEZkGQcGgcIsT2U2qhQkimWsflOQOcA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Ix3VKRua4xBQb98kKRSxkVNRXd0XnKuK1qzgbwP70uUdHeGguRkFIQNapc1Ib2+NFy6SLUaGwDLiYHI8LOneXebnj0ubly6dRKayzj0XyQQLURk3z/mL2psQdRaQUW21hLffPQDwUt7jyDSQ8JSM9YragmGUl0s4NWND5QZpE0Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Pt8QURIV; arc=fail smtp.client-ip=52.101.48.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D0A2BD5BF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 00:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772756672; cv=none; b=kT76CSCEXFFpmdPyj0WwRHl9dJPy3n2+RfkmxtP/gaNdzLFXpotsTKGjQZcnKdfG/R9/hE3/dD6fFr3T1H+SvGf+F7R0an4FSW5wop3cgJzJBVp2IPDTTPxa0gIeZiP9nRk8Nqn0R13Jf8cCoe4xfUiqHZowVi8yEc1pfXlv7QI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772756672; c=relaxed/simple;
+	bh=QqpIVVRYfpwVCS62S0PrxkqodUHsKqTit+dNNS+PDVs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TDk/MpMgGmMJJDF8afps6Tg7QQMBIh9ehPVlfUai8nfh9Fqml1es/CQUzKElNlR9M7JtpUZEm3Tcnxt0PxtsrIdOmeNnZp7Id0t3Nd2rDtU0aOEn3SXiD5NQ2Ar50EBCLjcRX4H1ORWUdAgYtMg8BBUVC1ZL4WpIf8Q13LXYuF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVJApGzn; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Pt8QURIV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nUJNINGa1x0e9X8MMxQfDkaxOPpz3snk4/8lv43+BAS65uHZdxjDz0nOZPpoBJqO87tCf4gfYi4qq67OYfsETOSsnzeeaW/TFnK3Lmw50cEDZA6uJqtfBhcFdkYeBML+h+0oDPUoYbOzpfXNbVKrqC7FNG2CNePm2OsHHk4+QLp92VUUJEpWeks0up4sciYf6Q8qM3BjNucUWN1u6IoN/uRMwv28BjLaA83V4GEJ/pHZdCVaks/yMuFz/JjsZJW5rdEtDx2nqt6uE4gWnhlggAPXVEUtGvLxfZid/FX7llRkp8ViyzkIU1kgXnvpl1KkYFfzPzukDNXfqX4T/XLlMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bEfvh3VBH0k1+jZ9ep6v3XU+pAxOujHEw1Iaoj6Snpo=;
- b=TY5CXawnge5e56tri7s8ZvmxZ/2BdeSzozb/2uLEwnbzBgpbUAsCzSrf9GdcoLoiyEuq2n/6FBpsg/s7xKDGy4X0nfHTyLn1+1uYI6dSUbpc469frBbfT4ieksMsGOHiiDTI/Tg02HTLCs8K3AvZtlUiybvnSO1FRgJfU/2TrvfTSneZthlkNzKHSr1RMcjR7mC8c5iljducr4t/uZUMwhFfI4BVAgKaE9GPXezFGrZAgzbOQPhrRQa62u9AHFpiGER69D0Tvz4mSctKEKZY0HQLVHBRBbGJC3bql19ddr9DyFFEbQVb219jdM96Ez5jVgfwMD1Nstz7jtB/XdhYyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bEfvh3VBH0k1+jZ9ep6v3XU+pAxOujHEw1Iaoj6Snpo=;
- b=Pt8QURIVNu+ZpckK6GMjsVBB5Xldsx1itgj5lLKuHvvhbF60oaJLgB7v+mVgI39qfkS4483cTsi52qrUv5D1yRtyi2IJbQZ8RTLV7zjIs+Mk3LWdbAuf/pHYDZbe/dJsOWf8rQKCp5hxUCxz5Aa+SLp/xkyRGR6y7prSY3kGLwlQt9zODTugfzC2xsB5M8LUOL6o48fH71UzROoUq76VVFij9oyB6ajigx412rcQfLwaYOFVmKxnItSgly3xS5jPmijXeEfjEsR6NsvrdBXT4RrKLUcrrFn1mst2sId8oz0EFmr8isf0uS1gHhWZ9mGeLON6tObhKhXx4xJODA1JTg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by DM4PR12MB5745.namprd12.prod.outlook.com (2603:10b6:8:5c::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.22; Thu, 5 Mar 2026 23:38:28 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9654.022; Thu, 5 Mar 2026
- 23:38:28 +0000
-Date: Thu, 5 Mar 2026 19:38:27 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jacob Pan <jacob.pan@linux.microsoft.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	Alex Williamson <alex@shazbot.org>, Joerg Roedel <joro@8bytes.org>,
-	David Matlack <dmatlack@google.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	"Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-	Baolu Lu <baolu.lu@linux.intel.com>, oe-kbuild-all@lists.linux.dev,
-	skhawaja@google.com, pasha.tatashin@soleen.com,
-	Jean Philippe-Brucker <jean-philippe@linaro.org>,
-	Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 08/11] vfio: Enable cdev noiommu mode under iommufd
-Message-ID: <20260305233827.GA1651202@nvidia.com>
-References: <20260227175247.26103-9-jacob.pan@linux.microsoft.com>
- <202602280855.WxyIHCy5-lkp@intel.com>
- <20260228003540.GN5933@nvidia.com>
- <20260305152614.00001a0f@linux.microsoft.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305152614.00001a0f@linux.microsoft.com>
-X-ClientProxiedBy: BL1PR13CA0309.namprd13.prod.outlook.com
- (2603:10b6:208:2c1::14) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVJApGzn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772756670; x=1804292670;
+  h=date:from:to:cc:subject:message-id;
+  bh=QqpIVVRYfpwVCS62S0PrxkqodUHsKqTit+dNNS+PDVs=;
+  b=lVJApGznWQpK4myhSEzfluNLYWwCYOtY0bUJDpqQ2K6J2Rwkv26iCmEG
+   Eqsx3hmATR3P2tAfEBwGR4pIWtBijT5Bs9sHU0dCeIYl4LBZnf8lXhYKr
+   HRQzyELi767h9JkIj12waAPeEC9qGQCTdjOUNyhEC6MgiBQUa8IaSjIiY
+   P1bLoVdUkYGfUxdkZIEqcKmghC6AngkKlI5a/MZ/Qvv8Xtr0irkA2a/bH
+   H7KCSgfysk7VOrOrMMMYUCwN0vznXSs8QOPUF56b6A7aOud5k5V9UsMhL
+   TXWDznkdxzZePb2mvX+GiiHP20qwGtx91cRhZmGKnPefJFReJzotgvAl6
+   w==;
+X-CSE-ConnectionGUID: 9aO1DPVJQE2i8y68bPEU6g==
+X-CSE-MsgGUID: MO/+kLi2SlCzY7rS5N4Iqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="72886266"
+X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
+   d="scan'208";a="72886266"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 16:24:29 -0800
+X-CSE-ConnectionGUID: 9QmOvlUzTMqvy+m9E/P73A==
+X-CSE-MsgGUID: zl9stA+xTiiyr7vR8YO8vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
+   d="scan'208";a="222981574"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 05 Mar 2026 16:24:28 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vyIzR-0000000006T-18oy;
+	Fri, 06 Mar 2026 00:24:25 +0000
+Date: Fri, 06 Mar 2026 08:23:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 2/2] ERROR: modpost:
+ "__kvm_nvhe_memcpy" [drivers/iommu/arm/arm-smmu-v3/arm_smmu_v3_kvm.ko]
+ undefined!
+Message-ID: <202603060804.9wiSKSTK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM4PR12MB5745:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7bb0c66-7be7-4af8-052d-08de7b104d66
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	txRzG08e6Tpf4gEBibHEhuNkxA5jU49swDVYyHQ4Vm+0mu6G8jLXfOUPPrvMOV6ok2AJ4qS5iu891lGorZlYPytYELh6o69EqfPKxLGNwukMxTywiYCtFy5saTmeDvxKVoGzSEyNZQ5n+ypfn4u+aDTt9ecFgqw2YHtRMBZ1u2Fpx5XkVhgHVf4kkLQOW1fYgmXWdAEjFjqH7EuTlC1CpXYia/t9Z5nNBy1+zVZ3rymEEfr2r52Oj5YdQqLv7lDfTUsz2dJ0voxoNpEhy1bt9USGf9SxQ1+EAoCpkG3hxWGkP1GHBtWe9pzuUNdAV8zWCSj7TeyKy35aQn3QIUH2IdCS7Yh91km7T6LK50NbEilYTroAPEj0wmvfJlzrad67EKV10M467BkBh/28r9KJcn6Vm899MYliXVTFkMPOQciK7mKUJJyhxLaQKy7YNmrBWFxnDq+F9XIxim/O7TjF2qQf9xKDonmkln3aC/Q9SNG80imc0n4Kx0lTV8QH0F2xfW+V4EM/OAP/suaRWi4T2FtoJP6cZZb1ifX3jO5E8NOmmOjbT+G761kcMF8GnZRmK0WQlbwknkiq+BglGevp8bD9wMaxF3TGUJCkBskOD598KlGrM4XWgb3QleiAjAS+d49a0daAyIKBfYN5/Z9J/5dY0V+wEPABORVSsxSRpimzWCWq+7YpsYeSsWOCfFnjtHMqpPGNjXS/Tr4KGBCtuiQJGAn6LxP1wDQKt7duG/I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5apSgkxylugJUtg50678OWcsIVgR/sewSZEwwK+hlMZ/7NpWjGEWbEqdTxuL?=
- =?us-ascii?Q?JcHcSzDqBQZ1TNRrTL4iSR1D/bt1VSwylQ3yiH/wGdO5ekn5gMsX7bJzEcBS?=
- =?us-ascii?Q?fGLJAma7D24nR9/sozSxh1NfOKoRZhIcHfY+mxBmabk9w7Ox/uEgoMQHkIOf?=
- =?us-ascii?Q?YXeBhnQyApl52yewSj4ymcqPikXeCWqsAYGYF4H3G+oygtg3E/qectMSxXrb?=
- =?us-ascii?Q?qbzVE3rbrnFPD+HIF9eHu/ClGVFrIcyJIU7AniXFNi5Z6aWZM5+U6oEHAvPA?=
- =?us-ascii?Q?wkfDR8EWFebe9wjNKwIg9FA7QdjOgdOmbwYn/qM3kunp8IsdP8ZS7prqgES8?=
- =?us-ascii?Q?mOGIJ7ATPeVOgwycWfCk3fdw6S57jdYqAQukgVkSkbmwThqy5F/pkm7V4arI?=
- =?us-ascii?Q?gntQN1aH20e2/2mmVayrrKR5dwb1Vj+aRmoG0+2yOicQLxK9fxuA2RS3zWfU?=
- =?us-ascii?Q?FLBOB2u0ikMxyeVS+PtQL0cdfR0xypW+yh7zwI/KRQwGoAmqKv8n++MwhSEH?=
- =?us-ascii?Q?6Y+SNMRFJd5hWeEoActCPz7OaIkyWMRoyg4Qfxse5Hg4ytIemGwMsRC+tA4u?=
- =?us-ascii?Q?mc3eZApTTsunQ+IgkYKS/3XoIvn442r0nikjs2U0bQAQHBBUOuXDDELlBfCn?=
- =?us-ascii?Q?gr7zJFz1yvWOlBJVTd9UW8cE9YYThC7i5emxjr6hQmOAdlFxG202gHMYFM2u?=
- =?us-ascii?Q?PacNFNFlgu9V2bk5k3io5VvD2wVHDCtj8+HXMBUfv7irN9i5sdacDSiQdqFs?=
- =?us-ascii?Q?k9BvBXkw4wXJ7kXIgyVL6JHTutJzLnsFquXRTQNkYpVQLiz2K4y11aOoDQbE?=
- =?us-ascii?Q?+WvV71DlX470IjK1/qVjKBw5T9iY3hJ2r0MNEq9Oaqgdn+sjWzKxkk4RrR4C?=
- =?us-ascii?Q?Wgul2YzgLtvCQp96eRyXAPheFX+R7SDLKjTEDSV4iy44GGK7YgPT/7uz97aa?=
- =?us-ascii?Q?ttfjd9hm7dW1f2uy11Kf9YK0HfQ/ZInRMuM+yMoqo7xIOpKuoa4QSR75lYF+?=
- =?us-ascii?Q?a8thkn/2tqlJkjM4qx+DBensUgk4NafVe9UUKu4310YcAoF+Ygq6UfqX5Kza?=
- =?us-ascii?Q?E2mMNVVJkZ8tNCn0m+ZjRK4ONjVJI/GbJYPddZaaTy28u/mUc1+QZsWI5xVp?=
- =?us-ascii?Q?psm/cBr80z+02CcyjDfOrj+hBt5KYVzApsAyF5oVAqG7kcHJoypDLK/YxGQ/?=
- =?us-ascii?Q?z8I+U9Akmg3m2KsTEIzFV9fVhLZMLZrObrjjhEXymCRqYUl7AEc5hp3oygc5?=
- =?us-ascii?Q?2urZdfdDQX2VK0zDnZBsXB9UEMLHkk10UGvYxThz1zl0x1mYduq4lZRCoSVG?=
- =?us-ascii?Q?hpn8bYsQ4Z9K1Na2nvjYX79l8RsEIZvVljXv4xtlfHGXIiN/a+UyhWfVaySo?=
- =?us-ascii?Q?Y46vsoiB8DDmXFQOaox5LdIN58jBa2L5u/FjjabOJJSl9yKbHWGLzOMYJa5W?=
- =?us-ascii?Q?vmb4cw8NfTCx8Vlad6yXA2gy9AR8Fur+Hg8lhdwjM5/q7Z3kNytqvzwhVDFc?=
- =?us-ascii?Q?m0MiLe560FZvOFmfZt4/oiTYQSKBkOCIBZK5WtOaQTTmKloJjcVwYmfjdjfN?=
- =?us-ascii?Q?RNvK0uDxzkxnbMe+KHyaqfc3FLGaMNBXfm0idXuzs8copIxodzojuylRu99q?=
- =?us-ascii?Q?bFnmrQ/s7LlvzkafwkqFmq5PjRKjULLEYDoi/1f1Ua/1C5iXO/yJ5pUdi+yO?=
- =?us-ascii?Q?4lszoxV/Z9osvX/tWvnxFhp1cEOD5oSlKU3I9+J9vAwDFp+suIYzKg66r0Ic?=
- =?us-ascii?Q?FCCYPqaZsA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7bb0c66-7be7-4af8-052d-08de7b104d66
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 23:38:28.2646
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ROn+yfQDHlD3q1Y3/6WqLLkh7gh0X+KtskaBbvK3FRR4AVKfm1ntdeWjd8qpt+6n
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5745
 
-On Thu, Mar 05, 2026 at 03:26:14PM -0800, Jacob Pan wrote:
-> Hi Jason,
-> 
-> On Fri, 27 Feb 2026 20:35:40 -0400
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
-> > On Sat, Feb 28, 2026 at 08:18:41AM +0800, kernel test robot wrote:
-> > > Kconfig warnings: (for reference only)
-> > >    WARNING: unmet direct dependencies detected for IOMMU_PT_AMDV1
-> > >    Depends on [n]: GENERIC_PT [=y] && IOMMU_PT [=y] &&
-> > > !GENERIC_ATOMIC64 [=y] Selected by [y]:
-> > >    - VFIO_NOIOMMU [=y] && VFIO [=y] && VFIO_GROUP [=y]  
-> > 
-> > Some kconfig stuff is missing, the iommufd IOMMU would only work with
-> > GENERIC_ATOMIC64
-> I don't quite understand this dependency on GENERIC_ATOMIC64, or you
-> mean the opposite? since we currently have:
+Hi Mostafa,
 
-Oh, right the inverse.
+First bad commit (maybe != root cause):
 
-> config IOMMU_PT_AMDV1
-> 	tristate "IOMMU page table for 64-bit AMD IOMMU v1"
-> 	depends on !GENERIC_ATOMIC64 # for cmpxchg64
-> 
-> And I already have noiommu depends on AMDV1 for mock page tables.
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   6a6bc2e596fed8d1574eca852772273befbb255e
+commit: e0abda8b771ca9dd97fd815b4be3bc9711fa3a5c [2/2] ANDROID: drivers/arm-smmu-v3-kvm: Modularize driver
+config: arm64-randconfig-001-20260306 (https://download.01.org/0day-ci/archive/20260306/202603060804.9wiSKSTK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603060804.9wiSKSTK-lkp@intel.com/reproduce)
 
-I think it is kconfig not being really transitive with select
-dependencies. So things like !GENERIC_ATOMIC64 have to be in the
-parent that uses select too.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603060804.9wiSKSTK-lkp@intel.com/
 
-You could also possibly use depends to avoid this, IIRC.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> Anyway, this particular build issue can be fixed by adding
-> IOMMU_SUPPORT. i.e.
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/arm/arm-smmu-v3/arm_smmu_v3_kvm.o
+>> ERROR: modpost: "__kvm_nvhe_memcpy" [drivers/iommu/arm/arm-smmu-v3/arm_smmu_v3_kvm.ko] undefined!
+ERROR: modpost: "devm_usb_get_phy_by_phandle" [drivers/power/supply/isp1704_charger.ko] undefined!
+ERROR: modpost: "devm_usb_get_phy" [drivers/power/supply/isp1704_charger.ko] undefined!
+ERROR: modpost: "devm_usb_get_phy_by_phandle" [drivers/power/supply/sc2731_charger.ko] undefined!
+ERROR: modpost: "usb_phy_get_charger_current" [drivers/power/supply/sc2731_charger.ko] undefined!
 
-That feels indirect, but maybe it is needed too..
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for DIMLIB
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
 
-Jason
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
