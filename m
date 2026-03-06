@@ -1,319 +1,327 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4280337BE73
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 10:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5374837F726
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 10:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772792820; cv=none; b=Ped25AAXBPdzpo4KEp4qRP+DSXM7T0fbJOPBFfj5KgcxsuxyuPl664YgdfKQO89I/Ezne7e2V5izZaHgWGYCWs4bgL+2eUKZLGzN4Wd0ScM0nPktKRyBCT9tCvXFb8d+s6x5yxeUcr/IRQt96/K9PT+ypMJhN4V7FnmKcFCBfuQ=
+	t=1772793481; cv=none; b=RmaUzfPrkJO3vCKpXvmaqiohtCpWcyp7S/e51ZMvKKsjF/q6Ekc5PA2nA1kfucmZaFbuzuquIKrAWQNpOjvmFGMWLB6fOGmaUn2nBKBXWA7AORsQrBWmHizVLEQohnU5tGyYRvd32h5U6Ba/6PRJk4LKg+m8hKVBvtsP9tgXcFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772792820; c=relaxed/simple;
-	bh=Oa5GSxVRAyX/+Nw+3DZDviZU2/d1tK6RTc8Kr9xrYmk=;
+	s=arc-20240116; t=1772793481; c=relaxed/simple;
+	bh=XMCQCXBJXKgPkb5u1PYenb+skJrk1hZvPj9ZE49uSzQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hsns3ALe2JROTzGm4HUxrs00pqiyXpLMSaCm2RlQTuzS/dlLqYxtPOMPvH63SfcUYh0j5afgrPkqLrjx6aEYdiKLgU6pnk6YV0rni21PzWTcUpE2TccCXaFmSk3kiKclDaORyBH1nDEnj0NhuM0yZDPl2YoybRT+CTaYDAcL94E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+Y24qxd; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Za07fdazVRWi6RyPdcUKeurMEU11CahoVhmyJNhSPlq9Ha0D0G0mU7k7xQ092Sk4L1Xc+YsHYBd9W1c9/BO5qE38DIC5kK8jCVdo0nOOVUL94K0oB8zegBDEiNRMEKwFQK8HhGVopwKkvqMrJ7qi73pU+IWULtuEqNyhsjxkJY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLl5rdVc; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+Y24qxd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLl5rdVc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772792818; x=1804328818;
+  t=1772793479; x=1804329479;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Oa5GSxVRAyX/+Nw+3DZDviZU2/d1tK6RTc8Kr9xrYmk=;
-  b=g+Y24qxdQMrCPKzyL9lU1hazRqRBohJoajy9cdsBcILbZMkjAn34Qg4r
-   m2LihO2KmLGuBhsV1PadHxZzeP9/d2G3+u5jAcVct8K5KE3wvTaQ39NzM
-   n/S6YTZ4onWLq1rJDAEReMWgrGEw09nywHgXi8Mp1psBh+1h4peA6NUFc
-   UiK/FeghzOH70WYUYQyVqjUMyNFWoOHm7pKJ7QzzDxb9f79AgttZ7WR8I
-   wlWGFg6FakUvGymeCaSU5X/PGM+xIeUcAWiLLmmJYgnHuw3cjE6HuK0z8
-   5Uo8gIBIl3q7DCFaS/4LdrVNPYLvS8RZ42oKb1o5eiskLW3FJWZRP0bia
-   Q==;
-X-CSE-ConnectionGUID: tTfKkRQuRdqkzywuGA1GOg==
-X-CSE-MsgGUID: O/UW4JHqTYGXNWpNN0catQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="77500103"
+   mime-version:in-reply-to;
+  bh=XMCQCXBJXKgPkb5u1PYenb+skJrk1hZvPj9ZE49uSzQ=;
+  b=cLl5rdVcvYRIK1GSXPquag05InKuorzNRAjTgLN5MRbnYpCIcIGPSzkU
+   ICheZUTKYT2Xp9oGu8lLDFSsXzYr6mAE43U5NWPZwkG7c70d7abjYfpUQ
+   VtbqAki8T3JfS6NrNwo1vTpdqoyShIo+betzlilUhQUy8f2H3rFGvGyah
+   yCz1BkUzopW7CLed8jNlD6vAf76/iAEPVRg8hkgmHSJ4rSisJNsN23ezl
+   UCpy9j6AZpT6L137tsD74TC+Rv4ohV7B51W1mfAW63PiLBt2YbFwDcwzm
+   imoiOZbk6/yvwiCDZNpJkwqg8eyvQbGx5RpwiNoJeFOvbLEDbTXmk7GOK
+   w==;
+X-CSE-ConnectionGUID: iKEL5ryVQJa1FR63ez1h4Q==
+X-CSE-MsgGUID: GGsSMN9yT/u9FPV25YaBYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73801272"
 X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="77500103"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 02:26:58 -0800
-X-CSE-ConnectionGUID: HE6/6FuVTgexjlkjffmvtA==
-X-CSE-MsgGUID: 0IRGHa0bRSqkMF2IuFKrQw==
+   d="scan'208";a="73801272"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 02:37:58 -0800
+X-CSE-ConnectionGUID: Ln9pi8tXTAu7u6pH5e6hTA==
+X-CSE-MsgGUID: Eie0sDR/R62UEGdyu41cRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="221789006"
+   d="scan'208";a="223456487"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Mar 2026 02:26:56 -0800
+  by orviesa004.jf.intel.com with ESMTP; 06 Mar 2026 02:37:56 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vySOT-000000002Eb-3FCn;
-	Fri, 06 Mar 2026 10:26:53 +0000
-Date: Fri, 6 Mar 2026 11:26:27 +0100
+	id 1vySZ7-000000002Ef-3WoH;
+	Fri, 06 Mar 2026 10:37:53 +0000
+Date: Fri, 6 Mar 2026 11:36:56 +0100
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Subject: Re: [PATCH] KVM: Change [g|h]va_t as u64
-Message-ID: <202603061115.VQTqyi2i-lkp@intel.com>
-References: <20260306041125.45643-1-anshuman.khandual@arm.com>
+To: Mathura_Kumar <academic1mathura@gmail.com>, brauner@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, academic1mathura@gmail.com,
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH] mqueue: introduce new do_mq_timedreceive2() [ mq_peek
+ syscall] for non-destructive receive and inspection,fix minor issue,prepared
+ doc.
+Message-ID: <202603061141.ryqSrkfy-lkp@intel.com>
+References: <20260305180942.913686-1-academic1mathura@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260306041125.45643-1-anshuman.khandual@arm.com>
+In-Reply-To: <20260305180942.913686-1-academic1mathura@gmail.com>
 
-Hi Anshuman,
+Hi Mathura_Kumar,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on kvm/next linus/master v7.0-rc2 next-20260305]
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes brauner-vfs/vfs.all next-20260305]
+[cannot apply to linus/master tip/x86/asm v6.16-rc1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/KVM-Change-g-h-va_t-as-u64/20260306-123029
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20260306041125.45643-1-anshuman.khandual%40arm.com
-patch subject: [PATCH] KVM: Change [g|h]va_t as u64
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260306/202603061115.VQTqyi2i-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mathura_Kumar/mqueue-introduce-new-do_mq_timedreceive2-mq_peek-syscall-for-non-destructive-receive-and-inspection-fix-minor-issue-prep/20260306-065614
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20260305180942.913686-1-academic1mathura%40gmail.com
+patch subject: [PATCH] mqueue: introduce new do_mq_timedreceive2() [ mq_peek syscall] for non-destructive receive and inspection,fix minor issue,prepared doc.
+config: x86_64-rhel-9.4-func (https://download.01.org/0day-ci/archive/20260306/202603061141.ryqSrkfy-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603061115.VQTqyi2i-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603061141.ryqSrkfy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603061115.VQTqyi2i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603061141.ryqSrkfy-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:132,
-                    from arch/x86/kvm/trace.h:1976,
-                    from arch/x86/kvm/x86.c:89:
-   include/trace/../../arch/x86/kvm/trace.h: In function 'trace_raw_output_vcpu_match_mmio':
->> include/trace/../../arch/x86/kvm/trace.h:973:19: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'gva_t' {aka 'long long unsigned int'} [-Wformat=]
-     973 |         TP_printk("gva %#lx gpa %#llx %s %s", __entry->gva, __entry->gpa,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     219 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
-      45 |                              PARAMS(print));                   \
-         |                              ^~~~~~
-   include/trace/../../arch/x86/kvm/trace.h:954:1: note: in expansion of macro 'TRACE_EVENT'
-     954 | TRACE_EVENT(
-         | ^~~~~~~~~~~
-   include/trace/../../arch/x86/kvm/trace.h:973:9: note: in expansion of macro 'TP_printk'
-     973 |         TP_printk("gva %#lx gpa %#llx %s %s", __entry->gva, __entry->gpa,
-         |         ^~~~~~~~~
-   In file included from include/trace/trace_events.h:256:
-   include/trace/../../arch/x86/kvm/trace.h:973:27: note: format string is defined here
-     973 |         TP_printk("gva %#lx gpa %#llx %s %s", __entry->gva, __entry->gpa,
-         |                        ~~~^
-         |                           |
-         |                           long unsigned int
-         |                        %#llx
-   arch/x86/kvm/x86.c: At top level:
->> arch/x86/kvm/x86.c:8897:32: error: initialization of 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *, bool)' {aka 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *, _Bool)'} from incompatible pointer type 'int (*)(struct x86_emulate_ctxt *, gva_t,  void *, unsigned int,  struct x86_exception *, bool)' {aka 'int (*)(struct x86_emulate_ctxt *, long long unsigned int,  void *, unsigned int,  struct x86_exception *, _Bool)'} [-Wincompatible-pointer-types]
-    8897 |         .read_std            = emulator_read_std,
-         |                                ^~~~~~~~~~~~~~~~~
-   arch/x86/kvm/x86.c:8897:32: note: (near initialization for 'emulate_ops.read_std')
-   arch/x86/kvm/x86.c:8898:32: error: initialization of 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *, bool)' {aka 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *, _Bool)'} from incompatible pointer type 'int (*)(struct x86_emulate_ctxt *, gva_t,  void *, unsigned int,  struct x86_exception *, bool)' {aka 'int (*)(struct x86_emulate_ctxt *, long long unsigned int,  void *, unsigned int,  struct x86_exception *, _Bool)'} [-Wincompatible-pointer-types]
-    8898 |         .write_std           = emulator_write_std,
-         |                                ^~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/x86.c:8898:32: note: (near initialization for 'emulate_ops.write_std')
->> arch/x86/kvm/x86.c:8899:32: error: initialization of 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *)' from incompatible pointer type 'int (*)(struct x86_emulate_ctxt *, gva_t,  void *, unsigned int,  struct x86_exception *)' {aka 'int (*)(struct x86_emulate_ctxt *, long long unsigned int,  void *, unsigned int,  struct x86_exception *)'} [-Wincompatible-pointer-types]
-    8899 |         .fetch               = kvm_fetch_guest_virt,
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/x86.c:8899:32: note: (near initialization for 'emulate_ops.fetch')
---
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/highmem.h:5,
-                    from arch/x86/kvm/vmx/vmx.c:17:
-   arch/x86/kvm/vmx/vmx.c: In function 'invvpid_error':
->> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'gva_t' {aka 'long long unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:705:17: note: in expansion of macro 'printk'
-     705 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:721:9: note: in expansion of macro 'printk_ratelimited'
-     721 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:721:28: note: in expansion of macro 'KERN_WARNING'
-     721 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                            ^~~~~~~~~~~~
-   arch/x86/kvm/vmx/vmx.c:532:9: note: in expansion of macro 'pr_warn_ratelimited'
-     532 |         pr_warn_ratelimited(fmt);       \
-         |         ^~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/vmx/vmx.c:573:9: note: in expansion of macro 'vmx_insn_failed'
-     573 |         vmx_insn_failed("invvpid failed: ext=0x%lx vpid=%u gva=0x%lx\n",
-         |         ^~~~~~~~~~~~~~~
---
-   In file included from include/trace/define_trace.h:132,
-                    from kvm/trace.h:1976,
-                    from kvm/x86.c:89:
-   include/trace/../../arch/x86/kvm/trace.h: In function 'trace_raw_output_vcpu_match_mmio':
->> include/trace/../../arch/x86/kvm/trace.h:973:19: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'gva_t' {aka 'long long unsigned int'} [-Wformat=]
-     973 |         TP_printk("gva %#lx gpa %#llx %s %s", __entry->gva, __entry->gpa,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     219 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
-      45 |                              PARAMS(print));                   \
-         |                              ^~~~~~
-   include/trace/../../arch/x86/kvm/trace.h:954:1: note: in expansion of macro 'TRACE_EVENT'
-     954 | TRACE_EVENT(
-         | ^~~~~~~~~~~
-   include/trace/../../arch/x86/kvm/trace.h:973:9: note: in expansion of macro 'TP_printk'
-     973 |         TP_printk("gva %#lx gpa %#llx %s %s", __entry->gva, __entry->gpa,
-         |         ^~~~~~~~~
-   In file included from include/trace/trace_events.h:256:
-   include/trace/../../arch/x86/kvm/trace.h:973:27: note: format string is defined here
-     973 |         TP_printk("gva %#lx gpa %#llx %s %s", __entry->gva, __entry->gpa,
-         |                        ~~~^
-         |                           |
-         |                           long unsigned int
-         |                        %#llx
-   kvm/x86.c: At top level:
-   kvm/x86.c:8897:32: error: initialization of 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *, bool)' {aka 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *, _Bool)'} from incompatible pointer type 'int (*)(struct x86_emulate_ctxt *, gva_t,  void *, unsigned int,  struct x86_exception *, bool)' {aka 'int (*)(struct x86_emulate_ctxt *, long long unsigned int,  void *, unsigned int,  struct x86_exception *, _Bool)'} [-Wincompatible-pointer-types]
-    8897 |         .read_std            = emulator_read_std,
-         |                                ^~~~~~~~~~~~~~~~~
-   kvm/x86.c:8897:32: note: (near initialization for 'emulate_ops.read_std')
-   kvm/x86.c:8898:32: error: initialization of 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *, bool)' {aka 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *, _Bool)'} from incompatible pointer type 'int (*)(struct x86_emulate_ctxt *, gva_t,  void *, unsigned int,  struct x86_exception *, bool)' {aka 'int (*)(struct x86_emulate_ctxt *, long long unsigned int,  void *, unsigned int,  struct x86_exception *, _Bool)'} [-Wincompatible-pointer-types]
-    8898 |         .write_std           = emulator_write_std,
-         |                                ^~~~~~~~~~~~~~~~~~
-   kvm/x86.c:8898:32: note: (near initialization for 'emulate_ops.write_std')
-   kvm/x86.c:8899:32: error: initialization of 'int (*)(struct x86_emulate_ctxt *, long unsigned int,  void *, unsigned int,  struct x86_exception *)' from incompatible pointer type 'int (*)(struct x86_emulate_ctxt *, gva_t,  void *, unsigned int,  struct x86_exception *)' {aka 'int (*)(struct x86_emulate_ctxt *, long long unsigned int,  void *, unsigned int,  struct x86_exception *)'} [-Wincompatible-pointer-types]
-    8899 |         .fetch               = kvm_fetch_guest_virt,
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   kvm/x86.c:8899:32: note: (near initialization for 'emulate_ops.fetch')
---
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/highmem.h:5,
-                    from kvm/vmx/vmx.c:17:
-   kvm/vmx/vmx.c: In function 'invvpid_error':
->> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'gva_t' {aka 'long long unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:705:17: note: in expansion of macro 'printk'
-     705 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:721:9: note: in expansion of macro 'printk_ratelimited'
-     721 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:721:28: note: in expansion of macro 'KERN_WARNING'
-     721 |         printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                            ^~~~~~~~~~~~
-   kvm/vmx/vmx.c:532:9: note: in expansion of macro 'pr_warn_ratelimited'
-     532 |         pr_warn_ratelimited(fmt);       \
-         |         ^~~~~~~~~~~~~~~~~~~
-   kvm/vmx/vmx.c:573:9: note: in expansion of macro 'vmx_insn_failed'
-     573 |         vmx_insn_failed("invvpid failed: ext=0x%lx vpid=%u gva=0x%lx\n",
-         |         ^~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   ipc/mqueue.c:1748:24: warning: 'struct compat_mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
+    1748 |                 struct compat_mq_timedreceive2_args __user *, uargs,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:617:63: note: in definition of macro '__same_type'
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/syscalls.h:131:26: note: in expansion of macro '__TYPE_AS'
+     131 | #define __TYPE_IS_LL(t) (__TYPE_AS(t, 0LL) || __TYPE_AS(t, 0ULL))
+         |                          ^~~~~~~~~
+   include/linux/syscalls.h:132:56: note: in expansion of macro '__TYPE_IS_LL'
+     132 | #define __SC_LONG(t, a) __typeof(__builtin_choose_expr(__TYPE_IS_LL(t), 0LL, 0L)) a
+         |                                                        ^~~~~~~~~~~~
+   include/linux/syscalls.h:122:27: note: in expansion of macro '__SC_LONG'
+     122 | #define __MAP4(m,t,a,...) m(t,a), __MAP3(m,__VA_ARGS__)
+         |                           ^
+   include/linux/syscalls.h:123:35: note: in expansion of macro '__MAP4'
+     123 | #define __MAP5(m,t,a,...) m(t,a), __MAP4(m,__VA_ARGS__)
+         |                                   ^~~~~~
+   include/linux/syscalls.h:125:22: note: in expansion of macro '__MAP5'
+     125 | #define __MAP(n,...) __MAP##n(__VA_ARGS__)
+         |                      ^~~~~
+   arch/x86/include/asm/syscall_wrapper.h:224:36: note: in expansion of macro '__MAP'
+     224 |         static long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));     \
+         |                                    ^~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
+   In file included from ipc/mqueue.c:29:
+   ipc/mqueue.c:1748:24: warning: 'struct compat_mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
+    1748 |                 struct compat_mq_timedreceive2_args __user *, uargs,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:127:25: note: in definition of macro '__SC_DECL'
+     127 | #define __SC_DECL(t, a) t a
+         |                         ^
+   include/linux/syscalls.h:123:35: note: in expansion of macro '__MAP4'
+     123 | #define __MAP5(m,t,a,...) m(t,a), __MAP4(m,__VA_ARGS__)
+         |                                   ^~~~~~
+   include/linux/syscalls.h:125:22: note: in expansion of macro '__MAP5'
+     125 | #define __MAP(n,...) __MAP##n(__VA_ARGS__)
+         |                      ^~~~~
+   arch/x86/include/asm/syscall_wrapper.h:225:43: note: in expansion of macro '__MAP'
+     225 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+         |                                           ^~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1748:24: warning: 'struct compat_mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
+    1748 |                 struct compat_mq_timedreceive2_args __user *, uargs,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:617:63: note: in definition of macro '__same_type'
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/syscalls.h:131:26: note: in expansion of macro '__TYPE_AS'
+     131 | #define __TYPE_IS_LL(t) (__TYPE_AS(t, 0LL) || __TYPE_AS(t, 0ULL))
+         |                          ^~~~~~~~~
+   include/linux/syscalls.h:132:56: note: in expansion of macro '__TYPE_IS_LL'
+     132 | #define __SC_LONG(t, a) __typeof(__builtin_choose_expr(__TYPE_IS_LL(t), 0LL, 0L)) a
+         |                                                        ^~~~~~~~~~~~
+   include/linux/syscalls.h:122:27: note: in expansion of macro '__SC_LONG'
+     122 | #define __MAP4(m,t,a,...) m(t,a), __MAP3(m,__VA_ARGS__)
+         |                           ^
+   include/linux/syscalls.h:123:35: note: in expansion of macro '__MAP4'
+     123 | #define __MAP5(m,t,a,...) m(t,a), __MAP4(m,__VA_ARGS__)
+         |                                   ^~~~~~
+   include/linux/syscalls.h:125:22: note: in expansion of macro '__MAP5'
+     125 | #define __MAP(n,...) __MAP##n(__VA_ARGS__)
+         |                      ^~~~~
+   arch/x86/include/asm/syscall_wrapper.h:228:36: note: in expansion of macro '__MAP'
+     228 |         static long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))      \
+         |                                    ^~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
+   ipc/mqueue.c: In function '__se_sys_mq_timedreceive2_time32':
+>> include/linux/syscalls.h:133:25: error: passing argument 2 of '__do_sys_mq_timedreceive2_time32' from incompatible pointer type [-Wincompatible-pointer-types]
+     133 | #define __SC_CAST(t, a) (__force t) a
+   include/linux/syscalls.h:122:27: note: in expansion of macro '__SC_CAST'
+     122 | #define __MAP4(m,t,a,...) m(t,a), __MAP3(m,__VA_ARGS__)
+         |                           ^
+   include/linux/syscalls.h:123:35: note: in expansion of macro '__MAP4'
+     123 | #define __MAP5(m,t,a,...) m(t,a), __MAP4(m,__VA_ARGS__)
+         |                                   ^~~~~~
+   include/linux/syscalls.h:125:22: note: in expansion of macro '__MAP5'
+     125 | #define __MAP(n,...) __MAP##n(__VA_ARGS__)
+         |                      ^~~~~
+   arch/x86/include/asm/syscall_wrapper.h:230:43: note: in expansion of macro '__MAP'
+     230 |                 long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
+         |                                           ^~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1748:63: note: expected 'struct compat_mq_timedreceive2_args *' but argument is of type 'struct compat_mq_timedreceive2_args *'
+    1748 |                 struct compat_mq_timedreceive2_args __user *, uargs,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/syscalls.h:127:27: note: in definition of macro '__SC_DECL'
+     127 | #define __SC_DECL(t, a) t a
+         |                           ^
+   include/linux/syscalls.h:123:35: note: in expansion of macro '__MAP4'
+     123 | #define __MAP5(m,t,a,...) m(t,a), __MAP4(m,__VA_ARGS__)
+         |                                   ^~~~~~
+   include/linux/syscalls.h:125:22: note: in expansion of macro '__MAP5'
+     125 | #define __MAP(n,...) __MAP##n(__VA_ARGS__)
+         |                      ^~~~~
+   arch/x86/include/asm/syscall_wrapper.h:225:43: note: in expansion of macro '__MAP'
+     225 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+         |                                           ^~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
+   ipc/mqueue.c: At top level:
+   ipc/mqueue.c:1748:24: warning: 'struct compat_mq_timedreceive2_args' declared inside parameter list will not be visible outside of this definition or declaration
+    1748 |                 struct compat_mq_timedreceive2_args __user *, uargs,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:127:25: note: in definition of macro '__SC_DECL'
+     127 | #define __SC_DECL(t, a) t a
+         |                         ^
+   include/linux/syscalls.h:123:35: note: in expansion of macro '__MAP4'
+     123 | #define __MAP5(m,t,a,...) m(t,a), __MAP4(m,__VA_ARGS__)
+         |                                   ^~~~~~
+   include/linux/syscalls.h:125:22: note: in expansion of macro '__MAP5'
+     125 | #define __MAP(n,...) __MAP##n(__VA_ARGS__)
+         |                      ^~~~~
+   arch/x86/include/asm/syscall_wrapper.h:235:43: note: in expansion of macro '__MAP'
+     235 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
+         |                                           ^~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
+   In file included from include/linux/compat.h:34,
+                    from include/net/compat.h:8,
+                    from include/net/scm.h:13,
+                    from include/linux/netlink.h:9,
+                    from ipc/mqueue.c:28:
+>> arch/x86/include/asm/syscall_wrapper.h:235:28: error: conflicting types for '__do_sys_mq_timedreceive2_time32'; have 'long int(mqd_t,  struct compat_mq_timedreceive2_args *, unsigned int,  const long unsigned int,  const struct old_timespec32 *)' {aka 'long int(int,  struct compat_mq_timedreceive2_args *, unsigned int,  const long unsigned int,  const struct old_timespec32 *)'}
+     235 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:225:28: note: previous declaration of '__do_sys_mq_timedreceive2_time32' with type 'long int(mqd_t,  struct compat_mq_timedreceive2_args *, unsigned int,  const long unsigned int,  const struct old_timespec32 *)' {aka 'long int(int,  struct compat_mq_timedreceive2_args *, unsigned int,  const long unsigned int,  const struct old_timespec32 *)'}
+     225 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
+   ipc/mqueue.c: In function '__do_sys_mq_timedreceive2_time32':
+>> ipc/mqueue.c:1756:13: error: implicit declaration of function 'get_compat_mq_args'; did you mean 'get_compat_msghdr'? [-Wimplicit-function-declaration]
+    1756 |         if (get_compat_mq_args(pargs, uargs))
+         |             ^~~~~~~~~~~~~~~~~~
+         |             get_compat_msghdr
+   ipc/mqueue.c: At top level:
+   arch/x86/include/asm/syscall_wrapper.h:225:28: warning: '__do_sys_mq_timedreceive2_time32' used but never defined
+     225 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+         |                            ^~~~~~~~
+   include/linux/syscalls.h:237:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     237 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:230:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     230 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   ipc/mqueue.c:1747:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    1747 | SYSCALL_DEFINE5(mq_timedreceive2_time32, mqd_t, mqdes,
+         | ^~~~~~~~~~~~~~~
 
 
-vim +8897 arch/x86/kvm/x86.c
+vim +/__do_sys_mq_timedreceive2_time32 +133 include/linux/syscalls.h
 
-16ccadefa295af arch/x86/kvm/x86.c Maxim Levitsky      2024-09-06  8892  
-0225fb509d51fc arch/x86/kvm/x86.c Mathias Krause      2012-08-30  8893  static const struct x86_emulate_ops emulate_ops = {
-1cca2f8c501fa0 arch/x86/kvm/x86.c Sean Christopherson 2022-05-26  8894  	.vm_bugged           = emulator_vm_bugged,
-dd856efafe6097 arch/x86/kvm/x86.c Avi Kivity          2012-08-27  8895  	.read_gpr            = emulator_read_gpr,
-dd856efafe6097 arch/x86/kvm/x86.c Avi Kivity          2012-08-27  8896  	.write_gpr           = emulator_write_gpr,
-ce14e868a54ede arch/x86/kvm/x86.c Paolo Bonzini       2018-06-06 @8897  	.read_std            = emulator_read_std,
-ce14e868a54ede arch/x86/kvm/x86.c Paolo Bonzini       2018-06-06  8898  	.write_std           = emulator_write_std,
-1871c6020d7308 arch/x86/kvm/x86.c Gleb Natapov        2010-02-10 @8899  	.fetch               = kvm_fetch_guest_virt,
-bbd9b64e37aff5 drivers/kvm/x86.c  Carsten Otte        2007-10-30  8900  	.read_emulated       = emulator_read_emulated,
-bbd9b64e37aff5 drivers/kvm/x86.c  Carsten Otte        2007-10-30  8901  	.write_emulated      = emulator_write_emulated,
-bbd9b64e37aff5 drivers/kvm/x86.c  Carsten Otte        2007-10-30  8902  	.cmpxchg_emulated    = emulator_cmpxchg_emulated,
-3cb16fe78ce919 arch/x86/kvm/x86.c Avi Kivity          2011-04-20  8903  	.invlpg              = emulator_invlpg,
-cf8f70bfe38b32 arch/x86/kvm/x86.c Gleb Natapov        2010-03-18  8904  	.pio_in_emulated     = emulator_pio_in_emulated,
-cf8f70bfe38b32 arch/x86/kvm/x86.c Gleb Natapov        2010-03-18  8905  	.pio_out_emulated    = emulator_pio_out_emulated,
-1aa366163b8b69 arch/x86/kvm/x86.c Avi Kivity          2011-04-27  8906  	.get_segment         = emulator_get_segment,
-1aa366163b8b69 arch/x86/kvm/x86.c Avi Kivity          2011-04-27  8907  	.set_segment         = emulator_set_segment,
-5951c442372475 arch/x86/kvm/x86.c Gleb Natapov        2010-04-28  8908  	.get_cached_segment_base = emulator_get_cached_segment_base,
-2dafc6c234b606 arch/x86/kvm/x86.c Gleb Natapov        2010-03-18  8909  	.get_gdt             = emulator_get_gdt,
-160ce1f1a8fe64 arch/x86/kvm/x86.c Mohammed Gamal      2010-08-04  8910  	.get_idt	     = emulator_get_idt,
-1ac9d0cfb07e8a arch/x86/kvm/x86.c Avi Kivity          2011-04-20  8911  	.set_gdt             = emulator_set_gdt,
-1ac9d0cfb07e8a arch/x86/kvm/x86.c Avi Kivity          2011-04-20  8912  	.set_idt	     = emulator_set_idt,
-52a4661737ecc9 arch/x86/kvm/x86.c Gleb Natapov        2010-03-18  8913  	.get_cr              = emulator_get_cr,
-52a4661737ecc9 arch/x86/kvm/x86.c Gleb Natapov        2010-03-18  8914  	.set_cr              = emulator_set_cr,
-9c5372445c1ad4 arch/x86/kvm/x86.c Gleb Natapov        2010-03-18  8915  	.cpl                 = emulator_get_cpl,
-35aa5375d407ec arch/x86/kvm/x86.c Gleb Natapov        2010-04-28  8916  	.get_dr              = emulator_get_dr,
-35aa5375d407ec arch/x86/kvm/x86.c Gleb Natapov        2010-04-28  8917  	.set_dr              = emulator_set_dr,
-ac8d6cad3c7b39 arch/x86/kvm/x86.c Hou Wenlong         2022-03-07  8918  	.set_msr_with_filter = emulator_set_msr_with_filter,
-ac8d6cad3c7b39 arch/x86/kvm/x86.c Hou Wenlong         2022-03-07  8919  	.get_msr_with_filter = emulator_get_msr_with_filter,
-717746e382e58f arch/x86/kvm/x86.c Avi Kivity          2011-04-20  8920  	.get_msr             = emulator_get_msr,
-7bb7fce13601d2 arch/x86/kvm/x86.c Sean Christopherson 2024-01-09  8921  	.check_rdpmc_early   = emulator_check_rdpmc_early,
-222d21aa070a48 arch/x86/kvm/x86.c Avi Kivity          2011-11-10  8922  	.read_pmc            = emulator_read_pmc,
-6c3287f7c50500 arch/x86/kvm/x86.c Avi Kivity          2011-04-20  8923  	.halt                = emulator_halt,
-bcaf5cc543bdb8 arch/x86/kvm/x86.c Avi Kivity          2011-04-20  8924  	.wbinvd              = emulator_wbinvd,
-d6aa10003b0cde arch/x86/kvm/x86.c Avi Kivity          2011-04-20  8925  	.fix_hypercall       = emulator_fix_hypercall,
-c4f035c60dad45 arch/x86/kvm/x86.c Avi Kivity          2011-04-04  8926  	.intercept           = emulator_intercept,
-bdb42f5afebe20 arch/x86/kvm/x86.c Stephan Bärwolf     2012-01-12  8927  	.get_cpuid           = emulator_get_cpuid,
-5ae78e95ed0c77 arch/x86/kvm/x86.c Sean Christopherson 2019-12-17  8928  	.guest_has_movbe     = emulator_guest_has_movbe,
-5ae78e95ed0c77 arch/x86/kvm/x86.c Sean Christopherson 2019-12-17  8929  	.guest_has_fxsr      = emulator_guest_has_fxsr,
-a836839cbfe60d arch/x86/kvm/x86.c Hou Wenlong         2022-03-02  8930  	.guest_has_rdpid     = emulator_guest_has_rdpid,
-d99e4cb2ae2e02 arch/x86/kvm/x86.c Sean Christopherson 2024-04-05  8931  	.guest_cpuid_is_intel_compatible = emulator_guest_cpuid_is_intel_compatible,
-801806d956c2c1 arch/x86/kvm/x86.c Nadav Amit          2015-01-26  8932  	.set_nmi_mask        = emulator_set_nmi_mask,
-32e69f232db4ca arch/x86/kvm/x86.c Maxim Levitsky      2022-11-29  8933  	.is_smm              = emulator_is_smm,
-ecc513e5bb7ed5 arch/x86/kvm/x86.c Sean Christopherson 2021-06-09  8934  	.leave_smm           = emulator_leave_smm,
-25b17226cd9a77 arch/x86/kvm/x86.c Sean Christopherson 2021-06-09  8935  	.triple_fault        = emulator_triple_fault,
-f106797f81d633 arch/x86/kvm/x86.c Paolo Bonzini       2025-11-13  8936  	.get_xcr             = emulator_get_xcr,
-02d4160fbd7651 arch/x86/kvm/x86.c Vitaly Kuznetsov    2019-08-13  8937  	.set_xcr             = emulator_set_xcr,
-37a41847b770c7 arch/x86/kvm/x86.c Binbin Wu           2023-09-13  8938  	.get_untagged_addr   = emulator_get_untagged_addr,
-16ccadefa295af arch/x86/kvm/x86.c Maxim Levitsky      2024-09-06  8939  	.is_canonical_addr   = emulator_is_canonical_addr,
-bbd9b64e37aff5 drivers/kvm/x86.c  Carsten Otte        2007-10-30  8940  };
-bbd9b64e37aff5 drivers/kvm/x86.c  Carsten Otte        2007-10-30  8941  
+07fe6e00f6cca6f Al Viro            2013-01-21  126  
+07fe6e00f6cca6f Al Viro            2013-01-21  127  #define __SC_DECL(t, a)	t a
+4f59c718521a0f0 Al Viro            2017-07-08  128  #define __TYPE_AS(t, v)	__same_type((__force t)0, v)
+4f59c718521a0f0 Al Viro            2017-07-08  129  #define __TYPE_IS_L(t)	(__TYPE_AS(t, 0L))
+4f59c718521a0f0 Al Viro            2017-07-08  130  #define __TYPE_IS_UL(t)	(__TYPE_AS(t, 0UL))
+4f59c718521a0f0 Al Viro            2017-07-08  131  #define __TYPE_IS_LL(t) (__TYPE_AS(t, 0LL) || __TYPE_AS(t, 0ULL))
+4a0fd5bf0fd0795 Al Viro            2013-01-21  132  #define __SC_LONG(t, a) __typeof(__builtin_choose_expr(__TYPE_IS_LL(t), 0LL, 0L)) a
+4f59c718521a0f0 Al Viro            2017-07-08 @133  #define __SC_CAST(t, a)	(__force t) a
+56062d60f117dcc Richard Palethorpe 2024-01-10  134  #define __SC_TYPE(t, a)	t
+2cf0966683430b6 Al Viro            2013-01-21  135  #define __SC_ARGS(t, a)	a
+4a0fd5bf0fd0795 Al Viro            2013-01-21  136  #define __SC_TEST(t, a) (void)BUILD_BUG_ON_ZERO(!__TYPE_IS_LL(t) && sizeof(t) > sizeof(long))
+1a94bc34768e463 Heiko Carstens     2009-01-14  137  
 
 -- 
 0-DAY CI Kernel Test Service
