@@ -1,71 +1,59 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7424F19C54E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 18:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B967346E55
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 18:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772820939; cv=none; b=HKfjq5SE4fTHwd+O46KhHQvRwIT39VEwGKW99Tz/TkN6K8P6oCIPY2/qBNKyqfJuvWxREiODyn/bbQIzfX8jBK5162N4fm6Oc4pOqOYYRIwM7zt5xlqEASLQUtb3Ueh0D56EmwrXmrtV1T4/q0i0hiT4MZktiil9I7fCQo4QMI4=
+	t=1772821477; cv=none; b=WbOymF9bRBAGDstiY454OUJB2wuf+h3VR9I8/SXmIt0QRc3706wR3cYkQf1iAosFXDd1j8JtbQW78LX/tjnTS3fjl1IEVRqFk5UgcYaJsrdzJMOVeFkC8cjxCvrZuzirGw39LFjZb5+Gs290VfKmrgBjc+8kXPteIHAx0RB4Pvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772820939; c=relaxed/simple;
-	bh=6vUR9lePzA9GLPF/d2DhXC3cdbAJ/XPuDA9mqrPDWPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RS5oOO6jZEYwiw92MJdOIvOrYDe9IRTNxq99cJuThJNQ2V/kKze/uWqZ2bpTxMapMGD5WZ672yk6Uy0CNIA6sS2zsz6isZcl9seU5KGEiSMRIfGWJ/PFoBx+zkND12NsQ7eg9lMSlQSr9QAvdNtsXNCGUbNsUBtwtYD+/Tqc/Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZiN0rqrv; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772821477; c=relaxed/simple;
+	bh=GoKtrVOFPv9jOjedgeYI6gu5CaJo4PKx6t+qqYdGtLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lef/5Vt+GpLQUD6NX0cn5yisQiyQQv5nhfEJlMP7M4QHjoyTrS3gF5OiAZCm2drwExnJLUDvRAojWggqR0N+DX+4muPDCju4aOp2qeAYiGEvfrbs8pe7bF4SZeSwQHZ6VmIazd1Ge91fCMj+dEMtnFR3Lxp78eZidGbHi9xvwKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpzbKBj3; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZiN0rqrv"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439b78b638eso6331467f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 06 Mar 2026 10:15:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772820936; x=1773425736; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rriMUzh31RKjt/5T8gDUKHkgaP5StcNn7rIgMnKm1IY=;
-        b=ZiN0rqrvCCDdq/EjZx+kIhURo0auoM7/nK6Hzh8G9SPx5jR30RwZY7GH9k/ibHgXqO
-         Xo2WJJKDo08ZHdRRm58YpAKRL5hRsz5aV27H/SW/ISrfGxcvxafFXf1nGouVMtLE9GUg
-         GzbPKfgB1QQIr1j1BKz/OKaq8pVmzw+dPWvZiim0CEWCCwKhCfCK7wmdbBUhgrgzDOBy
-         uEGXyqlnkowfmGoZEVm9wL3kwrQKCsCuqV1RGYkYy6FKPl5IMZX/SHq+rjPHx7BDYkcn
-         yTpRdCrX3tcGw+SZV8ppD8ZukKNpISH5kVRuoUpBk27GN6pBz61OTE4+gpnAo2r04VVk
-         bDjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772820936; x=1773425736;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rriMUzh31RKjt/5T8gDUKHkgaP5StcNn7rIgMnKm1IY=;
-        b=JbNR1Cl66Xq3FaufNroN4OGESCbE2Ygp2I0u205uQoYhfATjpx00wZrLQ7FESY/jrS
-         /KvnE2m2Q/rl2V+8oUmO3Y08dFR1xLLLowbRTvuy6SVV6oXBlvIGYuxVIaeFREC5Szca
-         9f+NR//Ezn8pRWhJpSo77q0KmSVdBUvP4jRqNoCHZWCMyNspcjSq3POU0KVieGzzwyJ2
-         8tZ0GSChymcNSUTH1gvze1g35dfAOEv8D8CkvWPxWaUTUj2Ob8+kUb9EtYemv82vTWB7
-         FjTWx7zNQvCnDjMT+wnwxsfZX0vcTeHlSLkaTtIjciWy11VAgr0vsv+00901GojXFNMw
-         POpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCViCjGlu+JknyK4REYMXxK0YNoQWdbNsD4ZICwsUs6YsXqP5EMp8ASKOrca6JaNDnVTPTlZyU734WtAt/3y@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFCqKcBpckI/XWNSGdILNdlEzipqwZE0KwByKjoREPlt0a3Ylj
-	Igi/uOy3hMOuKEFQ4YV0dq71qVrqIwIOYHN3goY87E18+dtsqLbr4n7XVmESXHrOGiY=
-X-Gm-Gg: ATEYQzwFxFt0Im2S8lg8nuL4Zy1WNglDlV2VTZICvicrvZ72TO648/y48Oeu4K+/YI1
-	Z7lGePJoCDULem/F6iDj0W6wXaeWWMENDY4uYC2m2JNZWqWQYvWIofeLvdf/U/uURki7FPr9Mi+
-	yNzAe1J00r4qMidlfqTEadBZVFfbKgvYC7X4lD/lFNxeQMytSkkg99tfpwqeQxDTRdfvNOVmGBm
-	jD5gkz/uJMQL5Pd6NS0hQ35N4W00cVlELu5bWwSUXxWjm6cAzCdRDenfdlhTnK8VvkzPC2BtOL9
-	CaSGZypwE+vkwUb9lWaFiSBJT8gS4SEZu7i230oNzSvlzENIMcJt0wX+ImY6gmEItdUJm1WP2Aq
-	p3TVyBzt22qpipX+aOP5lVHHN6HDI+Xg1bqR5+JpJJWrikjoefflJpvuMnaayAsJIo1GpGmPmC8
-	wEiX3Eq+B8b7hejTTar3Ded3u+Rb6G
-X-Received: by 2002:a5d:64c7:0:b0:439:cd8c:209f with SMTP id ffacd0b85a97d-439da662501mr5804360f8f.23.1772820935470;
-        Fri, 06 Mar 2026 10:15:35 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae3c80esm4701625f8f.29.2026.03.06.10.15.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 10:15:35 -0800 (PST)
-Date: Fri, 6 Mar 2026 21:15:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-linux-6.6.y 685/685]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_hwseq.c:247
- dcn21_set_backlight_level() error: we previously assumed 'tg' could be null
- (see line 244)
-Message-ID: <202603062103.GcIsRo8v-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpzbKBj3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772821475; x=1804357475;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GoKtrVOFPv9jOjedgeYI6gu5CaJo4PKx6t+qqYdGtLY=;
+  b=SpzbKBj3fAnx87dfD0jRpeCp/2NiZOGLO5d7yz0czMJ4eeKUUXu1Rc2U
+   HV9ICdlVcotOPPV32hKLxWA4Y8F3TtYdrrMDvx1Aqmu9RZtnRtTel4XRs
+   6xmVVXBrcEKlVSawMUJcR8g/8FqMLqH0IRidQ8oYc/Sk8FbJm0OM5hDKz
+   Dji0ZIeZASkCQ4RnMceIz4eXHjPq5rQ1box4HvMqO3NraS5NpKez6xSH6
+   Ych/otSoqNkOU+GsMoHXjmcTYVG+y5FUROSNklfU8cO0USKR9pH2C9QDB
+   ufDX2egjRUaeT+mlLNWtoPVxD0fNwhqnwCkVKQs203/yP9fP0jl7BIUz5
+   Q==;
+X-CSE-ConnectionGUID: Y5SC/9PSTTSQhYlVFqW2NA==
+X-CSE-MsgGUID: ICjf0wNwQ5S2gxjPdqS5HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="96551040"
+X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
+   d="scan'208";a="96551040"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 10:24:35 -0800
+X-CSE-ConnectionGUID: t5V8EEZZSnG6W2oBNVPUaA==
+X-CSE-MsgGUID: 23eXXWNXTuyq+CjM8tHWvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
+   d="scan'208";a="224055389"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 06 Mar 2026 10:24:34 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vyZqh-000000001Cb-1RqN;
+	Fri, 06 Mar 2026 18:24:31 +0000
+Date: Sat, 7 Mar 2026 02:24:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/2] locking: add mutex_lock_nospin()
+Message-ID: <202603070229.G9hHE2az-lkp@intel.com>
+References: <20260304074650.58165-2-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,73 +62,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260304074650.58165-2-laoar.shao@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common upstream-linux-6.6.y
-head:   4fc00fe35d46b4fc8dac2eb543a0e3d44bb15f47
-commit: 2e150ccea13129eb048679114808eb9770443e4d [685/685] drm/amd/display: Fix 'panel_cntl' could be null in 'dcn21_set_backlight_level()'
-config: i386-randconfig-141-20260306 (https://download.01.org/0day-ci/archive/20260306/202603062103.GcIsRo8v-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Yafang,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/locking/core]
+[also build test ERROR on linus/master v7.0-rc2 next-20260305]
+[cannot apply to trace/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/locking-add-mutex_lock_nospin/20260304-155633
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20260304074650.58165-2-laoar.shao%40gmail.com
+patch subject: [RFC PATCH 1/2] locking: add mutex_lock_nospin()
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260307/202603070229.G9hHE2az-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070229.G9hHE2az-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603062103.GcIsRo8v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603070229.G9hHE2az-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_hwseq.c:247 dcn21_set_backlight_level() error: we previously assumed 'tg' could be null (see line 244)
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_hwseq.c:254 dcn21_set_backlight_level() error: we previously assumed 'abm' could be null (see line 244)
+All error/warnings (new ones prefixed by >>):
 
-vim +/tg +247 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_hwseq.c
+   kernel/locking/mutex.c: In function 'mutex_lock_nospin':
+>> kernel/locking/mutex.c:299:17: error: implicit declaration of function '__mutex_lock_nospin'; did you mean 'mutex_lock_nospin'? [-Wimplicit-function-declaration]
+     299 |                 __mutex_lock_nospin(lock);
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 mutex_lock_nospin
+   kernel/locking/mutex.c: In function '__mutex_lock_common':
+>> kernel/locking/mutex.c:630:13: error: too many arguments to function 'mutex_optimistic_spin'; expected 3, have 4
+     630 |             mutex_optimistic_spin(lock, ww_ctx, NULL, nospin)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~                     ~~~~~~
+   kernel/locking/mutex.c:532:1: note: declared here
+     532 | mutex_optimistic_spin(struct mutex *lock, struct ww_acquire_ctx *ww_ctx,
+         | ^~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/mutex.c:731:29: error: too many arguments to function 'mutex_optimistic_spin'; expected 3, have 4
+     731 |                         if (mutex_optimistic_spin(lock, ww_ctx, &waiter, nospin))
+         |                             ^~~~~~~~~~~~~~~~~~~~~                        ~~~~~~
+   kernel/locking/mutex.c:532:1: note: declared here
+     532 | mutex_optimistic_spin(struct mutex *lock, struct ww_acquire_ctx *ww_ctx,
+         | ^~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/mutex.c: At top level:
+>> kernel/locking/mutex.c:792:1: error: static declaration of '__mutex_lock_nospin' follows non-static declaration
+     792 | __mutex_lock_nospin(struct mutex *lock, unsigned int state, unsigned int subclass,
+         | ^~~~~~~~~~~~~~~~~~~
+   kernel/locking/mutex.c:299:17: note: previous implicit declaration of '__mutex_lock_nospin' with type 'int()'
+     299 |                 __mutex_lock_nospin(lock);
+         |                 ^~~~~~~~~~~~~~~~~~~
+>> kernel/locking/mutex.c:792:1: warning: '__mutex_lock_nospin' defined but not used [-Wunused-function]
+     792 | __mutex_lock_nospin(struct mutex *lock, unsigned int state, unsigned int subclass,
+         | ^~~~~~~~~~~~~~~~~~~
 
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  234  bool dcn21_set_backlight_level(struct pipe_ctx *pipe_ctx,
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  235  		uint32_t backlight_pwm_u16_16,
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  236  		uint32_t frame_ramp)
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  237  {
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  238  	struct dc_context *dc = pipe_ctx->stream->ctx;
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  239  	struct abm *abm = pipe_ctx->stream_res.abm;
-2e150ccea13129e Srinivasan Shanmugam 2024-01-27  240  	struct timing_generator *tg = pipe_ctx->stream_res.tg;
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  241  	struct panel_cntl *panel_cntl = pipe_ctx->stream->link->panel_cntl;
-2e150ccea13129e Srinivasan Shanmugam 2024-01-27  242  	uint32_t otg_inst;
-2e150ccea13129e Srinivasan Shanmugam 2024-01-27  243  
-2e150ccea13129e Srinivasan Shanmugam 2024-01-27 @244  	if (!abm && !tg && !panel_cntl)
 
-Presumable || was intended instead of &&.
+vim +299 kernel/locking/mutex.c
 
-2e150ccea13129e Srinivasan Shanmugam 2024-01-27  245  		return false;
-2e150ccea13129e Srinivasan Shanmugam 2024-01-27  246  
-2e150ccea13129e Srinivasan Shanmugam 2024-01-27 @247  	otg_inst = tg->inst;
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  248  
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  249  	if (dc->dc->res_pool->dmcu) {
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  250  		dce110_set_backlight_level(pipe_ctx, backlight_pwm_u16_16, frame_ramp);
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  251  		return true;
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  252  	}
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  253  
-6f0ef80a00adfd5 Leon Huang           2022-12-08 @254  	if (abm->funcs && abm->funcs->set_pipe_ex) {
-71be0f674070a5a Lewis Huang          2023-12-01  255  		abm->funcs->set_pipe_ex(abm,
-71be0f674070a5a Lewis Huang          2023-12-01  256  					otg_inst,
-71be0f674070a5a Lewis Huang          2023-12-01  257  					SET_ABM_PIPE_NORMAL,
-71be0f674070a5a Lewis Huang          2023-12-01  258  					panel_cntl->inst,
-71be0f674070a5a Lewis Huang          2023-12-01  259  					panel_cntl->pwrseq_inst);
-6f0ef80a00adfd5 Leon Huang           2022-12-08  260  	} else {
-71be0f674070a5a Lewis Huang          2023-12-01  261  		dmub_abm_set_pipe(abm,
-71be0f674070a5a Lewis Huang          2023-12-01  262  				  otg_inst,
-71be0f674070a5a Lewis Huang          2023-12-01  263  				  SET_ABM_PIPE_NORMAL,
-71be0f674070a5a Lewis Huang          2023-12-01  264  				  panel_cntl->inst,
-71be0f674070a5a Lewis Huang          2023-12-01  265  				  panel_cntl->pwrseq_inst);
-6f0ef80a00adfd5 Leon Huang           2022-12-08  266  	}
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  267  
-2e150ccea13129e Srinivasan Shanmugam 2024-01-27  268  	if (abm->funcs && abm->funcs->set_backlight_level_pwm)
-6f0ef80a00adfd5 Leon Huang           2022-12-08  269  		abm->funcs->set_backlight_level_pwm(abm, backlight_pwm_u16_16,
-6f0ef80a00adfd5 Leon Huang           2022-12-08  270  			frame_ramp, 0, panel_cntl->inst);
-6f0ef80a00adfd5 Leon Huang           2022-12-08  271  	else
-6f0ef80a00adfd5 Leon Huang           2022-12-08  272  		dmub_abm_set_backlight(dc, backlight_pwm_u16_16, frame_ramp, panel_cntl->inst);
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  273  
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  274  	return true;
-474ac4a875ca6fe Yongqiang Sun        2020-04-27  275  }
+   293	
+   294	void __sched mutex_lock_nospin(struct mutex *lock)
+   295	{
+   296		might_sleep();
+   297	
+   298		if (!__mutex_trylock_fast(lock))
+ > 299			__mutex_lock_nospin(lock);
+   300	}
+   301	#endif
+   302	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
