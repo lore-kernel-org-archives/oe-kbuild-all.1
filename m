@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B8D35A925;
-	Fri,  6 Mar 2026 11:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8FC38B7C8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 12:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772798380; cv=none; b=jLQfEOKmS2uK8fvK8tXo5/qI/0ViMQft7VrNJhmADBP2LRuJGdOWuUVFUxAzfbiUS2bIvYDzsGAynJYDLXXNeGwuwqJFVtAQmWPGIbPyomXxodcefO3HJ4xK7Yti7v5u/FrPCbthvlRV0/Dvbe7sFcwGHquTe+z8UahYmZDbNeo=
+	t=1772799098; cv=none; b=SHksmZhFsnb9CIeclHCSecyuqfR+kIBDNKvvcKKzKAqSJXHJ+NizrlEX3JdSP3vMmQ9WELy+Vd7ejgnwJ7iJTm7IPh2BnccrLhI8ecXZB2YNawJf/BM0p+5s/B90sOuleSEoYNvrNFvItol9+JkdenjvmzVkZ1jFzEfr6G50hCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772798380; c=relaxed/simple;
-	bh=hD58Kz5W/qYCsmViCr+6L6YJ969I5pE8ce9q0lyL4d4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BOxt6FNKPfABQ8sEreA157N470p7iTor7stmybhfxSnyKG1pL73LtNIQwiSHh09Nct8K2oRUSgFA1w4Rd4yqXIw1aUvFM2AZB4+9M4YTIVEomvZzpnAvWalJxHwu3EBWeLHuYa6I7DYQMoEGykDU5FJtA4DQnCc+AZf0WppfEpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bd/z+KVn; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1772799098; c=relaxed/simple;
+	bh=EVGlJdk1lfGZy7FgjVTQQNB/BTrpw8ZeseLt7GadQgE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nijkK8n40HMeHeL9OtnD2m22b2UZi/ThY6X1dYUH1a/CLS2OYlomLeuyJl5RdR0eK2IdwEx5csp9edukVwzIfWZ/zR3ESm2pPL5OMYkaTXr3zqatfypY09Jpqt21Ry5UhfYjVTkMn3NOvfgLyl/QOGkcnmlVBNDYWLcZK8hPo8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ka39Q3OI; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bd/z+KVn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ka39Q3OI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772798377; x=1804334377;
+  t=1772799097; x=1804335097;
   h=date:from:to:cc:subject:message-id;
-  bh=hD58Kz5W/qYCsmViCr+6L6YJ969I5pE8ce9q0lyL4d4=;
-  b=bd/z+KVnPTNWxCsYbA/dkZYPwr6gmc+hR4Z2O6S04t6vr+1tEaw4uMnT
-   +6L6nTfRYvsuNs7wXgIw1GvTJ/xso6cP/0NkqRPxoRC5Fg0zTf9Z3JTVY
-   x4GfPvNHfMpuQteG5KiltyfLp8wbfTiDU/oYEUQ5sU3FBojaBwzsqM+Lc
-   kXyiJOwuldKrU5Z7UFStp8rh4+KBeke/rcUcjj1e9qVPFDaQtm8ZHE8/m
-   aRTw39pMi1WOeGEXxK+csmCEQpcJdL2GR93CoDgj4as/Z/XQynsM2DMF6
-   zjq9UZNi1LvoTRuxG6EW+QRyBBCVbwGc2p4ife+aw4QIiDzfd4hak6ZTP
-   w==;
-X-CSE-ConnectionGUID: 2PllHGI8Q2iSxg+ofEy7Bg==
-X-CSE-MsgGUID: aTkLbUOkRg+w9WMhDNK/JQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73817429"
+  bh=EVGlJdk1lfGZy7FgjVTQQNB/BTrpw8ZeseLt7GadQgE=;
+  b=ka39Q3OI2M5JXGq31lIZVnCSnMASZ1r5NVv8cQCPXLce803zTz9HYxvJ
+   4VqaTg6Di2PlSiUhj7zu7DTSf0EcbXOeRoY360L4nYnRIOLhBgQy6ZvpI
+   7txCbUSgfOxltPpPChJArNQGaa9PnexvalbWcK0miIiHaMKSoP6WwA8uw
+   tuprhoyz+ltzu4u+L6pCDX63YlUXSrYEdlU7KdZUD9RChbCJjBwT8nCYY
+   6D7ec7/49hGviPhLEOUGovPepuZbq1qAFteGVhI+Ijnoul2DI8npOdM8v
+   hWUAGaWKPil5364nWdFaniCa4fiSiQseLEDOtyOxTgZ05uaQDsvPftDYr
+   A==;
+X-CSE-ConnectionGUID: FfbFUZ0iQveJBcHzDDnRcQ==
+X-CSE-MsgGUID: sZl27a0lQC6ZEJkjGRstOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73872927"
 X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="73817429"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 03:59:36 -0800
-X-CSE-ConnectionGUID: r5FwpC93SAOXLPbpG+uDDw==
-X-CSE-MsgGUID: KddHo3qkS3m6yLaUo3ftbA==
+   d="scan'208";a="73872927"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 04:11:37 -0800
+X-CSE-ConnectionGUID: c2raqjBCRxGd9mX35PT4HQ==
+X-CSE-MsgGUID: YaKwEALzSP2NIw4kAPnGGw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="242001172"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Mar 2026 03:59:34 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 06 Mar 2026 04:11:35 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyTq7-000000000oT-3Ngb;
-	Fri, 06 Mar 2026 11:59:31 +0000
-Date: Fri, 06 Mar 2026 19:58:34 +0800
+	id 1vyU1k-000000000pB-1Csl;
+	Fri, 06 Mar 2026 12:11:32 +0000
+Date: Fri, 06 Mar 2026 20:10:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master 3953/3989] WARNING: modpost: vmlinux:
- section mismatch in reference: get_tdx_sys_info_version+0x3e (section:
- .text.unlikely.) -> read_sys_metadata_field (section: .init.text)
-Message-ID: <202603061933.R3ZgUU4I-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.kthread.nullfs.split 19/24]
+ include/linux/mount.h:109:12: error: expected '=', ',', ';', 'asm' or
+ '__attribute__' before 'kthread_mntns'
+Message-ID: <202603062006.S5wm9IBS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,23 +59,40 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3f9cd19e764b782706dbaacc69e502099cb014ba
-commit: 06c335a34d8f01bf287bdae7c6b931c7797d5785 [3953/3989] Merge branch 'next' of https://github.com/kvm-x86/linux.git
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260306/202603061933.R3ZgUU4I-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603061933.R3ZgUU4I-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git work.kthread.nullfs.split
+head:   e510f1a052643c804811b9ff87f571987ee24477
+commit: aca200641ae3560c5471d9ded56c3bb7ea9c5c58 [19/24] fs: add kthread_mntns()
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260306/202603062006.S5wm9IBS-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603062006.S5wm9IBS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603061933.R3ZgUU4I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603062006.S5wm9IBS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: get_tdx_sys_info_version+0x3e (section: .text.unlikely.) -> read_sys_metadata_field (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: get_tdx_sys_info_version+0x90 (section: .text.unlikely.) -> read_sys_metadata_field (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: get_tdx_sys_info_version+0xc0 (section: .text.unlikely.) -> read_sys_metadata_field (section: .init.text)
+   In file included from fs/pnode.c:9:
+>> include/linux/mount.h:109:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'kthread_mntns'
+     109 | int __init kthread_mntns(void);
+         |            ^~~~~~~~~~~~~
+
+
+vim +109 include/linux/mount.h
+
+    99	
+   100	extern struct vfsmount *kern_mount(struct file_system_type *);
+   101	extern void kern_unmount(struct vfsmount *mnt);
+   102	extern int may_umount_tree(struct vfsmount *);
+   103	extern int may_umount(struct vfsmount *);
+   104	int do_mount(const char *, const char __user *,
+   105			     const char *, unsigned long, void *);
+   106	extern const struct path *collect_paths(const struct path *, struct path *, unsigned);
+   107	extern void drop_collected_paths(const struct path *, const struct path *);
+   108	extern void kern_unmount_array(struct vfsmount *mnt[], unsigned int num);
+ > 109	int __init kthread_mntns(void);
+   110	
 
 -- 
 0-DAY CI Kernel Test Service
