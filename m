@@ -1,875 +1,135 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC6E329C54
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 15:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1EB33F581
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 15:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772812388; cv=none; b=OvH63WgQLDm8Ods0whtgL9LMVwwjXrzIC88Cf07WCW3TvPmwG7mcT34wUUL/ERc2uOC23dPFPTbpyHiXsldvmDtdXhEBu66pG5DgrWgiz0Mt74GeVGGalEnC7r+AT2SsKX/4n+LTNSiYKYA0WGkyMRb2+IEEcTGm7dtQOCRWtdE=
+	t=1772812437; cv=none; b=gS4K2Viam1amWKmeDNQ/burW3UC34URHbJkm4JBlYoQ7imJeQrBU8Pu53n8+7RD3CHOu6BtnB/GPsrmkjC9YEyhhzExi0jd5bjVA07GietPqLFFD9QSmx84WrPuHPn5lLvsZKdWjv/5/rCSRWhUd+zKbUwx8iqUeIVk27zPkGrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772812388; c=relaxed/simple;
-	bh=d4JXd/CuhdWO1lIqWVAShEWegMce815FX7sEevAc0fw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MwPYMPFp5P/1brPaRBiMN7XSek0VWfV+eRSfU3bvZb11ckr5E+0ftOTDvUY4/3I32KJ9+vC2EQGhCKNeqR7KCMfGVacY6NiNyEy6GpaXIwloo1IL68SZk2oYt1kTcZIBzp7CcxkyRpPR7S/UYFm5OBcTQOiXj3/nXq3PCco1TNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ngSK+S/d; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1772812437; c=relaxed/simple;
+	bh=VduVTnRv2wVv4lsKOYVKDUsqVwm1MCIpIougmauMuxQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ku6caT6bsrfyfTie94dVfiuAOuRJzb++4i+50OzyuE2YG9+3NFNklHuOaqNpKOG6xyFgmJYXff1f88ZIFrQG42eLqHL7riFsKaWe4YOI5yUqyrbMhc31dHE2M8HAK6+yUSsv2x7hD0HZd64cAt0l83x6dQzQdjEzY0KVw+3sSMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YPTiKdih; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ngSK+S/d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YPTiKdih"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772812385; x=1804348385;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d4JXd/CuhdWO1lIqWVAShEWegMce815FX7sEevAc0fw=;
-  b=ngSK+S/dLoM9sh4AJ91AEZA8vsCOCnDs0MSai0/6vaxfDUTLsM+6JWDK
-   6xL6SFoHacVizfOMZ6VFYMZlaQjjKi/EXohVA1tecj71tYBDfHQOcvXj/
-   4X2udd1fDwZ/X4C0eH6VHuxyH1Btecocrh61BIA82WyX8o1rIKzjVNvll
-   45J/Se10DZtamKV2x1sdymz9RR/Fazjt3TS8vUUVYNxuW9R/dadik6Pd8
-   tH3w8mxuF67tokzm6uRWOhP1+IFWZ3Iw3z0j9YvEw+pNH51VxhJLM41/t
-   22BN+jmligpyAdIZ0kDD/1cQf8c5/HxLysPbwvg03n3nwgEmWmXai8qKT
-   Q==;
-X-CSE-ConnectionGUID: 94EQKfmDS0WMNqnA8F2VxQ==
-X-CSE-MsgGUID: rsjF7OrUR4iteqJqQsk9vA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="84634600"
+  t=1772812434; x=1804348434;
+  h=date:from:to:cc:subject:message-id;
+  bh=VduVTnRv2wVv4lsKOYVKDUsqVwm1MCIpIougmauMuxQ=;
+  b=YPTiKdih3gi0TIj1/ylX82zV3b9Zj3yRQG/3hP5QuSsH/vRyT7pLH19q
+   2ehUPyxB/L1gwxRVUC2IHOmtAAbSI4GoCh45QXkQm2zm0N3J2HZztcvIG
+   qYi79+rRpQZ4JGhgm+vidi23QWoH3KS7UB9ZoyxghrG5rtJeGu+Fgy4Mq
+   wTZNeKwnVMAz1J5OJOHsXY5uYjcgQHMrNsFYFdjlmSL7smbzEp2/AVGwg
+   v5Et9rVrVONGoma1tfzIp8PQ0Zh+S1JKNhSLcsNKQwRzBETqql8U4I24y
+   Q2DxemOwk2x921Rmo/7A+T9lAxSly91QuWWH35tDO71ClPAhec8Q5xTmT
+   g==;
+X-CSE-ConnectionGUID: qZDUh2KBSziUbIRNK1Dl9Q==
+X-CSE-MsgGUID: aLXq6XhRTRyVQ8aXYiDUaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="84634659"
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="84634600"
+   d="scan'208";a="84634659"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 07:53:04 -0800
-X-CSE-ConnectionGUID: BXfHrl8/R1+d86xL1fxHpA==
-X-CSE-MsgGUID: zvynlFkAQgeRW56Q8m3E7Q==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 07:53:54 -0800
+X-CSE-ConnectionGUID: Gps25Pz2QQ2YJfqq28v0kg==
+X-CSE-MsgGUID: Xlo0v1jjTP+YXnKeq0t0EA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="256969772"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 06 Mar 2026 07:53:02 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="256969991"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 06 Mar 2026 07:53:52 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyXTz-000000002Gr-2ufq;
-	Fri, 06 Mar 2026 15:52:55 +0000
-Date: Fri, 6 Mar 2026 16:52:25 +0100
+	id 1vyXUr-0000000010n-2uny;
+	Fri, 06 Mar 2026 15:53:49 +0000
+Date: Fri, 06 Mar 2026 23:53:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: luoqing <l1138897701@163.com>, axboe@kernel.dk
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] block: Use struct_size() helper in kmalloc()
-Message-ID: <202603061605.8Q7r4bnr-lkp@intel.com>
-References: <20260306080056.1262324-1-l1138897701@163.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:block-for-next 2/13]
+ include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument
+ 1 (different base types)
+Message-ID: <202603062334.wgI5htP0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306080056.1262324-1-l1138897701@163.com>
 
-Hi luoqing,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on axboe/for-next]
-[also build test ERROR on device-mapper-dm/for-next next-20260305]
-[cannot apply to linus/master v6.16-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/luoqing/dm-bufio-Use-struct_size-helper-in-kmalloc/20260306-165625
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260306080056.1262324-1-l1138897701%40163.com
-patch subject: [PATCH 1/2] block: Use struct_size() helper in kmalloc()
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260306/202603061605.8Q7r4bnr-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603061605.8Q7r4bnr-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux block-for-next
+head:   d4a80ed9d3c8754e002fede1d94828bbe2041f7b
+commit: 6cea1699043f5f9a0be022a9bbc8ad29f561e5b3 [2/13] block: Make the lock context annotations compatible with Clang
+config: riscv-randconfig-r132-20260306 (https://download.01.org/0day-ci/archive/20260306/202603062334.wgI5htP0-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603062334.wgI5htP0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603061605.8Q7r4bnr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603062334.wgI5htP0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+   block/blk-ioc.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/local_lock_internal.h:331:40: sparse: sparse: multiple definitions for function '__this_cpu_local_lock'
+   include/linux/local_lock_internal.h:325:37: sparse:  the previous one is here
+   block/blk-ioc.c: note: in included file (through include/linux/fs.h, include/linux/compat.h, arch/riscv/include/asm/elf.h, ...):
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+--
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+   block/blk-cgroup.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/local_lock_internal.h:331:40: sparse: sparse: multiple definitions for function '__this_cpu_local_lock'
+   include/linux/local_lock_internal.h:325:37: sparse:  the previous one is here
+   block/blk-cgroup.c: note: in included file (through include/linux/iocontext.h, include/linux/ioprio.h):
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
+>> include/linux/radix-tree.h:260:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct local_trylock [noderef] [usertype] __percpu *base @@     got struct local_lock [noderef] __percpu * @@
+   include/linux/radix-tree.h:260:9: sparse:     expected struct local_trylock [noderef] [usertype] __percpu *base
+   include/linux/radix-tree.h:260:9: sparse:     got struct local_lock [noderef] __percpu *
 
-   In file included from include/linux/percpu.h:5,
-                    from arch/x86/include/asm/msr.h:16,
-                    from arch/x86/include/asm/tsc.h:11,
-                    from arch/x86/include/asm/timex.h:6,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/jiffies.h:10,
-                    from include/linux/ktime.h:25,
-                    from include/linux/timer.h:6,
-                    from include/linux/uprobes.h:18,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:8,
-                    from block/bio.c:5:
-   block/bio.c: In function 'bio_kmalloc':
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   include/linux/compiler.h:203:82: error: expression in static assertion is not an integer
-     203 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   include/linux/compiler.h:203:82: error: expression in static assertion is not an integer
-     203 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   include/linux/compiler.h:203:82: error: expression in static assertion is not an integer
-     203 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   include/linux/compiler.h:203:82: error: expression in static assertion is not an integer
-     203 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/alloc_tag.h:251:16: note: in definition of macro 'alloc_hooks_tag'
-     251 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   include/linux/compiler.h:203:82: error: expression in static assertion is not an integer
-     203 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   include/linux/compiler.h:203:82: error: expression in static assertion is not an integer
-     203 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:421:56: note: in expansion of macro '__must_be_array'
-     421 |                 size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
-         |                                                        ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:436:32: note: in expansion of macro 'flex_array_size'
-     436 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
->> block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:207:35: note: in expansion of macro '__same_type'
-     207 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                   ^~~~~~~~~~~
-   include/linux/compiler.h:208:58: note: in expansion of macro '__is_array'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                                          ^~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   include/linux/compiler.h:203:82: error: expression in static assertion is not an integer
-     203 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/compiler.h:208:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     208 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:420:50: note: in expansion of macro '__must_be_array'
-     420 |                 (count) * sizeof(*(p)->member) + __must_be_array((p)->member),  \
-         |                                                  ^~~~~~~~~~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                        ^~~~~~~~~~~
-   block/bio.c:660:41: error: 'struct bio' has no member named 'bio_vec'; did you mean 'bi_io_vec'?
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                                         ^~~~~~~
-   include/linux/alloc_tag.h:255:24: note: in definition of macro 'alloc_hooks_tag'
-     255 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:956:49: note: in expansion of macro 'alloc_hooks'
-     956 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   block/bio.c:660:16: note: in expansion of macro 'kmalloc'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-         |                ^~~~~~~
-   include/linux/overflow.h:437:40: note: in expansion of macro 'flex_array_size'
-     437 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   block/bio.c:660:24: note: in expansion of macro 'struct_size'
-     660 |         return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
+vim +260 include/linux/radix-tree.h
 
+^1da177e4c3f41 Linus Torvalds            2005-04-16  257  
+^1da177e4c3f41 Linus Torvalds            2005-04-16  258  static inline void radix_tree_preload_end(void)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  259  {
+cfa6705d89b656 Sebastian Andrzej Siewior 2020-05-27 @260  	local_unlock(&radix_tree_preloads.lock);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  261  }
+^1da177e4c3f41 Linus Torvalds            2005-04-16  262  
 
-vim +660 block/bio.c
+:::::: The code at line 260 was first introduced by commit
+:::::: cfa6705d89b6562f79c40c249f8d94073c4276e4 radix-tree: Use local_lock for protection
 
-   637	
-   638	/**
-   639	 * bio_kmalloc - kmalloc a bio
-   640	 * @nr_vecs:	number of bio_vecs to allocate
-   641	 * @gfp_mask:   the GFP_* mask given to the slab allocator
-   642	 *
-   643	 * Use kmalloc to allocate a bio (including bvecs).  The bio must be initialized
-   644	 * using bio_init() before use.  To free a bio returned from this function use
-   645	 * kfree() after calling bio_uninit().  A bio returned from this function can
-   646	 * be reused by calling bio_uninit() before calling bio_init() again.
-   647	 *
-   648	 * Note that unlike bio_alloc() or bio_alloc_bioset() allocations from this
-   649	 * function are not backed by a mempool can fail.  Do not use this function
-   650	 * for allocations in the file system I/O path.
-   651	 *
-   652	 * Returns: Pointer to new bio on success, NULL on failure.
-   653	 */
-   654	struct bio *bio_kmalloc(unsigned short nr_vecs, gfp_t gfp_mask)
-   655	{
-   656		struct bio *bio;
-   657	
-   658		if (nr_vecs > BIO_MAX_INLINE_VECS)
-   659			return NULL;
- > 660		return kmalloc(struct_size(bio, bio_vec, nr_vecs), gfp_mask);
-   661	}
-   662	EXPORT_SYMBOL(bio_kmalloc);
-   663	
+:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
