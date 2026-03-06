@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7402BE639
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 05:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1B0347FFA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 06:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772776443; cv=none; b=FfKcK/A0nkToHq13qJm5JbtbUbXtk6Jooj0LXhcRIjbpeVNyuGAIhfFob8JVaShVQcq+OlS4yNU8NwJeGr4zmZe74EifL3SLQ2o5Kwovww+XhLIzTX6V/E4F8VDRYV6lFfOogs8YA8jDK+XnzD5wU+qp5wM1JrsK9FwkYw6aZp4=
+	t=1772777165; cv=none; b=ry8BinX9bWnbSk/kLl6CE+D7NiFGQv3lqqdpPYyMb7jwYkMz5oE76ElR+zwhokffSvS/+EUstsduFbt/7V6LOKYaZuSRLFcmYsV3IW4j72N5DnDibLqyMvGHjJnPw0bE/nxNPoN9YJKw+mq1CFIqz8XF82mYbbhCV6FBdejus4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772776443; c=relaxed/simple;
-	bh=A2TOHTuujOX4/fF5LocVXmepjCbt47G6X0nYc3D613s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=odD2GX990MB+rhfg48bhEFEGfOgynU40WuvI60TOACkU8JvE/LT2OrFwjsEsBVE/Z+2fuTncm4b5OPKFRRV9lL8HEZ8aedRtbV3cD9aN1qCuI1+q1TZgE18m8064w+dnK+1R/O8WbV0V5CcpMaOWW/yzZfYVytVvudwDuhjdzSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hh/J6e7U; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1772777165; c=relaxed/simple;
+	bh=UcW59RQZ7p692pLBlI0UEeIymuEmwViRpFyi5zwCxnk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kNF9vTDiiDmKPgLGSzxqOwXK5AmlntjCQpCzOiv//k0Rhndzgj06L4vRfQKhIBGjOiWf+W9nkWr30YqwUnzwW30vVj5SvxQaBiL0CGB8KXR0A+XXFLC6j0hWLkVvlZcVR8qnU7/9CD+3XLAWmUzXUATh7A5iBmteThVdj9VvvDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXuWRrS2; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hh/J6e7U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXuWRrS2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772776441; x=1804312441;
+  t=1772777163; x=1804313163;
   h=date:from:to:cc:subject:message-id;
-  bh=A2TOHTuujOX4/fF5LocVXmepjCbt47G6X0nYc3D613s=;
-  b=hh/J6e7UF/HgadbhJXH9QNRWp2xLu+3I2rBGZQkDw2kyODYPPbX+Cyfd
-   LQBm/cDCDXinclO68GdnSRC4DGL0Bs3FiQih+jwkRgWg1Owe6KllgnlVH
-   qcO+7kpbcKuQbBlssXcOQec47tZjhLzdWMRFNTJBk6ARHn5ftlqnPvhDf
-   iJyzplaza8J5h0rld60y1sloRB73EwF9wQNZMMVjE+VbmZUKAYYrfgXqh
-   ZeIjkdsonSiUhEjMLME60yQ2+qSWzE/zRzQTEj65AZrD1DEYsEtp7HP1P
-   LE4Wxk7qW1rVvhaF9fYuAzcEEzQQgDCllfbvSKLenj7QMtlaRn/AjvZOX
-   w==;
-X-CSE-ConnectionGUID: /eTTG6AfQIGpurql5ThDEw==
-X-CSE-MsgGUID: FkiemOQJT6SfEibDOG7Q7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="91270407"
+  bh=UcW59RQZ7p692pLBlI0UEeIymuEmwViRpFyi5zwCxnk=;
+  b=eXuWRrS2Z7cVLyw7kQ1+3Sjw56lBs1hN5gkdoGu3lOGuwtK7R4m9Pll1
+   VAJO/wPFF47SdxgIsL/ckiPIjEvAZsgFPnGTnMY/zshhoVaFJXAEOwtf0
+   L+ZIM05UqUqx4RzIvC3Ir48bk8JfIPdXB27ObAD7PX5cc3bME96RwJpuy
+   dqWLsWcSzsj4Ag8N++QJP7ZiIdgbxBFv8c5VrpGnTCSWePIk+VdxO4nTq
+   n1NdPpK2xxXrCKAA6abs4/hRXfq/jFpmw8QKkeFYNyjXZNnbi6dKifeN/
+   ZW/sqbO8iiETxh86DRDFx6e+CuvpvOrsYQ9NglsXagz2VtBAqxsnG3sBg
+   A==;
+X-CSE-ConnectionGUID: uHhC9K9bRf+eBG1Myu+idQ==
+X-CSE-MsgGUID: 6R9CtfykQrSy/YHoITWmGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73927844"
 X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="91270407"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 21:54:00 -0800
-X-CSE-ConnectionGUID: JajwcGS+TpWE6oR0oWrcEQ==
-X-CSE-MsgGUID: DVi8E3u6SA2esj10QoI3KA==
+   d="scan'208";a="73927844"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 22:06:03 -0800
+X-CSE-ConnectionGUID: +kv5BOomSn6enFZnrS4WdA==
+X-CSE-MsgGUID: E4KcJ9TFQpSgWRQLRKuYbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="215634069"
+   d="scan'208";a="249390597"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Mar 2026 21:53:59 -0800
+  by orviesa002.jf.intel.com with ESMTP; 05 Mar 2026 22:06:00 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyO8K-000000000QX-2n7R;
-	Fri, 06 Mar 2026 05:53:56 +0000
-Date: Fri, 06 Mar 2026 13:53:08 +0800
+	id 1vyOJx-000000000Rd-2j1d;
+	Fri, 06 Mar 2026 06:05:57 +0000
+Date: Fri, 06 Mar 2026 14:05:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/2] ERROR: modpost: module
- ceph uses symbol d_drop from namespace
- VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not
- import it.
-Message-ID: <202603061309.zggoYocd-lkp@intel.com>
+To: Dominik Kaszewski <dominik.kaszewski@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Alvin Lee <alvin.lee2@amd.com>, Roman Li <roman.li@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dc_fused_io.c:103:56: error: invalid
+ use of undefined type 'struct gpio'
+Message-ID: <202603061343.CyA71vlH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,62 +62,62 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   6a6bc2e596fed8d1574eca852772273befbb255e
-commit: e2c81a7fa3cb3fe3ff19af6fcf11cf014a578f24 [0/2] ANDROID: Fix incorrect namespacing for ANDROID_GKI_VFS_EXPORT_ONLY
-config: i386-randconfig-061-20260306 (https://download.01.org/0day-ci/archive/20260306/202603061309.zggoYocd-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603061309.zggoYocd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5ee8dbf54602dc340d6235b1d6aa17c0f283f48c
+commit: ce801e5d6c1bac228bf10f75e8bede4285c58282 drm/amd/display: HDCP Locality check using DMUB Fused IO
+date:   11 months ago
+config: mips-randconfig-r072-20260306 (https://download.01.org/0day-ci/archive/20260306/202603061343.CyA71vlH-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603061343.CyA71vlH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603061309.zggoYocd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603061343.CyA71vlH-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: memblock_end_of_DRAM: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/bpf/preload/bpf_preload.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/md/dm-bow.o
-ERROR: modpost: module nfsv4 uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module nfsv4 uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module nfsv4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module nfsv4 uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module nfsv4 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module ext4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module ext4 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module exfat uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module exfat uses symbol d_rehash from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module cifs uses symbol mntget from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module fuse uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module fuse uses symbol prepare_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module fuse uses symbol path_get from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module fuse uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module fuse uses symbol mntget from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol lock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol unlock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol path_get from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module incrementalfs uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module xfs uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module xfs uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module xfs uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module btrfs uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
->> ERROR: modpost: module ceph uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
->> ERROR: modpost: module ceph uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module ublk_drv uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module snd-compress uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
-ERROR: modpost: module snd-compress uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_fused_io.c: In function 'dm_atomic_write_poll_read_i2c':
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dc_fused_io.c:103:56: error: invalid use of undefined type 'struct gpio'
+     103 |  const uint32_t ddc_line = link->ddc->ddc_pin->pin_data->en;
+         |                                                        ^~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_fused_io.c: In function 'dm_atomic_write_poll_read_aux':
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_fused_io.c:130:56: error: invalid use of undefined type 'struct gpio'
+     130 |  const uint32_t ddc_line = link->ddc->ddc_pin->pin_data->en;
+         |                                                        ^~
+
+
+vim +103 drivers/gpu/drm/amd/amdgpu/../display/dc/dc_fused_io.c
+
+    90	
+    91	bool dm_atomic_write_poll_read_i2c(
+    92			struct dc_link *link,
+    93			const struct mod_hdcp_atomic_op_i2c *write,
+    94			const struct mod_hdcp_atomic_op_i2c *poll,
+    95			struct mod_hdcp_atomic_op_i2c *read,
+    96			uint32_t poll_timeout_us,
+    97			uint8_t poll_mask_msb
+    98	)
+    99	{
+   100		if (!link)
+   101			return false;
+   102	
+ > 103		const uint32_t ddc_line = link->ddc->ddc_pin->pin_data->en;
+   104		union dmub_rb_cmd commands[3] = { 0 };
+   105		const bool converted = op_i2c_convert(&commands[0], write, FUSED_REQUEST_WRITE, ddc_line)
+   106				&& op_i2c_convert(&commands[1], poll, FUSED_REQUEST_POLL, ddc_line)
+   107				&& op_i2c_convert(&commands[2], read, FUSED_REQUEST_READ, ddc_line);
+   108	
+   109		if (!converted)
+   110			return false;
+   111	
+   112		const bool result = atomic_write_poll_read(link, commands, poll_timeout_us, poll_mask_msb);
+   113	
+   114		memcpy(read->data, commands[0].fused_io.request.buffer, read->size);
+   115		return result;
+   116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
