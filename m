@@ -1,121 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF1E34BA5B;
-	Fri,  6 Mar 2026 14:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B9E3AEF3F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 15:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772807817; cv=none; b=t6NAln0TErWm8sxKzWRcSSrZ43C+QlkRfpBu1BbOrQO5A1e8srSmj9xrD/pwFBCTJxsKx4dszBWRQjq/9bkMrx/wzZQItzBziLjZ1SVlAU5Es7IFp5V/iKsUN2ZMD3XxmvTPGFoTeitPtv+irwHnWsR85/fkY7xIO7vlQOf4s0k=
+	t=1772809922; cv=none; b=dFYHLskHacTMShMN41x4cmlvQcONLZ5BILQWSuSQ8j2g/szsRs/VwijZEQQxrpy1jqKVRpkiFeinpF20+3peAsAM01yZ2yk/TcaDLkSEoLG14BLYD6urp4bYlsLiV5xb9Trpg5qKuX6q8osmNzVMSCxLz31e/b0Qdba9+e9PF+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772807817; c=relaxed/simple;
-	bh=QqkFcFahsd0op5XjYc6lYSwgGgomR2TfWx7WyjH4taw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YNhoLPDAqkQeKq8NwkkZTbfORsYGdR6JVNo/M37eXjwjpRN4yhA2dRkGjQPPXbQkljt25e2TKE4ctDWrzPKGMrWSYD2pOkMytJcuS/9P5Cii19WqVzHMPwXA+7yLMzM06IeIzD73ilRW1kHTJy9EPpy/5/bK3PJ0USfrJS2jHSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atIYUquD; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1772809922; c=relaxed/simple;
+	bh=t0TlLWbz/aY3lSdzXQMtedk3plF2FDVR0HnYEkLPrgY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DGfal6cATsrx2zq90K3P4D7CV8b5JzDYdp6VErEfN+K5yoXgdv7JSahEc/IoQGRQ2Ardttyhgv5UEwomW/rJcyUzKO74GJOuKhexxpPxum281qi0AtnlMllJLE+cOrfXzcTqJ9pTvu6qw6kyMY5i+z5xB440LG5cnjy1mrQimiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GmCk6O18; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atIYUquD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GmCk6O18"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772807817; x=1804343817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QqkFcFahsd0op5XjYc6lYSwgGgomR2TfWx7WyjH4taw=;
-  b=atIYUquDLiika2bYHk2ecinUP94Ezw61zLZS08Z2RlZ1lYWKVc9hPOPU
-   bxB5Tac0zNNS9i1jp0UZ2p48vrVE66f8/BzXBtIiKqTgFdmuQhloDxEpa
-   NiCeFgk/l1FxL4VILJ9I/AWYuk+8dM9faRGmS/u679HzaUQP3PAUjPvAD
-   hwL3sM7P19xrN+V7Zbo/N+BLc+S002p8DrtmiwJxr1GllykYNHl1Lf4Vx
-   VegCKfGKYz4pkjuiXBlCTbQ75gXKw2J+o9Mxo08HcXrqS4uZVA1/81Lp5
-   x4bUToMrGXp/hIzPUAc1TcX2extue8iAYdjIPsBiKpl5j8QlkvM7GepmB
+  t=1772809919; x=1804345919;
+  h=date:from:to:cc:subject:message-id;
+  bh=t0TlLWbz/aY3lSdzXQMtedk3plF2FDVR0HnYEkLPrgY=;
+  b=GmCk6O18jEJk5d3T0keqwGnawyX4LbD/UEiUWyRbQT1wvYQ1jTTPwMBf
+   WJwo8mNq1qAEHlr7hmzsWZdn5AreOpQn5R5Keqm9FIDNLilv+7oTPzhM/
+   +u8mQ2Qp1lo7Q2NyqYCXXBQ7JTqNc83Q085jNU2/2Zbbyb5/1JF+dQO2o
+   Ext9xfApbMyU45QA2YtcImRJZM+qwou+jfgMiKcywA4DLFg94tIcs3qsN
+   lYWHQ9pI5b5tm0dQ+LximRunrTOfG5+6mCriLVONNQyRKjHUSrpKa5hRx
+   bkstu902DbAmMKKas54y9rI1jaTM9ijmV4HJ8yR+Oc8E1oW7r14EXrhcV
    Q==;
-X-CSE-ConnectionGUID: Dd5ZB45RTm2Ybs/NXKjd8A==
-X-CSE-MsgGUID: E6L6Z62kRsWS1rOBZiZsBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="84241910"
+X-CSE-ConnectionGUID: LC3AcfsLRvyZN4TAMmydQg==
+X-CSE-MsgGUID: ZqbxVnmkTO+i/bFeHM/jbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="77520574"
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="84241910"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 06:36:56 -0800
-X-CSE-ConnectionGUID: 5eLOZ5sMRgyJU2Um/15HDA==
-X-CSE-MsgGUID: eEHtQg9bQY+UOB1keMyEXQ==
+   d="scan'208";a="77520574"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 07:11:58 -0800
+X-CSE-ConnectionGUID: xPHutIWcSdCqE+ttW4Iarw==
+X-CSE-MsgGUID: 6oVhx+abR1iIvT97Ogwb0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="221831643"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Mar 2026 06:36:48 -0800
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
+   d="scan'208";a="215715006"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 06 Mar 2026 07:11:57 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyWIG-000000000wX-3MaE;
-	Fri, 06 Mar 2026 14:36:44 +0000
-Date: Fri, 6 Mar 2026 22:35:58 +0800
+	id 1vyWqJ-000000002Gb-20UO;
+	Fri, 06 Mar 2026 15:11:55 +0000
+Date: Fri, 06 Mar 2026 16:11:20 +0100
 From: kernel test robot <lkp@intel.com>
-To: Lance Yang <lance.yang@linux.dev>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, david@kernel.org,
-	dave.hansen@intel.com, dave.hansen@linux.intel.com,
-	ypodemsk@redhat.com, hughd@google.com, will@kernel.org,
-	aneesh.kumar@kernel.org, npiggin@gmail.com, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-	arnd@arndb.de, lorenzo.stoakes@oracle.com, ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	baohua@kernel.org, shy828301@gmail.com, riel@surriel.com,
-	jannh@google.com, jgross@suse.com, seanjc@google.com,
-	pbonzini@redhat.com
-Subject: Re: [PATCH v6 2/2] x86/tlb: skip redundant sync IPIs for native TLB
- flush
-Message-ID: <202603062249.9Wwr2mux-lkp@intel.com>
-References: <20260304021046.18550-3-lance.yang@linux.dev>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fan_mark_userns 10/10]
+ tools/testing/selftests/filesystems/fanotify/ns-notify_test.c:56:undefined
+ reference to `setup_userns'
+Message-ID: <202603061614.yTWI4Dg5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260304021046.18550-3-lance.yang@linux.dev>
 
-Hi Lance,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20260305]
-[cannot apply to tip/x86/core arnd-asm-generic/master peterz-queue/sched/core tip/x86/mm linus/master v7.0-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lance-Yang/mm-mmu_gather-prepare-to-skip-redundant-sync-IPIs/20260304-101422
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260304021046.18550-3-lance.yang%40linux.dev
-patch subject: [PATCH v6 2/2] x86/tlb: skip redundant sync IPIs for native TLB flush
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260306/202603062249.9Wwr2mux-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603062249.9Wwr2mux-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fan_mark_userns
+head:   4d7cad2f077449767de4cc8ab6d869f080a121a2
+commit: 4d7cad2f077449767de4cc8ab6d869f080a121a2 [10/10] selftests/filesystems: add fanotify namespace notifications test
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260306/202603061614.yTWI4Dg5-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260306/202603061614.yTWI4Dg5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603062249.9Wwr2mux-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603061614.yTWI4Dg5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the amir73il/fan_mark_userns HEAD 4d7cad2f077449767de4cc8ab6d869f080a121a2 builds fine.
+      It only hurts bisectability.
 
->> arch/x86/mm/tlb.c:1841:13: warning: no previous prototype for function 'native_pv_tlb_init' [-Wmissing-prototypes]
-    1841 | void __init native_pv_tlb_init(void)
-         |             ^
-   arch/x86/mm/tlb.c:1841:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1841 | void __init native_pv_tlb_init(void)
-         | ^
-         | static 
-   1 warning generated.
+All error/warnings (new ones prefixed by >>):
+
+   In file included from ns-notify_test.c:21:
+   ns-notify_test.c: In function 'userns_notify_create_delete_uts':
+>> tools/testing/selftests/../../../tools/testing/selftests/kselftest_harness.h:757:9: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+     757 |         for (; _metadata->trigger; _metadata->trigger = \
+         |         ^~~
+   tools/testing/selftests/../../../tools/testing/selftests/kselftest_harness.h:806:14: note: in expansion of macro 'OPTIONAL_HANDLER'
+     806 | } while (0); OPTIONAL_HANDLER(_assert)
+         |              ^~~~~~~~~~~~~~~~
+   tools/testing/selftests/../../../tools/testing/selftests/kselftest_harness.h:519:9: note: in expansion of macro '__EXPECT'
+     519 |         __EXPECT(expected, #expected, seen, #seen, ==, 1)
+         |         ^~~~~~~~
+   ns-notify_test.c:145:9: note: in expansion of macro 'ASSERT_EQ'
+     145 |         ASSERT_EQ(create_owner, self->userns_nsid);
+         |         ^~~~~~~~~
+   ns-notify_test.c:148:9: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+     148 |         {
+         |         ^
+   /usr/bin/ld: /tmp/ccbFYyLi.o: in function `userns_notify_setup':
+>> tools/testing/selftests/filesystems/fanotify/ns-notify_test.c:56:(.text+0xe01): undefined reference to `setup_userns'
+   collect2: error: ld returned 1 exit status
 
 
-vim +/native_pv_tlb_init +1841 arch/x86/mm/tlb.c
+vim +56 tools/testing/selftests/filesystems/fanotify/ns-notify_test.c
 
-  1839	
-  1840	#ifndef CONFIG_PARAVIRT
-> 1841	void __init native_pv_tlb_init(void)
+    51	
+    52	FIXTURE_SETUP(userns_notify)
+    53	{
+    54		int ret;
+    55	
+  > 56		ret = setup_userns();
+    57		ASSERT_EQ(ret, 0);
+    58	
+    59		self->userns_fd = open("/proc/self/ns/user", O_RDONLY);
+    60		ASSERT_GE(self->userns_fd, 0);
+    61	
+    62		self->userns_nsid = get_ns_id(self->userns_fd);
+    63		ASSERT_NE(self->userns_nsid, 0);
+    64	
+    65		self->fan_fd = fanotify_init(FAN_REPORT_NSID, 0);
+    66		ASSERT_GE(self->fan_fd, 0);
+    67	
+    68		ret = fanotify_mark(self->fan_fd, FAN_MARK_ADD | FAN_MARK_USERNS,
+    69				    FAN_CREATE | FAN_DELETE,
+    70				    self->userns_fd, NULL);
+    71		ASSERT_EQ(ret, 0);
+    72	}
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
