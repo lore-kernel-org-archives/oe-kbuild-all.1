@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B9B33BBC6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Mar 2026 16:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347863ED5A7;
+	Fri,  6 Mar 2026 17:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772816245; cv=none; b=GFxCXwZ1PnkXeAehtwl8sKMxqklGitoNie6D7lFZKudO5ytruJtq9M5nozhgpUOctTZM8XSDSShd0A3/w81jzvBMx8KnLqgk0VwF0ujIWwBsh5/4rYE6f0EJbBPWJfR6MpRjemHQABy6DtyqRZf7EdHmJOXm1hWUn6X31WzJc28=
+	t=1772816919; cv=none; b=XxdNXzSZUn+e3tYuPGoOiN1rFNgtLRCmGq6Jry4e9k2AzXrLxwM7wfObpdiTy1qU42oZmQLAmMy4O4lleXULagDdf0cWu2ctWNA3PfKX63e8aCiNEO1mwy94aZQasc2eLlJTM8PLlQVpfqUbnTZAov+Z61A5eyFKtQLbMfVyCKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772816245; c=relaxed/simple;
-	bh=2RyyObRa8oqxhcaCrZflA1I4B7pVovstSysG0cmSr84=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LvgsRgiFTkNmwr618EPr1zyDXcNh/+PTUz98APnsgK3OoA393bwF+dRvB5gdGTjRvFEKbIuiUagpVFhVyzWTUt0GFE8JCVnHa+Ks1+ovnYNl3h3HxD6nPcHnAOZCMkeNQErLridXJoz07YH/zvC9avWDkGp5KjdIl97k30+K3w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3mf0rVb; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1772816919; c=relaxed/simple;
+	bh=d2JhdR+/PuwZOGIwsOOUh7FvEBfk6yer+2p3DeF77P0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qvo5sK2FUm9fCdCJAvpQu6vuQowFPJcUHfiRXXkEXtOs0dmUKeBJnt1Opq8pCNUYPHpU3ZM4/VKFgFG7bu9FosBM63fD2aTaI+K29KmuyXYX2EmoFSwnno6M1YPim6VhvWx95o54SXz7+nW4BFRW89iL9eLTDTM9e5M53cEB3m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VIg6uK5K; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3mf0rVb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIg6uK5K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772816244; x=1804352244;
+  t=1772816918; x=1804352918;
   h=date:from:to:cc:subject:message-id;
-  bh=2RyyObRa8oqxhcaCrZflA1I4B7pVovstSysG0cmSr84=;
-  b=K3mf0rVbe5asRqJce7/9ffC6ynF6gsrZJ0Elkpw4y+RIGD8jwgKxlmxF
-   7cLbH13SGpxiepM8KK4TfasBdk5fVorrz1OdmqWTepkft9OnD6YnMsCHT
-   MHpPAG5A5dMI8VOOLNbGbSAkSPIJa4Z5hxf+5oBQjNkHggd2MfCCB47VJ
-   5PjDECJN22FA4Dz/Y3q0+EAhICwzRoh6RXR1mnV5KzshpON/c/oALI+H9
-   PnR/edf60OQevcXB2Emt9nMB/hiCZbSW6/vJygb+QrJIKH9dKMOEsnMN6
-   b0QTTHrhWPM0pilxEpO9QQnf1QpxMb0jyinNoxr5zrzG4EX0PAqzD9cLo
-   Q==;
-X-CSE-ConnectionGUID: 7F1EH522R2y6pyXWUxNQ0Q==
-X-CSE-MsgGUID: 2Kc0ES9AS8CTLTovhCMa2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73846128"
+  bh=d2JhdR+/PuwZOGIwsOOUh7FvEBfk6yer+2p3DeF77P0=;
+  b=VIg6uK5KI+Zm0+0EXCOeBSNY7Lug0dQSHFESn2NQqxcR/ncCx+oppzXV
+   +Uj0pd43RN2MLZ9fjARWupto0Z50Kj8FAY5uwIeYTUqX23ErDMqkLKB3J
+   HqkEoMw62p9CuGXxN3wztX5GUv69LTCuv1AoUc6dUHPR+rl/80Fd/iJ35
+   LC0zBN/8eaOdqUNNLMarFX+vvWUUyQjhmbgz5nMVy2Bg+EUhx3NxjZl1S
+   iah4q+MUffAF4EM+DU8XMBOHqsXLVOArLtC+/v0tfDvq3ZDCZHzUJE8wh
+   0PsoV5qzv0YH06Ts0+6NJ7BId44gRBRIavXGZ6HBzgKNxwONU4I6rZ4Qv
+   w==;
+X-CSE-ConnectionGUID: rlTeIvqlQ9uWdUWLiSZfMw==
+X-CSE-MsgGUID: a1fTrCC3QYS8hfGJmEkLMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="91316926"
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="73846128"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 08:57:23 -0800
-X-CSE-ConnectionGUID: gXMMajAjSo6Y1aJ69H7Jww==
-X-CSE-MsgGUID: wXGwcesPQt6L0TZmj9MViA==
+   d="scan'208";a="91316926"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 09:08:25 -0800
+X-CSE-ConnectionGUID: yhizVZWgS/SiF1lrNEqOJw==
+X-CSE-MsgGUID: k8L4PQt1SXKlRYZNgwMp5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="215728942"
+   d="scan'208";a="217263701"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Mar 2026 08:57:22 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 06 Mar 2026 09:08:23 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyYUJ-0000000016j-2oZF;
-	Fri, 06 Mar 2026 16:57:19 +0000
-Date: Sat, 07 Mar 2026 00:56:44 +0800
+	id 1vyYey-0000000017Z-1SQs;
+	Fri, 06 Mar 2026 17:08:20 +0000
+Date: Sat, 07 Mar 2026 01:08:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Brian Masney <bmasney@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [masneyb:b4/clk-scaling 7/7] drivers/clk/clk_test.c:204:45:
- warning: passing argument 5 of 'clk_hw_collect_sibling_rates' discards
- 'const' qualifier from pointer target type
-Message-ID: <202603070045.owjXWJhh-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [masneyb:b4/clk-scaling 7/7] drivers/clk/clk_test.c:204:10:
+ error: passing 'const char *const[3]' to parameter of type 'void *' discards
+ qualifiers
+Message-ID: <202603070151.dRSgtYxi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,25 +63,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/masneyb/linux b4/clk-scaling
 head:   35ae2ca226ff0b0f5ca4e9f3ce658d1ba7874e91
 commit: 35ae2ca226ff0b0f5ca4e9f3ce658d1ba7874e91 [7/7] clk: test: add kunit test for coordinated rate change
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260307/202603070045.owjXWJhh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070045.owjXWJhh-lkp@intel.com/reproduce)
+config: um-randconfig-001-20260306 (https://download.01.org/0day-ci/archive/20260307/202603070151.dRSgtYxi-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070151.dRSgtYxi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603070045.owjXWJhh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603070151.dRSgtYxi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/clk/clk_test.c: In function 'clk_dummy_div_coordinating_determine_rate':
->> drivers/clk/clk_test.c:204:45: warning: passing argument 5 of 'clk_hw_collect_sibling_rates' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+>> drivers/clk/clk_test.c:202:10: warning: cast from 'bool (*)(struct clk_hw *, const char **)' (aka '_Bool (*)(struct clk_hw *, const char **)') to 'bool (*)(struct clk_hw *, void *)' (aka '_Bool (*)(struct clk_hw *, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+     202 |                                             (bool (*)(struct clk_hw *, void *))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     203 |                                                 clk_hw_sibling_name_filter,
+         |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/clk_test.c:204:10: error: passing 'const char *const[3]' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
      204 |                                             critical_clk_names,
          |                                             ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/clk/clk_test.c:6:
-   include/linux/clk-provider.h:1481:41: note: expected 'void *' but argument is of type 'const char * const*'
+   include/linux/clk-provider.h:1481:13: note: passing argument to parameter 'filter_data' here
     1481 |                                   void *filter_data,
-         |                                   ~~~~~~^~~~~~~~~~~
+         |                                         ^
+   1 warning and 1 error generated.
 
 
 vim +204 drivers/clk/clk_test.c
@@ -104,7 +108,7 @@ vim +204 drivers/clk/clk_test.c
    199		int ret;
    200	
    201		ret = clk_hw_collect_sibling_rates(parent_hw, hw, req->rate,
-   202						    (bool (*)(struct clk_hw *, void *))
+ > 202						    (bool (*)(struct clk_hw *, void *))
    203							clk_hw_sibling_name_filter,
  > 204						    critical_clk_names,
    205						    critical_clks, ARRAY_SIZE(critical_clks),
