@@ -1,88 +1,251 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0201231A41
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 13:17:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136CD23D291
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 13:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772889439; cv=none; b=eX/Q9dXK+kM+XbXYixUJx0tpAU0izHA+OJcWZq7xZMysa++OfRYLh34Lwpeu0SUu61Ibilsy4MWiwb6AwBcR0ZYF5B+ugjXvwYnoTH1AxjrJyIlJ4uLRcF2+ePlVrcNSh+R7wcjvvfRj7Ugn7hzI1K80dibXWmflGhzBuUinSqw=
+	t=1772889442; cv=none; b=OvRW9Qoey0Av8IA0A3HswaqZm2AndcZcwBRVI+OPSkfNlykXD9ojYlb63ZhHaoIyTiOqJ3wNdT5FrWUHFrfSbaQSO0wIqnUcaUUqOPbTn3X8K5FvZKs4CgjsTuBkkGyh9Zf/CH0z6aL3ipEvThKLYL3/0zonvGyjKB5L9wyTFuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772889439; c=relaxed/simple;
-	bh=S13CgRJTkXnw3cJQKEk0oeOkqtIuT+nQDl2TRxGHPJI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DgYJiDxU3mEyAKklCiEr4Zs0gEIuALzwYjYc82Cie3mT+YgG/snhGsadlZYhHH5XEBbwi305+Pp/rFEttbosDyV+PVQDN/on3724GiOW6yurySu6B/LS+33GPTo9ABt2oUZeC9FgPa9t7VZbm7yrlt8Qp/tb/dG79La2PCZDIV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iUtQ57SJ; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1772889442; c=relaxed/simple;
+	bh=GRvgJUxIPjSIiZV5EA4Z/cXGn1I3X9I/fS97RBSGqrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V04DhD3t+qTr2AmxrSmyuVFy0L9Vj2iIdYpWsQnQUy1TIfqr0RsuyVr9BFmsGIyl8I6u6RV8/vXbT/LD5b77lBj2sxgIOdHbIyPh9Wd3KhtMEJB0GChFw00AQtgZccGL0unZFgYMWeZG1lzB32vIDXyVU8XQ+o/2OielgU9Jd5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O05O+YI+; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iUtQ57SJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O05O+YI+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772889438; x=1804425438;
-  h=date:from:to:cc:subject:message-id;
-  bh=S13CgRJTkXnw3cJQKEk0oeOkqtIuT+nQDl2TRxGHPJI=;
-  b=iUtQ57SJboSj7gQtRixIzlcMe7rZ9flIRKe1/Vfo/1iDcuE1co+HDpBl
-   s6itNXzuScbkJk605KYh1FBiGxZyYPkV4o6YvY7NKZSGNYQMgKqd54N4j
-   978UNJdhUaC0GRPF0dqRFhGIkrTxGuUP4Dzrq/uB0uV02yDLmsrU7qWGR
-   0JpizzOS6NHaxQ4KBWIwsmNz6AoK206HQLdomUs5YRb+Coy+inv8+qaCq
-   d0IhA5AQVTNarZHYHlaMNJZUWG2ETfcBe6YQkLwKTdy1TgazVeM4cfrrC
-   iMNHOPEFyuLzFqtJMneHDFvVJzx1mFQqOAw8pjJcB15tyhGLatJmlh3vJ
+  t=1772889440; x=1804425440;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GRvgJUxIPjSIiZV5EA4Z/cXGn1I3X9I/fS97RBSGqrY=;
+  b=O05O+YI+0fF/yhksWJ87IsEtBQZR3PMYEzLR+nvX3+0CJonju3uaRC/u
+   IiE46PyagX9o3QLoelNGKV7CAnycjzn4dDWMyF3K4MTmzDOCpnlIKL0+P
+   86m6aRBFMEy8/uxTmmaHVGcMbuzeuzGaEe7AYZ6BuGD5/+Tt7iQaT/jxo
+   BSjNaENGiX+yfISz44ukTu5icJJ5hj8+kJx9quW85ANSli5cesClkJmQy
+   mo2H6HC1d0yUq+946GlJXULFzogNaUwSMqEVvCGbRjQXndCIOBowlVYvY
+   Gpt8wFDnDqp1nldtyAGGl3BhVBiUhQwouz2T48A2Sh0NuTyIrIawcA3GM
    A==;
-X-CSE-ConnectionGUID: NXrWUUZBS0GLflnFPQudFQ==
-X-CSE-MsgGUID: bjP7wl/6Qwec3tL24G8zcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="74055176"
+X-CSE-ConnectionGUID: UBFF4sPdTKe/AM2SsJUOKg==
+X-CSE-MsgGUID: zenV2wLDSC+sF02v2FiK3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="74055177"
 X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="74055176"
+   d="scan'208";a="74055177"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 05:17:17 -0800
-X-CSE-ConnectionGUID: jvwLw3XJQJOI41QTr4meqA==
-X-CSE-MsgGUID: xtDxDrGjQK6aNfy4D1uGsg==
+X-CSE-ConnectionGUID: rFLfZ19vQ1OBMPhIIJXcvg==
+X-CSE-MsgGUID: iuYf0HQHQG20uidNlBxcxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="223971432"
+   d="scan'208";a="223971427"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Mar 2026 05:17:16 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 07 Mar 2026 05:17:14 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyrWr-0000000021A-2x7K;
-	Sat, 07 Mar 2026 13:17:13 +0000
-Date: Sat, 07 Mar 2026 21:16:32 +0800
+	id 1vyrWq-00000000217-0TYr;
+	Sat, 07 Mar 2026 13:17:12 +0000
+Date: Sat, 7 Mar 2026 21:16:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 212/212]
- arch/arm64/kvm/hyp/nvhe/setup.c:19:27: sparse: sparse: symbol
- 'pkvm_pgtable_mm_ops' was not declared. Should it be static?
-Message-ID: <202603072101.hjETD63U-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kuniyuki Iwashima <kuniyu@google.com>, David Ahern <dsahern@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kui-Feng Lee <thinker.li@gmail.com>,
+	Xin Long <lucien.xin@gmail.com>, Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>, netdev@vger.kernel.org
+Subject: Re: [PATCH v1 net 2/2] ipv6: Don't remove permanent routes with
+ exceptions from tb6_gc_hlist.
+Message-ID: <202603072110.3PSz4SUZ-lkp@intel.com>
+References: <20260307024709.718395-3-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260307024709.718395-3-kuniyu@google.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   bb2ec6c2bb3c364e30471f039815e0ba4935608b
-commit: ae1ed8a984395ff05728ea212fde0abb93d95864 [212/212] FROMLIST: KVM: arm64: Prepare the creation of s1 mappings at EL2
-config: arm64-randconfig-r131-20260307 (https://download.01.org/0day-ci/archive/20260307/202603072101.hjETD63U-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603072101.hjETD63U-lkp@intel.com/reproduce)
+Hi Kuniyuki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/ipv6-Remove-permanent-routes-from-tb6_gc_hlist-when-all-exceptions-expire/20260307-104803
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260307024709.718395-3-kuniyu%40google.com
+patch subject: [PATCH v1 net 2/2] ipv6: Don't remove permanent routes with exceptions from tb6_gc_hlist.
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20260307/202603072110.3PSz4SUZ-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603072110.3PSz4SUZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603072101.hjETD63U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603072110.3PSz4SUZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/nvhe/setup.c:19:27: sparse: sparse: symbol 'pkvm_pgtable_mm_ops' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/pkvm_pgtable_mm_ops +19 arch/arm64/kvm/hyp/nvhe/setup.c
+   In file included from <command-line>:
+   include/net/ip6_fib.h: In function 'fib6_may_remove_gc_list':
+>> include/net/ip6_fib.h:557:42: error: 'struct net' has no member named 'ipv6'; did you mean 'ipv4'?
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                                          ^~~~
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/ip6_fib.h:557:27: note: in expansion of macro 'READ_ONCE'
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                           ^~~~~~~~~
+>> include/net/ip6_fib.h:557:42: error: 'struct net' has no member named 'ipv6'; did you mean 'ipv4'?
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                                          ^~~~
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/ip6_fib.h:557:27: note: in expansion of macro 'READ_ONCE'
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                           ^~~~~~~~~
+>> include/net/ip6_fib.h:557:42: error: 'struct net' has no member named 'ipv6'; did you mean 'ipv4'?
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                                          ^~~~
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/ip6_fib.h:557:27: note: in expansion of macro 'READ_ONCE'
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                           ^~~~~~~~~
+>> include/net/ip6_fib.h:557:42: error: 'struct net' has no member named 'ipv6'; did you mean 'ipv4'?
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                                          ^~~~
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/ip6_fib.h:557:27: note: in expansion of macro 'READ_ONCE'
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                           ^~~~~~~~~
+>> include/net/ip6_fib.h:557:42: error: 'struct net' has no member named 'ipv6'; did you mean 'ipv4'?
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                                          ^~~~
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/ip6_fib.h:557:27: note: in expansion of macro 'READ_ONCE'
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                           ^~~~~~~~~
+>> include/net/ip6_fib.h:557:42: error: 'struct net' has no member named 'ipv6'; did you mean 'ipv4'?
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                                          ^~~~
+   include/linux/compiler_types.h:642:53: note: in definition of macro '__unqual_scalar_typeof'
+     642 | #define __unqual_scalar_typeof(x) __typeof_unqual__(x)
+         |                                                     ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   include/net/ip6_fib.h:557:27: note: in expansion of macro 'READ_ONCE'
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                           ^~~~~~~~~
+   In file included from ./arch/openrisc/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:372,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/bits.h:30,
+                    from include/linux/capability.h:18,
+                    from net/core/sock.c:89:
+>> include/net/ip6_fib.h:557:42: error: 'struct net' has no member named 'ipv6'; did you mean 'ipv4'?
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                                          ^~~~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   include/net/ip6_fib.h:557:27: note: in expansion of macro 'READ_ONCE'
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                           ^~~~~~~~~
+   In file included from include/net/xfrm.h:26,
+                    from net/core/sock.c:133:
+   include/net/ip6_fib.h:557:73: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     557 |         gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+         |                                                                         ^
 
-    17	
-    18	struct hyp_pool hpool;
-  > 19	struct kvm_pgtable_mm_ops pkvm_pgtable_mm_ops;
-    20	unsigned long hyp_nr_cpus;
-    21	
+
+vim +557 include/net/ip6_fib.h
+
+   548	
+   549	static inline void fib6_may_remove_gc_list(struct net *net,
+   550						   struct fib6_info *f6i)
+   551	{
+   552		struct fib6_gc_args gc_args;
+   553	
+   554		if (hlist_unhashed(&f6i->gc_link))
+   555			return;
+   556	
+ > 557		gc_args.timeout = READ_ONCE(net->ipv6.sysctl.ip6_rt_gc_interval),
+   558		gc_args.more = 0,
+   559	
+   560		fib6_age_exceptions(f6i, &gc_args, jiffies);
+   561	}
+   562	
 
 -- 
 0-DAY CI Kernel Test Service
