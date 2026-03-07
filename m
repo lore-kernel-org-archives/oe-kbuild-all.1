@@ -1,67 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1857138B7B5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 19:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967AB3A5E6B;
+	Sat,  7 Mar 2026 19:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772913490; cv=none; b=na/YHDfgnPrtB0qSnXDmee1IIetLT0IWvnLUJPaLAmab1lvc7YIvQXFZ5Tl+jlwHFY7Tk7B1LiftnUe7EqlirGLzP3rItfAkBTdift/2ePrDHFOgiLyYgVL5SS+lXklwJgY1tnPd5+eCOFj6xB6nimM43zgzpEOF4rXxtxSpcZw=
+	t=1772913495; cv=none; b=KeVvanEpBflSdouWrbt84Zc7queABwg3bPQkNOoMUseRfFCaG2RpJhUPnia9Am7fCYpn0x+CV3O2cOC3O/VghQKfFVwe5o+7wahEUL6h8F/u6adHQNKiM9YE2/URG7ni/Vxz8BoW4oj5pg4vNDM1vghFqGMX08wfwTUy+lhEmi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772913490; c=relaxed/simple;
-	bh=vpK34jiavOf+wUMryDBJi/NV9WUWupPS9ZThQGAPlxY=;
+	s=arc-20240116; t=1772913495; c=relaxed/simple;
+	bh=6EfkCLhJg+AlZw6TkaO6d/504vUAp5tN3HoH1lQUwjY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wg4rnimmDe/ZKzwkbuidXR0C+UGdL+9ntlpzSZWK/2DsFjiF1fxNe9K7lRE+W9K2RXBYUnO+Xwy4nJl3hw+wo1TdobJYo7TcX5S9y4JJKg3oFmaF0rOlE3wJZ9oUKpHEXdC98QNMZxnoI55GQskezxDRkGg3AARPBo9IEycuJUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QbqrSDX9; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=BWiMbkXaemjwX+JT15yA6H3ogAD2OvrOB3WE32F4yRWwBLih2aLnSNdesAZsBMCs3h/c2kw7Uz+R4z3X4BPNRsmagSVO5+INEbnqDOJWMjaKWDb2oFIEsKwq7Nqp1h397sszBvE/8wvm8MRRMOdm/HbmQSpLy0fH+bcSsrp6Bz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXdxDGOy; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QbqrSDX9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXdxDGOy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772913489; x=1804449489;
+  t=1772913494; x=1804449494;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vpK34jiavOf+wUMryDBJi/NV9WUWupPS9ZThQGAPlxY=;
-  b=QbqrSDX9rxDvd2IZIzn91X7XmTWJ175uycTJ35f8MKv7RukFtI37Fm/T
-   HOGKrww9+GN8yT6bDwBfuDcvz2ybZHU6KAuYd50JQtdoZ3qwslsApTmyW
-   Q8Zm1aiShigoAI9syE4EIlLAVGQbwAh0Eyn+/dDD2wJVR9SiJ3VqoCj1d
-   aGSFeT4uOL6NE6efk3V1uAAmdb68GnrqY0NU/3jDfWOXSuThVGLk2MSm1
-   9BzYO6riN6Nb814qxtZcPm6VYbmeMZt6t/DTBCJnX+334+g3eqGRwERFf
-   0oF/OCT3ucIh7yWch2QFMf+3ZTMQLhNbHEsHahsC4Q1qiaGT6LGNUaB2Q
-   g==;
-X-CSE-ConnectionGUID: k2h3y9tCQD6R4aJOExa/JQ==
-X-CSE-MsgGUID: Mn9RsoAxTTK300toGVr0qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="77869827"
+  bh=6EfkCLhJg+AlZw6TkaO6d/504vUAp5tN3HoH1lQUwjY=;
+  b=MXdxDGOyDZOvGWmfnN6+XCR7wkzT+E+dYMqsY1zLzix+mE0uTzTMw4yx
+   kr8F/GXZi4JhXmc12GRHRXRgAT9K2yzpBB5MGfWQNpEVNk9S/M6SjBULE
+   943RqL6x/VwMyW1wM5t9uOHIW+SnZ2B4SVWzl1NVpMUXWYLFje0c76EVA
+   coB7yB+ewuNMXFLMd0o0qWMeMp0wU/V/QHxgjJqbj4IiGAmwTXnF9xIfB
+   Q0B1Xlflc/4eGn1ffpCgjpFqJT30boPQn/KQrwAFFsS0Dx6Z/lisXd1YQ
+   o7PBBV/1cs9/Bm0M9Nd7CL9mrr7+xzsChCabHVYWgJwsTyxaeND8n7PEz
+   A==;
+X-CSE-ConnectionGUID: IP5k5tAqS5aVrJCjswEZ2A==
+X-CSE-MsgGUID: co92LIuaR3OY3ap5gXQOXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74038497"
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="77869827"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 11:58:08 -0800
-X-CSE-ConnectionGUID: 5rWMSpbATBKAzYYozik7zQ==
-X-CSE-MsgGUID: JSmY/5QtSHS2UCmjdOGBHw==
+   d="scan'208";a="74038497"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 11:58:13 -0800
+X-CSE-ConnectionGUID: Wlk16Iu4Q/eU4k+9d912cQ==
+X-CSE-MsgGUID: /0+ldayrS5+1d6aZKJqv6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="224286777"
+   d="scan'208";a="218552919"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Mar 2026 11:58:05 -0800
+  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2026 11:58:05 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyxmj-000000002b3-0qaW;
+	id 1vyxmj-000000002b5-2cTQ;
 	Sat, 07 Mar 2026 19:58:01 +0000
-Date: Sun, 8 Mar 2026 03:57:25 +0800
+Date: Sun, 8 Mar 2026 03:57:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pengyu Luo <mitltlatltl@gmail.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Pengyu Luo <mitltlatltl@gmail.com>,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dsi: fix pclk rate calculation for bonded dsi
-Message-ID: <202603080314.XeqyRZ7A-lkp@intel.com>
-References: <20260306163255.215456-1-mitltlatltl@gmail.com>
+To: "JP Kobryn (Meta)" <jp.kobryn@linux.dev>, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz
+Cc: oe-kbuild-all@lists.linux.dev, apopple@nvidia.com,
+	axelrasmussen@google.com, byungchul@sk.com, cgroups@vger.kernel.org,
+	david@kernel.org, eperezma@redhat.com, gourry@gourry.net,
+	jasowang@redhat.com, hannes@cmpxchg.org, joshua.hahnjy@gmail.com,
+	Liam.Howlett@oracle.com, linux-kernel@vger.kernel.org,
+	lorenzo.stoakes@oracle.com, matthew.brost@intel.com, mst@redhat.com,
+	rppt@kernel.org, muchun.song@linux.dev, zhengqi.arch@bytedance.com,
+	rakie.kim@sk.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	surenb@google.com, virtualization@lists.linux.dev,
+	weixugc@google.com, xuanzhuo@linux.alibaba.com,
+	ying.huang@linux.alibaba.com
+Subject: Re: [PATCH v2] mm/mempolicy: track page allocations per mempolicy
+Message-ID: <202603080349.ya7tIjgk-lkp@intel.com>
+References: <20260307045520.247998-1-jp.kobryn@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,35 +73,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260306163255.215456-1-mitltlatltl@gmail.com>
+In-Reply-To: <20260307045520.247998-1-jp.kobryn@linux.dev>
 
-Hi Pengyu,
+Hi JP,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.0-rc2 next-20260306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengyu-Luo/drm-msm-dsi-fix-pclk-rate-calculation-for-bonded-dsi/20260307-010943
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260306163255.215456-1-mitltlatltl%40gmail.com
-patch subject: [PATCH] drm/msm/dsi: fix pclk rate calculation for bonded dsi
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603080314.XeqyRZ7A-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080314.XeqyRZ7A-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/JP-Kobryn-Meta/mm-mempolicy-track-page-allocations-per-mempolicy/20260307-125642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260307045520.247998-1-jp.kobryn%40linux.dev
+patch subject: [PATCH v2] mm/mempolicy: track page allocations per mempolicy
+config: arm64-randconfig-001-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080349.ya7tIjgk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080349.ya7tIjgk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603080314.XeqyRZ7A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603080349.ya7tIjgk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/msm/dsi/dsi_host.c:590 function parameter 'is_bonded_dsi' not described in 'dsi_adjust_pclk_for_compression'
->> Warning: drivers/gpu/drm/msm/dsi/dsi_host.c:590 function parameter 'is_bonded_dsi' not described in 'dsi_adjust_pclk_for_compression'
+   mm/mempolicy.c: In function 'mpol_count_numa_alloc':
+>> mm/mempolicy.c:2489:10: error: implicit declaration of function 'mem_cgroup_from_task'; did you mean 'perf_cgroup_from_task'? [-Werror=implicit-function-declaration]
+     memcg = mem_cgroup_from_task(current);
+             ^~~~~~~~~~~~~~~~~~~~
+             perf_cgroup_from_task
+>> mm/mempolicy.c:2489:8: warning: assignment to 'struct mem_cgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     memcg = mem_cgroup_from_task(current);
+           ^
+   cc1: some warnings being treated as errors
+
+
+vim +2489 mm/mempolicy.c
+
+  2429	
+  2430	/*
+  2431	 * Count a mempolicy allocation. Stats are tracked per-node and per-cgroup.
+  2432	 * The following numa_{hit/miss/foreign} pattern is used:
+  2433	 *
+  2434	 *   hit
+  2435	 *     - for BIND and PREFERRED_MANY, allocation succeeded on node in nodemask
+  2436	 *     - for other policies, allocation succeeded on intended node
+  2437	 *     - counted on the node of the allocation
+  2438	 *   miss
+  2439	 *     - allocation intended for other node, but happened on this one
+  2440	 *     - counted on other node
+  2441	 *   foreign
+  2442	 *     - allocation intended on this node, but happened on other node
+  2443	 *     - counted on this node
+  2444	 */
+  2445	static void mpol_count_numa_alloc(struct mempolicy *pol, int intended_nid,
+  2446					  struct page *page, unsigned int order)
+  2447	{
+  2448		int actual_nid = page_to_nid(page);
+  2449		long nr_pages = 1L << order;
+  2450		enum node_stat_item hit_idx;
+  2451		struct mem_cgroup *memcg;
+  2452		struct lruvec *lruvec;
+  2453		bool is_hit;
+  2454	
+  2455		if (!root_mem_cgroup || mem_cgroup_disabled())
+  2456			return;
+  2457	
+  2458		/*
+  2459		 * Start with hit then use +1 or +2 later on to change to miss or
+  2460		 * foreign respectively if needed.
+  2461		 */
+  2462		switch (pol->mode) {
+  2463		case MPOL_PREFERRED:
+  2464			hit_idx = NUMA_MPOL_PREFERRED_HIT;
+  2465			break;
+  2466		case MPOL_PREFERRED_MANY:
+  2467			hit_idx = NUMA_MPOL_PREFERRED_MANY_HIT;
+  2468			break;
+  2469		case MPOL_BIND:
+  2470			hit_idx = NUMA_MPOL_BIND_HIT;
+  2471			break;
+  2472		case MPOL_INTERLEAVE:
+  2473			hit_idx = NUMA_MPOL_INTERLEAVE_HIT;
+  2474			break;
+  2475		case MPOL_WEIGHTED_INTERLEAVE:
+  2476			hit_idx = NUMA_MPOL_WEIGHTED_INTERLEAVE_HIT;
+  2477			break;
+  2478		default:
+  2479			hit_idx = NUMA_MPOL_LOCAL_HIT;
+  2480			break;
+  2481		}
+  2482	
+  2483		if (pol->mode == MPOL_BIND || pol->mode == MPOL_PREFERRED_MANY)
+  2484			is_hit = node_isset(actual_nid, pol->nodes);
+  2485		else
+  2486			is_hit = (actual_nid == intended_nid);
+  2487	
+  2488		rcu_read_lock();
+> 2489		memcg = mem_cgroup_from_task(current);
+  2490	
+  2491		if (is_hit) {
+  2492			lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(actual_nid));
+  2493			mod_lruvec_state(lruvec, hit_idx, nr_pages);
+  2494		} else {
+  2495			/* account for miss on the fallback node */
+  2496			lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(actual_nid));
+  2497			mod_lruvec_state(lruvec, hit_idx + 1, nr_pages);
+  2498	
+  2499			/* account for foreign on the intended node */
+  2500			lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(intended_nid));
+  2501			mod_lruvec_state(lruvec, hit_idx + 2, nr_pages);
+  2502		}
+  2503	
+  2504		rcu_read_unlock();
+  2505	}
+  2506	
 
 -- 
 0-DAY CI Kernel Test Service
