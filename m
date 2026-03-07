@@ -1,192 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967AB3A5E6B;
-	Sat,  7 Mar 2026 19:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5734813D638
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 20:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772913495; cv=none; b=KeVvanEpBflSdouWrbt84Zc7queABwg3bPQkNOoMUseRfFCaG2RpJhUPnia9Am7fCYpn0x+CV3O2cOC3O/VghQKfFVwe5o+7wahEUL6h8F/u6adHQNKiM9YE2/URG7ni/Vxz8BoW4oj5pg4vNDM1vghFqGMX08wfwTUy+lhEmi4=
+	t=1772916074; cv=none; b=lxfw4jIM3/XuZDkHQq/HR9aXPY8iZJa3VInCI5Xuqx0dkqLCtrXcbYDb4Z0pBNa7y0WY0mqiygp1soWkcbGpznrPopH3q8ZOTGXba4EkdUTYe8JuivoXhxlLEoUqAomwcbGfbmCy3VZoR45vp3jqe4A0wO/mqRTUwFiIHjs0Fx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772913495; c=relaxed/simple;
-	bh=6EfkCLhJg+AlZw6TkaO6d/504vUAp5tN3HoH1lQUwjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BWiMbkXaemjwX+JT15yA6H3ogAD2OvrOB3WE32F4yRWwBLih2aLnSNdesAZsBMCs3h/c2kw7Uz+R4z3X4BPNRsmagSVO5+INEbnqDOJWMjaKWDb2oFIEsKwq7Nqp1h397sszBvE/8wvm8MRRMOdm/HbmQSpLy0fH+bcSsrp6Bz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXdxDGOy; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1772916074; c=relaxed/simple;
+	bh=7VY5teto13loyiYWbSMGoNmsZYi+ieVBfxVrbdY6qL4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gdrqXlYzurJf9XO/yu7NvQxXegYCLpcmpiXJiXX0jDfa0JZX8/702whib+jCZEIQDx9ZLLGmgvbfQYnejgGWiwWzhcLw2qGKaTK3ci6SsEThG+M9ObD+GZL4N7s4IOIqsYrmUgA2WYcFD0bX3nM6DzUgM4mRb0SeDFXT3aDfgnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vhi2IdAj; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXdxDGOy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vhi2IdAj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772913494; x=1804449494;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6EfkCLhJg+AlZw6TkaO6d/504vUAp5tN3HoH1lQUwjY=;
-  b=MXdxDGOyDZOvGWmfnN6+XCR7wkzT+E+dYMqsY1zLzix+mE0uTzTMw4yx
-   kr8F/GXZi4JhXmc12GRHRXRgAT9K2yzpBB5MGfWQNpEVNk9S/M6SjBULE
-   943RqL6x/VwMyW1wM5t9uOHIW+SnZ2B4SVWzl1NVpMUXWYLFje0c76EVA
-   coB7yB+ewuNMXFLMd0o0qWMeMp0wU/V/QHxgjJqbj4IiGAmwTXnF9xIfB
-   Q0B1Xlflc/4eGn1ffpCgjpFqJT30boPQn/KQrwAFFsS0Dx6Z/lisXd1YQ
-   o7PBBV/1cs9/Bm0M9Nd7CL9mrr7+xzsChCabHVYWgJwsTyxaeND8n7PEz
-   A==;
-X-CSE-ConnectionGUID: IP5k5tAqS5aVrJCjswEZ2A==
-X-CSE-MsgGUID: co92LIuaR3OY3ap5gXQOXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74038497"
+  t=1772916072; x=1804452072;
+  h=date:from:to:cc:subject:message-id;
+  bh=7VY5teto13loyiYWbSMGoNmsZYi+ieVBfxVrbdY6qL4=;
+  b=Vhi2IdAjX0ke7msT5Uozx+5U/VQm8QPTh8waF119/r6gQ9f7UO34uYaW
+   bumSS+jy7TwLThpQv+ylbPreMA6bIGBTyY669ANFhBytj0De3LaDgFqvR
+   wHcPQs1dVOYAIrr+pfxisbVmAwOuH3cE9nJ3WVXEILfJIMEE0WXnqkGQ3
+   rcCtBQetDwsFIqw4mExizhinEExMiNkMWrInskhTi0UPOvqdvMyMqpnUi
+   FCYbIT+LzNCUoSCaQ5TNeeB0GlO0iztc21ZVuf8IWd2YjqZLAr2vcbT4E
+   9SZ8HC4lm95+GhjjCrlAsOwi9Tbdjin178VaOxNNEafHG8TnYlKI8hGwJ
+   w==;
+X-CSE-ConnectionGUID: GKxrUzxJRSaTNB+5ssSo7A==
+X-CSE-MsgGUID: MfWxVq6dQrKaQIVm6l9olw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73690663"
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="74038497"
+   d="scan'208";a="73690663"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 11:58:13 -0800
-X-CSE-ConnectionGUID: Wlk16Iu4Q/eU4k+9d912cQ==
-X-CSE-MsgGUID: /0+ldayrS5+1d6aZKJqv6g==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 12:41:11 -0800
+X-CSE-ConnectionGUID: K4oSE/4KSNWjTZoWmgE4yQ==
+X-CSE-MsgGUID: i5dGQ7+GRsORdF95cD4qnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="218552919"
+   d="scan'208";a="218559735"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2026 11:58:05 -0800
+  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2026 12:41:10 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyxmj-000000002b5-2cTQ;
-	Sat, 07 Mar 2026 19:58:01 +0000
-Date: Sun, 8 Mar 2026 03:57:41 +0800
+	id 1vyySQ-000000002cH-3dq9;
+	Sat, 07 Mar 2026 20:41:06 +0000
+Date: Sun, 08 Mar 2026 04:40:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "JP Kobryn (Meta)" <jp.kobryn@linux.dev>, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz
-Cc: oe-kbuild-all@lists.linux.dev, apopple@nvidia.com,
-	axelrasmussen@google.com, byungchul@sk.com, cgroups@vger.kernel.org,
-	david@kernel.org, eperezma@redhat.com, gourry@gourry.net,
-	jasowang@redhat.com, hannes@cmpxchg.org, joshua.hahnjy@gmail.com,
-	Liam.Howlett@oracle.com, linux-kernel@vger.kernel.org,
-	lorenzo.stoakes@oracle.com, matthew.brost@intel.com, mst@redhat.com,
-	rppt@kernel.org, muchun.song@linux.dev, zhengqi.arch@bytedance.com,
-	rakie.kim@sk.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	surenb@google.com, virtualization@lists.linux.dev,
-	weixugc@google.com, xuanzhuo@linux.alibaba.com,
-	ying.huang@linux.alibaba.com
-Subject: Re: [PATCH v2] mm/mempolicy: track page allocations per mempolicy
-Message-ID: <202603080349.ya7tIjgk-lkp@intel.com>
-References: <20260307045520.247998-1-jp.kobryn@linux.dev>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+ Jiri Kosina <jikos@kernel.org>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [hid:for-7.1/lenovo 10/16]
+ drivers/hid/hid-lenovo-go-s.c:164:73: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202603080451.lcXQ6ejg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260307045520.247998-1-jp.kobryn@linux.dev>
 
-Hi JP,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/JP-Kobryn-Meta/mm-mempolicy-track-page-allocations-per-mempolicy/20260307-125642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260307045520.247998-1-jp.kobryn%40linux.dev
-patch subject: [PATCH v2] mm/mempolicy: track page allocations per mempolicy
-config: arm64-randconfig-001-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080349.ya7tIjgk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080349.ya7tIjgk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-7.1/lenovo
+head:   d2c424e80caf8237bda4c94bc2e25398967243f9
+commit: 4325fdab5dbbfd467df6797e018c9dd0e5c3ae75 [10/16] HID: hid-lenovo-go-s: Add Lenovo Legion Go S Series HID Driver
+config: arc-randconfig-r113-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080451.lcXQ6ejg-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080451.lcXQ6ejg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603080349.ya7tIjgk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603080451.lcXQ6ejg-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/hid-lenovo-go-s.c:164:73: sparse: sparse: Using plain integer as NULL pointer
 
-   mm/mempolicy.c: In function 'mpol_count_numa_alloc':
->> mm/mempolicy.c:2489:10: error: implicit declaration of function 'mem_cgroup_from_task'; did you mean 'perf_cgroup_from_task'? [-Werror=implicit-function-declaration]
-     memcg = mem_cgroup_from_task(current);
-             ^~~~~~~~~~~~~~~~~~~~
-             perf_cgroup_from_task
->> mm/mempolicy.c:2489:8: warning: assignment to 'struct mem_cgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     memcg = mem_cgroup_from_task(current);
-           ^
-   cc1: some warnings being treated as errors
+vim +164 drivers/hid/hid-lenovo-go-s.c
 
-
-vim +2489 mm/mempolicy.c
-
-  2429	
-  2430	/*
-  2431	 * Count a mempolicy allocation. Stats are tracked per-node and per-cgroup.
-  2432	 * The following numa_{hit/miss/foreign} pattern is used:
-  2433	 *
-  2434	 *   hit
-  2435	 *     - for BIND and PREFERRED_MANY, allocation succeeded on node in nodemask
-  2436	 *     - for other policies, allocation succeeded on intended node
-  2437	 *     - counted on the node of the allocation
-  2438	 *   miss
-  2439	 *     - allocation intended for other node, but happened on this one
-  2440	 *     - counted on other node
-  2441	 *   foreign
-  2442	 *     - allocation intended on this node, but happened on other node
-  2443	 *     - counted on this node
-  2444	 */
-  2445	static void mpol_count_numa_alloc(struct mempolicy *pol, int intended_nid,
-  2446					  struct page *page, unsigned int order)
-  2447	{
-  2448		int actual_nid = page_to_nid(page);
-  2449		long nr_pages = 1L << order;
-  2450		enum node_stat_item hit_idx;
-  2451		struct mem_cgroup *memcg;
-  2452		struct lruvec *lruvec;
-  2453		bool is_hit;
-  2454	
-  2455		if (!root_mem_cgroup || mem_cgroup_disabled())
-  2456			return;
-  2457	
-  2458		/*
-  2459		 * Start with hit then use +1 or +2 later on to change to miss or
-  2460		 * foreign respectively if needed.
-  2461		 */
-  2462		switch (pol->mode) {
-  2463		case MPOL_PREFERRED:
-  2464			hit_idx = NUMA_MPOL_PREFERRED_HIT;
-  2465			break;
-  2466		case MPOL_PREFERRED_MANY:
-  2467			hit_idx = NUMA_MPOL_PREFERRED_MANY_HIT;
-  2468			break;
-  2469		case MPOL_BIND:
-  2470			hit_idx = NUMA_MPOL_BIND_HIT;
-  2471			break;
-  2472		case MPOL_INTERLEAVE:
-  2473			hit_idx = NUMA_MPOL_INTERLEAVE_HIT;
-  2474			break;
-  2475		case MPOL_WEIGHTED_INTERLEAVE:
-  2476			hit_idx = NUMA_MPOL_WEIGHTED_INTERLEAVE_HIT;
-  2477			break;
-  2478		default:
-  2479			hit_idx = NUMA_MPOL_LOCAL_HIT;
-  2480			break;
-  2481		}
-  2482	
-  2483		if (pol->mode == MPOL_BIND || pol->mode == MPOL_PREFERRED_MANY)
-  2484			is_hit = node_isset(actual_nid, pol->nodes);
-  2485		else
-  2486			is_hit = (actual_nid == intended_nid);
-  2487	
-  2488		rcu_read_lock();
-> 2489		memcg = mem_cgroup_from_task(current);
-  2490	
-  2491		if (is_hit) {
-  2492			lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(actual_nid));
-  2493			mod_lruvec_state(lruvec, hit_idx, nr_pages);
-  2494		} else {
-  2495			/* account for miss on the fallback node */
-  2496			lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(actual_nid));
-  2497			mod_lruvec_state(lruvec, hit_idx + 1, nr_pages);
-  2498	
-  2499			/* account for foreign on the intended node */
-  2500			lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(intended_nid));
-  2501			mod_lruvec_state(lruvec, hit_idx + 2, nr_pages);
-  2502		}
-  2503	
-  2504		rcu_read_unlock();
-  2505	}
-  2506	
+   159	
+   160	static void cfg_setup(struct work_struct *work)
+   161	{
+   162		int ret;
+   163	
+ > 164		ret = mcu_property_out(drvdata.hdev, GET_VERSION, FEATURE_NONE, 0, 0);
+   165		if (ret) {
+   166			dev_err(&drvdata.hdev->dev, "Failed to retrieve MCU Version: %i\n", ret);
+   167			return;
+   168		}
+   169	}
+   170	
 
 -- 
 0-DAY CI Kernel Test Service
