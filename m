@@ -1,64 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE17229C351
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 22:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4E514F9FB;
+	Sat,  7 Mar 2026 22:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772924125; cv=none; b=bkdYRpFX+wNmopeTq0gK2mFc4Dlzw9cGQMIH5scUrDILxRQSdjEV8uuwSmjGiZOufs2WMZyYcAeBHScHyVgX0RJlCNJE6zsmF2RJl9YyEp4kLzmhKT6eZguOzG5JQC9T/ErYVaHLHhcMeh1mO0rMfW727DMcj8omcylGK+5mD+g=
+	t=1772924188; cv=none; b=JML6+O1Z/RRJy5gc/mgGHQOANJAsxvnUh5OOgaY1Nk5Zer+QteIR5GJPqdWtrmdbTnogSjGkRECRLGoY8rYJC+k5zwTjAkO7ScEf3kJVETF71apIDefCPgt1HKo05yIdPjmm+qrikqP+AG6/fggEg6NggNwaJhocsvY8g0dpegA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772924125; c=relaxed/simple;
-	bh=S6aJclqK+GWTZQHZVx1zYz2w7ZwWYx+BBc38YF5p2MA=;
+	s=arc-20240116; t=1772924188; c=relaxed/simple;
+	bh=S8KcR1LmjqTxj/mWoKrlCUsjydq8SPbkoQLE2AIRIaY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=On8+MUE66s5vqN+DEEqWvjkx2W3iMIENlUWMypCjwHKvFXmVa7ttne8JO4T0u7ZiT4mWXgyrcIq5o+AMtuW+G3dwwre/X+7MkS/7DV3j0A8HbrDzRQkSCnVqU2acwPWUvG1T0Mm8b1N0Cxq+RxdWnuPgy5VeH0KBVB6RkMHuEXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=naCO/ixn; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=upLqmvKVkXZXOt/lWZm41JXZcns0C2zN/zK93btlg1i+iOmnSRlgg2FVMXn54O0MHBIlOg04sZyuEU0pXEKrxto6OQ3c1uvam43FqlPgnJgZIGZ2d85cn+DWOxPF2sI/u5yZiywE36+UbvEbMqqsHs4O0JzBVaM0KuT+dQCKGBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSC7TL2h; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="naCO/ixn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSC7TL2h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772924124; x=1804460124;
+  t=1772924186; x=1804460186;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S6aJclqK+GWTZQHZVx1zYz2w7ZwWYx+BBc38YF5p2MA=;
-  b=naCO/ixn8RoFTn+QyOb14j8ShE25EcrnP4+Uw+cIJvXG6YoIFXUG5S9r
-   tHXe/HOIJcaNSmviE3Zn85ZqHEy27X4xDu1lCCod4Gzqi8EtENZYYeNX3
-   O0UoO1jA7DP43g0DcIy6/uABmpH5f2+SZV/1UcOq1UvjshYSDE2feQqkS
-   aRyptnt6zRBMHzMVR+DBHZx0sSl2eQKmnnajascobXuermbk/5Npd5/e7
-   DcvK5/70gYiHtWYJQiwTKoyzeMLzlcpzqd/wzMohILVHCOV5n3HC8TCDO
-   2ilC954HJMI9KKl9ALv+05nkbTZZ77lU5lMga/Al1PtR3NSS6VgCz2lho
-   w==;
-X-CSE-ConnectionGUID: YEdiXTBNQOCd+uRSD3fpNA==
-X-CSE-MsgGUID: aWlgRBS0RqKJLvj1IbdpIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="77598416"
+  bh=S8KcR1LmjqTxj/mWoKrlCUsjydq8SPbkoQLE2AIRIaY=;
+  b=OSC7TL2hCWPCCMOxKczKwHIcDQwG8pH4dvY4zh2wBHe3YicuRzk7EBYd
+   5+HPhuFg8jwBrdieu9iCESbcYEWtAWEJWT2nmqOkJRvty4H0dTy5euOU4
+   jUDJBIgogrkgxL++1c2xKZtwirpPrJe4n8Iu0qdK/L0BmDrFrGFoXu32k
+   JZMdNtm64s46lTQcmJtRaKbf3pRE/damZMcdQF9tcmCI7a9WQ85CxmTJQ
+   KDKvHgAq6KOMcjspU4S+QS79D1DklVA+pQBoPa/T2OI3FMdFOUl56HDC5
+   NlWO+u8wMbvv3uQfXesRUQRB6/dKGLwkgj+3ETIgBHffVeQrpOU2xRwDo
+   Q==;
+X-CSE-ConnectionGUID: xAW/VkL3RYaw8EN5v37jNQ==
+X-CSE-MsgGUID: qoh6WzpXS2ao1hv7imUXrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74043052"
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="77598416"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 14:55:24 -0800
-X-CSE-ConnectionGUID: htWg7lEFRlybX9uySWVXlQ==
-X-CSE-MsgGUID: h8ouixoaT8+JuVm4+ZsPdg==
+   d="scan'208";a="74043052"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 14:56:26 -0800
+X-CSE-ConnectionGUID: uCIvkWKkSZKiepC7ovznDw==
+X-CSE-MsgGUID: gyg//feTTbC9tPeuQ0GjLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="223480544"
+   d="scan'208";a="218573738"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Mar 2026 14:55:21 -0800
+  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2026 14:56:21 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vz0YH-000000002hF-3ZvM;
-	Sat, 07 Mar 2026 22:55:17 +0000
-Date: Sun, 8 Mar 2026 06:55:12 +0800
+	id 1vz0ZF-000000002hR-42FW;
+	Sat, 07 Mar 2026 22:56:17 +0000
+Date: Sun, 8 Mar 2026 06:55:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Yang <mmyangfl@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4 2/2] net: dsa: yt921x: Use u64_stats_t for
- MIB stats
-Message-ID: <202603080637.k8pQfAUS-lkp@intel.com>
-References: <20260306154637.3126497-3-mmyangfl@gmail.com>
+To: Haifeng Xu <haifeng.xu@shopee.com>, akpm@linux-foundation.org,
+	david@fromorbit.com, roman.gushchin@linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	zhengqi.arch@bytedance.com, muchun.song@linux.dev,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Haifeng Xu <haifeng.xu@shopee.com>
+Subject: Re: [PATCH 2/3] mm: shrinker: optimize the allocation of
+ shrinker_info when setting cgroup_memory_nokmem
+Message-ID: <202603080606.UQEPDmnB-lkp@intel.com>
+References: <20260306075757.198887-3-haifeng.xu@shopee.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,96 +67,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260306154637.3126497-3-mmyangfl@gmail.com>
+In-Reply-To: <20260306075757.198887-3-haifeng.xu@shopee.com>
 
-Hi David,
+Hi Haifeng,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.0-rc2 next-20260306]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/net-dsa-yt921x-Return-early-for-failed-MIB-read/20260307-004743
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260306154637.3126497-3-mmyangfl%40gmail.com
-patch subject: [PATCH net-next v4 2/2] net: dsa: yt921x: Use u64_stats_t for MIB stats
-config: i386-buildonly-randconfig-003-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080637.k8pQfAUS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080637.k8pQfAUS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Haifeng-Xu/mm-shrinker-introduce-new-function-get_shrinker_id/20260306-160247
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260306075757.198887-3-haifeng.xu%40shopee.com
+patch subject: [PATCH 2/3] mm: shrinker: optimize the allocation of shrinker_info when setting cgroup_memory_nokmem
+config: i386-randconfig-002-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080606.UQEPDmnB-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080606.UQEPDmnB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603080637.k8pQfAUS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603080606.UQEPDmnB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/dsa/yt921x.c:29:
->> drivers/net/dsa/yt921x.h:588:29: error: flexible array member in union
-     588 |                 u64_stats_t stats[];
-         |                             ^~~~~
+>> mm/huge_memory.c:4355:38: error: no member named 'id' in 'struct shrinker'
+    4355 |                         int id = deferred_split_shrinker->id;
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~  ^
+>> mm/huge_memory.c:4358:35: error: no member named 'nonslab_id' in 'struct shrinker'
+    4358 |                                 id = deferred_split_shrinker->nonslab_id;
+         |                                      ~~~~~~~~~~~~~~~~~~~~~~~  ^
+   2 errors generated.
 
 
-vim +588 drivers/net/dsa/yt921x.h
+vim +4355 mm/huge_memory.c
 
-   533	
-   534	struct yt921x_mib {
-   535		union {
-   536			struct {
-   537				u64_stats_t rx_broadcast;
-   538				u64_stats_t rx_pause;
-   539				u64_stats_t rx_multicast;
-   540				u64_stats_t rx_crc_errors;
-   541	
-   542				u64_stats_t rx_alignment_errors;
-   543				u64_stats_t rx_undersize_errors;
-   544				u64_stats_t rx_fragment_errors;
-   545				u64_stats_t rx_64byte;
-   546	
-   547				u64_stats_t rx_65_127byte;
-   548				u64_stats_t rx_128_255byte;
-   549				u64_stats_t rx_256_511byte;
-   550				u64_stats_t rx_512_1023byte;
-   551	
-   552				u64_stats_t rx_1024_1518byte;
-   553				u64_stats_t rx_jumbo;
-   554				u64_stats_t rx_good_bytes;
-   555	
-   556				u64_stats_t rx_bad_bytes;
-   557				u64_stats_t rx_oversize_errors;
-   558	
-   559				u64_stats_t rx_dropped;
-   560				u64_stats_t tx_broadcast;
-   561				u64_stats_t tx_pause;
-   562				u64_stats_t tx_multicast;
-   563	
-   564				u64_stats_t tx_undersize_errors;
-   565				u64_stats_t tx_64byte;
-   566				u64_stats_t tx_65_127byte;
-   567				u64_stats_t tx_128_255byte;
-   568	
-   569				u64_stats_t tx_256_511byte;
-   570				u64_stats_t tx_512_1023byte;
-   571				u64_stats_t tx_1024_1518byte;
-   572				u64_stats_t tx_jumbo;
-   573	
-   574				u64_stats_t tx_good_bytes;
-   575				u64_stats_t tx_collisions;
-   576	
-   577				u64_stats_t tx_aborted_errors;
-   578				u64_stats_t tx_multiple_collisions;
-   579				u64_stats_t tx_single_collisions;
-   580				u64_stats_t tx_good;
-   581	
-   582				u64_stats_t tx_deferred;
-   583				u64_stats_t tx_late_collisions;
-   584				u64_stats_t rx_oam;
-   585				u64_stats_t tx_oam;
-   586			};
-   587	
- > 588			u64_stats_t stats[];
-   589		};
-   590	};
-   591	
+  4307	
+  4308	/* partially_mapped=false won't clear PG_partially_mapped folio flag */
+  4309	void deferred_split_folio(struct folio *folio, bool partially_mapped)
+  4310	{
+  4311		struct deferred_split *ds_queue;
+  4312		unsigned long flags;
+  4313	
+  4314		/*
+  4315		 * Order 1 folios have no space for a deferred list, but we also
+  4316		 * won't waste much memory by not adding them to the deferred list.
+  4317		 */
+  4318		if (folio_order(folio) <= 1)
+  4319			return;
+  4320	
+  4321		if (!partially_mapped && !split_underused_thp)
+  4322			return;
+  4323	
+  4324		/*
+  4325		 * Exclude swapcache: originally to avoid a corrupt deferred split
+  4326		 * queue. Nowadays that is fully prevented by memcg1_swapout();
+  4327		 * but if page reclaim is already handling the same folio, it is
+  4328		 * unnecessary to handle it again in the shrinker, so excluding
+  4329		 * swapcache here may still be a useful optimization.
+  4330		 */
+  4331		if (folio_test_swapcache(folio))
+  4332			return;
+  4333	
+  4334		ds_queue = folio_split_queue_lock_irqsave(folio, &flags);
+  4335		if (partially_mapped) {
+  4336			if (!folio_test_partially_mapped(folio)) {
+  4337				folio_set_partially_mapped(folio);
+  4338				if (folio_test_pmd_mappable(folio))
+  4339					count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+  4340				count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+  4341				mod_mthp_stat(folio_order(folio), MTHP_STAT_NR_ANON_PARTIALLY_MAPPED, 1);
+  4342	
+  4343			}
+  4344		} else {
+  4345			/* partially mapped folios cannot become non-partially mapped */
+  4346			VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
+  4347		}
+  4348		if (list_empty(&folio->_deferred_list)) {
+  4349			struct mem_cgroup *memcg;
+  4350	
+  4351			memcg = folio_split_queue_memcg(folio, ds_queue);
+  4352			list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
+  4353			ds_queue->split_queue_len++;
+  4354			if (memcg) {
+> 4355				int id = deferred_split_shrinker->id;
+  4356	
+  4357				if (!memcg_kmem_online() &&  memcg != root_mem_cgroup)
+> 4358					id = deferred_split_shrinker->nonslab_id;
+  4359	
+  4360				set_shrinker_bit(memcg, folio_nid(folio), id);
+  4361			}
+  4362		}
+  4363		split_queue_unlock_irqrestore(ds_queue, flags);
+  4364	}
+  4365	
 
 -- 
 0-DAY CI Kernel Test Service
