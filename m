@@ -1,127 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8342015A864
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 00:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB511EB5E1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 00:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772842759; cv=none; b=AU6oKr4fkkfhewtkXpwK3GAD7pngQok44SmBvzdJx/ubZcCJ140fftcEr6xq6jSXm5/gRfJGeHvECqMRM3jA9gazNxejCLZFGf5OzlWlhTJ5zs7Zi4ZwMlctoUrwWrYXG2HEQ4+sKMZie6Eav4c6ujFMsI9niYfJrOcJCjdpGTs=
+	t=1772843480; cv=none; b=KPn7zsfymT8zSFSGmDcXm+/De+gJlzwJ0tm/TbJp9QBTZ9WVWIfYe01jsp8DJ/a7KXui5vdMKNtLK2y6O/blHyRmudCkh+fMYVjO1k8sEkUe8DZsRlomu0kfCy60ZcNnzyMB3bQVUFPtGzAtb57weHp65K9dL42+AB6LTb2/Y78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772842759; c=relaxed/simple;
-	bh=Ilh7TK+Z36qOWbWKbKSpkvaRbc5z/61up1FN4cWDssw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=f1oLbHe9o4iTL3hKQsbfu74ygbHXSFw86yOp02NwfWajX8rNrv94mNZ0mXLuvuXJTrpg2UqYH9ECTbcpYq+u49e+wGg3K0P4XEIOHd8iYo6CRwx7hBY+6GN333eUX91ZLll0wvpv0HyJCzkQCs3uNBMNpIs0Z5j3h+1uUkZqZrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HCSLpbXj; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1772843480; c=relaxed/simple;
+	bh=IjbGYhlXlAm7HrjrQ+wFs3XBygBavd34ViB+y6lXe+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YiS5eg54jA75kU6lWt6REu+SR6Saj5py+aNkL85HnaCmfAro9Mek7Pxgn1ITkDhozTrrovPspCzQGYCshsor2GOSnjaK6x80ukGLyPNqJFPbgt5yPNuN9lki0jzzVvIQHsG9KJN5Izro09I1cAE7JLC0Xz5sYjTzzNQFgDhg1Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k3VNy6hF; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HCSLpbXj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k3VNy6hF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772842756; x=1804378756;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ilh7TK+Z36qOWbWKbKSpkvaRbc5z/61up1FN4cWDssw=;
-  b=HCSLpbXjKe6BqxyS/dASUX75b+mgPHSOWOuIVZhnygDN8BQ5ui9JeFPz
-   2rb/kGU+dFd0NlFCZoGFDOfd7owxogYy2izLUXDHMPj9ubyhSz6+MCTIm
-   Vz7f1+iW/T+QRqLT2SOdxLF7AYPurRjbwTgDdsgYYo1+DzPtNbp1fXl9t
-   EgGQEsNB+/zK82PR6aUa23WanU6PnWqk1cI06ve5Et6doK0zYMiyZCfew
-   zPobPnuShBKaCBI9CftHgUB9mOOki81xCImvgj1whLj2SliGbPnj2cGRp
-   Vpx2lrldQegsBjIcZ7QvEMNxMJ0Op3RL6wjR7sWxJfhvfiFtzu47t+onR
-   w==;
-X-CSE-ConnectionGUID: 7F+mVaM4TDqQ5WpdaekxKA==
-X-CSE-MsgGUID: CgvbJ1waTNGuFjp2ZTpZZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="96572764"
+  t=1772843478; x=1804379478;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IjbGYhlXlAm7HrjrQ+wFs3XBygBavd34ViB+y6lXe+o=;
+  b=k3VNy6hFKOPRisZGPhHT8edPkTGDdhy29c37aEnDZjPdjnZrh2UmUCNd
+   /C/QrFEljg+Be7zF1xKzqcxNDE1Wk77H2Z7dw1KKKpvaZ7uZxApP0U7XO
+   g8m75JDjDJT4GMgJ54EmGsTtwAvuIvik7P5Z13xKPr7J9IuuXZAc6bQgU
+   IRkmeUXl3t1Js2afI0Nv0YYiBfjHrTdDDC2eQ7YD/H2tQj/pv4Bbaif6M
+   Z8PE1fJdSiX3yO09pq/Zg9cKF8GjqxkNW3UxWDA+c9tfX0xTHrPO/+WTg
+   hZuS8q/9ATTvbi4TeZuHiF5rDic13sYpRKrccWiP/LT8FHVvFrGNIl8te
+   A==;
+X-CSE-ConnectionGUID: x28WvRYhTTKTBkZiMa5B1A==
+X-CSE-MsgGUID: dZLoE/2ATcitKqpucWBjCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="77805832"
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="96572764"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 16:19:16 -0800
-X-CSE-ConnectionGUID: kxZOCDwuTFmyLVuq5S3svw==
-X-CSE-MsgGUID: Zj62sDbuRoCC/DBIZ3QS3Q==
+   d="scan'208";a="77805832"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 16:31:18 -0800
+X-CSE-ConnectionGUID: RPBTfaIfTbG1BgOSXaRH6A==
+X-CSE-MsgGUID: U4NZl4l8QVaDa1INw7FHmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="219146302"
+   d="scan'208";a="217346116"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 06 Mar 2026 16:19:15 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 06 Mar 2026 16:31:16 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyfNw-000000001VR-1WlZ;
-	Sat, 07 Mar 2026 00:19:12 +0000
-Date: Sat, 07 Mar 2026 08:18:47 +0800
+	id 1vyfZZ-000000001WD-2PIo;
+	Sat, 07 Mar 2026 00:31:13 +0000
+Date: Sat, 7 Mar 2026 08:30:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_3 10/26]
- kernel/bpf/trampoline.c:1523:15: error: implicit declaration of function
- 'btf_distill_func_proto'; did you mean 'bpf_base_func_proto'?
-Message-ID: <202603070823.JfRgS5ds-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] mutex: Remove the list_head from struct mutex
+Message-ID: <202603070817.Ce5296iz-lkp@intel.com>
+References: <20260305195545.3707590-4-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260305195545.3707590-4-willy@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_3
-head:   c803155263f86db2a723f3009d3dbe9f647db78f
-commit: 891ffb6190b8505a9a05808802307c25b768b998 [10/26] bpf: Add bpf_trampoline_multi_attach/detach functions
-config: x86_64-randconfig-076-20260307 (https://download.01.org/0day-ci/archive/20260307/202603070823.JfRgS5ds-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070823.JfRgS5ds-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v7.0-rc2 next-20260306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/rwsem-Remove-the-list_head-from-struct-rw_semaphore/20260306-085403
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20260305195545.3707590-4-willy%40infradead.org
+patch subject: [PATCH 3/3] mutex: Remove the list_head from struct mutex
+config: powerpc64-randconfig-r061-20260307 (https://download.01.org/0day-ci/archive/20260307/202603070817.Ce5296iz-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070817.Ce5296iz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603070823.JfRgS5ds-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603070817.Ce5296iz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/bpf/trampoline.c: In function 'bpf_get_btf_id_target':
->> kernel/bpf/trampoline.c:1523:15: error: implicit declaration of function 'btf_distill_func_proto'; did you mean 'bpf_base_func_proto'? [-Wimplicit-function-declaration]
-    1523 |         err = btf_distill_func_proto(NULL, btf, t, tname, &tgt_info->fmodel);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-         |               bpf_base_func_proto
+   In file included from include/linux/seqlock.h:20,
+                    from include/linux/mmzone.h:17,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:18,
+                    from drivers/char/nvram.c:34:
+>> drivers/char/nvram.c:56:21: warning: 'nvram_mutex' defined but not used [-Wunused-variable]
+      56 | static DEFINE_MUTEX(nvram_mutex);
+         |                     ^~~~~~~~~~~
+   include/linux/mutex.h:87:22: note: in definition of macro 'DEFINE_MUTEX'
+      87 |         struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
+         |                      ^~~~~~~~~
 
 
-vim +1523 kernel/bpf/trampoline.c
+vim +/nvram_mutex +56 drivers/char/nvram.c
 
-  1501	
-  1502	static int bpf_get_btf_id_target(struct btf *btf, struct bpf_prog *prog, u32 btf_id,
-  1503					 struct bpf_attach_target_info *tgt_info)
-  1504	{
-  1505		const struct btf_type *t;
-  1506		unsigned long addr;
-  1507		const char *tname;
-  1508		int err;
-  1509	
-  1510		if (!btf_id || !btf)
-  1511			return -EINVAL;
-  1512		t = btf_type_by_id(btf, btf_id);
-  1513		if (!t)
-  1514			return -EINVAL;
-  1515		tname = btf_name_by_offset(btf, t->name_off);
-  1516		if (!tname)
-  1517			return -EINVAL;
-  1518		if (!btf_type_is_func(t))
-  1519			return -EINVAL;
-  1520		t = btf_type_by_id(btf, t->type);
-  1521		if (!btf_type_is_func_proto(t))
-  1522			return -EINVAL;
-> 1523		err = btf_distill_func_proto(NULL, btf, t, tname, &tgt_info->fmodel);
-  1524		if (err < 0)
-  1525			return err;
-  1526		if (btf_is_module(btf)) {
-  1527			/* The bpf program already holds refference to module. */
-  1528			if (WARN_ON_ONCE(!prog->aux->mod))
-  1529				return -EINVAL;
-  1530			addr = find_kallsyms_symbol_value(prog->aux->mod, tname);
-  1531		} else {
-  1532			addr = kallsyms_lookup_name(tname);
-  1533		}
-  1534		if (!addr || !ftrace_location(addr))
-  1535			return -ENOENT;
-  1536		tgt_info->tgt_addr = addr;
-  1537		return 0;
-  1538	}
-  1539	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  55  
+613655fa39ff69 Arnd Bergmann  2010-06-02 @56  static DEFINE_MUTEX(nvram_mutex);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  57  static DEFINE_SPINLOCK(nvram_state_lock);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  58  static int nvram_open_cnt;	/* #times opened */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  59  static int nvram_open_mode;	/* special open modes */
+d5bbb5021ce8d9 Finn Thain     2019-01-15  60  static ssize_t nvram_size;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  61  #define NVRAM_WRITE		1 /* opened for writing (exclusive) */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  62  #define NVRAM_EXCL		2 /* opened with O_EXCL */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  63  
 
 -- 
 0-DAY CI Kernel Test Service
