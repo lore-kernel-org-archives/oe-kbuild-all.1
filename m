@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792C6275864
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 00:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844262D3A7B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 01:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772844747; cv=none; b=PqeyQBzct2j2znqYHrWDIjxWrYo5cOBFcTcJ9RW4PaMob11n1rd0XJNK4FPyQYZWyeErVuAnhtELYfNzwD9hwjjrAtcfXLSbZP2FkgEK4v3ghTN/DBNK5+CzkvxauhLibn0JEp6tX1HCE7dmrTosQcL9lqhXjaZylXL33NSvSnU=
+	t=1772846670; cv=none; b=WtxS/dTpoK25ZEEbhsbV/WDGRILcKfZysN/vWH5yW8Xr+ijj49D7oOlC/EOAEvb28A3IDUKBD24sWD4MToRwK23qL0U4U4AKBi+vqE7l+dEKUn7+rc+mw9bxAB+FPW2qxRI73zu1qkukZSID+k0BLuNY79CUk4e0DIizlXaCHxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772844747; c=relaxed/simple;
-	bh=gxSunjcvBRErBew/28rdha/zcYzd5detHG3z951c4Vk=;
+	s=arc-20240116; t=1772846670; c=relaxed/simple;
+	bh=ZkKxlHy2ZfpuRQh/qqsLp8wSLhvfVOpqtRbX482kiYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hIVW1ZAJE93xTfGYsdSB5sacx9huerTUUofQpmTOkXWV7+MO5gW7tA2ecAVGVvJGBk2qhwfe57xFQGKZ+OAHUPnMsEbKW6+mXPtFG7J36+iBLWKYddbWI9IWubrhrrSU1g9g/OTHxqw7OJtBR8ljlNKxbYC6fx44RzGZm66AQYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y69B5nb+; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=PUALbNglbhGQm/KXepPA8R7BeD2QLINs6aYna8UzIzr62U77hdOZLlUrz6l0jiB9Y46t2IAmYdWUVfjg5LEY0f4/OUroxUnaLxAWTGdqnsQk36d9YjCZzSkfs8A/gx3nDMqyrh5KUcBYlfsAWLxwRK6K/GaCvyIrUIvVueCBl64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=edDruARH; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y69B5nb+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edDruARH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772844744; x=1804380744;
+  t=1772846669; x=1804382669;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gxSunjcvBRErBew/28rdha/zcYzd5detHG3z951c4Vk=;
-  b=Y69B5nb+Q/xRvQrEbTDXnMIbmHEN4+6+l8fZPvgdO2ZfLscl2bX9YmBt
-   45g7eakwZ2BCFuMnDKsSEQo4X/MQ/xi5WzNOsSbHB/OgGo/+EW83mcXdO
-   Ets9ufM+XozOaB5N2KauLM8ItsoTOctrroFSxDMi59WgjUmToxd9m5tXx
-   fqtM9zbxkwRO+yFaTXAP1m0k86hsXCBYTqWNb+RfOZVt/nrnlA0o0ASFg
-   NdPiE5KhtDW56RE5LzmUlm6K8N2LZIxDk+n9yCz6AsopqDhrCzEbj5hfJ
-   0Vt19bMiCtLBExmgQ9wrj5xXO/aI4Ls+vbeEY0TRCjYNwO+7k+/voKgSw
-   w==;
-X-CSE-ConnectionGUID: AWEfXMpiTn+2YXCdWN0EMQ==
-X-CSE-MsgGUID: HXHY0f01QXCIG6dpz4gKbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73861672"
+  bh=ZkKxlHy2ZfpuRQh/qqsLp8wSLhvfVOpqtRbX482kiYE=;
+  b=edDruARHBfh63Tb3idq9U3JCmNRbWcu6bYZrB/1ouxu3LG0VB8tp8QeL
+   mVs+CMdnt3cfJcrIBIhey6fHIFmolGgDcaopYliHHf+/2PohFJGMXNnYW
+   a2ll42EvsyrnTxzTNOKZFc61kDuaHEsquqhym6l0sXY9xCT5yDysaYzJ6
+   PFnA8UaATB1r6Uoq7m+5CTOlgUkU5aLAHB9kqCjbnYZaLHhVMFZX9ZnUH
+   3ReZO8jWoPjvZIFmpCx6YFmGXHePHRKM6rr15Vg28n7QfDDONLrD6z3KM
+   cMM2JMFbqe2x+ulcxzL4vKpdA2Jp7rIrbRkZRTcd0+SJVV5byrbs0dIbw
+   g==;
+X-CSE-ConnectionGUID: Ychs7rCEQHypyWhuObxZmw==
+X-CSE-MsgGUID: 5lJ68oAuQtyaODwoXA7zZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73878140"
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="73861672"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 16:52:24 -0800
-X-CSE-ConnectionGUID: mDquklK+T9SW69HyvsN3Zg==
-X-CSE-MsgGUID: Vmru8usbRN6VOsUsgTzISQ==
+   d="scan'208";a="73878140"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 17:24:28 -0800
+X-CSE-ConnectionGUID: ImTCdRdzR2uoaAE1zvxEUQ==
+X-CSE-MsgGUID: 8QoW4UlqQY6FfsGIRgf6/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="216893402"
+   d="scan'208";a="223287665"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Mar 2026 16:52:20 -0800
+  by orviesa003.jf.intel.com with ESMTP; 06 Mar 2026 17:24:27 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyftx-000000001Wr-283S;
-	Sat, 07 Mar 2026 00:52:17 +0000
-Date: Sat, 7 Mar 2026 08:51:46 +0800
+	id 1vygP1-000000001YP-0tpb;
+	Sat, 07 Mar 2026 01:24:23 +0000
+Date: Sat, 7 Mar 2026 09:24:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Ion Agorria <ion@agorria.com>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v5 2/7] mfd: Add driver for ASUS Transformer embedded
- controller
-Message-ID: <202603070848.ib570eG8-lkp@intel.com>
-References: <20260304185751.83494-3-clamor95@gmail.com>
+To: Raju Rangoju <Raju.Rangoju@amd.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	pabeni@redhat.com, kuba@kernel.org, edumazet@google.com,
+	davem@davemloft.net, andrew+netdev@lunn.ch,
+	Raju Rangoju <Raju.Rangoju@amd.com>
+Subject: Re: [PATCH net-next 1/2] amd-xgbe: Simplify powerdown/powerup paths
+Message-ID: <202603070918.CSq5IR0g-lkp@intel.com>
+References: <20260306121047.1231755-2-Raju.Rangoju@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,68 +65,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260304185751.83494-3-clamor95@gmail.com>
+In-Reply-To: <20260306121047.1231755-2-Raju.Rangoju@amd.com>
 
-Hi Svyatoslav,
+Hi Raju,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on sre-power-supply/for-next]
-[also build test WARNING on robh/for-next linus/master v7.0-rc2 next-20260305]
-[cannot apply to dtor-input/next dtor-input/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-embedded-controller-document-ASUS-Transformer-EC/20260305-030907
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20260304185751.83494-3-clamor95%40gmail.com
-patch subject: [PATCH v5 2/7] mfd: Add driver for ASUS Transformer embedded controller
-config: powerpc64-randconfig-r133-20260305 (https://download.01.org/0day-ci/archive/20260307/202603070848.ib570eG8-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070848.ib570eG8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/amd-xgbe-Simplify-powerdown-powerup-paths/20260306-202410
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260306121047.1231755-2-Raju.Rangoju%40amd.com
+patch subject: [PATCH net-next 1/2] amd-xgbe: Simplify powerdown/powerup paths
+config: sparc-randconfig-001-20260307 (https://download.01.org/0day-ci/archive/20260307/202603070918.CSq5IR0g-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070918.CSq5IR0g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603070848.ib570eG8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603070918.CSq5IR0g-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mfd/asus-transformer-ec.c:482:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got char const [noderef] __user *buf @@
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     expected void const *
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     got char const [noderef] __user *buf
->> drivers/mfd/asus-transformer-ec.c:482:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got char const [noderef] __user *buf @@
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     expected void const *
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     got char const [noderef] __user *buf
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got char const [noderef] __user *buf @@
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     expected void const *
-   drivers/mfd/asus-transformer-ec.c:482:9: sparse:     got char const [noderef] __user *buf
-   drivers/mfd/asus-transformer-ec.c:476:16: sparse: sparse: dereference of noderef expression
+All warnings (new ones prefixed by >>):
 
-vim +482 drivers/mfd/asus-transformer-ec.c
+>> drivers/net/ethernet/amd/xgbe/xgbe-pci.c:379:12: warning: 'xgbe_pci_resume' defined but not used [-Wunused-function]
+     379 | static int xgbe_pci_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~
+>> drivers/net/ethernet/amd/xgbe/xgbe-pci.c:363:12: warning: 'xgbe_pci_suspend' defined but not used [-Wunused-function]
+     363 | static int xgbe_pci_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~
 
-   467	
-   468	static int dockram_write_one(struct i2c_client *client, int reg,
-   469				     const char __user *buf, size_t count)
-   470	{
-   471		struct dockram_ec_data *priv = i2c_get_clientdata(client);
-   472		int ret;
-   473	
-   474		if (!count || count > DOCKRAM_ENTRY_SIZE)
-   475			return -EINVAL;
-   476		if (buf[0] != count - 1)
-   477			return -EINVAL;
-   478	
-   479		guard(mutex)(&priv->ctl_lock);
-   480	
-   481		priv->ctl_data[0] = (u8)count;
- > 482		memcpy(priv->ctl_data + 1, buf, count);
-   483		ret = asus_dockram_write(client, reg, priv->ctl_data);
-   484	
-   485		return ret;
-   486	}
-   487	
+
+vim +/xgbe_pci_resume +379 drivers/net/ethernet/amd/xgbe/xgbe-pci.c
+
+   362	
+ > 363	static int xgbe_pci_suspend(struct device *dev)
+   364	{
+   365		struct xgbe_prv_data *pdata = dev_get_drvdata(dev);
+   366		struct net_device *netdev = pdata->netdev;
+   367		int ret = 0;
+   368	
+   369		if (netif_running(netdev))
+   370			ret = xgbe_powerdown(netdev);
+   371	
+   372		pdata->lpm_ctrl = XMDIO_READ(pdata, MDIO_MMD_PCS, MDIO_CTRL1);
+   373		pdata->lpm_ctrl |= MDIO_CTRL1_LPOWER;
+   374		XMDIO_WRITE(pdata, MDIO_MMD_PCS, MDIO_CTRL1, pdata->lpm_ctrl);
+   375	
+   376		return ret;
+   377	}
+   378	
+ > 379	static int xgbe_pci_resume(struct device *dev)
+   380	{
+   381		struct xgbe_prv_data *pdata = dev_get_drvdata(dev);
+   382		struct net_device *netdev = pdata->netdev;
+   383		int ret = 0;
+   384	
+   385		XP_IOWRITE(pdata, XP_INT_EN, 0x1fffff);
+   386	
+   387		pdata->lpm_ctrl &= ~MDIO_CTRL1_LPOWER;
+   388		XMDIO_WRITE(pdata, MDIO_MMD_PCS, MDIO_CTRL1, pdata->lpm_ctrl);
+   389	
+   390		if (netif_running(netdev)) {
+   391			ret = xgbe_powerup(netdev);
+   392	
+   393			/* Schedule a restart in case the link or phy state changed
+   394			 * while we were powered down.
+   395			 */
+   396			schedule_work(&pdata->restart_work);
+   397		}
+   398	
+   399		return ret;
+   400	}
+   401	
 
 -- 
 0-DAY CI Kernel Test Service
