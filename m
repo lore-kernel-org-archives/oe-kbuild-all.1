@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844262D3A7B
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 01:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F96B30EF8B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 01:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772846670; cv=none; b=WtxS/dTpoK25ZEEbhsbV/WDGRILcKfZysN/vWH5yW8Xr+ijj49D7oOlC/EOAEvb28A3IDUKBD24sWD4MToRwK23qL0U4U4AKBi+vqE7l+dEKUn7+rc+mw9bxAB+FPW2qxRI73zu1qkukZSID+k0BLuNY79CUk4e0DIizlXaCHxI=
+	t=1772848596; cv=none; b=mvkxaJgZO4qqX5a9Ihs2w68aatzYF5TN79jFV3LQnaYKdBnu1syFNhKH7DVkdtj9bK8S6WSmWMxmFfuzoZVgUIzlof/Z9egUnsdKM3INutgeeXXe5lNWHO4+ynhbNZzYjTecd9GUtx2IBCkUpbrfsmwl5IKNbZzaw2b7sPjsVp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772846670; c=relaxed/simple;
-	bh=ZkKxlHy2ZfpuRQh/qqsLp8wSLhvfVOpqtRbX482kiYE=;
+	s=arc-20240116; t=1772848596; c=relaxed/simple;
+	bh=hqVYElnpCdQVeBz6UnNsyzabvMkwFnQc5aLj+dZzy0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PUALbNglbhGQm/KXepPA8R7BeD2QLINs6aYna8UzIzr62U77hdOZLlUrz6l0jiB9Y46t2IAmYdWUVfjg5LEY0f4/OUroxUnaLxAWTGdqnsQk36d9YjCZzSkfs8A/gx3nDMqyrh5KUcBYlfsAWLxwRK6K/GaCvyIrUIvVueCBl64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=edDruARH; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=WEssTR0C+dOMBYGN+Ifw33q/Ja21tXb5TnQjLr/GaOHWiMqd5aFRcJHY7CbMT/nX+9t1BSmnKuHrDAivJsoajO1sufjFgMOO4T6lCmWcmbDRWcRVjrP1Wh1yUvZYT3x8iYgWa6zYJLYj5uCWs+cqaLOCKmlTb0NuDEPGSqZaZU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NljlpHBh; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edDruARH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NljlpHBh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772846669; x=1804382669;
+  t=1772848591; x=1804384591;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZkKxlHy2ZfpuRQh/qqsLp8wSLhvfVOpqtRbX482kiYE=;
-  b=edDruARHBfh63Tb3idq9U3JCmNRbWcu6bYZrB/1ouxu3LG0VB8tp8QeL
-   mVs+CMdnt3cfJcrIBIhey6fHIFmolGgDcaopYliHHf+/2PohFJGMXNnYW
-   a2ll42EvsyrnTxzTNOKZFc61kDuaHEsquqhym6l0sXY9xCT5yDysaYzJ6
-   PFnA8UaATB1r6Uoq7m+5CTOlgUkU5aLAHB9kqCjbnYZaLHhVMFZX9ZnUH
-   3ReZO8jWoPjvZIFmpCx6YFmGXHePHRKM6rr15Vg28n7QfDDONLrD6z3KM
-   cMM2JMFbqe2x+ulcxzL4vKpdA2Jp7rIrbRkZRTcd0+SJVV5byrbs0dIbw
-   g==;
-X-CSE-ConnectionGUID: Ychs7rCEQHypyWhuObxZmw==
-X-CSE-MsgGUID: 5lJ68oAuQtyaODwoXA7zZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73878140"
+  bh=hqVYElnpCdQVeBz6UnNsyzabvMkwFnQc5aLj+dZzy0Y=;
+  b=NljlpHBhrojxe+8bV76BIbGWik6J9fj4i2P5dSYrn960wTTBwGDgoEBU
+   PF5hIhJfQtncalegDM6QYn1vJ7pJVAxsssF7rA4FnJFNzv0ADdFkO0Hyb
+   J0Oi22CI9NP2VxEA7VRDqW88owi6zpabzxyAcNNwuVNGyIaev5I6AYGP5
+   uHMJ19Rl0MoAfGqma5HPv6NLUrmmiDSe/fz1j9scOEikOzEDLfY4YL0tM
+   qtWPTghuLPFVOGHDmsA1ZNXt3PUO+2NrwXR7w7TfJpQkdDsmWDH0ELqOy
+   8DUGqgUGhSwr+WwlISMqNNHv+/aPEvNSRl3BwEzKA4rd+yVrshPiRb6z+
+   w==;
+X-CSE-ConnectionGUID: 1MbV72VYR7mHSwjREvRR3w==
+X-CSE-MsgGUID: rycwUusmTzWKHeW69Pt5Vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="91347069"
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="73878140"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 17:24:28 -0800
-X-CSE-ConnectionGUID: ImTCdRdzR2uoaAE1zvxEUQ==
-X-CSE-MsgGUID: 8QoW4UlqQY6FfsGIRgf6/w==
+   d="scan'208";a="91347069"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 17:56:31 -0800
+X-CSE-ConnectionGUID: RBpUvLrvQy6Lta3cFjp12A==
+X-CSE-MsgGUID: ebLjcGhtRda/4iE21pTdGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; 
-   d="scan'208";a="223287665"
+   d="scan'208";a="223659732"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Mar 2026 17:24:27 -0800
+  by orviesa004.jf.intel.com with ESMTP; 06 Mar 2026 17:56:28 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vygP1-000000001YP-0tpb;
-	Sat, 07 Mar 2026 01:24:23 +0000
-Date: Sat, 7 Mar 2026 09:24:08 +0800
+	id 1vygu1-000000001aD-1LZm;
+	Sat, 07 Mar 2026 01:56:25 +0000
+Date: Sat, 7 Mar 2026 09:56:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raju Rangoju <Raju.Rangoju@amd.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	pabeni@redhat.com, kuba@kernel.org, edumazet@google.com,
-	davem@davemloft.net, andrew+netdev@lunn.ch,
-	Raju Rangoju <Raju.Rangoju@amd.com>
-Subject: Re: [PATCH net-next 1/2] amd-xgbe: Simplify powerdown/powerup paths
-Message-ID: <202603070918.CSq5IR0g-lkp@intel.com>
-References: <20260306121047.1231755-2-Raju.Rangoju@amd.com>
+To: Tarang Raval <tarang.raval@siliconsignals.io>,
+	sakari.ailus@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, mehdi.djait@linux.intel.com,
+	Tarang Raval <tarang.raval@siliconsignals.io>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 13/13] media: i2c: os05b10: add 2-lane support
+Message-ID: <202603070920.GtWqPt5Q-lkp@intel.com>
+References: <20260306123304.76722-14-tarang.raval@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,79 +68,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260306121047.1231755-2-Raju.Rangoju@amd.com>
+In-Reply-To: <20260306123304.76722-14-tarang.raval@siliconsignals.io>
 
-Hi Raju,
+Hi Tarang,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on sailus-media-tree/master]
+[also build test ERROR on linus/master v7.0-rc2 next-20260306]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/amd-xgbe-Simplify-powerdown-powerup-paths/20260306-202410
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260306121047.1231755-2-Raju.Rangoju%40amd.com
-patch subject: [PATCH net-next 1/2] amd-xgbe: Simplify powerdown/powerup paths
-config: sparc-randconfig-001-20260307 (https://download.01.org/0day-ci/archive/20260307/202603070918.CSq5IR0g-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070918.CSq5IR0g-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tarang-Raval/media-i2c-os05b10-drop-unused-group-hold-programming/20260306-212656
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20260306123304.76722-14-tarang.raval%40siliconsignals.io
+patch subject: [PATCH 13/13] media: i2c: os05b10: add 2-lane support
+config: openrisc-randconfig-r071-20260307 (https://download.01.org/0day-ci/archive/20260307/202603070920.GtWqPt5Q-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603070920.GtWqPt5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603070918.CSq5IR0g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603070920.GtWqPt5Q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/amd/xgbe/xgbe-pci.c:379:12: warning: 'xgbe_pci_resume' defined but not used [-Wunused-function]
-     379 | static int xgbe_pci_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/amd/xgbe/xgbe-pci.c:363:12: warning: 'xgbe_pci_suspend' defined but not used [-Wunused-function]
-     363 | static int xgbe_pci_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~
+   drivers/media/i2c/os05b10.c: In function 'os05b10_parse_endpoint':
+>> drivers/media/i2c/os05b10.c:1228:56: error: 'struct v4l2_fwnode_endpoint' has no member named 'link_frequencies_2lane'; did you mean 'link_frequencies'?
+    1228 |                                                bus_cfg.link_frequencies_2lane,
+         |                                                        ^~~~~~~~~~~~~~~~~~~~~~
+         |                                                        link_frequencies
+>> drivers/media/i2c/os05b10.c:1229:56: error: 'struct v4l2_fwnode_endpoint' has no member named 'nr_of_link_frequencies_2lane'; did you mean 'nr_of_link_frequencies'?
+    1229 |                                                bus_cfg.nr_of_link_frequencies_2lane,
+         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                        nr_of_link_frequencies
+>> drivers/media/i2c/os05b10.c:1240:56: error: 'struct v4l2_fwnode_endpoint' has no member named 'link_frequencies_4lane'; did you mean 'link_frequencies'?
+    1240 |                                                bus_cfg.link_frequencies_4lane,
+         |                                                        ^~~~~~~~~~~~~~~~~~~~~~
+         |                                                        link_frequencies
+>> drivers/media/i2c/os05b10.c:1241:56: error: 'struct v4l2_fwnode_endpoint' has no member named 'nr_of_link_frequencies_4lane'; did you mean 'nr_of_link_frequencies'?
+    1241 |                                                bus_cfg.nr_of_link_frequencies_4lane,
+         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                        nr_of_link_frequencies
 
 
-vim +/xgbe_pci_resume +379 drivers/net/ethernet/amd/xgbe/xgbe-pci.c
+vim +1228 drivers/media/i2c/os05b10.c
 
-   362	
- > 363	static int xgbe_pci_suspend(struct device *dev)
-   364	{
-   365		struct xgbe_prv_data *pdata = dev_get_drvdata(dev);
-   366		struct net_device *netdev = pdata->netdev;
-   367		int ret = 0;
-   368	
-   369		if (netif_running(netdev))
-   370			ret = xgbe_powerdown(netdev);
-   371	
-   372		pdata->lpm_ctrl = XMDIO_READ(pdata, MDIO_MMD_PCS, MDIO_CTRL1);
-   373		pdata->lpm_ctrl |= MDIO_CTRL1_LPOWER;
-   374		XMDIO_WRITE(pdata, MDIO_MMD_PCS, MDIO_CTRL1, pdata->lpm_ctrl);
-   375	
-   376		return ret;
-   377	}
-   378	
- > 379	static int xgbe_pci_resume(struct device *dev)
-   380	{
-   381		struct xgbe_prv_data *pdata = dev_get_drvdata(dev);
-   382		struct net_device *netdev = pdata->netdev;
-   383		int ret = 0;
-   384	
-   385		XP_IOWRITE(pdata, XP_INT_EN, 0x1fffff);
-   386	
-   387		pdata->lpm_ctrl &= ~MDIO_CTRL1_LPOWER;
-   388		XMDIO_WRITE(pdata, MDIO_MMD_PCS, MDIO_CTRL1, pdata->lpm_ctrl);
-   389	
-   390		if (netif_running(netdev)) {
-   391			ret = xgbe_powerup(netdev);
-   392	
-   393			/* Schedule a restart in case the link or phy state changed
-   394			 * while we were powered down.
-   395			 */
-   396			schedule_work(&pdata->restart_work);
-   397		}
-   398	
-   399		return ret;
-   400	}
-   401	
+  1196	
+  1197	static int os05b10_parse_endpoint(struct os05b10 *os05b10)
+  1198	{
+  1199		struct v4l2_fwnode_endpoint bus_cfg = {
+  1200			.bus_type = V4L2_MBUS_CSI2_DPHY
+  1201		};
+  1202		unsigned long link_freq_bitmap;
+  1203		struct fwnode_handle *ep;
+  1204		int ret;
+  1205	
+  1206		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(os05b10->dev), 0, 0, 0);
+  1207		if (!ep) {
+  1208			dev_err(os05b10->dev, "Failed to get next endpoint\n");
+  1209			return -EINVAL;
+  1210		}
+  1211	
+  1212		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+  1213		fwnode_handle_put(ep);
+  1214		if (ret)
+  1215			return ret;
+  1216	
+  1217		if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4 &&
+  1218		    bus_cfg.bus.mipi_csi2.num_data_lanes != 2) {
+  1219			ret = dev_err_probe(os05b10->dev, -EINVAL,
+  1220					    "4 and 2 data lanes are supported\n");
+  1221			goto error_out;
+  1222		}
+  1223	
+  1224		os05b10->data_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
+  1225	
+  1226		if (os05b10->data_lanes == 2) {
+  1227			ret = v4l2_link_freq_to_bitmap(os05b10->dev,
+> 1228						       bus_cfg.link_frequencies_2lane,
+> 1229						       bus_cfg.nr_of_link_frequencies_2lane,
+  1230						       link_frequencies_2lane,
+  1231						       ARRAY_SIZE(link_frequencies_2lane),
+  1232						       &link_freq_bitmap);
+  1233			if (ret) {
+  1234				dev_err(os05b10->dev,
+  1235					"For 2 lane 750MHz frequency is available\n");
+  1236				goto error_out;
+  1237			}
+  1238		} else {
+  1239			ret = v4l2_link_freq_to_bitmap(os05b10->dev,
+> 1240						       bus_cfg.link_frequencies_4lane,
+> 1241						       bus_cfg.nr_of_link_frequencies_4lane,
+  1242						       link_frequencies_4lane,
+  1243						       ARRAY_SIZE(link_frequencies_4lane),
+  1244						       &link_freq_bitmap);
+  1245			if (ret) {
+  1246				dev_err(os05b10->dev,
+  1247					"For 4 lane 600MHz frequency is available\n");
+  1248				goto error_out;
+  1249			}
+  1250		}
+  1251	
+  1252		os05b10->link_freq_index = __ffs(link_freq_bitmap);
+  1253	
+  1254	error_out:
+  1255		v4l2_fwnode_endpoint_free(&bus_cfg);
+  1256	
+  1257		return ret;
+  1258	}
+  1259	
 
 -- 
 0-DAY CI Kernel Test Service
