@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC0D29B781
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 17:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C46E27EFEE
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Mar 2026 18:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772904953; cv=none; b=DWi7Yb3zVuDPP0Fre/88dakLJGuVJFYo/JGhN3w+jaFQbo6smd+VwJckDI6ucQpCISXlfdi3ZHIAibCB+7aFWaxaicgYMVUz5GDIJuatxL204UYfXDIxR0DScaQtscuEc4jd8I6Mrxee+KVGjl5TebD+2S4UFQO1cwzaO+MseHo=
+	t=1772906460; cv=none; b=NyErv/TnK4rtmqUBakkUb28vpUpZIdtsv6yaqCGSdVb9W1PEj6HO8dIcEwcBz1Ti03tOu8n90WLFnTSRKxyqRe1egnyniwhA+DX96KjI18Ck847inZEd7Jzi2iKV9ppFsS3RUfUGYMHZuw21LSSVZZmFNiwglj7fLSJUGoU+yNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772904953; c=relaxed/simple;
-	bh=F8+Oe6iEOQ/Gur29RNoZ3yz2cePACpGoNRWjkfLQ5uA=;
+	s=arc-20240116; t=1772906460; c=relaxed/simple;
+	bh=o+OgiOKCiGlbiWTc23wi3lpP9cofsuhMFa5k1sJzTRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F0jqdixoG+jJZHf/jXyPeRCvA8n/o3EUKs0h/mKEQHv6f/ozuGrrHoYQrrc0DgXKiA4hcW5MKfnFIX4TwJL3aBKurI41fR6/6DZmGn1APW/TEVnACkv57DzryxI8UKBW3KEE2iCKDqnM5d+7DanlLKpDhp/4k0P6yO0k2Gx24kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/s1OQFA; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=A4qTFbp9jTLahn/qLuCQxEFcjDaVkG19g6pkBi3E//jNB919PO0j0r+MMylgHYiXAyDx2dpOaXlne3qyQOi5PjiS333RsQ/L4MbuBjkUgcJnNc/rSlY6GRnu6U/P9jsW95rQ70J3fLu8qyhXWDlrewn+Gb28PfPngL2irIBpt2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtwGoUWJ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/s1OQFA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtwGoUWJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772904952; x=1804440952;
+  t=1772906459; x=1804442459;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=F8+Oe6iEOQ/Gur29RNoZ3yz2cePACpGoNRWjkfLQ5uA=;
-  b=h/s1OQFAvHZd1buQ7vwKdZht3TkR262v5aMlrBJXQWTh1NA12dF+rfem
-   j4B+Zgj++l8Ihiic4r7xeQw7Uzl1xy9Zj5gmHom/gN+k0EGmqr5I0M5sp
-   DPA9X225v1pr/ybQp/HkVDqmfOwgDAzkqi2QXictNo2Z9cZp2MYPAz44j
-   jG4MDRWoi0hLEms5JhnZQRD/iwQCYTtFwqqeTejI1Lby84wy1f1qu7iQn
-   DkzuFJb2cK+jj8Y6PZm4OZshpnAUOBukBaJX6bCms9bjwOmb6TCdCqNwq
-   KwCCDjNJlm477/5i1/uxlmMuAtAyOiO2G56wm3KplHBJKDGRTHaCGs5Ps
+  bh=o+OgiOKCiGlbiWTc23wi3lpP9cofsuhMFa5k1sJzTRo=;
+  b=FtwGoUWJ3N0wttzvV7QOThcwLYv6wZNqgwE1Li24sBMkw6VBmm0XRjFC
+   8U5D0vzRYJ1MvZ3Nnhc2r6+wIb6RjUKRTubmOY7hOfIjywtAvNsMw4rGH
+   wYLI80b9sX+CGJr8yKTZRywj6OexWwR8sriquaxDGKDeHoCtnhubQN7J5
+   x/c+B8j3h/vWk5IHyxkOPg+GArxoV3me9Eww2CwD/cWu9gcOy4bHc1Wxc
+   RZ1TQUELU7a8KPxcWIgDevxtQgbEy1pINaB96AsEieZa6ktwOFNzM/GRy
+   qDYWTVljljWQmHVJ087qIkDhGzggmplLLw3/AxgajsW6LucLnZCYyGE3/
    Q==;
-X-CSE-ConnectionGUID: 1KuPXdl5TAmhuOvziQp8tg==
-X-CSE-MsgGUID: II2c98+ySumMkJOwnNCN4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73956165"
+X-CSE-ConnectionGUID: IZ5zPpOnSui5bGJucji72A==
+X-CSE-MsgGUID: YCEmjCg0Rj+reDfaIDz/pA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73904277"
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="73956165"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 09:35:51 -0800
-X-CSE-ConnectionGUID: GJuaGvdURzS227eFCWmoPA==
-X-CSE-MsgGUID: dD0xoQxfTcSQVlJ9cARGqA==
+   d="scan'208";a="73904277"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 10:00:58 -0800
+X-CSE-ConnectionGUID: FFCQ3tfLTyys6zG6cjpjeQ==
+X-CSE-MsgGUID: ymZKOBe2TbOIg+nclKliEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="218535164"
+   d="scan'208";a="215926897"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2026 09:35:49 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 07 Mar 2026 10:00:56 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyvZ4-000000002Ob-0g8H;
-	Sat, 07 Mar 2026 17:35:46 +0000
-Date: Sun, 8 Mar 2026 01:35:13 +0800
+	id 1vyvxN-000000002Uj-2jOo;
+	Sat, 07 Mar 2026 18:00:53 +0000
+Date: Sun, 8 Mar 2026 01:59:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haifeng Xu <haifeng.xu@shopee.com>, akpm@linux-foundation.org,
-	david@fromorbit.com, roman.gushchin@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, zhengqi.arch@bytedance.com,
-	muchun.song@linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Haifeng Xu <haifeng.xu@shopee.com>
-Subject: Re: [PATCH 2/3] mm: shrinker: optimize the allocation of
- shrinker_info when setting cgroup_memory_nokmem
-Message-ID: <202603080143.ehWbe58J-lkp@intel.com>
-References: <20260306075757.198887-3-haifeng.xu@shopee.com>
+To: Sean Wang <sean.wang@kernel.org>, nbd@nbd.name,
+	lorenzo.bianconi@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Sean Wang <sean.wang@mediatek.com>
+Subject: Re: [PATCH 02/19] wifi: mt76: mt7925: pass WCID indices to
+ bss_basic_tlv()
+Message-ID: <202603080115.kvbVwfTB-lkp@intel.com>
+References: <20260306232238.2039675-3-sean.wang@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,104 +66,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260306075757.198887-3-haifeng.xu@shopee.com>
+In-Reply-To: <20260306232238.2039675-3-sean.wang@kernel.org>
 
-Hi Haifeng,
+Hi Sean,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.0-rc2 next-20260306]
-[cannot apply to akpm-mm/mm-everything]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v7.0-rc2 next-20260306]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haifeng-Xu/mm-shrinker-introduce-new-function-get_shrinker_id/20260306-160247
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260306075757.198887-3-haifeng.xu%40shopee.com
-patch subject: [PATCH 2/3] mm: shrinker: optimize the allocation of shrinker_info when setting cgroup_memory_nokmem
-config: i386-randconfig-004-20260307 (https://download.01.org/0day-ci/archive/20260308/202603080143.ehWbe58J-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080143.ehWbe58J-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Wang/wifi-mt76-mt7925-pass-mlink-to-sta_amsdu_tlv/20260307-073047
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260306232238.2039675-3-sean.wang%40kernel.org
+patch subject: [PATCH 02/19] wifi: mt76: mt7925: pass WCID indices to bss_basic_tlv()
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603080115.kvbVwfTB-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080115.kvbVwfTB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603080143.ehWbe58J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603080115.kvbVwfTB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/huge_memory.c: In function 'deferred_split_folio':
->> mm/huge_memory.c:4355:57: error: 'struct shrinker' has no member named 'id'
-    4355 |                         int id = deferred_split_shrinker->id;
-         |                                                         ^~
->> mm/huge_memory.c:4358:61: error: 'struct shrinker' has no member named 'nonslab_id'
-    4358 |                                 id = deferred_split_shrinker->nonslab_id;
-         |                                                             ^~
+   drivers/net/wireless/mediatek/mt76/mt7925/mcu.c: In function 'mt7925_mcu_add_bss_info':
+>> drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:2867:13: warning: variable 'sta_wlan_idx' set but not used [-Wunused-but-set-variable]
+    2867 |         u16 sta_wlan_idx;
+         |             ^~~~~~~~~~~~
 
 
-vim +4355 mm/huge_memory.c
+vim +/sta_wlan_idx +2867 drivers/net/wireless/mediatek/mt76/mt7925/mcu.c
 
-  4307	
-  4308	/* partially_mapped=false won't clear PG_partially_mapped folio flag */
-  4309	void deferred_split_folio(struct folio *folio, bool partially_mapped)
-  4310	{
-  4311		struct deferred_split *ds_queue;
-  4312		unsigned long flags;
-  4313	
-  4314		/*
-  4315		 * Order 1 folios have no space for a deferred list, but we also
-  4316		 * won't waste much memory by not adding them to the deferred list.
-  4317		 */
-  4318		if (folio_order(folio) <= 1)
-  4319			return;
-  4320	
-  4321		if (!partially_mapped && !split_underused_thp)
-  4322			return;
-  4323	
-  4324		/*
-  4325		 * Exclude swapcache: originally to avoid a corrupt deferred split
-  4326		 * queue. Nowadays that is fully prevented by memcg1_swapout();
-  4327		 * but if page reclaim is already handling the same folio, it is
-  4328		 * unnecessary to handle it again in the shrinker, so excluding
-  4329		 * swapcache here may still be a useful optimization.
-  4330		 */
-  4331		if (folio_test_swapcache(folio))
-  4332			return;
-  4333	
-  4334		ds_queue = folio_split_queue_lock_irqsave(folio, &flags);
-  4335		if (partially_mapped) {
-  4336			if (!folio_test_partially_mapped(folio)) {
-  4337				folio_set_partially_mapped(folio);
-  4338				if (folio_test_pmd_mappable(folio))
-  4339					count_vm_event(THP_DEFERRED_SPLIT_PAGE);
-  4340				count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
-  4341				mod_mthp_stat(folio_order(folio), MTHP_STAT_NR_ANON_PARTIALLY_MAPPED, 1);
-  4342	
-  4343			}
-  4344		} else {
-  4345			/* partially mapped folios cannot become non-partially mapped */
-  4346			VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
-  4347		}
-  4348		if (list_empty(&folio->_deferred_list)) {
-  4349			struct mem_cgroup *memcg;
-  4350	
-  4351			memcg = folio_split_queue_memcg(folio, ds_queue);
-  4352			list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
-  4353			ds_queue->split_queue_len++;
-  4354			if (memcg) {
-> 4355				int id = deferred_split_shrinker->id;
-  4356	
-  4357				if (!memcg_kmem_online() &&  memcg != root_mem_cgroup)
-> 4358					id = deferred_split_shrinker->nonslab_id;
-  4359	
-  4360				set_shrinker_bit(memcg, folio_nid(folio), id);
-  4361			}
-  4362		}
-  4363		split_queue_unlock_irqrestore(ds_queue, flags);
-  4364	}
-  4365	
+  2856	
+  2857	int mt7925_mcu_add_bss_info(struct mt792x_phy *phy,
+  2858				    struct ieee80211_chanctx_conf *ctx,
+  2859				    struct ieee80211_bss_conf *link_conf,
+  2860				    struct ieee80211_link_sta *link_sta,
+  2861				    int enable)
+  2862	{
+  2863		struct mt792x_vif *mvif = (struct mt792x_vif *)link_conf->vif->drv_priv;
+  2864		struct mt792x_bss_conf *mconf = mt792x_link_conf_to_mconf(link_conf);
+  2865		struct mt792x_link_sta *mlink_bc;
+  2866		struct mt792x_link_sta *mlink;
+> 2867		u16 sta_wlan_idx;
+  2868	
+  2869		sta_wlan_idx = mvif->sta.deflink.wcid.idx;
+  2870	
+  2871		mlink_bc = mt792x_sta_to_link(&mvif->sta, mconf->link_id);
+  2872	
+  2873		if (link_sta) {
+  2874			struct mt792x_sta *msta = (void *)link_sta->sta->drv_priv;
+  2875	
+  2876			mlink = mt792x_sta_to_link(msta, link_sta->link_id);
+  2877			if (WARN_ON(!mlink))
+  2878				return -1;
+  2879		} else {
+  2880			mlink = &mconf->vif->sta.deflink;
+  2881		}
+  2882	
+  2883		return mt7925_mcu_add_bss_info_sta(phy, ctx, link_conf, link_sta,
+  2884						   mlink_bc->wcid.idx, mlink->wcid.idx, enable);
+  2885	}
+  2886	
 
 -- 
 0-DAY CI Kernel Test Service
