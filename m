@@ -1,99 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65F83368BD;
-	Sun,  8 Mar 2026 08:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD98A35B647
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 08:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772959563; cv=none; b=DQrTBUN+h6yJGjZzYCE2qFjn1F3wXdX8/i6UA/EOyf+Dy3Fk0sMVJQsnEFUbVN71wyRbPwogII7yJSXa3oTLL/P0OHnWngKp2APEZjzNIirBw2xDNY2YhaVIxdcwS7zMbLDnCt7TOgYhGE3+1nHImVyvI3qYdfqUdl52m/O5kQs=
+	t=1772960224; cv=none; b=KcPLX2piBfUXJPNeMKGQeb+oP/1OuIucdt9Sh7XaJhHIvUi86Yp4OgU9PsInX3Yh8JIyjsXPH+A3oISzqDzRTYjxgCJUzPfAYPQbkeT1lg5dDjGlv/k4qkv/ZAlQqnU8Maf1rJMHquTwMW6giIVtVuw1Ebe7eVRyzQUkoZztNjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772959563; c=relaxed/simple;
-	bh=xkwwbLdJFZwC6tNR5uIrYmrHxi4PViblHLy620fHkAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tti3YslLiij/yq1t7XjRo7FIOSKujZmHbMGIhZsN+kdixiRTp3GM98YS7DpfZyF92W/+puEe6sGWy4M+J/O5HGkQ3e5BWHR/Y3Nyr6j0eR7isE0eBb6U+6WNZbORBnK1sw0RFYLJGpfJFcRz5YwSkLMWuwtCu5H54NfhWMkdDsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVUaOEnR; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1772960224; c=relaxed/simple;
+	bh=MZy+LCS88gKHIiB8EZ46afNGpOHcw9O+q166p9xrfVw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DPr0IRp1LuKMToNnEpmmHnulGC1+xBX/VGndL7A/hTciSUElFi/vVpHdObETTx2tKwsMMrQPfcrG9AwiXCqFZiteU89IuHn7wqqp7/x4ivgc103v825Y03Uj3iwGdj4pwgZSTFMghvq9VpqAwws8RNrmGbeEooPKh9eivLybK2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JC6khjbO; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVUaOEnR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JC6khjbO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772959561; x=1804495561;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xkwwbLdJFZwC6tNR5uIrYmrHxi4PViblHLy620fHkAs=;
-  b=bVUaOEnRby7iUXwTo+wnaGI0Q76pUQkAqN4s1ds8CF9LBeMeXS9GLxWv
-   iyRcsBWmiTLkAXu+SNKTc9mXvTrW8mEOTr0cjJz2GYbUVZ1Pj+j9642jp
-   tUZmfcdSrREpdA0wYeuKOSLkABUDZDjWa+4j3Z6JuphddgLMB5OhHSIKb
-   L5C44ZP3iA8t/Ff/6z01b7UaXdCnkMJlwbkENGa2i2yH3x7QZi57TZyLE
-   LqKTGZKtuFXpD9uHni9QHJxEezApk8JJ3TVh6RhfilDlvyCQFhP9UfFou
-   5wkPgwX3IDcNC1AZoR0YUXPpXrGQIfyJCYlh0COsZqKjqeI6R6RfZURfV
+  t=1772960223; x=1804496223;
+  h=date:from:to:cc:subject:message-id;
+  bh=MZy+LCS88gKHIiB8EZ46afNGpOHcw9O+q166p9xrfVw=;
+  b=JC6khjbOfBuLVyeA9zpFtC1H45HpFuhXsZL8lQDeyeUlpGb/5Uu362Lc
+   A0QVfVWjy/Qk6Xg68LKhhADBIID8SDtybOEupwWKE8l6h+liHyicY/XKj
+   zP8ZZC801jBBH+985fCMvGjCJo4wWN8jrF4kBjjLOOY4D1QGHDUNpRi3c
+   D2U/aROIc7ieI9raSlUerYCPknAAc6MTWfqavmDSWZ90rdBXM9wFthSgc
+   mjlME5SeZTGBeFIEloCaW8+AjyEr3BZBQiJVAPYerFhppQ5ImRfa2iVrE
+   ThHOeBYpMZ084CZfFVypIt9O3573/O26TIryhcQna9f8Hr1iiVTrsIjta
    w==;
-X-CSE-ConnectionGUID: LQ7lYePESTKmFiFeWAPqFQ==
-X-CSE-MsgGUID: XOHowlXOSkawNESjnCuUMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="85363360"
+X-CSE-ConnectionGUID: aPCs3NJETvi/Z1mdRSUDFw==
+X-CSE-MsgGUID: 90+ypA9IQr6/5pKsefL3Cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74122028"
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="85363360"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 00:46:00 -0800
-X-CSE-ConnectionGUID: zSHwNokTSVqisG/IuH7AHw==
-X-CSE-MsgGUID: z34IerAsRemhAfEE4eHbvg==
+   d="scan'208";a="74122028"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 00:57:02 -0800
+X-CSE-ConnectionGUID: l8MG32PPQsSJw/DCMBJHPg==
+X-CSE-MsgGUID: 9NZdZu38TZucrW1uJjy40g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="217559622"
+   d="scan'208";a="219420730"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 08 Mar 2026 00:45:59 -0800
+  by orviesa008.jf.intel.com with ESMTP; 08 Mar 2026 00:57:00 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vz9lt-000000002zd-03Qg;
-	Sun, 08 Mar 2026 08:45:57 +0000
-Date: Sun, 8 Mar 2026 16:45:44 +0800
+	id 1vz9wX-00000000307-2gOP;
+	Sun, 08 Mar 2026 08:56:57 +0000
+Date: Sun, 08 Mar 2026 16:56:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/2] drm/ttm: Add EFI variable support for page limit
- configuration
-Message-ID: <202603081613.mnqhlhsZ-lkp@intel.com>
-References: <20260306055439.1822879-2-mario.limonciello@amd.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+ Jiri Kosina <jikos@kernel.org>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: [hid:for-7.1/lenovo 15/16]
+ drivers/hid/hid-lenovo-go-s.c:1175:21: sparse: sparse: symbol
+ 'imu_manufacturer' was not declared. Should it be static?
+Message-ID: <202603081611.J61k8tIx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306055439.1822879-2-mario.limonciello@amd.com>
 
-Hi Mario,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.0-rc2 next-20260306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-ttm-Add-EFI-variable-support-for-page-limit-configuration/20260306-135655
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260306055439.1822879-2-mario.limonciello%40amd.com
-patch subject: [RFC PATCH 1/2] drm/ttm: Add EFI variable support for page limit configuration
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603081613.mnqhlhsZ-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081613.mnqhlhsZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-7.1/lenovo
+head:   d2c424e80caf8237bda4c94bc2e25398967243f9
+commit: 041eadd5f2d207dd1d286747d137a7d896dd7d5c [15/16] HID: hid-lenovo-go-s: Add IMU and Touchpad RO Attributes
+config: arc-randconfig-r113-20260307 (https://download.01.org/0day-ci/archive/20260308/202603081611.J61k8tIx-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081611.J61k8tIx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603081613.mnqhlhsZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603081611.J61k8tIx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+   drivers/hid/hid-lenovo-go-s.c:582:72: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:754:67: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:856:63: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:1000:71: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:1055:74: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:1149:21: sparse: sparse: symbol 'gamepad_poll_rate' was not declared. Should it be static?
+>> drivers/hid/hid-lenovo-go-s.c:1175:21: sparse: sparse: symbol 'imu_manufacturer' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:1178:21: sparse: sparse: symbol 'imu_sensor_enabled' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:1215:21: sparse: sparse: symbol 'mouse_wheel_step' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:1235:21: sparse: sparse: symbol 'touchpad_linux_mode' was not declared. Should it be static?
+>> drivers/hid/hid-lenovo-go-s.c:1239:21: sparse: sparse: symbol 'touchpad_manufacturer' was not declared. Should it be static?
+>> drivers/hid/hid-lenovo-go-s.c:1242:21: sparse: sparse: symbol 'touchpad_version' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:1245:21: sparse: sparse: symbol 'touchpad_windows_mode' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:1307:18: sparse: sparse: symbol 'gos_rgb_subled_info' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:1328:24: sparse: sparse: symbol 'gos_cdev_rgb' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:1344:72: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:1351:73: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:1357:72: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:1364:72: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:1371:73: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:583:21: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/hid/hid-lenovo-go-s.c:582:33: sparse: signed value source
 
->> WARNING: modpost: module ttm uses symbol efivar_lock from namespace EFIVAR, but does not import it.
->> WARNING: modpost: module ttm uses symbol efivar_get_variable from namespace EFIVAR, but does not import it.
->> WARNING: modpost: module ttm uses symbol efivar_unlock from namespace EFIVAR, but does not import it.
+vim +/imu_manufacturer +1175 drivers/hid/hid-lenovo-go-s.c
+
+  1174	
+> 1175	struct gos_cfg_attr imu_manufacturer = { TEST_IMU_MFR };
+  1176	LEGOS_DEVICE_ATTR_RO(imu_manufacturer, "manufacturer", test);
+  1177	
+  1178	struct gos_cfg_attr imu_sensor_enabled = { FEATURE_IMU_ENABLE };
+  1179	LEGOS_DEVICE_ATTR_RW(imu_sensor_enabled, "sensor_enabled", index, gamepad);
+  1180	static DEVICE_ATTR_RO_NAMED(imu_sensor_enabled_index, "sensor_enabled_index");
+  1181	
+  1182	static struct attribute *legos_imu_attrs[] = {
+  1183		&dev_attr_imu_bypass_enabled.attr,
+  1184		&dev_attr_imu_bypass_enabled_index.attr,
+  1185		&dev_attr_imu_manufacturer.attr,
+  1186		&dev_attr_imu_sensor_enabled.attr,
+  1187		&dev_attr_imu_sensor_enabled_index.attr,
+  1188		NULL,
+  1189	};
+  1190	
+  1191	static const struct attribute_group imu_attr_group = {
+  1192		.name = "imu",
+  1193		.attrs = legos_imu_attrs,
+  1194	};
+  1195	
+  1196	/* MCU */
+  1197	static DEVICE_ATTR_RO(mcu_id);
+  1198	
+  1199	struct gos_cfg_attr os_mode = { FEATURE_OS_MODE };
+  1200	LEGOS_DEVICE_ATTR_RW(os_mode, "os_mode", index, gamepad);
+  1201	static DEVICE_ATTR_RO(os_mode_index);
+  1202	
+  1203	static struct attribute *legos_mcu_attrs[] = {
+  1204		&dev_attr_mcu_id.attr,
+  1205		&dev_attr_os_mode.attr,
+  1206		&dev_attr_os_mode_index.attr,
+  1207		NULL,
+  1208	};
+  1209	
+  1210	static const struct attribute_group mcu_attr_group = {
+  1211		.attrs = legos_mcu_attrs,
+  1212	};
+  1213	
+  1214	/* Mouse */
+  1215	struct gos_cfg_attr mouse_wheel_step = { FEATURE_MOUSE_WHEEL_STEP };
+  1216	LEGOS_DEVICE_ATTR_RW(mouse_wheel_step, "step", range, gamepad);
+  1217	static DEVICE_ATTR_RO_NAMED(mouse_wheel_step_range, "step_range");
+  1218	
+  1219	static struct attribute *legos_mouse_attrs[] = {
+  1220		&dev_attr_mouse_wheel_step.attr,
+  1221		&dev_attr_mouse_wheel_step_range.attr,
+  1222		NULL,
+  1223	};
+  1224	
+  1225	static const struct attribute_group mouse_attr_group = {
+  1226		.name = "mouse",
+  1227		.attrs = legos_mouse_attrs,
+  1228	};
+  1229	
+  1230	/* Touchpad */
+  1231	struct gos_cfg_attr touchpad_enabled = { FEATURE_TOUCHPAD_ENABLE };
+  1232	LEGOS_DEVICE_ATTR_RW(touchpad_enabled, "enabled", index, gamepad);
+  1233	static DEVICE_ATTR_RO_NAMED(touchpad_enabled_index, "enabled_index");
+  1234	
+  1235	struct gos_cfg_attr touchpad_linux_mode = { CFG_LINUX_MODE };
+  1236	LEGOS_DEVICE_ATTR_RW(touchpad_linux_mode, "linux_mode", index, touchpad);
+  1237	static DEVICE_ATTR_RO_NAMED(touchpad_linux_mode_index, "linux_mode_index");
+  1238	
+> 1239	struct gos_cfg_attr touchpad_manufacturer = { TEST_TP_MFR };
+  1240	LEGOS_DEVICE_ATTR_RO(touchpad_manufacturer, "manufacturer", test);
+  1241	
+> 1242	struct gos_cfg_attr touchpad_version = { TEST_TP_VER };
+  1243	LEGOS_DEVICE_ATTR_RO(touchpad_version, "version", test);
+  1244	
 
 -- 
 0-DAY CI Kernel Test Service
