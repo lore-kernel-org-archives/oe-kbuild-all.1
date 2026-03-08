@@ -1,178 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB466382F3F;
-	Sun,  8 Mar 2026 13:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A131A3358BC
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 13:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772975738; cv=none; b=mGMskIstD4XxiZVdtec0uueaHiweKUad37ClHzSg6bEJLaWQ9vbx90oaBdahchzFA19pkA+LRddcAtmAphOkAOaBJjJvAhnnUJpIAG1G3Ogw9VR8pdYSsNdVoVWuVrhG1nnlJNbNj7ymq3jhGG1NHM9inKzQq26yWhSSx5xwtDw=
+	t=1772976998; cv=none; b=Q8abyGQfQT6UhzJI9l5SwsNvlTz4YqFK2SlT8HEEZ2TJKZnxUELn65D7L4nKKRoFt7npfh/0gfqkFSNTe5Uc7As5Ips330Zwt5q1hMwqd2elhFuiS7uR8l5r7XNZ4XdtCkw1YEyLAnlJaw8JfdfYgYrvp9wjIQDv+puk4S8MHzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772975738; c=relaxed/simple;
-	bh=Noz2yNrHvJsj/QSS3Rm04Lmfig7379E6JfL6LHpvVs4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m6T0JYu6yaHOoETugV7ywYJCIdlrZzwWYo4979SDu2ApD0kG8AzEsINaXLUz9PYLWmvRc5+mLXjPlBtWtiS6HryNmCFGerWmBAjNfj+q6bf587FmIpJecF5jNgZpY++47iIMas4+58Wqk9WI25ZItjpSTuG/ZEAAfayXN1Zk5k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e72xK18h; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1772976998; c=relaxed/simple;
+	bh=SQbSG/AwI+hbhnJnFiQAhcwztfKlNNx6LgeGua9CfLc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FAODoE+2aB8AEo9Y8Obd4VD9BF6YScmIyRLJEtsgCBPfLNO6dqkopaPJWOOY8YAZNiqDxTrYXSZLnOoJNmAgqg7v6/OWaSxXEMucAOjxuttNiEqRIp1KQLpXQZVt3mBSfIbxBnIw+/2cScQ9OlLGreVF1m6Wyv6upDwdpC1DrpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JTAmhOMJ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e72xK18h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTAmhOMJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772975736; x=1804511736;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Noz2yNrHvJsj/QSS3Rm04Lmfig7379E6JfL6LHpvVs4=;
-  b=e72xK18h9TlWP63tS03LUexJgny53vYw8urloU7dqRAzUjJGLkezjOjj
-   EimKEQCow8Eu87AT8R3q0Xo9ct0X8D8ZTZmXAF25KuWeMeW3eV8RjswJa
-   k9t7di7tzkQamIn9HNyYczAsxFE7+UXf2tnS/hNQlZ1DgGxQZy4EUfJKn
-   idvtK16ZKfP3eFQGS3nqxHJ9uzVcP+Faqx7XR8VoRxG+NWHR/Oo/3+Bdv
-   3ZBWLKqPiP0GYf6DdxPk296EvkFlDpnmJZBnQYURmfS1fcs/slIoKmSze
-   b3IsDHHgwdyuG6D5n214Aa1Mvsdho4qrGzS1g/5mzFHxt6rviNs8dmbfh
-   w==;
-X-CSE-ConnectionGUID: MqNYUSGEQB2SoFjG5af1OQ==
-X-CSE-MsgGUID: oFICffVVRVmv7EyAglEXMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73919663"
+  t=1772976996; x=1804512996;
+  h=date:from:to:cc:subject:message-id;
+  bh=SQbSG/AwI+hbhnJnFiQAhcwztfKlNNx6LgeGua9CfLc=;
+  b=JTAmhOMJa80u2g0BeEVZlaahCLlCoJTPQfeog6gft+IXQfM2FNsHCuTk
+   Rm6fiI2a7Guq/POTX3Z9va3Xr6mA3fGgm31yM9DSt4vL0gRIm2txBXugu
+   crrGFTYrt1sygcd3EvnigQSUltwSxj/yCaCaUOBuN6kdiH880Y4roJvWN
+   j5XwbiyMFNeYnV+S8yOTGgS/fzP4ceweeo9TNBND9BXd4FL1isqw7eSXW
+   VRQoUg/XjQzzQz34dNAp1R61Isreg1uLwKrt7M6tzCRmFMT5+T278JMAV
+   aRMHxicqCSXX48TOiTj2knnNrtsC5kvrvmzSRkdElu57O3CQ/rALVoE16
+   g==;
+X-CSE-ConnectionGUID: C87t5OHRRgKBX1G6znTgAw==
+X-CSE-MsgGUID: 7aOfCfw5QfeSVbMfIaOp6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74065439"
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="73919663"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 06:15:36 -0700
-X-CSE-ConnectionGUID: L7JQtB5zTTG7ChH3nJt9fQ==
-X-CSE-MsgGUID: WMLsvv9FTrSCACcXr/dWWg==
+   d="scan'208";a="74065439"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 06:36:36 -0700
+X-CSE-ConnectionGUID: cwPwWXTISi67uo4DLZVQlQ==
+X-CSE-MsgGUID: QUpo/oGwTHCyTT2Jvb9eNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="249973166"
+   d="scan'208";a="217145395"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Mar 2026 06:15:32 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 08 Mar 2026 06:36:34 -0700
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzDyj-0000000037u-1ijU;
-	Sun, 08 Mar 2026 13:15:29 +0000
-Date: Sun, 8 Mar 2026 21:15:08 +0800
+	id 1vzEJ6-00000000396-2RNw;
+	Sun, 08 Mar 2026 13:36:32 +0000
+Date: Sun, 08 Mar 2026 21:35:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Douglas Freimuth <freimuth@linux.ibm.com>, borntraeger@linux.ibm.com,
-	imbrenda@linux.ibm.com, frankja@linux.ibm.com, david@kernel.org,
-	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-	svens@linux.ibm.com, kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	mjrosato@linux.ibm.com, freimuth@linux.ibm.com
-Subject: Re: [PATCH v1 1/3] Add map/unmap ioctl and clean mappings post-guest
-Message-ID: <202603082108.iY5mWhWR-lkp@intel.com>
-References: <20260308030438.88580-2-freimuth@linux.ibm.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.0-rc 14/81]
+ drivers/net/pcs/pcs-airoha.c:2581:2: warning: unannotated fall-through
+ between switch labels
+Message-ID: <202603082119.iwxGb3Nw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260308030438.88580-2-freimuth@linux.ibm.com>
 
-Hi Douglas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v7.0-rc2]
-[also build test WARNING on linus/master next-20260306]
-[cannot apply to kvms390/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Freimuth/Add-map-unmap-ioctl-and-clean-mappings-post-guest/20260308-110653
-base:   v7.0-rc2
-patch link:    https://lore.kernel.org/r/20260308030438.88580-2-freimuth%40linux.ibm.com
-patch subject: [PATCH v1 1/3] Add map/unmap ioctl and clean mappings post-guest
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603082108.iY5mWhWR-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082108.iY5mWhWR-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc
+head:   dec67054e8b15479a46b90fde303a0112363c7ce
+commit: f28c5171542f5109193fdabe2a7e7b807cfdb78f [14/81] net: pcs: airoha: add PCS driver for Airoha SoC
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603082119.iwxGb3Nw-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082119.iwxGb3Nw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603082108.iY5mWhWR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603082119.iwxGb3Nw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/s390/kvm/interrupt.c:2478:16: warning: unused variable 'flags' [-Wunused-variable]
-    2478 |         unsigned long flags;
-         |                       ^~~~~
->> arch/s390/kvm/interrupt.c:2578:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2578 |                 if (kvm_s390_pv_is_protected(dev->kvm)) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/kvm/interrupt.c:2602:9: note: uninitialized use occurs here
-    2602 |         return ret;
-         |                ^~~
-   arch/s390/kvm/interrupt.c:2578:3: note: remove the 'if' if its condition is always false
-    2578 |                 if (kvm_s390_pv_is_protected(dev->kvm)) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2579 |                         mutex_unlock(&dev->kvm->lock);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2580 |                         break;
-         |                         ~~~~~~
-    2581 |                 }
-         |                 ~
-   arch/s390/kvm/interrupt.c:2561:9: note: initialize the variable 'ret' to silence this warning
-    2561 |         int ret, idx;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+>> drivers/net/pcs/pcs-airoha.c:2581:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    2581 |         default:
+         |         ^
+   drivers/net/pcs/pcs-airoha.c:2581:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    2581 |         default:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/net/pcs/pcs-airoha.c:2581:2: note: insert 'break;' to avoid fall-through
+    2581 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
 
 
-vim +2578 arch/s390/kvm/interrupt.c
+vim +2581 drivers/net/pcs/pcs-airoha.c
 
-  2554	
-  2555	static int modify_io_adapter(struct kvm_device *dev,
-  2556				     struct kvm_device_attr *attr)
-  2557	{
-  2558		struct kvm_s390_io_adapter_req req;
-  2559		struct s390_io_adapter *adapter;
-  2560		__u64 host_addr;
-  2561		int ret, idx;
-  2562	
-  2563		if (copy_from_user(&req, (void __user *)attr->addr, sizeof(req)))
-  2564			return -EFAULT;
-  2565	
-  2566		adapter = get_io_adapter(dev->kvm, req.id);
-  2567		if (!adapter)
-  2568			return -EINVAL;
-  2569		switch (req.type) {
-  2570		case KVM_S390_IO_ADAPTER_MASK:
-  2571			ret = kvm_s390_mask_adapter(dev->kvm, req.id, req.mask);
-  2572			if (ret > 0)
-  2573				ret = 0;
+  2560	
+  2561	static void airoha_pcs_an_restart(struct phylink_pcs *pcs)
+  2562	{
+  2563		struct airoha_pcs_priv *priv = phylink_pcs_to_airoha_pcs_port(pcs);
+  2564	
+  2565		switch (priv->interface) {
+  2566		case PHY_INTERFACE_MODE_SGMII:
+  2567		case PHY_INTERFACE_MODE_1000BASEX:
+  2568		case PHY_INTERFACE_MODE_2500BASEX:
+  2569			regmap_set_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2570					AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2571			udelay(3);
+  2572			regmap_clear_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2573					  AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
   2574			break;
-  2575		case KVM_S390_IO_ADAPTER_MAP:
-  2576		case KVM_S390_IO_ADAPTER_UNMAP:
-  2577			mutex_lock(&dev->kvm->lock);
-> 2578			if (kvm_s390_pv_is_protected(dev->kvm)) {
-  2579				mutex_unlock(&dev->kvm->lock);
-  2580				break;
-  2581			}
-  2582			mutex_unlock(&dev->kvm->lock);
-  2583			idx = srcu_read_lock(&dev->kvm->srcu);
-  2584			host_addr = gpa_to_hva(dev->kvm, req.addr);
-  2585			if (kvm_is_error_hva(host_addr)) {
-  2586				srcu_read_unlock(&dev->kvm->srcu, idx);
-  2587				return -EFAULT;
-  2588				}
-  2589			srcu_read_unlock(&dev->kvm->srcu, idx);
-  2590			if (req.type == KVM_S390_IO_ADAPTER_MAP) {
-  2591				dev->kvm->stat.io_390_adapter_map++;
-  2592				ret = kvm_s390_adapter_map(dev->kvm, req.id, host_addr);
-  2593			} else {
-  2594				dev->kvm->stat.io_390_adapter_unmap++;
-  2595				ret = kvm_s390_adapter_unmap(dev->kvm, req.id, host_addr);
-  2596			}
-  2597			break;
-  2598		default:
-  2599			ret = -EINVAL;
-  2600		}
-  2601	
-  2602		return ret;
-  2603	}
-  2604	
+  2575		case PHY_INTERFACE_MODE_USXGMII:
+  2576			regmap_set_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2577					AIROHA_PCS_USXGMII_AN_RESTART);
+  2578			udelay(3);
+  2579			regmap_clear_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2580					  AIROHA_PCS_USXGMII_AN_RESTART);
+> 2581		default:
+  2582			return;
+  2583		}
+  2584	}
+  2585	
 
 -- 
 0-DAY CI Kernel Test Service
