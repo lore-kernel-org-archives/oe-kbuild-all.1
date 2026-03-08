@@ -1,90 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF2C36C0B0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 09:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239D41D5CFB;
+	Sun,  8 Mar 2026 10:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772963348; cv=none; b=MojmC9+Xt2WkMZPvPwYtgNqSQ5duS1R6sUqPNyOXneUPvGMZt6GYvPG78nQ36Z3znl+dINTO2aubkwXiGpb65DMpA8xRowZkGQVGM/j23zJDOWY007CjN5cdpNknJhZFRXZ8tHEwVi4gA6/dYiyi6LAWyJwx4fQD40j93rVnKgU=
+	t=1772964669; cv=none; b=Khoj3HTllKD121eKPDgcVNJgZKGP0oaj2Jr/fhnFzd9qmS2S/5BoHwXf0ZncnpoTwLv3AQ1Kxmgyx+IR9t84Qh+QJkjHvL13SBb9QL5npJlqvTa+Jv9uepUi9oRYOTBvZ+eOf+Un3JkpEB+AqBnHYno/XdQCyLp5Y6WRGT6UItk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772963348; c=relaxed/simple;
-	bh=bPUkJmdXKo8uBOEUYD7h0zhevbky6Yxzb/RDgOJgSEo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eMaLC75PBGFNSa08KNxaMGwyPU0vvomT9mjzj7ydfAja4B1xTlru9e80y0Y9qYzJNct06zo2x5PLMMsYETIYJX0erxHirE4VBkfLpGBzASmkQOQOE+NdmDZByBBJgG4HilKnTMeoLLM5NniNCB4KRW/tlA97Bb8UHokXGa3/GnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kCVVnloO; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1772964669; c=relaxed/simple;
+	bh=e7VQSTQMtLAY116kGpVCvwpkviv2oXrPqJ9NjU7r+sg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hpuEquwQGBLVXOQx2jbbXlgP1+uih8YJ6kgFmChwZIB/4rTPKWLbchI5AIus7e9YlgqRa7JjS8a5p8hT5ohld6LDU+htXD8Jn7pGdF2GIQb28Z/y/1XIk59c3Lf7F8BEtG2yBb+QPSx6Xuv4khiZEE9JZ6+RkaqmyAetaKYulik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ftSQ9k8C; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCVVnloO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ftSQ9k8C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772963345; x=1804499345;
-  h=date:from:to:cc:subject:message-id;
-  bh=bPUkJmdXKo8uBOEUYD7h0zhevbky6Yxzb/RDgOJgSEo=;
-  b=kCVVnloOg4Sw5M0Z5nTfGkn7qAq8pjz4HkLL5K5V60BgllRYI0KJA6IO
-   5jcIs0SJRnpXB0IuRA1HweSsb0gSKk+DsHJkxr0Gcwhx+1jhAnSWmwYse
-   v8quD62Xn1IekY0I3eQO8xQ/9/dRK2HFm4oWG3llBf8Hp7J/Kz2NPhHrb
-   SgbrVqD6m5DLl7lvE7zYiVC4fvFiaDJItCRSIPe1sT7c6GftoxpTwXFEb
-   UTf1q8ZBlu4XDYjO2yu4Poj1POPy6Ie32r6utLqMIYDdYCBM2r9RZ0rcl
-   oIvQEwXHuwZDnDwRDJfadLoICYqcWsU3bwr7w+ZopOB32xoixghRrqDJJ
-   A==;
-X-CSE-ConnectionGUID: 8aVoWjq7RjqhhQiaZtIodw==
-X-CSE-MsgGUID: ZlXxFJTsRHC6204+TBImBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="61582732"
+  t=1772964666; x=1804500666;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e7VQSTQMtLAY116kGpVCvwpkviv2oXrPqJ9NjU7r+sg=;
+  b=ftSQ9k8Cb9U0qMIg+TqtXYZopgosrR+FHyqyvpe8kT++33XlnA4ddLT3
+   +w55d7uL4YLbOzAuXKJyBXKMQcm4bT6Gnz+N5HqZ3X5Nk4pFEPSXT5qS/
+   CHbAwxqxOx7KYp4XWy+WIdt7mqV85dp2W7ihd80fZVDe99fBA7qVbdDMi
+   VGY0Ly7hmSnMA5APc6Hn/EeH6FK8c1rQKqBlK8qUAI/aWknpaK5WDzX0o
+   WlY1YA0IXFvySbMGWl3RAmij99Wmgp1nbIC73Zt79DIdq4feZYZiUTLVo
+   rqZpEgNIAHfsINmN76rdLpO0HoisDuaivw4ZhZM/CNbt6o0nuVh1GFSzl
+   w==;
+X-CSE-ConnectionGUID: nfAdJyGUQ2S/aXTVE9GdRA==
+X-CSE-MsgGUID: 3NzF5ZX2S2+aLVTO1ezFZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74086087"
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="61582732"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 01:49:04 -0800
-X-CSE-ConnectionGUID: h10TkGJuQ22AqOtc3fPhnQ==
-X-CSE-MsgGUID: Oc0VY7qsQruGSpibkU6+cg==
+   d="scan'208";a="74086087"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 03:11:05 -0700
+X-CSE-ConnectionGUID: KcTc1s/DREKLcWZRphkk/A==
+X-CSE-MsgGUID: poFTVjzPQcyjufj83ZmODA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="257378225"
+   d="scan'208";a="223572702"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 08 Mar 2026 01:49:02 -0800
+  by orviesa003.jf.intel.com with ESMTP; 08 Mar 2026 03:11:02 -0700
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzAks-0000000031B-398q;
-	Sun, 08 Mar 2026 09:48:58 +0000
-Date: Sun, 08 Mar 2026 17:48:30 +0800
+	id 1vzB6A-0000000031R-3zWf;
+	Sun, 08 Mar 2026 10:10:58 +0000
+Date: Sun, 8 Mar 2026 18:10:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Xin Ji <xji@analogixsemi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: [linux-next:master 338/4591] ld.lld: error: undefined
- symbol: usb_role_switch_put
-Message-ID: <202603081714.uBgurk4s-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kernel-dev@igalia.com, intel-xe@lists.freedesktop.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Philipp Stanner <phasta@kernel.org>,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH v7 04/29] drm/sched: Add some scheduling quality unit
+ tests
+Message-ID: <202603081744.gNhsEN20-lkp@intel.com>
+References: <20260306163445.97243-5-tvrtko.ursulin@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306163445.97243-5-tvrtko.ursulin@igalia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
-commit: f81455b2d3327a5685623e7db4050dbbe5513bc3 [338/4591] drm: bridge: anx7625: implement minimal Type-C support
-config: powerpc64-randconfig-r063-20260307 (https://download.01.org/0day-ci/archive/20260308/202603081714.uBgurk4s-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081714.uBgurk4s-lkp@intel.com/reproduce)
+Hi Tvrtko,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-xe/drm-xe-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.0-rc2 next-20260306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-sched-Disallow-initializing-entities-with-no-schedulers/20260307-012142
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260306163445.97243-5-tvrtko.ursulin%40igalia.com
+patch subject: [PATCH v7 04/29] drm/sched: Add some scheduling quality unit tests
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603081744.gNhsEN20-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081744.gNhsEN20-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603081714.uBgurk4s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603081744.gNhsEN20-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: usb_role_switch_put
-   >>> referenced by anx7625.c
-   >>>               drivers/gpu/drm/bridge/analogix/anx7625.o:(anx7625_i2c_remove) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: fwnode_usb_role_switch_get
-   >>> referenced by anx7625.c
-   >>>               drivers/gpu/drm/bridge/analogix/anx7625.o:(anx7625_typec_register) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: usb_role_switch_set_role
-   >>> referenced by anx7625.c
-   >>>               drivers/gpu/drm/bridge/analogix/anx7625.o:(anx7625_typec_set_status) in archive vmlinux.a
+>> drivers/gpu/drm/scheduler/tests/tests_scheduler.c:676:10: error: initializer element is not a compile-time constant
+                                 drm_sched_scheduler_two_clients_attr),
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:224:13: note: expanded from macro 'KUNIT_CASE_PARAM_ATTR'
+                     .attr = attributes, .module_name = KBUILD_MODNAME}
+                             ^~~~~~~~~~
+   1 error generated.
+
+
+vim +676 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+
+   672	
+   673	static struct kunit_case drm_sched_scheduler_two_clients_tests[] = {
+   674		KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_two_clients_test,
+   675				      drm_sched_scheduler_two_clients_gen_params,
+ > 676				      drm_sched_scheduler_two_clients_attr),
+   677		{}
+   678	};
+   679	
 
 -- 
 0-DAY CI Kernel Test Service
