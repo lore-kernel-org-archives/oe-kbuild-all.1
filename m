@@ -1,151 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB267081F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 05:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E0628C871
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 05:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772947042; cv=none; b=Bv/pml3MZgHJc+/NJHOisvySBzSnD1fRHcqOKwu+NO7BI/YfPvi2fA6EMOjZ6M/Hutu7kq5euLbCgzpBT6ptQfQMjXOp6kio5cDlzqkZ16k5qvlMD1cgsKoVG58JfDdk8xD8hfQ9liDD3HnNr1oSnTJLwD5ocR6Yz6FovyDcWAI=
+	t=1772947700; cv=none; b=CT/CysqKa6332Xx3V+U7LZ7PDqWOe/W98g15WK02VrnNVM8wpYi1Ib/mB3+oR9zXcWVWZFRKsBpXR2AisakP0ihPzgQpxMBB5ZKf7d6bxS1lXBQET9OBP9PvDG1RbVK3lO3zfi3FZp+MMfOwCrredE1vWhUI+0NCzN05UKeumiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772947042; c=relaxed/simple;
-	bh=S6zKKAv1818oQHC6PFXV0kOBnRmUIUTHWiAT2Z/rBa4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aP4HzCWBPLJOyKL9wSkQP47YohwTuGzd0RL6TlQMs56UNnIlmdhFblwwD/jqZozNrA4ur5rcV+gx+sBzmGCywhAcIbPQK6gKLybPTH8N6PryMnaXFSJ0zdfDQE0bt+az2Xg35KHSeERVJHXv6U/dZ3uX3BFDYEuCn+PkyvXugvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMtdTDnt; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1772947700; c=relaxed/simple;
+	bh=aIJ2QVEN73RtedGo59+451gw2ars9ubaXrdxo12cczU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=R6sj//tvoWTNyOgQycuKk6k0RCuAWZf+E3CmHLJyztA9ZNVQXqgymwSfCJTJc1TwMzpv1vbz3Oxw3CYh70KjUuatKDEaoopkpERhig6nPQlRJNO21LMaC3ubioptOZ2e0jSu5Bld7neZlMqaFMycIYRvaBjE483YpW0f58gcEuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5/uqooA; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMtdTDnt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5/uqooA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772947040; x=1804483040;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=S6zKKAv1818oQHC6PFXV0kOBnRmUIUTHWiAT2Z/rBa4=;
-  b=kMtdTDntjW35VZ2xntG+mam4AaWXmy4HavpQt88btMnKL/qJdXw5Fa5E
-   8EMp+nSg9HcgS+QqY2I7I6sfMqVYvhZFlyNpHW0quouCcR7NKU8O8+6rf
-   4ODEj2/4DYcBfgvBfcYosj4y6qXb6TTFLNkcUv4v/nyqcJCOFK+qCm7I4
-   xnhLKSgr9GeE5F5ePlF6DHLpwdZHDA904rnVWzNDCFKWo547XZC0zcv5D
-   9jhjB7vZcgUvc34bMbfyYXOqWPHzlS+hOlyrkHQU0eSSSjo9TR4qUdxno
-   nNT0hQn1znqHlqiEfMf9cOOb3AsMfY9CNft3Rb/LQGxN1tKcot/ClECWT
-   w==;
-X-CSE-ConnectionGUID: XVnILTFcTvmc3AT0BenaRQ==
-X-CSE-MsgGUID: MtHIFbyaQbWC/gbkrjD9ww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73201021"
+  t=1772947700; x=1804483700;
+  h=date:from:to:cc:subject:message-id;
+  bh=aIJ2QVEN73RtedGo59+451gw2ars9ubaXrdxo12cczU=;
+  b=D5/uqooAZ0najCUoKv61Ytbe1Q+mfXQNLOkkBsl4B1xH3sRINx1GuyRU
+   tNOo6t7gv55dCq5VI3SXy8R5nVNKkQtFnMgCGr3C2q0+Ioh7T76I9mLCf
+   xp7v5ruXp5Bdop3tz7sEQop0sM7UtnMEXdFY2PwVAhBv6AwEcHIvGbrr4
+   yflPANHFv0iazQvCotERnCV6JIOm6lX87ek3YMtuJUyP8o4aOoMwtoYTE
+   lZ5f6FJ+/q0u9OcH/zhW+GmYB31r1hx888Be0f42SBXZSxGLSJfIJjnbE
+   WZXXfX0mtS5iY5MUJbm+vzz1cONvynRiKBgQ6pdzdV45NzjzZIFAJhU9B
+   g==;
+X-CSE-ConnectionGUID: z5Vcv0PnSf66iwxiYMkOmA==
+X-CSE-MsgGUID: MQbUqabeT9m6gDocZwIykA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73702826"
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="73201021"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 21:17:20 -0800
-X-CSE-ConnectionGUID: tN1zS45cRTqI+UbbVAkkuQ==
-X-CSE-MsgGUID: u2xvDk1nSqm0ogC0ydFr4w==
+   d="scan'208";a="73702826"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 21:28:19 -0800
+X-CSE-ConnectionGUID: Ozrao5iRQPS0UiRlGXq6yQ==
+X-CSE-MsgGUID: MWvoElbUSlGu1ZQD0xFoiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="257332236"
+   d="scan'208";a="249891211"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 07 Mar 2026 21:17:17 -0800
+  by orviesa002.jf.intel.com with ESMTP; 07 Mar 2026 21:28:18 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vz6Vu-000000002dF-2haZ;
-	Sun, 08 Mar 2026 05:17:14 +0000
-Date: Sun, 8 Mar 2026 06:17:05 +0100
+	id 1vz6gY-000000002dJ-2wYU;
+	Sun, 08 Mar 2026 05:28:14 +0000
+Date: Sun, 08 Mar 2026 06:27:30 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
-	horms@kernel.org, Jakub Kicinski <kuba@kernel.org>, hawk@kernel.org,
-	ilias.apalodimas@linaro.org
-Subject: Re: [PATCH net] page_pool: store detach_time as ktime_t to avoid
- false-negatives
-Message-ID: <202603080604.nGijPf4B-lkp@intel.com>
-References: <20260307204022.1897614-1-kuba@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 3/3]
+ arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb:
+ /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible:
+ ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
+Message-ID: <202603080635.9xWuB8Qa-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260307204022.1897614-1-kuba@kernel.org>
 
-Hi Jakub,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/page_pool-store-detach_time-as-ktime_t-to-avoid-false-negatives/20260308-044057
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260307204022.1897614-1-kuba%40kernel.org
-patch subject: [PATCH net] page_pool: store detach_time as ktime_t to avoid false-negatives
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260308/202603080604.nGijPf4B-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080604.nGijPf4B-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   db15f4990be1b8865ae651c9d748d43c91bb9d13
+commit: 0b738a2901f43980fc2307a50a26457be1c8030b [3/3] arm64: dts: marvell: add dts for RIPE Atlas Probe v5
+config: arm64-randconfig-2052-20260226 (https://download.01.org/0day-ci/archive/20260308/202603080635.9xWuB8Qa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080635.9xWuB8Qa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603080604.nGijPf4B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603080635.9xWuB8Qa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   net/core/page_pool_user.c: In function 'page_pool_nl_fill':
->> net/core/page_pool_user.c:248:26: error: implicit declaration of function 'ktime_to_seconds'; did you mean 'ktime_get_seconds'? [-Wimplicit-function-declaration]
-     248 |                          ktime_to_seconds(pool->user.detach_time)))
-         |                          ^~~~~~~~~~~~~~~~
-         |                          ktime_get_seconds
-
-
-vim +248 net/core/page_pool_user.c
-
-   214	
-   215	static int
-   216	page_pool_nl_fill(struct sk_buff *rsp, const struct page_pool *pool,
-   217			  const struct genl_info *info)
-   218	{
-   219		size_t inflight, refsz;
-   220		unsigned int napi_id;
-   221		void *hdr;
-   222	
-   223		hdr = genlmsg_iput(rsp, info);
-   224		if (!hdr)
-   225			return -EMSGSIZE;
-   226	
-   227		if (nla_put_uint(rsp, NETDEV_A_PAGE_POOL_ID, pool->user.id))
-   228			goto err_cancel;
-   229	
-   230		if (pool->slow.netdev->ifindex != LOOPBACK_IFINDEX &&
-   231		    nla_put_u32(rsp, NETDEV_A_PAGE_POOL_IFINDEX,
-   232				pool->slow.netdev->ifindex))
-   233			goto err_cancel;
-   234	
-   235		napi_id = pool->p.napi ? READ_ONCE(pool->p.napi->napi_id) : 0;
-   236		if (napi_id_valid(napi_id) &&
-   237		    nla_put_uint(rsp, NETDEV_A_PAGE_POOL_NAPI_ID, napi_id))
-   238			goto err_cancel;
-   239	
-   240		inflight = page_pool_inflight(pool, false);
-   241		refsz =	PAGE_SIZE << pool->p.order;
-   242		if (nla_put_uint(rsp, NETDEV_A_PAGE_POOL_INFLIGHT, inflight) ||
-   243		    nla_put_uint(rsp, NETDEV_A_PAGE_POOL_INFLIGHT_MEM,
-   244				 inflight * refsz))
-   245			goto err_cancel;
-   246		if (pool->user.detach_time &&
-   247		    nla_put_uint(rsp, NETDEV_A_PAGE_POOL_DETACH_TIME,
- > 248				 ktime_to_seconds(pool->user.detach_time)))
-   249			goto err_cancel;
-   250	
-   251		if (pool->mp_ops && pool->mp_ops->nl_fill(pool->mp_priv, rsp, NULL))
-   252			goto err_cancel;
-   253	
-   254		genlmsg_end(rsp, hdr);
-   255	
-   256		return 0;
-   257	err_cancel:
-   258		genlmsg_cancel(rsp, hdr);
-   259		return -EMSGSIZE;
-   260	}
-   261	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/watchdog@8300: failed to match any schema with compatible: ['marvell,armada-3700-wdt']
+>> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/pinctrl@13800: failed to match any schema with compatible: ['marvell,armada3710-nb-pinctrl', 'syscon', 'simple-mfd']
+>> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pinctrl@13800 (marvell,armada3710-nb-pinctrl): reg: [[79872, 256], [80896, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+>> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/pinctrl@13800/xtal-clk: failed to match any schema with compatible: ['marvell,armada-3700-xtal-clock']
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): False schema does not allow ['xtal']
+   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): clock-names:0: 'mg_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): clock-names: ['xtal'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: phy@18300 (marvell,comphy-a3700): clocks: [[4]] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/marvell,comphy-cp110.yaml
+>> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/pinctrl@18800: failed to match any schema with compatible: ['marvell,armada3710-sb-pinctrl', 'syscon', 'simple-mfd']
+>> arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pinctrl@18800 (marvell,armada3710-sb-pinctrl): reg: [[100352, 256], [101376, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /soc/bus@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: mmc@d8000 (marvell,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon-emmc' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: pcie@d0070000 (marvell,armada-3700-pcie): interrupt-controller: '#address-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/pci/marvell,armada-3700-pcie.yaml
+   arch/arm64/boot/dts/marvell/armada-3720-atlas-v5.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware', 'cznic,turris-mox-rwtm']
 
 -- 
 0-DAY CI Kernel Test Service
