@@ -1,91 +1,111 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7397D3783D0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 13:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7799E3101D0
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 13:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772975738; cv=none; b=BGsPh2Q3XhDi7y0lT+GYZRGZNTv3jqkVPz97ARnuWDFFtwIP6JwLvmYH7b3C0CFavSEj5aS0Hx5JXcCo/5Pd0L7OgjtUIwY9lYqIj/rMEXk2bUeuG2nKkGf3iZYa+AkyxUrRefOwGD0yrlcKyJSBv25JMcVfhc/1DQJtJKrMLyY=
+	t=1772975738; cv=none; b=O+qto6Awu6/pgDizVkAHc+gf/LF4nXbsDFyYuXYbj5+IMfObbLBFDORdnBNzV2xObSUsp4xC3uZAIShNaJ66gQhWGcK6vbdQEP5gTJqO3YhbUulkw3hcnJp1dwDu51gBbGmhrGD7FcQb46mKAsGTwx8ns29nHdvlLosXYqpiMt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772975738; c=relaxed/simple;
-	bh=QFOwJPC4lOS6gREk6J/UlP0uzN+Q2NVjRHrGvM15zvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UNc34CAjxKokU/MsS8OkhK2jkOWU+PCtpGSqweA9w1zXu/t+F2KuO18xqa5VBc288gYzQsV0KsUkTH1VH5ULstPEU2qFOHMnQcKl3ke2/GyWxfalaHmTw6xGDuey7Ixpu44L0pSWWBMbvYrANOJqHe82TC6wDWxGueysbrixx7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KUIwuxgq; arc=none smtp.client-ip=198.175.65.12
+	bh=0GOur689d8dOGKE+EPgs3lS+HUhqtViQTTFNzlXpRPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jy56suKjuPZGdnMqYvhl1yXEX+WbHWf9NWfVphabL02FrmO68wNt4DheSSS1jAtzSnMn5JdC6y2CYM9s6gOc276/+BdFz/ughaxuqjqY7HVAQu9gXJo5ucRhfgc1oNHkVayzo+LYNaxiALcU7pgqmxNOGRU/mx7r+zYb8U6XT9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyfGYFnx; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KUIwuxgq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyfGYFnx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772975735; x=1804511735;
-  h=date:from:to:cc:subject:message-id;
-  bh=QFOwJPC4lOS6gREk6J/UlP0uzN+Q2NVjRHrGvM15zvQ=;
-  b=KUIwuxgq2XXvoC3RTVolP6amFCJhxY4a7o9VQ+6xtmvZtl+arQEsUMut
-   pM/RDhkEuTrlts/LIM1WgfG4V5mSrAXgcFZx8hqEQmIcX2E1XKsCNsFQf
-   g3m7VR3zR4iom1/bH6uPsdIZSknz6p60oTloHxE0boFX958szA3/3Y8T2
-   RxHYl2kMpS4CKcJYWdqb6bw2o6Dry/CxRezA6pBigZA1MMkI1X/18SBls
-   lEv6pdhIpsai4+D9HoPNXginAQR4Rx58I2qLKDnfMR//a7MvyWKZ1qwlj
-   HhkJmiTyAUAQhGGMzdc3XrtdbupEBIRN9yQ/gtASyE9EPNUg8YGH1uvCx
-   g==;
-X-CSE-ConnectionGUID: oJJHrWStSIGA9LFXuRoaoQ==
-X-CSE-MsgGUID: FOoaquFHRY2z5r7ceC6AJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="85492798"
+  t=1772975736; x=1804511736;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=0GOur689d8dOGKE+EPgs3lS+HUhqtViQTTFNzlXpRPo=;
+  b=QyfGYFnx/GtZCu0Kgq3CKSrIHc8lNMWQxHRn9xJHftGBwCarjisFSH2v
+   D4fZDcw+uYtdWFsU4RMl82beTFQRgs4ounXMpx+izztHQFusF5Ou1DLYU
+   XcjJI9XjXYkhdxJ7eWrCF7EQpmRgNkuqkQyOUU3O1y3HXP0sXAVPcQrCi
+   Xo/3OBwhvGo+ArvOdy56PG1QH02cDB3qEu6ZhcMWGBEKT2HsGMRF40XO/
+   2+zTeo6WSXyFEty3ipRnQ+aMtvw2VC1/OIpmxwQgcYlvR1mkCGE8rgWRg
+   vm35zrUeh6bf+Yt2aV9uXW4ypK6I6tpMsNwz0hU6a/tNAOxjSJ9mE/Qcm
+   A==;
+X-CSE-ConnectionGUID: o4SPvLyIQiehtJ/oqcmCMQ==
+X-CSE-MsgGUID: H20ZhjH2SlqF4By5Z1Uhfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="85492800"
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="85492798"
+   d="scan'208";a="85492800"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 06:15:34 -0700
-X-CSE-ConnectionGUID: oVAkjblATV2DW17OnEnCsA==
-X-CSE-MsgGUID: aMPitxXUQGGX6wb+849MdA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 06:15:35 -0700
+X-CSE-ConnectionGUID: /tG/f+c1SiSvDmqnEDYYUA==
+X-CSE-MsgGUID: 6/tRRvMmT16I5XnQZRCMDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="224432013"
+   d="scan'208";a="224432011"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 08 Mar 2026 06:15:32 -0700
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzDyj-0000000037w-1pSa;
+	id 1vzDyj-0000000037s-1ceF;
 	Sun, 08 Mar 2026 13:15:29 +0000
-Date: Sun, 08 Mar 2026 21:15:06 +0800
+Date: Sun, 8 Mar 2026 21:15:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>
-Subject: ld.lld: error: undefined symbol: qcom_mdt_get_size
-Message-ID: <202603082108.FNqpYNlG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Heiner Kallweit <hkallweit1@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Russell King - ARM Linux <linux@armlinux.org.uk>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	David Miller <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH net-next 2/5] net: phy: make mdio_device.c part of libphy
+Message-ID: <202603082137.KWkiQ4Ij-lkp@intel.com>
+References: <8600cf79-7604-43c1-8cc0-306e58e31153@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8600cf79-7604-43c1-8cc0-306e58e31153@gmail.com>
 
-Hi Arnd,
+Hi Heiner,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c23719abc3308df7ed3ad35650ad211fb2d2003d
-commit: 2df158047d532d0e2a6b39953656c738872151a3 ipa: fix compile-testing with qcom-mdt=m
-date:   7 months ago
-config: powerpc64-randconfig-r133-20260307 (https://download.01.org/0day-ci/archive/20260308/202603082108.FNqpYNlG-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082108.FNqpYNlG-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/net-phy-move-mdio_device-reset-handling-functions-in-the-code/20260308-053505
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/8600cf79-7604-43c1-8cc0-306e58e31153%40gmail.com
+patch subject: [PATCH net-next 2/5] net: phy: make mdio_device.c part of libphy
+config: sparc64-randconfig-002-20260308 (https://download.01.org/0day-ci/archive/20260308/202603082137.KWkiQ4Ij-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082137.KWkiQ4Ij-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603082108.FNqpYNlG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603082137.KWkiQ4Ij-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: qcom_mdt_get_size
-   >>> referenced by iris_firmware.c:49 (drivers/media/platform/qcom/iris/iris_firmware.c:49)
-   >>>               drivers/media/platform/qcom/iris/iris_firmware.o:(iris_fw_load) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: qcom_mdt_load
-   >>> referenced by iris_firmware.c:61 (drivers/media/platform/qcom/iris/iris_firmware.c:61)
-   >>>               drivers/media/platform/qcom/iris/iris_firmware.o:(iris_fw_load) in archive vmlinux.a
+   sparc64-linux-ld: drivers/phy/broadcom/phy-bcm-ns-usb3.o: in function `bcm_ns_usb3_mdio_driver_init':
+>> drivers/phy/broadcom/phy-bcm-ns-usb3.c:241: undefined reference to `mdio_driver_register'
+   sparc64-linux-ld: drivers/phy/broadcom/phy-bcm-ns-usb3.o: in function `bcm_ns_usb3_mdio_driver_exit':
+>> drivers/phy/broadcom/phy-bcm-ns-usb3.c:241: undefined reference to `mdio_driver_unregister'
+   sparc64-linux-ld: drivers/phy/broadcom/phy-bcm-ns2-pcie.o: in function `ns2_pci_phy_driver_init':
+>> drivers/phy/broadcom/phy-bcm-ns2-pcie.c:82: undefined reference to `mdio_driver_register'
+   sparc64-linux-ld: drivers/phy/broadcom/phy-bcm-ns2-pcie.o: in function `ns2_pci_phy_driver_exit':
+>> drivers/phy/broadcom/phy-bcm-ns2-pcie.c:82: undefined reference to `mdio_driver_unregister'
+
+
+vim +241 drivers/phy/broadcom/phy-bcm-ns-usb3.c
+
+af850e14a7ae49 drivers/phy/broadcom/phy-bcm-ns-usb3.c Rafał Miłecki 2017-06-08  240  
+36a94760c98954 drivers/phy/broadcom/phy-bcm-ns-usb3.c Rafał Miłecki 2020-11-13 @241  mdio_module_driver(bcm_ns_usb3_mdio_driver);
+e5666281d9eadb drivers/phy/phy-bcm-ns-usb3.c          Rafał Miłecki 2016-08-12  242  
 
 -- 
 0-DAY CI Kernel Test Service
