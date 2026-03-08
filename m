@@ -1,142 +1,196 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C29256C6C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 18:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772996293; cv=pass; b=RbDVad8CPvIdegSOPqyVxi8u/AS+ZGOBM799ags1w/gSqkNFm2hseA9zX3D3dyQbZ2Bzmhs4Aw8Vrtd7ATDyfTslSsz2NWEewP9CMynM4Z6YcfdOxlrLOuoWMKDJmZv9xRqHaa0it+unTLt1uZPSlCrYxxVe1nv/MOieq15toUs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772996293; c=relaxed/simple;
-	bh=J+okUNsU4n0XXov13CjFPOR5tCpWRrmV8oBT26GKEfk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QtfZs00V9PH41t3cKP5j/VfsKdyBdD+/+/jgIXNJXctnIBdgNEZy9XIJ9nEbxhk3ISYo8vLCeFjJQCoaG7GMM5UDI94fWkQ4Uh9k5CXnmx+NMX3yTFRQXK07j/m8Z7lCva2x8EpsFyeCYPreutCs70jDdjknkwil249veWmRg/k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uW8UD+9O; arc=pass smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339F51C8604
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 19:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772997350; cv=none; b=cLFfhu8C1lrr84eD9gGtlnQAm11QsRZxpU+u8H+FBNfJmx50B4SeA2DPy2ocDu2xv8jUCzMfb3k/7trkVdl4LPKYFlzN06BoPXFqLWnIcCmh1h7RLHbjEAen/MtphpCbr0GtzFqRV0oaCVVpiwtB5drfkoV+BW1VGXk5gjAXQAc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772997350; c=relaxed/simple;
+	bh=0xcnpUJJhyqglZeTtTQXfmAqkEBYTAu7DCATQ1iL1xI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EWblw0XNKay9MtPd/if2d7pqGOVUnyYqeF3+3cKpNhobnvLyipLKom+F0qt4aHo0wRSdZ+iVzQhMO7UNLCXxlssXCG2UBrbV2rdZeEAUTkznt/SumEVRgRbbKsdyB4X/meHZ18tOlJFyhj8Ky0UCpeShgFmdjH0/1G2k3yRaYAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R6kp8geV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aDW29QfL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ks+QOowL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L8jvkrQ/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uW8UD+9O"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-127380532eeso8433354c88.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Mar 2026 11:58:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1772996292; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TlQQz3PrQW0D3bJVHoLLxe4JcLjrS6y7btwQYKKJ0/K/G7h/xhi+UKJgem97yH3KVB
-         l8S6/B5E5us+V1dhhxRvEmlTTF2RtWmSOcnWBw9B4a7xJDjfhsgoQp7RJen/YOYAvBtw
-         lfiE5aBZz9RM2eq3Md3AaQ7Vb1b3ziwQzuxB0ktFbs1PfovpHXBG5j4JtjUb2fSxOLWj
-         ssZ5+gX3n6jFV+jmoNxlvXVqMPk0DSR4mwwogWIOSiU+YYZwDG4BxPk0YVE1t6htklmP
-         zx9H/BLZWe0kLKGUnp6938t4/lRVr7ZrmZUYQzoiEAlX07ucO+ZqwNwuOLU0ni6EMiFV
-         bU1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oFOMMYzs+cDnMVZz6rJ8vj6DqKrcVUiqEcJmPl3Msys=;
-        fh=4i0RUPOq1hPUcFgLC+o/f/1YeuwTof3fKyh3nmkzwBA=;
-        b=kYCSCmDZKPa14skSoRAO9tKFG/kQl1K8y3l8JHhO6OW3GkT4LtCa86ZLG0NAJ1mx/i
-         KC6sgds/64V4+mQi+7aZ3yP5gMMByXs+1toRX8R8RnJir4xo82mq1IZxZmaerlXP5Dk9
-         HHZnjnVQthM8XqvgRUeUMw8dgHpLTD2fKM0nz/I18VLFcbXstxLPw6wz/hdv/06lSb0i
-         yNl8XmP7lzPuBqw9BdhqQb9SLye66hsM3pcIMWTUcIbcFKAbQhSG5ssOQvpLYiIcbgLh
-         WymN13ooLje7cswnw6hWSbYBgiH/FcErpzKrxvfojMg6v9IwuvTN240q37O+Ip00V0r0
-         UEjw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772996292; x=1773601092; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oFOMMYzs+cDnMVZz6rJ8vj6DqKrcVUiqEcJmPl3Msys=;
-        b=uW8UD+9OhiSJ7CGUDkQn5ts7ZOrPmthBEOWub4Vj+R/aJj1dKpcezw8771tKlj9ifK
-         bE59I1ziRVknqHeSm2XimH13yL0O0iY8IwG3yl+2qRFyd/kRIFVnyOVhsKG+9FRXLr9T
-         cR50qwTMwAPh9buWuWF4EhT6ZGYzeWnx7lypYdO4A1WeY45I0siO9MUaOBpSW3Jc2jOI
-         +bmJMqlLvXs++Iiv8OcppPZWT94qXkRVQof26SfZfsbN3vpi/Tygdu5Ak4XpRNV6CuZJ
-         VPeUCPthCTZleb2Gl4LHHWha/TSrBXHXWkhrX3sMsEN/GaubQJdt1FDbkyDPHXcTFYmN
-         RqTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772996292; x=1773601092;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oFOMMYzs+cDnMVZz6rJ8vj6DqKrcVUiqEcJmPl3Msys=;
-        b=VYbzwF808Gsu5IFm2+2WD04PpwbdcuvTA2C7xMimhKILIMQsv0HUMGfRUowuweLd18
-         U5zZ+xFuqm+xAwpUKo9yjzSdSJnYEklSN9RUSa8BoiuLsyabYHBznTvNRAJ4NFboYD93
-         idAYL6Wt60BabAojIw0m3tMeA26m//NEC1nj5jIcX6X8v0D09W9HcvnDOV0yUDjcxZmM
-         h/FtomZ/MoRgNYwPCNsSHkjzdiZVwJeBNH90yqTb38Zh9c7J5+j8ykC2/ETsFxPCG54o
-         WnrwHPB5rA7hYcBiRD93gxCXYLS/POBwn6RY+6A0zE1lvDCNOFWhOqYLIe4okugrxrIw
-         LDYw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4hkK8vO9ALZGzuV0h7PDsAde6GDrv0Z2RJU/tUGUwK1rd9lOW60q7NiPvXvFw48EQQkYa7+CLj4ZbtjHX@lists.linux.dev
-X-Gm-Message-State: AOJu0YxjH+unO/mIjgdLL46DipiFDmI27hmaBmD4Ckr/P7ooa71RZ6JS
-	nmXiIFwNU9nNgqa5IVmbfSey0GQB06tYce4Yym7NmT8rEQxNx7yEWy9ETAC3AdXJemVQ6js8+ME
-	f0BIuYWu+f1Ze0sk2RiT7Xj6N7DslDdrwrXDIAPTk
-X-Gm-Gg: ATEYQzwTPDdyjtkGQ64wyWQkV3a29OiC1lKuut91UDtsrjrPllOUbTAz+Zn922Dv2EU
-	6HrZnPsjSxtUvSCiU2LLjIpQDHHHpvaAhgQxdsVKTCs0MR/J90EBJ/0Xn41fk84219YFQbEnbkM
-	xaxruapXYAh7OwTNkG+9SB/wH78fw/LueZQ1NL6+1ykJKYG4nK744/OAuJG2itlGg7bHPxkYIGL
-	O27nUNtVR4JvIGVhu5zFqB1pWvN8neNdTJoXrqzARBVlMC55Mm//q2HlQ8KWoHSrxh9Uzxsku7c
-	yIRO+Kd9sRQmIxXT3iEFToTh1uexSH/7vDIo4Y/Mapj6iAEeByzyYoBgDoKyOl697btMLcUI
-X-Received: by 2002:a05:7022:6714:b0:122:153:d161 with SMTP id
- a92af1059eb24-128c2dff0b4mr4373551c88.17.1772996291360; Sun, 08 Mar 2026
- 11:58:11 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R6kp8geV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aDW29QfL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ks+QOowL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L8jvkrQ/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ACAB64D1CF;
+	Sun,  8 Mar 2026 19:15:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772997341; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VeBPRksXezAse70Tt+7ogKv9pcDKaJDTH4Vt2LPwsrM=;
+	b=R6kp8geVWMvTCc7lSX4xJk5spsmoDVNDUDahX+1vYjO5veg2xR+Vct2SJ8Hd+2nDcC9hq0
+	R2ksgQHbVKjhY1SBEONdtrEZ+Mop6rwuXjUR5Z8TiVt6bOtTht3eP3n7q3weAlvL8COVSr
+	F6X2kuOrVdwWLaF5icIkD/MUXV9uNDk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772997341;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VeBPRksXezAse70Tt+7ogKv9pcDKaJDTH4Vt2LPwsrM=;
+	b=aDW29QfLTqmp8aJIQe9GOayjEqFIHrk70wOqHFmrwfuk8aB0mSXnxeXG99BPkvi8Ssz6Ok
+	g4+gDfSb5pOybGBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ks+QOowL;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="L8jvkrQ/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772997340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VeBPRksXezAse70Tt+7ogKv9pcDKaJDTH4Vt2LPwsrM=;
+	b=ks+QOowL75YH/uYe6or9S1dujLV3zUw3AgYe3jrvuPLZ3USnVI4zgRMYaRbCm3+nMgT+Ju
+	27wBbTCWvjgfrMNKnQ8apHTMmRyMWyG5HplEPxppMDW7qEu6y0mtG7FqY3Btk7ZcFMnPXY
+	E9d2DY170/j8boBEDedHvLcbK0n2eTE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772997340;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VeBPRksXezAse70Tt+7ogKv9pcDKaJDTH4Vt2LPwsrM=;
+	b=L8jvkrQ/ZbG5egK9aWqinnafR+gc2TJ9dfYNH7n0s5K2o65QrIwNzsDJwCPskGhwFrUhCk
+	aJxkomPgtAYCTTAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 60C953EAC4;
+	Sun,  8 Mar 2026 19:15:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PZXcE9zKrWkiDgAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Sun, 08 Mar 2026 19:15:40 +0000
+Message-ID: <ea2aaffb-c124-4fcb-9070-a13603f06393@suse.de>
+Date: Sun, 8 Mar 2026 20:15:32 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260308032304.1841198-3-kuniyu@google.com> <202603082250.0lR88YW6-lkp@intel.com>
-In-Reply-To: <202603082250.0lR88YW6-lkp@intel.com>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Sun, 8 Mar 2026 11:58:00 -0700
-X-Gm-Features: AaiRm50gvdwjwEaFZ30chmoDyx4QO3rQoJKA6k3uOdzy-9ih5FaZdPvPg0Wecpk
-Message-ID: <CAAVpQUC3q-m_RR4qvkN_tNt6CKA-8tmQttMaxVy+HjQpXf==hQ@mail.gmail.com>
-Subject: Re: [PATCH v2 net 2/2] ipv6: Don't remove permanent routes with
- exceptions from tb6_gc_hlist.
+User-Agent: Mozilla Thunderbird
+Subject: Re: net/netfilter/nft_synproxy.c:51:40: sparse: sparse: cast to
+ non-scalar
 To: kernel test robot <lkp@intel.com>
-Cc: David Ahern <dsahern@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Kui-Feng Lee <thinker.li@gmail.com>, Xin Long <lucien.xin@gmail.com>, 
-	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Florian Westphal <fw@strlen.de>
+References: <202603082002.ACHbGTsI-lkp@intel.com>
+Content-Language: en-US
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+In-Reply-To: <202603082002.ACHbGTsI-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -5.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: ACAB64D1CF
 
-On Sun, Mar 8, 2026 at 7:50=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Kuniyuki,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/=
-ipv6-Remove-permanent-routes-from-tb6_gc_hlist-when-all-exceptions-expire/2=
-0260308-113030
-> base:   net/main
-> patch link:    https://lore.kernel.org/r/20260308032304.1841198-3-kuniyu%=
-40google.com
-> patch subject: [PATCH v2 net 2/2] ipv6: Don't remove permanent routes wit=
-h exceptions from tb6_gc_hlist.
-> config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/202=
-60308/202603082250.0lR88YW6-lkp@intel.com/config)
-> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c=
-32caeec8158d634bb71ab8911a6031248b9fc47)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260308/202603082250.0lR88YW6-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+
+
+On 3/8/26 1:21 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   c23719abc3308df7ed3ad35650ad211fb2d2003d
+> commit: 36a3200575642846a96436d503d46544533bb943 netfilter: nft_synproxy: avoid possible data-race on update operation
+> date:   9 weeks ago
+> config: alpha-randconfig-r132-20260308 (https://download.01.org/0day-ci/archive/20260308/202603082002.ACHbGTsI-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 8.5.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082002.ACHbGTsI-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603082250.0lR88YW6-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> net/ipv6/addrconf.c:1282:5: error: call to undeclared function 'fib6_a=
-dd_gc_list'; ISO C99 and later do not support implicit function declaration=
-s [-Wimplicit-function-declaration]
->     1282 |                                 fib6_add_gc_list(f6i);
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603082002.ACHbGTsI-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>>> net/netfilter/nft_synproxy.c:51:40: sparse: sparse: cast to non-scalar
+>>> net/netfilter/nft_synproxy.c:51:40: sparse: sparse: cast from non-scalar
+>     net/netfilter/nft_synproxy.c:82:40: sparse: sparse: cast to non-scalar
+>     net/netfilter/nft_synproxy.c:82:40: sparse: sparse: cast from non-scalar
+> 
 
-Ugh, apparently I should've used IS_ENABLE()...
-Will fix it.
+Hi,
 
-Sorry for noise !
+Is this a false positive? nf_synproxy_info struct is smaller than the 
+word size and therefore READ_ONCE() should be fine. I guess I can use 
+READ_ONCE() for every struct field.
+
+What do you think Florian?
+
+Thanks,
+Fernando.
+
+> vim +51 net/netfilter/nft_synproxy.c
+> 
+>      43	
+>      44	static void nft_synproxy_eval_v4(const struct nft_synproxy *priv,
+>      45					 struct nft_regs *regs,
+>      46					 const struct nft_pktinfo *pkt,
+>      47					 const struct tcphdr *tcp,
+>      48					 struct tcphdr *_tcph,
+>      49					 struct synproxy_options *opts)
+>      50	{
+>    > 51		struct nf_synproxy_info info = READ_ONCE(priv->info);
+>      52		struct net *net = nft_net(pkt);
+>      53		struct synproxy_net *snet = synproxy_pernet(net);
+>      54		struct sk_buff *skb = pkt->skb;
+>      55	
+>      56		if (tcp->syn) {
+>      57			/* Initial SYN from client */
+>      58			nft_synproxy_tcp_options(opts, tcp, snet, &info, priv);
+>      59			synproxy_send_client_synack(net, skb, tcp, opts);
+>      60			consume_skb(skb);
+>      61			regs->verdict.code = NF_STOLEN;
+>      62		} else if (tcp->ack) {
+>      63			/* ACK from client */
+>      64			if (synproxy_recv_client_ack(net, skb, tcp, opts,
+>      65						     ntohl(tcp->seq))) {
+>      66				consume_skb(skb);
+>      67				regs->verdict.code = NF_STOLEN;
+>      68			} else {
+>      69				regs->verdict.code = NF_DROP;
+>      70			}
+>      71		}
+>      72	}
+>      73	
+> 
+
