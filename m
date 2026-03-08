@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3F3288510;
-	Sun,  8 Mar 2026 05:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB267081F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 05:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772946442; cv=none; b=Vt3YwxSLqC5QY2vTwfTDUmqp341n1wuy8ayTlS6+re5rfqm/xM5GfNAeDvq/pEI0ZKycPv0GT4AbytSOe7TzBkxUp3Ks2o1NQLKO5DEau4AZn4osn70csjR0Os1c2n4iyYygkAWLQNAbAaLzvx614ep8qMQ8IGJVh0MmTP0FT9w=
+	t=1772947042; cv=none; b=Bv/pml3MZgHJc+/NJHOisvySBzSnD1fRHcqOKwu+NO7BI/YfPvi2fA6EMOjZ6M/Hutu7kq5euLbCgzpBT6ptQfQMjXOp6kio5cDlzqkZ16k5qvlMD1cgsKoVG58JfDdk8xD8hfQ9liDD3HnNr1oSnTJLwD5ocR6Yz6FovyDcWAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772946442; c=relaxed/simple;
-	bh=PoRRun1BrhuZi8h7yUzp/FrTozKQZcf2gZHWG2DVOMY=;
+	s=arc-20240116; t=1772947042; c=relaxed/simple;
+	bh=S6zKKAv1818oQHC6PFXV0kOBnRmUIUTHWiAT2Z/rBa4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U96N8KF4EBX8pZKULIDfymP5UVLypO5/P/pjTisPTpYnjY2XIdKETGKMblalmDZW5m1fqUhilgOhFiX1XPtQvgw3gitHbMB4fu1f5720XlFwOyZmY0GG1RDTQHoNsZw5lOgEONNkjsIy0jDe+LCSKTDgr0RDqBjpSstR4xnE14E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GY3oOv45; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=aP4HzCWBPLJOyKL9wSkQP47YohwTuGzd0RL6TlQMs56UNnIlmdhFblwwD/jqZozNrA4ur5rcV+gx+sBzmGCywhAcIbPQK6gKLybPTH8N6PryMnaXFSJ0zdfDQE0bt+az2Xg35KHSeERVJHXv6U/dZ3uX3BFDYEuCn+PkyvXugvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMtdTDnt; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GY3oOv45"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMtdTDnt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772946440; x=1804482440;
+  t=1772947040; x=1804483040;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PoRRun1BrhuZi8h7yUzp/FrTozKQZcf2gZHWG2DVOMY=;
-  b=GY3oOv45tddSmNHK0iEdbUNGW43YI7Kt/5gA1lKh1p0cDZAgEQ1eXYLW
-   8FUd6m18oPYfE6kLb9pkWZhCR340JJsTN5QeHmNxezfRDLlNJkbxet2f/
-   5GQYdEY+r+ah144fMrs6oB3a8sZdUUM2SZ7+y9h7pq58VpooiFILovNtm
-   3MxBlVVJFuBdaU9K1JOBdIGYEFe0xqjSH9EOnMZ/0sVIvVq6O+T3PHN+5
-   596T/s3wd2kWmjE10CIuYBgNSmn6k1e3QXla9IeuRF/kB0bb93DEeT6xu
-   yC6hLFV2zl1QLqt49lhQKZNICM8nXT1x/Fhks0UArCWrPyjNsKIQt/XA7
-   g==;
-X-CSE-ConnectionGUID: bDz1K2tXTsi+EoXnPaMf2w==
-X-CSE-MsgGUID: 9Fd92V7vRjKrVCjkugwVEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="84329234"
+  bh=S6zKKAv1818oQHC6PFXV0kOBnRmUIUTHWiAT2Z/rBa4=;
+  b=kMtdTDntjW35VZ2xntG+mam4AaWXmy4HavpQt88btMnKL/qJdXw5Fa5E
+   8EMp+nSg9HcgS+QqY2I7I6sfMqVYvhZFlyNpHW0quouCcR7NKU8O8+6rf
+   4ODEj2/4DYcBfgvBfcYosj4y6qXb6TTFLNkcUv4v/nyqcJCOFK+qCm7I4
+   xnhLKSgr9GeE5F5ePlF6DHLpwdZHDA904rnVWzNDCFKWo547XZC0zcv5D
+   9jhjB7vZcgUvc34bMbfyYXOqWPHzlS+hOlyrkHQU0eSSSjo9TR4qUdxno
+   nNT0hQn1znqHlqiEfMf9cOOb3AsMfY9CNft3Rb/LQGxN1tKcot/ClECWT
+   w==;
+X-CSE-ConnectionGUID: XVnILTFcTvmc3AT0BenaRQ==
+X-CSE-MsgGUID: MtHIFbyaQbWC/gbkrjD9ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73201021"
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="84329234"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 21:07:19 -0800
-X-CSE-ConnectionGUID: yvAT1GjpSTauFybyja8tCw==
-X-CSE-MsgGUID: HiLVP5tFQKqisV/SxtTzcg==
+   d="scan'208";a="73201021"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 21:17:20 -0800
+X-CSE-ConnectionGUID: tN1zS45cRTqI+UbbVAkkuQ==
+X-CSE-MsgGUID: u2xvDk1nSqm0ogC0ydFr4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="223527466"
+   d="scan'208";a="257332236"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 07 Mar 2026 21:07:17 -0800
+  by orviesa001.jf.intel.com with ESMTP; 07 Mar 2026 21:17:17 -0800
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vz6ME-000000002dB-2Tlg;
-	Sun, 08 Mar 2026 05:07:14 +0000
-Date: Sun, 8 Mar 2026 06:06:35 +0100
+	id 1vz6Vu-000000002dF-2haZ;
+	Sun, 08 Mar 2026 05:17:14 +0000
+Date: Sun, 8 Mar 2026 06:17:05 +0100
 From: kernel test robot <lkp@intel.com>
 To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, horms@kernel.org,
-	Jakub Kicinski <kuba@kernel.org>, hawk@kernel.org,
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
+	horms@kernel.org, Jakub Kicinski <kuba@kernel.org>, hawk@kernel.org,
 	ilias.apalodimas@linaro.org
 Subject: Re: [PATCH net] page_pool: store detach_time as ktime_t to avoid
  false-negatives
-Message-ID: <202603080650.SZhWEYVL-lkp@intel.com>
+Message-ID: <202603080604.nGijPf4B-lkp@intel.com>
 References: <20260307204022.1897614-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -79,28 +78,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/page_pool-
 base:   net/main
 patch link:    https://lore.kernel.org/r/20260307204022.1897614-1-kuba%40kernel.org
 patch subject: [PATCH net] page_pool: store detach_time as ktime_t to avoid false-negatives
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260308/202603080650.SZhWEYVL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080650.SZhWEYVL-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260308/202603080604.nGijPf4B-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080604.nGijPf4B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603080650.SZhWEYVL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603080604.nGijPf4B-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/core/page_pool_user.c:248:5: error: call to undeclared function 'ktime_to_seconds'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   net/core/page_pool_user.c: In function 'page_pool_nl_fill':
+>> net/core/page_pool_user.c:248:26: error: implicit declaration of function 'ktime_to_seconds'; did you mean 'ktime_get_seconds'? [-Wimplicit-function-declaration]
      248 |                          ktime_to_seconds(pool->user.detach_time)))
-         |                          ^
-   net/core/page_pool_user.c:248:5: note: did you mean 'ktime_get_seconds'?
-   include/linux/timekeeping.h:59:17: note: 'ktime_get_seconds' declared here
-      59 | extern time64_t ktime_get_seconds(void);
-         |                 ^
-   1 error generated.
+         |                          ^~~~~~~~~~~~~~~~
+         |                          ktime_get_seconds
 
 
-vim +/ktime_to_seconds +248 net/core/page_pool_user.c
+vim +248 net/core/page_pool_user.c
 
    214	
    215	static int
