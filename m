@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C789A7262F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 02:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8594C1FBEA6
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 02:37:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772937460; cv=none; b=UfVLpherwbl7/OQuUTQ4fuxmrpwYo+Px/XXy5vcmyQKWFgT96iy8rR4BJ8ldEiUlRJ6bGLErXJ75uA8z5LFOQ0F7KMZIzBIedCYK2uxlnGK7yzG6dd/4+m6L6X4Bg2k4TBqn6yU9cYhUqQZAy33EPzraoPWuAiA0xHJ5c3GRrHM=
+	t=1772937462; cv=none; b=gy5Bujs4/EVSTh5bi+Mu/tI0sR6R+g0z7WOyVCYOqW9Ayv/x2KWvzQk2xkp2Q+66SIdPthZNvT2gin/QpHhgZNXit6psyb66PPY0Sa+/GBZK+7RKFwlMoJajbV48nP1tq6xmJ48eQC0Rn1gUHakzgjfAp1Bkgp++VSA3ockx0zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772937460; c=relaxed/simple;
-	bh=BtLKeu1HLsZ5FLJOakM0RhNYVRPZOsPvRIcEzKHoea0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=I49AMLR3NXCGaj9raiVabb1czr7te3t0HEoy9oGHa7K5QhOPJVFcJOkg8JzMmBGpsAEaqLKqUssTI5eC+lZgoczKmnZH0qRkjnhQgowS+XsZvAYHd7iMf+xxiVJGeoSWcwIULeGqjjM/pI+l7G71DDgmFSq913IcNPQCnSGjGCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NgmvrEEQ; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1772937462; c=relaxed/simple;
+	bh=0/q0iz8B03RaU9USCuiioHgEj9qaf9h6pqPz+VE7jLc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WGgpwhrB/unUOnPqBE4DaJ0jaGMaPJ6OS1pH1vphXurYb8zKm6TN75OBw4DWqXuPsFSClcG08j84oti1HEO3vqZk97+XTnP9//FWUOIAzOP3zfkqK9ICNTUE8YUA8qymVPWoUGBy3rzH9wfONm6LQFJsSp5fiW2TgErLl27/W7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AC9tBzeK; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NgmvrEEQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AC9tBzeK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1772937458; x=1804473458;
   h=date:from:to:cc:subject:message-id;
-  bh=BtLKeu1HLsZ5FLJOakM0RhNYVRPZOsPvRIcEzKHoea0=;
-  b=NgmvrEEQVKalnbbifK2j2wpmBOm4QIuz23Rm4zNy0rxkB2Hrkhnauwxe
-   /O1PTLHXT9MKzOQ8GzAuYDiLmygkzEDY+hBQjl9oLL7Y352bzx2KsALWA
-   gBkdCG3MJOfGneEqY6JEoABuQCTBA6Uc5u5UP+ofZ9UTMnVXv4/3odfhw
-   L1TanJueGLYhpLlSx3Z+YAOL77n6bXb1IVMH0CiiAqJVBnsRRXN7nIfiw
-   COV3JOtg6X7aknjyHCIiGvLf1Kwnab9TbqAu5V6LGISuBzO3+8WS2oltp
-   ZE9UTVupfPDNEo6R20ewRY2wxV7UqHe9VLIpSogTRAtuLIRmVsTzLt5Vy
-   g==;
-X-CSE-ConnectionGUID: 1EanJEueTaaXV4O2Hu65bQ==
-X-CSE-MsgGUID: I/vIVAk6Rd6te4GaD5IlQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="61572688"
+  bh=0/q0iz8B03RaU9USCuiioHgEj9qaf9h6pqPz+VE7jLc=;
+  b=AC9tBzeKTP0sa4pPq4vM9l4slqqzJHju8KYnMgWuLmH5Vji+l5uYaf6A
+   Pg43SjPUUzNBrwcsgsTT3Fe22NA9WE9bM+jGfyTGw9G3jCUHiRL4nikdA
+   ODfo04lQvCOzbzoJabHcFARHKyoUVl4GYfteP3Nh/Upib4TW2iQodMF9x
+   o0kM1kizxEpec2G248cRfD/+R5fHmvRmwvG06+YM3fnMV2ykCv2jsQUND
+   Ro3OtvsMunBC2dUpgKUzsPNSmYox90O2GRpxYgP4UgPzA/dAvUtOQS2wQ
+   NR2Pz4NnHkeVnW6Cu6DnKsr+gsWk9CNbNfRjn6Bb9ZfxXdmKG+rDWVJCs
+   A==;
+X-CSE-ConnectionGUID: rU/0qSt8S82D61IE10V9KA==
+X-CSE-MsgGUID: /ONNcJeVQweQ/FFQgxlB+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="61572690"
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="61572688"
+   d="scan'208";a="61572690"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 18:37:37 -0800
-X-CSE-ConnectionGUID: QQinbTKASrKZCMVjbPQRNw==
-X-CSE-MsgGUID: 0dZhmCDOSXGAOO5Vsa8gUA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 18:37:38 -0800
+X-CSE-ConnectionGUID: pMbxf3ZRR6ewkw+I+tw+Og==
+X-CSE-MsgGUID: IAqaNfrXTt2o+nSw7Xt+Yg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="216421822"
+   d="scan'208";a="216421824"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 07 Mar 2026 18:37:36 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vz41N-000000002q9-1dmD;
+	id 1vz41N-000000002qB-1kQz;
 	Sun, 08 Mar 2026 02:37:33 +0000
-Date: Sun, 08 Mar 2026 10:37:11 +0800
+Date: Sun, 08 Mar 2026 10:37:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 1571/1602] Warning:
- fs/bcachefs/journal/journal.c:736 function parameter 'flags' not described in
- 'bch2_journal_flush_seq_async'
-Message-ID: <202603081045.I1qlSPuv-lkp@intel.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+ Jiri Kosina <jikos@kernel.org>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: [hid:for-7.1/lenovo 13/16]
+ drivers/hid/hid-lenovo-go-s.c:795:21: sparse: sparse: symbol
+ 'touchpad_linux_mode' was not declared. Should it be static?
+Message-ID: <202603081041.UgxXYvsF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,21 +62,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   c84c3bb0c47f4c7b194291beb8a399598b151e54
-commit: a0168a474528cc64bf290cf20399e714161f4538 [1571/1602] bcachefs: Pass BCH_WATERMARK_reclaim when discards require journal flush
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603081045.I1qlSPuv-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081045.I1qlSPuv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-7.1/lenovo
+head:   d2c424e80caf8237bda4c94bc2e25398967243f9
+commit: f3ac4e11aaf3cd334d7f2cb205851bd157a2535f [13/16] HID: hid-lenovo-go-s: Add Touchpad Mode Attributes
+config: arc-randconfig-r113-20260307 (https://download.01.org/0day-ci/archive/20260308/202603081041.UgxXYvsF-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081041.UgxXYvsF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603081045.I1qlSPuv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603081041.UgxXYvsF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/hid/hid-lenovo-go-s.c:447:72: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:619:67: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:713:21: sparse: sparse: symbol 'gamepad_poll_rate' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:739:21: sparse: sparse: symbol 'imu_sensor_enabled' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:775:21: sparse: sparse: symbol 'mouse_wheel_step' was not declared. Should it be static?
+>> drivers/hid/hid-lenovo-go-s.c:795:21: sparse: sparse: symbol 'touchpad_linux_mode' was not declared. Should it be static?
+>> drivers/hid/hid-lenovo-go-s.c:799:21: sparse: sparse: symbol 'touchpad_windows_mode' was not declared. Should it be static?
+   drivers/hid/hid-lenovo-go-s.c:832:72: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:839:73: sparse: sparse: Using plain integer as NULL pointer
+   drivers/hid/hid-lenovo-go-s.c:448:21: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/hid/hid-lenovo-go-s.c:447:33: sparse: signed value source
 
->> Warning: fs/bcachefs/journal/journal.c:736 function parameter 'flags' not described in 'bch2_journal_flush_seq_async'
+vim +/touchpad_linux_mode +795 drivers/hid/hid-lenovo-go-s.c
+
+   794	
+ > 795	struct gos_cfg_attr touchpad_linux_mode = { CFG_LINUX_MODE };
+   796	LEGOS_DEVICE_ATTR_RW(touchpad_linux_mode, "linux_mode", index, touchpad);
+   797	static DEVICE_ATTR_RO_NAMED(touchpad_linux_mode_index, "linux_mode_index");
+   798	
+ > 799	struct gos_cfg_attr touchpad_windows_mode = { CFG_WINDOWS_MODE };
+   800	LEGOS_DEVICE_ATTR_RW(touchpad_windows_mode, "windows_mode", index, touchpad);
+   801	static DEVICE_ATTR_RO_NAMED(touchpad_windows_mode_index, "windows_mode_index");
+   802	
 
 -- 
 0-DAY CI Kernel Test Service
