@@ -1,70 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613E41E32CF
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 14:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D776016FF37;
+	Sun,  8 Mar 2026 14:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772980664; cv=none; b=fKr9HaW7NPM1O3g+IcgsXu1yyZBF1sP6awoE5eJd/hKo1GD5ihtM99T8l8T9frNFeCClGPlW0bZ744vtFzOdckQrl4ZPvrhZpVpG5cxCNBj5u1aSvMJiDET2G1ZKUNORL865WDH4+mbB325l89al0cFcpNQWYoikE1tuYzM+zgc=
+	t=1772981442; cv=none; b=gWGP2fNX5vCWl00lfmqHhiBcnGFIvLJiXCGGX+QArFDxT/ZX46zdpd/BhxsGhYx7Ru8+BlhZQstei4x1TEw8VGvtSwszFo2MGop9hOBQmb03WRpRJ7aI8k1D6Q/1dzeF8wFjIhw1GeNBl9M1mHCYZ/sNAXEM++GocsLpMlPjrKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772980664; c=relaxed/simple;
-	bh=texYecOx1G6VAtPnt/oo5M8yOZE/OMC31g9BmuVmDjo=;
+	s=arc-20240116; t=1772981442; c=relaxed/simple;
+	bh=ya7IGQQMqrpD1PRzjzeApYjZ3tn4leNLkyn1Vk0Gk6g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=umYH6IDfQJGehMqy1x7Z/YXFGDuAcHFo8ttMQzZZHwcc8alRxLpEmNUBV5Fim7UFywBMHGLvm84+H/GC/uQzzgEjjZRuNDEPAaaLjrcrrDfh8omC74OaGrm30zFYg5RVmT7TB1m3PyxRqwhTDWLcpAjcHT/z2hzsk8zC1Jxi89A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GoWVOWpw; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=UND2jWBVrZyPlY9bKyiKAUeoJmOd8q8unt/+AJChdnNUT0mTX+wVd5vmHB88xG0nTPkr7bsU7JWS6EtV+nWxSfoe9SCI32lLW8RKO6M3BL6dMsIqkCNCh52PEDIeC/Z2cKjN98SdqoZ9cYUVUZSLCpm8FkjkGlwHReZSrOahTZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEPUjMWD; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GoWVOWpw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEPUjMWD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772980662; x=1804516662;
+  t=1772981441; x=1804517441;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=texYecOx1G6VAtPnt/oo5M8yOZE/OMC31g9BmuVmDjo=;
-  b=GoWVOWpwg22BHqQyK9L0InPLAn2p1CSpIOQ0G6Eocm4XRDQm2rj4R9+Z
-   PeYmkU21ovli0pGB9Cc54feF8XaLGjQUKgummBt/MdQE7in9Y52TzSdm9
-   5Y9DoxMR5pmBkI0tNE/CAz/HMly9bALHO1yTLBJH9llnJ5Vd550G8yD3I
-   86NI0E9DsSVVVLHQ/wKeG/3nxPmdpvI9SObtUxKCnVdjpCRd3t38BiHzS
-   V4X0LfRvxqrfPVrCUQct3kuXZAR6P3z4QjLjWPsrImr8lPuc6zoUNsCjO
-   rP+qCT4S4kDa8DdtzjGKYAAu5qx7LJ30P8eTi8YIx7lNkiZ5FYmVfSDuo
-   w==;
-X-CSE-ConnectionGUID: s8uGNRlNS5e8kxoVxmiBBQ==
-X-CSE-MsgGUID: A9Oad3TWS/6elfg5sq6uNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="77874576"
+  bh=ya7IGQQMqrpD1PRzjzeApYjZ3tn4leNLkyn1Vk0Gk6g=;
+  b=KEPUjMWDopl5aQhKm07H50+i2huJgKK1qmtz+fnis31eZqEPhpTw5tLH
+   nNM44L+M5x/l8UKzCQ134RAOyKMIl/CTtiLeFmKtaa6M0i0mDgVRBXZ7l
+   x/pmXud4GXiTiE53PlCanzgODgaO8ByYZz8JuZN75i3d3AYUmsK4UudnP
+   6fLauztGPM5I9euoLalFA8+UazKOYFIunlnP8u5ndTohEvUCboUshNJhn
+   cGNoDfURWmvry5Ug+cIHmKjYVkCmABGYtr7MND+r4AvGBnMlVDdtCw60R
+   GVdkEVxwLI6OvCJWy4XfHNZCvrpI2GyeNC27Veg8NTZnNL4Mg4FNTi8aj
+   Q==;
+X-CSE-ConnectionGUID: Ld3yWt5CTTeSZwslqCW++Q==
+X-CSE-MsgGUID: fAUesEYSRdu5iJQ8L8AMJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="73895176"
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="77874576"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 07:37:42 -0700
-X-CSE-ConnectionGUID: WQ/8v7cSQzGZqRBE+4dG4g==
-X-CSE-MsgGUID: CT/JL0eFTuavVzxt61I/Fw==
+   d="scan'208";a="73895176"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 07:50:40 -0700
+X-CSE-ConnectionGUID: x704P8jhRDWQLxRpxHzN9Q==
+X-CSE-MsgGUID: Dwld1+/FT/aOTS1BS5Ylyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="219455261"
+   d="scan'208";a="217609807"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Mar 2026 07:37:37 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 08 Mar 2026 07:50:37 -0700
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzFGA-000000003Am-0sOb;
-	Sun, 08 Mar 2026 14:37:34 +0000
-Date: Sun, 8 Mar 2026 22:37:32 +0800
+	id 1vzFSk-000000003BE-2seO;
+	Sun, 08 Mar 2026 14:50:34 +0000
+Date: Sun, 8 Mar 2026 22:50:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Koskovich <AKoskovich@pm.me>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alexander Koskovich <akoskovich@pm.me>
-Subject: Re: [PATCH 2/2] drm/panel: Add support for Tianma TA066VVHM03 panel
-Message-ID: <202603082223.61KVemAP-lkp@intel.com>
-References: <20260308-tianma-ta066vvhm03-v1-2-869fac443b20@pm.me>
+To: Kuniyuki Iwashima <kuniyu@google.com>, David Ahern <dsahern@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kui-Feng Lee <thinker.li@gmail.com>,
+	Xin Long <lucien.xin@gmail.com>, Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 net 2/2] ipv6: Don't remove permanent routes with
+ exceptions from tb6_gc_hlist.
+Message-ID: <202603082250.0lR88YW6-lkp@intel.com>
+References: <20260308032304.1841198-3-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,108 +69,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260308-tianma-ta066vvhm03-v1-2-869fac443b20@pm.me>
+In-Reply-To: <20260308032304.1841198-3-kuniyu@google.com>
 
-Hi Alexander,
+Hi Kuniyuki,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 11439c4635edd669ae435eec308f4ab8a0804808]
+[auto build test ERROR on net/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Koskovich/dt-bindings-display-panel-Document-Tianma-TA066VVHM03/20260308-140525
-base:   11439c4635edd669ae435eec308f4ab8a0804808
-patch link:    https://lore.kernel.org/r/20260308-tianma-ta066vvhm03-v1-2-869fac443b20%40pm.me
-patch subject: [PATCH 2/2] drm/panel: Add support for Tianma TA066VVHM03 panel
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603082223.61KVemAP-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082223.61KVemAP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/ipv6-Remove-permanent-routes-from-tb6_gc_hlist-when-all-exceptions-expire/20260308-113030
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260308032304.1841198-3-kuniyu%40google.com
+patch subject: [PATCH v2 net 2/2] ipv6: Don't remove permanent routes with exceptions from tb6_gc_hlist.
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603082250.0lR88YW6-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082250.0lR88YW6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603082223.61KVemAP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603082250.0lR88YW6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c: In function 'tianma_ta066vvhm03_probe':
->> drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c:335:12: error: 'struct mipi_dsi_device' has no member named 'dsc_slice_per_pkt'
-     335 |         dsi->dsc_slice_per_pkt = 2;
-         |            ^~
+>> net/ipv6/addrconf.c:1282:5: error: call to undeclared function 'fib6_add_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1282 |                                 fib6_add_gc_list(f6i);
+         |                                 ^
+   net/ipv6/addrconf.c:2862:6: error: call to undeclared function 'fib6_add_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2862 |                                         fib6_add_gc_list(rt);
+         |                                         ^
+>> net/ipv6/addrconf.c:2865:6: error: call to undeclared function 'fib6_may_remove_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2865 |                                         fib6_may_remove_gc_list(net, rt);
+         |                                         ^
+   net/ipv6/addrconf.c:4843:4: error: call to undeclared function 'fib6_may_remove_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4843 |                         fib6_may_remove_gc_list(net, f6i);
+         |                         ^
+   net/ipv6/addrconf.c:4846:4: error: call to undeclared function 'fib6_add_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4846 |                         fib6_add_gc_list(f6i);
+         |                         ^
+   5 errors generated.
+--
+>> net/ipv6/route.c:1036:4: error: call to undeclared function 'fib6_may_remove_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1036 |                         fib6_may_remove_gc_list(net, rt);
+         |                         ^
+>> net/ipv6/route.c:1039:4: error: call to undeclared function 'fib6_add_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1039 |                         fib6_add_gc_list(rt);
+         |                         ^
+   net/ipv6/route.c:1786:3: error: call to undeclared function 'fib6_add_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1786 |                 fib6_add_gc_list(f6i);
+         |                 ^
+   3 errors generated.
+--
+>> net/ipv6/ip6_fib.c:1073:2: error: call to undeclared function 'fib6_remove_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1073 |         fib6_remove_gc_list(rt);
+         |         ^
+>> net/ipv6/ip6_fib.c:1136:6: error: call to undeclared function 'fib6_may_remove_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1136 |                                         fib6_may_remove_gc_list(info->nl_net, iter);
+         |                                         ^
+>> net/ipv6/ip6_fib.c:1139:6: error: call to undeclared function 'fib6_add_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1139 |                                         fib6_add_gc_list(iter);
+         |                                         ^
+   net/ipv6/ip6_fib.c:1546:4: error: call to undeclared function 'fib6_add_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1546 |                         fib6_add_gc_list(rt);
+         |                         ^
+   net/ipv6/ip6_fib.c:2360:3: error: call to undeclared function 'fib6_remove_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2360 |                 fib6_remove_gc_list(rt);
+         |                 ^
+   5 errors generated.
+--
+>> net/ipv6/ndisc.c:1405:3: error: call to undeclared function 'fib6_add_gc_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1405 |                 fib6_add_gc_list(rt);
+         |                 ^
+   1 error generated.
 
 
-vim +335 drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c
+vim +/fib6_add_gc_list +1282 net/ipv6/addrconf.c
 
-   286	
-   287	static int tianma_ta066vvhm03_probe(struct mipi_dsi_device *dsi)
-   288	{
-   289		struct device *dev = &dsi->dev;
-   290		struct tianma_ta066vvhm03 *ctx;
-   291		int ret;
-   292	
-   293		ctx = devm_drm_panel_alloc(dev, struct tianma_ta066vvhm03, panel,
-   294					   &tianma_ta066vvhm03_panel_funcs,
-   295					   DRM_MODE_CONNECTOR_DSI);
-   296		if (IS_ERR(ctx))
-   297			return PTR_ERR(ctx);
-   298	
-   299		ret = devm_regulator_bulk_get_const(dev,
-   300						    ARRAY_SIZE(tianma_ta066vvhm03_supplies),
-   301						    tianma_ta066vvhm03_supplies,
-   302						    &ctx->supplies);
-   303		if (ret < 0)
-   304			return ret;
-   305	
-   306		ctx->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
-   307		if (IS_ERR(ctx->enable_gpio))
-   308			return dev_err_probe(dev, PTR_ERR(ctx->enable_gpio),
-   309					     "Failed to get enable-gpios\n");
-   310	
-   311		ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-   312		if (IS_ERR(ctx->reset_gpio))
-   313			return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-   314					     "Failed to get reset-gpios\n");
-   315	
-   316		ctx->dsi = dsi;
-   317		mipi_dsi_set_drvdata(dsi, ctx);
-   318	
-   319		dsi->lanes = 4;
-   320		dsi->format = MIPI_DSI_FMT_RGB888;
-   321		dsi->mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET |
-   322				  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-   323	
-   324		ctx->panel.prepare_prev_first = true;
-   325	
-   326		ctx->panel.backlight = tianma_ta066vvhm03_create_backlight(dsi);
-   327		if (IS_ERR(ctx->panel.backlight))
-   328			return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-   329					     "Failed to create backlight\n");
-   330	
-   331		drm_panel_add(&ctx->panel);
-   332	
-   333		/* This panel only supports DSC; unconditionally enable it */
-   334		dsi->dsc = &ctx->dsc;
- > 335		dsi->dsc_slice_per_pkt = 2;
-   336	
-   337		ctx->dsc.dsc_version_major = 1;
-   338		ctx->dsc.dsc_version_minor = 1;
-   339	
-   340		ctx->dsc.slice_height = 20;
-   341		ctx->dsc.slice_width = 540;
-   342		WARN_ON(1080 % ctx->dsc.slice_width);
-   343		ctx->dsc.slice_count = 1080 / ctx->dsc.slice_width;
-   344		ctx->dsc.bits_per_component = 10;
-   345		ctx->dsc.bits_per_pixel = 8 << 4; /* 4 fractional bits */
-   346		ctx->dsc.block_pred_enable = true;
-   347	
-   348		ret = mipi_dsi_attach(dsi);
-   349		if (ret < 0) {
-   350			drm_panel_remove(&ctx->panel);
-   351			return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-   352		}
-   353	
-   354		return 0;
-   355	}
-   356	
+5b84efecb7d939d Thomas Haller 2014-01-15  1262  
+5b84efecb7d939d Thomas Haller 2014-01-15  1263  static void
+d0098e4c6b83e50 Hangbin Liu   2020-03-03  1264  cleanup_prefix_route(struct inet6_ifaddr *ifp, unsigned long expires,
+d0098e4c6b83e50 Hangbin Liu   2020-03-03  1265  		     bool del_rt, bool del_peer)
+5b84efecb7d939d Thomas Haller 2014-01-15  1266  {
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08  1267  	struct fib6_table *table;
+93c2fb253d177a0 David Ahern   2018-04-18  1268  	struct fib6_info *f6i;
+5b84efecb7d939d Thomas Haller 2014-01-15  1269  
+d0098e4c6b83e50 Hangbin Liu   2020-03-03  1270  	f6i = addrconf_get_prefix_route(del_peer ? &ifp->peer_addr : &ifp->addr,
+d0098e4c6b83e50 Hangbin Liu   2020-03-03  1271  					ifp->prefix_len,
+2b2450ca4a2d9d7 David Ahern   2019-03-27  1272  					ifp->idev->dev, 0, RTF_DEFAULT, true);
+93c2fb253d177a0 David Ahern   2018-04-18  1273  	if (f6i) {
+5b84efecb7d939d Thomas Haller 2014-01-15  1274  		if (del_rt)
+11dd74b338bf83f Roopa Prabhu  2020-04-27  1275  			ip6_del_rt(dev_net(ifp->idev->dev), f6i, false);
+5b84efecb7d939d Thomas Haller 2014-01-15  1276  		else {
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08  1277  			if (!(f6i->fib6_flags & RTF_EXPIRES)) {
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08  1278  				table = f6i->fib6_table;
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08  1279  				spin_lock_bh(&table->tb6_lock);
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08  1280  
+93c2fb253d177a0 David Ahern   2018-04-18  1281  				fib6_set_expires(f6i, expires);
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08 @1282  				fib6_add_gc_list(f6i);
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08  1283  
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08  1284  				spin_unlock_bh(&table->tb6_lock);
+5eb902b8e7193cd Kui-Feng Lee  2024-02-08  1285  			}
+93c2fb253d177a0 David Ahern   2018-04-18  1286  			fib6_info_release(f6i);
+5b84efecb7d939d Thomas Haller 2014-01-15  1287  		}
+5b84efecb7d939d Thomas Haller 2014-01-15  1288  	}
+5b84efecb7d939d Thomas Haller 2014-01-15  1289  }
+5b84efecb7d939d Thomas Haller 2014-01-15  1290  
 
 -- 
 0-DAY CI Kernel Test Service
