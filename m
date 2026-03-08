@@ -1,88 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D889288A2;
-	Sun,  8 Mar 2026 21:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285B91DFE22
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 22:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773004782; cv=none; b=lm0sZNSn9iVla6VI5/Rkl/qCCrn4bFYM9jSdBxk1y+EgFMwLSN7VS9JNFda4eJ2XhPQjoXdFwP+j4c3CerZ+JqSmMKE59lwOw/UlWHKf3UvFL/KBjB+ubGaksEQV0FLMXWtamQSPYtCkisJ/wrx4/eD1CRU+ldNH8EJOMvPaQKM=
+	t=1773010345; cv=none; b=BZKKm3Z5u17XGowYyvRXqrUIce6vD+zPQo4duMwYxakI6k3JHcPRnz/zh+I49SU5VTkwDzNUaq4Cg7/cgWJsLLQeSLw7m5RtuuOIQ9BisiuuFFbJqLJo8GY/SK5kNxPxsK0GRVzHQ4wmRKun5kRNRs8U43u9rMO6pFMIZGr08Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773004782; c=relaxed/simple;
-	bh=KaIM6uppfpewOmxL9KYkE+WipHc364p2EAFsaV09DXc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=YlvFn6pl1vf0i5Gf2CvQezTO6W88sKq176MB/jPyTJWCAVeE/ehlvnNJwIHdxUS/AmBMQlQeQGn6ee7dy/5a4FM23jFk8Py2grbFcN0fAhU+uDxTasU1U+8YdtQMnxH/sCpaolyKzCvJ0wIexp/nRo4GnCxgICkGKYQpCLAVVhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=diu2qG3H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773010345; c=relaxed/simple;
+	bh=40O8+2xLmTUWNuyOr06ng8Cz3WetegocvuaONC5bpAE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BMvb1d2I+w6tl6joK2lvbtE+e8WeMIVOkpKkOl+/RbYI4+qEuV9PUITao6bWGn60UvLcTwbcL9bGRFsx+wUZmblQ50wP29T2xqIyfS5TIPCPfY2gW+4lfCQTLCTaqWICVk5gxbIs6Q+sXO24AZD96r+K+DowVYpouPq/Ne64L/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFalNif+; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="diu2qG3H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69EF0C116C6;
-	Sun,  8 Mar 2026 21:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1773004781;
-	bh=KaIM6uppfpewOmxL9KYkE+WipHc364p2EAFsaV09DXc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=diu2qG3H0beC7fhBLaYTjH7wGD9ALJfbw9xBRm2G8HcuBpZHIivqkJYjptqysymlf
-	 Pbh5bRigRx5FnAQHYOBvrc9TaAdmiZ5UvGty67+/iyXE3i6kUgeoAQLxSSWpzJXT6V
-	 sgdA/ebUTaW/6zYM4n3ukhizzROyEv8TwzfstAJs=
-Date: Sun, 8 Mar 2026 14:19:40 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Jianhui Zhou <jianhuizzzzz@gmail.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, Linux
- Memory Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-unstable 34/207] fs/binfmt_elf.c:1140:17: warning:
- implicit conversion from 'unsigned long long' to 'unsigned long' changes
- value from 4294967296 to 0
-Message-Id: <20260308141940.0cfd8a176e643b3a6ce49f1f@linux-foundation.org>
-In-Reply-To: <202603072018.Dl1xONhs-lkp@intel.com>
-References: <202603072018.Dl1xONhs-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFalNif+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773010344; x=1804546344;
+  h=date:from:to:cc:subject:message-id;
+  bh=40O8+2xLmTUWNuyOr06ng8Cz3WetegocvuaONC5bpAE=;
+  b=KFalNif+LSan8moT37L4Hv3L3cRhcAYD8FdcziDD/S8oFRJVwk2nn+f6
+   Tj114aPWe0MEwXuNY2HSG5/SDPMd1J+n90QKvN1+wVJRWzTg28DtHC1v3
+   GEM+Vf46Lf3DMnoaU4Ir+QQL+qpsIsOdd3ibmj7o8vI4WV7xzUSqxZIvy
+   4AXfsjeIyr/tEVXEwBCNxJ+H/NaDV7zeNB8pvJFrhHgJUun7UjeXVERv1
+   AkWY5TYbvcvWIvEbiRlL73OAdHFnH4ajrhO35hgIIFdWAAAK49gmWKPcT
+   JhV5xv0OZKAqiF2+srIjb6s1xQBJ7Wj3E8fvJP2/ZWp5PqV7NRX2F0cAs
+   A==;
+X-CSE-ConnectionGUID: udZ6eDmVSnCKcQ/Mwn240Q==
+X-CSE-MsgGUID: /UL8m/OVRDW4uCrS0OXIQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="76636097"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="76636097"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 15:52:24 -0700
+X-CSE-ConnectionGUID: 7azNBhlhQNujGuBFDGjKDw==
+X-CSE-MsgGUID: IkMNNRFESB2xku31H0/B9A==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 08 Mar 2026 15:52:22 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vzMyy-000000002jb-2JMj;
+	Sun, 08 Mar 2026 22:52:20 +0000
+Date: Sun, 08 Mar 2026 23:51:39 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 3/3]
+ arch/arm64/boot/dts/apm/apm-merlin.dtb: /hwmonslimpro: failed to match any
+ schema with compatible: ['apm,xgene-slimpro-hwmon']
+Message-ID: <202603082350.DsAN7zeO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Sat, 07 Mar 2026 20:21:02 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   db15f4990be1b8865ae651c9d748d43c91bb9d13
+commit: 676af08386e44fd6ea42b43db4c130bf04f36d92 [3/3] arm64: dts: apm-shadowcat: Move slimpro nodes out of "simple-bus" node
+config: arm64-randconfig-2052-20260226 (https://download.01.org/0day-ci/archive/20260308/202603082350.DsAN7zeO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082350.DsAN7zeO-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   49cb736d092aaa856283e33b78ec3afb3964d82f
-> commit: cd9119a9480d9d93fdf06792f8f9917cc4f9999c [34/207] mm/userfaultfd: fix hugetlb fault mutex hash calculation
-> config: powerpc-currituck_defconfig (https://download.01.org/0day-ci/archive/20260307/202603072018.Dl1xONhs-lkp@intel.com/config)
-> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260307/202603072018.Dl1xONhs-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603072018.Dl1xONhs-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from fs/binfmt_elf.c:31:
->    include/linux/hugetlb.h:1214:9: error: call to undeclared function 'linear_page_index'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     1214 |         return linear_page_index(vma, address);
->          |                ^
->    In file included from fs/binfmt_elf.c:32:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603082350.DsAN7zeO-lkp@intel.com/
 
-Thanks, I expect v2 will fix this.
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['apm,strega']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /cpus/cpu@1: failed to match any schema with compatible: ['apm,strega']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /cpus/cpu@100: failed to match any schema with compatible: ['apm,strega']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /cpus/cpu@101: failed to match any schema with compatible: ['apm,strega']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /cpus/cpu@200: failed to match any schema with compatible: ['apm,strega']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /cpus/cpu@201: failed to match any schema with compatible: ['apm,strega']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /cpus/cpu@300: failed to match any schema with compatible: ['apm,strega']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /cpus/cpu@301: failed to match any schema with compatible: ['apm,strega']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /i2cslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-i2c']
+>> arch/arm64/boot/dts/apm/apm-merlin.dtb: /hwmonslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-hwmon']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: soc (simple-bus): reboot@17000014: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: socplldiv2 (fixed-factor-clock): #clock-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-factor-clock.yaml
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/edac@78800000: failed to match any schema with compatible: ['apm,xgene-edac']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/edac@78800000/edacmc@7e800000: failed to match any schema with compatible: ['apm,xgene-edac-mc']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/edac@78800000/edacmc@7e840000: failed to match any schema with compatible: ['apm,xgene-edac-mc']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/edac@78800000/edacmc@7e880000: failed to match any schema with compatible: ['apm,xgene-edac-mc']
 
---- a/include/linux/hugetlb.h~mm-userfaultfd-fix-hugetlb-fault-mutex-hash-calculation-v2
-+++ a/include/linux/hugetlb.h
-@@ -1208,12 +1208,6 @@ static inline unsigned int huge_page_shi
- 	return PAGE_SHIFT;
- }
- 
--static inline pgoff_t vma_hugecache_offset(struct hstate *h,
--		struct vm_area_struct *vma, unsigned long address)
--{
--	return linear_page_index(vma, address);
--}
--
- static inline bool hstate_is_gigantic(struct hstate *h)
- {
- 	return false;
-_
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
