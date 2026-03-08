@@ -1,121 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A131A3358BC
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 13:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41FB248F68
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 13:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772976998; cv=none; b=Q8abyGQfQT6UhzJI9l5SwsNvlTz4YqFK2SlT8HEEZ2TJKZnxUELn65D7L4nKKRoFt7npfh/0gfqkFSNTe5Uc7As5Ips330Zwt5q1hMwqd2elhFuiS7uR8l5r7XNZ4XdtCkw1YEyLAnlJaw8JfdfYgYrvp9wjIQDv+puk4S8MHzM=
+	t=1772977599; cv=none; b=gx9CkzobA9sDaaBmCCRURjPYJouTIQg87GgyWT0INuZ++ckvejRq0MTa7bO1qJEygSJcI+ln3D1aTTyMNM4oOP275pQ9AKY43Fyjivs75CLW1lJ78xjrhcBPg4CaHEnIdjeGNPxF7D7o5x4KUEUfGhMNVZinTr8nHT2aIajfvK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772976998; c=relaxed/simple;
-	bh=SQbSG/AwI+hbhnJnFiQAhcwztfKlNNx6LgeGua9CfLc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FAODoE+2aB8AEo9Y8Obd4VD9BF6YScmIyRLJEtsgCBPfLNO6dqkopaPJWOOY8YAZNiqDxTrYXSZLnOoJNmAgqg7v6/OWaSxXEMucAOjxuttNiEqRIp1KQLpXQZVt3mBSfIbxBnIw+/2cScQ9OlLGreVF1m6Wyv6upDwdpC1DrpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JTAmhOMJ; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1772977599; c=relaxed/simple;
+	bh=PdK6NzSqMxpy6PuMw4rKInckwR3C7Ocggp3KZjJz824=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g9eJLSv2b3a34ksvcwX4+lWOhLlOW+D2t6t6RQpYDpnxr5uShR2ZccRwUqwI7hRDHlCf7vCSqr+kXpAvjBS/oFu0Qo0r7Ks4E9+LP8nMfZDQlgT64CbGs3brTQRRNmISow5Fm8XqXhdamCE07EMnFMKh/SA2ty26uSFC2nAmxAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDDFzbP6; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTAmhOMJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDDFzbP6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772976996; x=1804512996;
-  h=date:from:to:cc:subject:message-id;
-  bh=SQbSG/AwI+hbhnJnFiQAhcwztfKlNNx6LgeGua9CfLc=;
-  b=JTAmhOMJa80u2g0BeEVZlaahCLlCoJTPQfeog6gft+IXQfM2FNsHCuTk
-   Rm6fiI2a7Guq/POTX3Z9va3Xr6mA3fGgm31yM9DSt4vL0gRIm2txBXugu
-   crrGFTYrt1sygcd3EvnigQSUltwSxj/yCaCaUOBuN6kdiH880Y4roJvWN
-   j5XwbiyMFNeYnV+S8yOTGgS/fzP4ceweeo9TNBND9BXd4FL1isqw7eSXW
-   VRQoUg/XjQzzQz34dNAp1R61Isreg1uLwKrt7M6tzCRmFMT5+T278JMAV
-   aRMHxicqCSXX48TOiTj2knnNrtsC5kvrvmzSRkdElu57O3CQ/rALVoE16
-   g==;
-X-CSE-ConnectionGUID: C87t5OHRRgKBX1G6znTgAw==
-X-CSE-MsgGUID: 7aOfCfw5QfeSVbMfIaOp6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74065439"
+  t=1772977597; x=1804513597;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PdK6NzSqMxpy6PuMw4rKInckwR3C7Ocggp3KZjJz824=;
+  b=gDDFzbP6V8Gm9Yfugebk93vF7fvzL5cgQ/t4T7mmPfR8PN9SYfMiqOat
+   /tZgjE4tfcCmW/R2Au2USo6gMHux2LwjXThVb0xRgATqe7DcR9tL3gbEr
+   3YRRe82Y2LhgjRKnoBoUnUsSoxWaORYQzxQDnTDnhGA36zBWPMPiZrR+u
+   jamy27BX8tEuln2u13V+rJU1mZf5IkXXk1kZA+w13EPBfNOIFNSQW0Vcl
+   MWZnvWPWh3jPwBPoG3ZOOGWCS4FOyXKqL/4MAs3SJZJqkzENsSLc5TLwA
+   MHOxI3IgiI8IHd8fdIkRwKotHtdxtzF/DoPWZ7vqb/4A39WxSZiEdgj0O
+   A==;
+X-CSE-ConnectionGUID: k+iYOLUhTg2bhm4U0U6omA==
+X-CSE-MsgGUID: x4JASR1+T1iI5KbmkI10dw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73892328"
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="74065439"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 06:36:36 -0700
-X-CSE-ConnectionGUID: cwPwWXTISi67uo4DLZVQlQ==
-X-CSE-MsgGUID: QUpo/oGwTHCyTT2Jvb9eNA==
+   d="scan'208";a="73892328"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 06:46:36 -0700
+X-CSE-ConnectionGUID: Q+qJnUScT0SKAVNsXpi6iQ==
+X-CSE-MsgGUID: 83tYA8dSR6GbDF1JFMpjYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="217145395"
+   d="scan'208";a="223601694"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Mar 2026 06:36:34 -0700
+  by orviesa003.jf.intel.com with ESMTP; 08 Mar 2026 06:46:35 -0700
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzEJ6-00000000396-2RNw;
-	Sun, 08 Mar 2026 13:36:32 +0000
-Date: Sun, 08 Mar 2026 21:35:56 +0800
+	id 1vzESm-0000000039Y-3yCZ;
+	Sun, 08 Mar 2026 13:46:32 +0000
+Date: Sun, 8 Mar 2026 21:46:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Brian Masney <bmasney@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.0-rc 14/81]
- drivers/net/pcs/pcs-airoha.c:2581:2: warning: unannotated fall-through
- between switch labels
-Message-ID: <202603082119.iwxGb3Nw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH RFC v5 2/4] clk: test: introduce test suite for sibling
+ rate changes on a divider
+Message-ID: <202603082131.EH1YuBck-lkp@intel.com>
+References: <20260306-clk-scaling-v5-2-d21b84ee6f27@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306-clk-scaling-v5-2-d21b84ee6f27@redhat.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc
-head:   dec67054e8b15479a46b90fde303a0112363c7ce
-commit: f28c5171542f5109193fdabe2a7e7b807cfdb78f [14/81] net: pcs: airoha: add PCS driver for Airoha SoC
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603082119.iwxGb3Nw-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082119.iwxGb3Nw-lkp@intel.com/reproduce)
+Hi Brian,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/clk-test-introduce-clk_dummy_div-for-a-mock-divider/20260307-074328
+base:   fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d
+patch link:    https://lore.kernel.org/r/20260306-clk-scaling-v5-2-d21b84ee6f27%40redhat.com
+patch subject: [PATCH RFC v5 2/4] clk: test: introduce test suite for sibling rate changes on a divider
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603082131.EH1YuBck-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082131.EH1YuBck-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603082119.iwxGb3Nw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603082131.EH1YuBck-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/pcs/pcs-airoha.c:2581:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-    2581 |         default:
-         |         ^
-   drivers/net/pcs/pcs-airoha.c:2581:2: note: insert '__attribute__((fallthrough));' to silence this warning
-    2581 |         default:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   drivers/net/pcs/pcs-airoha.c:2581:2: note: insert 'break;' to avoid fall-through
-    2581 |         default:
-         |         ^
-         |         break; 
-   1 warning generated.
+   drivers/clk/clk_test.c: In function 'clk_rate_change_sibling_div_div_test_init':
+>> drivers/clk/clk_test.c:686:33: error: 'HZ_PER_MHZ' undeclared (first use in this function)
+     686 |         ctx->parent.rate = 24 * HZ_PER_MHZ;
+         |                                 ^~~~~~~~~~
+   drivers/clk/clk_test.c:686:33: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/clk/clk_test.c: In function 'clk_test_rate_change_sibling_div_div_1':
+   drivers/clk/clk_test.c:735:49: error: 'HZ_PER_MHZ' undeclared (first use in this function)
+     735 |         ret = clk_set_rate(ctx->child1_clk, 6 * HZ_PER_MHZ);
+         |                                                 ^~~~~~~~~~
+   drivers/clk/clk_test.c: In function 'clk_test_rate_change_sibling_div_div_2':
+   drivers/clk/clk_test.c:756:50: error: 'HZ_PER_MHZ' undeclared (first use in this function)
+     756 |         ret = clk_set_rate(ctx->child1_clk, 48 * HZ_PER_MHZ);
+         |                                                  ^~~~~~~~~~
+   drivers/clk/clk_test.c: In function 'clk_test_rate_change_sibling_div_div_3':
+   drivers/clk/clk_test.c:783:50: error: 'HZ_PER_MHZ' undeclared (first use in this function)
+     783 |         ret = clk_set_rate(ctx->child1_clk, 32 * HZ_PER_MHZ);
+         |                                                  ^~~~~~~~~~
 
 
-vim +2581 drivers/net/pcs/pcs-airoha.c
+vim +/HZ_PER_MHZ +686 drivers/clk/clk_test.c
 
-  2560	
-  2561	static void airoha_pcs_an_restart(struct phylink_pcs *pcs)
-  2562	{
-  2563		struct airoha_pcs_priv *priv = phylink_pcs_to_airoha_pcs_port(pcs);
-  2564	
-  2565		switch (priv->interface) {
-  2566		case PHY_INTERFACE_MODE_SGMII:
-  2567		case PHY_INTERFACE_MODE_1000BASEX:
-  2568		case PHY_INTERFACE_MODE_2500BASEX:
-  2569			regmap_set_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
-  2570					AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
-  2571			udelay(3);
-  2572			regmap_clear_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
-  2573					  AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
-  2574			break;
-  2575		case PHY_INTERFACE_MODE_USXGMII:
-  2576			regmap_set_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
-  2577					AIROHA_PCS_USXGMII_AN_RESTART);
-  2578			udelay(3);
-  2579			regmap_clear_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
-  2580					  AIROHA_PCS_USXGMII_AN_RESTART);
-> 2581		default:
-  2582			return;
-  2583		}
-  2584	}
-  2585	
+   670	
+   671	KUNIT_ARRAY_PARAM_DESC(clk_rate_change_sibling_div_div_test_regular_ops,
+   672			       clk_rate_change_sibling_div_div_test_regular_ops_params, desc)
+   673	
+   674	static int clk_rate_change_sibling_div_div_test_init(struct kunit *test)
+   675	{
+   676		const struct clk_rate_change_sibling_div_div_test_param *param = test->param_value;
+   677		struct clk_rate_change_sibling_div_div_context *ctx;
+   678		int ret;
+   679	
+   680		ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+   681		if (!ctx)
+   682			return -ENOMEM;
+   683		test->priv = ctx;
+   684	
+   685		ctx->parent.hw.init = CLK_HW_INIT_NO_PARENT("parent", &clk_dummy_rate_ops, 0);
+ > 686		ctx->parent.rate = 24 * HZ_PER_MHZ;
+   687		ret = clk_hw_register_kunit(test, NULL, &ctx->parent.hw);
+   688		if (ret)
+   689			return ret;
+   690	
+   691		ctx->child1.hw.init = CLK_HW_INIT_HW("child1", &ctx->parent.hw,
+   692						     param->ops, CLK_SET_RATE_PARENT);
+   693		ctx->child1.div = 1;
+   694		ret = clk_hw_register_kunit(test, NULL, &ctx->child1.hw);
+   695		if (ret)
+   696			return ret;
+   697	
+   698		ctx->child2.hw.init = CLK_HW_INIT_HW("child2", &ctx->parent.hw,
+   699						     param->ops, CLK_SET_RATE_PARENT);
+   700		ctx->child2.div = 1;
+   701		ret = clk_hw_register_kunit(test, NULL, &ctx->child2.hw);
+   702		if (ret)
+   703			return ret;
+   704	
+   705		ctx->parent_clk = clk_hw_get_clk(&ctx->parent.hw, NULL);
+   706		ctx->child1_clk = clk_hw_get_clk(&ctx->child1.hw, NULL);
+   707		ctx->child2_clk = clk_hw_get_clk(&ctx->child2.hw, NULL);
+   708	
+   709		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->parent_clk), 24 * HZ_PER_MHZ);
+   710		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child1_clk), 24 * HZ_PER_MHZ);
+   711		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child2_clk), 24 * HZ_PER_MHZ);
+   712	
+   713		return 0;
+   714	}
+   715	
 
 -- 
 0-DAY CI Kernel Test Service
