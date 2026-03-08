@@ -1,145 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D7F27FB1E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 02:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C789A7262F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Mar 2026 02:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772935599; cv=none; b=HPE/XRI0nukzFG+wL+4T5qQ6kOiRJxI/UFweUi1XDbwzOdNCrJLG3UK0aOW9VqqPo4Pa9ki3xgoOdYRReyeNEtZT4Kb/Ktn+wRSuoCmXzcCc8j7ahKU9ZZ9LNE4k/KgNMIFUO8OL2ZP0r7gLGD23zX005WeCpweh63DXJ0sd0cU=
+	t=1772937460; cv=none; b=UfVLpherwbl7/OQuUTQ4fuxmrpwYo+Px/XXy5vcmyQKWFgT96iy8rR4BJ8ldEiUlRJ6bGLErXJ75uA8z5LFOQ0F7KMZIzBIedCYK2uxlnGK7yzG6dd/4+m6L6X4Bg2k4TBqn6yU9cYhUqQZAy33EPzraoPWuAiA0xHJ5c3GRrHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772935599; c=relaxed/simple;
-	bh=giRqWk7pth7htlw/kAdoXs6485fAk6mlmbYY0pBBaUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RoJFplEewIeQIhqtVhjba/xB2WQkgn8ThhsEEqk++F8/3R7YrYJBGy1AZKAYj79D17TJJqjijGvd+BP2/EEPRCE18MWh+l8T/jIhB0ZShBmofAIEHQkUWTUL0vE9aNGsQfdnYHY6q+e8Tth0BHDFjDXmgvhGvKv9i4GI+AYW0Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mgbz/zYw; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1772937460; c=relaxed/simple;
+	bh=BtLKeu1HLsZ5FLJOakM0RhNYVRPZOsPvRIcEzKHoea0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=I49AMLR3NXCGaj9raiVabb1czr7te3t0HEoy9oGHa7K5QhOPJVFcJOkg8JzMmBGpsAEaqLKqUssTI5eC+lZgoczKmnZH0qRkjnhQgowS+XsZvAYHd7iMf+xxiVJGeoSWcwIULeGqjjM/pI+l7G71DDgmFSq913IcNPQCnSGjGCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NgmvrEEQ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mgbz/zYw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NgmvrEEQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772935598; x=1804471598;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=giRqWk7pth7htlw/kAdoXs6485fAk6mlmbYY0pBBaUw=;
-  b=Mgbz/zYwqrnMwHY7d7rWuTMv5HN7w8mSPYQ9PRZshOyJdJtSsmvLL6Hy
-   TZ/oi2Zn97NuiWqfaTEQbCP39fjEI2zNK1olWomzHfKrjErWPsYHU8EwE
-   kuCPwN8TPJ4SXHy/YGktKVX8IR56FzIKOuxPPaZ8C/XdRsbwH2SWNprkV
-   XQDJ6Ererybs42qcvBQFLX4IcQs38LESsm87ZZBIf2MDSUQgj2A1rh1qk
-   JUBm+7OjeLyWBnKRLJ0B2XzO/Sa7P0AgCKTQcJiqpfqvaGZb3jEEt90+A
-   YUA1jSa6fyg6/xZrycB7p8OD1k3RUgVGN1a6gdYHlK7kenEHXJw3E74P5
+  t=1772937458; x=1804473458;
+  h=date:from:to:cc:subject:message-id;
+  bh=BtLKeu1HLsZ5FLJOakM0RhNYVRPZOsPvRIcEzKHoea0=;
+  b=NgmvrEEQVKalnbbifK2j2wpmBOm4QIuz23Rm4zNy0rxkB2Hrkhnauwxe
+   /O1PTLHXT9MKzOQ8GzAuYDiLmygkzEDY+hBQjl9oLL7Y352bzx2KsALWA
+   gBkdCG3MJOfGneEqY6JEoABuQCTBA6Uc5u5UP+ofZ9UTMnVXv4/3odfhw
+   L1TanJueGLYhpLlSx3Z+YAOL77n6bXb1IVMH0CiiAqJVBnsRRXN7nIfiw
+   COV3JOtg6X7aknjyHCIiGvLf1Kwnab9TbqAu5V6LGISuBzO3+8WS2oltp
+   ZE9UTVupfPDNEo6R20ewRY2wxV7UqHe9VLIpSogTRAtuLIRmVsTzLt5Vy
    g==;
-X-CSE-ConnectionGUID: ctvEL7w8S9qvoK/P2Qpg/g==
-X-CSE-MsgGUID: 7x+y5MMPR+ub0ns6UejfuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73698371"
+X-CSE-ConnectionGUID: 1EanJEueTaaXV4O2Hu65bQ==
+X-CSE-MsgGUID: I/vIVAk6Rd6te4GaD5IlQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="61572688"
 X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="73698371"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 18:06:37 -0800
-X-CSE-ConnectionGUID: twwjLKsfTKSm1fOsBzm82g==
-X-CSE-MsgGUID: hS775U/kQ0qL7q9xVa9jcA==
+   d="scan'208";a="61572688"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 18:37:37 -0800
+X-CSE-ConnectionGUID: QQinbTKASrKZCMVjbPQRNw==
+X-CSE-MsgGUID: 0dZhmCDOSXGAOO5Vsa8gUA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
+   d="scan'208";a="216421822"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Mar 2026 18:06:34 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 07 Mar 2026 18:37:36 -0800
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vz3XL-000000002pF-1fGw;
-	Sun, 08 Mar 2026 02:06:31 +0000
-Date: Sun, 8 Mar 2026 10:06:29 +0800
+	id 1vz41N-000000002q9-1dmD;
+	Sun, 08 Mar 2026 02:37:33 +0000
+Date: Sun, 08 Mar 2026 10:37:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>
-Subject: Re: [PATCH v8] phy: Add driver for EyeQ5 Ethernet PHY wrapper
-Message-ID: <202603081000.NLJ9u8XA-lkp@intel.com>
-References: <20260306-macb-phy-v8-1-b5c48ee61402@bootlin.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bcachefs:bcachefs-testing 1571/1602] Warning:
+ fs/bcachefs/journal/journal.c:736 function parameter 'flags' not described in
+ 'bch2_journal_flush_seq_async'
+Message-ID: <202603081045.I1qlSPuv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260306-macb-phy-v8-1-b5c48ee61402@bootlin.com>
 
-Hi Théo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20260305]
-[cannot apply to linus/master v7.0-rc2 v7.0-rc1 v6.19 v7.0-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Th-o-Lebrun/phy-Add-driver-for-EyeQ5-Ethernet-PHY-wrapper/20260307-034032
-base:   next-20260305
-patch link:    https://lore.kernel.org/r/20260306-macb-phy-v8-1-b5c48ee61402%40bootlin.com
-patch subject: [PATCH v8] phy: Add driver for EyeQ5 Ethernet PHY wrapper
-config: arm-randconfig-r111-20260308 (https://download.01.org/0day-ci/archive/20260308/202603081000.NLJ9u8XA-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081000.NLJ9u8XA-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   c84c3bb0c47f4c7b194291beb8a399598b151e54
+commit: a0168a474528cc64bf290cf20399e714161f4538 [1571/1602] bcachefs: Pass BCH_WATERMARK_reclaim when discards require journal flush
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603081045.I1qlSPuv-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081045.I1qlSPuv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603081000.NLJ9u8XA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603081045.I1qlSPuv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/phy/phy-eyeq5-eth.c:246:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *base @@     got void * @@
-   drivers/phy/phy-eyeq5-eth.c:246:14: sparse:     expected void [noderef] __iomem *base
-   drivers/phy/phy-eyeq5-eth.c:246:14: sparse:     got void *
+All warnings (new ones prefixed by >>):
 
-vim +246 drivers/phy/phy-eyeq5-eth.c
-
-   230	
-   231	static int eq5_phy_probe(struct auxiliary_device *adev,
-   232				 const struct auxiliary_device_id *id)
-   233	{
-   234		struct device *dev = &adev->dev;
-   235		struct phy_provider *provider;
-   236		struct eq5_phy_private *priv;
-   237		void __iomem *base;
-   238		int ret;
-   239	
-   240		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   241		if (!priv)
-   242			return -ENOMEM;
-   243	
-   244		dev_set_drvdata(dev, priv);
-   245	
- > 246		base = dev_get_platdata(dev);
-   247	
-   248		ret = eq5_phy_probe_phy(dev, priv, 0, base, EQ5_PHY0_GP,
-   249					EQ5_PHY0_SGMII, true);
-   250		if (ret)
-   251			return ret;
-   252	
-   253		ret = eq5_phy_probe_phy(dev, priv, 1, base, EQ5_PHY1_GP,
-   254					EQ5_PHY1_SGMII, false);
-   255		if (ret)
-   256			return ret;
-   257	
-   258		provider = devm_of_phy_provider_register(dev, eq5_phy_xlate);
-   259		if (IS_ERR(provider))
-   260			return dev_err_probe(dev, PTR_ERR(provider),
-   261					     "registering provider failed\n");
-   262	
-   263		return 0;
-   264	}
-   265	
+>> Warning: fs/bcachefs/journal/journal.c:736 function parameter 'flags' not described in 'bch2_journal_flush_seq_async'
 
 -- 
 0-DAY CI Kernel Test Service
