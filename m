@@ -1,127 +1,136 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0EC254AFF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 10:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4695A39524D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 11:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773052270; cv=none; b=EFXFcIC2Lo6sH/5GWPP6iggwhul4KePNwvBsUF3F7WnY+RmGPTRvd3f8kwVaZJlKtqJFp6dwU5pEg2NARjO21JiRlJBS8rHq6yRQrpVSGAThR5jt5nWRWIUUtNx+xOVZgt7W1CyG4BMla5gRx6HoLA9sAHaJJTZCw9ZfI/a6oY4=
+	t=1773054391; cv=none; b=b4VSI5LBzS9OBfunTBPtAx6EAYjSKgPs0ptTiXv89EZ8dWT5W6y45i/Fpii8SVblsmofIZHn1q6yHezNJ3YSjcAIz5OIEHLWCYZAb3y912IFUFXstpxXhRLtFPxI5mpY/dajUQESAz6l4ynd+lxUMQmLO+IW737LsAtPXCQyxmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773052270; c=relaxed/simple;
-	bh=0wBglbdbgyiJwsBzxJASt8/d9BKvUo+GZcF1rrVwqeA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P7CooGfqyUMu4xmyYAWDgaUqZzJBDFy5uuOeX06ngxZkbwkokX1aAPmtvFlPZSAyU8jMhYlkZwZ//HSNtjuzdIpeq11YMIY4TJDijt/2yh91xtlxEdNZIU2RLrPnil4ypEbfNFCk6jnrinEjtEpcdGDRNBG9/kwbQ5Qtvs+DPPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qzhkih9q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773054391; c=relaxed/simple;
+	bh=j/o1SQRHto7JtQYJ4YJqx3lMfkt8dgsZSqcLp2dy2vE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FTu0+G5SyBkec6RxmTjHva/CaqCj9jszBy6an9gATnPgBAoftTIbywQMUrTcqcXEdLKjlW/YkNDyQ3FSFhCOgeif7H+jVrmAIddfDkQ8xReJ5hQQI/PPdclo5dGBYZYvTzqBKDK+ieQvJLyA90HEMLNmo9aLSH4CHvAA/FUx580=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qUV2jHtA; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qzhkih9q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773052267;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6uDuPQs7d6skRF5tTd2jlNb7jo/fZnfZ7p1rRhnGX3E=;
-	b=Qzhkih9qV/2xhhp5nc2IMkhB5BeX2MrzxZGBL3S8/dkK8pTW2kJZeRg7AegHiSUMOoXzII
-	ucQTICJ0qh6OwOZtQxyUv5ASxCzzqx9AB1WRrHDbeDQSm6MpfnAzLQKcWVZc5WO1XU6qvZ
-	aMUoQ/FPai0Q9fQ/x58t5m1lEmWuauI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-12-4oE7TEewOwGsbcxh0J03lA-1; Mon, 09 Mar 2026 06:31:05 -0400
-X-MC-Unique: 4oE7TEewOwGsbcxh0J03lA-1
-X-Mimecast-MFC-AGG-ID: 4oE7TEewOwGsbcxh0J03lA_1773052264
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-b95c0d77b42so126572766b.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Mar 2026 03:31:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qUV2jHtA"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48529c325f0so18116135e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Mar 2026 04:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773054389; x=1773659189; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XYqNOLuJzMYK9d1ajstSf4XchF/ZWv9ReR1ssRMKIMw=;
+        b=qUV2jHtAg6iaium6jDQkZd9UYSgqLNyxoY/quhNtK9MuoaSfy447Wr2IpDZ7wUVIjC
+         8BS2XI94vT34V7bjnwtvUcW3XDVgX2Msx11lk9YIHSel5s5KroYtpZMvAFIQ6XH+/rPn
+         wWvFbaDSo5NSfpS6yMuaiZMgeIJAJYcZfiZ/hNez4YUqPLCJK1A6xKTCyjfgQHI/v7bx
+         owfomofP8kCPLSMguWj+TKyVFggQ5oU/oMQPQ9b/5hTcgXD1FonGISTJ0GG91C7YSdJQ
+         XIOvItt0C9rTph/Y5et09y4JQ42ubJzjIky3D/sgN6sGgagcfAQnU1XOxVckEmRMrzHY
+         ekkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773052264; x=1773657064;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6uDuPQs7d6skRF5tTd2jlNb7jo/fZnfZ7p1rRhnGX3E=;
-        b=MD1X6/kmIuWYSyNKMX99hSSXr2HqcLvWzCAGoonOmgX6dXsBEhFphgKPvC/QuvguqE
-         //pcdo6dr82d0lzmRPVAQzKxvGufHIBx0v7x0Vz9CswV2vlWE5mPBdLz/SSrRT3oaJIX
-         yQrKyYuQryZN96vrM/O7fWLUocNpge2iH2Qp0d5ue4ghpIFZaVMYihRW2a1G8FSsrFoM
-         ak8TJ3uo16RMCdaLxX4PtzajHSMVGocUoPEaT8ixsfa1+8/wL5Yl0Qdy39sCtWxM/N52
-         S6ay316G0oNcaOIwZu0aEeUGQDb9kw2vFfTze9xOMtSb7iolMRg5B6UQC1QhqKf458Pp
-         x2UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMHD2BZr6NteqV1e7jq36TcmPKrXroHmA1IVB89fmIu9GGtV9ACiIqb1G/kie5yJdIoTO5Bovq6dsgZEQD@lists.linux.dev
-X-Gm-Message-State: AOJu0YycADQIAzV+4CURKcWCODQi3ahwFZdmUiKHduqc6QqZN+P03Onm
-	AxxIiuGzsmTTd9PkqWhoH9q2uLpEgDdB6pe9ruVpElBg8CmHhX/1nGbNlYDNV93i+3K6swEIg+r
-	rQSi3shI4w/N7IOS8Cgr4RgcB8pYUyLQCDsQiHER3K/xJOMo1A1YibJ1QTf2hqjWOasbi0VbqKo
-	fWHPnP7ZiHmi+l2AYH8oMhSNVq5iNLUTWlEtyBA+j71Q==
-X-Gm-Gg: ATEYQzzbR+UWPwsBLvcSG7CwtH1T2LkChs6R9pvH6dx0DnLzUkThglfSe2N/XaM+STt
-	Af/UQ5oEo2aYD3AJC2H6JJPXOy5vweMhgkNvV/DWyNjEKM0OJ1Fj2XoubGqqStAikSzNojEil7F
-	wJVxIaedrWz1bV/DB6xSzU3NQPA5Haa94ZX9mf4VP/F/FvuLDSpourUcm6T24VANH9Qop0RQ6Cs
-	n/J5g==
-X-Received: by 2002:a17:907:1c81:b0:b93:6b41:e394 with SMTP id a640c23a62f3a-b942dbced3bmr523912066b.3.1773052264054;
-        Mon, 09 Mar 2026 03:31:04 -0700 (PDT)
-X-Received: by 2002:a17:907:1c81:b0:b93:6b41:e394 with SMTP id
- a640c23a62f3a-b942dbced3bmr523909766b.3.1773052263586; Mon, 09 Mar 2026
- 03:31:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773054389; x=1773659189;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XYqNOLuJzMYK9d1ajstSf4XchF/ZWv9ReR1ssRMKIMw=;
+        b=OgBWkHNFJgjaf7sqiS7H3nmJN0AIMHmDnhHv7Y/Zyb/E72qzA4ChURFkLPebZBOZVF
+         d/zGWtknTJOUHyimXLC3SA0fHKWWMItLlYCNJwCPojiIK2kBPjE4ttpobUn6cWy6B1X1
+         DGP2dd6JHHUfbqEYc9lPEndcF34qxoPqn6jr9g1tbeSmevE/z5o2xFIzDzsZSVTI1qdF
+         KXehGRqRVTNMSeWo9JDFWw20CgsecG9R6uL91WppdF0nr4XBtmCT8V5zBjPvpicab000
+         +CFyBUUHdh6+J8zMhTqsD9CY9tZCNBaCjSn0wVfv8S+CLdZrccefEqMSuFV+4KRClKzL
+         wYpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV1n1lev/rJCQzsVr+tqeCX1uue8gK93WtiqXeoGjtLKhnhwkZmawAzr9u4uh1G4IB9a9pt6c4mcJGmHlrL@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywxw8hWjSi3WfK7W8W7vfr0vHvngsKb7C9lRXB/MwOPmlJrj1Qw
+	CRZOXb5udq/VmRNY17zGJ3Ve4cl6QAAiXG9pXMFT6RgjFKHQC57gI9CBIzjoj3ybkIA=
+X-Gm-Gg: ATEYQzy3w0+ZzsRtdPqoqQlxj3nGV+Gl7zpU7I3zLzcdys2TLw9+05jZh+xx3AUopTB
+	QbsOCDRcZDLy9SFjcZTeQpEpfH7UoVZ9Xut5l2yLhsu01pH/kXB5wIPk+g6Nr7+PexazLEdiYi7
+	/FT5JnfSaKkY18XDGAhSQrQVd2MxdJ5iMHiYhVmyLRWl64bWSlPM+zySyHlormdKYnHVbQ/8ISd
+	ZRV2DD2ZOE//yanoz7SDJNDGoSRznS+foMG24xWa3QUusAX9hcsLVlaiyP067DEcbgnTkgY8N8D
+	loTKMADJ9Te+H06evCsI5nI0VWphtrLhBdFUjDZpbxcKBZLT5Dd1vvLsH3m/e9UkY8oFzBmJXJX
+	KkOI4noH6ewpuNY6gO1wrwO2Lougx2H0qx6Cvph74SZDFC6r8OezvpKzxIpLKa0pbLmycz69lhm
+	129rA3j3jCFP4gz1+r8phvbFmYQ/1S
+X-Received: by 2002:a05:600c:310f:b0:485:390d:74f8 with SMTP id 5b1f17b1804b1-485390d7719mr62033515e9.25.1773054388509;
+        Mon, 09 Mar 2026 04:06:28 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48529f01997sm86831215e9.14.2026.03.09.04.06.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 04:06:28 -0700 (PDT)
+Date: Mon, 9 Mar 2026 14:06:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Frank Wunderlich <frank-w@public-files.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.0-rc 6/87]
+ drivers/tty/serial/8250/8250_mtk.c:436 mtk8250_runtime_suspend() warn:
+ test_and_clear_bit() takes a bit number
+Message-ID: <202603091856.CNiw1oL1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260306-clk-scaling-v5-2-d21b84ee6f27@redhat.com> <202603082228.3RYA8l9q-lkp@intel.com>
-In-Reply-To: <202603082228.3RYA8l9q-lkp@intel.com>
-From: Brian Masney <bmasney@redhat.com>
-Date: Mon, 9 Mar 2026 06:30:51 -0400
-X-Gm-Features: AaiRm51xv-5Fvpq28_DyyKVNTDjNUzh2q55dvvBrMPegtA0lGwMe9trv34GXR08
-Message-ID: <CABx5tq+zKeMXt+dsfO3LNz-DrwG14zFiLznsS9ubTmRrRTeoMQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v5 2/4] clk: test: introduce test suite for sibling
- rate changes on a divider
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: XmncLPPERkwFA_VR_YBtrkxZz7lbjpzdzCh6VWDrcbo_1773052264
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Mar 8, 2026 at 10:37=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
-> [This is a private test report for your RFC patch.]
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/clk-t=
-est-introduce-clk_dummy_div-for-a-mock-divider/20260307-074328
-> base:   fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d
-> patch link:    https://lore.kernel.org/r/20260306-clk-scaling-v5-2-d21b84=
-ee6f27%40redhat.com
-> patch subject: [PATCH RFC v5 2/4] clk: test: introduce test suite for sib=
-ling rate changes on a divider
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/202=
-60308/202603082228.3RYA8l9q-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
-708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260308/202603082228.3RYA8l9q-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603082228.3RYA8l9q-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/clk/clk_test.c:686:26: error: use of undeclared identifier 'HZ=
-_PER_MHZ'
->      686 |         ctx->parent.rate =3D 24 * HZ_PER_MHZ;
->          |                                 ^
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc
+head:   027868526273f2766cd140b0fb54609225da2cf9
+commit: c3e74a9070cbe512e4879c15d680b41242680548 [6/87] serial: 8250_mtk: track busclk state to avoid bus error
+config: nios2-randconfig-r071-20260309 (https://download.01.org/0day-ci/archive/20260309/202603091856.CNiw1oL1-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9004-gb810ac53
 
-Thanks for the report. I forgot to mark my series dependent on this on
-series I had posted that includes units.h.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202603091856.CNiw1oL1-lkp@intel.com/
 
-https://lore.kernel.org/linux-clk/20260304-clk-docs-v1-0-fee468db99f1@redha=
-t.com/
+smatch warnings:
+drivers/tty/serial/8250/8250_mtk.c:436 mtk8250_runtime_suspend() warn: test_and_clear_bit() takes a bit number
+drivers/tty/serial/8250/8250_mtk.c:453 mtk8250_runtime_resume() warn: test_and_set_bit() takes a bit number
 
-Brian
+vim +436 drivers/tty/serial/8250/8250_mtk.c
+
+9db669f14fd829 Arnd Bergmann    2016-02-08  431  static int __maybe_unused mtk8250_runtime_suspend(struct device *dev)
+68e5fc4a255a7f Sascha Hauer     2015-04-27  432  {
+68e5fc4a255a7f Sascha Hauer     2015-04-27  433  	struct mtk8250_data *data = dev_get_drvdata(dev);
+e32a83c70cf987 Changqi Hu       2020-02-26  434  	struct uart_8250_port *up = serial8250_get_port(data->line);
+68e5fc4a255a7f Sascha Hauer     2015-04-27  435  
+c3e74a9070cbe5 Daniel Golle     2023-09-11 @436  	if (!test_and_clear_bit(MTK_UART_STATE_BIT_BUSCLK_EN, &data->state))
+
+Don't pass BIT(X) to test_and_clear_bit().  Just pass X.
+
+c3e74a9070cbe5 Daniel Golle     2023-09-11  437  		return 0;
+c3e74a9070cbe5 Daniel Golle     2023-09-11  438  
+e32a83c70cf987 Changqi Hu       2020-02-26  439  	/* wait until UART in idle status */
+e32a83c70cf987 Changqi Hu       2020-02-26  440  	while
+e32a83c70cf987 Changqi Hu       2020-02-26  441  		(serial_in(up, MTK_UART_DEBUG0));
+e32a83c70cf987 Changqi Hu       2020-02-26  442  
+d518314a1fa4e9 Daniel Golle     2025-09-16  443  	clk_disable_unprepare(data->uart_clk);
+c1c325d703d347 Sascha Hauer     2015-04-27  444  	clk_disable_unprepare(data->bus_clk);
+68e5fc4a255a7f Sascha Hauer     2015-04-27  445  
+68e5fc4a255a7f Sascha Hauer     2015-04-27  446  	return 0;
+68e5fc4a255a7f Sascha Hauer     2015-04-27  447  }
+68e5fc4a255a7f Sascha Hauer     2015-04-27  448  
+9db669f14fd829 Arnd Bergmann    2016-02-08  449  static int __maybe_unused mtk8250_runtime_resume(struct device *dev)
+68e5fc4a255a7f Sascha Hauer     2015-04-27  450  {
+68e5fc4a255a7f Sascha Hauer     2015-04-27  451  	struct mtk8250_data *data = dev_get_drvdata(dev);
+68e5fc4a255a7f Sascha Hauer     2015-04-27  452  
+c3e74a9070cbe5 Daniel Golle     2023-09-11 @453  	if (test_and_set_bit(MTK_UART_STATE_BIT_BUSCLK_EN, &data->state))
+
+Same.
+
+c3e74a9070cbe5 Daniel Golle     2023-09-11  454  		return 0;
+c3e74a9070cbe5 Daniel Golle     2023-09-11  455  
+b6c7ff2693ddc2 Chen-Yu Tsai     2023-06-06  456  	clk_prepare_enable(data->bus_clk);
+d518314a1fa4e9 Daniel Golle     2025-09-16  457  	clk_prepare_enable(data->uart_clk);
+c1c325d703d347 Sascha Hauer     2015-04-27  458  
+68e5fc4a255a7f Sascha Hauer     2015-04-27  459  	return 0;
+68e5fc4a255a7f Sascha Hauer     2015-04-27  460  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
