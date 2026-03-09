@@ -1,276 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA61329CE1
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 00:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773014654; cv=none; b=odUMNi8SHLvIYCy0AOzN1y/dw5iGnx+tCeFtMyKfUgHoqtIT32JHbdanIL554PIXCbob2OVf0u7xf0kx9ig8TLHqvzRPMt7FxbsBmAgnuPaK3Gp/zLWOS8xzsXSZg0RRDwF1PdGlOIWfBJI6HThOTRNP0vvuKLOFCUziFa1p/7Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773014654; c=relaxed/simple;
-	bh=voyUlfBV4OqT3ojtvCGstSIdRGyf6nf4JhUzNp9zbg8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PQ0a29GzpIaaDUgv+JJSi8kETtd5Gm9r6R5yvaO/0oWgYzWwLQ0KGqeDCsGU/dJ80ok3HNbnts2pRVpGcXQFKjJk2S9HjfaF1JMh6DimH5Ptba9SVoSlELF12kjP7RLH+1A2EuqW2vw8IsR2351YITkL9BWu12MtWyFmemIdVL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JpvI7fql; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EB215B971
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 00:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773015097; cv=fail; b=p1U4kcC3d7wi1jnHK+sRxgmR/SFeBi5rV5DqYz3nM8LFXgYU+lQTxAck0WgCxQHo45k/MEOmNWtX+gWg/tE8HWuxDkdpFfez3TF9nRMn44RatfdbxjfTxKMbplQHb+nW6+tzkWqBT3HA1Hjv4pBXsUIgBpOTu2qkG2MbXUUOqZE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773015097; c=relaxed/simple;
+	bh=CBCv8cfnu/QXgjehmz4v25pOTBgRTz+pVq1o6sMl9BA=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=LZqlUY9Kt5Zh2fgpcBlqvBBLg8Q+MgGhnPnctILprXTWY53BtNWEU7nKLvp+rD9PYzl9U154nUoKNiHA0QJXcoTZFB5rga2n6G9KrqxqkVllRvI9UwbD0bWf7PRrHkiaA4S0Zgqdcb6c5jeZHP9alAulZJ1fgLgBqypRgme77xY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqRlXj3d; arc=fail smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JpvI7fql"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqRlXj3d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773014651; x=1804550651;
-  h=date:from:to:cc:subject:message-id;
-  bh=voyUlfBV4OqT3ojtvCGstSIdRGyf6nf4JhUzNp9zbg8=;
-  b=JpvI7fqlLN+d7VP6CF6A6q679QqI8+GqbdGsbNXyYgNyOA6ffn7U41V5
-   HiK0b8LPJkZ8BJ17FQ8YYq37eo8ElY2adWzmJMcvKBWcCkJK/aX7hMx4Q
-   cOj51B7DRHKINaqCY9JhluuYaIcPNArTMh6HAHnGAJ3tmzxjRvlYkufde
-   sMxfJnhsqO7c4F/qOlCLVk6lhrITGIbuZLRPxk9ex00LCBRJzFd9q5zw4
-   1OCKQDnq8a2+pBFOnNi411xwnkQI3zGxvwAK5zoDrKRoNd4ln6WphsgiP
-   yu+BpbZ3D2UchlHQv4Q996nN7xsSxBj7jfDkNCfneHN38VlpXRGEJ3Yjt
-   A==;
-X-CSE-ConnectionGUID: pyyk75iIQl2qVz2GMfcO0Q==
-X-CSE-MsgGUID: ImKvAOykQX2Y7gENpvEdFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="77889191"
+  t=1773015095; x=1804551095;
+  h=date:from:to:cc:subject:message-id:
+   content-transfer-encoding:mime-version;
+  bh=CBCv8cfnu/QXgjehmz4v25pOTBgRTz+pVq1o6sMl9BA=;
+  b=CqRlXj3dYFMe69vRL1OgADo1/AjVBKtVdVBEeXkud+nmUFlIEVolcWFk
+   JcEj32RrlMJiKp3aatIwbGxupRXSAih17b5T4c+Y0EqT4l0NrJ1TLZthh
+   7qsEK6IwLwTQ2cPMGXPy2j0uAce/mMuFxuyy58E8FBi+2KbKsRft+nMzY
+   eXo++2A08fkTe4+5teMTmcxL1F9pg+8rFkws11f0blKyQAsqEnSYSr6pB
+   uw3IXbl5pIeSkPzVN7vK27YGh2EzrbssqFFfYJp3tsSIJ8/3vgxMWRDa0
+   BcphqoWh2A8AbLfzRTyyKppRJf5mA8bYDJ+4Ahq1ecyhTESdnwLgNJPtj
+   Q==;
+X-CSE-ConnectionGUID: /f//LzCgSD6TUnBeLbJ5SA==
+X-CSE-MsgGUID: iHIju6R8TGe02UizcUP6bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="73910183"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="77889191"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 17:04:11 -0700
-X-CSE-ConnectionGUID: A03ZzCM7Sym2HUSxsj/eDg==
-X-CSE-MsgGUID: 39tSLrXmSIilubqOzRvVhQ==
+   d="scan'208";a="73910183"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 17:11:34 -0700
+X-CSE-ConnectionGUID: hNuvy9tmRqmHQ1Mz/6SS6w==
+X-CSE-MsgGUID: GYD+x2h8RgGlFxQyW3P55w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="245633469"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Mar 2026 17:04:08 -0700
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vzO6Q-000000003Uq-0TPH;
-	Mon, 09 Mar 2026 00:04:06 +0000
-Date: Mon, 09 Mar 2026 08:03:24 +0800
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 17:11:33 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Sun, 8 Mar 2026 17:11:32 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Sun, 8 Mar 2026 17:11:32 -0700
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.14) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Sun, 8 Mar 2026 17:11:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Kz7dGVL39OXVFGO+RIFO3mDOy7ZY6o6Ix9HecY5HIWvqEQQZO9pI0E6OZzT3/kW/MuS3SXhma9I5AFQVANOQUvZKjGWcwrlO/vfRF0rcT1dUYDH3gb+p8Y1I5xXxIn7BRcuuCvuCe52rDdjslSicXkM31JR5OVb51Ut1mAXYaReKMIFI8VhCjvrFBEmJZWu2Dg4cVPOPAWT7ouPwMAVf14jgJJfX4fsrha5U6LhKkn/4yQpqZDlM6mZb3Q3RxhkVkACLOsiFVRfflGLKU/jZndsMrdHeMR9X2/aaVroVa+Oqpvs9IIcXgS5zxVk7tAshBVb6vgg3SdMpVh8prtsfXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2qkA/FdLp15llfu5K/m7Je9ukRdFjA62yITMLbyyPFs=;
+ b=taPllMYmenZBAUykoi1fuJvfldvAtu0Tg4dnkEmcWat2s1mKZRHAJHInxvJhAjYBzZIVEdP0OZ85UfhliCyrQs9wQCp88OmefjTWDLL+4NiJZE06CGHUyJLpiRnuyhVtQuoSlbS4Eve9VKrK+x5EJDKhZjaEQtZkdLAw/Z+WJJV4qxR8la44kpaxDHZ5xSuE4Z/P0QakxfxMWxZbKs6NeoESCq0LJ35ERtYy6F9PwO+rXo43avCR2g4ZoygwuyFqcgZZ5LmdyW0X7ay/z4rq2/Yb10UQa41VCtz4CgJv0MigMv4SD86loSqYygMqMrPlg9meqgBlDK86RMQgW8r56w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB7710.namprd11.prod.outlook.com (2603:10b6:510:298::9)
+ by IA0PR11MB8335.namprd11.prod.outlook.com (2603:10b6:208:493::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.8; Mon, 9 Mar
+ 2026 00:11:29 +0000
+Received: from PH0PR11MB7710.namprd11.prod.outlook.com
+ ([fe80::dc6:ac78:d884:137b]) by PH0PR11MB7710.namprd11.prod.outlook.com
+ ([fe80::dc6:ac78:d884:137b%5]) with mapi id 15.20.9700.009; Mon, 9 Mar 2026
+ 00:11:29 +0000
+Date: Mon, 9 Mar 2026 08:11:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.0-rc 36/87]
- drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:191:64: error: use of
- undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-Message-ID: <202603090738.Yei3KNHj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Anthony Yznaga <anthony.yznaga@oracle.com>
+CC: <oe-kbuild-all@lists.linux.dev>, David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List
+	<linux-mm@kvack.org>
+Subject: [akpm-mm:mm-new 286/330] include/dup.h:354:25: error: stray '\302'
+ in program
+Message-ID: <aa4QKbYOvGmDEqVG@rli9-mobl>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR04CA0157.apcprd04.prod.outlook.com (2603:1096:4::19)
+ To PH0PR11MB7710.namprd11.prod.outlook.com (2603:10b6:510:298::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB7710:EE_|IA0PR11MB8335:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c228e94-2145-4253-a0c2-08de7d706926
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: +h7PEZ3OCFlV1wf38DPSL5DuRY6eC+KMvrdtsr/XepCBQ2f+5/qs/QFqQa7vXm84NOPP0xPPHlsjJHekXwsy7hXNz+P6LH+YL/iQx3KMNeoleg2X+Th5bahziYdEbRvGIhjlcnP6yLhx8sIXmPq6071PtNkFXgCfkGcI1qcxy6tbEfy8/BdRKxk32q9XzDyUE4OMHl+S7Hl8MxhuTc/iD0gxh0UQ8EctwUeKbQo+jbVXykD6VHyCNVexLRV1So8sTPDtstzf2XUDLqmfzP3Iqq5GV6OKW2/QDTraF8LDTQ4seegAClIjhEDhY3E1nqmnBtYNPd76zu6oAYnzbA4oAmT6lc5iXxAy6MbsxN8rspkokW35lFaNPu4C7ov6LD4rGQf0xmoz3LDOi2WK5fbGDUcab41z57/WMaUmjFFt6z8JNEClsZo2ctaMCGKMmRCqasyLLckKlIsmyQXkSBQeuAhSj14H+B9Lryn+CS4WTe4hq0ArRrPw2ou+v8psm7VOG1LjsuAa3nz5n0gbLhQtIXy1QlgvoLL3P9oBeYF9PHQ/Hj5qdHHIqebMsYkXeLFzM8n7tCzfM1dUQ8MpHyuN3f0Oz1oDvQ3SIioOKam0ayeiKwKddhz31I1q4zKsf6lbDb8Tz2JOKyhqHI/58Kaf7AuDNQfVZE5I7LbWffOQZ+QBE24w1TEKg6R0iqQRVo7Z2uJw765UmfBcfwOHYIFsSg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB7710.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?MWkjvTTB0g4YwSrm6cJrsVD5vyKaGkcfjrpOEPXY1q9flQ3EAdK+ffsoL5?=
+ =?iso-8859-1?Q?cOy37Npx48KJdr9geytW3y4wZ9fgoOcbb6gWi6Q3OhwzHUi1ofUj+kYRXC?=
+ =?iso-8859-1?Q?+gwjp2xITkG7qb5IC7jHJ9yw8KyZ6o2uHZIWBHPmAPpTEljorh5kcVDtYk?=
+ =?iso-8859-1?Q?8D4pEyumvlJhU4zz5N9Uq/7P+DHwsYhuc9QEIMHr+mrkJ0rMiywJonCtSx?=
+ =?iso-8859-1?Q?ePqOzz9DWAdrfE03kngiJFpf4CRxPNDKqRwUQZ4BKa355eOwbMlgBBq2kj?=
+ =?iso-8859-1?Q?LGKMTGeWOl3xATUoIgcd+2e5MYceXTCch0FPWdu/xP7Fm2tLZrgbdWIVzg?=
+ =?iso-8859-1?Q?PuZrB5xgsyVtFG8h9+5nIdoHim/ulM1Wdy7MWSrdtopPnU6JRrdurLWEWU?=
+ =?iso-8859-1?Q?IP0At4bbduMgkb2wZJiO2p1TYDDUsArUJTdnaSir1bHxRovjDscBXzcly0?=
+ =?iso-8859-1?Q?LPKiOa9jP1KYzkFU5Zfi6fmuFeQSUsbrwAWXQ8hjFOJfAjvKKEpsK2TQmv?=
+ =?iso-8859-1?Q?7c3ofV+67RCw64Pa3Q/SHBK+pDYCkku+sW3IH2DyMKlv/TXLvDstZ1moek?=
+ =?iso-8859-1?Q?Z5U+juMMGtlM+F6jxymCi05FazyEJw1P8MQX2MeRMM6VnJQpzd9w/rTCi7?=
+ =?iso-8859-1?Q?NYVda7z/0WQLDBxYxvP540nhi0iYp8WzFVT+h1HJWNHrCWFuD0T1H/c9Rg?=
+ =?iso-8859-1?Q?c6LygidNRGK2EvlM6/a2mqupzxU1RVDEXJFMoVRiQYYjS5NaYaCC+XY3cT?=
+ =?iso-8859-1?Q?nmlXQk0JBQEqDxJ2uiKqg0HP7c54pCgbg+psxvJ15sNhC23ogk25SnfcG/?=
+ =?iso-8859-1?Q?RPrb0gPoVxbP7k4VsxzIvjbR8ASAtD1i8DR4zkXsh59LmpYS77HzDwOQbj?=
+ =?iso-8859-1?Q?aVdZpGyP3Z0YM4qZxSkAvBhvPlsUxYPgfl8ulOvPB+XWuZ7OXom6EdPvFQ?=
+ =?iso-8859-1?Q?wdGwojmOZE7P1gPqdIqtQew1KkXkhmKA/EsJvIicqTXdzV2xkvyosACLMB?=
+ =?iso-8859-1?Q?3dNr+DtcEyTQhcs22Oi/Ndmt4cj+cLEfzL7KqlBzhGMmSm2LLmQTm9QFyS?=
+ =?iso-8859-1?Q?eR9UInHAN9Dc7X5JzvXPks1NSDPTMM5ZK8vC9pwf7M9f1Shpfr/quR8MWB?=
+ =?iso-8859-1?Q?nO7QjXpRJ3nwQradXf7hWFaqx6ZFl6UShgN4rrrhNaDqYQTwI9UEOW8Tlt?=
+ =?iso-8859-1?Q?qJMc2LteyDpluTMHGZFVYSuk8WP5t/nAVdOhy65A4Vt/Vqz1N46QCQ+NPB?=
+ =?iso-8859-1?Q?7iaaIcGxjpn6S3hu37kroTlwbI72Kkwvr37nb8XnD1i/MlWPn4g6BhDyT6?=
+ =?iso-8859-1?Q?6/LuQmj4RaNBNtslUTK4zcxaB95HDBNJBMeTvX+rvHuFf6E4fWQlQ2TKug?=
+ =?iso-8859-1?Q?0Cf/9eCq7CIkguc5pL/K/zd0h6au18Lx28/TLtmXnUAd8/lJQFBXAAmDCJ?=
+ =?iso-8859-1?Q?n9F+ojiHPSzuqW9Ivhvp0y/H9D8KHw/a8+FYgtJ9HqZ+hV+z7qX1jRvr0u?=
+ =?iso-8859-1?Q?MeSy/vY8jlCXEzGYD3hJLDvkRDxs3A0PuWQS4fHfNhEj5Uyr8R/nTqXFX6?=
+ =?iso-8859-1?Q?KT5ms791bqnpAVJJMpooJNMZhFgyl9mWocG+EPJ63uI+cn+zFtAGOtvpnL?=
+ =?iso-8859-1?Q?WXcg44FGICdlxoumKqOSCyo6nWd7OcdBueOp8eTS8K+C1LHmXN17k6ppDs?=
+ =?iso-8859-1?Q?a+cpDFqzcSjeIXBX7s5dKiR3CliFbcaGc5Yxl9jasGwdj+QfGXW4UpqNZd?=
+ =?iso-8859-1?Q?pRyf7gVqd9kG6OCFjQ5mqJk7tbnGD5h7ShzVAe+ymJ4F559g15r76LEBnc?=
+ =?iso-8859-1?Q?Cj6e3vWFcw=3D=3D?=
+X-Exchange-RoutingPolicyChecked: Qx76z1wDzL4Vpr05JwnLQOOKbOLc7ja17ZRpQW/fKm6YUxI5KHYFhc1piUFSHdlG7roBejt88XQbkh/+2vjXuRQlUCrgvLMavayuLU4bgZv5SXX+aulj0HN1fgqHvJtFRn141+MGbqxGMRBopBVrckTBDgXI5mHzW58ik1ebZhyT1kuqGbpDq48ZQAx8Dqc2+jndwS8tPZFMM1j5uSaRngtS4n9mo8zt2i9EHwii2MmHvDT7qaEakcXhqp8eWEGP/dGcC98PVbiylfNLVuqMZv5q1FEbVIV19ePRlq1CcMNxFaNq+bAy3uLe9kqlJWttY8n9YiqoVkOGa8x9JlvDdQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c228e94-2145-4253-a0c2-08de7d706926
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB7710.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 00:11:29.0647
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3B+UuJ3HY9jEAhAZy2mqtDalMUUdpzfCL0PAz+tpZTUbgJn48q7km9gFBiQ+E70xftavc73KSAw+pawSJOfRxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8335
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc
-head:   027868526273f2766cd140b0fb54609225da2cf9
-commit: 346a9caf3a3531e2084c3ba5346c85d56787f909 [36/87] net: dsa: add mxl downstream driver from 6.19-main
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260309/202603090738.Yei3KNHj-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603090738.Yei3KNHj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   167400fd4c51f9e5ea8fc9d33c89c938799be4be
+commit: 84cd8de2b92a1ccf493c43da8b31bb983d320ca7 [286/330] mm-prevent-droppable-mappings-from-being-locked-fix
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260309/202603090023.npem8cfw-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603090023.npem8cfw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603090738.Yei3KNHj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603090023.npem8cfw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:191:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-     191 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:371:15: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-     371 |                 tag_proto = DSA_TAG_PROTO_MXL862_8021Q;
-         |                             ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2175:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2175 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2543:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2543 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2593:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2593 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2708:48: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2708 |         if (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q) {
-         |                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2798:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2798 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   7 errors generated.
-
-
-vim +/DSA_TAG_PROTO_MXL862_8021Q +191 drivers/net/dsa/mxl862xx_downstream/mxl862xx.c
-
-   183	
-   184	static int mxl862xx_update_bridge_conf_port(struct dsa_switch *ds, u8 port,
-   185						    struct net_device *bridge, int action)
-   186	{
-   187		struct mxl862xx_priv *priv = ds->priv;
-   188		u8 max_ports = priv->hw_info->max_ports;
-   189		u8 cpu_port = priv->cpu_port;
-   190		u8 i;
- > 191		bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-   192	
-   193		/*struct dsa_port *dp = dsa_to_port(priv->ds, port), *other_dp;
-   194		 * struct mxl862xx_port_info *other_p;
-   195		 *int other_port;
-   196		 */
-   197		int ret;
-   198	
-   199		/* Update local bridge port map */
-   200		for (i = 0; i < max_ports; i++) {
-   201			int bridge_id = priv->port_info[i].bridge_id;
-   202	
-   203			if (dsa_is_unused_port(ds, i))
-   204				continue;
-   205	
-   206			/* CPU port is assigned to all bridges and cannot be modified  */
-   207			if ((dsa_is_cpu_port(ds, i)))
-   208				continue;
-   209	
-   210			/* Skip if bridge does not match, except the self port assignment  */
-   211			if ((dsa_port_bridge_dev_get(dsa_to_port(ds, i)) != bridge) && (i != port))
-   212				continue;
-   213	
-   214			/* Case for standalone bridges assigned only to single user and CPU ports.
-   215			 * Used only for initial ports isolation */
-   216			if ((bridge == NULL) && (i != port))
-   217				continue;
-   218	
-   219			if (action)
-   220				priv->bridge_portmap[bridge_id] |= BIT(DSA_MXL_PORT(port));
-   221			else
-   222				priv->bridge_portmap[bridge_id] &= ~BIT(DSA_MXL_PORT(port));
-   223		}
-   224	
-   225		/* Update switch according to local bridge port map */
-   226		/* Add this port to the port maps of other ports skiping it's own map */
-   227		for (i = 0; i < max_ports; i++) {
-   228			struct mxl862xx_bridge_port_config br_port_cfg = { };
-   229			int bridge_id = priv->port_info[i].bridge_id;
-   230	
-   231			if (!(dsa_is_user_port(ds, i)))
-   232				continue;
-   233	
-   234			/* Case for standalone bridges assigned only to single user and CPU ports.
-   235			 * Used only for initial ports isolation
-   236			 */
-   237			if (!bridge && i != port)
-   238				continue;
-   239	
-   240			/* Do not reconfigure any standalone bridge if this is bridge join scenario */
-   241			if (bridge && !priv->port_info[i].bridge)
-   242				continue;
-   243	
-   244			br_port_cfg.bridge_port_id = DSA_MXL_PORT(i);
-   245			br_port_cfg.mask |=
-   246				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
-   247				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID;
-   248	
-   249			ret = MXL862XX_API_READ(priv, MXL862XX_BRIDGEPORT_CONFIGGET, br_port_cfg);
-   250			if (ret) {
-   251				dev_err(ds->dev, "failed to set bridge port configuration on port %d\n",
-   252					port);
-   253				return ret;
-   254			}
-   255	
-   256			/* Skip port map update if for the existing bridge the port
-   257			 * is not assigned there.
-   258			 */
-   259			if (i != port && (br_port_cfg.bridge_id != bridge_id ||
-   260					  br_port_cfg.bridge_id == 0))
-   261				continue;
-   262	
-   263			br_port_cfg.mask |=
-   264				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
-   265				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID |
-   266				MXL862XX_BRIDGE_PORT_CONFIG_MASK_MC_SRC_MAC_LEARNING;
-   267	
-   268			/* Skip the port itself in it's own portmap */
-   269			br_port_cfg.bridge_port_map[0] =
-   270				priv->bridge_portmap[bridge_id] & ~(BIT(DSA_MXL_PORT(i)));
-   271	
-   272			if (action) {
-   273				br_port_cfg.src_mac_learning_disable = !bridge;
-   274				br_port_cfg.bridge_id = bridge_id;
-   275			} else {
-   276				/* When port is removed from the bridge, assign it back to the default
-   277				 * bridge 0
-   278				 */
-   279				br_port_cfg.src_mac_learning_disable = true;
-   280				/* Cleanup the port own map leaving only the CPU port mapping. */
-   281				if (i == port) {
-   282					br_port_cfg.bridge_port_map[0] = BIT(DSA_MXL_PORT(cpu_port));
-   283					br_port_cfg.bridge_id = 0;
-   284				}
-   285			}
-   286	
-   287			ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_CONFIGSET, br_port_cfg);
-   288			if (ret) {
-   289				dev_err(ds->dev, "failed to set bridge port configuration on port %d\n", port);
-   290				return ret;
-   291			}
-   292		}
-   293	
-   294		/* Configure additional bridge port for VLAN based tagging */
-   295		if (vlan_sp_tag) {
-   296			int bridge_id = priv->port_info[port].bridge_id;
-   297			uint16_t bridge_port_cpu = DSA_MXL_PORT(port) + 16;
-   298			struct mxl862xx_bridge_port_alloc bpa_param = { };
-   299			struct mxl862xx_bridge_port_config br_port_cfg = { };
-   300	
-   301			bpa_param.bridge_port_id = bridge_port_cpu;
-   302	
-   303			if (action) {
-   304				/* add */
-   305				ret = MXL862XX_API_READ(priv, MXL862XX_BRIDGEPORT_ALLOC, bpa_param);
-   306				if (ret) {
-   307					dev_err(ds->dev,
-   308						"%s: Port:%d failed to prepare associated bridge port\n",
-   309						__func__, port);
-   310					return ret;
-   311				}
-   312	
-   313				br_port_cfg.mask |=
-   314					MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
-   315					MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID |
-   316					MXL862XX_BRIDGE_PORT_CONFIG_MASK_EGRESS_CTP_MAPPING |
-   317					MXL862XX_BRIDGE_PORT_CONFIG_MASK_MC_SRC_MAC_LEARNING;
-   318				br_port_cfg.bridge_id = bridge_id;
-   319				br_port_cfg.bridge_port_id = bridge_port_cpu;
-   320				br_port_cfg.bridge_port_map[0] = BIT(DSA_MXL_PORT(port));
-   321				br_port_cfg.dest_logical_port_id = DSA_MXL_PORT(cpu_port);
-   322				br_port_cfg.src_mac_learning_disable = true;
-   323	
-   324				ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_CONFIGSET, br_port_cfg);
-   325				if (ret) {
-   326					dev_err(ds->dev,
-   327					"%s: Configuration of cpu bridge port:%d  for port:%d on bridge:%d failed with ret=%d\n",
-   328					__func__, bridge_port_cpu, port, bridge_id, ret);
-   329					return ret;
-   330				}
-   331	
-   332				/* Add bridge cpu port to portmap */
-   333				priv->bridge_portmap[bridge_id] |= BIT(bridge_port_cpu);
-   334				priv->port_info[port].bridge_port_cpu = bridge_port_cpu;
-   335			} else {
-   336				/* remove */
-   337				ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_FREE, bpa_param);
-   338				if (ret) {
-   339					dev_err(ds->dev,
-   340						"%s: Port:%d failed to free associated bridge port\n",
-   341						__func__, port);
-   342					return ret;
-   343				}
-   344				/* Remove bridge cpu port from portmap */
-   345				priv->bridge_portmap[bridge_id] &= ~BIT(bridge_port_cpu);
-   346				priv->port_info[port].bridge_port_cpu = 0;
-   347			}
-   348		}
-   349	
-   350		return 0;
-   351	}
-   352	
+   In file included from vma_internal.h:55,
+                    from shared.h:11,
+                    from main.c:3:
+>> include/dup.h:354:9: warning: ISO C99 requires whitespace after the macro name
+     354 | #define VM_NO_MLOCK_MASK       (VM_SPECIAL | VM_DROPPABLE)
+         |         ^~~~~~~~~~~~~~~~
+   ../../../mm/vma.c: In function '__mmap_complete':
+>> include/dup.h:354:25: error: stray '\302' in program
+     354 | #define VM_NO_MLOCK_MASK<U+00A0> <U+00A0> <U+00A0> <U+00A0>(VM_SPECIAL | VM_DROPPABLE)
+         |                         ^~~~~~~~
+   ../../../mm/vma.c:2592:33: note: in expansion of macro 'VM_NO_MLOCK_MASK'
+    2592 |                 if ((vm_flags & VM_NO_MLOCK_MASK) || vma_is_dax(vma) ||
+         |                                 ^~~~~~~~~~~~~~~~
+   include/dup.h:354:27: error: stray '\302' in program
+     354 | #define VM_NO_MLOCK_MASK<U+00A0> <U+00A0> <U+00A0> <U+00A0>(VM_SPECIAL | VM_DROPPABLE)
+         |                                  ^~~~~~~~
+   ../../../mm/vma.c:2592:33: note: in expansion of macro 'VM_NO_MLOCK_MASK'
+    2592 |                 if ((vm_flags & VM_NO_MLOCK_MASK) || vma_is_dax(vma) ||
+         |                                 ^~~~~~~~~~~~~~~~
+   include/dup.h:354:29: error: stray '\302' in program
+     354 | #define VM_NO_MLOCK_MASK<U+00A0> <U+00A0> <U+00A0> <U+00A0>(VM_SPECIAL | VM_DROPPABLE)
+         |                                           ^~~~~~~~
+   ../../../mm/vma.c:2592:33: note: in expansion of macro 'VM_NO_MLOCK_MASK'
+    2592 |                 if ((vm_flags & VM_NO_MLOCK_MASK) || vma_is_dax(vma) ||
+         |                                 ^~~~~~~~~~~~~~~~
+   include/dup.h:354:31: error: stray '\302' in program
+     354 | #define VM_NO_MLOCK_MASK<U+00A0> <U+00A0> <U+00A0> <U+00A0>(VM_SPECIAL | VM_DROPPABLE)
+         |                                                    ^~~~~~~~
+   ../../../mm/vma.c:2592:33: note: in expansion of macro 'VM_NO_MLOCK_MASK'
+    2592 |                 if ((vm_flags & VM_NO_MLOCK_MASK) || vma_is_dax(vma) ||
+         |                                 ^~~~~~~~~~~~~~~~
+--
+   In file included from vma_internal.h:55,
+                    from shared.h:11,
+                    from shared.c:3:
+>> include/dup.h:354:9: warning: ISO C99 requires whitespace after the macro name
+     354 | #define VM_NO_MLOCK_MASK       (VM_SPECIAL | VM_DROPPABLE)
+         |         ^~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
