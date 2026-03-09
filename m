@@ -1,147 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64481396D30;
-	Mon,  9 Mar 2026 11:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C3A2D8760
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 12:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773054725; cv=none; b=GHuWe9tsgp8GRqFLnQLhdXukg7ha48gMoJJZPr7tz0x+bFKsprB9l09Kt9YBXuULnnFgrWmOSSTNjJlio3DvOShmjVMMToFd2WPKudtE0Lrk8vdyGJ+LFpt8P7p6v8NHNIe434zznFkmyt1so6U7tnv/4EoBRxKZdsX0KovvDPk=
+	t=1773058413; cv=none; b=Hqxe82HVS2eh+cwgB2+0d3XPmSgytDK05+9rfy0KGfjpCPO1BDoqpPIJ2OMPPhJDd3fAycX4WwYgAlYvFZ2zgtzkfeL8HsOl9zGkhnCXTcBeiRVYK93AjMxozaybP92L1z23ZOfDI4pSSymr4hsj5EICM+aHrT5xqXJaRQ1xmd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773054725; c=relaxed/simple;
-	bh=UAF4L3W3XkviqAFTgOW7VEHQreqTnxXeNsGGT6LXUdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h++AINK+YQWWdHTLPfsLOMePyS94NYeMi9oyfK9q4VmojKdyWEyy+T0L8c76HblAedXRZylWPM0k11P3YBjhQxs4FpV9AwkLPrDGG5X0KK/6JHMn54YD4T152zzvi1cYV097N+5LB+fs2wjmtqkqD0k7BIz08v8C8XHNKMB0z9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zer0FkqI; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1773058413; c=relaxed/simple;
+	bh=/rC4//AC5CHDeldzdvqknpuJgHuJuwSXsV5fY9fclq0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MY4TT0wI2haM+MbBo/MReA1TctoiSdDgvsmrmea39M/yFpuqNRr1W9VY7ubkHcjJWEZ6SXcLCajxVVkLHSamyrB87HrNIiob3rMZPmx04jcUvy9Md8trjkSKHF6UbDEYs69+bPkcUt3gxXgKS97PofmMvT+/vtzuT1k0bZOYGkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zd3Ku4rG; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zer0FkqI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zd3Ku4rG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773054723; x=1804590723;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UAF4L3W3XkviqAFTgOW7VEHQreqTnxXeNsGGT6LXUdk=;
-  b=Zer0FkqIMVykoUo8FNQpPh/Tg8ENb56nV3ImAXWmtO4ntGgh2nrX+R+S
-   /NUTggWbbPepk3tci0Z6EMnN1hQh++YS76fP3NSM8Tj1+HabznKjBNou1
-   dmB+G6uyEUtDQ4pz5K1NCftRoE6kDj1BNCR1y2jr+iMcH27L3wXJBNgIV
-   DXobfSA/Wlvem1OZu/b3zs0mjarjw3ARaKcm6SWk8dhwPO3qg8AzTDGHr
-   FDZwmnvvfSY/ToeUWhvlgdatUGxNykQId8C0/Md2X0zCIu8zUZLgrdKSS
-   +APPhIusaDGqYYyh1cScmhOWHH2xJdsKeI1bFzNvVNP4tH8Lwv16gBR2a
-   g==;
-X-CSE-ConnectionGUID: FuFoFPihRTCA7bzbQEjmdg==
-X-CSE-MsgGUID: JQmnXp5JR+GiZsMVTDJU8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84709483"
+  t=1773058411; x=1804594411;
+  h=date:from:to:cc:subject:message-id;
+  bh=/rC4//AC5CHDeldzdvqknpuJgHuJuwSXsV5fY9fclq0=;
+  b=Zd3Ku4rGjM0UV6jOyX3ECUUk/vHX4aT18ssOIa9kgz7VVAnoznPBV9tx
+   mLLYga6S+VcL2Kfu6vciCVy3sHbtAT2AfPnV+Kp55DMe2XpGB2ShQJUoL
+   wSKjQ4QcRHHCCRUvNX/QCXb8fPS0C2wbh82HtapX32Ksf9yH8suRieUyL
+   gjo0F3r4+wWha8STJUtYtiGJ9syuhiD1nu4viFFZM1p/iT0X61RshhZxw
+   xgzifMIlPFpg5vJ0qPJE9uN9+WpGC2IH/y/TyuibFDbHcuTIzGjNq2Hii
+   zm+tQKK7e4BUq9AFBMA6LI+6OFjze3q3+dF4WCUA3vIM++l6PnK+0VzmL
+   Q==;
+X-CSE-ConnectionGUID: yHCZpS8fQSqC5W3G+4PQuA==
+X-CSE-MsgGUID: 5C/TwTlxSfu8yf8qU0Bgyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84401433"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="84709483"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:12:02 -0700
-X-CSE-ConnectionGUID: ywfDS89NQJilEXe/K984FQ==
-X-CSE-MsgGUID: q/GIchPFThSzo8NF9Ybkbw==
+   d="scan'208";a="84401433"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 05:13:31 -0700
+X-CSE-ConnectionGUID: E0nkN5HcSLuG+FqcqdNfjg==
+X-CSE-MsgGUID: DaVaDqJJT/+8q/ID0RJvNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="216663390"
-Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Mar 2026 04:12:00 -0700
-Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
+   d="scan'208";a="217791969"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 09 Mar 2026 05:13:28 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzYWj-0000000007M-0WCv;
-	Mon, 09 Mar 2026 11:11:57 +0000
-Date: Mon, 9 Mar 2026 19:11:56 +0800
+	id 1vzZUE-000000002qX-1eRV;
+	Mon, 09 Mar 2026 12:13:26 +0000
+Date: Mon, 09 Mar 2026 13:13:19 +0100
 From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
-	jingoohan1@gmail.com, mani@kernel.org, kwilczynski@kernel.org,
-	bhelgaas@google.com, helgaas@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh@kernel.org,
-	ilpo.jarvinen@linux.intel.com, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
-Subject: Re: [PATCH v7 2/2] PCI: dwc: Validate max-link-speed property
-Message-ID: <202603091845.8xKRO6rW-lkp@intel.com>
-References: <20260308142629.75392-3-18255117159@163.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 3/3]
+ arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@1b300000
+ (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too
+ long
+Message-ID: <202603091312.YzzZe3qe-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260308142629.75392-3-18255117159@163.com>
 
-Hi Hans,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c23719abc3308df7ed3ad35650ad211fb2d2003d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-of-Remove-max-link-speed-generation-validation/20260308-223128
-base:   c23719abc3308df7ed3ad35650ad211fb2d2003d
-patch link:    https://lore.kernel.org/r/20260308142629.75392-3-18255117159%40163.com
-patch subject: [PATCH v7 2/2] PCI: dwc: Validate max-link-speed property
-config: i386-randconfig-004-20260308 (https://download.01.org/0day-ci/archive/20260309/202603091845.8xKRO6rW-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603091845.8xKRO6rW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   db15f4990be1b8865ae651c9d748d43c91bb9d13
+commit: 27357b61522f7c06e81ab71cc20329f695f8f346 [3/3] arm64: dts: qcom: sc8280xp: Add missing VDD_MXC links
+config: arm64-randconfig-2052-20260226 (https://download.01.org/0day-ci/archive/20260309/202603091312.YzzZe3qe-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603091312.YzzZe3qe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603091845.8xKRO6rW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603091312.YzzZe3qe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/pci/controller/dwc/pcie-designware.c:128:19: error: invalid application of 'sizeof' to an incomplete type 'const unsigned char[]'
-     128 |             max_speed >= ARRAY_SIZE(pcie_link_speed) ||
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
->> drivers/pci/controller/dwc/pcie-designware.c:255:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
-     255 |         return PCI_FIND_NEXT_CAP(dw_pcie_read_cfg, PCI_CAPABILITY_LIST, cap,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     256 |                                  NULL, pci);
-         |                                  ~~~~~~~~~~
-   drivers/pci/controller/dwc/../../pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
-     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
-         |                                 ^~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:255:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
-   drivers/pci/controller/dwc/../../pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
-     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
-         |                                 ^
-   drivers/pci/controller/dwc/pcie-designware.c:262:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
-     262 |         return PCI_FIND_NEXT_EXT_CAP(dw_pcie_read_cfg, 0, cap, NULL, pci);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
-     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
-         |                                 ^~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:262:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
-   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
-     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
-         |                                 ^
-   drivers/pci/controller/dwc/pcie-designware.c:329:17: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
-     329 |         while ((vsec = PCI_FIND_NEXT_EXT_CAP(dw_pcie_read_cfg, vsec,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     330 |                                              PCI_EXT_CAP_ID_VNDR, NULL, pci))) {
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
-     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
-         |                                 ^~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:329:17: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
-   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
-     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
-         |                                 ^
-   3 warnings and 1 error generated.
-
-
-vim +255 drivers/pci/controller/dwc/pcie-designware.c
-
-13e9d3900c2024 Serge Semin 2022-06-24  252  
-7a6854f6874ff4 Vidya Sagar 2019-08-13  253  u8 dw_pcie_find_capability(struct dw_pcie *pci, u8 cap)
-7a6854f6874ff4 Vidya Sagar 2019-08-13  254  {
-8ffc9f234fdf33 Hans Zhang  2025-08-13 @255  	return PCI_FIND_NEXT_CAP(dw_pcie_read_cfg, PCI_CAPABILITY_LIST, cap,
-a2582e05e39adf Qiang Yu    2025-11-09  256  				 NULL, pci);
-7a6854f6874ff4 Vidya Sagar 2019-08-13  257  }
-7a6854f6874ff4 Vidya Sagar 2019-08-13  258  EXPORT_SYMBOL_GPL(dw_pcie_find_capability);
-7a6854f6874ff4 Vidya Sagar 2019-08-13  259  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+>> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[60, 13], [60, 0], [60, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[60, 13], [60, 0], [60, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:4541.12-4545.7: Warning (graph_child_address): /soc@0/camss@ac5a000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa0p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-crd-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa0p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: wifi@0 (pci17cb,1103): 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: remoteproc@1b300000 (qcom,sc8280xp-nsp0-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domain-names: ['nsp', 'cx', 'mxc'] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock-el2.dtb: remoteproc@21300000 (qcom,sc8280xp-nsp1-pas): power-domains: [[54, 13], [54, 0], [54, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sc8280xp-pas.yaml
 
 -- 
 0-DAY CI Kernel Test Service
