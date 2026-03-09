@@ -1,133 +1,149 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B67399007
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 14:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2C81465B4;
+	Mon,  9 Mar 2026 14:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773067591; cv=none; b=BSx0lNKzcfAr6Y5fbY8poo+SyN6myXpX0LEbAWX58/7UUAxWC2QEccASmhWECpWnbZOuoyXDvfBvBIR918v39gpE6VVSfedzt3untrpnipJe1Mbl8MKKuBcaaB+qYtuo2YLpsaHMCvUGibnG/H6b+p0SWGFeF+AIm8G8+/WWaqw=
+	t=1773068196; cv=none; b=TvdePzBiVR6laSb0yMa7z40Q91Apa+yWFcKLbCBBOAV2KpNDI9BPOkV6tZ/Pa0pUoo6FrljC+AbQv8pnLEQQFZZ/2DDU5z0c2v6af26CqoIxwLFUOF9MaXswxe4/5iDMTvvWFs9MBjXDmfiqRBmygMkB9TWcVEvc4B3KhQMMHlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773067591; c=relaxed/simple;
-	bh=pcjyvkWqVZuL0hNKvXxSSPOe/Gza0z73iIY1s/J2RB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nCXs60iMiW+DWd85tIf3+0mPw77yLc9aY4vjgptUSprlDHfzeJlzDDrYGaOB2KgMMjytCI2uqK1BN52OjByeUy6TJ0FPlKHTdAvUzF/2e3SwRRzisZ/yiwlMXqal6MYGAm87cIWHhBSwzZH2eKboFOCNikC1YAGxpLNU78sZ27w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AuyTb/zV; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1773068196; c=relaxed/simple;
+	bh=PoL/RgNXwrNphLvs7PMzEUNTz2yJHtGScrZkcIXw6Kk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f4j3tm7QRZtRVgxFuXbAcqRbd20w/PHPFcOSkk0oJoIXsgTTiX0FkBvxBW2fOAL7jSmEdrdtulRR+oyM7eUy5yrqwA5qm3ZIYC07v3C3cGBUxKZmhX4hhVC9FeqKfezUaHfdUm+cmmo/WfLePXOjcv2LKsTpQc++Xi8Kx0qEk34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hENevFAQ; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AuyTb/zV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=ap/5rAAlPzEySe5EbsdRcwWW15+LeFvh7y2Jk3wcWMs=;
-	b=AuyTb/zV9D2YgeUgaBWTDKywgxokYtXmcEcy1zkWDEcswfCF07vcM3Ru9D40Qm
-	3mHrswqM/BpOn/txl+QHJPRPKQGoJikWw372bvzLnMuyjMihtBjiyMg6NiIe2CFM
-	i7PqnquVccnQOAxj03e0WbqGox660444CqOBCU8eFDe7Q=
-Received: from [IPV6:240e:b8f:927e:1000:792:97b4:4a20:b2d3] (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3X50S3a5pFQwYAA--.8424S2;
-	Mon, 09 Mar 2026 22:45:39 +0800 (CST)
-Message-ID: <42c07f4a-d32b-4219-a0a7-ccec5f125b32@163.com>
-Date: Mon, 9 Mar 2026 22:45:38 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hENevFAQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773068194; x=1804604194;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PoL/RgNXwrNphLvs7PMzEUNTz2yJHtGScrZkcIXw6Kk=;
+  b=hENevFAQf8nJJ6vwyADuZAa5Mh1Wqm3bzcZeFuKXVEE+MuZk46E1nXyu
+   cY/bHXcDGdB6Kf2ofKLK3TFsh9OnCm6zcaoSXZayhTm0575F1nj4ee1FX
+   709WPYIWL+gSpjTXW5eOrnbyCrC0zXopGYiF+TxiRuEUBWHEXRx/IYwqO
+   xjjWy2d6kY+3RMAW8Ogy2EnUsrmsQWOyM2LkVtl1wAvIETaEDO6annXlZ
+   PSzAYUtf6auqVOYglmeNyPlNDkkY0Jz0M4ozFJTP5oHwlr12RP+eclqtg
+   7bpRpke+cCQtScUTtuGGMtdE+NV8mBjFDqjAUhnQjneWR6ceON+KXAhIL
+   Q==;
+X-CSE-ConnectionGUID: f51dDY+kQKy9atOFe/H4jA==
+X-CSE-MsgGUID: 7LGrIbi3Sg2NVjbPg7yK9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="99563856"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="99563856"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 07:56:34 -0700
+X-CSE-ConnectionGUID: NFt3wrsXQPKq6hWDp/kCeg==
+X-CSE-MsgGUID: gLqp2eh/TBizXqUAxt8SBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="224219446"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 09 Mar 2026 07:56:30 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vzc20-000000002sv-0s97;
+	Mon, 09 Mar 2026 14:56:28 +0000
+Date: Mon, 9 Mar 2026 15:55:54 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	linux-coco@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+	Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Steven Price <steven.price@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: Re: [PATCH v3 2/3] swiotlb: dma: its: Enforce host page-size
+ alignment for shared buffers
+Message-ID: <202603091555.ZRQIMCqJ-lkp@intel.com>
+References: <20260309102625.2315725-3-aneesh.kumar@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/2] PCI: dwc: Validate max-link-speed property
-To: kernel test robot <lkp@intel.com>, lpieralisi@kernel.org,
- jingoohan1@gmail.com, mani@kernel.org, kwilczynski@kernel.org,
- bhelgaas@google.com, helgaas@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org,
- ilpo.jarvinen@linux.intel.com, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260308142629.75392-3-18255117159@163.com>
- <202603090252.S3qQ67Kh-lkp@intel.com>
-Content-Language: en-US
-From: Hans Zhang <18255117159@163.com>
-In-Reply-To: <202603090252.S3qQ67Kh-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_____wD3X50S3a5pFQwYAA--.8424S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZw4UJr4Dur1xZrW5urykZrb_yoWrJr1xpa
-	yUGw1qkF98J3yfWw1UtFW8ua4Yq3Z8ZayUGr9Igr1xuF1ayr1UuF10gaySyr9rKr4v9ryx
-	KFy2kF9rCa4qy3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zR3ku3UUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxBSCJmmu3RQFgQAA3+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260309102625.2315725-3-aneesh.kumar@kernel.org>
+
+Hi Aneesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on tip/irq/core arm/for-next arm/fixes kvmarm/next soc/for-next linus/master v7.0-rc3 next-20260306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aneesh-Kumar-K-V-Arm/dma-direct-swiotlb-handle-swiotlb-alloc-free-outside-__dma_direct_alloc_pages/20260309-182834
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20260309102625.2315725-3-aneesh.kumar%40kernel.org
+patch subject: [PATCH v3 2/3] swiotlb: dma: its: Enforce host page-size alignment for shared buffers
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260309/202603091555.ZRQIMCqJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603091555.ZRQIMCqJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603091555.ZRQIMCqJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/processor-flags.h:6,
+                    from arch/x86/include/asm/irqflags.h:5,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   include/linux/mem_encrypt.h: In function 'mem_decrypt_granule_size':
+>> include/linux/mem_encrypt.h:60:16: error: 'PAGE_SIZE' undeclared (first use in this function)
+      60 |         return PAGE_SIZE;
+         |                ^~~~~~~~~
+   include/linux/mem_encrypt.h:60:16: note: each undeclared identifier is reported only once for each function it appears in
+   include/linux/mem_encrypt.h: In function 'mem_decrypt_align':
+>> include/linux/mem_encrypt.h:66:16: error: implicit declaration of function 'ALIGN' [-Wimplicit-function-declaration]
+      66 |         return ALIGN(size, mem_decrypt_granule_size());
+         |                ^~~~~
+   make[3]: *** [scripts/Makefile.build:184: arch/x86/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1333: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
+vim +/PAGE_SIZE +60 include/linux/mem_encrypt.h
 
-On 2026/3/9 02:10, kernel test robot wrote:
-> Hi Hans,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on c23719abc3308df7ed3ad35650ad211fb2d2003d]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-of-Remove-max-link-speed-generation-validation/20260308-223128
-> base:   c23719abc3308df7ed3ad35650ad211fb2d2003d
-> patch link:    https://lore.kernel.org/r/20260308142629.75392-3-18255117159%40163.com
-> patch subject: [PATCH v7 2/2] PCI: dwc: Validate max-link-speed property
-> config: csky-randconfig-r071-20260308 (https://download.01.org/0day-ci/archive/20260309/202603090252.S3qQ67Kh-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 10.5.0
-> smatch: v0.5.0-9004-gb810ac53
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603090252.S3qQ67Kh-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603090252.S3qQ67Kh-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from include/linux/kernel.h:16,
->                      from include/linux/clk.h:13,
->                      from drivers/pci/controller/dwc/pcie-designware.c:13:
->     drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_get_link_speed':
->>> include/linux/array_size.h:11:32: error: invalid application of 'sizeof' to incomplete type 'const unsigned char[]'
->        11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
->           |                                ^
->     drivers/pci/controller/dwc/pcie-designware.c:128:19: note: in expansion of macro 'ARRAY_SIZE'
->       128 |      max_speed >= ARRAY_SIZE(pcie_link_speed) ||
->           |                   ^~~~~~~~~~
-> 
-Hi Bjorn and Mani,
+    56	
+    57	#ifndef mem_decrypt_granule_size
+    58	static inline size_t mem_decrypt_granule_size(void)
+    59	{
+  > 60		return PAGE_SIZE;
+    61	}
+    62	#endif
+    63	
+    64	static inline size_t mem_decrypt_align(size_t size)
+    65	{
+  > 66		return ALIGN(size, mem_decrypt_granule_size());
+    67	}
+    68	
 
-I am currently working on a patch series aimed at removing the range 
-check in the of_pci_get_max_link_speed() function and adding validation 
-functionality in the DWC driver.
-
-In patch 2 of v7, I used ARRAY_SIZE(pcie_link_speed) in the DWC driver 
-to validate the "max-link-speed" attribute. However, the kernel test 
-robot reported a build error [2] because pcie_link_speed is an 
-incomplete type (only an external declaration) in the pcie-designware.c 
-file, so ARRAY_SIZE cannot be used.
-
-To solve this problem, I suggest adding a macro named "#define 
-PCIE_LINK_SPEED_COUNT 16" in the <linux/pci.h> file to represent the 
-fixed size of the pcie_link_speed array (with 16 entries according to 
-the 4-bit field of the PCIe standard). Then use this macro in the DWC 
-driver instead of using ARRAY_SIZE.
-
-The reason for adding the macro instead of using the fixed value "16" is 
-to make the code more self-explanatory and this array size can be used 
-for many years in 16 cases.
-
-Do you agree with this approach? Please let me know. Perhaps there are 
-any other better methods?
-
-Best regards,
-Hans
-
-> 
-> vim +11 include/linux/array_size.h
-> 
-> 3cd39bc3b11b8d Alejandro Colomar 2023-10-03   6
-> 3cd39bc3b11b8d Alejandro Colomar 2023-10-03   7  /**
-> 3cd39bc3b11b8d Alejandro Colomar 2023-10-03   8   * ARRAY_SIZE - get the number of elements in array @arr
-> 3cd39bc3b11b8d Alejandro Colomar 2023-10-03   9   * @arr: array to be sized
-> 3cd39bc3b11b8d Alejandro Colomar 2023-10-03  10   */
-> 3cd39bc3b11b8d Alejandro Colomar 2023-10-03 @11  #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-> 3cd39bc3b11b8d Alejandro Colomar 2023-10-03  12
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
