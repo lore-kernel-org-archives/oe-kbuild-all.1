@@ -1,70 +1,63 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4695A39524D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 11:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64481396D30;
+	Mon,  9 Mar 2026 11:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773054391; cv=none; b=b4VSI5LBzS9OBfunTBPtAx6EAYjSKgPs0ptTiXv89EZ8dWT5W6y45i/Fpii8SVblsmofIZHn1q6yHezNJ3YSjcAIz5OIEHLWCYZAb3y912IFUFXstpxXhRLtFPxI5mpY/dajUQESAz6l4ynd+lxUMQmLO+IW737LsAtPXCQyxmc=
+	t=1773054725; cv=none; b=GHuWe9tsgp8GRqFLnQLhdXukg7ha48gMoJJZPr7tz0x+bFKsprB9l09Kt9YBXuULnnFgrWmOSSTNjJlio3DvOShmjVMMToFd2WPKudtE0Lrk8vdyGJ+LFpt8P7p6v8NHNIe434zznFkmyt1so6U7tnv/4EoBRxKZdsX0KovvDPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773054391; c=relaxed/simple;
-	bh=j/o1SQRHto7JtQYJ4YJqx3lMfkt8dgsZSqcLp2dy2vE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FTu0+G5SyBkec6RxmTjHva/CaqCj9jszBy6an9gATnPgBAoftTIbywQMUrTcqcXEdLKjlW/YkNDyQ3FSFhCOgeif7H+jVrmAIddfDkQ8xReJ5hQQI/PPdclo5dGBYZYvTzqBKDK+ieQvJLyA90HEMLNmo9aLSH4CHvAA/FUx580=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qUV2jHtA; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773054725; c=relaxed/simple;
+	bh=UAF4L3W3XkviqAFTgOW7VEHQreqTnxXeNsGGT6LXUdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h++AINK+YQWWdHTLPfsLOMePyS94NYeMi9oyfK9q4VmojKdyWEyy+T0L8c76HblAedXRZylWPM0k11P3YBjhQxs4FpV9AwkLPrDGG5X0KK/6JHMn54YD4T152zzvi1cYV097N+5LB+fs2wjmtqkqD0k7BIz08v8C8XHNKMB0z9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zer0FkqI; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qUV2jHtA"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48529c325f0so18116135e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Mar 2026 04:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773054389; x=1773659189; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XYqNOLuJzMYK9d1ajstSf4XchF/ZWv9ReR1ssRMKIMw=;
-        b=qUV2jHtAg6iaium6jDQkZd9UYSgqLNyxoY/quhNtK9MuoaSfy447Wr2IpDZ7wUVIjC
-         8BS2XI94vT34V7bjnwtvUcW3XDVgX2Msx11lk9YIHSel5s5KroYtpZMvAFIQ6XH+/rPn
-         wWvFbaDSo5NSfpS6yMuaiZMgeIJAJYcZfiZ/hNez4YUqPLCJK1A6xKTCyjfgQHI/v7bx
-         owfomofP8kCPLSMguWj+TKyVFggQ5oU/oMQPQ9b/5hTcgXD1FonGISTJ0GG91C7YSdJQ
-         XIOvItt0C9rTph/Y5et09y4JQ42ubJzjIky3D/sgN6sGgagcfAQnU1XOxVckEmRMrzHY
-         ekkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773054389; x=1773659189;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XYqNOLuJzMYK9d1ajstSf4XchF/ZWv9ReR1ssRMKIMw=;
-        b=OgBWkHNFJgjaf7sqiS7H3nmJN0AIMHmDnhHv7Y/Zyb/E72qzA4ChURFkLPebZBOZVF
-         d/zGWtknTJOUHyimXLC3SA0fHKWWMItLlYCNJwCPojiIK2kBPjE4ttpobUn6cWy6B1X1
-         DGP2dd6JHHUfbqEYc9lPEndcF34qxoPqn6jr9g1tbeSmevE/z5o2xFIzDzsZSVTI1qdF
-         KXehGRqRVTNMSeWo9JDFWw20CgsecG9R6uL91WppdF0nr4XBtmCT8V5zBjPvpicab000
-         +CFyBUUHdh6+J8zMhTqsD9CY9tZCNBaCjSn0wVfv8S+CLdZrccefEqMSuFV+4KRClKzL
-         wYpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1n1lev/rJCQzsVr+tqeCX1uue8gK93WtiqXeoGjtLKhnhwkZmawAzr9u4uh1G4IB9a9pt6c4mcJGmHlrL@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywxw8hWjSi3WfK7W8W7vfr0vHvngsKb7C9lRXB/MwOPmlJrj1Qw
-	CRZOXb5udq/VmRNY17zGJ3Ve4cl6QAAiXG9pXMFT6RgjFKHQC57gI9CBIzjoj3ybkIA=
-X-Gm-Gg: ATEYQzy3w0+ZzsRtdPqoqQlxj3nGV+Gl7zpU7I3zLzcdys2TLw9+05jZh+xx3AUopTB
-	QbsOCDRcZDLy9SFjcZTeQpEpfH7UoVZ9Xut5l2yLhsu01pH/kXB5wIPk+g6Nr7+PexazLEdiYi7
-	/FT5JnfSaKkY18XDGAhSQrQVd2MxdJ5iMHiYhVmyLRWl64bWSlPM+zySyHlormdKYnHVbQ/8ISd
-	ZRV2DD2ZOE//yanoz7SDJNDGoSRznS+foMG24xWa3QUusAX9hcsLVlaiyP067DEcbgnTkgY8N8D
-	loTKMADJ9Te+H06evCsI5nI0VWphtrLhBdFUjDZpbxcKBZLT5Dd1vvLsH3m/e9UkY8oFzBmJXJX
-	KkOI4noH6ewpuNY6gO1wrwO2Lougx2H0qx6Cvph74SZDFC6r8OezvpKzxIpLKa0pbLmycz69lhm
-	129rA3j3jCFP4gz1+r8phvbFmYQ/1S
-X-Received: by 2002:a05:600c:310f:b0:485:390d:74f8 with SMTP id 5b1f17b1804b1-485390d7719mr62033515e9.25.1773054388509;
-        Mon, 09 Mar 2026 04:06:28 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48529f01997sm86831215e9.14.2026.03.09.04.06.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 04:06:28 -0700 (PDT)
-Date: Mon, 9 Mar 2026 14:06:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Frank Wunderlich <frank-w@public-files.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.0-rc 6/87]
- drivers/tty/serial/8250/8250_mtk.c:436 mtk8250_runtime_suspend() warn:
- test_and_clear_bit() takes a bit number
-Message-ID: <202603091856.CNiw1oL1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zer0FkqI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773054723; x=1804590723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UAF4L3W3XkviqAFTgOW7VEHQreqTnxXeNsGGT6LXUdk=;
+  b=Zer0FkqIMVykoUo8FNQpPh/Tg8ENb56nV3ImAXWmtO4ntGgh2nrX+R+S
+   /NUTggWbbPepk3tci0Z6EMnN1hQh++YS76fP3NSM8Tj1+HabznKjBNou1
+   dmB+G6uyEUtDQ4pz5K1NCftRoE6kDj1BNCR1y2jr+iMcH27L3wXJBNgIV
+   DXobfSA/Wlvem1OZu/b3zs0mjarjw3ARaKcm6SWk8dhwPO3qg8AzTDGHr
+   FDZwmnvvfSY/ToeUWhvlgdatUGxNykQId8C0/Md2X0zCIu8zUZLgrdKSS
+   +APPhIusaDGqYYyh1cScmhOWHH2xJdsKeI1bFzNvVNP4tH8Lwv16gBR2a
+   g==;
+X-CSE-ConnectionGUID: FuFoFPihRTCA7bzbQEjmdg==
+X-CSE-MsgGUID: JQmnXp5JR+GiZsMVTDJU8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84709483"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="84709483"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:12:02 -0700
+X-CSE-ConnectionGUID: ywfDS89NQJilEXe/K984FQ==
+X-CSE-MsgGUID: q/GIchPFThSzo8NF9Ybkbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="216663390"
+Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 09 Mar 2026 04:12:00 -0700
+Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vzYWj-0000000007M-0WCv;
+	Mon, 09 Mar 2026 11:11:57 +0000
+Date: Mon, 9 Mar 2026 19:11:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	jingoohan1@gmail.com, mani@kernel.org, kwilczynski@kernel.org,
+	bhelgaas@google.com, helgaas@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+	ilpo.jarvinen@linux.intel.com, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
+Subject: Re: [PATCH v7 2/2] PCI: dwc: Validate max-link-speed property
+Message-ID: <202603091845.8xKRO6rW-lkp@intel.com>
+References: <20260308142629.75392-3-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,64 +66,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260308142629.75392-3-18255117159@163.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc
-head:   027868526273f2766cd140b0fb54609225da2cf9
-commit: c3e74a9070cbe512e4879c15d680b41242680548 [6/87] serial: 8250_mtk: track busclk state to avoid bus error
-config: nios2-randconfig-r071-20260309 (https://download.01.org/0day-ci/archive/20260309/202603091856.CNiw1oL1-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Hans,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c23719abc3308df7ed3ad35650ad211fb2d2003d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-of-Remove-max-link-speed-generation-validation/20260308-223128
+base:   c23719abc3308df7ed3ad35650ad211fb2d2003d
+patch link:    https://lore.kernel.org/r/20260308142629.75392-3-18255117159%40163.com
+patch subject: [PATCH v7 2/2] PCI: dwc: Validate max-link-speed property
+config: i386-randconfig-004-20260308 (https://download.01.org/0day-ci/archive/20260309/202603091845.8xKRO6rW-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603091845.8xKRO6rW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603091856.CNiw1oL1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603091845.8xKRO6rW-lkp@intel.com/
 
-smatch warnings:
-drivers/tty/serial/8250/8250_mtk.c:436 mtk8250_runtime_suspend() warn: test_and_clear_bit() takes a bit number
-drivers/tty/serial/8250/8250_mtk.c:453 mtk8250_runtime_resume() warn: test_and_set_bit() takes a bit number
+All warnings (new ones prefixed by >>):
 
-vim +436 drivers/tty/serial/8250/8250_mtk.c
+   drivers/pci/controller/dwc/pcie-designware.c:128:19: error: invalid application of 'sizeof' to an incomplete type 'const unsigned char[]'
+     128 |             max_speed >= ARRAY_SIZE(pcie_link_speed) ||
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+>> drivers/pci/controller/dwc/pcie-designware.c:255:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
+     255 |         return PCI_FIND_NEXT_CAP(dw_pcie_read_cfg, PCI_CAPABILITY_LIST, cap,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     256 |                                  NULL, pci);
+         |                                  ~~~~~~~~~~
+   drivers/pci/controller/dwc/../../pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
+     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
+         |                                 ^~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:255:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
+   drivers/pci/controller/dwc/../../pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
+     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
+         |                                 ^
+   drivers/pci/controller/dwc/pcie-designware.c:262:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
+     262 |         return PCI_FIND_NEXT_EXT_CAP(dw_pcie_read_cfg, 0, cap, NULL, pci);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
+     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
+         |                                 ^~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:262:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
+   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
+     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
+         |                                 ^
+   drivers/pci/controller/dwc/pcie-designware.c:329:17: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
+     329 |         while ((vsec = PCI_FIND_NEXT_EXT_CAP(dw_pcie_read_cfg, vsec,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     330 |                                              PCI_EXT_CAP_ID_VNDR, NULL, pci))) {
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
+     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
+         |                                 ^~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:329:17: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
+   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
+     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
+         |                                 ^
+   3 warnings and 1 error generated.
 
-9db669f14fd829 Arnd Bergmann    2016-02-08  431  static int __maybe_unused mtk8250_runtime_suspend(struct device *dev)
-68e5fc4a255a7f Sascha Hauer     2015-04-27  432  {
-68e5fc4a255a7f Sascha Hauer     2015-04-27  433  	struct mtk8250_data *data = dev_get_drvdata(dev);
-e32a83c70cf987 Changqi Hu       2020-02-26  434  	struct uart_8250_port *up = serial8250_get_port(data->line);
-68e5fc4a255a7f Sascha Hauer     2015-04-27  435  
-c3e74a9070cbe5 Daniel Golle     2023-09-11 @436  	if (!test_and_clear_bit(MTK_UART_STATE_BIT_BUSCLK_EN, &data->state))
 
-Don't pass BIT(X) to test_and_clear_bit().  Just pass X.
+vim +255 drivers/pci/controller/dwc/pcie-designware.c
 
-c3e74a9070cbe5 Daniel Golle     2023-09-11  437  		return 0;
-c3e74a9070cbe5 Daniel Golle     2023-09-11  438  
-e32a83c70cf987 Changqi Hu       2020-02-26  439  	/* wait until UART in idle status */
-e32a83c70cf987 Changqi Hu       2020-02-26  440  	while
-e32a83c70cf987 Changqi Hu       2020-02-26  441  		(serial_in(up, MTK_UART_DEBUG0));
-e32a83c70cf987 Changqi Hu       2020-02-26  442  
-d518314a1fa4e9 Daniel Golle     2025-09-16  443  	clk_disable_unprepare(data->uart_clk);
-c1c325d703d347 Sascha Hauer     2015-04-27  444  	clk_disable_unprepare(data->bus_clk);
-68e5fc4a255a7f Sascha Hauer     2015-04-27  445  
-68e5fc4a255a7f Sascha Hauer     2015-04-27  446  	return 0;
-68e5fc4a255a7f Sascha Hauer     2015-04-27  447  }
-68e5fc4a255a7f Sascha Hauer     2015-04-27  448  
-9db669f14fd829 Arnd Bergmann    2016-02-08  449  static int __maybe_unused mtk8250_runtime_resume(struct device *dev)
-68e5fc4a255a7f Sascha Hauer     2015-04-27  450  {
-68e5fc4a255a7f Sascha Hauer     2015-04-27  451  	struct mtk8250_data *data = dev_get_drvdata(dev);
-68e5fc4a255a7f Sascha Hauer     2015-04-27  452  
-c3e74a9070cbe5 Daniel Golle     2023-09-11 @453  	if (test_and_set_bit(MTK_UART_STATE_BIT_BUSCLK_EN, &data->state))
-
-Same.
-
-c3e74a9070cbe5 Daniel Golle     2023-09-11  454  		return 0;
-c3e74a9070cbe5 Daniel Golle     2023-09-11  455  
-b6c7ff2693ddc2 Chen-Yu Tsai     2023-06-06  456  	clk_prepare_enable(data->bus_clk);
-d518314a1fa4e9 Daniel Golle     2025-09-16  457  	clk_prepare_enable(data->uart_clk);
-c1c325d703d347 Sascha Hauer     2015-04-27  458  
-68e5fc4a255a7f Sascha Hauer     2015-04-27  459  	return 0;
-68e5fc4a255a7f Sascha Hauer     2015-04-27  460  }
+13e9d3900c2024 Serge Semin 2022-06-24  252  
+7a6854f6874ff4 Vidya Sagar 2019-08-13  253  u8 dw_pcie_find_capability(struct dw_pcie *pci, u8 cap)
+7a6854f6874ff4 Vidya Sagar 2019-08-13  254  {
+8ffc9f234fdf33 Hans Zhang  2025-08-13 @255  	return PCI_FIND_NEXT_CAP(dw_pcie_read_cfg, PCI_CAPABILITY_LIST, cap,
+a2582e05e39adf Qiang Yu    2025-11-09  256  				 NULL, pci);
+7a6854f6874ff4 Vidya Sagar 2019-08-13  257  }
+7a6854f6874ff4 Vidya Sagar 2019-08-13  258  EXPORT_SYMBOL_GPL(dw_pcie_find_capability);
+7a6854f6874ff4 Vidya Sagar 2019-08-13  259  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
