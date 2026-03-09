@@ -1,123 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150201F3D56;
-	Mon,  9 Mar 2026 03:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D44288A2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 04:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773028672; cv=none; b=CxEz50SDbooH7honTPDRod1ik5isw4V/nvGA1YU0adYOcpok2nXUF9d4uhmniwfbz488AvjEKxXqTNxrVowl3gGjQUR2RsKM8HPtKYsml0r1I+0URs30Itd92iJPVkV6SSXeIVX1e13YU5VzMwJlwyMaMtC2+Y3Y8PP2MseIEuw=
+	t=1773031110; cv=none; b=TjVH/vdt3WvpnJGvk2hMrcWmAhjHjIt/fu81MLCZjKQrvnzXpnTnwVBaV5Z6honXQt+Yn50hD4Bu/+oC4I4bmtHCFpps6EOnmYzgQb2pmwEj8ZnE6+5yzJ74mXF+xzA6W3BTMbf9Q4ObxoYnuU944N2uDV4B2+O/h8eU84Y3Wg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773028672; c=relaxed/simple;
-	bh=guIANQMH0c5Vi7BIgG+9v/P7/bvGlgo44kcre7HgFy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bl6YJkTUiJtZMrOsunmSGF1BfKF4On66EWTjXCEvGITSrP08EGOxxbv4KcMbV2M33MjuQhM65WhIjnudjINLxdz4A3f5Gk5HrttMhnxFApXZudlZM6DeOjXGaY1eDep+dz59WwsnVAP5DJO7ecGd4COSgk9u2C3w1YohlR3Itnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RDQK1zI4; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1773031110; c=relaxed/simple;
+	bh=qSplbphK10y4h2ipafmbl+4zyeCjm10N4JfDLxDNE3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RUixsdEaKvadptXPrC0u07tJ5pEO3AkylogWlwawE9c6l36BAK8LJjup1tMt44dkdz/ILv3z8S5N7jCSxnFjnb55La1/5aP//qTgJl2ZjqM+xvTqI71ttCRhFXFhjsWZUR//byhMv6TZugOq5lPz3iCrBX2oLTP3m6x4jxfztjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OiPy7IxJ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RDQK1zI4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OiPy7IxJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773028670; x=1804564670;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=guIANQMH0c5Vi7BIgG+9v/P7/bvGlgo44kcre7HgFy4=;
-  b=RDQK1zI4AfExJSXMP3RKWiigeVJmrgQa9aZndXXBWY8TMsuUl27Y1L5V
-   tISsTJu7rgUY3DTjpsF4Tk/DvMatxJwmvQZhwT5dFa/eYinMqfA3Y+22U
-   xrQieWR7xU4Br9xKbPTXNCWADZAzUAwqFGHvdFOfQgb3ez7SUEhLpTUvp
-   bprOU2L32uXPT4Qk0Q8nHkM7uGBN4RTfjq6nqcyHy4r0QM2vZyaRmnr7a
-   1PfWkI3qBzhkFgkxfaNvo7GUANvCSjyhWJ9SB2t83TVLSDGozGtAEYzYA
-   NP6+iko0RNic56O0kZRxCDJPMl2E7tK5k4SB+BKW/2hkgMMlN1RajGwAI
-   Q==;
-X-CSE-ConnectionGUID: 4cRJRc0nT3mp1s7bEsCwPg==
-X-CSE-MsgGUID: t+r7rwbvSUmCYxXJjglCVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="73949539"
+  t=1773031109; x=1804567109;
+  h=date:from:to:cc:subject:message-id;
+  bh=qSplbphK10y4h2ipafmbl+4zyeCjm10N4JfDLxDNE3Y=;
+  b=OiPy7IxJtUN7Zh8VjBcv6n4e1aw/mvbUBrf2yyonXHsXwUiLUV0WslIk
+   6X2yegUcxwQvz0pwCkIbHBZ3kCTEzb3uyPUXNbh/U80wGEAlYiibxTjdW
+   EjGUbT6+mKWTwsZn2rrZwQRFCB0138nyv11pi6UkL9teeJvSqjnnb9YXU
+   FIs2zVmKbVEBxc/mXx9qUCzHliu0H2w/igDf7uq5ssJqLS/GC/fRN7mO+
+   5x57OmLsrGEonb7/u382fbIy4rBPabir6oI2E+wsMjrYkhdgGiw9YVfp9
+   /CqWLT0qPAKPbyDrwrBXB3Hmc3YJ6X7UIwu0MGqRuwqwk0Tihn5Lekte0
+   A==;
+X-CSE-ConnectionGUID: Jgqab22tQyGlK+fXiQJ2Og==
+X-CSE-MsgGUID: cot9PrfNSeWfI11TQCopKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84374422"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="73949539"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 20:57:49 -0700
-X-CSE-ConnectionGUID: u78bIBNmTT+A93NEMQDGZQ==
-X-CSE-MsgGUID: DcpL+dr/Tga1sllf05d2rg==
+   d="scan'208";a="84374422"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 21:38:29 -0700
+X-CSE-ConnectionGUID: SmuRDJxDTdGmSQR0p6LfVg==
+X-CSE-MsgGUID: ZHX6HLudSFaObunbKAU4dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="224082335"
-Received: from lkp-server01.sh.intel.com (HELO 17db2bb44c9a) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2026 20:57:48 -0700
-Received: from kbuild by 17db2bb44c9a with local (Exim 4.98.2)
+   d="scan'208";a="217260019"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 08 Mar 2026 21:38:26 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzRkX-0000000008D-32qM;
-	Mon, 09 Mar 2026 03:57:45 +0000
-Date: Mon, 9 Mar 2026 11:56:46 +0800
+	id 1vzSNs-000000002oZ-1soi;
+	Mon, 09 Mar 2026 04:38:24 +0000
+Date: Mon, 09 Mar 2026 05:37:25 +0100
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC net-next v2 5/6] netdevsim: Add module EEPROM simulation
- via debugfs
-Message-ID: <202603091145.XesQOgpn-lkp@intel.com>
-References: <20260308124016.3134012-6-bjorn@kernel.org>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.0-rc 45/64]
+ arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@1a100800
+ (mediatek,mt7622-pciesys): compatible: ['mediatek,mt7622-pciesys', 'syscon']
+ is too long
+Message-ID: <202603090524.h8MXK0lk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260308124016.3134012-6-bjorn@kernel.org>
 
-Hi Björn,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0bcac7b11262557c990da1ac564d45777eb6b005]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bj-rn-T-pel/ethtool-Add-loopback-netlink-UAPI-definitions/20260308-204636
-base:   0bcac7b11262557c990da1ac564d45777eb6b005
-patch link:    https://lore.kernel.org/r/20260308124016.3134012-6-bjorn%40kernel.org
-patch subject: [RFC net-next v2 5/6] netdevsim: Add module EEPROM simulation via debugfs
-config: i386-buildonly-randconfig-006-20260309 (https://download.01.org/0day-ci/archive/20260309/202603091145.XesQOgpn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603091145.XesQOgpn-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc
+head:   027868526273f2766cd140b0fb54609225da2cf9
+commit: 2955e80f442734f4debecdce4b49f1072505ae8e [45/64] arm64: dts: mt7622: fix sata
+config: arm64-randconfig-2054-20260307 (https://download.01.org/0day-ci/archive/20260309/202603090524.h8MXK0lk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603090524.h8MXK0lk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603091145.XesQOgpn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603090524.h8MXK0lk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/net/netdevsim/ethtool.c:212:11: warning: result of comparison of constant 256 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-     212 |         if (page >= NSIM_MODULE_EEPROM_PAGES)
-         |             ~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +212 drivers/net/netdevsim/ethtool.c
-
-   197	
-   198	static u8 *nsim_module_eeprom_ptr(struct netdevsim *ns,
-   199					  const struct ethtool_module_eeprom *page_data, u32 *len)
-   200	{
-   201		u32 offset;
-   202		u8 page;
-   203	
-   204		if (page_data->offset < NSIM_MODULE_EEPROM_PAGE_LEN) {
-   205			page = 0;
-   206			offset = page_data->offset;
-   207		} else {
-   208			page = page_data->page;
-   209			offset = page_data->offset - NSIM_MODULE_EEPROM_PAGE_LEN;
-   210		}
-   211	
- > 212		if (page >= NSIM_MODULE_EEPROM_PAGES)
-   213			return NULL;
-   214	
-   215		*len = min_t(u32, page_data->length, NSIM_MODULE_EEPROM_PAGE_LEN - offset);
-   216		return ns->ethtool.module.pages[page] + offset;
-   217	}
-   218	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@11220000 (mediatek,mt7622-audsys): audio-controller:clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [37, 8], [37, 9], [37, 10], [37, 11], [37, 4], [37, 5], [37, 6], [37, 7], [37, 14], [37, 15], [37, 39], [37, 40], [37, 0], [37, 46], [37, 17], [37, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@11220000 (mediatek,mt7622-audsys): audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller (mediatek,mt7622-audio): clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller (mediatek,mt7622-audio): clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [37, 8], [37, 9], [37, 10], [37, 11], [37, 4], [37, 5], [37, 6], [37, 7], [37, 14], [37, 15], [37, 39], [37, 40], [37, 0], [37, 46], [37, 17], [37, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller (mediatek,mt7622-audio): 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml
+>> arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@1a100800 (mediatek,mt7622-pciesys): compatible: ['mediatek,mt7622-pciesys', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt7622-pciesys.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000 (mediatek,mt7622-audsys): audio-controller:clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0], [38, 46], [38, 17], [38, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000 (mediatek,mt7622-audsys): audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller (mediatek,mt7622-audio): clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller (mediatek,mt7622-audio): clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0], [38, 46], [38, 17], [38, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller (mediatek,mt7622-audio): 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@1a100800 (mediatek,mt7622-pciesys): compatible: ['mediatek,mt7622-pciesys', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt7622-pciesys.yaml
 
 -- 
 0-DAY CI Kernel Test Service
