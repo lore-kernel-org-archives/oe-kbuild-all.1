@@ -1,134 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DFC38E5D4;
-	Mon,  9 Mar 2026 10:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0EC254AFF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 10:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773051479; cv=none; b=j6FdgxsHs/iPDkdKPnOg63IupL5kMj7eiDcFTZ9fH9+i4fFn/nwfSKMdftHDTTM+5tiNxm2CAvkaK48H1NNUHx1Lob0iAfT2i8BcW6RUf3VsdHAWnRjlYsslKgJlz5Pt54FATVnvCKR2YxdjWWWencdr7efPwKHJf88CU+KkgWI=
+	t=1773052270; cv=none; b=EFXFcIC2Lo6sH/5GWPP6iggwhul4KePNwvBsUF3F7WnY+RmGPTRvd3f8kwVaZJlKtqJFp6dwU5pEg2NARjO21JiRlJBS8rHq6yRQrpVSGAThR5jt5nWRWIUUtNx+xOVZgt7W1CyG4BMla5gRx6HoLA9sAHaJJTZCw9ZfI/a6oY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773051479; c=relaxed/simple;
-	bh=PxwLcqfWeY+wdgC5BilMJKo54UiY4SgPOQcyeQm57Ao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o6WEIjcMPfozvU5r58ydZeXHMVHqDDaOv2+R7iviwz89lX22pnv1JJpW6w5Vgvc7+pPphyRdvxo5YbSm6BGEXaMGsh+0GiXP8PzEyTGyTWougK1kem+CBE8hRqa/2GR1g1pbdn68G7wlW3iZpcInSTfdWYAKEQx2kk3h8SqJTJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lU3Qbo+5; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773052270; c=relaxed/simple;
+	bh=0wBglbdbgyiJwsBzxJASt8/d9BKvUo+GZcF1rrVwqeA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P7CooGfqyUMu4xmyYAWDgaUqZzJBDFy5uuOeX06ngxZkbwkokX1aAPmtvFlPZSAyU8jMhYlkZwZ//HSNtjuzdIpeq11YMIY4TJDijt/2yh91xtlxEdNZIU2RLrPnil4ypEbfNFCk6jnrinEjtEpcdGDRNBG9/kwbQ5Qtvs+DPPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qzhkih9q; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lU3Qbo+5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773051478; x=1804587478;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PxwLcqfWeY+wdgC5BilMJKo54UiY4SgPOQcyeQm57Ao=;
-  b=lU3Qbo+5RIYi7jRv1wQFllN3/y9E8gRUtZAmcif4SoxukTLlGXxtxc/R
-   oo3VtsLA6t1r2kEHTezW6u1o6psPNS8Uh7HY3M8zRnTm5m+oD+JnIAcb+
-   L7dtazk9HCSNqoXZusp9wJERXY5woLUhv/XreEt04mvVQUZ1UDKrMTtgg
-   OiNBo3H+d6MQLvDI6PG3E5O+0XMk1x964exTKJLdVW/XGJ3+zl0KTqPzu
-   8M8ohIrPhiqKI4ZX7s6nNGN2hLOGca4sN0ziQ1KmlxN8XtYV8J5ECKOIK
-   ruOcIvyzlHnnC5FOXI7ULtU+ssUtIGrRDP9Hi3dA5rfAPamf4SWybQPXc
-   Q==;
-X-CSE-ConnectionGUID: eGctDIneShy3xwLHjrY9VA==
-X-CSE-MsgGUID: RVaUGtE8QJWEwRwukLQk8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="77672532"
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="77672532"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 03:17:58 -0700
-X-CSE-ConnectionGUID: hPuwX0g8Qb61x+hh0vrkzg==
-X-CSE-MsgGUID: rEQv6OP3T1+na1iihp+mOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="219837360"
-Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Mar 2026 03:17:56 -0700
-Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vzXgO-0000000004C-212H;
-	Mon, 09 Mar 2026 10:17:52 +0000
-Date: Mon, 9 Mar 2026 18:17:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Laur <laurentiutopai2004@gmail.com>, hansg@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, sakari.ailus@linux.intel.com,
-	andy@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Laur <laurentiutopai2004@gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: comprehensive coding style
- cleanup
-Message-ID: <202603091804.DdX2VxlO-lkp@intel.com>
-References: <20260308215840.31197-1-laurentiutopai2004@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qzhkih9q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773052267;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6uDuPQs7d6skRF5tTd2jlNb7jo/fZnfZ7p1rRhnGX3E=;
+	b=Qzhkih9qV/2xhhp5nc2IMkhB5BeX2MrzxZGBL3S8/dkK8pTW2kJZeRg7AegHiSUMOoXzII
+	ucQTICJ0qh6OwOZtQxyUv5ASxCzzqx9AB1WRrHDbeDQSm6MpfnAzLQKcWVZc5WO1XU6qvZ
+	aMUoQ/FPai0Q9fQ/x58t5m1lEmWuauI=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-12-4oE7TEewOwGsbcxh0J03lA-1; Mon, 09 Mar 2026 06:31:05 -0400
+X-MC-Unique: 4oE7TEewOwGsbcxh0J03lA-1
+X-Mimecast-MFC-AGG-ID: 4oE7TEewOwGsbcxh0J03lA_1773052264
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-b95c0d77b42so126572766b.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Mar 2026 03:31:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773052264; x=1773657064;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6uDuPQs7d6skRF5tTd2jlNb7jo/fZnfZ7p1rRhnGX3E=;
+        b=MD1X6/kmIuWYSyNKMX99hSSXr2HqcLvWzCAGoonOmgX6dXsBEhFphgKPvC/QuvguqE
+         //pcdo6dr82d0lzmRPVAQzKxvGufHIBx0v7x0Vz9CswV2vlWE5mPBdLz/SSrRT3oaJIX
+         yQrKyYuQryZN96vrM/O7fWLUocNpge2iH2Qp0d5ue4ghpIFZaVMYihRW2a1G8FSsrFoM
+         ak8TJ3uo16RMCdaLxX4PtzajHSMVGocUoPEaT8ixsfa1+8/wL5Yl0Qdy39sCtWxM/N52
+         S6ay316G0oNcaOIwZu0aEeUGQDb9kw2vFfTze9xOMtSb7iolMRg5B6UQC1QhqKf458Pp
+         x2UQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMHD2BZr6NteqV1e7jq36TcmPKrXroHmA1IVB89fmIu9GGtV9ACiIqb1G/kie5yJdIoTO5Bovq6dsgZEQD@lists.linux.dev
+X-Gm-Message-State: AOJu0YycADQIAzV+4CURKcWCODQi3ahwFZdmUiKHduqc6QqZN+P03Onm
+	AxxIiuGzsmTTd9PkqWhoH9q2uLpEgDdB6pe9ruVpElBg8CmHhX/1nGbNlYDNV93i+3K6swEIg+r
+	rQSi3shI4w/N7IOS8Cgr4RgcB8pYUyLQCDsQiHER3K/xJOMo1A1YibJ1QTf2hqjWOasbi0VbqKo
+	fWHPnP7ZiHmi+l2AYH8oMhSNVq5iNLUTWlEtyBA+j71Q==
+X-Gm-Gg: ATEYQzzbR+UWPwsBLvcSG7CwtH1T2LkChs6R9pvH6dx0DnLzUkThglfSe2N/XaM+STt
+	Af/UQ5oEo2aYD3AJC2H6JJPXOy5vweMhgkNvV/DWyNjEKM0OJ1Fj2XoubGqqStAikSzNojEil7F
+	wJVxIaedrWz1bV/DB6xSzU3NQPA5Haa94ZX9mf4VP/F/FvuLDSpourUcm6T24VANH9Qop0RQ6Cs
+	n/J5g==
+X-Received: by 2002:a17:907:1c81:b0:b93:6b41:e394 with SMTP id a640c23a62f3a-b942dbced3bmr523912066b.3.1773052264054;
+        Mon, 09 Mar 2026 03:31:04 -0700 (PDT)
+X-Received: by 2002:a17:907:1c81:b0:b93:6b41:e394 with SMTP id
+ a640c23a62f3a-b942dbced3bmr523909766b.3.1773052263586; Mon, 09 Mar 2026
+ 03:31:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260308215840.31197-1-laurentiutopai2004@gmail.com>
+References: <20260306-clk-scaling-v5-2-d21b84ee6f27@redhat.com> <202603082228.3RYA8l9q-lkp@intel.com>
+In-Reply-To: <202603082228.3RYA8l9q-lkp@intel.com>
+From: Brian Masney <bmasney@redhat.com>
+Date: Mon, 9 Mar 2026 06:30:51 -0400
+X-Gm-Features: AaiRm51xv-5Fvpq28_DyyKVNTDjNUzh2q55dvvBrMPegtA0lGwMe9trv34GXR08
+Message-ID: <CABx5tq+zKeMXt+dsfO3LNz-DrwG14zFiLznsS9ubTmRrRTeoMQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v5 2/4] clk: test: introduce test suite for sibling
+ rate changes on a divider
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: XmncLPPERkwFA_VR_YBtrkxZz7lbjpzdzCh6VWDrcbo_1773052264
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laur,
+On Sun, Mar 8, 2026 at 10:37=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+> [This is a private test report for your RFC patch.]
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/clk-t=
+est-introduce-clk_dummy_div-for-a-mock-divider/20260307-074328
+> base:   fc7b1a72c6cd5cbbd989c6c32a6486e3e4e3594d
+> patch link:    https://lore.kernel.org/r/20260306-clk-scaling-v5-2-d21b84=
+ee6f27%40redhat.com
+> patch subject: [PATCH RFC v5 2/4] clk: test: introduce test suite for sib=
+ling rate changes on a divider
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/202=
+60308/202603082228.3RYA8l9q-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
+708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260308/202603082228.3RYA8l9q-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603082228.3RYA8l9q-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> drivers/clk/clk_test.c:686:26: error: use of undeclared identifier 'HZ=
+_PER_MHZ'
+>      686 |         ctx->parent.rate =3D 24 * HZ_PER_MHZ;
+>          |                                 ^
 
-kernel test robot noticed the following build warnings:
+Thanks for the report. I forgot to mark my series dependent on this on
+series I had posted that includes units.h.
 
-[auto build test WARNING on staging/staging-testing]
+https://lore.kernel.org/linux-clk/20260304-clk-docs-v1-0-fee468db99f1@redha=
+t.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Laur/staging-media-atomisp-comprehensive-coding-style-cleanup/20260309-055945
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260308215840.31197-1-laurentiutopai2004%40gmail.com
-patch subject: [PATCH] staging: media: atomisp: comprehensive coding style cleanup
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260309/202603091804.DdX2VxlO-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603091804.DdX2VxlO-lkp@intel.com/reproduce)
+Brian
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603091804.DdX2VxlO-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/staging/media/atomisp/pci/atomisp_cmd.c: In function 'copy_from_compatible':
->> drivers/staging/media/atomisp/pci/atomisp_cmd.c:2033:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-    2033 |         if (from_user)
-         |         ^~
-   In file included from include/linux/string.h:386,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/thread_info.h:12,
-                    from include/linux/thread_info.h:62,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/firmware.h:8,
-                    from drivers/staging/media/atomisp/pci/atomisp_cmd.c:10:
-   include/linux/fortify-string.h:624:62: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-     624 |                              p_size_field, q_size_field, op) ({         \
-         |                                                              ^
-   include/linux/fortify-string.h:688:26: note: in expansion of macro '__fortify_memcpy_chk'
-     688 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_cmd.c:2036:17: note: in expansion of macro 'memcpy'
-    2036 |                 memcpy(to, from, n);
-         |                 ^~~~~~
-
-
-vim +/if +2033 drivers/staging/media/atomisp/pci/atomisp_cmd.c
-
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2029  
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2030  static unsigned int long copy_from_compatible(void *to, const void *from,
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2031  	unsigned long n, bool from_user)
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2032  {
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19 @2033  	if (from_user)
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2034  		return copy_from_user(to, (void __user *)from, n);
-acede91286a8c6f drivers/staging/media/atomisp/pci/atomisp_cmd.c          Laur                  2026-03-08  2035  
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2036  		memcpy(to, from, n);
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2037  	return 0;
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2038  }
-ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  2039  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
