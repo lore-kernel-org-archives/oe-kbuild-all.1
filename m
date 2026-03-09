@@ -1,194 +1,168 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A773DA5B4
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 15:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773070312; cv=pass; b=WQqFc7C93gfObNFhiHPd+bA4+1dsMNFB/CtkMed+Dxiy7EMOVVBFS9xAtbsS+efqDBA/0NArKTew4XjYgBAIKOvxAgHZjsZ/nxUqhmA9bqibHVHSZsmi3iUi4r6YxVjymew5wD5oHUBmnRQ3g0OC/NGsYhVN/uu60zncqTcJLcA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773070312; c=relaxed/simple;
-	bh=X4iZhElZiqQhLsc+HE815O54rp2BjBnsxJg+ObtrQac=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aKnbQKwy23ln+OaZhqrOm9i9yMwFmPy2ir85h+Nd013YHsIs9hONR4zUhMosiN7u1s8rldUHPc7kjH3zhsMO0wHqVgdjKn5vA+m4RVBTb+CLUiQUlfDI687CIHd4VGQ2g4vP3Ww7zVZmF2O7N6jm+qSg9BHK6v7cpMSo2TJG2Ro=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=ZbWjuWt/; arc=pass smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842CB3DEAC0;
+	Mon,  9 Mar 2026 15:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773071142; cv=none; b=mPWinpZ9Si9XKLnp00CH83dCZK2KvNgbpnyaGuDGpQh5lY89KzvkQzpOSJSyZuLBbPkeL8cUy8YY3upZkl1AlH6ilp1x/JUw4FszE7Adu7bp+tsv8HeniH5WyQoJBrDIHdKNpB+pDHnra/tH7jTC6JiR95dTAffnY2sIc6eD/v0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773071142; c=relaxed/simple;
+	bh=jwi9ebvnM0hO6++49RVnkk82lZ9CJamEzE6bQ8Tn474=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gZJv1d+VtjuhkMf/d0Hmk89Fbg2jeVK/pbtuTisw3QCiL0Wkh4IohB8WfwGBenNhFhY0h0SjNEsOtmjk2dxZ5Ju7AknPoUxQGnkbbOcdzuQTH24NA/fLV3P9C+LtaFUys0+TWxCmNttqwNqRqi1kbr/DltFzOccLbfENBDUxrK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZc2vjMY; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="ZbWjuWt/"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7d746975576so46022a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Mar 2026 08:31:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773070310; cv=none;
-        d=google.com; s=arc-20240605;
-        b=g6gwp+svntrPhv0A4qdNj1rNOx6T2gEC1DY9vMZqDGSje8taztAgNNPfz5K+ZAG9Cv
-         YalUVwh2G/ninjGsViKDfF09jUb8lttexV917QjuMh002S9m8XuP4IW2Rog8aF8fPFI9
-         OJynWgBNHXG61fT4NJbDUo3MVCShJ4d3/4ySGs0nzaEIedfEfk4b6P0td6ihEIFOkdZG
-         M8LXHvqIRKCXZtQHwmnfzO47fWSNtMP2hhRF3DR6Ke5PmzLcDSe4g1ZRROZmO3eQvcqD
-         n392VcHxwFChcvdnzqfUOa1Y/tiJKLJMC7MwJ31YnPKUM+ZxDS7wrTDrNE/kb3BFqKVz
-         OO+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oeNCYoeh9aVUManQKA2h7rmbYGtX7bI6QzEClpFzvxQ=;
-        fh=6vT/IEA2K/zlZeS6gdiJ4B+HoFfNtdVZpr/HH3shLtY=;
-        b=A6gcQXKsAsr6GEPmX5BdVN7ZzsviJiQDBeAIGl5juzAWBFLK69B6ShYdF/7R0UXNIN
-         vACVroQtGR1fgrs3ryaHr6iknmNEWqPhDYfgCarW7x9/+UsCNibTKJGxSlMMPtksqdDl
-         zpoR1lc8D0Q4Kr47j5WYWtXbZLLIse28FkkthUeIEb89KeM3bm6B6CVSHqgZ4qMegDip
-         G0xt+i/GghGiHNCs6uxVRwJFcsngpWIlXIu/xOeS0DTxqOJInbR36uzOPbYyfI6TMbqc
-         bjUO+++CBgAdqAOdu3Z4AzyKXb8LltHBxJHYlRncZMzjiupWwBVkQqjYE/XHgf4jcJMt
-         esnA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1773070310; x=1773675110; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oeNCYoeh9aVUManQKA2h7rmbYGtX7bI6QzEClpFzvxQ=;
-        b=ZbWjuWt/++0VphMGLHuITKGiCITdNb8g3UlD8QR/vVZz5/wLHxBeyX8UjitQGCLFwO
-         pxaNz+DdjvbqwEZ/hyAr33JVi057/eU9LZAnVxfuBBEU2NxQG9v8AWVNkTwC3flKKiot
-         eDhbYVmM8uG4XlJN/kKBa3INZF/l/fL4HdvsIgzXm2Mkz55bRlRTlPIDo0fsx5L25Dgn
-         0g3Zt6pRC6XceUSWOPptk6steioC4lhLa/zklUlv/Y8NHsXZ9VQ4srGHfh9ChV56K59+
-         8e+Et5+btX6Kjr6h16rAl3rl6FvVLLNJzRZ0RAs6FD+gsglrGFcOdGJXgMAK8oeWdQe8
-         ZSOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773070310; x=1773675110;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oeNCYoeh9aVUManQKA2h7rmbYGtX7bI6QzEClpFzvxQ=;
-        b=LW9yGzk1KGftRCjldjVJCMKmEHnK35sYBsKg2f1d+Iad87Zjotx2Z7xOF2oQuRPdp7
-         cd6YK4gvdlXZZi/nSud6rsT8E8ctREtu5m54Q52Kxk6qstqGTCyZ+/ODid3DScv3wJji
-         ylIubo4GiFOvnrvlto27RITeh1qA6lopKHC2GJw57dwrPLGLkq8NT32/sAQMVzxWCgeT
-         xJLmAohMEfInlCOU7uQ0y7p/MKEyfe+Ibdr1GI1xCzWi4U7m2TyjUO5C0T2UVtoJvN+p
-         0MOyefvzcY1wHoHh6TKkXcX4/RXbMIrPcUtni5t1Ru0dnySJMxgY6BlYgwKA69EpeXFk
-         vzQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+mk0jh2m/NKxt+P9GFCc6fiSZPmoHrYBmbRhPKfdJKNS1cXocwQC/yDXh6UrrGElYLRCtHvliDymYd0rc@lists.linux.dev
-X-Gm-Message-State: AOJu0YxenwJS2eQQLjoCS1YK6cfKwVYFtEPfgk7Rg1V64EZubo2bgkg5
-	AiQp2c2r/TXE4jwBSROPFxYovw5fFNEilV+fBOk+wGGp+uw+EqR19Ph0oFz9MHV3ocmNgIfQMEj
-	zE6U75PG6oRjCtQycRFMq86R/WpWhj0dZVD0A91DOEw==
-X-Gm-Gg: ATEYQzyGFENRde5niKOjna3MR0/NbwisfGI0l0fytyaV+Y1k3IT6NLOxDZOz083bLMt
-	rvyLBau+tVaXtmaJiKKyCMv8hQ+V10sVtwfbUYEJn8AjIxfyetkew6j2p8fS/c2nWeDxxm4zFen
-	01ksVTcQKtxbLxrKJTw551EJdDMNaI7812UKwkRLUnMlR34HgCGZlYBf6l8KpJsqzPhzuY5476K
-	jaLnyGZ8oFYkXOroySjfRLCzZ+TvhigWlVTUsGUY0T+icRKLkP3/ZcgVx42BOme5Yey5UP0vfSr
-	3UIpjxcX+dUqlVCkLQ==
-X-Received: by 2002:a05:6830:4486:b0:7d7:4cf3:76eb with SMTP id
- 46e09a7af769-7d74cf37b02mr2194872a34.4.1773070309370; Mon, 09 Mar 2026
- 08:31:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZc2vjMY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773071140; x=1804607140;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jwi9ebvnM0hO6++49RVnkk82lZ9CJamEzE6bQ8Tn474=;
+  b=nZc2vjMYtDqeosG19kiW00GcUhg1A3Sez9groUaeRcO9r+rULW6FiwBh
+   E/MjilmiMSs21ft/GOot3j7oowv/oE95j1UL37A25UEzSUTtQwjw0esS/
+   bsmrrpeeiUK0nrkBBTxjSdPHRQUUfD0+1ErcUEnmKwDvBUp/qT24E7cly
+   MANVxUa3iTK1QGkGqWtQyah3FuKq72dMKqzZ//tBMsydVmE4XrBRWmjxf
+   baozqT3BehlUGWTrBFCg3O4BqRyyzn426jylNEKPaHV/NJwGC6ZkLo1zi
+   d03GvcohSi2yOG7CatArHt7jEfqc4FOm6bSTA+u9HrrdF53xfwO0htZwE
+   Q==;
+X-CSE-ConnectionGUID: RLLmdqQIQXWJp9HQrITYfw==
+X-CSE-MsgGUID: eEiikfMBS/+9NfJPaXl9eg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84425139"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="84425139"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 08:45:39 -0700
+X-CSE-ConnectionGUID: y8kklu2jQ+GS/rDGkR2w+A==
+X-CSE-MsgGUID: Kk/LttEYQ8az5973KwI19g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="218939087"
+Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 09 Mar 2026 08:45:37 -0700
+Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vzcnV-000000000S0-1FRM;
+	Mon, 09 Mar 2026 15:45:33 +0000
+Date: Mon, 9 Mar 2026 23:44:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	jingoohan1@gmail.com, mani@kernel.org, kwilczynski@kernel.org,
+	bhelgaas@google.com, helgaas@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+	ilpo.jarvinen@linux.intel.com, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
+Subject: Re: [PATCH v7 2/2] PCI: dwc: Validate max-link-speed property
+Message-ID: <202603092301.uROFb9mn-lkp@intel.com>
+References: <20260308142629.75392-3-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260309062840.2937858-2-iam@sung-woo.kim> <202603090911.0DdOwjTR-lkp@intel.com>
-In-Reply-To: <202603090911.0DdOwjTR-lkp@intel.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Mon, 9 Mar 2026 08:31:38 -0700
-X-Gm-Features: AaiRm52Z14MD0OSGkRezE5rp23B4YvHF_3hxCrYP4X9p-5DR-qWhmespFt1uSGc
-Message-ID: <CADUfDZqBZWwy+6XOde_aZTwLisRP8j5qRqB6X_EJJPr+wmdGZQ@mail.gmail.com>
-Subject: Re: [PATCH] blk-mq: nvme: Fix general protection fault in nvme_setup_descriptor_pools()
-To: kernel test robot <lkp@intel.com>
-Cc: Sungwoo Kim <iam@sung-woo.kim>, Jens Axboe <axboe@kernel.dk>, 
-	Josef Bacik <josef@toxicpanda.com>, Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
-	Mikulas Patocka <mpatocka@redhat.com>, dm-devel@lists.linux.dev, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, "James E.J. Bottomley" <jejb@linux.ibm.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, oe-kbuild-all@lists.linux.dev, 
-	Chao Shi <cshi008@fiu.edu>, Weidong Zhu <weizhu@fiu.edu>, Dave Tian <daveti@purdue.edu>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nbd@other.debian.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260308142629.75392-3-18255117159@163.com>
 
-On Mon, Mar 9, 2026 at 1:42=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Sungwoo,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on axboe/for-next]
-> [also build test ERROR on device-mapper-dm/for-next linus/master v6.16-rc=
-1 next-20260306]
-> [cannot apply to linux-nvme/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sungwoo-Kim/blk-mq=
--nvme-Fix-general-protection-fault-in-nvme_setup_descriptor_pools/20260309-=
-143107
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git f=
-or-next
-> patch link:    https://lore.kernel.org/r/20260309062840.2937858-2-iam%40s=
-ung-woo.kim
-> patch subject: [PATCH] blk-mq: nvme: Fix general protection fault in nvme=
-_setup_descriptor_pools()
-> config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/202=
-60309/202603090911.0DdOwjTR-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260309/202603090911.0DdOwjTR-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603090911.0DdOwjTR-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> error[E0308]: mismatched types
->    --> rust/kernel/block/mq/operations.rs:274:28
->    |
->    274 |         init_request: Some(Self::init_request_callback),
->    |                       ---- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected fn p=
-ointer, found fn item
->    |                       |
->    |                       arguments to this enum variant are incorrect
->    |
->    =3D note: expected fn pointer `unsafe extern "C" fn(_, _, _, i32) -> _=
-`
->    found fn item `unsafe extern "C" fn(_, _, _, u32) -> _ {block::mq::ope=
-rations::OperationsVTable::<T>::init_request_callback}`
->    help: the type constructed contains `unsafe extern "C" fn(*mut binding=
-s::blk_mq_tag_set, *mut bindings::request, u32, u32) -> i32 {block::mq::ope=
-rations::OperationsVTable::<T>::init_request_callback}` due to the type of =
-the argument passed
+Hi Hans,
 
-Looks like the type of _numa_node in the signature of
-init_request_callback() needs to be updated accordingly from c_uint to
-c_int.
+kernel test robot noticed the following build errors:
 
-Best,
-Caleb
+[auto build test ERROR on c23719abc3308df7ed3ad35650ad211fb2d2003d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-of-Remove-max-link-speed-generation-validation/20260308-223128
+base:   c23719abc3308df7ed3ad35650ad211fb2d2003d
+patch link:    https://lore.kernel.org/r/20260308142629.75392-3-18255117159%40163.com
+patch subject: [PATCH v7 2/2] PCI: dwc: Validate max-link-speed property
+config: i386-randconfig-004-20260308 (https://download.01.org/0day-ci/archive/20260309/202603092301.uROFb9mn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603092301.uROFb9mn-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603092301.uROFb9mn-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/pci/controller/dwc/pcie-designware.c:128:19: error: invalid application of 'sizeof' to an incomplete type 'const unsigned char[]'
+     128 |             max_speed >= ARRAY_SIZE(pcie_link_speed) ||
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:255:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
+     255 |         return PCI_FIND_NEXT_CAP(dw_pcie_read_cfg, PCI_CAPABILITY_LIST, cap,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     256 |                                  NULL, pci);
+         |                                  ~~~~~~~~~~
+   drivers/pci/controller/dwc/../../pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
+     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
+         |                                 ^~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:255:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
+   drivers/pci/controller/dwc/../../pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
+     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
+         |                                 ^
+   drivers/pci/controller/dwc/pcie-designware.c:262:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
+     262 |         return PCI_FIND_NEXT_EXT_CAP(dw_pcie_read_cfg, 0, cap, NULL, pci);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
+     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
+         |                                 ^~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:262:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
+   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
+     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
+         |                                 ^
+   drivers/pci/controller/dwc/pcie-designware.c:329:17: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
+     329 |         while ((vsec = PCI_FIND_NEXT_EXT_CAP(dw_pcie_read_cfg, vsec,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     330 |                                              PCI_EXT_CAP_ID_VNDR, NULL, pci))) {
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
+     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
+         |                                 ^~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:329:17: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
+   drivers/pci/controller/dwc/../../pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
+     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
+         |                                 ^
+   3 warnings and 1 error generated.
 
 
->    --> rust/kernel/block/mq/operations.rs:274:23
->    |
->    274 |         init_request: Some(Self::init_request_callback),
->    |                       ^^^^^---------------------------^
->    |                            |
->    |                            this argument influences the type of `Som=
-e`
->    note: tuple variant defined here
->    --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x8=
-6_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:=
-5
->    |
->    597 |     Some(#[stable(feature =3D "rust1", since =3D "1.0.0")] T),
->    |     ^^^^
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+vim +128 drivers/pci/controller/dwc/pcie-designware.c
+
+   112	
+   113	static void dw_pcie_get_link_speed(struct dw_pcie *pci)
+   114	{
+   115		struct device_node *np = dev_of_node(pci->dev);
+   116		int max_speed;
+   117	
+   118		max_speed = of_pci_get_max_link_speed(np);
+   119		if (max_speed < 0) {
+   120			dev_warn(pci->dev,
+   121				 "Failed to get max-link-speed, using default (Gen1)\n");
+   122			pci->max_link_speed = 1;
+   123			return;
+   124		}
+   125	
+   126		/* Validate against known speeds in pcie_link_speed */
+   127		if (max_speed == 0 ||
+ > 128		    max_speed >= ARRAY_SIZE(pcie_link_speed) ||
+   129		    pcie_link_speed[max_speed] == PCI_SPEED_UNKNOWN) {
+   130			dev_warn(pci->dev,
+   131				 "Invalid max-link-speed %d, using default (Gen1)\n",
+   132				 max_speed);
+   133			pci->max_link_speed = 1;
+   134			return;
+   135		}
+   136	
+   137		pci->max_link_speed = max_speed;
+   138	}
+   139	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
