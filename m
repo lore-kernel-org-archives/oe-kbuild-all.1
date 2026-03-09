@@ -1,112 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E37344DA6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 21:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EB414EC73
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Mar 2026 21:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773092619; cv=none; b=MlGadtUbuBuCaVvmQbZfw2bBrv+51RYxlo4DqsbXxGPU7gxKFL8l9I5BVYK0Cnj+OkRVKfPYGQy1bDcSXG3ky6ylFo6wVLqyb6m2EjTbwFfLhVBmFhX+OpYMAfRuyrGYUapc+8KjjL2YoOlf2E3cDs/XjmMOsy8queN/9Yz1hLE=
+	t=1773092788; cv=none; b=Zp08m8H80KsxXpDqqdlx4q8xOGQvu8R2sXWzPJbXDVSELLjNGyEUk0xl62akgzB1S3D6Ia7R4zpnOCG/DshIdObW2tNbQ3MOwmLCedBc1VVQPD39r+dGUly5s8bizE21KNJCRxZG5jWxf2a2XCKmc4SLptdzRjD0tHTg++X6fi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773092619; c=relaxed/simple;
-	bh=Fzb0ixKAdUF4LvkFVjDc0FLmGKvT+716o1mLXLz2jNY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SPpDMLeek5VB59tWfpDVsbNJakDuPoXOJ10UX2UK6k3KpOYr8fESKlz9rMfAifyhhoxyA0u1CHDMcCGbc6bbTGMT1H6VOy3WeBiLFMf/XL+5dh6vOYxhsSdSAZdm3aCN2wf/L1IzU7617/78mmyJthlj+E/sNDbWqVeyrDYhuEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yhjb/AEq; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yhjb/AEq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773092618; x=1804628618;
-  h=date:from:to:cc:subject:message-id;
-  bh=Fzb0ixKAdUF4LvkFVjDc0FLmGKvT+716o1mLXLz2jNY=;
-  b=Yhjb/AEqZ7E5evbwFLYMJ/mQnSLo9nXtoZSnRJEhMPfISC4Dvc03DXfw
-   Q48BEjHT2pSW90Jl8FM3p6fgsE+FDr7qtOkNXsyN8oSGEag5feynTrlGq
-   q8T4QmJ2+D9i2EOFwznPY9fLok/chB/VAZoPO5Z3hhyWqqqcXWhLwsVcQ
-   1o8t2rsRFKAMLectDGlaIM89dz7LoQS/g93dVoRYNMADf+9g5WjMyHWKE
-   9tUi0BUVnQxyiTNiI3EV+w8NDVVR4AvwumvlINigH5sDXPsLSG3pKQcXb
-   h8ghe8Cy5bDCBeE3FoOqewKe8g8OOQ3SWrmgxDulQsK2IZERStqexx9YK
-   g==;
-X-CSE-ConnectionGUID: t5TUC7XhRtarGXwHWY/UCw==
-X-CSE-MsgGUID: fqeVpx14RPqxqOrdbWZ5RQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="85216279"
-X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="85216279"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 14:43:37 -0700
-X-CSE-ConnectionGUID: nSn0xKOTQ4i7OiDcW7i6Gw==
-X-CSE-MsgGUID: l346rFDKS7aAKh87dba4ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="223995478"
-Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Mar 2026 14:43:35 -0700
-Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vziNw-000000000rw-2lNv;
-	Mon, 09 Mar 2026 21:43:32 +0000
-Date: Tue, 10 Mar 2026 05:42:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chiara Meiohas <cmeiohas@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>,
- Maher Sanalla <msanalla@nvidia.com>, Edward Srouji <edwards@nvidia.com>
-Subject: [leon-rdma:fw-lsm-hook-v2 2/4] security/security.c:5392:1:
- error: expected identifier or '(' before '{' token
-Message-ID: <202603100543.SBaUfuzS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1773092788; c=relaxed/simple;
+	bh=WujsYw44Txd106pWh0AwIWUt2CMnSXjMUPKghBdPMNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQJ4ddz/0kXyjL2fVJBViNjakQMJOOmz5u7VeY65Djc5lQtwEavouox8jt8JfTR+VDm2KV8YepS5Hi6uwvkTTPbIggxQj3ACwHtxmJF/Pl+NL4i+Y4ySkxVqIKFlbePym3GzsN4HMD/qk8z116eBIm3Tt9a3TudrH1pgel9hVN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
+Received: by Chamillionaire.breakpoint.cc (Postfix, from userid 1003)
+	id F09F260D3A; Mon, 09 Mar 2026 22:46:24 +0100 (CET)
+Date: Mon, 9 Mar 2026 22:46:25 +0100
+From: Florian Westphal <fw@strlen.de>
+To: Fernando Fernandez Mancera <fmancera@suse.de>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: net/netfilter/nft_synproxy.c:51:40: sparse: sparse: cast to
+ non-scalar
+Message-ID: <aa8_sTGkwVy3o5ww@strlen.de>
+References: <202603082002.ACHbGTsI-lkp@intel.com>
+ <ea2aaffb-c124-4fcb-9070-a13603f06393@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ea2aaffb-c124-4fcb-9070-a13603f06393@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git fw-lsm-hook-v2
-head:   6ecd3e51800ae840af7be672077ab1e9d0af365e
-commit: 59b61e265be95f103df6fa7a195c287b7604dd67 [2/4] lsm: add hook for firmware command validation
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260310/202603100543.SBaUfuzS-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603100543.SBaUfuzS-lkp@intel.com/reproduce)
+Fernando Fernandez Mancera <fmancera@suse.de> wrote:
+> Hi,
+> 
+> Is this a false positive? nf_synproxy_info struct is smaller than the 
+> word size and therefore READ_ONCE() should be fine. I guess I can use 
+> READ_ONCE() for every struct field.
+> 
+> What do you think Florian?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603100543.SBaUfuzS-lkp@intel.com/
+We shouldn't do per-field accesses here, but one, single READ so
+the datapath sees all new fields or the old ones, and no mix of the
+two (albeit that would be harmless here).
 
-All errors (new ones prefixed by >>):
+Can you experiment with a cast to u32 to get rid if the warning?
 
->> security/security.c:5392:1: error: expected identifier or '(' before '{' token
-    5392 | {
-         | ^
-
-
-vim +5392 security/security.c
-
-  5375	
-  5376	/**
-  5377	 * security_fw_validate_cmd() - Validate a firmware command
-  5378	 * @in: pointer to the firmware command input buffer
-  5379	 * @in_len: length of the firmware command input buffer
-  5380	 * @dev: device associated with the command
-  5381	 * @class_id: class of the firmware command
-  5382	 * @id: device identifier, specific to the command @class_id
-  5383	 *
-  5384	 * Check permissions before sending a firmware command generated by
-  5385	 * userspace to the device.
-  5386	 *
-  5387	 * Return: Returns 0 if permission is granted.
-  5388	 */
-  5389	int security_fw_validate_cmd(const void *in, size_t in_len,
-  5390				     const struct device *dev,
-  5391				     enum fw_cmd_class class_id, u32 id);
-> 5392	{
-  5393		if (class_id >= FW_CMD_CLASS_MAX)
-  5394			return -EINVAL;
-  5395	
-  5396		return call_int_hook(fw_validate_cmd, in, in_len, dev, class_id, id);
-  5397	}
-  5398	EXPORT_SYMBOL_GPL(security_fw_validate_cmd);
-  5399	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That said, we have so many sparse warnings that getting rid of this
+warning isn't high-prio, I think the code is fine as-is.
