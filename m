@@ -1,66 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C96B25D1E9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 23:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAC737474C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 23:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773183710; cv=none; b=D2GT3a8IbUpqAbaSUqq9TPomdV9Qlyu6B2oF6xvsXzUMeW2b3xshvGTSVjKiXfCvQNTf2xIVXTRt2gVLx4ZcoRzDc3RFVLACbmT0MvLaHjeWrxhhg/DKCyWBkPEtPUsJ+ZCH++ByE8epS6qMAJ3J/3Yun2w2FqD2SWWMm0+ol44=
+	t=1773185204; cv=none; b=S2xU9d3TZFnWnJl9QCUbz1wox3eB7YFk/XbUvCT+B1Si0T+8n8qT8D1xu/zFCUSxXzD3wKZGGFRTfbms2IMQR/VDFwfRBbh9A20j1Xegp85Pu+uYsxen9QPqaIOsrIA6qGH5wJdjMbwoECZhHGtfILzEXMlTnHxtqP7HWPX+yjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773183710; c=relaxed/simple;
-	bh=6ZVqMPEmeTKZ7ak9McMYPJVGD3YAWwVqTJq5H7uViCA=;
+	s=arc-20240116; t=1773185204; c=relaxed/simple;
+	bh=e479cCwfOF7vRTYlVkMohlsKN6yVc0hD7vBF60a45fo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g9yvnJ43zNN/eUjBPB7yRy9GDqjs74L4lCgE2hpHkjfHQOpAMI56JP+8ZZX86yhWbiF1ZMP4OdH4cwf03tXog0VvwA/uMUQjzP0TIvOQuaqgLNuqOxlAwl3G07w7lDHx5viKrkgW8Ahv3HtplVzwPNFgE4A9/Wp/DCkoLeXYt1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lx22pHWa; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=ELbtimZm9SgOfpp6+Tbnu/hi3I3HLWeujB/zhdBjL7ZBALlxl+kGzvTgT7KPIXCFXDnpxY0KrBwAzwcmH5KR94bVYurRrQbsjhpisdfjVmJD38xMgjoSZ+tr1e9lyp4V7u1QSxXQ01IbVUYnJnUb+uH/aYl0A+ImZXtvGrYho0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/S8p+/H; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lx22pHWa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/S8p+/H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773183710; x=1804719710;
+  t=1773185203; x=1804721203;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6ZVqMPEmeTKZ7ak9McMYPJVGD3YAWwVqTJq5H7uViCA=;
-  b=Lx22pHWaVKh6toe6Buyctqa9chzSQbR3AlnLZrXqj42ALFAaUlOlHrHR
-   45eLjoPhj/F3xuXULUTnh1Ra+ATBYejKvX6jFt2GWZ5p6dXDQB+YxqZAv
-   7XKRjKEBYSnSP9ctvSrilGipSkulxglUfkothdB33bahRpgR8QnipyVJh
-   HTqDcC0yIhEdlDhhb89+WFIRInmCDlyd7+SYys9h9DCKq9GW1cTdLwEdP
-   kxYAHEHGS6LL9oTNqZ6fWcuMYHU4VQWNsy/80nD817TCuPUDRT9D8DHzT
-   plGFrqPVu6V3CR9BZ2FXFK9aaynGKKDRAcDVZkWXUHx6mk/dy/sfjAHS5
-   A==;
-X-CSE-ConnectionGUID: MLUcGpIDTFuU82pVOjMtpA==
-X-CSE-MsgGUID: J65kwfdwS1SoxiG2mu9P9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="61818641"
+  bh=e479cCwfOF7vRTYlVkMohlsKN6yVc0hD7vBF60a45fo=;
+  b=i/S8p+/HLJ3Xrn5pvj3Ih87h+AnIClzq6YqYzBQa2E92BGrUlEAltE0/
+   jfPTiUgRTyA8jWPsz3nFQT0o/z+5DP7wEUWd3sqAVvAzo7elKoYDaWG/r
+   R054SnC9ntAmxarN+FR+u9+HQwDeuNRwBdOiF25JGCJKV2Lr7u4RzkBwI
+   A7F8y31yKhcOeKkGEIeQGU5FyRgliq4Dit6O8F+SV+KBF3BSCBR/Yt8Qu
+   zLlDLoz/A17slqx9hIsRoqaxa7AgpCpOgd+rrxwwJETmqdZGa/CIuwLbF
+   4XCheFeW7i19RGYJJH9EVEBwL71ZXiW4OMzFQXpYg64+7fCyBT0Jgoozk
+   g==;
+X-CSE-ConnectionGUID: WHJ7XavnTiaRXVD+uSZQrg==
+X-CSE-MsgGUID: J4epCnJqQMKveETwKmZhCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="73443090"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="61818641"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 16:01:49 -0700
-X-CSE-ConnectionGUID: d909/qlrRJe4Jht/8fmkew==
-X-CSE-MsgGUID: hZUYV+ABRTCcC865HOs6TA==
+   d="scan'208";a="73443090"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 16:26:42 -0700
+X-CSE-ConnectionGUID: I1yiwG8kR3OQNfM3PvA6cA==
+X-CSE-MsgGUID: yXIbYWUTQ0uhucbUBDMF2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="220443260"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2026 16:01:45 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="225235382"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 10 Mar 2026 16:26:38 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0659-000000003A9-10CB;
-	Tue, 10 Mar 2026 23:01:43 +0000
-Date: Wed, 11 Mar 2026 00:01:23 +0100
+	id 1w06TD-000000000P4-0miZ;
+	Tue, 10 Mar 2026 23:26:35 +0000
+Date: Wed, 11 Mar 2026 07:26:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	David Laight <david.laight.linux@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fs: Replace user_access_{begin/end} by scoped user access
-Message-ID: <202603102326.JZ7c6Opr-lkp@intel.com>
-References: <5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy@kernel.org>
+To: Lakshay Piplani <lakshay.piplani@nxp.com>, linux-kernel@vger.kernel.org,
+	linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
+	krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, broonie@kernel.org, lee@kernel.org,
+	Frank.Li@nxp.com, lgirdwood@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
+	priyanka.jain@nxp.com, aman.kumarpandey@nxp.com,
+	lakshay.piplani@nxp.com
+Subject: Re: [PATCH v6 7/7] i3c: hub: p3h2x4x: Add support for NXP P3H2x4x
+ I3C hub functionality
+Message-ID: <202603110741.nkI3lGfN-lkp@intel.com>
+References: <20260310065727.3759342-7-lakshay.piplani@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,228 +69,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy@kernel.org>
+In-Reply-To: <20260310065727.3759342-7-lakshay.piplani@nxp.com>
 
-Hi Christophe,
+Hi Lakshay,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v7.0-rc3 next-20260310]
+[auto build test WARNING on i3c/i3c/next]
+[also build test WARNING on lee-mfd/for-mfd-next broonie-regulator/for-next linus/master v7.0-rc3 next-20260310]
+[cannot apply to lee-mfd/for-mfd-fixes]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy-CS-GROUP/fs-Replace-user_access_-begin-end-by-scoped-user-access/20260310-230227
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy%40kernel.org
-patch subject: [PATCH] fs: Replace user_access_{begin/end} by scoped user access
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260310/202603102326.JZ7c6Opr-lkp@intel.com/config)
-compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603102326.JZ7c6Opr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/i3c-master-Add-the-APIs-to-support-I3C-hub/20260310-150040
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git i3c/next
+patch link:    https://lore.kernel.org/r/20260310065727.3759342-7-lakshay.piplani%40nxp.com
+patch subject: [PATCH v6 7/7] i3c: hub: p3h2x4x: Add support for NXP P3H2x4x I3C hub functionality
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260311/202603110741.nkI3lGfN-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110741.nkI3lGfN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603102326.JZ7c6Opr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603110741.nkI3lGfN-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/readdir.c: In function 'compat_fillonedir':
->> fs/readdir.c:454:54: error: macro "scoped_user_write_access_size" requires 3 arguments, but only 2 given
-     454 |                                 (unsigned long)dirent), efault) {
-         |                                                      ^
-   In file included from ./include/linux/sched/task.h:13,
-                    from ./include/linux/sched/signal.h:9,
-                    from ./include/linux/rcuwait.h:6,
-                    from ./include/linux/mm.h:37,
-                    from fs/readdir.c:12:
-   ./include/linux/uaccess.h:778:9: note: macro "scoped_user_write_access_size" defined here
-     778 | #define scoped_user_write_access_size(udst, size, elbl)                 \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/readdir.c:452:9: error: 'scoped_user_write_access_size' undeclared (first use in this function)
-     452 |         scoped_user_write_access_size(dirent,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/readdir.c:452:9: note: each undeclared identifier is reported only once for each function it appears in
->> fs/readdir.c:454:57: error: 'efault' undeclared (first use in this function)
-     454 |                                 (unsigned long)dirent), efault) {
-         |                                                         ^~~~~~
->> fs/readdir.c:454:55: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     454 |                                 (unsigned long)dirent), efault) {
-         |                                                       ^
->> fs/readdir.c:454:63: error: expected ';' before ')' token
-     454 |                                 (unsigned long)dirent), efault) {
-         |                                                               ^
-         |                                                               ;
->> fs/readdir.c:454:63: error: expected statement before ')' token
-   fs/readdir.c: In function 'compat_filldir':
->> ./include/linux/uaccess.h:744:17: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
-     744 |                 for (const auto uptr  __cleanup(__scoped_user_##mode##_access_end) = \
-         |                 ^~~
-   ./include/linux/uaccess.h:779:9: note: in expansion of macro '__scoped_user_access'
-     779 |         __scoped_user_access(write, udst, size, elbl)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   fs/readdir.c:532:9: note: in expansion of macro 'scoped_user_write_access_size'
-     532 |         scoped_user_write_access_size(prev, reclen + prev_reclen, efault);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/uaccess.h:616:1: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
-     616 | do {                                                    \
-         | ^~
-   fs/readdir.c:533:17: note: in expansion of macro 'unsafe_put_user'
-     533 |                 unsafe_put_user(offset, &prev->d_off, efault);
-         |                 ^~~~~~~~~~~~~~~
->> fs/readdir.c:537:17: error: label 'efault' used but not defined
-     537 |                 unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/readdir.c: At top level:
->> fs/readdir.c:540:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
-     540 |         buf->prev_reclen = reclen;
-         |            ^~
-   fs/readdir.c:541:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
-     541 |         buf->current_dir = (void __user *)dirent + reclen;
-         |            ^~
-   fs/readdir.c:542:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
-     542 |         ctx->count -= reclen;
-         |            ^~
->> fs/readdir.c:543:9: error: expected identifier or '(' before 'return'
-     543 |         return true;
-         |         ^~~~~~
->> fs/readdir.c:544:7: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
-     544 | efault:
-         |       ^
-   fs/readdir.c:546:9: error: expected identifier or '(' before 'return'
-     546 |         return false;
-         |         ^~~~~~
->> fs/readdir.c:547:1: error: expected identifier or '(' before '}' token
-     547 | }
-         | ^
-   fs/readdir.c: In function 'compat_filldir':
->> fs/readdir.c:538:9: warning: control reaches end of non-void function [-Wreturn-type]
-     538 |         }
-         |         ^
-
-
-vim +/scoped_user_write_access_size +454 fs/readdir.c
-
-   430	
-   431	static bool compat_fillonedir(struct dir_context *ctx, const char *name,
-   432				     int namlen, loff_t offset, u64 ino,
-   433				     unsigned int d_type)
-   434	{
-   435		struct compat_readdir_callback *buf =
-   436			container_of(ctx, struct compat_readdir_callback, ctx);
-   437		struct compat_old_linux_dirent __user *dirent;
-   438		compat_ulong_t d_ino;
-   439	
-   440		if (buf->result)
-   441			return false;
-   442		buf->result = verify_dirent_name(name, namlen);
-   443		if (buf->result)
-   444			return false;
-   445		d_ino = ino;
-   446		if (sizeof(d_ino) < sizeof(ino) && d_ino != ino) {
-   447			buf->result = -EOVERFLOW;
-   448			return false;
-   449		}
-   450		buf->result++;
-   451		dirent = buf->dirent;
- > 452		scoped_user_write_access_size(dirent,
-   453				(unsigned long)(dirent->d_name + namlen + 1) -
- > 454					(unsigned long)dirent), efault) {
-   455			unsafe_put_user(d_ino, &dirent->d_ino, efault);
-   456			unsafe_put_user(offset, &dirent->d_offset, efault);
-   457			unsafe_put_user(namlen, &dirent->d_namlen, efault);
-   458			unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-   459		}
-   460		return true;
-   461	efault:
-   462		buf->result = -EFAULT;
-   463		return false;
-   464	}
-   465	
-   466	COMPAT_SYSCALL_DEFINE3(old_readdir, unsigned int, fd,
-   467			struct compat_old_linux_dirent __user *, dirent, unsigned int, count)
-   468	{
-   469		int error;
-   470		CLASS(fd_pos, f)(fd);
-   471		struct compat_readdir_callback buf = {
-   472			.ctx.actor = compat_fillonedir,
-   473			.ctx.count = 1, /* Hint to fs: just one entry. */
-   474			.dirent = dirent
-   475		};
-   476	
-   477		if (fd_empty(f))
-   478			return -EBADF;
-   479	
-   480		error = iterate_dir(fd_file(f), &buf.ctx);
-   481		if (buf.result)
-   482			error = buf.result;
-   483	
-   484		return error;
-   485	}
-   486	
-   487	struct compat_linux_dirent {
-   488		compat_ulong_t	d_ino;
-   489		compat_ulong_t	d_off;
-   490		unsigned short	d_reclen;
-   491		char		d_name[];
-   492	};
-   493	
-   494	struct compat_getdents_callback {
-   495		struct dir_context ctx;
-   496		struct compat_linux_dirent __user *current_dir;
-   497		int prev_reclen;
-   498		int error;
-   499	};
-   500	
-   501	static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen,
-   502			loff_t offset, u64 ino, unsigned int d_type)
-   503	{
-   504		struct compat_linux_dirent __user *dirent, *prev;
-   505		struct compat_getdents_callback *buf =
-   506			container_of(ctx, struct compat_getdents_callback, ctx);
-   507		compat_ulong_t d_ino;
-   508		int reclen = ALIGN(offsetof(struct compat_linux_dirent, d_name) +
-   509			namlen + 2, sizeof(compat_long_t));
-   510		int prev_reclen;
-   511		unsigned int flags = d_type;
-   512	
-   513		BUILD_BUG_ON(FILLDIR_FLAG_NOINTR & S_DT_MASK);
-   514		d_type &= S_DT_MASK;
-   515	
-   516		buf->error = verify_dirent_name(name, namlen);
-   517		if (unlikely(buf->error))
-   518			return false;
-   519		buf->error = -EINVAL;	/* only used if we fail.. */
-   520		if (reclen > ctx->count)
-   521			return false;
-   522		d_ino = ino;
-   523		if (sizeof(d_ino) < sizeof(ino) && d_ino != ino) {
-   524			buf->error = -EOVERFLOW;
-   525			return false;
-   526		}
-   527		prev_reclen = buf->prev_reclen;
-   528		if (!(flags & FILLDIR_FLAG_NOINTR) && prev_reclen && signal_pending(current))
-   529			return false;
-   530		dirent = buf->current_dir;
-   531		prev = (void __user *) dirent - prev_reclen;
-   532		scoped_user_write_access_size(prev, reclen + prev_reclen, efault);
-   533			unsafe_put_user(offset, &prev->d_off, efault);
-   534			unsafe_put_user(d_ino, &dirent->d_ino, efault);
-   535			unsafe_put_user(reclen, &dirent->d_reclen, efault);
-   536			unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault);
- > 537			unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
- > 538		}
-   539	
- > 540		buf->prev_reclen = reclen;
-   541		buf->current_dir = (void __user *)dirent + reclen;
-   542		ctx->count -= reclen;
- > 543		return true;
- > 544	efault:
-   545		buf->error = -EFAULT;
-   546		return false;
- > 547	}
-   548	
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_i3c.c:62 function parameter 'p3h2x4x_hub' not described in 'p3h2x4x_tp_i3c_algo'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_i3c.c:62 function parameter 'p3h2x4x_hub' not described in 'p3h2x4x_tp_i3c_algo'
+--
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'p3h2x4x_i3c_hub' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'xfers' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'target_port' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'nxfers_i' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'rw' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'p3h2x4x_i3c_hub' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'xfers' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'target_port' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'nxfers_i' not described in 'p3h2x4x_tp_i2c_xfer_msg'
+>> Warning: drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:185 function parameter 'rw' not described in 'p3h2x4x_tp_i2c_xfer_msg'
 
 -- 
 0-DAY CI Kernel Test Service
