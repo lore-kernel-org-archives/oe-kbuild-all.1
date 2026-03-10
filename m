@@ -1,72 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9462DF134;
-	Tue, 10 Mar 2026 22:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C96B25D1E9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 23:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773181300; cv=none; b=hD4QxHbZBpBkl2ERxJrxGXiafYmCZfVtmXNn7yYSdC9PVp9ARBWRIJJgohQa4rFRfmdHBON8nuv+/uZJWf0Y1fL9wElkQr4ZStcvs6QQxjBSoRl721uyzMpeYTYmaNyKrRA+BWekAIfPTuJT8rWabQmFuWkhxhP9jFPwVVEWrjs=
+	t=1773183710; cv=none; b=D2GT3a8IbUpqAbaSUqq9TPomdV9Qlyu6B2oF6xvsXzUMeW2b3xshvGTSVjKiXfCvQNTf2xIVXTRt2gVLx4ZcoRzDc3RFVLACbmT0MvLaHjeWrxhhg/DKCyWBkPEtPUsJ+ZCH++ByE8epS6qMAJ3J/3Yun2w2FqD2SWWMm0+ol44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773181300; c=relaxed/simple;
-	bh=l0MvmofzaAztY8ncplwIItHVRuWm+6ox8A6D2zUvm20=;
+	s=arc-20240116; t=1773183710; c=relaxed/simple;
+	bh=6ZVqMPEmeTKZ7ak9McMYPJVGD3YAWwVqTJq5H7uViCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PksfkK18q3VhWgeg3fme3VUr9fUdCXdf01ybQOOrwuF0ccUmicG5AwLbnacqlOCBdWX3jvpmiaZ3BaIE8JoZoMVxZz242IJybSidPOJ/ST5KFLVpnfjaokN9yjyiwDcj66GQPk5eONZ2DRQn8ziJkR1Zu+addXpaiT7aOGZz8Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hqHY5PiI; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=g9yvnJ43zNN/eUjBPB7yRy9GDqjs74L4lCgE2hpHkjfHQOpAMI56JP+8ZZX86yhWbiF1ZMP4OdH4cwf03tXog0VvwA/uMUQjzP0TIvOQuaqgLNuqOxlAwl3G07w7lDHx5viKrkgW8Ahv3HtplVzwPNFgE4A9/Wp/DCkoLeXYt1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lx22pHWa; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hqHY5PiI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lx22pHWa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773181299; x=1804717299;
+  t=1773183710; x=1804719710;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=l0MvmofzaAztY8ncplwIItHVRuWm+6ox8A6D2zUvm20=;
-  b=hqHY5PiIxNqGnx8+YhzAV27TxepEc1Eic+nsvKTd7J4OPrrxtPxqWpPx
-   kCptTsMVR72RbvhOMYrkgIAbBeHOY9LOkiYENRyONj5DbjdLDVkrvuZau
-   U88tt9pEptR1Tsjs9rWo2luXbbkbgQWHYp9bC4zHAbeiY/RrdbMNxMywc
-   eAJzW1NMk6zMfQSrzAIvHo+IDd1hFLoEJh64OzEnVpqUB+LwlX0HyYByw
-   0Gy05yPJ3KLnXPFDD+mpXt+fwmlV2rfdLpRgvvoy7V7DUrmw1h5tw0spr
-   cN/Oi04Nhep4hhpWbgTzW7SSIzEdjCp7DhVodwA7vVANfvNc8Q5vMLk1t
-   Q==;
-X-CSE-ConnectionGUID: ErVmUHqvQTqSz7ZH7gP5pQ==
-X-CSE-MsgGUID: VkiAzzWdQkCvRdBy8FF23g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74139921"
+  bh=6ZVqMPEmeTKZ7ak9McMYPJVGD3YAWwVqTJq5H7uViCA=;
+  b=Lx22pHWaVKh6toe6Buyctqa9chzSQbR3AlnLZrXqj42ALFAaUlOlHrHR
+   45eLjoPhj/F3xuXULUTnh1Ra+ATBYejKvX6jFt2GWZ5p6dXDQB+YxqZAv
+   7XKRjKEBYSnSP9ctvSrilGipSkulxglUfkothdB33bahRpgR8QnipyVJh
+   HTqDcC0yIhEdlDhhb89+WFIRInmCDlyd7+SYys9h9DCKq9GW1cTdLwEdP
+   kxYAHEHGS6LL9oTNqZ6fWcuMYHU4VQWNsy/80nD817TCuPUDRT9D8DHzT
+   plGFrqPVu6V3CR9BZ2FXFK9aaynGKKDRAcDVZkWXUHx6mk/dy/sfjAHS5
+   A==;
+X-CSE-ConnectionGUID: MLUcGpIDTFuU82pVOjMtpA==
+X-CSE-MsgGUID: J65kwfdwS1SoxiG2mu9P9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="61818641"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74139921"
+   d="scan'208";a="61818641"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 15:21:38 -0700
-X-CSE-ConnectionGUID: R519bXzISKmyupU28W3UtA==
-X-CSE-MsgGUID: 8QRpzhe+RzK8kKwGRKEIcw==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 16:01:49 -0700
+X-CSE-ConnectionGUID: d909/qlrRJe4Jht/8fmkew==
+X-CSE-MsgGUID: hZUYV+ABRTCcC865HOs6TA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="220436941"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2026 15:21:34 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="220443260"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2026 16:01:45 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w05SE-000000000N4-44dk;
-	Tue, 10 Mar 2026 22:21:30 +0000
-Date: Wed, 11 Mar 2026 06:20:54 +0800
+	id 1w0659-000000003A9-10CB;
+	Tue, 10 Mar 2026 23:01:43 +0000
+Date: Wed, 11 Mar 2026 00:01:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: Alexander Koskovich <akoskovich@pm.me>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Koskovich <akoskovich@pm.me>
-Subject: Re: [PATCH v3 2/2] drm/panel: Add support for Tianma TA066VVHM03
- panel
-Message-ID: <202603110640.rd02o2cM-lkp@intel.com>
-References: <20260310-tianma-ta066vvhm03-v3-2-fc2938971d79@pm.me>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	David Laight <david.laight.linux@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fs: Replace user_access_{begin/end} by scoped user access
+Message-ID: <202603102326.JZ7c6Opr-lkp@intel.com>
+References: <5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,108 +69,228 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260310-tianma-ta066vvhm03-v3-2-fc2938971d79@pm.me>
+In-Reply-To: <5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy@kernel.org>
 
-Hi Alexander,
+Hi Christophe,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681]
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v7.0-rc3 next-20260310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Koskovich/dt-bindings-display-panel-Document-Tianma-TA066VVHM03/20260310-125055
-base:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
-patch link:    https://lore.kernel.org/r/20260310-tianma-ta066vvhm03-v3-2-fc2938971d79%40pm.me
-patch subject: [PATCH v3 2/2] drm/panel: Add support for Tianma TA066VVHM03 panel
-config: arm64-randconfig-002-20260311 (https://download.01.org/0day-ci/archive/20260311/202603110640.rd02o2cM-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 122f0b13a237b5024747b4ee99002590cc9a220a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110640.rd02o2cM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy-CS-GROUP/fs-Replace-user_access_-begin-end-by-scoped-user-access/20260310-230227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy%40kernel.org
+patch subject: [PATCH] fs: Replace user_access_{begin/end} by scoped user access
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260310/202603102326.JZ7c6Opr-lkp@intel.com/config)
+compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603102326.JZ7c6Opr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603110640.rd02o2cM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603102326.JZ7c6Opr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c:335:7: error: no member named 'dsc_slice_per_pkt' in 'struct mipi_dsi_device'
-     335 |         dsi->dsc_slice_per_pkt = 2;
-         |         ~~~  ^
-   1 error generated.
+   fs/readdir.c: In function 'compat_fillonedir':
+>> fs/readdir.c:454:54: error: macro "scoped_user_write_access_size" requires 3 arguments, but only 2 given
+     454 |                                 (unsigned long)dirent), efault) {
+         |                                                      ^
+   In file included from ./include/linux/sched/task.h:13,
+                    from ./include/linux/sched/signal.h:9,
+                    from ./include/linux/rcuwait.h:6,
+                    from ./include/linux/mm.h:37,
+                    from fs/readdir.c:12:
+   ./include/linux/uaccess.h:778:9: note: macro "scoped_user_write_access_size" defined here
+     778 | #define scoped_user_write_access_size(udst, size, elbl)                 \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/readdir.c:452:9: error: 'scoped_user_write_access_size' undeclared (first use in this function)
+     452 |         scoped_user_write_access_size(dirent,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/readdir.c:452:9: note: each undeclared identifier is reported only once for each function it appears in
+>> fs/readdir.c:454:57: error: 'efault' undeclared (first use in this function)
+     454 |                                 (unsigned long)dirent), efault) {
+         |                                                         ^~~~~~
+>> fs/readdir.c:454:55: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     454 |                                 (unsigned long)dirent), efault) {
+         |                                                       ^
+>> fs/readdir.c:454:63: error: expected ';' before ')' token
+     454 |                                 (unsigned long)dirent), efault) {
+         |                                                               ^
+         |                                                               ;
+>> fs/readdir.c:454:63: error: expected statement before ')' token
+   fs/readdir.c: In function 'compat_filldir':
+>> ./include/linux/uaccess.h:744:17: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+     744 |                 for (const auto uptr  __cleanup(__scoped_user_##mode##_access_end) = \
+         |                 ^~~
+   ./include/linux/uaccess.h:779:9: note: in expansion of macro '__scoped_user_access'
+     779 |         __scoped_user_access(write, udst, size, elbl)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   fs/readdir.c:532:9: note: in expansion of macro 'scoped_user_write_access_size'
+     532 |         scoped_user_write_access_size(prev, reclen + prev_reclen, efault);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/uaccess.h:616:1: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+     616 | do {                                                    \
+         | ^~
+   fs/readdir.c:533:17: note: in expansion of macro 'unsafe_put_user'
+     533 |                 unsafe_put_user(offset, &prev->d_off, efault);
+         |                 ^~~~~~~~~~~~~~~
+>> fs/readdir.c:537:17: error: label 'efault' used but not defined
+     537 |                 unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/readdir.c: At top level:
+>> fs/readdir.c:540:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
+     540 |         buf->prev_reclen = reclen;
+         |            ^~
+   fs/readdir.c:541:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
+     541 |         buf->current_dir = (void __user *)dirent + reclen;
+         |            ^~
+   fs/readdir.c:542:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
+     542 |         ctx->count -= reclen;
+         |            ^~
+>> fs/readdir.c:543:9: error: expected identifier or '(' before 'return'
+     543 |         return true;
+         |         ^~~~~~
+>> fs/readdir.c:544:7: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+     544 | efault:
+         |       ^
+   fs/readdir.c:546:9: error: expected identifier or '(' before 'return'
+     546 |         return false;
+         |         ^~~~~~
+>> fs/readdir.c:547:1: error: expected identifier or '(' before '}' token
+     547 | }
+         | ^
+   fs/readdir.c: In function 'compat_filldir':
+>> fs/readdir.c:538:9: warning: control reaches end of non-void function [-Wreturn-type]
+     538 |         }
+         |         ^
 
 
-vim +335 drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c
+vim +/scoped_user_write_access_size +454 fs/readdir.c
 
-   286	
-   287	static int tianma_ta066vvhm03_probe(struct mipi_dsi_device *dsi)
-   288	{
-   289		struct device *dev = &dsi->dev;
-   290		struct tianma_ta066vvhm03 *ctx;
-   291		int ret;
-   292	
-   293		ctx = devm_drm_panel_alloc(dev, struct tianma_ta066vvhm03, panel,
-   294					   &tianma_ta066vvhm03_panel_funcs,
-   295					   DRM_MODE_CONNECTOR_DSI);
-   296		if (IS_ERR(ctx))
-   297			return PTR_ERR(ctx);
-   298	
-   299		ret = devm_regulator_bulk_get_const(dev,
-   300						    ARRAY_SIZE(tianma_ta066vvhm03_supplies),
-   301						    tianma_ta066vvhm03_supplies,
-   302						    &ctx->supplies);
-   303		if (ret < 0)
-   304			return ret;
-   305	
-   306		ctx->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
-   307		if (IS_ERR(ctx->enable_gpio))
-   308			return dev_err_probe(dev, PTR_ERR(ctx->enable_gpio),
-   309					     "Failed to get enable-gpios\n");
-   310	
-   311		ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-   312		if (IS_ERR(ctx->reset_gpio))
-   313			return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-   314					     "Failed to get reset-gpios\n");
-   315	
-   316		ctx->dsi = dsi;
-   317		mipi_dsi_set_drvdata(dsi, ctx);
-   318	
-   319		dsi->lanes = 4;
-   320		dsi->format = MIPI_DSI_FMT_RGB888;
-   321		dsi->mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET |
-   322				  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-   323	
-   324		ctx->panel.prepare_prev_first = true;
-   325	
-   326		ctx->panel.backlight = tianma_ta066vvhm03_create_backlight(dsi);
-   327		if (IS_ERR(ctx->panel.backlight))
-   328			return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-   329					     "Failed to create backlight\n");
-   330	
-   331		drm_panel_add(&ctx->panel);
-   332	
-   333		/* This panel only supports DSC; unconditionally enable it */
-   334		dsi->dsc = &ctx->dsc;
- > 335		dsi->dsc_slice_per_pkt = 2;
-   336	
-   337		ctx->dsc.dsc_version_major = 1;
-   338		ctx->dsc.dsc_version_minor = 1;
-   339	
-   340		ctx->dsc.slice_height = 20;
-   341		ctx->dsc.slice_width = 540;
-   342		WARN_ON(1080 % ctx->dsc.slice_width);
-   343		ctx->dsc.slice_count = 1080 / ctx->dsc.slice_width;
-   344		ctx->dsc.bits_per_component = 10;
-   345		ctx->dsc.bits_per_pixel = 8 << 4; /* 4 fractional bits */
-   346		ctx->dsc.block_pred_enable = true;
-   347	
-   348		ret = mipi_dsi_attach(dsi);
-   349		if (ret < 0) {
-   350			drm_panel_remove(&ctx->panel);
-   351			return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-   352		}
-   353	
-   354		return 0;
-   355	}
-   356	
+   430	
+   431	static bool compat_fillonedir(struct dir_context *ctx, const char *name,
+   432				     int namlen, loff_t offset, u64 ino,
+   433				     unsigned int d_type)
+   434	{
+   435		struct compat_readdir_callback *buf =
+   436			container_of(ctx, struct compat_readdir_callback, ctx);
+   437		struct compat_old_linux_dirent __user *dirent;
+   438		compat_ulong_t d_ino;
+   439	
+   440		if (buf->result)
+   441			return false;
+   442		buf->result = verify_dirent_name(name, namlen);
+   443		if (buf->result)
+   444			return false;
+   445		d_ino = ino;
+   446		if (sizeof(d_ino) < sizeof(ino) && d_ino != ino) {
+   447			buf->result = -EOVERFLOW;
+   448			return false;
+   449		}
+   450		buf->result++;
+   451		dirent = buf->dirent;
+ > 452		scoped_user_write_access_size(dirent,
+   453				(unsigned long)(dirent->d_name + namlen + 1) -
+ > 454					(unsigned long)dirent), efault) {
+   455			unsafe_put_user(d_ino, &dirent->d_ino, efault);
+   456			unsafe_put_user(offset, &dirent->d_offset, efault);
+   457			unsafe_put_user(namlen, &dirent->d_namlen, efault);
+   458			unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
+   459		}
+   460		return true;
+   461	efault:
+   462		buf->result = -EFAULT;
+   463		return false;
+   464	}
+   465	
+   466	COMPAT_SYSCALL_DEFINE3(old_readdir, unsigned int, fd,
+   467			struct compat_old_linux_dirent __user *, dirent, unsigned int, count)
+   468	{
+   469		int error;
+   470		CLASS(fd_pos, f)(fd);
+   471		struct compat_readdir_callback buf = {
+   472			.ctx.actor = compat_fillonedir,
+   473			.ctx.count = 1, /* Hint to fs: just one entry. */
+   474			.dirent = dirent
+   475		};
+   476	
+   477		if (fd_empty(f))
+   478			return -EBADF;
+   479	
+   480		error = iterate_dir(fd_file(f), &buf.ctx);
+   481		if (buf.result)
+   482			error = buf.result;
+   483	
+   484		return error;
+   485	}
+   486	
+   487	struct compat_linux_dirent {
+   488		compat_ulong_t	d_ino;
+   489		compat_ulong_t	d_off;
+   490		unsigned short	d_reclen;
+   491		char		d_name[];
+   492	};
+   493	
+   494	struct compat_getdents_callback {
+   495		struct dir_context ctx;
+   496		struct compat_linux_dirent __user *current_dir;
+   497		int prev_reclen;
+   498		int error;
+   499	};
+   500	
+   501	static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen,
+   502			loff_t offset, u64 ino, unsigned int d_type)
+   503	{
+   504		struct compat_linux_dirent __user *dirent, *prev;
+   505		struct compat_getdents_callback *buf =
+   506			container_of(ctx, struct compat_getdents_callback, ctx);
+   507		compat_ulong_t d_ino;
+   508		int reclen = ALIGN(offsetof(struct compat_linux_dirent, d_name) +
+   509			namlen + 2, sizeof(compat_long_t));
+   510		int prev_reclen;
+   511		unsigned int flags = d_type;
+   512	
+   513		BUILD_BUG_ON(FILLDIR_FLAG_NOINTR & S_DT_MASK);
+   514		d_type &= S_DT_MASK;
+   515	
+   516		buf->error = verify_dirent_name(name, namlen);
+   517		if (unlikely(buf->error))
+   518			return false;
+   519		buf->error = -EINVAL;	/* only used if we fail.. */
+   520		if (reclen > ctx->count)
+   521			return false;
+   522		d_ino = ino;
+   523		if (sizeof(d_ino) < sizeof(ino) && d_ino != ino) {
+   524			buf->error = -EOVERFLOW;
+   525			return false;
+   526		}
+   527		prev_reclen = buf->prev_reclen;
+   528		if (!(flags & FILLDIR_FLAG_NOINTR) && prev_reclen && signal_pending(current))
+   529			return false;
+   530		dirent = buf->current_dir;
+   531		prev = (void __user *) dirent - prev_reclen;
+   532		scoped_user_write_access_size(prev, reclen + prev_reclen, efault);
+   533			unsafe_put_user(offset, &prev->d_off, efault);
+   534			unsafe_put_user(d_ino, &dirent->d_ino, efault);
+   535			unsafe_put_user(reclen, &dirent->d_reclen, efault);
+   536			unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault);
+ > 537			unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
+ > 538		}
+   539	
+ > 540		buf->prev_reclen = reclen;
+   541		buf->current_dir = (void __user *)dirent + reclen;
+   542		ctx->count -= reclen;
+ > 543		return true;
+ > 544	efault:
+   545		buf->error = -EFAULT;
+   546		return false;
+ > 547	}
+   548	
 
 -- 
 0-DAY CI Kernel Test Service
