@@ -1,136 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D58329BD88
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 16:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D49C2D877A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 17:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773159583; cv=none; b=mEvIE0s8uPW8gx+FP0x0eb0Ovb5PvP2US2T1PpQTG2PkVlfIe2IjNZq9wz3a9udM90ZCXXNcN9g286yvPwszPwdCHUigtOyNOeEdYwHqSmmBdOw71Dify5lHk8T5Xu1dsTKeOUBs23m6+6t/O730WQQ+lbMuwLWkSCkTjmsZX7k=
+	t=1773163126; cv=none; b=IkukAxFlg5leesUuo04QCRz+JtXBLilez+32y4mVXoorUea1veNuXAKLEE+zVcj2OC+LoiPOVeL7eAOycU4j8CmuJehWUseB7smBTG3KSM/XYPQIYLK+uUx9JtoIdg60WfFkhnX04sZKuWrAIXexvDKuAvCVtHaYBUeaj84ek4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773159583; c=relaxed/simple;
-	bh=SWvgi6xFshVxzLLhUJsr+0wTie6u+ZuYVDVgOHjUYsk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZLNeeJ+IupLKtrSgwu7albZUQ6hPEt0agbk/p/q7V0/7CerfVo29Db8EXPofiG2jloktjb+rZhgZ/T54O1Xql6Mj8AzykxfF7p2qUgWZtB5MOCvl3G7KIQIT1dS2v8CR0zP3W3sPlJ3ZFqkiBNTggdLdYUFp/f/emnqT4hMvQYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHUwYvpR; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1773163126; c=relaxed/simple;
+	bh=m+dNIcjPKWZXv1T/B4sTPMVRbasHkz3lwAR4Ul0sWqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ACCVMiRi0QZToHva+nYdGnB9DTBCEPu72Z2PcN2ye6HeGZI/TkqQELuQ/8W1cX+8InhFL1ilMaoKVaNzzY1a+p12Vzy9H1ZrKascEIUNEUrhPJyD/U+ENQMC8i24tyRfwKKD16HVnz5+GOJrqvnMcsNyYAJC00KR3oE9AfJkC10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QcX3RReE; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHUwYvpR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QcX3RReE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773159581; x=1804695581;
-  h=date:from:to:cc:subject:message-id;
-  bh=SWvgi6xFshVxzLLhUJsr+0wTie6u+ZuYVDVgOHjUYsk=;
-  b=GHUwYvpRzdiaSHGcu/wDWAVUVu98K4f6rPHavJdvxwn4Ye9uH7Sgv8ea
-   gJ6FbiAa029oAPKJMRV93p9uvJhUvn6dziJshJkp1DeIO5mKdZv0miQFY
-   ycD3Q2GuxJHmbmcTe0qs5Fft9CVGJJl55CjjivJWQerOjqlomoSf1oljv
-   ZxWGJC5RGFL74J8Tsv4UgL9RhKFACE9umUXsHdQUGQuH9LcSBDYvNEccF
-   p8rn7WGfR2cM4Ep5W5P05tdtU1/qjSly/oDjs+Pi6OLFu8UAkkZ0JJXbl
-   Y2PunUjFM/3xSXXHYW+lTsIY93wic2pzGTRzRWJVLf81O7S+WBUzXtCq1
+  t=1773163125; x=1804699125;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=m+dNIcjPKWZXv1T/B4sTPMVRbasHkz3lwAR4Ul0sWqY=;
+  b=QcX3RReE2mGn3xP6OiC5ItFRsM6UOQjqIyMu4nzZwUIuKektNhiHQNbO
+   7ojyt/GP3M9nwnY2ZaTNQSp808XSF/ROsa2/v72qYfHQ748HwhP8oPtb/
+   wQgsY7PvdKmT6cunywOZEr0P5CzMIrQ3rjNycEGd1Qo9oBzXnYauqp6uZ
+   VXHdRAulo5KCx2Ya9lPdsVOW5MP7CyxkC6iQw0kX+Nrw1Co7muGg8L8HR
+   qa7DYWbEpfGg+yJrJd8XtrkIl2ehx8PYsmtvak8GmBF1AYEiFkjX/W/Cp
+   NOd5KRMGzT9eoJjcTzozJbo8Orh/mDjrl0+Tx62pFnpwkM7FOC+DJCYl7
    g==;
-X-CSE-ConnectionGUID: Zpc+ZPxyTOmVRluEG0AVHA==
-X-CSE-MsgGUID: OK1fVwzzR22NVVtbTVWdCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="77817059"
+X-CSE-ConnectionGUID: AaTd4klqSS6sW1/2jHxXlg==
+X-CSE-MsgGUID: SDGVMEFXTFOliL83wU4ChQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="78102242"
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="77817059"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 09:19:41 -0700
-X-CSE-ConnectionGUID: hXL+NALbReiFnLR76Q1FPg==
-X-CSE-MsgGUID: m+jKTDcTRKOYAtAoqck74g==
+   d="scan'208";a="78102242"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 10:18:44 -0700
+X-CSE-ConnectionGUID: WZsGopL3TnOEdDGfRjrmWw==
+X-CSE-MsgGUID: c9l0Kzp/SQKkIZLAU6KSBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="245899642"
-Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Mar 2026 09:19:39 -0700
-Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
+   d="scan'208";a="224646723"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 10 Mar 2026 10:18:43 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzzo0-000000002Fk-2OLl;
-	Tue, 10 Mar 2026 16:19:36 +0000
-Date: Wed, 11 Mar 2026 00:19:04 +0800
+	id 1w00jA-0000000037B-2vDE;
+	Tue, 10 Mar 2026 17:18:40 +0000
+Date: Tue, 10 Mar 2026 18:17:44 +0100
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
- Jeff Layton <jlayton@kernel.org>
-Subject: [cel:nfsd-testing 24/76] fs/nfs/getroot.c:90:17: sparse:
- sparse: incompatible types in conditional expression (different base types):
-Message-ID: <202603110038.P6d14oxa-lkp@intel.com>
+To: "Marek =?utf-8?Q?Marczykowski-G=C3=B3recki"?= <marmarek@invisiblethingslab.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org,
+ Ard Biesheuvel <ardb@kernel.org>
+Subject: [efi:next 1/4] drivers/firmware/efi/efi.c:1009:44: warning:
+ passing argument 2 of 'efi_mem_desc_lookup' discards 'const' qualifier from
+ pointer target type
+Message-ID: <202603101851.bAhG7uGN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
-head:   ab3a77c508e7f4484df05699b2209ac34f4721c4
-commit: 5d44b75a53924f33acd6ad924c7b6a7999b36637 [24/76] sunrpc: Fix compilation error (`make W=1`) when dprintk() is no-op
-config: x86_64-randconfig-121-20260310 (https://download.01.org/0day-ci/archive/20260311/202603110038.P6d14oxa-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+head:   c8da97cbb39c4c043d8456fcae25aa921c844a3f
+commit: 5992265762e666564b0275d72e54c514ab20c7f3 [1/4] efi: make efi_mem_type() and efi_mem_attributes() work on Xen PV
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260310/202603101851.bAhG7uGN-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110038.P6d14oxa-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603101851.bAhG7uGN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603110038.P6d14oxa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603101851.bAhG7uGN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/nfs/getroot.c:90:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   fs/nfs/getroot.c:90:17: sparse:    void
-   fs/nfs/getroot.c:90:17: sparse:    int
-   fs/nfs/getroot.c:98:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   fs/nfs/getroot.c:98:17: sparse:    void
-   fs/nfs/getroot.c:98:17: sparse:    int
-   fs/nfs/getroot.c:114:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   fs/nfs/getroot.c:114:17: sparse:    void
-   fs/nfs/getroot.c:114:17: sparse:    int
---
->> fs/nfs/namespace.c:304:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   fs/nfs/namespace.c:304:17: sparse:    void
-   fs/nfs/namespace.c:304:17: sparse:    int
---
->> fs/nfs/nfs4super.c:232:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   fs/nfs/nfs4super.c:232:17: sparse:    void
-   fs/nfs/nfs4super.c:232:17: sparse:    int
-   fs/nfs/nfs4super.c:255:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   fs/nfs/nfs4super.c:255:17: sparse:    void
-   fs/nfs/nfs4super.c:255:17: sparse:    int
+All warnings (new ones prefixed by >>):
 
-vim +90 fs/nfs/getroot.c
+   drivers/firmware/efi/efi.c: In function 'efi_mem_type':
+>> drivers/firmware/efi/efi.c:1009:44: warning: passing argument 2 of 'efi_mem_desc_lookup' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    1009 |         if (efi_mem_desc_lookup(phys_addr, &md))
+         |                                            ^~~
+   In file included from drivers/firmware/efi/efi.c:22:
+   include/linux/efi.h:757:66: note: expected 'efi_memory_desc_t *' but argument is of type 'const efi_memory_desc_t *'
+     757 | extern int efi_mem_desc_lookup(u64 phys_addr, efi_memory_desc_t *out_md);
+         |                                               ~~~~~~~~~~~~~~~~~~~^~~~~~
 
-b09b9417d074e01 Trond Myklebust 2007-10-25  63  
-54ceac451598603 David Howells   2006-08-22  64  /*
-6d26c5e4d83cd39 Li Lingfeng     2024-08-24  65   * get a root dentry from the root filehandle
-54ceac451598603 David Howells   2006-08-22  66   */
-62a55d088cd87d4 Scott Mayhew    2019-12-10  67  int nfs_get_root(struct super_block *s, struct fs_context *fc)
-54ceac451598603 David Howells   2006-08-22  68  {
-62a55d088cd87d4 Scott Mayhew    2019-12-10  69  	struct nfs_fs_context *ctx = nfs_fc2context(fc);
-eae00c5d6e48ccb Scott Mayhew    2021-06-22  70  	struct nfs_server *server = NFS_SB(s), *clone_server;
-54ceac451598603 David Howells   2006-08-22  71  	struct nfs_fsinfo fsinfo;
-62a55d088cd87d4 Scott Mayhew    2019-12-10  72  	struct dentry *root;
-54ceac451598603 David Howells   2006-08-22  73  	struct inode *inode;
-62a55d088cd87d4 Scott Mayhew    2019-12-10  74  	char *name;
-62a55d088cd87d4 Scott Mayhew    2019-12-10  75  	int error = -ENOMEM;
-779df6a5480f130 Scott Mayhew    2020-03-03  76  	unsigned long kflags = 0, kflags_out = 0;
-54ceac451598603 David Howells   2006-08-22  77  
-62a55d088cd87d4 Scott Mayhew    2019-12-10  78  	name = kstrdup(fc->source, GFP_KERNEL);
-b1942c5f8cf3bea Al Viro         2011-03-16  79  	if (!name)
-62a55d088cd87d4 Scott Mayhew    2019-12-10  80  		goto out;
-b1942c5f8cf3bea Al Viro         2011-03-16  81  
-54ceac451598603 David Howells   2006-08-22  82  	/* get the actual root for this mount */
-d755ad8dc752d44 Anna Schumaker  2021-10-22  83  	fsinfo.fattr = nfs_alloc_fattr_with_label(server);
-62a55d088cd87d4 Scott Mayhew    2019-12-10  84  	if (fsinfo.fattr == NULL)
-62a55d088cd87d4 Scott Mayhew    2019-12-10  85  		goto out_name;
-54ceac451598603 David Howells   2006-08-22  86  
-62a55d088cd87d4 Scott Mayhew    2019-12-10  87  	error = server->nfs_client->rpc_ops->getroot(server, ctx->mntfh, &fsinfo);
-54ceac451598603 David Howells   2006-08-22  88  	if (error < 0) {
-54ceac451598603 David Howells   2006-08-22  89  		dprintk("nfs_get_root: getattr error = %d\n", -error);
-ce8866f0913ff15 Scott Mayhew    2019-12-10 @90  		nfs_errorf(fc, "NFS: Couldn't getattr on root");
 
-:::::: The code at line 90 was first introduced by commit
-:::::: ce8866f0913ff157edc098f06bad07763ad317e7 NFS: Attach supplementary error information to fs_context.
+vim +1009 drivers/firmware/efi/efi.c
 
-:::::: TO: Scott Mayhew <smayhew@redhat.com>
-:::::: CC: Anna Schumaker <Anna.Schumaker@Netapp.com>
+   993	
+   994	/*
+   995	 * efi_mem_type - lookup memmap type for physical address
+   996	 * @phys_addr: the physical address to lookup
+   997	 *
+   998	 * Search in the EFI memory map for the region covering @phys_addr.
+   999	 * Returns the EFI memory type if the region was found in the memory
+  1000	 * map, -EINVAL otherwise.
+  1001	 */
+  1002	int efi_mem_type(unsigned long phys_addr)
+  1003	{
+  1004		const efi_memory_desc_t md;
+  1005	
+  1006		if (!efi_enabled(EFI_MEMMAP) && !efi_enabled(EFI_PARAVIRT))
+  1007			return -ENOTSUPP;
+  1008	
+> 1009		if (efi_mem_desc_lookup(phys_addr, &md))
+  1010			return -EINVAL;
+  1011	
+  1012		return md.type;
+  1013	}
+  1014	
 
 -- 
 0-DAY CI Kernel Test Service
