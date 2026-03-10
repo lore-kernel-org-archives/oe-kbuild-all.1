@@ -1,144 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6D13EBF0C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 08:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C631DC1AB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 08:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773130865; cv=none; b=sMQAQ0ZU+v/Bf4GURsdd2Jl+EsoVQVdgnrbJnxcVvg8LvSLJIowUtXgoAEZnMAcYBlQKtcIXjZl5zGUEgmccr7yCo7riWQgXoNC6+jFr9YMmaQWrO9beXqIaI54Elb9EqELD9unLWwYV0h0UzVza0vkUeONuvSprGMC5u4XMBVI=
+	t=1773132075; cv=none; b=LD7jRlsYe6WyWEz7Z9JJba+8u5hIDVZsibLtIUg+7M9o/8erxfkMIHWNXfXTrfxVA3RG6QPNUwREJJN4/RcueBcq9ZWJuYTHXZMImFXrf9Zcngb/jvsGgDcg41lhvVjtFY5f5UnZMyp2ZNLuDrjg4+Ry65VbUvoP22JWMYqz0rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773130865; c=relaxed/simple;
-	bh=R3GKQOnVlA4SWTygyFTFJ/WrC//pJcp8RTlaslxgtw0=;
+	s=arc-20240116; t=1773132075; c=relaxed/simple;
+	bh=wskQGwPOkZ7/pPftJXdI6x1o9qQDgqTWkY7f7ohD0MA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dIUzowCMvOOyYB7GMiWmn4xHClbjCJEJn+maA2gnOuqmnnfxiNI+/KcRjlzMVMN5TE8mY/lSQGoBdlBcjVVwn/OCm/orwQ4+wo/sJtLJPsz+mT540Xo45RQ6jkFpIBOgWyv4wGm2kIPxYGj9NmmcigruapkDt69EBxSwvGY1vAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lb87WGKd; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=nOiJg0ra6KxqcqWphAWdAPdZGjSaZFO3KS08kB49nnl5AqvvnIRfc+s4NGQq4WAaGgi73bNhSG7DCiFVY2ML/40DhnMRUNtbu+Wnk/Tdd3vQL4r0R5rhYLtlKu9gAj7ZmJo71jZGGZhxSSWKiMfM0o6+Y949HWUAydM6eY0olB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8mlgUAs; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lb87WGKd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8mlgUAs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773130863; x=1804666863;
+  t=1773132073; x=1804668073;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R3GKQOnVlA4SWTygyFTFJ/WrC//pJcp8RTlaslxgtw0=;
-  b=lb87WGKd5h31JzD3tVTgFjWYr2knbwOnOCzhx1JItSxlpKTUtwM3FXRx
-   VBXrjRUXtQavjg2cEa4uEaaLMueldK3yrP1yWtzXB7LQRx9TujtKgjld5
-   sGfq9IOTczY9h5fapXHoZMGIngO+v1agAKyHc7IhYkjPpn0fhwXqvcCwJ
-   YOwHPEqwNhUsYJphjOr5ojUXei6bbmNuYm1NT5knLXc+O4G68F2Iwv2bx
-   fsjA+XCzl48zvF2rqaaDSpl6rGuWyKhuGktaJUbgEUmTBlOKtlpFtQpUF
-   N/rZDx8OwmzDne4VAiKgjFaIaHbkG9HZo6KdIqNF+NdITqkC/E/K84ys4
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=wskQGwPOkZ7/pPftJXdI6x1o9qQDgqTWkY7f7ohD0MA=;
+  b=Q8mlgUAsC2DnUZwH2nAbgjQdQelZmX0IPSZnSDDt/Qgc4llnz4JRS+iB
+   s0s3yJOnIkr06s7tyFCxox3zW0zgn9iwTOnjoEcqW+ldsOXsOq2HRHHbq
+   gAxo0IbjeBBeP8SdjyfU8OF0ytCn/LE7dfxcMUWmg5H/e17wVBOE1HKqO
+   5WGtJ1PDEJJBfEMzufqUS4aAzoOz72VhnJA8uEEeogNVDvA+g/fcMnpBI
+   xd4ASq1PCXezbPnSap+qlv52r87Qc4pqIIkwTnOynRdg3DqmSxmjvjTGr
+   JKMcPtOpK17Q7vrfEnB+Re+J0NmUaG7TEnrBUmNrAkxfRBTabHhLNPJFm
    g==;
-X-CSE-ConnectionGUID: 2Nwj9P/QThSAm8T2BuTYXQ==
-X-CSE-MsgGUID: kE+FIiLdRlyVFGCdRkHPHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="85258829"
+X-CSE-ConnectionGUID: gRmYwS7CQzWx5GqeLI4CgQ==
+X-CSE-MsgGUID: 2tGeTar0S3K2Te8EyB60PQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="74047982"
 X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="85258829"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 01:21:03 -0700
-X-CSE-ConnectionGUID: ggYeroAwQsyekMGker3Ecg==
-X-CSE-MsgGUID: akZXxMLnTa61BAn8g334nA==
+   d="scan'208";a="74047982"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 01:41:12 -0700
+X-CSE-ConnectionGUID: CajO384xSZi6aW7QvMRWcQ==
+X-CSE-MsgGUID: TRxIuavNQ9OqsIoobzjr1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="219286524"
+   d="scan'208";a="257952863"
 Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Mar 2026 01:20:57 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Mar 2026 01:41:12 -0700
 Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzsKj-000000001aC-1OCZ;
-	Tue, 10 Mar 2026 08:20:53 +0000
-Date: Tue, 10 Mar 2026 16:20:16 +0800
+	id 1vzseL-000000001bc-2NaZ;
+	Tue, 10 Mar 2026 08:41:09 +0000
+Date: Tue, 10 Mar 2026 16:40:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Marc Zyngier <maz@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Prakash Gupta <prakash.gupta@oss.qualcomm.com>,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 2/3] of: factor arguments passed to of_map_id() into
- a struct
-Message-ID: <202603101641.aPJli6Zx-lkp@intel.com>
-References: <20260309-parse_iommu_cells-v10-2-c62fcaa5a1d8@oss.qualcomm.com>
+To: =?utf-8?Q?Micha=C5=82?= Grzelak <michal.grzelak@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v1 09/11] drm/i915/xe3p: add V/P Override support for xe3p
+Message-ID: <202603101623.t8tVjYsz-lkp@intel.com>
+References: <20260308132446.3320848-10-michal.grzelak@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260309-parse_iommu_cells-v10-2-c62fcaa5a1d8@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260308132446.3320848-10-michal.grzelak@intel.com>
 
-Hi Vijayanand,
+Hi Michał,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 3fa5e5702a82d259897bd7e209469bc06368bf31]
+[auto build test WARNING on drm-i915/for-linux-next]
+[also build test WARNING on drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.0-rc3 next-20260309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vijayanand-Jitta/of-Add-convenience-wrappers-for-of_map_id/20260309-033633
-base:   3fa5e5702a82d259897bd7e209469bc06368bf31
-patch link:    https://lore.kernel.org/r/20260309-parse_iommu_cells-v10-2-c62fcaa5a1d8%40oss.qualcomm.com
-patch subject: [PATCH v10 2/3] of: factor arguments passed to of_map_id() into a struct
-config: i386-buildonly-randconfig-005-20260310 (https://download.01.org/0day-ci/archive/20260310/202603101641.aPJli6Zx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603101641.aPJli6Zx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Grzelak/drm-i915-bios-search-for-Block-57-by-default/20260308-214619
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20260308132446.3320848-10-michal.grzelak%40intel.com
+patch subject: [RFC v1 09/11] drm/i915/xe3p: add V/P Override support for xe3p
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260310/202603101623.t8tVjYsz-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603101623.t8tVjYsz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603101641.aPJli6Zx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603101623.t8tVjYsz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/cdx/cdx_msi.c: In function 'cdx_msi_prepare':
->> drivers/cdx/cdx_msi.c:128:13: warning: variable 'dev_id' set but not used [-Wunused-but-set-variable]
-     128 |         u32 dev_id;
-         |             ^~~~~~
+   In file included from arch/parisc/include/asm/bug.h:97,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/drm/drm_print.h:31,
+                    from drivers/gpu/drm/i915/display/intel_de.h:9,
+                    from drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c:9:
+   drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c: In function 'xe3plpd_get_lt_buf_trans':
+>> include/drm/drm_print.h:779:25: warning: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Wformat=]
+     779 |         WARN(condition, "%s %s: [drm] " format,                         \
+         |                         ^~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:133:31: note: in definition of macro '__WARN_printf'
+     133 |                 __warn_printk(arg);                                     \
+         |                               ^~~
+   include/drm/drm_print.h:779:9: note: in expansion of macro 'WARN'
+     779 |         WARN(condition, "%s %s: [drm] " format,                         \
+         |         ^~~~
+   drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c:1883:17: note: in expansion of macro 'drm_WARN'
+    1883 |                 drm_WARN(to_intel_display(encoder)->drm,
+         |                 ^~~~~~~~
 
 
-vim +/dev_id +128 drivers/cdx/cdx_msi.c
+vim +779 include/drm/drm_print.h
 
-0e439ba38e615e Nipun Gupta       2024-02-26  119  
-0e439ba38e615e Nipun Gupta       2024-02-26  120  static int cdx_msi_prepare(struct irq_domain *msi_domain,
-0e439ba38e615e Nipun Gupta       2024-02-26  121  			   struct device *dev,
-0e439ba38e615e Nipun Gupta       2024-02-26  122  			   int nvec, msi_alloc_info_t *info)
-0e439ba38e615e Nipun Gupta       2024-02-26  123  {
-ab5be96a55e45e Charan Teja Kalla 2026-03-09  124  	struct of_phandle_args msi_spec = { .np = NULL };
-0e439ba38e615e Nipun Gupta       2024-02-26  125  	struct cdx_device *cdx_dev = to_cdx_device(dev);
-0e439ba38e615e Nipun Gupta       2024-02-26  126  	struct device *parent = cdx_dev->cdx->dev;
-0e439ba38e615e Nipun Gupta       2024-02-26  127  	struct msi_domain_info *msi_info;
-0e439ba38e615e Nipun Gupta       2024-02-26 @128  	u32 dev_id;
-0e439ba38e615e Nipun Gupta       2024-02-26  129  	int ret;
-0e439ba38e615e Nipun Gupta       2024-02-26  130  
-0e439ba38e615e Nipun Gupta       2024-02-26  131  	/* Retrieve device ID from requestor ID using parent device */
-ab5be96a55e45e Charan Teja Kalla 2026-03-09  132  	ret = of_map_msi_id(parent->of_node, cdx_dev->msi_dev_id, &msi_spec);
-0e439ba38e615e Nipun Gupta       2024-02-26  133  	if (ret) {
-0e439ba38e615e Nipun Gupta       2024-02-26  134  		dev_err(dev, "of_map_id failed for MSI: %d\n", ret);
-0e439ba38e615e Nipun Gupta       2024-02-26  135  		return ret;
-0e439ba38e615e Nipun Gupta       2024-02-26  136  	}
-ab5be96a55e45e Charan Teja Kalla 2026-03-09  137  	of_node_put(msi_spec.np);
-ab5be96a55e45e Charan Teja Kalla 2026-03-09  138  	dev_id = msi_spec.args[0];
-0e439ba38e615e Nipun Gupta       2024-02-26  139  
+3bf149bd3fe12a Jani Nikula      2019-10-28  760  
+20f5583dd7a510 Nirmoy Das       2023-12-06  761  #define drm_dbg_ratelimited(drm, fmt, ...) \
+20f5583dd7a510 Nirmoy Das       2023-12-06  762  	__DRM_DEFINE_DBG_RATELIMITED(DRIVER, drm, fmt, ## __VA_ARGS__)
+20f5583dd7a510 Nirmoy Das       2023-12-06  763  
+c5261e93758a6b Lyude Paul       2021-03-26  764  #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
+c5261e93758a6b Lyude Paul       2021-03-26  765  	__DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
+c5261e93758a6b Lyude Paul       2021-03-26  766  
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  767  /*
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  768   * struct drm_device based WARNs
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  769   *
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  770   * drm_WARN*() acts like WARN*(), but with the key difference of
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  771   * using device specific information so that we know from which device
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  772   * warning is originating from.
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  773   *
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  774   * Prefer drm_device based drm_WARN* over regular WARN*
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  775   */
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  776  
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  777  /* Helper for struct drm_device based WARNs */
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  778  #define drm_WARN(drm, condition, format, arg...)			\
+0d11307022978f Michal Wajdeczko 2024-05-23 @779  	WARN(condition, "%s %s: [drm] " format,				\
+d05386a3fdf373 Jani Nikula      2025-01-23  780  			dev_driver_string(__drm_to_dev(drm)),		\
+d05386a3fdf373 Jani Nikula      2025-01-23  781  			dev_name(__drm_to_dev(drm)), ## arg)
+dc1a73e50f9c63 Pankaj Bharadiya 2020-01-15  782  
 
 -- 
 0-DAY CI Kernel Test Service
