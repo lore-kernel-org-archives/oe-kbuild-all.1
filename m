@@ -1,178 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F3A28CF4A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 06:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96633BE161;
+	Tue, 10 Mar 2026 07:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773124235; cv=none; b=lozLw6ClrIpLGqup5FlOUA0wvI9JCzJVEKXXgAqMGmwUKDaQCfx4Ku2draRo+HPdF3mMvAhYGNLjnF9Kau1H4ZCvfdxSe6bKmR6dkFth0sitKBIoezqeYAhJcTIM3o8WG+fNcR1r4TBaemWrV5rjDKAplZQJ+29P6BXtg62PM4k=
+	t=1773126221; cv=none; b=iVOGXdfbAAP2vT0LLykjWwAGVFybTu5W0NgjsFjakA8pNsTsW9MDQw1cp9VLiE185YPzCmowfgGXG35DZZwToWzEHmzVZb8WVLAxHaDhtuia2NU+NWgDShJ8UokwuB3rwOvKyI6NaEprSo/26/JGOnDAROvUzj+b/j+qrpYmNgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773124235; c=relaxed/simple;
-	bh=b0tiJPx27kb7V2zoV7m0LrOZeVP6jVkMiY5HLsLJbdg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FrPf3yVUw8PigtX5rePm5/nCgbgdibTduwRiR2F8FV01C+gb+uo4yHxevDb8MnAdhpsEDO9I7Pzz/4UDEBy0KLVy/sZTzLYewXsB0z5SWqtNSpA8N2Ks0/NRDsTIp9pE79AZvjujZEh3JfUb/oRIsQ9U9uj06THky5IjhYEnP+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cGWl8n4Z; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1773126221; c=relaxed/simple;
+	bh=HewspYiwt90p5KkOvXWp3gKWEgWsfwJHxVcwJbkfM9k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RaIkJ7gani1LDRlxmbmRopInWBJI569i5JRcT7HU//5Lxoz3WBEJNa19POjz5UeZnz2v914cevqxv2cbOyx4q5c11U2Fm2OZSeq7wTJO9itKyB81NKpij6BlY1pRsVekKB0DylCiHS3TSbTdkozi5XIC9hQgIWTIzSIwiJPnk/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJSjlv1D; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cGWl8n4Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJSjlv1D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773124233; x=1804660233;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b0tiJPx27kb7V2zoV7m0LrOZeVP6jVkMiY5HLsLJbdg=;
-  b=cGWl8n4ZH0tW8nG0oG8315V9qnVul19+f0omSI0IU/p65DRhOwXMo9Ji
-   sLQo8YNF9fESLTRoqa1jtU5dutWckbVmI14Z+EfXuBHxD0sxLevf6lbhM
-   Xl1NzINFHwr6dr0KrJnf0+ejtY+WY5r76+Bkpxn38CIpJ1YKs8juNe+u1
-   jeVyf7+T4CpTWETNeNH/UMqh+smQxfMeBUVLbQym7uUQmsgefVH5Ieg+u
-   SHursvQDMGeBRKeSKNoi6qAknT3kXdNZ2kTjaoFCWDc/dyYowsjFUH8M/
-   R5IcnnuIVd2TR2OAb/xPYuel4pd5PK5Zglg591QIFf2T9r1FtFMI9xl/8
-   g==;
-X-CSE-ConnectionGUID: 0GELTpVLSN60pn33VkhwHA==
-X-CSE-MsgGUID: gBq9+MmpSwGf3ttIlP2UlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="78013860"
+  t=1773126216; x=1804662216;
+  h=date:from:to:cc:subject:message-id;
+  bh=HewspYiwt90p5KkOvXWp3gKWEgWsfwJHxVcwJbkfM9k=;
+  b=kJSjlv1DyA2AAZBilVw2oEBlYru9fDGkQpL/nXwdkqohMzoD1/y9RjhX
+   gQdiAo8/so522h4C1444+I4tyRHnFr4gwwHB4XpezSg2/r+OCNSkmoQUA
+   Elgqwp8UgqNuf0KlQq38WAGs2xii5WIRWCaxyBg+Rz6C2W3nqMPVaksaX
+   p1v0jbMbyThNYUc6WVuYPzn+N+yzQsbXj5HjYomw5o8+nzKqJdw75Osde
+   IomjfX9ijS7+wfwkfR9XinshheekkP6HFtU4QUAOpFGVn2LmnwfBSULz/
+   BQemNZw2wMFq8JzgB/FW3NVejKz3ZySXEKPMluDY9dsfch0X4irmB0ZEh
+   w==;
+X-CSE-ConnectionGUID: vd3oBXFMR0OtJcAxGNUP/Q==
+X-CSE-MsgGUID: +tr9d+q0TlSGDbck0b9VwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="74063707"
 X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="78013860"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 23:30:32 -0700
-X-CSE-ConnectionGUID: AV9KxH1LRciBf+ShYMqSGg==
-X-CSE-MsgGUID: wPmB7sgLRz+J5P2emD/RQg==
+   d="scan'208";a="74063707"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 00:03:35 -0700
+X-CSE-ConnectionGUID: 4I2USQ/+QNKeIf6ZCWuL/g==
+X-CSE-MsgGUID: WHVzwDUMTVi8FH6XRBvIQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="216417804"
+   d="scan'208";a="243027239"
 Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Mar 2026 23:30:29 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 Mar 2026 00:03:33 -0700
 Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzqbq-000000001Tk-1NyS;
-	Tue, 10 Mar 2026 06:30:26 +0000
-Date: Tue, 10 Mar 2026 14:29:50 +0800
+	id 1vzr7r-000000001Vs-0THX;
+	Tue, 10 Mar 2026 07:03:31 +0000
+Date: Tue, 10 Mar 2026 15:02:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sibi Sankar <sibi.sankar@oss.qualcomm.com>, robh@kernel.org,
-	krzk+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
-	bryan.odonoghue@linaro.org, ilpo.jarvinen@linux.intel.com,
-	hansg@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, conor+dt@kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	Maya Matuszczyk <maccraft123mc@gmail.com>
-Subject: Re: [PATCH V3 2/5] platform: arm64: Add driver for EC found on
- Qualcomm reference devices
-Message-ID: <202603101413.1egT3NBN-lkp@intel.com>
-References: <20260308233646.2318676-3-sibi.sankar@oss.qualcomm.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v4-wip 8/21] kernel/bpf/core.o: warning:
+ objtool: ___bpf_prog_run+0x76: ignoring unreachables due to jump table quirk
+Message-ID: <202603101417.VTb0SFDV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260308233646.2318676-3-sibi.sankar@oss.qualcomm.com>
 
-Hi Sibi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sibi-Sankar/dt-bindings-embedded-controller-Add-EC-bindings-for-Qualcomm-reference-devices/20260309-074148
-base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
-patch link:    https://lore.kernel.org/r/20260308233646.2318676-3-sibi.sankar%40oss.qualcomm.com
-patch subject: [PATCH V3 2/5] platform: arm64: Add driver for EC found on Qualcomm reference devices
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260310/202603101413.1egT3NBN-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603101413.1egT3NBN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v4-wip
+head:   ac16b9ed881281b934626d9265e7eda3fe234674
+commit: fa65278b9bdce81fddb3ec54017ccc384fd42dca [8/21] x86: Use PIE codegen for the relocatable 64-bit kernel
+config: x86_64-randconfig-072-20260310 (https://download.01.org/0day-ci/archive/20260310/202603101417.VTb0SFDV-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603101417.VTb0SFDV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603101413.1egT3NBN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603101417.VTb0SFDV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/ioport.h:16,
-                    from include/linux/acpi.h:13,
-                    from include/linux/i2c.h:13,
-                    from drivers/platform/arm64/qcom-hamoa-ec.c:7:
-   drivers/platform/arm64/qcom-hamoa-ec.c: In function 'qcom_ec_thermal_capabilities':
->> drivers/platform/arm64/qcom-hamoa-ec.c:56:42: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-      56 | #define EC_THERMAL_FAN_CNT(x)           (FIELD_GET(GENMASK(1, 0), (x)))
-         |                                          ^~~~~~~~~
-   include/linux/minmax.h:92:35: note: in definition of macro '__careful_cmp_once'
-      92 |         auto ux = (x); auto uy = (y);                   \
-         |                                   ^
-   include/linux/minmax.h:112:25: note: in expansion of macro '__careful_cmp'
-     112 | #define max(x, y)       __careful_cmp(max, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/platform/arm64/qcom-hamoa-ec.c:170:24: note: in expansion of macro 'max'
-     170 |         cap->fan_cnt = max(EC_MAX_FAN_CNT, EC_THERMAL_FAN_CNT(resp[1]));
-         |                        ^~~
-   drivers/platform/arm64/qcom-hamoa-ec.c:170:44: note: in expansion of macro 'EC_THERMAL_FAN_CNT'
-     170 |         cap->fan_cnt = max(EC_MAX_FAN_CNT, EC_THERMAL_FAN_CNT(resp[1]));
-         |                                            ^~~~~~~~~~~~~~~~~~
-
-
-vim +/FIELD_GET +56 drivers/platform/arm64/qcom-hamoa-ec.c
-
-   > 7	#include <linux/i2c.h>
-     8	#include <linux/kernel.h>
-     9	#include <linux/module.h>
-    10	#include <linux/pm.h>
-    11	#include <linux/thermal.h>
-    12	
-    13	#define EC_SCI_EVT_READ_CMD	0x05
-    14	#define EC_FW_VERSION_CMD	0x0e
-    15	#define EC_MODERN_STANDBY_CMD	0x23
-    16	#define EC_FAN_DBG_CONTROL_CMD	0x30
-    17	#define EC_SCI_EVT_CONTROL_CMD	0x35
-    18	#define EC_THERMAL_CAP_CMD	0x42
-    19	
-    20	#define EC_FW_VERSION_RESP_LEN	4
-    21	#define EC_THERMAL_CAP_RESP_LEN	3
-    22	#define EC_FAN_DEBUG_CMD_LEN	6
-    23	#define EC_FAN_SPEED_DATA_SIZE	4
-    24	
-    25	#define EC_MODERN_STANDBY_ENTER	0x01
-    26	#define EC_MODERN_STANDBY_EXIT	0x00
-    27	
-    28	#define EC_FAN_DEBUG_MODE_ON    BIT(0)
-    29	#define EC_FAN_ON               BIT(1)
-    30	#define EC_FAN_DEBUG_TYPE_PWM   BIT(2)
-    31	#define EC_MAX_FAN_CNT		2
-    32	#define EC_FAN_NAME_SIZE	20
-    33	#define EC_FAN_MAX_PWM		255
-    34	
-    35	enum qcom_ec_sci_events {
-    36		EC_FAN1_STATUS_CHANGE_EVT = 0x30,
-    37		EC_FAN2_STATUS_CHANGE_EVT,
-    38		EC_FAN1_SPEED_CHANGE_EVT,
-    39		EC_FAN2_SPEED_CHANGE_EVT,
-    40		EC_NEW_LUT_SET_EVT,
-    41		EC_FAN_PROFILE_SWITCH_EVT,
-    42		EC_THERMISTOR_1_THRESHOLD_CROSS_EVT,
-    43		EC_THERMISTOR_2_THRESHOLD_CROSS_EVT,
-    44		EC_THERMISTOR_3_THRESHOLD_CROSS_EVT,
-    45		/* Reserved: 0x39 - 0x3c/0x3f */
-    46		EC_RECOVERED_FROM_RESET_EVT = 0x3d,
-    47	};
-    48	
-    49	struct qcom_ec_version {
-    50		u8 main_version;
-    51		u8 sub_version;
-    52		u8 test_version;
-    53	};
-    54	
-    55	struct qcom_ec_thermal_cap {
-  > 56	#define EC_THERMAL_FAN_CNT(x)		(FIELD_GET(GENMASK(1, 0), (x)))
-    57	#define EC_THERMAL_FAN_TYPE(x)		(FIELD_GET(GENMASK(4, 2), (x)))
-    58	#define EC_THERMAL_THERMISTOR_MASK(x)	(FIELD_GET(GENMASK(7, 0), (x)))
-    59		u8 fan_cnt;
-    60		u8 fan_type;
-    61		u8 thermistor_mask;
-    62	};
-    63	
+>> kernel/bpf/core.o: warning: objtool: ___bpf_prog_run+0x76: ignoring unreachables due to jump table quirk
 
 -- 
 0-DAY CI Kernel Test Service
