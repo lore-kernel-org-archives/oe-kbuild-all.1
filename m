@@ -1,158 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B9A388E65
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 11:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AD63B9D87
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 13:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773142150; cv=none; b=ZA/CupWPyaX+PNX/LAQ86RNqBdFJDzZgKY1vQd/fNOvJMKwcGVtTgYoSlYKu6hXF6VeBiEQl+gAmFVY4ukwOpXqt/QTcp9lyAavsAVBmDiarQ5FjGez+B31pzmENanCE3+8aom5X2C+JWhtJjrTJ9oTa4fSdgIrP4+y2bE+87AQ=
+	t=1773147884; cv=none; b=EnjYDo5lQWOcelvtlXMO/xqRG8gZkAVSP5ckucrThySz8k4WaWiErmyQyO9HNB9WRvPKQaNJXZPr7Q+42ereLC4YvBAwwk9Slr2cHnQeDW5riqVcB8zoWyS5KANBAmQCHMvATymsBv6vkFeqWWoxZESFhGB+hPeVhq9aDmJBwQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773142150; c=relaxed/simple;
-	bh=M1L6c65G0K5cu9KZRBvJoRgFCElnIP69xEd1dBdPc8s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jFN1NaPYWHPKL3rg3pN3pC7pPHMxBvhC+JL/Z/HxzxReuEphc2mBlq72fqi8zpmhflPXYHjjFyYpxDKIVF10N0f1SQ3rUvIJxMv2/KHbju0Mo4fpQW5wf77JFAZlTK/r6b3X1Dc7CKOoeptOscKz1JtOygNxP0TO+ekgMWMfLHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FBZlpeqm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773147884; c=relaxed/simple;
+	bh=HfCcUwuiWRVqyFT6kyAaQazd+Ozue4dY5XU6LM0bc5w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lysZ+hDFLtN74unbPS3uoWUioEsikYSO5cLv+jJLCMMIjNonO5bxhsRuegZwQIdEJ57hUQSXh3OO489p4mYYtWvbqeaOEY9W0iwhESQ0SOQBz/GBFswe8BJ9rcZwEEWz6uF8+gTZoDfN1RsJ+1sp+Qn/PcoZjeZOv8/7O1FLbn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSL8X3BR; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FBZlpeqm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4E09C19423;
-	Tue, 10 Mar 2026 11:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773142150;
-	bh=M1L6c65G0K5cu9KZRBvJoRgFCElnIP69xEd1dBdPc8s=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=FBZlpeqmaVL37Q2GF9ztnCuVcuwZeKA6mOZafHWr1V854S6i2iF9o/YpMeiW7M74i
-	 INNONcwyLDEgz2vNpk3P9UF5lzrBEJnCgxgU3eEBzTezq3zjGax2S+CbTBKaVe1OQm
-	 JE5Z/4QlkcQdfodtuqtjBz70980YXIw834PlOM12q00kGklNZ4rKpRJEHgeP5aai/a
-	 1cOhQ+eWUQJBss4CgMtL5VN4j7is2wbrDYgKT4s4A3WHDgJMb5uq4IanjHjeBjpxVl
-	 S8lB6+1QVJ+GmgLdyiTNxp3kvLjlNksjPWkDlKgvp2vkMRApqIRUVd3T24oN94CAgy
-	 l4wzirKTNUhew==
-Message-ID: <441a4f44faf11321df5708ff933c54f8acf2bef9.camel@kernel.org>
-Subject: Re: [brauner-vfs:vfs.all 66/107] ERROR: modpost: "__aeabi_uldivmod"
- [fs/nilfs2/nilfs2.ko] undefined!
-From: Jeff Layton <jlayton@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner	
- <christianvanbrauner@gmail.com>, Christian Brauner <brauner@kernel.org>, 
- Christoph Hellwig	 <hch@lst.de>, Jan Kara <jack@suse.cz>, Chuck Lever
- <chuck.lever@oracle.com>
-Date: Tue, 10 Mar 2026 07:29:07 -0400
-In-Reply-To: <202603100602.KPxiClIO-lkp@intel.com>
-References: <202603100602.KPxiClIO-lkp@intel.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSL8X3BR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773147883; x=1804683883;
+  h=date:from:to:cc:subject:message-id;
+  bh=HfCcUwuiWRVqyFT6kyAaQazd+Ozue4dY5XU6LM0bc5w=;
+  b=GSL8X3BRjrAoPmbLLnKwpkdUztU49AbC0QR80B3YhrE6i+TtkDZRx34o
+   hpoUSaJwHjBn83Kej/FwD8J0xhIECDWosY+SYFtHybbmemaWRB1FgcK/K
+   jCVnV6d8uz0cmhW7qeH0FwbFRrNIsAt6jbqDLAjajyyGaekYqw8eNcJr6
+   b6OD7IGPYwfRpyK5RiCNs2F/XYOvMixB6MN1Dm1UUFnVTQYrT72PcKtII
+   Ss3/jiYPSHK7SIhd3mCpF+qnb8hwXq2qs+kZkaGt8TjR9PgTu9E086Zu/
+   Xm7jW84/pSI5k8tlVPYnkCFI7jNpd5rDXhRXEIrC2UAtbchsoIije1NAp
+   g==;
+X-CSE-ConnectionGUID: 9bSfSntnTIuSU5kK7eRXeA==
+X-CSE-MsgGUID: +cN+a9qiRg6F46MXyLeMBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="73891827"
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="73891827"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 06:04:42 -0700
+X-CSE-ConnectionGUID: fF1imu1TQlGOTAezhHp6dA==
+X-CSE-MsgGUID: igiUFtAHTnGv4VGc3hyUBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="220059761"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 10 Mar 2026 06:04:41 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vzwlK-0000000034b-0arC;
+	Tue, 10 Mar 2026 13:04:38 +0000
+Date: Tue, 10 Mar 2026 14:04:01 +0100
+From: kernel test robot <lkp@intel.com>
+To: Ryan Wanner <Ryan.Wanner@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>
+Subject: [linux-next:master 2006/4750]
+ arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb:
+ lvds-controller@e1408000 (microchip,sama7d65-lvds): compatible:0:
+ 'microchip,sam9x75-lvds' was expected
+Message-ID: <202603101313.TBjk7M3G-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
 
-On Tue, 2026-03-10 at 06:37 +0800, kernel test robot wrote:
-> Hi Jeff,
->=20
-> FYI, the error/warning was bisected to this commit, please ignore it if i=
-t's irrelevant.
->=20
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.a=
-ll
-> head:   521aad921ebdcd2d87e3862753fe6739ee3b24bc
-> commit: 0b2600f81cefcdfcda58d50df7be8fd48ada8ce2 [66/107] treewide: chang=
-e inode->i_ino from unsigned long to u64
-> config: arm-randconfig-004-20260310 (https://download.01.org/0day-ci/arch=
-ive/20260310/202603100602.KPxiClIO-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260310/202603100602.KPxiClIO-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202603100602.KPxiClIO-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->=20
-> > > ERROR: modpost: "__aeabi_uldivmod" [fs/nilfs2/nilfs2.ko] undefined!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   343f51842f4ed7143872f3aa116a214a5619a4b9
+commit: d83734a0bd253cab38b52065b2e35fa34c2d8770 [2006/4750] ARM: dts: microchip: sama7d65: add LVDS controller
+config: arm-randconfig-2052-20260308 (https://download.01.org/0day-ci/archive/20260310/202603101313.TBjk7M3G-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603101313.TBjk7M3G-lkp@intel.com/reproduce)
 
-This looks like a legit problem. There are some division operations
-involving i_ino in NILFS2 that I didn't notice before. I'll spin up a
-proposed patch (though I don't have a a good way to test it).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603101313.TBjk7M3G-lkp@intel.com/
 
---=20
-Jeff Layton <jlayton@kernel.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: watchdog@e001d000 (microchip,sama7d65-wdt): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-wdt', 'microchip,sama7g5-wdt'] is too long
+   	'microchip,sama7d65-wdt' is not one of ['atmel,sama5d4-wdt', 'microchip,sam9x60-wdt', 'microchip,sama7g5-wdt']
+   	'microchip,sam9x7-wdt' was expected
+   	'microchip,sam9x60-wdt' was expected
+   	from schema $id: http://devicetree.org/schemas/watchdog/atmel,sama5d4-wdt.yaml
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: watchdog@e001d000 (microchip,sama7d65-wdt): Unevaluated properties are not allowed ('clocks' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/atmel,sama5d4-wdt.yaml
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/watchdog@e001d000: failed to match any schema with compatible: ['microchip,sama7d65-wdt', 'microchip,sama7g5-wdt']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/chipid@e0020000: failed to match any schema with compatible: ['microchip,sama7d65-chipid']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: lvds-controller@e1408000 (microchip,sama7d65-lvds): compatible:0: 'microchip,sam9x75-lvds' was expected
+   	from schema $id: http://devicetree.org/schemas/display/bridge/microchip,sam9x75-lvds.yaml
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: lvds-controller@e1408000 (microchip,sama7d65-lvds): compatible: ['microchip,sama7d65-lvds', 'microchip,sam9x75-lvds'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/bridge/microchip,sam9x75-lvds.yaml
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/lvds-controller@e1408000: failed to match any schema with compatible: ['microchip,sama7d65-lvds', 'microchip,sam9x75-lvds']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7d65-uddrc', 'microchip,sama7g5-uddrc']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7d65-uddrc', 'microchip,sama7g5-uddrc']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible: ['microchip,sama7d65-ddr3phy', 'microchip,sama7g5-ddr3phy'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-ddr3phy', 'microchip,sama7g5-ddr3phy'] is too short
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
