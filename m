@@ -1,118 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08E33E5EF6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 08:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6D13EBF0C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 08:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773130200; cv=none; b=B+TB+x/D2e3MsiU/0pGWCzu8J40ZEIMloNbjyia0CeBndZplrrNrFC1GrvQKpd2wB35Xq7b6xoguCDPFs5x2E+t1fWgeOYo8l/O+7P6ppPy6C0bMoxghkdl2EwOMpLDq2pMZMXVYaCt3oARAaNnBASNUI5oswrkSmr9tAfkHoSk=
+	t=1773130865; cv=none; b=sMQAQ0ZU+v/Bf4GURsdd2Jl+EsoVQVdgnrbJnxcVvg8LvSLJIowUtXgoAEZnMAcYBlQKtcIXjZl5zGUEgmccr7yCo7riWQgXoNC6+jFr9YMmaQWrO9beXqIaI54Elb9EqELD9unLWwYV0h0UzVza0vkUeONuvSprGMC5u4XMBVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773130200; c=relaxed/simple;
-	bh=7yrqkj9fJ9B/94IUYImD8EPzhohy3UFVDRo7szX/BF4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YzW1KWE8+dk38JwJb//eYn6dG3iuBibWhuhG5W7GS2wdFhGkJ2Roljt5LmErxxW5QBae77Lje2Gz6cO1sEneTf38lcBXquZmxDWVS26P2n4fGwmF5sw4VakJ62dkt+wLdDzDN7hDjxri1CcMyZjZN7Hs29WP2gJH/ec2VzW4CfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KzMxQpRa; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1773130865; c=relaxed/simple;
+	bh=R3GKQOnVlA4SWTygyFTFJ/WrC//pJcp8RTlaslxgtw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dIUzowCMvOOyYB7GMiWmn4xHClbjCJEJn+maA2gnOuqmnnfxiNI+/KcRjlzMVMN5TE8mY/lSQGoBdlBcjVVwn/OCm/orwQ4+wo/sJtLJPsz+mT540Xo45RQ6jkFpIBOgWyv4wGm2kIPxYGj9NmmcigruapkDt69EBxSwvGY1vAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lb87WGKd; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KzMxQpRa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lb87WGKd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773130198; x=1804666198;
-  h=date:from:to:cc:subject:message-id;
-  bh=7yrqkj9fJ9B/94IUYImD8EPzhohy3UFVDRo7szX/BF4=;
-  b=KzMxQpRa+FnhPqePvaV+Ih33+eJiEdvyTAKSix89FTX2pb9q8YyfmRKs
-   1AYxN12pR/DRaK9IyO6+oTSauIse7DTVkHAMoXN1/7hmDlpEI1ta2iCc1
-   yBWC50M3+0zUpfsH6vU2UKRJMygSMovRUwOCdKUfCWieaIHEk6/pIxqcA
-   GmvN4SGvrUojh44yBer+mEMhPw7Y4A8sXZ8jPw8zoEWAdCCazHv7/auVq
-   U/SZzCH//yJ7LdtB3p/iFt1fw8payguXNRWzaOwfQByHI/pQEZdSHwHW5
-   lm/rCGeyvPe7hU+G/lu9NC6txnqi3wVMbIioNGqlZyqELNbTkCjiw5nn2
-   Q==;
-X-CSE-ConnectionGUID: +O2DH++CS1yRuz3OVjZGlg==
-X-CSE-MsgGUID: NsHHVYcJTMOaRVwAxZpoSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="78020442"
+  t=1773130863; x=1804666863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R3GKQOnVlA4SWTygyFTFJ/WrC//pJcp8RTlaslxgtw0=;
+  b=lb87WGKd5h31JzD3tVTgFjWYr2knbwOnOCzhx1JItSxlpKTUtwM3FXRx
+   VBXrjRUXtQavjg2cEa4uEaaLMueldK3yrP1yWtzXB7LQRx9TujtKgjld5
+   sGfq9IOTczY9h5fapXHoZMGIngO+v1agAKyHc7IhYkjPpn0fhwXqvcCwJ
+   YOwHPEqwNhUsYJphjOr5ojUXei6bbmNuYm1NT5knLXc+O4G68F2Iwv2bx
+   fsjA+XCzl48zvF2rqaaDSpl6rGuWyKhuGktaJUbgEUmTBlOKtlpFtQpUF
+   N/rZDx8OwmzDne4VAiKgjFaIaHbkG9HZo6KdIqNF+NdITqkC/E/K84ys4
+   g==;
+X-CSE-ConnectionGUID: 2Nwj9P/QThSAm8T2BuTYXQ==
+X-CSE-MsgGUID: kE+FIiLdRlyVFGCdRkHPHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="85258829"
 X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="78020442"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 01:09:56 -0700
-X-CSE-ConnectionGUID: /AcjzBdNR4y9s0LA7djDjQ==
-X-CSE-MsgGUID: XVOrmWiGSFewm+xKpNnixQ==
+   d="scan'208";a="85258829"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 01:21:03 -0700
+X-CSE-ConnectionGUID: ggYeroAwQsyekMGker3Ecg==
+X-CSE-MsgGUID: akZXxMLnTa61BAn8g334nA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,111,1770624000"; 
-   d="scan'208";a="250516546"
+   d="scan'208";a="219286524"
 Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Mar 2026 01:09:55 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Mar 2026 01:20:57 -0700
 Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzsA4-000000001Z4-1IRZ;
-	Tue, 10 Mar 2026 08:09:52 +0000
-Date: Tue, 10 Mar 2026 16:09:12 +0800
+	id 1vzsKj-000000001aC-1OCZ;
+	Tue, 10 Mar 2026 08:20:53 +0000
+Date: Tue, 10 Mar 2026 16:20:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:stacklive 8/21] kernel/bpf/liveness.c:1294
- arg_track_log() warn: inconsistent indenting
-Message-ID: <202603101612.0l9frZ28-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Marc Zyngier <maz@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Prakash Gupta <prakash.gupta@oss.qualcomm.com>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 2/3] of: factor arguments passed to of_map_id() into
+ a struct
+Message-ID: <202603101641.aPJli6Zx-lkp@intel.com>
+References: <20260309-parse_iommu_cells-v10-2-c62fcaa5a1d8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260309-parse_iommu_cells-v10-2-c62fcaa5a1d8@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git stacklive
-head:   e91b0f9c6173771e5fcc844122d5a005ce4e3a89
-commit: 830ebe4b805c87598479362b4cdbda743cc54868 [8/21] bpf: Add per-subprog arg tracking analysis
-config: x86_64-randconfig-161-20260310 (https://download.01.org/0day-ci/archive/20260310/202603101612.0l9frZ28-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-smatch: v0.5.0-9004-gb810ac53
+Hi Vijayanand,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3fa5e5702a82d259897bd7e209469bc06368bf31]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vijayanand-Jitta/of-Add-convenience-wrappers-for-of_map_id/20260309-033633
+base:   3fa5e5702a82d259897bd7e209469bc06368bf31
+patch link:    https://lore.kernel.org/r/20260309-parse_iommu_cells-v10-2-c62fcaa5a1d8%40oss.qualcomm.com
+patch subject: [PATCH v10 2/3] of: factor arguments passed to of_map_id() into a struct
+config: i386-buildonly-randconfig-005-20260310 (https://download.01.org/0day-ci/archive/20260310/202603101641.aPJli6Zx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603101641.aPJli6Zx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603101612.0l9frZ28-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603101641.aPJli6Zx-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/liveness.c:1294 arg_track_log() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +1294 kernel/bpf/liveness.c
+   drivers/cdx/cdx_msi.c: In function 'cdx_msi_prepare':
+>> drivers/cdx/cdx_msi.c:128:13: warning: variable 'dev_id' set but not used [-Wunused-but-set-variable]
+     128 |         u32 dev_id;
+         |             ^~~~~~
 
-  1275	
-  1276	static void arg_track_log(struct bpf_verifier_env *env, struct bpf_insn *insn, int idx,
-  1277				  struct arg_track *at_in, struct arg_track *at_stack_in,
-  1278				  struct arg_track *at_out, struct arg_track *at_stack_out)
-  1279	{
-  1280		bool printed = false;
-  1281		int i;
-  1282	
-  1283		if (!(env->log.level & BPF_LOG_LEVEL2))
-  1284			return;
-  1285		for (i = 0; i < MAX_BPF_REG; i++) {
-  1286			if (memcmp(&at_out[i], &at_in[i], sizeof(*at_in)) == 0)
-  1287				continue;
-  1288			if (!printed) {
-  1289				verbose(env, "%3d: ", idx); verbose_insn(env, insn);
-  1290				bpf_vlog_reset(&env->log, env->log.end_pos - 1);
-  1291				printed = true;
-  1292			}
-  1293			verbose(env, "\tr%d: ", i); verbose_arg_track(env, &at_in[i]);
-> 1294			verbose(env, " -> "); verbose_arg_track(env, &at_out[i]);
-  1295		}
-  1296		for (i = 0; i < MAX_ARG_SPILL_SLOTS; i++) {
-  1297			if (memcmp(&at_stack_out[i], &at_stack_in[i], sizeof(*at_stack_in)) == 0)
-  1298				continue;
-  1299			if (!printed) {
-  1300				verbose(env, "%3d: ", idx); verbose_insn(env, insn);
-  1301				bpf_vlog_reset(&env->log, env->log.end_pos - 1);
-  1302				printed = true;
-  1303			}
-  1304			verbose(env, "\tfp%+d: ", -(i + 1) * 8); verbose_arg_track(env, &at_stack_in[i]);
-  1305			verbose(env, " -> "); verbose_arg_track(env, &at_stack_out[i]);
-  1306		}
-  1307		if (printed)
-  1308			verbose(env, "\n");
-  1309	}
-  1310	
+
+vim +/dev_id +128 drivers/cdx/cdx_msi.c
+
+0e439ba38e615e Nipun Gupta       2024-02-26  119  
+0e439ba38e615e Nipun Gupta       2024-02-26  120  static int cdx_msi_prepare(struct irq_domain *msi_domain,
+0e439ba38e615e Nipun Gupta       2024-02-26  121  			   struct device *dev,
+0e439ba38e615e Nipun Gupta       2024-02-26  122  			   int nvec, msi_alloc_info_t *info)
+0e439ba38e615e Nipun Gupta       2024-02-26  123  {
+ab5be96a55e45e Charan Teja Kalla 2026-03-09  124  	struct of_phandle_args msi_spec = { .np = NULL };
+0e439ba38e615e Nipun Gupta       2024-02-26  125  	struct cdx_device *cdx_dev = to_cdx_device(dev);
+0e439ba38e615e Nipun Gupta       2024-02-26  126  	struct device *parent = cdx_dev->cdx->dev;
+0e439ba38e615e Nipun Gupta       2024-02-26  127  	struct msi_domain_info *msi_info;
+0e439ba38e615e Nipun Gupta       2024-02-26 @128  	u32 dev_id;
+0e439ba38e615e Nipun Gupta       2024-02-26  129  	int ret;
+0e439ba38e615e Nipun Gupta       2024-02-26  130  
+0e439ba38e615e Nipun Gupta       2024-02-26  131  	/* Retrieve device ID from requestor ID using parent device */
+ab5be96a55e45e Charan Teja Kalla 2026-03-09  132  	ret = of_map_msi_id(parent->of_node, cdx_dev->msi_dev_id, &msi_spec);
+0e439ba38e615e Nipun Gupta       2024-02-26  133  	if (ret) {
+0e439ba38e615e Nipun Gupta       2024-02-26  134  		dev_err(dev, "of_map_id failed for MSI: %d\n", ret);
+0e439ba38e615e Nipun Gupta       2024-02-26  135  		return ret;
+0e439ba38e615e Nipun Gupta       2024-02-26  136  	}
+ab5be96a55e45e Charan Teja Kalla 2026-03-09  137  	of_node_put(msi_spec.np);
+ab5be96a55e45e Charan Teja Kalla 2026-03-09  138  	dev_id = msi_spec.args[0];
+0e439ba38e615e Nipun Gupta       2024-02-26  139  
 
 -- 
 0-DAY CI Kernel Test Service
