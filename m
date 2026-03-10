@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D993090CB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 15:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF703B27ED;
+	Tue, 10 Mar 2026 15:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773155602; cv=none; b=FNtIy1IUAotTzKAtJm6XNfiyAB0SnRLOrHM9Z+VRCOOVrUgkXpG6vSrcWMxuc9s+trgg4wTpjh68uN1fCpLnrVrGFECxUuUoJtrRMF7gZtEsRo+g5u6q+bPyf95aYkD6yUna+oNdm2u+GycqCpoZaQY/4ScX1vm96+Xb0mpJMKU=
+	t=1773157530; cv=none; b=StHksrkFwxeu2MRFMqOaM2JG1ryG9Y/pdpXJoUutuvHgd6ynMC/XA8UTdYbgC7tYDTChxezJWjiUCcezNJaVQksOS7pcACJlSooiwP79DLFYR6yZImd3WF6l1gmzmSk7zkZkV234SkvEXrhn/dAOHPBvwPMiqF8MAwGxBx4ejYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773155602; c=relaxed/simple;
-	bh=HcwXFR0BZU04L0TE60XkSDcUfw0nCPDh63QT4nmIVHA=;
+	s=arc-20240116; t=1773157530; c=relaxed/simple;
+	bh=Cv97Ws/zNwbo6YWXcHsBsuy9O/qYjJBZgOhqLepgki0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s/UblSAlzfzjjqzoad1GgMr8lTYwx0NtpU21KvkGI9Y7o5LciooTi28gJq18J18kzDT5u533LJsyGDqj10I6L0wd/VOwWtE4KJXgtIgf+4s9YLLIapI9ZBnWi9GQOvANssftG4060zc+D31sG/x95gJ8DCVxKoeN0ryrFIFwbO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gjiLlalT; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=hATxkh6poePLQr0AehfcZz/JEcO9vupFmro0oFd/fF6a0sp3S+zjVtvdJ4v1vnrEIgeOQspOOP9p98TCxvNnZansPWF9hZlSZg48S9jlAe569CD2z9J4mLsxcjZvuDw8u4AXIlauvquhAxm9+GBKZNTs1ghEp9Ob9HNaKgu0418=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5naDtzJ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gjiLlalT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5naDtzJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773155602; x=1804691602;
+  t=1773157530; x=1804693530;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HcwXFR0BZU04L0TE60XkSDcUfw0nCPDh63QT4nmIVHA=;
-  b=gjiLlalT/boxA3+sgACovCj3oarpVSf9b7Tunn0coeHuFWck+5soiG3C
-   j2EdABDLHiIEmcmhLx2gcI+4HrSPIkuJWoz9eSa1fGDRWKRipQP6+FbtX
-   lrvkGrFSQGNSnsNYovpfyttk+ZYt17eRzhvlanhm+Oi8tFmkNz5Bz92jg
-   WULCkX1aUnVT3NOevanOYC+5dwaMwZzDcoDX9qKu/WYN1SOT6vj4tGqjv
-   lx0HaaLAVH5ca+SYCEy62vYQ9ANoezwyZdB6dw6omIQdC7BWKGbyCh1TM
-   Hl3JRWeh9xsDKoKYki6H1+keIekCe4SBj1rBte/ItlWoEOLyt+jYVsBLW
+  bh=Cv97Ws/zNwbo6YWXcHsBsuy9O/qYjJBZgOhqLepgki0=;
+  b=C5naDtzJtBiIGBZ1+iCj1hq6mnXKOH/B4R1+Rng3O7qF/h+tANxY3NX4
+   1BDjbD7amf3vafT9Ag53vkCrb+61j5uIF+PUQcIJei6TIYlDVPyJruynq
+   6xSf8hOeo4NfguJ/+dmzZ7F6VEIgZBrqbQlrtrUI+h2p1fpP5Ex2KLUfY
+   EMbUcVSbsg4hfWkWDVxA4qNDrf31rz4D0rMZePk5gdbkZI8N1vcUs/dy2
+   vWPVxg5XwoEaTj0LQKmO0WMQ5PlflirH/Qxm0WxKantHqQxGz2kJMPIol
+   NKK2/vn/qK2U0qbaxvbBjf6vFb9ZMGYuHtXGMCZg1x4+/rTE/ao+TzPkW
    Q==;
-X-CSE-ConnectionGUID: f3cbb9zyRaOvUG6cDyde1g==
-X-CSE-MsgGUID: DK532LTeRTy05qnpwQIOTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="73905997"
+X-CSE-ConnectionGUID: qlHerto6S5KAtTi4ts6GYw==
+X-CSE-MsgGUID: NKIDRG1HTrKJdWDLWfinyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="85563509"
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="73905997"
+   d="scan'208";a="85563509"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 08:13:18 -0700
-X-CSE-ConnectionGUID: cs0c6UAnT/afM9ucvlIxLA==
-X-CSE-MsgGUID: 1H3Lok8/QfmhajCA3HQBiw==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 08:45:29 -0700
+X-CSE-ConnectionGUID: jEw2x5dgTzGHsXowmShwPw==
+X-CSE-MsgGUID: KYAMdssUQ96LnOJT768SxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="220327038"
+   d="scan'208";a="220337301"
 Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2026 08:13:13 -0700
+  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2026 08:45:23 -0700
 Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzylh-0000000027E-3rVa;
-	Tue, 10 Mar 2026 15:13:09 +0000
-Date: Tue, 10 Mar 2026 23:12:43 +0800
+	id 1vzzGp-000000002AS-30bv;
+	Tue, 10 Mar 2026 15:45:19 +0000
+Date: Tue, 10 Mar 2026 23:45:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Daniel Golle <daniel@makrotopia.org>, Andrew Lunn <andrew@lunn.ch>,
 	Vladimir Oltean <olteanv@gmail.com>,
@@ -56,8 +56,9 @@ To: Daniel Golle <daniel@makrotopia.org>, Andrew Lunn <andrew@lunn.ch>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Simon Horman <horms@kernel.org>,
 	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Frank Wunderlich <frankwu@gmx.de>, Chad Monroe <chad@monroe.io>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Frank Wunderlich <frankwu@gmx.de>,
+	Chad Monroe <chad@monroe.io>,
 	Cezary Wilmanski <cezary.wilmanski@adtran.com>,
 	Liang Xu <lxu@maxlinear.com>,
 	"Benny (Ying-Tsan) Weng" <yweng@maxlinear.com>,
@@ -66,7 +67,7 @@ Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
 	John Crispin <john@phrozen.org>
 Subject: Re: [PATCH net-next v2 2/2] net: dsa: mxl862xx: implement bridge
  offloading
-Message-ID: <202603102342.ymeQ8hLm-lkp@intel.com>
+Message-ID: <202603102333.SSWo6WNe-lkp@intel.com>
 References: <f6fb8c9c6d38585c0efce72b3d1aebe923277d5a.1773102942.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -88,25 +89,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/dsa-tag_mxl8
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/f6fb8c9c6d38585c0efce72b3d1aebe923277d5a.1773102942.git.daniel%40makrotopia.org
 patch subject: [PATCH net-next v2 2/2] net: dsa: mxl862xx: implement bridge offloading
-config: sh-randconfig-001-20260310 (https://download.01.org/0day-ci/archive/20260310/202603102342.ymeQ8hLm-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603102342.ymeQ8hLm-lkp@intel.com/reproduce)
+config: x86_64-randconfig-004-20260310 (https://download.01.org/0day-ci/archive/20260310/202603102333.SSWo6WNe-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603102333.SSWo6WNe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603102342.ymeQ8hLm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603102333.SSWo6WNe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/dsa/mxl862xx/mxl862xx.c: In function 'mxl862xx_port_fdb_add':
->> drivers/net/dsa/mxl862xx/mxl862xx.c:655:9: error: implicit declaration of function 'ether_addr_copy'; did you mean 'inetpeer_addr_cmp'? [-Wimplicit-function-declaration]
+>> drivers/net/dsa/mxl862xx/mxl862xx.c:655:2: error: call to undeclared function 'ether_addr_copy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      655 |         ether_addr_copy(param.mac, addr);
-         |         ^~~~~~~~~~~~~~~
-         |         inetpeer_addr_cmp
+         |         ^
+   drivers/net/dsa/mxl862xx/mxl862xx.c:676:2: error: call to undeclared function 'ether_addr_copy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     676 |         ether_addr_copy(param.mac, addr);
+         |         ^
+   2 errors generated.
 
 
-vim +655 drivers/net/dsa/mxl862xx/mxl862xx.c
+vim +/ether_addr_copy +655 drivers/net/dsa/mxl862xx/mxl862xx.c
 
    640	
    641	static int mxl862xx_port_fdb_add(struct dsa_switch *ds, int port,
