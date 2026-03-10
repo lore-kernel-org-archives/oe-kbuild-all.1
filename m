@@ -1,116 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA07397E6E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 14:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81685264A86
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Mar 2026 14:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773152038; cv=none; b=U+0qzRyR2tx0Rb5UkPtC0y8fAAW1yH1ufG5z8xJQ1Vq5rLNACk06YZa2MGb6jLGHn2brL8ImW+gNXZGlPkUu3e12lHE8FDDKn2/Q2l2kUrp4hcxvw2VGKnR/4i/ddFI9vUbvjPPQjP0YPpHAl0q+smNpzlZyMZEoUESK+z1msO0=
+	t=1773153611; cv=none; b=TKQN4wxZinvl2LdDtgq9WqutPnMqn5REN3+6Y3o+KeuRYNVw/z5HphQEc4qX9gm6UHDkRVKnyc3TLQkMHhFs+2TSsDXy7HwXJgyGeOZ+X/T0QvPYP3GPmf3ylW6E7pFwmtdoV/RCuZy5l2QD2PEGbqj2XbX3tVAijinBSQAuhYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773152038; c=relaxed/simple;
-	bh=LUo0d7GHI/WFqekJPb5UVDAxzTgO13YJpLCp6un7e0I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OxosyTtdzVwxih8HtT/sPkZKc6ADVIQKSid/xWFcIYiJkMmi0HR029fJ+voX9/CHVVUdZbQ9J7P5+Dh1IGzSee5aQ+j2Se7UIRNmojQ/FJPgLgAv78wT8hawsm741S5EYGzUvfl203+LkOuYEYIMkdcMRWnob5zYy1DvvWDwvKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y5J8ZxGS; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1773153611; c=relaxed/simple;
+	bh=xfefwHQwZ0tT8OgxngTpIn/dJOBz/WqZnl9m10qhBbY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Reb6P3dEKcOdhls28Sl0NyEMY/cjwHmk4zFuh1IGVo+3Szvb/LQc7q+HocUTgLTkjCafqBEyOqbgqSZhvzv1YZHDEjyv8DsIT3i9ECxB70HUAYt7BDTu5UhU2+tEOy+G8P6RBl684oeHHkPishZv3Ohdcd9UDqTQO7a3U1z5N80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NzLkGsdr; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y5J8ZxGS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzLkGsdr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773152035; x=1804688035;
-  h=date:from:to:cc:subject:message-id;
-  bh=LUo0d7GHI/WFqekJPb5UVDAxzTgO13YJpLCp6un7e0I=;
-  b=Y5J8ZxGSAADOSQiAU7ZsL8E7v130gS8U1uWb3hxBmM2h4xn5KHDS2Vny
-   CrvOMGHlv0myRYpBMswlD4+zMqrYq//g1K9czu7gInjvUi+9dtJSiyN+f
-   GCKtsBGwZPDqYCTkDoajCQjrq84Tue0b3sgAwfzmRShT5waVdksOB5Bsp
-   hgH5WZyKxvqaT3RTJjUlZKiGoU27mGUVlbTbVnRBxG5MoJHBLx/9a531L
-   nuzCBj9DjxVgD9uz7iLBr93vkoLM2DZQfmmp4PFoWwvbZl9Q0lePLmvcb
-   WdSwesotce4YsVUeO/+foN9MFcBF7vQBKJ8U34A0XPkvQwQ9nuvKML/W2
-   Q==;
-X-CSE-ConnectionGUID: wYFFXmEmRPuyBkWWqRD0OQ==
-X-CSE-MsgGUID: 3bM3x577TYS6yJYbT3YWBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="73222468"
+  t=1773153611; x=1804689611;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xfefwHQwZ0tT8OgxngTpIn/dJOBz/WqZnl9m10qhBbY=;
+  b=NzLkGsdrX1pOLujsZsqfJrSla/9hjWz3co3C/HxTQQJoyeo5QvtDDwBy
+   KGY7nO/IqZWW/vCRPZZ3E0ayhIDVTpcB6l9tnI7LKBWHyr7FXx0D0stRE
+   AgActgY0nQK3jhxEIgWDJfCCz3dF8O81ZaHRHIj0psSaneZGkckF0lFN8
+   ARi92OsQz5XHTB/xPrMojgVJ67RcJkjdpw5TabsmzR6tWOen1t1UBNXoQ
+   9g3/8nTzA0dtqtwsCtqdnKPmuqIRVSkG1O2rN2YdwLFMac08sBWBPtFeq
+   tjSO5BArUFNw/gVECuJE2DeIQRZFFIvTeGnolLhuCAhg+DXFcObxrcOsX
+   A==;
+X-CSE-ConnectionGUID: rStJkPSRTCWwtPdzdANyRA==
+X-CSE-MsgGUID: l0A29FvFS5C4RfQDKr1t5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="85679938"
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="73222468"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 07:13:53 -0700
-X-CSE-ConnectionGUID: oqu6Q1y2QeiDfCdOkWrusw==
-X-CSE-MsgGUID: rvPgkFenQQGG9t8ytgdEYg==
+   d="scan'208";a="85679938"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 07:40:11 -0700
+X-CSE-ConnectionGUID: SGxghaRES3mfWIsUZ6Ze6A==
+X-CSE-MsgGUID: JrmFztmCTxihRpJzhIL77Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="216497565"
+   d="scan'208";a="218094563"
 Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Mar 2026 07:13:52 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Mar 2026 07:40:07 -0700
 Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vzxqI-0000000023I-0Etz;
-	Tue, 10 Mar 2026 14:13:50 +0000
-Date: Tue, 10 Mar 2026 22:13:26 +0800
+	id 1vzyFg-0000000025A-3i69;
+	Tue, 10 Mar 2026 14:40:04 +0000
+Date: Tue, 10 Mar 2026 22:39:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 114/114]
- drivers/firmware/arm_scmi/perf.c:615 scmi_dvfs_device_opps_add() warn:
- inconsistent indenting
-Message-ID: <202603102237.sbNinQbV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: George Anthony Vernon <contact@gvernon.com>, slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	George Anthony Vernon <contact@gvernon.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: Re: [PATCH v3] hfs: Validate CNIDs in hfs_read_inode
+Message-ID: <202603102229.zVuUXq6v-lkp@intel.com>
+References: <20260310000826.242674-1-contact@gvernon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310000826.242674-1-contact@gvernon.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   4326a928dd60688b2286fb031f879fe535fa3449
-commit: 47933171f3e7a3880def7b21e958f38fe376223e [114/114] BACKPORT: firmware: arm_scmi: Simplify error path in scmi_dvfs_device_opps_add()
-config: arm-randconfig-r072-20260310 (https://download.01.org/0day-ci/archive/20260310/202603102237.sbNinQbV-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
-smatch: v0.5.0-9004-gb810ac53
+Hi George,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v7.0-rc3 next-20260309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/George-Anthony-Vernon/hfs-Validate-CNIDs-in-hfs_read_inode/20260310-081836
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260310000826.242674-1-contact%40gvernon.com
+patch subject: [PATCH v3] hfs: Validate CNIDs in hfs_read_inode
+config: microblaze-randconfig-r132-20260310 (https://download.01.org/0day-ci/archive/20260310/202603102229.zVuUXq6v-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603102229.zVuUXq6v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603102237.sbNinQbV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603102229.zVuUXq6v-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/arm_scmi/perf.c:615 scmi_dvfs_device_opps_add() warn: inconsistent indenting
+sparse warnings: (new ones prefixed by >>)
+>> fs/hfs/inode.c:408:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] cnid @@     got restricted __be32 [usertype] FlNum @@
+   fs/hfs/inode.c:408:55: sparse:     expected unsigned int [usertype] cnid
+   fs/hfs/inode.c:408:55: sparse:     got restricted __be32 [usertype] FlNum
+>> fs/hfs/inode.c:431:54: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] cnid @@     got restricted __be32 [usertype] DirID @@
+   fs/hfs/inode.c:431:54: sparse:     expected unsigned int [usertype] cnid
+   fs/hfs/inode.c:431:54: sparse:     got restricted __be32 [usertype] DirID
 
-vim +615 drivers/firmware/arm_scmi/perf.c
+vim +408 fs/hfs/inode.c
 
-ac8aaf348cf54a0 Sudeep Holla     2019-07-08  600  
-1fec5e6b5233a08 Cristian Marussi 2021-03-16  601  static int scmi_dvfs_device_opps_add(const struct scmi_protocol_handle *ph,
-3aa5b5408fe029a Ulf Hansson      2023-08-25  602  				     struct device *dev, u32 domain)
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  603  {
-3aa5b5408fe029a Ulf Hansson      2023-08-25  604  	int idx, ret;
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  605  	unsigned long freq;
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  606  	struct perf_dom_info *dom;
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  607  
-a135c8813815585 Cristian Marussi 2023-07-17  608  	dom = scmi_perf_domain_lookup(ph, domain);
-a135c8813815585 Cristian Marussi 2023-07-17  609  	if (IS_ERR(dom))
-a135c8813815585 Cristian Marussi 2023-07-17  610  		return PTR_ERR(dom);
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  611  
-47933171f3e7a38 Ulf Hansson      2023-09-25  612  	for (idx = 0; idx < dom->opp_count; idx++) {
-47933171f3e7a38 Ulf Hansson      2023-09-25  613  			freq = dom->opp[idx].perf * dom->mult_factor;
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  614  
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06 @615  		ret = dev_pm_opp_add(dev, freq, 0);
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  616  		if (ret) {
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  617  			dev_warn(dev, "failed to add opp %luHz\n", freq);
-47933171f3e7a38 Ulf Hansson      2023-09-25  618  			dev_pm_opp_remove_all_dynamic(dev);
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  619  			return ret;
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  620  		}
-742d32f206d82e0 Ulf Hansson      2023-08-25  621  
-742d32f206d82e0 Ulf Hansson      2023-08-25  622  		dev_dbg(dev, "[%d][%s]:: Registered OPP[%d] %lu\n",
-742d32f206d82e0 Ulf Hansson      2023-08-25  623  			domain, dom->info.name, idx, freq);
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  624  	}
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  625  	return 0;
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  626  }
-a9e3fbfaa0ff885 Sudeep Holla     2017-06-06  627  
-
-:::::: The code at line 615 was first introduced by commit
-:::::: a9e3fbfaa0ff885aacafe6f33e72448a2993d072 firmware: arm_scmi: add initial support for performance protocol
-
-:::::: TO: Sudeep Holla <sudeep.holla@arm.com>
-:::::: CC: Sudeep Holla <sudeep.holla@arm.com>
+   378	
+   379	/*
+   380	 * hfs_read_inode
+   381	 */
+   382	static int hfs_read_inode(struct inode *inode, void *data)
+   383	{
+   384		struct hfs_iget_data *idata = data;
+   385		struct hfs_sb_info *hsb = HFS_SB(inode->i_sb);
+   386		hfs_cat_rec *rec;
+   387	
+   388		HFS_I(inode)->flags = 0;
+   389		HFS_I(inode)->rsrc_inode = NULL;
+   390		mutex_init(&HFS_I(inode)->extents_lock);
+   391		INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
+   392		spin_lock_init(&HFS_I(inode)->open_dir_lock);
+   393	
+   394		/* Initialize the inode */
+   395		inode->i_uid = hsb->s_uid;
+   396		inode->i_gid = hsb->s_gid;
+   397		set_nlink(inode, 1);
+   398	
+   399		if (idata->key)
+   400			HFS_I(inode)->cat_key = *idata->key;
+   401		else
+   402			HFS_I(inode)->flags |= HFS_FLG_RSRC;
+   403		HFS_I(inode)->tz_secondswest = sys_tz.tz_minuteswest * 60;
+   404	
+   405		rec = idata->rec;
+   406		switch (rec->type) {
+   407		case HFS_CDR_FIL:
+ > 408			if (!is_valid_catalog_record(rec->file.FlNum, HFS_CDR_FIL))
+   409				goto make_bad_inode;
+   410			if (!HFS_IS_RSRC(inode)) {
+   411				hfs_inode_read_fork(inode, rec->file.ExtRec, rec->file.LgLen,
+   412						    rec->file.PyLen, be16_to_cpu(rec->file.ClpSize));
+   413			} else {
+   414				hfs_inode_read_fork(inode, rec->file.RExtRec, rec->file.RLgLen,
+   415						    rec->file.RPyLen, be16_to_cpu(rec->file.ClpSize));
+   416			}
+   417	
+   418			inode->i_ino = be32_to_cpu(rec->file.FlNum);
+   419			inode->i_mode = S_IRUGO | S_IXUGO;
+   420			if (!(rec->file.Flags & HFS_FIL_LOCK))
+   421				inode->i_mode |= S_IWUGO;
+   422			inode->i_mode &= ~hsb->s_file_umask;
+   423			inode->i_mode |= S_IFREG;
+   424			inode_set_mtime_to_ts(inode,
+   425					      inode_set_atime_to_ts(inode, inode_set_ctime_to_ts(inode, hfs_m_to_utime(rec->file.MdDat))));
+   426			inode->i_op = &hfs_file_inode_operations;
+   427			inode->i_fop = &hfs_file_operations;
+   428			inode->i_mapping->a_ops = &hfs_aops;
+   429			break;
+   430		case HFS_CDR_DIR:
+ > 431			if (!is_valid_catalog_record(rec->dir.DirID, HFS_CDR_DIR))
+   432				goto make_bad_inode;
+   433			inode->i_ino = be32_to_cpu(rec->dir.DirID);
+   434			inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
+   435			HFS_I(inode)->fs_blocks = 0;
+   436			inode->i_mode = S_IFDIR | (S_IRWXUGO & ~hsb->s_dir_umask);
+   437			inode_set_mtime_to_ts(inode,
+   438					      inode_set_atime_to_ts(inode, inode_set_ctime_to_ts(inode, hfs_m_to_utime(rec->dir.MdDat))));
+   439			inode->i_op = &hfs_dir_inode_operations;
+   440			inode->i_fop = &hfs_dir_operations;
+   441			break;
+   442		make_bad_inode:
+   443			pr_warn("Invalid cnid %lu\n", inode->i_ino);
+   444			pr_warn("Volume is probably corrupted, try performing fsck.\n");
+   445			fallthrough;
+   446		default:
+   447			make_bad_inode(inode);
+   448			break;
+   449		}
+   450		return 0;
+   451	}
+   452	
 
 -- 
 0-DAY CI Kernel Test Service
