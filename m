@@ -1,132 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A4440DFA6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 05:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF1E33987
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 05:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773207284; cv=none; b=Gh4SxcNE3lOXZoxpYinYHvoVl2iJI9ycgx/KwUWUj0RXjabkALbvKEnVjeKfQfGbAX2FYN7iYm8NAvaXvPeCkKQmOqGbd4agupb3xLBjC+sv1+T5uhGdpzb5HWfEQSUljlrhJNzAvJpe+8KqElMC/TodTTRTXNXHQnoy/C9fnHk=
+	t=1773208137; cv=none; b=RdtiGhfE2IX8v3Qb7seX4CjdWwNkYxH/kbRngtncaPTOFj9xUW54hbTk0Th2wyEwXMu00MxZHx/l7v+j53bAGM3gGHCM1OqZHA88OH/XL2NbZ1e9aSIfpIBfGJVh4Z/J0xHp96nbea5l5iVAJJFiHU+TWd8+8K7k9CDIYTTIVV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773207284; c=relaxed/simple;
-	bh=ZHjR2G6uZqOltvhHdwV3Dn2ZTKhUSDYmXQjw89wLcTw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GAE9Htb9kxAbUE1PdmH4hgV8o7Bo8MHe3lYlA7UFBXs6zOLVh8oH4HbG5pRaZqO9EIYN9eafHj7XhU5z5l7R2dM5fvQrv3+FFUBniYGmThaZE4EN/3UnhlmFnupqrwxa5rxJ2jmdRQbxhyQ/ARzrN5wjChv+h7IwoXo0sNdxGsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjCFvsLm; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1773208137; c=relaxed/simple;
+	bh=n9kI5ag5IOmp1ujdK0LROBmTbPkDFRZ0u8T9y7QYHsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jV5xCloSantOuMz0DBhyv35yr1YUxCwgIEJGGmwR7QnLoBjhrQ7736ILJgIiWJxuYJ3S3QpojHDXxIV+fT3Zz4hcu+lqPKZziNQJV40pWmV7NYVpAHQCJ2yMdT+NjB/BtfOSFZrRRV7uAR+QiB8rrin2mBPuALF4FI5d5qYvskk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WG5ZrNsX; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjCFvsLm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WG5ZrNsX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773207282; x=1804743282;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZHjR2G6uZqOltvhHdwV3Dn2ZTKhUSDYmXQjw89wLcTw=;
-  b=IjCFvsLmfo/tJEbvG9pZDcCx56VODuLCAZqhl/mEZJKYNoRVlQWV115u
-   K31tWiCz2e7mjC5bHguewYi9rdMlYdTXm6v4t4H4U7Q3Jk7sgVHyilrI+
-   7quDBQmLuWl/lp7qpYm9XbPel8TGOjIoFOMiDji5/KryCLpGVHCG/Sc6x
-   enTgC7Ziu7QQ4Exy1ZlqiJ5wMUK2UmtGjPW9nmrxAlI5006GWQOfxyZrN
-   tj8T5M6YVo6nwh+U4ILHv1CZdAKLR5xTM8fOCWdsnGviuqSr/+ginylr4
-   g7Uhz5QqzZ0umlxRN8O16rYq9HrXCVyWdUl7Q8UCtwqIt44c7t2o32G9T
-   w==;
-X-CSE-ConnectionGUID: frmNoGmtSMOzMOonZrJHdA==
-X-CSE-MsgGUID: 6bmpmGbkS6y+1nLZfE9r+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74143266"
+  t=1773208135; x=1804744135;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n9kI5ag5IOmp1ujdK0LROBmTbPkDFRZ0u8T9y7QYHsQ=;
+  b=WG5ZrNsXZOJZLYlKkhBJ+7dkpd1Ho2h1houxueK0i/rIF4ifPGOvRmVr
+   ipYJeV8W9NLrflGZWsO0xQa2MAu1jOj3rOyU+7jlBHn6Ofq56ZWGwGYzU
+   ZhqmH1kk/VhlADQLImKiHk4nhtbGbhW9ww/R4NjqrLPpsa+szbTpqI88m
+   rLIQRLibv53iVEcuM6gcKGqCutZetPZmcwwflLemLd266OmadzuPmNPVu
+   leJz4mI7XnK229pKau/SlWQq1TuJA+EdTn4uBjv4nP7UNGjZLTJ4NS2jB
+   +9shoEFQhgankiO8c1rveHAU5Vmp0Qa/RgDDC831NsTfv/F9lEYZ07ktM
+   Q==;
+X-CSE-ConnectionGUID: ZhAc5bTtTE+s0+yUy/bv/A==
+X-CSE-MsgGUID: FbGcM7hLRlaP5NLUfGvjgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="84974220"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74143266"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 22:34:42 -0700
-X-CSE-ConnectionGUID: ArWXnIaaTSGPEHQ2m+E+6Q==
-X-CSE-MsgGUID: H/c3P5RySkKsGwkrZQjDRw==
+   d="scan'208";a="84974220"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 22:48:54 -0700
+X-CSE-ConnectionGUID: SEuEcAvnQhK4pn9hS8vh0Q==
+X-CSE-MsgGUID: cVxmsNidT0q7qt8tOhRmWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="258268883"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Mar 2026 22:34:39 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="250857250"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 10 Mar 2026 22:48:51 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0CDL-000000000k5-0DOG;
-	Wed, 11 Mar 2026 05:34:35 +0000
-Date: Wed, 11 Mar 2026 13:34:05 +0800
+	id 1w0CR6-000000003Gr-3iOm;
+	Wed, 11 Mar 2026 05:48:48 +0000
+Date: Wed, 11 Mar 2026 06:48:34 +0100
 From: kernel test robot <lkp@intel.com>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Madhavan Srinivasan <maddy@linux.ibm.com>
-Subject: include/linux/compiler_types.h:557:38: error: call to
- '__compiletime_assert_321' declared with attribute error: BUILD_BUG_ON
- failed: !__builtin_constant_p(type)
-Message-ID: <202603111303.HpZwsyZb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Timur Tabi <ttabi@nvidia.com>, Gary Guo <gary@garyguo.net>,
+	Alice Ryhl <aliceryhl@google.com>, mmaurer@google.com,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 2/7] rust: uaccess: add write_dma() for copying from
+ DMA buffers to userspace
+Message-ID: <202603110649.PeH4YNQx-lkp@intel.com>
+References: <20260310220000.1897166-3-ttabi@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310220000.1897166-3-ttabi@nvidia.com>
 
-Hi Thorsten,
+Hi Timur,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b29fb8829bff243512bb8c8908fd39406f9fd4c3
-commit: 1518474b70d663baf7757ccd1b1c229c077d9b3e KVM: powerpc: Enable commented out BUILD_BUG_ON() assertion
-date:   11 months ago
-config: powerpc64-randconfig-r051-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111303.HpZwsyZb-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111303.HpZwsyZb-lkp@intel.com/reproduce)
+[auto build test ERROR on a544873ce0575b2fd8285a1364d3e09929d9a3ba]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Timur-Tabi/rust-device-add-device-name-method/20260311-060450
+base:   a544873ce0575b2fd8285a1364d3e09929d9a3ba
+patch link:    https://lore.kernel.org/r/20260310220000.1897166-3-ttabi%40nvidia.com
+patch subject: [PATCH v8 2/7] rust: uaccess: add write_dma() for copying from DMA buffers to userspace
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260311/202603110649.PeH4YNQx-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110649.PeH4YNQx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603111303.HpZwsyZb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603110649.PeH4YNQx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function 'kvmppc_account_exit_stat',
-       inlined from 'kvmppc_account_exit' at arch/powerpc/kvm/timing.h:92:2:
->> include/linux/compiler_types.h:557:38: error: call to '__compiletime_assert_321' declared with attribute error: BUILD_BUG_ON failed: !__builtin_constant_p(type)
-     557 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                      ^
-   include/linux/compiler_types.h:538:4: note: in definition of macro '__compiletime_assert'
-     538 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/compiler_types.h:557:2: note: in expansion of macro '_compiletime_assert'
-     557 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |  ^~~~~~~~~~~~~~~~
-   arch/powerpc/kvm/timing.h:41:2: note: in expansion of macro 'BUILD_BUG_ON'
-      41 |  BUILD_BUG_ON(!__builtin_constant_p(type));
-         |  ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_321 +557 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  543  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  546  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  547  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  551   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  554   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  555   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  558  
-
-:::::: The code at line 557 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/uaccess.rs:476:
+            // - `ptr` is valid for reading `len` bytes as required by this function's safety contract.
+            // - `copy_to_user` validates the userspace address at runtime and returns non-zero on
+            //   failure (e.g., bad address or unmapped memory).
+   -        let res = unsafe {
+   -            bindings::copy_to_user(self.ptr.as_mut_ptr(), ptr.cast::<c_void>(), len)
+   -        };
+   +        let res =
+   +            unsafe { bindings::copy_to_user(self.ptr.as_mut_ptr(), ptr.cast::<c_void>(), len) };
+            if res != 0 {
+                return Err(EFAULT);
+            }
+>> Diff in rust/kernel/uaccess.rs:476:
+            // - `ptr` is valid for reading `len` bytes as required by this function's safety contract.
+            // - `copy_to_user` validates the userspace address at runtime and returns non-zero on
+            //   failure (e.g., bad address or unmapped memory).
+   -        let res = unsafe {
+   -            bindings::copy_to_user(self.ptr.as_mut_ptr(), ptr.cast::<c_void>(), len)
+   -        };
+   +        let res =
+   +            unsafe { bindings::copy_to_user(self.ptr.as_mut_ptr(), ptr.cast::<c_void>(), len) };
+            if res != 0 {
+                return Err(EFAULT);
+            }
+   make[2]: *** [Makefile:1912: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
