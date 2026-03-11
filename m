@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3294536B043
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 15:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930613B636E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 16:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773243914; cv=none; b=o9F5jRCtIfmDtrUwLHsuWgarvFkiLRHY6XvabHtQHc+NGXDVyCjnbKNpK6vnot6B/lG6Q7jaVU6u6wc7idsxLBfJ2BWP6rvIb/O9YYY2B5DHySKwJAb0x/K08+VAnBQNbpq1d+8++d8vyz0dajaePeLAe+5+16sL3s9/3f9G46Q=
+	t=1773246182; cv=none; b=lokvmfp+JtOmYayX1ww7vpeJDIU/DfIpb4JJNF5rr9S7RrVeWcgoMSReGzD6qIQ57eUp9mDUj9V2ftYXRqRw0qK557/mWNz3ETE2t73LexMcgBch89hW89HVHKbhA+9FsCNhGAclBQOXEt3CxnM1vqtz6kcKPcK3ofEhOonrRUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773243914; c=relaxed/simple;
-	bh=x4mm/zPzSTF+D8qm6171SOmzMs9TpMBGjEDpchxhyIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TnaP1+LbN3lKPo9lyMsxolY8QKL0T0FICX5+T44BweHOSFb/Q5bINRfVdfNZ8xeDHbsO94AAj2rC28NGtSdC1MfMu9bOxvvLzhuPLBYd7DGUuypx9La3oWXHLtmgig3KcUJVyfl6USsy0KBi9A/uIlqwFPYw4bluTJ1eSbrnEww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z7XhiAl+; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1773246182; c=relaxed/simple;
+	bh=Va9KWbAdw0RwSR9/tldkATLMhM9D6TeqnzlykEiuvY0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DnbeFx/DxFoAt1QY5S+mIpfeWftXkUCgcmNpj9BQljAS077xbTlhuj0Va1Zg1GdDPjIrzDT5M7Hdg8gGYmgGMAOLGmFTUnztwrmpiHMXT38Uru+/vohaaObyttcUFBlSbkqV29tYc/a2MvzW/C9MisM7b0WlGR7xCC3JnADN9Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbkE5MdT; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7XhiAl+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbkE5MdT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773243912; x=1804779912;
+  t=1773246179; x=1804782179;
   h=date:from:to:cc:subject:message-id;
-  bh=x4mm/zPzSTF+D8qm6171SOmzMs9TpMBGjEDpchxhyIQ=;
-  b=Z7XhiAl+SQZ9KJZ03s05nJjxzpCM0Y5YlcSPGkHb9ygR9BynPJMl+bF9
-   c/iT/8UTve77KlE5oPobIxK0Gswh2OdCop/ejePKBi2wLXp1OktE+suO4
-   hbAWTtR6F5IFceDtpIZCuE4MqzKVquOnktjt0Ffe8oFdWRf59nkuyRVo6
-   +1T80faTjiKfscbBHEXlCcYi5RNAHF7AfROp6uLizEGH+N4bsmbAFIVlO
-   wQpzDZFF3kayK18PsV6s9vEWKMf5aOkYVwez5UT0Q9EwAgm5ku9/V3n2d
-   HaCRYx4SkgVoID/rZh+3wOLjdol+7ehOqJVNXH7ah3AOqcn6vddjk/v9N
-   A==;
-X-CSE-ConnectionGUID: ddLr/CQjQg6jA3gICaxJpQ==
-X-CSE-MsgGUID: YX/ztacCQeaUUwFtMRdftQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74230937"
+  bh=Va9KWbAdw0RwSR9/tldkATLMhM9D6TeqnzlykEiuvY0=;
+  b=lbkE5MdTOv7AuwUXRHLXmSHNuY9BO7OLzZIgBAJZTIxJ9B1cEAOqAYlu
+   XcK8GC6UnaQir4FPNT2xkp3CWtjjftgr4AGjfu5mBNM1azDEj7VjXKddX
+   yscrQjUaYtBK5BCnHajJpjFvUvqjqn0NkuvvAEByDRDdE7gg4odRbRhYN
+   xS3OcrcZj+snTEnZ3S4KSMP40Bh0/+yTvOVR7VyxFlhd8yI0MJRnABp6g
+   +IOXOeOjHI3p4UD90KSQSb9qdPwaq0nyl3kCauVU/nDxYfIl6syqjtDEe
+   oXFqsOJyil7+k8Nkjc/bRin5hjXmV98MZyPGHBxD2tuNVpvplKs3yKhr2
+   g==;
+X-CSE-ConnectionGUID: K75VUNtWSlmQuk5BtQ/L0Q==
+X-CSE-MsgGUID: P9ni/EwJQ+OzaF6S+nrnig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74198808"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74230937"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 08:45:11 -0700
-X-CSE-ConnectionGUID: XN8ljB6FSKu4E0M1XrqejA==
-X-CSE-MsgGUID: STLFTEcWQI28SasaFRzUSA==
+   d="scan'208";a="74198808"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 09:22:58 -0700
+X-CSE-ConnectionGUID: VHNuUCixTSKLoK2NXV/wmQ==
+X-CSE-MsgGUID: MeeJbIXxTl+Cft5NP4zL7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="224666910"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Mar 2026 08:45:09 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="220470130"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 11 Mar 2026 09:22:56 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0LkA-000000001ME-15ZD;
-	Wed, 11 Mar 2026 15:45:06 +0000
-Date: Wed, 11 Mar 2026 23:44:33 +0800
+	id 1w0MKj-000000003M9-2abD;
+	Wed, 11 Mar 2026 16:22:53 +0000
+Date: Wed, 11 Mar 2026 17:22:02 +0100
 From: kernel test robot <lkp@intel.com>
-To: Babis Chalios <bchalios@amazon.es>
+To: Horatiu Vultur <horatiu.vultur@microchip.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
- Takahiro Itazuri <itazur@amazon.com>
-Subject: drivers/ptp/ptp_vmclock.c:445:24: sparse: sparse: incorrect
- type in return expression (different base types)
-Message-ID: <202603112306.7c5SVcUv-lkp@intel.com>
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb:
+ /soc/usb@200000: failed to match any schema with compatible:
+ ['microchip,lan9662-udc', 'atmel,sama5d3-udc']
+Message-ID: <202603111722.KN1alZ0Z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,52 +62,52 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b29fb8829bff243512bb8c8908fd39406f9fd4c3
-commit: 3b1526ddb25452385b52f2588b655f524a57070b ptp: vmclock: support device notifications
-date:   5 weeks ago
-config: x86_64-randconfig-123-20260311 (https://download.01.org/0day-ci/archive/20260311/202603112306.7c5SVcUv-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603112306.7c5SVcUv-lkp@intel.com/reproduce)
+head:   b4f0dd314b39ea154f62f3bd3115ed0470f9f71e
+commit: a8e30c9d856ddebad75abaec55c019a7a85b16da ARM: dts: Add support for pcb8385
+date:   9 weeks ago
+config: arm-randconfig-2051-20260307 (https://download.01.org/0day-ci/archive/20260311/202603111722.KN1alZ0Z-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111722.KN1alZ0Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603112306.7c5SVcUv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603111722.KN1alZ0Z-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/ptp/ptp_vmclock.c:445:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   drivers/ptp/ptp_vmclock.c:445:24: sparse:     expected restricted __poll_t
-   drivers/ptp/ptp_vmclock.c:445:24: sparse:     got int
-   drivers/ptp/ptp_vmclock.c:451:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   drivers/ptp/ptp_vmclock.c:451:31: sparse:     expected restricted __poll_t
-   drivers/ptp/ptp_vmclock.c:451:31: sparse:     got int
-
-vim +445 drivers/ptp/ptp_vmclock.c
-
-   433	
-   434	static __poll_t vmclock_miscdev_poll(struct file *fp, poll_table *wait)
-   435	{
-   436		struct vmclock_file_state *fst = fp->private_data;
-   437		struct vmclock_state *st = fst->st;
-   438		uint32_t seq;
-   439	
-   440		/*
-   441		 * Hypervisor will not send us any notifications, so fail immediately
-   442		 * to avoid having caller sleeping for ever.
-   443		 */
-   444		if (!(le64_to_cpu(st->clk->flags) & VMCLOCK_FLAG_NOTIFICATION_PRESENT))
- > 445			return POLLHUP;
-   446	
-   447		poll_wait(fp, &st->disrupt_wait, wait);
-   448	
-   449		seq = le32_to_cpu(st->clk->seq_count);
-   450		if (atomic_read(&fst->seq) != seq)
-   451			return POLLIN | POLLRDNORM;
-   452	
-   453		return 0;
-   454	}
-   455	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: /soc/usb@200000: failed to match any schema with compatible: ['microchip,lan9662-udc', 'atmel,sama5d3-udc']
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: /soc/usb@200000: failed to match any schema with compatible: ['microchip,lan9662-udc', 'atmel,sama5d3-udc']
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): $nodename:0: 'serial@200' does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): False schema does not allow 32
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): $nodename:0: 'serial@200' does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): False schema does not allow 32
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: rng@e0048000 (atmel,at91sam9g45-trng): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/rng/atmel,at91-trng.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): $nodename:0: 'serial@200' does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): False schema does not allow 32
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): $nodename:0: 'serial@200' does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): False schema does not allow 32
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): 'atmel,usart-mode' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): $nodename:0: 'serial@200' does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
+>> arch/arm/boot/dts/microchip/lan966x-pcb8385.dtb: serial@200 (atmel,at91sam9260-usart): False schema does not allow 32
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml
 
 -- 
 0-DAY CI Kernel Test Service
