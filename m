@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759CA126F3B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 21:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DAF371862;
+	Wed, 11 Mar 2026 21:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773265560; cv=none; b=WvjAS2Hgo6cG9mZdN9XFV6+m5RFzZGz4DRGcVOKWWo0+iHiPaWkw3zkXpeLOhwW9Z4fxYHZupjVGwTyYR9A4sgu0SQKdzyq6B3b6WTMG1Fu1b34qyYFm5tQUllCNHLJelCkDv17/YYSs+R8JrR//7bluy0JX46MoR8xqE0YuDsY=
+	t=1773266227; cv=none; b=QSfbpE9JlqFjW9OuzNOeDvpQWkwvbcyc8jobbm7hqvf9bPH3EdLSzTGe/fVn98Fh+JGip8FY4O+5sYVAqNUvXsFjcI7tGQ3e6o9VvHymkGWNj289JuyAzZk6t3m2eK9LwdwSnmWVgpM1ueJ6z62NdbpeiAmBwTC1sAMvU4EnxU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773265560; c=relaxed/simple;
-	bh=0KKwWWFePvShq0PX9kmKJM6GqhdfKaeQrJp8EdRwg4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TziahRTNUv+QzdgVIvphrSNL7nXX0teMoAlCHBTe7WWeudQLqUxaB03eAuyQ0FyR0GR8HiKQOyT7U1NcssLwtV1oeBzVdFypqHPNcYuOefA9Jy+9xhnxAfGF3hfdLaa+7+H0bEc4HLipsoG4Js3z7jovJsrKxbT3EOM/ih0fHn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ME9Lfr/w; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1773266227; c=relaxed/simple;
+	bh=OsG9K40sR4G/EGEZgUu0mPs+Eu/B6Q92ozaspornThw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jINX0NrMJub7OT4eg4ZDTFJyqwv1G04g0RjPLzjI+9vQQaTHUkmgW+h4+yMkRgPxF15ywIg3FGl2uvKIlf371tRhYTvUw+wGNJt8XwXCnfb7gzg0c+qTugqmCSKZ1oS4k8FdpJnFGcV77vBXnZgkg6YFQndCavGe5EnK61ER3aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3pmnHwq; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ME9Lfr/w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3pmnHwq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773265558; x=1804801558;
+  t=1773266225; x=1804802225;
   h=date:from:to:cc:subject:message-id;
-  bh=0KKwWWFePvShq0PX9kmKJM6GqhdfKaeQrJp8EdRwg4Y=;
-  b=ME9Lfr/wehdPuW4O6WoEFn3EMd34hyRkEVCg02CywVpgoaucBBhWmDER
-   fitTWi96VXDun/oOhSzOZr/2+ZuJSjHGQX9yOVHi9y59M5YNupBauN/UA
-   nZTY5Zoeb5sZgVv44j838mAicu7/C3FQVqkYSNiDaaZgBrxENUJMheY+f
-   42NH3PKy3O3TkPsm+nLB34DeWWUgFoyFhq7NbgwBxgUyito8/oCbDe6vf
-   azhxC6JyJHTC/nja09JgS86AIlkG8tT+HUGtl87pqToeTrkV3rHxxstPj
-   bQt81NfaDMO7gCpPOHjGLVcvoRvXjPWoVnFZjBRZza2hOBooTgQgMNVZq
-   A==;
-X-CSE-ConnectionGUID: yfLsuHi4QL6NnDLhFppxNw==
-X-CSE-MsgGUID: jo/cQp0/RDKIBDGIDBYing==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="73366166"
+  bh=OsG9K40sR4G/EGEZgUu0mPs+Eu/B6Q92ozaspornThw=;
+  b=M3pmnHwqINvTK17DgA5ZaiUM9ktzk6W35705T5/5hlojEFRfZ+cH2fbY
+   FRu/R9AotHRJwQafu2QAetMjNUGta+sq7CdNdOWoLJL24kG8ueWtpxi/f
+   ZT75fdhHdO+68hoeNveMhI2SRhPPlsRmwCFG9gt4Pm/7UpbiChR56BdhB
+   /InZwfPDIKlNmdA5bNLMSU0tPZijjb+bzSVCYeTW/BOygFYljkj+bgaLl
+   czEbac4B0rHN1Iy8cpzrKQ+jl9q2ZFgOnvX9EJjM+uhdwQ/XPYgh7pG/l
+   Lx7YUCqnR2QiDAiWbueqmwfEgLU6iCdCmukR8VZ6ytvzJHGbf+6DEPIBb
+   g==;
+X-CSE-ConnectionGUID: 1oDd5edcTNO+thYOpE7zXQ==
+X-CSE-MsgGUID: dwwjiZYxRYmrQFAUU0fKUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="77955595"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="73366166"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 14:45:58 -0700
-X-CSE-ConnectionGUID: iricqyc2QSm2Z+MT0ANldg==
-X-CSE-MsgGUID: 55mqi9M5SkOKHcUnKQX8RQ==
+   d="scan'208";a="77955595"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 14:57:05 -0700
+X-CSE-ConnectionGUID: ZNpBYw7hR2mkrpzmbmWLJg==
+X-CSE-MsgGUID: 79MQ8kheRu+0PLJnJTA4Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="217218354"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Mar 2026 14:45:58 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="243629171"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 11 Mar 2026 14:57:03 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0RNL-000000003Or-3nj3;
-	Wed, 11 Mar 2026 21:45:55 +0000
-Date: Wed, 11 Mar 2026 22:45:11 +0100
+	id 1w0RY4-000000001kR-1ytQ;
+	Wed, 11 Mar 2026 21:57:00 +0000
+Date: Thu, 12 Mar 2026 05:56:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 40/621] htmldocs: Warning:
- arch/arm/xen/enlighten.c references a file that doesn't exist:
- Documentation/devicetree/bindings/arm/xen.txt
-Message-ID: <202603112218.stMvgxw9-lkp@intel.com>
+To: Vincent Donnefort <vdonnefort@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Marc Zyngier <maz@kernel.org>
+Subject: [linux-next:master 5480/5731]
+ arch/arm64/kvm/hyp/nvhe/trace.c:16:10: fatal error: 'simple_ring_buffer.c'
+ file not found
+Message-ID: <202603120516.w7mPa5ZC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,31 +61,32 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
-commit: 196674ef5f8e4dc30614fa50d68be8c457747b40 [40/621] dt-bindings: arm: Convert xen,xen to DT schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260311/202603112218.stMvgxw9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f90aadf1c67c8b4969d1e5e6d4fd7227adb6e4d7
+commit: 680a04c333fa29bf92007efe11431be005e8c4bb [5480/5731] KVM: arm64: Add tracing capability for the nVHE/pKVM hyp
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260312/202603120516.w7mPa5ZC-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120516.w7mPa5ZC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603112218.stMvgxw9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603120516.w7mPa5ZC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/ste-*
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/firmware/sdei.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arc/axs10*
->> Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+   clang: warning: no such include directory: './kernel/trace/' [-Wmissing-include-dirs]
+>> arch/arm64/kvm/hyp/nvhe/trace.c:16:10: fatal error: 'simple_ring_buffer.c' file not found
+      16 | #include "simple_ring_buffer.c"
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +16 arch/arm64/kvm/hyp/nvhe/trace.c
+
+    15	
+  > 16	#include "simple_ring_buffer.c"
+    17	
 
 -- 
 0-DAY CI Kernel Test Service
