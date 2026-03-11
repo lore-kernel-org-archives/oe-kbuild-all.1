@@ -1,74 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C895248873;
-	Wed, 11 Mar 2026 06:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151CD29A9C3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 06:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773209278; cv=none; b=DsuXAFxDRzKZj2r5y3V1IzNFM4QxyDLqMVvqpZiFG12XKKYXtFZIztElJ3ZUGjbw5wyLl3Ko+3t4gKgr+GxpEWHCEfdyjNYMRY4JR9vlXiOlCh68f5tzlR+1g9fjuBdfMiXBiyHMT2XjlNyIJTh4BD+N3ex97jzHSzORPinzkjE=
+	t=1773210784; cv=none; b=rAR2xTI81zKa9FJdzmRXavpsVXV5LaO2/Ur+IhTEmtgLDC54FZ3o7mgb3MEBqdPQN3Oq+SO/L3aOgKwa8L4gclu9TIK151JBG5YgAMB08dBSNswK/94xmDX1AOfZu72fDwmFQ77FVzyex9ZVJieqspmwTEWccjPGcgHBbOUngDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773209278; c=relaxed/simple;
-	bh=69qFIYtyDr9znxfjTU2cf/MvY/d5dOWbtA3vFY5B9f4=;
+	s=arc-20240116; t=1773210784; c=relaxed/simple;
+	bh=s3Qj5iooBQSNpnkECR1ekTS3gDPWMWoE+HWCqLNHRHo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E7MLvJW5rRjylhLIALxQzVzSEDo/FOBRgv0vnnnUmWD5mhub8e/78SwCEc3rRSeTFN5lV0YvXth6K85QgnY5QggrgiKIURUeqpH/0pBOkBWfipReMfauX07oJaRc3MYSagqcW+Hb1wYHBfM68keCw0zjRrhn05QthZU2F6YkT4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PoDkOJ7W; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwx+yYCL5ylmiIQrisdOqtSvOxNxQwGXe2t9noJN9j8CAtfBj8T0S0tVy9qvKyl8FVULDLjVApVL6K2mxuqIEnt7dUVFMHlhXBSc31cmofOgGb12b8cxWOvE6TP5LpABHiG8OA5RCGTJbicdbX1iSWuOKCUnINp3Jkyu7NDQtbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HDuYh8kS; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PoDkOJ7W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDuYh8kS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773209275; x=1804745275;
+  t=1773210783; x=1804746783;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=69qFIYtyDr9znxfjTU2cf/MvY/d5dOWbtA3vFY5B9f4=;
-  b=PoDkOJ7WiH0QipJBGhJo9K1+u0tHfw17a9T2ik/6vsLOoyYzUPMQ2PIb
-   wn5di6xvoinBti4790I+mNpHxY7IJ/w6Ghj9pt6u7IDL792kTUWYlcDpG
-   3m4Z59l7nSVNE06OSuc2XBJ81nSrw2BYukLkBzXClxPOGGFmaj8cca9sP
-   dJS+ISo9qE1muHR+tjuENeNGKHn5NmFaBBHIwQiw27U5JJQtqLDe+1heO
-   mR7VqNkvHJ/cvL/A7weDTGbLj4dwKiybtgnmCm0jX2dqufl5Qd+X38LPT
-   F3NA55KMyLDGauIYOfA5b9fJjrHeEeYsclDUQcZmvB6ht4niz96m0Ysgp
-   g==;
-X-CSE-ConnectionGUID: j9KpVeooSomDmwHeI4qU1A==
-X-CSE-MsgGUID: KWbbUiRFQRepvj1DNpo1zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="84975134"
+  bh=s3Qj5iooBQSNpnkECR1ekTS3gDPWMWoE+HWCqLNHRHo=;
+  b=HDuYh8kSPP71ljXxg5vJLM/5S3VXzIwlN3SV4dYRXjB/gwWUTp0NIVy2
+   sow0mYsc2YuTWaxHVt824r0Ky7a4svvnOWyN8iqeGQ4s+ZIVQPw2XFmz5
+   L+AZw5Ki/FspPjk6E8We/7OHLjE/45ed25jm2mbpMuIhvxYtR3S6b5JID
+   3auY1ERaboAK4vXMb/NDKq3Lf3pZ8EE1v5xtT0fVGlE0FqfsXDSXFNrYo
+   RXL5XqMR5ZbwGZmcQSQpHNzDRN0SYdGTBScOaB0WZ4uQ80oAYbSUwp8eM
+   wxY5CZ/MOde327egrsa+bfke7E1ynvBkqdTGC7JkL6EcAj6CLKOsqfQP5
+   A==;
+X-CSE-ConnectionGUID: xQXATY4XTNec7/h6DHJdmg==
+X-CSE-MsgGUID: j+jvD5/kQ+WFsr6Rry31oA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="77876633"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="84975134"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 23:07:55 -0700
-X-CSE-ConnectionGUID: Xmc022qnT6WtfTEcvw9BXA==
-X-CSE-MsgGUID: p4Bvvj27TQ+YgBR+E2RUsA==
+   d="scan'208";a="77876633"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 23:33:03 -0700
+X-CSE-ConnectionGUID: u4KXvO9eTJ6rhPMlowGgQQ==
+X-CSE-MsgGUID: Ey6L2F/5SZCZCLk4t19oXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="250861493"
+   d="scan'208";a="220311556"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Mar 2026 23:07:50 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Mar 2026 23:33:00 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0CjS-000000000mj-1txg;
-	Wed, 11 Mar 2026 06:07:46 +0000
-Date: Wed, 11 Mar 2026 14:07:40 +0800
+	id 1w0D7r-000000000oN-1OqP;
+	Wed, 11 Mar 2026 06:32:59 +0000
+Date: Wed, 11 Mar 2026 14:32:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Subject: Re: [PATCH 5/5] watchdog: rzn1: Add support for direct hardware reset
-Message-ID: <202603111437.eGpzXcOB-lkp@intel.com>
-References: <20260310173249.161354-6-herve.codina@bootlin.com>
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 1/3] iomap: Support buffered RWF_WRITETHROUGH via async dio
+ backend
+Message-ID: <202603111414.egTuxyS6-lkp@intel.com>
+References: <c84ddc3f864f840d646b6aa19fd9b3e83e079c0b.1773076216.git.ojaswin@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,69 +63,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260310173249.161354-6-herve.codina@bootlin.com>
+In-Reply-To: <c84ddc3f864f840d646b6aa19fd9b3e83e079c0b.1773076216.git.ojaswin@linux.ibm.com>
 
-Hi Herve,
+Hi Ojaswin,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on geert-renesas-drivers/renesas-clk geert-renesas-devel/next groeck-staging/hwmon-next linus/master v7.0-rc3 next-20260310]
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on linus/master v7.0-rc3 next-20260310]
+[cannot apply to hch-configfs/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/watchdog-rzn1-Fix-reverse-xmas-tree-declaration/20260311-015157
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260310173249.161354-6-herve.codina%40bootlin.com
-patch subject: [PATCH 5/5] watchdog: rzn1: Add support for direct hardware reset
-config: x86_64-buildonly-randconfig-003-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111437.eGpzXcOB-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111437.eGpzXcOB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ojaswin-Mujoo/iomap-Support-buffered-RWF_WRITETHROUGH-via-async-dio-backend/20260310-013922
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/c84ddc3f864f840d646b6aa19fd9b3e83e079c0b.1773076216.git.ojaswin%40linux.ibm.com
+patch subject: [RFC 1/3] iomap: Support buffered RWF_WRITETHROUGH via async dio backend
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260311/202603111414.egTuxyS6-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111414.egTuxyS6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603111437.eGpzXcOB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603111414.egTuxyS6-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/watchdog/rzn1_wdt.c:20:
->> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:53: warning: declaration of 'enum r9a06g032_sysctrl_rst_src' will not be visible outside of this function [-Wvisibility]
-      17 | static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
-         |                                                     ^
->> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:79: error: variable has incomplete type 'enum r9a06g032_sysctrl_rst_src'
-      17 | static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
-         |                                                                               ^
-   include/linux/soc/renesas/r9a06g032-sysctrl.h:17:53: note: forward declaration of 'enum r9a06g032_sysctrl_rst_src'
-      17 | static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
-         |                                                     ^
->> drivers/watchdog/rzn1_wdt.c:105:33: error: variable has incomplete type 'enum r9a06g032_sysctrl_rst_src'
-     105 |         enum r9a06g032_sysctrl_rst_src rst_src;
-         |                                        ^
-   drivers/watchdog/rzn1_wdt.c:105:7: note: forward declaration of 'enum r9a06g032_sysctrl_rst_src'
-     105 |         enum r9a06g032_sysctrl_rst_src rst_src;
-         |              ^
->> drivers/watchdog/rzn1_wdt.c:119:13: error: use of undeclared identifier 'R9A06G032_RST_WATCHDOG_CA7_0'
-     119 |                 rst_src = R9A06G032_RST_WATCHDOG_CA7_0;
-         |                           ^
->> drivers/watchdog/rzn1_wdt.c:122:13: error: use of undeclared identifier 'R9A06G032_RST_WATCHDOG_CA7_1'
-     122 |                 rst_src = R9A06G032_RST_WATCHDOG_CA7_1;
-         |                           ^
-   1 warning and 4 errors generated.
-
-
-vim +17 include/linux/soc/renesas/r9a06g032-sysctrl.h
-
-21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10  14) 
-885525c1e7e27e Miquel Raynal                     2022-04-27  15  #else
-885525c1e7e27e Miquel Raynal                     2022-04-27  16  static inline int r9a06g032_sysctrl_set_dmamux(u32 mask, u32 val) { return -ENODEV; }
-21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10 @17) static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
-21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10  18) {
-21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10  19) 	return -ENODEV;
-21c34edbcc67b0 Herve Codina (Schneider Electric  2026-03-10  20) }
-885525c1e7e27e Miquel Raynal                     2022-04-27  21  #endif
-885525c1e7e27e Miquel Raynal                     2022-04-27  22  
+   Warning: fs/iomap/buffered-io.c:640 function parameter 'private' not described in 'iomap_readahead'
+>> Warning: fs/iomap/buffered-io.c:1186 function parameter 'offset' not described in 'iomap_writethrough_begin'
+>> Warning: fs/iomap/buffered-io.c:1186 function parameter 'len' not described in 'iomap_writethrough_begin'
+   Warning: fs/iomap/buffered-io.c:640 function parameter 'private' not described in 'iomap_readahead'
+>> Warning: fs/iomap/buffered-io.c:1186 function parameter 'offset' not described in 'iomap_writethrough_begin'
+>> Warning: fs/iomap/buffered-io.c:1186 function parameter 'len' not described in 'iomap_writethrough_begin'
 
 -- 
 0-DAY CI Kernel Test Service
