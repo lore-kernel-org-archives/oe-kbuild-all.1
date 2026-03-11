@@ -1,118 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563FA253F05
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 12:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CAE2D877B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 13:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773233561; cv=none; b=rPUdpfnABpbOYjIqNOZRoqRjTFPLiNmrMqOeyvq8Yrgt+o9chhOPksgqMtVbNT3GN5ei8yJB2XDhB6592vRmSOifLkjn8ABPTqRSC1gBlbOt/X+4uJA12nLjJPuCoV9IAVQCiruODREURTQT8YeSimwETn7xShNsvg+q0wUGgrQ=
+	t=1773234174; cv=none; b=j7QdtIp8QnD3XcL8LeKZHpeqAZ30urYv1K7am8N4QRNOl2r+5yIjzZd6NUDuRdIW+tpEnNYpbZnNkr4yFjCL1g4JIQrpZiMYXgJB+D7yfB3MelEh8KQUjAka1/BX2DanoH5e37eGi7gCv7NAlBNIYO/kjCjVXWYM5PljwNSBUOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773233561; c=relaxed/simple;
-	bh=sjXMwhtujX01U0MlCzj+yb7iUMPV42dAzK0snLhmpnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Tsb333lsuARYCq3mPJkLNMsm1H35Gf2jn07y8eyKfnlo4UaBuXzO6rZbrIAIaxKpqH8A+q6BJh7/hpbfB7e58CcuJfs/cEfFhtJczBr2nCO48oWtFw8Sofj4cEGn6zIxnRIKROl+QZ5anc3qvdrp2+PiP2KHMn3GldmkaS4oXZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FMo3EEKs; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1773234174; c=relaxed/simple;
+	bh=libA7FGY9iv9/Fcasc1nui1VJ8y8z7Crftn3C89XSuI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RZjljH3+ayf3tmsHnlGn8cuhfm/J/MnFbrH1TthxncgRJNeDFGIcPGSZ379h+Z588l1y78lAoJrkxxENvaqm5S8jEdipjZozopza6HMCvWsXzFJFZgsLciAbcMvxdKEyPibKC9AmLtMrMLlAX0mLaV+g3l+STruu2LQ16yRVF30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSNKyDW8; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FMo3EEKs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSNKyDW8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773233560; x=1804769560;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sjXMwhtujX01U0MlCzj+yb7iUMPV42dAzK0snLhmpnw=;
-  b=FMo3EEKsBecljQFXXXDH2l6AnSoHE3m9rV+nMKl7idNkzlIKcV+Eu6Du
-   0WBavybEpvqXsgWHZg0V0+CPVTtXvlXmijctlErcPQr0vvPxidixbX3Rh
-   8R4gWyyg9gukMuaP0XQHcrqz8qEkb/Rp/ckgp46nqm3Izc0b2tHz/xAQH
-   AluMLcjVYUYE8eHC1P41D6+n7Gq1FfWME0aCSalQILTsALxq/d1MDDLlO
-   wSszIT9tJuOfj8apeI/EGpJtNTWw1ExlqVI3omzRr6iauTl6qzZLXnGrR
-   Ik0o/3b3k6jquAvIahdFuUurAAzpViTP3ZiRCEC0hATpsl2b5DnYqfAbm
-   Q==;
-X-CSE-ConnectionGUID: IUfTq3mDQmCPKFIvZfmyBw==
-X-CSE-MsgGUID: z5Qz/ArARD6qdEyHfz2TzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84930073"
+  t=1773234171; x=1804770171;
+  h=date:from:to:cc:subject:message-id;
+  bh=libA7FGY9iv9/Fcasc1nui1VJ8y8z7Crftn3C89XSuI=;
+  b=XSNKyDW8RIAAaBEq/Z8KLpVEKEqGwPg8pu3UHavJ3ed2/Hd4ZNPcTfU6
+   g3Ud/SqgV8ZusH5LFV6VG0WIE2r/Hf/Ba5UVDewc07OTZ2gogsUgfJq+C
+   eodebSdAfRYJXsogTIsaIjiYD6Xe3pwVg1BMIiQnCClQjiys1r6CSSrTh
+   umJ6CV58x9ND6QQm104VQa4oIfrbnyHxsMWLGWHrtEibKU9SxnA5uiiA8
+   RcN4aoqUSBw7a8XpDsXTNO9InVbTCYR9z8aJ+Zstm1gsdoWpQ9kFWXF+i
+   QIBQGX5HUkHnyfz0Fxzd1oF6/7ztxwrbt5uygbZI8w7/lZTSyVHPUd2vr
+   A==;
+X-CSE-ConnectionGUID: J+47+fFPRGamHab+nB0lQg==
+X-CSE-MsgGUID: 2ZkIOMlXRCuEIbOca/MbWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="85776249"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="84930073"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 05:52:39 -0700
-X-CSE-ConnectionGUID: E4zSi1+NQeKQNv9k2Ko4Zg==
-X-CSE-MsgGUID: /l8ruS8jTBiexg5dal6QIw==
+   d="scan'208";a="85776249"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 06:02:45 -0700
+X-CSE-ConnectionGUID: ouB7IINeTBeweXGWyMzevw==
+X-CSE-MsgGUID: PPJ5qh71RHeBTSnQY66+hw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="220408706"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Mar 2026 05:52:37 -0700
+  by orviesa009.jf.intel.com with ESMTP; 11 Mar 2026 06:02:42 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0J3C-00000000197-1pjF;
-	Wed, 11 Mar 2026 12:52:34 +0000
-Date: Wed, 11 Mar 2026 20:52:06 +0800
+	id 1w0JCy-0000000019t-143k;
+	Wed, 11 Mar 2026 13:02:40 +0000
+Date: Wed, 11 Mar 2026 21:02:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
-Subject: [tip:timers/vdso 37/45] include/vdso/helpers.h:13:64: error:
- 'VDSO_CLOCKMODE_TIMENS' undeclared
-Message-ID: <202603112006.tqQzVMDI-lkp@intel.com>
+To: Fei Li <fei1.li@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Yifan Liu <yifan1.liu@intel.com>,
+ Zhangwei6 <wei6.zhang@intel.com>, Haoyu Tang <haoyu.tang@intel.com>
+Subject: [acrn:6.17/linux 5/9] drivers/virt/acrn/hvlog.c:393:33:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202603112056.8hRIlEeF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/=
-vdso
-head:   f7178f159b2a36d070fd43b0d751e4e4415ec39e
-commit: 912632a7fd4cc1eac2778828d92e8fe46939d6bd [37/45] vdso/datapage: Tri=
-m down unnecessary includes
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260311/=
-202603112006.tqQzVMDI-lkp@intel.com/config)
+tree:   https://github.com/projectacrn/acrn-kernel 6.17/linux
+head:   d2ae39d099178698dc32d2165a32f4d6d13d107b
+commit: f8aee7a312dbbc04e1f182a7a43bd55dfb092292 [5/9] virt: acrn: add acrn hypervisor log back
+config: x86_64-randconfig-123-20260311 (https://download.01.org/0day-ci/archive/20260311/202603112056.8hRIlEeF-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260311/202603112006.tqQzVMDI-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603112056.8hRIlEeF-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603112006.tqQzVMDI-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603112056.8hRIlEeF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/virt/acrn/hvlog.c:393:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *static [toplevel] hvlog_buf_virtaddr_base @@     got void [noderef] __iomem * @@
+   drivers/virt/acrn/hvlog.c:393:33: sparse:     expected void *static [toplevel] hvlog_buf_virtaddr_base
+   drivers/virt/acrn/hvlog.c:393:33: sparse:     got void [noderef] __iomem *
 
-   In file included from arch/x86/include/asm/vgtod.h:13,
-                    from arch/x86/kernel/sys_ia32.c:49:
-   include/vdso/helpers.h: In function 'vdso_is_timens_clock':
->> include/vdso/helpers.h:13:64: error: 'VDSO_CLOCKMODE_TIMENS' undeclared =
-(first use in this function)
-      13 |         return IS_ENABLED(CONFIG_TIME_NS) && vc->clock_mode =3D=
-=3D VDSO_CLOCKMODE_TIMENS;
-         |                                                                ^=
-~~~~~~~~~~~~~~~~~~~~
-   include/vdso/helpers.h:13:64: note: each undeclared identifier is report=
-ed only once for each function it appears in
+vim +393 drivers/virt/acrn/hvlog.c
 
+   377	
+   378	int acrn_hvlog_init(void)
+   379	{
+   380		int idx, ret = 0;
+   381		uint64_t cur_logbuf, last_logbuf;
+   382	
+   383		if (x86_hyper_type != X86_HYPER_ACRN) {
+   384			pr_err("acrn_trace: not support acrn hypervisor!\n");
+   385			return -EINVAL;
+   386		}
+   387	
+   388		if (!hvlog_buf_phyaddr_base || !hvlog_buf_size) {
+   389			pr_warn("no fixed memory reserve for hvlog.\n");
+   390			return 0;
+   391		}
+   392	
+ > 393		hvlog_buf_virtaddr_base = ioremap(hvlog_buf_phyaddr_base, hvlog_buf_size);
+   394		if(!hvlog_buf_virtaddr_base) {
+   395			pr_info("%s: Error ioremap hvlog memblock.\n", __func__);
+   396			return 0;
+   397		}
+   398	
+   399		pcpu_nr = total_cpus;;
+   400		foreach_hvlog_type(idx, SBUF_HVLOG_TYPES) {
+   401			acrn_hvlog_devs[idx] = kcalloc(pcpu_nr,
+   402				sizeof(struct acrn_hvlog), GFP_KERNEL);
+   403			if (!acrn_hvlog_devs[idx])
+   404				return -ENOMEM;
+   405		}
+   406	
+   407		assign_hvlog_buf_base(&cur_logbuf, &last_logbuf);
+   408		ret = init_hvlog_dev(cur_logbuf, SBUF_CUR_HVLOG);
+   409		if (ret) {
+   410			pr_err("Failed to init cur hvlog devs, errno %d\n", ret);
+   411			return ret;
+   412		}
+   413	
+   414		/* If error happens for last hvlog devs setup, just print out an warn */
+   415		ret = init_hvlog_dev(last_logbuf, SBUF_LAST_HVLOG);
+   416		if (ret)
+   417			pr_warn("Failed to init last hvlog devs, errno %d\n", ret);
+   418	
+   419		pr_info("Initialized hvlog module with %u cpu\n", pcpu_nr);
+   420		return 0;
+   421	}
+   422	
 
-vim +/VDSO_CLOCKMODE_TIMENS +13 include/vdso/helpers.h
-
-00b26474c2f161 Vincenzo Frascino 2019-06-21  10 =20
-daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27  11  static __always_inlin=
-e bool vdso_is_timens_clock(const struct vdso_clock *vc)
-daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27  12  {
-daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27 @13  	return IS_ENABLED(CO=
-NFIG_TIME_NS) && vc->clock_mode =3D=3D VDSO_CLOCKMODE_TIMENS;
-daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27  14  }
-daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27  15 =20
-
-:::::: The code at line 13 was first introduced by commit
-:::::: daa2b92d33a4038123598aff55240ae3c54f870c vdso/gettimeofday: Add a he=
-lper to test if a clock is namespaced
-
-:::::: TO: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@kernel.org>
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
