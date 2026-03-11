@@ -1,122 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB971A6817
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 01:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DA513B58C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 01:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773190832; cv=none; b=TYpz4aHe5O7NcJb0Amyud3EIx9cE9s8MbENpbpyNbg5uOUPH9adThiCrT089E1qW9lX2ZuDs+WpCVkRlw6c4YWBsEMygH/GZ8qyIVVlFm1ocVjnr5vKzNTnUq2uZrc23ULM5lomtWf/XB6JBe6Hak55B+HEjSbjKK32dULyUdy4=
+	t=1773191631; cv=none; b=pEJEm/BKW8v+fgIdxkGzPM+h2jQ7D3jlS+w/G7R4zlBeYKxoY47QCplHOY/w/L0Z3SjucefZStxgdJBnS0DPSFxHpCx1O8ndcqdHjJyyZTsKIIjT1IfU3I0VzGDjyGM/3+HVM4Ea5DZfLw7zJnyqjIGcRjpLefWwplWqay8w/Rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773190832; c=relaxed/simple;
-	bh=2nRyGCp/u/t48t6g/TeP3eA6TCsz9hD8l7/U6aBpPlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/vgK8S7hd3EvgccJzFoOGx/SzoDHVok7jxk7CP0SrFC7UKCE48ZMPApq4nVaL2tVNNA/ibm20iw0QJE/f1mbeN0cA8sLwHIWWSdKX7LACx2qJGtLD29oN8mNKKtkKKhnIA/rajKgojO4KoUlCyaJlGGASexOzfSgpjzloZdnAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdqMaCDL; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1773191631; c=relaxed/simple;
+	bh=CHYe96MeAqMnw6GsCFWB/AlQykyLeLA1PdYT88jcg0o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BnaoPpTlSIYsx5ZSo0fSFY2mtuJzlfapVnhQc2ELBxMwz/wkt/1zREs7PvmuKekG/9QEaeqUX128NztYfP+V1s+6kuB6y9Ls1UGf4U+BDeJliRlxUSEWYqnHLnqIbhO4c6QMV9VIgTYaegn9Suk5GoixgyXHuJTGz6cjRp15dcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BcxSKc73; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdqMaCDL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BcxSKc73"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773190830; x=1804726830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2nRyGCp/u/t48t6g/TeP3eA6TCsz9hD8l7/U6aBpPlw=;
-  b=kdqMaCDLTMrMMhKpgZIb2ZCd4v6MFRnBXhYdPuc77zofWHtaPT/xHDp1
-   OQKBdZGdKDtdN9+UvJcT0rlKidJUZRseMY7w0Danw+nxVlYF2rsGc+Cze
-   oJTRV9T7ptrS/PSprXekv3cq4ocGBsszV1h/zPoOs1y87dvGvv3yiggZd
-   +G3pCxKejLTQH4vvpI7o40Ac2QAz6NuPi3xWlNs+B3CPpdA7NF6VMZdse
-   CRhV/4PjK0ezhyPvLYyyT5RD6HrY0i7jlJlQVfZAh1QqY2kX+cREmbEMV
-   fWnfC1eKvESvaJO01GeenJXwM/nSAGeIAR+Yyuqa3Dbwd5Lw4wd261CNK
+  t=1773191629; x=1804727629;
+  h=date:from:to:cc:subject:message-id;
+  bh=CHYe96MeAqMnw6GsCFWB/AlQykyLeLA1PdYT88jcg0o=;
+  b=BcxSKc73Cofaie90kDXW8MyijHHygBXmqOds5kQnZMCGjaWP1hvwSF9/
+   +wiZkYyIVd7ZZswX0QG94HMl9NBj9BGn/X8tkJOErQDD5oXDSV9aqrvz6
+   ZzjfLFaOVC3G3q+yxNpzsXM2p73/rclRDwutkTYUh1SExQwhUTnHHyzzc
+   DXjD0uFQk/U/o47pQh5W5W+ErPq4Ba2QCQvl1OtjhUCFXUyAV4PD1HENY
+   TI4/M/s3YrK2xtu4MnJCrcKQR/kxMqfIcvcUISq7bg/VUFO+HqBY+rPpt
+   mNe4gafNEzeMUng2yMvh8xW0cHsRXtis9pLD+APh87hdFm53qIuO4fwLp
    w==;
-X-CSE-ConnectionGUID: qZ9amCH3TD6sb6nF+WpFTA==
-X-CSE-MsgGUID: 2Tr+eV+0TfugIxPtwTcRaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="73448440"
+X-CSE-ConnectionGUID: NOGxw2xZRFWYZH59O2ho2g==
+X-CSE-MsgGUID: gjyVw+EITJW488oTxJVySA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="84959333"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="73448440"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 18:00:29 -0700
-X-CSE-ConnectionGUID: QV6pcc3jTFqGiNjRTI7yTg==
-X-CSE-MsgGUID: UOIGKUdHRhGE065+kWWlVw==
+   d="scan'208";a="84959333"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 18:13:48 -0700
+X-CSE-ConnectionGUID: +kmNkclVSTO6XYoskvoA/w==
+X-CSE-MsgGUID: LaanXaG3TZ6f3m8Jw3Lh4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="216602576"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Mar 2026 18:00:26 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="222853617"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 10 Mar 2026 18:13:46 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w07vz-000000000Td-1wcb;
-	Wed, 11 Mar 2026 01:00:23 +0000
-Date: Wed, 11 Mar 2026 08:59:55 +0800
+	id 1w088u-000000003BR-1QR6;
+	Wed, 11 Mar 2026 01:13:44 +0000
+Date: Wed, 11 Mar 2026 02:13:27 +0100
 From: kernel test robot <lkp@intel.com>
-To: Lakshay Piplani <lakshay.piplani@nxp.com>, linux-kernel@vger.kernel.org,
-	linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
-	krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, broonie@kernel.org, lee@kernel.org,
-	Frank.Li@nxp.com, lgirdwood@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
-	priyanka.jain@nxp.com, aman.kumarpandey@nxp.com,
-	lakshay.piplani@nxp.com
-Subject: Re: [PATCH v6 6/7] i3c: hub: Add support for the I3C interface in
- the I3C hub
-Message-ID: <202603110810.eZLkgGbx-lkp@intel.com>
-References: <20260310065727.3759342-6-lakshay.piplani@nxp.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 17/17] htmldocs:
+ ./include/linux/dma-buf.h:548: warning: Excess struct member 'nr_task_refs'
+ description in 'dma_buf'
+Message-ID: <202603110231.iozMACBQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310065727.3759342-6-lakshay.piplani@nxp.com>
 
-Hi Lakshay,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on i3c/i3c/next]
-[also build test ERROR on lee-mfd/for-mfd-next broonie-regulator/for-next linus/master v7.0-rc3 next-20260310]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/i3c-master-Add-the-APIs-to-support-I3C-hub/20260310-150040
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git i3c/next
-patch link:    https://lore.kernel.org/r/20260310065727.3759342-6-lakshay.piplani%40nxp.com
-patch subject: [PATCH v6 6/7] i3c: hub: Add support for the I3C interface in the I3C hub
-config: s390-randconfig-001-20260311 (https://download.01.org/0day-ci/archive/20260311/202603110810.eZLkgGbx-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110810.eZLkgGbx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   6ca2c2288ee8399eaf9532746cdb562577e09565
+commit: b1ac27dd8a57803034f8361d820e3f2580714031 [17/17] ANDROID: ABI: refresh, CRC fixups and allowed breaks
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260311/202603110231.iozMACBQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603110810.eZLkgGbx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603110231.iozMACBQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_disable_ibi':
->> hub.c:(.text+0x344): undefined reference to `i3c_dev_disable_ibi_locked'
-   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_enable_ibi':
->> hub.c:(.text+0x43c): undefined reference to `i3c_dev_enable_ibi_locked'
-   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_free_ibi':
->> hub.c:(.text+0x508): undefined reference to `i3c_master_direct_detach_i3c_dev'
->> s390-linux-ld: hub.c:(.text+0x51c): undefined reference to `i3c_dev_free_ibi_locked'
-   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_request_ibi':
->> hub.c:(.text+0x5e2): undefined reference to `i3c_master_direct_attach_i3c_dev'
->> s390-linux-ld: hub.c:(.text+0x644): undefined reference to `i3c_dev_request_ibi_locked'
-   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_master_priv_xfers':
->> hub.c:(.text+0x78e): undefined reference to `i3c_device_do_xfers'
->> s390-linux-ld: hub.c:(.text+0x7b8): undefined reference to `i3c_master_reattach_i3c_dev'
-   s390-linux-ld: hub.c:(.text+0x7d2): undefined reference to `i3c_master_reattach_i3c_dev'
-   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_master_send_ccc_cmd':
->> hub.c:(.text+0x88c): undefined reference to `i3c_master_send_ccc_cmd'
-   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_master_do_daa':
->> hub.c:(.text+0x92a): undefined reference to `i3c_master_do_daa'
-   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_master_supports_ccc_cmd':
->> hub.c:(.text+0x9ae): undefined reference to `i3c_master_supports_ccc_cmd'
+   ./drivers/dma-buf/dma-buf.c:991: warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
+   ./include/linux/dma-buf.h:367: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf_ops'
+   ./include/linux/dma-buf.h:367: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(2' not described in 'dma_buf_ops'
+   ./include/linux/dma-buf.h:548: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf'
+   ./include/linux/dma-buf.h:548: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(2' not described in 'dma_buf'
+>> ./include/linux/dma-buf.h:548: warning: Excess struct member 'nr_task_refs' description in 'dma_buf'
+   ./include/linux/dma-buf.h:585: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf_attach_ops'
+   ./include/linux/dma-buf.h:625: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf_attachment'
+   ./include/linux/dma-buf.h:625: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(2' not described in 'dma_buf_attachment'
+   ./include/linux/dma-buf.h:651: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(1' not described in 'dma_buf_export_info'
+   ./include/linux/dma-buf.h:651: warning: Function parameter or struct member 'ANDROID_KABI_RESERVE(2' not described in 'dma_buf_export_info'
+
+
+vim +548 ./include/linux/dma-buf.h
+
+75adb09e2fd964 Greg Kroah-Hartman 2024-02-29  539  
+b1ac27dd8a5780 T.J. Mercier       2026-03-05  540  	ANDROID_KABI_RESERVE(1);
+b1ac27dd8a5780 T.J. Mercier       2026-03-05  541  	ANDROID_KABI_RESERVE(2);
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  542  	/**
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  543  	 * @nr_task_refs:
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  544  	 *
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  545  	 * The number of tasks that reference this buffer. For calculating PSS.
+45ae7f0b6b5f0a T.J. Mercier       2025-07-08  546  	 */
+b1ac27dd8a5780 T.J. Mercier       2026-03-05  547  	ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
+d15bd7ee445d07 Sumit Semwal       2011-12-26 @548  };
+d15bd7ee445d07 Sumit Semwal       2011-12-26  549  
+
+:::::: The code at line 548 was first introduced by commit
+:::::: d15bd7ee445d0702ad801fdaece348fdb79e6581 dma-buf: Introduce dma buffer sharing mechanism
+
+:::::: TO: Sumit Semwal <sumit.semwal@ti.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
