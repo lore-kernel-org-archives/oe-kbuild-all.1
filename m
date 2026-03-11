@@ -1,134 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA6C309EEC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 00:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB971A6817
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 01:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773190430; cv=none; b=MOqayClydO0NmPAW4W59sHa1uxt7hR9mVBvgVZrGMG6RZGTHPh4HGjMNP3hWy4jv7YOXHj/T5bHtQt6yIFCEazq3BtGgW7FAgqCF4gPDO7GH+RscRN1bgp0RQEgscqsotrCj+s4oCOaebsNgGELzohr7jl9HjiILOOfSpWGlmqI=
+	t=1773190832; cv=none; b=TYpz4aHe5O7NcJb0Amyud3EIx9cE9s8MbENpbpyNbg5uOUPH9adThiCrT089E1qW9lX2ZuDs+WpCVkRlw6c4YWBsEMygH/GZ8qyIVVlFm1ocVjnr5vKzNTnUq2uZrc23ULM5lomtWf/XB6JBe6Hak55B+HEjSbjKK32dULyUdy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773190430; c=relaxed/simple;
-	bh=fpcwTcWMzSdtkHcTKSRTWLCh0w7BFKVMKe/c9Z0fZ78=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CjIlBC+R0IMLQHplsJyH+k+1nrkDDunVOmmXC8YAgl2Cxt4SLtgrFlR33mV7nNwHKnttnofZSwIdiS2kIDFsoMjbjExjBgQ78Xr4IgSCQebqPuqDAMEpvJ4I+L3ldzx7JrpJkkm4JNWwYs1V+xD0EicZNsFzCZbQX7kylYacuXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+aRlL3s; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1773190832; c=relaxed/simple;
+	bh=2nRyGCp/u/t48t6g/TeP3eA6TCsz9hD8l7/U6aBpPlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/vgK8S7hd3EvgccJzFoOGx/SzoDHVok7jxk7CP0SrFC7UKCE48ZMPApq4nVaL2tVNNA/ibm20iw0QJE/f1mbeN0cA8sLwHIWWSdKX7LACx2qJGtLD29oN8mNKKtkKKhnIA/rajKgojO4KoUlCyaJlGGASexOzfSgpjzloZdnAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdqMaCDL; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+aRlL3s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdqMaCDL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773190428; x=1804726428;
-  h=date:from:to:cc:subject:message-id;
-  bh=fpcwTcWMzSdtkHcTKSRTWLCh0w7BFKVMKe/c9Z0fZ78=;
-  b=G+aRlL3sKykEzISiOpFKMEpJ1TP7gwr8iPZ16H3cPT10oct4A1UJh7p5
-   MLLaW0v9vGm3TKBDqBaTlJUFohhAprAwiMoOpy7KsJAigzyT/6ZO4ILsl
-   Z4hXMMAsBQZ3Pjykq6gmpNAy2/sxDmd1YgypvPMGydMvlwM35wQu+mECt
-   mZtRLA1fMCyxI7RGAxgV2OTpnM68BC46up6ydYGjaEK00nvd28XDQS9Kr
-   qlbG5dC6dilpylU+WWA8MsbZR0PnHGFWY5oimlF+Ny2dClxvQ52EH4GuU
-   uG248Q8SdAwdSAv5QwGysoS+aG0+Ln9vytLLRUATuV87k3gIJxiPjse6c
+  t=1773190830; x=1804726830;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2nRyGCp/u/t48t6g/TeP3eA6TCsz9hD8l7/U6aBpPlw=;
+  b=kdqMaCDLTMrMMhKpgZIb2ZCd4v6MFRnBXhYdPuc77zofWHtaPT/xHDp1
+   OQKBdZGdKDtdN9+UvJcT0rlKidJUZRseMY7w0Danw+nxVlYF2rsGc+Cze
+   oJTRV9T7ptrS/PSprXekv3cq4ocGBsszV1h/zPoOs1y87dvGvv3yiggZd
+   +G3pCxKejLTQH4vvpI7o40Ac2QAz6NuPi3xWlNs+B3CPpdA7NF6VMZdse
+   CRhV/4PjK0ezhyPvLYyyT5RD6HrY0i7jlJlQVfZAh1QqY2kX+cREmbEMV
+   fWnfC1eKvESvaJO01GeenJXwM/nSAGeIAR+Yyuqa3Dbwd5Lw4wd261CNK
    w==;
-X-CSE-ConnectionGUID: hqq17Y8US0eOHE2517ZLOA==
-X-CSE-MsgGUID: KHTDhIk/Q+Ob+I4c7BeUmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="76861011"
+X-CSE-ConnectionGUID: qZ9amCH3TD6sb6nF+WpFTA==
+X-CSE-MsgGUID: 2Tr+eV+0TfugIxPtwTcRaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="73448440"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="76861011"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 17:53:48 -0700
-X-CSE-ConnectionGUID: d+/PlEfJSpKIU6MGbc0L9Q==
-X-CSE-MsgGUID: mI0IcUySSmielUgSOhMcZA==
+   d="scan'208";a="73448440"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 18:00:29 -0700
+X-CSE-ConnectionGUID: QV6pcc3jTFqGiNjRTI7yTg==
+X-CSE-MsgGUID: UOIGKUdHRhGE065+kWWlVw==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Mar 2026 17:53:46 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="216602576"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 10 Mar 2026 18:00:26 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w07pY-000000003BH-1BpU;
-	Wed, 11 Mar 2026 00:53:44 +0000
-Date: Wed, 11 Mar 2026 01:52:53 +0100
+	id 1w07vz-000000000Td-1wcb;
+	Wed, 11 Mar 2026 01:00:23 +0000
+Date: Wed, 11 Mar 2026 08:59:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Akhila YS <akhilayalmati@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: [linux-next:master 3775/5327]
- arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: mpddrc@ffffe800
- (microchip,sam9x60-ddramc): compatible: 'oneOf' conditional failed, one must
- be fixed:
-Message-ID: <202603110135.1GX45Zkj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Lakshay Piplani <lakshay.piplani@nxp.com>, linux-kernel@vger.kernel.org,
+	linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
+	krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, broonie@kernel.org, lee@kernel.org,
+	Frank.Li@nxp.com, lgirdwood@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
+	priyanka.jain@nxp.com, aman.kumarpandey@nxp.com,
+	lakshay.piplani@nxp.com
+Subject: Re: [PATCH v6 6/7] i3c: hub: Add support for the I3C interface in
+ the I3C hub
+Message-ID: <202603110810.eZLkgGbx-lkp@intel.com>
+References: <20260310065727.3759342-6-lakshay.piplani@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310065727.3759342-6-lakshay.piplani@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7109a2155340cc7b21f27e832ece6df03592f2e8
-commit: f3ae0049ff8a3d2cbd8c05857705744435629d0c [3775/5327] dt-bindings: arm: atmel,at91rm9200-sdramc: convert to DT schema
-config: arm-randconfig-2052-20260308 (https://download.01.org/0day-ci/archive/20260311/202603110135.1GX45Zkj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110135.1GX45Zkj-lkp@intel.com/reproduce)
+Hi Lakshay,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on i3c/i3c/next]
+[also build test ERROR on lee-mfd/for-mfd-next broonie-regulator/for-next linus/master v7.0-rc3 next-20260310]
+[cannot apply to lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/i3c-master-Add-the-APIs-to-support-I3C-hub/20260310-150040
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git i3c/next
+patch link:    https://lore.kernel.org/r/20260310065727.3759342-6-lakshay.piplani%40nxp.com
+patch subject: [PATCH v6 6/7] i3c: hub: Add support for the I3C interface in the I3C hub
+config: s390-randconfig-001-20260311 (https://download.01.org/0day-ci/archive/20260311/202603110810.eZLkgGbx-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110810.eZLkgGbx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603110135.1GX45Zkj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603110810.eZLkgGbx-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: pwm@f8034000 (microchip,sam9x60-pwm): Unevaluated properties are not allowed ('clocks', 'interrupts' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pwm/atmel,at91sam-pwm.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: hlcdc@f8038000 (microchip,sam9x60-hlcdc): 'hlcdc-display-controller', 'hlcdc-pwm' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/isi@f8048000: failed to match any schema with compatible: ['microchip,sam9x60-isi', 'atmel,at91sam9g45-isi']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/isi@f8048000: failed to match any schema with compatible: ['microchip,sam9x60-isi', 'atmel,at91sam9g45-isi']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: adc@f804c000 (microchip,sam9x60-adc): compatible: ['microchip,sam9x60-adc', 'atmel,sama5d2-adc'] is too long
-   	from schema $id: http://devicetree.org/schemas/iio/adc/atmel,sama5d2-adc.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x60-pmecc', 'atmel,at91sam9g45-pmecc']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x60-pmecc', 'atmel,at91sam9g45-pmecc']
->> arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: mpddrc@ffffe800 (microchip,sam9x60-ddramc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-ddramc', 'atmel,sama5d3-ddramc'] is too long
-   	'atmel,at91rm9200-sdramc' was expected
-   	'microchip,sama7d65-uddrc' was expected
-   	'syscon' was expected
-   	'microchip,sama7g5-uddrc' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-sdramc.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x60-smc', 'atmel,at91sam9260-smc', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x60-smc', 'atmel,at91sam9260-smc', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: gpio-keys: pinctrl-key-gpio: {'atmel,pins': [[0, 29, 0, 0]], 'phandle': 37} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
---
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: mcp23008@20 (microchip,mcp23008): '#gpio-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/pinctrl/microchip,mcp23s08.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: hlcdc@f8038000 (microchip,sam9x60-hlcdc): 'hlcdc-display-controller', 'hlcdc-pwm' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/isi@f8048000: failed to match any schema with compatible: ['microchip,sam9x60-isi', 'atmel,at91sam9g45-isi']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/isi@f8048000: failed to match any schema with compatible: ['microchip,sam9x60-isi', 'atmel,at91sam9g45-isi']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: adc@f804c000 (microchip,sam9x60-adc): compatible: ['microchip,sam9x60-adc', 'atmel,sama5d2-adc'] is too long
-   	from schema $id: http://devicetree.org/schemas/iio/adc/atmel,sama5d2-adc.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x60-pmecc', 'atmel,at91sam9g45-pmecc']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x60-pmecc', 'atmel,at91sam9g45-pmecc']
->> arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: mpddrc@ffffe800 (microchip,sam9x60-ddramc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-ddramc', 'atmel,sama5d3-ddramc'] is too long
-   	'atmel,at91rm9200-sdramc' was expected
-   	'microchip,sama7d65-uddrc' was expected
-   	'syscon' was expected
-   	'microchip,sama7g5-uddrc' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-sdramc.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x60-smc', 'atmel,at91sam9260-smc', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x60-smc', 'atmel,at91sam9260-smc', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: rtc@fffffea8 (microchip,sam9x60-rtc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x60-rtc', 'atmel,at91sam9x5-rtc'] is too long
---
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x7-pmecc', 'atmel,at91sam9g45-pmecc']
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x7-pmecc', 'atmel,at91sam9g45-pmecc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: mpddrc@ffffe800 (microchip,sam9x7-ddramc): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x7-ddramc', 'atmel,sama5d3-ddramc'] is too long
-   	'atmel,at91rm9200-sdramc' was expected
-   	'microchip,sama7d65-uddrc' was expected
-   	'syscon' was expected
-   	'microchip,sama7g5-uddrc' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-sdramc.yaml
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x7-smc', 'atmel,at91sam9260-smc', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x7-smc', 'atmel,at91sam9260-smc', 'syscon']
+All errors (new ones prefixed by >>):
+
+   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_disable_ibi':
+>> hub.c:(.text+0x344): undefined reference to `i3c_dev_disable_ibi_locked'
+   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_enable_ibi':
+>> hub.c:(.text+0x43c): undefined reference to `i3c_dev_enable_ibi_locked'
+   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_free_ibi':
+>> hub.c:(.text+0x508): undefined reference to `i3c_master_direct_detach_i3c_dev'
+>> s390-linux-ld: hub.c:(.text+0x51c): undefined reference to `i3c_dev_free_ibi_locked'
+   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_request_ibi':
+>> hub.c:(.text+0x5e2): undefined reference to `i3c_master_direct_attach_i3c_dev'
+>> s390-linux-ld: hub.c:(.text+0x644): undefined reference to `i3c_dev_request_ibi_locked'
+   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_master_priv_xfers':
+>> hub.c:(.text+0x78e): undefined reference to `i3c_device_do_xfers'
+>> s390-linux-ld: hub.c:(.text+0x7b8): undefined reference to `i3c_master_reattach_i3c_dev'
+   s390-linux-ld: hub.c:(.text+0x7d2): undefined reference to `i3c_master_reattach_i3c_dev'
+   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_master_send_ccc_cmd':
+>> hub.c:(.text+0x88c): undefined reference to `i3c_master_send_ccc_cmd'
+   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_master_do_daa':
+>> hub.c:(.text+0x92a): undefined reference to `i3c_master_do_daa'
+   s390-linux-ld: drivers/i3c/hub.o: in function `i3c_hub_master_supports_ccc_cmd':
+>> hub.c:(.text+0x9ae): undefined reference to `i3c_master_supports_ccc_cmd'
 
 -- 
 0-DAY CI Kernel Test Service
