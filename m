@@ -1,91 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8D9371862
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 22:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634A03909BF;
+	Wed, 11 Mar 2026 22:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773268090; cv=none; b=BYW/jeoNgrhndOxW8wNP/uWSnMWkDSFgQO+OI6QlKoKvxZyXxvb3vPTVxXMVxe66JWYSsIgC633L24xNLIDNdREQFCklbkqDJZbtiWUvqWgbT0/NeiGNocOIIFB0cO1+p+NWqy5Kc0xO+Dq/azWNwEjZCxzPwn84Kh+VS3ARjos=
+	t=1773269953; cv=none; b=BkhSQXRLXgRVYBXhKGyrOKx8tIw0ifoCbOYu5vNOKwlVTLwRF+PtL8zt8gbzkXT9+lYYp8TqUwcEr5RR9uPJ1gKuBSGC6BxRry2b50rJme9zw3bMbr2003Xb865iGKKDKbSy/6j8AbUwBwmg5t4iIm8FHnd9HyX/pGr3O42fGMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773268090; c=relaxed/simple;
-	bh=KipXX5aVvpQORZt+6hvHl/gWHUeUCP0JmN139WBlLsc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FXZHaJYdg30hdR3bxBT1QMqp8/4x3GodN1SC1zcBHgC1creqokQjd1dFoTYIfw+IFFArO/LNxakHA0AFXMcEFXOWqc8w41rTwgyU9N0CAjjXIvp5A4JwFysrGqWsZfh1JBataIFvvngMyVDL2lpKv9M1IDeXVM4DsxzCO+FRW6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNywRUWO; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1773269953; c=relaxed/simple;
+	bh=LdDfjKM5xdtNNb47NSd1OkfYPktd1pYlbjrXP+Pjqos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aEthAsTU+E6KEukqpUHjov8Kfi4niPiSW/keLjBczKUxvxrF5OCUwSR1l3RDt390bPx4fIgmU9SlmjPuXmSbPH7TI7oyho6Awong1dYif9nIjJo0N1uqXG7r6zt3yg71d0dLESAHf2OSz3DqkKl9JrVCpJ3YNUNLvbgvQ/IW6sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJE8BYrz; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNywRUWO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJE8BYrz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773268089; x=1804804089;
-  h=date:from:to:cc:subject:message-id;
-  bh=KipXX5aVvpQORZt+6hvHl/gWHUeUCP0JmN139WBlLsc=;
-  b=KNywRUWOLAyLCFlsT4tfwiuTAXkgrOsuFayFRVnHqb2pY6ZT6uYaxFe6
-   j0VhG9/E08Q0yzsdKDB7V18Aa/hHMkhM5isy4vNZi7x5Oh533iaN7pHbt
-   /qBbOWfGAyv+pvDYa4/2HONCPLjVEYcn0s6tUHVU0PCs8RBQGGQs0ag1e
-   k/fBpMNMawuVZ6KZ/9l8GdX+b8MtnCk+W7T+T2pH6Hdw5uzxKC2h5FO3k
-   Jx5Q+ujiNLAf7IEOVoEZPoTtrX4iAFGM+eZoZ0Dr0x8YeXGyedp7dGwfu
-   wvxqImqIBpr0wYhS3hgtZXuTty6zrbEjtufdE+w7Eb9KniZk8L8vyEs8e
-   w==;
-X-CSE-ConnectionGUID: 4vDS0FD5RCeSY+n48VjKTw==
-X-CSE-MsgGUID: keDqtMGqSrqb/l9Fc+izaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74468007"
+  t=1773269952; x=1804805952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LdDfjKM5xdtNNb47NSd1OkfYPktd1pYlbjrXP+Pjqos=;
+  b=iJE8BYrzNaI/oASBMwlc7eWeFRXTZsuIfBVpw4l6MUf/y7Zd36cvPuOe
+   w+/996kP7awJgHb8Ac/TRTmLJEkIgVXHpgmo0yJpiltIF2Icys0fXp3Vh
+   ncfZH9nB2OfBvOw0rR4dMRTbr2hOnMb6iHFDUI6O24yzVnt/wQLkWoKrb
+   TKDjvexCo3uT5AoSZnwjS1ngeVpEjUxZtC2ysSVMRWs6BjSTUE4eiHWPx
+   9td+slw9jACcPkODaqRMRaHG/HX4doQ0XprPdLghUvD6qOLFJ5o1IfIpY
+   lLkL9tdJMFBToj/TQpDqCRELTH6GlDfBfqwhYvvaPr7C8avI/w4JJ0zA3
+   Q==;
+X-CSE-ConnectionGUID: 4V672LNWSJGYZmtE1NIjzw==
+X-CSE-MsgGUID: yXFjj0dGQoeHoE1r07jzXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="91733929"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="74468007"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 15:28:08 -0700
-X-CSE-ConnectionGUID: HmBnEOM+ReCIdODTY8EZRg==
-X-CSE-MsgGUID: mn5od+2LQNyksxdygRcCwQ==
+   d="scan'208";a="91733929"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 15:59:12 -0700
+X-CSE-ConnectionGUID: ROUf1J18RVSxm9LAgxnLEw==
+X-CSE-MsgGUID: Q3YfRIKSTw++gwR9PsPKyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="218079267"
+   d="scan'208";a="243641634"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Mar 2026 15:28:07 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Mar 2026 15:59:09 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0S28-000000001mB-36tg;
-	Wed, 11 Mar 2026 22:28:04 +0000
-Date: Thu, 12 Mar 2026 06:27:04 +0800
+	id 1w0SWA-000000001nH-0qGV;
+	Wed, 11 Mar 2026 22:59:06 +0000
+Date: Thu, 12 Mar 2026 06:58:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Donnefort <vdonnefort@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Marc Zyngier <maz@kernel.org>
-Subject: [linux-next:master 5480/5731]
- arch/arm64/kvm/hyp/nvhe/trace.c:16:10: fatal error: simple_ring_buffer.c: No
- such file or directory
-Message-ID: <202603120628.bJhW6n48-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jamie Lindsey <jamie@matrixforgelabs.com>,
+	rust-for-linux@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ojeda@kernel.org,
+	paul@paul-moore.com, aliceryhl@google.com, jmorris@namei.org,
+	serge@hallyn.com, jamie@matrixforgelabs.com
+Subject: Re: [PATCH v2 3/5] rust: kernel: add LSM abstraction layer
+Message-ID: <202603120654.DWidINbR-lkp@intel.com>
+References: <0102019cdb4c705e-7d46b4f3-5cbb-4a6a-b315-e10f182fa987-000000@eu-west-1.amazonses.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0102019cdb4c705e-7d46b4f3-5cbb-4a6a-b315-e10f182fa987-000000@eu-west-1.amazonses.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f90aadf1c67c8b4969d1e5e6d4fd7227adb6e4d7
-commit: 680a04c333fa29bf92007efe11431be005e8c4bb [5480/5731] KVM: arm64: Add tracing capability for the nVHE/pKVM hyp
-config: arm64-randconfig-001-20260312 (https://download.01.org/0day-ci/archive/20260312/202603120628.bJhW6n48-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120628.bJhW6n48-lkp@intel.com/reproduce)
+Hi Jamie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rust/rust-next]
+[also build test ERROR on linus/master v7.0-rc3 next-20260311]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jamie-Lindsey/rust-helpers-add-C-shims-for-LSM-hook-initialisation/20260311-131258
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/0102019cdb4c705e-7d46b4f3-5cbb-4a6a-b315-e10f182fa987-000000%40eu-west-1.amazonses.com
+patch subject: [PATCH v2 3/5] rust: kernel: add LSM abstraction layer
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260312/202603120654.DWidINbR-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120654.DWidINbR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603120628.bJhW6n48-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603120654.DWidINbR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   cc1: warning: ./kernel/trace/: No such file or directory [-Wmissing-include-dirs]
->> arch/arm64/kvm/hyp/nvhe/trace.c:16:10: fatal error: simple_ring_buffer.c: No such file or directory
-    #include "simple_ring_buffer.c"
-             ^~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +16 arch/arm64/kvm/hyp/nvhe/trace.c
-
-    15	
-  > 16	#include "simple_ring_buffer.c"
-    17	
+>> error[E0433]: failed to resolve: use of unresolved module or unlinked crate `bindings`
+   --> rust/doctests_kernel_generated.rs:8845:40
+   |
+   8845 | kernel::define_lsm!(MyLsm, "my_lsm\0", bindings::LSM_ID_UNDEF as u64);
+   |                                        ^^^^^^^^ use of unresolved module or unlinked crate `bindings`
+   |
+   = help: you might be missing a crate named `bindings`
+   = help: consider importing this crate:
+   kernel::bindings
+--
+>> error[E0412]: cannot find type `MyLsm` in this scope
+   --> rust/doctests_kernel_generated.rs:8845:21
+   |
+   8845 | kernel::define_lsm!(MyLsm, "my_lsm\0", bindings::LSM_ID_UNDEF as u64);
+   |                     ^^^^^ not found in this scope
+--
+>> error[E0433]: failed to resolve: use of unresolved module or unlinked crate `bindings`
+   --> rust/doctests_kernel_generated.rs:8898:44
+   |
+   8898 | kernel::define_lsm!(MyLsmType, "my_lsm\0", bindings::LSM_ID_UNDEF as u64);
+   |                                            ^^^^^^^^ use of unresolved module or unlinked crate `bindings`
+   |
+   = help: you might be missing a crate named `bindings`
+   = help: consider importing this crate:
+   kernel::bindings
+--
+>> error[E0412]: cannot find type `MyLsmType` in this scope
+   --> rust/doctests_kernel_generated.rs:8898:21
+   |
+   8898 | kernel::define_lsm!(MyLsmType, "my_lsm\0", bindings::LSM_ID_UNDEF as u64);
+   |                     ^^^^^^^^^ not found in this scope
 
 -- 
 0-DAY CI Kernel Test Service
