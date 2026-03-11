@@ -1,293 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B31D1A6814
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 00:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA6C309EEC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 00:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773188907; cv=none; b=hZcAnwpWYWHlTBJnFic+++2KUvxC3S0tt3YXbbfaCF9Z1FwVMZ4ctE7AOMtLteHu6Pw0TINbqLdAYxYQYA3HJY6utrk1RiAOXnKMaTuzP9FHBxH1C0sAW70KxpCngfNNX4Cw3U5FVKkMbJO7Xa/412FdzWCMXJU9JbfNhiqNZLE=
+	t=1773190430; cv=none; b=MOqayClydO0NmPAW4W59sHa1uxt7hR9mVBvgVZrGMG6RZGTHPh4HGjMNP3hWy4jv7YOXHj/T5bHtQt6yIFCEazq3BtGgW7FAgqCF4gPDO7GH+RscRN1bgp0RQEgscqsotrCj+s4oCOaebsNgGELzohr7jl9HjiILOOfSpWGlmqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773188907; c=relaxed/simple;
-	bh=iSAiWpBhq/rSijCYU0e/DiphDLlJkmF2WUm2ZWU3E+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SArXNevDkWc/AF54TKzmsrWx+eFKImSC92vxJP9dqfVPwiz8GTHOmyb3JyhObA3h2AkYh6NwFMmGaJUORb7gHa8AZMGNWMc02OMLsBpCqhBr+lCwc5k+rIzFQVHNUoLkYO7fwYCsuKXH7fNjrRkb74CBT92g8yicvBgWrGRhkaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XC8dXRZ/; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1773190430; c=relaxed/simple;
+	bh=fpcwTcWMzSdtkHcTKSRTWLCh0w7BFKVMKe/c9Z0fZ78=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CjIlBC+R0IMLQHplsJyH+k+1nrkDDunVOmmXC8YAgl2Cxt4SLtgrFlR33mV7nNwHKnttnofZSwIdiS2kIDFsoMjbjExjBgQ78Xr4IgSCQebqPuqDAMEpvJ4I+L3ldzx7JrpJkkm4JNWwYs1V+xD0EicZNsFzCZbQX7kylYacuXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+aRlL3s; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XC8dXRZ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+aRlL3s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773188906; x=1804724906;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iSAiWpBhq/rSijCYU0e/DiphDLlJkmF2WUm2ZWU3E+s=;
-  b=XC8dXRZ/DTe9+zpXstABvxKBsIb8+wuAvmx3KQd6agNCStCGizKWg1Ia
-   ZBiSwqfrVgDEBYjsxnmPlk1tXm93cxFy3PGM6N8BOKs6UVT0Ow4cuoef0
-   f02/a4VQAjMcNzDxE53R5AvCQ8hhCXU4JQGUh6dGmS4u2dDqtj2jPG89r
-   KAplK9Rn1OFTCaATshL/ig703BzaVjQwCYuA4MFVUKSgJoy1OSjdZii6W
-   4sPWb12xreG0W1l9uTOFIwiTyljkPR7zpRB8aj8TV51JxDUaLcshsFZVa
-   utpKkigvucTLfh3J0SUypYzjnIvoAMkVZHHx5b9d1yZwx7Ng9vFWK7C22
+  t=1773190428; x=1804726428;
+  h=date:from:to:cc:subject:message-id;
+  bh=fpcwTcWMzSdtkHcTKSRTWLCh0w7BFKVMKe/c9Z0fZ78=;
+  b=G+aRlL3sKykEzISiOpFKMEpJ1TP7gwr8iPZ16H3cPT10oct4A1UJh7p5
+   MLLaW0v9vGm3TKBDqBaTlJUFohhAprAwiMoOpy7KsJAigzyT/6ZO4ILsl
+   Z4hXMMAsBQZ3Pjykq6gmpNAy2/sxDmd1YgypvPMGydMvlwM35wQu+mECt
+   mZtRLA1fMCyxI7RGAxgV2OTpnM68BC46up6ydYGjaEK00nvd28XDQS9Kr
+   qlbG5dC6dilpylU+WWA8MsbZR0PnHGFWY5oimlF+Ny2dClxvQ52EH4GuU
+   uG248Q8SdAwdSAv5QwGysoS+aG0+Ln9vytLLRUATuV87k3gIJxiPjse6c
    w==;
-X-CSE-ConnectionGUID: JsSjWkVASKW0mmvAuSNpeg==
-X-CSE-MsgGUID: o2qxn370QQWbBt0wOoYSjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="99715600"
+X-CSE-ConnectionGUID: hqq17Y8US0eOHE2517ZLOA==
+X-CSE-MsgGUID: KHTDhIk/Q+Ob+I4c7BeUmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="76861011"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="99715600"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 17:28:25 -0700
-X-CSE-ConnectionGUID: xyrao5kARGCn3dmgdyfhAg==
-X-CSE-MsgGUID: ZuDw8pPVTWCUsbsy+xWfCw==
+   d="scan'208";a="76861011"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 17:53:48 -0700
+X-CSE-ConnectionGUID: d+/PlEfJSpKIU6MGbc0L9Q==
+X-CSE-MsgGUID: mI0IcUySSmielUgSOhMcZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="250788230"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Mar 2026 17:28:23 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 10 Mar 2026 17:53:46 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w07Qx-000000000RJ-0QVN;
-	Wed, 11 Mar 2026 00:28:19 +0000
-Date: Wed, 11 Mar 2026 08:27:24 +0800
+	id 1w07pY-000000003BH-1BpU;
+	Wed, 11 Mar 2026 00:53:44 +0000
+Date: Wed, 11 Mar 2026 01:52:53 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	David Laight <david.laight.linux@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fs: Replace user_access_{begin/end} by scoped user access
-Message-ID: <202603110842.VJ27Z6FK-lkp@intel.com>
-References: <5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy@kernel.org>
+To: Akhila YS <akhilayalmati@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: [linux-next:master 3775/5327]
+ arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: mpddrc@ffffe800
+ (microchip,sam9x60-ddramc): compatible: 'oneOf' conditional failed, one must
+ be fixed:
+Message-ID: <202603110135.1GX45Zkj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy@kernel.org>
 
-Hi Christophe,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v7.0-rc3 next-20260310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy-CS-GROUP/fs-Replace-user_access_-begin-end-by-scoped-user-access/20260310-230227
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/5021aa325554b3d2437341514ab0a2977e158274.1773153431.git.chleroy%40kernel.org
-patch subject: [PATCH] fs: Replace user_access_{begin/end} by scoped user access
-config: x86_64-randconfig-161-20260311 (https://download.01.org/0day-ci/archive/20260311/202603110842.VJ27Z6FK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110842.VJ27Z6FK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7109a2155340cc7b21f27e832ece6df03592f2e8
+commit: f3ae0049ff8a3d2cbd8c05857705744435629d0c [3775/5327] dt-bindings: arm: atmel,at91rm9200-sdramc: convert to DT schema
+config: arm-randconfig-2052-20260308 (https://download.01.org/0day-ci/archive/20260311/202603110135.1GX45Zkj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110135.1GX45Zkj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603110842.VJ27Z6FK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603110135.1GX45Zkj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> fs/readdir.c:454:26: error: too few arguments provided to function-like macro invocation
-     454 |                                 (unsigned long)dirent), efault) {
-         |                                                      ^
-   include/linux/uaccess.h:778:9: note: macro 'scoped_user_write_access_size' defined here
-     778 | #define scoped_user_write_access_size(udst, size, elbl)                 \
-         |         ^
->> fs/readdir.c:452:2: error: use of undeclared identifier 'scoped_user_write_access_size'; did you mean '__scoped_user_write_access_end'?
-     452 |         scoped_user_write_access_size(dirent,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         __scoped_user_write_access_end
-   include/linux/uaccess.h:658:29: note: '__scoped_user_write_access_end' declared here
-     658 | static __always_inline void __scoped_user_write_access_end(const void *p)
-         |                             ^
->> fs/readdir.c:454:35: error: expected ';' after expression
-     454 |                                 (unsigned long)dirent), efault) {
-         |                                                               ^
-         |                                                               ;
->> fs/readdir.c:454:29: error: use of undeclared identifier 'efault'
-     454 |                                 (unsigned long)dirent), efault) {
-         |                                                         ^
->> fs/readdir.c:454:35: error: expected expression
-     454 |                                 (unsigned long)dirent), efault) {
-         |                                                               ^
->> fs/readdir.c:532:60: error: use of undeclared label 'efault'
-     532 |         scoped_user_write_access_size(prev, reclen + prev_reclen, efault);
-         |                                                                   ^
->> fs/readdir.c:540:2: error: unknown type name 'buf'
-     540 |         buf->prev_reclen = reclen;
-         |         ^
->> fs/readdir.c:540:5: error: expected identifier or '('
-     540 |         buf->prev_reclen = reclen;
-         |            ^
-   fs/readdir.c:541:2: error: unknown type name 'buf'
-     541 |         buf->current_dir = (void __user *)dirent + reclen;
-         |         ^
-   fs/readdir.c:541:5: error: expected identifier or '('
-     541 |         buf->current_dir = (void __user *)dirent + reclen;
-         |            ^
->> fs/readdir.c:542:2: error: unknown type name 'ctx'
-     542 |         ctx->count -= reclen;
-         |         ^
-   fs/readdir.c:542:5: error: expected identifier or '('
-     542 |         ctx->count -= reclen;
-         |            ^
-   fs/readdir.c:543:2: error: expected identifier or '('
-     543 |         return true;
-         |         ^
->> fs/readdir.c:544:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     544 | efault:
-         | ^
-         | int
->> fs/readdir.c:544:7: error: expected ';' after top level declarator
-     544 | efault:
-         |       ^
-         |       ;
-   fs/readdir.c:545:2: error: unknown type name 'buf'
-     545 |         buf->error = -EFAULT;
-         |         ^
-   fs/readdir.c:545:5: error: expected identifier or '('
-     545 |         buf->error = -EFAULT;
-         |            ^
-   fs/readdir.c:546:2: error: expected identifier or '('
-     546 |         return false;
-         |         ^
->> fs/readdir.c:547:1: error: extraneous closing brace ('}')
-     547 | }
-         | ^
-   19 errors generated.
-
-
-vim +454 fs/readdir.c
-
-   430	
-   431	static bool compat_fillonedir(struct dir_context *ctx, const char *name,
-   432				     int namlen, loff_t offset, u64 ino,
-   433				     unsigned int d_type)
-   434	{
-   435		struct compat_readdir_callback *buf =
-   436			container_of(ctx, struct compat_readdir_callback, ctx);
-   437		struct compat_old_linux_dirent __user *dirent;
-   438		compat_ulong_t d_ino;
-   439	
-   440		if (buf->result)
-   441			return false;
-   442		buf->result = verify_dirent_name(name, namlen);
-   443		if (buf->result)
-   444			return false;
-   445		d_ino = ino;
-   446		if (sizeof(d_ino) < sizeof(ino) && d_ino != ino) {
-   447			buf->result = -EOVERFLOW;
-   448			return false;
-   449		}
-   450		buf->result++;
-   451		dirent = buf->dirent;
- > 452		scoped_user_write_access_size(dirent,
-   453				(unsigned long)(dirent->d_name + namlen + 1) -
- > 454					(unsigned long)dirent), efault) {
-   455			unsafe_put_user(d_ino, &dirent->d_ino, efault);
-   456			unsafe_put_user(offset, &dirent->d_offset, efault);
-   457			unsafe_put_user(namlen, &dirent->d_namlen, efault);
-   458			unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-   459		}
-   460		return true;
-   461	efault:
-   462		buf->result = -EFAULT;
-   463		return false;
-   464	}
-   465	
-   466	COMPAT_SYSCALL_DEFINE3(old_readdir, unsigned int, fd,
-   467			struct compat_old_linux_dirent __user *, dirent, unsigned int, count)
-   468	{
-   469		int error;
-   470		CLASS(fd_pos, f)(fd);
-   471		struct compat_readdir_callback buf = {
-   472			.ctx.actor = compat_fillonedir,
-   473			.ctx.count = 1, /* Hint to fs: just one entry. */
-   474			.dirent = dirent
-   475		};
-   476	
-   477		if (fd_empty(f))
-   478			return -EBADF;
-   479	
-   480		error = iterate_dir(fd_file(f), &buf.ctx);
-   481		if (buf.result)
-   482			error = buf.result;
-   483	
-   484		return error;
-   485	}
-   486	
-   487	struct compat_linux_dirent {
-   488		compat_ulong_t	d_ino;
-   489		compat_ulong_t	d_off;
-   490		unsigned short	d_reclen;
-   491		char		d_name[];
-   492	};
-   493	
-   494	struct compat_getdents_callback {
-   495		struct dir_context ctx;
-   496		struct compat_linux_dirent __user *current_dir;
-   497		int prev_reclen;
-   498		int error;
-   499	};
-   500	
-   501	static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen,
-   502			loff_t offset, u64 ino, unsigned int d_type)
-   503	{
-   504		struct compat_linux_dirent __user *dirent, *prev;
-   505		struct compat_getdents_callback *buf =
-   506			container_of(ctx, struct compat_getdents_callback, ctx);
-   507		compat_ulong_t d_ino;
-   508		int reclen = ALIGN(offsetof(struct compat_linux_dirent, d_name) +
-   509			namlen + 2, sizeof(compat_long_t));
-   510		int prev_reclen;
-   511		unsigned int flags = d_type;
-   512	
-   513		BUILD_BUG_ON(FILLDIR_FLAG_NOINTR & S_DT_MASK);
-   514		d_type &= S_DT_MASK;
-   515	
-   516		buf->error = verify_dirent_name(name, namlen);
-   517		if (unlikely(buf->error))
-   518			return false;
-   519		buf->error = -EINVAL;	/* only used if we fail.. */
-   520		if (reclen > ctx->count)
-   521			return false;
-   522		d_ino = ino;
-   523		if (sizeof(d_ino) < sizeof(ino) && d_ino != ino) {
-   524			buf->error = -EOVERFLOW;
-   525			return false;
-   526		}
-   527		prev_reclen = buf->prev_reclen;
-   528		if (!(flags & FILLDIR_FLAG_NOINTR) && prev_reclen && signal_pending(current))
-   529			return false;
-   530		dirent = buf->current_dir;
-   531		prev = (void __user *) dirent - prev_reclen;
- > 532		scoped_user_write_access_size(prev, reclen + prev_reclen, efault);
-   533			unsafe_put_user(offset, &prev->d_off, efault);
-   534			unsafe_put_user(d_ino, &dirent->d_ino, efault);
-   535			unsafe_put_user(reclen, &dirent->d_reclen, efault);
-   536			unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault);
-   537			unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-   538		}
-   539	
- > 540		buf->prev_reclen = reclen;
-   541		buf->current_dir = (void __user *)dirent + reclen;
- > 542		ctx->count -= reclen;
-   543		return true;
- > 544	efault:
-   545		buf->error = -EFAULT;
-   546		return false;
- > 547	}
-   548	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: pwm@f8034000 (microchip,sam9x60-pwm): Unevaluated properties are not allowed ('clocks', 'interrupts' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pwm/atmel,at91sam-pwm.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: hlcdc@f8038000 (microchip,sam9x60-hlcdc): 'hlcdc-display-controller', 'hlcdc-pwm' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/isi@f8048000: failed to match any schema with compatible: ['microchip,sam9x60-isi', 'atmel,at91sam9g45-isi']
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/isi@f8048000: failed to match any schema with compatible: ['microchip,sam9x60-isi', 'atmel,at91sam9g45-isi']
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: adc@f804c000 (microchip,sam9x60-adc): compatible: ['microchip,sam9x60-adc', 'atmel,sama5d2-adc'] is too long
+   	from schema $id: http://devicetree.org/schemas/iio/adc/atmel,sama5d2-adc.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x60-pmecc', 'atmel,at91sam9g45-pmecc']
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x60-pmecc', 'atmel,at91sam9g45-pmecc']
+>> arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: mpddrc@ffffe800 (microchip,sam9x60-ddramc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sam9x60-ddramc', 'atmel,sama5d3-ddramc'] is too long
+   	'atmel,at91rm9200-sdramc' was expected
+   	'microchip,sama7d65-uddrc' was expected
+   	'syscon' was expected
+   	'microchip,sama7g5-uddrc' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-sdramc.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x60-smc', 'atmel,at91sam9260-smc', 'syscon']
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: /ahb/apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x60-smc', 'atmel,at91sam9260-smc', 'syscon']
+   arch/arm/boot/dts/microchip/at91-sam9x60_curiosity.dtb: gpio-keys: pinctrl-key-gpio: {'atmel,pins': [[0, 29, 0, 0]], 'phandle': 37} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml
+--
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: mcp23008@20 (microchip,mcp23008): '#gpio-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/microchip,mcp23s08.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: hlcdc@f8038000 (microchip,sam9x60-hlcdc): 'hlcdc-display-controller', 'hlcdc-pwm' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/isi@f8048000: failed to match any schema with compatible: ['microchip,sam9x60-isi', 'atmel,at91sam9g45-isi']
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/isi@f8048000: failed to match any schema with compatible: ['microchip,sam9x60-isi', 'atmel,at91sam9g45-isi']
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: adc@f804c000 (microchip,sam9x60-adc): compatible: ['microchip,sam9x60-adc', 'atmel,sama5d2-adc'] is too long
+   	from schema $id: http://devicetree.org/schemas/iio/adc/atmel,sama5d2-adc.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x60-pmecc', 'atmel,at91sam9g45-pmecc']
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x60-pmecc', 'atmel,at91sam9g45-pmecc']
+>> arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: mpddrc@ffffe800 (microchip,sam9x60-ddramc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sam9x60-ddramc', 'atmel,sama5d3-ddramc'] is too long
+   	'atmel,at91rm9200-sdramc' was expected
+   	'microchip,sama7d65-uddrc' was expected
+   	'syscon' was expected
+   	'microchip,sama7g5-uddrc' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-sdramc.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x60-smc', 'atmel,at91sam9260-smc', 'syscon']
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: /ahb/apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x60-smc', 'atmel,at91sam9260-smc', 'syscon']
+   arch/arm/boot/dts/microchip/at91-sam9x60ek.dtb: rtc@fffffea8 (microchip,sam9x60-rtc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sam9x60-rtc', 'atmel,at91sam9x5-rtc'] is too long
+--
+   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x7-pmecc', 'atmel,at91sam9g45-pmecc']
+   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x7-pmecc', 'atmel,at91sam9g45-pmecc']
+>> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: mpddrc@ffffe800 (microchip,sam9x7-ddramc): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sam9x7-ddramc', 'atmel,sama5d3-ddramc'] is too long
+   	'atmel,at91rm9200-sdramc' was expected
+   	'microchip,sama7d65-uddrc' was expected
+   	'syscon' was expected
+   	'microchip,sama7g5-uddrc' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/atmel,at91rm9200-sdramc.yaml
+   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x7-smc', 'atmel,at91sam9260-smc', 'syscon']
+   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x7-smc', 'atmel,at91sam9260-smc', 'syscon']
 
 -- 
 0-DAY CI Kernel Test Service
