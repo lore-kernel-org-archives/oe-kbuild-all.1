@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBFA3644CA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 12:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563FA253F05
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 12:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773230882; cv=none; b=cmN0oo3mbj+uQj+W6SiqLPOn7bGK/21llI+HspVUSfnbnMby8S/iMN72M2v3xFfCmCCZ4x56HD09MZJfKi21D4dZdtT+tlxhYb6RKIIZQrtvYpQl315pXxDKX2s1Gcd2XiQHVme15CoCIlp0xcr0oXUGbYr3wQR8vMGYw3g6GT0=
+	t=1773233561; cv=none; b=rPUdpfnABpbOYjIqNOZRoqRjTFPLiNmrMqOeyvq8Yrgt+o9chhOPksgqMtVbNT3GN5ei8yJB2XDhB6592vRmSOifLkjn8ABPTqRSC1gBlbOt/X+4uJA12nLjJPuCoV9IAVQCiruODREURTQT8YeSimwETn7xShNsvg+q0wUGgrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773230882; c=relaxed/simple;
-	bh=79iJSC+zsY6oYwpI58ah9mdZsHaOdnaOazbfan4YyLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TIprOhwZjSZuGkrGmCWt4wB5nQU/am07XuTcITeKek730bqbrXvg//lxNLnBp9IZgFM2vu92Rv5aJXmTPriNmgzUaTf53TA5hxKxWuingxS+5J38tIHGeNZTOCPW4rozig3lCIxT9xnivEJrqQxBeDtmB+ylcjLkki9MFEU21l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IanUOk5G; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1773233561; c=relaxed/simple;
+	bh=sjXMwhtujX01U0MlCzj+yb7iUMPV42dAzK0snLhmpnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Tsb333lsuARYCq3mPJkLNMsm1H35Gf2jn07y8eyKfnlo4UaBuXzO6rZbrIAIaxKpqH8A+q6BJh7/hpbfB7e58CcuJfs/cEfFhtJczBr2nCO48oWtFw8Sofj4cEGn6zIxnRIKROl+QZ5anc3qvdrp2+PiP2KHMn3GldmkaS4oXZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FMo3EEKs; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IanUOk5G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FMo3EEKs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773230877; x=1804766877;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=79iJSC+zsY6oYwpI58ah9mdZsHaOdnaOazbfan4YyLQ=;
-  b=IanUOk5GI5kM/Zkt/bePFBO3Ebkgl/0fU8OPjIypCArPNCx/fGOYW6D7
-   EC0n8V+/B9p9iccwzO0X/t+qzTqol9erRcp03OX3roWFEKZ7EvH6uVYah
-   Yqq2awm5pC9DHiypcwtL4iRlPE2ngldYswbwUosIOAPNckFOHY3TKbkr+
-   /VRn+SAf+FdHt+8vpxYlssr59BPUBhlyt5BMmXS1BJdpGUbxGiDgJOP7C
-   wczNfgmBY5e5cU74OHuLywVJwU9aWkt2xnwZb0e1LbnXBksW40RzrkWFD
-   qxRGJo2OvVIH1Omy1aEgMpd8/Q+QdM8x08atDY+fvmXQUQ3cqkKlgH161
-   A==;
-X-CSE-ConnectionGUID: KnEVlNqmSIaJv9qL8Q6Bjg==
-X-CSE-MsgGUID: zmsfy/x9S2OVgtHOEigOLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="85383088"
+  t=1773233560; x=1804769560;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sjXMwhtujX01U0MlCzj+yb7iUMPV42dAzK0snLhmpnw=;
+  b=FMo3EEKsBecljQFXXXDH2l6AnSoHE3m9rV+nMKl7idNkzlIKcV+Eu6Du
+   0WBavybEpvqXsgWHZg0V0+CPVTtXvlXmijctlErcPQr0vvPxidixbX3Rh
+   8R4gWyyg9gukMuaP0XQHcrqz8qEkb/Rp/ckgp46nqm3Izc0b2tHz/xAQH
+   AluMLcjVYUYE8eHC1P41D6+n7Gq1FfWME0aCSalQILTsALxq/d1MDDLlO
+   wSszIT9tJuOfj8apeI/EGpJtNTWw1ExlqVI3omzRr6iauTl6qzZLXnGrR
+   Ik0o/3b3k6jquAvIahdFuUurAAzpViTP3ZiRCEC0hATpsl2b5DnYqfAbm
+   Q==;
+X-CSE-ConnectionGUID: IUfTq3mDQmCPKFIvZfmyBw==
+X-CSE-MsgGUID: z5Qz/ArARD6qdEyHfz2TzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84930073"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="85383088"
+   d="scan'208";a="84930073"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 05:07:56 -0700
-X-CSE-ConnectionGUID: 6PKgAvB5QUaJC7zgdKiiyA==
-X-CSE-MsgGUID: lqsr3qDxRyeGakYN4mO7QQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 05:52:39 -0700
+X-CSE-ConnectionGUID: E4zSi1+NQeKQNv9k2Ko4Zg==
+X-CSE-MsgGUID: /l8ruS8jTBiexg5dal6QIw==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Mar 2026 05:07:54 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 11 Mar 2026 05:52:37 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0ILv-000000003K1-2unU;
-	Wed, 11 Mar 2026 12:07:51 +0000
-Date: Wed, 11 Mar 2026 13:07:04 +0100
+	id 1w0J3C-00000000197-1pjF;
+	Wed, 11 Mar 2026 12:52:34 +0000
+Date: Wed, 11 Mar 2026 20:52:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jamie Lindsey <jamie@matrixforgelabs.com>,
-	rust-for-linux@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ojeda@kernel.org, paul@paul-moore.com,
-	aliceryhl@google.com, jmorris@namei.org, serge@hallyn.com,
-	jamie@matrixforgelabs.com
-Subject: Re: [PATCH v2 3/5] rust: kernel: add LSM abstraction layer
-Message-ID: <202603111327.ZxGK7MvE-lkp@intel.com>
-References: <0102019cdb4c705e-7d46b4f3-5cbb-4a6a-b315-e10f182fa987-000000@eu-west-1.amazonses.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
+Subject: [tip:timers/vdso 37/45] include/vdso/helpers.h:13:64: error:
+ 'VDSO_CLOCKMODE_TIMENS' undeclared
+Message-ID: <202603112006.tqQzVMDI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,189 +60,59 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0102019cdb4c705e-7d46b4f3-5cbb-4a6a-b315-e10f182fa987-000000@eu-west-1.amazonses.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jamie,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/=
+vdso
+head:   f7178f159b2a36d070fd43b0d751e4e4415ec39e
+commit: 912632a7fd4cc1eac2778828d92e8fe46939d6bd [37/45] vdso/datapage: Tri=
+m down unnecessary includes
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260311/=
+202603112006.tqQzVMDI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260311/202603112006.tqQzVMDI-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on linus/master v7.0-rc3 next-20260310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jamie-Lindsey/rust-helpers-add-C-shims-for-LSM-hook-initialisation/20260311-131258
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/0102019cdb4c705e-7d46b4f3-5cbb-4a6a-b315-e10f182fa987-000000%40eu-west-1.amazonses.com
-patch subject: [PATCH v2 3/5] rust: kernel: add LSM abstraction layer
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260311/202603111327.ZxGK7MvE-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111327.ZxGK7MvE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603111327.ZxGK7MvE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603112006.tqQzVMDI-lkp@i=
+ntel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: unresolved link to `define_lsm`
-   --> rust/kernel/lsm.rs:7:46
-   |
-   7 | //! registers itself at boot time with the [`define_lsm!`] macro.
-   |                                              ^^^^^^^^^^^ no item named `define_lsm` in scope
-   |
-   = note: `macro_rules` named `define_lsm` exists in this crate, but it is not in scope at this link's location
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
---
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/lsm.rs:120:
-        /// `file` must be a valid, non-null pointer to a `struct file` that
-        /// remains valid for the duration of this call.  Called only by the
-        /// LSM framework.
-   -    pub unsafe extern "C" fn file_open(
-   -        file: *mut bindings::file,
-   -    ) -> core::ffi::c_int {
-   +    pub unsafe extern "C" fn file_open(file: *mut bindings::file) -> core::ffi::c_int {
-            // SAFETY: The LSM framework guarantees `file` is valid and non-null
-            // for the duration of this call.
-            let file_ref = unsafe { File::from_raw_file(file.cast_const()) };
-   Diff in rust/kernel/lsm.rs:190:
-        // SAFETY: `bindings::lsm_info` is a C struct.  Zero-initialisation
-        // gives valid zero/null values for every optional field.  The caller
-        // is responsible for providing a valid `id` and `init`.
-   -    let mut info: bindings::lsm_info =
-   -        unsafe { MaybeUninit::zeroed().assume_init() };
-   +    let mut info: bindings::lsm_info = unsafe { MaybeUninit::zeroed().assume_init() };
-        info.id = id;
-        info.init = init;
-        LsmInfo(info)
-   Diff in rust/kernel/lsm.rs:230:
-                // The LSM identity — must be 'static because the static-call
-                // table holds a back-pointer to it via security_hook_list.lsmid.
-                // LsmId wraps lsm_id with `unsafe impl Sync` so it can be `static`.
-   -            static __LSM_ID: $crate::lsm::LsmId =
-   -                $crate::lsm::LsmId($crate::bindings::lsm_id {
-   -                    name: $name.as_ptr().cast(),
-   -                    id: $id,
-   -                });
-   +            static __LSM_ID: $crate::lsm::LsmId = $crate::lsm::LsmId($crate::bindings::lsm_id {
-   +                name: $name.as_ptr().cast(),
-   +                id: $id,
-   +            });
-    
-                // The hook list array.  MaybeUninit avoids needing security_hook_list
-                // to implement a const-initialiser; the C shims fill each slot in
-   Diff in rust/kernel/lsm.rs:242:
-                //
-                // SAFETY: This array must be 'static — the static-call table holds
-                // back-pointers (scall->hl) into it after registration.
-   -            static mut __LSM_HOOKS: [
-   -                ::core::mem::MaybeUninit<$crate::bindings::security_hook_list>;
-   -                3
-   -            ] = [::core::mem::MaybeUninit::zeroed(); 3];
-   +            static mut __LSM_HOOKS: [::core::mem::MaybeUninit<
-   +                $crate::bindings::security_hook_list,
-   +            >; 3] = [::core::mem::MaybeUninit::zeroed(); 3];
-    
-                // The init function stored in lsm_info.init.  Called once by
-                // security_init() in single-threaded boot context.
-   Diff in rust/kernel/lsm.rs:283:
-                #[link_section = ".lsm_info.init"]
-                static __LSM_INFO: $crate::lsm::LsmInfo = {
-                    // SAFETY: __LSM_ID and __lsm_init have 'static lifetime.
-   -                unsafe {
-   -                    $crate::lsm::new_lsm_info(
-   -                        &raw const __LSM_ID.0,
-   -                        Some(__lsm_init),
-   -                    )
-   -                }
-   +                unsafe { $crate::lsm::new_lsm_info(&raw const __LSM_ID.0, Some(__lsm_init)) }
-                };
-            }
-        };
->> Diff in rust/kernel/lsm.rs:120:
-        /// `file` must be a valid, non-null pointer to a `struct file` that
-        /// remains valid for the duration of this call.  Called only by the
-        /// LSM framework.
-   -    pub unsafe extern "C" fn file_open(
-   -        file: *mut bindings::file,
-   -    ) -> core::ffi::c_int {
-   +    pub unsafe extern "C" fn file_open(file: *mut bindings::file) -> core::ffi::c_int {
-            // SAFETY: The LSM framework guarantees `file` is valid and non-null
-            // for the duration of this call.
-            let file_ref = unsafe { File::from_raw_file(file.cast_const()) };
-   Diff in rust/kernel/lsm.rs:190:
-        // SAFETY: `bindings::lsm_info` is a C struct.  Zero-initialisation
-        // gives valid zero/null values for every optional field.  The caller
-        // is responsible for providing a valid `id` and `init`.
-   -    let mut info: bindings::lsm_info =
-   -        unsafe { MaybeUninit::zeroed().assume_init() };
-   +    let mut info: bindings::lsm_info = unsafe { MaybeUninit::zeroed().assume_init() };
-        info.id = id;
-        info.init = init;
-        LsmInfo(info)
-   Diff in rust/kernel/lsm.rs:230:
-                // The LSM identity — must be 'static because the static-call
-                // table holds a back-pointer to it via security_hook_list.lsmid.
-                // LsmId wraps lsm_id with `unsafe impl Sync` so it can be `static`.
-   -            static __LSM_ID: $crate::lsm::LsmId =
-   -                $crate::lsm::LsmId($crate::bindings::lsm_id {
-   -                    name: $name.as_ptr().cast(),
-   -                    id: $id,
-   -                });
-   +            static __LSM_ID: $crate::lsm::LsmId = $crate::lsm::LsmId($crate::bindings::lsm_id {
-   +                name: $name.as_ptr().cast(),
-   +                id: $id,
-   +            });
-    
-                // The hook list array.  MaybeUninit avoids needing security_hook_list
-                // to implement a const-initialiser; the C shims fill each slot in
-   Diff in rust/kernel/lsm.rs:242:
-                //
-                // SAFETY: This array must be 'static — the static-call table holds
-                // back-pointers (scall->hl) into it after registration.
-   -            static mut __LSM_HOOKS: [
-   -                ::core::mem::MaybeUninit<$crate::bindings::security_hook_list>;
-   -                3
-   -            ] = [::core::mem::MaybeUninit::zeroed(); 3];
-   +            static mut __LSM_HOOKS: [::core::mem::MaybeUninit<
-   +                $crate::bindings::security_hook_list,
-   +            >; 3] = [::core::mem::MaybeUninit::zeroed(); 3];
-    
-                // The init function stored in lsm_info.init.  Called once by
-                // security_init() in single-threaded boot context.
-   Diff in rust/kernel/lsm.rs:283:
-                #[link_section = ".lsm_info.init"]
-                static __LSM_INFO: $crate::lsm::LsmInfo = {
-                    // SAFETY: __LSM_ID and __lsm_init have 'static lifetime.
-   -                unsafe {
-   -                    $crate::lsm::new_lsm_info(
-   -                        &raw const __LSM_ID.0,
-   -                        Some(__lsm_init),
-   -                    )
-   -                }
-   +                unsafe { $crate::lsm::new_lsm_info(&raw const __LSM_ID.0, Some(__lsm_init)) }
-                };
-            }
-        };
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make[2]: *** [Makefile:1912: rustfmt] Error 123
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   In file included from arch/x86/include/asm/vgtod.h:13,
+                    from arch/x86/kernel/sys_ia32.c:49:
+   include/vdso/helpers.h: In function 'vdso_is_timens_clock':
+>> include/vdso/helpers.h:13:64: error: 'VDSO_CLOCKMODE_TIMENS' undeclared =
+(first use in this function)
+      13 |         return IS_ENABLED(CONFIG_TIME_NS) && vc->clock_mode =3D=
+=3D VDSO_CLOCKMODE_TIMENS;
+         |                                                                ^=
+~~~~~~~~~~~~~~~~~~~~
+   include/vdso/helpers.h:13:64: note: each undeclared identifier is report=
+ed only once for each function it appears in
 
--- 
+
+vim +/VDSO_CLOCKMODE_TIMENS +13 include/vdso/helpers.h
+
+00b26474c2f161 Vincenzo Frascino 2019-06-21  10 =20
+daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27  11  static __always_inlin=
+e bool vdso_is_timens_clock(const struct vdso_clock *vc)
+daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27  12  {
+daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27 @13  	return IS_ENABLED(CO=
+NFIG_TIME_NS) && vc->clock_mode =3D=3D VDSO_CLOCKMODE_TIMENS;
+daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27  14  }
+daa2b92d33a403 Thomas Wei=C3=9Fschuh  2026-02-27  15 =20
+
+:::::: The code at line 13 was first introduced by commit
+:::::: daa2b92d33a4038123598aff55240ae3c54f870c vdso/gettimeofday: Add a he=
+lper to test if a clock is namespaced
+
+:::::: TO: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@kernel.org>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
