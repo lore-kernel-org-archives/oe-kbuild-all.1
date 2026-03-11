@@ -1,90 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9950E2DECBF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 02:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E563946A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 02:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773194689; cv=none; b=V+E5x1pqIRbqGk0OKkWHwlp2fTRhjBpr9c+Z/Em/yuzKdwD+HdrLND1k3h74Qs04rJVcVW/R6nBhCI4RkuIvQv9l7h8Jqkt/PDG33zsiSYJc3Be/dv8L1HE1nVNWxV/094BF6ccOjZ5Ob4S0U8etm5740vMtogjyasLtUh6XllY=
+	t=1773195169; cv=none; b=V0BPI5zzYyGb5W065i8nB/P5iW1ZHPD4blc8J3NV/uwldADKSSJQxTwPQfk8MLBlUXL1QVgKs2h8ox4eQwLbIqvEZOr4dQP6SQcvd2tbkimZM434awah4QQb8mBRQROOLErRYL9i4XlTtoCXwjTVg5oT9Yl3wlh6AjLR7Uer07g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773194689; c=relaxed/simple;
-	bh=KJPClGjrGDJGI/US/RgywCmid/NQe7P3mmNQBYCDdUw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YhWZC8+8mFurV5zK3zKwZz4PAq4LIgSyEiCJ+8z87e9yf0alebHG6hKJ962UnYnU50wOo62VkHmBj+jme7eatWw0tWpdDZj23m0+xEaxcqpZ361E/zLffdV77FytBsdLKrRv6yPpIBFd1ZQ9l0adeAWkETXG226+Bhi9Hfu/4bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jzjbtA/n; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1773195169; c=relaxed/simple;
+	bh=KB/sq5U3IVt7/eQ9Hys5pK6/LhuDUGAblBCNznNafM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XUGLw5pWDt07vy3x+X0FdCpdwbYO0vOCuSzF+G/+c7mMesUzskXSGnIkRwsLiyhy2SQF31HcCQPDRFLB69e7QDalxl7orKhgfpBBXg5OnJhKPFLqcjh13T+3LWU/6VNKK5ail+r9z3Gu+Ow+gYbvB17iSD4UH45+ypcREEYKfbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fN2QPk14; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jzjbtA/n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fN2QPk14"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773194688; x=1804730688;
-  h=date:from:to:cc:subject:message-id;
-  bh=KJPClGjrGDJGI/US/RgywCmid/NQe7P3mmNQBYCDdUw=;
-  b=jzjbtA/nSM8bHCxfmL75EMVyb51Z1ubm9R0qU1N342j55m09Ef7E8gcK
-   WFYZzoicC6YdRxtJqxvRC4T9PbAlv9Uk4cn0FVW70J1ssfda4Hyp/2TvU
-   Y1XPyG47tPPk5ayZlDXlubqCtJcj6ycEAKKD8RVOUg4M9tk/1zkTKr6xc
-   i2UwR/2/YM1MFtIPFvS8zt24s2P48ZC+TemH/VrdgR27n5Cn4xjc7Dyfc
-   aXRP6wiIXkzIIpEIn63eLTE8EyuLL4Gdrvx2UyJFK7d8pJ/+Jler3+0Z5
-   LoABo2YZfDQtFAJrRCvlI9dw/ukPK2LPd+oT1y/Le1+2r7nUKNXojIKX+
-   Q==;
-X-CSE-ConnectionGUID: 3i2ppFRnSQ6yxFtWLs52rg==
-X-CSE-MsgGUID: XX18N+r0TjewIykI6wocwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="99721422"
+  t=1773195168; x=1804731168;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KB/sq5U3IVt7/eQ9Hys5pK6/LhuDUGAblBCNznNafM4=;
+  b=fN2QPk141REsUcgHzPtVeyNcqqaNJFoKkWL7+Aq5OOFphBoB2AfZEFGo
+   YginIpyD1m5M5aV+/5QEqdbyKXsgQIu72/XNLxjY2stf/YkNhHTGS3bBq
+   2Sxy8NjJljVAkzGwqMEstB8xPyY5bIyoNYG7nahmy/vvH92j8Vwzjf5wg
+   JNSFAwIof6IKVIJIsoSA4gS7SW4APJjaeHqlIapaJ8GvGn2QzxnCUud0e
+   lRmnjgO+XtXXipXCrGguVETgxJ3ooK1W7vrD1/0T+uMaG+5frOdBj/tTu
+   iV7drKoanWkwcEtA59ZRFeqKgGa06iFCs8nROdXtAPxkAqle7jwkOfurp
+   A==;
+X-CSE-ConnectionGUID: 8M7F56FTR9WpHlubaikevw==
+X-CSE-MsgGUID: 6lPd6qaoSHqObRjr6CyBAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74153580"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="99721422"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 19:04:48 -0700
-X-CSE-ConnectionGUID: wkvlfFqQR+SKRvoj4fk7LA==
-X-CSE-MsgGUID: 1mT2grhESIqUgE9B3ZJs+A==
+   d="scan'208";a="74153580"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 19:12:48 -0700
+X-CSE-ConnectionGUID: bUUejISQS/COrIPwIlceTQ==
+X-CSE-MsgGUID: ulxFzHbPT92p83ES7rbr4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="243320116"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Mar 2026 19:04:47 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="220482039"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2026 19:12:42 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w08wG-000000003Bx-3OoZ;
-	Wed, 11 Mar 2026 02:04:44 +0000
-Date: Wed, 11 Mar 2026 03:04:20 +0100
+	id 1w093v-000000000Z3-1rDo;
+	Wed, 11 Mar 2026 02:12:39 +0000
+Date: Wed, 11 Mar 2026 10:12:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 1/621] htmldocs: Warning:
- Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references
- a file that doesn't exist:
- Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
-Message-ID: <202603110210.9c5GGinI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
+Subject: Re: [PATCH 5/5] watchdog: rzn1: Add support for direct hardware reset
+Message-ID: <202603111012.xhKbu8oc-lkp@intel.com>
+References: <20260310173249.161354-6-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310173249.161354-6-herve.codina@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
-commit: c04af4dfbfc866e054659323f79bf47a1e577e2e [1/621] dt-bindings: reset: Convert ti,syscon-reset to DT schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260311/202603110210.9c5GGinI-lkp@intel.com/reproduce)
+Hi Herve,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on geert-renesas-drivers/renesas-clk geert-renesas-devel/next groeck-staging/hwmon-next linus/master v7.0-rc3 next-20260310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/watchdog-rzn1-Fix-reverse-xmas-tree-declaration/20260311-015157
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260310173249.161354-6-herve.codina%40bootlin.com
+patch subject: [PATCH 5/5] watchdog: rzn1: Add support for direct hardware reset
+config: arm-randconfig-002-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111012.xhKbu8oc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111012.xhKbu8oc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603110210.9c5GGinI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603111012.xhKbu8oc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
-   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->> Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
-   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
-   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   In file included from drivers/watchdog/rzn1_wdt.c:20:
+>> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:53: warning: 'enum r9a06g032_sysctrl_rst_src' declared inside parameter list will not be visible outside of this definition or declaration
+    static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
+                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:79: error: parameter 1 ('rst_src') has incomplete type
+    static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
+                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+>> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:19: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+    static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/watchdog/rzn1_wdt.c: In function 'rzn1_wdt_setup_rst_line':
+>> drivers/watchdog/rzn1_wdt.c:105:33: error: storage size of 'rst_src' isn't known
+     enum r9a06g032_sysctrl_rst_src rst_src;
+                                    ^~~~~~~
+>> drivers/watchdog/rzn1_wdt.c:119:13: error: 'R9A06G032_RST_WATCHDOG_CA7_0' undeclared (first use in this function)
+      rst_src = R9A06G032_RST_WATCHDOG_CA7_0;
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/watchdog/rzn1_wdt.c:119:13: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/watchdog/rzn1_wdt.c:122:13: error: 'R9A06G032_RST_WATCHDOG_CA7_1' undeclared (first use in this function)
+      rst_src = R9A06G032_RST_WATCHDOG_CA7_1;
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/watchdog/rzn1_wdt.c:105:33: warning: unused variable 'rst_src' [-Wunused-variable]
+     enum r9a06g032_sysctrl_rst_src rst_src;
+                                    ^~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +17 include/linux/soc/renesas/r9a06g032-sysctrl.h
+
+21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10  14) 
+885525c1e7e27ea Miquel Raynal                     2022-04-27  15  #else
+885525c1e7e27ea Miquel Raynal                     2022-04-27  16  static inline int r9a06g032_sysctrl_set_dmamux(u32 mask, u32 val) { return -ENODEV; }
+21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10 @17) static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
+21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10  18) {
+21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10  19) 	return -ENODEV;
+21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10  20) }
+885525c1e7e27ea Miquel Raynal                     2022-04-27  21  #endif
+885525c1e7e27ea Miquel Raynal                     2022-04-27  22  
 
 -- 
 0-DAY CI Kernel Test Service
