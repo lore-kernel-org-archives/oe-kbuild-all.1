@@ -1,115 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2438363096
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 16:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3213738237F;
+	Wed, 11 Mar 2026 17:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773246457; cv=none; b=aR0qd29QJyO81FNXGm+gWhQoPcvYcaCyc9RpaMpZbmnr5phU2/JF3ob4nU1X6zCNgyaUoEn1LhDPhm3l32ZSu0EJk4Vt5bKl/uy5c9J3cz3PIcT+EmxbXI05Vn2/UhxMGJwU5+rMmjh61dhRf4Wpcy1Ohho1Spiho/j05sLqdxY=
+	t=1773248764; cv=none; b=D6nXS5kwpDdzKrMGKpN/efpRehlFG9QlIfKthB+nzzQbKn9lZ/1RfuEuV0NjCzbmhbZ5y6QGt/ddw8r1Ay6oOYTYYPH4Q9lDBLYCfBw/28+R76qQaetzbV3vo+mfmkxL+KDZRRQbrVgqVCipo0BIfFpg05z70kVNjWqmVhDxqlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773246457; c=relaxed/simple;
-	bh=o3g8W/28x2w4Hs79nBNBH/DmQ4h1mCMVhcv2ZxuKtUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=tUIb8j6AA0Lcn3LxVq5WxhhYZdIhHshlmoVCp4U1E+6bg08AkQktWHV7SsBV4jvr3OtaThTnVHbsi2spqLWJKVW0IexnY3/SnDxOULA3wS344PPAJusbnsYt67Li9796e9bBFO13Irdo9c/AfQjKzTco37S1gO2ZxNaQcHN5AB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=neuzezw5; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773248764; c=relaxed/simple;
+	bh=EBtjx6PROw5OyEE6ip1LUR83kNqukiKny9uCnB2KzH8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HRG4C8tNSNwgm4MuJ17P8LMaFiY3mce7Y2vDu5WnBr7cBDQo9rElcxX54yMJ2HC4RhwxRvuX0wYa57r6TF+/N+nkYCdjbwrax9vjKoqL0axXpXfZsjGcBRPjA00B4Y0R+sXs3V37cw/m+GwI3Br0NR2+SKZvNr7Og5rSNdmBbaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=np1WvjTi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="neuzezw5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773246454; x=1804782454;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o3g8W/28x2w4Hs79nBNBH/DmQ4h1mCMVhcv2ZxuKtUw=;
-  b=neuzezw570NZFHGmgVzGguH8FJRsKhijCQsUcBTwtZdPkz9evlivJbnP
-   7qno+wYt/wizUNo7zUkGL6enl8NVhc3jIM0RT2LS7WTJKGHABbSJ65pqL
-   ACG7jP2vQS7t0WxgSuj1d2bzWneGhwrvgAa5O0uWCeTl8f2LZkZfpsLeV
-   ki4nDbRAdrNTAwAb6O66M2aZkeaADfTcQ6zb+z2QyDq2MCJMgMrhVHyn8
-   pUgKzYmL2cRIBe1QEl3ghUT4qUlgSS8DeWrGGcKrui1qgJVPcGWJiYHi0
-   sJ58W28nTYbPvcaoIa/Ds/n9hv4a251FxSFyH+87oaBxfkd5vAByzNUrM
-   g==;
-X-CSE-ConnectionGUID: hFeQwzSdTAyeqvUmJOTxbw==
-X-CSE-MsgGUID: ug4lPRkoSP6PrZsHMU++Tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74291541"
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74291541"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 09:27:33 -0700
-X-CSE-ConnectionGUID: vfCdCkiESAuvlYVZiWUAVg==
-X-CSE-MsgGUID: yQ/HK8J2RCqNm9Dfms41xA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="225224380"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Mar 2026 09:27:31 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w0MPA-000000001R5-38MQ;
-	Wed, 11 Mar 2026 16:27:28 +0000
-Date: Thu, 12 Mar 2026 00:26:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benno Lossin <lossin@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Gary Guo <gary@garyguo.net>
-Subject: vmlinux.o: warning: objtool:
- =?us-ascii?Q?=5FRINvMs0=5FNvNtNtCshc5sK6KjdJJ=5F6kernel4sync4lock1=5F=5F?=
- =?us-ascii?Q?INtB6=5F12=5F=5F=5FThePinDataINtNtNtBc=5F5alloc4kvec3VecIN?=
- =?us-ascii?Q?tNtCsbsbRiabPlh9=5F4core3pin3PinINtNtB1a=5F4kbox3BoxINtN?=
- =?us-ascii?Q?tBc=5F7debugfs5ScopeNtCscKcGI1asYQG=5F19rust=5Fdebugfs=5Fsco?=
- =?us-ascii?Q?ped10DeviceDataENtNtB1a=5F9...?=
-Message-ID: <202603120016.x0Fm70Gw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="np1WvjTi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E167C4CEF7;
+	Wed, 11 Mar 2026 17:06:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773248763;
+	bh=EBtjx6PROw5OyEE6ip1LUR83kNqukiKny9uCnB2KzH8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=np1WvjTilFItuyBwzXEdb5NJ4Zalc3P6SoTdrBEvuSZdvuniyJSYU2zWSRZdIVc5F
+	 JUqfHShdzNSeThN79+YThlx3fenMv4ZRzDSqMF4LTHNG+ma0WBd+9Y4IayNlLv0oua
+	 yo0bTMGwQdowW04xJRNrinRAmFkmSCTURvN2WxtcIEIuJ0dnJqRn55wknN8GDJMQkT
+	 VBgGk5c+/hIdDrKcABXrxFDMaWD41UvWkygV2H+aTs/4JA7HKe1BsmfqESbyEVmc5i
+	 evZvIiFQFFvEOVtT0TIyMTXoffOoN1C854A0UMLmrY2tjI6SIm3FI3LEVO5VGuzJBU
+	 JcqizJEjxhW0g==
+Date: Wed, 11 Mar 2026 18:05:25 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
+Subject: Re: [tip:timers/vdso 37/45] progs/hid_bpf_helpers.h:117:31: error:
+ declaration of 'struct bpf_wq' will not be visible outside of this function
+Message-ID: <abGeK0FpNn5uXi8B@beelink>
+References: <202603111558.KLCIxsZB-lkp@intel.com>
+ <20260311160618-dbfa08f6-8cfa-4f81-94a2-d6d97f79ae93@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260311160618-dbfa08f6-8cfa-4f81-94a2-d6d97f79ae93@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b29fb8829bff243512bb8c8908fd39406f9fd4c3
-commit: 560f6d13c33f9f06ca34c14dc7c0a045d949c4a0 rust: pin-init: rewrite `#[pin_data]` using `syn`
-date:   8 weeks ago
-config: x86_64-randconfig-r061-20260310 (https://download.01.org/0day-ci/archive/20260312/202603120016.x0Fm70Gw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120016.x0Fm70Gw-lkp@intel.com/reproduce)
+On Mar 11 2026, Thomas Weißschuh wrote:
+> Hi Jiri and Benjamin,
+> 
+> could you take a look at the report below?
+> This looks like an issue in the HID BPF subsystem, surfaced by my
+> unrelated change. Does this ring a bell for you?
+> 
+> I wasn't able to reproduce it so far, but will continue looking into it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603120016.x0Fm70Gw-lkp@intel.com/
+Both struct bpf_wq and struct hid_device should be generated in the
+vmlinux.h that we include in the selftests. So this is definitely not
+related to your patch AFAICT.
 
-All warnings (new ones prefixed by >>):
+Looking in the config, we have `# CONFIG_HID_SUPPORT is not set` -> so
+that would explain why struct hid_device is not available. But in that
+case, why are the HID selftests even built?
 
-   vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated35rust_doctest_kernel_alloc_kbox_rs_54main66__doctest_main__kbuild_src_consumer_rust_kernel_alloc_kbox_rs_301_05InnerNtNtB8_8spinlock15SpinLockBackendE5stateNtNtCsbsbRiabPlh9_4core7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB67_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw8spinlockE8ffi_initNCNCINvMs0_B8_INtB8_4LockB15_B3L_E3newB15_E0s_0E0B6i_B4p_EEB1d_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated43rust_doctest_kernel_sync_lock_spinlock_rs_04main73__doctest_main__kbuild_src_consumer_rust_kernel_sync_lock_spinlock_rs_34_05InnerNtNtB8_8spinlock15SpinLockBackendE5stateNtNtCsbsbRiabPlh9_4core7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB6m_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw8spinlockE8ffi_initNCNCINvMs0_B8_INtB8_4LockB15_B40_E3newB15_E0s_0E0B6x_B4E_EEB1d_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated40rust_doctest_kernel_sync_lock_mutex_rs_04main70__doctest_main__kbuild_src_consumer_rust_kernel_sync_lock_mutex_rs_36_05InnerNtNtB8_5mutex12MutexBackendE5stateNtNtCsbsbRiabPlh9_4core7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB6a_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw5mutexE8ffi_initNCNCINvMs0_B8_INtB8_4LockB15_B3U_E3newB15_E0s_0E0B6l_B4s_EEB1d_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7cpufreq12RegistrationNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated32rust_doctest_kernel_cpufreq_rs_34main63__doctest_main__kbuild_src_consumer_rust_kernel_cpufreq_rs_840_012SampleDriverEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB5s_10___internal11InitClosureNCINvYIBH_B1L_B4Z_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleB1L_E0B1L_B6o_EEB2n_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs4FileNtNtNtBX_4sync6atomic9AtomicU32EENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB36_10___internal11InitClosureNCINvYIBH_B1L_B2D_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB4m_NCINvMB1O_NtB1O_3Dir11create_fileB26_B5R_B26_Es0_0B1L_B5R_EE0B1L_B42_EECs5hknLkEiyqO_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9revocable9RevocableNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_revocable_rs_04main64__doctest_main__kbuild_src_consumer_rust_kernel_revocable_rs_25_07ExampleEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB5n_10___internal11InitClosureNCINvYIBH_B1L_B4U_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6D_NCINvMs0_B1O_B1L_3newB88_B2d_Es_0B1L_B88_EE0B1L_B6j_EEB2l_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_9revocable9RevocableNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_revocable_rs_14main64__doctest_main__kbuild_src_consumer_rust_kernel_revocable_rs_46_07ExampleEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB5n_10___internal11InitClosureNCINvYIBH_B1L_B4U_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6D_NCINvMs0_B1O_B1L_3newB88_B2d_Es_0B1L_B88_EE0B1L_B6j_EEB2l_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_INtNtNtNtBa_5block2mq7tag_set6TagSetNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated33rust_doctest_kernel_block_mq_rs_04main63__doctest_main__kbuild_src_consumer_rust_kernel_block_mq_rs_58_011MyBlkDeviceEEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB66_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6Y_EEB2Z_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_INtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated29rust_doctest_kernel_list_rs_04main60__doctest_main__kbuild_src_consumer_rust_kernel_list_rs_149_06DTWrapNtB2k_1AEEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5s_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6k_EEB2q_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_INtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated29rust_doctest_kernel_list_rs_04main60__doctest_main__kbuild_src_consumer_rust_kernel_list_rs_149_06DTWrapNtB2k_1BEEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5s_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6k_EEB2q_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_04main65__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_136_08MyStructEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5u_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6m_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_14main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_35_08MyStructEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5t_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6l_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_54main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_77_08MyStructEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5t_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6l_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated40rust_doctest_kernel_sync_completion_rs_04main70__doctest_main__kbuild_src_consumer_rust_kernel_sync_completion_rs_18_06MyTaskEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5D_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6v_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtBa_4sync3arc8ArcInnerIBR_NtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated33rust_doctest_kernel_sync_arc_rs_84main64__doctest_main__kbuild_src_consumer_rust_kernel_sync_arc_rs_665_07ExampleEEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E10write_initNtB8_10AllocErrorINtNtB5r_10___internal11InitClosureNCNvMsj_B1O_INtB1O_9UniqueArcB2h_E10new_uninits_0B1L_B6j_EEB2p_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated40rust_doctest_kernel_sync_lock_mutex_rs_04main70__doctest_main__kbuild_src_consumer_rust_kernel_sync_lock_mutex_rs_36_07ExampleENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB56_10___internal11InitClosureNCINvYIBH_B1L_B4D_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6m_NCNvMB1N_B1L_3news_0B1L_B7R_EE0B1L_B62_EEB1T_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated43rust_doctest_kernel_sync_lock_spinlock_rs_04main73__doctest_main__kbuild_src_consumer_rust_kernel_sync_lock_spinlock_rs_34_07ExampleENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB5c_10___internal11InitClosureNCINvYIBH_B1L_B4J_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleIB6s_NCNvMB1N_B1L_3news_0B1L_B7X_EE0B1L_B68_EEB1T_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs_NtNtNtCsbsbRiabPlh9_4core4iter8adapters5chainINtB5_5ChainINtNtNtB9_7sources4once4OnceONtNtBb_3ffi6c_voidEINtNtB15_7from_fn6FromFnNCNvMNtCshc5sK6KjdJJ_6kernel6xarrayINtB2f_6XArrayINtNtNtB2h_5alloc4kbox3BoxlNtNtB32_9allocator7KmallocEE4iter0EENtNtNtB9_6traits8iterator8Iterator8try_folduNCINvXs0_NtB7_9map_whileINtB4P_8MapWhileBO_NCB2c_s_0EB3Y_8try_folduNCINvMNtNtBb_3ops9try_traitINtB5R_17NeverShortCircuituE10wrap_mut_2uINtNtNtBb_3ptr8non_null7NonNullB1t_ENCINvNvB3Y_8for_each4callB6R_NCNvXs5_B2f_B2J_NtCs57PXBekmiam_8pin_init10PinnedDrop4drop0E0E0B6c_E0INtNtB5T_12control_flow11ControlFlowB6c_EECs5hknLkEiyqO_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtNtNtBa_5block2mq7tag_set6TagSetNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated33rust_doctest_kernel_block_mq_rs_04main63__doctest_main__kbuild_src_consumer_rust_kernel_block_mq_rs_58_011MyBlkDeviceEEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB5d_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initB69_IB6t_NCNvMB1S_B1P_3news1_0B1P_B69_EE0B1P_B69_EEB2x_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_04main65__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_136_08MyStructEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4B_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5R_NCNvMB1R_B1P_3news_0B1P_B7o_EE0B1P_B5x_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_14main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_35_08MyStructEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4A_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5Q_NCNvMB1R_B1P_3news_0B1P_B7n_EE0B1P_B5w_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated34rust_doctest_kernel_workqueue_rs_54main64__doctest_main__kbuild_src_consumer_rust_kernel_workqueue_rs_77_08MyStructEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4A_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB5Q_NCNvMB1R_B1P_3news_0B1P_B7n_EE0B1P_B5w_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXsi_NtNtCshc5sK6KjdJJ_6kernel4sync3arcINtB6_9UniqueArcINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitNtNvNvNvCs5hknLkEiyqO_25doctests_kernel_generated40rust_doctest_kernel_sync_completion_rs_04main70__doctest_main__kbuild_src_consumer_rust_kernel_sync_completion_rs_18_06MyTaskEEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1P_E14write_pin_initNtNtBa_5error5ErrorINtNtB4K_10___internal11InitClosureNCINvYINtB6_3ArcB1P_EINtNtBa_4init11InPlaceInitB1P_E8pin_initNtNtB11_7convert10InfallibleIB60_NCNvMB1R_B1P_3news_0B1P_B7x_EE0B1P_B5G_EEB1X_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RNvXs1_NtNtNtCsbsbRiabPlh9_4core3ops8function5implsQNCINvXs0_NtNtNtBb_4iter8adapters9map_whileINtBX_8MapWhileINtNtBZ_5chain5ChainINtNtNtB11_7sources4once4OnceONtNtBb_3ffi6c_voidEINtNtB28_7from_fn6FromFnNCNvMNtCshc5sK6KjdJJ_6kernel6xarrayINtB3j_6XArrayINtNtNtB3l_5alloc4kbox3BoxlNtNtB46_9allocator7KmallocEE4iter0EENCB3g_s_0ENtNtNtB11_6traits8iterator8Iterator8try_folduNCINvMNtB9_9try_traitINtB61_17NeverShortCircuituE10wrap_mut_2uINtNtNtBb_3ptr8non_null7NonNullB2x_ENCINvNvB5c_8for_each4callB6V_NCNvXs5_B3j_B3N_NtCs57PXBekmiam_8pin_init10PinnedDrop4drop0E0E0B6g_E0INtB7_5FnMutTuB2w_EE8call_mutCs5hknLkEiyqO_25doctests_kernel_generated: symbol name too long, can't create __pfx_ symbol
->> vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsbsbRiabPlh9_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataENtNtB1a_9allocator7KmallocEEB3s_ENtNtB8_5mutex12MutexBackendE5stateNtNtB1z_7convert10InfallibleINtNtCs57PXBekmiam_8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB60_6OpaqueNtNtCsfd3uB5I4hpp_8bindings12bindings_raw5mutexE8ffi_initNCNCINvMs0_B8_INtB8_4LockB15_B3Z_E3newB15_E0s_0E0B6b_B4x_EEB2G_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_17create_file_writes0_0B27_E0B27_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
-   vmlinux.o: warning: objtool: _RINvXs5_NtNtCshc5sK6KjdJJ_6kernel5alloc4kboxINtB6_3BoxINtNtNtCsbsbRiabPlh9_4core3mem12maybe_uninit11MaybeUninitINtNtBa_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10ModuleDataEENtNtB8_9allocator7KmallocEINtCs57PXBekmiam_8pin_init12InPlaceWriteB1L_E14write_pin_initNtNtBa_5error5ErrorINtNtB3p_10___internal11InitClosureNCINvYIBH_B1L_B2W_EINtNtBa_4init11InPlaceInitB1L_E8pin_initNtNtBX_7convert10InfallibleINtB3p_12ChainPinInitIB4F_NCINvMs_B1O_B1L_3newB6a_NCINvMB1O_NtB1O_3Dir5scopeB27_B6a_NCNvB29_12init_control0IB4F_NCNvMB29_B27_4inits_0B27_B6a_EE0B8k_Es0_0B1L_B6a_ENCB73_0B1L_B6a_EE0B1L_B4l_EEB29_: symbol name too long, can't create __pfx_ symbol
+The bpf_wq bits should be related to a similar-ish issue where one
+config setting is not set and so it's not included in the final BTF.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I paged out how we can ignore selftests based on the .config, so if you
+have any hints, that would be nice :)
+
+Cheers,
+Benjamin
+
+> 
+> 
+> Thomas
+> 
+> On Wed, Mar 11, 2026 at 03:29:54PM +0100, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+> > head:   f7178f159b2a36d070fd43b0d751e4e4415ec39e
+> > commit: 912632a7fd4cc1eac2778828d92e8fe46939d6bd [37/45] vdso/datapage: Trim down unnecessary includes
+> > config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260311/202603111558.KLCIxsZB-lkp@intel.com/config)
+> > compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111558.KLCIxsZB-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202603111558.KLCIxsZB-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    In file included from progs/hid.c:3:
+> > >> progs/hid_bpf_helpers.h:117:31: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> >      117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+> >          |                               ^
+> >    progs/hid_bpf_helpers.h:118:32: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> >      118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+> >          |                                ^
+> >    progs/hid_bpf_helpers.h:119:39: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> >      119 | extern int bpf_wq_set_callback(struct bpf_wq *wq,
+> >          |                                       ^
+> > >> progs/hid.c:448:16: error: field has incomplete type 'struct bpf_wq'
+> >      448 |         struct bpf_wq work;
+> >          |                       ^
+> >    progs/hid.c:448:9: note: forward declaration of 'struct bpf_wq'
+> >      448 |         struct bpf_wq work;
+> >          |                ^
+> > >> progs/hid.c:487:18: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> >      487 |         if (bpf_wq_init(wq, &hmap, 0) != 0)
+> >          |                         ^~
+> >    progs/hid_bpf_helpers.h:117:39: note: passing argument to parameter 'wq' here
+> >      117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+> >          |                                       ^
+> >    progs/hid.c:490:26: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> >      490 |         if (bpf_wq_set_callback(wq, wq_cb_sleepable, 0))
+> >          |                                 ^~
+> >    progs/hid_bpf_helpers.h:119:47: note: passing argument to parameter 'wq' here
+> >      119 | extern int bpf_wq_set_callback(struct bpf_wq *wq,
+> >          |                                               ^
+> >    progs/hid.c:493:19: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> >      493 |         if (bpf_wq_start(wq, 0))
+> >          |                          ^~
+> >    progs/hid_bpf_helpers.h:118:40: note: passing argument to parameter 'wq' here
+> >      118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+> >          |                                        ^
+> >    progs/hid.c:503:24: error: incomplete definition of type 'struct hid_device'
+> >      503 |         int hid = hid_ctx->hid->id;
+> >          |                   ~~~~~~~~~~~~^
+> >    progs/hid_bpf_helpers.h:59:9: note: forward declaration of 'struct hid_device'
+> >       59 |         struct hid_device *hid;
+> >          |                ^
+> >    8 errors generated.
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> 
