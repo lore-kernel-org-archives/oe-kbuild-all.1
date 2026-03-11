@@ -1,74 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E563946A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 02:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882A733F59E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 02:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773195169; cv=none; b=V0BPI5zzYyGb5W065i8nB/P5iW1ZHPD4blc8J3NV/uwldADKSSJQxTwPQfk8MLBlUXL1QVgKs2h8ox4eQwLbIqvEZOr4dQP6SQcvd2tbkimZM434awah4QQb8mBRQROOLErRYL9i4XlTtoCXwjTVg5oT9Yl3wlh6AjLR7Uer07g=
+	t=1773197093; cv=none; b=kGpfA0AG6Z6wrsL+ruYxHhZT1Re2IaNmLSqecpec9KKuCMwt5tbM7lLxX0Rn3Tgi3g+yr5gFvK74WqgZbw0p+3y5YVs82xqnpWa1Oos6dvSUwV3ISD1C/godY9eBWVmUmCyZlFY9tbdr3JTn72i8yLRMUM6Vd719T9IbBoPx9eM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773195169; c=relaxed/simple;
-	bh=KB/sq5U3IVt7/eQ9Hys5pK6/LhuDUGAblBCNznNafM4=;
+	s=arc-20240116; t=1773197093; c=relaxed/simple;
+	bh=aw7376Y+5fry1SPxrRsCeviGdshoDjNPD8dYCjwKLVA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XUGLw5pWDt07vy3x+X0FdCpdwbYO0vOCuSzF+G/+c7mMesUzskXSGnIkRwsLiyhy2SQF31HcCQPDRFLB69e7QDalxl7orKhgfpBBXg5OnJhKPFLqcjh13T+3LWU/6VNKK5ail+r9z3Gu+Ow+gYbvB17iSD4UH45+ypcREEYKfbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fN2QPk14; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=rzH54WcEmWB0EgPlIMUqh3wxL/ISS3IgcnWhBW5aqJtLSauk7GdO6biVbR8XhwSg1Av25fkbAZwSoKCPLFTCHnl/vyUBAfDMJRURqRPYiswRTA3T64lWSHHPtEndix5jZLrOFwk5n7shZKHx+w/nr6OqyfTK5ZQYTOR4TfujasA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwt89s1J; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fN2QPk14"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwt89s1J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773195168; x=1804731168;
+  t=1773197091; x=1804733091;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KB/sq5U3IVt7/eQ9Hys5pK6/LhuDUGAblBCNznNafM4=;
-  b=fN2QPk141REsUcgHzPtVeyNcqqaNJFoKkWL7+Aq5OOFphBoB2AfZEFGo
-   YginIpyD1m5M5aV+/5QEqdbyKXsgQIu72/XNLxjY2stf/YkNhHTGS3bBq
-   2Sxy8NjJljVAkzGwqMEstB8xPyY5bIyoNYG7nahmy/vvH92j8Vwzjf5wg
-   JNSFAwIof6IKVIJIsoSA4gS7SW4APJjaeHqlIapaJ8GvGn2QzxnCUud0e
-   lRmnjgO+XtXXipXCrGguVETgxJ3ooK1W7vrD1/0T+uMaG+5frOdBj/tTu
-   iV7drKoanWkwcEtA59ZRFeqKgGa06iFCs8nROdXtAPxkAqle7jwkOfurp
+  bh=aw7376Y+5fry1SPxrRsCeviGdshoDjNPD8dYCjwKLVA=;
+  b=bwt89s1JFX2S+uAWrDjItjaEOgBavMR3xXpGzz66EAU2BJkBIFVYYw5F
+   bOYXgZ7MqbzdY4ukJQCbMGal6h/iv1F7GXkJbZFds2QnARUgi2ziJrHxj
+   SInESG5qv1VhB7NX0cSfUS+S3LQV1RBOdhMK78bU0sulls+iTgqY35r+u
+   NM3iR2S9GeQdmAbHpI56rv+ASpdVWFNXJ0+vyCQmtP87mw5D/x2iqJotn
+   9jQ5UbmZE3iKfYuXnChS3AuYDzCy4mO//tHLvaGgkwi6roQ1O4eDJPV4d
+   ti3KR5tnAkFXUVMi3XLPsjHO6GqMeODtUqXVPWFAenKB/pLaXUmFxakxS
    A==;
-X-CSE-ConnectionGUID: 8M7F56FTR9WpHlubaikevw==
-X-CSE-MsgGUID: 6lPd6qaoSHqObRjr6CyBAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74153580"
+X-CSE-ConnectionGUID: RFJ/ZeZBRbGOPLio/gFwZQ==
+X-CSE-MsgGUID: +va/sJcYSdqEW5Eq+8JCKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74134165"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74153580"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 19:12:48 -0700
-X-CSE-ConnectionGUID: bUUejISQS/COrIPwIlceTQ==
-X-CSE-MsgGUID: ulxFzHbPT92p83ES7rbr4Q==
+   d="scan'208";a="74134165"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 19:44:51 -0700
+X-CSE-ConnectionGUID: C98uoD5xRxmWjqykstzOGQ==
+X-CSE-MsgGUID: k5iiteuBRwmwOE7a45V+ZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="220482039"
+   d="scan'208";a="219442196"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2026 19:12:42 -0700
+  by orviesa006.jf.intel.com with ESMTP; 10 Mar 2026 19:44:50 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w093v-000000000Z3-1rDo;
-	Wed, 11 Mar 2026 02:12:39 +0000
-Date: Wed, 11 Mar 2026 10:12:13 +0800
+	id 1w09Z0-000000000bZ-2HrH;
+	Wed, 11 Mar 2026 02:44:46 +0000
+Date: Wed, 11 Mar 2026 10:44:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	"Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>
-Subject: Re: [PATCH 5/5] watchdog: rzn1: Add support for direct hardware reset
-Message-ID: <202603111012.xhKbu8oc-lkp@intel.com>
-References: <20260310173249.161354-6-herve.codina@bootlin.com>
+To: Ye Bin <yebin@huaweicloud.com>, tytso@mit.edu, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jack@suse.cz
+Subject: Re: [PATCH -next 1/8] ext4: fix mballoc-test.c is not compiled when
+ EXT4_KUNIT_TESTS=M
+Message-ID: <202603111026.Utt3pe7W-lkp@intel.com>
+References: <20260310130412.3156753-2-yebin@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,71 +64,143 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260310173249.161354-6-herve.codina@bootlin.com>
+In-Reply-To: <20260310130412.3156753-2-yebin@huaweicloud.com>
 
-Hi Herve,
+Hi Ye,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on geert-renesas-drivers/renesas-clk geert-renesas-devel/next groeck-staging/hwmon-next linus/master v7.0-rc3 next-20260310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on next-20260309]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/watchdog-rzn1-Fix-reverse-xmas-tree-declaration/20260311-015157
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260310173249.161354-6-herve.codina%40bootlin.com
-patch subject: [PATCH 5/5] watchdog: rzn1: Add support for direct hardware reset
-config: arm-randconfig-002-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111012.xhKbu8oc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111012.xhKbu8oc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/ext4-fix-mballoc-test-c-is-not-compiled-when-EXT4_KUNIT_TESTS-M/20260310-225016
+base:   next-20260309
+patch link:    https://lore.kernel.org/r/20260310130412.3156753-2-yebin%40huaweicloud.com
+patch subject: [PATCH -next 1/8] ext4: fix mballoc-test.c is not compiled when EXT4_KUNIT_TESTS=M
+config: sh-defconfig (https://download.01.org/0day-ci/archive/20260311/202603111026.Utt3pe7W-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111026.Utt3pe7W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603111012.xhKbu8oc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603111026.Utt3pe7W-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/watchdog/rzn1_wdt.c:20:
->> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:53: warning: 'enum r9a06g032_sysctrl_rst_src' declared inside parameter list will not be visible outside of this definition or declaration
-    static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
-                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:79: error: parameter 1 ('rst_src') has incomplete type
-    static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
-                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
->> include/linux/soc/renesas/r9a06g032-sysctrl.h:17:19: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-    static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/watchdog/rzn1_wdt.c: In function 'rzn1_wdt_setup_rst_line':
->> drivers/watchdog/rzn1_wdt.c:105:33: error: storage size of 'rst_src' isn't known
-     enum r9a06g032_sysctrl_rst_src rst_src;
-                                    ^~~~~~~
->> drivers/watchdog/rzn1_wdt.c:119:13: error: 'R9A06G032_RST_WATCHDOG_CA7_0' undeclared (first use in this function)
-      rst_src = R9A06G032_RST_WATCHDOG_CA7_0;
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/watchdog/rzn1_wdt.c:119:13: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/watchdog/rzn1_wdt.c:122:13: error: 'R9A06G032_RST_WATCHDOG_CA7_1' undeclared (first use in this function)
-      rst_src = R9A06G032_RST_WATCHDOG_CA7_1;
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/watchdog/rzn1_wdt.c:105:33: warning: unused variable 'rst_src' [-Wunused-variable]
-     enum r9a06g032_sysctrl_rst_src rst_src;
-                                    ^~~~~~~
-   cc1: some warnings being treated as errors
+>> fs/ext4/mballoc.c:4088:1: warning: no previous prototype for 'ext4_mb_mark_context' [-Wmissing-prototypes]
+    4088 | ext4_mb_mark_context(handle_t *handle, struct super_block *sb, bool state,
+         | ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +17 include/linux/soc/renesas/r9a06g032-sysctrl.h
+vim +/ext4_mb_mark_context +4088 fs/ext4/mballoc.c
 
-21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10  14) 
-885525c1e7e27ea Miquel Raynal                     2022-04-27  15  #else
-885525c1e7e27ea Miquel Raynal                     2022-04-27  16  static inline int r9a06g032_sysctrl_set_dmamux(u32 mask, u32 val) { return -ENODEV; }
-21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10 @17) static inline int r9a06g032_sysctrl_enable_rst(enum r9a06g032_sysctrl_rst_src rst_src)
-21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10  18) {
-21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10  19) 	return -ENODEV;
-21c34edbcc67b03 Herve Codina (Schneider Electric  2026-03-10  20) }
-885525c1e7e27ea Miquel Raynal                     2022-04-27  21  #endif
-885525c1e7e27ea Miquel Raynal                     2022-04-27  22  
+c9de560ded61faa Alex Tomas 2008-01-29  4084  
+c431d3867e0a825 Kemeng Shi 2023-09-29  4085  #define EXT4_MB_BITMAP_MARKED_CHECK 0x0001
+c431d3867e0a825 Kemeng Shi 2023-09-29  4086  #define EXT4_MB_SYNC_UPDATE 0x0002
+74bd22ec0285256 Ye Bin     2026-03-10  4087  int
+c431d3867e0a825 Kemeng Shi 2023-09-29 @4088  ext4_mb_mark_context(handle_t *handle, struct super_block *sb, bool state,
+c431d3867e0a825 Kemeng Shi 2023-09-29  4089  		     ext4_group_t group, ext4_grpblk_t blkoff,
+c431d3867e0a825 Kemeng Shi 2023-09-29  4090  		     ext4_grpblk_t len, int flags, ext4_grpblk_t *ret_changed)
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4091  {
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4092  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4093  	struct buffer_head *bitmap_bh = NULL;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4094  	struct ext4_group_desc *gdp;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4095  	struct buffer_head *gdp_bh;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4096  	int err;
+c431d3867e0a825 Kemeng Shi 2023-09-29  4097  	unsigned int i, already, changed = len;
+bdefd689b7ff0ea Kemeng Shi 2023-09-29  4098  
+bdefd689b7ff0ea Kemeng Shi 2023-09-29  4099  	KUNIT_STATIC_STUB_REDIRECT(ext4_mb_mark_context,
+bdefd689b7ff0ea Kemeng Shi 2023-09-29  4100  				   handle, sb, state, group, blkoff, len,
+bdefd689b7ff0ea Kemeng Shi 2023-09-29  4101  				   flags, ret_changed);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4102  
+c431d3867e0a825 Kemeng Shi 2023-09-29  4103  	if (ret_changed)
+c431d3867e0a825 Kemeng Shi 2023-09-29  4104  		*ret_changed = 0;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4105  	bitmap_bh = ext4_read_block_bitmap(sb, group);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4106  	if (IS_ERR(bitmap_bh))
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4107  		return PTR_ERR(bitmap_bh);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4108  
+c431d3867e0a825 Kemeng Shi 2023-09-29  4109  	if (handle) {
+c431d3867e0a825 Kemeng Shi 2023-09-29  4110  		BUFFER_TRACE(bitmap_bh, "getting write access");
+c431d3867e0a825 Kemeng Shi 2023-09-29  4111  		err = ext4_journal_get_write_access(handle, sb, bitmap_bh,
+c431d3867e0a825 Kemeng Shi 2023-09-29  4112  						    EXT4_JTR_NONE);
+c431d3867e0a825 Kemeng Shi 2023-09-29  4113  		if (err)
+c431d3867e0a825 Kemeng Shi 2023-09-29  4114  			goto out_err;
+c431d3867e0a825 Kemeng Shi 2023-09-29  4115  	}
+c431d3867e0a825 Kemeng Shi 2023-09-29  4116  
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4117  	err = -EIO;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4118  	gdp = ext4_get_group_desc(sb, group, &gdp_bh);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4119  	if (!gdp)
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4120  		goto out_err;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4121  
+c431d3867e0a825 Kemeng Shi 2023-09-29  4122  	if (handle) {
+c431d3867e0a825 Kemeng Shi 2023-09-29  4123  		BUFFER_TRACE(gdp_bh, "get_write_access");
+c431d3867e0a825 Kemeng Shi 2023-09-29  4124  		err = ext4_journal_get_write_access(handle, sb, gdp_bh,
+c431d3867e0a825 Kemeng Shi 2023-09-29  4125  						    EXT4_JTR_NONE);
+c431d3867e0a825 Kemeng Shi 2023-09-29  4126  		if (err)
+c431d3867e0a825 Kemeng Shi 2023-09-29  4127  			goto out_err;
+c431d3867e0a825 Kemeng Shi 2023-09-29  4128  	}
+c431d3867e0a825 Kemeng Shi 2023-09-29  4129  
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4130  	ext4_lock_group(sb, group);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4131  	if (ext4_has_group_desc_csum(sb) &&
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4132  	    (gdp->bg_flags & cpu_to_le16(EXT4_BG_BLOCK_UNINIT))) {
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4133  		gdp->bg_flags &= cpu_to_le16(~EXT4_BG_BLOCK_UNINIT);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4134  		ext4_free_group_clusters_set(sb, gdp,
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4135  			ext4_free_clusters_after_init(sb, group, gdp));
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4136  	}
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4137  
+c431d3867e0a825 Kemeng Shi 2023-09-29  4138  	if (flags & EXT4_MB_BITMAP_MARKED_CHECK) {
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4139  		already = 0;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4140  		for (i = 0; i < len; i++)
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4141  			if (mb_test_bit(blkoff + i, bitmap_bh->b_data) ==
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4142  					state)
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4143  				already++;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4144  		changed = len - already;
+c431d3867e0a825 Kemeng Shi 2023-09-29  4145  	}
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4146  
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4147  	if (state) {
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4148  		mb_set_bits(bitmap_bh->b_data, blkoff, len);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4149  		ext4_free_group_clusters_set(sb, gdp,
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4150  			ext4_free_group_clusters(sb, gdp) - changed);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4151  	} else {
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4152  		mb_clear_bits(bitmap_bh->b_data, blkoff, len);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4153  		ext4_free_group_clusters_set(sb, gdp,
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4154  			ext4_free_group_clusters(sb, gdp) + changed);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4155  	}
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4156  
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4157  	ext4_block_bitmap_csum_set(sb, gdp, bitmap_bh);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4158  	ext4_group_desc_csum_set(sb, group, gdp);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4159  	ext4_unlock_group(sb, group);
+c431d3867e0a825 Kemeng Shi 2023-09-29  4160  	if (ret_changed)
+c431d3867e0a825 Kemeng Shi 2023-09-29  4161  		*ret_changed = changed;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4162  
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4163  	if (sbi->s_log_groups_per_flex) {
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4164  		ext4_group_t flex_group = ext4_flex_group(sbi, group);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4165  		struct flex_groups *fg = sbi_array_rcu_deref(sbi,
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4166  					   s_flex_groups, flex_group);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4167  
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4168  		if (state)
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4169  			atomic64_sub(changed, &fg->free_clusters);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4170  		else
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4171  			atomic64_add(changed, &fg->free_clusters);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4172  	}
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4173  
+c431d3867e0a825 Kemeng Shi 2023-09-29  4174  	err = ext4_handle_dirty_metadata(handle, NULL, bitmap_bh);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4175  	if (err)
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4176  		goto out_err;
+c431d3867e0a825 Kemeng Shi 2023-09-29  4177  	err = ext4_handle_dirty_metadata(handle, NULL, gdp_bh);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4178  	if (err)
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4179  		goto out_err;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4180  
+c431d3867e0a825 Kemeng Shi 2023-09-29  4181  	if (flags & EXT4_MB_SYNC_UPDATE) {
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4182  		sync_dirty_buffer(bitmap_bh);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4183  		sync_dirty_buffer(gdp_bh);
+c431d3867e0a825 Kemeng Shi 2023-09-29  4184  	}
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4185  
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4186  out_err:
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4187  	brelse(bitmap_bh);
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4188  	return err;
+f9e2d95a4532185 Kemeng Shi 2023-09-29  4189  }
+c9de560ded61faa Alex Tomas 2008-01-29  4190  
 
 -- 
 0-DAY CI Kernel Test Service
