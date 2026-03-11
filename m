@@ -1,143 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4C33B19B2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 07:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F7935DA79
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Mar 2026 08:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773214921; cv=none; b=bzRt/U13DNhHGzrLtFpD+PG+XmyW91nzN0ZjLlzAiQTs/4UIIRHI0rZ6tUOmLnyfHyDMuBKbKNzjVRtwAlhuHe/WWNGLV83eAuHPWkqVvSvQTrn7rFAsEut5KXdxGnXci4Gwh+EkC/m0pDPgQj5JC/O9w3NL09opLDMu0MXdBs0=
+	t=1773217425; cv=none; b=VJTct1eosZQoi/crUAVeinZsN5o94nfD1b6W8TtRaQQnnImg2/q5qpneFsypDsuR5O+roydMfc7Pmplmlm5hqdvz8p7Usc5DU+32TNCTHdslOPEuDKq/LyHLjAyEMlSjaUtIqhwkRmE+kqHrkMQy34xVT8w+ydZSnp0REM8lBdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773214921; c=relaxed/simple;
-	bh=VOyzQxkiOrYyQ5++xZdWU53tYlT+cG5P+BjBAxzOJqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bwUzg3Lv0xKWUsMTWl8pmUQh2un/FVQjM3N6Knn1mZPKwkwU9qPjCgEMJLDVLbRajAWKVeLT5e2nfniwuemQCGbrF126NyJFsx1fTjpCZS7QCexWMZyAdG6Yz0YkF9kjMXrVCeR1On7bR1PBKUAp5fjlxB9SNqN5XV+GsRCu7do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/g98Z3v; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1773217425; c=relaxed/simple;
+	bh=Ho5MMpYvIk/mHiFNQRZcWALGOTEKTsgF1wJdywy8fZw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=USZPFAwfKT+nKiF7aI6LZtCo8uLOJohWf66Xf350BSHxueByPjL+wkVnmlPVzAcl+vnEfkzSxkIQgW9BUsq+xBC/jP63s03pyS2ehEL94qPCyoG4hqlA/MMKnw7Y/zbGST5CdUJlqbk1J1U9F4d2vz7ba3RUsU4MZ5TWFqzWWz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6v8874k; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/g98Z3v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6v8874k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773214917; x=1804750917;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VOyzQxkiOrYyQ5++xZdWU53tYlT+cG5P+BjBAxzOJqE=;
-  b=i/g98Z3vlJUCba4TEfFE0CQ9+ibaatvxbeMrkE2JeMoxVjlpRMzTdSgv
-   MZ6FFOQ6S7ry2rfu0Vhb82yqXGCq7mbKZN1vvl4C7UTwvbutnep0QOw9l
-   rYfDI4HAcA2H7xTOJT9UA2jDfHOfqwpHX7Djm/QaPHVN5b/tmvhKb3Skp
-   cVSO4JJd256RyYpH9JB96yYq48OCSDDg36x1jMZ43MsZ9VIZtDpIOYttd
-   utVgOaOVaEo+Tkye334EjYQAoM8FyIJ5vXqCpUTeYhzITkF1JUZFlW4Dv
-   rvgtidV2qrGzhcEq54bA0YfR/5YjNJLaeWgEON1Bd3GYytzX+JcbIzTW8
-   w==;
-X-CSE-ConnectionGUID: WgfJJ5BARYq4/ybv5SUNJg==
-X-CSE-MsgGUID: FrXwyXSfR+e0AappE0n2lg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74394424"
+  t=1773217424; x=1804753424;
+  h=date:from:to:cc:subject:message-id;
+  bh=Ho5MMpYvIk/mHiFNQRZcWALGOTEKTsgF1wJdywy8fZw=;
+  b=O6v8874kUkOJnvhsx7mN1aGF17iIoZWuP79uaUBNokrVNTcUqO2NLNr5
+   V8JQZaooBjuIARHhABYr8tw4PUO3l/b/avj4waIO/SaRkirKBIJYqYzZy
+   q7Rizd7PwjMB5DhRu5gkKEAgR3t6VwgKHGp7lYBR8YvDGvi8mJJb1MnPv
+   3uJFiRbOlla38Qk6VOGul/B/Te5+LlKYT/VpussSV1+KqbY32L2iJYRKw
+   UYuVVciK5MgPCuFs901BCRG63PhX90JCxo/YiP5WcfLD+UQ+/uSNtSOjA
+   qAxC4Gz7klrcBd0kGnQMCf4zqJh0uNqXhTqRKti+vkR514PeSrgGQkSE0
+   A==;
+X-CSE-ConnectionGUID: MlZveQbFQ+OhV4XiBeyRQw==
+X-CSE-MsgGUID: rV5sCZuJTOiQyq1zQfIruA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="91848336"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="74394424"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 00:41:55 -0700
-X-CSE-ConnectionGUID: /X5V1c6LS9+3qp302cC7lw==
-X-CSE-MsgGUID: l2aL8VOtTrCZh90fqg3DCw==
+   d="scan'208";a="91848336"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 01:23:43 -0700
+X-CSE-ConnectionGUID: 2heM7dCsRA2MvII2ZtCQAw==
+X-CSE-MsgGUID: eiCvDHI0SHqWRAyexRcRjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="243391357"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Mar 2026 00:41:51 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="219639541"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 11 Mar 2026 01:23:42 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0ECT-000000003HV-28cV;
-	Wed, 11 Mar 2026 07:41:49 +0000
-Date: Wed, 11 Mar 2026 08:41:35 +0100
+	id 1w0Eqw-000000000tF-3Gkw;
+	Wed, 11 Mar 2026 08:23:38 +0000
+Date: Wed, 11 Mar 2026 16:22:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Brian Geffon <bgeffon@google.com>, John Stultz <jstultz@google.com>,
-	Ian Rogers <irogers@google.com>,
-	Suleiman Souhlal <suleiman@google.com>
-Subject: Re: [PATCH v2 1/3] tracing: Have futex syscall trace event show
- specific user data
-Message-ID: <202603110841.Pxedg2y4-lkp@intel.com>
-References: <20260310201036.542627924@kernel.org>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Andrea Righi <arighi@nvidia.com>
+Subject: [linux-next:master 3603/5327] kernel/sched/ext.c:5884
+ scx_enable() warn: inconsistent indenting
+Message-ID: <202603111617.MkdRE7g9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310201036.542627924@kernel.org>
 
-Hi Steven,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on trace/for-next akpm-mm/mm-everything linus/master v7.0-rc3 next-20260310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Have-futex-syscall-trace-event-show-specific-user-data/20260311-041422
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20260310201036.542627924%40kernel.org
-patch subject: [PATCH v2 1/3] tracing: Have futex syscall trace event show specific user data
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260311/202603110841.Pxedg2y4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603110841.Pxedg2y4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7109a2155340cc7b21f27e832ece6df03592f2e8
+commit: ebeca1f930eac8f11f815d58eb38fa5d07e7c16e [3603/5327] sched_ext: Introduce cgroup sub-sched support
+config: sparc64-randconfig-r071-20260311 (https://download.01.org/0day-ci/archive/20260311/202603111617.MkdRE7g9-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603110841.Pxedg2y4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603111617.MkdRE7g9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/sched/ext.c:5884 scx_enable() warn: inconsistent indenting
 
-   kernel/trace/trace_syscalls.c: In function 'syscall_get_futex':
->> kernel/trace/trace_syscalls.c:807:15: warning: variable 'buf' set but not used [-Wunused-but-set-variable]
-     807 |         char *buf;
-         |               ^~~
+vim +5884 kernel/sched/ext.c
 
+ebeca1f930eac8 Tejun Heo 2026-03-06  5852  
+dbd542a8fac7bc Tejun Heo 2026-03-06  5853  static s32 scx_enable(struct sched_ext_ops *ops, struct bpf_link *link)
+b06ccbabe2506f Tejun Heo 2026-03-03  5854  {
+b06ccbabe2506f Tejun Heo 2026-03-03  5855  	static struct kthread_worker *helper;
+b06ccbabe2506f Tejun Heo 2026-03-03  5856  	static DEFINE_MUTEX(helper_mutex);
+b06ccbabe2506f Tejun Heo 2026-03-03  5857  	struct scx_enable_cmd cmd;
+b06ccbabe2506f Tejun Heo 2026-03-03  5858  
+b06ccbabe2506f Tejun Heo 2026-03-03  5859  	if (!cpumask_equal(housekeeping_cpumask(HK_TYPE_DOMAIN),
+b06ccbabe2506f Tejun Heo 2026-03-03  5860  			   cpu_possible_mask)) {
+b06ccbabe2506f Tejun Heo 2026-03-03  5861  		pr_err("sched_ext: Not compatible with \"isolcpus=\" domain isolation\n");
+b06ccbabe2506f Tejun Heo 2026-03-03  5862  		return -EINVAL;
+b06ccbabe2506f Tejun Heo 2026-03-03  5863  	}
+b06ccbabe2506f Tejun Heo 2026-03-03  5864  
+b06ccbabe2506f Tejun Heo 2026-03-03  5865  	if (!READ_ONCE(helper)) {
+b06ccbabe2506f Tejun Heo 2026-03-03  5866  		mutex_lock(&helper_mutex);
+b06ccbabe2506f Tejun Heo 2026-03-03  5867  		if (!helper) {
+b06ccbabe2506f Tejun Heo 2026-03-03  5868  			helper = kthread_run_worker(0, "scx_enable_helper");
+b06ccbabe2506f Tejun Heo 2026-03-03  5869  			if (IS_ERR_OR_NULL(helper)) {
+b06ccbabe2506f Tejun Heo 2026-03-03  5870  				helper = NULL;
+b06ccbabe2506f Tejun Heo 2026-03-03  5871  				mutex_unlock(&helper_mutex);
+b06ccbabe2506f Tejun Heo 2026-03-03  5872  				return -ENOMEM;
+b06ccbabe2506f Tejun Heo 2026-03-03  5873  			}
+b06ccbabe2506f Tejun Heo 2026-03-03  5874  			sched_set_fifo(helper->task);
+b06ccbabe2506f Tejun Heo 2026-03-03  5875  		}
+b06ccbabe2506f Tejun Heo 2026-03-03  5876  		mutex_unlock(&helper_mutex);
+b06ccbabe2506f Tejun Heo 2026-03-03  5877  	}
+b06ccbabe2506f Tejun Heo 2026-03-03  5878  
+ebeca1f930eac8 Tejun Heo 2026-03-06  5879  #ifdef CONFIG_EXT_SUB_SCHED
+ebeca1f930eac8 Tejun Heo 2026-03-06  5880  	if (ops->sub_cgroup_id > 1)
+ebeca1f930eac8 Tejun Heo 2026-03-06  5881  		kthread_init_work(&cmd.work, scx_sub_enable_workfn);
+ebeca1f930eac8 Tejun Heo 2026-03-06  5882  	else
+ebeca1f930eac8 Tejun Heo 2026-03-06  5883  #endif	/* CONFIG_EXT_SUB_SCHED */
+dbd542a8fac7bc Tejun Heo 2026-03-06 @5884  		kthread_init_work(&cmd.work, scx_root_enable_workfn);
+b06ccbabe2506f Tejun Heo 2026-03-03  5885  	cmd.ops = ops;
+b06ccbabe2506f Tejun Heo 2026-03-03  5886  
+b06ccbabe2506f Tejun Heo 2026-03-03  5887  	kthread_queue_work(READ_ONCE(helper), &cmd.work);
+b06ccbabe2506f Tejun Heo 2026-03-03  5888  	kthread_flush_work(&cmd.work);
+b06ccbabe2506f Tejun Heo 2026-03-03  5889  	return cmd.ret;
+f0e1a0643a59bf Tejun Heo 2024-06-18  5890  }
+f0e1a0643a59bf Tejun Heo 2024-06-18  5891  
 
-vim +/buf +807 kernel/trace/trace_syscalls.c
+:::::: The code at line 5884 was first introduced by commit
+:::::: dbd542a8fac7bcfba91e353f2a522e1bf2fbee27 sched_ext: Reorganize enable/disable path for multi-scheduler support
 
-   801	
-   802	static int
-   803	syscall_get_futex(unsigned long *args, char **buffer, int *size, int buf_size)
-   804	{
-   805		struct syscall_user_buffer *sbuf;
-   806		const char __user *ptr;
- > 807		char *buf;
-   808	
-   809		/* buf_size of zero means user doesn't want user space read */
-   810		if (!buf_size)
-   811			return -1;
-   812	
-   813		/* If the syscall_buffer is NULL, tracing is being shutdown */
-   814		sbuf = READ_ONCE(syscall_buffer);
-   815		if (!sbuf)
-   816			return -1;
-   817	
-   818		ptr = (char __user *)args[0];
-   819	
-   820		*buffer = trace_user_fault_read(&sbuf->buf, ptr, 4, NULL, NULL);
-   821		if (!*buffer)
-   822			return -1;
-   823	
-   824		/* Add room for the value */
-   825		*size += 4;
-   826	
-   827		buf = *buffer;
-   828	
-   829		return 0;
-   830	}
-   831	
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
