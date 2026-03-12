@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B359E3AD533
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 09:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8AF392C50
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 11:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773307323; cv=none; b=YcRbFG49JFMhFzlMEcW5v7U+eQy1qroWtlMfTraILWGXSf1D4FmwbQb/90FfslZ3KMkCMSo12dsv9z1ge+yn7hqrEaI8A7I3ZSFJn14/7t2yTxEe3VSGHa/wJSKUhp2WhaIkcla+ZEQTRRVoE1J9Lia5W2vvFwBZtf6H0s4DjIE=
+	t=1773316642; cv=none; b=dsA7jcVjeGZhBdv47n+EzlQAOTu3IVIWZ93DBSs10j+zd8JO1xmGyLExuQ8xi+//DfsqmJ9Ewg7N8QVftrMlRNqiO62DT2or/CZ4YZVvYAMBp9pMWoJUH8gual0rOkMQAz8JkCDt+Qnvh73ZB0ydhZsKQE61HsXgfwIaQw4JeCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773307323; c=relaxed/simple;
-	bh=Zm8rLie7wvpHUoXKXQra5GF4aRkelE9NUpM8xh3V4W0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IEC66QgGeAz/XDTCfPq1i+jId49J/wMZaICpt5WU4sildBdH8PuiUe6YBY+E3yC0AmvKSSz49TY45gQffXDBuQuYcL639QmFLfe1P8UW1XR+C1u0wNeudv333Brh4ZO8YWouqJJ6GnEUGLZPjHX5H05TV+74ob26Qfye3SKzgHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWzOoquE; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1773316642; c=relaxed/simple;
+	bh=4HsFm0eDkuGqZ/EMJ10T4vNwY6HtFMcq5fObrvlo+Xw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HWdbetg5Lg0mA4HJYQ6yB7m0mDIbZ//aTdl9nbSB8f8xsYa8jizSGaTYcC+vQg3Y93FevFv2FMCFnkQYPhC/hWn/437Mm4S0f73vj9EYYvdTBKo80ZVlmY1uk62HrrJWFSv10crZ0ImrsaV9Z7eEKzJqOdhMaD3zZM4wzq5aQes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ob+owlBJ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWzOoquE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ob+owlBJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773307322; x=1804843322;
+  t=1773316637; x=1804852637;
   h=date:from:to:cc:subject:message-id;
-  bh=Zm8rLie7wvpHUoXKXQra5GF4aRkelE9NUpM8xh3V4W0=;
-  b=OWzOoquEfZwXFrVu/ybIJ7/mPK06q3lOyFXDYOqlwIgl0N2sopmZQLmv
-   rwtFg9FbZ10XtmWzfXUu9EiL3tVBqlM1A7h257utuMZMnyXrG2ew1SBNn
-   DCLu7OXsubHaSgI3K7x/4Q5ASLh/wmcdkDpg6tbwL2Sh+5OCyQ8Qq9XiK
-   KD7HFZWaCOiSM4HzcvPdDtjwQEy8ort6NHdAuzhz7RGb1zghU1B3NAuvx
-   9WPnk99XXvg4kZ878l5yK0gvfZNUEeCNVeuQxA2s3IWnduEWt8Do3Hu1H
-   vb7f8MgOxrqnPCcAD+5GtHOUFmsj/4+ama/SZeIchB5WGNApPXSbM1KTh
-   g==;
-X-CSE-ConnectionGUID: e/uz+fX6RXulaAsrowDyLg==
-X-CSE-MsgGUID: OZjsiYm0QECyaf8h5ggK9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="77003620"
+  bh=4HsFm0eDkuGqZ/EMJ10T4vNwY6HtFMcq5fObrvlo+Xw=;
+  b=Ob+owlBJq9XSukX+7WK2AZxUYBrtk0TLLxDUTDoptixL2pCpcWR38Z0v
+   cJn94hcWR2q7eTf0lBA/MUHZw+fWLmgO3yPujKLHG5xynr8X8jNhBILHF
+   oQtC3+hLxwT2bEevYhzMQftcuFQtLsPrdjy3ZidNRmimuc1XuwPykP7BQ
+   +6QjhI76XlM67H3bC+NoLEjDb8Kt+BR6Dki1d6myJgynGeNhiBL3jPcP1
+   DVE7ja15XtuVVXovljbV1ZM4KE4WWyXh5STsAfR4z1B1179x8hgAei7L0
+   LCL3uy6olsg8fCWEDEKcbaRbTfKu9HYcBQlFgI4Ldxw7Qmm1UwsifHnrM
+   Q==;
+X-CSE-ConnectionGUID: 3Iw4casFS/a1bNHuxEdI7g==
+X-CSE-MsgGUID: eMhYVEeeQVSB5x3K4zhRsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74319197"
 X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="77003620"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 02:22:01 -0700
-X-CSE-ConnectionGUID: KUI/6V6oQYGiYWhWtFHymw==
-X-CSE-MsgGUID: LShlFdvPT1aVKtph0+wqUw==
+   d="scan'208";a="74319197"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 04:57:16 -0700
+X-CSE-ConnectionGUID: DOD+h5JsSpSWuwtfvA1YOw==
+X-CSE-MsgGUID: A0ltHUXPR9WJmpLiqATSYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="246174041"
+   d="scan'208";a="220992383"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Mar 2026 02:21:59 -0700
+  by orviesa007.jf.intel.com with ESMTP; 12 Mar 2026 04:57:13 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0cEu-000000002Il-3VU1;
-	Thu, 12 Mar 2026 09:21:56 +0000
-Date: Thu, 12 Mar 2026 17:21:20 +0800
+	id 1w0ef9-000000002Pr-0ONW;
+	Thu, 12 Mar 2026 11:57:11 +0000
+Date: Thu, 12 Mar 2026 19:56:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Miklos Szeredi <mszeredi@redhat.com>,
- Jingbo Xu <jefflexu@linux.alibaba.com>,
- "Darrick J. Wong" <djwong@kernel.org>
-Subject: [linux-next:master 2597/5731]
- include/linux/compiler_types.h:706:38: error: call to
- '__compiletime_assert_408' declared with attribute error: min(outarg.size,
- ((loff_t)(~0UL) << 13) - pos) signedness error
-Message-ID: <202603121900.yniMMFyg-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 17/17]
+ drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type
+ 'struct pkvm_pasid_table_param'
+Message-ID: <202603121958.dpefrO9a-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,100 +60,523 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f90aadf1c67c8b4969d1e5e6d4fd7227adb6e4d7
-commit: 25307ca50b815c14a21f82fc5b10e8a621af32ad [2597/5731] fuse: simplify logic in fuse_notify_store() and fuse_retrieve()
-config: sh-randconfig-r073-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121900.yniMMFyg-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121900.yniMMFyg-lkp@intel.com/reproduce)
+Hi Aashish,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   6e8e96179140c3b15e8cec8ee8510e05991fc932
+commit: 40e05d87082111caf1fa83b9b288e93f3cd021df [17/17] ANDROID: iommu/vt-d: Paravirtualize PASID table updates
+config: x86_64-randconfig-073-20260311 (https://download.01.org/0day-ci/archive/20260312/202603121958.dpefrO9a-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121958.dpefrO9a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603121900.yniMMFyg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121958.dpefrO9a-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   fs/fuse/dev.c: In function 'fuse_notify_store':
->> include/linux/compiler_types.h:706:38: error: call to '__compiletime_assert_408' declared with attribute error: min(outarg.size, ((loff_t)(~0UL) << 13) - pos) signedness error
-     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_lm_context_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
          |                                      ^
-   include/linux/compiler_types.h:687:4: note: in definition of macro '__compiletime_assert'
-     687 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/compiler_types.h:706:2: note: in expansion of macro '_compiletime_assert'
-     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |  BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-         |  ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
-      98 |  __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |  ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y) __careful_cmp(min, x, y)
-         |                   ^~~~~~~~~~~~~
-   fs/fuse/dev.c:1790:8: note: in expansion of macro 'min'
-    1790 |  num = min(outarg.size, MAX_LFS_FILESIZE - pos);
-         |        ^~~
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_sm_ce':
+   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_sm_context_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_sm_context_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_sm_context_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_sm_context_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_sm_context_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_clear_pasid_entry':
+   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_clear_translation_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_pasid_fl':
+>> drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_pasid_table_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_pasid_sl':
+>> drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_pasid_table_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
 --
-   In file included from <command-line>:
-   dev.c: In function 'fuse_notify_store':
->> include/linux/compiler_types.h:706:38: error: call to '__compiletime_assert_408' declared with attribute error: min(outarg.size, ((loff_t)(~0UL) << 13) - pos) signedness error
-     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_lm_context_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
          |                                      ^
-   include/linux/compiler_types.h:687:4: note: in definition of macro '__compiletime_assert'
-     687 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/compiler_types.h:706:2: note: in expansion of macro '_compiletime_assert'
-     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |  BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-         |  ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
-      98 |  __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |  ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y) __careful_cmp(min, x, y)
-         |                   ^~~~~~~~~~~~~
-   dev.c:1790:8: note: in expansion of macro 'min'
-    1790 |  num = min(outarg.size, MAX_LFS_FILESIZE - pos);
-         |        ^~~
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_sm_ce':
+   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_sm_context_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_sm_context_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_sm_context_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_sm_context_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_sm_context_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_clear_pasid_entry':
+   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_clear_translation_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_pasid_fl':
+>> drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_pasid_table_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_pasid_sl':
+>> drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_pasid_table_param'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:315:17: note: in expansion of macro 'memset'
+     315 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ^~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c: In function 'pv_context_mapping':
+   drivers/iommu/intel/iommu.c:1459:16: error: variable 'param' has initializer but incomplete type
+    1459 |         struct pkvm_lm_context_param param = {
+         |                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1460:18: error: 'struct pkvm_lm_context_param' has no member named 'phys'
+    1460 |                 .phys = iommu->reg_phys,
+         |                  ^~~~
+   drivers/iommu/intel/iommu.c:1460:25: warning: excess elements in struct initializer
+    1460 |                 .phys = iommu->reg_phys,
+         |                         ^~~~~
+   drivers/iommu/intel/iommu.c:1460:25: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:1461:18: error: 'struct pkvm_lm_context_param' has no member named 'bdf'
+    1461 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                  ^~~
+   In file included from drivers/iommu/intel/iommu.c:20:
+   include/linux/pci.h:72:33: warning: excess elements in struct initializer
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:1461:24: note: in expansion of macro 'PCI_DEVID'
+    1461 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   include/linux/pci.h:72:33: note: (near initialization for 'param')
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:1461:24: note: in expansion of macro 'PCI_DEVID'
+    1461 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   drivers/iommu/intel/iommu.c:1462:18: error: 'struct pkvm_lm_context_param' has no member named 'domain_pgd_gpa'
+    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
+         |                  ^~~~~~~~~~~~~~
+   In file included from include/linux/kexec.h:20:
+   arch/x86/include/asm/io.h:155:22: warning: excess elements in struct initializer
+     155 | #define virt_to_phys virt_to_phys
+         |                      ^~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1462:35: note: in expansion of macro 'virt_to_phys'
+    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
+         |                                   ^~~~~~~~~~~~
+   arch/x86/include/asm/io.h:155:22: note: (near initialization for 'param')
+     155 | #define virt_to_phys virt_to_phys
+         |                      ^~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1462:35: note: in expansion of macro 'virt_to_phys'
+    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
+         |                                   ^~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1463:18: error: 'struct pkvm_lm_context_param' has no member named 'did'
+    1463 |                 .did = domain_id_iommu(domain, iommu),
+         |                  ^~~
+   drivers/iommu/intel/iommu.c:1463:24: warning: excess elements in struct initializer
+    1463 |                 .did = domain_id_iommu(domain, iommu),
+         |                        ^~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1463:24: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:1464:18: error: 'struct pkvm_lm_context_param' has no member named 'ats_supported'
+    1464 |                 .ats_supported = info ? info->ats_supported : 0,
+         |                  ^~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1464:34: warning: excess elements in struct initializer
+    1464 |                 .ats_supported = info ? info->ats_supported : 0,
+         |                                  ^~~~
+   drivers/iommu/intel/iommu.c:1464:34: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:1459:38: error: storage size of 'param' isn't known
+    1459 |         struct pkvm_lm_context_param param = {
+         |                                      ^~~~~
+   drivers/iommu/intel/iommu.c:1459:38: warning: unused variable 'param' [-Wunused-variable]
+   drivers/iommu/intel/iommu.c: In function 'pv_context_clear':
+   drivers/iommu/intel/iommu.c:1743:16: error: variable 'param' has initializer but incomplete type
+    1743 |         struct pkvm_clear_translation_param param = {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1744:18: error: 'struct pkvm_clear_translation_param' has no member named 'phys'
+    1744 |                 .phys = info->iommu->reg_phys,
+         |                  ^~~~
+   drivers/iommu/intel/iommu.c:1744:25: warning: excess elements in struct initializer
+    1744 |                 .phys = info->iommu->reg_phys,
+         |                         ^~~~
+   drivers/iommu/intel/iommu.c:1744:25: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:1745:18: error: 'struct pkvm_clear_translation_param' has no member named 'bdf'
+    1745 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                  ^~~
+   include/linux/pci.h:72:33: warning: excess elements in struct initializer
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:1745:24: note: in expansion of macro 'PCI_DEVID'
+    1745 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   include/linux/pci.h:72:33: note: (near initialization for 'param')
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:1745:24: note: in expansion of macro 'PCI_DEVID'
+    1745 |                 .bdf = PCI_DEVID(bus, devfn),
+..
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +/__compiletime_assert_408 +706 include/linux/compiler_types.h
+vim +16 drivers/iommu/intel/iommu_pkvm.h
 
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  695  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  696  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  703   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  704   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  707  
+14d98d9e4203286 Aashish Sharma 2025-11-06  10  
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  11  #define pkvm_iommu_hypercall(hc, param_name, param)			\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  12  	({									\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  13  		unsigned long f;						\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  14  		struct pkvm_##param_name *p = get_this_pv_param(param_name, f);	\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  15  		int ret;							\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12 @16  		*p = *(param);							\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  17  		ret = pkvm_hypercall(hc, (unsigned long)p);		\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  18  		*(param) = *p;							\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12 @19  		put_this_pv_param(p, f);					\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  20  		ret;								\
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  21  	})
+157ba06fef4bdb6 Vineeth Pillai 2025-10-12  22  
 
-:::::: The code at line 706 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+:::::: The code at line 16 was first introduced by commit
+:::::: 157ba06fef4bdb68af268f6a0e53695c0e4ad373 ANDROID: iommu/vt-d: Paravirtualize legacy context entry updates
 
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+:::::: TO: Vineeth Pillai <vineethrp@google.com>
+:::::: CC: Tomasz Nowicki <tnowicki@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
