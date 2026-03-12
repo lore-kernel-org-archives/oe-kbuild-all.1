@@ -1,115 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C9C282F1C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 09:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B359E3AD533
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 09:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773307265; cv=none; b=ZlUa6iOYedR6KaHekJEFl8xHAe9emctV2PkkRd18YDhC7ZCo9qAK7eZtL/qIlf2Ht3pSaMDLIPcvcnWe1VM1TTqLd+vljE0JmK0GUuf+BLcZRwMOv/3NBSRM7KVyCd3BLSkSF+Na6K8MQCqr3vbmPetkqD/JjfGxATg0utckRhA=
+	t=1773307323; cv=none; b=YcRbFG49JFMhFzlMEcW5v7U+eQy1qroWtlMfTraILWGXSf1D4FmwbQb/90FfslZ3KMkCMSo12dsv9z1ge+yn7hqrEaI8A7I3ZSFJn14/7t2yTxEe3VSGHa/wJSKUhp2WhaIkcla+ZEQTRRVoE1J9Lia5W2vvFwBZtf6H0s4DjIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773307265; c=relaxed/simple;
-	bh=PSfQXHav3C0tSuD/OTS61QwfCk1GGT0dCfZRYWKuC3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PlJFNHyBta2poAbLkt0ySPOaJEi7vTevtaKxfnh4L0YcXuEhYocUFvrDc1vVtjUy5gwl9gmpTbjHMHY6wQq8FoEir6xi7Aq0fforD7rWfm5cT9ZAu2Q5kwx1gbo+Vj7r8fOHRN16sqNGSZ4i5jBRkXOfYZ1rJ/3ptLY+AWODXGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d//vKsPQ; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1773307323; c=relaxed/simple;
+	bh=Zm8rLie7wvpHUoXKXQra5GF4aRkelE9NUpM8xh3V4W0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IEC66QgGeAz/XDTCfPq1i+jId49J/wMZaICpt5WU4sildBdH8PuiUe6YBY+E3yC0AmvKSSz49TY45gQffXDBuQuYcL639QmFLfe1P8UW1XR+C1u0wNeudv333Brh4ZO8YWouqJJ6GnEUGLZPjHX5H05TV+74ob26Qfye3SKzgHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWzOoquE; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d//vKsPQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWzOoquE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773307263; x=1804843263;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PSfQXHav3C0tSuD/OTS61QwfCk1GGT0dCfZRYWKuC3s=;
-  b=d//vKsPQsrPhKudfnr0ADdl3ZBVSB292TRnMBqtTlj8mtcuYbV55LnSs
-   p3H3k/aQW+hk2kIZRIwmwahTgFbjvqBXbutXMGlR1Wd8+EdyvyQ0W6144
-   p+/47WzW4yobxbj7m1ldgjnvE84kuhW7jwgt+0gTRgIGp0oyHY5vUZBBX
-   /2/VcvmVygT5at6W5TJ//acvnqsS3AOhPTro3ehC+VvKZFwD3flUXBAYk
-   R15CWJSOYZfUSNmg9hxVd/UEgK/u40oZY0NplimmJaQ56U4aX+hpCFUO5
-   di2nmzQNVyvLn1ewgBC3NJ9ISZ5UIGwi9iTH6imBCxnTjqDerosB5dM0S
-   w==;
-X-CSE-ConnectionGUID: V+z8zfuAQLuoNfcPGMj6vw==
-X-CSE-MsgGUID: B27/d39EQaWoP474y+h03w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="85478512"
+  t=1773307322; x=1804843322;
+  h=date:from:to:cc:subject:message-id;
+  bh=Zm8rLie7wvpHUoXKXQra5GF4aRkelE9NUpM8xh3V4W0=;
+  b=OWzOoquEfZwXFrVu/ybIJ7/mPK06q3lOyFXDYOqlwIgl0N2sopmZQLmv
+   rwtFg9FbZ10XtmWzfXUu9EiL3tVBqlM1A7h257utuMZMnyXrG2ew1SBNn
+   DCLu7OXsubHaSgI3K7x/4Q5ASLh/wmcdkDpg6tbwL2Sh+5OCyQ8Qq9XiK
+   KD7HFZWaCOiSM4HzcvPdDtjwQEy8ort6NHdAuzhz7RGb1zghU1B3NAuvx
+   9WPnk99XXvg4kZ878l5yK0gvfZNUEeCNVeuQxA2s3IWnduEWt8Do3Hu1H
+   vb7f8MgOxrqnPCcAD+5GtHOUFmsj/4+ama/SZeIchB5WGNApPXSbM1KTh
+   g==;
+X-CSE-ConnectionGUID: e/uz+fX6RXulaAsrowDyLg==
+X-CSE-MsgGUID: OZjsiYm0QECyaf8h5ggK9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="77003620"
 X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="85478512"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 02:21:03 -0700
-X-CSE-ConnectionGUID: KlaPLjGcSM6py3Ba7wFbdw==
-X-CSE-MsgGUID: YJ3xSlcyQd6LMZoc7uWdEQ==
+   d="scan'208";a="77003620"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 02:22:01 -0700
+X-CSE-ConnectionGUID: KUI/6V6oQYGiYWhWtFHymw==
+X-CSE-MsgGUID: LShlFdvPT1aVKtph0+wqUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="251253771"
+   d="scan'208";a="246174041"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 12 Mar 2026 02:21:00 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 12 Mar 2026 02:21:59 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0cDw-000000002Ih-3QFC;
-	Thu, 12 Mar 2026 09:20:56 +0000
-Date: Thu, 12 Mar 2026 17:20:12 +0800
+	id 1w0cEu-000000002Il-3VU1;
+	Thu, 12 Mar 2026 09:21:56 +0000
+Date: Thu, 12 Mar 2026 17:21:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wei Wang <weibunny.kernel@gmail.com>, netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Daniel Zahka <daniel.zahka@gmail.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	David Wei <dw@davidwei.uk>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Wei Wang <weibunny@fb.com>
-Subject: Re: [PATCH v4 net-next 3/5] psp: add a new netdev event for dev
- unregister
-Message-ID: <202603121737.vPEHjYAG-lkp@intel.com>
-References: <20260311235904.2392010-4-weibunny.kernel@gmail.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Miklos Szeredi <mszeredi@redhat.com>,
+ Jingbo Xu <jefflexu@linux.alibaba.com>,
+ "Darrick J. Wong" <djwong@kernel.org>
+Subject: [linux-next:master 2597/5731]
+ include/linux/compiler_types.h:706:38: error: call to
+ '__compiletime_assert_408' declared with attribute error: min(outarg.size,
+ ((loff_t)(~0UL) << 13) - pos) signedness error
+Message-ID: <202603121900.yniMMFyg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260311235904.2392010-4-weibunny.kernel@gmail.com>
 
-Hi Wei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Wang/psp-add-admin-non-admin-version-of-psp_device_get_locked/20260312-080310
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260311235904.2392010-4-weibunny.kernel%40gmail.com
-patch subject: [PATCH v4 net-next 3/5] psp: add a new netdev event for dev unregister
-config: x86_64-randconfig-014-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121737.vPEHjYAG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121737.vPEHjYAG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f90aadf1c67c8b4969d1e5e6d4fd7227adb6e4d7
+commit: 25307ca50b815c14a21f82fc5b10e8a621af32ad [2597/5731] fuse: simplify logic in fuse_notify_store() and fuse_retrieve()
+config: sh-randconfig-r073-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121900.yniMMFyg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121900.yniMMFyg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603121737.vPEHjYAG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121900.yniMMFyg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/psp/psp_main.c: In function 'psp_init':
->> net/psp/psp_main.c:449:13: warning: unused variable 'err' [-Wunused-variable]
-     449 |         int err;
-         |             ^~~
+   In file included from <command-line>:
+   fs/fuse/dev.c: In function 'fuse_notify_store':
+>> include/linux/compiler_types.h:706:38: error: call to '__compiletime_assert_408' declared with attribute error: min(outarg.size, ((loff_t)(~0UL) << 13) - pos) signedness error
+     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:687:4: note: in definition of macro '__compiletime_assert'
+     687 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:706:2: note: in expansion of macro '_compiletime_assert'
+     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |  BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+         |  ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
+      98 |  __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |  ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y) __careful_cmp(min, x, y)
+         |                   ^~~~~~~~~~~~~
+   fs/fuse/dev.c:1790:8: note: in expansion of macro 'min'
+    1790 |  num = min(outarg.size, MAX_LFS_FILESIZE - pos);
+         |        ^~~
+--
+   In file included from <command-line>:
+   dev.c: In function 'fuse_notify_store':
+>> include/linux/compiler_types.h:706:38: error: call to '__compiletime_assert_408' declared with attribute error: min(outarg.size, ((loff_t)(~0UL) << 13) - pos) signedness error
+     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:687:4: note: in definition of macro '__compiletime_assert'
+     687 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:706:2: note: in expansion of macro '_compiletime_assert'
+     706 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |  BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+         |  ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
+      98 |  __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |  ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y) __careful_cmp(min, x, y)
+         |                   ^~~~~~~~~~~~~
+   dev.c:1790:8: note: in expansion of macro 'min'
+    1790 |  num = min(outarg.size, MAX_LFS_FILESIZE - pos);
+         |        ^~~
 
 
-vim +/err +449 net/psp/psp_main.c
+vim +/__compiletime_assert_408 +706 include/linux/compiler_types.h
 
-   446	
-   447	static int __init psp_init(void)
-   448	{
- > 449		int err;
-   450	
-   451		mutex_init(&psp_devs_lock);
-   452	
-   453		return genl_register_family(&psp_nl_family);
-   454	}
-   455	
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  695  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  696  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  703   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  704   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  707  
+
+:::::: The code at line 706 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
