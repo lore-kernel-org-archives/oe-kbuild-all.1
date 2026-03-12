@@ -1,113 +1,92 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441CF3AD508
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 07:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773299836; cv=pass; b=VpPX+qR3KYkRRHGUrlUisoO8pXGUzhEMCTmoCzJTIgXoaYtAOLf6nj4pjMhJlOceqMqmXoCMAM1gkfyWTxEhYIQbnGC9XjVPXSt50qP5P5L0NSGRaaLziXlk0VQ1AO4t3bJBNxM8dIM+/a7oV7/14xZHm5uLHes759ZCdbANa48=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773299836; c=relaxed/simple;
-	bh=GVVWkZinbvu+CdqWgWewr2jXtUw5zAnWEAj+UByDKzc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WkAJiKwl5Cjjjha6Q+QdIT3jMBptnv/1GF/Ijy33ImPi7Yfyz3USF1HICbhJsF7d7G8TrDXTLTTFmHUX09t+D2jFuzmjI6yQSbo7TBkzbbHThGpluv8MAwitGhhP8Cv7IdQjoyF9vRW6ql7vE4w8fr1+2pdirXJVWKuiWgZ7dLs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=REwa2hvs; arc=pass smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D13C186A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 07:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773300786; cv=none; b=VZzkZGTcdOiBXZaSjr/xAI4wtig43VIB27f0/EYFwvhLgnxkworvM6PbBwuC9hZrpMiSuZleg2MOnA1ulg7hIL/4yXet5Kl1x5bDbV2VvoDdHUBLQPIRDoQNuTsvdLnZEro8l4i1n4p5tYYHQ5se5qhnjnlny3PmOlYKP8oNtBU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773300786; c=relaxed/simple;
+	bh=uIQE2Ng0WkLUmEvt/HShshELdlqr0fFGOCe2M1ZqkaY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=B2q3sWX8Ty/i4uwiOtUsZGjOXm4f1csQSZSELIe0WwjT8oQ75Z6x5XvvtY23AYQ9Z9a4WaU2YtfEfv7zd+z+xnHsDwn+yDDDP1qNmwgoMYoeB0NRbC/oq8IcCrOiL0K6MLPzjZrQN1gRNsuKCwzpjGvq+aefzJML1RdXr/a52Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6I7nWgs; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="REwa2hvs"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2b8095668ebso17602eec.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 00:17:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773299834; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VgNVCPKPXNkqVHMiwq8Qjaz520ThoGikAa2Me10ITYwRppogumPRPWkUuvOKeyIHSo
-         vEee+UieRMuY6ErBeKZxa4+giqVj2MCGOKvNuYni85+InQ0WS4FI+lZPC9VtNQdBWLbU
-         NYLEh2vE81nemjkOi8UFWqvpGBc69+kDmCbdkk2Uk6iU2cxIrW0HFiuY+2USeZ5limCD
-         H4/jlMJIMf3cqmm1f/ikGE1czCjCDE07/91O+/qji+mBMEsePaleq+vB+8hC2nPFoKim
-         n9rov4JQiWXyktOPZy4zmJKPLhIckNC2lAW5uky63dfHkCWcln6YfzmuuKjmycFRH+8Z
-         QIBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fijcrm1C28H+gJhNiH167ZaI51N9KFHbWWWA7M7NLpI=;
-        fh=PhwgVgshHwnygFoTFoNsMTU0/lwigexFCqUpZGIHmjk=;
-        b=HPjZPjYNzJCCxntnVKQqZLAm0HCna+Y9XHibsgWHXlccSoU4XhkaCRH62MpIckwAel
-         xW6gK9a3GUxAx3lzL0mrfUWNfZxICviy4HB+h6901CmKxToMamDSeq9H4kvXiNdo8ToC
-         SDOYdfxl6vCwpwthpd6kal3u86zpmrgAvrykLq/9IvqNPiP1Rvz0BFGmLYhN49qddRvu
-         8EXnzR/kYXXYm/m26ct6dEutySmAklO0rBRt6Y7/5HGxEADWPi5dpTjGgplbOv8AJe+U
-         XcfR8cDIIWF/C7KjaXcJICeGUnkKYWtpjASo8vK0FkvB2UkOyAgQUZfQbveEAR37RJXs
-         tNAQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773299834; x=1773904634; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fijcrm1C28H+gJhNiH167ZaI51N9KFHbWWWA7M7NLpI=;
-        b=REwa2hvsiZ8u9r2GjlnbvJczFK1sLBOVJEMSBYk5AyId0ViICA1bFuyZgEno0xr5Cr
-         4D29APrxkZHZ0kIasjW2RAvhv1HHRlAoHwjEae8lXUXKwpwC9OJs6QKU/0Vz5UIRR5//
-         CDhLWIZiPQPWnQbTkHZNtTC+8qr1smHXNIiuejJRGxMlyPhiGgAuM0au2IxlKQLhMnMF
-         rV3FFZk1JBupVEh8eYhTWwACW+Ae10vu/hbHqVdg4EHQ9w+u1oRtbY7/ds1Fzmox6tQA
-         dxtyZzmoNGA7X5RIaoFKaVg/CP93/qrfoBG0FXswsdgMZ9hYejX2inp/yOmjDEy4/5+5
-         6tJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773299834; x=1773904634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fijcrm1C28H+gJhNiH167ZaI51N9KFHbWWWA7M7NLpI=;
-        b=S+ktCj1VN5zfy9+OPGbQqBXqqbggqYeUrEbIEK53uUBBT77tSevgOBjEaBZvMcTxgL
-         Xp2YiHr9ZgLbyUWzAE4qcBq1CLQEO+sHF4aSbJ3GzZTdKdS6qzmQsqJ0amBjIZmyXJ6u
-         D5U5mOF8w7feKPdv3zsZkPElcF7PuACqP+WzDrU+QqnI1nON+ouPQEnZonG7nINgDWb8
-         o4czHrJxkluTzDNrtue8/YgE8zzc7ECp/RRg3Bij99TZFaZZBIj9cwnneE/khcjDncJT
-         b+zn+lUWMj92JFia95dPIstChxIfqiUDDcfLxuw53cgBvCaLr82vPVyQ+ywmQcf0ehYi
-         58mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUTVHjcpvr1+anYaZ/2ABKtikg+35WsG7hcC8VURUv4L94cozpPmDzSLw3Uhm71akEOj+OggDfSv1A68lbw@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuFj2clVZF6ye6iZlD/bFeDy98C0acq1OKIHtps5Tu8Q5wY41U
-	fE1Hp71A770ZNThC5aLt2HDWkz4BpsKT32bNjTUq6gUafvbwy7oCZuft2Ufeay7fVBy/bl1TpLd
-	jIRhT9jKT2rpUxeEk3qfc8w5zGZudOpk=
-X-Gm-Gg: ATEYQzzz1Uz87Mj2Rw3dIE3q7THS8Bwm8ikhDz5eycj8Ch8HII6IjnYG6PokR4BOqUV
-	rzOVf3psRrlJGXRHZ7GKX5Rw71wI3syA8RRcy81xrd8B/97kgxkDC6jFILahWnIfvb59I3cfU8L
-	fvL2uclKpFQVwmvWmeZDTmvoJhU5Vhg4yULtB5QTu7e8DPZiMP2TbRL4ITunycuMqcmYIxhshlK
-	He3BRiAqBc+BBjXqKD/ow0Wq9R9p6RwOAN9mZ6MmsDbiAPzmxVDymc2kqbEB9otH1qSTzrPz0s9
-	Avcs9LxkcJ2zQmw6zbtujXLdf1c/7C+AVR3qI/u6nofglJG9y1pv5E9hEvS7gXpV/+sSrjYRfc2
-	tUe6g+cxzuZW78LYzz6umTMA=
-X-Received: by 2002:a05:7301:2b06:b0:2b7:ff3a:af82 with SMTP id
- 5a478bee46e88-2be99958a2bmr259221eec.1.1773299834239; Thu, 12 Mar 2026
- 00:17:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6I7nWgs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773300784; x=1804836784;
+  h=date:from:to:cc:subject:message-id;
+  bh=uIQE2Ng0WkLUmEvt/HShshELdlqr0fFGOCe2M1ZqkaY=;
+  b=l6I7nWgsLI2T78BeNNWAxxFCag6tMR0j6hxzvnEsRFekxiYRmkMPSL/Z
+   uNQ0CJVoC/TlUW43eO4I8SKqcX2lvzU+8ujBHzcy5MhmAwfgcSjqPLItG
+   9/OsGWO9avdT4y2GD4EjFqc8XXi7qEFvI8AhKr6zkGgx8nKS+1pgkhONH
+   7Dnb7LK0ws6ad7+pkQ4x3PCn/K1VwWxINSRwOCqn42JOA1mSHl7EGyASK
+   PN76jtO41i7QZWrH3IF4+d50VbD6q6a5aOJG7l3RvXAwv6QoLr6DzT3Nf
+   OXx5iEvPQ1CbnQBzOpN8tmMXzd7oEJPMSRGF/2oCPPcbHpd6P4wJs+TJm
+   g==;
+X-CSE-ConnectionGUID: TedTs5/2TcqqjldepJhRGg==
+X-CSE-MsgGUID: Oud+Ji1YQ26ZQ9OO131dXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="78274161"
+X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
+   d="scan'208";a="78274161"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 00:33:04 -0700
+X-CSE-ConnectionGUID: xOnmFeZ2THC3be7AdbXYUQ==
+X-CSE-MsgGUID: oOThZ6mURMeCAxKxVLd9Ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
+   d="scan'208";a="220678177"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 12 Mar 2026 00:33:02 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w0aXT-000000003TZ-44q6;
+	Thu, 12 Mar 2026 07:32:59 +0000
+Date: Thu, 12 Mar 2026 08:32:51 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 54/621] htmldocs: Warning:
+ Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references
+ a file that doesn't exist:
+ Documentation/devicetree/bindings/clock/keystone-gate.txt
+Message-ID: <202603120825.rOCzVqfG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202603120016.x0Fm70Gw-lkp@intel.com> <DH09SQNRVQP3.1CA7359P8IZ66@kernel.org>
-In-Reply-To: <DH09SQNRVQP3.1CA7359P8IZ66@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 12 Mar 2026 08:17:01 +0100
-X-Gm-Features: AaiRm50xyWOxS2FP3vtgiS0mz-Qzix7ALRCB2dgQaT299nMv1TFjao8Jom99ci8
-Message-ID: <CANiq72kp9hYU4LLOHHhQWd5sgsGvQSXH7XnDuNnfWiZwDKYX3Q@mail.gmail.com>
-Subject: Re: vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsbsbRiabPlh9_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataENtNtB1a_9...
-To: Benno Lossin <lossin@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Miguel Ojeda <ojeda@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Gary Guo <gary@garyguo.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 11, 2026 at 10:28=E2=80=AFPM Benno Lossin <lossin@kernel.org> w=
-rote:
->
-> @Miguel, do you know if this is pin-init/syn specific? I don't think
-> the syn rewrite should result in a difference like this.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 06707c22f1a1242d27f854a02ef7edd365d176aa [54/621] dt-bindings: clock: Convert ti,keystone,psc-clock to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260312/202603120825.rOCzVqfG-lkp@intel.com/reproduce)
 
-It doesn't look like it, no.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603120825.rOCzVqfG-lkp@intel.com/
 
-The config has `CONFIG_CC_OPTIMIZE_FOR_SIZE=3Dy` plus doctests enabled,
-so my first guess is that this seems to be a variant of:
+All warnings (new ones prefixed by >>):
 
-  https://lore.kernel.org/rust-for-linux/20251201021659.1729308-1-ojeda@ker=
-nel.org/
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
+>> Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/keystone-gate.txt
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
+   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
 
-Cheers,
-Miguel
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
