@@ -1,156 +1,241 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54CB39020C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 16:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E9F3F87E4;
+	Thu, 12 Mar 2026 17:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773334580; cv=none; b=aN6k9L5nC502AvBow3AqBVZzulpKT2/HpWFQ1sVMixXlELQ61yVkKuDNxYr48QAlE/eyy5IPSrg40DKbbTk2PqFjIqUfvL3KnIsdOLHk+iM75/NCXdzhk0tMoQnUwMO35koPqOe33kIoJUksh0dWPhKjutJKdnctbGqf3LQNQuc=
+	t=1773336895; cv=none; b=SmVpJsZPtSOIaJAxr4QsnJ4DipoGHJEgZtlx/Vz8KGH0MNAeK0I1y9KRXViPxmHMBk6Nl+B99wgeL8a0jR0TO2uTKivO0cIrireheGR5/8Q2imD/Ko04BJZksWRThIDA0XgA8LL7wbyKhrIWJwRMFDFuUqZuBkYT0RpkPPcH59c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773334580; c=relaxed/simple;
-	bh=2FIX/z0MA78TQchy8Bl9fzSZSjfi9qD8z5KF77Ky/zQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N0hQ6koCu/QlRGrKDdUStRigOkvCFd75MPZmWbYIRHI44En2/4Qhey81OXxeQ9XGDI7YG3F8vsQmYqNzKgBBRyOKcVUHndbV9tdb2J35yMyQRUnN3hyIbCtrmDOHNC8b2CpZYKJB4+CR6PJmojYC+lH/4EuuuTnpRPjiszlRLjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BY1zDlEw; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773336895; c=relaxed/simple;
+	bh=GjRSZPtRoadRciRerMC+6uH9xrPzzmTmrc3rFGwVbmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pL/h6WhlDUZkXwFY7Cbnr9KrVbtEYbjIFWpmBE8k3d6mKXBnFTBUrgAGeT2Ao/jzLUhXPZLUP0SnJOjpbKymgQVYB1USo0ZWE8iRFuuM9BpE823dq8m23ZeUvDianJdXLma/274ANVX2hOPdoPB/JvpXGohW/o1Q/RIss/qD80U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tUxZ/Gsp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BY1zDlEw"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7d75ed779bfso1377069a34.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 09:56:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773334578; x=1773939378; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=18JIT3O6zukphcEe6SxTxh/vhMczaM3dIFncm+AHYYE=;
-        b=BY1zDlEwUWF+h9RM3iLGs55r4zacL9iJVE78zyNPKD2mAd7LSGr01stURxmdGsXHwd
-         khnHju6ZdirymzYLAr7uSJWN0rMpWaTw2ZCZdH5TjkO6rp8vIwciSCxneW2p+HSbj4zW
-         Phk656eYR+r4ycEBiqj4sbmLgrDkrX94w3kEePj4/nM5JiktX/OXN/XMLWMMpOwonU2j
-         PX4um1dbWCly/xDI47PHeCCesVXfB+NYwmC53mnrDHaTOUqaBFTfoTVH9pUPPvfGyhsR
-         gjN/U1nqPT6tXoKz1RaiU1Yz1IBFAGWb0SdT/QFJfzYZQtdnjK0VtIbZ9enAJHuItvIM
-         X4pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773334578; x=1773939378;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=18JIT3O6zukphcEe6SxTxh/vhMczaM3dIFncm+AHYYE=;
-        b=OB4n922jmi1Ax3M6OLPKuphLOujZ3Q6Xuzo8oGSz7xtgyIvIP+Tv5JxJxt65umRjVf
-         bzl2B4qNvoelVqUmrkprbD716Xpg8HTtuRoxJ3yLFp7Ssd5GqLs9Ytkf/Fv2YIgaZDnm
-         OCZVpPyh7nn1RNi4FGafDI2YEJ6ccaPN9CRO9uWsMQ8Y7YZlxRMDb7CDFoS8+M07inih
-         cklfjPNLlE0Sx2+2MOiW+dLxMxgYtzLW9Q31ryEMnX2S7QpOa+N0DmDO7rxNi98VGANC
-         QxEdJJQAGizJ217WsFI0b5FB+bO784BZc5n+tHk8kvmefYf5FlEV2I3a4FepVv4EZooY
-         jXBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBAn4sy51gX5Z22m9AFOYmERmL3v6G0wS1QQvqw51Ms5LTAyNyz65v4vImBXPQcsmk5bjhyxlcKgisZrfg@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6WK68xyuM2jNKFjReenNnETFt51FvK7L5UgHKmaI6FwQWc1Ea
-	0JH1aLj7NjePWcwNhIH+fpfAEt6AF5G21qTnYpB8FbzviI729AlFMj8q
-X-Gm-Gg: ATEYQzwpuofU66ZqW/JqJQKQNu5f41lhHRjOAyuzJU0ov1LXu2aG2Wjh7H/V/4Hpsck
-	gzgziabIXoD30uTXwiykz9hQkXOlJjrmSE28Z6Dm77KjKUCPVpI3fc4ZEiTimJukDP6SwlefdC9
-	Rs/T+Qj2LybvK0G7gWm4QIWz2Uuus3cZOHWCo+WJ6Ckewjsgu5zcyq6wK0vf87iC53A8mZgSY1L
-	qp7q8baADnrHu4ZsBk6NG1MNzqZ8emm7fysks6KqJoMVIOuzy5gNkU9RPAUQbepBh0pSnFoVe5x
-	pyLJHEFn75qEmDxKrL1/VOUyf7V18CdYoYvf0XAclskGZWhyY4S0xwiMFNECG2mI7IH+02Czxoo
-	Jlw2F7reQEq20ziZbOZ5C2GljpwFxeN2FehCnLaKb1Sn+wrRGXS4XvIYLNOCTv1zdoZN07ttd8L
-	MXQvDei3RSu+aBcWsVLCOhKw==
-X-Received: by 2002:a05:6830:64c8:b0:7d7:5b20:16ec with SMTP id 46e09a7af769-7d782466df9mr59235a34.11.1773334577663;
-        Thu, 12 Mar 2026 09:56:17 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:57::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d76aa5dcc7sm4596873a34.0.2026.03.12.09.56.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 09:56:17 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Minchan Kim <minchan@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Yosry Ahmed <yosry.ahmed@linux.dev>,
-	Nhat Pham <hoangnhat.pham@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH 10/11] mm/zsmalloc: Handle single object charge migration in migrate_zspage
-Date: Thu, 12 Mar 2026 09:56:14 -0700
-Message-ID: <20260312165615.3800716-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <202603121158.g93vlc2U-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tUxZ/Gsp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71ECFC4CEF7;
+	Thu, 12 Mar 2026 17:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773336895;
+	bh=GjRSZPtRoadRciRerMC+6uH9xrPzzmTmrc3rFGwVbmE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tUxZ/Gsp4PlAe6XQp00WrN6u5NVHCExCnFbCopQQf87UnDRpSOAGyvAn9n2hFrX/c
+	 L74wn+3QWnDiV9I+po0Acr95nZp0xGBEb2PdcA/48RxEkg9L7NeVBYVkoGXwo4oztA
+	 v+vQtKdAEO/474D3JpD9F35FuR10pokM9qC4XMrmgi13Lt8nFiepB+oPZqimOYx5W6
+	 MB4FzIp0mLgbb+fH1z0dixP/O4Vvk1xlE3X0NvrfW0hJwlDKjJzNk9qjbe3Nk+fPRL
+	 jJ6J1qFt4dFXMz/HCXUWyhKu+GDVhgEYOwwdONgVXP80q+gso+Ys07A1STyekPOeGg
+	 E6+DzWduwuPwQ==
+Date: Thu, 12 Mar 2026 18:34:15 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
+Subject: Re: [tip:timers/vdso 37/45] progs/hid_bpf_helpers.h:117:31: error:
+ declaration of 'struct bpf_wq' will not be visible outside of this function
+Message-ID: <abL184dNU_lO2JsP@beelink>
+References: <202603111558.KLCIxsZB-lkp@intel.com>
+ <20260311160618-dbfa08f6-8cfa-4f81-94a2-d6d97f79ae93@linutronix.de>
+ <abGeK0FpNn5uXi8B@beelink>
+ <20260312073810-db531b6e-ed24-4a55-865e-e7b94e90b8e6@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260312073810-db531b6e-ed24-4a55-865e-e7b94e90b8e6@linutronix.de>
 
-On Thu, 12 Mar 2026 11:51:59 +0800 kernel test robot <lkp@intel.com> wrote:
+On Mar 12 2026, Thomas Weißschuh wrote:
+> Hi Benjamin,
+> 
+> thanks for the quick response.
+> 
+> On Wed, Mar 11, 2026 at 06:05:25PM +0100, Benjamin Tissoires wrote:
+> > On Mar 11 2026, Thomas Weiï¿½schuh wrote:
+> > > could you take a look at the report below?
+> > > This looks like an issue in the HID BPF subsystem, surfaced by my
+> > > unrelated change. Does this ring a bell for you?
+> > > 
+> > > I wasn't able to reproduce it so far, but will continue looking into it.
+> > 
+> > Both struct bpf_wq and struct hid_device should be generated in the
+> > vmlinux.h that we include in the selftests. So this is definitely not
+> > related to your patch AFAICT.
+> 
+> Ack. To be sure I sent this branch again through 0day and will see if it
+> breaks on the same commit.
+> 
+> > Looking in the config, we have `# CONFIG_HID_SUPPORT is not set` -> so
+> > that would explain why struct hid_device is not available. But in that
+> > case, why are the HID selftests even built?
+> 
+> CONFIG_DEBUG_INFO_BTF is also not set. So there should be no vmlinux.h
+> at all in the first. Which is exactly what happens in my attempts
+> to reproduce the issue. But even when fixing that up, the issue persists.
+> 
+> > The bpf_wq bits should be related to a similar-ish issue where one
+> > config setting is not set and so it's not included in the final BTF.
+> 
+> I'll look into how exactly things end up in vmlinux.h.
+> At least the headers for 'struct bpf_wq' are always included somewhere.
+> But maybe the type also needs to be used to define some structure.
+> 
+> > I paged out how we can ignore selftests based on the .config, so if you
+> > have any hints, that would be nice :)
+> 
+> Inspecting the kernel configuration might be hard, as there might be no file
+> for it available. Could you use vmlinux.h itself for feature detection?
+> 
 
-> Hi Joshua,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on axboe/for-next]
-> [also build test WARNING on linus/master v7.0-rc3]
-> [cannot apply to akpm-mm/mm-everything next-20260311]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-zsmalloc-Rename-zs_object_copy-to-zs_obj_copy/20260312-035531
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20260311195153.4013476-11-joshua.hahnjy%40gmail.com
-> patch subject: [PATCH 10/11] mm/zsmalloc: Handle single object charge migration in migrate_zspage
-> config: x86_64-randconfig-001-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121158.g93vlc2U-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121158.g93vlc2U-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603121158.g93vlc2U-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> mm/zsmalloc.c:1702:6: warning: variable 's_idx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->     1702 |         if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
->          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    mm/zsmalloc.c:1752:45: note: uninitialized use occurs here
->     1752 |         d_zspage->objcgs[d_idx] = s_zspage->objcgs[s_idx];
->          |                                                    ^~~~~
->    mm/zsmalloc.c:1702:2: note: remove the 'if' if its condition is always false
->     1702 |         if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     1703 |                 goto out;
->          |                 ~~~~~~~~
->    mm/zsmalloc.c:1696:20: note: initialize the variable 's_idx' to silence this warning
->     1696 |         unsigned int s_idx, d_idx;
->          |                           ^
->          |                            = 0
-> >> mm/zsmalloc.c:1702:6: warning: variable 'd_idx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->     1702 |         if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
->          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    mm/zsmalloc.c:1752:19: note: uninitialized use occurs here
->     1752 |         d_zspage->objcgs[d_idx] = s_zspage->objcgs[s_idx];
->          |                          ^~~~~
->    mm/zsmalloc.c:1702:2: note: remove the 'if' if its condition is always false
->     1702 |         if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     1703 |                 goto out;
->          |                 ~~~~~~~~
->    mm/zsmalloc.c:1696:27: note: initialize the variable 'd_idx' to silence this warning
->     1696 |         unsigned int s_idx, d_idx;
->          |                                  ^
->          |                                   = 0
->    2 warnings generated.
+Actually I think I remember the rationale:
+- because working with config is hard, we just hide any struct
+	definition we need in progs/hid_bpf_helpers.h before including
+	vmlinux.h
+- then we manually define them
 
-Hello kernel test robot,
+So it looks like this is a step I forgot to make when I added the last
+few bits: redefine struct bpf_wq and struct hid_device.
 
-Thank you for catching this issue! Yes, the MEMCG v1 check should be
-done after I use obj_to_location to initialize the indices, so that
-the objcg pointer swap works at the end.
+Technically we shouldn't even need to redefine the entire struct, but
+only the bits we are accessing, because bpf with CO-RE will do the
+offsets for us :)
 
-Will make the change in the next version!
-Joshua
+Would the following patch fixes the issue?:
+---
+From bf4030f8116a4bcafe9f8d84f3d03dd2eedc58a4 Mon Sep 17 00:00:00 2001
+From: Benjamin Tissoires <bentiss@kernel.org>
+Date: Thu, 12 Mar 2026 18:29:40 +0100
+Subject: [PATCH] selftests/hid: fix compilation when bpf_wq and hid_device are
+ not exported
+
+This can happen in situations when CONFIG_HID_SUPPORT is set to no, or
+some complex situations where struct bpf_wq is not exported.
+
+So do the usual dance of hiding them before including vmlinux.h, and
+then redefining them and make use of CO-RE to have the correct offsets.
+
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+ tools/testing/selftests/hid/progs/hid_bpf_helpers.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+index 80ab60905865..2c6ec907dd05 100644
+--- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
++++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+@@ -8,9 +8,11 @@
+ /* "undefine" structs and enums in vmlinux.h, because we "override" them below */
+ #define hid_bpf_ctx hid_bpf_ctx___not_used
+ #define hid_bpf_ops hid_bpf_ops___not_used
++#define hid_device hid_device___not_used
+ #define hid_report_type hid_report_type___not_used
+ #define hid_class_request hid_class_request___not_used
+ #define hid_bpf_attach_flags hid_bpf_attach_flags___not_used
++#define bpf_wq bpf_wq___not_used
+ #define HID_INPUT_REPORT         HID_INPUT_REPORT___not_used
+ #define HID_OUTPUT_REPORT        HID_OUTPUT_REPORT___not_used
+ #define HID_FEATURE_REPORT       HID_FEATURE_REPORT___not_used
+@@ -29,9 +31,11 @@
+ 
+ #undef hid_bpf_ctx
+ #undef hid_bpf_ops
++#undef hid_device
+ #undef hid_report_type
+ #undef hid_class_request
+ #undef hid_bpf_attach_flags
++#undef bpf_wq
+ #undef HID_INPUT_REPORT
+ #undef HID_OUTPUT_REPORT
+ #undef HID_FEATURE_REPORT
+@@ -55,6 +59,14 @@ enum hid_report_type {
+ 	HID_REPORT_TYPES,
+ };
+ 
++struct hid_device {
++	unsigned int id;
++} __attribute__((preserve_access_index));
++
++struct bpf_wq {
++	__u64 __opaque[2];
++};
++
+ struct hid_bpf_ctx {
+ 	struct hid_device *hid;
+ 	__u32 allocated_size;
+-- 
+2.52.0
+---
+
+Cheers,
+Benjamin
+
+> 
+> Thomas
+> 
+> > > On Wed, Mar 11, 2026 at 03:29:54PM +0100, kernel test robot wrote:
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+> > > > head:   f7178f159b2a36d070fd43b0d751e4e4415ec39e
+> > > > commit: 912632a7fd4cc1eac2778828d92e8fe46939d6bd [37/45] vdso/datapage: Trim down unnecessary includes
+> > > > config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260311/202603111558.KLCIxsZB-lkp@intel.com/config)
+> > > > compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111558.KLCIxsZB-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202603111558.KLCIxsZB-lkp@intel.com/
+> > > > 
+> > > > All errors (new ones prefixed by >>):
+> > > > 
+> > > >    In file included from progs/hid.c:3:
+> > > > >> progs/hid_bpf_helpers.h:117:31: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> > > >      117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+> > > >          |                               ^
+> > > >    progs/hid_bpf_helpers.h:118:32: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> > > >      118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+> > > >          |                                ^
+> > > >    progs/hid_bpf_helpers.h:119:39: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> > > >      119 | extern int bpf_wq_set_callback(struct bpf_wq *wq,
+> > > >          |                                       ^
+> > > > >> progs/hid.c:448:16: error: field has incomplete type 'struct bpf_wq'
+> > > >      448 |         struct bpf_wq work;
+> > > >          |                       ^
+> > > >    progs/hid.c:448:9: note: forward declaration of 'struct bpf_wq'
+> > > >      448 |         struct bpf_wq work;
+> > > >          |                ^
+> > > > >> progs/hid.c:487:18: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> > > >      487 |         if (bpf_wq_init(wq, &hmap, 0) != 0)
+> > > >          |                         ^~
+> > > >    progs/hid_bpf_helpers.h:117:39: note: passing argument to parameter 'wq' here
+> > > >      117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+> > > >          |                                       ^
+> > > >    progs/hid.c:490:26: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> > > >      490 |         if (bpf_wq_set_callback(wq, wq_cb_sleepable, 0))
+> > > >          |                                 ^~
+> > > >    progs/hid_bpf_helpers.h:119:47: note: passing argument to parameter 'wq' here
+> > > >      119 | extern int bpf_wq_set_callback(struct bpf_wq *wq,
+> > > >          |                                               ^
+> > > >    progs/hid.c:493:19: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> > > >      493 |         if (bpf_wq_start(wq, 0))
+> > > >          |                          ^~
+> > > >    progs/hid_bpf_helpers.h:118:40: note: passing argument to parameter 'wq' here
+> > > >      118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+> > > >          |                                        ^
+> > > >    progs/hid.c:503:24: error: incomplete definition of type 'struct hid_device'
+> > > >      503 |         int hid = hid_ctx->hid->id;
+> > > >          |                   ~~~~~~~~~~~~^
+> > > >    progs/hid_bpf_helpers.h:59:9: note: forward declaration of 'struct hid_device'
+> > > >       59 |         struct hid_device *hid;
+> > > >          |                ^
+> > > >    8 errors generated.
+> > > > 
+> > > > -- 
+> > > > 0-DAY CI Kernel Test Service
+> > > > https://github.com/intel/lkp-tests/wiki
+> > > 
+> 
