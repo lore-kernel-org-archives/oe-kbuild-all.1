@@ -1,73 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799E03290C4;
-	Thu, 12 Mar 2026 01:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E5A37DE88;
+	Thu, 12 Mar 2026 02:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773280186; cv=none; b=Z9zz0qytBOme/RgjHssRwO59zxKsX0FVxGZri5GmuzVvhfV0H7PR3d1LNx3qWUJCuN3aPtfdFda2CalxLM4AsHC5lJxZm3VCj2kTPvAaSXKw0vGKLbqF9rrdiu1ia4+16Q8PDOS0bnjEuBCmv9iCgBY9Txdqo1Nf11eKQSKptQI=
+	t=1773283440; cv=none; b=eGmwVGyb41DIdJ0Ccao22eKVcMDbyuZJt5cUZkR3G7qLp0dfZA8PoRWVMtSaQJC2PaZG89pBVfoIEqyNPe58yqpEZ4hXNTQlfuJtBZWmCVbSf1a97BWO9Qu/POY56APvGBBZCHUX0YlJynhqiFG2XX5kK4BThfj8EZ74VNdL8QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773280186; c=relaxed/simple;
-	bh=7pyGelV79AEGbHfHfv0XLQIfbu8aHxnIWZ1Vr3FIRxU=;
+	s=arc-20240116; t=1773283440; c=relaxed/simple;
+	bh=YX+Hl+T55T++SepgMId5u+VEq+b3QtDDFYNOz+QzAB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WTJyBGgRi74pFVF47/GJ651a9lCzxUelZlLrGbq0YFQzuwU5tG9HWFxahMm7FPJoXJpMfZBIgfZbxpDGbrKLWK59BCeCcVRJmUuJseroahLPdn45M/kOs27jIfMpQte0I0WbmPHVuxUft44EWOxx48JULlTEqmiguPKYie6IBM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BPB2DK9M; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=brFkB4Y+pOjmTcL5WN0lKtLceZsPNOw5J1aUbEQBr1cHz0qv/PBuq33B0OaH26woGBhBuEYIhrUhyLmDKL7ppzDLLMZVeazPd2cUkP900QYvaIOy4ZElVrjFGX5JQn2uJka2vlXm1hbXbtjqZcjQub6jNOcohwGB0k9Qb0yB9v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gTcKTojc; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BPB2DK9M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gTcKTojc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773280185; x=1804816185;
+  t=1773283436; x=1804819436;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7pyGelV79AEGbHfHfv0XLQIfbu8aHxnIWZ1Vr3FIRxU=;
-  b=BPB2DK9Mf6gHZakh4fDEnRv15/F5oTp7N927aMCSb0LAoWi19SIOaYfQ
-   x6IDG5Jfj3kzI4R19+fSEWxba9+qLzLVIGEl3Aah0oTt6DDqiSSYRfYX/
-   waQBFEVxRXQ6oiOdKtjyhes+pNz2SqMl8QmKZruBPklRjfSfQGh5rR4WC
-   wcup7yxzxOWPa34QwdwOCR/KX+gh3hHIn3bKQkQeHuMcOAvTQwfYdMTyU
-   42dXyt/GQBgNPubS+F1ib7KHwczYQYLBiZysmXrLlJcpL90DNHc0Y3xZz
-   y2Z74tWd6hLT51UAw5v4I3Gv95703ilopg0Tu6WYHR7lhqkUddvxzkeRP
-   Q==;
-X-CSE-ConnectionGUID: HczDFOBuRJ+J4Y4PJvEuzw==
-X-CSE-MsgGUID: vFMsjKnWRgOE4p6kMnsNKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74241215"
+  bh=YX+Hl+T55T++SepgMId5u+VEq+b3QtDDFYNOz+QzAB4=;
+  b=gTcKTojc4TyZ0otKzpTMC1ZkJ2gBbfUrsaskT+FZiVeg0xVe4rHU0ghA
+   OObUxT1qG74TCqFk3qnc77SMcQDO74UgZzb2fj1csXYcaB2G0omskYFwW
+   NpLxGB1E/nS95ECkYZ6a1u2+oxgeWJWFVCu1lDalMtCWXtZPalg+zWARK
+   +tXoAZgJQze5PbuiF41CnSwHD+Stav2vxpfLd8w8QqJYWhXO5roAiUMWg
+   pe1ms2GeUZrTaQk6ejtAJM21n8OAX5GoTORJy9n/Y01hy4NYPtFWiUODg
+   s6CF7j8bMXb9l95+F4J3ZBLDg8ANv32ytIqViMY+jf6nKbAu6f0B9wvP/
+   w==;
+X-CSE-ConnectionGUID: KuDtoGPnS9KNYE0wScPH1w==
+X-CSE-MsgGUID: pE8upolaQmqTRHNSWpImCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="73382997"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="74241215"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 18:49:45 -0700
-X-CSE-ConnectionGUID: 3HYzLJfPT0qWGvzXIZZV1w==
-X-CSE-MsgGUID: n3xQw8bvQ/mBoRaRV9yrNg==
+   d="scan'208";a="73382997"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 19:43:56 -0700
+X-CSE-ConnectionGUID: zkdaBhb6SeyQBR/C95B9kQ==
+X-CSE-MsgGUID: 5NZVoEHIQRahCpG0L1M0/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="225108599"
+   d="scan'208";a="220623329"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Mar 2026 18:49:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 11 Mar 2026 19:43:53 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0VB7-000000001v1-3ViA;
-	Thu, 12 Mar 2026 01:49:33 +0000
-Date: Thu, 12 Mar 2026 09:49:18 +0800
+	id 1w0W1e-000000001y7-26p2;
+	Thu, 12 Mar 2026 02:43:50 +0000
+Date: Thu, 12 Mar 2026 10:43:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Jeffery <djeffery@redhat.com>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Tarun Sahu <tarunsahu@google.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	=?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>,
-	Jordan Richards <jordanrichards@google.com>,
-	Ewan Milne <emilne@redhat.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	David Jeffery <djeffery@redhat.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>
-Subject: Re: [PATCH 2/5] driver core: separate function to shutdown one device
-Message-ID: <202603120917.gDcyYG9H-lkp@intel.com>
-References: <20260311171209.9205-2-djeffery@redhat.com>
+To: Carl Lee via B4 Relay <devnull+carl.lee.amd.com@kernel.org>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	krzk@kernel.org, carl.lee@amd.com, peter.shen@amd.com,
+	colin.huang2@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] nfc: nxp-nci: i2c: restore IRQ trigger fallback
+Message-ID: <202603121049.f2P9Ik4Y-lkp@intel.com>
+References: <20260311-nfc-nxp-nci-i2c-restore-irq-trigger-fallback-v1-1-9e20714411d7@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,85 +65,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260311171209.9205-2-djeffery@redhat.com>
+In-Reply-To: <20260311-nfc-nxp-nci-i2c-restore-irq-trigger-fallback-v1-1-9e20714411d7@amd.com>
 
-Hi David,
+Hi Carl,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus jejb-scsi/for-next mkp-scsi/for-next linus/master v7.0-rc3 next-20260311]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 7109a2155340cc7b21f27e832ece6df03592f2e8]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Jeffery/driver-core-separate-function-to-shutdown-one-device/20260312-011646
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20260311171209.9205-2-djeffery%40redhat.com
-patch subject: [PATCH 2/5] driver core: separate function to shutdown one device
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260312/202603120917.gDcyYG9H-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120917.gDcyYG9H-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Carl-Lee-via-B4-Relay/nfc-nxp-nci-i2c-restore-IRQ-trigger-fallback/20260311-174025
+base:   7109a2155340cc7b21f27e832ece6df03592f2e8
+patch link:    https://lore.kernel.org/r/20260311-nfc-nxp-nci-i2c-restore-irq-trigger-fallback-v1-1-9e20714411d7%40amd.com
+patch subject: [PATCH] nfc: nxp-nci: i2c: restore IRQ trigger fallback
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260312/202603121049.f2P9Ik4Y-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121049.f2P9Ik4Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603120917.gDcyYG9H-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121049.f2P9Ik4Y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/base/core.c: In function 'device_shutdown':
->> drivers/base/core.c:4824:30: warning: variable 'parent' set but not used [-Wunused-but-set-variable]
-    4824 |         struct device *dev, *parent;
-         |                              ^~~~~~
+>> drivers/nfc/nxp-nci/i2c.c:311:13: error: call to undeclared function 'irq_get_trigger_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     311 |         irqflags = irq_get_trigger_type(client->irq);
+         |                    ^
+   1 error generated.
 
 
-vim +/parent +4824 drivers/base/core.c
+vim +/irq_get_trigger_type +311 drivers/nfc/nxp-nci/i2c.c
 
-f9dcdf9ae03c40 David Jeffery      2026-03-11  4818  
-37b0c020343080 Greg Kroah-Hartman 2007-11-26  4819  /**
-37b0c020343080 Greg Kroah-Hartman 2007-11-26  4820   * device_shutdown - call ->shutdown() on each device to shutdown.
-37b0c020343080 Greg Kroah-Hartman 2007-11-26  4821   */
-37b0c020343080 Greg Kroah-Hartman 2007-11-26  4822  void device_shutdown(void)
-37b0c020343080 Greg Kroah-Hartman 2007-11-26  4823  {
-f123db8e9d6c84 Benson Leung       2013-09-24 @4824  	struct device *dev, *parent;
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4825  
-3297c8fc65af5d Pingfan Liu        2018-07-19  4826  	wait_for_device_probe();
-3297c8fc65af5d Pingfan Liu        2018-07-19  4827  	device_block_probing();
-3297c8fc65af5d Pingfan Liu        2018-07-19  4828  
-65650b35133ff2 Rafael J. Wysocki  2019-10-09  4829  	cpufreq_suspend();
-65650b35133ff2 Rafael J. Wysocki  2019-10-09  4830  
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4831  	spin_lock(&devices_kset->list_lock);
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4832  	/*
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4833  	 * Walk the devices list backward, shutting down each in turn.
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4834  	 * Beware that device unplug events may also start pulling
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4835  	 * devices offline, even as the system is shutting down.
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4836  	 */
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4837  	while (!list_empty(&devices_kset->list)) {
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4838  		dev = list_entry(devices_kset->list.prev, struct device,
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4839  				kobj.entry);
-d1c6c030fcec6f Ming Lei           2012-06-22  4840  
-d1c6c030fcec6f Ming Lei           2012-06-22  4841  		/*
-d1c6c030fcec6f Ming Lei           2012-06-22  4842  		 * hold reference count of device's parent to
-d1c6c030fcec6f Ming Lei           2012-06-22  4843  		 * prevent it from being freed because parent's
-d1c6c030fcec6f Ming Lei           2012-06-22  4844  		 * lock is to be held
-d1c6c030fcec6f Ming Lei           2012-06-22  4845  		 */
-f123db8e9d6c84 Benson Leung       2013-09-24  4846  		parent = get_device(dev->parent);
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4847  		get_device(dev);
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4848  		/*
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4849  		 * Make sure the device is off the kset list, in the
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4850  		 * event that dev->*->shutdown() doesn't remove it.
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4851  		 */
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4852  		list_del_init(&dev->kobj.entry);
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4853  		spin_unlock(&devices_kset->list_lock);
-fe6b91f47080eb Alan Stern         2011-12-06  4854  
-f9dcdf9ae03c40 David Jeffery      2026-03-11  4855  		shutdown_one_device(dev);
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4856  
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4857  		spin_lock(&devices_kset->list_lock);
-37b0c020343080 Greg Kroah-Hartman 2007-11-26  4858  	}
-6245838fe4d2ce Hugh Daschbach     2010-03-22  4859  	spin_unlock(&devices_kset->list_lock);
-37b0c020343080 Greg Kroah-Hartman 2007-11-26  4860  }
-99bcf217183e02 Joe Perches        2010-06-27  4861  
+   265	
+   266	static int nxp_nci_i2c_probe(struct i2c_client *client)
+   267	{
+   268		struct device *dev = &client->dev;
+   269		struct nxp_nci_i2c_phy *phy;
+   270		int r;
+   271		unsigned long irqflags;
+   272	
+   273		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+   274			nfc_err(&client->dev, "Need I2C_FUNC_I2C\n");
+   275			return -ENODEV;
+   276		}
+   277	
+   278		phy = devm_kzalloc(&client->dev, sizeof(struct nxp_nci_i2c_phy),
+   279				   GFP_KERNEL);
+   280		if (!phy)
+   281			return -ENOMEM;
+   282	
+   283		phy->i2c_dev = client;
+   284		i2c_set_clientdata(client, phy);
+   285	
+   286		r = devm_acpi_dev_add_driver_gpios(dev, acpi_nxp_nci_gpios);
+   287		if (r)
+   288			dev_dbg(dev, "Unable to add GPIO mapping table\n");
+   289	
+   290		phy->gpiod_en = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+   291		if (IS_ERR(phy->gpiod_en)) {
+   292			nfc_err(dev, "Failed to get EN gpio\n");
+   293			return PTR_ERR(phy->gpiod_en);
+   294		}
+   295	
+   296		phy->gpiod_fw = devm_gpiod_get_optional(dev, "firmware", GPIOD_OUT_LOW);
+   297		if (IS_ERR(phy->gpiod_fw)) {
+   298			nfc_err(dev, "Failed to get FW gpio\n");
+   299			return PTR_ERR(phy->gpiod_fw);
+   300		}
+   301	
+   302		r = nxp_nci_probe(phy, &client->dev, &i2c_phy_ops,
+   303				  NXP_NCI_I2C_MAX_PAYLOAD, &phy->ndev);
+   304		if (r < 0)
+   305			return r;
+   306	
+   307		/* Prefer the trigger type configured by firmware.
+   308		 * Some platforms do not provide it, so fall back to the
+   309		 * historically used rising-edge trigger.
+   310		 */
+ > 311		irqflags = irq_get_trigger_type(client->irq);
+   312		if (!irqflags)
+   313			irqflags = IRQF_TRIGGER_RISING;
+   314	
+   315		r = request_threaded_irq(client->irq, NULL,
+   316					 nxp_nci_i2c_irq_thread_fn,
+   317					 irqflags | IRQF_ONESHOT,
+   318					 NXP_NCI_I2C_DRIVER_NAME, phy);
+   319		if (r < 0)
+   320			nfc_err(&client->dev, "Unable to register IRQ handler\n");
+   321	
+   322		return r;
+   323	}
+   324	
 
 -- 
 0-DAY CI Kernel Test Service
