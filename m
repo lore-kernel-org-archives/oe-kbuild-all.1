@@ -1,167 +1,156 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010015.outbound.protection.outlook.com [52.101.61.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BE038F657
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 16:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773333361; cv=fail; b=Kikam/hzxq4J84qU4imbKDkMhOi5131RJMX+2Zm6r5QxxHw080oodAfj/I3MJ2wBcRMzcGBEfkUQjnopD4EbuQQCmeZ5sjmQVNPlhpONLA0MIJaKfUvBwl/A5Q40uc6C7bDbQp1Uz2Z0aogcy/PwKPaRr/ub47MkCfJMxp8jSjQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773333361; c=relaxed/simple;
-	bh=LaOwOCLTECmm7nYpPAV9cCXPWZebHzrJ0tH+OK+UmPg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lrygNk32bkJvPur2pjOyP/oeUqDYecf2b2cfjBq3rp3bXC6yulS4RozEjIJeFd3cx/hmW/WIy24qvPzz/qJxxtcCi4x7GpZhbXrBMg8+LtarNNqRSi3PP0t9hpX1iPwx6Wc7Dg9cC8EuRdhZr0ZuRgKUFbNFcKjd82WIFS2pfC0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TBhlXb3Q; arc=fail smtp.client-ip=52.101.61.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54CB39020C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 16:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773334580; cv=none; b=aN6k9L5nC502AvBow3AqBVZzulpKT2/HpWFQ1sVMixXlELQ61yVkKuDNxYr48QAlE/eyy5IPSrg40DKbbTk2PqFjIqUfvL3KnIsdOLHk+iM75/NCXdzhk0tMoQnUwMO35koPqOe33kIoJUksh0dWPhKjutJKdnctbGqf3LQNQuc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773334580; c=relaxed/simple;
+	bh=2FIX/z0MA78TQchy8Bl9fzSZSjfi9qD8z5KF77Ky/zQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N0hQ6koCu/QlRGrKDdUStRigOkvCFd75MPZmWbYIRHI44En2/4Qhey81OXxeQ9XGDI7YG3F8vsQmYqNzKgBBRyOKcVUHndbV9tdb2J35yMyQRUnN3hyIbCtrmDOHNC8b2CpZYKJB4+CR6PJmojYC+lH/4EuuuTnpRPjiszlRLjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BY1zDlEw; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TBhlXb3Q"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KnANdW8cphLjzsjBAuwBpZ1e3BG+0XPCQURWmqeDxF3sV0RmXVGh6Q19oxUftZc5ofCeGZb2E5ZVra47fZvxpS5S7sEluNOw0nObduoNfJt1K6qwaYfBTRvoIXwQ0/s6aMlitI8ss/iIW4LVdATRsrt3ywKSHw13wySsxahcuNENN4eJ5cPtrSZeq9wkKxdleS6qWXoYmbk7Jt0KdTduz/EA/3QpT8PCYz1NVf5NqiNTsegm1Eh8Nr2x278J9TnqiHvZzaYwsik+UbEoyNC90DTOwsqf8dRXegqNmYFARaT/G9B7hfLVIn1bfFHF5H2re94GFaymDjtig4GHwwaU2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+GBisDdBjkBu+BB41D7htWCTz7AnwBZcPo+p5734OJ4=;
- b=Pzj06AmhI/tJGDTo0Jnw03dq/Jtm3u5N5c7URSjr4pbGYC9gTLDwz3mA3DnccsrQG9AurdBjoPHFGUs8LZeg9Qf4pyzFBWvwV8bEOKI5f87PJAsi5GCkPMpGXZ+DSrqhhelgklpYxBzqqKBMJL6F41r4HdOt3rUyGO6ainXt2N4UvUj4xjvC8NUwWqFb1kd6dQDTQi0fBHZUOT7jU9qnVmTTYnhVONSLkqmYRtViBbAYwf9MxzK8s8ryWcQs3Eo9oLLeIMxMhZmoZB9wT6JIx4jfPx6riXCmNrtWHfm0P4/OiOWTwFi3vFlCuakNpO8oYlwSQ8reMIACXCIfu2W5zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+GBisDdBjkBu+BB41D7htWCTz7AnwBZcPo+p5734OJ4=;
- b=TBhlXb3QwRASlkBbLt+LAQpqSAN3ssTjsEJsil7V/KMSe5KXwPQjPMRO1tT1vBSk3Rcgyzl1/1u51Y4i7DrMfTN2f6ANZRRyNn7T1i8++Ks8fp91oPus+8pr+moRwJRsI/BBriS3bL7A1sleEPfz7BsXAua/OiyTLwl01lK1xeUfKgi6k9FYZLCnocCid+IhQiQVIQQVjxjC/MxW64DvWh+wsku3pEBSPERmCxK7AuFXtpD7bnzuOJN0HTku6OMGXGgkUvkSX4iDBqmBLhuMHlSFz1cedtlpQlAkDsgiMQdHkY9uZ7jHvl0YwG6mWCKEIRPazh4j7TfuEzdJTFTb2Q==
-Received: from SA3PR12MB9131.namprd12.prod.outlook.com (2603:10b6:806:395::15)
- by MW3PR12MB4410.namprd12.prod.outlook.com (2603:10b6:303:5b::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.7; Thu, 12 Mar
- 2026 16:35:55 +0000
-Received: from SA3PR12MB9131.namprd12.prod.outlook.com
- ([fe80::7afc:62d4:c53e:1f1b]) by SA3PR12MB9131.namprd12.prod.outlook.com
- ([fe80::7afc:62d4:c53e:1f1b%6]) with mapi id 15.20.9723.000; Thu, 12 Mar 2026
- 16:35:55 +0000
-From: Vishal Aslot <vaslot@nvidia.com>
-To: Gregory Price <gourry@gourry.net>, kernel test robot <lkp@intel.com>
-CC: Robert Richter <rrichter@amd.com>, Alison Schofield
-	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Dave Jiang
-	<dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Terry Bowman
-	<terry.bowman@amd.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: [PATCH] cxl/region: Support multi-level interleaving with smaller
- granularities for lower levels
-Thread-Topic: [PATCH] cxl/region: Support multi-level interleaving with
- smaller granularities for lower levels
-Thread-Index: AQHcR/C8ZVw1S+3zKECQ3BfZoY/gGLTb2PMAgABvmgCAz6N3ew==
-Date: Thu, 12 Mar 2026 16:35:55 +0000
-Message-ID:
- <SA3PR12MB913188B8A022C08F3B949F78BB44A@SA3PR12MB9131.namprd12.prod.outlook.com>
-References: <20251028094754.72816-1-rrichter@amd.com>
- <202510311413.HdTizWHK-lkp@intel.com>
- <aQS8zJ4p-r5iSgd1@gourry-fedora-PF4VCD3F>
-In-Reply-To: <aQS8zJ4p-r5iSgd1@gourry-fedora-PF4VCD3F>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA3PR12MB9131:EE_|MW3PR12MB4410:EE_
-x-ms-office365-filtering-correlation-id: 533fca71-5e34-4c4e-823f-08de80556ee2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|7416014|38070700021|18002099003|22082099003|56012099003;
-x-microsoft-antispam-message-info:
- sk7GhwXJEc3Y7z8gj+mT6DPHIMCmNYgoay96/rGyVURGEL3WkKsbtN/LPfW52fG8VyGtpgockcnzYqRyq0DrT6FXcsAeKaY0B2aPW/Os/S6VrBAt1O2rFJlHi4WYpIRv3dBLT4hLiKRH3Nr+OUiCh2Z7NoQxDD9i/9866zaqr+1OIf5Eu9+cL6/EpYg/X6xPnkK2k0ObdDMqgdKBMdS65Hnjq304f1GM4xpWZJkairAkv+jBIrde/zoj3ya5MIzFRUvg9REUkezXkKuu5TZROlhYS6XwGVO06mCIO0sGgf6MRZ1VifMq4hay/dhDkjdrnjriUW94o8nuvLFHGIf09t4w8sMmzHwhi6G+0fodWvXiFCaG3Dywqd4HvSidpVSTJYWGEgcprY/3+c3rbSTqdrwmZD1fsHFWYt0EDDUUSiHTOL/2nz7vdIh8Gurq1xRGwl1aeyyLNrdArTiFHMmH4tU+Np+LBuoCjDXMZtSmTkRoSRJHCvUQg5iCkmplzLsSV03949nTCCtRYNPNDRgPPcPdgsJTvzEIeV0A43V2WgnZLPf+qa/XQChlFcrYnGN/p9jERkEbla5ONq/deo13q/ltspYRLy3YUL+Mr2cbszJQSxdmuQwOifrDsMsNIDliQi7ds5/NcItLxyZpwVXvxo2KZIMHtDtHijtS3pU26RzG73c+8hul1yAakZppHG3g8ULyVQK4unOU1bJvKbwyG8aDXCF8LnB/nbY/2izygUGDpdlDKNV7fBmBqOrPEXpXc3tGUa7NgPv5BruR15pKz8DEwzNhP/ado60Ef7nv14Y=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB9131.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?cA6+onAzD5JEyob3MX4kIZJ7AkzoQTBosV4TzdP2Milpgd+ltz6tJonrDz?=
- =?iso-8859-1?Q?IcqU5o9xFo4F4wilD/w2xoeeiVlhWyozNEfEKwRgT5yQ52pz1g4jIuDH1x?=
- =?iso-8859-1?Q?3e5/eZJhsHMNx36f76nBYQ4d1zx/952APKRcz1XvBFSka4OwadzKWrwJAy?=
- =?iso-8859-1?Q?d0lZo2Qu3yxfR3LiYM4apXYvRj6VCyWbD1/RZeYAPEIqdZFdqfZC/trJQy?=
- =?iso-8859-1?Q?v/ktXGHHHuPbH/Ac6S+2H46QfPKP1aWoC6e3UjTKkhIS0RUN0mP0JHlRAt?=
- =?iso-8859-1?Q?wyjUjv1z2M+uE51wdmsLYOKH5+jXjXL517k5t5z3p3PbXd1psmDw/TDuwl?=
- =?iso-8859-1?Q?SxItRIq/qHebn6/SrZqpSe4ypAO85Qo69X/hwxVEfoyWVdlXWM9BEH0uvO?=
- =?iso-8859-1?Q?iY55H420uuXa3zTCbFCN2kH4I5vIw8o/0aCmz3LpuTlDPz2zFKEIIICegX?=
- =?iso-8859-1?Q?sBtZoiq1/Zkd3yw3hSszkcYfVYh7j+gp6MOgPm7XmND3mkq/FQmOQd6bXQ?=
- =?iso-8859-1?Q?cbH/ql/3nd77r5pcEM3UvBFRxHzvKcPJ3HN9ed43bCn8B9nkqOfXmEHikG?=
- =?iso-8859-1?Q?XZHkN3PNccwarh4XhFqGtWmjZ3/UsrZ1A1GL94Ugl8ZdgKcJUjzCKeSqYN?=
- =?iso-8859-1?Q?jMNKXpKIWIiILFbnapC5Kt2KBaAvxCYIIOm/qM3dnpZQk17g962foCpBGY?=
- =?iso-8859-1?Q?TzBc3vX/sftGP4DzCBBbHF2RIqYJ46wszLK8/vhd/lLFB7xL10BDAnINAR?=
- =?iso-8859-1?Q?muk7EVMqdBf2nJxcTN1FnSORA7L2486zPONLKgJDEYVlbcua4lfIcHNoMQ?=
- =?iso-8859-1?Q?S4g7VW0IQSGR9Ta1rD44zfWsmPMbNE7IbxfU0h07xVFHxeu87DTNJzi5Sk?=
- =?iso-8859-1?Q?nH3WQ8c6Hq0CRKGw8W409M9QmnI6lV/JyBX2IaKbwjj+x4eeOTwqDYjCIb?=
- =?iso-8859-1?Q?awQAoGhERQKtj6cbfoCN3v3aIJlUx0K+yO7MFMn2fBWbtRrKM2baqWrTxg?=
- =?iso-8859-1?Q?blol1OVYkDHYchXsCLrWRT1gTqNRQ2doyP3dJXx0X46XTRhvvPlpgzW3k4?=
- =?iso-8859-1?Q?ec7WTJUtVlh49l1oW6fbIzTGM1dBHISS/LwfQHMgaFE0gll1dHHs4I/9B+?=
- =?iso-8859-1?Q?xMN8cXy5XrXzIbG5qGDvERBjtc4ojpOBQFBuoSC76+biKrr2WlclIdhj+Y?=
- =?iso-8859-1?Q?oHYaBsF1uxK7pQagemnVuT+iTvaHpRS7++bL4dPlw5W8AgVEskmUie3MqE?=
- =?iso-8859-1?Q?lJmGpEhBnevZF+IjuVqREOJgeDvZccbIOqrl2yQhLB03XTUFQtiv3Dj97L?=
- =?iso-8859-1?Q?za48u8jdouhmhcWryfJwq9cZJeAJlnZWnpXUN/KUj+gn/n6NRMhHQOziM/?=
- =?iso-8859-1?Q?RCbyRWpA+Viwz5+NLLzfk3eTXwqgkUMpp4uFtFztuRIL4oLsvNgD82Duzr?=
- =?iso-8859-1?Q?x7mkB2+2jH/svXPufYEkN8SIwenTw4pe1DYi16erEwuo897fNWqTlT+WP2?=
- =?iso-8859-1?Q?EazYZQYJSdVGgEFyLMEIiRWCLURNj4ariwOLfB0BAiXpXhQenvk9GMCoGS?=
- =?iso-8859-1?Q?2L75GJ0RErJ/elGHt80jjQnqVduyqvRUZMOisRU3aGDGI7gIZwyChpaJ/d?=
- =?iso-8859-1?Q?wNyEPchPW3a4p19OdVNYYPwaM496oL7JF48+PqyqdKtYq0TMpstTic5BmF?=
- =?iso-8859-1?Q?eo1etL4t1GmoQF0C0Yxx4ooWwW7mnta+yIqJWh68YRbWk0VhDUNCxIBYa5?=
- =?iso-8859-1?Q?2bYCnBSiJmpZpicjU2tOdJ66zoA6PJdeEB04PdftF7CqkD?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BY1zDlEw"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7d75ed779bfso1377069a34.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 09:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773334578; x=1773939378; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=18JIT3O6zukphcEe6SxTxh/vhMczaM3dIFncm+AHYYE=;
+        b=BY1zDlEwUWF+h9RM3iLGs55r4zacL9iJVE78zyNPKD2mAd7LSGr01stURxmdGsXHwd
+         khnHju6ZdirymzYLAr7uSJWN0rMpWaTw2ZCZdH5TjkO6rp8vIwciSCxneW2p+HSbj4zW
+         Phk656eYR+r4ycEBiqj4sbmLgrDkrX94w3kEePj4/nM5JiktX/OXN/XMLWMMpOwonU2j
+         PX4um1dbWCly/xDI47PHeCCesVXfB+NYwmC53mnrDHaTOUqaBFTfoTVH9pUPPvfGyhsR
+         gjN/U1nqPT6tXoKz1RaiU1Yz1IBFAGWb0SdT/QFJfzYZQtdnjK0VtIbZ9enAJHuItvIM
+         X4pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773334578; x=1773939378;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=18JIT3O6zukphcEe6SxTxh/vhMczaM3dIFncm+AHYYE=;
+        b=OB4n922jmi1Ax3M6OLPKuphLOujZ3Q6Xuzo8oGSz7xtgyIvIP+Tv5JxJxt65umRjVf
+         bzl2B4qNvoelVqUmrkprbD716Xpg8HTtuRoxJ3yLFp7Ssd5GqLs9Ytkf/Fv2YIgaZDnm
+         OCZVpPyh7nn1RNi4FGafDI2YEJ6ccaPN9CRO9uWsMQ8Y7YZlxRMDb7CDFoS8+M07inih
+         cklfjPNLlE0Sx2+2MOiW+dLxMxgYtzLW9Q31ryEMnX2S7QpOa+N0DmDO7rxNi98VGANC
+         QxEdJJQAGizJ217WsFI0b5FB+bO784BZc5n+tHk8kvmefYf5FlEV2I3a4FepVv4EZooY
+         jXBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBAn4sy51gX5Z22m9AFOYmERmL3v6G0wS1QQvqw51Ms5LTAyNyz65v4vImBXPQcsmk5bjhyxlcKgisZrfg@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6WK68xyuM2jNKFjReenNnETFt51FvK7L5UgHKmaI6FwQWc1Ea
+	0JH1aLj7NjePWcwNhIH+fpfAEt6AF5G21qTnYpB8FbzviI729AlFMj8q
+X-Gm-Gg: ATEYQzwpuofU66ZqW/JqJQKQNu5f41lhHRjOAyuzJU0ov1LXu2aG2Wjh7H/V/4Hpsck
+	gzgziabIXoD30uTXwiykz9hQkXOlJjrmSE28Z6Dm77KjKUCPVpI3fc4ZEiTimJukDP6SwlefdC9
+	Rs/T+Qj2LybvK0G7gWm4QIWz2Uuus3cZOHWCo+WJ6Ckewjsgu5zcyq6wK0vf87iC53A8mZgSY1L
+	qp7q8baADnrHu4ZsBk6NG1MNzqZ8emm7fysks6KqJoMVIOuzy5gNkU9RPAUQbepBh0pSnFoVe5x
+	pyLJHEFn75qEmDxKrL1/VOUyf7V18CdYoYvf0XAclskGZWhyY4S0xwiMFNECG2mI7IH+02Czxoo
+	Jlw2F7reQEq20ziZbOZ5C2GljpwFxeN2FehCnLaKb1Sn+wrRGXS4XvIYLNOCTv1zdoZN07ttd8L
+	MXQvDei3RSu+aBcWsVLCOhKw==
+X-Received: by 2002:a05:6830:64c8:b0:7d7:5b20:16ec with SMTP id 46e09a7af769-7d782466df9mr59235a34.11.1773334577663;
+        Thu, 12 Mar 2026 09:56:17 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:57::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d76aa5dcc7sm4596873a34.0.2026.03.12.09.56.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2026 09:56:17 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Minchan Kim <minchan@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Yosry Ahmed <yosry.ahmed@linux.dev>,
+	Nhat Pham <hoangnhat.pham@linux.dev>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH 10/11] mm/zsmalloc: Handle single object charge migration in migrate_zspage
+Date: Thu, 12 Mar 2026 09:56:14 -0700
+Message-ID: <20260312165615.3800716-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <202603121158.g93vlc2U-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB9131.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 533fca71-5e34-4c4e-823f-08de80556ee2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2026 16:35:55.3828
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Y7beMf4AUgZ+GmUEGym/OgFxg5oTZmBh+ng6u6a4wnWo3Z6OGJ1Q7KuUSXuM5Jmn+3+RmGPwv627RHNrTtmBlA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4410
+Content-Transfer-Encoding: 8bit
 
-Hi Robert,=0A=
-         Any update on this patch? We could also make use of it. Thanks.=0A=
-=0A=
--Vishal=0A=
-________________________________________=0A=
-From: Gregory Price <gourry@gourry.net>=0A=
-Sent: Friday, October 31, 2025 8:42 AM=0A=
-To: kernel test robot=0A=
-Cc: Robert Richter; Alison Schofield; Vishal Verma; Ira Weiny; Dan Williams=
-; Jonathan Cameron; Dave Jiang; Davidlohr Bueso; oe-kbuild-all@lists.linux.=
-dev; linux-cxl@vger.kernel.org; linux-kernel@vger.kernel.org; Terry Bowman;=
- Joshua Hahn=0A=
-Subject: Re: [PATCH] cxl/region: Support multi-level interleaving with smal=
-ler granularities for lower levels=0A=
-=0A=
-External email: Use caution opening links or attachments=0A=
-=0A=
-=0A=
-On Fri, Oct 31, 2025 at 03:03:10PM +0800, kernel test robot wrote:=0A=
-> Hi Robert,=0A=
->=0A=
-> All errors (new ones prefixed by >>, old ones prefixed by <<):=0A=
->=0A=
-> >> ERROR: modpost: "__udivdi3" [drivers/cxl/core/cxl_core.ko] undefined!=
-=0A=
->=0A=
-=0A=
-IIRC this happens when you do 64-bit division because it's annoying and=0A=
-complicated. Ran into this madness in mempolicy.=0A=
-=0A=
-~Gregory=0A=
-=0A=
+On Thu, 12 Mar 2026 11:51:59 +0800 kernel test robot <lkp@intel.com> wrote:
+
+> Hi Joshua,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on axboe/for-next]
+> [also build test WARNING on linus/master v7.0-rc3]
+> [cannot apply to akpm-mm/mm-everything next-20260311]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-zsmalloc-Rename-zs_object_copy-to-zs_obj_copy/20260312-035531
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+> patch link:    https://lore.kernel.org/r/20260311195153.4013476-11-joshua.hahnjy%40gmail.com
+> patch subject: [PATCH 10/11] mm/zsmalloc: Handle single object charge migration in migrate_zspage
+> config: x86_64-randconfig-001-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121158.g93vlc2U-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121158.g93vlc2U-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603121158.g93vlc2U-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> mm/zsmalloc.c:1702:6: warning: variable 's_idx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>     1702 |         if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
+>          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    mm/zsmalloc.c:1752:45: note: uninitialized use occurs here
+>     1752 |         d_zspage->objcgs[d_idx] = s_zspage->objcgs[s_idx];
+>          |                                                    ^~~~~
+>    mm/zsmalloc.c:1702:2: note: remove the 'if' if its condition is always false
+>     1702 |         if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     1703 |                 goto out;
+>          |                 ~~~~~~~~
+>    mm/zsmalloc.c:1696:20: note: initialize the variable 's_idx' to silence this warning
+>     1696 |         unsigned int s_idx, d_idx;
+>          |                           ^
+>          |                            = 0
+> >> mm/zsmalloc.c:1702:6: warning: variable 'd_idx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>     1702 |         if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
+>          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    mm/zsmalloc.c:1752:19: note: uninitialized use occurs here
+>     1752 |         d_zspage->objcgs[d_idx] = s_zspage->objcgs[s_idx];
+>          |                          ^~~~~
+>    mm/zsmalloc.c:1702:2: note: remove the 'if' if its condition is always false
+>     1702 |         if (!cgroup_subsys_on_dfl(memory_cgrp_subsys))
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     1703 |                 goto out;
+>          |                 ~~~~~~~~
+>    mm/zsmalloc.c:1696:27: note: initialize the variable 'd_idx' to silence this warning
+>     1696 |         unsigned int s_idx, d_idx;
+>          |                                  ^
+>          |                                   = 0
+>    2 warnings generated.
+
+Hello kernel test robot,
+
+Thank you for catching this issue! Yes, the MEMCG v1 check should be
+done after I use obj_to_location to initialize the indices, so that
+the objcg pointer swap works at the end.
+
+Will make the change in the next version!
+Joshua
