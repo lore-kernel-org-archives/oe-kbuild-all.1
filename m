@@ -1,103 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F5A3A9D99;
-	Thu, 12 Mar 2026 09:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C9C282F1C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 09:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773306301; cv=none; b=e3P2bpq9+5z2G3uFLheFQWsvIFUoHZUcRUwqkhwIrD4j4dsMLNd2OHykFOuCE6bG7fluRQCxLI/jy6fk2fe30GQYpOABvL/t/JAPGKZT4XUCsQ6dyY9v7YwsGvQ7B5dQU7eHqmTnOuRoxrjZMTYgFnfep7xNV7ZNYzR4B5dsgEQ=
+	t=1773307265; cv=none; b=ZlUa6iOYedR6KaHekJEFl8xHAe9emctV2PkkRd18YDhC7ZCo9qAK7eZtL/qIlf2Ht3pSaMDLIPcvcnWe1VM1TTqLd+vljE0JmK0GUuf+BLcZRwMOv/3NBSRM7KVyCd3BLSkSF+Na6K8MQCqr3vbmPetkqD/JjfGxATg0utckRhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773306301; c=relaxed/simple;
-	bh=ZaCuba5p70ATfTzwJmC3Kue0QPNh2OMgFSEpqVAc7wo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YGH8Ds1uekpC5xfIZYGNEMo/X8+9HFCZiGgpvzcrWhkW8XD7JUgP3p4jz59I0YB1+1QJuv4Z5cLGZRlNIuHQOmf6Y2N0K4MzgVLnqx+cvD73CiogGiAWICWv9yh5vxg8AiVHM3oHFCoxEgModEw36vbLNsvz8iB9ZbUPBSM6y0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XI0OWURs; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1773307265; c=relaxed/simple;
+	bh=PSfQXHav3C0tSuD/OTS61QwfCk1GGT0dCfZRYWKuC3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PlJFNHyBta2poAbLkt0ySPOaJEi7vTevtaKxfnh4L0YcXuEhYocUFvrDc1vVtjUy5gwl9gmpTbjHMHY6wQq8FoEir6xi7Aq0fforD7rWfm5cT9ZAu2Q5kwx1gbo+Vj7r8fOHRN16sqNGSZ4i5jBRkXOfYZ1rJ/3ptLY+AWODXGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d//vKsPQ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XI0OWURs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d//vKsPQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773306299; x=1804842299;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZaCuba5p70ATfTzwJmC3Kue0QPNh2OMgFSEpqVAc7wo=;
-  b=XI0OWURs/OGqY7lm98fxOApyMkPhiEB3eQASfssepnX020cqtl0ECyfw
-   AfDlExaNgf16HzEs2BAVUU/k5U+lXYSAwWDGZfZRjZgcfMgXdRDCxUcm9
-   h+1zQWK8rw4879R8j/5TOabsAr0lYO7Q3+Vh/74ebKAG+YYsGRTtn9fPV
-   9yi7DJlUVQ1Q/+yaxjYW6VLZgr4uOkLhuVneTh1gBzxb+zwYGshxqlQSJ
-   vwZP4H9zspezZOLEe0Oh8v6ZjXXnDkHrCnsUlmDHVqbtUcHISSiADvjfm
-   9eOL5Rb8gUMkIqrg8Zvv+tTehfiBrVchNrcI0CIUYaVndpThu/i4D+HnL
-   A==;
-X-CSE-ConnectionGUID: PT7oITxfTIOn0KLQA81Fkw==
-X-CSE-MsgGUID: mY2M//EPRHm/fLhWju0zKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84709255"
+  t=1773307263; x=1804843263;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PSfQXHav3C0tSuD/OTS61QwfCk1GGT0dCfZRYWKuC3s=;
+  b=d//vKsPQsrPhKudfnr0ADdl3ZBVSB292TRnMBqtTlj8mtcuYbV55LnSs
+   p3H3k/aQW+hk2kIZRIwmwahTgFbjvqBXbutXMGlR1Wd8+EdyvyQ0W6144
+   p+/47WzW4yobxbj7m1ldgjnvE84kuhW7jwgt+0gTRgIGp0oyHY5vUZBBX
+   /2/VcvmVygT5at6W5TJ//acvnqsS3AOhPTro3ehC+VvKZFwD3flUXBAYk
+   R15CWJSOYZfUSNmg9hxVd/UEgK/u40oZY0NplimmJaQ56U4aX+hpCFUO5
+   di2nmzQNVyvLn1ewgBC3NJ9ISZ5UIGwi9iTH6imBCxnTjqDerosB5dM0S
+   w==;
+X-CSE-ConnectionGUID: V+z8zfuAQLuoNfcPGMj6vw==
+X-CSE-MsgGUID: B27/d39EQaWoP474y+h03w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="85478512"
 X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="84709255"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 02:04:59 -0700
-X-CSE-ConnectionGUID: YWR9pBotSb6ZYLS/Ua2wCg==
-X-CSE-MsgGUID: sR/K61+bR1+U1eo2QNVjrQ==
+   d="scan'208";a="85478512"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 02:21:03 -0700
+X-CSE-ConnectionGUID: KlaPLjGcSM6py3Ba7wFbdw==
+X-CSE-MsgGUID: YJ3xSlcyQd6LMZoc7uWdEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="223225157"
+   d="scan'208";a="251253771"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Mar 2026 02:04:57 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 Mar 2026 02:21:00 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0byQ-000000002I7-28sx;
-	Thu, 12 Mar 2026 09:04:54 +0000
-Date: Thu, 12 Mar 2026 17:04:20 +0800
+	id 1w0cDw-000000002Ih-3QFC;
+	Thu, 12 Mar 2026 09:20:56 +0000
+Date: Thu, 12 Mar 2026 17:20:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bin Du <Bin.Du@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sultan Alsawaf <sultan@kerneltoast.com>,
- Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-Subject: [sailus-media-tree:amdisp4 5/7]
- drivers/media/platform/amd/isp4/isp4_video.c:89:17: error: initializer
- element is not a compile-time constant
-Message-ID: <202603121658.qKXy376k-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Wei Wang <weibunny.kernel@gmail.com>, netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Daniel Zahka <daniel.zahka@gmail.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	David Wei <dw@davidwei.uk>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Wei Wang <weibunny@fb.com>
+Subject: Re: [PATCH v4 net-next 3/5] psp: add a new netdev event for dev
+ unregister
+Message-ID: <202603121737.vPEHjYAG-lkp@intel.com>
+References: <20260311235904.2392010-4-weibunny.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260311235904.2392010-4-weibunny.kernel@gmail.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git amdisp4
-head:   352eeeb312305e93b09f387f0c3acbf64f255a2f
-commit: 939f5d5b232e3e749dd54bbdb4d019254d216d03 [5/7] media: platform: amd: isp4 video node and buffers handling added
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260312/202603121658.qKXy376k-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121658.qKXy376k-lkp@intel.com/reproduce)
+Hi Wei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Wang/psp-add-admin-non-admin-version-of-psp_device_get_locked/20260312-080310
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260311235904.2392010-4-weibunny.kernel%40gmail.com
+patch subject: [PATCH v4 net-next 3/5] psp: add a new netdev event for dev unregister
+config: x86_64-randconfig-014-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121737.vPEHjYAG-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121737.vPEHjYAG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603121658.qKXy376k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121737.vPEHjYAG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/amd/isp4/isp4_video.c:89:17: error: initializer element is not a compile-time constant
-           .pixelformat = ISP4VID_DEFAULT_FMT,
-                          ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/amd/isp4/isp4_video.c:16:29: note: expanded from macro 'ISP4VID_DEFAULT_FMT'
-   #define ISP4VID_DEFAULT_FMT isp4vid_formats[0]
-                               ^~~~~~~~~~~~~~~~~~
-   1 error generated.
+   net/psp/psp_main.c: In function 'psp_init':
+>> net/psp/psp_main.c:449:13: warning: unused variable 'err' [-Wunused-variable]
+     449 |         int err;
+         |             ^~~
 
 
-vim +89 drivers/media/platform/amd/isp4/isp4_video.c
+vim +/err +449 net/psp/psp_main.c
 
-    85	
-    86	static const struct v4l2_pix_format isp4vid_fmt_default = {
-    87		.width = 1920,
-    88		.height = 1080,
-  > 89		.pixelformat = ISP4VID_DEFAULT_FMT,
-    90		.field = V4L2_FIELD_NONE,
-    91		.colorspace = V4L2_COLORSPACE_SRGB,
-    92	};
-    93	
+   446	
+   447	static int __init psp_init(void)
+   448	{
+ > 449		int err;
+   450	
+   451		mutex_init(&psp_devs_lock);
+   452	
+   453		return genl_register_family(&psp_nl_family);
+   454	}
+   455	
 
 -- 
 0-DAY CI Kernel Test Service
