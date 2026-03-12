@@ -1,57 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2D92ECE93;
-	Thu, 12 Mar 2026 00:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D84D3264F1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 01:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773276694; cv=none; b=Dt7GcmBGkSjd0NhR2MZqLTlpEiUOe5EAm4qdd+/AuAZtcvmnx3gynvJMKda8/92xOyH/TeB3SRL24yv3fwdtlvvgVxlxCbH1X5cbbbpKaF0EwZ61v22sN5ySRSuT+hRI5SkfuLvNY3gay/oChK2v2VX79b19NnPeFr1zx0PIP9c=
+	t=1773278675; cv=none; b=IC76AtJC/CMBxazyPceQYNM+Sxd6UEXFcmt68xP/cey0Q8q8j8/xESRqrE+N0xDk2joYPTgv8uKHK8loMMxR1+AMIeVebbvSdONBZV8eV2EN/E/8Vgu4vA4+hWVqlWjdqneTDX0dadQSZT/NVpJ1++z4tufrS5tCR0jX+GzkHfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773276694; c=relaxed/simple;
-	bh=OIivAlJbfTNF6eqWO920PK2q7jOW/uaE2fq/mTsdxPk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eZjZEbajU9jM95blp+XXd+T3r6DvvaJxuQ+aIS/wb1AYAL6RuZXxx04i8uQh43WXheg8DLIQ+rvP9BISg9gswMaTQEwVnlIqpQvNOT8M9VcHXT7DCQDR/1mEyUHaUGjzqxT3Sr8s7HEWMIZIjGUioSmF+sKbZ4V093Qga1m59Ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgQpXUi4; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1773278675; c=relaxed/simple;
+	bh=jzNA//J4o+6q7IUEST4C81xICzv/V0+Nfnf3s3NQiS4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YFA2rullwJ/m0asH0kubRWcjD3VPFuZJiR/n6cmx/ncnfA3gwrjE3owqwXoTBC4vNt0YRzOKx70EQMPdIBXqawlnks5jwCnrdO+AYkDrzR2gvmjmp5DKK8+pAd6j+QM1fvWZVP/i1PkLbNMBwwGQmf00+Z2JdHcWs4Q4lzY6+Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ljpFFbPE; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgQpXUi4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ljpFFbPE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773276693; x=1804812693;
+  t=1773278672; x=1804814672;
   h=date:from:to:cc:subject:message-id;
-  bh=OIivAlJbfTNF6eqWO920PK2q7jOW/uaE2fq/mTsdxPk=;
-  b=kgQpXUi47YpfpZV8OIGSp2V0ckx54Dnq6aKWxNapvWamAgQQOGK5HfjM
-   v5McdfB36lHJ7Lr3ftdvD55U9qzmzTUKu+UdVY/JFhZcv+KJoNfxBLfmI
-   fSLDkPL2/M/FltGdNaXNj3OhWeFlC0dJu9rRuRlHluYehmnWGALZJ4XOr
-   i3eIQPV0NFua48ToL6dx6VG/YMCUCqX5ym1U9Vd/me8d1SJanK+oyXGub
-   JKBIbkOam4rHtzLfSKuE6UTq1+GXPrwAXTMkgtGxBMBlqc4H4ysetX1iV
-   5YxXSbHeUVhGR1BnvgW2JrrrPAkkJ2zd4mG7/tS4OYe6wU0aTGrt21dxM
-   Q==;
-X-CSE-ConnectionGUID: 2cj+XN9FTRuhdBuCudh9Lg==
-X-CSE-MsgGUID: bHLv+T0JQzS9Ni/iOOHmkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="76970263"
+  bh=jzNA//J4o+6q7IUEST4C81xICzv/V0+Nfnf3s3NQiS4=;
+  b=ljpFFbPE7xlqSjdKA/7wpYl/AiRmm5UyDPUebPrxfgzcDFZCbZ86OBgY
+   3xBvZfyoBjn1ILPr8nDpSJ5Bsho6LfEuRa5hrghERHPlfFZBOkwrkf9Ss
+   QydbFTdNhygd5V4CXIgsCwQER8IH0kPnRg3lw4IDNIbpOnw/dGFxVW5lN
+   1WNqZEpNyrS+Eq9HC5rx24VBM++gxpWlWl0iKX80UI3MGPzpsXw4IWbK8
+   uASmZSE4sOqCkz6aW9MCaRLoWef/NY71st+/AwGeUSciQk9bWvAEmP6IS
+   47LZZ6SixduUU1xiEhSGxMxaP921ZUQmo7mCf4tweeAkrj0VEEOvT6oTV
+   w==;
+X-CSE-ConnectionGUID: XQTEQVhsQ/yNUw8zmRmqAw==
+X-CSE-MsgGUID: X7Tf0evuRZGgbdx8B7/rgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="78253615"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="76970263"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 17:51:30 -0700
-X-CSE-ConnectionGUID: Noy6a1MaRAWlusONmBetSA==
-X-CSE-MsgGUID: PlcgqFohSuerNqe5D4O6NQ==
+   d="scan'208";a="78253615"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 18:24:32 -0700
+X-CSE-ConnectionGUID: jf/YOpTdQJyxxhPCGju13w==
+X-CSE-MsgGUID: rRc0lXjtTj65zJ0L5vaRTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="224786140"
+   d="scan'208";a="258559698"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Mar 2026 17:51:28 -0700
+  by orviesa001.jf.intel.com with ESMTP; 11 Mar 2026 18:24:30 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0UGr-000000001s3-2pRr;
-	Thu, 12 Mar 2026 00:51:25 +0000
-Date: Thu, 12 Mar 2026 08:50:44 +0800
+	id 1w0Ump-000000001tx-0xov;
+	Thu, 12 Mar 2026 01:24:27 +0000
+Date: Thu, 12 Mar 2026 09:24:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mark:testing/v7.0-rc3 2/2]
- arch/arm64/kernel/process.c:704:31: error: expected readable system register
-Message-ID: <202603120806.BDmj16Xq-lkp@intel.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Miklos Szeredi <mszeredi@redhat.com>,
+ Jingbo Xu <jefflexu@linux.alibaba.com>,
+ "Darrick J. Wong" <djwong@kernel.org>
+Subject: [linux-next:master 2597/5731]
+ include/linux/compiler_types.h:706:38: error: call to
+ '__compiletime_assert_770' declared with attribute error: min(outarg.size,
+ ((loff_t)((long long)(~0ULL >> 1))) - pos) signedness error
+Message-ID: <202603120912.KzwPUTG9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,61 +63,101 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git testing/v7.0-rc3
-head:   661b491963fb7aa62905612f758376933435bba9
-commit: 2df151af23926ce5e8053052b5ff6b8455b4cdc6 [2/2] HACK: arm64: Check CPU state at task-switch time
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260312/202603120806.BDmj16Xq-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120806.BDmj16Xq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f90aadf1c67c8b4969d1e5e6d4fd7227adb6e4d7
+commit: 25307ca50b815c14a21f82fc5b10e8a621af32ad [2597/5731] fuse: simplify logic in fuse_notify_store() and fuse_retrieve()
+config: arm64-randconfig-001-20260312 (https://download.01.org/0day-ci/archive/20260312/202603120912.KzwPUTG9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120912.KzwPUTG9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603120806.BDmj16Xq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603120912.KzwPUTG9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm64/kernel/process.c:704:31: error: expected readable system register
-     704 |         if (system_uses_hw_pan() && !read_sysreg(PAN))
-         |                                      ^
-   arch/arm64/include/asm/sysreg.h:1164:15: note: expanded from macro 'read_sysreg'
-    1164 |         asm volatile("mrs %0, " __stringify(r) : "=r" (__val)); \
-         |                      ^
-   <inline asm>:1:11: note: instantiated into assembly here
-       1 |         mrs x21, PAN
-         |                  ^
-   1 error generated.
+   In file included from <command-line>:
+   In function 'fuse_notify_store',
+       inlined from 'fuse_notify' at fs/fuse/dev.c:2109:10:
+>> include/linux/compiler_types.h:706:38: error: call to '__compiletime_assert_770' declared with attribute error: min(outarg.size, ((loff_t)((long long)(~0ULL >> 1))) - pos) signedness error
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                                         ^
+   include/linux/compiler_types.h:687:4: note: in definition of macro '__compiletime_assert'
+       prefix ## suffix();    \
+       ^~~~~~
+   include/linux/compiler_types.h:706:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+     ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
+     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+    #define min(x, y) __careful_cmp(min, x, y)
+                      ^~~~~~~~~~~~~
+   fs/fuse/dev.c:1790:8: note: in expansion of macro 'min'
+     num = min(outarg.size, MAX_LFS_FILESIZE - pos);
+           ^~~
+--
+   In file included from <command-line>:
+   In function 'fuse_notify_store',
+       inlined from 'fuse_notify' at dev.c:2109:10:
+>> include/linux/compiler_types.h:706:38: error: call to '__compiletime_assert_770' declared with attribute error: min(outarg.size, ((loff_t)((long long)(~0ULL >> 1))) - pos) signedness error
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                                         ^
+   include/linux/compiler_types.h:687:4: note: in definition of macro '__compiletime_assert'
+       prefix ## suffix();    \
+       ^~~~~~
+   include/linux/compiler_types.h:706:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+     ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
+     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+    #define min(x, y) __careful_cmp(min, x, y)
+                      ^~~~~~~~~~~~~
+   dev.c:1790:8: note: in expansion of macro 'min'
+     num = min(outarg.size, MAX_LFS_FILESIZE - pos);
+           ^~~
 
 
-vim +704 arch/arm64/kernel/process.c
+vim +/__compiletime_assert_770 +706 include/linux/compiler_types.h
 
-   701	
-   702	static inline void debug_switch_state(void)
-   703	{
- > 704		if (system_uses_hw_pan() && !read_sysreg(PAN))
-   705			WARN_ONCE(1, "PSTATE.PAN clear unexpectedly at task-switch\n");
-   706	
-   707		if (system_uses_irq_prio_masking()) {
-   708			unsigned long daif_expected = 0;
-   709			unsigned long daif_actual = read_sysreg(daif);
-   710			unsigned long pmr_expected = GIC_PRIO_IRQOFF;
-   711			unsigned long pmr_actual = read_sysreg_s(SYS_ICC_PMR_EL1);
-   712	
-   713			WARN_ONCE(daif_actual != daif_expected ||
-   714				  pmr_actual != pmr_expected,
-   715				  "Unexpected DAIF + PMR: 0x%lx + 0x%lx (expected 0x%lx + 0x%lx)\n",
-   716				  daif_actual, pmr_actual,
-   717				  daif_expected, pmr_expected);
-   718		} else {
-   719			unsigned long daif_expected = DAIF_PROCCTX_NOIRQ;
-   720			unsigned long daif_actual = read_sysreg(daif);
-   721	
-   722			WARN_ONCE(daif_actual != daif_expected,
-   723				  "Unexpected DAIF value: 0x%lx (expected %lx)\n",
-   724				  daif_actual, daif_expected);
-   725		}
-   726	}
-   727	
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  695  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  696  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  703   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  704   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  707  
+
+:::::: The code at line 706 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
