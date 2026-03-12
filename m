@@ -1,213 +1,146 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EC338CFEE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 04:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E46D38CFF9;
+	Thu, 12 Mar 2026 04:10:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773288637; cv=none; b=rPmUXxAK191Gtwlt8dVl+eGuIVyrn/S9pv2iyGf6Gl29kbAaqFjWPLT/dcgB9/lC00TmJi6cc0yUyKnHetzb688lkTGp3eJkJ5XRQ0Ld4kaTT7ZvQ2UuSQyA+L5y63yidN/BF/kU4RWX0IDpoahthpKqMQI0ghpHvQd+mOmDMgI=
+	t=1773288639; cv=none; b=HRjDGedVTHodQXgTUfSE3mMONyGYMdYLJsIYmVYUVIlIUbsiOgsAfF1dxztl3d4SOFH2ANqM0a/EWKAryFpyngq2/00aHF0Yu3N2IpPIR2lmRZnHGZz/727LSms8C0LMV56iWy7m82Stm48WNBxAWA2qiPf3F7M+lkid9Kd2nEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773288637; c=relaxed/simple;
-	bh=QY+CebeWEwDcZCMgxBuQg4zAZshAjfR71umM1BVHfos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tWRfvsBap6ww/NmjREe4iR2JDAB8kp5YF4J/ATV7efyiIxCKU2QCv5C5ML1tuIuIslDmE021w3sD2Kl+hL8XpQNohDQoEHwtayQWOwUDiJWs4DOZaET37M4KlMnLAQNI7w+3HE4Q8OcWU33Sa6fm0bP+hlyLkHyJmSQbpgBW9Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHkVpRlp; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1773288639; c=relaxed/simple;
+	bh=zh5Zn1BEr7RxI6CSl8nRdmg4fT4T8fA4qECGfo9E+2E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Uf3Ikr9MS3Rz1fRtILRhvMJbX8e6Nh9tCJa/UBSw3uFmSxvEbgziCeV65Oudd4iEgpkvQAOHmp9c4zkCuMIwExzQco7SHzFo+IYKVktUXK2Zd3gKRlRWFLF9SVQ/UnaguKFeL35z2a6XGZUCrslSVTcKt1NiX4yGCogz7tOgBV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kXjC4qJ7; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHkVpRlp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXjC4qJ7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773288634; x=1804824634;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QY+CebeWEwDcZCMgxBuQg4zAZshAjfR71umM1BVHfos=;
-  b=dHkVpRlpGuomGsxFq+FJ1JJ0tKTCBZCCXl7UtxYRFbVTAlj8Sg7Vbgib
-   4bMGTHGplHWf7h5ZTlt+qqvpwmnwJrfrs3CJDT6GOO1riLswEjOB2MBOC
-   9tgcxNQVKdY2CLAMZmtvo+F8GK3jO7mIACqvBp4a9YhroijxKGaYSRrCw
-   SH+/s5vq2tCFt0NSnSpiJkZU+Umshp8aZC5sBybigR4EVXNWKDxSPs6dU
-   XoLxYO45Yog+Bso4VpBJdEoEWilfVbvMJb1EHvT9eb7Wix0/W078eTJPr
-   9iSVrHBwHT8WOI9kSU1RERxbBETLnTg2CbF5ddiHRfo4nIM/JCJCfPfLF
-   A==;
-X-CSE-ConnectionGUID: tNkDiGknRGq2AWWZ8MgThw==
-X-CSE-MsgGUID: a+NQj0hKRb+C5ocCrtmVww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84689867"
+  t=1773288637; x=1804824637;
+  h=date:from:to:cc:subject:message-id;
+  bh=zh5Zn1BEr7RxI6CSl8nRdmg4fT4T8fA4qECGfo9E+2E=;
+  b=kXjC4qJ7VxfmpOd+1iJe/t86jEGU72ExBCaQ6vOZmTG9fLtHwPP/9rTw
+   Ulluq/VZT59qRDfUAK65/Q8eubTWg+423kH9WzGd7VL/PDAZqghRNCTwS
+   bzwvVBAN8+W2+NRKm19OqckbkolUVgjh68N6SkYncJUNKuGD/Xjgor6ug
+   Arzvx2/A4EaiqmPX1eGTckfF3lGWA0gFF/0Bpiwt+CMpvsALTorVrpOH2
+   JDkRlADArIkDE1qBKdke2F0eVTyPbChBx2LHPs80A890QeYNxxU9PwqFA
+   96rKMFCTqUIwtVb/5IyABqIfp/w+y0HMLNA4cZitRHQckxqacpyIxeCZ4
+   w==;
+X-CSE-ConnectionGUID: ag9tb3vaQjKjeuMPxakByQ==
+X-CSE-MsgGUID: vZX36nyKSF2fzj5D/UWwkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84689868"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="84689867"
+   d="scan'208";a="84689868"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 21:10:33 -0700
-X-CSE-ConnectionGUID: j3Zl+w8BQXOG4aUF2V5gog==
-X-CSE-MsgGUID: Df4CUo8vTpiZdGMlBIF5Vg==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 21:10:34 -0700
+X-CSE-ConnectionGUID: f7QujYEdSd2duMeZ+DNJAA==
+X-CSE-MsgGUID: HYIf26B/RGKTxwcJn7XB5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="246144300"
+   d="scan'208";a="246144306"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 11 Mar 2026 21:10:32 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0XNV-0000000023f-3QBC;
+	id 1w0XNV-0000000023j-3oRN;
 	Thu, 12 Mar 2026 04:10:29 +0000
-Date: Thu, 12 Mar 2026 12:09:39 +0800
+Date: Thu, 12 Mar 2026 12:09:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC net-next v2 1/2] hsr: Allow to send a specific port
- and with HSR header
-Message-ID: <202603121144.VLHSROR4-lkp@intel.com>
-References: <20260309-hsr_ptp-v2-1-798262aad3a4@linutronix.de>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Ian Rogers <irogers@google.com>
+Subject: [peterz-queue:perf/urgent 3/6] kernel/events/core.c:4839:3:
+ warning: variable 'pmu' is uninitialized when used here
+Message-ID: <202603121259.28y3L4qz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309-hsr_ptp-v2-1-798262aad3a4@linutronix.de>
 
-Hi Sebastian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 3daa4f5dc6cc1ac1ab2f95b5b4c16bc5fb87f48f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/hsr-Allow-to-send-a-specific-port-and-with-HSR-header/20260310-001021
-base:   3daa4f5dc6cc1ac1ab2f95b5b4c16bc5fb87f48f
-patch link:    https://lore.kernel.org/r/20260309-hsr_ptp-v2-1-798262aad3a4%40linutronix.de
-patch subject: [PATCH RFC net-next v2 1/2] hsr: Allow to send a specific port and with HSR header
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260312/202603121144.VLHSROR4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121144.VLHSROR4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/urgent
+head:   af07eac4595fcf921f6a4c93b666e3bb896aa3d7
+commit: 10d25ea5d989da5bda265b59445e3d494cf892e3 [3/6] perf: Make sure to use pmu_ctx->pmu for groups
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260312/202603121259.28y3L4qz-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121259.28y3L4qz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603121144.VLHSROR4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121259.28y3L4qz-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from net/dsa/dsa.c:12:
->> include/linux/if_hsr.h:54:46: warning: 'struct sk_buff' declared inside parameter list will not be visible outside of this definition or declaration
-      54 | static inline bool hsr_skb_has_header(struct sk_buff *skb)
-         |                                              ^~~~~~~
-   include/linux/if_hsr.h: In function 'hsr_skb_has_header':
->> include/linux/if_hsr.h:58:19: error: implicit declaration of function 'skb_ext_find' [-Wimplicit-function-declaration]
-      58 |         ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-         |                   ^~~~~~~~~~~~
->> include/linux/if_hsr.h:58:37: error: 'SKB_EXT_HSR' undeclared (first use in this function)
-      58 |         ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-         |                                     ^~~~~~~~~~~
-   include/linux/if_hsr.h:58:37: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/if_hsr.h: At top level:
-   include/linux/if_hsr.h:64:52: warning: 'struct sk_buff' declared inside parameter list will not be visible outside of this definition or declaration
-      64 | static inline unsigned int hsr_skb_has_port(struct sk_buff *skb)
-         |                                                    ^~~~~~~
-   include/linux/if_hsr.h: In function 'hsr_skb_has_port':
-   include/linux/if_hsr.h:71:37: error: 'SKB_EXT_HSR' undeclared (first use in this function)
-      71 |         ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-         |                                     ^~~~~~~~~~~
-   include/linux/if_hsr.h: At top level:
-   include/linux/if_hsr.h:77:51: warning: 'struct sk_buff' declared inside parameter list will not be visible outside of this definition or declaration
-      77 | static inline bool hsr_skb_get_header_port(struct sk_buff *skb, bool *header,
-         |                                                   ^~~~~~~
-   include/linux/if_hsr.h: In function 'hsr_skb_get_header_port':
-   include/linux/if_hsr.h:85:37: error: 'SKB_EXT_HSR' undeclared (first use in this function)
-      85 |         ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-         |                                     ^~~~~~~~~~~
-   include/linux/if_hsr.h: At top level:
-   include/linux/if_hsr.h:94:51: warning: 'struct sk_buff' declared inside parameter list will not be visible outside of this definition or declaration
-      94 | static inline bool hsr_skb_add_header_port(struct sk_buff *skb, bool header,
-         |                                                   ^~~~~~~
-   include/linux/if_hsr.h: In function 'hsr_skb_add_header_port':
->> include/linux/if_hsr.h:99:19: error: implicit declaration of function 'skb_ext_add' [-Wimplicit-function-declaration]
-      99 |         ptp_ext = skb_ext_add(skb, SKB_EXT_HSR);
-         |                   ^~~~~~~~~~~
-   include/linux/if_hsr.h:99:36: error: 'SKB_EXT_HSR' undeclared (first use in this function)
-      99 |         ptp_ext = skb_ext_add(skb, SKB_EXT_HSR);
-         |                                    ^~~~~~~~~~~
-   In file included from include/net/net_namespace.h:44,
-                    from include/linux/netdevice.h:38,
-                    from net/dsa/dsa.c:15:
-   include/linux/skbuff.h: At top level:
->> include/linux/skbuff.h:5034:7: error: conflicting types for 'skb_ext_add'; have 'void *(struct sk_buff *, enum skb_ext_id)'
-    5034 | void *skb_ext_add(struct sk_buff *skb, enum skb_ext_id id);
-         |       ^~~~~~~~~~~
-   include/linux/if_hsr.h:99:19: note: previous implicit declaration of 'skb_ext_add' with type 'int()'
-      99 |         ptp_ext = skb_ext_add(skb, SKB_EXT_HSR);
-         |                   ^~~~~~~~~~~
->> include/linux/skbuff.h:5079:21: error: conflicting types for 'skb_ext_find'; have 'void *(const struct sk_buff *, enum skb_ext_id)'
-    5079 | static inline void *skb_ext_find(const struct sk_buff *skb, enum skb_ext_id id)
-         |                     ^~~~~~~~~~~~
-   include/linux/if_hsr.h:58:19: note: previous implicit declaration of 'skb_ext_find' with type 'int()'
-      58 |         ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-         |                   ^~~~~~~~~~~~
+>> kernel/events/core.c:4839:3: warning: variable 'pmu' is uninitialized when used here [-Wuninitialized]
+    4839 |                 pmu->read(event);
+         |                 ^~~
+   kernel/events/core.c:4816:17: note: initialize the variable 'pmu' to silence this warning
+    4816 |         struct pmu *pmu;
+         |                        ^
+         |                         = NULL
+   1 warning generated.
 
 
-vim +/skb_ext_find +58 include/linux/if_hsr.h
+vim +/pmu +4839 kernel/events/core.c
 
-    45	
-    46	#if IS_ENABLED(CONFIG_HSR)
-    47	extern bool is_hsr_master(struct net_device *dev);
-    48	extern int hsr_get_version(struct net_device *dev, enum hsr_version *ver);
-    49	struct net_device *hsr_get_port_ndev(struct net_device *ndev,
-    50					     enum hsr_port_type pt);
-    51	int hsr_get_port_type(struct net_device *hsr_dev, struct net_device *dev,
-    52			      enum hsr_port_type *type);
-    53	
-  > 54	static inline bool hsr_skb_has_header(struct sk_buff *skb)
-    55	{
-    56		struct hsr_ptp_ext *ptp_ext;
-    57	
-  > 58		ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-    59		if (!ptp_ext)
-    60			return false;
-    61		return ptp_ext->header;
-    62	}
-    63	
-    64	static inline unsigned int hsr_skb_has_port(struct sk_buff *skb)
-    65	{
-    66		struct hsr_ptp_ext *ptp_ext;
-    67	
-    68		if (!skb)
-    69			return 0;
-    70	
-    71		ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-    72		if (!ptp_ext)
-    73			return 0;
-    74		return ptp_ext->port;
-    75	}
-    76	
-    77	static inline bool hsr_skb_get_header_port(struct sk_buff *skb, bool *header,
-    78						   enum hsr_port_type *port_type)
-    79	{
-    80		struct hsr_ptp_ext *ptp_ext;
-    81	
-    82		*port_type = HSR_PT_NONE;
-    83		*header = false;
-    84	
-  > 85		ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-    86		if (!ptp_ext)
-    87			return false;
-    88	
-    89		*port_type = ptp_ext->port;
-    90		*header = ptp_ext->header;
-    91		return true;
-    92	}
-    93	
-    94	static inline bool hsr_skb_add_header_port(struct sk_buff *skb, bool header,
-    95						   enum hsr_port_type port)
-    96	{
-    97		struct hsr_ptp_ext *ptp_ext;
-    98	
-  > 99		ptp_ext = skb_ext_add(skb, SKB_EXT_HSR);
-   100		if (!ptp_ext)
-   101			return false;
-   102		ptp_ext->port = port;
-   103		ptp_ext->header = header;
-   104		return true;
-   105	}
-   106	
+d6a2f9035bfc27d kernel/events/core.c  David Carrillo-Cisneros 2016-08-17  4806  
+0793a61d4df8dae kernel/perf_counter.c Thomas Gleixner         2008-12-04  4807  /*
+cdd6c482c9ff9c5 kernel/perf_event.c   Ingo Molnar             2009-09-21  4808   * Cross CPU call to read the hardware event
+0793a61d4df8dae kernel/perf_counter.c Thomas Gleixner         2008-12-04  4809   */
+cdd6c482c9ff9c5 kernel/perf_event.c   Ingo Molnar             2009-09-21  4810  static void __perf_event_read(void *info)
+0793a61d4df8dae kernel/perf_counter.c Thomas Gleixner         2008-12-04  4811  {
+0492d4c5b8c4dc3 kernel/events/core.c  Peter Zijlstra          2015-09-03  4812  	struct perf_read_data *data = info;
+0492d4c5b8c4dc3 kernel/events/core.c  Peter Zijlstra          2015-09-03  4813  	struct perf_event *sub, *event = data->event;
+cdd6c482c9ff9c5 kernel/perf_event.c   Ingo Molnar             2009-09-21  4814  	struct perf_event_context *ctx = event->ctx;
+bd27568117664b8 kernel/events/core.c  Peter Zijlstra          2022-10-08  4815  	struct perf_cpu_context *cpuctx = this_cpu_ptr(&perf_cpu_context);
+10d25ea5d989da5 kernel/events/core.c  Peter Zijlstra          2026-03-09  4816  	struct pmu *pmu;
+621a01eac89b5e2 kernel/perf_counter.c Ingo Molnar             2008-12-11  4817  
+e1ac3614ff606ae kernel/perf_counter.c Paul Mackerras          2009-08-14  4818  	/*
+e1ac3614ff606ae kernel/perf_counter.c Paul Mackerras          2009-08-14  4819  	 * If this is a task context, we need to check whether it is
+e1ac3614ff606ae kernel/perf_counter.c Paul Mackerras          2009-08-14  4820  	 * the current task context of this cpu.  If not it has been
+e1ac3614ff606ae kernel/perf_counter.c Paul Mackerras          2009-08-14  4821  	 * scheduled out before the smp call arrived.  In that case
+cdd6c482c9ff9c5 kernel/perf_event.c   Ingo Molnar             2009-09-21  4822  	 * event->count would have been updated to a recent sample
+cdd6c482c9ff9c5 kernel/perf_event.c   Ingo Molnar             2009-09-21  4823  	 * when the event was scheduled out.
+e1ac3614ff606ae kernel/perf_counter.c Paul Mackerras          2009-08-14  4824  	 */
+e1ac3614ff606ae kernel/perf_counter.c Paul Mackerras          2009-08-14  4825  	if (ctx->task && cpuctx->task_ctx != ctx)
+e1ac3614ff606ae kernel/perf_counter.c Paul Mackerras          2009-08-14  4826  		return;
+e1ac3614ff606ae kernel/perf_counter.c Paul Mackerras          2009-08-14  4827  
+10d25ea5d989da5 kernel/events/core.c  Peter Zijlstra          2026-03-09  4828  	guard(raw_spinlock)(&ctx->lock);
+9a32bd9901fe5b1 kernel/events/core.c  Peter Zijlstra          2024-08-07  4829  	ctx_time_update_event(ctx, event);
+0492d4c5b8c4dc3 kernel/events/core.c  Peter Zijlstra          2015-09-03  4830  
+0d3d73aac2ff05c kernel/events/core.c  Peter Zijlstra          2017-09-05  4831  	perf_event_update_time(event);
+0d3d73aac2ff05c kernel/events/core.c  Peter Zijlstra          2017-09-05  4832  	if (data->group)
+0d3d73aac2ff05c kernel/events/core.c  Peter Zijlstra          2017-09-05  4833  		perf_event_update_sibling_time(event);
+0c1cbc18df9e381 kernel/events/core.c  Peter Zijlstra          2017-09-05  4834  
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4835  	if (event->state != PERF_EVENT_STATE_ACTIVE)
+10d25ea5d989da5 kernel/events/core.c  Peter Zijlstra          2026-03-09  4836  		return;
+0492d4c5b8c4dc3 kernel/events/core.c  Peter Zijlstra          2015-09-03  4837  
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4838  	if (!data->group) {
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03 @4839  		pmu->read(event);
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4840  		data->ret = 0;
+10d25ea5d989da5 kernel/events/core.c  Peter Zijlstra          2026-03-09  4841  		return;
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4842  	}
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4843  
+10d25ea5d989da5 kernel/events/core.c  Peter Zijlstra          2026-03-09  4844  	pmu = event->pmu_ctx->pmu;
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4845  	pmu->start_txn(pmu, PERF_PMU_TXN_READ);
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4846  
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4847  	pmu->read(event);
+0492d4c5b8c4dc3 kernel/events/core.c  Peter Zijlstra          2015-09-03  4848  
+8ce939a0fa19493 kernel/events/core.c  Peter Zijlstra (Intel   2025-01-21  4849) 	for_each_sibling_event(sub, event)
+8ce939a0fa19493 kernel/events/core.c  Peter Zijlstra (Intel   2025-01-21  4850) 		perf_pmu_read(sub);
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4851  
+4a00c16e552ea5e kernel/events/core.c  Sukadev Bhattiprolu     2015-09-03  4852  	data->ret = pmu->commit_txn(pmu);
+0793a61d4df8dae kernel/perf_counter.c Thomas Gleixner         2008-12-04  4853  }
+0793a61d4df8dae kernel/perf_counter.c Thomas Gleixner         2008-12-04  4854  
+
+:::::: The code at line 4839 was first introduced by commit
+:::::: 4a00c16e552ea5e71756cd29cd2df7557ec9cac4 perf/core: Define PERF_PMU_TXN_READ interface
+
+:::::: TO: Sukadev Bhattiprolu <sukadev@linux.vnet.ibm.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
