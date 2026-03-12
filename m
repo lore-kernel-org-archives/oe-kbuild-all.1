@@ -1,167 +1,113 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C96330100D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 06:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773298004; cv=none; b=gxBvAH+ol/u8iWFBhLDaqwjgim/ORJGWtoow7zmwOTq1+SBZ1YSMawxK1Svph//CjW/CIM1cWsqWEHTCrUokfdSUSLPYLKmbXBVlQJWK6FBlQ8yNTw9HpoI2uVa9DQwOnvya+1WdNKxwmbKDoJkcc2O0T1O7SN9E3AgVJkRKc/A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773298004; c=relaxed/simple;
-	bh=T0ODP53dPZfx6uBhnVp3cJ4giaNRKnh9jAJhpRJe/sc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i234NfGcy43O10kWO5Ujr6QjkMr9HSV+/w1AY4inb3XHsKmL3yfdG7G8lhyGgBtni/wnVhVjSmFMRdNKTOSeywQ0GHk1DJrkL9LHB8DitT+YZWwgfr/V/l6Z+pSfXJJ9J1ITWn/lJ8FEk9fcChPvC+u1TB0DUbaoDx426tm+LaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ilr8q3w7; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zp5M91rv; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441CF3AD508
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 07:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773299836; cv=pass; b=VpPX+qR3KYkRRHGUrlUisoO8pXGUzhEMCTmoCzJTIgXoaYtAOLf6nj4pjMhJlOceqMqmXoCMAM1gkfyWTxEhYIQbnGC9XjVPXSt50qP5P5L0NSGRaaLziXlk0VQ1AO4t3bJBNxM8dIM+/a7oV7/14xZHm5uLHes759ZCdbANa48=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773299836; c=relaxed/simple;
+	bh=GVVWkZinbvu+CdqWgWewr2jXtUw5zAnWEAj+UByDKzc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WkAJiKwl5Cjjjha6Q+QdIT3jMBptnv/1GF/Ijy33ImPi7Yfyz3USF1HICbhJsF7d7G8TrDXTLTTFmHUX09t+D2jFuzmjI6yQSbo7TBkzbbHThGpluv8MAwitGhhP8Cv7IdQjoyF9vRW6ql7vE4w8fr1+2pdirXJVWKuiWgZ7dLs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=REwa2hvs; arc=pass smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ilr8q3w7";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zp5M91rv"
-Date: Thu, 12 Mar 2026 07:46:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773297995;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LhT8DnaCn4aeyxuk52x6USFRxjvnO3V1rxo933HeMjk=;
-	b=Ilr8q3w7+NO4lJO9tZ2H+w63Lrp2aekfrS7Q0eJBDEb5UVVCRHvg0y5CkO8HRI7CGD7cdC
-	opZG9jtZ8Q3ce8eF172xXPTOurfaJHDv/O4dTufZ1lAtdkoA1nnB3B7wgVVkWMgeCgHV9E
-	P0uHcBClauQQFIc1y7pm8bYSCcIegFqAlxplOpd9roqrapIv5O7stwf/Wa8vvE2ZSmZYf8
-	CaviD0r1oRWm0kMEDBClTwAbA9tFUxk5KByM9VLUAAWtXmCESuj7r92XSbSomEO6JVlHOI
-	MACRltuqFHmr5i7bffEz+mHMnpxN+1W09LsQUYNmsNSQIjcJ6mPtgwrRpxmzQg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773297995;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LhT8DnaCn4aeyxuk52x6USFRxjvnO3V1rxo933HeMjk=;
-	b=zp5M91rv06D6BCgC5q+rv/cUJ4Hj8Fgay39cfHmgeOwh2C77Ps3QZDAw2F2AlUrU/0fVb2
-	L+yiJdNi/XOVreDw==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
-Subject: Re: [tip:timers/vdso 37/45] progs/hid_bpf_helpers.h:117:31: error:
- declaration of 'struct bpf_wq' will not be visible outside of this function
-Message-ID: <20260312073810-db531b6e-ed24-4a55-865e-e7b94e90b8e6@linutronix.de>
-References: <202603111558.KLCIxsZB-lkp@intel.com>
- <20260311160618-dbfa08f6-8cfa-4f81-94a2-d6d97f79ae93@linutronix.de>
- <abGeK0FpNn5uXi8B@beelink>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="REwa2hvs"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2b8095668ebso17602eec.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 00:17:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773299834; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VgNVCPKPXNkqVHMiwq8Qjaz520ThoGikAa2Me10ITYwRppogumPRPWkUuvOKeyIHSo
+         vEee+UieRMuY6ErBeKZxa4+giqVj2MCGOKvNuYni85+InQ0WS4FI+lZPC9VtNQdBWLbU
+         NYLEh2vE81nemjkOi8UFWqvpGBc69+kDmCbdkk2Uk6iU2cxIrW0HFiuY+2USeZ5limCD
+         H4/jlMJIMf3cqmm1f/ikGE1czCjCDE07/91O+/qji+mBMEsePaleq+vB+8hC2nPFoKim
+         n9rov4JQiWXyktOPZy4zmJKPLhIckNC2lAW5uky63dfHkCWcln6YfzmuuKjmycFRH+8Z
+         QIBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fijcrm1C28H+gJhNiH167ZaI51N9KFHbWWWA7M7NLpI=;
+        fh=PhwgVgshHwnygFoTFoNsMTU0/lwigexFCqUpZGIHmjk=;
+        b=HPjZPjYNzJCCxntnVKQqZLAm0HCna+Y9XHibsgWHXlccSoU4XhkaCRH62MpIckwAel
+         xW6gK9a3GUxAx3lzL0mrfUWNfZxICviy4HB+h6901CmKxToMamDSeq9H4kvXiNdo8ToC
+         SDOYdfxl6vCwpwthpd6kal3u86zpmrgAvrykLq/9IvqNPiP1Rvz0BFGmLYhN49qddRvu
+         8EXnzR/kYXXYm/m26ct6dEutySmAklO0rBRt6Y7/5HGxEADWPi5dpTjGgplbOv8AJe+U
+         XcfR8cDIIWF/C7KjaXcJICeGUnkKYWtpjASo8vK0FkvB2UkOyAgQUZfQbveEAR37RJXs
+         tNAQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773299834; x=1773904634; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fijcrm1C28H+gJhNiH167ZaI51N9KFHbWWWA7M7NLpI=;
+        b=REwa2hvsiZ8u9r2GjlnbvJczFK1sLBOVJEMSBYk5AyId0ViICA1bFuyZgEno0xr5Cr
+         4D29APrxkZHZ0kIasjW2RAvhv1HHRlAoHwjEae8lXUXKwpwC9OJs6QKU/0Vz5UIRR5//
+         CDhLWIZiPQPWnQbTkHZNtTC+8qr1smHXNIiuejJRGxMlyPhiGgAuM0au2IxlKQLhMnMF
+         rV3FFZk1JBupVEh8eYhTWwACW+Ae10vu/hbHqVdg4EHQ9w+u1oRtbY7/ds1Fzmox6tQA
+         dxtyZzmoNGA7X5RIaoFKaVg/CP93/qrfoBG0FXswsdgMZ9hYejX2inp/yOmjDEy4/5+5
+         6tJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773299834; x=1773904634;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fijcrm1C28H+gJhNiH167ZaI51N9KFHbWWWA7M7NLpI=;
+        b=S+ktCj1VN5zfy9+OPGbQqBXqqbggqYeUrEbIEK53uUBBT77tSevgOBjEaBZvMcTxgL
+         Xp2YiHr9ZgLbyUWzAE4qcBq1CLQEO+sHF4aSbJ3GzZTdKdS6qzmQsqJ0amBjIZmyXJ6u
+         D5U5mOF8w7feKPdv3zsZkPElcF7PuACqP+WzDrU+QqnI1nON+ouPQEnZonG7nINgDWb8
+         o4czHrJxkluTzDNrtue8/YgE8zzc7ECp/RRg3Bij99TZFaZZBIj9cwnneE/khcjDncJT
+         b+zn+lUWMj92JFia95dPIstChxIfqiUDDcfLxuw53cgBvCaLr82vPVyQ+ywmQcf0ehYi
+         58mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTVHjcpvr1+anYaZ/2ABKtikg+35WsG7hcC8VURUv4L94cozpPmDzSLw3Uhm71akEOj+OggDfSv1A68lbw@lists.linux.dev
+X-Gm-Message-State: AOJu0YxuFj2clVZF6ye6iZlD/bFeDy98C0acq1OKIHtps5Tu8Q5wY41U
+	fE1Hp71A770ZNThC5aLt2HDWkz4BpsKT32bNjTUq6gUafvbwy7oCZuft2Ufeay7fVBy/bl1TpLd
+	jIRhT9jKT2rpUxeEk3qfc8w5zGZudOpk=
+X-Gm-Gg: ATEYQzzz1Uz87Mj2Rw3dIE3q7THS8Bwm8ikhDz5eycj8Ch8HII6IjnYG6PokR4BOqUV
+	rzOVf3psRrlJGXRHZ7GKX5Rw71wI3syA8RRcy81xrd8B/97kgxkDC6jFILahWnIfvb59I3cfU8L
+	fvL2uclKpFQVwmvWmeZDTmvoJhU5Vhg4yULtB5QTu7e8DPZiMP2TbRL4ITunycuMqcmYIxhshlK
+	He3BRiAqBc+BBjXqKD/ow0Wq9R9p6RwOAN9mZ6MmsDbiAPzmxVDymc2kqbEB9otH1qSTzrPz0s9
+	Avcs9LxkcJ2zQmw6zbtujXLdf1c/7C+AVR3qI/u6nofglJG9y1pv5E9hEvS7gXpV/+sSrjYRfc2
+	tUe6g+cxzuZW78LYzz6umTMA=
+X-Received: by 2002:a05:7301:2b06:b0:2b7:ff3a:af82 with SMTP id
+ 5a478bee46e88-2be99958a2bmr259221eec.1.1773299834239; Thu, 12 Mar 2026
+ 00:17:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <abGeK0FpNn5uXi8B@beelink>
+References: <202603120016.x0Fm70Gw-lkp@intel.com> <DH09SQNRVQP3.1CA7359P8IZ66@kernel.org>
+In-Reply-To: <DH09SQNRVQP3.1CA7359P8IZ66@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 12 Mar 2026 08:17:01 +0100
+X-Gm-Features: AaiRm50xyWOxS2FP3vtgiS0mz-Qzix7ALRCB2dgQaT299nMv1TFjao8Jom99ci8
+Message-ID: <CANiq72kp9hYU4LLOHHhQWd5sgsGvQSXH7XnDuNnfWiZwDKYX3Q@mail.gmail.com>
+Subject: Re: vmlinux.o: warning: objtool: _RINvMs0_NvNtNtCshc5sK6KjdJJ_6kernel4sync4lock1__INtB6_12___ThePinDataINtNtNtBc_5alloc4kvec3VecINtNtCsbsbRiabPlh9_4core3pin3PinINtNtB1a_4kbox3BoxINtNtBc_7debugfs5ScopeNtCscKcGI1asYQG_19rust_debugfs_scoped10DeviceDataENtNtB1a_9...
+To: Benno Lossin <lossin@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, Miguel Ojeda <ojeda@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Gary Guo <gary@garyguo.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Benjamin,
+On Wed, Mar 11, 2026 at 10:28=E2=80=AFPM Benno Lossin <lossin@kernel.org> w=
+rote:
+>
+> @Miguel, do you know if this is pin-init/syn specific? I don't think
+> the syn rewrite should result in a difference like this.
 
-thanks for the quick response.
+It doesn't look like it, no.
 
-On Wed, Mar 11, 2026 at 06:05:25PM +0100, Benjamin Tissoires wrote:
-> On Mar 11 2026, Thomas Weißschuh wrote:
-> > could you take a look at the report below?
-> > This looks like an issue in the HID BPF subsystem, surfaced by my
-> > unrelated change. Does this ring a bell for you?
-> > 
-> > I wasn't able to reproduce it so far, but will continue looking into it.
-> 
-> Both struct bpf_wq and struct hid_device should be generated in the
-> vmlinux.h that we include in the selftests. So this is definitely not
-> related to your patch AFAICT.
+The config has `CONFIG_CC_OPTIMIZE_FOR_SIZE=3Dy` plus doctests enabled,
+so my first guess is that this seems to be a variant of:
 
-Ack. To be sure I sent this branch again through 0day and will see if it
-breaks on the same commit.
+  https://lore.kernel.org/rust-for-linux/20251201021659.1729308-1-ojeda@ker=
+nel.org/
 
-> Looking in the config, we have `# CONFIG_HID_SUPPORT is not set` -> so
-> that would explain why struct hid_device is not available. But in that
-> case, why are the HID selftests even built?
-
-CONFIG_DEBUG_INFO_BTF is also not set. So there should be no vmlinux.h
-at all in the first. Which is exactly what happens in my attempts
-to reproduce the issue. But even when fixing that up, the issue persists.
-
-> The bpf_wq bits should be related to a similar-ish issue where one
-> config setting is not set and so it's not included in the final BTF.
-
-I'll look into how exactly things end up in vmlinux.h.
-At least the headers for 'struct bpf_wq' are always included somewhere.
-But maybe the type also needs to be used to define some structure.
-
-> I paged out how we can ignore selftests based on the .config, so if you
-> have any hints, that would be nice :)
-
-Inspecting the kernel configuration might be hard, as there might be no file
-for it available. Could you use vmlinux.h itself for feature detection?
-
-
-Thomas
-
-> > On Wed, Mar 11, 2026 at 03:29:54PM +0100, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-> > > head:   f7178f159b2a36d070fd43b0d751e4e4415ec39e
-> > > commit: 912632a7fd4cc1eac2778828d92e8fe46939d6bd [37/45] vdso/datapage: Trim down unnecessary includes
-> > > config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260311/202603111558.KLCIxsZB-lkp@intel.com/config)
-> > > compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111558.KLCIxsZB-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202603111558.KLCIxsZB-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    In file included from progs/hid.c:3:
-> > > >> progs/hid_bpf_helpers.h:117:31: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
-> > >      117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
-> > >          |                               ^
-> > >    progs/hid_bpf_helpers.h:118:32: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
-> > >      118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
-> > >          |                                ^
-> > >    progs/hid_bpf_helpers.h:119:39: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
-> > >      119 | extern int bpf_wq_set_callback(struct bpf_wq *wq,
-> > >          |                                       ^
-> > > >> progs/hid.c:448:16: error: field has incomplete type 'struct bpf_wq'
-> > >      448 |         struct bpf_wq work;
-> > >          |                       ^
-> > >    progs/hid.c:448:9: note: forward declaration of 'struct bpf_wq'
-> > >      448 |         struct bpf_wq work;
-> > >          |                ^
-> > > >> progs/hid.c:487:18: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
-> > >      487 |         if (bpf_wq_init(wq, &hmap, 0) != 0)
-> > >          |                         ^~
-> > >    progs/hid_bpf_helpers.h:117:39: note: passing argument to parameter 'wq' here
-> > >      117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
-> > >          |                                       ^
-> > >    progs/hid.c:490:26: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
-> > >      490 |         if (bpf_wq_set_callback(wq, wq_cb_sleepable, 0))
-> > >          |                                 ^~
-> > >    progs/hid_bpf_helpers.h:119:47: note: passing argument to parameter 'wq' here
-> > >      119 | extern int bpf_wq_set_callback(struct bpf_wq *wq,
-> > >          |                                               ^
-> > >    progs/hid.c:493:19: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
-> > >      493 |         if (bpf_wq_start(wq, 0))
-> > >          |                          ^~
-> > >    progs/hid_bpf_helpers.h:118:40: note: passing argument to parameter 'wq' here
-> > >      118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
-> > >          |                                        ^
-> > >    progs/hid.c:503:24: error: incomplete definition of type 'struct hid_device'
-> > >      503 |         int hid = hid_ctx->hid->id;
-> > >          |                   ~~~~~~~~~~~~^
-> > >    progs/hid_bpf_helpers.h:59:9: note: forward declaration of 'struct hid_device'
-> > >       59 |         struct hid_device *hid;
-> > >          |                ^
-> > >    8 errors generated.
-> > > 
-> > > -- 
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> > 
+Cheers,
+Miguel
