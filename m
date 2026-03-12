@@ -1,64 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFFE383C95
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 03:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E760D348452;
+	Thu, 12 Mar 2026 03:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773284947; cv=none; b=sblNDJX+N1aa8846mSflSJnqmf2CEDXZAGwuwzQlFEZpjbUh3FKnVMsRo51+l0umigW4G4MJZxeOvKUWLPICpAOF0NNa9r1HsF7pzwq84Y/up1gr93k52Zr0c8wclv848X9IVI06sGF0cMXcLSumA4bbOuqRkukpVUOTl641GYw=
+	t=1773286952; cv=none; b=UnMjFfyQ1r3Efbrl8Q+dL+uheihZH9IVAXUO71pzH9HIvJ2rDBQ3MLaLpY4YiEpJCscXhGloSlBj04yhAPO/2quEyj1KI+sSoFFI01FLyLjBt6CPvW+NXTptUu5kNISINtgfZI07CROndbYrDiuJke0odxgHACZ/kXxzqfs/TJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773284947; c=relaxed/simple;
-	bh=MjofBuiu/1p6QwVUp6QptSjHhi/8J0onTIBIrWBJEeE=;
+	s=arc-20240116; t=1773286952; c=relaxed/simple;
+	bh=k66SwT2CrRXnmYea4HwxTf4zjYXWkJzLCeBRb9Ce94o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PC3szco3e92Tt9GAqoPyCv/1YK3yoy5hcNjfByCF5M/D+a2GdijwByr5L7TR5gbKDBt9RJ5y65VqA3zk5Lw5C/1w/d+PBmCeEP7f6sJpFyH2dNCpFi+2Kxpx2x6ZlKhJha/DvGfw20QfJAjq5iZPGTolNgg8BthL7MwqGSW4Xls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVe6y1DZ; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=fgYweawLMvQVWxWNAA8uU/eSalvvSXBka65F+Ype6os1lnuQMs61gjFuI5lRuOUW9d0b5SU1K07vpzP+CzO+PvMAZ97S4IGjpnyHs9d0JDd/W8a8+5ePY7sQz8wE4Z4JeCSUlssFyt9uVEgYxDzf6PPjY8GjoHSuBtbqFQZDB7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKBB9Eu8; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVe6y1DZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKBB9Eu8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773284946; x=1804820946;
+  t=1773286950; x=1804822950;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MjofBuiu/1p6QwVUp6QptSjHhi/8J0onTIBIrWBJEeE=;
-  b=NVe6y1DZTJGHFfKVMcym2tdYQ3osTK8x4j6fSMC7wFRsvL/0HLp5zL91
-   /UZJ/z1PYpRTJDluYuc6ESN+nmKhlpUiGj/hFx3U93bgFPl5zrte+osD1
-   vPGacgVh7AA3zOzrBIbuV7ui4T5ljvi6szp/TT5UMvNVNA5lZVmh+k5Z6
-   fYo7im0A89+91ZhinG2cniFgxuqSyn/oGrbta4pbQ1Fyw/bcE4uvaQS1H
-   JQmCDGTIJAnDZMq49EhzlZ31oT5s7qjpga4gwbIoM+ZhhMo/CDunxLj6A
-   JmHI5UGlg5sXecs2XwLOtM9APl6lbVOGRKxrYXxuFbHvLbf3s/nogfoS3
-   A==;
-X-CSE-ConnectionGUID: HGYkq2rDSLu8VaA9oyYVQQ==
-X-CSE-MsgGUID: wJL75m+hQIu/8WLkeag86Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84686097"
+  bh=k66SwT2CrRXnmYea4HwxTf4zjYXWkJzLCeBRb9Ce94o=;
+  b=IKBB9Eu82LDu6GhPoJ90irLipRyds+IPDfgTm8Cv2QrNwwqkvEn387RS
+   V2GXTyozoQf6HCMzcSbuOwiOt+7qYk9hv27VfqCCrvgVGjpild0A3oMrQ
+   Ras569sAYOUygoks5TUOEyLh5J4k4EgycpmqjiLcAh6YiYl7gPtIa8Mvh
+   kWNwcPQqpvF2gRPvi66h48jtLqEahVJU3A046NllZ5VDoNUcu9veLLnc2
+   2OMzMCC2IypCgVpUBQQiQPyRkq7yHDSd8A9335YMpcvdtPO+13biaVSzu
+   YSZMHRkPZNumbGEVKGfosg3nq6TC55QME0U8UngQ6zS7XWogLcntmsMQo
+   Q==;
+X-CSE-ConnectionGUID: oIZw1JXwSxynJHazCzhCSA==
+X-CSE-MsgGUID: zBPOM7e2TuObLqGutMRwbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="73386657"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="84686097"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 20:09:05 -0700
-X-CSE-ConnectionGUID: 5TRL9SQESyiwAtOJR8nDxw==
-X-CSE-MsgGUID: w9RAcCPkRiC04zYSh7poKQ==
+   d="scan'208";a="73386657"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 20:42:30 -0700
+X-CSE-ConnectionGUID: pg2FiJu1QE6WIsmaAzNCaQ==
+X-CSE-MsgGUID: MKFyLNCXToKe6fDbqnVz3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="219945600"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 11 Mar 2026 20:09:01 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="217277110"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 11 Mar 2026 20:42:27 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0WPy-000000003Rh-1meA;
-	Thu, 12 Mar 2026 03:08:58 +0000
-Date: Thu, 12 Mar 2026 04:08:19 +0100
+	id 1w0WwJ-0000000021n-43fx;
+	Thu, 12 Mar 2026 03:42:23 +0000
+Date: Thu, 12 Mar 2026 11:41:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>, martin.lau@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, ameryhung@gmail.com, andrii@kernel.org,
-	ast@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
-	eddyz87@gmail.com, grbell@redhat.com, haoluo@google.com,
-	john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
-	memxor@gmail.com, sdf@fomichev.me, song@kernel.org,
-	yonghong.song@linux.dev
-Subject: Re: [PATCH] bpf: Release module BTF IDR before module unload
-Message-ID: <202603120435.9bfX2C28-lkp@intel.com>
-References: <20260311130321.1055808-1-memxor@gmail.com>
+To: Kim Phillips <kim.phillips@amd.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, linux-coco@lists.linux.dev, x86@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Nikunj A Dadhania <nikunj@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Borislav Petkov <borislav.petkov@amd.com>,
+	Naveen Rao <naveen.rao@amd.com>,
+	David Kaplan <david.kaplan@amd.com>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Kim Phillips <kim.phillips@amd.com>, stable@kernel.org
+Subject: Re: [PATCH v2 1/3] cpu/bugs: Allow forcing Automatic IBRS with SNP
+ enabled using spectre_v2=eibrs
+Message-ID: <202603121136.bc8zNsHS-lkp@intel.com>
+References: <20260311130611.2201214-2-kim.phillips@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,49 +74,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260311130321.1055808-1-memxor@gmail.com>
+In-Reply-To: <20260311130611.2201214-2-kim.phillips@amd.com>
 
-Hi Kumar,
+Hi Kim,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/net]
-[also build test ERROR on bpf-next/master bpf/master linus/master v6.16-rc1 next-20260311]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 7726ce2287804e70b2bf2fc00f104530b603d3f3]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/bpf-Release-module-BTF-IDR-before-module-unload/20260311-211036
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20260311130321.1055808-1-memxor%40gmail.com
-patch subject: [PATCH] bpf: Release module BTF IDR before module unload
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260312/202603120435.9bfX2C28-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kim-Phillips/cpu-bugs-Allow-forcing-Automatic-IBRS-with-SNP-enabled-using-spectre_v2-eibrs/20260311-211730
+base:   7726ce2287804e70b2bf2fc00f104530b603d3f3
+patch link:    https://lore.kernel.org/r/20260311130611.2201214-2-kim.phillips%40amd.com
+patch subject: [PATCH v2 1/3] cpu/bugs: Allow forcing Automatic IBRS with SNP enabled using spectre_v2=eibrs
+config: x86_64-randconfig-101-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121136.bc8zNsHS-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120435.9bfX2C28-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603120435.9bfX2C28-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121136.bc8zNsHS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/cpu/bugs.c:2190:42-44: WARNING !A || A && B is equivalent to !A || B
 
->> kernel/bpf/btf.c:1886:13: error: static declaration of 'btf_is_module' follows non-static declaration
-    1886 | static bool btf_is_module(const struct btf *btf);
-         |             ^~~~~~~~~~~~~
-   In file included from include/linux/bpf.h:29,
-                    from include/linux/bpf_verifier.h:7,
-                    from kernel/bpf/btf.c:19:
-   include/linux/btf.h:219:6: note: previous declaration of 'btf_is_module' with type 'bool(const struct btf *)' {aka '_Bool(const struct btf *)'}
-     219 | bool btf_is_module(const struct btf *btf);
-         |      ^~~~~~~~~~~~~
+vim +2190 arch/x86/kernel/cpu/bugs.c
 
-
-vim +/btf_is_module +1886 kernel/bpf/btf.c
-
-  1885	
-> 1886	static bool btf_is_module(const struct btf *btf);
-  1887	
+  2122	
+  2123	static void __init spectre_v2_select_mitigation(void)
+  2124	{
+  2125		if ((spectre_v2_cmd == SPECTRE_V2_CMD_RETPOLINE ||
+  2126		     spectre_v2_cmd == SPECTRE_V2_CMD_RETPOLINE_LFENCE ||
+  2127		     spectre_v2_cmd == SPECTRE_V2_CMD_RETPOLINE_GENERIC ||
+  2128		     spectre_v2_cmd == SPECTRE_V2_CMD_EIBRS_LFENCE ||
+  2129		     spectre_v2_cmd == SPECTRE_V2_CMD_EIBRS_RETPOLINE) &&
+  2130		    !IS_ENABLED(CONFIG_MITIGATION_RETPOLINE)) {
+  2131			pr_err("RETPOLINE selected but not compiled in. Switching to AUTO select\n");
+  2132			spectre_v2_cmd = SPECTRE_V2_CMD_AUTO;
+  2133		}
+  2134	
+  2135		if ((spectre_v2_cmd == SPECTRE_V2_CMD_EIBRS ||
+  2136		     spectre_v2_cmd == SPECTRE_V2_CMD_EIBRS_LFENCE ||
+  2137		     spectre_v2_cmd == SPECTRE_V2_CMD_EIBRS_RETPOLINE) &&
+  2138		    !boot_cpu_has(X86_FEATURE_IBRS_ENHANCED)) {
+  2139			pr_err("EIBRS selected but CPU doesn't have Enhanced or Automatic IBRS. Switching to AUTO select\n");
+  2140			spectre_v2_cmd = SPECTRE_V2_CMD_AUTO;
+  2141		}
+  2142	
+  2143		if ((spectre_v2_cmd == SPECTRE_V2_CMD_RETPOLINE_LFENCE ||
+  2144		     spectre_v2_cmd == SPECTRE_V2_CMD_EIBRS_LFENCE) &&
+  2145		    !boot_cpu_has(X86_FEATURE_LFENCE_RDTSC)) {
+  2146			pr_err("LFENCE selected, but CPU doesn't have a serializing LFENCE. Switching to AUTO select\n");
+  2147			spectre_v2_cmd = SPECTRE_V2_CMD_AUTO;
+  2148		}
+  2149	
+  2150		if (spectre_v2_cmd == SPECTRE_V2_CMD_IBRS && !IS_ENABLED(CONFIG_MITIGATION_IBRS_ENTRY)) {
+  2151			pr_err("IBRS selected but not compiled in. Switching to AUTO select\n");
+  2152			spectre_v2_cmd = SPECTRE_V2_CMD_AUTO;
+  2153		}
+  2154	
+  2155		if (spectre_v2_cmd == SPECTRE_V2_CMD_IBRS && boot_cpu_data.x86_vendor != X86_VENDOR_INTEL) {
+  2156			pr_err("IBRS selected but not Intel CPU. Switching to AUTO select\n");
+  2157			spectre_v2_cmd = SPECTRE_V2_CMD_AUTO;
+  2158		}
+  2159	
+  2160		if (spectre_v2_cmd == SPECTRE_V2_CMD_IBRS && !boot_cpu_has(X86_FEATURE_IBRS)) {
+  2161			pr_err("IBRS selected but CPU doesn't have IBRS. Switching to AUTO select\n");
+  2162			spectre_v2_cmd = SPECTRE_V2_CMD_AUTO;
+  2163		}
+  2164	
+  2165		if (spectre_v2_cmd == SPECTRE_V2_CMD_IBRS && cpu_feature_enabled(X86_FEATURE_XENPV)) {
+  2166			pr_err("IBRS selected but running as XenPV guest. Switching to AUTO select\n");
+  2167			spectre_v2_cmd = SPECTRE_V2_CMD_AUTO;
+  2168		}
+  2169	
+  2170		if (!boot_cpu_has_bug(X86_BUG_SPECTRE_V2)) {
+  2171			spectre_v2_cmd = SPECTRE_V2_CMD_NONE;
+  2172			return;
+  2173		}
+  2174	
+  2175		switch (spectre_v2_cmd) {
+  2176		case SPECTRE_V2_CMD_NONE:
+  2177			return;
+  2178	
+  2179		case SPECTRE_V2_CMD_AUTO:
+  2180			if (!should_mitigate_vuln(X86_BUG_SPECTRE_V2))
+  2181				break;
+  2182			fallthrough;
+  2183		case SPECTRE_V2_CMD_FORCE:
+  2184			/*
+  2185			 * Unless forced, don't use AutoIBRS when SNP is enabled
+  2186			 * because it degrades host userspace indirect branch performance.
+  2187			 */
+  2188			if (boot_cpu_has(X86_FEATURE_IBRS_ENHANCED) &&
+  2189			    (!boot_cpu_has(X86_FEATURE_SEV_SNP) ||
+> 2190			     (boot_cpu_has(X86_FEATURE_SEV_SNP) &&
+  2191			      spectre_v2_cmd == SPECTRE_V2_CMD_FORCE))) {
+  2192				spectre_v2_enabled = SPECTRE_V2_EIBRS;
+  2193				break;
+  2194			}
+  2195	
+  2196			spectre_v2_enabled = spectre_v2_select_retpoline();
+  2197			break;
+  2198	
+  2199		case SPECTRE_V2_CMD_RETPOLINE_LFENCE:
+  2200			pr_err(SPECTRE_V2_LFENCE_MSG);
+  2201			spectre_v2_enabled = SPECTRE_V2_LFENCE;
+  2202			break;
+  2203	
+  2204		case SPECTRE_V2_CMD_RETPOLINE_GENERIC:
+  2205			spectre_v2_enabled = SPECTRE_V2_RETPOLINE;
+  2206			break;
+  2207	
+  2208		case SPECTRE_V2_CMD_RETPOLINE:
+  2209			spectre_v2_enabled = spectre_v2_select_retpoline();
+  2210			break;
+  2211	
+  2212		case SPECTRE_V2_CMD_IBRS:
+  2213			spectre_v2_enabled = SPECTRE_V2_IBRS;
+  2214			break;
+  2215	
+  2216		case SPECTRE_V2_CMD_EIBRS:
+  2217			spectre_v2_enabled = SPECTRE_V2_EIBRS;
+  2218			break;
+  2219	
+  2220		case SPECTRE_V2_CMD_EIBRS_LFENCE:
+  2221			spectre_v2_enabled = SPECTRE_V2_EIBRS_LFENCE;
+  2222			break;
+  2223	
+  2224		case SPECTRE_V2_CMD_EIBRS_RETPOLINE:
+  2225			spectre_v2_enabled = SPECTRE_V2_EIBRS_RETPOLINE;
+  2226			break;
+  2227		}
+  2228	}
+  2229	
 
 -- 
 0-DAY CI Kernel Test Service
