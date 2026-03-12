@@ -1,148 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4ACB34D389;
-	Thu, 12 Mar 2026 14:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF95735836F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 14:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773325786; cv=none; b=WZ2Lw73KJnaDVIHuWP3L4IKINDL2wcEDjrWDAHk8MyIbBwAiTo626gw2vu+IKc8HOYcqDjLFMUj6Js/ou5wCs2XfV26HM/a7SNn2C6YHNKYWdaQt2ZiNXyG4LiSttchtxtXJvypSs2f8dYJ1mX48Ct5Fd3QEb7Bp3j1LxqVtpQs=
+	t=1773326381; cv=none; b=jH94XJ8o7sRwlW8H5vgHAfF8VjDSNEAgKTSPwrsyC/5pCfcrtJ9xf9jlTqCbeWi/UaAoh1z6CbImBHJsDlBBKT1f3ml+71bQGc32SYHNC+lqyf41yml/vuMD8msg6P+RAq6RD1rAjZFBJTGWLUoO709KB+RK3r1AwHC+39LPrhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773325786; c=relaxed/simple;
-	bh=U6h2kSkaL3m+HufZ+v4XEQzA63uvN0k+ygU09TQOjv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t4NOtCvTnItaoRn2V5P5Db140SfD2V2Rn3jQ912u8MXdHz5a0N9EAq2Euk+cR/y38oIIoY4CEv9ei9uJk5ZxwQfieXR2aylruyrs/GAYHSDCGfmiWdoUNMnkj3W1rTL1R6qJq7dRY+gQTKnNexVjRbW5tIiJ/aGeJQkogcMcUQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJv1cXJS; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1773326381; c=relaxed/simple;
+	bh=yGIJwNyyWxME9OE+gJZFWSEoQkbVPOr8J2MP2g+yu9Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=V+lTdQT2389VYFDw1T+Iq3x3/5NoHSTSk3vphatjTMZFaQ0g/JmVeDxUWD6Xdb0b+sxSSkPpYk69DD97XeUlJZD2M4b3H2WlXcqGRNpF/eSSjzBk/InTgy1WLl2T0lasVzJEW72w1pgiWYjzGY5yG+F9Dzn1NeGGhi65uT3DgWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lchYxtku; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJv1cXJS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lchYxtku"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773325785; x=1804861785;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U6h2kSkaL3m+HufZ+v4XEQzA63uvN0k+ygU09TQOjv8=;
-  b=UJv1cXJSNNejbkrLFZ0oFtzI1i5LdqpJcftwqg3rJZenR0miCusccBMh
-   z737S+LCf/JL3FsGKiq1iiE7DFoeD9UDPBoYRLyigCiizD+2oZgASgfrM
-   x7IMwEk9pcAAESvZGzsDx1yVqRJysXyaOWheXl37nHl7h3wGnAHiwnbag
-   Er+XdAvo+yiNdSE6JX+1lDUraJ4A/lVDFvfOJBbVViB61qr+nCHAQDuHD
-   CN0pI/N/P9bGD806qF9GsRw5lkakjRaZpNX8kdXnslxbreMnqEE7G/Nzd
-   s1dW5lWJusqRtaDttdKbDToiffyxMvGxFqYkwwbLTb7+y38/SJ5Xddj4r
-   g==;
-X-CSE-ConnectionGUID: 3+/cNA7PQSOnsx8Dokbo8A==
-X-CSE-MsgGUID: lDUOJrbtQzScvo0YYkenww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="85773984"
+  t=1773326380; x=1804862380;
+  h=date:from:to:cc:subject:message-id;
+  bh=yGIJwNyyWxME9OE+gJZFWSEoQkbVPOr8J2MP2g+yu9Q=;
+  b=lchYxtkuEpwebnTR95VTg0rEAmcwaGceaQ9fM6iUNeIK5QGE8xiYMJr9
+   jQS9fZrYR2IdNpXFmeKuubLKBrRfK2Y2qmmF6zUsUd8qRMnlwQX2pZYZC
+   JnUb6IBTkp5zRJuNrXRZhnAFYH+ZVONMgvfBT3uPKP3nxSR4EyCLZrQmk
+   PMwNL/WLTVI/xmlMJXohPKmDUkE/HDp2430HvDE+joxBpUaDv9g4LYAke
+   wujPtnidx/tWXSRKlcy+LUWneTXbMW+7hmrwiTMAgshTMYOrlmeJxl0bc
+   iRGnJg/bgiwgUEfHzLstBYm/MHp4Twru1ZlsUXhjIxYRoijuTmqi2e6ZH
+   A==;
+X-CSE-ConnectionGUID: qSGKeyzXQqanCKUuA8353g==
+X-CSE-MsgGUID: eNuR4f21Q3+/GpiTsk8J2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="74297168"
 X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="85773984"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 07:29:44 -0700
-X-CSE-ConnectionGUID: 4MKoUK6kRgGlaA8Dhfivaw==
-X-CSE-MsgGUID: 5lbBIi/WTwK4sairjG9Ekg==
+   d="scan'208";a="74297168"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 07:39:40 -0700
+X-CSE-ConnectionGUID: hX7Y48fzQQCjyyk8MlgRWA==
+X-CSE-MsgGUID: 5DswXB3qTV6Lb8WxvxPm8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
-   d="scan'208";a="218641912"
+   d="scan'208";a="220777000"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Mar 2026 07:29:38 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Mar 2026 07:39:38 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0h2c-000000002Yj-1R2Q;
-	Thu, 12 Mar 2026 14:29:34 +0000
-Date: Thu, 12 Mar 2026 22:28:35 +0800
+	id 1w0hCJ-000000002ZL-0p2g;
+	Thu, 12 Mar 2026 14:39:35 +0000
+Date: Thu, 12 Mar 2026 22:39:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v2 13/25] mm/init-mm: Annotate static information into
- meminspect
-Message-ID: <202603122259.3cXlDDN9-lkp@intel.com>
-References: <20260311-minidump-v2-v2-13-f91cedc6f99e@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 14/14]
+ drivers/dma-buf/dma-buf.c:399: warning: Function parameter or struct member
+ 'dmabuf_info' not described in 'dma_buf_account_task'
+Message-ID: <202603122236.GJXfHep4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260311-minidump-v2-v2-13-f91cedc6f99e@oss.qualcomm.com>
 
-Hi Mukesh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 343f51842f4ed7143872f3aa116a214a5619a4b9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/kernel-Introduce-meminspect/20260311-042334
-base:   343f51842f4ed7143872f3aa116a214a5619a4b9
-patch link:    https://lore.kernel.org/r/20260311-minidump-v2-v2-13-f91cedc6f99e%40oss.qualcomm.com
-patch subject: [PATCH v2 13/25] mm/init-mm: Annotate static information into meminspect
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260312/202603122259.3cXlDDN9-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603122259.3cXlDDN9-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   d6e2584f0a1d0497c4ecaba301c8e0f47c69f687
+commit: f7d26609785ce56170645d56f306db38e8ba277a [14/14] ANDROID: Don't use current pointer for per-process dmabuf accounting
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260312/202603122236.GJXfHep4-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603122236.GJXfHep4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603122259.3cXlDDN9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603122236.GJXfHep4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/init-mm.c:23:23: error: use of undeclared identifier '_sinittext'
-      23 | MEMINSPECT_AREA_ENTRY(_sinittext, sizeof(void *));
-         |                       ^
->> mm/init-mm.c:24:23: error: use of undeclared identifier '_einittext'
-      24 | MEMINSPECT_AREA_ENTRY(_einittext, sizeof(void *));
-         |                       ^
->> mm/init-mm.c:25:23: error: use of undeclared identifier '_end'
-      25 | MEMINSPECT_AREA_ENTRY(_end, sizeof(void *));
-         |                       ^
->> mm/init-mm.c:26:23: error: use of undeclared identifier '_text'
-      26 | MEMINSPECT_AREA_ENTRY(_text, sizeof(void *));
-         |                       ^
->> mm/init-mm.c:27:23: error: use of undeclared identifier '_stext'
-      27 | MEMINSPECT_AREA_ENTRY(_stext, sizeof(void *));
-         |                       ^
->> mm/init-mm.c:28:23: error: use of undeclared identifier '_etext'
-      28 | MEMINSPECT_AREA_ENTRY(_etext, sizeof(void *));
-         |                       ^
-   6 errors generated.
+>> drivers/dma-buf/dma-buf.c:399: warning: Function parameter or struct member 'dmabuf_info' not described in 'dma_buf_account_task'
+   drivers/dma-buf/dma-buf.c:399: warning: Excess function parameter 'task' description in 'dma_buf_account_task'
+>> drivers/dma-buf/dma-buf.c:435: warning: Function parameter or struct member 'dmabuf_info' not described in 'dma_buf_unaccount_task'
+   drivers/dma-buf/dma-buf.c:435: warning: Excess function parameter 'task' description in 'dma_buf_unaccount_task'
+   drivers/dma-buf/dma-buf.c:905: warning: Function parameter or struct member 'name' not described in 'dma_buf_set_name'
+   drivers/dma-buf/dma-buf.c:905: warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
 
 
-vim +/_sinittext +23 mm/init-mm.c
+vim +399 drivers/dma-buf/dma-buf.c
 
-    22	
-  > 23	MEMINSPECT_AREA_ENTRY(_sinittext, sizeof(void *));
-  > 24	MEMINSPECT_AREA_ENTRY(_einittext, sizeof(void *));
-  > 25	MEMINSPECT_AREA_ENTRY(_end, sizeof(void *));
-  > 26	MEMINSPECT_AREA_ENTRY(_text, sizeof(void *));
-  > 27	MEMINSPECT_AREA_ENTRY(_stext, sizeof(void *));
-  > 28	MEMINSPECT_AREA_ENTRY(_etext, sizeof(void *));
-    29	
+d50dd969464c6a4 T.J. Mercier 2025-07-22  384  
+d50dd969464c6a4 T.J. Mercier 2025-07-22  385  /**
+d50dd969464c6a4 T.J. Mercier 2025-07-22  386   * dma_buf_account_task - Account a dmabuf to a task
+d50dd969464c6a4 T.J. Mercier 2025-07-22  387   * @dmabuf:	[in]	pointer to dma_buf
+d50dd969464c6a4 T.J. Mercier 2025-07-22  388   * @task:	[in]	pointer to task_struct
+d50dd969464c6a4 T.J. Mercier 2025-07-22  389   *
+d50dd969464c6a4 T.J. Mercier 2025-07-22  390   * When a process obtains a dmabuf file descriptor, or maps a dmabuf, this
+d50dd969464c6a4 T.J. Mercier 2025-07-22  391   * function attributes the provided @dmabuf to the @task. The first time @dmabuf
+d50dd969464c6a4 T.J. Mercier 2025-07-22  392   * is attributed to @task, the buffer's size is added to the @task's dmabuf RSS.
+d50dd969464c6a4 T.J. Mercier 2025-07-22  393   *
+d50dd969464c6a4 T.J. Mercier 2025-07-22  394   * Return:
+d50dd969464c6a4 T.J. Mercier 2025-07-22  395   * * 0 on success
+d50dd969464c6a4 T.J. Mercier 2025-07-22  396   * * A negative error code upon error
+d50dd969464c6a4 T.J. Mercier 2025-07-22  397   */
+f7d26609785ce56 T.J. Mercier 2025-11-12  398  int dma_buf_account_task(struct dma_buf *dmabuf, struct task_dma_buf_info *dmabuf_info)
+d50dd969464c6a4 T.J. Mercier 2025-07-22 @399  {
+d50dd969464c6a4 T.J. Mercier 2025-07-22  400  	struct task_dma_buf_record *rec;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  401  
+d50dd969464c6a4 T.J. Mercier 2025-07-22  402  	if (!dmabuf_info)
+d50dd969464c6a4 T.J. Mercier 2025-07-22  403  		return 0;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  404  
+d50dd969464c6a4 T.J. Mercier 2025-07-22  405  	if (!task_dmabuf_records_preload(1))
+d50dd969464c6a4 T.J. Mercier 2025-07-22  406  		return -ENOMEM;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  407  
+d50dd969464c6a4 T.J. Mercier 2025-07-22  408  	spin_lock(&dmabuf_info->lock);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  409  	rec = find_task_dmabuf_record(dmabuf_info, dmabuf);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  410  	if (rec) {
+d50dd969464c6a4 T.J. Mercier 2025-07-22  411  		++rec->refcnt;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  412  		trim_task_dmabuf_records_locked();
+d50dd969464c6a4 T.J. Mercier 2025-07-22  413  	} else {
+d50dd969464c6a4 T.J. Mercier 2025-07-22  414  		rec = alloc_task_dmabuf_record();
+d50dd969464c6a4 T.J. Mercier 2025-07-22  415  		WARN_ON(!rec);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  416  		add_task_dmabuf_record(dmabuf_info, dmabuf, rec);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  417  	}
+d50dd969464c6a4 T.J. Mercier 2025-07-22  418  	spin_unlock(&dmabuf_info->lock);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  419  	task_dmabuf_records_preload_end();
+d50dd969464c6a4 T.J. Mercier 2025-07-22  420  
+d50dd969464c6a4 T.J. Mercier 2025-07-22  421  	return 0;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  422  }
+d50dd969464c6a4 T.J. Mercier 2025-07-22  423  
+d50dd969464c6a4 T.J. Mercier 2025-07-22  424  /**
+d50dd969464c6a4 T.J. Mercier 2025-07-22  425   * dma_buf_unaccount_task - Unaccount a dmabuf from a task
+d50dd969464c6a4 T.J. Mercier 2025-07-22  426   * @dmabuf:	[in]	pointer to dma_buf
+d50dd969464c6a4 T.J. Mercier 2025-07-22  427   * @task:	[in]	pointer to task_struct
+d50dd969464c6a4 T.J. Mercier 2025-07-22  428   *
+d50dd969464c6a4 T.J. Mercier 2025-07-22  429   * When a process closes a dmabuf file descriptor, or unmaps a dmabuf, this
+d50dd969464c6a4 T.J. Mercier 2025-07-22  430   * function removes the provided @dmabuf attribution from the @task. When all
+d50dd969464c6a4 T.J. Mercier 2025-07-22  431   * references to @dmabuf are removed from @task, the buffer's size is removed
+d50dd969464c6a4 T.J. Mercier 2025-07-22  432   * from the task's dmabuf RSS.
+d50dd969464c6a4 T.J. Mercier 2025-07-22  433   */
+f7d26609785ce56 T.J. Mercier 2025-11-12  434  void dma_buf_unaccount_task(struct dma_buf *dmabuf, struct task_dma_buf_info *dmabuf_info)
+d50dd969464c6a4 T.J. Mercier 2025-07-22 @435  {
+d50dd969464c6a4 T.J. Mercier 2025-07-22  436  	struct task_dma_buf_record *rec;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  437  
+d50dd969464c6a4 T.J. Mercier 2025-07-22  438  	if (!dmabuf_info)
+d50dd969464c6a4 T.J. Mercier 2025-07-22  439  		return;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  440  
+d50dd969464c6a4 T.J. Mercier 2025-07-22  441  	spin_lock(&dmabuf_info->lock);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  442  	rec = find_task_dmabuf_record(dmabuf_info, dmabuf);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  443  	if (rec) {
+d50dd969464c6a4 T.J. Mercier 2025-07-22  444  		if (--rec->refcnt == 0) {
+d50dd969464c6a4 T.J. Mercier 2025-07-22  445  			list_del(&rec->node);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  446  			dmabuf_info->dmabuf_count--;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  447  			dmabuf_info->rss -= dmabuf->size;
+2913cc072097bc0 T.J. Mercier 2025-07-01  448  			trace_dmabuf_rss_stat(dmabuf_info->rss, -dmabuf->size, dmabuf);
+45ae7f0b6b5f0ae T.J. Mercier 2025-07-08  449  			atomic64_dec(&dmabuf->nr_task_refs);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  450  		} else {
+d50dd969464c6a4 T.J. Mercier 2025-07-22  451  			rec = NULL;
+d50dd969464c6a4 T.J. Mercier 2025-07-22  452  		}
+d50dd969464c6a4 T.J. Mercier 2025-07-22  453  	} else {
+f7d26609785ce56 T.J. Mercier 2025-11-12  454  		pr_err("Could not find dmabuf %lu in unaccount\n",
+f7d26609785ce56 T.J. Mercier 2025-11-12  455  		       file_inode(dmabuf->file)->i_ino);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  456  	}
+d50dd969464c6a4 T.J. Mercier 2025-07-22  457  	spin_unlock(&dmabuf_info->lock);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  458  	if (rec)
+d50dd969464c6a4 T.J. Mercier 2025-07-22  459  		free_task_dmabuf_record(rec);
+d50dd969464c6a4 T.J. Mercier 2025-07-22  460  }
+d50dd969464c6a4 T.J. Mercier 2025-07-22  461  
+
+:::::: The code at line 399 was first introduced by commit
+:::::: d50dd969464c6a44ff601c687c33f7b7f7e4ba53 ANDROID: Track per-process dmabuf RSS
+
+:::::: TO: T.J. Mercier <tjmercier@google.com>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
