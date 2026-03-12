@@ -1,162 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA9E35958
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 04:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4DB39768A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Mar 2026 04:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773289867; cv=none; b=jvLi7FdSYj6rVcFR0twHV/d6zJEMzur54xbjdcBF2iOfwGxBQZkIZckGewaJEP3k8Omqh3B6Nse3NrsbzVk+XSUDT6gyYrvxVE+ixEfTGtrTI2HaWy6mf/zm0Xm+VlMiLnXHjrwEbrugP1EgHh6NiHyd9GAWRsZrf6WMZoZ0xno=
+	t=1773290081; cv=none; b=N5GNdZnkF741sRvFxWWOhNkzQ2JZwEs89Mwsn2uIAWBMbDOMKotq8A/g3bXeCkmaU14wdzyJzCTEP/2w2IG9RuhraCth2h8dKNNJlLIgUTkizRifZBWLPWHEmZU9mV3kD2O52LyyTgywBz5xGDc1eEh6TRLwrk+sVdl6+2z2WoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773289867; c=relaxed/simple;
-	bh=Rf1XEnFOtR7zT0I6lDHSgu57tUcWbMecksi2cUd1yus=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DCJG91xsThEDs2kxGpu+deBvTdsb09cgfX9E9bOCDjv/T8C3oVV5wPTPDxNnibO5VeLNsk0uQieqaoJeIbnlDU38eOdehv8wQq3tTDXcWR2elq6qkGrIdQX8teGa7EFtFRWBNl50n8zNPohaaTcUfcQylcOemf06ZcDChJzuLvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jiPcz/PX; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1773290081; c=relaxed/simple;
+	bh=LVpsjxK//rsEadbTuzbHtfoezi6enpVrHOBYLFvVq0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lcCF1qOMajY7ghgjSSzaVQVz/HZpNSqtIHrpUfnXBmaUUKhVT6V17+XV5NlDL6PxOKLu9HEDqHdezwvX5n/09STxPJ/xmc5aNE76AEd777m5KSgyzvYDBIoF0OiBj6ECdRPsV5yhpOvH2HzB5Jq0dC9jTMrXx17jLZ5IL+fTpZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DX4b9bMP; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jiPcz/PX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DX4b9bMP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773289865; x=1804825865;
-  h=date:from:to:cc:subject:message-id;
-  bh=Rf1XEnFOtR7zT0I6lDHSgu57tUcWbMecksi2cUd1yus=;
-  b=jiPcz/PX++NZlbwRdtGF0vaNnbMoN/RKMiDQzw2wp4+/kndatXAYBYVp
-   KJWLdG74R+ZAsIEMHwaYoMQlVhTy8voel+DNZIhqJmoOfOSp6KKzpQukF
-   n/9PYLqrinLdYG/bKRKFywTtJK+HCWRxvYC0XJM4tPWLKoVv40SxejhXG
-   OgikBemza1TDsytKt7r5YJB2sTuSAawKNVnh0Srb3wUHrWf90pE5dnWSx
-   381q63v9BbxSHT1l8zNRhbcFIZ+8CiEHXCcYbK7EYWHVj+0Qz98l7h6rl
-   u5anQPNR5xKX3Ifshl/TKWeCm1TB2kr/4bFJbwHIHWZrTCPVJBQieCkhN
+  t=1773290079; x=1804826079;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LVpsjxK//rsEadbTuzbHtfoezi6enpVrHOBYLFvVq0M=;
+  b=DX4b9bMP4i6IJm6j3yuVnhDHyn8Uu9fqbit3uCOiKq9Eu1bqE/23XDSA
+   2Bftm8L6djLfxe6B/7Yf5XTAC9CSk4jpG26QJdDsis0xxV3IZqjVbS/X3
+   xo+OVUC8HwXD7Ez9pw3XZJZ25UiM2pl9p/403v/4/x+JYoh3TeWSPoEJ5
+   KxVCNU3C3cn50Vd80EFv90FCzi/OttgXEG+xVSB0Ms2gAyf90rlbZ7AHA
+   9/Kx8RhY8Jr3bmsXQRAbTfFXuV59m2yOLOeS7+yWp15Ifzfr6AdzSiuPZ
+   NipYJPUjM1vjJAthgg6Dd3q6FuQNAYuVdaCP70NEbHLQW6OR9rs9RwZrt
    Q==;
-X-CSE-ConnectionGUID: DVywFw+sTSOn3bOx16bzyg==
-X-CSE-MsgGUID: Vh7xZFl2SWSoLz/CFe1QJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84691345"
+X-CSE-ConnectionGUID: 43vJ+YgQR4eLZ5UpF1CGVg==
+X-CSE-MsgGUID: 7jJbHgkRTsqKk8p9+WcM9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74070518"
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="84691345"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 21:31:04 -0700
-X-CSE-ConnectionGUID: 6yIAyWEAQNmP4NhEoFJa/w==
-X-CSE-MsgGUID: SDlQ2DAeR9mPlezEDNWl+w==
+   d="scan'208";a="74070518"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 21:34:38 -0700
+X-CSE-ConnectionGUID: XhrHr4tTSvubEH/bUJ/NCA==
+X-CSE-MsgGUID: pxDWMSpuR0ubOV55xHpj7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="217282941"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Mar 2026 21:31:01 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="243708259"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 11 Mar 2026 21:34:34 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0XhK-000000003SP-45DP;
-	Thu, 12 Mar 2026 04:30:58 +0000
-Date: Thu, 12 Mar 2026 05:29:59 +0100
+	id 1w0Xkl-0000000024l-0oNB;
+	Thu, 12 Mar 2026 04:34:31 +0000
+Date: Thu, 12 Mar 2026 12:34:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 4474/5327]
- arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb:
- tscadc@50030000 (fsl,imx25-tsadc): 'tcq@50030400' does not match any of the
- regexes: '^adc@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^touchscreen@[0-9a-f]+$'
-Message-ID: <202603120558.rN9BMl0x-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Matteo Croce <technoboy85@gmail.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 1/2] e1000e: add basic XDP support
+Message-ID: <202603121204.pJemiT27-lkp@intel.com>
+References: <20260311191437.3581-2-teknoraver@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260311191437.3581-2-teknoraver@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7109a2155340cc7b21f27e832ece6df03592f2e8
-commit: 61b80ec6685a08addd76ea6622636d709e7d989d [4474/5327] dt-bindings: mfd: Convert fsl-imx25-tsadc.txt to yaml format
-config: arm-randconfig-2052-20260310 (https://download.01.org/0day-ci/archive/20260312/202603120558.rN9BMl0x-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120558.rN9BMl0x-lkp@intel.com/reproduce)
+Hi Matteo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Croce/e1000e-add-basic-XDP-support/20260312-032318
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260311191437.3581-2-teknoraver%40meta.com
+patch subject: [PATCH net-next 1/2] e1000e: add basic XDP support
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20260312/202603121204.pJemiT27-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121204.pJemiT27-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603120558.rN9BMl0x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121204.pJemiT27-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /soc/bus@43f00000/bridge@43f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /soc/bus@43f00000/iomuxc@43fac000: failed to match any schema with compatible: ['fsl,imx25-iomuxc']
->> arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: tscadc@50030000 (fsl,imx25-tsadc): 'tcq@50030400' does not match any of the regexes: '^adc@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^touchscreen@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/fsl,imx25-tsadc.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /soc/spba-bus@50000000/tscadc@50030000/tcq@50030400: failed to match any schema with compatible: ['fsl,imx25-tcq']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /soc/bus@53f00000/bridge@53f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /soc/bus@53f00000/timer@53f94000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /soc/bus@53f00000/timer@53f98000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /soc/bus@80000000: failed to match any schema with compatible: ['fsl,emi-bus', 'simple-bus']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /soc/bus@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: nand-controller@bb000000 (fsl,imx25-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard.dtb: /sound: failed to match any schema with compatible: ['eukrea,asoc-tlv320']
---
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /soc/bus@43f00000/bridge@43f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /soc/bus@43f00000/iomuxc@43fac000: failed to match any schema with compatible: ['fsl,imx25-iomuxc']
->> arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: tscadc@50030000 (fsl,imx25-tsadc): 'tcq@50030400' does not match any of the regexes: '^adc@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^touchscreen@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/fsl,imx25-tsadc.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /soc/spba-bus@50000000/tscadc@50030000/tcq@50030400: failed to match any schema with compatible: ['fsl,imx25-tcq']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /soc/bus@53f00000/bridge@53f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /soc/bus@53f00000/timer@53f94000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /soc/bus@53f00000/timer@53f98000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /soc/bus@80000000: failed to match any schema with compatible: ['fsl,emi-bus', 'simple-bus']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /soc/bus@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: nand-controller@bb000000 (fsl,imx25-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-cmo-qvga.dtb: /sound: failed to match any schema with compatible: ['eukrea,asoc-tlv320']
---
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /soc/bus@43f00000/bridge@43f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /soc/bus@43f00000/iomuxc@43fac000: failed to match any schema with compatible: ['fsl,imx25-iomuxc']
->> arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: tscadc@50030000 (fsl,imx25-tsadc): 'tcq@50030400' does not match any of the regexes: '^adc@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^touchscreen@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/fsl,imx25-tsadc.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /soc/spba-bus@50000000/tscadc@50030000/tcq@50030400: failed to match any schema with compatible: ['fsl,imx25-tcq']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /soc/bus@53f00000/bridge@53f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /soc/bus@53f00000/timer@53f94000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /soc/bus@53f00000/timer@53f98000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /soc/bus@80000000: failed to match any schema with compatible: ['fsl,emi-bus', 'simple-bus']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /soc/bus@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: nand-controller@bb000000 (fsl,imx25-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-svga.dtb: /sound: failed to match any schema with compatible: ['eukrea,asoc-tlv320']
---
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /soc/bus@43f00000/bridge@43f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /soc/bus@43f00000/iomuxc@43fac000: failed to match any schema with compatible: ['fsl,imx25-iomuxc']
->> arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: tscadc@50030000 (fsl,imx25-tsadc): 'tcq@50030400' does not match any of the regexes: '^adc@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^touchscreen@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/fsl,imx25-tsadc.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /soc/spba-bus@50000000/tscadc@50030000/tcq@50030400: failed to match any schema with compatible: ['fsl,imx25-tcq']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /soc/bus@53f00000/bridge@53f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /soc/bus@53f00000/timer@53f94000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /soc/bus@53f00000/timer@53f98000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /soc/bus@80000000: failed to match any schema with compatible: ['fsl,emi-bus', 'simple-bus']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /soc/bus@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: nand-controller@bb000000 (fsl,imx25-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-eukrea-mbimxsd25-baseboard-dvi-vga.dtb: /sound: failed to match any schema with compatible: ['eukrea,asoc-tlv320']
---
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: /soc/bus@43f00000/bridge@43f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: /soc/bus@43f00000/iomuxc@43fac000: failed to match any schema with compatible: ['fsl,imx25-iomuxc']
->> arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: tscadc@50030000 (fsl,imx25-tsadc): 'tcq@50030400' does not match any of the regexes: '^adc@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^touchscreen@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/fsl,imx25-tsadc.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: /soc/spba-bus@50000000/tscadc@50030000/tcq@50030400: failed to match any schema with compatible: ['fsl,imx25-tcq']
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: /soc/bus@53f00000/bridge@53f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: /soc/bus@53f00000/timer@53f94000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: /soc/bus@53f00000/timer@53f98000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: /soc/bus@80000000: failed to match any schema with compatible: ['fsl,emi-bus', 'simple-bus']
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: /soc/bus@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx25-karo-tx25.dtb: nand-controller@bb000000 (fsl,imx25-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
---
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: /soc/bus@43f00000/bridge@43f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: /soc/bus@43f00000/iomuxc@43fac000: failed to match any schema with compatible: ['fsl,imx25-iomuxc']
->> arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: tscadc@50030000 (fsl,imx25-tsadc): 'tcq@50030400' does not match any of the regexes: '^adc@[0-9a-f]+$', '^pinctrl-[0-9]+$', '^touchscreen@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/fsl,imx25-tsadc.yaml
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: /soc/spba-bus@50000000/tscadc@50030000/tcq@50030400: failed to match any schema with compatible: ['fsl,imx25-tcq']
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: /soc/bus@53f00000/bridge@53f00000: failed to match any schema with compatible: ['fsl,imx25-aips']
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: /soc/bus@53f00000/timer@53f94000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: /soc/bus@53f00000/timer@53f98000: failed to match any schema with compatible: ['fsl,imx25-epit']
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: /soc/bus@80000000: failed to match any schema with compatible: ['fsl,emi-bus', 'simple-bus']
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: /soc/bus@80000000/nand-controller@bb000000: failed to match any schema with compatible: ['fsl,imx25-nand']
-   arch/arm/boot/dts/nxp/imx/imx25-pdk.dtb: nand-controller@bb000000 (fsl,imx25-nand): #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `e1000_alloc_rx_buffers_xdp':
+>> netdev.c:(.text+0xc077cf): undefined reference to `page_pool_alloc_pages'
+   ld: vmlinux.o: in function `e1000e_setup_rx_resources':
+>> (.text+0xc0c879): undefined reference to `page_pool_create'
 
 -- 
 0-DAY CI Kernel Test Service
