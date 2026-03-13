@@ -1,156 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A97388378
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 08:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4135B363098
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 11:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773391946; cv=none; b=iLOKj+WGdq9GlWIUy9h1+2px+llXb4OkXtZA6DQqAZ4/747p1opgHNoT9IQ7usJ4kFy8MC4rqdo4yOgk0A1uhqDyuFSORBi5AmuOqSHENFZNVQA/XyIoKZNS9VNzhU0U9XHlFk67ozWwm9/k82GN5KY+5Vl7Ap9koDw3riNpYVs=
+	t=1773402835; cv=none; b=RUIPDMVrGG3bjA/fy89ksImCQMW4c7I5z14ybxyqTiHQfen5+aT0YfRef5YRrllUJ5PWM1WvYnAPmALskT1ufUaASo5I8qLKXmZJQh1PyVdtN1EUcsj3WZICpoV83OCaubCnvz4HtaKYF7hCgEd5zAHoZCCBdJRyXcjJ4ZsuPqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773391946; c=relaxed/simple;
-	bh=lZ3lBGbYmfesU6djG9QpJJr/DfqPJsN9/UjRCQexuZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iQ/ewiwhRfp7Mw3bBwvZB5WjvmTXLvVbE8rN6OOJErj/ucM2BfvhO7AtPNwcr7U8N3LMoF+QVOH35HU5wbV4MFYdvMyPv2kHuTG8lgtEFvAF4Pg3Zdfc4/8TlrbUOZE+b63YOE3452sKJ1Tu3/O7QkUgsGrDLJOlu183JsUluGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmQgJS4R; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1773402835; c=relaxed/simple;
+	bh=SGc08qik6IAv5MkffY0y6qjvu4hXE3fDrzq8lS+nIdo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aXohfNIsrxQzmO5mct/Y1twXdv5K8dC8hZotnaVugVf1T0RYLyTfHsJzl6xWRrsFDeVN33PSzi92ccuqSShTo2ebE/5Zrl58meks0lPCNmRzkFbgz60/9gf6f08o11jXjlS3cvf+NGzfU3LSspta44PMMHJmt2V2CihoqjPsZ/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVdqQuEe; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmQgJS4R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVdqQuEe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773391941; x=1804927941;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lZ3lBGbYmfesU6djG9QpJJr/DfqPJsN9/UjRCQexuZM=;
-  b=dmQgJS4Rq2WUSBc6iXre7kT3g9JvZwkWFHLZMwKQSYQLnRRJxVuNCFWK
-   Tr9pL1CMmV4LU0s3/T1tRrZXjEL7Xj4/TL77rj0hQnHTv/0f1BZizqeno
-   T748IzxYRJNfIwwuIddcY5wQImsTJ3qt0dBOdWO4GdUzW3hgn+yDigEZO
-   QmibXImyi9eXY3541gFOc05H00Idrnr71/kVIpQI7i2Oz4Y7UJBsN+v2G
-   1JVYj7ZqRuz8TsWTYjibxxCHRNsSNKAaYD7xGHzgbamgTLdQynw9Lmac0
-   f8B9/vwYlGWLr4ysHBvG8WOT4cEztqkGrrhc8YAq9PcRmo6cW8pnYoB7K
-   w==;
-X-CSE-ConnectionGUID: C9ktd+cfRJCKIwHDOUx98Q==
-X-CSE-MsgGUID: XLzvxzv6QU6xjUM46b3V2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="77104863"
-X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
-   d="scan'208";a="77104863"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 01:52:18 -0700
-X-CSE-ConnectionGUID: ashUcFW0TQiqhBKTa0kdxQ==
-X-CSE-MsgGUID: cjHnzSbRQyK+lxmiMZsmiA==
+  t=1773402822; x=1804938822;
+  h=date:from:to:cc:subject:message-id;
+  bh=SGc08qik6IAv5MkffY0y6qjvu4hXE3fDrzq8lS+nIdo=;
+  b=bVdqQuEetSOeuUqbXpOuMb6r9axgqGq8VtHEId9JHxaKkzPyvNXKRTTZ
+   ezFgL8rM28qotui+vhfaKPSe4opZCXnSti0UWAmxRlIRcLfIGqyWrgDik
+   h/3TIDVZn0Hn/dbR78aOSyL+111hz/PiOPaOJfShjbU56lkkmho+T5W6B
+   eRvFYCS32gQjJTfRE0eqTSPnobazzmtwmxjQdRlRRl4GYXbtnnNUFhzDA
+   E0W/jer6zdFc9FtU+Ss2gg1g5Ub+LtkcLYZ77bhTAfu5QAZmnjU/G6rf4
+   HNRE8Ds7TUg3ap3/zvHHFkQiA7sJiXSyaxxKCUjgvXF+ZndcqvVkFdh5Q
+   A==;
+X-CSE-ConnectionGUID: VCH91R+YQreHOoNH0dCHxw==
+X-CSE-MsgGUID: NFUnelvVSE2JOhKeTLYzMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="85863226"
+X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
+   d="scan'208";a="85863226"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 04:53:39 -0700
+X-CSE-ConnectionGUID: xmqEmV3MQv6odKuIHGfyHw==
+X-CSE-MsgGUID: 1mSEzeejRvaFjn2S+deCtA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
-   d="scan'208";a="220183772"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 13 Mar 2026 01:52:12 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
+   d="scan'208";a="223515539"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 13 Mar 2026 04:53:37 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w0yFd-000000003dx-1idq;
-	Fri, 13 Mar 2026 08:52:09 +0000
-Date: Fri, 13 Mar 2026 09:51:23 +0100
+	id 1w115D-000000003nL-1hVy;
+	Fri, 13 Mar 2026 11:53:35 +0000
+Date: Fri, 13 Mar 2026 19:53:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neilb@ownmail.net>,
-	Jeff Layton <jlayton@kernel.org>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <dai.ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-rdma@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v2 2/2] svcrdma: Use contiguous pages for RDMA Read sink
- buffers
-Message-ID: <202603130922.uCz0Ofwx-lkp@intel.com>
-References: <20260312134008.7387-3-cel@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 114/114]
+ drivers/firmware/arm_scmi/perf.c:615 scmi_dvfs_device_opps_add() warn:
+ inconsistent indenting
+Message-ID: <202603131948.xEMc5sUA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312134008.7387-3-cel@kernel.org>
 
-Hi Chuck,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v7.0-rc1]
-[also build test ERROR on next-20260312]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/RDMA-rw-Fix-MR-pool-exhaustion-in-bvec-RDMA-READ-path/20260313-085521
-base:   v7.0-rc1
-patch link:    https://lore.kernel.org/r/20260312134008.7387-3-cel%40kernel.org
-patch subject: [PATCH v2 2/2] svcrdma: Use contiguous pages for RDMA Read sink buffers
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260313/202603130922.uCz0Ofwx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260313/202603130922.uCz0Ofwx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   a66ac38e2c42b6f1a0205eba3000c2dc085a8e1a
+commit: 47933171f3e7a3880def7b21e958f38fe376223e [114/114] BACKPORT: firmware: arm_scmi: Simplify error path in scmi_dvfs_device_opps_add()
+config: arm-randconfig-r072-20260310 (https://download.01.org/0day-ci/archive/20260313/202603131948.xEMc5sUA-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c32caeec8158d634bb71ab8911a6031248b9fc47)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603130922.uCz0Ofwx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603131948.xEMc5sUA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/firmware/arm_scmi/perf.c:615 scmi_dvfs_device_opps_add() warn: inconsistent indenting
 
-   net/sunrpc/xprtrdma/svc_rdma_rw.c: In function 'svc_rdma_fill_contig_bvec':
->> net/sunrpc/xprtrdma/svc_rdma_rw.c:813:17: error: implicit declaration of function 'svc_rqst_page_release'; did you mean 'svc_rdma_cc_release'? [-Wimplicit-function-declaration]
-     813 |                 svc_rqst_page_release(rqstp,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-         |                 svc_rdma_cc_release
+vim +615 drivers/firmware/arm_scmi/perf.c
 
+ac8aaf348cf54a Sudeep Holla     2019-07-08  600  
+1fec5e6b5233a0 Cristian Marussi 2021-03-16  601  static int scmi_dvfs_device_opps_add(const struct scmi_protocol_handle *ph,
+3aa5b5408fe029 Ulf Hansson      2023-08-25  602  				     struct device *dev, u32 domain)
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  603  {
+3aa5b5408fe029 Ulf Hansson      2023-08-25  604  	int idx, ret;
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  605  	unsigned long freq;
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  606  	struct perf_dom_info *dom;
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  607  
+a135c881381558 Cristian Marussi 2023-07-17  608  	dom = scmi_perf_domain_lookup(ph, domain);
+a135c881381558 Cristian Marussi 2023-07-17  609  	if (IS_ERR(dom))
+a135c881381558 Cristian Marussi 2023-07-17  610  		return PTR_ERR(dom);
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  611  
+47933171f3e7a3 Ulf Hansson      2023-09-25  612  	for (idx = 0; idx < dom->opp_count; idx++) {
+47933171f3e7a3 Ulf Hansson      2023-09-25  613  			freq = dom->opp[idx].perf * dom->mult_factor;
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  614  
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06 @615  		ret = dev_pm_opp_add(dev, freq, 0);
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  616  		if (ret) {
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  617  			dev_warn(dev, "failed to add opp %luHz\n", freq);
+47933171f3e7a3 Ulf Hansson      2023-09-25  618  			dev_pm_opp_remove_all_dynamic(dev);
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  619  			return ret;
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  620  		}
+742d32f206d82e Ulf Hansson      2023-08-25  621  
+742d32f206d82e Ulf Hansson      2023-08-25  622  		dev_dbg(dev, "[%d][%s]:: Registered OPP[%d] %lu\n",
+742d32f206d82e Ulf Hansson      2023-08-25  623  			domain, dom->info.name, idx, freq);
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  624  	}
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  625  	return 0;
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  626  }
+a9e3fbfaa0ff88 Sudeep Holla     2017-06-06  627  
 
-vim +813 net/sunrpc/xprtrdma/svc_rdma_rw.c
+:::::: The code at line 615 was first introduced by commit
+:::::: a9e3fbfaa0ff885aacafe6f33e72448a2993d072 firmware: arm_scmi: add initial support for performance protocol
 
-   779	
-   780	/*
-   781	 * svc_rdma_fill_contig_bvec - Replace rq_pages with a contiguous allocation
-   782	 * @rqstp: RPC transaction context
-   783	 * @head: context for ongoing I/O
-   784	 * @bv: bvec entry to fill
-   785	 * @pages_left: number of data pages remaining in the segment
-   786	 * @len_left: bytes remaining in the segment
-   787	 *
-   788	 * On success, fills @bv with a bvec spanning the contiguous range and
-   789	 * advances rc_curpage/rc_page_count. Returns the byte length covered,
-   790	 * or zero if the allocation failed or would overrun rq_maxpages.
-   791	 */
-   792	static unsigned int
-   793	svc_rdma_fill_contig_bvec(struct svc_rqst *rqstp,
-   794				  struct svc_rdma_recv_ctxt *head,
-   795				  struct bio_vec *bv, unsigned int pages_left,
-   796				  unsigned int len_left)
-   797	{
-   798		unsigned int order, alloc_nr, chunk_pages, chunk_len, i;
-   799		struct page *page;
-   800	
-   801		page = svc_rdma_alloc_read_pages(pages_left, &order);
-   802		if (!page)
-   803			return 0;
-   804		alloc_nr = 1 << order;
-   805	
-   806		if (head->rc_curpage + alloc_nr > rqstp->rq_maxpages) {
-   807			for (i = 0; i < alloc_nr; i++)
-   808				__free_page(page + i);
-   809			return 0;
-   810		}
-   811	
-   812		for (i = 0; i < alloc_nr; i++) {
- > 813			svc_rqst_page_release(rqstp,
-   814					      rqstp->rq_pages[head->rc_curpage + i]);
-   815			rqstp->rq_pages[head->rc_curpage + i] = page + i;
-   816		}
-   817	
-   818		chunk_pages = min(alloc_nr, pages_left);
-   819		chunk_len = min_t(unsigned int, chunk_pages << PAGE_SHIFT, len_left);
-   820		bvec_set_page(bv, page, chunk_len, 0);
-   821		head->rc_page_count += chunk_pages;
-   822		head->rc_curpage += chunk_pages;
-   823		return chunk_len;
-   824	}
-   825	
+:::::: TO: Sudeep Holla <sudeep.holla@arm.com>
+:::::: CC: Sudeep Holla <sudeep.holla@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
