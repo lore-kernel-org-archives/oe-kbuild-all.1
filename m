@@ -1,193 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A02F394483
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 12:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750B138CFE7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 12:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773405289; cv=none; b=aPXSveE3szAeH+ILE5Jmra5KRczOg6H2VuviRCf7mPlT14uALsOX59h0uTYt6XRbTpsCYp+YtmY2H3l5FP5wYNBPcv962FCvLp1UBknKn9oTbx5U9P32AIGwacbRDgaw3hj5X8Q1akxRIgMeW8appB9YMetg0T95WIMusosVpQY=
+	t=1773405856; cv=none; b=YCLyWAs1zjzbhkQ36G/5wQxpQiT0TVrPJrOmRsGjXBRqt0teX9YFqTXiawCUHuP3WhYwJOArnzX1C1JYHy4z6I/IuO7PB/s6AvWm/qym4RnahOeeh0FDpRx9ZTobImeZ+A+dAM2OzU8sb1mDemXTcTsT5hpt/kFl3dLrNq3Tc8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773405289; c=relaxed/simple;
-	bh=q4NkIXz94tX49lQm0vCXwKQOPrCWBUwy5/8VXwwEplc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=s8MkKKV0BZvRZmLmeIMZLkXMtkQVsB389I/vePbOU4FjNSjm6PUa0T6ZsLhkqgwvMEoXlMuLAYm5cSIuZVU6khTd42XIsxuctlaX3q0FK/fTEx0oLLWUug3F2yyXp0suePINUPffqNfYFTdUIV9uI1Pb/W1WFnIbNMuUpWmKfdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBh3eSYJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773405856; c=relaxed/simple;
+	bh=DIRXHVLAd0kHCJdqYxnFaS3J6+hCCNeMSfvgNs7xnBc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=X5a/O3u01zoC5ORUDFToaZdZyChBhkaZrD0rtoSxIi90mvEeJ+tiqvGwDVpDl/9MXvRLvxGO8v6JTnV7sVTaqX/lyG0DNXyZKM1TeyEXQnFA18MZmzd/Lmk71OTo3aBo4ovady1cpvjsjaqnT+aVUUQdi9Ph6UNa0+J0bwcKfSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IMSb34FT; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBh3eSYJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC527C19421;
-	Fri, 13 Mar 2026 12:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773405289;
-	bh=q4NkIXz94tX49lQm0vCXwKQOPrCWBUwy5/8VXwwEplc=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=QBh3eSYJk2SC3dH2dF/xsDYTRRpu8CPM3fPm/iq6bP8GwYDN12OpZm6qfRPrVHDFu
-	 J5YbEgxE36MXfoC8Vf1bfQYyOO1sd6N1dtO7x9RdCugQ7GgstfuJn21G/0IXdrKvri
-	 DvbkPHXvZ6ebVgztVDNtvvfTbWxmdTPP9mp4/EAYr4cNsc8OEPo+wEfaCYhUyTzZmz
-	 OfbbrU544qHCsiSyT3FG42QqDOWtZWZSkL1wKFY100OnYoY9JbptkK4ajjnvYMvOfe
-	 Aq4hOrHaAhrkSD9gQ/r9goLeevxABjk4/0itXQhYzxSbV51AFQIdxHLjKxlaautq7F
-	 WnVK+j997LwSw==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id CA78BF40068;
-	Fri, 13 Mar 2026 08:34:47 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Fri, 13 Mar 2026 08:34:47 -0400
-X-ME-Sender: <xms:ZwS0aaEEAb8jhtBfMpXp2e8nAkKuBjqiKQSlY30wWIkpqx0jgw8kRg>
-    <xme:ZwS0aWJykvs9-C2LMOh4njp1Doni3OGR59TpIqyAnjJWv6liuvlX8XO7fFhbFBxZ4
-    XPP9nir84xS7RaUfU8bzdREAowOLo5anJ9JbUvI9smaR3X44NAaPl0B>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeelieejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeeiveegteffveekveefkeejvdegjefhvdeutefggfekudffffevfeekveehteehkeen
-    ucffohhmrghinhepghhithdqshgtmhdrtghomhdpghhithhhuhgsrdgtohhmpdhkvghrnh
-    gvlhdrohhrghdptddurdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhhthhhpvghrsh
-    honhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlheppehkvghr
-    nhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeduvddpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgt
-    phhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvghonh
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhi
-    shhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehhtghhsehlshhtrdguvgdprhgtph
-    htthhopegthhhutghkrdhlvghvvghrsehorhgrtghlvgdrtghomhdprhgtphhtthhopegu
-    rghirdhnghhosehorhgrtghlvgdrtghomhdprhgtphhtthhopehnvghilhgssehofihnmh
-    grihhlrdhnvghtpdhrtghpthhtohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:ZwS0aSCpbxYrKXsJ9J-J_StOEDtOr19xHwklpmxoVQm_lxCbmzzXzA>
-    <xmx:ZwS0aS5BaNtEnmFTraT29RwPo6aMRneicx6N7aYDDzguELa9LikOrg>
-    <xmx:ZwS0aR02S40YjsedhaafNZk-ZF2vNA00uhcAPdUHEJ20huF7utxUPA>
-    <xmx:ZwS0aem3zSkeApCm01sNjyKell1D2BTywMq5XAoEZJDFCyK5kzEE4A>
-    <xmx:ZwS0af6uiNHephBLroMPATSKcaqyF5uwOCbXdv9_GfunLsoWvueOSEs9>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9CFEB780070; Fri, 13 Mar 2026 08:34:47 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IMSb34FT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773405854; x=1804941854;
+  h=date:from:to:cc:subject:message-id;
+  bh=DIRXHVLAd0kHCJdqYxnFaS3J6+hCCNeMSfvgNs7xnBc=;
+  b=IMSb34FTyeSFNqGzM/bNX1+7hBIW8KlrPhVt5MZe9iHdzY+xUomwYieP
+   c43V2BXo6BNeR+oeGFvJyP3iHQAEwXkrndgVGcG+Lf9M+2P5wcy2xBKSw
+   GOJcoBptZD0RSg6FHNd+dBlW1GNIuNwMBEfcM39uaSl7PEt10Yn1wy8uI
+   kXjrnLQeSHXOgb5pIBq4PlvnerZMOzg2S/+o0MKaPTemUnkbxCQ1zx8p/
+   T7Il3p97xlTnaRyOz/z951Jl61TYKbBJeEbZOPwIXHCE+LS7nG+uALZ7E
+   u6yS5EKX2o7menxsMoiKzzD/l7PnpL1QzLc6zsSNrZalkHw4AOThqD4z9
+   g==;
+X-CSE-ConnectionGUID: uJroe5TGR1yfhw4ZXXNc1A==
+X-CSE-MsgGUID: x9usk8n8SE+OCuB0MsIMtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="74428032"
+X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
+   d="scan'208";a="74428032"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 05:44:14 -0700
+X-CSE-ConnectionGUID: DrJiTtKWQYCt3Az1/4DF5w==
+X-CSE-MsgGUID: 1vPOr/taSCqp3OjwddpNng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
+   d="scan'208";a="244176539"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 13 Mar 2026 05:44:12 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w11sA-000000003en-12ES;
+	Fri, 13 Mar 2026 12:44:10 +0000
+Date: Fri, 13 Mar 2026 13:44:09 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 75/621] htmldocs: Warning:
+ Documentation/devicetree/bindings/clock/ti/ti,dra7-apll-clock.yaml references
+ a file that doesn't exist:
+ Documentation/devicetree/bindings/clock/ti/dpll.txt
+Message-ID: <202603131344.85bstqTr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-ThreadId: A_hcazk5esrJ
-Date: Fri, 13 Mar 2026 08:34:26 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "kernel test robot" <lkp@intel.com>, NeilBrown <neilb@ownmail.net>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <dai.ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Leon Romanovsky" <leon@kernel.org>,
- "Christoph Hellwig" <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
- linux-rdma@vger.kernel.org, "Chuck Lever" <chuck.lever@oracle.com>
-Message-Id: <6264577a-784a-4501-b02f-bea8b4e49e27@app.fastmail.com>
-In-Reply-To: <202603130922.uCz0Ofwx-lkp@intel.com>
-References: <20260312134008.7387-3-cel@kernel.org>
- <202603130922.uCz0Ofwx-lkp@intel.com>
-Subject: Re: [PATCH v2 2/2] svcrdma: Use contiguous pages for RDMA Read sink buffers
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: e22968a85b2dcc059cd995e72aad2ed6458efa0e [75/621] dt-bindings: clock: Convert ti/ti,omap3-dpll-clock to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260313/202603131344.85bstqTr-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603131344.85bstqTr-lkp@intel.com/
 
-On Fri, Mar 13, 2026, at 4:51 AM, kernel test robot wrote:
-> Hi Chuck,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on v7.0-rc1]
-> [also build test ERROR on next-20260312]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    
-> https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/RDMA-rw-Fix-MR-pool-exhaustion-in-bvec-RDMA-READ-path/20260313-085521
-> base:   v7.0-rc1
-> patch link:    
-> https://lore.kernel.org/r/20260312134008.7387-3-cel%40kernel.org
-> patch subject: [PATCH v2 2/2] svcrdma: Use contiguous pages for RDMA 
-> Read sink buffers
-> config: x86_64-rhel-9.4 
-> (https://download.01.org/0day-ci/archive/20260313/202603130922.uCz0Ofwx-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20260313/202603130922.uCz0Ofwx-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202603130922.uCz0Ofwx-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    net/sunrpc/xprtrdma/svc_rdma_rw.c: In function 'svc_rdma_fill_contig_bvec':
->>> net/sunrpc/xprtrdma/svc_rdma_rw.c:813:17: error: implicit declaration of function 'svc_rqst_page_release'; did you mean 'svc_rdma_cc_release'? [-Wimplicit-function-declaration]
->      813 |                 svc_rqst_page_release(rqstp,
->          |                 ^~~~~~~~~~~~~~~~~~~~~
->          |                 svc_rdma_cc_release
+All warnings (new ones prefixed by >>):
 
-The current version of the series is missing a patch that provides
-this helper function. Next version (if one is needed) will include
-it.
-
-
-> vim +813 net/sunrpc/xprtrdma/svc_rdma_rw.c
->
->    779	
->    780	/*
->    781	 * svc_rdma_fill_contig_bvec - Replace rq_pages with a 
-> contiguous allocation
->    782	 * @rqstp: RPC transaction context
->    783	 * @head: context for ongoing I/O
->    784	 * @bv: bvec entry to fill
->    785	 * @pages_left: number of data pages remaining in the segment
->    786	 * @len_left: bytes remaining in the segment
->    787	 *
->    788	 * On success, fills @bv with a bvec spanning the contiguous 
-> range and
->    789	 * advances rc_curpage/rc_page_count. Returns the byte length 
-> covered,
->    790	 * or zero if the allocation failed or would overrun rq_maxpages.
->    791	 */
->    792	static unsigned int
->    793	svc_rdma_fill_contig_bvec(struct svc_rqst *rqstp,
->    794				  struct svc_rdma_recv_ctxt *head,
->    795				  struct bio_vec *bv, unsigned int pages_left,
->    796				  unsigned int len_left)
->    797	{
->    798		unsigned int order, alloc_nr, chunk_pages, chunk_len, i;
->    799		struct page *page;
->    800	
->    801		page = svc_rdma_alloc_read_pages(pages_left, &order);
->    802		if (!page)
->    803			return 0;
->    804		alloc_nr = 1 << order;
->    805	
->    806		if (head->rc_curpage + alloc_nr > rqstp->rq_maxpages) {
->    807			for (i = 0; i < alloc_nr; i++)
->    808				__free_page(page + i);
->    809			return 0;
->    810		}
->    811	
->    812		for (i = 0; i < alloc_nr; i++) {
->  > 813			svc_rqst_page_release(rqstp,
->    814					      rqstp->rq_pages[head->rc_curpage + i]);
->    815			rqstp->rq_pages[head->rc_curpage + i] = page + i;
->    816		}
->    817	
->    818		chunk_pages = min(alloc_nr, pages_left);
->    819		chunk_len = min_t(unsigned int, chunk_pages << PAGE_SHIFT, 
-> len_left);
->    820		bvec_set_page(bv, page, chunk_len, 0);
->    821		head->rc_page_count += chunk_pages;
->    822		head->rc_curpage += chunk_pages;
->    823		return chunk_len;
->    824	}
->    825	
->
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen-mux.txt
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.txt
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,quadfs.txt
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,flexgen.txt
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen.txt
+>> Warning: Documentation/devicetree/bindings/clock/ti/ti,dra7-apll-clock.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/ti/dpll.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
 
 -- 
-Chuck Lever
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
