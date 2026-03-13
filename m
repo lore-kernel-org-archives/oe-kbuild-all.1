@@ -1,123 +1,103 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5EBF3876C0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 22:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773441571; cv=pass; b=gLvU+U5zngWXQGPoyWjqCV8XQdcTTHal5Q3rNxLRqPypsxmL2Ty9MUstY1Np5C9zovReMvJ+McSZGvkxpPyEJphW1912o6XnVKvrlv8FJf+aNDs4wZjZdc4ic4q7p4rsigIBXY4Y0hljgO5kJXAomCbWKW3b/idR9Rmtap8XiF4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773441571; c=relaxed/simple;
-	bh=1MXpnJgNd9wve0xok691+KsLsOIVO5aHkrdME7CbtZs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Up9VeNYCqBe8CEZTABDAZWnsv9lGaQ8I1WtSh7qDE6jkw/F+z5qwjGTf8yYsU/xaEuCHgGAcdYYO+iO+EBPs+jd13J4+Kejt1V0PxRzGV2P7zJbpVhlkqLHdE0+FFPxeN+w98UMv532yU7RZCffipxd6onqKotmTW3x0j9pQXbQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZEWWe4PI; arc=pass smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253563C5521
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 23:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773443975; cv=none; b=uthbOhdlO9U24ceF0jdCSfmu2ZtZo+nY9LAq3LJXratBUVAxuZN552YJz+DWbpZrmv9Nzl6hAsHJvtn4ysFJkAeH0KGMKbUnYrTUYz3qWZi8Oe9J+RWweJs0xS0schmhLPhr5DhDJSGtBubIDGhffcveW/AxqvzfxDnL9+kjya4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773443975; c=relaxed/simple;
+	bh=taL4VuSTv2A1JaSTkD9QBZhRkJcauZHEdBcYGm6zPLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VUNDnO2SJa/+gC05eEApXDHiWvmZJzZaSPPp3RMTCGP38jsat+wRL4EvooPN1C1yyGe0zh1m9zzQS0Zva47w5PcTqnJS5Ev3qIaKRgVqJE2Ct2QV5yL9NRCVvpmHHgEH/n+sSuS2MSSDyqZTQrgfp20BuE6XWrkFSDfTOAoKVWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ANVgSB1I; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZEWWe4PI"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-128eb45835cso82657c88.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 15:39:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773441567; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YU+strE/Qh0cVdtWUmiexW0KDmovT0akawj3PjD5EDIXkLwG/gcHsN7AbUYSanSHcB
-         8XsZ8OW+y4ESrwAvijudDCLcKti9fWN0RCrD5Cfae7+ZA7koJ1ccLqXaz6Dm2QCEaYt/
-         mPCoQN/B9WEvkJOSq2akVjuWSjdnymq+sRIh5EbVXdXrCz9awKOib4hbt0XEN7Sk2qy9
-         RaZeuTQ9srXznoeF0WLBUrJc60lM6gdSpCuENPRompdGGUO/8wZ3ho0P1LGSKHL3nxAP
-         3aZ0cKAPsDouIcpGXBb2U7xGnM96t8dNTr6Z8yM7AjIYLfmCFp7rNa+ou4rAjws2kA91
-         d73A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1MXpnJgNd9wve0xok691+KsLsOIVO5aHkrdME7CbtZs=;
-        fh=kaOulSwuJDHE7aIWxmhuZFrzFyYhbsiR9axoeSwDAaw=;
-        b=anXGRwDhPpi5OG31tGZ9HbJBDDqCSQhWlGdZ9mXiFcnfoOx+oeOof9WQWAJUFUOaqg
-         zUU0NxxbuEGzv4oscV8XKLp6VjmwlsVdXs9zEcTNjlhPNUumjdbv1O4+azjVbU+V6I6q
-         w3rfbOiGT73f91/xMihRoUI2INTfmj1BzHJLnX+LDBHDKHJ5kjjeRXihlZv14ZWvjVt6
-         +tWUd4GrEhJ5fTzMrnX5up4VuqeGCTyuISKky6yASEAGVhuRo9QdmkvSv5umqO6BcINw
-         MBsQWZ3ysJ+UKn1iWouNvnmeN8t0to0xaHtFzyAqxkWn3cZIe7/SSBadfy8H9iSM8Jxs
-         Vhtw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773441567; x=1774046367; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1MXpnJgNd9wve0xok691+KsLsOIVO5aHkrdME7CbtZs=;
-        b=ZEWWe4PIW2Ms/F/iUUc/uUJUgNiDs5ZBzZvwGr5pcTBsXir9W7BQW3vkwgPjuXFwuD
-         rIifaszG1e/BEnvCPsAmeP2+tB1B2S8ng5wSA0qqT/qRTtQWnHWUCVyK0lwXaZtA72s/
-         aSOytII++k42aoLiPnWrb8FJrdkKSOG6NArF/slNbU55ptmsoVke4938vwws9QtkkSd1
-         yTIeiEyVyQV3dOCGHx+KXCbQOQmd4ZTLPJxn1TlcJSt7VdRGBfvsslr51EShniU8v2lg
-         w8fzADtET690qE/V2EYGQXlmZhqqp+/obgMIMFRkj6G4aY+MNVur23eR2dh/X8U+S94j
-         IerQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773441567; x=1774046367;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1MXpnJgNd9wve0xok691+KsLsOIVO5aHkrdME7CbtZs=;
-        b=iULUcBFWy05HiRpnRow2tp4XWB3rSV27uuwbYsUFKVjhJBXriBJMKLDDkodeMPrOqX
-         uFfUZa+RWlHIwW0Lfbbn7SZ+o0pxXUtQjps7fiFW4JX7pynxATBJ6nrnX9N+jnoRZVCD
-         J8IWBM85YcLWAvzgyrUidrc0kQ7bBagmAsB/pcXlJS91MdadTFif9DssU2X84Miwcdur
-         y4A+fVYD8jx/Di/yvN4xVsMOVfaPX+hPs8P4/LiYXXyWTbudt+KXJtdBNs07sVJEfO+h
-         0kU0n9w1ag1zTSkwPqydS35fo3kgln7JLICLeeTbgNOzZB4RqulcK+av1TTVi3/gdBeo
-         gchw==
-X-Forwarded-Encrypted: i=1; AJvYcCVjdj2ZcL0JQUlm9QsnngMCv4dGtUjix0SUyR5+mt09BBrZW4OXntkvAAL3Lhgn3oi4iDY4W4i6sh/DcgNx@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9nkuZUQtJJRAROVgpDTntLrBDThjSzKe0IYsTC08aIGIsEebh
-	sHDoNRoRNdSkIjIZIejwYRI1JXTc+TXHrLupZH2fJ+u6fGGem5qWFoiwI3t4fpO9VVQUWCDR6s9
-	MlwsCGtGGmdbx22TS1uNYK+6dgXYLthk=
-X-Gm-Gg: ATEYQzyasHYW94fmQXOk3cmC6a3e1SrxNhQW6TQyJfA9Vkjwzg/+YJqGA2uBrq1hRHE
-	c6CmpLV9weyXx7bz0zxtRBvR/BNnb5V8usSvTAqs3gAtlw2rfL9nGzQ4dHnHS8ImzqLhKaGbwN3
-	U/gf7JA7Tk+V1zOlfvQzOoaNTeRV8/NHgQ5021FWpKkQvD7AujnHMChatf5llExEkOTazYsgZ13
-	e5OZ9OSBu7qMnF3ACXri5Kv90UG4FO1lGV+6a4flBGIRjbfNsVZ3gb74ACRQKUcIRx0F1vMvz1E
-	79pRYqElZgZaxpL82YCaOfA/3qNSyLRK1o6nfg/de9R/VGut0p4Q7qJEha3jwGFuzrmYpym9sNH
-	KLVHhGKgud+D6yx9L0PvQvQ0=
-X-Received: by 2002:a05:7300:fb86:b0:2be:e92:7f44 with SMTP id
- 5a478bee46e88-2bea572033amr1222141eec.8.1773441567469; Fri, 13 Mar 2026
- 15:39:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANVgSB1I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773443971; x=1804979971;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=taL4VuSTv2A1JaSTkD9QBZhRkJcauZHEdBcYGm6zPLA=;
+  b=ANVgSB1IGfaL7yy+pg+djyynKkd5tWUUCzzmjcVfCoPgOke0TuZ4Yeva
+   2UzqEwcuRCx4d0ZpcNTBYHBG67rr/zkNT0Ovhnd9ROWtexAWQ52hHd0sA
+   ScZSaVEw3NEaQYiBxJyx9QJ7FDa+RKjUdgPWmTQbGqSifk3VZEi+1eoYQ
+   9457FJBb6mliyZNHgnx9zAeedPq63Q00SjQRQbkd506yyjINxN6dxTjNY
+   pB0NMHRKXU9Yrwe9KYJWDgeTiXwxN3TbmgVWBnjth/KKVo6TKrypVsjX8
+   NDlSr7wa0O4gOHDVhLWVkFpeqSuerHx5lnMsOAbIJnMxtFntYasBp0UPU
+   A==;
+X-CSE-ConnectionGUID: wnF1WYNZSkG3tLMP2JYvJA==
+X-CSE-MsgGUID: S/PdbOnERhKLX+6GI0Gr/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11728"; a="77163508"
+X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
+   d="scan'208";a="77163508"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 16:19:30 -0700
+X-CSE-ConnectionGUID: 20DZDlkLT22uPy9QR+yoag==
+X-CSE-MsgGUID: I5XDbt38SwKG+gCbSTqdfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
+   d="scan'208";a="217268540"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 13 Mar 2026 16:19:25 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w1Bms-000000004OZ-3Iu0;
+	Fri, 13 Mar 2026 23:19:22 +0000
+Date: Sat, 14 Mar 2026 07:19:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	jingoohan1@gmail.com, mani@kernel.org, kwilczynski@kernel.org,
+	bhelgaas@google.com, helgaas@kernel.org,
+	florian.fainelli@broadcom.com, jim2101024@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+	ilpo.jarvinen@linux.intel.com, linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, claudiu.beznea.uj@bp.renesas.com,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hans Zhang <18255117159@163.com>
+Subject: Re: [PATCH v8 1/5] PCI: Add pcie_get_link_speed() helper for safe
+ array access
+Message-ID: <202603140748.u17h0ZM8-lkp@intel.com>
+References: <20260312163652.113228-2-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202603121235.tpnRxFKO-lkp@intel.com> <20260313213638.GA147391@ax162>
-In-Reply-To: <20260313213638.GA147391@ax162>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 13 Mar 2026 23:39:14 +0100
-X-Gm-Features: AaiRm52mq6KFRynN2HWB61zFcs2DGJMHqt1i6x4Cnd5DvVDH6nH69snDO17l0xg
-Message-ID: <CANiq72mzEzjNg7O_2dWT_6QOJvJ3TwV+HyxNd_F4j6v9C+pc7A@mail.gmail.com>
-Subject: Re: [linux-next:master 5585/5731] error[E0277]: `*const
- kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>, Mike Rapoport <rppt@kernel.org>, 
-	kernel test robot <lkp@intel.com>, Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Mark Brown <broonie@kernel.org>, rust-for-linux@vger.kernel.org, 
-	Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jann Horn <jannh@google.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260312163652.113228-2-18255117159@163.com>
 
-On Fri, Mar 13, 2026 at 10:36=E2=80=AFPM Nathan Chancellor <nathan@kernel.o=
-rg> wrote:
->
-> It looks like this is a conflict between Alice's "rust_binder: check owne=
-rship
-> before using vma" [1] (currently in char-misc-linus [2]) and Mike's
-> "userfaultfd: introduce vm_uffd_ops" [3] (currently in mm-unstable [4]),
-> hence why it was bisected to the -next merge commit.
+Hi Hans,
 
-Thanks Nathan, yeah, adding a raw pointer (not function pointer) to
-the struct makes the type `!Sync` in Rust.
+kernel test robot noticed the following build warnings:
 
-I assume this is best handled with a patch on top of char-misc-linus.
-Perhaps creating a wrapper to assert it is `Sync`, since the
-`BINDER_VM_OPS` contents are unused (so far).
+[auto build test WARNING on 80234b5ab240f52fa45d201e899e207b9265ef91]
 
-Cc'ing more folks related to the commit.
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Add-pcie_get_link_speed-helper-for-safe-array-access/20260313-220734
+base:   80234b5ab240f52fa45d201e899e207b9265ef91
+patch link:    https://lore.kernel.org/r/20260312163652.113228-2-18255117159%40163.com
+patch subject: [PATCH v8 1/5] PCI: Add pcie_get_link_speed() helper for safe array access
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260314/202603140748.u17h0ZM8-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260314/202603140748.u17h0ZM8-lkp@intel.com/reproduce)
 
-Cheers,
-Miguel
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603140748.u17h0ZM8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/pci/probe.c:793 expecting prototype for pcie_link_speed_value(). Prototype was for pcie_get_link_speed() instead
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
