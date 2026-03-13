@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11963CBE8C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 17:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163D73C5DDD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 17:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773423136; cv=none; b=Qfc6dKRNBK57P6DQGbaV62fjK/uHZ+rAoL0xtsdNqm9/cqYJLZqzVsUf/5DOgQjBTFN+xDknYV2+BUbgRDA9249ax4EPtUSMrwgYSUrM9AyPI/04v1Ilml7pDqaMvkBAfEgqxmbqrVS2qQ6g+9LVyMWUTYWs/EuDkAYPYo7iLRE=
+	t=1773423498; cv=none; b=ganEOujrKh76rCvJ4gMvt3PTKXJkeCGeuHz0daLu6tfk9WQv8phTS+i7SDu5Z5P+kNOXVGsfSsQC2QuYph1LG6NYas4FhB84Y823S6cL1VX/od7k3lBr+Ioi4cpz3DCM6JXmoV8RyOB3K1xyH0CMf9gH1CB4H1EaiAKVD2M58L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773423136; c=relaxed/simple;
-	bh=HJwwVv2RA2dbg+i/2rH99tF219pPYLKATfbktrRH93c=;
+	s=arc-20240116; t=1773423498; c=relaxed/simple;
+	bh=XTcmNKxQOYv/ODEIJ+6aq3vYnvqwEosHnYKM0NBNPyI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q16xRKRfMZReOPJL8z7vOD+a436DVGiYI3y7gLi43ekUOiWRceMgUU4nHtq94Ag5vGwm9Cb48JfLK7bkrSkgtd1aLeC0DxrDx4fc3D/RuuoTQWgSAD7uwuOdMFwufQS3S/8bVboonlBGQN8pc7nBV6dOch1turAowy92AQumKOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOFxjPoY; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=j1ZrC7sdTmDNFOmyosVcBf64R6L0SVjWIGlk/bEBMJ2+AHJ9TeLd+RHoxDb3G16okj5biuQaGyqaTYV1kpJkaikYm4BtmRN5kQ233xHaSkqroc/Zo/GS12ht+RiQrJ9A2uxT6FbC6aFscXczQ5vU5WYamGjxVAabhXPKzca4v8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DZKyS8zm; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOFxjPoY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZKyS8zm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773423132; x=1804959132;
+  t=1773423498; x=1804959498;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HJwwVv2RA2dbg+i/2rH99tF219pPYLKATfbktrRH93c=;
-  b=SOFxjPoYnT36Y3g0MUic19T/Nnonp/9BFusszJv/1L5XdtKylMVFz31q
-   7ACve32KvB0feCwz/0FcyqpFUnl7MR7OvjjX60SQJEq8ooQ9o1MRrLq0P
-   DHP+G+xTEd2RqZLzEM5QmNO9xePzRdeZPv5DdITvGSKa17FpwPGsxwh4+
-   r6pvbx/3GImU6dKY7O4FGEHVZRbNcei6KhT5EbyrPa85F6SehEiXsIuaK
-   pcNCVeECyX3hZop8j0NkQOGVR0I0lchaHZ1UzYD6V6U1Pw00ZdvUs+1uF
-   EsEjhthHAifVBTj3puVQ/fKm3UK3q1U2EGM2hEWK0qAqI69oA5kJVWnwp
-   A==;
-X-CSE-ConnectionGUID: KqC6+Q2JTCSXv2jfGSX1ww==
-X-CSE-MsgGUID: 6eqqT+6qSfmwes+F/KaQ6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11728"; a="74428855"
+  bh=XTcmNKxQOYv/ODEIJ+6aq3vYnvqwEosHnYKM0NBNPyI=;
+  b=DZKyS8zmY+Dq+uXNSFtiwzg8v29uAfzMjfCeEBNqMy4VRxfSdw5BoNza
+   py+S+L66gdMlmTG+n1f4PJtArk7KSyeas4F+cgIPmd7wkA68HknmwGfeT
+   YNPHJqI89WJ/TNNCulnCUhuzBnFMiejWBNKO+7rElbu50kcWBdB1+6YaU
+   ko1j85czMpVNdr8nodMBmAXpjpIzwD7CGknB4HrncL+wtUacCmDofX7s4
+   SCoiKQz976kVaMafvoJRbsXk6DDGWm95E8ajys64151LUudpQOxVolj9b
+   R7O+2NW61SC3rXG9ZmldGW+H+b5OEg3vurM0TgQ70cLo956PBYBg3Yssc
+   Q==;
+X-CSE-ConnectionGUID: 5nEOJfc3Sf6UJb11aaeQAQ==
+X-CSE-MsgGUID: IU6XR8sDQ3eQjgRhTzX0Fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11728"; a="74415619"
 X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="74428855"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 10:32:12 -0700
-X-CSE-ConnectionGUID: QwWhFS3uSxSSMwSkJMJApw==
-X-CSE-MsgGUID: hExZxTDcQhqhnsBrhfq2Aw==
+   d="scan'208";a="74415619"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 10:38:17 -0700
+X-CSE-ConnectionGUID: rT0sjaKIQ1eKnBrBuuknew==
+X-CSE-MsgGUID: CHraJtiFTNKoW/DwMKNSbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="225920696"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Mar 2026 10:32:05 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="226218180"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 13 Mar 2026 10:38:15 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w16Mj-0000000045v-3Gee;
-	Fri, 13 Mar 2026 17:32:01 +0000
-Date: Sat, 14 Mar 2026 01:31:03 +0800
+	id 1w16Si-000000003gh-125h;
+	Fri, 13 Mar 2026 17:38:12 +0000
+Date: Fri, 13 Mar 2026 18:37:45 +0100
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neilb@ownmail.net>,
-	Jeff Layton <jlayton@kernel.org>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <dai.ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-rdma@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v2 2/2] svcrdma: Use contiguous pages for RDMA Read sink
- buffers
-Message-ID: <202603140114.GgjjcDjb-lkp@intel.com>
-References: <20260312134008.7387-3-cel@kernel.org>
+To: Nathan Rebello <nathan.c.rebello@gmail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	heikki.krogerus@linux.intel.com, kyungtae.kim@dartmouth.edu,
+	stable@vger.kernel.org, Nathan Rebello <nathan.c.rebello@gmail.com>
+Subject: Re: [PATCH v4] usb: typec: ucsi: validate connector number in
+ ucsi_notify_common()
+Message-ID: <202603131813.ofOSyCrk-lkp@intel.com>
+References: <20260312211503.1915-1-nathan.c.rebello@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,89 +65,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260312134008.7387-3-cel@kernel.org>
+In-Reply-To: <20260312211503.1915-1-nathan.c.rebello@gmail.com>
 
-Hi Chuck,
+Hi Nathan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on v7.0-rc1]
-[also build test ERROR on next-20260311]
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v7.0-rc3 next-20260313]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/RDMA-rw-Fix-MR-pool-exhaustion-in-bvec-RDMA-READ-path/20260313-085521
-base:   v7.0-rc1
-patch link:    https://lore.kernel.org/r/20260312134008.7387-3-cel%40kernel.org
-patch subject: [PATCH v2 2/2] svcrdma: Use contiguous pages for RDMA Read sink buffers
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260314/202603140114.GgjjcDjb-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260314/202603140114.GgjjcDjb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Rebello/usb-typec-ucsi-validate-connector-number-in-ucsi_notify_common/20260313-200729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20260312211503.1915-1-nathan.c.rebello%40gmail.com
+patch subject: [PATCH v4] usb: typec: ucsi: validate connector number in ucsi_notify_common()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260313/202603131813.ofOSyCrk-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260313/202603131813.ofOSyCrk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603140114.GgjjcDjb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603131813.ofOSyCrk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/sunrpc/xprtrdma/svc_rdma_rw.c: In function 'svc_rdma_fill_contig_bvec':
->> net/sunrpc/xprtrdma/svc_rdma_rw.c:813:17: error: implicit declaration of function 'svc_rqst_page_release'; did you mean 'svc_rdma_cc_release'? [-Wimplicit-function-declaration]
-     813 |                 svc_rqst_page_release(rqstp,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-         |                 svc_rdma_cc_release
+   In file included from include/linux/device.h:15,
+                    from drivers/usb/typec/ucsi/ucsi.c:11:
+   drivers/usb/typec/ucsi/ucsi.c: In function 'ucsi_notify_common':
+>> drivers/usb/typec/ucsi/ucsi.c:50:44: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
+      50 |                         dev_err(ucsi->dev, "bogus connector number in CCI: %u\n",
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/usb/typec/ucsi/ucsi.c:50:25: note: in expansion of macro 'dev_err'
+      50 |                         dev_err(ucsi->dev, "bogus connector number in CCI: %u\n",
+         |                         ^~~~~~~
+   drivers/usb/typec/ucsi/ucsi.c:50:77: note: format string is defined here
+      50 |                         dev_err(ucsi->dev, "bogus connector number in CCI: %u\n",
+         |                                                                            ~^
+         |                                                                             |
+         |                                                                             unsigned int
+         |                                                                            %lu
 
 
-vim +813 net/sunrpc/xprtrdma/svc_rdma_rw.c
+vim +50 drivers/usb/typec/ucsi/ucsi.c
 
-   779	
-   780	/*
-   781	 * svc_rdma_fill_contig_bvec - Replace rq_pages with a contiguous allocation
-   782	 * @rqstp: RPC transaction context
-   783	 * @head: context for ongoing I/O
-   784	 * @bv: bvec entry to fill
-   785	 * @pages_left: number of data pages remaining in the segment
-   786	 * @len_left: bytes remaining in the segment
-   787	 *
-   788	 * On success, fills @bv with a bvec spanning the contiguous range and
-   789	 * advances rc_curpage/rc_page_count. Returns the byte length covered,
-   790	 * or zero if the allocation failed or would overrun rq_maxpages.
-   791	 */
-   792	static unsigned int
-   793	svc_rdma_fill_contig_bvec(struct svc_rqst *rqstp,
-   794				  struct svc_rdma_recv_ctxt *head,
-   795				  struct bio_vec *bv, unsigned int pages_left,
-   796				  unsigned int len_left)
-   797	{
-   798		unsigned int order, alloc_nr, chunk_pages, chunk_len, i;
-   799		struct page *page;
-   800	
-   801		page = svc_rdma_alloc_read_pages(pages_left, &order);
-   802		if (!page)
-   803			return 0;
-   804		alloc_nr = 1 << order;
-   805	
-   806		if (head->rc_curpage + alloc_nr > rqstp->rq_maxpages) {
-   807			for (i = 0; i < alloc_nr; i++)
-   808				__free_page(page + i);
-   809			return 0;
-   810		}
-   811	
-   812		for (i = 0; i < alloc_nr; i++) {
- > 813			svc_rqst_page_release(rqstp,
-   814					      rqstp->rq_pages[head->rc_curpage + i]);
-   815			rqstp->rq_pages[head->rc_curpage + i] = page + i;
-   816		}
-   817	
-   818		chunk_pages = min(alloc_nr, pages_left);
-   819		chunk_len = min_t(unsigned int, chunk_pages << PAGE_SHIFT, len_left);
-   820		bvec_set_page(bv, page, chunk_len, 0);
-   821		head->rc_page_count += chunk_pages;
-   822		head->rc_curpage += chunk_pages;
-   823		return chunk_len;
-   824	}
-   825	
+    39	
+    40	void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
+    41	{
+    42		/* Ignore bogus data in CCI if busy indicator is set. */
+    43		if (cci & UCSI_CCI_BUSY)
+    44			return;
+    45	
+    46		if (UCSI_CCI_CONNECTOR(cci)) {
+    47			if (UCSI_CCI_CONNECTOR(cci) <= ucsi->cap.num_connectors)
+    48				ucsi_connector_change(ucsi, UCSI_CCI_CONNECTOR(cci));
+    49			else
+  > 50				dev_err(ucsi->dev, "bogus connector number in CCI: %u\n",
+    51					UCSI_CCI_CONNECTOR(cci));
+    52		}
+    53	
+    54		if (cci & UCSI_CCI_ACK_COMPLETE &&
+    55		    test_and_clear_bit(ACK_PENDING, &ucsi->flags))
+    56			complete(&ucsi->complete);
+    57	
+    58		if (cci & UCSI_CCI_COMMAND_COMPLETE &&
+    59		    test_and_clear_bit(COMMAND_PENDING, &ucsi->flags))
+    60			complete(&ucsi->complete);
+    61	}
+    62	EXPORT_SYMBOL_GPL(ucsi_notify_common);
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
