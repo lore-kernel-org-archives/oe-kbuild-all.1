@@ -1,150 +1,259 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6203161A3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 08:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D12237F72F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 08:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773389194; cv=none; b=KiagTXGQTcaSigpYBZnAqhp8pN8C5r2oPp/G9nEH8FZ++3cYjUqL6pHfHoBgsUzm8iXPkrv2HF9QQZSuLGdfXfhsEOQynui5mlhL1gWWnKIKXtuXl8fGH7s6/Vu9FfhknPxIHKoA+OiYoxWJLXxl4iNn9Qr075pqSfMU8/HzzFM=
+	t=1773390039; cv=none; b=R8pyTWiZHX5cntVWohHHanxUvlctUbj1JyaoXaYFjG/ZbQltCtIE2cCl6sA57KHKA5kSMkvPZtTzluWZE1cv6Saos77WzYO2VUN0KOABUd1qJF+sWZ7vxOHd8pw8/A9K6zNpwxS4Cd0hMT9pP8yEDgduCRzk/d24cFAovrEwosU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773389194; c=relaxed/simple;
-	bh=BtMPu3iOSzFTX17F3r8GdSzBKmDkbGnfJl/P9Ya3Qbs=;
+	s=arc-20240116; t=1773390039; c=relaxed/simple;
+	bh=X+Fz1eibZz22SXJyzLLkR9+MS/poAadZRr1d5OomCb8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PkicyDE9V6ACRy8PKXZtgYJ9RWMCLrCqzBhbpxLfJlCnOfQyUmRYGCYdvrmF95bsbcIj48dlF59oO5pKb9XfNb+KxoXXKZ4tdkYXahCZFpiaFcYJ4qZElebsv7IunzCO//WYclxV/Qx2dUTDysC9WYxp+Pk3wfKo8aOh6qqE6mY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cqhI7IuV; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=c8lIyIiyDkRSSN/emMpBqct0E+QARzeFimYVXm6l4P24mS3z875XAQDiEr6l7oBhDFn3sekqTN/tvQ3UuGpldogz+meqHGPGE6Twv2NXfZf95xSqAwPuAQpUAdNn7h+KmpFoIRbgLVk0bvl6JRRFXbb8E8uJRfb/SgyUiyWnXg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mmAppQtm; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lU1jEyJ0; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cqhI7IuV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773389193; x=1804925193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BtMPu3iOSzFTX17F3r8GdSzBKmDkbGnfJl/P9Ya3Qbs=;
-  b=cqhI7IuVBwlEfNc1z6yDf4AZ3bRpwVOXOftWnx4f4ItgHJSsKj1weQNF
-   0vMfWcnwu0OhNHgdn14shLqm3Sep5k6104jz/nDyqK/oQTMwfLY+xlyrE
-   We7zquKPsnTYwTFwLgAFOkguvWSWEwsDDrABSnpaHBuBfjwLdAlYsjaNa
-   UlExfa/fbjaZYsoYAT6dKaGmUnlkToNa7GC89gDo/+BLI6fLstSRXBvFD
-   ovX0+0DBLlC8cq1LUHNBCYTmMN8gWfUcNQQN2lbyESSbo39EA5pnNNmva
-   puYZop/1nUyYxHT7njHU7ttaHJtvb59lcV5ccqpHy4ytB5N0U4sjp9T2Z
-   Q==;
-X-CSE-ConnectionGUID: zPkYPxfrSoeb7v6l4ePBAQ==
-X-CSE-MsgGUID: 016hhCyrRC2MVZIXblR+ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="74374934"
-X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
-   d="scan'208";a="74374934"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 01:06:31 -0700
-X-CSE-ConnectionGUID: gPjGOQENRu+9LBVWJC2E3Q==
-X-CSE-MsgGUID: KKxPATFuTuOj68ORIwqO2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
-   d="scan'208";a="217122672"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Mar 2026 01:06:24 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w0xXI-000000003ax-3skA;
-	Fri, 13 Mar 2026 08:06:20 +0000
-Date: Fri, 13 Mar 2026 16:06:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v2 03/25] mm/percpu: Annotate static information into
- meminspect
-Message-ID: <202603131622.xpsC6cMy-lkp@intel.com>
-References: <20260311-minidump-v2-v2-3-f91cedc6f99e@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mmAppQtm";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lU1jEyJ0"
+Date: Fri, 13 Mar 2026 09:20:29 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773390030;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HMOX/pOnlSMfgUrd/3j80Xi9mYFJL2/feZxqtHJH4lQ=;
+	b=mmAppQtmRz3G/M98wLpA5ccoJc76J/KBqjxLSG1dSk2CfrROSYk6+WMS0739rpDNUBwJbW
+	MgNkqooSKcj9IdwjzWXOcAWd4em7h/a8bjKzFG9zzs7ecoOYEkNVMC+Op0UNMwkXMy6j1j
+	fBN5nUprWILuVI8IxW9cXPghR6EXBCYajzvHSzfjubfX5dIRICQrKje3eG6euWIedZ70iU
+	bf+Nh+Y9at0pyfQ6fGuOR0yXbSCPaUJU9MomgAsNMrJYiCCbOgONVcvq3spE9OPQ79bpni
+	pmGeTILSvP9h8o3lXLQt7UHPlAdvZVMM48M8kuRSIiadZzsfDSwvyMol8M8aFQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773390030;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HMOX/pOnlSMfgUrd/3j80Xi9mYFJL2/feZxqtHJH4lQ=;
+	b=lU1jEyJ0sAJhYLjcVU7ObbVuBO7N/AxGZqAbjZIyI2rgf0ulJxbte41lfP5HGqf0QDcenT
+	BgD8WFV5Imh+pLBw==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
+Subject: Re: [tip:timers/vdso 37/45] progs/hid_bpf_helpers.h:117:31: error:
+ declaration of 'struct bpf_wq' will not be visible outside of this function
+Message-ID: <20260313091537-26f300e2-7595-40c8-8890-be4413b0adc0@linutronix.de>
+References: <202603111558.KLCIxsZB-lkp@intel.com>
+ <20260311160618-dbfa08f6-8cfa-4f81-94a2-d6d97f79ae93@linutronix.de>
+ <abGeK0FpNn5uXi8B@beelink>
+ <20260312073810-db531b6e-ed24-4a55-865e-e7b94e90b8e6@linutronix.de>
+ <abL184dNU_lO2JsP@beelink>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260311-minidump-v2-v2-3-f91cedc6f99e@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <abL184dNU_lO2JsP@beelink>
 
-Hi Mukesh,
+On Thu, Mar 12, 2026 at 06:34:15PM +0100, Benjamin Tissoires wrote:
+> On Mar 12 2026, Thomas Weißschuh wrote:
+> > On Wed, Mar 11, 2026 at 06:05:25PM +0100, Benjamin Tissoires wrote:
+> > > On Mar 11 2026, Thomas Weiï¿½schuh wrote:
+> > > > could you take a look at the report below?
+> > > > This looks like an issue in the HID BPF subsystem, surfaced by my
+> > > > unrelated change. Does this ring a bell for you?
+> > > > 
+> > > > I wasn't able to reproduce it so far, but will continue looking into it.
+> > > 
+> > > Both struct bpf_wq and struct hid_device should be generated in the
+> > > vmlinux.h that we include in the selftests. So this is definitely not
+> > > related to your patch AFAICT.
+> > 
+> > Ack. To be sure I sent this branch again through 0day and will see if it
+> > breaks on the same commit.
+> > 
+> > > Looking in the config, we have `# CONFIG_HID_SUPPORT is not set` -> so
+> > > that would explain why struct hid_device is not available. But in that
+> > > case, why are the HID selftests even built?
+> > 
+> > CONFIG_DEBUG_INFO_BTF is also not set. So there should be no vmlinux.h
+> > at all in the first. Which is exactly what happens in my attempts
+> > to reproduce the issue. But even when fixing that up, the issue persists.
+> > 
+> > > The bpf_wq bits should be related to a similar-ish issue where one
+> > > config setting is not set and so it's not included in the final BTF.
+> > 
+> > I'll look into how exactly things end up in vmlinux.h.
+> > At least the headers for 'struct bpf_wq' are always included somewhere.
+> > But maybe the type also needs to be used to define some structure.
+> > 
+> > > I paged out how we can ignore selftests based on the .config, so if you
+> > > have any hints, that would be nice :)
+> > 
+> > Inspecting the kernel configuration might be hard, as there might be no file
+> > for it available. Could you use vmlinux.h itself for feature detection?
+> > 
+> 
+> Actually I think I remember the rationale:
+> - because working with config is hard, we just hide any struct
+> 	definition we need in progs/hid_bpf_helpers.h before including
+> 	vmlinux.h
+> - then we manually define them
+> 
+> So it looks like this is a step I forgot to make when I added the last
+> few bits: redefine struct bpf_wq and struct hid_device.
 
-kernel test robot noticed the following build errors:
+That makes sense. Thanks for checking.
 
-[auto build test ERROR on 343f51842f4ed7143872f3aa116a214a5619a4b9]
+> Technically we shouldn't even need to redefine the entire struct, but
+> only the bits we are accessing, because bpf with CO-RE will do the
+> offsets for us :)
+> 
+> Would the following patch fixes the issue?:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/kernel-Introduce-meminspect/20260311-042334
-base:   343f51842f4ed7143872f3aa116a214a5619a4b9
-patch link:    https://lore.kernel.org/r/20260311-minidump-v2-v2-3-f91cedc6f99e%40oss.qualcomm.com
-patch subject: [PATCH v2 03/25] mm/percpu: Annotate static information into meminspect
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260313/202603131622.xpsC6cMy-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260313/202603131622.xpsC6cMy-lkp@intel.com/reproduce)
+I expect so. However none of the other bot (re-b)builds reproduced this
+issue, so I can't validate it. I'll put this down as some sort of fluke
+that it occurred while building my patch, especially given all the other
+weirdness in that report. Your patch should fix it for good.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603131622.xpsC6cMy-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from mm/percpu.c:90:
->> mm/percpu.c:3363:25: error: '__per_cpu_offset' undeclared here (not in a function); did you mean '__per_cpu_start'?
-    3363 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
-         |                         ^~~~~~~~~~~~~~~~
-   include/linux/meminspect.h:94:33: note: in definition of macro 'MEMINSPECT_ENTRY'
-      94 |                 .va = (void *)&(sym),                                           \
-         |                                 ^~~
-   mm/percpu.c:3363:1: note: in expansion of macro 'MEMINSPECT_SIMPLE_ENTRY'
-    3363 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +3363 mm/percpu.c
-
-  3362	
-> 3363	MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
-  3364	/*
-  3365	 * pcpu_nr_pages - calculate total number of populated backing pages
-  3366	 *
-  3367	 * This reflects the number of pages populated to back chunks.  Metadata is
-  3368	 * excluded in the number exposed in meminfo as the number of backing pages
-  3369	 * scales with the number of cpus and can quickly outweigh the memory used for
-  3370	 * metadata.  It also keeps this calculation nice and simple.
-  3371	 *
-  3372	 * RETURNS:
-  3373	 * Total number of populated backing pages in use by the allocator.
-  3374	 */
-  3375	unsigned long pcpu_nr_pages(void)
-  3376	{
-  3377		return data_race(READ_ONCE(pcpu_nr_populated)) * pcpu_nr_units;
-  3378	}
-  3379	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+> From bf4030f8116a4bcafe9f8d84f3d03dd2eedc58a4 Mon Sep 17 00:00:00 2001
+> From: Benjamin Tissoires <bentiss@kernel.org>
+> Date: Thu, 12 Mar 2026 18:29:40 +0100
+> Subject: [PATCH] selftests/hid: fix compilation when bpf_wq and hid_device are
+>  not exported
+> 
+> This can happen in situations when CONFIG_HID_SUPPORT is set to no, or
+> some complex situations where struct bpf_wq is not exported.
+> 
+> So do the usual dance of hiding them before including vmlinux.h, and
+> then redefining them and make use of CO-RE to have the correct offsets.
+> 
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> ---
+>  tools/testing/selftests/hid/progs/hid_bpf_helpers.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+> index 80ab60905865..2c6ec907dd05 100644
+> --- a/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+> +++ b/tools/testing/selftests/hid/progs/hid_bpf_helpers.h
+> @@ -8,9 +8,11 @@
+>  /* "undefine" structs and enums in vmlinux.h, because we "override" them below */
+>  #define hid_bpf_ctx hid_bpf_ctx___not_used
+>  #define hid_bpf_ops hid_bpf_ops___not_used
+> +#define hid_device hid_device___not_used
+>  #define hid_report_type hid_report_type___not_used
+>  #define hid_class_request hid_class_request___not_used
+>  #define hid_bpf_attach_flags hid_bpf_attach_flags___not_used
+> +#define bpf_wq bpf_wq___not_used
+>  #define HID_INPUT_REPORT         HID_INPUT_REPORT___not_used
+>  #define HID_OUTPUT_REPORT        HID_OUTPUT_REPORT___not_used
+>  #define HID_FEATURE_REPORT       HID_FEATURE_REPORT___not_used
+> @@ -29,9 +31,11 @@
+>  
+>  #undef hid_bpf_ctx
+>  #undef hid_bpf_ops
+> +#undef hid_device
+>  #undef hid_report_type
+>  #undef hid_class_request
+>  #undef hid_bpf_attach_flags
+> +#undef bpf_wq
+>  #undef HID_INPUT_REPORT
+>  #undef HID_OUTPUT_REPORT
+>  #undef HID_FEATURE_REPORT
+> @@ -55,6 +59,14 @@ enum hid_report_type {
+>  	HID_REPORT_TYPES,
+>  };
+>  
+> +struct hid_device {
+> +	unsigned int id;
+> +} __attribute__((preserve_access_index));
+> +
+> +struct bpf_wq {
+> +	__u64 __opaque[2];
+> +};
+> +
+>  struct hid_bpf_ctx {
+>  	struct hid_device *hid;
+>  	__u32 allocated_size;
+> -- 
+> 2.52.0
+> ---
+> 
+> Cheers,
+> Benjamin
+> 
+> > 
+> > Thomas
+> > 
+> > > > On Wed, Mar 11, 2026 at 03:29:54PM +0100, kernel test robot wrote:
+> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+> > > > > head:   f7178f159b2a36d070fd43b0d751e4e4415ec39e
+> > > > > commit: 912632a7fd4cc1eac2778828d92e8fe46939d6bd [37/45] vdso/datapage: Trim down unnecessary includes
+> > > > > config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260311/202603111558.KLCIxsZB-lkp@intel.com/config)
+> > > > > compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+> > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260311/202603111558.KLCIxsZB-lkp@intel.com/reproduce)
+> > > > > 
+> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > > the same patch/commit), kindly add following tags
+> > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202603111558.KLCIxsZB-lkp@intel.com/
+> > > > > 
+> > > > > All errors (new ones prefixed by >>):
+> > > > > 
+> > > > >    In file included from progs/hid.c:3:
+> > > > > >> progs/hid_bpf_helpers.h:117:31: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> > > > >      117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+> > > > >          |                               ^
+> > > > >    progs/hid_bpf_helpers.h:118:32: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> > > > >      118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+> > > > >          |                                ^
+> > > > >    progs/hid_bpf_helpers.h:119:39: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+> > > > >      119 | extern int bpf_wq_set_callback(struct bpf_wq *wq,
+> > > > >          |                                       ^
+> > > > > >> progs/hid.c:448:16: error: field has incomplete type 'struct bpf_wq'
+> > > > >      448 |         struct bpf_wq work;
+> > > > >          |                       ^
+> > > > >    progs/hid.c:448:9: note: forward declaration of 'struct bpf_wq'
+> > > > >      448 |         struct bpf_wq work;
+> > > > >          |                ^
+> > > > > >> progs/hid.c:487:18: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> > > > >      487 |         if (bpf_wq_init(wq, &hmap, 0) != 0)
+> > > > >          |                         ^~
+> > > > >    progs/hid_bpf_helpers.h:117:39: note: passing argument to parameter 'wq' here
+> > > > >      117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+> > > > >          |                                       ^
+> > > > >    progs/hid.c:490:26: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> > > > >      490 |         if (bpf_wq_set_callback(wq, wq_cb_sleepable, 0))
+> > > > >          |                                 ^~
+> > > > >    progs/hid_bpf_helpers.h:119:47: note: passing argument to parameter 'wq' here
+> > > > >      119 | extern int bpf_wq_set_callback(struct bpf_wq *wq,
+> > > > >          |                                               ^
+> > > > >    progs/hid.c:493:19: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+> > > > >      493 |         if (bpf_wq_start(wq, 0))
+> > > > >          |                          ^~
+> > > > >    progs/hid_bpf_helpers.h:118:40: note: passing argument to parameter 'wq' here
+> > > > >      118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+> > > > >          |                                        ^
+> > > > >    progs/hid.c:503:24: error: incomplete definition of type 'struct hid_device'
+> > > > >      503 |         int hid = hid_ctx->hid->id;
+> > > > >          |                   ~~~~~~~~~~~~^
+> > > > >    progs/hid_bpf_helpers.h:59:9: note: forward declaration of 'struct hid_device'
+> > > > >       59 |         struct hid_device *hid;
+> > > > >          |                ^
+> > > > >    8 errors generated.
+> > > > > 
+> > > > > -- 
+> > > > > 0-DAY CI Kernel Test Service
+> > > > > https://github.com/intel/lkp-tests/wiki
+> > > > 
+> > 
