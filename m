@@ -1,71 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B032DF12F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 20:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B324F24676D;
+	Fri, 13 Mar 2026 21:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773432687; cv=none; b=rdV2lp500vFypdSiZ97EIJjdPMdw3sq5eAv/y92MVc8yXVbVMbF7W2ntavEgA2oR3sDWk0w0GK6+yBgNTk5za7YWafP1HQCY0uWvruh5PYxm5oFShsGP2rxRw8YVrldXcEda4NWtVwfHGlNBfdEJkzQ5S+nLd7/Qh6hEAWKzSp4=
+	t=1773437803; cv=none; b=Ck9FFKqhiE9/cJMBv8r66dJdlfFweV8R6vtIsA5Baw980A4Xoyr5ZT8dmVDsXIhQgk9z2jWP3KIey1qz/2wEGAr7W6ULKJv23Wxn06rqDJlS5G9Xca2FO2qxnlY0VhluTbEjb9DAHaIsDo1Wxbm8NpNBCoD+V6+EFHiWjUCEDB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773432687; c=relaxed/simple;
-	bh=SMPmzclyOIKQEi+ShtklVqvxCpyJHokDbfVTltDu+3M=;
+	s=arc-20240116; t=1773437803; c=relaxed/simple;
+	bh=hU6Fe6XYGxziElGzs5uGk03JaLC6mdF7RLU66cbBXSE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h5kojwRFLHUdVj0dxoY46nXxC5Zp2HpjodqctZbpozJgCUdgYNu7aapd50OMznSXHHGoYmzIhkolznCT5HSLl3CofbQfQU+VwKZl+aPP/jjKg1e6NKLjP2rPsx8uT423eCQE7aMv9TwE7/efNmb36R+Xr/tDdbB8vFsjXmnxkz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bT4aDX6C; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q0qGch2BsMyD8jkWxxUFbf/fcbzRj1me5ujvYMkU2gwoZ15aNgt+p4yjjyfbPewGM0OKicCzGH5dnGW0QvMeM6896ebKyjSunM7jg0lp++gH7FmCma0XzlWElxiAlURgf9X07LGTtE/yOnxYMtwBuXCfesXDn/iHcqUkW2wDV/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LRo1BJRo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bT4aDX6C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773432686; x=1804968686;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SMPmzclyOIKQEi+ShtklVqvxCpyJHokDbfVTltDu+3M=;
-  b=bT4aDX6CQcrOwxC21NijNFDx3OjWFPVlxOU3Fq5rOsiGlItu6GVicdM2
-   gBGXKpCQM+pKw0olRAXGm3eLWbINue2SsBh3o6BnUxdQP5Yaw+UXj6mky
-   +1H6iUs7A7bEqQMcATCSbbKLv25RZh9zH5qcQ15MD/qoUoDABRqR7TUpW
-   zrIieomoXV2kVULArviW3s8ooXfyCMLomLA6gT1baS3fS6BvCMmwWDJpx
-   3aiv0cQm2drgK9x466RftKxnIp/5DRdhCQJ/6tCbxYf5kI7ZElb82siWq
-   uV7bqP3FwBI2iPir203kOZsVobGn4oxvRHNx74jJEpHHBsd691hCunnEE
-   Q==;
-X-CSE-ConnectionGUID: TC3ILn5pSVOT5qs5Q+89Gw==
-X-CSE-MsgGUID: 4UPCUGVSS2qeNEoRQ/zrIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11728"; a="74517793"
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="74517793"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 13:11:22 -0700
-X-CSE-ConnectionGUID: 2kUbeFEFSaKhLs70W7WvSQ==
-X-CSE-MsgGUID: ev3j7rCVSJW5exQ6b/MdoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="246403671"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Mar 2026 13:11:16 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w18qn-000000003hZ-0QxX;
-	Fri, 13 Mar 2026 20:11:13 +0000
-Date: Fri, 13 Mar 2026 21:10:41 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alexei Starovoitov <ast@kernel.org>, bpf@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Stanislav Fomichev <sdf@fomichev.me>
-Subject: Re: [PATCH net-next v2 13/15] net: stmmac: add helper to set
- transmit tail pointer
-Message-ID: <202603132104.OVIsnpBk-lkp@intel.com>
-References: <E1w0czK-0000000CzH7-19Fb@rmk-PC.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LRo1BJRo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE9CC19421;
+	Fri, 13 Mar 2026 21:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773437803;
+	bh=hU6Fe6XYGxziElGzs5uGk03JaLC6mdF7RLU66cbBXSE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LRo1BJRoMYnJ8ZEhxjLCUF62+obEtmZFuayPRQThcdx4lHWmZYYix/fPOKngPqS6T
+	 r5WRZOMSCluK4oWbgts2a6ni7A4AdRH6ngAnEAAQMJfwlER1V2lqPOngfTYKo5nP1Y
+	 h098q59sqHQPYatJw9aKAQpaL4v4XGl4F644QuLAGDk962aGCL6w9oFn94C4VW+3oF
+	 XSlrbDuqjJfTCHhEIB615Id5lgdGCOGO2ohevFhfgdWwA6Uc6svL9GvyOHLjTFXF3y
+	 OuyCTaxq7+87HaSz/0sHOx6rCUInPffG0NUHc2TAfDUiMOIQ6ZM6F69onbJArRL6Ll
+	 dIkCwzUe6rYwQ==
+Date: Fri, 13 Mar 2026 14:36:38 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mark Brown <broonie@kernel.org>, rust-for-linux@vger.kernel.org,
+	Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [linux-next:master 5585/5731] error[E0277]: `*const
+ kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
+Message-ID: <20260313213638.GA147391@ax162>
+References: <202603121235.tpnRxFKO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,90 +47,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1w0czK-0000000CzH7-19Fb@rmk-PC.armlinux.org.uk>
+In-Reply-To: <202603121235.tpnRxFKO-lkp@intel.com>
 
-Hi Russell,
++ relevant parties
 
-kernel test robot noticed the following build errors:
+On Thu, Mar 12, 2026 at 12:21:07PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   f90aadf1c67c8b4969d1e5e6d4fd7227adb6e4d7
+> commit: 9ef1985c003ea271369c900a93f8b834119fd150 [5585/5731] Merge branch 'mm-unstable' of https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+> config: x86_64-randconfig-002-20260312 (https://download.01.org/0day-ci/archive/20260312/202603121235.tpnRxFKO-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121235.tpnRxFKO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603121235.tpnRxFKO-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> error[E0277]: `*const kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
+>    --> drivers/android/binder/page_range.rs:146:23
+>    |
+>    146   | static BINDER_VM_OPS: bindings::vm_operations_struct = pin_init::zeroed();
+>    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `*const kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
+>    |
+>    = help: within `kernel::bindings::vm_operations_struct`, the trait `Sync` is not implemented for `*const kernel::bindings::vm_uffd_ops`
+>    note: required because it appears within the type `kernel::bindings::vm_operations_struct`
+>    --> rust/bindings/bindings_generated.rs:72795:12
+>    |
+>    72795 | pub struct vm_operations_struct {
+>    |            ^^^^^^^^^^^^^^^^^^^^
+>    = note: shared static variables must have a type that implements `Sync`
 
-[auto build test ERROR on net-next/main]
+I see this in next-20260313 still.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-rearrange-stmmac_tx_info-members-to-pack-better/20260313-225823
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1w0czK-0000000CzH7-19Fb%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net-next v2 13/15] net: stmmac: add helper to set transmit tail pointer
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260313/202603132104.OVIsnpBk-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260313/202603132104.OVIsnpBk-lkp@intel.com/reproduce)
+  $ cat kernel/configs/repro.config
+  CONFIG_RUST=y
+  CONFIG_ANDROID_BINDER_IPC_RUST=y
+  CONFIG_USERFAULTFD=y
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603132104.OVIsnpBk-lkp@intel.com/
+  $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 mrproper defconfig repro.config drivers/android/binder/rust_binder_main.o
+  error[E0277]: `*const kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
+       --> drivers/android/binder/page_range.rs:146:23
+        |
+    146 | static BINDER_VM_OPS: bindings::vm_operations_struct = pin_init::zeroed();
+        |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `*const kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
+        |
+        = help: within `kernel::bindings::vm_operations_struct`, the trait `Sync` is not implemented for `*const kernel::bindings::vm_uffd_ops`
+  note: required because it appears within the type `kernel::bindings::vm_operations_struct`
+       --> rust/bindings/bindings_generated.rs:71347:12
+        |
+  71347 | pub struct vm_operations_struct {
+        |            ^^^^^^^^^^^^^^^^^^^^
+        = note: shared static variables must have a type that implements `Sync`
 
-All errors (new ones prefixed by >>):
+  error: aborting due to 1 previous error
 
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c: In function 'dwmac4_display_ring':
->> drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:430:40: error: implicit declaration of function 'dma_desc_to_edesc' [-Wimplicit-function-declaration]
-     430 |                 struct dma_edesc *ep = dma_desc_to_edesc(head);
-         |                                        ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:430:40: error: initialization of 'struct dma_edesc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  For more information about this error, try `rustc --explain E0277`.
+  ...
 
+It looks like this is a conflict between Alice's "rust_binder: check ownership
+before using vma" [1] (currently in char-misc-linus [2]) and Mike's
+"userfaultfd: introduce vm_uffd_ops" [3] (currently in mm-unstable [4]),
+hence why it was bisected to the -next merge commit.
 
-vim +/dma_desc_to_edesc +430 drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c
+[1]: https://lore.kernel.org/20260218-binder-vma-check-v2-1-60f9d695a990@google.com/
+[2]: https://git.kernel.org/gregkh/char-misc/c/8ef2c15aeae07647f530d30f6daaf79eb801bcd1
+[3]: https://lore.kernel.org/20260306171815.3160826-8-rppt@kernel.org/
+[4]: https://git.kernel.org/akpm/mm/c/52b7ee1715b88c61fe0696db31ac90181999ec2e
 
-   396	
-   397	static void dwmac4_display_ring(void *head, unsigned int size, bool rx,
-   398					dma_addr_t dma_rx_phy, unsigned int desc_size)
-   399	{
-   400		dma_addr_t dma_addr;
-   401		int i;
-   402	
-   403		pr_info("%s descriptor ring:\n", rx ? "RX" : "TX");
-   404	
-   405		if (desc_size == sizeof(struct dma_desc)) {
-   406			struct dma_desc *p = (struct dma_desc *)head;
-   407	
-   408			for (i = 0; i < size; i++) {
-   409				dma_addr = dma_rx_phy + i * sizeof(*p);
-   410				pr_info("%03d [%pad]: 0x%x 0x%x 0x%x 0x%x\n",
-   411					i, &dma_addr,
-   412					le32_to_cpu(p->des0), le32_to_cpu(p->des1),
-   413					le32_to_cpu(p->des2), le32_to_cpu(p->des3));
-   414				p++;
-   415			}
-   416		} else if (desc_size == sizeof(struct dma_extended_desc)) {
-   417			struct dma_extended_desc *extp = (struct dma_extended_desc *)head;
-   418	
-   419			for (i = 0; i < size; i++) {
-   420				dma_addr = dma_rx_phy + i * sizeof(*extp);
-   421				pr_info("%03d [%pad]: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\n",
-   422					i, &dma_addr,
-   423					le32_to_cpu(extp->basic.des0), le32_to_cpu(extp->basic.des1),
-   424					le32_to_cpu(extp->basic.des2), le32_to_cpu(extp->basic.des3),
-   425					le32_to_cpu(extp->des4), le32_to_cpu(extp->des5),
-   426					le32_to_cpu(extp->des6), le32_to_cpu(extp->des7));
-   427				extp++;
-   428			}
-   429		} else if (desc_size == sizeof(struct dma_edesc)) {
- > 430			struct dma_edesc *ep = dma_desc_to_edesc(head);
-   431	
-   432			for (i = 0; i < size; i++) {
-   433				dma_addr = dma_rx_phy + i * sizeof(*ep);
-   434				pr_info("%03d [%pad]: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\n",
-   435					i, &dma_addr,
-   436					le32_to_cpu(ep->des4), le32_to_cpu(ep->des5),
-   437					le32_to_cpu(ep->des6), le32_to_cpu(ep->des7),
-   438					le32_to_cpu(ep->basic.des0), le32_to_cpu(ep->basic.des1),
-   439					le32_to_cpu(ep->basic.des2), le32_to_cpu(ep->basic.des3));
-   440				ep++;
-   441			}
-   442		} else {
-   443			pr_err("unsupported descriptor!");
-   444		}
-   445	}
-   446	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
