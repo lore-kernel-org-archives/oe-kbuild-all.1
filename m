@@ -1,251 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8055E3909B0;
-	Fri, 13 Mar 2026 12:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A02F394483
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Mar 2026 12:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773403467; cv=none; b=nlWLwUhRvBZVQLdBXJlIkFrkqnhkd7VpNT1VIzTq4b5L80MYqsgWULC8NqTzyq1lRubSNiUsKPS8+bu+RMd3EkR5z8vyizDGCWEUnG6rwTir9o5h5bV9nrD//tj7ffoyVSUdzwzJy3OFTo2lx2Nn5LKvyZSq/T1BiLpb/Q4hWYk=
+	t=1773405289; cv=none; b=aPXSveE3szAeH+ILE5Jmra5KRczOg6H2VuviRCf7mPlT14uALsOX59h0uTYt6XRbTpsCYp+YtmY2H3l5FP5wYNBPcv962FCvLp1UBknKn9oTbx5U9P32AIGwacbRDgaw3hj5X8Q1akxRIgMeW8appB9YMetg0T95WIMusosVpQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773403467; c=relaxed/simple;
-	bh=Vn9MKdmospXCDEw0rllXl9HCIunbJ7CLm0zvFF8ui1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BdhHHBGcA9iGas2Ls/sLZzFdq+JyQ5FFBmWr4zplieM6HPlWDOGnl6Szh6oQjHgcOdr5bW03hK/Xa4VVRj16e/EQ3aj9XPu1WLvARe5B2AAG0UJsYWPKjo5Xfy6obM59+pAjMrBncsBkgbLXp2JAbLdapDGuuIrcRjCtBuH6K+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9T0fvLT; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773405289; c=relaxed/simple;
+	bh=q4NkIXz94tX49lQm0vCXwKQOPrCWBUwy5/8VXwwEplc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=s8MkKKV0BZvRZmLmeIMZLkXMtkQVsB389I/vePbOU4FjNSjm6PUa0T6ZsLhkqgwvMEoXlMuLAYm5cSIuZVU6khTd42XIsxuctlaX3q0FK/fTEx0oLLWUug3F2yyXp0suePINUPffqNfYFTdUIV9uI1Pb/W1WFnIbNMuUpWmKfdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBh3eSYJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9T0fvLT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773403458; x=1804939458;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Vn9MKdmospXCDEw0rllXl9HCIunbJ7CLm0zvFF8ui1s=;
-  b=X9T0fvLTRdcl6vxADZYIvpWBk+l79qGJK/U3KE3mfyy6ZOoQdzaQuK+H
-   xBzOShP+KpQ8V6mllisWLiF8BYm95dUy6ALMFPytHQ9CK2keGYVP/xPHL
-   oW3dxLLgBemGa1CCpkLiBVyvk2x9TGoZIc7qPMBit53xFcrpaQ7e7GXG4
-   4G3w9J0zoflpZw/9daJ8bAqzihm5naCL/plcKemyR5fOHxBiK0+sT29Sn
-   zJFId61D94cpFXM4PHNQ6Jsi0hE5yumxwbymq0wUo6p34FuqQF4AORY56
-   3KiR2hofHFO2rtCABf28v7xCOvMHheFQMrsL1UMt9a/mX89B/rKYHqL8K
-   g==;
-X-CSE-ConnectionGUID: Qkfa3eAaTwC1ViWpoUlJVg==
-X-CSE-MsgGUID: Qyqd2db1QAy9hwxvEjVYpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="74477031"
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="74477031"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 05:04:14 -0700
-X-CSE-ConnectionGUID: xFO41X7NRaq0My1mU5FAsA==
-X-CSE-MsgGUID: TXxtIBCET5qcSAy5YPgqhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="246333775"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Mar 2026 05:04:12 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w11FS-000000003eX-0A44;
-	Fri, 13 Mar 2026 12:04:10 +0000
-Date: Fri, 13 Mar 2026 13:03:25 +0100
-From: kernel test robot <lkp@intel.com>
-To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bernd Schubert <bernd@bsbernd.com>
-Subject: Re: [PATCH v2 6/6] fuse: support FSCONFIG_SET_FD for "fd" option
-Message-ID: <202603131356.P70o4OPq-lkp@intel.com>
-References: <20260312194019.3077902-7-mszeredi@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBh3eSYJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC527C19421;
+	Fri, 13 Mar 2026 12:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773405289;
+	bh=q4NkIXz94tX49lQm0vCXwKQOPrCWBUwy5/8VXwwEplc=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=QBh3eSYJk2SC3dH2dF/xsDYTRRpu8CPM3fPm/iq6bP8GwYDN12OpZm6qfRPrVHDFu
+	 J5YbEgxE36MXfoC8Vf1bfQYyOO1sd6N1dtO7x9RdCugQ7GgstfuJn21G/0IXdrKvri
+	 DvbkPHXvZ6ebVgztVDNtvvfTbWxmdTPP9mp4/EAYr4cNsc8OEPo+wEfaCYhUyTzZmz
+	 OfbbrU544qHCsiSyT3FG42QqDOWtZWZSkL1wKFY100OnYoY9JbptkK4ajjnvYMvOfe
+	 Aq4hOrHaAhrkSD9gQ/r9goLeevxABjk4/0itXQhYzxSbV51AFQIdxHLjKxlaautq7F
+	 WnVK+j997LwSw==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id CA78BF40068;
+	Fri, 13 Mar 2026 08:34:47 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Fri, 13 Mar 2026 08:34:47 -0400
+X-ME-Sender: <xms:ZwS0aaEEAb8jhtBfMpXp2e8nAkKuBjqiKQSlY30wWIkpqx0jgw8kRg>
+    <xme:ZwS0aWJykvs9-C2LMOh4njp1Doni3OGR59TpIqyAnjJWv6liuvlX8XO7fFhbFBxZ4
+    XPP9nir84xS7RaUfU8bzdREAowOLo5anJ9JbUvI9smaR3X44NAaPl0B>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeelieejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeeiveegteffveekveefkeejvdegjefhvdeutefggfekudffffevfeekveehteehkeen
+    ucffohhmrghinhepghhithdqshgtmhdrtghomhdpghhithhhuhgsrdgtohhmpdhkvghrnh
+    gvlhdrohhrghdptddurdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhhthhhpvghrsh
+    honhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlheppehkvghr
+    nhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeduvddpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgt
+    phhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvghonh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhi
+    shhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehhtghhsehlshhtrdguvgdprhgtph
+    htthhopegthhhutghkrdhlvghvvghrsehorhgrtghlvgdrtghomhdprhgtphhtthhopegu
+    rghirdhnghhosehorhgrtghlvgdrtghomhdprhgtphhtthhopehnvghilhgssehofihnmh
+    grihhlrdhnvghtpdhrtghpthhtohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomh
+X-ME-Proxy: <xmx:ZwS0aSCpbxYrKXsJ9J-J_StOEDtOr19xHwklpmxoVQm_lxCbmzzXzA>
+    <xmx:ZwS0aS5BaNtEnmFTraT29RwPo6aMRneicx6N7aYDDzguELa9LikOrg>
+    <xmx:ZwS0aR02S40YjsedhaafNZk-ZF2vNA00uhcAPdUHEJ20huF7utxUPA>
+    <xmx:ZwS0aem3zSkeApCm01sNjyKell1D2BTywMq5XAoEZJDFCyK5kzEE4A>
+    <xmx:ZwS0af6uiNHephBLroMPATSKcaqyF5uwOCbXdv9_GfunLsoWvueOSEs9>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9CFEB780070; Fri, 13 Mar 2026 08:34:47 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312194019.3077902-7-mszeredi@redhat.com>
-
-Hi Miklos,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mszeredi-fuse/for-next]
-[also build test ERROR on linus/master v7.0-rc3 next-20260312]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miklos-Szeredi/fuse-create-fuse_dev-on-dev-fuse-open-instead-of-mount/20260313-153922
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20260312194019.3077902-7-mszeredi%40redhat.com
-patch subject: [PATCH v2 6/6] fuse: support FSCONFIG_SET_FD for "fd" option
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260313/202603131356.P70o4OPq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260313/202603131356.P70o4OPq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603131356.P70o4OPq-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/fuse/inode.c:916:2: error: cannot jump from switch statement to this case label
-     916 |         default:
-         |         ^
-   fs/fuse/inode.c:864:16: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     864 |                 struct file *file __free(fput) = fget(result.uint_32);
-         |                              ^
-   fs/fuse/inode.c:910:2: error: cannot jump from switch statement to this case label
-     910 |         case OPT_BLKSIZE:
-         |         ^
-   fs/fuse/inode.c:864:16: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     864 |                 struct file *file __free(fput) = fget(result.uint_32);
-         |                              ^
-   fs/fuse/inode.c:906:2: error: cannot jump from switch statement to this case label
-     906 |         case OPT_MAX_READ:
-         |         ^
-   fs/fuse/inode.c:864:16: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     864 |                 struct file *file __free(fput) = fget(result.uint_32);
-         |                              ^
-   fs/fuse/inode.c:902:2: error: cannot jump from switch statement to this case label
-     902 |         case OPT_ALLOW_OTHER:
-         |         ^
-   fs/fuse/inode.c:864:16: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     864 |                 struct file *file __free(fput) = fget(result.uint_32);
-         |                              ^
-   fs/fuse/inode.c:898:2: error: cannot jump from switch statement to this case label
-     898 |         case OPT_DEFAULT_PERMISSIONS:
-         |         ^
-   fs/fuse/inode.c:864:16: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     864 |                 struct file *file __free(fput) = fget(result.uint_32);
-         |                              ^
-   fs/fuse/inode.c:886:2: error: cannot jump from switch statement to this case label
-     886 |         case OPT_GROUP_ID:
-         |         ^
-   fs/fuse/inode.c:864:16: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     864 |                 struct file *file __free(fput) = fget(result.uint_32);
-         |                              ^
-   fs/fuse/inode.c:874:2: error: cannot jump from switch statement to this case label
-     874 |         case OPT_USER_ID:
-         |         ^
-   fs/fuse/inode.c:864:16: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     864 |                 struct file *file __free(fput) = fget(result.uint_32);
-         |                              ^
-   fs/fuse/inode.c:867:2: error: cannot jump from switch statement to this case label
-     867 |         case OPT_ROOTMODE:
-         |         ^
-   fs/fuse/inode.c:864:16: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     864 |                 struct file *file __free(fput) = fget(result.uint_32);
-         |                              ^
-   8 errors generated.
+X-ThreadId: A_hcazk5esrJ
+Date: Fri, 13 Mar 2026 08:34:26 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "kernel test robot" <lkp@intel.com>, NeilBrown <neilb@ownmail.net>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <dai.ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Leon Romanovsky" <leon@kernel.org>,
+ "Christoph Hellwig" <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+ linux-rdma@vger.kernel.org, "Chuck Lever" <chuck.lever@oracle.com>
+Message-Id: <6264577a-784a-4501-b02f-bea8b4e49e27@app.fastmail.com>
+In-Reply-To: <202603130922.uCz0Ofwx-lkp@intel.com>
+References: <20260312134008.7387-3-cel@kernel.org>
+ <202603130922.uCz0Ofwx-lkp@intel.com>
+Subject: Re: [PATCH v2 2/2] svcrdma: Use contiguous pages for RDMA Read sink buffers
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
-vim +916 fs/fuse/inode.c
 
-510714a1f72bd3f Miklos Szeredi 2026-03-12  821  
-84c215075b5723a Miklos Szeredi 2021-08-04  822  static int fuse_parse_param(struct fs_context *fsc, struct fs_parameter *param)
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  823  {
-c30da2e981a703c David Howells  2019-03-25  824  	struct fs_parse_result result;
-84c215075b5723a Miklos Szeredi 2021-08-04  825  	struct fuse_fs_context *ctx = fsc->fs_private;
-c30da2e981a703c David Howells  2019-03-25  826  	int opt;
-525bd65aa759ec3 Eric Sandeen   2024-07-02  827  	kuid_t kuid;
-525bd65aa759ec3 Eric Sandeen   2024-07-02  828  	kgid_t kgid;
-c30da2e981a703c David Howells  2019-03-25  829  
-84c215075b5723a Miklos Szeredi 2021-08-04  830  	if (fsc->purpose == FS_CONTEXT_FOR_RECONFIGURE) {
-e8b20a474cf2c42 Miklos Szeredi 2020-07-14  831  		/*
-e8b20a474cf2c42 Miklos Szeredi 2020-07-14  832  		 * Ignore options coming from mount(MS_REMOUNT) for backward
-e8b20a474cf2c42 Miklos Szeredi 2020-07-14  833  		 * compatibility.
-e8b20a474cf2c42 Miklos Szeredi 2020-07-14  834  		 */
-84c215075b5723a Miklos Szeredi 2021-08-04  835  		if (fsc->oldapi)
-e8b20a474cf2c42 Miklos Szeredi 2020-07-14  836  			return 0;
-e8b20a474cf2c42 Miklos Szeredi 2020-07-14  837  
-84c215075b5723a Miklos Szeredi 2021-08-04  838  		return invalfc(fsc, "No changes allowed in reconfigure");
-b330966f79fb4fd Miklos Szeredi 2020-07-14  839  	}
-b330966f79fb4fd Miklos Szeredi 2020-07-14  840  
-84c215075b5723a Miklos Szeredi 2021-08-04  841  	opt = fs_parse(fsc, fuse_fs_parameters, param, &result);
-c30da2e981a703c David Howells  2019-03-25  842  	if (opt < 0)
-c30da2e981a703c David Howells  2019-03-25  843  		return opt;
-c30da2e981a703c David Howells  2019-03-25  844  
-c30da2e981a703c David Howells  2019-03-25  845  	switch (opt) {
-c30da2e981a703c David Howells  2019-03-25  846  	case OPT_SOURCE:
-84c215075b5723a Miklos Szeredi 2021-08-04  847  		if (fsc->source)
-84c215075b5723a Miklos Szeredi 2021-08-04  848  			return invalfc(fsc, "Multiple sources specified");
-84c215075b5723a Miklos Szeredi 2021-08-04  849  		fsc->source = param->string;
-c30da2e981a703c David Howells  2019-03-25  850  		param->string = NULL;
-c30da2e981a703c David Howells  2019-03-25  851  		break;
-c30da2e981a703c David Howells  2019-03-25  852  
-c30da2e981a703c David Howells  2019-03-25  853  	case OPT_SUBTYPE:
-c30da2e981a703c David Howells  2019-03-25  854  		if (ctx->subtype)
-84c215075b5723a Miklos Szeredi 2021-08-04  855  			return invalfc(fsc, "Multiple subtypes specified");
-c30da2e981a703c David Howells  2019-03-25  856  		ctx->subtype = param->string;
-c30da2e981a703c David Howells  2019-03-25  857  		param->string = NULL;
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  858  		return 0;
-c30da2e981a703c David Howells  2019-03-25  859  
-c30da2e981a703c David Howells  2019-03-25  860  	case OPT_FD:
-6ad877148e563ae Miklos Szeredi 2026-03-12  861  		if (param->type == fs_value_is_file)
-6ad877148e563ae Miklos Szeredi 2026-03-12  862  			return fuse_opt_fd(fsc, param->file);
-6ad877148e563ae Miklos Szeredi 2026-03-12  863  
-6ad877148e563ae Miklos Szeredi 2026-03-12  864  		struct file *file __free(fput) = fget(result.uint_32);
-6ad877148e563ae Miklos Szeredi 2026-03-12  865  		return fuse_opt_fd(fsc, file);
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  866  
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  867  	case OPT_ROOTMODE:
-c30da2e981a703c David Howells  2019-03-25  868  		if (!fuse_valid_type(result.uint_32))
-84c215075b5723a Miklos Szeredi 2021-08-04  869  			return invalfc(fsc, "Invalid rootmode");
-c30da2e981a703c David Howells  2019-03-25  870  		ctx->rootmode = result.uint_32;
-cabdb4fa2f666fa zhengbin       2020-01-14  871  		ctx->rootmode_present = true;
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  872  		break;
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  873  
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  874  	case OPT_USER_ID:
-eea6a8322efd398 Eric Sandeen   2024-07-02  875  		kuid = result.uid;
-525bd65aa759ec3 Eric Sandeen   2024-07-02  876  		/*
-525bd65aa759ec3 Eric Sandeen   2024-07-02  877  		 * The requested uid must be representable in the
-525bd65aa759ec3 Eric Sandeen   2024-07-02  878  		 * filesystem's idmapping.
-525bd65aa759ec3 Eric Sandeen   2024-07-02  879  		 */
-525bd65aa759ec3 Eric Sandeen   2024-07-02  880  		if (!kuid_has_mapping(fsc->user_ns, kuid))
-525bd65aa759ec3 Eric Sandeen   2024-07-02  881  			return invalfc(fsc, "Invalid user_id");
-525bd65aa759ec3 Eric Sandeen   2024-07-02  882  		ctx->user_id = kuid;
-cabdb4fa2f666fa zhengbin       2020-01-14  883  		ctx->user_id_present = true;
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  884  		break;
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  885  
-87729a5514e855c Miklos Szeredi 2005-09-09  886  	case OPT_GROUP_ID:
-eea6a8322efd398 Eric Sandeen   2024-07-02  887  		kgid = result.gid;
-525bd65aa759ec3 Eric Sandeen   2024-07-02  888  		/*
-525bd65aa759ec3 Eric Sandeen   2024-07-02  889  		 * The requested gid must be representable in the
-525bd65aa759ec3 Eric Sandeen   2024-07-02  890  		 * filesystem's idmapping.
-525bd65aa759ec3 Eric Sandeen   2024-07-02  891  		 */
-525bd65aa759ec3 Eric Sandeen   2024-07-02  892  		if (!kgid_has_mapping(fsc->user_ns, kgid))
-84c215075b5723a Miklos Szeredi 2021-08-04  893  			return invalfc(fsc, "Invalid group_id");
-525bd65aa759ec3 Eric Sandeen   2024-07-02  894  		ctx->group_id = kgid;
-cabdb4fa2f666fa zhengbin       2020-01-14  895  		ctx->group_id_present = true;
-87729a5514e855c Miklos Szeredi 2005-09-09  896  		break;
-87729a5514e855c Miklos Szeredi 2005-09-09  897  
-1e9a4ed9396e9c3 Miklos Szeredi 2005-09-09  898  	case OPT_DEFAULT_PERMISSIONS:
-cabdb4fa2f666fa zhengbin       2020-01-14  899  		ctx->default_permissions = true;
-1e9a4ed9396e9c3 Miklos Szeredi 2005-09-09  900  		break;
-1e9a4ed9396e9c3 Miklos Szeredi 2005-09-09  901  
-1e9a4ed9396e9c3 Miklos Szeredi 2005-09-09  902  	case OPT_ALLOW_OTHER:
-cabdb4fa2f666fa zhengbin       2020-01-14  903  		ctx->allow_other = true;
-1e9a4ed9396e9c3 Miklos Szeredi 2005-09-09  904  		break;
-1e9a4ed9396e9c3 Miklos Szeredi 2005-09-09  905  
-db50b96c0f28a21 Miklos Szeredi 2005-09-09  906  	case OPT_MAX_READ:
-c30da2e981a703c David Howells  2019-03-25  907  		ctx->max_read = result.uint_32;
-db50b96c0f28a21 Miklos Szeredi 2005-09-09  908  		break;
-db50b96c0f28a21 Miklos Szeredi 2005-09-09  909  
-d809161402e9f99 Miklos Szeredi 2006-12-06  910  	case OPT_BLKSIZE:
-c30da2e981a703c David Howells  2019-03-25  911  		if (!ctx->is_bdev)
-84c215075b5723a Miklos Szeredi 2021-08-04  912  			return invalfc(fsc, "blksize only supported for fuseblk");
-c30da2e981a703c David Howells  2019-03-25  913  		ctx->blksize = result.uint_32;
-d809161402e9f99 Miklos Szeredi 2006-12-06  914  		break;
-d809161402e9f99 Miklos Szeredi 2006-12-06  915  
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09 @916  	default:
-c30da2e981a703c David Howells  2019-03-25  917  		return -EINVAL;
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  918  	}
-5a53368277efa2d Miklos Szeredi 2005-09-09  919  
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  920  	return 0;
-c30da2e981a703c David Howells  2019-03-25  921  }
-d8a5ba45457e4a2 Miklos Szeredi 2005-09-09  922  
+On Fri, Mar 13, 2026, at 4:51 AM, kernel test robot wrote:
+> Hi Chuck,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on v7.0-rc1]
+> [also build test ERROR on next-20260312]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    
+> https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/RDMA-rw-Fix-MR-pool-exhaustion-in-bvec-RDMA-READ-path/20260313-085521
+> base:   v7.0-rc1
+> patch link:    
+> https://lore.kernel.org/r/20260312134008.7387-3-cel%40kernel.org
+> patch subject: [PATCH v2 2/2] svcrdma: Use contiguous pages for RDMA 
+> Read sink buffers
+> config: x86_64-rhel-9.4 
+> (https://download.01.org/0day-ci/archive/20260313/202603130922.uCz0Ofwx-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20260313/202603130922.uCz0Ofwx-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202603130922.uCz0Ofwx-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    net/sunrpc/xprtrdma/svc_rdma_rw.c: In function 'svc_rdma_fill_contig_bvec':
+>>> net/sunrpc/xprtrdma/svc_rdma_rw.c:813:17: error: implicit declaration of function 'svc_rqst_page_release'; did you mean 'svc_rdma_cc_release'? [-Wimplicit-function-declaration]
+>      813 |                 svc_rqst_page_release(rqstp,
+>          |                 ^~~~~~~~~~~~~~~~~~~~~
+>          |                 svc_rdma_cc_release
+
+The current version of the series is missing a patch that provides
+this helper function. Next version (if one is needed) will include
+it.
+
+
+> vim +813 net/sunrpc/xprtrdma/svc_rdma_rw.c
+>
+>    779	
+>    780	/*
+>    781	 * svc_rdma_fill_contig_bvec - Replace rq_pages with a 
+> contiguous allocation
+>    782	 * @rqstp: RPC transaction context
+>    783	 * @head: context for ongoing I/O
+>    784	 * @bv: bvec entry to fill
+>    785	 * @pages_left: number of data pages remaining in the segment
+>    786	 * @len_left: bytes remaining in the segment
+>    787	 *
+>    788	 * On success, fills @bv with a bvec spanning the contiguous 
+> range and
+>    789	 * advances rc_curpage/rc_page_count. Returns the byte length 
+> covered,
+>    790	 * or zero if the allocation failed or would overrun rq_maxpages.
+>    791	 */
+>    792	static unsigned int
+>    793	svc_rdma_fill_contig_bvec(struct svc_rqst *rqstp,
+>    794				  struct svc_rdma_recv_ctxt *head,
+>    795				  struct bio_vec *bv, unsigned int pages_left,
+>    796				  unsigned int len_left)
+>    797	{
+>    798		unsigned int order, alloc_nr, chunk_pages, chunk_len, i;
+>    799		struct page *page;
+>    800	
+>    801		page = svc_rdma_alloc_read_pages(pages_left, &order);
+>    802		if (!page)
+>    803			return 0;
+>    804		alloc_nr = 1 << order;
+>    805	
+>    806		if (head->rc_curpage + alloc_nr > rqstp->rq_maxpages) {
+>    807			for (i = 0; i < alloc_nr; i++)
+>    808				__free_page(page + i);
+>    809			return 0;
+>    810		}
+>    811	
+>    812		for (i = 0; i < alloc_nr; i++) {
+>  > 813			svc_rqst_page_release(rqstp,
+>    814					      rqstp->rq_pages[head->rc_curpage + i]);
+>    815			rqstp->rq_pages[head->rc_curpage + i] = page + i;
+>    816		}
+>    817	
+>    818		chunk_pages = min(alloc_nr, pages_left);
+>    819		chunk_len = min_t(unsigned int, chunk_pages << PAGE_SHIFT, 
+> len_left);
+>    820		bvec_set_page(bv, page, chunk_len, 0);
+>    821		head->rc_page_count += chunk_pages;
+>    822		head->rc_curpage += chunk_pages;
+>    823		return chunk_len;
+>    824	}
+>    825	
+>
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Chuck Lever
