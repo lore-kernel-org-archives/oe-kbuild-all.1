@@ -1,176 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696CC282F3F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Mar 2026 20:39:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E1340DFA1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Mar 2026 22:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773520764; cv=none; b=ldoqi4wG7yINDdxzo4Uhez+CFWCxDDi6LkVDCsCdKfXsrr0CYYEHK9ZCK39cd6hyvcaZebHcrG+s7Fkw2BLDvAMUBltF7U2iG9m8tMcy+d9jwuXe37mjXNGzXwPVYfo6BJKASvFgYW/W3NgGKfnP+h+q6xT6DBgiVKrKbw1C75c=
+	t=1773526228; cv=none; b=iQ3DlWRdBfMrDcDzzpXrVIoEOneGwt9vBj3j8aooZOQ9ddkebrufktuluSrnU2pgbuY+w3O2sAHWXLFBeAWIQl2QLCyNrV02EMM3v+IX0vh1H9f8PAcA6k7leA+i/lOtkPQOcIyOvieFn1v3gcqZfN4z15Gw+1rQENjaKuhUtvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773520764; c=relaxed/simple;
-	bh=AukoqsMcYsnDKt5+d2e638BLLQ4ybjY4dyDeaqoO5S4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N6VkfPQG5siBFKalutfAQ/pQPkYj8zgOrmygdDe8s+iGkwgeqEszcq0Nm9U5J3fhP+4sA5h2Am02JRtxbqKS5edKvO7h0XUs+KBJwjPA8G51brn67tv2oWlJfTcCwbs5bR574oAVd+RKTaQGaU+D5iKkWSlZJg0trYbPybgamd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l7WL6kHj; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1773526228; c=relaxed/simple;
+	bh=ljv+EXuBEEWbXLe8dZO93iErHCN0AyqUa381jkHq0co=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rjXOZN1mmfiRvqJv87qjHOAhx1dd+7CpqhxWX7/sHt/fGR9JKy6bw7tTKnSteXEVISkiHX+QhnaromQvuQIRpyvUIcMekBwVt2tKAFlpeUMNnzx7muV9G8oamTAnT57jycvzB+XS1ayJLVgc9xJLcbJEKWcBNY7Y65xAMv2mJbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heL2DPK7; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7WL6kHj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heL2DPK7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773520762; x=1805056762;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AukoqsMcYsnDKt5+d2e638BLLQ4ybjY4dyDeaqoO5S4=;
-  b=l7WL6kHjKovOWjViys1U6KTAZaKphgpfyWulu5jN0Na9Q9KR/+Gtn6++
-   /ICI+FfAa6EC2QAtwUnlGZZwlesu35y6W1XSfe6xmxWbd42GlCxtEd/Tq
-   6mqBurnGJRmndAYsDxO8a5NR6vX/6CUdcpmdspV+Cl/sJ1CeTgx5MqIr0
-   JOCXmZQBs2rrj4PAcEVLMgWV+R/GdTEDhI/6zcIGMxH7RGDT6DxHjhiCZ
-   zcI02/unXVvaJm0r8gZgEiXNPYgytGfXnsUnuzW161wyYV5QXJfO8/hs8
-   UpyN/tlBw2h2LJtDnBAEuRZ4fQsGI9l81eMXoBYa+utWjf4s07RApPGFE
-   g==;
-X-CSE-ConnectionGUID: PDtV316eRoGMCGCv+O29xQ==
-X-CSE-MsgGUID: ZNSD+ECCRy2Tu7W/NRKyMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="85214888"
+  t=1773526227; x=1805062227;
+  h=date:from:to:cc:subject:message-id;
+  bh=ljv+EXuBEEWbXLe8dZO93iErHCN0AyqUa381jkHq0co=;
+  b=heL2DPK7dYBGCqNfFGSOt8jvIPVFFr8hiq8qAFwPHj3Cog8pVwU0aWv7
+   xm2sc39y+8EEvh6qd2HJoRb0reaORpHJp4QVjFNRg9w8NRMFoZUVSGJgH
+   l65nQXNsdDNCu1GJT3riieTc3a118GNERRiqEMcdytyPm39Rg7o7K38nz
+   Tf8txa7l0pKJc6jQ/m+Uv7KygY2ZRyemNOUxO87sfha3JfDXJBFg3kA6e
+   81IuelK2RlnqwTI0pV5fZoGr/5a4M1bhtcel+4hWlnL+PYbWkhR/2EM0/
+   BLNW0vvhauoRfL4zGdwuI5/1JmqKeA7x7Zpd7KJr7QQXHCvEzAcYi4KYI
+   Q==;
+X-CSE-ConnectionGUID: bi0REXCXRyGo95qb6QbjKA==
+X-CSE-MsgGUID: yiggH2GkSGmUbFQfhNM59g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="100052596"
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="85214888"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 13:39:22 -0700
-X-CSE-ConnectionGUID: /Zma5jHUTamC/jFSOEsqDQ==
-X-CSE-MsgGUID: jgQOkDZJRUW7aIRqQu3piw==
+   d="scan'208";a="100052596"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 15:10:26 -0700
+X-CSE-ConnectionGUID: v6gfr2UySZ2B3R0o9DZvYw==
+X-CSE-MsgGUID: 5zi7kG0jTrq++BVioKIm+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="217835982"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Mar 2026 13:39:18 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="219184840"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Mar 2026 15:10:25 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1VlS-000000005ip-3yYv;
-	Sat, 14 Mar 2026 20:39:14 +0000
-Date: Sun, 15 Mar 2026 04:39:00 +0800
+	id 1w1XBe-000000003rN-3cGF;
+	Sat, 14 Mar 2026 22:10:22 +0000
+Date: Sat, 14 Mar 2026 23:09:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Ryan Chen <ryanchen.aspeed@gmail.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] mmc: sdhci-of-aspeed: Add ast2700 support
-Message-ID: <202603150439.FM8mt7EG-lkp@intel.com>
-References: <20260313-sdhci-v1-2-91cea19c8a67@aspeedtech.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 108/621] htmldocs: Warning:
+ Documentation/devicetree/bindings/display/ti/ti,dra7-dss.yaml references a
+ file that doesn't exist:
+ Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+Message-ID: <202603142248.njXO20Ql-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260313-sdhci-v1-2-91cea19c8a67@aspeedtech.com>
 
-Hi Ryan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-mmc-sdhci-of-aspeed-Add-ast2700-support/20260314-132323
-base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-patch link:    https://lore.kernel.org/r/20260313-sdhci-v1-2-91cea19c8a67%40aspeedtech.com
-patch subject: [PATCH 2/2] mmc: sdhci-of-aspeed: Add ast2700 support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260315/202603150439.FM8mt7EG-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260315/202603150439.FM8mt7EG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 7aeacb62dd3e8032032a52bdf75fb9fbcf198ef4 [108/621] dt-bindings: display: Convert ti/ti,omap-dss to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260314/202603142248.njXO20Ql-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603150439.FM8mt7EG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603142248.njXO20Ql-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/mmc/host/sdhci-of-aspeed.c: In function 'aspeed_sdc_probe':
->> drivers/mmc/host/sdhci-of-aspeed.c:533:17: error: implicit declaration of function 'reset_control_get_optional_exclusive' [-Wimplicit-function-declaration]
-     533 |         reset = reset_control_get_optional_exclusive(&pdev->dev, NULL);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mmc/host/sdhci-of-aspeed.c:533:15: error: assignment to 'struct reset_control *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     533 |         reset = reset_control_get_optional_exclusive(&pdev->dev, NULL);
-         |               ^
->> drivers/mmc/host/sdhci-of-aspeed.c:537:15: error: implicit declaration of function 'reset_control_deassert' [-Wimplicit-function-declaration]
-     537 |         ret = reset_control_deassert(sdc->rst);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/mmc/host/sdhci-of-aspeed.c:537:41: error: 'struct aspeed_sdc' has no member named 'rst'
-     537 |         ret = reset_control_deassert(sdc->rst);
-         |                                         ^~
-
-
-vim +/reset_control_get_optional_exclusive +533 drivers/mmc/host/sdhci-of-aspeed.c
-
-   520	
-   521	{
-   522		struct device_node *parent, *child;
-   523		struct reset_control *reset;
-   524		struct aspeed_sdc *sdc;
-   525		int ret;
-   526	
-   527		sdc = devm_kzalloc(&pdev->dev, sizeof(*sdc), GFP_KERNEL);
-   528		if (!sdc)
-   529			return -ENOMEM;
-   530	
-   531		spin_lock_init(&sdc->lock);
-   532	
- > 533		reset = reset_control_get_optional_exclusive(&pdev->dev, NULL);
-   534		if (IS_ERR(reset))
-   535			return dev_err_probe(&pdev->dev, PTR_ERR(reset),
-   536					     "unable to acquire reset\n");
- > 537		ret = reset_control_deassert(sdc->rst);
-   538		if (ret)
-   539			return dev_err_probe(&pdev->dev, ret,
-   540					     "reset deassert failed\n");
-   541	
-   542		sdc->clk = devm_clk_get(&pdev->dev, NULL);
-   543		if (IS_ERR(sdc->clk))
-   544			return PTR_ERR(sdc->clk);
-   545	
-   546		ret = clk_prepare_enable(sdc->clk);
-   547		if (ret) {
-   548			dev_err(&pdev->dev, "Unable to enable SDCLK\n");
-   549			return ret;
-   550		}
-   551	
-   552		sdc->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &sdc->res);
-   553		if (IS_ERR(sdc->regs)) {
-   554			ret = PTR_ERR(sdc->regs);
-   555			goto err_clk;
-   556		}
-   557	
-   558		dev_set_drvdata(&pdev->dev, sdc);
-   559	
-   560		parent = pdev->dev.of_node;
-   561		for_each_available_child_of_node(parent, child) {
-   562			struct platform_device *cpdev;
-   563	
-   564			cpdev = of_platform_device_create(child, NULL, &pdev->dev);
-   565			if (!cpdev) {
-   566				of_node_put(child);
-   567				ret = -ENODEV;
-   568				goto err_clk;
-   569			}
-   570		}
-   571	
-   572		return 0;
-   573	
-   574	err_clk:
-   575		clk_disable_unprepare(sdc->clk);
-   576		return ret;
-   577	}
-   578	
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.txt
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,quadfs.txt
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,flexgen.txt
+   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen.txt
+   Warning: Documentation/devicetree/bindings/clock/ti/ti,dra7-apll-clock.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/ti/dpll.txt
+>> Warning: Documentation/devicetree/bindings/display/ti/ti,dra7-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+>> Warning: Documentation/devicetree/bindings/display/ti/ti,omap2-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+>> Warning: Documentation/devicetree/bindings/display/ti/ti,omap3-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+>> Warning: Documentation/devicetree/bindings/display/ti/ti,omap4-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+>> Warning: Documentation/devicetree/bindings/display/ti/ti,omap5-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
 
 -- 
 0-DAY CI Kernel Test Service
