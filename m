@@ -1,60 +1,77 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDBB30FC39
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Mar 2026 17:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD4031716A;
+	Sat, 14 Mar 2026 17:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773507987; cv=none; b=fmKoqtGsymUA2jZLnPTnNvTNgnHB49bNKMe+UrbqfX6qF4IRg5swKevqepEiLnB6HX4gx+rdcY5bclv7JByNUvzuTYMECB8oeh3zMQLOxzREDoHmTgK8M0BWvacMReRcHJ93SvowK/H0pqZ55CkeURRnexeRrDH5mOGfyem313c=
+	t=1773507991; cv=none; b=mahpp5N2a4+Xt34liteuWCeRP5yQhlxYPOGaFdiApKyMhzZtM/YeIzxw8kw3DbaGqotvH9Ste+0XNO06/06PeFW4LKCtSrJO6hzIMoy3Dg/GzZEb9m7QWyWzRXq5XpSv+EXD+M/CG+2kLWIP6xzemb/o6tJa8i0dxsA9yzQFygs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773507987; c=relaxed/simple;
-	bh=o61DSeEMjd3Rx2eOF6NYIOB4qv6cuF52tyuug927qgM=;
+	s=arc-20240116; t=1773507991; c=relaxed/simple;
+	bh=BP6PDAwL7ZQIFhbNuWPztuxpeFKM2OWgbd3nAKkdShI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B3L36WTDIirWLaW4nG3FGoPIce0DlOU7ai4FH6lJxYrCN++Z/cebVe4tRjFt/7i6GqOsu1GolLhYMs7zN/lZXYoV1JTXkHDXQ+OyGZjc2wLElHP9zCz+MLl8bLDPaFEyFsao2BOkDoCvH6yVmSHbTY5l7Lrs0vRqB02h+ssSrPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KW+LTp9/; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=oR5c283+iHXyZ/vdSUd9y7bIKoaNyxYPAjq4YsZ7qcWmiY4/IioHrh+lPh15qqm6s9ikPsjd0kr28e6NykcbcAPtdn8cM21z6zyLZDRiV24h76CisFQ6vv/YPnKjuI4CdTVOlIjZrbs6s4wyfdKdUS5Him89ctHWmmJOZm9zO1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uwt4ZS7G; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KW+LTp9/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uwt4ZS7G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773507985; x=1805043985;
+  t=1773507990; x=1805043990;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=o61DSeEMjd3Rx2eOF6NYIOB4qv6cuF52tyuug927qgM=;
-  b=KW+LTp9/weydiC9VuITanMwv0cGMcXy54ad0b6PsjFpbP9KLxLAQO41C
-   29VYhruMVJ4zIBFVh8zvtEXUKXHaLClihVTlu1c1YtrBGNlBSJpuT1CtC
-   AM9gOWHI1dayeZUuX4Ts5nn54ptuIMeH2HRZbJC/jFvCA7CBp6iqVfAoR
-   KuYPLbndP2UrCLA9OoiLK/Mo0Nyq2GI+cOkn23bssoIALAB98xjycJpyu
-   mRdoqWJM0vRjV11fzo4Bhn9+p3jkLbufo9PzIOelQUPOnzmSrDaLsboYX
-   jSHsT2SnLNnEvpRzYt2txlkY8/dFxA6AaCXWReamoEkeFefDxBcTAU2Bg
-   A==;
-X-CSE-ConnectionGUID: 87baQoraRoK1QSUOywDyxA==
-X-CSE-MsgGUID: 3eS468cpSbapS3PlTyqQ5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="74291603"
+  bh=BP6PDAwL7ZQIFhbNuWPztuxpeFKM2OWgbd3nAKkdShI=;
+  b=Uwt4ZS7GhduaC5gYc1F+SynASRWlHe7ZPq1GEdSkbjtNMpTd5Y4k5PTO
+   TlYT2+gZLTrCa2QqAbGPUwoEBCd62kX3y1+ynnihsBwvPtE4wOHlqwk1c
+   ObD6D4Bqxp/V9p5bRRaLM/40eTJWBrvz56qMbLPEjzSVM+Nmq2Nj9hka9
+   aHsf+fUHbhcmO1rtIOWzguHmiiLBd8sXM3E+bWiEvLUTod06tPseXSSWs
+   buZs16cMufUjRejOzkOf9MrU/wW5pki0BkDTwI2NFplyJaN4S/bgimIR1
+   fePhJAXG34M2bIBp7wQAAErelOgGjlmVOaMMD482Laa/J+ygvLjnVQdKz
+   Q==;
+X-CSE-ConnectionGUID: AdKSknp4SpeNyxdnkIgy0Q==
+X-CSE-MsgGUID: 5Gir98V3TSK5VpuoH1B7/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="74291605"
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="74291603"
+   d="scan'208";a="74291605"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 10:06:25 -0700
-X-CSE-ConnectionGUID: nTbNDGvJRm6sP+Iqmj0anQ==
-X-CSE-MsgGUID: dcRuw723R7KY6RNvKbvdNg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 10:06:29 -0700
+X-CSE-ConnectionGUID: S7Qzg7o5QjeaYBCY2orMyA==
+X-CSE-MsgGUID: 1B0hQ5hhSyOavx3FZxVKcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="221543532"
+   d="scan'208";a="221543533"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
   by orviesa008.jf.intel.com with ESMTP; 14 Mar 2026 10:06:23 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1SRR-000000003pL-0BJ8;
+	id 1w1SRQ-000000003pJ-4Brw;
 	Sat, 14 Mar 2026 17:06:21 +0000
-Date: Sat, 14 Mar 2026 18:05:41 +0100
+Date: Sat, 14 Mar 2026 18:05:40 +0100
 From: kernel test robot <lkp@intel.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Simon Richter <Simon.Richter@hogyros.de>,
-	linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v2] PCI/VGA: Move pci_set_vga_state() to vgaarb.c
-Message-ID: <202603141825.YjwGEnoa-lkp@intel.com>
-References: <20260312224713.1305228-1-bhelgaas@google.com>
+To: Levi Zim via B4 Relay <devnull+rsworktech.outlook.com@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: oe-kbuild-all@lists.linux.dev, Amery Hung <ameryhung@gmail.com>,
+	linux-riscv@lists.infradead.org, stable@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Levi Zim <rsworktech@outlook.com>
+Subject: Re: [PATCH bpf] bpf: do not use kmalloc_nolock when
+ !HAVE_CMPXCHG_DOUBLE
+Message-ID: <202603141857.sLJ0vJoa-lkp@intel.com>
+References: <20260314-bpf-kmalloc-nolock-v1-1-24abf3f75a9f@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +80,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260312224713.1305228-1-bhelgaas@google.com>
+In-Reply-To: <20260314-bpf-kmalloc-nolock-v1-1-24abf3f75a9f@outlook.com>
 
-Hi Bjorn,
+Hi Levi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v7.0-rc3 next-20260313]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on e06e6b8001233241eb5b2e2791162f0585f50f4b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Helgaas/PCI-VGA-Move-pci_set_vga_state-to-vgaarb-c/20260314-150705
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260312224713.1305228-1-bhelgaas%40google.com
-patch subject: [PATCH v2] PCI/VGA: Move pci_set_vga_state() to vgaarb.c
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260314/202603141825.YjwGEnoa-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Levi-Zim-via-B4-Relay/bpf-do-not-use-kmalloc_nolock-when-HAVE_CMPXCHG_DOUBLE/20260314-195705
+base:   e06e6b8001233241eb5b2e2791162f0585f50f4b
+patch link:    https://lore.kernel.org/r/20260314-bpf-kmalloc-nolock-v1-1-24abf3f75a9f%40outlook.com
+patch subject: [PATCH bpf] bpf: do not use kmalloc_nolock when !HAVE_CMPXCHG_DOUBLE
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260314/202603141857.sLJ0vJoa-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260314/202603141825.YjwGEnoa-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260314/202603141857.sLJ0vJoa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603141825.YjwGEnoa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603141857.sLJ0vJoa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/vgaarb.c: In function 'pci_set_vga_state':
->> drivers/pci/vgaarb.c:229:14: error: implicit declaration of function 'pci_set_vga_state_arch'; did you mean 'pci_set_vga_state'? [-Wimplicit-function-declaration]
-     229 |         rc = pci_set_vga_state_arch(dev, decode, command_bits, flags);
-         |              ^~~~~~~~~~~~~~~~~~~~~~
-         |              pci_set_vga_state
+   In file included from include/net/bpf_sk_storage.h:15,
+                    from net/core/sock.c:141:
+>> include/linux/bpf_local_storage.h:22:19: warning: 'KMALLOC_NOLOCK_SUPPORTED' defined but not used [-Wunused-const-variable=]
+      22 | static const bool KMALLOC_NOLOCK_SUPPORTED = IS_ENABLED(CONFIG_HAVE_CMPXCHG_DOUBLE);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +229 drivers/pci/vgaarb.c
+vim +/KMALLOC_NOLOCK_SUPPORTED +22 include/linux/bpf_local_storage.h
 
-   209	
-   210	/**
-   211	 * pci_set_vga_state - set VGA decode state on device and parents if requested
-   212	 * @dev: the PCI device
-   213	 * @decode: true = enable decoding, false = disable decoding
-   214	 * @command_bits: PCI_COMMAND_IO and/or PCI_COMMAND_MEMORY
-   215	 * @flags: traverse ancestors and change bridges
-   216	 * CHANGE_BRIDGE_ONLY / CHANGE_BRIDGE
-   217	 */
-   218	static int pci_set_vga_state(struct pci_dev *dev, bool decode,
-   219				     unsigned int command_bits, u32 flags)
-   220	{
-   221		struct pci_bus *bus;
-   222		struct pci_dev *bridge;
-   223		u16 cmd;
-   224		int rc;
-   225	
-   226		WARN_ON((flags & PCI_VGA_STATE_CHANGE_DECODES) && (command_bits & ~(PCI_COMMAND_IO|PCI_COMMAND_MEMORY)));
-   227	
-   228		/* ARCH specific VGA enables */
- > 229		rc = pci_set_vga_state_arch(dev, decode, command_bits, flags);
-   230		if (rc)
-   231			return rc;
-   232	
-   233		if (flags & PCI_VGA_STATE_CHANGE_DECODES) {
-   234			pci_read_config_word(dev, PCI_COMMAND, &cmd);
-   235			if (decode)
-   236				cmd |= command_bits;
-   237			else
-   238				cmd &= ~command_bits;
-   239			pci_write_config_word(dev, PCI_COMMAND, cmd);
-   240		}
-   241	
-   242		if (!(flags & PCI_VGA_STATE_CHANGE_BRIDGE))
-   243			return 0;
-   244	
-   245		bus = dev->bus;
-   246		while (bus) {
-   247			bridge = bus->self;
-   248			if (bridge) {
-   249				pci_read_config_word(bridge, PCI_BRIDGE_CONTROL,
-   250						     &cmd);
-   251				if (decode)
-   252					cmd |= PCI_BRIDGE_CTL_VGA;
-   253				else
-   254					cmd &= ~PCI_BRIDGE_CTL_VGA;
-   255				pci_write_config_word(bridge, PCI_BRIDGE_CONTROL,
-   256						      cmd);
-   257			}
-   258			bus = bus->parent;
-   259		}
-   260		return 0;
-   261	}
-   262	
+    21	
+  > 22	static const bool KMALLOC_NOLOCK_SUPPORTED = IS_ENABLED(CONFIG_HAVE_CMPXCHG_DOUBLE);
+    23	
 
 -- 
 0-DAY CI Kernel Test Service
