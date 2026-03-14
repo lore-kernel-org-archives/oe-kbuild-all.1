@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3AC23E32D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Mar 2026 09:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF152DAFA1;
+	Sat, 14 Mar 2026 09:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773480851; cv=none; b=dnLpbTj+3RwN/4U2Ya7oAwGzjV1fHNjzagOHtSZgzP1wnO+nukIzoEPgq5FWZHgfmSzUZa8ZT6bEFsaF9L3P7LhcrwtSus8F/Uqs+7RG606jj/TNVvX26yWaLthHLcVN+2aOemSUANSem3GJk8Z5wqO1WQvZpDQ15cF07kInN8k=
+	t=1773481451; cv=none; b=qWGeY7cSl+yzpFjpJ3guUStHj1PHJmMrhHKlkn9LdNuGpP/ibeqKzPDAHsAH6xu0swFXX+5r0s+Ducj4mgheVRfN3jUKKAp3aQR6Eq1+lVCkYI48/LfZn679VtU5TLNsCGXa0VHCsWF8Vvd4cQlVCicXZsNbl4hi6oCy8Ifzex4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773480851; c=relaxed/simple;
-	bh=Mk+sy2oKbuw1Yb5jMlatCzKHgor67E0CrkZMpiSqf0w=;
+	s=arc-20240116; t=1773481451; c=relaxed/simple;
+	bh=CvlI04nTAIT8WTXlMnXiiozO0sYIQq+3jUTa7C8XHDI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZaymfZqIeHzIHgB6s4vNInV8ROA0HuR8GVq4zHceDmKoyEXOWg+acBOc9NUgXxInzi2iGciRVhaKgeqEmchXFwSdQKjH5IZy6EO9yqEP2pbBH1wJiI+kd5HdFv9dI5InK3jIOEFxPKHd/y4nLxZDJv0Y1wOWw15T83oC+AKCvr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWxso6i/; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=NhYX6th7k1CNG/p63V+2mgZGRJVtu43V/YlBTNQ0U9HdH5Nl0etaox3i3V9/iwY1+VK5Ie/ns6keAxL/dyGCKXv6wXl3UPrmmZllgijyDw07c9LQQQow1o9aVQb/XsUdiX+Km6MYca/UEsuw/x4TL2tmuaWYT7aPswZArwT3f+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SZOL/RrL; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWxso6i/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SZOL/RrL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773480848; x=1805016848;
+  t=1773481449; x=1805017449;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Mk+sy2oKbuw1Yb5jMlatCzKHgor67E0CrkZMpiSqf0w=;
-  b=gWxso6i/4h69TVkL1rEilYhGro5JxfXLVwgstNeqIlSNS70HJ12KlaVZ
-   Q5yPi+zikzYGIJH1s4IoCo3rye7bKK1+ly3IXMWNzXundFPsT5VtxDjro
-   k614phFgH4uBds72jKEXa4gd4tUI2pmMLIDIRV8RdTG5xNIFqONYFs8sP
-   lT2f7I3g5FIxq14JvGrrEOwdrNvzq68sH0o8MfX/XAh0vPzAvSPOWj37H
-   arw0bx0XTy91NLTWGQg3TH0exBoqibwUKPrgDobn42jqCWh85GDWpnuI0
-   o0/YgyXOBhstTFBnPLfCTllAzPFlJtIvEvww+zhZIjjy7Cm0vR1y8EZ45
-   w==;
-X-CSE-ConnectionGUID: T8K/VxKlRYSbkTxz1MM6xQ==
-X-CSE-MsgGUID: PJgmYlZ0RwKgERrMunjlJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11728"; a="74764380"
+  bh=CvlI04nTAIT8WTXlMnXiiozO0sYIQq+3jUTa7C8XHDI=;
+  b=SZOL/RrL1r+rzeoMKqkxUkaMRdKDtAj69fc9FpbsU5r6SHCSDxf4M0WJ
+   erTGCw0OiE6yfljyPstN+K0NwSbczs3+2onRGWvPuSD45cwOQk5NFDX/O
+   936rddviU+YXiJrMaoh+XztIZB7h+dGnbM6YiRgKgkmcH5KqVl+HawplB
+   7Om1E/B+d1r6ax32Q8vHCBmb6BdXqq0XmVAIpumUN+IPSl71Al57i2ff8
+   py2O/3udjpEUC8YL6XCK6GI+yqfF0/6GsJPpEf33mfNqZ9VaFb4/F8vSq
+   hI2UGS63Ya1F6QPTc2FlncY3hZ3d8vpWBasZN6JcDxbl6hpdyIuUB78wZ
+   g==;
+X-CSE-ConnectionGUID: ahtVNHIdRO6g1ZkDBAm1oA==
+X-CSE-MsgGUID: zpOKG6cOSByiCTW5WYR7Bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11728"; a="74490562"
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="74764380"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 02:34:07 -0700
-X-CSE-ConnectionGUID: /GhumjHTQmKphFp7cAO9Lg==
-X-CSE-MsgGUID: Ksxwvw7rSLulP2AGF/TWcA==
+   d="scan'208";a="74490562"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 02:44:08 -0700
+X-CSE-ConnectionGUID: CYkt/EZFTy+zqFX8wixLTg==
+X-CSE-MsgGUID: 67hCAbF+QKqw+f6mVQbQwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="259298661"
+   d="scan'208";a="226073951"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Mar 2026 02:34:06 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 14 Mar 2026 02:44:07 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1LNj-000000004vX-2fxs;
-	Sat, 14 Mar 2026 09:34:03 +0000
-Date: Sat, 14 Mar 2026 17:33:12 +0800
+	id 1w1LXQ-000000004wB-3U1Z;
+	Sat, 14 Mar 2026 09:44:04 +0000
+Date: Sat, 14 Mar 2026 17:43:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: Daniel Hodges <git@danielhodges.dev>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH 1/2] io_uring: add high-performance IPC channel
  infrastructure
-Message-ID: <202603141716.Ec4O2wra-lkp@intel.com>
+Message-ID: <202603141705.7b7xxdX7-lkp@intel.com>
 References: <20260313130739.23265-2-git@danielhodges.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,37 +81,73 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Hodges/io_uring-ad
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
 patch link:    https://lore.kernel.org/r/20260313130739.23265-2-git%40danielhodges.dev
 patch subject: [RFC PATCH 1/2] io_uring: add high-performance IPC channel infrastructure
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260314/202603141716.Ec4O2wra-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260314/202603141716.Ec4O2wra-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260314/202603141705.7b7xxdX7-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260314/202603141705.7b7xxdX7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603141716.Ec4O2wra-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603141705.7b7xxdX7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> io_uring/opdef.c:605:50: error: invalid application of 'sizeof' to incomplete type 'struct io_ipc_send'
+>> io_uring/opdef.c:605:18: error: invalid application of 'sizeof' to an incomplete type 'struct io_ipc_send'
      605 |                 .async_size             = sizeof(struct io_ipc_send),
-         |                                                  ^~~~~~
->> io_uring/opdef.c:606:43: error: 'io_ipc_send_prep' undeclared here (not in a function); did you mean 'io_ipc_send'?
+         |                                           ^     ~~~~~~~~~~~~~~~~~~~~
+   io_uring/opdef.c:605:32: note: forward declaration of 'struct io_ipc_send'
+     605 |                 .async_size             = sizeof(struct io_ipc_send),
+         |                                                         ^
+>> io_uring/opdef.c:606:13: error: use of undeclared identifier 'io_ipc_send_prep'
      606 |                 .prep                   = io_ipc_send_prep,
-         |                                           ^~~~~~~~~~~~~~~~
-         |                                           io_ipc_send
->> io_uring/opdef.c:607:43: error: 'io_ipc_send' undeclared here (not in a function)
+         |                                           ^
+>> io_uring/opdef.c:607:14: error: use of undeclared identifier 'io_ipc_send'
      607 |                 .issue                  = io_ipc_send,
-         |                                           ^~~~~~~~~~~
->> io_uring/opdef.c:611:50: error: invalid application of 'sizeof' to incomplete type 'struct io_ipc_recv'
+         |                                           ^
+>> io_uring/opdef.c:611:18: error: invalid application of 'sizeof' to an incomplete type 'struct io_ipc_recv'
      611 |                 .async_size             = sizeof(struct io_ipc_recv),
-         |                                                  ^~~~~~
->> io_uring/opdef.c:612:43: error: 'io_ipc_recv_prep' undeclared here (not in a function); did you mean 'io_ipc_recv'?
+         |                                           ^     ~~~~~~~~~~~~~~~~~~~~
+   io_uring/opdef.c:611:32: note: forward declaration of 'struct io_ipc_recv'
+     611 |                 .async_size             = sizeof(struct io_ipc_recv),
+         |                                                         ^
+>> io_uring/opdef.c:612:13: error: use of undeclared identifier 'io_ipc_recv_prep'
      612 |                 .prep                   = io_ipc_recv_prep,
-         |                                           ^~~~~~~~~~~~~~~~
-         |                                           io_ipc_recv
->> io_uring/opdef.c:613:43: error: 'io_ipc_recv' undeclared here (not in a function)
+         |                                           ^
+>> io_uring/opdef.c:613:14: error: use of undeclared identifier 'io_ipc_recv'; did you mean 'io_zcrx_recv'?
      613 |                 .issue                  = io_ipc_recv,
          |                                           ^~~~~~~~~~~
+         |                                           io_zcrx_recv
+   io_uring/zcrx.h:91:19: note: 'io_zcrx_recv' declared here
+      91 | static inline int io_zcrx_recv(struct io_kiocb *req, struct io_zcrx_ifq *ifq,
+         |                   ^
+>> io_uring/opdef.c:901:15: error: invalid application of 'sizeof' to an incomplete type 'const struct io_issue_def[]'
+     901 |         BUILD_BUG_ON(ARRAY_SIZE(io_issue_defs) != IORING_OP_LAST);
+         |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^
+   include/linux/build_bug.h:50:19: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:706:22: note: expanded from macro 'compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:694:23: note: expanded from macro '_compiletime_assert'
+     694 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:686:9: note: expanded from macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   io_uring/opdef.c:903:18: error: invalid application of 'sizeof' to an incomplete type 'const struct io_issue_def[]'
+     903 |         for (i = 0; i < ARRAY_SIZE(io_issue_defs); i++) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   8 errors generated.
 
 
 vim +605 io_uring/opdef.c
