@@ -1,68 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8521D244687
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Mar 2026 19:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4312C31F99D;
+	Sat, 14 Mar 2026 19:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773515174; cv=none; b=uQ+7bVEH4PwI9jNoi75G+mx/Go+YyssWcx7RVuKcYOepuGHZCa3GwPHJjlujZ9+7/MDUCZnyekPK83dvc6a+EY8G3IRUxBrkwtu+hqTrBiPZbY41fQPnaxcf9jELfc+o6iGnbvYzrfXEHL5zt4eQPrjL8LG9ZAz1Vv7nrUc/Opo=
+	t=1773515909; cv=none; b=tnqMEC3ddGeYWApEK/ENtK66tMCSNIW6gIjQRroUTalNXTMjC/OLhsCSVRA0VzbBeOHvQ7eU/xfhWeOAJ6cCpr6b25uyCIW4qas7ep8I73j2GbA5voYt3pAZBEjg1w1UuhgHMYqhFWzEQZyWZS+/OzFEP74NdZtjrftrZ0NF89k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773515174; c=relaxed/simple;
-	bh=v3EoKgm2ivNf66z0g0GCk/Ytkkn5QAkZzV+I0bQuEH8=;
+	s=arc-20240116; t=1773515909; c=relaxed/simple;
+	bh=ylNrgLGYs6FyNvdWSx2nz7nBY0yLMohSbhzFKOABu9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lXIYS7BvpRCrd3ZAi1WdctgK+laqkJcN8eI0AnGBvZYSZbe1rVChNzmtk+ypJh28kLMHY8+lP+xcPuk1SwzfSrexD04JLqOh0tN19KuUOfOB762SzwU+yQM/df4Ro3Xzrbe0vwIaJWHvo1Qtb4HKqooGzDT0nTslGN5C8J9AjmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Woeug8/L; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q5yoiHSMEl8prCpN4rc7F51BtBdLLVb16okxe024rYVGJwAhgtiBmDxydorNgX1xfXOjwwKXBPBSwQ0+0T5APGOhZLHsnSIL+cncNDoQrVTwePddrEl23AXNIccI5ldX5HUtu3OiJl7CQQriAJQVcWrcQmhWH/aQ4i6uQObfbNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExVDBroC; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Woeug8/L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExVDBroC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773515173; x=1805051173;
+  t=1773515906; x=1805051906;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=v3EoKgm2ivNf66z0g0GCk/Ytkkn5QAkZzV+I0bQuEH8=;
-  b=Woeug8/LqZ7XbeCm1baQfb7HQ3Gf1H+4YCuxFbtygdNl4r97aImZ53r8
-   1JnIPIp+LJ7ptAPiWgrWQOHkzmZrgvUaV6sGQckI8AiwwistJHaFuWepl
-   SOtxMWblsHBPiz2ZGnWoG39mBdg3gqpzgsu8MkGtmsXPg2PYjaTKcOyWf
-   uo4qWLhvfvBXgNVv1q6FBROiiLbqd6r2GdKr0psIaeqOY54POEjjrr9i4
-   2Znxim3oM6XHioe5qcu+tGa0GE4U/tXKeRnOgtmEqZdrvrFVYsIbXQUlh
-   Q7LrHi0Wxtuhea7gzT9jOhDhpP2r0i62d5tfsoCzEZhzU9laeryDIBS5A
-   Q==;
-X-CSE-ConnectionGUID: pjmxIkXlSEiMF/Ep1UrGOA==
-X-CSE-MsgGUID: TgCFH4nzQ5eqbE+I0saN9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="74481185"
+  bh=ylNrgLGYs6FyNvdWSx2nz7nBY0yLMohSbhzFKOABu9A=;
+  b=ExVDBroC/6aYJ8gJ6eKC7IPDcu3JElHs6JblPxjz5HCgHcZJZDwgY5ra
+   qYDNglXhZOdrIyyHgJbm9oMWmgR/RhmdW/GLptCn36dRwtvPTE5hEi5AH
+   53+BCEn8WVGUdNdsbrxa7fuI/fVJDm1TuEmpPPcjdQ/Q7u0YB5n/P95Wy
+   bZNs9rpBvdxS3zzrTHVb1QvtHlb4bCjCZvrrPl+9SOliubpEGRGhCl67y
+   IitHRdacd44LebfXZK8xi1Hro80ceYT3jSiYbWvlLCDEyM0NmxK1gLSOQ
+   QuPU4BaSGnDm8E5mbjSjceDlOBFUskl3QpcTpVlHDeLqMscqZt2By32BM
+   w==;
+X-CSE-ConnectionGUID: orrc8KhVSnmWuzr6RqBivQ==
+X-CSE-MsgGUID: evoM61GtS1KXaT+ZZjjBhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="92159375"
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="74481185"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 12:06:12 -0700
-X-CSE-ConnectionGUID: ms0u+3/UR6C4NdXbWExiAA==
-X-CSE-MsgGUID: 8saqSGTVQ8SsZEq7EF3uog==
+   d="scan'208";a="92159375"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 12:18:25 -0700
+X-CSE-ConnectionGUID: WqONoNejSqSKPGmuWAFL7Q==
+X-CSE-MsgGUID: yKGVWQrGTmWHc+cuJzCJEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="226478118"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Mar 2026 12:06:10 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="246532064"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2026 12:18:24 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1UJK-000000005b1-0w8v;
-	Sat, 14 Mar 2026 19:06:06 +0000
-Date: Sun, 15 Mar 2026 03:05:34 +0800
+	id 1w1UVB-000000003q1-2naQ;
+	Sat, 14 Mar 2026 19:18:21 +0000
+Date: Sat, 14 Mar 2026 20:17:32 +0100
 From: kernel test robot <lkp@intel.com>
-To: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Loic Molinari <loic.molinari@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
-Subject: Re: [PATCH] drm/shmem-helper: Fix Map huge page mapping in fault
- handler
-Message-ID: <202603150233.7ZFf6Fsm-lkp@intel.com>
-References: <20260312155027.1682606-1-pedrodemargomes@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Simon Richter <Simon.Richter@hogyros.de>,
+	linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v2] PCI/VGA: Move pci_set_vga_state() to vgaarb.c
+Message-ID: <202603142059.lRB5ARkv-lkp@intel.com>
+References: <20260312224713.1305228-1-bhelgaas@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,91 +64,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260312155027.1682606-1-pedrodemargomes@gmail.com>
+In-Reply-To: <20260312224713.1305228-1-bhelgaas@google.com>
 
-Hi Pedro,
+Hi Bjorn,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.0-rc3]
-[cannot apply to drm-misc/drm-misc-next next-20260311]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus next-20260313]
+[cannot apply to linus/master v6.16-rc1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pedro-Demarchi-Gomes/drm-shmem-helper-Fix-Map-huge-page-mapping-in-fault-handler/20260314-094433
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260312155027.1682606-1-pedrodemargomes%40gmail.com
-patch subject: [PATCH] drm/shmem-helper: Fix Map huge page mapping in fault handler
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260315/202603150233.7ZFf6Fsm-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260315/202603150233.7ZFf6Fsm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Helgaas/PCI-VGA-Move-pci_set_vga_state-to-vgaarb-c/20260314-150705
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20260312224713.1305228-1-bhelgaas%40google.com
+patch subject: [PATCH v2] PCI/VGA: Move pci_set_vga_state() to vgaarb.c
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260314/202603142059.lRB5ARkv-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260314/202603142059.lRB5ARkv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603150233.7ZFf6Fsm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603142059.lRB5ARkv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_gem_shmem_helper.c:554:19: warning: 'drm_gem_shmem_huge_fault' defined but not used [-Wunused-function]
-     554 | static vm_fault_t drm_gem_shmem_huge_fault(struct vm_fault *vmf,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/vgaarb.c:229:7: error: call to undeclared function 'pci_set_vga_state_arch'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     229 |         rc = pci_set_vga_state_arch(dev, decode, command_bits, flags);
+         |              ^
+   drivers/pci/vgaarb.c:229:7: note: did you mean 'pci_set_vga_state'?
+   drivers/pci/vgaarb.c:218:12: note: 'pci_set_vga_state' declared here
+     218 | static int pci_set_vga_state(struct pci_dev *dev, bool decode,
+         |            ^
+     219 |                              unsigned int command_bits, u32 flags)
+     220 | {
+     221 |         struct pci_bus *bus;
+     222 |         struct pci_dev *bridge;
+     223 |         u16 cmd;
+     224 |         int rc;
+     225 | 
+     226 |         WARN_ON((flags & PCI_VGA_STATE_CHANGE_DECODES) && (command_bits & ~(PCI_COMMAND_IO|PCI_COMMAND_MEMORY)));
+     227 | 
+     228 |         /* ARCH specific VGA enables */
+     229 |         rc = pci_set_vga_state_arch(dev, decode, command_bits, flags);
+         |              ~~~~~~~~~~~~~~~~~~~~~~
+         |              pci_set_vga_state
+   1 error generated.
 
 
-vim +/drm_gem_shmem_huge_fault +554 drivers/gpu/drm/drm_gem_shmem_helper.c
+vim +/pci_set_vga_state_arch +229 drivers/pci/vgaarb.c
 
-   552	
-   553	
- > 554	static vm_fault_t drm_gem_shmem_huge_fault(struct vm_fault *vmf,
-   555						   unsigned int order)
-   556	{
-   557		struct vm_area_struct *vma = vmf->vma;
-   558		struct drm_gem_object *obj = vma->vm_private_data;
-   559		struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-   560		loff_t num_pages = obj->size >> PAGE_SHIFT;
-   561		vm_fault_t ret = VM_FAULT_FALLBACK;
-   562		struct page **pages = shmem->pages;
-   563		pgoff_t page_offset;
-   564		unsigned long pfn;
-   565		unsigned long paddr;
-   566		bool aligned;
-   567		struct page *page;
-   568	
-   569		if (order != PMD_ORDER)
-   570			goto out_unlocked;
-   571	
-   572		/* Offset to faulty address in the VMA. */
-   573		page_offset = vmf->pgoff - vma->vm_pgoff;
-   574	
-   575		dma_resv_lock(shmem->base.resv, NULL);
-   576	
-   577		if (page_offset >= num_pages ||
-   578		    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
-   579		    shmem->madv < 0) {
-   580			ret = VM_FAULT_SIGBUS;
-   581			goto out;
-   582		}
-   583	
-   584		page = pages[page_offset];
-   585		pfn = page_to_pfn(page);
-   586		paddr = pfn << PAGE_SHIFT;
-   587		aligned = (vmf->address & ~PMD_MASK) == (paddr & ~PMD_MASK);
-   588	
-   589		if (aligned &&
-   590		    folio_test_pmd_mappable(page_folio(page))) {
-   591			pfn &= PMD_MASK >> PAGE_SHIFT;
-   592			ret = vmf_insert_pfn_pmd(vmf, pfn, false);
-   593		}
-   594	
-   595	 out:
-   596		dma_resv_unlock(shmem->base.resv);
-   597	
-   598	 out_unlocked:
-   599		return ret;
-   600	}
-   601	
+   209	
+   210	/**
+   211	 * pci_set_vga_state - set VGA decode state on device and parents if requested
+   212	 * @dev: the PCI device
+   213	 * @decode: true = enable decoding, false = disable decoding
+   214	 * @command_bits: PCI_COMMAND_IO and/or PCI_COMMAND_MEMORY
+   215	 * @flags: traverse ancestors and change bridges
+   216	 * CHANGE_BRIDGE_ONLY / CHANGE_BRIDGE
+   217	 */
+   218	static int pci_set_vga_state(struct pci_dev *dev, bool decode,
+   219				     unsigned int command_bits, u32 flags)
+   220	{
+   221		struct pci_bus *bus;
+   222		struct pci_dev *bridge;
+   223		u16 cmd;
+   224		int rc;
+   225	
+   226		WARN_ON((flags & PCI_VGA_STATE_CHANGE_DECODES) && (command_bits & ~(PCI_COMMAND_IO|PCI_COMMAND_MEMORY)));
+   227	
+   228		/* ARCH specific VGA enables */
+ > 229		rc = pci_set_vga_state_arch(dev, decode, command_bits, flags);
+   230		if (rc)
+   231			return rc;
+   232	
+   233		if (flags & PCI_VGA_STATE_CHANGE_DECODES) {
+   234			pci_read_config_word(dev, PCI_COMMAND, &cmd);
+   235			if (decode)
+   236				cmd |= command_bits;
+   237			else
+   238				cmd &= ~command_bits;
+   239			pci_write_config_word(dev, PCI_COMMAND, cmd);
+   240		}
+   241	
+   242		if (!(flags & PCI_VGA_STATE_CHANGE_BRIDGE))
+   243			return 0;
+   244	
+   245		bus = dev->bus;
+   246		while (bus) {
+   247			bridge = bus->self;
+   248			if (bridge) {
+   249				pci_read_config_word(bridge, PCI_BRIDGE_CONTROL,
+   250						     &cmd);
+   251				if (decode)
+   252					cmd |= PCI_BRIDGE_CTL_VGA;
+   253				else
+   254					cmd &= ~PCI_BRIDGE_CTL_VGA;
+   255				pci_write_config_word(bridge, PCI_BRIDGE_CONTROL,
+   256						      cmd);
+   257			}
+   258			bus = bus->parent;
+   259		}
+   260		return 0;
+   261	}
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
