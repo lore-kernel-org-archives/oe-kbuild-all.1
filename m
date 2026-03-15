@@ -1,115 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE41B146D5A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Mar 2026 04:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA31F1E520A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Mar 2026 05:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773550623; cv=none; b=M2/H7UKZPTUZtavUKK2jrQ1u8tmcNJHrt8o3gT5zu5qb6NIcKsjsurZxRGrURpSgoaISYgwHuqTVwU0EmYcgM7qV9uMufLCP8W7L4cCRDbnNKRZwCpu1tGoV1ND0/XjS9whEfFloBqqKFO4fXBkeC+Rl6KH5c+P4AzbZeRblvJM=
+	t=1773551075; cv=none; b=NwJPVTVk3bGNjTigCO0+CDH7v6HwbQYkip0V5eY4SetdP8yS3bJkIzD8B7RIUeCZXDVn9NvhU6LqutEMK/HwlBviICavlaUVLY1SMQk8kz8xijSBiLafkCx0zL2Tm3p4W4v8Tg1UYkMcydFhgtqzqeTQOzTkb15QVM0CvtRKsGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773550623; c=relaxed/simple;
-	bh=WLDhs9H0gTO0Ct/7ZAElygz0h7179UVff6jJioxO2Nc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cq/jhON4oZVkfpJEV3S2LfizfsetVS5L1kCnWii+1lw4D9XygVnI0vECIopbLenTgYpGko2KCeZ07ccob/gbNepc6Ysbr+bUFNDdHffKZlT/GX08FKecDKl/P8Cv0Px+0Wj/WUAWsdugkzW5y+Iw5NUAXdcpHdp+6FR/y5uCdF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lqYV4lZE; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1773551075; c=relaxed/simple;
+	bh=I7bDrV0wIych6tzO6txXpH2PxQVpK0Po3TRfEgEQZ/4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RIIwvvPAG2r/e9xSw6a+xhWd9hKfIsOMEokFVGtlyW+N6CRvJDj5g/qIfjY483N+uOSOAfl06N6usHuNDpY96hodJsEBE98uWBGPRCddJhywHW3fPJLatw5Cq4MljeuE6+i5kYQ0COlTtfCJ6B0JZi5/tWwdPt1cPDNuSOZbL8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=no2bjuJk; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lqYV4lZE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="no2bjuJk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773550622; x=1805086622;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WLDhs9H0gTO0Ct/7ZAElygz0h7179UVff6jJioxO2Nc=;
-  b=lqYV4lZEHbYspxW5CPPH2roAPQWI/gMt4+9VolUHHJi27ohBd3fYFS12
-   DLgPC4s8CuQNBXTNiw1RLJ+uOV0K+4ctb0PzNCJukIiP34Z/gf8Qyoq8y
-   wm8aw8yKSRxp8ldwncBWS7pGRCUiDIe3Euoz/T9ZJDgeZkkaglggHWzvT
-   jtImrtzNqHDuM190zfrMA6hqSOW/hgrJn4SGhUbrTXPFik6N2P6xgLcbh
-   /o0P5WdZKGLugbFyM3/jJW54dYrBUHADRI31lvNffNG6bvzogjV/f/Kcy
-   HRKRplPxtO9IjkwgMkiaWQq3XawH1OkaIib7hzkLyo8uoN5IOa3G2tHpD
-   w==;
-X-CSE-ConnectionGUID: r9l9ucb2S3K92MNA5sk2lg==
-X-CSE-MsgGUID: Y3XvXrrQSnSAO5d9dWWqIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="84920032"
+  t=1773551074; x=1805087074;
+  h=date:from:to:cc:subject:message-id;
+  bh=I7bDrV0wIych6tzO6txXpH2PxQVpK0Po3TRfEgEQZ/4=;
+  b=no2bjuJkMcqUSOsd4ACWGZfDrR8viVbO8ulxxSobWuewSCMavNnqZoCp
+   MHFRsHZsxS+sSwWbvQZlgYLTPaCvQPijzvGfAV+LAMTXxC89pLluCb5W6
+   BXwaLYzTmvJSinUMcba7Vc0BZP+7tRJY1nQIY6I52YyF0hwGIYtJsTt2C
+   YX/ijZc8QLm2n/ufQCCtzTZaM0wecldke4FC+9BYyMtKVt/PyqABDTXR9
+   +p9VuXTtQ+WqOlhtOu9B4AfRpDwiDus3K3nObwKJnImvlyNIo4bnZfn45
+   Gu4ihDS3KtrdexvfpE+zdGfw0sndwaa8e/V6gyj2p7I1pmhptMAg0HVq1
+   Q==;
+X-CSE-ConnectionGUID: SOn3CmYLTymPgieuQiimRA==
+X-CSE-MsgGUID: Kqoja0gMQb+qt8zdauBq3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="78452060"
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="84920032"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 21:57:01 -0700
-X-CSE-ConnectionGUID: hwExrkvbQsKhdCVMMjgmTw==
-X-CSE-MsgGUID: mXORLmtBSHGSx7a3W2HhQQ==
+   d="scan'208";a="78452060"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 22:04:33 -0700
+X-CSE-ConnectionGUID: 47a/tjn4RA2FY1fSDgJahQ==
+X-CSE-MsgGUID: KYmEJnIZSDqOdSZlMAhmyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="246584627"
-Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2026 21:56:55 -0700
-Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+   d="scan'208";a="220811133"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 14 Mar 2026 22:04:31 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1dX0-000000006BP-0eBl;
-	Sun, 15 Mar 2026 04:56:50 +0000
-Date: Sun, 15 Mar 2026 12:55:56 +0800
+	id 1w1deO-000000003yD-0ypT;
+	Sun, 15 Mar 2026 05:04:28 +0000
+Date: Sun, 15 Mar 2026 06:04:09 +0100
 From: kernel test robot <lkp@intel.com>
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
-	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
-	tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
-	babu.moger@amd.com, x86@kernel.org, hpa@zytor.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	vschneid@redhat.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	akpm@linux-foundation.org, pmladek@suse.com, rdunlap@infradead.org,
-	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
-	paulmck@kernel.org
-Subject: Re: [PATCH v2 09/16] x86,fs/resctrl: Add the functionality to
- configure PLZA
-Message-ID: <202603151231.7EP13EwZ-lkp@intel.com>
-References: <f3ab034a465877d7f37129e13074a0e4f5d5d735.1773347820.git.babu.moger@amd.com>
+To: Val Packett <val@packett.cool>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 5208/6488]
+ arch/arm64/boot/dts/qcom/sm6125-xiaomi-willow.dtb: clock-controller@5f00000
+ (qcom,sm6125-dispcc): '#reset-cells' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202603150629.GYoouFwZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3ab034a465877d7f37129e13074a0e4f5d5d735.1773347820.git.babu.moger@amd.com>
 
-Hi Babu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on tip/sched/core linus/master v7.0-rc3 next-20260311]
-[cannot apply to tip/x86/core aegl/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/fs-resctrl-Add-kernel-mode-kmode-data-structures-and-arch-hook/20260313-132937
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/f3ab034a465877d7f37129e13074a0e4f5d5d735.1773347820.git.babu.moger%40amd.com
-patch subject: [PATCH v2 09/16] x86,fs/resctrl: Add the functionality to configure PLZA
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260315/202603151231.7EP13EwZ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260315/202603151231.7EP13EwZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b84a0ebe421ca56995ff78b66307667b62b3a900
+commit: bb4d28e377cf04fbee8a01322059fa14808cdfe9 [5208/6488] arm64: dts: qcom: sm6125: Add missing MDSS core reset
+config: arm64-randconfig-2051-20260314 (https://download.01.org/0day-ci/archive/20260315/202603150629.GYoouFwZ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260315/202603150629.GYoouFwZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603151231.7EP13EwZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603150629.GYoouFwZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'r' not described in 'resctrl_arch_configure_kmode'
->> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'kcfg' not described in 'resctrl_arch_configure_kmode'
->> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'closid' not described in 'resctrl_arch_configure_kmode'
->> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'rmid' not described in 'resctrl_arch_configure_kmode'
->> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'r' not described in 'resctrl_arch_configure_kmode'
->> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'kcfg' not described in 'resctrl_arch_configure_kmode'
->> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'closid' not described in 'resctrl_arch_configure_kmode'
->> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'rmid' not described in 'resctrl_arch_configure_kmode'
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm6125.dtsi:1324.27-1391.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-willow.dtb: geniqup@4ac0000 (qcom,geni-se-qup): #address-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-willow.dtb: geniqup@4ac0000 (qcom,geni-se-qup): #size-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-willow.dtb: geniqup@4cc0000 (qcom,geni-se-qup): #address-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-willow.dtb: geniqup@4cc0000 (qcom,geni-se-qup): #size-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+>> arch/arm64/boot/dts/qcom/sm6125-xiaomi-willow.dtb: clock-controller@5f00000 (qcom,sm6125-dispcc): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm6125.yaml
 
 -- 
 0-DAY CI Kernel Test Service
