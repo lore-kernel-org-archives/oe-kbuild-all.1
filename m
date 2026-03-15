@@ -1,117 +1,115 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56F62E3FE
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Mar 2026 04:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE41B146D5A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Mar 2026 04:57:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773550616; cv=none; b=afS13Vq8YIo0tW0fB0md73I4ModPXgjSYIWsb1orYyF4QTPDzSCNOmFnHJhFAUDLXy53dQZsHfsgkevCdIBIKGWMtnT9nHQco/QETU6g3WSUqtqxthrd+p0tUnhtqLoiYTLY4Yn66gvgEBrH8It81ZBx5qsNUA7KMi41Xw+kJCE=
+	t=1773550623; cv=none; b=M2/H7UKZPTUZtavUKK2jrQ1u8tmcNJHrt8o3gT5zu5qb6NIcKsjsurZxRGrURpSgoaISYgwHuqTVwU0EmYcgM7qV9uMufLCP8W7L4cCRDbnNKRZwCpu1tGoV1ND0/XjS9whEfFloBqqKFO4fXBkeC+Rl6KH5c+P4AzbZeRblvJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773550616; c=relaxed/simple;
-	bh=pfjDdH8wsQ47MtjB60HpEFpTG20ZmvtWRCkPa+YQpH8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lZ7uJj/fB5vX4MiycAOtzqAp0ZgGg82SpZoJGx7pj5D2239BzejE9146lPEsSl2uRqgzJfZBsikwWFwY6eH1PP/zo+CKSBDc0edtk11XYVUquTP94rgv7c8K56Esp2eAkK4u6OobhBRkrRHWZOsMNPhksAyAWEKGO+gvS5uZ/lI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqdTtZK1; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1773550623; c=relaxed/simple;
+	bh=WLDhs9H0gTO0Ct/7ZAElygz0h7179UVff6jJioxO2Nc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cq/jhON4oZVkfpJEV3S2LfizfsetVS5L1kCnWii+1lw4D9XygVnI0vECIopbLenTgYpGko2KCeZ07ccob/gbNepc6Ysbr+bUFNDdHffKZlT/GX08FKecDKl/P8Cv0Px+0Wj/WUAWsdugkzW5y+Iw5NUAXdcpHdp+6FR/y5uCdF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lqYV4lZE; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqdTtZK1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lqYV4lZE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773550615; x=1805086615;
-  h=date:from:to:cc:subject:message-id;
-  bh=pfjDdH8wsQ47MtjB60HpEFpTG20ZmvtWRCkPa+YQpH8=;
-  b=nqdTtZK1BAEEnOndQmbjcxjVEqOROzqz7vyhvfIWXksec9kqt4nQs0zS
-   oZxZyghtSlcdps/9lptrrGSdcbQ54RgHX/5CP7+7hejvoOb86hl7goX7L
-   TfDax4x/tgD6B+LZvuaIddAxu9ZEtffm+yQTAjp8i0GfZDzrXZr0CvCmc
-   pS/jovM2aj2nrWI7U33N6BKrY3dYCCo8AYH60lJuJ2RvK+ns8RZs/pNX/
-   ah4aWZITMlTNQ0y3mCP5idxCuaC2aBlzIg27Ub0/V+mp20h6pcHO623M4
-   w5eO3vYb88Xo35nbX1z1UiLeQk2njOM5qhiTxBxDXO5XPBHMao/vXSahT
-   Q==;
-X-CSE-ConnectionGUID: nxMefs49T3iVA5r0Ft6mXw==
-X-CSE-MsgGUID: aRowNcaqTk2e5QFKf8WA9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="84920013"
+  t=1773550622; x=1805086622;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WLDhs9H0gTO0Ct/7ZAElygz0h7179UVff6jJioxO2Nc=;
+  b=lqYV4lZEHbYspxW5CPPH2roAPQWI/gMt4+9VolUHHJi27ohBd3fYFS12
+   DLgPC4s8CuQNBXTNiw1RLJ+uOV0K+4ctb0PzNCJukIiP34Z/gf8Qyoq8y
+   wm8aw8yKSRxp8ldwncBWS7pGRCUiDIe3Euoz/T9ZJDgeZkkaglggHWzvT
+   jtImrtzNqHDuM190zfrMA6hqSOW/hgrJn4SGhUbrTXPFik6N2P6xgLcbh
+   /o0P5WdZKGLugbFyM3/jJW54dYrBUHADRI31lvNffNG6bvzogjV/f/Kcy
+   HRKRplPxtO9IjkwgMkiaWQq3XawH1OkaIib7hzkLyo8uoN5IOa3G2tHpD
+   w==;
+X-CSE-ConnectionGUID: r9l9ucb2S3K92MNA5sk2lg==
+X-CSE-MsgGUID: Y3XvXrrQSnSAO5d9dWWqIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="84920032"
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="84920013"
+   d="scan'208";a="84920032"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 21:56:54 -0700
-X-CSE-ConnectionGUID: t3dZ0Mp0TGqUIPBUZ3rTJA==
-X-CSE-MsgGUID: wmSIc9/1SWSBSWdx2RmahQ==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 21:57:01 -0700
+X-CSE-ConnectionGUID: hwExrkvbQsKhdCVMMjgmTw==
+X-CSE-MsgGUID: mXORLmtBSHGSx7a3W2HhQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="246584624"
+   d="scan'208";a="246584627"
 Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2026 21:56:52 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2026 21:56:55 -0700
 Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1dX0-000000006BR-0ox4;
+	id 1w1dX0-000000006BP-0eBl;
 	Sun, 15 Mar 2026 04:56:50 +0000
-Date: Sun, 15 Mar 2026 12:55:58 +0800
+Date: Sun, 15 Mar 2026 12:55:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Gregory Greenman <gregory.greenman@intel.com>
-Subject: drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1093:9:
- warning: 'CAUSE' redefined
-Message-ID: <202603151235.VjEiAR0o-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
+	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+	tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+	babu.moger@amd.com, x86@kernel.org, hpa@zytor.com,
+	peterz@infradead.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	vschneid@redhat.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	akpm@linux-foundation.org, pmladek@suse.com, rdunlap@infradead.org,
+	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
+	paulmck@kernel.org
+Subject: Re: [PATCH v2 09/16] x86,fs/resctrl: Add the functionality to
+ configure PLZA
+Message-ID: <202603151231.7EP13EwZ-lkp@intel.com>
+References: <f3ab034a465877d7f37129e13074a0e4f5d5d735.1773347820.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f3ab034a465877d7f37129e13074a0e4f5d5d735.1773347820.git.babu.moger@amd.com>
 
-Hi Johannes,
+Hi Babu,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   80234b5ab240f52fa45d201e899e207b9265ef91
-commit: c1918196427b917d1fbf064b07538410807f8b03 iwlwifi: pcie: simplify MSI-X cause mapping
-date:   3 years, 10 months ago
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260315/202603151235.VjEiAR0o-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260315/202603151235.VjEiAR0o-lkp@intel.com/reproduce)
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on tip/sched/core linus/master v7.0-rc3 next-20260311]
+[cannot apply to tip/x86/core aegl/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/fs-resctrl-Add-kernel-mode-kmode-data-structures-and-arch-hook/20260313-132937
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/f3ab034a465877d7f37129e13074a0e4f5d5d735.1773347820.git.babu.moger%40amd.com
+patch subject: [PATCH v2 09/16] x86,fs/resctrl: Add the functionality to configure PLZA
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260315/202603151231.7EP13EwZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260315/202603151231.7EP13EwZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603151235.VjEiAR0o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603151231.7EP13EwZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1093:9: warning: 'CAUSE' redefined
-    1093 | #define CAUSE(reg, mask)                                                \
-         |         ^~~~~
-   In file included from arch/mips/include/asm/ptrace.h:19,
-                    from include/linux/sched/signal.h:14,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from arch/mips/include/asm/elf.h:12,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/pci.h:37,
-                    from drivers/net/wireless/intel/iwlwifi/pcie/trans.c:7:
-   arch/mips/include/uapi/asm/ptrace.h:18:9: note: this is the location of the previous definition
-      18 | #define CAUSE           65
-         |         ^~~~~
-
-
-vim +/CAUSE +1093 drivers/net/wireless/intel/iwlwifi/pcie/trans.c
-
-  1092	
-> 1093	#define CAUSE(reg, mask)						\
-  1094		{								\
-  1095			.mask_reg = reg,					\
-  1096			.bit = ilog2(mask),					\
-  1097			.addr = ilog2(mask) +					\
-  1098				((reg) == CSR_MSIX_FH_INT_MASK_AD ? -16 :	\
-  1099				 (reg) == CSR_MSIX_HW_INT_MASK_AD ? 16 :	\
-  1100				 0xffff),	/* causes overflow warning */	\
-  1101		}
-  1102	
+>> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'r' not described in 'resctrl_arch_configure_kmode'
+>> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'kcfg' not described in 'resctrl_arch_configure_kmode'
+>> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'closid' not described in 'resctrl_arch_configure_kmode'
+>> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'rmid' not described in 'resctrl_arch_configure_kmode'
+>> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'r' not described in 'resctrl_arch_configure_kmode'
+>> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'kcfg' not described in 'resctrl_arch_configure_kmode'
+>> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'closid' not described in 'resctrl_arch_configure_kmode'
+>> Warning: arch/x86/kernel/cpu/resctrl/ctrlmondata.c:154 function parameter 'rmid' not described in 'resctrl_arch_configure_kmode'
 
 -- 
 0-DAY CI Kernel Test Service
