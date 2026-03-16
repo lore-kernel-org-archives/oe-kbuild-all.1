@@ -1,91 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD2C533D6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Mar 2026 12:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF344396D1F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Mar 2026 13:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773665329; cv=none; b=rsq+dfxMekjROPQMrEfwkcDOfUDNNov8OruQcLHG9CK/vWWN3+0dUVmPkFj0rt3wv1MqOL+0AreGTXkSiENtq+pZGzoHd2pqd1xY4cwY2Tfm0tIhbML0JhIzFAn4xMfNOXNGG1ceusEwk+3h6s17qIAMIEFtpBAZD7+kV3AvnR4=
+	t=1773667449; cv=none; b=CoaRCSBSiP+0dikS0aQCGKtJbhlKimh/oeUMyLnVEghzu+sFyfNoVKfM+ZynzsB+lGCjEMACoQLPjY5JLcq22R2S9LCtcxuNwHt08ugL+BUiZn1+Sdh4e767b9nnsF+oa36GWnLuK/19LH1zGUD3JTwUxsmqamcgRBDGywf6llA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773665329; c=relaxed/simple;
-	bh=gfWOn0n6OT7quiKxl9iHQxQ1b3TvD/zpUXUC7R1pAIY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lEr8gMXSdlXcgHCbvwBYEPh47YPRB0akJRRVq2t8P85zMjcIkOQaf0bqMjZ1p/XUUtwpUCyANm67og2yhmjH2BrJWrZQM/W26e6LySPco5ve+LriNJhOJm8Cn0WfX3Sar6mOsFGDJYou5MGeRndtOJ9EnZH73s83WivwtCOrsNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVI/S+bm; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1773667449; c=relaxed/simple;
+	bh=NMlLH2VFH/Y5/XY1P7lMtQNhv2RSfsbBoVRQz0IvbBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ROr2f6exPR8mJTUHxOFh/9aakMskAdG5nRXajtTO9fSqw/erxgK2UlOUNXgK3vgk2NckYHuXNs4gCO5JvGdndQq8wxmkXgGYfrsJV/fNL1EIOr+zR7Najfu0Mc9KfPzWZCB4gZOdkCHnHttR5Ovc9Suq0DtYIp5S1LFdftSIVWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aObIXB/M; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVI/S+bm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aObIXB/M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773665327; x=1805201327;
-  h=date:from:to:cc:subject:message-id;
-  bh=gfWOn0n6OT7quiKxl9iHQxQ1b3TvD/zpUXUC7R1pAIY=;
-  b=mVI/S+bmdMOjznCNG772CzDidAVmA4La5TnBGyhy6KtMdlqrwvVcWQkJ
-   6f6lK08uO7fDCIXGdbHkO6prbtKxJrzGR1uLItRSpZNmBh4vUU8vOnnIH
-   Mch+wC5uGI8RXlu+/ZAbKGkvr6X7AurZBzuSk3M0FCPSs+n/poNCS3RXJ
-   SkhjGX+3y8Bz6nHqvYOY6NKMqpT8gX1Tg/q2m/ojer3oRUOmLzYCeRY7a
-   Dm3tIQ4bAVlDSgLheZ/E7fQDirxgktdxO5nfMep+5mrrNW5mlAt/blO0V
-   55CN95haz3ZKmyn6Oi5ogt5t98Fm6z+r9eo6EV/aupUguFM26vd09AfdY
-   A==;
-X-CSE-ConnectionGUID: dSqI80eCSYiqvvYfAXgY9Q==
-X-CSE-MsgGUID: fl/5RaFqSjqsWySpiGpnVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="85379527"
+  t=1773667448; x=1805203448;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NMlLH2VFH/Y5/XY1P7lMtQNhv2RSfsbBoVRQz0IvbBQ=;
+  b=aObIXB/MJSwDGCgEShvQRfMGUrvGXUMiVusF3KJiGQXfyGosrCZfqBhn
+   mmhnQbbXIHJdf41lbEa0WL85h2Q8nkpNujpUtB1my6aSTiqcVUJ4PuPGs
+   H3gNV35Th34SrJsgQBE/xUg421UdFY+0I5PYs1NfQcBcm3Tl+Y88oEf2m
+   EEuSCob3CZNM6/gZRkeGfoBOrgahbiAZCvrEmEHFbGeMN5bKHGerHkNb7
+   j+92kkLq7qAgCznZS/RPRyZtUIBjV8EfdBRS3njLwggGozM46XeAOHBwG
+   PnZJamVsmabO20Ya4bpDhXNt5SDoq75nwI+fuF3S8hry2eOlaQpY9d5bi
+   Q==;
+X-CSE-ConnectionGUID: LWgCXii5RPGCsvpyfARLeg==
+X-CSE-MsgGUID: Cbjhhq0tR7eQz/p8t+jMNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="78529578"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="85379527"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 05:48:47 -0700
-X-CSE-ConnectionGUID: aZP8UO5BQZ6Ymd/qLfDEuQ==
-X-CSE-MsgGUID: lZVTxbu+SOC5zF7krlzqeQ==
+   d="scan'208";a="78529578"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 06:24:07 -0700
+X-CSE-ConnectionGUID: 9/YWBNp3T6SmxeRKZ+Wv9w==
+X-CSE-MsgGUID: SyKXNVf/Qj6adp44vZHmBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="226038945"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 16 Mar 2026 05:48:45 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="259821298"
+Received: from lkp-server01.sh.intel.com (HELO 892944969b78) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 16 Mar 2026 06:24:04 -0700
+Received: from kbuild by 892944969b78 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w27ND-000000004EL-0lxF;
-	Mon, 16 Mar 2026 12:48:43 +0000
-Date: Mon, 16 Mar 2026 13:47:57 +0100
+	id 1w27vM-000000000i6-1PkI;
+	Mon, 16 Mar 2026 13:24:00 +0000
+Date: Mon, 16 Mar 2026 21:23:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 158/621] htmldocs: Warning:
- Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
-Message-ID: <202603161344.eE31aq7X-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Anvesh Jain P <anvesh.p@oss.qualcomm.com>,
+	Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Anvesh Jain P <anvesh.p@oss.qualcomm.com>,
+	Maya Matuszczyk <maccraft123mc@gmail.com>
+Subject: Re: [PATCH v4 2/5] platform: arm64: Add driver for EC found on
+ Qualcomm reference devices
+Message-ID: <202603162107.pwsms8tn-lkp@intel.com>
+References: <20260313-v04-add-driver-for-ec-v4-2-ca9d0efd62aa@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260313-v04-add-driver-for-ec-v4-2-ca9d0efd62aa@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
-commit: 108f3a1c25d4e9fa74d574cd49670ac5faffc8fa [158/621] dt-bindings: input: Convert motorola,cpcap-pwrbutton to DT schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260316/202603161344.eE31aq7X-lkp@intel.com/reproduce)
+Hi Anvesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anvesh-Jain-P/dt-bindings-embedded-controller-Add-EC-bindings-for-Qualcomm-reference-devices/20260314-163112
+base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
+patch link:    https://lore.kernel.org/r/20260313-v04-add-driver-for-ec-v4-2-ca9d0efd62aa%40oss.qualcomm.com
+patch subject: [PATCH v4 2/5] platform: arm64: Add driver for EC found on Qualcomm reference devices
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260316/202603162107.pwsms8tn-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603162107.pwsms8tn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603161344.eE31aq7X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603162107.pwsms8tn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/display/ti/ti,omap2-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
-   Warning: Documentation/devicetree/bindings/display/ti/ti,omap3-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
-   Warning: Documentation/devicetree/bindings/display/ti/ti,omap4-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
-   Warning: Documentation/devicetree/bindings/display/ti/ti,omap5-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
->> Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
-   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
-   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/keystone-gate.txt
+   drivers/platform/arm64/qcom-hamoa-ec.c: In function 'qcom_ec_probe':
+>> drivers/platform/arm64/qcom-hamoa-ec.c:388:63: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
+     388 |                 snprintf(name, EC_FAN_NAME_SIZE, "qcom_ec_fan_%d", i);
+         |                                                               ^~
+   drivers/platform/arm64/qcom-hamoa-ec.c:388:50: note: directive argument in the range [-2147483641, 254]
+     388 |                 snprintf(name, EC_FAN_NAME_SIZE, "qcom_ec_fan_%d", i);
+         |                                                  ^~~~~~~~~~~~~~~~
+   drivers/platform/arm64/qcom-hamoa-ec.c:388:17: note: 'snprintf' output between 14 and 24 bytes into a destination of size 20
+     388 |                 snprintf(name, EC_FAN_NAME_SIZE, "qcom_ec_fan_%d", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +388 drivers/platform/arm64/qcom-hamoa-ec.c
+
+   347	
+   348	static int qcom_ec_probe(struct i2c_client *client)
+   349	{
+   350		struct qcom_ec_cooling_dev *cdev;
+   351		struct device *dev = &client->dev;
+   352		struct qcom_ec *ec;
+   353		int ret, i;
+   354	
+   355		ec = devm_kzalloc(dev, sizeof(*ec), GFP_KERNEL);
+   356		if (!ec)
+   357			return -ENOMEM;
+   358	
+   359		ec->client = client;
+   360	
+   361		ret = devm_request_threaded_irq(dev, client->irq, NULL, qcom_ec_irq,
+   362						IRQF_ONESHOT, "qcom_ec", ec);
+   363		if (ret < 0)
+   364			return dev_err_probe(dev, ret, "Failed to get irq\n");
+   365	
+   366		i2c_set_clientdata(client, ec);
+   367	
+   368		ret = qcom_ec_read_fw_version(dev);
+   369		if (ret < 0)
+   370			return dev_err_probe(dev, ret, "Failed to read ec firmware version\n");
+   371	
+   372		ret = qcom_ec_thermal_capabilities(dev);
+   373		if (ret < 0)
+   374			return dev_err_probe(dev, ret, "Failed to read thermal capabilities\n");
+   375	
+   376		ret = qcom_ec_sci_evt_control(dev, true);
+   377		if (ret < 0)
+   378			return dev_err_probe(dev, ret, "Failed to enable SCI events\n");
+   379	
+   380		ec->ec_cdev = devm_kcalloc(dev, ec->thermal_cap.fan_cnt, sizeof(*ec->ec_cdev), GFP_KERNEL);
+   381		if (!ec->ec_cdev)
+   382			return -ENOMEM;
+   383	
+   384		for (i = 0; i < ec->thermal_cap.fan_cnt; i++) {
+   385			struct qcom_ec_cooling_dev *ec_cdev = &ec->ec_cdev[i];
+   386			char name[EC_FAN_NAME_SIZE];
+   387	
+ > 388			snprintf(name, EC_FAN_NAME_SIZE, "qcom_ec_fan_%d", i);
+   389			ec_cdev->fan_id = i + 1;
+   390			ec_cdev->parent_dev = dev;
+   391	
+   392			ec_cdev->cdev = thermal_cooling_device_register(name, ec_cdev,
+   393									&qcom_ec_thermal_ops);
+   394			if (IS_ERR(ec_cdev->cdev)) {
+   395				dev_err_probe(dev, PTR_ERR(cdev),
+   396					      "Thermal cooling device registration failed\n");
+   397				ret = -EINVAL;
+   398				goto unroll_cooling_dev;
+   399			}
+   400		}
+   401	
+   402		return 0;
+   403	
+   404	unroll_cooling_dev:
+   405		for (i--; i >= 0; i--) {
+   406			struct qcom_ec_cooling_dev *ec_cdev = &ec->ec_cdev[i];
+   407	
+   408			if (ec_cdev->cdev) {
+   409				thermal_cooling_device_unregister(ec_cdev->cdev);
+   410				ec_cdev->cdev = NULL;
+   411			}
+   412		}
+   413	
+   414		return ret;
+   415	}
+   416	
 
 -- 
 0-DAY CI Kernel Test Service
