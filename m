@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25297080E;
-	Mon, 16 Mar 2026 04:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3411435949
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Mar 2026 04:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773634873; cv=none; b=AWhWCnZIeW+zOgibO5DWUM6nDkUQnmU+CT+0WmhP66y6HfU1hbuIh7kurymo2BFk73UpmF+kxIeIf5ob63o+6/fR0e1iGnAwZhJKW5VMHhbH9zb/uoJzRxrs2Zyaxd+OHjC75cW8gY+50n7akOfzfr+JW6+Jl4Mk2bvL/UaSxfk=
+	t=1773636193; cv=none; b=KXKYNyxOIHa5PHNB/PyRmgdcmqKdyRlSsCuHTh2+cdOhJhVCmHO/lh//KtEbGW/8asLxtXPqCILOfZxNL3SMHKc5UVS4/THokAdQFQzp+RqtNkqFMNHT/ynpnsPRdNgJWOzqx4O53qhT/emP5kJtXx62rZxiyNubLviwmoRt8EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773634873; c=relaxed/simple;
-	bh=ugDXr4umjV2wE5t9A2d87jF48b/dnuJsQFKJP2khR/s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=W7m7EzmQ1ApizdEDb3opAC9RqaZHNf2m/UkzVw5n1WYvSkXe3E+5qc33Mq8+t/qcljDEFDOcDcZq6eVS4N0MSrU/QD9U8o4QFOAwzvKZwHyH6S/24qhHJMxc01lPX6+9GKqmgNq/bRhbyVQZ05xmCr7DcRVQTppL3P4CHrUSHyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JKbRZYZW; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1773636193; c=relaxed/simple;
+	bh=JXr75IZIqNpZmQrxCcAZYaIWtms0zNH/S2JGsFUlgww=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qRsGWHbKujRVZ9t2PHgGA+Dd8wzB2g5JoUORI1qovgta+D3UZCRPXO/nZXK8aEAh+3i4HGkPUUqHIELhisOVBwAA02Q43WO+3V1+2Ptc+Vl+s37F4olOzd4uHLQgmXs+mEGCohDTZuXu92UaKgIiWngOzVFSYS2LWtFeDivZLoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPIaUmwh; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKbRZYZW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPIaUmwh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773634872; x=1805170872;
+  t=1773636192; x=1805172192;
   h=date:from:to:cc:subject:message-id;
-  bh=ugDXr4umjV2wE5t9A2d87jF48b/dnuJsQFKJP2khR/s=;
-  b=JKbRZYZWlY0ONgGDi1Mf7AlZb8A0W/kJawUjGLdQDBva+GY0ngUncYg0
-   aZ5cwP7wp+SabZaeWJ1lpFkiXRThe/iap+DmY1nTXbVd+6NuzxAK4fzLW
-   DbIFMN5B4jOY67hYgOATlNgHa6mCaFDxaoKC6tDguGohLiC3HpA7Ujl7H
-   EAHGRDZdaY2wlmGjV65BzXHC3rZkD7k2IHj+s0tjD/xmn2AmMr3IHrlmJ
-   TaUrbNll9E28gGDqFyguqaaSHyJL1WyiraSNGrBv5O2ByyPLDV1G7BoC0
-   IhEypj8LoyJDGKbojqjD2PHV14zr7E09zQdSlFZSsTxk0hVadf6+ycc6v
-   g==;
-X-CSE-ConnectionGUID: iZACQJc/RM27SYahX9i7uw==
-X-CSE-MsgGUID: 7WfJ2fNaS3uS1SnHtzDjKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="74833895"
+  bh=JXr75IZIqNpZmQrxCcAZYaIWtms0zNH/S2JGsFUlgww=;
+  b=cPIaUmwh94ODPQrDpOH29LtKKbBrX1J4OMLZh4n7ByVZpmbgIP7/gYlY
+   Rt84heiSpPuvAjCxfIgCD/GVqtj2lAyDuP8q55Ca80K3S63lZ+3WmvNu+
+   SdLXHY5SzgRmnUybRKpKAxo3xNqhqJ2c8YB7F+Nxo0S1TAALojukwJn98
+   ivNApN5QqzRJGuJAdIZDdSmtnwRuplzDSscDAjsyeBTcfqZZlh7ODTD5h
+   Ur51NJb218EaqhKlsuT4U8KMovpBruUIXgRaXJCwScAtQwPjovneRp/HF
+   8YtTLPMdXE7PqxcSIM/21qN34JRi6xMc+uZGV6gKi6EDcOn7S5mka45YC
+   Q==;
+X-CSE-ConnectionGUID: Z1t7XPMvRUW97oYliYUnuA==
+X-CSE-MsgGUID: d1Atr9wnQt+l4MK64arw+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="74532337"
 X-IronPort-AV: E=Sophos;i="6.23,123,1770624000"; 
-   d="scan'208";a="74833895"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 21:21:12 -0700
-X-CSE-ConnectionGUID: k/DesnSdRu2BYIyGIy55mw==
-X-CSE-MsgGUID: bZVj7hi7RCqXGawirR3+eg==
+   d="scan'208";a="74532337"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 21:43:11 -0700
+X-CSE-ConnectionGUID: KJUavIYwSdSYMHEklFQlaw==
+X-CSE-MsgGUID: e73RklJHTNG+B3I7oza/sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,123,1770624000"; 
-   d="scan'208";a="221876096"
+   d="scan'208";a="226782808"
 Received: from lkp-server01.sh.intel.com (HELO 892944969b78) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Mar 2026 21:21:10 -0700
+  by orviesa005.jf.intel.com with ESMTP; 15 Mar 2026 21:43:10 -0700
 Received: from kbuild by 892944969b78 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1zRy-0000000006E-1uP7;
-	Mon, 16 Mar 2026 04:21:06 +0000
-Date: Mon, 16 Mar 2026 12:20:38 +0800
+	id 1w1znH-0000000007E-0s4q;
+	Mon, 16 Mar 2026 04:43:07 +0000
+Date: Mon, 16 Mar 2026 12:43:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 378/389] drivers/mtd/mtdchar.c:1384:9:
- error: call to undeclared function 'vma_desc_test_flags'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202603161221.qNrB6fVE-lkp@intel.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linusw@kernel.org>
+Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks-v7.0-rc1
+ 7/13] kernel/fork.c:260:49: error: 'THREAD_PREALLOC_PAGES' undeclared
+Message-ID: <202603161220.T94bwBze-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,41 +59,73 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   c5a81ff6071bcf42531426e6336b5cc424df6e3d
-commit: cf0dfae0323aa8b75cee0b94d5c7553b511d7bc3 [378/389] mtdchar: replace deprecated mmap hook with mmap_prepare, clean up
-config: arm-randconfig-002-20260316 (https://download.01.org/0day-ci/archive/20260316/202603161221.qNrB6fVE-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 36041192cf6c9042615c8d2364cacc698ef89865)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603161221.qNrB6fVE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks-v7.0-rc1
+head:   3ea8b0381a0759fa0c71abae5274db2414b58e78
+commit: d2ee0928bdd182aed09a1eabb9c008eef73bb442 [7/13] fork: Dynamic Kernel Stacks
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260316/202603161220.T94bwBze-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603161220.T94bwBze-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603161221.qNrB6fVE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603161220.T94bwBze-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/mtd/mtdchar.c:1384:9: error: call to undeclared function 'vma_desc_test_flags'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1384 |         return vma_desc_test_flags(desc, VMA_SHARED_BIT) ? 0 : -EACCES;
-         |                ^
-   1 error generated.
+   kernel/fork.c: In function 'try_release_thread_stack_to_cache':
+>> kernel/fork.c:260:49: error: 'THREAD_PREALLOC_PAGES' undeclared (first use in this function)
+     260 |                         if (vm_area->nr_pages > THREAD_PREALLOC_PAGES)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c:260:49: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/vma_desc_test_flags +1384 drivers/mtd/mtdchar.c
+vim +/THREAD_PREALLOC_PAGES +260 kernel/fork.c
 
-  1375	
-  1376	/*
-  1377	 * set up a mapping for shared memory segments
-  1378	 */
-  1379	static int mtdchar_mmap_prepare(struct vm_area_desc *desc)
-  1380	{
-  1381	#ifdef CONFIG_MMU
-  1382		return -ENODEV;
-  1383	#else
-> 1384		return vma_desc_test_flags(desc, VMA_SHARED_BIT) ? 0 : -EACCES;
-  1385	#endif
-  1386	}
-  1387	
+   238	
+   239	static bool try_release_thread_stack_to_cache(struct vm_struct *vm_area)
+   240	{
+   241		unsigned int i;
+   242		int nid;
+   243	
+   244		/*
+   245		 * Don't cache stacks if any of the pages don't match the local domain, unless
+   246		 * there is no local memory to begin with.
+   247		 *
+   248		 * Note that lack of local memory does not automatically mean it makes no difference
+   249		 * performance-wise which other domain backs the stack. In this case we are merely
+   250		 * trying to avoid constantly going to vmalloc.
+   251		 */
+   252		scoped_guard(preempt) {
+   253			if (IS_ENABLED(CONFIG_DYNAMIC_STACK)) {
+   254				/*
+   255				 * If we have faulted in more than the default number of
+   256				 * stack pages to a stack, don't re-use it. This makes sure
+   257				 * a process never use more than THREAD_PREALLOC_PAGES
+   258				 * at the outset.
+   259				 */
+ > 260				if (vm_area->nr_pages > THREAD_PREALLOC_PAGES)
+   261					return false;
+   262			}
+   263			nid = numa_node_id();
+   264			if (node_state(nid, N_MEMORY)) {
+   265				for (i = 0; i < vm_area->nr_pages; i++) {
+   266					struct page *page = vm_area->pages[i];
+   267					if (page_to_nid(page) != nid)
+   268						return false;
+   269				}
+   270			}
+   271	
+   272			for (i = 0; i < NR_CACHED_STACKS; i++) {
+   273				struct vm_struct *tmp = NULL;
+   274	
+   275				if (this_cpu_try_cmpxchg(cached_stacks[i], &tmp, vm_area))
+   276					return true;
+   277			}
+   278		}
+   279		return false;
+   280	}
+   281	
 
 -- 
 0-DAY CI Kernel Test Service
