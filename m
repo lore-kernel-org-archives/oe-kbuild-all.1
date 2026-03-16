@@ -1,131 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3411435949
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Mar 2026 04:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34068346AFC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Mar 2026 05:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773636193; cv=none; b=KXKYNyxOIHa5PHNB/PyRmgdcmqKdyRlSsCuHTh2+cdOhJhVCmHO/lh//KtEbGW/8asLxtXPqCILOfZxNL3SMHKc5UVS4/THokAdQFQzp+RqtNkqFMNHT/ynpnsPRdNgJWOzqx4O53qhT/emP5kJtXx62rZxiyNubLviwmoRt8EE=
+	t=1773639375; cv=none; b=kflhvrUqaJedlJuSHEmupyHW2C/P2kQSb/A7JSX3BP1xxZNg9RgaIJe30Bi1gnVC1V2/FnC7ARaBrWM+V+SeuoDx88XlQvS5qehZPOmKGkQ/2vUGbx7UABBlXq8rpQcjAG0rLTX9COGhu05jnEXQ0w3hSTfiwlrMZ2vqKU6BrIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773636193; c=relaxed/simple;
-	bh=JXr75IZIqNpZmQrxCcAZYaIWtms0zNH/S2JGsFUlgww=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qRsGWHbKujRVZ9t2PHgGA+Dd8wzB2g5JoUORI1qovgta+D3UZCRPXO/nZXK8aEAh+3i4HGkPUUqHIELhisOVBwAA02Q43WO+3V1+2Ptc+Vl+s37F4olOzd4uHLQgmXs+mEGCohDTZuXu92UaKgIiWngOzVFSYS2LWtFeDivZLoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPIaUmwh; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1773639375; c=relaxed/simple;
+	bh=ZJxAK0DdNtO2iu2cK7G1k7HSLFw/6aeHBSTi8gDkcfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=F0vFJI33GD9mmCBM28Zh63UiIGgCz+VPloJk4pdKxIS+JMNBURmPS8s7YqnKcQNeA5wGnY2YEYcWasWLVMep9w2Zpo/QEAixvBbYy/JTvoMdyU2u1hvCMKyL7bTx2QnpueHWqGX+76kcrffWkgDdqoJrgGTNZucWIINSOLmCe68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RofffWoS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPIaUmwh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RofffWoS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773636192; x=1805172192;
-  h=date:from:to:cc:subject:message-id;
-  bh=JXr75IZIqNpZmQrxCcAZYaIWtms0zNH/S2JGsFUlgww=;
-  b=cPIaUmwh94ODPQrDpOH29LtKKbBrX1J4OMLZh4n7ByVZpmbgIP7/gYlY
-   Rt84heiSpPuvAjCxfIgCD/GVqtj2lAyDuP8q55Ca80K3S63lZ+3WmvNu+
-   SdLXHY5SzgRmnUybRKpKAxo3xNqhqJ2c8YB7F+Nxo0S1TAALojukwJn98
-   ivNApN5QqzRJGuJAdIZDdSmtnwRuplzDSscDAjsyeBTcfqZZlh7ODTD5h
-   Ur51NJb218EaqhKlsuT4U8KMovpBruUIXgRaXJCwScAtQwPjovneRp/HF
-   8YtTLPMdXE7PqxcSIM/21qN34JRi6xMc+uZGV6gKi6EDcOn7S5mka45YC
-   Q==;
-X-CSE-ConnectionGUID: Z1t7XPMvRUW97oYliYUnuA==
-X-CSE-MsgGUID: d1Atr9wnQt+l4MK64arw+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="74532337"
+  t=1773639373; x=1805175373;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZJxAK0DdNtO2iu2cK7G1k7HSLFw/6aeHBSTi8gDkcfI=;
+  b=RofffWoSLOabOTnu8/N2I9RpoYNeaeeWzlew+ADJlcuxolgtDu9+o38k
+   2VqHL9sFQMe8zrcHK7G/tBLi/EAKHxmkTToGBjiffXWvAaogL3yGeQyYI
+   6gZ2YE2Vgj3Q7C+0i/jnq0ipME8bomGrLTA1OnQ+iyidN8oMNLi654n+j
+   /ySGx9qDzL2zrFlzrOSNU0kDu6pO9zyGTAwKmhhpyY+5+tzhznoN9ccu5
+   JIg+qASR5lBU2ACQ0UI9FR4mndPOPA9bg1i5qDT8YfUmZAVRDaSNuEo0n
+   kQQSWHiFa4TIq9m+9pzgS+WcG3/xZeGpozoRRU2BJN3FVrVGZQsnA6JGX
+   A==;
+X-CSE-ConnectionGUID: aiP55qotTjO0pD1IxNT9QA==
+X-CSE-MsgGUID: IMuHnw9CQ6+rvHEKqwsDjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="85350301"
 X-IronPort-AV: E=Sophos;i="6.23,123,1770624000"; 
-   d="scan'208";a="74532337"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 21:43:11 -0700
-X-CSE-ConnectionGUID: KJUavIYwSdSYMHEklFQlaw==
-X-CSE-MsgGUID: e73RklJHTNG+B3I7oza/sg==
+   d="scan'208";a="85350301"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 22:36:13 -0700
+X-CSE-ConnectionGUID: Ikr+hB9xQ4iFBwtPKjVKnQ==
+X-CSE-MsgGUID: zhPZAiUBSyi0bApSMLCB8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,123,1770624000"; 
-   d="scan'208";a="226782808"
+   d="scan'208";a="221034553"
 Received: from lkp-server01.sh.intel.com (HELO 892944969b78) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Mar 2026 21:43:10 -0700
+  by orviesa010.jf.intel.com with ESMTP; 15 Mar 2026 22:36:11 -0700
 Received: from kbuild by 892944969b78 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w1znH-0000000007E-0s4q;
-	Mon, 16 Mar 2026 04:43:07 +0000
-Date: Mon, 16 Mar 2026 12:43:02 +0800
+	id 1w20ca-0000000008W-0YDw;
+	Mon, 16 Mar 2026 05:36:08 +0000
+Date: Mon, 16 Mar 2026 13:35:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linusw@kernel.org>
-Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks-v7.0-rc1
- 7/13] kernel/fork.c:260:49: error: 'THREAD_PREALLOC_PAGES' undeclared
-Message-ID: <202603161220.T94bwBze-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:jump-batch-n 76/79] include/linux/jump_label.h:363:13:
+ warning: 'static_key_apply_queued' defined but not used
+Message-ID: <202603161323.7V8lBV8j-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks-v7.0-rc1
-head:   3ea8b0381a0759fa0c71abae5274db2414b58e78
-commit: d2ee0928bdd182aed09a1eabb9c008eef73bb442 [7/13] fork: Dynamic Kernel Stacks
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260316/202603161220.T94bwBze-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603161220.T94bwBze-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git jump-batch-n
+head:   3eafae45451bbc9ea7f96beacc5a928bc3edd593
+commit: 58a3d3a59bbfeaeaf50e1e57c3cfe09fab217e73 [76/79] dyndbg: use static-key queueing API in dynamic-debug (working)
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260316/202603161323.7V8lBV8j-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603161323.7V8lBV8j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603161220.T94bwBze-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603161323.7V8lBV8j-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/fork.c: In function 'try_release_thread_stack_to_cache':
->> kernel/fork.c:260:49: error: 'THREAD_PREALLOC_PAGES' undeclared (first use in this function)
-     260 |                         if (vm_area->nr_pages > THREAD_PREALLOC_PAGES)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:260:49: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/static_key.h:1,
+                    from include/linux/tracepoint-defs.h:12,
+                    from include/linux/sched.h:49,
+                    from arch/alpha/kernel/asm-offsets.c:11:
+>> include/linux/jump_label.h:363:13: warning: 'static_key_apply_queued' defined but not used [-Wunused-function]
+     363 | static void static_key_apply_queued(void) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/static_key.h:1,
+                    from include/linux/tracepoint-defs.h:12,
+                    from include/linux/sched.h:49,
+                    from arch/alpha/kernel/asm-offsets.c:11:
+>> include/linux/jump_label.h:363:13: warning: 'static_key_apply_queued' defined but not used [-Wunused-function]
+     363 | static void static_key_apply_queued(void) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/once.h:6,
+                    from include/linux/prandom.h:12,
+                    from kernel/sched/sched.h:8,
+                    from kernel/sched/rq-offsets.c:5:
+>> include/linux/jump_label.h:363:13: warning: 'static_key_apply_queued' defined but not used [-Wunused-function]
+     363 | static void static_key_apply_queued(void) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/THREAD_PREALLOC_PAGES +260 kernel/fork.c
+vim +/static_key_apply_queued +363 include/linux/jump_label.h
 
-   238	
-   239	static bool try_release_thread_stack_to_cache(struct vm_struct *vm_area)
-   240	{
-   241		unsigned int i;
-   242		int nid;
-   243	
-   244		/*
-   245		 * Don't cache stacks if any of the pages don't match the local domain, unless
-   246		 * there is no local memory to begin with.
-   247		 *
-   248		 * Note that lack of local memory does not automatically mean it makes no difference
-   249		 * performance-wise which other domain backs the stack. In this case we are merely
-   250		 * trying to avoid constantly going to vmalloc.
-   251		 */
-   252		scoped_guard(preempt) {
-   253			if (IS_ENABLED(CONFIG_DYNAMIC_STACK)) {
-   254				/*
-   255				 * If we have faulted in more than the default number of
-   256				 * stack pages to a stack, don't re-use it. This makes sure
-   257				 * a process never use more than THREAD_PREALLOC_PAGES
-   258				 * at the outset.
-   259				 */
- > 260				if (vm_area->nr_pages > THREAD_PREALLOC_PAGES)
-   261					return false;
-   262			}
-   263			nid = numa_node_id();
-   264			if (node_state(nid, N_MEMORY)) {
-   265				for (i = 0; i < vm_area->nr_pages; i++) {
-   266					struct page *page = vm_area->pages[i];
-   267					if (page_to_nid(page) != nid)
-   268						return false;
-   269				}
-   270			}
-   271	
-   272			for (i = 0; i < NR_CACHED_STACKS; i++) {
-   273				struct vm_struct *tmp = NULL;
-   274	
-   275				if (this_cpu_try_cmpxchg(cached_stacks[i], &tmp, vm_area))
-   276					return true;
-   277			}
-   278		}
-   279		return false;
-   280	}
-   281	
+   362	
+ > 363	static void static_key_apply_queued(void) {}
+   364	
 
 -- 
 0-DAY CI Kernel Test Service
