@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F872BE639
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Mar 2026 12:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD2C533D6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Mar 2026 12:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773663785; cv=none; b=MSKQ+nRpYAwfrwF52lao4dcvA8rG4E4XEhBwvq/YCLuseclv1UY5gXeDahdu3jGgH8zDH2qqI14huaWE1eHgttNcbIDbhaM2Si4w9jTdar3G+BfglJYwy2E+tbAweDzc3w1TDc1W7Fqe4I03IddLbFWCtOwbz0OX88zBymlMikQ=
+	t=1773665329; cv=none; b=rsq+dfxMekjROPQMrEfwkcDOfUDNNov8OruQcLHG9CK/vWWN3+0dUVmPkFj0rt3wv1MqOL+0AreGTXkSiENtq+pZGzoHd2pqd1xY4cwY2Tfm0tIhbML0JhIzFAn4xMfNOXNGG1ceusEwk+3h6s17qIAMIEFtpBAZD7+kV3AvnR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773663785; c=relaxed/simple;
-	bh=ee9mcvjsKDMNJSDrjdCRK4iF5zD9JpiraU31g4vsD8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Y95u4TkC943FQYivw3oZVBQ51qtIEG/ZjGSjeCxTz5aq3iby1F/KUiE5pMKqeMnxsska7NVxm+FjYVrmwL/iHV6xSNibfDnt4C+qeejRjKwjydf/aavxfpkaooSp8VoN6+eaIIUDHz9GoU/r7OsnO/vu9bMGPVPRuIkJzWnq1vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ljQGM4V/; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1773665329; c=relaxed/simple;
+	bh=gfWOn0n6OT7quiKxl9iHQxQ1b3TvD/zpUXUC7R1pAIY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lEr8gMXSdlXcgHCbvwBYEPh47YPRB0akJRRVq2t8P85zMjcIkOQaf0bqMjZ1p/XUUtwpUCyANm67og2yhmjH2BrJWrZQM/W26e6LySPco5ve+LriNJhOJm8Cn0WfX3Sar6mOsFGDJYou5MGeRndtOJ9EnZH73s83WivwtCOrsNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVI/S+bm; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ljQGM4V/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVI/S+bm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773663782; x=1805199782;
+  t=1773665327; x=1805201327;
   h=date:from:to:cc:subject:message-id;
-  bh=ee9mcvjsKDMNJSDrjdCRK4iF5zD9JpiraU31g4vsD8Q=;
-  b=ljQGM4V/5Pf5yD5b9MkQLNnBk2geOEcmj+grGZAQTele8/jhwcBFHOX1
-   4E1WGqKVkbIkSssXgQJKvipr085MhSFNixUcFy/JJLcwCxdOJIlIk0SSH
-   4Jbx1t7cWuIHDxqIociRrGHOX2uUWaWsQ5MNMq3d2GzHVJgskjGWhV2LT
-   2afQIRCTCqZ/QPHjgydkOO/ZjKoAajpvW6nWbqXfcSzD/1M7mj39gnFcV
-   e4QUCi3c2/uwHqJqm+DZbZZRWJL6j+ZQIWfmx2sZkOUNvbxGUZIZFd8XU
-   WjWaepWSVaurnd23RZXyv1xpXHXqAKngp/PdGCKsQKlNdVomGp1Z52IPb
-   w==;
-X-CSE-ConnectionGUID: +zuTIs5VQkGY6qT7a/xCBQ==
-X-CSE-MsgGUID: b+HVQXNaT5K92yAGV4zT1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="85758215"
+  bh=gfWOn0n6OT7quiKxl9iHQxQ1b3TvD/zpUXUC7R1pAIY=;
+  b=mVI/S+bmdMOjznCNG772CzDidAVmA4La5TnBGyhy6KtMdlqrwvVcWQkJ
+   6f6lK08uO7fDCIXGdbHkO6prbtKxJrzGR1uLItRSpZNmBh4vUU8vOnnIH
+   Mch+wC5uGI8RXlu+/ZAbKGkvr6X7AurZBzuSk3M0FCPSs+n/poNCS3RXJ
+   SkhjGX+3y8Bz6nHqvYOY6NKMqpT8gX1Tg/q2m/ojer3oRUOmLzYCeRY7a
+   Dm3tIQ4bAVlDSgLheZ/E7fQDirxgktdxO5nfMep+5mrrNW5mlAt/blO0V
+   55CN95haz3ZKmyn6Oi5ogt5t98Fm6z+r9eo6EV/aupUguFM26vd09AfdY
+   A==;
+X-CSE-ConnectionGUID: dSqI80eCSYiqvvYfAXgY9Q==
+X-CSE-MsgGUID: fl/5RaFqSjqsWySpiGpnVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="85379527"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="85758215"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 05:23:01 -0700
-X-CSE-ConnectionGUID: JsXzaT0PTouHjWITsqNiPw==
-X-CSE-MsgGUID: HYuJrm2hQ5es++k+0i2xow==
+   d="scan'208";a="85379527"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 05:48:47 -0700
+X-CSE-ConnectionGUID: aZP8UO5BQZ6Ymd/qLfDEuQ==
+X-CSE-MsgGUID: lZVTxbu+SOC5zF7krlzqeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="219106278"
-Received: from lkp-server01.sh.intel.com (HELO 892944969b78) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Mar 2026 05:22:59 -0700
-Received: from kbuild by 892944969b78 with local (Exim 4.98.2)
+   d="scan'208";a="226038945"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 16 Mar 2026 05:48:45 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w26yH-000000000eG-0gws;
-	Mon, 16 Mar 2026 12:22:57 +0000
-Date: Mon, 16 Mar 2026 20:22:03 +0800
+	id 1w27ND-000000004EL-0lxF;
+	Mon, 16 Mar 2026 12:48:43 +0000
+Date: Mon, 16 Mar 2026 13:47:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [linusw-gpio:b4/descriptors-wireless 2/2]
- drivers/gpio/gpio-ath79.c:264:1: warning: no return statement in function
- returning non-void
-Message-ID: <202603162011.BYf9zG1R-lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 158/621] htmldocs: Warning:
+ Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
+Message-ID: <202603161344.eE31aq7X-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,78 +61,31 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/descriptors-wireless
-head:   f498eb811e7dd7b968743a9bba20710a5070c0be
-commit: f498eb811e7dd7b968743a9bba20710a5070c0be [2/2] wifi: ath9k: Obtain system GPIOS from descriptors
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260316/202603162011.BYf9zG1R-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603162011.BYf9zG1R-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 108f3a1c25d4e9fa74d574cd49670ac5faffc8fa [158/621] dt-bindings: input: Convert motorola,cpcap-pwrbutton to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260316/202603161344.eE31aq7X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603162011.BYf9zG1R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603161344.eE31aq7X-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpio/gpio-ath79.c: In function 'ath79_gpio_register_wifi_descriptors':
->> drivers/gpio/gpio-ath79.c:264:1: warning: no return statement in function returning non-void [-Wreturn-type]
-     264 | }
-         | ^
-
-
-vim +264 drivers/gpio/gpio-ath79.c
-
-   217	
-   218	#if IS_ENABLED(CONFIG_ATH9K_AHB)
-   219	/*
-   220	 * This registers all of the ath79k GPIOs as descriptors to be picked
-   221	 * directly from the ATH79K wifi driver if the two are jitted together
-   222	 * in the same SoC.
-   223	 */
-   224	#define ATH79K_WIFI_DESCS 32
-   225	static int ath79_gpio_register_wifi_descriptors(struct device *dev,
-   226							const char *label)
-   227	{
-   228		struct gpiod_lookup_table *lookup;
-   229		int i;
-   230	
-   231		/* Create a gpiod lookup using gpiochip-local offsets + 1 for NULL */
-   232		lookup = devm_kzalloc(dev,
-   233				      struct_size(lookup, table, ATH79K_WIFI_DESCS + 1),
-   234				      GFP_KERNEL);
-   235		if (!lookup)
-   236			return -ENOMEM;
-   237	
-   238		/*
-   239		 * Ugly system-wide lookup for the NULL device: we know this
-   240		 * is already NULL but explicitly assign it here for people to
-   241		 * know what is going on. (Yes this is an ugly legacy hack, live
-   242		 * with it.)
-   243		 */
-   244		lookup->dev_id = NULL;
-   245	
-   246		for (i = 0; i < ATH79K_WIFI_DESCS; i++) {
-   247			lookup->table[i] =
-   248				/*
-   249				 * Set the HW offset on the chip and the lookup
-   250				 * index to the same value, so looking up index 0
-   251				 * will get HW offset 0, index 1 HW offset 1 etc.
-   252				 */
-   253				GPIO_LOOKUP_IDX(label, i, "ath9k", i, GPIO_ACTIVE_HIGH);
-   254		}
-   255	
-   256		gpiod_add_lookup_table(lookup);
-   257	
-   258		return 0;
-   259	}
-   260	#else
-   261	static int ath79_gpio_register_wifi_descriptors(struct device *dev,
-   262							const char *label)
-   263	{
- > 264	}
-   265	#endif
-   266	
+   Warning: Documentation/devicetree/bindings/display/ti/ti,omap2-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+   Warning: Documentation/devicetree/bindings/display/ti/ti,omap3-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+   Warning: Documentation/devicetree/bindings/display/ti/ti,omap4-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+   Warning: Documentation/devicetree/bindings/display/ti/ti,omap5-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+>> Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/keystone-gate.txt
 
 -- 
 0-DAY CI Kernel Test Service
