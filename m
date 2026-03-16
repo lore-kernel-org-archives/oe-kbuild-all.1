@@ -1,90 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8D838E5FB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Mar 2026 20:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370A3372695;
+	Mon, 16 Mar 2026 22:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773692931; cv=none; b=HPCuc0ISXtCzJb091byt/u0u0J+xApsHO1JJcZuspDbS+N1WTnxRsxXIn0gbjx7k+cSBnqrW+fLOG943FYyAv4pUSl7ebHl0wdnrZRIC1S0uo3NynfzupVHAt52tUD8XUVA7B4/IREqJzJUxG5/UMBrB67LoSibSsPNb7dkFfjI=
+	t=1773699657; cv=none; b=ahCLkHmElFNjyMK46breJlDS4fWqYG94HM0V5SZeVCtUtXI9uMPeDpJf6qnroGjhBKUVW1OvPaEaWzvK5AbMVBAO0RbwrlrDLvh4AT62lTPWrDiaznQMCDj6GOgiZBZD9Bkk6vvzLA+CAQ9fgNtU1wIL/5z293ToADuo/KTWK5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773692931; c=relaxed/simple;
-	bh=gA8MET4jmBu3R8biRafB8ig/ZQs3aBBQfNcMFwcaeRw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Dcl3122grN+E+tUlIG7+ZEeFhZihMJCK1JnX+4qPlcECEhW+A3di2wMkpHkN2hOAXwAM2DK996rEflQCVcojdxLOu9Z3jO8A5lhgkPHtM4K9Ts/pXdoh+odHMJQHt2qfXeFWiCVQ29P5tzc5JGO9TSYcu7yZOA1XN+NeGqTUl4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJOXzka8; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1773699657; c=relaxed/simple;
+	bh=+Sz+Brr7tbQWKUIQKSBZksMsdfRpXtvVoKbNC9XzoME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D0b3FDwrBeiTdve29+9Skpks+kg9q0oRUYiD9vsj5KwpsAzl1Mp6RmX04/4ryH5kE2srzvny49NRF1QuM5YxOj1084S6jZMV/+UsRYQ7lYCLUFo0+95yCDNpLIHu9JX6XkVSq+7d1jbAlRvGbgRUyE9z440+n6kkUDa5EjR/MyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XuvWNESE; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJOXzka8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XuvWNESE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773692930; x=1805228930;
-  h=date:from:to:cc:subject:message-id;
-  bh=gA8MET4jmBu3R8biRafB8ig/ZQs3aBBQfNcMFwcaeRw=;
-  b=VJOXzka8YDSUBQfzPil7WNqLQvbKT8xofsPrvVTDHRsQTPHYGZjg0SBm
-   dVpfDwwFsYI92vPgqFwfDJJgVWvBaVXMw1GMi2jdc+PToZo+7f3uo6fmc
-   NVkVgVsTs7wmAyeDlmGg/Kbf0mGuKUjNWHp1cGXYqfZixJdqdPSfpURjE
-   vG+3VgfDDHhjKG/kdmIHGaQw8FtW2seaNRR8xtWQhKXz7BiBHsSdF6SR2
-   hT/lhRmht6fPEKt9ReQ76IU7t9L9whgR2q5FZcIyaVYv0mKkdzpkhLHvX
-   hyK4m9pEdEZi7qUEYETBJ4UFkyf2EvGi+2dVOhd5Vrc047637hxjx/0T2
+  t=1773699654; x=1805235654;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+Sz+Brr7tbQWKUIQKSBZksMsdfRpXtvVoKbNC9XzoME=;
+  b=XuvWNESEZxjXacfDGBIHYezV0XmRlRDHSJ8AlCjBjVEzG4lJgsR8Ni2g
+   Qg3BG/VZ0zom802QNV0S3EKh2B/I3Ge8fX/pv95lIhDf7yXbiOW4ccSW8
+   htl/jmANILREHQYjeWtyhOgTD8KupRc/iokC+etiW4ddK3XwQ+i3o7AvX
+   EDSnsZc/z7E1TLMgsJ1JIm95wp5UNtBVxuQAwK4t8W+NXftvqrY8Td3o1
+   +KG8zaKCRoJJcnHTurKpVHswzsMT3c0J/QCjmAVEuxq77Ff7c5zizAmlD
+   BkrfmQIfh19xVryhZnnNSGPH1tz0g7TcMd1N3IlY8au3lMi0t4wUfAtxZ
    Q==;
-X-CSE-ConnectionGUID: pJfDxwVuRg6WlUarV9Kmtg==
-X-CSE-MsgGUID: 4gai+wW5RVWCXuNXFBhwlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="78321956"
+X-CSE-ConnectionGUID: jBEpt6UzRTafIKCUmSykbg==
+X-CSE-MsgGUID: cpO0mg89SRODrDFmNQl6hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74616451"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="78321956"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 13:28:50 -0700
-X-CSE-ConnectionGUID: UPbAElJ6T1yFI0ZM08VqAA==
-X-CSE-MsgGUID: 8URuJdrMR1GJ0kFY2M52Wg==
+   d="scan'208";a="74616451"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 15:20:53 -0700
+X-CSE-ConnectionGUID: j8tB4O6uR/CCxiMjTcujAA==
+X-CSE-MsgGUID: xSp5ygjoQhukk1pTyCHElw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="222244438"
+   d="scan'208";a="259949405"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 16 Mar 2026 13:28:49 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Mar 2026 15:20:49 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2EYP-000000004HR-3uUe;
-	Mon, 16 Mar 2026 20:28:45 +0000
-Date: Mon, 16 Mar 2026 21:28:40 +0100
+	id 1w2GIo-000000004IH-2w6p;
+	Mon, 16 Mar 2026 22:20:46 +0000
+Date: Mon, 16 Mar 2026 23:20:00 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sashal:ai-review-prompts 9/13] htmldocs: Warning:
- drivers/of/ai-review/dt-bindings.md references a file that doesn't exist:
- Documentation/devicetree/bindings/gpio/vendor,device.yaml
-Message-ID: <202603162121.92l86y1G-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ziyu Zhang <ziyuzhang201@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	baijiaju1990@gmail.com, r33s3n6@gmail.com, gality369@gmail.com,
+	zhenghaoran154@gmail.com, hanguidong02@gmail.com,
+	zzzccc427@gmail.com, Ziyu Zhang <ziyuzhang201@gmail.com>
+Subject: Re: [PATCH] tty: n_tty: annotate lockless read of ldata->icanon in
+ input_available_p()
+Message-ID: <202603162328.vY9JOJWL-lkp@intel.com>
+References: <20260316132827.17855-1-ziyuzhang201@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316132827.17855-1-ziyuzhang201@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git ai-review-prompts
-head:   d184712fd9e150ba9bf9ab95428e342308ba9761
-commit: 37b6473651afa20483dc3c46ceea263989d527ac [9/13] drivers: add AI review guides for driver subsystems
+Hi Ziyu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.16-rc1 next-20260316]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ziyu-Zhang/tty-n_tty-annotate-lockless-read-of-ldata-icanon-in-input_available_p/20260316-224221
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20260316132827.17855-1-ziyuzhang201%40gmail.com
+patch subject: [PATCH] tty: n_tty: annotate lockless read of ldata->icanon in input_available_p()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260316/202603162328.vY9JOJWL-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260316/202603162121.92l86y1G-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260316/202603162328.vY9JOJWL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603162121.92l86y1G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603162328.vY9JOJWL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
->> Warning: drivers/of/ai-review/dt-bindings.md references a file that doesn't exist: Documentation/devicetree/bindings/gpio/vendor,device.yaml
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+>> drivers/tty/n_tty.c:1913:6: error: cannot pass bit-field as __auto_type initializer in C
+    1913 |         if (data_race(ldata->icanon) && !L_EXTPROC(tty))
+         |             ^
+   include/linux/compiler.h:194:13: note: expanded from macro 'data_race'
+     194 |         auto __v = (expr);                                              \
+         |                    ^
+   1 error generated.
+
+
+vim +1913 drivers/tty/n_tty.c
+
+  1906	
+  1907	static inline int input_available_p(const struct tty_struct *tty, int poll)
+  1908	{
+  1909		const struct n_tty_data *ldata = tty->disc_data;
+  1910		int amt = poll && !TIME_CHAR(tty) && MIN_CHAR(tty) ? MIN_CHAR(tty) : 1;
+  1911	
+  1912		/* data_race: benign race, poll readiness is best-effort */
+> 1913		if (data_race(ldata->icanon) && !L_EXTPROC(tty))
+  1914			return ldata->canon_head != ldata->read_tail;
+  1915		else
+  1916			return ldata->commit_head - ldata->read_tail >= amt;
+  1917	}
+  1918	
 
 -- 
 0-DAY CI Kernel Test Service
