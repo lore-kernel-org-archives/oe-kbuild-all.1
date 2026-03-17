@@ -1,189 +1,216 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEA63A453F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 13:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5227F2641E3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 13:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773753607; cv=none; b=jXRtjaD/ubEv7H5RW3RueUQiOmxX+JHUB+rOE93DJU1PLZUoe+0G5L47m+zmPXD2Ge+FhmFUNcv1ThALR6KqKEN0Qd/a2Q7ycuWSJQTRIWrrGu4hDoY/Opph40MHUEqM/mGf4hTLBrWGamZzZcV8XfygSyutwniv41djl5p0bDg=
+	t=1773754269; cv=none; b=PB52rMuVYyLRkmU1XUwe05bLdJjCmmSaI4ACn+ZtxSYt34tfTRKCOEn/FvzbEyZpQl/wRwSVJ54kC4oMCfh8RRqZuKyABf++Uf8Fyumnm5olGhRmSHIAMfL+gJ3c+Z1JKc/vGsQbzYr2x9RiRPJwKpmSs+eRvlsDE0joFPTVFAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773753607; c=relaxed/simple;
-	bh=1NIx5365wokfUEAdBLlPKCEergXLfmLEmFYf+eMfAoo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=h5pV5+7/DGGdCemQdp/QAC/YT+XllWA/8YxYL79JcSXvIA4fpL72m/bZ0LeeUMCFcs3wA7aYK73ZKi/HQBCJI4UAK9j1sMeglxzcEdD8UsPQXTMC6E/YJj4bDRHf6LCfybU7cRDhTVFiPFJjtErE4c6vkB7c2ZbYgLEVqKyXs8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fwsz2wPY; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1773754269; c=relaxed/simple;
+	bh=lIWsD2ci2/DmvQPAIxFhRhk/jEMsvah2g+VU1OXqBHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YB2PSAWHSWeFH//9A6AKvwKuopuPdxzu/gFJfb6XYdKcpK7AZ8oG9H40KOTj8rpjYPQGVh4gd02ZKCgX7gg73zj9JFWfs9JQOcFhUmaPAnhjcgbqBPQ+Bw+97JrZpi+rCJS+XG3pgazWt2oVdklUaKtufm95THISrH8xXYK8vX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5/D/0lT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fwsz2wPY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5/D/0lT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773753605; x=1805289605;
-  h=date:from:to:cc:subject:message-id;
-  bh=1NIx5365wokfUEAdBLlPKCEergXLfmLEmFYf+eMfAoo=;
-  b=Fwsz2wPYdmCS2ycA1PmDXzlUBqmnEoOnrpr7H5fE2ihg0mH8GGoVWzPt
-   S4yna0VoyWfjiXVVGR7y5TqrQjh7LbYUwUTEYYkSLEnJmQPk0KTq2wDcu
-   oQxpCE4b7Yn25FvD15sfDE9v6g+SoOUumsXMe16fNWNaewCxVbxy0yzt1
-   A6dTfF87Re2R0WzgJOr+455vbzmc+IPSrzqs47jfiQnCoADFKmfmyE+qH
-   pCvJ0LQJVOAwaIp59VJzzf59ZVYxCoEqDCP6q2bdVrfgyHVtcatUC8Pgg
-   +H3zI23CGb/NGxSx+REZLeqOpWyOi0bEd9YIpNuHd5uuz35TPyp7obcFQ
-   g==;
-X-CSE-ConnectionGUID: sH96chPcQUytQfgSF4OZcg==
-X-CSE-MsgGUID: NNzWJu9zQTGP8K7fl5MONQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="85411396"
+  t=1773754266; x=1805290266;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lIWsD2ci2/DmvQPAIxFhRhk/jEMsvah2g+VU1OXqBHM=;
+  b=Q5/D/0lTKYGdD71rnTyTW4M/Vl/G3CpgrexpdMHX2PKMoE43BxbhSvZY
+   BpTQ2VWMQgtoM3fZW71BD0M/eIEWUDCkukghVSAPmFqA8ZFT/f5I9mnbU
+   wAxsHo2YN6jXt7yVNOmBqg13uxgngPKVM4RZrmKnLqUupPb0crCDYNY8O
+   kNuJl1W3HvF0mZrCdjuFd2HJzciEzuBZhD6yVeoStlKg03QZHnZKmHt3F
+   7D6XS1/nMroNA/Q2KqU+XLPXtrEQWLHl9Px2A6bik3PwM4nOeHPoJcWwV
+   u5I3mHqvMPBhNMpBhEdBe7qQdBI96vx6TsweoRzsgeOaP82eWusL3iMnH
+   Q==;
+X-CSE-ConnectionGUID: CM7H9WhFRFWXbPksiy/zvw==
+X-CSE-MsgGUID: hCbSUD/jTAW4Fsf+x4yhog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74864524"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="85411396"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:20:03 -0700
-X-CSE-ConnectionGUID: A8GKsEVzTDujneOkkanWJw==
-X-CSE-MsgGUID: Bzs7/1nHSoqyyDDeR4dnHA==
+   d="scan'208";a="74864524"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:31:05 -0700
+X-CSE-ConnectionGUID: tOdRrbAJSgilkEWdhpJ4kw==
+X-CSE-MsgGUID: iW5TAUcCSFynXaZPGd9kSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="221495553"
+   d="scan'208";a="222225635"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Mar 2026 06:20:02 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Mar 2026 06:31:02 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2UL0-000000000SD-2xL5;
-	Tue, 17 Mar 2026 13:19:58 +0000
-Date: Tue, 17 Mar 2026 21:19:19 +0800
+	id 1w2UVf-000000000Sr-19nC;
+	Tue, 17 Mar 2026 13:30:59 +0000
+Date: Tue, 17 Mar 2026 21:30:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:main-16k-gs-shusky-5.15 30/30]
- drivers/cma/mm/mem_phys_layout.c:275:7: error: use of undeclared identifier
- 'MIGRATE_CMA'
-Message-ID: <202603172127.OheNukmP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Adrian Moreno <amorenoz@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Adrian Moreno <amorenoz@redhat.com>,
+	Aaron Conole <aconole@redhat.com>,
+	Eelco Chaudron <echaudro@redhat.com>,
+	Ilya Maximets <i.maximets@ovn.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, dev@openvswitch.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v1] net: openvswitch: decouple flow_table from
+ ovs_mutex
+Message-ID: <202603172153.FuWl19zD-lkp@intel.com>
+References: <20260313173114.1220551-1-amorenoz@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260313173114.1220551-1-amorenoz@redhat.com>
 
-Hi Juan,
+Hi Adrian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
-head:   339bea17e1ccb695cddcbc39f88955c85e45d97a
-commit: b696261dbf8a4b298226981a96af8587dc5f5558 [30/30] ANDROID: mm: Get number free pages per node, zone, order and migrate type
-config: x86_64-buildonly-randconfig-001-20260317 (https://download.01.org/0day-ci/archive/20260317/202603172127.OheNukmP-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603172127.OheNukmP-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Moreno/net-openvswitch-decouple-flow_table-from-ovs_mutex/20260314-152511
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260313173114.1220551-1-amorenoz%40redhat.com
+patch subject: [PATCH net-next v1] net: openvswitch: decouple flow_table from ovs_mutex
+config: arm-randconfig-r132-20260317 (https://download.01.org/0day-ci/archive/20260317/202603172153.FuWl19zD-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project f46a5153850c1303d687233d4adf699b01041da8)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603172153.FuWl19zD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603172127.OheNukmP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603172153.FuWl19zD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/openvswitch/datapath.c:2016:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct flow_table *table @@     got struct flow_table [noderef] __rcu *table @@
+   net/openvswitch/datapath.c:2016:28: sparse:     expected struct flow_table *table
+   net/openvswitch/datapath.c:2016:28: sparse:     got struct flow_table [noderef] __rcu *table
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:80:
-   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      24 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:352:9: note: previous definition is here
-     352 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   drivers/cma/mm/mem_phys_layout.c:153:16: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-     153 |         unsigned long last_pfn = pfn - 1;
-         |                       ^
-   drivers/cma/mm/mem_phys_layout.c:189:16: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-     189 |                 struct page *page = pfn_to_page(pfn);
-         |                              ^
-   drivers/cma/mm/mem_phys_layout.c:237:48: error: use of undeclared identifier 'MAX_PAGE_ORDER'
-     237 |         pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-         |                                                       ^~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:240:49: error: use of undeclared identifier 'MAX_PAGE_ORDER'
-     240 |         pr_info("(MAX_PAGE_ORDER + PAGE_SHIFT) = %d", (MAX_PAGE_ORDER + PAGE_SHIFT));
-         |                                                        ^~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:250:14: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-     250 |         phys_addr_t start_addr = memblock_start_of_DRAM();
-         |                     ^
->> drivers/cma/mm/mem_phys_layout.c:275:7: error: use of undeclared identifier 'MIGRATE_CMA'
-     275 |         case MIGRATE_CMA:
-         |              ^~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:277:7: error: use of undeclared identifier 'MIGRATE_ISOLATE'; did you mean 'MIGRATE_MOVABLE'?
-     277 |         case MIGRATE_ISOLATE:
-         |              ^~~~~~~~~~~~~~~
-         |              MIGRATE_MOVABLE
-   include/linux/mmzone.h:48:2: note: 'MIGRATE_MOVABLE' declared here
-      48 |         MIGRATE_MOVABLE,
-         |         ^
->> drivers/cma/mm/mem_phys_layout.c:277:7: error: duplicate case value 'MIGRATE_MOVABLE'
-     277 |         case MIGRATE_ISOLATE:
-         |              ^
-   drivers/cma/mm/mem_phys_layout.c:268:7: note: previous case defined here
-     268 |         case MIGRATE_MOVABLE:
-         |              ^
-   drivers/cma/mm/mem_phys_layout.c:292:7: warning: GCC does not allow variable declarations in for loop initializers before C99 [-Wgcc-compat]
-     292 |         for (int migrate_type = 0; migrate_type < MIGRATE_TYPES; migrate_type++) {
-         |              ^
-   drivers/cma/mm/mem_phys_layout.c:326:7: warning: GCC does not allow variable declarations in for loop initializers before C99 [-Wgcc-compat]
-     326 |         for (int current_order = 0; current_order < NR_PAGE_ORDERS; current_order++) {
-         |              ^
-   drivers/cma/mm/mem_phys_layout.c:326:46: error: use of undeclared identifier 'NR_PAGE_ORDERS'
-     326 |         for (int current_order = 0; current_order < NR_PAGE_ORDERS; current_order++) {
-         |                                                     ^~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:346:8: warning: GCC does not allow variable declarations in for loop initializers before C99 [-Wgcc-compat]
-     346 |                 for (int i = 0; i < node->nr_zones; i++) {
-         |                      ^
-   7 warnings and 6 errors generated.
+vim +2016 net/openvswitch/datapath.c
 
-
-vim +/MIGRATE_CMA +275 drivers/cma/mm/mem_phys_layout.c
-
-   234	
-   235	static void print_phys_memory_model(void)
-   236	{
- > 237		pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-   238		pr_info("pageblock_order               = %d", pageblock_order);
-   239		pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
- > 240		pr_info("(MAX_PAGE_ORDER + PAGE_SHIFT) = %d", (MAX_PAGE_ORDER + PAGE_SHIFT));
-   241		pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
-   242		pr_info("2 ^ SECTION_SIZE_BITS         = %d", (1 << SECTION_SIZE_BITS));
-   243		pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
-   244		pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
-   245		pr_info("SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION = %ld = %ldMiB",
-   246				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
-   247				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
-   248		pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
-   249	
-   250		phys_addr_t start_addr = memblock_start_of_DRAM();
-   251		unsigned long start_pfn = PHYS_PFN(start_addr);
-   252		struct mem_section *section = __pfn_to_section(start_pfn);
-   253		struct page *page = __section_mem_map_addr(section);
-   254	
-   255		pr_info("Using struct mem_section");
-   256		pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
-   257				(u64)start_pfn,
-   258				(u64)start_pfn,
-   259				(u64) page,
-   260				(u64)PFN_PHYS(start_pfn));
-   261	}
-   262	
-   263	static const char *get_migrate_type_name(enum migratetype type)
-   264	{
-   265		switch (type) {
-   266		case MIGRATE_UNMOVABLE:
-   267			return "UNMOVABLE";
-   268		case MIGRATE_MOVABLE:
-   269			return "MOVABLE";
-   270		case MIGRATE_RECLAIMABLE:
-   271			return "RECLAIMABLE";
-   272		case MIGRATE_PCPTYPES:
-   273		// case MIGRATE_HIGHATOMIC:
-   274			return "PCPTYPES or HIGHATOMIC";
- > 275		case MIGRATE_CMA:
-   276			return "CMA";
- > 277		case MIGRATE_ISOLATE:
-   278			return "ISOLATE";
-   279		default:
-   280			return "UNKNOWN MIGRATE TYPE";
-   281		}
-   282	}
-   283	
+  1913	
+  1914	static int ovs_dp_cmd_new(struct sk_buff *skb, struct genl_info *info)
+  1915	{
+  1916		struct nlattr **a = info->attrs;
+  1917		struct flow_table *table;
+  1918		struct vport_parms parms;
+  1919		struct sk_buff *reply;
+  1920		struct datapath *dp;
+  1921		struct vport *vport;
+  1922		struct ovs_net *ovs_net;
+  1923		int err;
+  1924	
+  1925		err = -EINVAL;
+  1926		if (!a[OVS_DP_ATTR_NAME] || !a[OVS_DP_ATTR_UPCALL_PID])
+  1927			goto err;
+  1928	
+  1929		reply = ovs_dp_cmd_alloc_info();
+  1930		if (!reply)
+  1931			return -ENOMEM;
+  1932	
+  1933		err = -ENOMEM;
+  1934		dp = kzalloc_obj(*dp);
+  1935		if (dp == NULL)
+  1936			goto err_destroy_reply;
+  1937	
+  1938		ovs_dp_set_net(dp, sock_net(skb->sk));
+  1939	
+  1940		/* Allocate table. */
+  1941		table = ovs_flow_tbl_alloc();
+  1942		if (IS_ERR(table)) {
+  1943			err = PTR_ERR(table);
+  1944			goto err_destroy_dp;
+  1945		}
+  1946		rcu_assign_pointer(dp->table, table);
+  1947	
+  1948		err = ovs_dp_stats_init(dp);
+  1949		if (err)
+  1950			goto err_destroy_table;
+  1951	
+  1952		err = ovs_dp_vport_init(dp);
+  1953		if (err)
+  1954			goto err_destroy_stats;
+  1955	
+  1956		err = ovs_meters_init(dp);
+  1957		if (err)
+  1958			goto err_destroy_ports;
+  1959	
+  1960		/* Set up our datapath device. */
+  1961		parms.name = nla_data(a[OVS_DP_ATTR_NAME]);
+  1962		parms.type = OVS_VPORT_TYPE_INTERNAL;
+  1963		parms.options = NULL;
+  1964		parms.dp = dp;
+  1965		parms.port_no = OVSP_LOCAL;
+  1966		parms.upcall_portids = a[OVS_DP_ATTR_UPCALL_PID];
+  1967		parms.desired_ifindex = nla_get_s32_default(a[OVS_DP_ATTR_IFINDEX], 0);
+  1968	
+  1969		/* So far only local changes have been made, now need the lock. */
+  1970		ovs_lock();
+  1971	
+  1972		err = ovs_dp_change(dp, a);
+  1973		if (err)
+  1974			goto err_unlock_and_destroy_meters;
+  1975	
+  1976		vport = new_vport(&parms);
+  1977		if (IS_ERR(vport)) {
+  1978			err = PTR_ERR(vport);
+  1979			if (err == -EBUSY)
+  1980				err = -EEXIST;
+  1981	
+  1982			if (err == -EEXIST) {
+  1983				/* An outdated user space instance that does not understand
+  1984				 * the concept of user_features has attempted to create a new
+  1985				 * datapath and is likely to reuse it. Drop all user features.
+  1986				 */
+  1987				if (info->genlhdr->version < OVS_DP_VER_FEATURES)
+  1988					ovs_dp_reset_user_features(skb, info);
+  1989			}
+  1990	
+  1991			goto err_destroy_portids;
+  1992		}
+  1993	
+  1994		err = ovs_dp_cmd_fill_info(dp, reply, info->snd_portid,
+  1995					   info->snd_seq, 0, OVS_DP_CMD_NEW);
+  1996		BUG_ON(err < 0);
+  1997	
+  1998		ovs_net = net_generic(ovs_dp_get_net(dp), ovs_net_id);
+  1999		list_add_tail_rcu(&dp->list_node, &ovs_net->dps);
+  2000	
+  2001		ovs_unlock();
+  2002	
+  2003		ovs_notify(&dp_datapath_genl_family, reply, info);
+  2004		return 0;
+  2005	
+  2006	err_destroy_portids:
+  2007		kfree(rcu_dereference_raw(dp->upcall_portids));
+  2008	err_unlock_and_destroy_meters:
+  2009		ovs_unlock();
+  2010		ovs_meters_exit(dp);
+  2011	err_destroy_ports:
+  2012		kfree(dp->ports);
+  2013	err_destroy_stats:
+  2014		free_percpu(dp->stats_percpu);
+  2015	err_destroy_table:
+> 2016		ovs_flow_tbl_put(dp->table);
+  2017	err_destroy_dp:
+  2018		kfree(dp);
+  2019	err_destroy_reply:
+  2020		kfree_skb(reply);
+  2021	err:
+  2022		return err;
+  2023	}
+  2024	
 
 -- 
 0-DAY CI Kernel Test Service
