@@ -1,73 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365AF3A4F31;
-	Tue, 17 Mar 2026 10:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC3C3A2575
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 10:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773742254; cv=none; b=SZB8xCs+4oFaP6zfJva6vrJvWcKQ5z7mLk6GJnVFzboKF4OpWvOrNj66089yf9X5NtODHZhIZ66Ql2+5Vq1IZQWe7ADcjwiH8Hn0smqySf8JMyL5RggwkifXQ/sIxPMkdPCL18wYasbIXjQbbld91oWElfxz6MPJA3sQXMTz8ts=
+	t=1773742264; cv=none; b=agbBcodIlhF3X4kkhJTbkno0nv1ETzqqqlQOp3V/Lb1wJjs2gesbqo8uIglDwD73o9VI7+N4Z/oIwimeiIPS+u0RT4wEGex+qzscLem83iHJpJJDksY7JIj9S4mNNATGYKdlLoUpbmB9lcTzythJtBxy3/RFG/vJiXPFg2UsTy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773742254; c=relaxed/simple;
-	bh=pjLtVEXYu6Ezm9WVwTnSwzGyT6cFbKsaKtpF/hqBJGc=;
+	s=arc-20240116; t=1773742264; c=relaxed/simple;
+	bh=G8XoS1TYQKC+tZYU4Ara5WZJMLSwIp9nwLYY9towWNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ltqd8J+5gaElGyAqSPW8PoW29+bwjIAMgsqKXKRsVm+YdOUwBxWwOXvqi2PkIcm2IB4lOBQF3FKHGv9HkL58UVFmGVboEBHanKGOdY5Da0oyPznxRW6ph6jqKZAmr86uQFSz34KW+QKvu+G/xKkBnLYpeeUoarCuxy2quCXRuD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzLiiG+S; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eb0CXELBy5VmqLcwuUI92l0GfrxqkRetRDG4RIEPbwj8JBdsUmo1ZDRAgKpR2Gq9Ed6LWZDphMGRqMwuxY0UAlM8npSbSm47wdOO1oE8mSS3OGmot4RnqhoXty4q8TZ+FknRCPNZCYkLFmXqwUZfOLKL0XupuB8FAZI3BKEKrIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j6n1QXn7; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzLiiG+S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j6n1QXn7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773742248; x=1805278248;
+  t=1773742258; x=1805278258;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pjLtVEXYu6Ezm9WVwTnSwzGyT6cFbKsaKtpF/hqBJGc=;
-  b=mzLiiG+SjFVuLnJrIIdRS7NPl9eQiT/W4zFTlZZwXG/zrfHBO0o8J5Ng
-   s5gN+OutXtJ0ff89bhM1R3XaothSChtbsydnGzAvpZzHvIeaib7TUltBn
-   U2qF8wxBsQ1hC9WI4UWYzQUOoZ9byEUm3PSZXeVGjBbAdq/4dYr8nEAYJ
-   MoIJHfbFte4BsCxzjFrV4nvsVxmvGO016hYcB0EO6I5uwg2HERrcIbf+8
-   2eAaRMlp0gkZC1ODFNPMJsar1BJ/mgWM/ohulyrgTn/89Wc9QB7poEsRE
-   eRBLilOc/WxK3zhbiz69iHIi204GJYJtAJq8YQFFfNUbs+2KstMsyk+gN
-   Q==;
-X-CSE-ConnectionGUID: 3HKBzogoSDK450VGreiFoQ==
-X-CSE-MsgGUID: C4aOLXy3ST29aPiFXOI1bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="73947786"
+  bh=G8XoS1TYQKC+tZYU4Ara5WZJMLSwIp9nwLYY9towWNI=;
+  b=j6n1QXn78KXxB6gcAdEbhuPGwPnAuAybiJI4M4kR+8iSne4fDi1Gs0y6
+   yOTT/h2bHSZms7F1UKGDt3LAevvADMZSDIByPzE/JhMFV3wkgl7jWSK7h
+   fPO+TmuFpllLdmsih9gZZ36u5ZE2+ocvUTQmOxZwPUSZ2L+PhJQ4RUeSf
+   BmvXKeI8nv/bDF4hD6BWUrVc1z7tfES2LtZbeAcowSPOkjvI/1+zlei+G
+   UMSKSEEaj1BTqLLSSJ/goQl3imxutI3htl2qZo70RR5el2H28xCW6dtVM
+   GBSUsdTwOJD2SZngn2Zh5MimygLw1FskAQianGtHVQm/JXIponKQ6aHSv
+   A==;
+X-CSE-ConnectionGUID: dJzNNsEXStuTg8m7qsuTgA==
+X-CSE-MsgGUID: ugIgvME1S9a5re6ju6C/HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74887357"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="73947786"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 03:10:47 -0700
-X-CSE-ConnectionGUID: rZW/vNdCSgKXquYHdxLMXA==
-X-CSE-MsgGUID: P9pMYPriQluzlqeXNUdWPQ==
+   d="scan'208";a="74887357"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 03:10:57 -0700
+X-CSE-ConnectionGUID: Rxzhb+4DRZ+CCr2qhhaX3g==
+X-CSE-MsgGUID: 6LgERUjXRAKl9RGMGj261Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="224396867"
-Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Mar 2026 03:10:43 -0700
-Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
+   d="scan'208";a="222448493"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 17 Mar 2026 03:10:56 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2RNo-000000000Dd-19DE;
-	Tue, 17 Mar 2026 10:10:40 +0000
-Date: Tue, 17 Mar 2026 18:10:08 +0800
+	id 1w2RO1-000000004Pz-3AVE;
+	Tue, 17 Mar 2026 10:10:53 +0000
+Date: Tue, 17 Mar 2026 11:10:28 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jie Gan <jie.gan@oss.qualcomm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, Jie Gan <jie.gan@oss.qualcomm.com>
-Subject: Re: [PATCH v15 6/7] coresight: ctcu: enable byte-cntr for TMC ETR
- devices
-Message-ID: <202603171821.OtWlpARW-lkp@intel.com>
-References: <20260313-enable-byte-cntr-for-ctcu-v15-6-1777f14ed319@oss.qualcomm.com>
+To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, edumazet@google.com,
+	horms@kernel.org, kuba@kernel.org,
+	John Ousterhout <ouster@cs.stanford.edu>
+Subject: Re: [PATCH net-next v17 01/14] net: homa: define user-visible API
+ for Homa
+Message-ID: <202603171139.hOLQ0YKl-lkp@intel.com>
+References: <20260316223228.2611-2-ouster@cs.stanford.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,115 +65,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260313-enable-byte-cntr-for-ctcu-v15-6-1777f14ed319@oss.qualcomm.com>
+In-Reply-To: <20260316223228.2611-2-ouster@cs.stanford.edu>
 
-Hi Jie,
+Hi John,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jie-Gan/coresight-core-refactor-ctcu_get_active_port-and-make-it-generic/20260315-052703
-base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
-patch link:    https://lore.kernel.org/r/20260313-enable-byte-cntr-for-ctcu-v15-6-1777f14ed319%40oss.qualcomm.com
-patch subject: [PATCH v15 6/7] coresight: ctcu: enable byte-cntr for TMC ETR devices
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260317/202603171821.OtWlpARW-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171821.OtWlpARW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20260317-070659
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260316223228.2611-2-ouster%40cs.stanford.edu
+patch subject: [PATCH net-next v17 01/14] net: homa: define user-visible API for Homa
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260317/202603171139.hOLQ0YKl-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171139.hOLQ0YKl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603171821.OtWlpARW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603171139.hOLQ0YKl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/hwtracing/coresight/coresight-ctcu-byte-cntr.c:177:3: error: cannot jump from this goto statement to its label
-     177 |                 goto out;
-         |                 ^
-   drivers/hwtracing/coresight/coresight-ctcu-byte-cntr.c:179:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     179 |         guard(raw_spinlock_irqsave)(&byte_cntr_data->spin_lock);
-         |         ^
-   include/linux/cleanup.h:419:2: note: expanded from macro 'guard'
-     419 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:300:3: note: expanded from macro 'CLASS'
-     300 |                 class_##_name##_constructor
-         |                 ^
-   <scratch space>:18:1: note: expanded from here
-      18 | class_raw_spinlock_irqsave_constructor
-         | ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:24:1: note: expanded from here
-      24 | __UNIQUE_ID_unlock_802
-         | ^
-   drivers/hwtracing/coresight/coresight-ctcu-byte-cntr.c:179:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-   include/linux/cleanup.h:419:15: note: expanded from macro 'guard'
-     419 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:12:1: note: expanded from here
-      12 | __UNIQUE_ID_guard_801
-         | ^
-   1 error generated.
-
-
-vim +177 drivers/hwtracing/coresight/coresight-ctcu-byte-cntr.c
-
-   156	
-   157	static int tmc_read_prepare_byte_cntr(struct tmc_drvdata *etr_drvdata)
-   158	{
-   159		struct coresight_device *ctcu = tmc_etr_get_ctcu_device(etr_drvdata);
-   160		struct ctcu_byte_cntr *byte_cntr_data;
-   161		int ret = 0;
-   162	
-   163		/* byte-cntr is operating with SYSFS mode being enabled only */
-   164		if (coresight_get_mode(etr_drvdata->csdev) != CS_MODE_SYSFS)
-   165			return -EINVAL;
-   166	
-   167		byte_cntr_data = ctcu_get_byte_cntr(ctcu, etr_drvdata->csdev);
-   168		if (!byte_cntr_data || !byte_cntr_data->irq_enabled)
-   169			return -EINVAL;
-   170	
-   171		if (byte_cntr_data->reading)
-   172			return -EBUSY;
-   173	
-   174		/* Setup an available etr_buf_list for byte-cntr */
-   175		ret = tmc_create_etr_buf_list(etr_drvdata, 2);
-   176		if (ret)
- > 177			goto out;
-   178	
-   179		guard(raw_spinlock_irqsave)(&byte_cntr_data->spin_lock);
-   180		atomic_set(&byte_cntr_data->irq_cnt, 0);
-   181		/*
-   182		 * Configure the byte-cntr register to enable IRQ. The configured
-   183		 * size is 5% of the buffer_size.
-   184		 */
-   185		ctcu_cfg_byte_cntr_reg(byte_cntr_data->ctcu_drvdata,
-   186				       etr_drvdata->size / MAX_IRQ_CNT,
-   187				       byte_cntr_data->irq_ctrl_offset);
-   188		enable_irq_wake(byte_cntr_data->irq);
-   189		byte_cntr_data->buf_node = NULL;
-   190		byte_cntr_data->reading = true;
-   191	
-   192	out:
-   193		return ret;
-   194	}
-   195	
+   In file included from <command-line>:
+>> ./usr/include/linux/homa.h:11:10: fatal error: netinet/in.h: No such file or directory
+      11 | #include <netinet/in.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
