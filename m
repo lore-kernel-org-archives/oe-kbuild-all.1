@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19482D6E4B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 13:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCF43A5E7F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 14:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773754866; cv=none; b=Fv11lVW4wO9iV89f1h7cZDtfFdCOtmYHB5qg45H2ZguP6GcfXAxfmMu+/jzFGtcBnu46j5AHzc+MxU7T56THlkgwjLMWYPKOD6jx2G4RSJezrMFXkEFuBj408qYgT1hVGxBIMBN0SBg8o/sm12ygLK47KUaXmaEbOsNInRkP4DY=
+	t=1773757389; cv=none; b=S7I8ngoMGuoWOcg0xrrTEutF+eO2nN49dzl+KxZBFVeH8OULk4rwQOchv+JrwDDMN6xzkz0nJXaffYvElmNWUPzyslvrRAXE6T+DKyTMoo7q2tmfs8NV4709giRrqAbc7ojvFVw/2nagqkVMeo4qlOGT4eCrA50r/Yhh9Y9IHkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773754866; c=relaxed/simple;
-	bh=g5fv3xWA5KLF3ATUInIOWX3SWapCC6JCi/RfBcm1NkY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LE6Zbog4lZeq7vPIzryLfG5AxxdtzSBgk8DuiCIgkSfMES+W5PrCL8xloQQcnr3cK1GyJkAKCPy0SVzXY3DLwxjMIlJZsss8Y3e6KAj5OLmuqurN8DcBgWCwLZiGZllOINY/2gmYoan1KRt52Vj0SWzYUl+pKR4mXxyIVvIB1yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6admmRO; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1773757389; c=relaxed/simple;
+	bh=61oLJ2BZ4zRMwmCGX9VdOXLTHuqSa7+DACvsDxSyWzs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FI0dwsTUfS2Oi2pKCqxo1hE+K6/d+AMUc0ifjskUWv3Finc+Njp1MyNX7287GlKlGoncU0mdIWheRlHIu3eYdT5r07+FefEFFuSfT594IIeLmkyZSXSm/+wh7s90bO4PXeu/aUdkLPsV++2aY6lSZbgfb4mcdGR+G+pRHL1Ju3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evo0fRHi; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6admmRO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evo0fRHi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773754865; x=1805290865;
+  t=1773757388; x=1805293388;
   h=date:from:to:cc:subject:message-id;
-  bh=g5fv3xWA5KLF3ATUInIOWX3SWapCC6JCi/RfBcm1NkY=;
-  b=m6admmROaSUTRwsKc1xH4k9UeLJCaMytaEH5oIziIv35koZbKFRW7jMY
-   T8T7WI9dHIXm5BTfc16iJjNujMPPLZte7rztrfXLoStgE91R46dMy4oLx
-   mhZ66XtJGv0wNYr/RQsEBJD8Iq6Zclm8tcr5tEQxVMxxAaiMYIA2J2rul
-   kjn2mqYcA7pwAjb7IJCmAy7YEXlC2HyJGjvbs1lMFTdfaghPlEYclgyLY
-   tS6vr7cqnSjfO5o5qw8qlkaYpfk6QT+djGIU2xy+yGhVLjNxz9ME3SIeU
-   MjD8AV5v2ZV+v3JZd/pOcL6OjaKvTSP8WIR54zQS4fmyZVNu1V1KATk7V
-   A==;
-X-CSE-ConnectionGUID: BEXKDZNATiuo3cDLAdzWPw==
-X-CSE-MsgGUID: FqrfogsxQaqP6J5Jl6f1ZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="62352033"
+  bh=61oLJ2BZ4zRMwmCGX9VdOXLTHuqSa7+DACvsDxSyWzs=;
+  b=evo0fRHi/ndHsAORbgoVToLqafUR4YqnflVjPlnlp+QfIthlVeQ9q3W/
+   5cYVfTcIPugmFGYR1ntO1eEZnxKEs+XXsFhjIgW9loYTTZRkI7KnWjRj6
+   4/B5+H8FusIvevcUMQx7p7Zm/dojCwC/cF4O2SRaSlXoHC/4kqT1MXVGT
+   6qIjnKr6NjGR3XGg3nAP+I/yac1xQCEWDSYC56hmteNGKClFd7ihUPRHx
+   5E4T2rPgTEP9Awddf+A3BCSrIuFMF6CQszpxOx/fnWsTwV94oguRrbwwy
+   TJEvUVUx9GgU7ng0rsEp049AuW5kqR6mDE6ltabmRi3fvuWf25+ahd83g
+   g==;
+X-CSE-ConnectionGUID: 664GkXkmRryPAUVIRMixrQ==
+X-CSE-MsgGUID: FNndS4SrTxWSVVNsBHtYaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="85418110"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="62352033"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:41:04 -0700
-X-CSE-ConnectionGUID: S4nrMOr3QGqGuOx4f7ov3A==
-X-CSE-MsgGUID: Wl9bZ3nUQ9a0rFnO/BJoGw==
+   d="scan'208";a="85418110"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 07:23:07 -0700
+X-CSE-ConnectionGUID: /NfpS9bcSqmpcx7droJXQg==
+X-CSE-MsgGUID: N53tT9ANT+2w5qipy6YMEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="221317443"
+   d="scan'208";a="245303875"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Mar 2026 06:41:03 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Mar 2026 07:23:06 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2UfL-000000000Tp-3tcj;
-	Tue, 17 Mar 2026 13:40:59 +0000
-Date: Tue, 17 Mar 2026 21:40:25 +0800
+	id 1w2VK3-000000000XF-2oFV;
+	Tue, 17 Mar 2026 14:23:03 +0000
+Date: Tue, 17 Mar 2026 22:22:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:main-16k-gs-shusky-5.15 30/30]
- drivers/cma_test/cma_alloc_test_drv.c:75:12: error: incompatible function
- pointer types initializing 'int (*)(struct platform_device *)' with an
- expression of type 'void (struct platform_device *)'
-Message-ID: <202603172157.TOR1ZHZ8-lkp@intel.com>
+ mm/page_alloc_debugfs.c:23:7: warning: GCC does not allow variable
+ declarations in for loop initializers before C99
+Message-ID: <202603172222.5HLydAd2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,55 +60,71 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Juan,
-
-FYI, the error/warning still remains.
-
 tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
 head:   339bea17e1ccb695cddcbc39f88955c85e45d97a
-commit: 15432ccf862045408c00db1c2d0ee04fdc415ac6 [30/30] ANDROID: cma: Skeleton for CMA alloc test driver
-config: x86_64-buildonly-randconfig-003-20260317 (https://download.01.org/0day-ci/archive/20260317/202603172157.TOR1ZHZ8-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603172157.TOR1ZHZ8-lkp@intel.com/reproduce)
+commit: 51fec4ca6219da87e39a3c1b94e9c05741c46b5a [30/30] ANDROID: mm: Create dirs for the page orders in the debugfs
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260317/202603172222.5HLydAd2-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project f46a5153850c1303d687233d4adf699b01041da8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603172222.5HLydAd2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603172157.TOR1ZHZ8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603172222.5HLydAd2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    In file included from <built-in>:3:
    In file included from include/linux/compiler_types.h:80:
    include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
       24 | #define __SANITIZE_ADDRESS__
          |         ^
-   <built-in>:354:9: note: previous definition is here
-     354 | #define __SANITIZE_ADDRESS__ 1
+   <built-in>:368:9: note: previous definition is here
+     368 | #define __SANITIZE_ADDRESS__ 1
          |         ^
->> drivers/cma_test/cma_alloc_test_drv.c:75:12: error: incompatible function pointer types initializing 'int (*)(struct platform_device *)' with an expression of type 'void (struct platform_device *)' [-Wincompatible-function-pointer-types]
-      75 |         .remove = cma_test_remove,
-         |                   ^~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+>> mm/page_alloc_debugfs.c:23:7: warning: GCC does not allow variable declarations in for loop initializers before C99 [-Wgcc-compat]
+      23 |         for (int order = 0; order < NR_PAGE_ORDERS; order++) {
+         |              ^
+   mm/page_alloc_debugfs.c:23:30: error: use of undeclared identifier 'NR_PAGE_ORDERS'
+      23 |         for (int order = 0; order < NR_PAGE_ORDERS; order++) {
+         |                                     ^~~~~~~~~~~~~~
+   2 warnings and 1 error generated.
 
 
-vim +75 drivers/cma_test/cma_alloc_test_drv.c
+vim +23 mm/page_alloc_debugfs.c
 
-    67	
-    68	static struct platform_driver cma_test_driver = {
-    69		.driver = {
-    70			.name = "cma_alloc_test",
-    71			.owner = THIS_MODULE,
-    72			.of_match_table = of_match_ptr(cma_test_dt_ids),
-    73		},
-    74		.probe = cma_test_probe,
-  > 75		.remove = cma_test_remove,
-    76		.suspend = cma_test_suspend,
-    77		.shutdown = cma_test_shutdown,
-    78		.resume = cma_test_resume,
-    79		.id_table = cma_test_id_table,
-    80	};
-    81	
+    16	
+    17	
+    18	static inline void create_page_orders_subdirs(struct zone *zone, struct dentry *zonedir)
+    19	{
+    20		struct dentry *orderdir;
+    21		char dirname[12];
+    22	
+  > 23		for (int order = 0; order < NR_PAGE_ORDERS; order++) {
+    24			snprintf(dirname, sizeof(dirname), "order-%d", order);
+    25			orderdir = debugfs_create_dir(dirname, zonedir);
+    26		}
+    27	}
+    28	static inline void create_zones_subdirs(struct pglist_data *pgdata, struct dentry *nodedir)
+    29	{
+    30		struct dentry *zonedir;
+    31		struct zone *zone;
+    32		struct zone *node_zones = pgdata->node_zones;
+    33		unsigned long flags;
+    34		char dirname[24];
+    35	
+    36		for (zone = node_zones; zone - node_zones < MAX_NR_ZONES; ++zone) {
+    37			if (!populated_zone(zone))
+    38				continue;
+    39	
+    40			snprintf(dirname, sizeof(dirname), "zone-%s", zone->name);
+    41			spin_lock_irqsave(&zone->lock, flags);
+    42			zonedir = debugfs_create_dir(dirname, nodedir);
+    43			create_page_orders_subdirs(zone, zonedir);
+    44			spin_unlock_irqrestore(&zone->lock, flags);
+    45		}
+    46	}
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
