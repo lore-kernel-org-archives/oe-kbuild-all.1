@@ -1,140 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213443358B9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 22:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3A5318121
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 22:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773785878; cv=none; b=DVYGulv3ruPgnM/kHaVIDHobNWmJiebsXaYtfnp3iTlf3EAEl8lYnGH9+kqpWrEY7dcTVpXuNMwJj+805GRk3jaim/KJWsw7sVfUDBphjFnlplxL7xszdd8/36QpONZzE7Zs03iEZCO1BXCYOnQRJoQKqDZQaF6gJFQXWur9t7w=
+	t=1773786593; cv=none; b=q1HCCND43i6dKmoQKNHj696U2Zj80GRzictTVu0sQ3BJiHD2hzVyrkU/Eu0JCQUq/nW52xpq+15F0/4XFyqDYj0YaW37JbmV1T6UjD0Ovz+FQxQs0engJ3ufysU57O4Ix4zq4qlboizsHfrS8+qFP6J8r7XgrznV0/1NBQOGO70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773785878; c=relaxed/simple;
-	bh=FNWIPBES0YKSmK+pgav9TGtnCBJV8EEE9Co9MfCjjrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nUMRSUjboaOd7Da4hsjbyPjxC/b1TSQCzcCX5zrawHE3rW/wA/GVCONBNPfu5505Prlc+PlFcOuUPg5qDa7ozoL6Tw6Kk+DOsWNWGgUuOwplpwFRLotX1MKbIwKAWsYLO9YDXo3EDuKSk8VjO+TjnqKpxKzUlhr8q7qB5Mau95U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lc+cZaHh; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1773786593; c=relaxed/simple;
+	bh=S70+Qu/+Xa5tSfl/OGUS9uIu0mvYQncdYiGK6r6lmsY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FZHTL+XLgxje0lEjInTc0Q/WtArKlWFE9l+7fhjBjPexrvpKNK9IndjiFk1oQSgjEYWXqCMbenbXCczoAN5MwmcgLs3Py/OA7yCpjg71bYh0V2VPf2+BWMYuojMknxZMxI/z9EgB6A6T2/qDqa9kiStLPyviBXaDe2faWD1JnFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0ta6yXy; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lc+cZaHh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0ta6yXy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773785877; x=1805321877;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FNWIPBES0YKSmK+pgav9TGtnCBJV8EEE9Co9MfCjjrI=;
-  b=Lc+cZaHhqwABNw5JpP6esfp9Mjcm7LJ5jFm75MurN5IWP25k/CnGAGQK
-   AdFv2uOPVMf0bq3AO0CsxGTrivfnnLryCQLf7OO+E7XufcuoMEPNGHVVO
-   F1607CFW3D7aQ3DouMJhFyo7HGcUtVOE3AYHHNNgWd21up/gZCnPz9AVF
-   RJ9nR981WrjqT9hBTI+oczTYLZCWPhzFYP6HEI0oTymrAxZo6Np5SVi8z
-   ptD+sfnUDS+LRzFbBJLfaSBdyziwTVphBmFTacWCHLsL/QbIGSS/fqgm0
-   2ZFT0e4AJ5LBEHWYeb9Wr95xvE2vric/pdCS9suNl4MQXPFOhAOwVaUD2
+  t=1773786592; x=1805322592;
+  h=date:from:to:cc:subject:message-id;
+  bh=S70+Qu/+Xa5tSfl/OGUS9uIu0mvYQncdYiGK6r6lmsY=;
+  b=O0ta6yXyGeMtw2jWPBLYGfgH9EClL3NkWKIgTAQOdTenf5uJKxk0RO3V
+   KvzvdzSM1vHnHl43MD3dwuejIOo32MqqbB4JTdLHxOTBtlcEVdP2kLTMQ
+   SsEi6uhfs166j+cCrbhnfwRYsGVapnez5xU1wyRv9aZRdpApDxx+uaGLp
+   8XqaUZs5BH0NiO+j4xQf/7IfEADGiq12vF9PVnYv1bPXQSBiR+766tXGF
+   wEWO6R/DuEUAJIOmtzhK+Ui/w8MBYwNoNzKFS+sxlBu4nd6ZxiujgKgGD
+   HSVom5pngAJbnrRzZTfhu6Uc8czi7dkQY5dxspgeiuPIF5KAqbI56tsRd
    A==;
-X-CSE-ConnectionGUID: G90fS0WOQEyDRVSCWiZkmQ==
-X-CSE-MsgGUID: KTo6qxFTR7Kr3HMIj1Xc1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="100293807"
+X-CSE-ConnectionGUID: My2iwh9YSqqp+Q1XX4vQQA==
+X-CSE-MsgGUID: Jm/mKa1cTb+GtBUtuO2S2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74750514"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="100293807"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 15:17:56 -0700
-X-CSE-ConnectionGUID: 00Dw8TaWSC+6yJmQpnHcEQ==
-X-CSE-MsgGUID: fVwSoFFSRdiAqNVwH5HOiw==
+   d="scan'208";a="74750514"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 15:29:51 -0700
+X-CSE-ConnectionGUID: UEfsFN3oQkOPU1vfF2HNrA==
+X-CSE-MsgGUID: IxLRS/4MS4iFKtYn1LpKug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="218493195"
+   d="scan'208";a="222385760"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Mar 2026 15:17:49 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Mar 2026 15:29:49 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2cjS-0000000026D-0zP9;
-	Tue, 17 Mar 2026 22:17:46 +0000
-Date: Wed, 18 Mar 2026 06:17:31 +0800
+	id 1w2cv5-00000000273-0td2;
+	Tue, 17 Mar 2026 22:29:47 +0000
+Date: Wed, 18 Mar 2026 06:29:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Dmitry Baryshkov <lumag@kernel.org>, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v6 9/9] power: sequencing: pcie-m2: Create serdev device
- for WCN7850 bluetooth
-Message-ID: <202603180609.ucspJefN-lkp@intel.com>
-References: <20260317-pci-m2-e-v6-9-9c898f108d3d@oss.qualcomm.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: oe-kbuild-all@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
+Subject: [linux-next:master 6300/6828] fs/erofs/ishare.c:157:15:
+ error: implicit declaration of function 'security_mmap_backing_file'
+Message-ID: <202603180630.HWujluGX-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317-pci-m2-e-v6-9-9c898f108d3d@oss.qualcomm.com>
 
-Hi Manivannan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 559f264e403e4d58d56a17595c60a1de011c5e20]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/serdev-Convert-to_serdev_-helpers-to-macros-and-use-container_of_const/20260317-123910
-base:   559f264e403e4d58d56a17595c60a1de011c5e20
-patch link:    https://lore.kernel.org/r/20260317-pci-m2-e-v6-9-9c898f108d3d%40oss.qualcomm.com
-patch subject: [PATCH v6 9/9] power: sequencing: pcie-m2: Create serdev device for WCN7850 bluetooth
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260318/202603180609.ucspJefN-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180609.ucspJefN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8e5a478b6d6a5bb0a3d52147862b15e4d826af19
+commit: 0e2baaf8fed0eba6ae83949b8bd317d808efd220 [6300/6828] lsm: add the security_mmap_backing_file() hook
+config: i386-randconfig-003-20260317 (https://download.01.org/0day-ci/archive/20260318/202603180630.HWujluGX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180630.HWujluGX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603180609.ucspJefN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603180630.HWujluGX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/power/sequencing/pwrseq-pcie-m2.c: In function 'pwrseq_pcie_m2_free_resources':
->> drivers/power/sequencing/pwrseq-pcie-m2.c:185:34: error: 'pci_bus_type' undeclared (first use in this function); did you mean 'pci_pcie_type'?
-     185 |         bus_unregister_notifier(&pci_bus_type, &ctx->nb);
-         |                                  ^~~~~~~~~~~~
-         |                                  pci_pcie_type
-   drivers/power/sequencing/pwrseq-pcie-m2.c:185:34: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/power/sequencing/pwrseq-pcie-m2.c: In function 'pwrseq_pcie_m2_register_notifier':
-   drivers/power/sequencing/pwrseq-pcie-m2.c:340:54: error: 'pci_bus_type' undeclared (first use in this function); did you mean 'pci_pcie_type'?
-     340 |                         ret = bus_register_notifier(&pci_bus_type, &ctx->nb);
-         |                                                      ^~~~~~~~~~~~
-         |                                                      pci_pcie_type
+   fs/erofs/ishare.c: In function 'erofs_ishare_mmap':
+>> fs/erofs/ishare.c:157:15: error: implicit declaration of function 'security_mmap_backing_file' [-Wimplicit-function-declaration]
+     157 |         err = security_mmap_backing_file(vma, realfile, file);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +185 drivers/power/sequencing/pwrseq-pcie-m2.c
+vim +/security_mmap_backing_file +157 fs/erofs/ishare.c
 
-   179	
-   180	static void pwrseq_pcie_m2_free_resources(void *data)
-   181	{
-   182		struct pwrseq_pcie_m2_ctx *ctx = data;
-   183	
-   184		serdev_device_remove(ctx->serdev);
- > 185		bus_unregister_notifier(&pci_bus_type, &ctx->nb);
-   186		of_changeset_revert(ctx->ocs);
-   187		of_changeset_destroy(ctx->ocs);
-   188		regulator_bulk_free(ctx->num_vregs, ctx->regs);
-   189	}
-   190	
+   149	
+   150	static int erofs_ishare_mmap(struct file *file, struct vm_area_struct *vma)
+   151	{
+   152		struct file *realfile = file->private_data;
+   153		int err;
+   154	
+   155		vma_set_file(vma, realfile);
+   156	
+ > 157		err = security_mmap_backing_file(vma, realfile, file);
+   158		if (err)
+   159			return err;
+   160	
+   161		return generic_file_readonly_mmap(file, vma);
+   162	}
+   163	
 
 -- 
 0-DAY CI Kernel Test Service
