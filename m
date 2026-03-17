@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D5131E841;
-	Tue, 17 Mar 2026 17:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C6E37F8CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 18:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773770186; cv=none; b=XffWepLJoFxt4xg+j9cvsCFtluDBaeyZlr/kPlQjpN0QnyIWWuauZeSKc1A5qMo3bXRYOKfZi+c8ygCjiC/7go7AKdbDDf2lrlOciKB2EeMvtCndK1k9sx8l0kOq03ZLfRTdoGEGDeKcMlGj5PKpHwPyIjYfa5OtMu2dFZBkLzQ=
+	t=1773771509; cv=none; b=dAZdSWc/SBwV8YHKi2VTpTOyxKz432/2XXe/IvP7oS9kqG88ymK3vW6fWj6VP0zjughvQ57zLsAp32m3c+ywIcJOEUGhWbVnn5mqZGrKkujmbvtGBeTQ4TPqc/e2psCvzZbxjQ8OGsNKGATcITv8ZSfU7PXXaP5tbu2/D8FF2OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773770186; c=relaxed/simple;
-	bh=oeoeZ1TsBNUyhMWJyS66KyJ4V0L4Gjw+0F740YbxJ7M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IGxaEBxhBpsevs6cydiGqY6A38xFB/FghYETuGauhJd0ZMv6tjcaFw/8ToD+pSnRwlEDt9EBRtY10ModHP1aM5W0ukllepjBDLZ6/8bT5G2W1rYJk1H65sUuVeH8BiTD7J/ukHmMwjP94Xckr+2UuHi56kqSIDFWRJYX5dtjYts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Htb2ZG4p; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1773771509; c=relaxed/simple;
+	bh=LYs0wpbMJHtEtmUd4Ld9gnRvBQP88SfhISzVvE8kcrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hSvjLbjy+G4P3Q5PTBBvub4hiUBE0uOeOw2Gdy5+LYMb5UGSxc5uXS/bBeScd44nB38WBiIAMjATBs4TdXoH8HyakU8DmN8FfYog3fui1tPT+dJGr9gSlCTTc0fih2LL/Ml4S24aHlRXIL6aIP2pwEDX3cBldguP+WWgryzUS+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hqggk5Pb; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Htb2ZG4p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hqggk5Pb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773770185; x=1805306185;
+  t=1773771509; x=1805307509;
   h=date:from:to:cc:subject:message-id;
-  bh=oeoeZ1TsBNUyhMWJyS66KyJ4V0L4Gjw+0F740YbxJ7M=;
-  b=Htb2ZG4pnLO9hXrBGhU+x7m9VQTKuJlHPQ18B2Pg+VRWH0LUH4uBda/j
-   eMVkVGZZUQp8hUOe21cK6AZ9SSp/i3+j8SDs10qpnAC8qXYYiPSNMzF1X
-   TimPsXfLSR32gvtVZgKQ8MuxLKXrhBVHo3quxDMHzfqp5ROAwrlRJdX+f
-   IhvSUiYSLnScBffQphht32wzPgT0wVakqFO8r02wOnvCG4QPeZ5M5JOb8
-   swvZtPjuRGzjC6n7kppQEUdYbO9eC1J23zQ93Bk6wVoVAfa45Oct3LoID
-   bvtR9j0yxegLM4zQH474Qm3cf8Ov1xN4745YHYSh7RHdhrg+vnaWTQmUr
-   A==;
-X-CSE-ConnectionGUID: KbHAglEOS9CseHHRXMojqQ==
-X-CSE-MsgGUID: Ttt1jniuSLaXot5zfuM4Rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74934806"
+  bh=LYs0wpbMJHtEtmUd4Ld9gnRvBQP88SfhISzVvE8kcrQ=;
+  b=Hqggk5PbNT5DJR8RRDjkK9LgNsxlPnp7DzdCYRUyAXybkWk6k2Sy1Y0q
+   Fr9pzNEoGc7QbSqWqmsltbGAMSOl+ksXHeO2nWkL2oe3w6pz2wcDXbCc5
+   K3uudCqJ6RGrxBL6dQ2ermNmealTLMq4CINNPg1bF96nlm1ygOWDtp3sJ
+   aNy/Hz0HXfwO4nwAwn43MNIkREbvqBmZ/3vHAAAjSVGXUbyFatrXQK7fq
+   OzCw8YawVJ2SJjeeA2tYIu7AKjayF7uyQihhX7geRGr6ATT+ZJpOLrjT+
+   VCEpF2A4XYOM0Vc13GNbOsWjj9PveskgQA5tx565JemBh7UTj4MS+3MGn
+   g==;
+X-CSE-ConnectionGUID: PlNmjgthTi+wfetVSBe1xA==
+X-CSE-MsgGUID: euYC0b8OQRO12WXXkgiiTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="86288133"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="74934806"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 10:56:25 -0700
-X-CSE-ConnectionGUID: buwq+U02Q0CrGMKg775T1Q==
-X-CSE-MsgGUID: pyJgd8HqScSOmuixig1unQ==
+   d="scan'208";a="86288133"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 11:18:28 -0700
+X-CSE-ConnectionGUID: 5vPkjq2UQXWO9lMPGRdvtg==
+X-CSE-MsgGUID: NGlWBsITQdORQmiXYvpkxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="246974909"
+   d="scan'208";a="221421888"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Mar 2026 10:56:22 -0700
+  by orviesa006.jf.intel.com with ESMTP; 17 Mar 2026 11:18:26 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2YeS-000000001jZ-0GuO;
-	Tue, 17 Mar 2026 17:56:20 +0000
-Date: Wed, 18 Mar 2026 01:55:34 +0800
+	id 1w2Yzn-000000001mf-3Wz0;
+	Tue, 17 Mar 2026 18:18:23 +0000
+Date: Wed, 18 Mar 2026 02:18:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asim Viladi Oglu Manizada <manizada@pm.me>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Namjae Jeon <linkinjeon@kernel.org>,
- Steve French <stfrench@microsoft.com>
-Subject: [samba-ksmbd:ksmbd-for-next-next 11/12]
- fs/smb/server/smb2pdu.c:5723:3: warning: variable 'pntsd' is uninitialized
- when used here
-Message-ID: <202603180118.ClDWNtId-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:main-16k-gs-shusky-5.15 30/30]
+ drivers/cma/mm/mem_phys_layout.c:151:16: warning: mixing declarations and
+ code is a C99 extension
+Message-ID: <202603180241.H8swoYyJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,137 +60,95 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-head:   a58d8c8b3d5daee33fb03f4d41ea278ae6e6ffc9
-commit: 095198efe2c86423f647b242687c50e34e355d3a [11/12] ksmbd: fix heap OOB write in QUERY_INFO for compound requests
-config: arm-randconfig-003-20260317 (https://download.01.org/0day-ci/archive/20260318/202603180118.ClDWNtId-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
+head:   8404bec96d8beeedc68b62c9235f1ac09495f9ab
+commit: b6f7366938c4d377ba5179501f82eea795a17bc2 [30/30] ANDROID: mm: Calculate struct page address given the PFN and vemmap
+config: x86_64-buildonly-randconfig-003-20260317 (https://download.01.org/0day-ci/archive/20260318/202603180241.H8swoYyJ-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180118.ClDWNtId-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180241.H8swoYyJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603180118.ClDWNtId-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603180241.H8swoYyJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/smb/server/smb2pdu.c:5723:3: warning: variable 'pntsd' is uninitialized when used here [-Wuninitialized]
-    5723 |                 pntsd->revision = cpu_to_le16(1);
-         |                 ^~~~~
-   fs/smb/server/smb2pdu.c:5708:24: note: initialize the variable 'pntsd' to silence this warning
-    5708 |         struct smb_ntsd *pntsd, *ppntsd = NULL;
-         |                               ^
-         |                                = NULL
-   1 warning generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:354:9: note: previous definition is here
+     354 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/cma/mm/mem_phys_layout.c:151:16: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+     151 |         unsigned long last_pfn = pfn - 1;
+         |                       ^
+   2 warnings generated.
 
 
-vim +/pntsd +5723 fs/smb/server/smb2pdu.c
+vim +151 drivers/cma/mm/mem_phys_layout.c
 
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5701  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5702  static int smb2_get_info_sec(struct ksmbd_work *work,
-64b39f4a2fd293 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-30  5703  			     struct smb2_query_info_req *req,
-cb4517201b8acd fs/ksmbd/smb2pdu.c      Namjae Jeon               2021-11-03  5704  			     struct smb2_query_info_rsp *rsp)
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5705  {
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5706  	struct ksmbd_file *fp;
-4609e1f18e19c3 fs/ksmbd/smb2pdu.c      Christian Brauner         2023-01-13  5707  	struct mnt_idmap *idmap;
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5708  	struct smb_ntsd *pntsd, *ppntsd = NULL;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5709  	struct smb_fattr fattr = {{0}};
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5710  	struct inode *inode;
-8f0541186e9ad1 fs/ksmbd/smb2pdu.c      Namjae Jeon               2022-08-02  5711  	__u32 secdesclen = 0;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5712  	unsigned int id = KSMBD_NO_FID, pid = KSMBD_NO_FID;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5713  	int addition_info = le32_to_cpu(req->AdditionalInformation);
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5714  	int rc = 0, ppntsd_size = 0, max_len;
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5715  	size_t scratch_len;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5716  
-e294f78d347851 fs/ksmbd/smb2pdu.c      Namjae Jeon               2021-06-28  5717  	if (addition_info & ~(OWNER_SECINFO | GROUP_SECINFO | DACL_SECINFO |
-e294f78d347851 fs/ksmbd/smb2pdu.c      Namjae Jeon               2021-06-28  5718  			      PROTECTED_DACL_SECINFO |
-e294f78d347851 fs/ksmbd/smb2pdu.c      Namjae Jeon               2021-06-28  5719  			      UNPROTECTED_DACL_SECINFO)) {
-8e537d1465e740 fs/ksmbd/smb2pdu.c      Namjae Jeon               2021-11-21  5720  		ksmbd_debug(SMB, "Unsupported addition info: 0x%x)\n",
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5721  		       addition_info);
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5722  
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27 @5723  		pntsd->revision = cpu_to_le16(1);
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5724  		pntsd->type = cpu_to_le16(SELF_RELATIVE | DACL_PROTECTED);
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5725  		pntsd->osidoffset = 0;
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5726  		pntsd->gsidoffset = 0;
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5727  		pntsd->sacloffset = 0;
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5728  		pntsd->dacloffset = 0;
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5729  
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5730  		secdesclen = sizeof(struct smb_ntsd);
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5731  		rsp->OutputBufferLength = cpu_to_le32(secdesclen);
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5732  
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5733  		return 0;
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5734  	}
-ced2b26a76cd1d fs/cifsd/smb2pdu.c      Sebastian Gottschall      2021-04-27  5735  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5736  	if (work->next_smb2_rcv_hdr_off) {
-2d004c6cae567e fs/ksmbd/smb2pdu.c      Paulo Alcantara           2022-03-21  5737  		if (!has_file_id(req->VolatileFileId)) {
-3867369ef8f760 fs/ksmbd/smb2pdu.c      Namjae Jeon               2021-07-08  5738  			ksmbd_debug(SMB, "Compound request set FID = %llu\n",
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5739  				    work->compound_fid);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5740  			id = work->compound_fid;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5741  			pid = work->compound_pfid;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5742  		}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5743  	}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5744  
-3867369ef8f760 fs/ksmbd/smb2pdu.c      Namjae Jeon               2021-07-08  5745  	if (!has_file_id(id)) {
-2d004c6cae567e fs/ksmbd/smb2pdu.c      Paulo Alcantara           2022-03-21  5746  		id = req->VolatileFileId;
-2d004c6cae567e fs/ksmbd/smb2pdu.c      Paulo Alcantara           2022-03-21  5747  		pid = req->PersistentFileId;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5748  	}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5749  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5750  	fp = ksmbd_lookup_fd_slow(work, id, pid);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5751  	if (!fp)
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5752  		return -ENOENT;
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5753  
-4609e1f18e19c3 fs/ksmbd/smb2pdu.c      Christian Brauner         2023-01-13  5754  	idmap = file_mnt_idmap(fp->filp);
-ab0b263b749ade fs/ksmbd/smb2pdu.c      Namjae Jeon               2021-06-29  5755  	inode = file_inode(fp->filp);
-e67fe63341b811 fs/ksmbd/smb2pdu.c      Christian Brauner         2023-01-13  5756  	ksmbd_acls_fattr(&fattr, idmap, inode);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5757  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5758  	if (test_share_config_flag(work->tcon->share_conf,
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5759  				   KSMBD_SHARE_FLAG_ACL_XATTR))
-4609e1f18e19c3 fs/ksmbd/smb2pdu.c      Christian Brauner         2023-01-13  5760  		ppntsd_size = ksmbd_vfs_get_sd_xattr(work->conn, idmap,
-8f0541186e9ad1 fs/ksmbd/smb2pdu.c      Namjae Jeon               2022-08-02  5761  						     fp->filp->f_path.dentry,
-8f0541186e9ad1 fs/ksmbd/smb2pdu.c      Namjae Jeon               2022-08-02  5762  						     &ppntsd);
-8f0541186e9ad1 fs/ksmbd/smb2pdu.c      Namjae Jeon               2022-08-02  5763  
-8f0541186e9ad1 fs/ksmbd/smb2pdu.c      Namjae Jeon               2022-08-02  5764  	/* Check if sd buffer size exceeds response buffer size */
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5765  	max_len = smb2_calc_max_out_buf_len(work,
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5766  			offsetof(struct smb2_query_info_rsp, Buffer),
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5767  			le32_to_cpu(req->OutputBufferLength));
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5768  	if (max_len < 0) {
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5769  		rc = -EINVAL;
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5770  		goto out;
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5771  	}
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5772  
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5773  	scratch_len = smb_acl_sec_desc_scratch_len(&fattr, ppntsd,
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5774  			ppntsd_size, addition_info);
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5775  	pntsd = kvmalloc(scratch_len, KSMBD_DEFAULT_GFP);
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5776  	if (!pntsd) {
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5777  		rc = -ENOMEM;
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5778  		goto out;
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5779  	}
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5780  
-4d7ca4090184c1 fs/ksmbd/smb2pdu.c      Christian Brauner         2023-01-13  5781  	rc = build_sec_desc(idmap, pntsd, ppntsd, ppntsd_size,
-8f0541186e9ad1 fs/ksmbd/smb2pdu.c      Namjae Jeon               2022-08-02  5782  			addition_info, &secdesclen, &fattr);
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5783  
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5784  out:
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5785  	posix_acl_release(fattr.cf_acls);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5786  	posix_acl_release(fattr.cf_dacls);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5787  	kfree(ppntsd);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5788  	ksmbd_fd_put(work, fp);
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5789  	if (rc) {
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5790  		kvfree(pntsd);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5791  		return rc;
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5792  	}
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5793  
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5794  	rsp->OutputBufferLength = cpu_to_le32(secdesclen);
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5795  	return ksmbd_iov_pin_rsp_read(work, (void *)rsp,
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5796  			offsetof(struct smb2_query_info_rsp, Buffer),
-095198efe2c864 fs/smb/server/smb2pdu.c Asim Viladi Oglu Manizada 2026-03-16  5797  			pntsd, secdesclen);
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5798  }
-e2f34481b24db2 fs/cifsd/smb2pdu.c      Namjae Jeon               2021-03-16  5799  
-
-:::::: The code at line 5723 was first introduced by commit
-:::::: ced2b26a76cd1db0b6ccb39e0bc873177c9bda21 cifsd: Fix regression in smb2_get_info
-
-:::::: TO: Sebastian Gottschall <s.gottschall@dd-wrt.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+   116	
+   117	static void print_page_info(void)
+   118	{
+   119		unsigned long pfn;
+   120		int valid = 0;
+   121		int invalid = 0;
+   122		unsigned long num_physpages = get_num_physpages();
+   123	
+   124		// Start address as per DTS memory@40000000. The first valid PFN represents
+   125		// this page frame.
+   126		phys_addr_t start_addr = memblock_start_of_DRAM();
+   127		unsigned long start_pfn = PHYS_PFN(start_addr);
+   128	
+   129		for (pfn = start_pfn; pfn < (start_pfn + num_physpages); pfn++) {
+   130			if (pfn_valid(pfn))
+   131				valid++;
+   132			else
+   133				invalid++;
+   134		}
+   135	
+   136		pr_info("get_num_physpages() = %lu", num_physpages);
+   137		pr_info("valid %d, invalid %d, physpages %lu", valid, invalid, num_physpages);
+   138	
+   139		pr_info("Start PFN");
+   140		print_mem_model(start_pfn);
+   141		pr_info("End PFN");
+   142		print_mem_model(pfn - 1);
+   143	
+   144	#ifdef CONFIG_SPARSEMEM_VMEMMAP
+   145		// CALCULATE STRUCT *P GIVEN THE PFN and vmemmap address
+   146		pr_info("First struct page starts at: vmemmap        [mem %#010Lx]\n",
+   147				(unsigned long long)vmemmap);
+   148	
+   149		// How to calculate Physical Address of the Page Frame and the struct page
+   150		// given the PFN.
+ > 151		unsigned long last_pfn = pfn - 1;
+   152		struct page *page = vmemmap + last_pfn;
+   153		phys_addr_t addr = last_pfn << PAGE_SHIFT;
+   154	
+   155		pr_info("Calculating physical address given vmemmap and PFN %10llu == %#010Lx",
+   156					(u64)last_pfn, (u64)last_pfn);
+   157		pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
+   158				(u64)last_pfn,
+   159				(u64)last_pfn,
+   160				(u64)page,
+   161				addr);
+   162	#endif
+   163	}
+   164	static int __init mem_phys_layout_init(void)
+   165	{
+   166		print_ram_info();
+   167		print_node_data();
+   168		print_pfn_start_address();
+   169		print_pageblock_info();
+   170		print_page_info();
+   171	
+   172		return 0;
+   173	}
+   174	
 
 -- 
 0-DAY CI Kernel Test Service
