@@ -1,115 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D6939E6CB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 08:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33BE345CC0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 09:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773737939; cv=none; b=jUQvc33g7ov9EKo58FQVLKC+1vCK2lkzjjKXyOzjTvcCvQJVaY0zJwjMajVeXz2x/rhE6qP9vfEr/PAVcZhhh1L4b7wjId+aUULyWgiZvE0oZo/u1PmGdOkuhttFCMDqHUSAuHZ2ZPAOaedXCbpRoeGHaFM9O7Uv9lv7KqU4imM=
+	t=1773738387; cv=none; b=eizYJDWf671sQva8LkUDoFbi6xQVn/rYSFSpeaF7v5BvVm9/oXP6S0Xi2z/CUCgsyx946MAuZ7Yug9fZ2coO3GJZuvPnvVel5/EWnHzT22r7PsWyfsc3amYiRsQSW4kVui09VJDlwR2Vg7kMYL4gviWSnbJtFIbXzVL7dBbmCa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773737939; c=relaxed/simple;
-	bh=OlkdjzuVOi9z4NPPUuSL0p51tYWRM4T1TvomF+a/yOA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JDAyMIu7+sjT0r46UGai1W4TBOfiH5uqCe6b+ImoW4TDn80D8Dzj26WC7JPizT4J4fJ2Mqkoh5ssInazS2Kan6TrknCuuOlEAQ2dm/DbpXcc5w810cxfGofQxIF1g0vLs4JqlQ4nQwpSsal7hoT4J5n1EbUBH7P+3CEo/n6EcII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jb8rjhHD; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1773738387; c=relaxed/simple;
+	bh=Pt8G0uyz6d4cQsOsnwFmr9hRLX2M6U+u939oscxAgMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mtAQWpXAQz+0scCMwV6qxpHHoJ6MKlyClDTaNInz7Zz17T/4XFv8Z2ev4OwkPJzB97GaJo4blO/oH4onc3opeIlrYUhPdYFAe9Oro2NeOPWMH4ALOKrOIg85cZnwneN+P5Yd6lCFBFwqJ3P/wj/Mmc3BiOukOvxMXMw+nS/YaAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cI3de1X7; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jb8rjhHD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cI3de1X7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773737938; x=1805273938;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OlkdjzuVOi9z4NPPUuSL0p51tYWRM4T1TvomF+a/yOA=;
-  b=Jb8rjhHDSDMchUyCQ4b3u71I8MDSniQ/fX2hoh3eXOpfaziz8VuBn3ai
-   2dSVYq7FGmTSNdnJsqHVw/SQRnf3yeS9Hgapa/tP0zv12yt4Bekg5H8YP
-   g+BFhsQmPUC5Wk4eW1JtX4olCtLEM5Pdrr8vISwhwuTy6tQp4FpEDuhcV
-   86TDFri6DaNsCQK4zN2DRCVbc3tlQR7ygFHEBPhbuiPQ5ik4aatiNkD85
-   sZn2yKoAFifkQu9qcJRX6GX2fIa0HGZTRyv9INtQXAh05oPd0i7yiunNY
-   UQ7pItVMtCRU0dcN5eHh3ZrXRW6ZMG1l8xIgVi8U6zmlBgtBF58gkQn9R
-   g==;
-X-CSE-ConnectionGUID: zAi9MCfGSiKpNUQkOu1m2A==
-X-CSE-MsgGUID: iZ6WePa1QPGh509aPscY4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="85461721"
+  t=1773738386; x=1805274386;
+  h=date:from:to:cc:subject:message-id;
+  bh=Pt8G0uyz6d4cQsOsnwFmr9hRLX2M6U+u939oscxAgMQ=;
+  b=cI3de1X76QtsJM5BGPbpF27EjuRAE+Ukww/c/5ujKFWVg/p8bxwjsPAQ
+   qm/xq2PzfGWcf5hJ1rvBsRFbcFIdi3g5FdbQ91juIBwKnlU5Y5PJAoDrf
+   J6iMWDZgBlGnKckNcqbPWkSD5nsnJBmdrTaiRQ8KhlvatMbnEO3rn0szX
+   ACjyphDZyrLfhuCzM36aGVpZTfei4e8VVp6hE0NdYXa8/HMeWQdsnmqgn
+   2Dncc4m1Gf+yVFhavvGH6h3pdZ5Ysh7075Baqs6Xpjiog7V7Zvj1LK1sp
+   jBjcY4WDaACBe8Bn9PrN8wOU/v4DjVxrlUl9xoqtbY5g/BCir6atImqXQ
+   Q==;
+X-CSE-ConnectionGUID: 36JaIFeTQ7uGsIV5JbiA4Q==
+X-CSE-MsgGUID: RMm09DuMQIml99vcIJP/bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="73782691"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="85461721"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:58:57 -0700
-X-CSE-ConnectionGUID: TMKcp+2HTRS7Mh9m6Hh72Q==
-X-CSE-MsgGUID: LvAsp+W6SuC7aoTr8fbcaQ==
+   d="scan'208";a="73782691"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:06:24 -0700
+X-CSE-ConnectionGUID: ja174xaaQUKVzOJeuqiDoA==
+X-CSE-MsgGUID: pAqRTa/fTeS/hG74uX3Y/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="222426303"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 17 Mar 2026 01:58:55 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="226880012"
+Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 17 Mar 2026 02:06:22 -0700
+Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2QGL-000000004P7-03yL;
-	Tue, 17 Mar 2026 08:58:53 +0000
-Date: Tue, 17 Mar 2026 09:58:40 +0100
+	id 1w2QNY-0000000008b-0pgp;
+	Tue, 17 Mar 2026 09:06:20 +0000
+Date: Tue, 17 Mar 2026 17:06:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>, rppt@kernel.org,
-	pratyush@kernel.org, linux-kernel@vger.kernel.org,
-	dmatlack@google.com, akpm@linux-foundation.org, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5/6] liveupdate: Make unregister functions return void
-Message-ID: <202603170941.c2zUXqhx-lkp@intel.com>
-References: <20260317025049.494931-6-pasha.tatashin@soleen.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: 
+ [broonie-ci:20260310_rf_asoc_wm_adsp_some_improvements_to_firmware_file_search
+ 4/10] cs35l45.c:undefined reference to `wm_adsp2_remove'
+Message-ID: <202603171638.x8RNGAYy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317025049.494931-6-pasha.tatashin@soleen.com>
 
-Hi Pasha,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on akpm-mm/mm-everything linus/master v7.0-rc4 next-20260316]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pasha-Tatashin/liveupdate-Protect-file-handler-list-with-rwsem/20260317-105522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20260317025049.494931-6-pasha.tatashin%40soleen.com
-patch subject: [PATCH 5/6] liveupdate: Make unregister functions return void
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260317/202603170941.c2zUXqhx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603170941.c2zUXqhx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20260310_rf_asoc_wm_adsp_some_improvements_to_firmware_file_search
+head:   8fc5c7895185d1119ae76b509892a1d14e0bd483
+commit: bf2d44d07de726b0393439cb4d4defc5cf89a4fc [4/10] ASoC: wm_adsp: Add kunit test for firmware file search
+config: sparc-randconfig-001-20260317 (https://download.01.org/0day-ci/archive/20260317/202603171638.x8RNGAYy-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171638.x8RNGAYy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603170941.c2zUXqhx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603171638.x8RNGAYy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/kexec_core.c:18:
-   include/linux/liveupdate.h: In function 'liveupdate_unregister_flb':
->> include/linux/liveupdate.h:274:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
-     274 |         return -EOPNOTSUPP;
-         |                ^
-   include/linux/liveupdate.h:271:20: note: declared here
-     271 | static inline void liveupdate_unregister_flb(struct liveupdate_file_handler *fh,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/return +274 include/linux/liveupdate.h
-
-cab056f2aae725 Pasha Tatashin 2025-12-18  270  
-e62bd1ab0687a1 Pasha Tatashin 2026-03-16  271  static inline void liveupdate_unregister_flb(struct liveupdate_file_handler *fh,
-cab056f2aae725 Pasha Tatashin 2025-12-18  272  					     struct liveupdate_flb *flb)
-cab056f2aae725 Pasha Tatashin 2025-12-18  273  {
-cab056f2aae725 Pasha Tatashin 2025-12-18 @274  	return -EOPNOTSUPP;
-cab056f2aae725 Pasha Tatashin 2025-12-18  275  }
-cab056f2aae725 Pasha Tatashin 2025-12-18  276  
+   sparc-linux-ld: sparc-linux-ld: DWARF error: could not find abbrev number 69
+   drivers/pci/controller/cadence/pcie-cadence-plat.o: in function `cdns_plat_pcie_probe':
+   pcie-cadence-plat.c:(.text+0x140): undefined reference to `cdns_pcie_ep_setup'
+   sparc-linux-ld: sparc-linux-ld: DWARF error: could not find abbrev number 57
+   sound/soc/codecs/cs35l45.o: in function `cs35l45_remove':
+>> cs35l45.c:(.text+0x164): undefined reference to `wm_adsp2_remove'
+   sparc-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_component_remove':
+>> cs35l45.c:(.text+0x52c): undefined reference to `wm_adsp2_component_remove'
+   sparc-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_component_probe':
+>> cs35l45.c:(.text+0x544): undefined reference to `wm_adsp2_component_probe'
+   sparc-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_dsp_preload_ev':
+>> cs35l45.c:(.text+0x5bc): undefined reference to `wm_adsp_event'
+>> sparc-linux-ld: cs35l45.c:(.text+0x5f0): undefined reference to `wm_adsp_early_event'
+>> sparc-linux-ld: cs35l45.c:(.text+0x5fc): undefined reference to `wm_adsp_event'
+   sparc-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_probe':
+>> cs35l45.c:(.text+0x1074): undefined reference to `wm_halo_init'
+>> sparc-linux-ld: cs35l45.c:(.text+0x11d0): undefined reference to `wm_adsp2_remove'
+>> sparc-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x57c): undefined reference to `wm_adsp2_preloader_get'
+>> sparc-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x580): undefined reference to `wm_adsp2_preloader_put'
+>> sparc-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x5ac): undefined reference to `wm_adsp_fw_get'
+>> sparc-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x5b0): undefined reference to `wm_adsp_fw_put'
+>> sparc-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x5b8): undefined reference to `wm_adsp_fw_enum'
+   sparc-linux-ld: sparc-linux-ld: DWARF error: could not find abbrev number 9
+   sound/soc/codecs/cs35l41.o: in function `cs35l41_component_remove':
+>> cs35l41.c:(.text+0xfc): undefined reference to `wm_adsp2_component_remove'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_component_probe':
+>> cs35l41.c:(.text+0x124): undefined reference to `wm_adsp2_component_probe'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_dsp_audio_ev':
+>> cs35l41.c:(.text+0x264): undefined reference to `wm_adsp_event'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_dsp_preload_ev':
+>> cs35l41.c:(.text+0x36c): undefined reference to `wm_adsp_early_event'
+>> sparc-linux-ld: cs35l41.c:(.text+0x378): undefined reference to `wm_adsp_event'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_remove':
+>> cs35l41.c:(.text+0xbdc): undefined reference to `wm_adsp2_remove'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_probe':
+>> cs35l41.c:(.text+0x1258): undefined reference to `wm_halo_init'
+   sparc-linux-ld: cs35l41.c:(.text+0x13b0): undefined reference to `wm_adsp2_remove'
+   sparc-linux-ld: cs35l41.c:(.text+0x13dc): undefined reference to `wm_adsp2_remove'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2d70): undefined reference to `wm_adsp2_preloader_get'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2d74): undefined reference to `wm_adsp2_preloader_put'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2da0): undefined reference to `wm_adsp_fw_get'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2da4): undefined reference to `wm_adsp_fw_put'
+   sparc-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2dac): undefined reference to `wm_adsp_fw_enum'
+   sparc-linux-ld: sparc-linux-ld: DWARF error: could not find abbrev number 15289
+   sound/soc/codecs/cs35l56.o: in function `cs35l56_component_remove':
+   cs35l56.c:(.text+0xad8): undefined reference to `wm_adsp_power_down'
+   sparc-linux-ld: cs35l56.c:(.text+0xae4): undefined reference to `wm_adsp2_component_remove'
+   sparc-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_component_probe':
+   cs35l56.c:(.text+0xbac): undefined reference to `wm_adsp2_component_probe'
+   sparc-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_dsp_event':
+   cs35l56.c:(.text+0xd20): undefined reference to `wm_adsp_event'
+   sparc-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_write_cal':
+   cs35l56.c:(.text+0xd50): undefined reference to `wm_adsp_run'
+   sparc-linux-ld: cs35l56.c:(.text+0xd74): undefined reference to `wm_adsp_stop'
+   sparc-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_common_probe':
+   cs35l56.c:(.text+0x124c): undefined reference to `wm_halo_init'
+   sparc-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_dsp_download_and_power_up.constprop.27':
+   cs35l56.c:(.text+0x1304): undefined reference to `wm_adsp_power_up'
+   sparc-linux-ld: cs35l56.c:(.text+0x1338): undefined reference to `wm_adsp_power_up'
+   sparc-linux-ld: sparc-linux-ld: DWARF error: could not find abbrev number 57
+   sound/soc/codecs/cs35l56-shared.o: in function `cs35l56_cal_set_status_get':
+   cs35l56-shared.c:(.text+0x1504): undefined reference to `cs_dsp_get_ctl'
+   sparc-linux-ld: cs35l56-shared.c:(.text+0x1514): undefined reference to `cs_dsp_coeff_read_ctrl'
+   sparc-linux-ld: sound/soc/codecs/cs35l56-shared.o: in function `cs35l56_log_tuning':
+   cs35l56-shared.c:(.text+0x15c4): undefined reference to `cs_dsp_get_ctl'
+   sparc-linux-ld: cs35l56-shared.c:(.text+0x15d4): undefined reference to `cs_dsp_coeff_read_ctrl'
+   sparc-linux-ld: cs35l56-shared.c:(.text+0x15f8): undefined reference to `cs_dsp_get_ctl'
+   sparc-linux-ld: cs35l56-shared.c:(.text+0x1608): undefined reference to `cs_dsp_coeff_read_ctrl'
+   sparc-linux-ld: cs35l56-shared.c:(.text+0x1628): undefined reference to `cs_dsp_get_ctl'
+   sparc-linux-ld: cs35l56-shared.c:(.text+0x1638): undefined reference to `cs_dsp_coeff_read_ctrl'
 
 -- 
 0-DAY CI Kernel Test Service
