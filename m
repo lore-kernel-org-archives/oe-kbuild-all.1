@@ -1,63 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADDE35AC29
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 09:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365AF3A4F31;
+	Tue, 17 Mar 2026 10:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773740400; cv=none; b=dQZRix7c3ZFiojqj8WhqZ6U3FgmwVHKyRbMnnrpj2bfvMs1CEr2n1cmirdriPCA5yVk4J7WZ2U3qw8hnyjllt3RTed/UacVv2O9gKXztNMRQUTkVwStNDR41PTfKrCReCn4ygnwm5cYxENWi1U58rSTbcvTgIOgOH72zKqc4gjI=
+	t=1773742254; cv=none; b=SZB8xCs+4oFaP6zfJva6vrJvWcKQ5z7mLk6GJnVFzboKF4OpWvOrNj66089yf9X5NtODHZhIZ66Ql2+5Vq1IZQWe7ADcjwiH8Hn0smqySf8JMyL5RggwkifXQ/sIxPMkdPCL18wYasbIXjQbbld91oWElfxz6MPJA3sQXMTz8ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773740400; c=relaxed/simple;
-	bh=X1b5odisZXG8hdNFbSDTR5iFNZss9HSTUn4ZhTne3CQ=;
+	s=arc-20240116; t=1773742254; c=relaxed/simple;
+	bh=pjLtVEXYu6Ezm9WVwTnSwzGyT6cFbKsaKtpF/hqBJGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a2JH3XGYHwzdD48mWrBc3gp1RG/GyZw2bVY8eYlnkHyXunUayZVq3bq7Uv0bSuUBxPcHGOwI2bCooSiOHJKv73UOMQJe4h+BSNqmpSKEAk7nxW/QJgdOX5t5ZTfV2Ns20y4KNX/Sp+EykyMNPws8NPAnUKyEljw0K/Cp6rvpMAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8KDi95o; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ltqd8J+5gaElGyAqSPW8PoW29+bwjIAMgsqKXKRsVm+YdOUwBxWwOXvqi2PkIcm2IB4lOBQF3FKHGv9HkL58UVFmGVboEBHanKGOdY5Da0oyPznxRW6ph6jqKZAmr86uQFSz34KW+QKvu+G/xKkBnLYpeeUoarCuxy2quCXRuD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzLiiG+S; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8KDi95o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzLiiG+S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773740398; x=1805276398;
+  t=1773742248; x=1805278248;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=X1b5odisZXG8hdNFbSDTR5iFNZss9HSTUn4ZhTne3CQ=;
-  b=J8KDi95oU4zckLczd4wkuUMMh4os5uUQnJMpsShA5IoM1qCHHMpjWjPN
-   cySE2OLEvJaZ0m7Gap+iuuIV2ve/fvKFeiicvLCdap0nfXnF76CZ/AIDO
-   GehwrgVGoRNrFB1I/q9ztJAkcC72xiOlzHwM339PRo6vFSMZ2y4J4WFTP
-   Axp9hEdA+HyFypEtn7nAkUXoQZHqddxU1ET6r5ekwoxWTJL+N3tDCBdju
-   QDPCdS1nt5Baf7MvN1H89E95VF/MIBjlf8aGqj5YSfiGc4QfkeaJq2XYS
-   gal15vL3s+gfCGnUcRzHCKEJz/4jWGIIzIRmE0GlcWxyCKCb9e8kkBARp
-   w==;
-X-CSE-ConnectionGUID: tQXGKmSNTMCbb7WVLsgV0w==
-X-CSE-MsgGUID: 1jtIjS41RQarLB5KnbuYkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="78620631"
+  bh=pjLtVEXYu6Ezm9WVwTnSwzGyT6cFbKsaKtpF/hqBJGc=;
+  b=mzLiiG+SjFVuLnJrIIdRS7NPl9eQiT/W4zFTlZZwXG/zrfHBO0o8J5Ng
+   s5gN+OutXtJ0ff89bhM1R3XaothSChtbsydnGzAvpZzHvIeaib7TUltBn
+   U2qF8wxBsQ1hC9WI4UWYzQUOoZ9byEUm3PSZXeVGjBbAdq/4dYr8nEAYJ
+   MoIJHfbFte4BsCxzjFrV4nvsVxmvGO016hYcB0EO6I5uwg2HERrcIbf+8
+   2eAaRMlp0gkZC1ODFNPMJsar1BJ/mgWM/ohulyrgTn/89Wc9QB7poEsRE
+   eRBLilOc/WxK3zhbiz69iHIi204GJYJtAJq8YQFFfNUbs+2KstMsyk+gN
+   Q==;
+X-CSE-ConnectionGUID: 3HKBzogoSDK450VGreiFoQ==
+X-CSE-MsgGUID: C4aOLXy3ST29aPiFXOI1bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="73947786"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="78620631"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:39:57 -0700
-X-CSE-ConnectionGUID: tFN7HEKcRe24Er0BrMiG6A==
-X-CSE-MsgGUID: Lov8Ur2cTwq1C6vhxZNkGw==
+   d="scan'208";a="73947786"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 03:10:47 -0700
+X-CSE-ConnectionGUID: rZW/vNdCSgKXquYHdxLMXA==
+X-CSE-MsgGUID: P9pMYPriQluzlqeXNUdWPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="252705194"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 17 Mar 2026 02:39:54 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="224396867"
+Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 17 Mar 2026 03:10:43 -0700
+Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2Qu1-000000004Pd-1tU4;
-	Tue, 17 Mar 2026 09:39:53 +0000
-Date: Tue, 17 Mar 2026 10:39:21 +0100
+	id 1w2RNo-000000000Dd-19DE;
+	Tue, 17 Mar 2026 10:10:40 +0000
+Date: Tue, 17 Mar 2026 18:10:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Willy Tarreau <w@1wt.eu>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH v3 1/2] tools/nolibc: add support for
- program_invocation_{,short_}name
-Message-ID: <202603171011.58aT1Db0-lkp@intel.com>
-References: <20260316-nolibc-err-h-v3-1-6ef80c051ab7@weissschuh.net>
+To: Jie Gan <jie.gan@oss.qualcomm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, Jie Gan <jie.gan@oss.qualcomm.com>
+Subject: Re: [PATCH v15 6/7] coresight: ctcu: enable byte-cntr for TMC ETR
+ devices
+Message-ID: <202603171821.OtWlpARW-lkp@intel.com>
+References: <20260313-enable-byte-cntr-for-ctcu-v15-6-1777f14ed319@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,37 +76,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260316-nolibc-err-h-v3-1-6ef80c051ab7@weissschuh.net>
+In-Reply-To: <20260313-enable-byte-cntr-for-ctcu-v15-6-1777f14ed319@oss.qualcomm.com>
 
-Hi Thomas,
+Hi Jie,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 745dadd6d3d984feafb96f27b60d74b29ade4957]
+[auto build test ERROR on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/tools-nolibc-add-support-for-program_invocation_-short_-name/20260317-060704
-base:   745dadd6d3d984feafb96f27b60d74b29ade4957
-patch link:    https://lore.kernel.org/r/20260316-nolibc-err-h-v3-1-6ef80c051ab7%40weissschuh.net
-patch subject: [PATCH v3 1/2] tools/nolibc: add support for program_invocation_{,short_}name
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260317/202603171011.58aT1Db0-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171011.58aT1Db0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jie-Gan/coresight-core-refactor-ctcu_get_active_port-and-make-it-generic/20260315-052703
+base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
+patch link:    https://lore.kernel.org/r/20260313-enable-byte-cntr-for-ctcu-v15-6-1777f14ed319%40oss.qualcomm.com
+patch subject: [PATCH v15 6/7] coresight: ctcu: enable byte-cntr for TMC ETR devices
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260317/202603171821.OtWlpARW-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171821.OtWlpARW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603171011.58aT1Db0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603171821.OtWlpARW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   nolibc-test.c: In function 'run_startup':
->> nolibc-test.c:750:9: error: unknown type name 'bool'
-     750 |         bool proc = access("/proc", R_OK) == 0;
-         |         ^~~~
-   nolibc-test.c:49:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
-      48 | #include "nolibc-test-linkage.h"
-     +++ |+#include <stdbool.h>
-      49 | 
+>> drivers/hwtracing/coresight/coresight-ctcu-byte-cntr.c:177:3: error: cannot jump from this goto statement to its label
+     177 |                 goto out;
+         |                 ^
+   drivers/hwtracing/coresight/coresight-ctcu-byte-cntr.c:179:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     179 |         guard(raw_spinlock_irqsave)(&byte_cntr_data->spin_lock);
+         |         ^
+   include/linux/cleanup.h:419:2: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:300:3: note: expanded from macro 'CLASS'
+     300 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:18:1: note: expanded from here
+      18 | class_raw_spinlock_irqsave_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:24:1: note: expanded from here
+      24 | __UNIQUE_ID_unlock_802
+         | ^
+   drivers/hwtracing/coresight/coresight-ctcu-byte-cntr.c:179:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:419:15: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:12:1: note: expanded from here
+      12 | __UNIQUE_ID_guard_801
+         | ^
+   1 error generated.
+
+
+vim +177 drivers/hwtracing/coresight/coresight-ctcu-byte-cntr.c
+
+   156	
+   157	static int tmc_read_prepare_byte_cntr(struct tmc_drvdata *etr_drvdata)
+   158	{
+   159		struct coresight_device *ctcu = tmc_etr_get_ctcu_device(etr_drvdata);
+   160		struct ctcu_byte_cntr *byte_cntr_data;
+   161		int ret = 0;
+   162	
+   163		/* byte-cntr is operating with SYSFS mode being enabled only */
+   164		if (coresight_get_mode(etr_drvdata->csdev) != CS_MODE_SYSFS)
+   165			return -EINVAL;
+   166	
+   167		byte_cntr_data = ctcu_get_byte_cntr(ctcu, etr_drvdata->csdev);
+   168		if (!byte_cntr_data || !byte_cntr_data->irq_enabled)
+   169			return -EINVAL;
+   170	
+   171		if (byte_cntr_data->reading)
+   172			return -EBUSY;
+   173	
+   174		/* Setup an available etr_buf_list for byte-cntr */
+   175		ret = tmc_create_etr_buf_list(etr_drvdata, 2);
+   176		if (ret)
+ > 177			goto out;
+   178	
+   179		guard(raw_spinlock_irqsave)(&byte_cntr_data->spin_lock);
+   180		atomic_set(&byte_cntr_data->irq_cnt, 0);
+   181		/*
+   182		 * Configure the byte-cntr register to enable IRQ. The configured
+   183		 * size is 5% of the buffer_size.
+   184		 */
+   185		ctcu_cfg_byte_cntr_reg(byte_cntr_data->ctcu_drvdata,
+   186				       etr_drvdata->size / MAX_IRQ_CNT,
+   187				       byte_cntr_data->irq_ctrl_offset);
+   188		enable_irq_wake(byte_cntr_data->irq);
+   189		byte_cntr_data->buf_node = NULL;
+   190		byte_cntr_data->reading = true;
+   191	
+   192	out:
+   193		return ret;
+   194	}
+   195	
 
 -- 
 0-DAY CI Kernel Test Service
