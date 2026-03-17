@@ -1,138 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9B133F369
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 19:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADAD33C187;
+	Tue, 17 Mar 2026 19:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773775596; cv=none; b=aEwCUvYWK2teGkUXyRc6+wEb0LmgBydHf4xn2Q7KcsXxCyJq+YN8q5XBajE1q+eSTe8QsmHaB5DLylwowODp8Qw3Me/dLoNWfXHIXiHuxnle87lFAAXpPOjmVYhVhV2rAJom/aXU0o8+P7G2pFNla5X9rvzUpeElENuvNZQnoTQ=
+	t=1773775597; cv=none; b=GWV1Tptbys+g7N2BgOQn02Gstp9iqVbvS2j51k1gBJdWaz/7Osy9KcrxU3GSRrrGGtjPq3bgUqRIDkn5IW3E7Uw52r12sbXj3Xv1sGjsYdcZha5XLaWFaI8aDmpAHOGlKZpjB5y0qVzOyVnIjXEMfuZfUqe4VkgltD/xlEC+m8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773775596; c=relaxed/simple;
-	bh=wASyRvxIU+Hs+R88GpgttmjQt11sCBcESHCZ3BrAZ9c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TfMpjvHS9szk1gh+dKFG0YmygtSrWpUZ5nscPTTgId8amBgUF6rTMbo/bSOrzftKBxq4IQqDDlxHMmSz21yb4raAfm81XwgEtStRARBSOiKjFVlffSiZGTuvMiOpJ6e/61mfEiwqltwqBeuDuY+CGAaSA+fo2UDvQwdIrd5TSYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPTMdgeB; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1773775597; c=relaxed/simple;
+	bh=rrlbfIW+VnOm0b0ICuUS8QojTdTqgDOtq9/xFyMzsnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WLK2fHixLIYfpzsZdLiR2S06nlIeM8FnrtqF1zHGyPZMq91nJvZy9FBZHl/8qytfjkkB29Qjen8DCtfv59xOHsGF15q2PPJ5uRNMynKH0HCInqI/ZFntMr9C4n+a2coRtJOG8pjzP3V9Gtg2IYskwfoFqWohUqN/yOzaPint0D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lBS5NMcX; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPTMdgeB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lBS5NMcX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773775594; x=1805311594;
-  h=date:from:to:cc:subject:message-id;
-  bh=wASyRvxIU+Hs+R88GpgttmjQt11sCBcESHCZ3BrAZ9c=;
-  b=cPTMdgeBRZW3v6RfO4+9f2X8FCu1NdbQayYZqP87GmZaXMEC5l7At6b3
-   CKPKp1Y02dthxh5eJ+4z4OSQFOpIoUcJUlwVURzDGj5lsqVzZr03+DfRZ
-   zZLsiomQaFBqU5QqL8dLOgB51jS9ShCX3kE5EkO5rE76hILTOVNdU6DWI
-   9sQpTEmBX/eCY5/3flr24vXQy71hcRNUyDbeuQnDlCLp5YNE1W+xyWMVo
-   166zgobBqLjmacvWB02xPRyhI8UAx/aepaN8v/hWG7BXUM2P9wManwnqf
-   Yil1kOEFlE6HQ1m/g8EhTCVGRMI7VuFUDOAq0lobVPfYj1eyHAKQhVFOa
-   g==;
-X-CSE-ConnectionGUID: 70c+3JpuSva8SyT08Vp15Q==
-X-CSE-MsgGUID: 8WZF/rSiSoaxRgnf+UJBeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74793388"
+  t=1773775595; x=1805311595;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rrlbfIW+VnOm0b0ICuUS8QojTdTqgDOtq9/xFyMzsnY=;
+  b=lBS5NMcX3x7Vyj7NTrxJUWTCp4/Ktr+09lWmZmkJ+Awk/H0cT7GTutB+
+   oB33j4QMGpvp4YOGi+8yd9nc6Ds8JykjGpyf9n+kFUcurI0HS6Ht3qtTI
+   oLBknYyIX9FSiu44EZ8lOX4z7hgqu1gS47fZgF1JcrM3SMutQdEevZ6IU
+   R0IhYLC2cDxU8NZodXCjAkBJxHxbtbh1E3lzUoOFEeYmeYjN7s0Zc1vL0
+   HipGc5B8Jo7eG9SBQW+TAO4FXmNKWmht6X3F73BILst0amf/0qSWGbMwp
+   Z6r6wEiYJN/o/FwWAy6v1rKjg3eGkHIF6DE/uO2RPWsux6ha7t/d0GHjw
+   A==;
+X-CSE-ConnectionGUID: xY5VJxDVTQCwgcs0XYVzeQ==
+X-CSE-MsgGUID: /5avd/Q6S3Ko3Bnsjk1KQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74000802"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="74793388"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 12:26:34 -0700
-X-CSE-ConnectionGUID: zyIT0XgtQcm/shXXE9Pa8w==
-X-CSE-MsgGUID: beEbjWVCTb6RPE2tubSo0Q==
+   d="scan'208";a="74000802"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 12:26:34 -0700
+X-CSE-ConnectionGUID: gqCc6hgUT1uViNBfW08Q8A==
+X-CSE-MsgGUID: T8tF0lF7RxG0bJCeGpQLiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="222344561"
+   d="scan'208";a="219851330"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Mar 2026 12:26:33 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 Mar 2026 12:26:32 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2a3i-000000001sV-0dc2;
+	id 1w2a3i-000000001sP-0MSs;
 	Tue, 17 Mar 2026 19:26:30 +0000
-Date: Wed, 18 Mar 2026 03:26:13 +0800
+Date: Wed, 18 Mar 2026 03:26:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cedric Xing <cedric.xing@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>
-Subject: samples/tsm-mr/tsm_mr_sample.c:52:undefined reference to
- `crypto_alloc_shash'
-Message-ID: <202603180323.NgdTrvDk-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, pabeni@redhat.com,
+	edumazet@google.com, horms@kernel.org, kuba@kernel.org,
+	John Ousterhout <ouster@cs.stanford.edu>
+Subject: Re: [PATCH net-next v17 14/14] net: homa: create Makefile and Kconfig
+Message-ID: <202603180330.3g4vKnoZ-lkp@intel.com>
+References: <20260316223228.2611-15-ouster@cs.stanford.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316223228.2611-15-ouster@cs.stanford.edu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2d1373e4246da3b58e1df058374ed6b101804e07
-commit: f6953f1f9ec4ad68651d7c677f0c065cb4c1edf7 tsm-mr: Add tsm-mr sample code
-date:   10 months ago
-config: i386-randconfig-r134-20260317 (https://download.01.org/0day-ci/archive/20260318/202603180323.NgdTrvDk-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180323.NgdTrvDk-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20260317-070659
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260316223228.2611-15-ouster%40cs.stanford.edu
+patch subject: [PATCH net-next v17 14/14] net: homa: create Makefile and Kconfig
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260318/202603180330.3g4vKnoZ-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180330.3g4vKnoZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603180323.NgdTrvDk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603180330.3g4vKnoZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: samples/tsm-mr/tsm_mr_sample.o: in function `sample_report_extend_mr':
->> samples/tsm-mr/tsm_mr_sample.c:52:(.text+0x4f): undefined reference to `crypto_alloc_shash'
-   ld: samples/tsm-mr/tsm_mr_sample.c:60:(.text+0x9d): undefined reference to `crypto_shash_update'
-   ld: samples/tsm-mr/tsm_mr_sample.c:62:(.text+0xb6): undefined reference to `crypto_shash_finup'
-   ld: samples/tsm-mr/tsm_mr_sample.o: in function `sample_report_refresh':
-   samples/tsm-mr/tsm_mr_sample.c:29:(.text+0x104): undefined reference to `crypto_alloc_shash'
->> ld: samples/tsm-mr/tsm_mr_sample.c:35:(.text+0x12b): undefined reference to `crypto_shash_tfm_digest'
+>> net/homa/homa_plumbing.c:94:16: error: incompatible function pointer types initializing 'int (*)(struct sock *, struct msghdr *, size_t, int)' (aka 'int (*)(struct sock *, struct msghdr *, unsigned long, int)') with an expression of type 'int (struct sock *, struct msghdr *, size_t, int, int *)' (aka 'int (struct sock *, struct msghdr *, unsigned long, int, int *)') [-Wincompatible-function-pointer-types]
+      94 |         .recvmsg           = homa_recvmsg,
+         |                              ^~~~~~~~~~~~
+   net/homa/homa_plumbing.c:111:16: error: incompatible function pointer types initializing 'int (*)(struct sock *, struct msghdr *, size_t, int)' (aka 'int (*)(struct sock *, struct msghdr *, unsigned long, int)') with an expression of type 'int (struct sock *, struct msghdr *, size_t, int, int *)' (aka 'int (struct sock *, struct msghdr *, unsigned long, int, int *)') [-Wincompatible-function-pointer-types]
+     111 |         .recvmsg           = homa_recvmsg,
+         |                              ^~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +52 samples/tsm-mr/tsm_mr_sample.c
+vim +94 net/homa/homa_plumbing.c
 
-    23	
-    24	static int sample_report_refresh(const struct tsm_measurements *tm)
-    25	{
-    26		struct crypto_shash *tfm;
-    27		int rc;
-    28	
-    29		tfm = crypto_alloc_shash(hash_algo_name[HASH_ALGO_SHA512], 0, 0);
-    30		if (IS_ERR(tfm)) {
-    31			pr_err("crypto_alloc_shash failed: %ld\n", PTR_ERR(tfm));
-    32			return PTR_ERR(tfm);
-    33		}
-    34	
-  > 35		rc = crypto_shash_tfm_digest(tfm, (u8 *)&sample_report,
-    36					     offsetof(typeof(sample_report),
-    37						      report_digest),
-    38					     sample_report.report_digest);
-    39		crypto_free_shash(tfm);
-    40		if (rc)
-    41			pr_err("crypto_shash_tfm_digest failed: %d\n", rc);
-    42		return rc;
-    43	}
-    44	
-    45	static int sample_report_extend_mr(const struct tsm_measurements *tm,
-    46					   const struct tsm_measurement_register *mr,
-    47					   const u8 *data)
-    48	{
-    49		SHASH_DESC_ON_STACK(desc, 0);
-    50		int rc;
-    51	
-  > 52		desc->tfm = crypto_alloc_shash(hash_algo_name[mr->mr_hash], 0, 0);
-    53		if (IS_ERR(desc->tfm)) {
-    54			pr_err("crypto_alloc_shash failed: %ld\n", PTR_ERR(desc->tfm));
-    55			return PTR_ERR(desc->tfm);
-    56		}
-    57	
-    58		rc = crypto_shash_init(desc);
-    59		if (!rc)
-    60			rc = crypto_shash_update(desc, mr->mr_value, mr->mr_size);
-    61		if (!rc)
-    62			rc = crypto_shash_finup(desc, data, mr->mr_size, mr->mr_value);
-    63		crypto_free_shash(desc->tfm);
-    64		if (rc)
-    65			pr_err("SHA calculation failed: %d\n", rc);
-    66		return rc;
-    67	}
-    68	
+fda29e883f7618b John Ousterhout 2026-03-16   77  
+fda29e883f7618b John Ousterhout 2026-03-16   78  /* This structure also defines functions that handle various operations
+fda29e883f7618b John Ousterhout 2026-03-16   79   * on Homa sockets. However, these functions are lower-level than those
+fda29e883f7618b John Ousterhout 2026-03-16   80   * in homa_proto_ops: they are specific to the PF_INET or PF_INET6
+fda29e883f7618b John Ousterhout 2026-03-16   81   * protocol family, and in many cases they are invoked by functions in
+fda29e883f7618b John Ousterhout 2026-03-16   82   * homa_proto_ops. Most of these functions have Homa-specific implementations.
+fda29e883f7618b John Ousterhout 2026-03-16   83   */
+fda29e883f7618b John Ousterhout 2026-03-16   84  static struct proto homa_prot = {
+fda29e883f7618b John Ousterhout 2026-03-16   85  	.name		   = "HOMA",
+fda29e883f7618b John Ousterhout 2026-03-16   86  	.owner		   = THIS_MODULE,
+fda29e883f7618b John Ousterhout 2026-03-16   87  	.close		   = homa_close,
+fda29e883f7618b John Ousterhout 2026-03-16   88  	.connect	   = ip4_datagram_connect,
+fda29e883f7618b John Ousterhout 2026-03-16   89  	.init		   = homa_socket,
+fda29e883f7618b John Ousterhout 2026-03-16   90  	.destroy	   = homa_sock_destroy,
+fda29e883f7618b John Ousterhout 2026-03-16   91  	.setsockopt	   = homa_setsockopt,
+fda29e883f7618b John Ousterhout 2026-03-16   92  	.getsockopt	   = homa_getsockopt,
+fda29e883f7618b John Ousterhout 2026-03-16   93  	.sendmsg	   = homa_sendmsg,
+fda29e883f7618b John Ousterhout 2026-03-16  @94  	.recvmsg	   = homa_recvmsg,
+fda29e883f7618b John Ousterhout 2026-03-16   95  	.hash		   = homa_hash,
+fda29e883f7618b John Ousterhout 2026-03-16   96  	.unhash		   = homa_unhash,
+fda29e883f7618b John Ousterhout 2026-03-16   97  	.obj_size	   = sizeof(struct homa_sock),
+fda29e883f7618b John Ousterhout 2026-03-16   98  	.no_autobind       = 1,
+fda29e883f7618b John Ousterhout 2026-03-16   99  };
+fda29e883f7618b John Ousterhout 2026-03-16  100  
 
 -- 
 0-DAY CI Kernel Test Service
