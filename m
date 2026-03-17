@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A823E3DA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 15:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F28B1D61B7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 15:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773760580; cv=none; b=EgTQkn88al3rMeh7nsTIsk4lzPDHRAhf6/uua5SnMiQ1ig8AZZcUEgxsc6VRZYZzlHeUVzw1MS9yaDEiiRDVdwlbhlq9UTPP3fwT8FHpFTDtMvwnIkrDrTO7sscPydI3n2mbviVzWJTjrJQGfHFEFidljqaJip0DV09s87SlPro=
+	t=1773761180; cv=none; b=E6HS2wNSPTP1VGbIFuKBIcaQ00w1vrIhUDtuwtnpsv5shqtSdxyrQmFSJHpd0T4jci7MTZqSB5JBcR0KktzjsrQ2Q2R1I5S7Xyhg/NQT4gzAL0y89lgete8lPFBShyjtR+13DbJTBVB/mIcx8DyS2sLaowzrbLfToioPZroiRso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773760580; c=relaxed/simple;
-	bh=veClZdafdAS965t5QMkX+ISiMDxu0kr8+AOdt6bF4Ak=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Tl3ZE9WBkOMMxrU7Ym4wkzz0d/QhBz9dDIritCvs9Z5Sy1fxWXAL5aa6vYj0rK6KvdN6uUif8p6zRAPdv4V0V++2YmXxbCUqd/UafdUoX5h0P8J+6pRMOF576BEuY4p1A1WrVZWXmJNE7ku2pvYCXudb23gfBzNjrvqlbvvkwQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4CeSxv+; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1773761180; c=relaxed/simple;
+	bh=R1cqpfRiXtx+ib/rOTY+mNCJswmoIp6+zLgOP98rfLg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JDCvpYqOAckXKMnF8lfutzIQpLOtVvy6ZJ755Oej+dB2k1ovPBt50BoA2XHZv7wsvXx4L1zoZZa/Nh+1rNzwQc5u1Py7H/9O3C7d5rjMO+TS/1qoxGkEtZcxlyDrFpl9kuphhRiiz9bawQMfvDJIf2kOmDuJIE+QQrBQob92hIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbHvZsfv; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4CeSxv+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbHvZsfv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773760579; x=1805296579;
+  t=1773761179; x=1805297179;
   h=date:from:to:cc:subject:message-id;
-  bh=veClZdafdAS965t5QMkX+ISiMDxu0kr8+AOdt6bF4Ak=;
-  b=L4CeSxv+EVEWv65/+h2OAmXrP97zYJV3bLorOQh8TmXdITX8tMjZcjIg
-   OjO4LIsvSfjKwbqUs3r7jgzqBPTvGlFtqwlQ9LiokxwHWcGWz0CXjyOEd
-   j6fNm4j3eA0ya5rfOie/IMh2gw3LWAplZLBz4fO68MHm/naMooyEFF0II
-   O+Ko30mAcXgJePyUPOqNo62sikdFc6KSWbX93BQzfxUvFx9S+m1h3RLjy
-   xHHf9BRq/my0KvJm1DH28xEIzTVCNlumPgn+GeBD8BNXqUk68NKWQIsmk
-   xucDSLwckMkRg+IkIJAfN2uDxivBRnVvriJV1qICNRFf9l+mNcO+8njFf
-   Q==;
-X-CSE-ConnectionGUID: pWBM3mpQQYiXyv/7GV/FmQ==
-X-CSE-MsgGUID: mQ1Hl3viQgSRBKvjrVZd6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74683425"
+  bh=R1cqpfRiXtx+ib/rOTY+mNCJswmoIp6+zLgOP98rfLg=;
+  b=PbHvZsfvfK0o1MH8CcxB0iKchz3ovrjWxVyW4dnHBbcGK12WQMYmAVBN
+   OEw0khdl/MCocSqsV5fJ0Wc6gD4OTed0DK3YiUc9rUuc1mNuhlwq4UHWA
+   x/qT4AAn+K6EpACzASuP14WZS0GRlJWQ89tXVFeQcWItlyAlZFG1WfHNe
+   YHZXEUcW2EMRRtiuLZPuWEosJTz81SrIp5i160+QcrqZLxI4ivczKtnxW
+   76ZTgAXoGP8l18wPBGse3h3q38qBOFoLGgSRjKbtFxwyOHOoAPxa3rTfp
+   6X0U2UN2xpyss0BjSKU/+71W3BYmsMQKQBCjdtwCKRrTREsLTXQtHF6kK
+   g==;
+X-CSE-ConnectionGUID: lR0ufWTMSl2P9dMSeP63gg==
+X-CSE-MsgGUID: pCF+qlGgRtOH87so234qqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="78691197"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="74683425"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 08:16:16 -0700
-X-CSE-ConnectionGUID: WsR/71yKSJ+BLTdOo+Fwdg==
-X-CSE-MsgGUID: tX48uTeZSiiPovVBSkw33Q==
+   d="scan'208";a="78691197"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 08:26:18 -0700
+X-CSE-ConnectionGUID: Q95tq0IES3aImZEliFd63Q==
+X-CSE-MsgGUID: 0BSizWLGShePda63SsyVyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="226985453"
+   d="scan'208";a="226438798"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Mar 2026 08:16:14 -0700
+  by orviesa003.jf.intel.com with ESMTP; 17 Mar 2026 08:26:16 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2W9T-000000000bp-3DE6;
-	Tue, 17 Mar 2026 15:16:11 +0000
-Date: Tue, 17 Mar 2026 23:15:24 +0800
+	id 1w2WJB-000000000dF-1PcC;
+	Tue, 17 Mar 2026 15:26:13 +0000
+Date: Tue, 17 Mar 2026 23:26:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:main-16k-gs-shusky-5.15 30/30]
- drivers/cma/mm/mem_phys_layout.c:239:48: error: use of undeclared identifier
- 'PFN_SECTION_SHIFT'
-Message-ID: <202603172357.MTc4iNq5-lkp@intel.com>
+ drivers/cma_test/cma_alloc_test_drv.c:93:24: error: no member named
+ 'cma_area' in 'struct device'
+Message-ID: <202603172327.4YVhNiDs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -66,106 +66,68 @@ FYI, the error/warning still remains.
 
 tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
 head:   339bea17e1ccb695cddcbc39f88955c85e45d97a
-commit: 90b05bcbb174b28bb0bc20f6d7f68c092a66a64f [30/30] ANDROID: mm: Get Physical memory model for the system
-config: i386-buildonly-randconfig-002-20260317 (https://download.01.org/0day-ci/archive/20260317/202603172357.MTc4iNq5-lkp@intel.com/config)
+commit: f13d84382b42c33d4a27e09136721a997da6b225 [30/30] ANDROID: cma: Init the CMA reserved memory during probing
+config: x86_64-buildonly-randconfig-003-20260317 (https://download.01.org/0day-ci/archive/20260317/202603172327.4YVhNiDs-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603172357.MTc4iNq5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603172327.4YVhNiDs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603172357.MTc4iNq5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603172327.4YVhNiDs-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/cma/mm/mem_phys_layout.c:189:16: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-     189 |                 struct page *page = pfn_to_page(pfn);
-         |                              ^
-   drivers/cma/mm/mem_phys_layout.c:237:48: error: use of undeclared identifier 'MAX_PAGE_ORDER'
-     237 |         pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-         |                                                       ^~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:239:48: error: use of undeclared identifier 'PFN_SECTION_SHIFT'
-     239 |         pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
-         |                                                       ^~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:240:49: error: use of undeclared identifier 'MAX_PAGE_ORDER'
-     240 |         pr_info("(MAX_PAGE_ORDER + PAGE_SHIFT) = %d", (MAX_PAGE_ORDER + PAGE_SHIFT));
-         |                                                        ^~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:241:48: error: use of undeclared identifier 'SECTION_SIZE_BITS'
-     241 |         pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
-         |                                                       ^~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:242:54: error: use of undeclared identifier 'SECTION_SIZE_BITS'
-     242 |         pr_info("2 ^ SECTION_SIZE_BITS         = %d", (1 << SECTION_SIZE_BITS));
-         |                                                             ^~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:243:49: error: use of undeclared identifier 'SUBSECTION_SIZE'
-     243 |         pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
-         |                                                        ^~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:244:49: error: use of undeclared identifier 'SUBSECTIONS_PER_SECTION'
-     244 |         pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:246:4: error: use of undeclared identifier 'SUBSECTION_SIZE'
-     246 |                         SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
-         |                         ^~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:246:22: error: use of undeclared identifier 'SUBSECTIONS_PER_SECTION'
-     246 |                         SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:247:4: error: use of undeclared identifier 'SUBSECTION_SIZE'
-     247 |                         SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
-         |                         ^~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:247:22: error: use of undeclared identifier 'SUBSECTIONS_PER_SECTION'
-     247 |                         SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:248:43: error: use of undeclared identifier 'PAGES_PER_SUBSECTION'
-     248 |         pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
-         |                                                  ^~~~~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:252:32: error: implicit declaration of function '__pfn_to_section' [-Werror,-Wimplicit-function-declaration]
-     252 |         struct mem_section *section = __pfn_to_section(start_pfn);
-         |                                       ^
->> drivers/cma/mm/mem_phys_layout.c:252:22: error: incompatible integer to pointer conversion initializing 'struct mem_section *' with an expression of type 'int' [-Wint-conversion]
-     252 |         struct mem_section *section = __pfn_to_section(start_pfn);
-         |                             ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:253:22: error: implicit declaration of function '__section_mem_map_addr' [-Werror,-Wimplicit-function-declaration]
-     253 |         struct page *page = __section_mem_map_addr(section);
-         |                             ^
->> drivers/cma/mm/mem_phys_layout.c:253:15: error: incompatible integer to pointer conversion initializing 'struct page *' with an expression of type 'int' [-Wint-conversion]
-     253 |         struct page *page = __section_mem_map_addr(section);
-         |                      ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:250:14: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-     250 |         phys_addr_t start_addr = memblock_start_of_DRAM();
-         |                     ^
-   2 warnings and 16 errors generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:354:9: note: previous definition is here
+     354 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/cma_test/cma_alloc_test_drv.c:93:24: error: no member named 'cma_area' in 'struct device'
+      93 |         if (ret || !pdev->dev.cma_area) {
+         |                     ~~~~~~~~~ ^
+   drivers/cma_test/cma_alloc_test_drv.c:140:12: error: incompatible function pointer types initializing 'int (*)(struct platform_device *)' with an expression of type 'void (struct platform_device *)' [-Wincompatible-function-pointer-types]
+     140 |         .remove = cma_test_remove,
+         |                   ^~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +/PFN_SECTION_SHIFT +239 drivers/cma/mm/mem_phys_layout.c
+vim +93 drivers/cma_test/cma_alloc_test_drv.c
 
-   234	
-   235	static void print_phys_memory_model(void)
-   236	{
-   237		pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-   238		pr_info("pageblock_order               = %d", pageblock_order);
- > 239		pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
-   240		pr_info("(MAX_PAGE_ORDER + PAGE_SHIFT) = %d", (MAX_PAGE_ORDER + PAGE_SHIFT));
- > 241		pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
-   242		pr_info("2 ^ SECTION_SIZE_BITS         = %d", (1 << SECTION_SIZE_BITS));
- > 243		pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
- > 244		pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
-   245		pr_info("SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION = %ld = %ldMiB",
-   246				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
-   247				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
- > 248		pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
-   249	
-   250		phys_addr_t start_addr = memblock_start_of_DRAM();
-   251		unsigned long start_pfn = PHYS_PFN(start_addr);
- > 252		struct mem_section *section = __pfn_to_section(start_pfn);
- > 253		struct page *page = __section_mem_map_addr(section);
-   254	
-   255		pr_info("Using struct mem_section");
-   256		pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
-   257				(u64)start_pfn,
-   258				(u64)start_pfn,
-   259				(u64) page,
-   260				(u64)PFN_PHYS(start_pfn));
-   261	}
-   262	
+    78	
+    79	static int cma_test_probe(struct platform_device *pdev)
+    80	{
+    81		int ret;
+    82		const struct of_device_id *of_id;
+    83	
+    84		pr_info("Probing device");
+    85	
+    86		of_id = of_match_device(cma_test_dt_ids, &pdev->dev);
+    87		if (!of_id) {
+    88			pr_info("The node was not found in DTB");
+    89			return -ENODEV;
+    90		}
+    91	
+    92		ret = of_reserved_mem_device_init(&pdev->dev);
+  > 93		if (ret || !pdev->dev.cma_area) {
+    94			dev_err(&pdev->dev,
+    95				"The CMA reserved area is not assigned (ret %d)\n",
+    96				ret);
+    97			return -EINVAL;
+    98		}
+    99	
+   100		ret = devm_add_action(&pdev->dev, rmem_remove_callback, &pdev->dev);
+   101		if (ret) {
+   102			of_reserved_mem_device_release(&pdev->dev);
+   103			return ret;
+   104		}
+   105	
+   106		return 0;
+   107	}
+   108	
 
 -- 
 0-DAY CI Kernel Test Service
