@@ -1,95 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817A03358B9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 22:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213443358B9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 22:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773785873; cv=none; b=u9oz8bQYep8otLkC7mSjIsrHTGi3L+mQxcD/eGUVLa0GQ9N7v2EyS7vLWkawFN9NBxURwM1iPzJxAtvZND1KXbS6SjGkBG5oc9IwNoX6RmIF0+RQ/s8AUtuVTgSXLZwfapKAP+GD36CL1F9SOs/V9YM6mjU8vzb8FgbU+uahe4E=
+	t=1773785878; cv=none; b=DVYGulv3ruPgnM/kHaVIDHobNWmJiebsXaYtfnp3iTlf3EAEl8lYnGH9+kqpWrEY7dcTVpXuNMwJj+805GRk3jaim/KJWsw7sVfUDBphjFnlplxL7xszdd8/36QpONZzE7Zs03iEZCO1BXCYOnQRJoQKqDZQaF6gJFQXWur9t7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773785873; c=relaxed/simple;
-	bh=01UAgCsvg100JmcL13EiapzwIOp2bQh7mtyvVTxTV0w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DMuZ6XHvZ9Y0JodM6afKHpirPCEuCqoklKaaNjgH5B0mvDJjKQu/uQ5sSEQUfX+0/HrBp83pdtOqx844JDHw48QrQXbMC+LiC5NHLA/KFNXry5gSwmcoyX14yKLcFBSqZhBkNDrjbsTh2tS72kqgHTaygQSJCdng1I6RC2/zv0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKLC5Ear; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1773785878; c=relaxed/simple;
+	bh=FNWIPBES0YKSmK+pgav9TGtnCBJV8EEE9Co9MfCjjrI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nUMRSUjboaOd7Da4hsjbyPjxC/b1TSQCzcCX5zrawHE3rW/wA/GVCONBNPfu5505Prlc+PlFcOuUPg5qDa7ozoL6Tw6Kk+DOsWNWGgUuOwplpwFRLotX1MKbIwKAWsYLO9YDXo3EDuKSk8VjO+TjnqKpxKzUlhr8q7qB5Mau95U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lc+cZaHh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKLC5Ear"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lc+cZaHh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773785871; x=1805321871;
-  h=date:from:to:cc:subject:message-id;
-  bh=01UAgCsvg100JmcL13EiapzwIOp2bQh7mtyvVTxTV0w=;
-  b=hKLC5EarHqr5UN17cXVnkP5uXFBrpgetqW3wUPBjSs+C2sSxD/LUJ2sx
-   6U/401WE6Axhy4bqr6VTV1IdMZQiq+kCw7o/OdJ5gk9hUjghSXBFLBg5V
-   bsGqJzL3e6Zu9OFWhnUIE0ZwsatT3fJYicZvX5Q74o3UmGA8Eb9tqD+pB
-   5bAmflZBmvJogTQ4PDopez4Kjm1YO1cUPhDCd6N/7dz7GCnQbX+AHP7+3
-   1W4vAKA6eZeNu7hZjvBAnoC9aOtkUGGnDUTJBDMMmfDtq+T/rTmd9wboc
-   NAJDJsXfpXhiwe47P1DLkjQ2zI0XtomuDeYGGTie135Gs1LK9Oye38vWh
-   g==;
-X-CSE-ConnectionGUID: suiuhyKeSz2/kYUyxH+2LQ==
-X-CSE-MsgGUID: /CrL+SX9TdiVVYfTIJ4vwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="78441314"
+  t=1773785877; x=1805321877;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FNWIPBES0YKSmK+pgav9TGtnCBJV8EEE9Co9MfCjjrI=;
+  b=Lc+cZaHhqwABNw5JpP6esfp9Mjcm7LJ5jFm75MurN5IWP25k/CnGAGQK
+   AdFv2uOPVMf0bq3AO0CsxGTrivfnnLryCQLf7OO+E7XufcuoMEPNGHVVO
+   F1607CFW3D7aQ3DouMJhFyo7HGcUtVOE3AYHHNNgWd21up/gZCnPz9AVF
+   RJ9nR981WrjqT9hBTI+oczTYLZCWPhzFYP6HEI0oTymrAxZo6Np5SVi8z
+   ptD+sfnUDS+LRzFbBJLfaSBdyziwTVphBmFTacWCHLsL/QbIGSS/fqgm0
+   2ZFT0e4AJ5LBEHWYeb9Wr95xvE2vric/pdCS9suNl4MQXPFOhAOwVaUD2
+   A==;
+X-CSE-ConnectionGUID: G90fS0WOQEyDRVSCWiZkmQ==
+X-CSE-MsgGUID: KTo6qxFTR7Kr3HMIj1Xc1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="100293807"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="78441314"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 15:17:51 -0700
-X-CSE-ConnectionGUID: uOI4xKllREaCMKPcBBz9pQ==
-X-CSE-MsgGUID: 3ax9xcVOTOuMtluJCHARFA==
+   d="scan'208";a="100293807"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 15:17:56 -0700
+X-CSE-ConnectionGUID: 00Dw8TaWSC+6yJmQpnHcEQ==
+X-CSE-MsgGUID: fVwSoFFSRdiAqNVwH5HOiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="226554618"
+   d="scan'208";a="218493195"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Mar 2026 15:17:50 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Mar 2026 15:17:49 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2cjS-0000000026H-1Hal;
+	id 1w2cjS-0000000026D-0zP9;
 	Tue, 17 Mar 2026 22:17:46 +0000
-Date: Wed, 18 Mar 2026 06:17:30 +0800
+Date: Wed, 18 Mar 2026 06:17:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: oe-kbuild-all@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [linux-next:master 282/6828]
- drivers/gpu/drm/verisilicon/vs_dc.c:193:24: sparse: sparse: symbol
- 'vs_dc_platform_driver' was not declared. Should it be static?
-Message-ID: <202603180616.TM6qYvIY-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	Dmitry Baryshkov <lumag@kernel.org>, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v6 9/9] power: sequencing: pcie-m2: Create serdev device
+ for WCN7850 bluetooth
+Message-ID: <202603180609.ucspJefN-lkp@intel.com>
+References: <20260317-pci-m2-e-v6-9-9c898f108d3d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260317-pci-m2-e-v6-9-9c898f108d3d@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8e5a478b6d6a5bb0a3d52147862b15e4d826af19
-commit: dbf21777caa8b8c88c12f7f036b01208fec0d55a [282/6828] drm: verisilicon: add a driver for Verisilicon display controllers
-config: nios2-randconfig-r131-20260318 (https://download.01.org/0day-ci/archive/20260318/202603180616.TM6qYvIY-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180616.TM6qYvIY-lkp@intel.com/reproduce)
+Hi Manivannan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 559f264e403e4d58d56a17595c60a1de011c5e20]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/serdev-Convert-to_serdev_-helpers-to-macros-and-use-container_of_const/20260317-123910
+base:   559f264e403e4d58d56a17595c60a1de011c5e20
+patch link:    https://lore.kernel.org/r/20260317-pci-m2-e-v6-9-9c898f108d3d%40oss.qualcomm.com
+patch subject: [PATCH v6 9/9] power: sequencing: pcie-m2: Create serdev device for WCN7850 bluetooth
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260318/202603180609.ucspJefN-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180609.ucspJefN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603180616.TM6qYvIY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603180609.ucspJefN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/verisilicon/vs_dc.c:193:24: sparse: sparse: symbol 'vs_dc_platform_driver' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/vs_dc_platform_driver +193 drivers/gpu/drm/verisilicon/vs_dc.c
+   drivers/power/sequencing/pwrseq-pcie-m2.c: In function 'pwrseq_pcie_m2_free_resources':
+>> drivers/power/sequencing/pwrseq-pcie-m2.c:185:34: error: 'pci_bus_type' undeclared (first use in this function); did you mean 'pci_pcie_type'?
+     185 |         bus_unregister_notifier(&pci_bus_type, &ctx->nb);
+         |                                  ^~~~~~~~~~~~
+         |                                  pci_pcie_type
+   drivers/power/sequencing/pwrseq-pcie-m2.c:185:34: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/power/sequencing/pwrseq-pcie-m2.c: In function 'pwrseq_pcie_m2_register_notifier':
+   drivers/power/sequencing/pwrseq-pcie-m2.c:340:54: error: 'pci_bus_type' undeclared (first use in this function); did you mean 'pci_pcie_type'?
+     340 |                         ret = bus_register_notifier(&pci_bus_type, &ctx->nb);
+         |                                                      ^~~~~~~~~~~~
+         |                                                      pci_pcie_type
 
-   192	
- > 193	struct platform_driver vs_dc_platform_driver = {
-   194		.probe = vs_dc_probe,
-   195		.remove = vs_dc_remove,
-   196		.shutdown = vs_dc_shutdown,
-   197		.driver = {
-   198			.name = "verisilicon-dc",
-   199			.of_match_table = vs_dc_driver_dt_match,
-   200		},
-   201	};
-   202	
+
+vim +185 drivers/power/sequencing/pwrseq-pcie-m2.c
+
+   179	
+   180	static void pwrseq_pcie_m2_free_resources(void *data)
+   181	{
+   182		struct pwrseq_pcie_m2_ctx *ctx = data;
+   183	
+   184		serdev_device_remove(ctx->serdev);
+ > 185		bus_unregister_notifier(&pci_bus_type, &ctx->nb);
+   186		of_changeset_revert(ctx->ocs);
+   187		of_changeset_destroy(ctx->ocs);
+   188		regulator_bulk_free(ctx->num_vregs, ctx->regs);
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
