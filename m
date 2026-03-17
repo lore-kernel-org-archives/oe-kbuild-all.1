@@ -1,127 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADAD33C187;
-	Tue, 17 Mar 2026 19:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADBB125A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 19:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773775597; cv=none; b=GWV1Tptbys+g7N2BgOQn02Gstp9iqVbvS2j51k1gBJdWaz/7Osy9KcrxU3GSRrrGGtjPq3bgUqRIDkn5IW3E7Uw52r12sbXj3Xv1sGjsYdcZha5XLaWFaI8aDmpAHOGlKZpjB5y0qVzOyVnIjXEMfuZfUqe4VkgltD/xlEC+m8c=
+	t=1773776823; cv=none; b=i2yzoG2jIJEtDphwbZwc3sbFGLu1kRJjnW8t9xNJAaiiImI08xm5dBsVdvxkxEGtHkY4MKV+Kuxf/J1XZjyvgFMCEbhmjntHVVitRsvmPWDI9YMLFomKvbWpC26aH7cYAXHXV5pdMizlCR3wQLi0QFzStXalYSJFVIwkAZfZQc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773775597; c=relaxed/simple;
-	bh=rrlbfIW+VnOm0b0ICuUS8QojTdTqgDOtq9/xFyMzsnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WLK2fHixLIYfpzsZdLiR2S06nlIeM8FnrtqF1zHGyPZMq91nJvZy9FBZHl/8qytfjkkB29Qjen8DCtfv59xOHsGF15q2PPJ5uRNMynKH0HCInqI/ZFntMr9C4n+a2coRtJOG8pjzP3V9Gtg2IYskwfoFqWohUqN/yOzaPint0D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lBS5NMcX; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1773776823; c=relaxed/simple;
+	bh=aXQVNSP/szE1Wb6K+YrXis2EwNPVCRAFvmOk1oVfm3A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LrnjeBjnIwTE9ETCsq2anE36eTlSKc/hfSXcXs8GXKqmVhptT8ViVly2M0KtKZe9GKwTBGdcJq1iykdv6UbP1eDxQ+jOOq+c3rUjWDzU7d8PIm7Jp29WurWop9boLvKwcm/VJBW+Pg5Sq4ylp4NAdY19c7WOMs1AEzRaG77/Evk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LehkM2xu; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lBS5NMcX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LehkM2xu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773775595; x=1805311595;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rrlbfIW+VnOm0b0ICuUS8QojTdTqgDOtq9/xFyMzsnY=;
-  b=lBS5NMcX3x7Vyj7NTrxJUWTCp4/Ktr+09lWmZmkJ+Awk/H0cT7GTutB+
-   oB33j4QMGpvp4YOGi+8yd9nc6Ds8JykjGpyf9n+kFUcurI0HS6Ht3qtTI
-   oLBknYyIX9FSiu44EZ8lOX4z7hgqu1gS47fZgF1JcrM3SMutQdEevZ6IU
-   R0IhYLC2cDxU8NZodXCjAkBJxHxbtbh1E3lzUoOFEeYmeYjN7s0Zc1vL0
-   HipGc5B8Jo7eG9SBQW+TAO4FXmNKWmht6X3F73BILst0amf/0qSWGbMwp
-   Z6r6wEiYJN/o/FwWAy6v1rKjg3eGkHIF6DE/uO2RPWsux6ha7t/d0GHjw
-   A==;
-X-CSE-ConnectionGUID: xY5VJxDVTQCwgcs0XYVzeQ==
-X-CSE-MsgGUID: /5avd/Q6S3Ko3Bnsjk1KQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74000802"
+  t=1773776823; x=1805312823;
+  h=date:from:to:cc:subject:message-id;
+  bh=aXQVNSP/szE1Wb6K+YrXis2EwNPVCRAFvmOk1oVfm3A=;
+  b=LehkM2xuLuHZp1ZaKTDyCikyqBw7Gedbv9aI8/X24wfwBhA7jsvNFOrV
+   qtaMS0yrmp/RyoJrr3Ac5KfAoojbPCcFamnYmVWrkg9S3YYk6vPoIi0Wi
+   SwJ1+vLZVEF28nUJg3kMGO7LcwHflnRBUxtakuChN1oxUK5jLiG2e6JMb
+   4uP/u62IfXPlShMuTVDXOEFhNOO6pRbrwC5xMJwvWikpjbhq5KDlmz1GP
+   oHlua+4TEDzV/EL/wrGUi1vhW/GWa6HpJkiYlnOeLfwRH9LMZWpapbrKy
+   iR7Iae5BVtjtOCSoehRXu8MmGvsLtv+jDqtp33Q9qzHGCtw7mONUUnmdD
+   g==;
+X-CSE-ConnectionGUID: 5JsjIrlfTBOrBJokCyQRAw==
+X-CSE-MsgGUID: iGvtleVuTiOKPvWoFkBETw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="85452086"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="74000802"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 12:26:34 -0700
-X-CSE-ConnectionGUID: gqCc6hgUT1uViNBfW08Q8A==
-X-CSE-MsgGUID: T8tF0lF7RxG0bJCeGpQLiw==
+   d="scan'208";a="85452086"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 12:47:02 -0700
+X-CSE-ConnectionGUID: ichaC9nfQrWk8opb4bbUxQ==
+X-CSE-MsgGUID: 7wsViJhWTMq9oYkVTvfPKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="219851330"
-Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Mar 2026 12:26:32 -0700
-Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 17 Mar 2026 12:47:00 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2a3i-000000001sP-0MSs;
-	Tue, 17 Mar 2026 19:26:30 +0000
-Date: Wed, 18 Mar 2026 03:26:12 +0800
+	id 1w2aNW-000000004Vd-1qnB;
+	Tue, 17 Mar 2026 19:46:58 +0000
+Date: Tue, 17 Mar 2026 20:46:55 +0100
 From: kernel test robot <lkp@intel.com>
-To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, pabeni@redhat.com,
-	edumazet@google.com, horms@kernel.org, kuba@kernel.org,
-	John Ousterhout <ouster@cs.stanford.edu>
-Subject: Re: [PATCH net-next v17 14/14] net: homa: create Makefile and Kconfig
-Message-ID: <202603180330.3g4vKnoZ-lkp@intel.com>
-References: <20260316223228.2611-15-ouster@cs.stanford.edu>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chao:bugfix/common 5/5]
+ include/trace/events/f2fs.h:2655:19: warning: format '%lld' expects argument
+ of type 'long long int', but argument 6 has type 'long unsigned int'
+Message-ID: <202603172038.fCcFKBQE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260316223228.2611-15-ouster@cs.stanford.edu>
 
-Hi John,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20260317-070659
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260316223228.2611-15-ouster%40cs.stanford.edu
-patch subject: [PATCH net-next v17 14/14] net: homa: create Makefile and Kconfig
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260318/202603180330.3g4vKnoZ-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180330.3g4vKnoZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
+head:   c85deae607667bb160a277e75324a45879161285
+commit: c85deae607667bb160a277e75324a45879161285 [5/5] f2fs: introduce trace_f2fs_map_lock()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260317/202603172038.fCcFKBQE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603172038.fCcFKBQE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603180330.3g4vKnoZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603172038.fCcFKBQE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/homa/homa_plumbing.c:94:16: error: incompatible function pointer types initializing 'int (*)(struct sock *, struct msghdr *, size_t, int)' (aka 'int (*)(struct sock *, struct msghdr *, unsigned long, int)') with an expression of type 'int (struct sock *, struct msghdr *, size_t, int, int *)' (aka 'int (struct sock *, struct msghdr *, unsigned long, int, int *)') [-Wincompatible-function-pointer-types]
-      94 |         .recvmsg           = homa_recvmsg,
-         |                              ^~~~~~~~~~~~
-   net/homa/homa_plumbing.c:111:16: error: incompatible function pointer types initializing 'int (*)(struct sock *, struct msghdr *, size_t, int)' (aka 'int (*)(struct sock *, struct msghdr *, unsigned long, int)') with an expression of type 'int (struct sock *, struct msghdr *, size_t, int, int *)' (aka 'int (struct sock *, struct msghdr *, unsigned long, int, int *)') [-Wincompatible-function-pointer-types]
-     111 |         .recvmsg           = homa_recvmsg,
-         |                              ^~~~~~~~~~~~
-   2 errors generated.
+   In file included from include/trace/define_trace.h:132,
+                    from include/trace/events/f2fs.h:2665,
+                    from fs/f2fs/super.c:41:
+   include/trace/events/f2fs.h: In function 'trace_raw_output_f2fs_map_lock':
+>> include/trace/events/f2fs.h:2655:19: warning: format '%lld' expects argument of type 'long long int', but argument 6 has type 'long unsigned int' [-Wformat=]
+    2655 |         TP_printk("dev = (%d,%d), ino = %lu, index = %lld, flag = %d, %s",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   include/trace/events/f2fs.h:2633:1: note: in expansion of macro 'TRACE_EVENT'
+    2633 | TRACE_EVENT(f2fs_map_lock,
+         | ^~~~~~~~~~~
+   include/trace/events/f2fs.h:2655:9: note: in expansion of macro 'TP_printk'
+    2655 |         TP_printk("dev = (%d,%d), ino = %lu, index = %lld, flag = %d, %s",
+         |         ^~~~~~~~~
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/f2fs.h:2655:57: note: format string is defined here
+    2655 |         TP_printk("dev = (%d,%d), ino = %lu, index = %lld, flag = %d, %s",
+         |                                                      ~~~^
+         |                                                         |
+         |                                                         long long int
+         |                                                      %ld
 
 
-vim +94 net/homa/homa_plumbing.c
+vim +2655 include/trace/events/f2fs.h
 
-fda29e883f7618b John Ousterhout 2026-03-16   77  
-fda29e883f7618b John Ousterhout 2026-03-16   78  /* This structure also defines functions that handle various operations
-fda29e883f7618b John Ousterhout 2026-03-16   79   * on Homa sockets. However, these functions are lower-level than those
-fda29e883f7618b John Ousterhout 2026-03-16   80   * in homa_proto_ops: they are specific to the PF_INET or PF_INET6
-fda29e883f7618b John Ousterhout 2026-03-16   81   * protocol family, and in many cases they are invoked by functions in
-fda29e883f7618b John Ousterhout 2026-03-16   82   * homa_proto_ops. Most of these functions have Homa-specific implementations.
-fda29e883f7618b John Ousterhout 2026-03-16   83   */
-fda29e883f7618b John Ousterhout 2026-03-16   84  static struct proto homa_prot = {
-fda29e883f7618b John Ousterhout 2026-03-16   85  	.name		   = "HOMA",
-fda29e883f7618b John Ousterhout 2026-03-16   86  	.owner		   = THIS_MODULE,
-fda29e883f7618b John Ousterhout 2026-03-16   87  	.close		   = homa_close,
-fda29e883f7618b John Ousterhout 2026-03-16   88  	.connect	   = ip4_datagram_connect,
-fda29e883f7618b John Ousterhout 2026-03-16   89  	.init		   = homa_socket,
-fda29e883f7618b John Ousterhout 2026-03-16   90  	.destroy	   = homa_sock_destroy,
-fda29e883f7618b John Ousterhout 2026-03-16   91  	.setsockopt	   = homa_setsockopt,
-fda29e883f7618b John Ousterhout 2026-03-16   92  	.getsockopt	   = homa_getsockopt,
-fda29e883f7618b John Ousterhout 2026-03-16   93  	.sendmsg	   = homa_sendmsg,
-fda29e883f7618b John Ousterhout 2026-03-16  @94  	.recvmsg	   = homa_recvmsg,
-fda29e883f7618b John Ousterhout 2026-03-16   95  	.hash		   = homa_hash,
-fda29e883f7618b John Ousterhout 2026-03-16   96  	.unhash		   = homa_unhash,
-fda29e883f7618b John Ousterhout 2026-03-16   97  	.obj_size	   = sizeof(struct homa_sock),
-fda29e883f7618b John Ousterhout 2026-03-16   98  	.no_autobind       = 1,
-fda29e883f7618b John Ousterhout 2026-03-16   99  };
-fda29e883f7618b John Ousterhout 2026-03-16  100  
+  2634	
+  2635		TP_PROTO(struct inode *inode, pgoff_t index, int flag, char *string),
+  2636	
+  2637		TP_ARGS(inode, index, flag, string),
+  2638	
+  2639		TP_STRUCT__entry(
+  2640			__field(dev_t, dev)
+  2641			__field(ino_t, ino)
+  2642			__field(pgoff_t, index)
+  2643			__field(int, flag)
+  2644			__field(char *, string)
+  2645		),
+  2646	
+  2647		TP_fast_assign(
+  2648			__entry->dev		= inode->i_sb->s_dev;
+  2649			__entry->ino		= inode->i_ino;
+  2650			__entry->index		= index;
+  2651			__entry->flag		= flag;
+  2652			__entry->string		= string;
+  2653		),
+  2654	
+> 2655		TP_printk("dev = (%d,%d), ino = %lu, index = %lld, flag = %d, %s",
+  2656			show_dev_ino(__entry),
+  2657			__entry->index,
+  2658			__entry->flag,
+  2659			__entry->string)
+  2660	);
+  2661	
 
 -- 
 0-DAY CI Kernel Test Service
