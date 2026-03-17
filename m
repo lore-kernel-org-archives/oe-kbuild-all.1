@@ -1,235 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F34639EF00;
-	Tue, 17 Mar 2026 09:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADDE35AC29
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 09:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773739052; cv=none; b=jQOi9EE2E6KFwEWqrs8azNXX1zMUrnYh4XEi0v0eFPjCvc2e+idQDOQw60J+Sa4LNEgsXK18ze237Bb067hGWbhYSm9WwJt7oxHym3mC0QJAZmPWn/6jIcglfveXG+JY5WGmfT9wa7Fbkx9ZcoTaoKk8xwvprXVabYpU28UryZc=
+	t=1773740400; cv=none; b=dQZRix7c3ZFiojqj8WhqZ6U3FgmwVHKyRbMnnrpj2bfvMs1CEr2n1cmirdriPCA5yVk4J7WZ2U3qw8hnyjllt3RTed/UacVv2O9gKXztNMRQUTkVwStNDR41PTfKrCReCn4ygnwm5cYxENWi1U58rSTbcvTgIOgOH72zKqc4gjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773739052; c=relaxed/simple;
-	bh=Oo5C74gSLvjpWx5l8lOVZYjD324Hln5Lo2lcxM0GgCg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Gi4hAgtxopkrHt6wRcoTltR5YGHpoQJhEdvRfPGqPGUiQZPOc4cE8jXlOo+ypLHWuVAP4WOmXX2ztLgI7OXQCVUXejaoDgRwmD12e+MkkSOin1IrIbmXGvvRhEFWJopZuIR+pXsb7n7UR9ML45NKa4bMsekmVu0Teuh1uaGxTMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kIbz4T/V; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1773740400; c=relaxed/simple;
+	bh=X1b5odisZXG8hdNFbSDTR5iFNZss9HSTUn4ZhTne3CQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a2JH3XGYHwzdD48mWrBc3gp1RG/GyZw2bVY8eYlnkHyXunUayZVq3bq7Uv0bSuUBxPcHGOwI2bCooSiOHJKv73UOMQJe4h+BSNqmpSKEAk7nxW/QJgdOX5t5ZTfV2Ns20y4KNX/Sp+EykyMNPws8NPAnUKyEljw0K/Cp6rvpMAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8KDi95o; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kIbz4T/V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8KDi95o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773739047; x=1805275047;
-  h=date:from:to:cc:subject:message-id;
-  bh=Oo5C74gSLvjpWx5l8lOVZYjD324Hln5Lo2lcxM0GgCg=;
-  b=kIbz4T/VvUmk4yWY+8b6fZlLP/dEFbvVn/10huRfH32zQnnn5dVcuRJz
-   DfR6kAYiazzZRJqNdQxCqryJFNEAr7qb/nK9kIkY21zVDUrNgKu+4hZfP
-   DRCmWkdcmuSVGM5tFACDQv9W4iOd8CU2uNYVXkw56cX9JgrN2D8CpnvmR
-   KZgPpucAFnxyoJyytntQvFz6d4qYtj0fzR/WkO0gvGwhsbg4ypnJ9tAlK
-   6Ef0MHkc7OB61IoZqMTdIkwyWNS76jn1FOHaq8F72eR61sfgvVCv2sPBb
-   OOMhDN6JXlMoKiejqPNgRmjP2vam30SYw/eZMdn8Ts4XUduXRl6uCm27w
-   g==;
-X-CSE-ConnectionGUID: PommimSASsGeZe/RKahhuQ==
-X-CSE-MsgGUID: pcaaJGv6TA2lUavN9OEMZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="78660444"
+  t=1773740398; x=1805276398;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X1b5odisZXG8hdNFbSDTR5iFNZss9HSTUn4ZhTne3CQ=;
+  b=J8KDi95oU4zckLczd4wkuUMMh4os5uUQnJMpsShA5IoM1qCHHMpjWjPN
+   cySE2OLEvJaZ0m7Gap+iuuIV2ve/fvKFeiicvLCdap0nfXnF76CZ/AIDO
+   GehwrgVGoRNrFB1I/q9ztJAkcC72xiOlzHwM339PRo6vFSMZ2y4J4WFTP
+   Axp9hEdA+HyFypEtn7nAkUXoQZHqddxU1ET6r5ekwoxWTJL+N3tDCBdju
+   QDPCdS1nt5Baf7MvN1H89E95VF/MIBjlf8aGqj5YSfiGc4QfkeaJq2XYS
+   gal15vL3s+gfCGnUcRzHCKEJz/4jWGIIzIRmE0GlcWxyCKCb9e8kkBARp
+   w==;
+X-CSE-ConnectionGUID: tQXGKmSNTMCbb7WVLsgV0w==
+X-CSE-MsgGUID: 1jtIjS41RQarLB5KnbuYkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="78620631"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="78660444"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:17:26 -0700
-X-CSE-ConnectionGUID: /c2GqzjjTmSc6c/uwI0f6g==
-X-CSE-MsgGUID: P7ADY+oLQx6ZB3HqzcB2Ug==
+   d="scan'208";a="78620631"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:39:57 -0700
+X-CSE-ConnectionGUID: tFN7HEKcRe24Er0BrMiG6A==
+X-CSE-MsgGUID: Lov8Ur2cTwq1C6vhxZNkGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="226674494"
-Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 17 Mar 2026 02:17:25 -0700
-Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
+   d="scan'208";a="252705194"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 17 Mar 2026 02:39:54 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2QYE-0000000009h-0mGC;
-	Tue, 17 Mar 2026 09:17:22 +0000
-Date: Tue, 17 Mar 2026 17:16:25 +0800
+	id 1w2Qu1-000000004Pd-1tU4;
+	Tue, 17 Mar 2026 09:39:53 +0000
+Date: Tue, 17 Mar 2026 10:39:21 +0100
 From: kernel test robot <lkp@intel.com>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-integrity@vger.kernel.org
-Subject: [zohar-integrity:next-integrity.ima-sigv3-support-1 13/15]
- security/integrity/evm/evm_main.c:270:6: error: too many arguments to
- function call, expected 5, have 6
-Message-ID: <202603171719.U8qaT87C-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Willy Tarreau <w@1wt.eu>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH v3 1/2] tools/nolibc: add support for
+ program_invocation_{,short_}name
+Message-ID: <202603171011.58aT1Db0-lkp@intel.com>
+References: <20260316-nolibc-err-h-v3-1-6ef80c051ab7@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316-nolibc-err-h-v3-1-6ef80c051ab7@weissschuh.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity.ima-sigv3-support-1
-head:   9037cd4a36eb9554fb5968a4c1a990d44843190b
-commit: d45011bbc88d112e7eea4dbb9a1b3b0081d0b30a [13/15] ima: Define asymmetric_verify_v3() to verify IMA sigv3 signatures
-config: i386-buildonly-randconfig-005-20260317 (https://download.01.org/0day-ci/archive/20260317/202603171719.U8qaT87C-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171719.U8qaT87C-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 745dadd6d3d984feafb96f27b60d74b29ade4957]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/tools-nolibc-add-support-for-program_invocation_-short_-name/20260317-060704
+base:   745dadd6d3d984feafb96f27b60d74b29ade4957
+patch link:    https://lore.kernel.org/r/20260316-nolibc-err-h-v3-1-6ef80c051ab7%40weissschuh.net
+patch subject: [PATCH v3 1/2] tools/nolibc: add support for program_invocation_{,short_}name
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260317/202603171011.58aT1Db0-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171011.58aT1Db0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603171719.U8qaT87C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603171011.58aT1Db0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> security/integrity/evm/evm_main.c:270:6: error: too many arguments to function call, expected 5, have 6
-     267 |                 rc = integrity_digsig_verify(INTEGRITY_KEYRING_EVM,
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~
-     268 |                                         (const char *)xattr_data, xattr_len,
-     269 |                                         digest.digest, digest.hdr.length,
-     270 |                                         digest.hdr.algo);
-         |                                         ^~~~~~~~~~~~~~~
-   security/integrity/evm/../integrity.h:143:19: note: 'integrity_digsig_verify' declared here
-     143 | static inline int integrity_digsig_verify(const unsigned int id,
-         |                   ^                       ~~~~~~~~~~~~~~~~~~~~~~
-     144 |                                           const char *sig, int siglen,
-         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     145 |                                           const char *digest, int digestlen)
-         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +270 security/integrity/evm/evm_main.c
-
-   172	
-   173	/*
-   174	 * evm_verify_hmac - calculate and compare the HMAC with the EVM xattr
-   175	 *
-   176	 * Compute the HMAC on the dentry's protected set of extended attributes
-   177	 * and compare it against the stored security.evm xattr.
-   178	 *
-   179	 * For performance:
-   180	 * - use the previously retrieved xattr value and length to calculate the
-   181	 *   HMAC.)
-   182	 * - cache the verification result in the iint, when available.
-   183	 *
-   184	 * Returns integrity status
-   185	 */
-   186	static enum integrity_status evm_verify_hmac(struct dentry *dentry,
-   187						     const char *xattr_name,
-   188						     char *xattr_value,
-   189						     size_t xattr_value_len)
-   190	{
-   191		struct evm_ima_xattr_data *xattr_data = NULL;
-   192		struct signature_v2_hdr *hdr;
-   193		enum integrity_status evm_status = INTEGRITY_PASS;
-   194		struct evm_digest digest;
-   195		struct inode *inode = d_backing_inode(dentry);
-   196		struct evm_iint_cache *iint = evm_iint_inode(inode);
-   197		int rc, xattr_len, evm_immutable = 0;
-   198	
-   199		if (iint && (iint->evm_status == INTEGRITY_PASS ||
-   200			     iint->evm_status == INTEGRITY_PASS_IMMUTABLE))
-   201			return iint->evm_status;
-   202	
-   203		/*
-   204		 * On unsupported filesystems without EVM_INIT_X509 enabled, skip
-   205		 * signature verification.
-   206		 */
-   207		if (!(evm_initialized & EVM_INIT_X509) &&
-   208		    is_unsupported_hmac_fs(dentry))
-   209			return INTEGRITY_UNKNOWN;
-   210	
-   211		/* if status is not PASS, try to check again - against -ENOMEM */
-   212	
-   213		/* first need to know the sig type */
-   214		rc = vfs_getxattr_alloc(&nop_mnt_idmap, dentry, XATTR_NAME_EVM,
-   215					(char **)&xattr_data, 0, GFP_NOFS);
-   216		if (rc <= 0) {
-   217			evm_status = INTEGRITY_FAIL;
-   218			if (rc == -ENODATA) {
-   219				rc = evm_find_protected_xattrs(dentry);
-   220				if (rc > 0)
-   221					evm_status = INTEGRITY_NOLABEL;
-   222				else if (rc == 0)
-   223					evm_status = INTEGRITY_NOXATTRS; /* new file */
-   224			} else if (rc == -EOPNOTSUPP) {
-   225				evm_status = INTEGRITY_UNKNOWN;
-   226			}
-   227			goto out;
-   228		}
-   229	
-   230		xattr_len = rc;
-   231	
-   232		/* check value type */
-   233		switch (xattr_data->type) {
-   234		case EVM_XATTR_HMAC:
-   235			if (xattr_len != sizeof(struct evm_xattr)) {
-   236				evm_status = INTEGRITY_FAIL;
-   237				goto out;
-   238			}
-   239	
-   240			digest.hdr.algo = HASH_ALGO_SHA1;
-   241			rc = evm_calc_hmac(dentry, xattr_name, xattr_value,
-   242					   xattr_value_len, &digest, iint);
-   243			if (rc)
-   244				break;
-   245			rc = crypto_memneq(xattr_data->data, digest.digest,
-   246					   SHA1_DIGEST_SIZE);
-   247			if (rc)
-   248				rc = -EINVAL;
-   249			break;
-   250		case EVM_XATTR_PORTABLE_DIGSIG:
-   251			evm_immutable = 1;
-   252			fallthrough;
-   253		case EVM_IMA_XATTR_DIGSIG:
-   254			/* accept xattr with non-empty signature field */
-   255			if (xattr_len <= sizeof(struct signature_v2_hdr)) {
-   256				evm_status = INTEGRITY_FAIL;
-   257				goto out;
-   258			}
-   259	
-   260			hdr = (struct signature_v2_hdr *)xattr_data;
-   261			digest.hdr.algo = hdr->hash_algo;
-   262			rc = evm_calc_hash(dentry, xattr_name, xattr_value,
-   263					   xattr_value_len, xattr_data->type, &digest,
-   264					   iint);
-   265			if (rc)
-   266				break;
-   267			rc = integrity_digsig_verify(INTEGRITY_KEYRING_EVM,
-   268						(const char *)xattr_data, xattr_len,
-   269						digest.digest, digest.hdr.length,
- > 270						digest.hdr.algo);
-   271			if (!rc) {
-   272				if (xattr_data->type == EVM_XATTR_PORTABLE_DIGSIG) {
-   273					if (iint)
-   274						iint->flags |= EVM_IMMUTABLE_DIGSIG;
-   275					evm_status = INTEGRITY_PASS_IMMUTABLE;
-   276				} else if (!IS_RDONLY(inode) &&
-   277					   !(inode->i_sb->s_readonly_remount) &&
-   278					   !IS_IMMUTABLE(inode) &&
-   279					   !is_unsupported_hmac_fs(dentry)) {
-   280					evm_update_evmxattr(dentry, xattr_name,
-   281							    xattr_value,
-   282							    xattr_value_len);
-   283				}
-   284			}
-   285			break;
-   286		default:
-   287			rc = -EINVAL;
-   288			break;
-   289		}
-   290	
-   291		if (rc) {
-   292			if (rc == -ENODATA)
-   293				evm_status = INTEGRITY_NOXATTRS;
-   294			else if (evm_immutable)
-   295				evm_status = INTEGRITY_FAIL_IMMUTABLE;
-   296			else
-   297				evm_status = INTEGRITY_FAIL;
-   298		}
-   299		pr_debug("digest: (%d) [%*phN]\n", digest.hdr.length, digest.hdr.length,
-   300			  digest.digest);
-   301	out:
-   302		if (iint)
-   303			iint->evm_status = evm_status;
-   304		kfree(xattr_data);
-   305		return evm_status;
-   306	}
-   307	
+   nolibc-test.c: In function 'run_startup':
+>> nolibc-test.c:750:9: error: unknown type name 'bool'
+     750 |         bool proc = access("/proc", R_OK) == 0;
+         |         ^~~~
+   nolibc-test.c:49:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+      48 | #include "nolibc-test-linkage.h"
+     +++ |+#include <stdbool.h>
+      49 | 
 
 -- 
 0-DAY CI Kernel Test Service
